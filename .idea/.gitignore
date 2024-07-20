@@ -33,7 +33,8 @@
 *.tar.gz
 *.rar
 hs_err_pid*
-
+*.properties
+README.md
 # Maven
 target/
 pom.xml.tag
