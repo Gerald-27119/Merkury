@@ -6,25 +6,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
     @Test
-    void builderBuildsUserEntityCorrectly() throws InterruptedException {
+    void builderBuildsUserEntityCorrectly() {
         //given
-        Long id = 1L;
+        int id = 1;
         String name = "Karol";
         String surname = "Wojtyła";
         String email = "karol@merkury.com";
         String password = "password";
-
-        Thread testThread = new Thread(() -> {
-            try {//TODO: Remove this sleep
-                Thread.sleep(25000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        });
-
-        testThread.start();
-        testThread.join(); // Wait for the thread to finish
-
         //when
         var user = User.builder()
                 .id(id)
