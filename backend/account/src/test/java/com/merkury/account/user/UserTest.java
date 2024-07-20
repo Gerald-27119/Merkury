@@ -10,11 +10,12 @@ class UserTest {
         //given
         Long id = 1L;
         String name = "Karol";
+        String surname = "Wojtyła";
         String email = "karol@merkury.com";
         String password = "password";
 
         Thread testThread = new Thread(() -> {
-            try {
+            try {//TODO: Remove this sleep
                 // Simulate long running process
                 Thread.sleep(25000);
             } catch (InterruptedException e) {
@@ -29,6 +30,7 @@ class UserTest {
         var user = User.builder()
                 .id(id)
                 .name(name)
+                .surname(surname)
                 .email(email)
                 .password(password)
                 .build();
