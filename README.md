@@ -1,2 +1,7 @@
-Robicie git clone https://github.com/s27119/Merkury.git w folderze w ktorym chcecie miec repo
-Potem otwieracie ten folder intellijem
+# Projekt został zrealizowany przez następujących członków zespołu:
+
+- Kacper Badek
+- Bartek Bohatyrewicz
+- Adam Langmesser
+- Stanisław Oziemczuk
+- Mateusz Redosz
