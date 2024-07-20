@@ -20,7 +20,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Build with Maven
-      run: mvn -B package --file Merkury/pom.xml
+      run: mvn -B package --file account/pom.xml
 
     - name: Test with Maven
       run: mvn -B test --file Merkury/backend/pom.xml
