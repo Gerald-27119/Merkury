@@ -16,7 +16,6 @@ class UserTest {
 
         Thread testThread = new Thread(() -> {
             try {//TODO: Remove this sleep
-                // Simulate long running process
                 Thread.sleep(25000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
