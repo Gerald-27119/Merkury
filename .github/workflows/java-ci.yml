@@ -2,11 +2,11 @@ name: Java CI
 
 on:
   push:
-    branches: [ master, develop ]
+    branches: [ master, develop, security ]
   pull_request:
-    branches: [ master, develop ]
+    branches: [ master, develop, security ]
   merge_group:
-    branches: [ master, develop ]
+    branches: [ master, develop, security ]
 
 jobs:
   build:
