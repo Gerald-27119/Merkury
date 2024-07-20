@@ -13,6 +13,7 @@ class UserTest {
         String surname = "Wojtyła";
         String email = "karol@merkury.com";
         String password = "password";
+        String zodiacSign = "Virgin";
         //when
         var user = User.builder()
                 .id(id)
@@ -20,6 +21,7 @@ class UserTest {
                 .surname(surname)
                 .email(email)
                 .password(password)
+                .zodiacSign(zodiacSign)
                 .build();
 
         //then
@@ -27,5 +29,6 @@ class UserTest {
         assertEquals(user.getName(), name);
         assertEquals(user.getEmail(), email);
         assertEquals(user.getPassword(), password);
+        assertEquals(user.getZodiacSign(), zodiacSign);
     }
 }
