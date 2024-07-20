@@ -25,4 +25,5 @@ public class User {
     private String email;
     private String password;
     private String zodiacSign;
+    private String favouriteColor;
 }
