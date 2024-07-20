@@ -13,7 +13,6 @@ class UserTest {
         String surname = "Wojtyła";
         String email = "karol@merkury.com";
         String password = "password";
-        String;
 
         Thread testThread = new Thread(() -> {
             try {//TODO: Remove this sleep
