@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Merkury.iml" filepath="$PROJECT_DIR$/.idea/Merkury.iml" />
+      <module fileurl="file://$PROJECT_DIR$/frontend/venus.iml" filepath="$PROJECT_DIR$/frontend/venus.iml" />
     </modules>
   </component>
 </project>
