@@ -19,8 +19,12 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    - name: Build with Maven
+    - name: Build account
       run: mvn -B package --file account/pom.xml
+    - name: Build security
+      run: mvn -B package --file security/pom.xml
 
-    - name: Test with Maven
-      run: mvn -B test --file Merkury/backend/pom.xml
+    - name: Test account
+      run: mvn -B test --file account/pom.xml
+    - name: Test security
+      run: mvn -B test --file security/pom.xml
