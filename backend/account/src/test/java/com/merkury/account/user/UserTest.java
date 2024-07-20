@@ -8,7 +8,7 @@ class UserTest {
     @Test
     void builderBuildsUserEntityCorrectly() throws InterruptedException {
         //given
-        int id = 1;
+        Long id = 1L;
         String name = "Karol";
         String surname = "Wojtyła";
         String email = "karol@merkury.com";
