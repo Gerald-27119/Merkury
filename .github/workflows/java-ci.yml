@@ -2,11 +2,11 @@ name: Java CI
 
 on:
   push:
-    branches: [ master, develop, security ]
+    branches: [ master, develop ]
   pull_request:
-    branches: [ master, develop, security ]
+    branches: [ master, develop ]
   merge_group:
-    branches: [ master, develop, security ]
+    branches: [ master, develop ]
 
 jobs:
   build:
@@ -21,12 +21,8 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    - name: Build account
-      run: mvn -B package --file backend/account/pom.xml
-    - name: Build security
-      run: mvn -B package --file backend/security/pom.xml
+    - name: Build vulcanus
+      run: mvn -B package --file vulcanus/pom.xml
 
-    - name: Test account
-      run: mvn -B test --file backend/account/pom.xml
-    - name: Test security
-      run: mvn -B test --file backend/security/pom.xml
+    - name: Test vulcanus
+      run: mvn -B test --file vulcanus/pom.xml
