@@ -1,4 +1,4 @@
-# Projekt został zrealizowany przez następujących członków zespołu:
+# Projekt zrealizowany przez :
 
 - Kacper Badek
 - Bartek Bohatyrewicz
