@@ -1,7 +1,11 @@
 package com.merkury.vulcanus.account;
 
+import com.merkury.vulcanus.account.dto.LoginResponseDto;
+import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
+import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.service.AccountService;
-import com.merkury.vulcanus.account.user.UserDto;
+import com.merkury.vulcanus.account.dto.UserLoginDto;
+import com.merkury.vulcanus.account.dto.UserRegisterDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +24,14 @@ public class AccountController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register")
-    public ResponseEntity<Void> registerUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<Void> registerUser(@RequestBody UserRegisterDto userDto) throws EmailTakenException {
         accountService.registerUser(userDto);
         return null;
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/login")
-    public ResponseEntity<Void> loginUser(@RequestBody UserDto userDto) {
-        return null;
+    public ResponseEntity<LoginResponseDto> loginUser(@RequestBody UserLoginDto userDto) throws InvalidCredentialsException {
+        return ResponseEntity.ok(accountService.loginUser(userDto));
     }
 }

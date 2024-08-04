@@ -18,12 +18,12 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "_user")
+@Table(name = "users")
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements UserDetails {
+public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue
