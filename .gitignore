@@ -8,6 +8,7 @@
 /dataSources.local.xml
 # General
 *.properties
+dataSources.xml
 *.log
 *.pid
 *.pid.lock
