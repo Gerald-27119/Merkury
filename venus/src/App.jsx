@@ -1,8 +1,12 @@
-import Registration from "./account/components/Registration.jsx";
+
+import Login from "./account/components/Login.jsx"
 
 function App() {
   return (
-      <Registration/>
+      <>
+        {/*<Registration/>*/}
+        <Login/>
+      </>
   );
 }
 
