@@ -1,13 +1,9 @@
 package com.merkury.vulcanus.security;
 
 
-import com.merkury.vulcanus.account.user.Role;
 import com.merkury.vulcanus.account.user.UserEntity;
-import com.merkury.vulcanus.account.user.UserRepository;
+import com.merkury.vulcanus.account.user.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,11 +14,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserEntityRepository userEntityRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        UserEntity user = userEntityRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         return new User(user.getUsername(), user.getPassword(), user.getAuthorities());
     }
 

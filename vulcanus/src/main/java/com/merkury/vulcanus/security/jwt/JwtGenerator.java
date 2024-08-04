@@ -1,9 +1,10 @@
 package com.merkury.vulcanus.security.jwt;
 
 import io.jsonwebtoken.Jwts;
-
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -43,9 +44,10 @@ public class JwtGenerator {
                     .build()
                     .parseSignedClaims(token);
             return true;
+        } catch (SignatureException ex) {
+            throw new AuthenticationCredentialsNotFoundException("JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.", ex);
         } catch (Exception ex) {
-            throw new AuthenticationCredentialsNotFoundException("JWT was exprired or incorrect", ex.fillInStackTrace());
+            throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect", ex);
         }
     }
-
 }
