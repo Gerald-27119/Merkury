@@ -1,9 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "./Login.module.css";
 
 function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState();
   const [passwordError, setPasswordError] = useState();
@@ -13,13 +14,13 @@ function Login() {
     //Prevents website from reloading
     event.preventDefault();
 
-    if (email === "") {
-      setEmailError("Please enter your email");
+    if (username === "") {
+      setEmailError("Please enter your username");
       return;
     }
 
-    if (!/^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/.test(email)) {
-      setEmailError("Please enter a valid email");
+    if (!/^[a-zA-Z0-9_]{3,16}$/.test(username)) {
+      setEmailError("Please enter a valid username");
       return;
     }
 
@@ -35,45 +36,61 @@ function Login() {
   };
 
   return (
-    <div>
-      <h1>Welcome Back!</h1>
+    <div className="wrapper bg-amber-100 rounded-xl p-5 flex">
       <form onSubmit={handleSubmit}>
-        <div>
+        <h1 className="text-center text-xl font-bold mb-5">Welcome Back!</h1>
+        <div className="input-box text-sm font-medium text-gray-900 dark:text-black">
           <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             type="text"
             placeholder="Email"
+            className="w-full"
           />
-          <label className="errorLabel">{emailError}</label>
+          <br />
+          <label className="error-message text-red-600 p-0 m-0">
+            {emailError}
+          </label>
         </div>
         <br />
-        <div>
+
+        <div className="input-box text-sm font-medium text-gray-900 dark:text-black">
           <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
             placeholder="Password"
+            className="w-full"
           />
-          <label className="errorLabel">{passwordError}</label>
+          <br />
+          <label className="error-message text-red-600 p-0 m-0">
+            {passwordError}
+          </label>
         </div>
         <br />
 
-        <div>
-          <label>
+        <div className={"remember-forgot flex justify-between"}>
+          <label className="text-sm">
             <input type="checkbox" />
             Remember me
           </label>
           {/*<Link to="">Forgot Password?</Link>*/}
-          <a href="">Forgot Password?</a>
+          <a href="" className="text-blue-700 text-sm underline">
+            Forgot Password?
+          </a>
         </div>
-        <button type="submit">Log In</button>
 
-        <div>
-          <p>
+        <button type="submit" className="bg-black text-white rounded-xl w-full">
+          Log In
+        </button>
+
+        <div className="register-link justify-between">
+          <p className="">
             Don't have an account?
             {/*<Link to="">Register</Link>*/}
-            <a href="">Register</a>
+            <a href="" className="text-blue-700 underline">
+              Register
+            </a>
           </p>
         </div>
       </form>
