@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.account.excepion;
 
 import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
+import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -11,8 +12,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice(basePackages = {"com.merkury.vulcanus.account", "com.merkury.vulcanus.security"})
 public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(EmailTakenException.class)
-    public ResponseEntity<String> handleEmailTakenException(EmailTakenException ex) {
+    @ExceptionHandler({EmailTakenException.class, UsernameTakenException.class})
+    public ResponseEntity<String> handleEmailOrUsernameTakenException(Exception ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
