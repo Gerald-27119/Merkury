@@ -4,13 +4,19 @@ import { useState } from "react";
 import {
   isEmail,
   isEqualsToOtherValue,
+  isNotEmpty,
   isPassword,
   isUsername,
 } from "../regex.js";
 import { fetchRegistration } from "../http.js";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Registration() {
-  const classesInput = "p-2 w-96 rounded-md";
+  useQuery({
+    queryKey: ["registration"],
+    queryFn: fetchRegistration(),
+  });
+
   const [enteredValue, setEnteredValue] = useState({
     username: "",
     password: "",
@@ -25,19 +31,40 @@ export default function Registration() {
     email: false,
   });
 
+  let confirmPasswordMessage = "";
+  if (!isNotEmpty(enteredValue["confirm-password"])) {
+    confirmPasswordMessage = "Confirm password can't be empty.";
+  } else if (!isPassword(enteredValue["confirm-password"])) {
+    confirmPasswordMessage = "Password must be minimum 8 long.";
+  } else if (
+    !isEqualsToOtherValue(
+      enteredValue["confirm-password"],
+      enteredValue.password,
+    )
+  ) {
+    confirmPasswordMessage = "Passwords must be the same";
+  }
+
   const isValid = {
     username: {
       value: didEdit.username && !isUsername(enteredValue.username),
-      message: "Username must contain 3 to 16.",
+      message: !isNotEmpty(enteredValue.username)
+        ? "Username can't be empty."
+        : !isUsername(enteredValue.username) &&
+          "Username must contain 3 to 16.",
     },
     email: {
       value: didEdit.email && !isEmail(enteredValue.email),
-      message: "E-mail must contain @.",
+      message: !isNotEmpty(enteredValue.email)
+        ? "E-mail can't be empty."
+        : !isEmail(enteredValue.email) && "E-mail must contain @.",
     },
     password: {
       value: didEdit.password && !isPassword(enteredValue.password),
-      message:
-        "Password must be minimum 8 long, contains small letter, big letter, number and special char.",
+      message: !isNotEmpty(enteredValue.password)
+        ? "Password can't be empty."
+        : !isPassword(enteredValue.password) &&
+          "Password must be minimum 8 long, contains small letter, big letter, number and special char.",
     },
     "confirm-password": {
       value:
@@ -47,12 +74,7 @@ export default function Registration() {
             enteredValue["confirm-password"],
             enteredValue.password,
           )),
-      message: !isPassword(enteredValue["confirm-password"])
-        ? "Password must be minimum 8 long."
-        : !isEqualsToOtherValue(
-            enteredValue["confirm-password"],
-            enteredValue.password,
-          ) && "Passwords must be the same",
+      message: confirmPasswordMessage,
     },
   };
 
@@ -94,7 +116,6 @@ export default function Registration() {
             onChange={(event) => handleInputChange("username", event)}
             value={enteredValue.username}
             onBlur={() => handleInputBlur("username")}
-            className={classesInput}
             error={isValid.username}
           />
           <Input
@@ -104,7 +125,6 @@ export default function Registration() {
             onChange={(event) => handleInputChange("email", event)}
             value={enteredValue.email}
             onBlur={() => handleInputBlur("email")}
-            className={classesInput}
             error={isValid.email}
           />
           <Input
@@ -114,7 +134,6 @@ export default function Registration() {
             onChange={(event) => handleInputChange("password", event)}
             value={enteredValue.password}
             onBlur={() => handleInputBlur("password")}
-            className={classesInput}
             error={isValid.password}
           />
           <Input
@@ -124,10 +143,17 @@ export default function Registration() {
             onChange={(event) => handleInputChange("confirm-password", event)}
             value={enteredValue["confirm-password"]}
             onBlur={() => handleInputBlur("confirm-password")}
-            className={classesInput}
             error={isValid["confirm-password"]}
           />
-          <button className="bg-red-600 p-3 mt-3 text-white rounded-md text-lg">
+          <button
+            className="bg-red-600 p-3 mt-3 text-white rounded-md text-lg"
+            disabled={
+              isValid.email.value ||
+              isValid.password.value ||
+              isValid.username.value ||
+              isValid["confirm-password"].value
+            }
+          >
             Sign up
           </button>
         </form>
