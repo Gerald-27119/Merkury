@@ -7,9 +7,8 @@ export async function fetchRegistration(user) {
     body: JSON.stringify(user),
   });
 
-  const resData = await response.json();
   if (!response.ok) {
     throw new Error("An error");
   }
-  return resData.message;
+  return response.json();
 }

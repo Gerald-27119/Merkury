@@ -9,14 +9,9 @@ import {
   isUsername,
 } from "../regex.js";
 import { fetchRegistration } from "../http.js";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Registration() {
-  useQuery({
-    queryKey: ["registration"],
-    queryFn: fetchRegistration(),
-  });
-
   const [enteredValue, setEnteredValue] = useState({
     username: "",
     password: "",
@@ -29,6 +24,10 @@ export default function Registration() {
     password: false,
     "confirm-password": false,
     email: false,
+  });
+
+  const { mutate, status } = useMutation({
+    mutationFn: fetchRegistration,
   });
 
   let confirmPasswordMessage = "";
@@ -77,17 +76,17 @@ export default function Registration() {
       message: confirmPasswordMessage,
     },
   };
-
+  console.log(status);
   function handleSubmit(event) {
     event.preventDefault();
-    fetchRegistration({
+    mutate({
       username: enteredValue.username,
       email: enteredValue.email,
       password: enteredValue.password,
     });
-    console.log(enteredValue);
+    console.log(status);
   }
-
+  console.log(status);
   function handleInputChange(id, event) {
     setEnteredValue((prevState) => ({
       ...prevState,
@@ -108,6 +107,9 @@ export default function Registration() {
         <h1 className="text-center text-2xl text-white font-bold pb-8">
           Create account
         </h1>
+        {status === "success" && (
+          <p className="text-center text-xl text-white">Account created!</p>
+        )}
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <Input
             label="Username"
