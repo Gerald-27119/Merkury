@@ -3,11 +3,11 @@ package com.merkury.vulcanus;
 import com.merkury.vulcanus.account.user.Role;
 import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.account.user.UserEntityRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
