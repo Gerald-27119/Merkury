@@ -1,11 +1,9 @@
 package com.merkury.vulcanus.account;
 
-import com.merkury.vulcanus.account.dto.LoginResponseDto;
-import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
-import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
-import com.merkury.vulcanus.account.service.AccountService;
 import com.merkury.vulcanus.account.dto.UserLoginDto;
 import com.merkury.vulcanus.account.dto.UserRegisterDto;
+import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
+import com.merkury.vulcanus.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -68,4 +65,5 @@ public class AccountController {
                 .status(HttpStatus.OK)
                 .body("test");
     }
+
 }
