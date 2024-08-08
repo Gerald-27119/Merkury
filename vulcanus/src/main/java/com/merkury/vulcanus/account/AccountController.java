@@ -3,6 +3,7 @@ package com.merkury.vulcanus.account;
 import com.merkury.vulcanus.account.dto.UserLoginDto;
 import com.merkury.vulcanus.account.dto.UserRegisterDto;
 import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
+import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import com.merkury.vulcanus.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -35,11 +36,12 @@ public class AccountController {
      * @return HTTP status 201 (Created) or 409 (Conflict) if the email or username is taken
      */
     @PostMapping("/register")
-    public ResponseEntity<Void> registerUser(@RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
+
+    public ResponseEntity<String> registerUser(@RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
         accountService.registerUser(userRegisterDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .build();
+                .body("User registered successfully");
     }
 
     /**
@@ -52,7 +54,7 @@ public class AccountController {
      * or 401 (Unauthorized) if the credentials are invalid
      */
     @PostMapping("/login")
-    public ResponseEntity<Void> loginUser(@RequestBody UserLoginDto userLoginDto) {
+    public ResponseEntity<Void> loginUser(@RequestBody UserLoginDto userLoginDto) throws InvalidCredentialsException {
         var jwt = accountService.loginUser(userLoginDto);
         return ResponseEntity
                 .status(HttpStatus.OK)
