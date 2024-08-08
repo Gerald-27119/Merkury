@@ -6,7 +6,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,27 +23,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtGenerator tokenGenerator;
     private final CustomUserDetailsService customUserDetailsService;
 
-    /**
-     * This method is used to filter the request and check if the token is valid.
-     * If the token is valid, the user is authenticated and the request is allowed to proceed.
-     *
-     * @param request     The request to be filtered
-     * @param response    The response to be filtered
-     * @param filterChain The filter chain
-     *                    Creates an Authentication object and set it in the SecurityContextHolder.
-    */
-    /*
-     * Creating an Authentication object and setting it in the SecurityContextHolder is a common practice in Spring Security to
-     * establish the security context for the current thread. This is essential for several reasons:
-     * User Authentication: It signifies that the user has been authenticated and provides the necessary details about the user,
-     * such as username, roles, and other credentials.
-     * Authorization: It allows Spring Security to perform authorization checks based on the user's roles and permissions.
-     * The Authentication object contains the authorities granted to the user, which are used to determine access to secured resources.
-     * Thread Safety: The SecurityContextHolder uses a ThreadLocal to store the SecurityContext,
-     * ensuring that the security context is available throughout the lifecycle of the request and is isolated from other requests.
-     * Access Control: It enables access control in your application by allowing you to retrieve
-     * the current user's details and roles from anywhere in your application, facilitating role-based access control (RBAC).
-     */
+
+
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
