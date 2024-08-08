@@ -1,27 +1,32 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import "./Login.module.css";
+import { useMutation } from "@tanstack/react-query";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [error, setError] = useState("");
+  const [loginError, setLoginError] = useState("");
 
   const inputStyle = "w-full rounded-md p-2";
   const errorStyle = "text-red-600 text-xs p-0 m-0";
   const linkStyle = "text-blue-700 text-sm hover:underline";
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (username) setUsernameError("");
     if (password) setPasswordError("");
-    setError("");
+    setLoginError("");
   }, [username, password]);
 
   const validateUsername = () => {
-    if (!/^[a-zA-Z0-9_]{3,16}$/.test(username)) {
+    if (username === "") {
+      setUsernameError("Please enter your username");
+      return false;
+    } else if (!/^[a-zA-Z0-9_]{3,16}$/.test(username)) {
       setUsernameError("Please enter a valid username");
       return false;
     }
@@ -29,12 +34,38 @@ function Login() {
   };
 
   const validatePassword = () => {
-    if (password.length < 8) {
+    if (password === "") {
+      setPasswordError("Please enter your password");
+      return false;
+    } else if (password.length < 8) {
       setPasswordError("The password must be 8 characters or longer");
       return false;
     }
     return true;
   };
+
+  const loginUser = (userData) => {
+    return axios.post("http://localhost:8080/account/login", userData);
+  };
+
+  const loginMutation = useMutation({
+    mutationFn: loginUser,
+    onError: (error) => {
+      console.log(error.response.status);
+      console.log(error.response.data);
+
+      if (error.response.status === 401) {
+        setLoginError("Incorrect credentials");
+      }
+
+      console.log("Login failed!");
+    },
+    onSuccess: (response) => {
+      console.log(response.status);
+      console.log("Login successful!");
+      navigate("/");
+    },
+  });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -47,15 +78,12 @@ function Login() {
       setPasswordError("Please enter your password");
     }
 
-    try {
-      const response = await axios.post("http://localhost:8080/account/login", {
-        username,
-        password,
-      });
-      console.log("PRZESZŁO");
-    } catch (error) {
-      setError("Invalid username or password");
-    }
+    const isUsernameValid = validateUsername();
+    const isPasswordValid = validatePassword();
+
+    if (!isUsernameValid || !isPasswordValid) return;
+
+    loginMutation.mutate({ username, password });
   };
 
   return (
@@ -73,6 +101,7 @@ function Login() {
               type="text"
               placeholder="Email"
               className={inputStyle}
+              maxLength={100}
             />
             <br />
             {/*If Error is not empty or null then display*/}
@@ -90,6 +119,7 @@ function Login() {
               type="password"
               placeholder="Password"
               className={inputStyle}
+              maxLength={100}
             />
             <br />
             {/*If passwordError is not empty or null then display*/}
@@ -111,6 +141,7 @@ function Login() {
           >
             Log In
           </button>
+          {loginError && <label className={errorStyle}>{loginError}</label>}
 
           <div className="register-link flex">
             <p className="text-sm">Don't have an account?&nbsp;</p>
