@@ -3,6 +3,7 @@ package com.merkury.vulcanus.account.service;
 import com.merkury.vulcanus.account.dto.UserLoginDto;
 import com.merkury.vulcanus.account.dto.UserRegisterDto;
 import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
+import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class AccountService {
         registerService.registerUser(userDto);
     }
 
-    public String loginUser(UserLoginDto userDto) {
+    public String loginUser(UserLoginDto userDto) throws InvalidCredentialsException {
         return loginService.loginUser(userDto);
     }
 

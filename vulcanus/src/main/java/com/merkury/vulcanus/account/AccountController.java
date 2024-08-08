@@ -3,6 +3,7 @@ package com.merkury.vulcanus.account;
 import com.merkury.vulcanus.account.dto.UserLoginDto;
 import com.merkury.vulcanus.account.dto.UserRegisterDto;
 import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
+import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import com.merkury.vulcanus.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,7 @@ public class AccountController {
      * or 401 (Unauthorized) if the credentials are invalid
      */
     @PostMapping("/login")
-    public ResponseEntity<Void> loginUser(@RequestBody UserLoginDto userLoginDto) {
+    public ResponseEntity<Void> loginUser(@RequestBody UserLoginDto userLoginDto) throws InvalidCredentialsException {
         var jwt = accountService.loginUser(userLoginDto);
         return ResponseEntity
                 .status(HttpStatus.OK)
