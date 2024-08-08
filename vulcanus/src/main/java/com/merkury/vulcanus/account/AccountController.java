@@ -36,11 +36,12 @@ public class AccountController {
      * @return HTTP status 201 (Created) or 409 (Conflict) if the email or username is taken
      */
     @PostMapping("/register")
+
     public ResponseEntity<Void> registerUser(@RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
         accountService.registerUser(userRegisterDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .build();
+                .body("User registered successfully");
     }
 
     /**
