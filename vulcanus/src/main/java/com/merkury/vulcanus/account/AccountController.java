@@ -37,7 +37,7 @@ public class AccountController {
      */
     @PostMapping("/register")
 
-    public ResponseEntity<Void> registerUser(@RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
+    public ResponseEntity<String> registerUser(@RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
         accountService.registerUser(userRegisterDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
