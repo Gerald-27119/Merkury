@@ -26,23 +26,23 @@ export default function Registration() {
     email: false,
   });
 
-  const { mutate, status } = useMutation({
+  const { mutate, isSuccess, error } = useMutation({
     mutationFn: fetchRegistration,
+    onSuccess: () => {
+      setEnteredValue({
+        username: "",
+        password: "",
+        "confirm-password": "",
+        email: "",
+      });
+      setDidEdit({
+        username: false,
+        password: false,
+        "confirm-password": false,
+        email: false,
+      });
+    },
   });
-
-  let confirmPasswordMessage = "";
-  if (!isNotEmpty(enteredValue["confirm-password"])) {
-    confirmPasswordMessage = "Confirm password can't be empty.";
-  } else if (!isPassword(enteredValue["confirm-password"])) {
-    confirmPasswordMessage = "Password must be minimum 8 long.";
-  } else if (
-    !isEqualsToOtherValue(
-      enteredValue["confirm-password"],
-      enteredValue.password,
-    )
-  ) {
-    confirmPasswordMessage = "Passwords must be the same";
-  }
 
   const isValid = {
     username: {
@@ -73,10 +73,15 @@ export default function Registration() {
             enteredValue["confirm-password"],
             enteredValue.password,
           )),
-      message: confirmPasswordMessage,
+      message: !isNotEmpty(enteredValue.password)
+        ? "Password can't be empty."
+        : !isEqualsToOtherValue(
+            enteredValue["confirm-password"],
+            enteredValue.password,
+          ) && "Passwords must be the same",
     },
   };
-  console.log(status);
+
   function handleSubmit(event) {
     event.preventDefault();
     mutate({
@@ -84,9 +89,7 @@ export default function Registration() {
       email: enteredValue.email,
       password: enteredValue.password,
     });
-    console.log(status);
   }
-  console.log(status);
   function handleInputChange(id, event) {
     setEnteredValue((prevState) => ({
       ...prevState,
@@ -107,8 +110,13 @@ export default function Registration() {
         <h1 className="text-center text-2xl text-white font-bold pb-8">
           Create account
         </h1>
-        {status === "success" && (
-          <p className="text-center text-xl text-white">Account created!</p>
+        {isSuccess && (
+          <p className="text-center text-xl text-gray-600">Account created!</p>
+        )}
+        {error === 409 && (
+          <p className="text-center text-xl text-red-600">
+            E-mail or Username already taken.
+          </p>
         )}
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <Input
@@ -150,6 +158,10 @@ export default function Registration() {
           <button
             className="bg-red-600 p-3 mt-3 text-white rounded-md text-lg"
             disabled={
+              !didEdit.username ||
+              !didEdit.password ||
+              !didEdit.email ||
+              !didEdit["confirm-password"] ||
               isValid.email.value ||
               isValid.password.value ||
               isValid.username.value ||
