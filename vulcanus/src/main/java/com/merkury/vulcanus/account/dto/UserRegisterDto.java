@@ -14,5 +14,4 @@ public record UserRegisterDto(@NotBlank(message = "Username can't be empty.")
                               @Pattern(regexp="/^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\s:])(\\S)$/", message="Password must contain a small and big letter, a number and a special character.")
                               @Size(min=8,max=16, message="Password length must be between 8 to 16 characters.")
                               String password) {
-
 }
