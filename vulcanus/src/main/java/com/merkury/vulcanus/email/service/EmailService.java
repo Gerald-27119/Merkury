@@ -49,7 +49,7 @@ public class EmailService {
             var session = setSession();
 
             Message mimeMessage = new MimeMessage(session);
-            mimeMessage.setFrom(new InternetAddress("merkury@gmail.com"));
+            mimeMessage.setFrom(new InternetAddress("noreplay@merkury.com"));
             mimeMessage.setRecipients(
                     Message.RecipientType.TO, InternetAddress.parse(sendTo));
             mimeMessage.setSubject(subject);
