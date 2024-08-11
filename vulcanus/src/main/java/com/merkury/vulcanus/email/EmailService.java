@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.email;
 
+import com.merkury.vulcanus.account.excepion.excpetions.EmailNotSendException;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
@@ -44,23 +45,27 @@ public class EmailService {
         });
     }
 
-    public void sendEmail(String sendTo, String subject, String message) throws MessagingException {
-        var session = setSession();
+    public void sendEmail(String sendTo, String subject, String message) {
+        try {
+            var session = setSession();
 
-        Message mimeMessage = new MimeMessage(session);
-        mimeMessage.setFrom(new InternetAddress("merkury@gmail.com"));
-        mimeMessage.setRecipients(
-                Message.RecipientType.TO, InternetAddress.parse(sendTo));
-        mimeMessage.setSubject(subject);
+            Message mimeMessage = new MimeMessage(session);
+            mimeMessage.setFrom(new InternetAddress("merkury@gmail.com"));
+            mimeMessage.setRecipients(
+                    Message.RecipientType.TO, InternetAddress.parse(sendTo));
+            mimeMessage.setSubject(subject);
 
-        MimeBodyPart mimeBodyPart = new MimeBodyPart();
-        mimeBodyPart.setContent(message, "text/html; charset=utf-8");
+            MimeBodyPart mimeBodyPart = new MimeBodyPart();
+            mimeBodyPart.setContent(message, "text/html; charset=utf-8");
 
-        Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(mimeBodyPart);
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(mimeBodyPart);
 
-        mimeMessage.setContent(multipart);
+            mimeMessage.setContent(multipart);
 
-        Transport.send(mimeMessage);
+            Transport.send(mimeMessage);
+        } catch (Exception ex) {
+            throw new EmailNotSendException(ex.getMessage());
+        }
     }
 }
