@@ -1,6 +1,6 @@
-package com.merkury.vulcanus.account.excepion;
+package com.merkury.vulcanus.email.exception;
 
-import com.merkury.vulcanus.account.excepion.excpetions.EmailNotSendException;
+import com.merkury.vulcanus.email.exception.exceptions.EmailNotSendException;
 import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.account.excepion.excpetions;
+package com.merkury.vulcanus.email.exception.exceptions;
 
 public class EmailNotSendException extends RuntimeException {
     public EmailNotSendException(String message) {

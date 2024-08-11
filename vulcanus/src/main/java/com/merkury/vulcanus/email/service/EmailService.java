@@ -1,9 +1,8 @@
-package com.merkury.vulcanus.email;
+package com.merkury.vulcanus.email.service;
 
-import com.merkury.vulcanus.account.excepion.excpetions.EmailNotSendException;
+import com.merkury.vulcanus.email.exception.exceptions.EmailNotSendException;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
-import jakarta.mail.MessagingException;
 import jakarta.mail.Multipart;
 import jakarta.mail.PasswordAuthentication;
 import jakarta.mail.Session;
