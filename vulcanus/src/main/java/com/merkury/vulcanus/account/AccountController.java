@@ -6,6 +6,7 @@ import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import com.merkury.vulcanus.account.service.AccountService;
+import com.merkury.vulcanus.email.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountController {
 
     private final AccountService accountService;
+    private final EmailService emailService;
 
     /**
      * @param userRegisterDto the user registration details containing:
@@ -39,6 +41,8 @@ public class AccountController {
 
     public ResponseEntity<String> registerUser(@RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
         accountService.registerUser(userRegisterDto);
+        String message = "Thank you for registering in our service!\nYour account in now active.";
+        emailService.sendEmail(userRegisterDto.email(), "Register confirmation",message);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body("User registered successfully");
