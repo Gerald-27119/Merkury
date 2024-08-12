@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.account;
 
 import com.merkury.vulcanus.account.dto.UserLoginDto;
+import com.merkury.vulcanus.account.dto.UserPasswordResetDto;
 import com.merkury.vulcanus.account.dto.UserRegisterDto;
 import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
@@ -11,11 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <h1>We are using HS256 algorithm to sign the JWT token (for now).</h1>
@@ -64,6 +61,25 @@ public class AccountController {
                 .status(HttpStatus.OK)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
                 .build();
+    }
+
+    @GetMapping("/forget-password")
+    public ResponseEntity<String> forgetPasswordSendEmail(@RequestParam String email) {
+        //TODO: provide valid link
+        String resetLink = "reset-password";
+        String message = "Click this link to reset password: <a href='" + resetLink + "'>New password</a>";
+        emailService.sendEmail(email, "Restart password", message);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("Password reset link sent to: " + email);
+    }
+
+    @PostMapping("/set-new-password")
+    public ResponseEntity<String> setNewPassword(@RequestBody UserPasswordResetDto userPasswordResetDto) {
+        accountService.restartUserPassword(userPasswordResetDto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("Password set successfully for user: " + userPasswordResetDto.username());
     }
 
     @GetMapping("/test")
