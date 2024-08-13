@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.email.service;
 
 import com.merkury.vulcanus.email.exception.exceptions.EmailNotSendException;
+import com.merkury.vulcanus.email.exception.exceptions.MissingCredentialsException;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
 import jakarta.mail.Multipart;
@@ -37,8 +38,13 @@ public class EmailService {
         return Session.getInstance(prop, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                String username = "";
-                String password = "";
+                String username = System.getenv("merkury_email_username");
+                String password = System.getenv("merkury_email_password");
+
+                if (username == null || password == null) {
+                    throw new MissingCredentialsException("Password and/or username not found!");
+                }
+
                 return new PasswordAuthentication(username, password);
             }
         });
