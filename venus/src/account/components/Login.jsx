@@ -87,7 +87,7 @@ function Login() {
   };
 
   return (
-    <div className="h-screen items-center justify-center flex bg-[url('https://support.discord.com/hc/article_attachments/22839154408087')] bg-cover bg-center h-screen">
+    <div className="h-screen items-center justify-center flex bg-[url('https://support.discord.com/hc/article_attachments/22839154408087')] bg-cover bg-center">
       <div className="wrapper bg-amber-100 rounded-xl p-4 flex flex-col">
         <form onSubmit={handleSubmit}>
           <h1 className="text-center text-2xl font-bold mr-7 ml-7 mb-5">
@@ -130,7 +130,7 @@ function Login() {
           <br />
 
           <div className={"remember-forgot flex justify-between"}>
-            <Link to="/" className={linkStyle}>
+            <Link to="/login/forgot" className={linkStyle}>
               Forgot Password?
             </Link>
           </div>
