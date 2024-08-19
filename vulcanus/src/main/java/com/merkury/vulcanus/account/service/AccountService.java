@@ -29,4 +29,8 @@ public class AccountService {
     public void restartUserPassword(UserPasswordResetDto userPasswordResetDto) throws UserNotFoundException {
         restartPasswordService.restartUserPassword(userPasswordResetDto);
     }
+
+    public void checkIfUserToResetPasswordExists(String emailAddress) {
+        restartPasswordService.checkIfUserToResetPasswordExists(emailAddress);
+    }
 }

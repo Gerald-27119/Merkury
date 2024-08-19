@@ -13,9 +13,15 @@ public class RestartPasswordService {
     private final UserEntityRepository userEntityRepository;
     private final PasswordEncoder passwordEncoder;
 
+    public void checkIfUserToResetPasswordExists(String emailAddress) {
+        if (!userEntityRepository.existsByEmail(emailAddress)) {
+            throw new UserNotFoundException("User with provided email address doesn't exist!");
+        }
+    }
+
     public void restartUserPassword(UserPasswordResetDto userPasswordResetDto) {
         if (!userEntityRepository.existsByUsername(userPasswordResetDto.username())) {
-            throw new UserNotFoundException("User with provided email address doesn't exist!");
+            throw new UserNotFoundException("User with provided username doesn't exist!");
         }
 
         //TODO:validate password

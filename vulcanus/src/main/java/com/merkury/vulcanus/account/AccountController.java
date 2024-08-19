@@ -65,6 +65,7 @@ public class AccountController {
 
     @GetMapping("/forget-password")
     public ResponseEntity<String> forgetPasswordSendEmail(@RequestParam String email) {
+        accountService.checkIfUserToResetPasswordExists(email);
         //TODO: provide valid link
         String resetLink = "reset-password";
         String message = "Click this link to reset password: <a href='" + resetLink + "'>New password</a>";
