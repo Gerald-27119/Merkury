@@ -21,19 +21,21 @@ import java.util.Properties;
 @NoArgsConstructor
 public class EmailService {
 
-    private Properties setProperties() {
+    private final int[] PORTS = new int[]{25, 465, 587, 2525};
+
+    private Properties setProperties(int port) {
         Properties prop = new Properties();
         prop.put("mail.smtp.auth", true);
         prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.host", "sandbox.smtp.mailtrap.io");
-        prop.put("mail.smtp.port", "25");
+        prop.put("mail.smtp.port", port);
         prop.put("mail.smtp.ssl.trust", "sandbox.smtp.mailtrap.io");
 
         return prop;
     }
 
-    private Session setSession() {
-        var prop = setProperties();
+    private Session setSession(int port) {
+        var prop = setProperties(port);
 
         return Session.getInstance(prop, new Authenticator() {
             @Override
@@ -42,6 +44,7 @@ public class EmailService {
                 String password = System.getenv("merkury_email_password");
 
                 if (username == null || password == null) {
+                    System.out.print("no credentials found!");
                     throw new MissingCredentialsException("Password and/or username not found!");
                 }
 
@@ -51,26 +54,38 @@ public class EmailService {
     }
 
     public void sendEmail(String sendTo, String subject, String message) {
-        try {
-            var session = setSession();
+        boolean emailSent = false;
 
-            Message mimeMessage = new MimeMessage(session);
-            mimeMessage.setFrom(new InternetAddress("noreplay@merkury.com"));
-            mimeMessage.setRecipients(
-                    Message.RecipientType.TO, InternetAddress.parse(sendTo));
-            mimeMessage.setSubject(subject);
+        for (int port : PORTS) {
+            try {
+                var session = setSession(port);
 
-            MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            mimeBodyPart.setContent(message, "text/html; charset=utf-8");
+                Message mimeMessage = new MimeMessage(session);
+                mimeMessage.setFrom(new InternetAddress("noreplay@merkury.com"));
+                mimeMessage.setRecipients(
+                        Message.RecipientType.TO, InternetAddress.parse(sendTo));
+                mimeMessage.setSubject(subject);
 
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(mimeBodyPart);
+                MimeBodyPart mimeBodyPart = new MimeBodyPart();
+                mimeBodyPart.setContent(message, "text/html; charset=utf-8");
 
-            mimeMessage.setContent(multipart);
+                Multipart multipart = new MimeMultipart();
+                multipart.addBodyPart(mimeBodyPart);
 
-            Transport.send(mimeMessage);
-        } catch (Exception ex) {
-            throw new EmailNotSendException(ex.getMessage());
+                mimeMessage.setContent(multipart);
+
+                Transport.send(mimeMessage);
+
+                emailSent = true;
+                break;
+            } catch (Exception ex) {
+                System.err.print(ex.getMessage());
+                ex.printStackTrace(System.err);
+            }
+        }
+
+        if (!emailSent) {
+            throw new EmailNotSendException("Failed to send email using all available ports.");
         }
     }
 }

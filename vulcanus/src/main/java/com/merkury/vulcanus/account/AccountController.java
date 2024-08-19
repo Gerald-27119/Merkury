@@ -38,7 +38,7 @@ public class AccountController {
 
     public ResponseEntity<String> registerUser(@RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
         accountService.registerUser(userRegisterDto);
-        String message = "Thank you for registering in our service!\nYour account in now active.";
+        String message = "Thank you for registering in our service!\nYour account is now active.";
         emailService.sendEmail(userRegisterDto.email(), "Register confirmation",message);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
