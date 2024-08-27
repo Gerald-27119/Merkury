@@ -99,7 +99,7 @@ function Login() {
               onBlur={validateUsername}
               onChange={(e) => setUsername(e.target.value)}
               type="text"
-              placeholder="Email"
+              placeholder="Username"
               className={inputStyle}
               maxLength={100}
             />
