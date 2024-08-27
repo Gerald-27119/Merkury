@@ -28,7 +28,7 @@ public class RestartPasswordService {
 
         var userFromDb = userEntityRepository.findByUsername(userPasswordResetDto.username());
 
-        var user = userFromDb.get();
+        var user = userFromDb.get(); //TODO: STACHU KURWA A CO JAK USERA NIE MA
 
         user.setPassword(passwordEncoder.encode(userPasswordResetDto.password()));
         userEntityRepository.save(user);

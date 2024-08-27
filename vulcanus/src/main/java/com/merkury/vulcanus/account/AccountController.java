@@ -67,7 +67,7 @@ public class AccountController {
     public ResponseEntity<String> forgetPasswordSendEmail(@RequestParam String email) {
         accountService.checkIfUserToResetPasswordExists(email);
         //TODO: provide valid link
-        String resetLink = "reset-password";
+        String resetLink = "http://localhost:2137/login/newPassword";
         String message = "Click this link to reset password: <a href='" + resetLink + "'>New password</a>";
         emailService.sendEmail(email, "Restart password", message);
         return ResponseEntity

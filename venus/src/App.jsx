@@ -6,12 +6,14 @@ import Error from "./errors/Error.jsx";
 import ForgotPassword from "./account/components/ForgotPassword.jsx";
 import "./welcomePage/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import NewPassword from "./account/components/newPassword.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <WelcomePage />, errorElement: <Error /> },
   { path: "/register", element: <Registration /> },
   { path: "/login", element: <Login /> },
   { path: "/login/forgot", element: <ForgotPassword /> },
+  { path: "/login/newPassword", element: <NewPassword /> },
 ]);
 
 const queryClient = new QueryClient();

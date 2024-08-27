@@ -1,33 +1,37 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
+import { isEmail } from "../regex.js";
 
 function ForgotPassword() {
-  const [username, setUsername] = useState("");
-  const [usernameError, setUsernameError] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [mainError, setMainError] = useState("");
 
   const inputStyle = "w-full rounded-md p-2";
   const errorStyle = "text-red-600 text-xs p-0 m-0";
 
   useEffect(() => {
-    if (username) setUsernameError("");
+    if (email) setEmailError("");
     setMainError("");
-  }, [username]);
+  }, [email]);
 
-  const validateUsername = () => {
-    if (username === "") {
-      setUsernameError("Please enter your username");
+  const validateEmail = () => {
+    if (email === "") {
+      setEmailError("Please enter your email");
       return false;
-    } else if (!/^[a-zA-Z0-9_]{3,16}$/.test(username)) {
-      setUsernameError("Please enter a valid username");
+    } else if (!isEmail(email)) {
+      setEmailError("Please enter a valid email");
       return false;
     }
     return true;
   };
 
   const remindUser = (userData) => {
-    return axios.post("http://localhost:8080/account/toBeAdded", userData);
+    return axios.post(
+      "http://localhost:8080/account/forget-password",
+      userData,
+    );
   };
 
   const remindMutation = useMutation({
@@ -36,8 +40,8 @@ function ForgotPassword() {
       console.log(error.response.status);
       console.log(error.response.data);
 
-      if (error.response.status === 401) {
-        setMainError("Incorrect credentials");
+      if (error.response.status === 404) {
+        setMainError("User with such email doesn't exists!");
       }
 
       console.log("Failed!");
@@ -51,14 +55,14 @@ function ForgotPassword() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (username === "") {
-      setUsernameError("Please enter your username");
+    if (email === "") {
+      setEmailError("Please enter your email");
     }
 
-    const isUsernameValid = validateUsername();
-    if (!isUsernameValid) return;
+    const isEmailValid = validateEmail();
+    if (!isEmailValid) return;
 
-    remindMutation.mutate({ username });
+    remindMutation.mutate({ email });
   };
 
   return (
@@ -68,19 +72,19 @@ function ForgotPassword() {
           Forgot your password?
         </h1>
         <form onSubmit={handleSubmit}>
-          <input
-            value={username}
-            onBlur={validateUsername}
-            onChange={(e) => setUsername(e.target.value)}
-            type="text"
-            placeholder="Username"
-            className={inputStyle}
-            maxLength={100}
-          />{" "}
+          <div className="input-box text-sm font-medium text-gray-900 dark:text-black">
+            <input
+              value={email}
+              onBlur={validateEmail}
+              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              placeholder="Email"
+              className={inputStyle}
+              maxLength={100}
+            />
+          </div>
+          {emailError && <label className={errorStyle}>{emailError}</label>}{" "}
           <br />
-          {usernameError && (
-            <label className={errorStyle}>{usernameError}</label>
-          )}
           <button
             type="submit"
             className="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
