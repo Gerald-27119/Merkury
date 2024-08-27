@@ -6,7 +6,6 @@ import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import com.merkury.vulcanus.account.service.AccountService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Set;
 
 /**
  * <h1>We are using HS256 algorithm to sign the JWT token (for now).</h1>
@@ -41,7 +38,7 @@ public class AccountController {
 
     @PostMapping("/register")
 
-    public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
+    public ResponseEntity<String> registerUser(@RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
 
         accountService.registerUser(userRegisterDto);
         return ResponseEntity
@@ -59,7 +56,7 @@ public class AccountController {
      * or 401 (Unauthorized) if the credentials are invalid
      */
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@Valid @RequestBody UserLoginDto userLoginDto) throws InvalidCredentialsException {
+    public ResponseEntity<String> loginUser(@RequestBody UserLoginDto userLoginDto) throws InvalidCredentialsException {
 
         var jwt = accountService.loginUser(userLoginDto);
         return ResponseEntity
