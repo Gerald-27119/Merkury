@@ -3,8 +3,8 @@ package com.merkury.vulcanus.account.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record UserLoginDto(@NotBlank(message = "Username can't be empty.")
+public record UserLoginDto(@NotBlank
                            String username,
-                           @NotBlank(message = "Password can't be empty.")
+                           @NotBlank
                            String password) {
 }

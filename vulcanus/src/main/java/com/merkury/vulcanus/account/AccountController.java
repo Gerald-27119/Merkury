@@ -6,9 +6,7 @@ import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import com.merkury.vulcanus.account.service.AccountService;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.ValidatorFactory;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,10 +27,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class AccountController {
 
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    jakarta.validation.Validator validator = factory.getValidator();
-
-
     private final AccountService accountService;
 
     /**
@@ -47,21 +41,12 @@ public class AccountController {
 
     @PostMapping("/register")
 
-    public ResponseEntity<String> registerUser(/*@Valid*/ @RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
-        Set<ConstraintViolation<UserRegisterDto>> registerViolations = validator.validate(userRegisterDto);
-        if(registerViolations.isEmpty()) {
-            accountService.registerUser(userRegisterDto);
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body("User registered successfully");
-        }
-        StringBuilder validationMessage = new StringBuilder();
-        for(ConstraintViolation<UserRegisterDto> violation : registerViolations){
-            validationMessage.append(violation.getMessage()).append("\n");
-        }
+    public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
+
+        accountService.registerUser(userRegisterDto);
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(validationMessage.toString());
+                .status(HttpStatus.CREATED)
+                .body("User registered successfully");
     }
 
     /**
@@ -74,22 +59,13 @@ public class AccountController {
      * or 401 (Unauthorized) if the credentials are invalid
      */
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody UserLoginDto userLoginDto) throws InvalidCredentialsException {
-        Set<ConstraintViolation<UserLoginDto>> loginViolations = validator.validate(userLoginDto);
-        if(loginViolations.isEmpty()) {
-            var jwt = accountService.loginUser(userLoginDto);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
-                    .build();
-        }
-        StringBuilder validationMessage = new StringBuilder();
-        for(ConstraintViolation<UserLoginDto> violation : loginViolations){
-            validationMessage.append(violation.getMessage()).append("\n");
-        }
+    public ResponseEntity<String> loginUser(@Valid @RequestBody UserLoginDto userLoginDto) throws InvalidCredentialsException {
+
+        var jwt = accountService.loginUser(userLoginDto);
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(validationMessage.toString());
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
+                .build();
     }
 
     @GetMapping("/test")
