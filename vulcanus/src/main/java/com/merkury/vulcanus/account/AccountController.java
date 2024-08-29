@@ -80,7 +80,7 @@ public class AccountController {
     }
 
     @PostMapping("/set-new-password")
-    public ResponseEntity<String> setNewPassword(@RequestBody UserPasswordResetDto userPasswordResetDto) {
+    public ResponseEntity<String> setNewPassword(@Valid @RequestBody UserPasswordResetDto userPasswordResetDto) {
         accountService.restartUserPassword(userPasswordResetDto);
         return ResponseEntity
                 .status(HttpStatus.OK)
