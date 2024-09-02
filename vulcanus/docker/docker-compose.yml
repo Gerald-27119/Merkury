@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # PostgreSQL service
+  postgres-db:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: dev_user
+      POSTGRES_PASSWORD: dev_pass
+      POSTGRES_DB: dev_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres-init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  # MongoDB service
+  mongo-db:
+    image: mongo:6
+    container_name: mongo-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dev_mongo_user
+      MONGO_INITDB_ROOT_PASSWORD: dev_mongo_pass
+      MONGO_INITDB_DATABASE: dev_mongo_database
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/init.js
+
+  # Startup script service using Alpine Linux
+  startup-script:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres-db
+      - mongo-db
+
+volumes:
+  postgres_data:
+  mongo_data:
