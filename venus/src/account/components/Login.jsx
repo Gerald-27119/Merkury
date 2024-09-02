@@ -145,7 +145,7 @@ function Login() {
 
           <div className="register-link flex">
             <p className="text-sm">Don't have an account?&nbsp;</p>
-            <Link to="/registration" className={linkStyle}>
+            <Link to="/register" className={linkStyle}>
               Register
             </Link>
           </div>

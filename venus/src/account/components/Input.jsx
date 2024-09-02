@@ -1,5 +1,5 @@
 export default function Input({ label, id, error, ...props }) {
-  let classesInput = "p-2 w-96 rounded-md";
+  let classesInput = "p-2 rounded-md";
   if (error.value) {
     classesInput += " outline  outline-red-600";
   }
