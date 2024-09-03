@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -43,12 +44,17 @@ public class PopulateDbs {
             userEntityRepository.save(admin);
             userEntityRepository.save(user);
 
-            log.info("Users from db: {}", userEntityRepository.findAll());
+            log.info("Users from db:");
+            userEntityRepository.findAll().forEach(userEntity ->
+                    log.info(userEntity.toString()));
         };
     }
 
     @Bean
-    CommandLineRunner initMongoDb() {
+    CommandLineRunner initMongoDb(MongoTemplate mongoTemplate) {
+        // Drop the collection before initializing it (in .properties it doesn't work, idk why)
+        mongoTemplate.getDb().drop();
+
         return args -> {
             List<Message> messages = List.of(
                     Message.builder().message("Hello, this is the first message!").build(),
@@ -60,7 +66,9 @@ public class PopulateDbs {
 
             messageRepository.saveAll(messages);
 
-            log.info("Messages from db: {}", messageRepository.findAll());
+            log.info("Messages from db:");
+            messageRepository.findAll().forEach(message ->
+                    log.info(message.toString()));
         };
     }
 }
