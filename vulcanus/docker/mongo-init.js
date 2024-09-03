@@ -1,26 +1,8 @@
-db = db.getSiblingDB("dev_mongo_database");
+db = db.getSiblingDB("dev_mongo_db");
 
-db.createCollection("user_entity");
-
-db.user_entity.insertMany([
-  {
-    email: "admin@example.com",
-    username: "admin",
-    password: "password_encoded_string",
-    role: "ADMIN",
-    accountNonExpired: true,
-    accountNonLocked: true,
-    credentialsNonExpired: true,
-    enabled: true,
-  },
-  {
-    email: "user@example.com",
-    username: "user",
-    password: "password_encoded_string",
-    role: "USER",
-    accountNonExpired: true,
-    accountNonLocked: true,
-    credentialsNonExpired: true,
-    enabled: true,
-  },
-]);
+// Create application-specific user with readWrite permissions
+db.createUser({
+  user: "user",
+  pwd: "password",
+  roles: [{ role: "readWrite", db: "dev_mongo_db" }],
+});

@@ -3,21 +3,28 @@ package com.merkury.vulcanus;
 import com.merkury.vulcanus.account.user.Role;
 import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.account.user.UserEntityRepository;
+import com.merkury.vulcanus.message.Message;
+import com.merkury.vulcanus.message.MessageRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
+
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class PopulateDb {
+public class PopulateDbs {
 
+    private final MessageRepository messageRepository;
     private final UserEntityRepository userEntityRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Bean
-    CommandLineRunner initDatabase() {
+    CommandLineRunner initPostgresDb() {
         return args -> {
             UserEntity admin = UserEntity.builder()
                     .email("admin@example.com")
@@ -35,6 +42,25 @@ public class PopulateDb {
 
             userEntityRepository.save(admin);
             userEntityRepository.save(user);
+
+            log.info("Users from db: {}", userEntityRepository.findAll());
+        };
+    }
+
+    @Bean
+    CommandLineRunner initMongoDb() {
+        return args -> {
+            List<Message> messages = List.of(
+                    Message.builder().message("Hello, this is the first message!").build(),
+                    Message.builder().message("Second message with more content.").build(),
+                    Message.builder().message("Another interesting message here.").build(),
+                    Message.builder().message("Learning Spring Boot with MongoDB.").build(),
+                    Message.builder().message("Final message for initialization.").build()
+            );
+
+            messageRepository.saveAll(messages);
+
+            log.info("Messages from db: {}", messageRepository.findAll());
         };
     }
 }
