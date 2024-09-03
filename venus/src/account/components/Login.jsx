@@ -3,6 +3,9 @@ import axios from "axios";
 import { Link, redirect, useNavigate } from "react-router-dom";
 import "./Login.module.css";
 import { useMutation } from "@tanstack/react-query";
+import OauthButton from "./OauthButton.jsx";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -145,9 +148,25 @@ function Login() {
 
           <div className="register-link flex">
             <p className="text-sm">Don't have an account?&nbsp;</p>
-            <Link to="/registration" className={linkStyle}>
+            <Link to="/register" className={linkStyle}>
               Register
             </Link>
+          </div>
+          <div>
+            <div className="inline-flex items-center justify-center w-full">
+              <hr className="w-96 h-px my-8 bg-gray-700 border-0" />
+              <span className="uppercase text-lg -translate-x-1/2 absolute bg-amber-100 left-1/2 px-2 font-bold">
+                or
+              </span>
+            </div>
+            <OauthButton>
+              <FcGoogle className="mr-3" size={25} />
+              Continue with Google account.
+            </OauthButton>
+            <OauthButton>
+              <FaGithub className="mr-3" size={25} />
+              Continue with Github account.
+            </OauthButton>
           </div>
         </form>
       </div>
