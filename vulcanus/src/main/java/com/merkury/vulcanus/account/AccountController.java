@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -65,6 +67,16 @@ public class AccountController {
                 .status(HttpStatus.OK)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
                 .build();
+    }
+
+    @GetMapping("/oauth2/success")
+    public ResponseEntity<String> oauth2LoginSuccess(@AuthenticationPrincipal OAuth2User principal) {
+        String name = principal.getAttribute("name");
+        String email = principal.getAttribute("email");
+        // TODO: how to know if register or log user, how to register user
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("OAuth2 login successful for user: " + name + " with email: " + email);
     }
 
     @GetMapping("/forget-password")
