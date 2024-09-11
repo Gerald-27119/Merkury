@@ -13,16 +13,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up JDK 21
-      uses: actions/setup-java@v3
-      with:
-        java-version: '21'
-        distribution: 'temurin'
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
 
-    - name: Build vulcanus
-      run: mvn -B package --file vulcanus/pom.xml
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
 
-    - name: Test vulcanus
-      run: mvn -B test --file vulcanus/pom.xml
+      - name: Set up Docker Compose
+        run: sudo apt-get update && sudo apt-get install docker-compose-plugin
+
+      - name: Build and start services
+        run: docker compose -f docker-compose.yml up -d
+
+      - name: Wait for services to be ready
+        run: sleep 30 # This is to ensure that the services have time to initialize.
+
+      - name: Build vulcanus
+        run: mvn -B package --file vulcanus/pom.xml
+
+      - name: Test vulcanus
+        run: mvn -B test --file vulcanus/pom.xml
+
+      - name: Shut down services
+        run: docker compose -f docker-compose.yml down
