@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.module.css";
 import { useMutation } from "@tanstack/react-query";
+import { isEmail, isUsername } from "../regex.js";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -26,7 +27,7 @@ function Login() {
     if (username === "") {
       setUsernameError("Please enter your username");
       return false;
-    } else if (!/^[a-zA-Z0-9_]{3,16}$/.test(username)) {
+    } else if (!isUsername(username)) {
       setUsernameError("Please enter a valid username");
       return false;
     }
@@ -130,7 +131,7 @@ function Login() {
           <br />
 
           <div className={"remember-forgot flex justify-between"}>
-            <Link to="/login/forgot" className={linkStyle}>
+            <Link to="/login/forgotPassword" className={linkStyle}>
               Forgot Password?
             </Link>
           </div>

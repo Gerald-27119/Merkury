@@ -2,16 +2,21 @@ package com.merkury.vulcanus.account.service;
 
 import com.merkury.vulcanus.account.dto.UserPasswordResetDto;
 import com.merkury.vulcanus.account.excepion.excpetions.UserNotFoundException;
+import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.account.user.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class RestartPasswordService {
     private final UserEntityRepository userEntityRepository;
     private final PasswordEncoder passwordEncoder;
+
+    //TODO: String email = tokenService.getEmailByToken(userPasswordResetDto.token());
 
     public void checkIfUserToResetPasswordExists(String emailAddress) {
         if (!userEntityRepository.existsByEmail(emailAddress)) {
@@ -20,15 +25,15 @@ public class RestartPasswordService {
     }
 
     public void restartUserPassword(UserPasswordResetDto userPasswordResetDto) {
-        if (!userEntityRepository.existsByUsername(userPasswordResetDto.username())) {
-            throw new UserNotFoundException("User with provided username doesn't exist!");
+        if (!userEntityRepository.existsByEmail(userPasswordResetDto.email())) {
+            throw new UserNotFoundException("User with provided email doesn't exist!");
         }
 
         //TODO:validate password
 
-        var userFromDb = userEntityRepository.findByUsername(userPasswordResetDto.username());
-
-        var user = userFromDb.get(); //TODO: STACHU KURWA A CO JAK USERA NIE MA
+        Optional<UserEntity> userFromDb = userEntityRepository.findByEmail(userPasswordResetDto.email());
+        if (userFromDb.isEmpty()) throw new UserNotFoundException("User with provided email doesn't exist!");
+        UserEntity user = userFromDb.get();
 
         user.setPassword(passwordEncoder.encode(userPasswordResetDto.password()));
         userEntityRepository.save(user);

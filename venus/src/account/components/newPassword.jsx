@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { isEmail, isPassword, isEqualsToOtherValue } from "../regex.js";
 
 function newPassword() {
-  const [username, setUsername] = useState("");
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -17,7 +20,31 @@ function newPassword() {
   useEffect(() => {
     if (password) setPasswordError("");
     setMainError("");
-  }, [password]);
+  }, [password, confirmPassword]);
+
+  const validatePassword = () => {
+    if (password === "") {
+      setPasswordError("Please enter your password");
+      return false;
+    } else if (!isPassword(password)) {
+      setPasswordError(
+        "Password must be minimum 8 long, contains small letter, big letter, number and special char",
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const validateConfirmPassword = () => {
+    if (confirmPassword === "") {
+      setMainError("Field can't be empty");
+      return false;
+    } else if (!isEqualsToOtherValue(confirmPassword, password)) {
+      setMainError("Password must be the same");
+      return false;
+    }
+    return true;
+  };
 
   const changePassword = (userData) => {
     return axios.post(
@@ -33,22 +60,27 @@ function newPassword() {
       console.log(error.response.data);
 
       if (error.response.status === 401) {
-        setMainError("Incorrect credentials");
+        setMainError("Unauthorized or invalid token. Please try again.");
       }
 
       console.log("Failed!");
     },
     onSuccess: (response) => {
       console.log(response.status);
-      console.log("Success!");
-      // navigate("/");
+      console.log("Success! Password has been changed!");
+      // navigate("/login");
     },
   });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    changeMutation.mutate({ username, password });
+    const isPasswordValid = validatePassword();
+    const isConfirmPasswordValid = validateConfirmPassword();
+
+    if (isPasswordValid && isConfirmPasswordValid) {
+      changeMutation.mutate({ token, password });
+    }
   };
 
   return (
@@ -62,27 +94,34 @@ function newPassword() {
             <input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onBlur={validatePassword}
               type="password"
               placeholder="New Password"
               className={inputStyle}
               maxLength={100}
             />
           </div>
+          {passwordError && (
+            <label className={errorStyle}>{passwordError}</label>
+          )}
           <br />
           <div className="input-box text-sm font-medium text-gray-900 dark:text-black">
             <input
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              onBlur={validateConfirmPassword}
               type="password"
               placeholder="Confirm New Password"
               className={inputStyle}
               maxLength={100}
             />
           </div>
+          {mainError && <label className={errorStyle}>{mainError}</label>}
           <br />
           <button
             type="submit"
             className="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
+            disabled={changeMutation.isLoading}
           >
             Set Password
           </button>

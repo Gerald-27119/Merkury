@@ -55,14 +55,11 @@ function ForgotPassword() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (email === "") {
-      setEmailError("Please enter your email");
-    }
-
     const isEmailValid = validateEmail();
-    if (!isEmailValid) return;
 
-    remindMutation.mutate({ email });
+    if (isEmailValid) {
+      remindMutation.mutate({ email });
+    }
   };
 
   return (
@@ -83,11 +80,13 @@ function ForgotPassword() {
               maxLength={100}
             />
           </div>
-          {emailError && <label className={errorStyle}>{emailError}</label>}{" "}
+          {emailError && <label className={errorStyle}>{emailError}</label>}
+          {mainError && <label className={errorStyle}>{mainError}</label>}
           <br />
           <button
             type="submit"
             className="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
+            disabled={remindMutation.isLoading}
           >
             Remind me
           </button>

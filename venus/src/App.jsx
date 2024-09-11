@@ -12,7 +12,7 @@ const router = createBrowserRouter([
   { path: "/", element: <WelcomePage />, errorElement: <Error /> },
   { path: "/register", element: <Registration /> },
   { path: "/login", element: <Login /> },
-  { path: "/login/forgot", element: <ForgotPassword /> },
+  { path: "/login/forgotPassword", element: <ForgotPassword /> },
   { path: "/login/newPassword", element: <NewPassword /> },
 ]);
 

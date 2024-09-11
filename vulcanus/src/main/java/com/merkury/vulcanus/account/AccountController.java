@@ -66,21 +66,22 @@ public class AccountController {
     @GetMapping("/forget-password")
     public ResponseEntity<String> forgetPasswordSendEmail(@RequestParam String email) {
         accountService.checkIfUserToResetPasswordExists(email);
-        //TODO: provide valid link
-        String resetLink = "http://localhost:2137/login/newPassword";
+        //TODO: provide valid link, implement token for URL
+        String token = "";
+        String resetLink = "http://localhost:5173/login/newPassword?token=" + token;
         String message = "Click this link to reset password: <a href='" + resetLink + "'>New password</a>";
         emailService.sendEmail(email, "Restart password", message);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Password reset link sent to: " + email);
     }
-
+//TODO: String email = tokenService.getEmailByToken(userPasswordResetDto.token());
     @PostMapping("/set-new-password")
     public ResponseEntity<String> setNewPassword(@RequestBody UserPasswordResetDto userPasswordResetDto) {
         accountService.restartUserPassword(userPasswordResetDto);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("Password set successfully for user: " + userPasswordResetDto.username());
+                .body("Password set successfully for user: " + userPasswordResetDto.email());
     }
 
     @GetMapping("/test")
