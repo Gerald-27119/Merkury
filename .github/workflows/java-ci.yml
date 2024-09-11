@@ -43,7 +43,7 @@ jobs:
         run: docker-compose --version
 
       - name: Build and start services
-        run: docker-compose -f docker-compose.yml up -d
+        run: docker-compose -f vulcanus/docker/docker-compose.yml up -d
 
       - name: Wait for services to be ready
         run: sleep 30 # Adjust this timing as necessary based on service initialization.
@@ -55,4 +55,4 @@ jobs:
         run: mvn -B test --file vulcanus/pom.xml
 
       - name: Shut down services
-        run: docker-compose -f docker-compose.yml down
+        run: docker-compose -f vulcanus/docker/docker-compose.yml down
