@@ -2,6 +2,7 @@ package com.merkury.vulcanus.account.service;
 
 import com.merkury.vulcanus.account.dto.UserLoginDto;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
+import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.security.jwt.JwtGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +30,13 @@ class LoginService {
         } catch (AuthenticationException ex) {
             throw new InvalidCredentialsException();
         }
+    }
+
+    public String loginOauth2User(UserEntity user) {
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        return jwtGenerator.generateToken(authenticationToken);
     }
 
 }

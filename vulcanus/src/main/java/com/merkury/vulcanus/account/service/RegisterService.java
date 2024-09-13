@@ -18,13 +18,23 @@ class RegisterService {
     private final PasswordEncoder passwordEncoder;
 
     public void registerUser(UserRegisterDto userDto) throws EmailTakenException, UsernameTakenException {
-        if (userEntityRepository.existsByEmail(userDto.email())) {
-            throw new EmailTakenException();
-        }
-        if(userEntityRepository.existsByUsername(userDto.username())) {
-            throw new UsernameTakenException();
-        }
+        checkIfCredentialsTaken(userDto.email(), userDto.username());
         var user = mapToUser(userDto);
+        userEntityRepository.save(user);
+    }
+
+    public void registerOauth2User(String email, String username)
+            throws UsernameTakenException, EmailTakenException {
+        checkIfCredentialsTaken(email, username);
+        UserEntity user = UserEntity.builder()
+                .email(email)
+                .username(username)
+                .role(Role.USER)
+                .enabled(true)
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .accountNonExpired(true)
+                .build();
         userEntityRepository.save(user);
     }
 
@@ -36,4 +46,15 @@ class RegisterService {
                 .role(Role.USER)
                 .build();
     }
+
+    private void checkIfCredentialsTaken(String userEmail, String username)
+            throws EmailTakenException, UsernameTakenException {
+        if (userEntityRepository.existsByEmail(userEmail)) {
+            throw new EmailTakenException();
+        }
+        if (userEntityRepository.existsByUsername(username)) {
+            throw new UsernameTakenException();
+        }
+    }
+
 }

@@ -7,8 +7,12 @@ import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UserNotFoundException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
+import com.merkury.vulcanus.account.user.UserEntity;
+import com.merkury.vulcanus.account.user.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +21,7 @@ public class AccountService {
     private final RegisterService registerService;
     private final LoginService loginService;
     private final RestartPasswordService restartPasswordService;
+    private final UserEntityRepository userEntityRepository;
 
     public void registerUser(UserRegisterDto userDto) throws EmailTakenException, UsernameTakenException {
         registerService.registerUser(userDto);
@@ -32,5 +37,18 @@ public class AccountService {
 
     public void checkIfUserToResetPasswordExists(String emailAddress) {
         restartPasswordService.checkIfUserToResetPasswordExists(emailAddress);
+    }
+
+    public void registerOauth2User(String email, String username) throws EmailTakenException, UsernameTakenException {
+        registerService.registerOauth2User(email, username);
+    }
+
+    public String loginOauth2User(String email) {
+        Optional<UserEntity> user = userEntityRepository.findByEmail(email);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException(String.format("User with %s not found.", email));
+        }
+
+        return loginService.loginOauth2User(user.get());
     }
 }
