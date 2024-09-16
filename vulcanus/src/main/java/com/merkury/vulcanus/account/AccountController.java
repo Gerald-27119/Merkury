@@ -8,6 +8,7 @@ import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsExcept
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import com.merkury.vulcanus.account.service.AccountService;
 import com.merkury.vulcanus.email.service.EmailService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,9 +35,11 @@ public class AccountController {
      *                        </ul>
      * @return HTTP status 201 (Created) or 409 (Conflict) if the email or username is taken
      */
+
     @PostMapping("/register")
 
-    public ResponseEntity<String> registerUser(@RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
+    public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
+
         accountService.registerUser(userRegisterDto);
         String message = "Thank you for registering in our service!\nYour account is now active.";
         emailService.sendEmail(userRegisterDto.email(), "Register confirmation",message);
@@ -55,7 +58,8 @@ public class AccountController {
      * or 401 (Unauthorized) if the credentials are invalid
      */
     @PostMapping("/login")
-    public ResponseEntity<Void> loginUser(@RequestBody UserLoginDto userLoginDto) throws InvalidCredentialsException {
+    public ResponseEntity<String> loginUser(@Valid @RequestBody UserLoginDto userLoginDto) throws InvalidCredentialsException {
+
         var jwt = accountService.loginUser(userLoginDto);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -77,7 +81,7 @@ public class AccountController {
     }
 //TODO: String email = tokenService.getEmailByToken(userPasswordResetDto.token());
     @PostMapping("/set-new-password")
-    public ResponseEntity<String> setNewPassword(@RequestBody UserPasswordResetDto userPasswordResetDto) {
+    public ResponseEntity<String> setNewPassword(@Valid @RequestBody UserPasswordResetDto userPasswordResetDto) {
         accountService.restartUserPassword(userPasswordResetDto);
         return ResponseEntity
                 .status(HttpStatus.OK)

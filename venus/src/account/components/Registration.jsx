@@ -10,6 +10,9 @@ import {
 } from "../regex.js";
 import { fetchRegistration } from "../http.js";
 import { useMutation } from "@tanstack/react-query";
+import OauthButton from "./OauthButton.jsx";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 export default function Registration() {
   const [enteredValue, setEnteredValue] = useState({
@@ -170,6 +173,22 @@ export default function Registration() {
           >
             Sign up
           </button>
+          <div>
+            <div className="inline-flex items-center justify-center w-full">
+              <hr className="w-96 h-px my-8 bg-white border-0" />
+              <span className="uppercase text-lg -translate-x-1/2 absolute bg-amber-400 left-1/2 px-2 font-bold text-white">
+                or
+              </span>
+            </div>
+            <OauthButton>
+              <FcGoogle className="mr-3" size={25} />
+              Continue with Google account.
+            </OauthButton>
+            <OauthButton>
+              <FaGithub className="mr-3" size={25} />
+              Continue with Github account.
+            </OauthButton>
+          </div>
         </form>
         <Link
           to="/login"

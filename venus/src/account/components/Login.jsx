@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import "./Login.module.css";
 import { useMutation } from "@tanstack/react-query";
-import { isEmail, isUsername } from "../regex.js";
+import OauthButton from "./OauthButton.jsx";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -27,7 +29,7 @@ function Login() {
     if (username === "") {
       setUsernameError("Please enter your username");
       return false;
-    } else if (!isUsername(username)) {
+    } else if (!/^[a-zA-Z0-9_]{3,16}$/.test(username)) {
       setUsernameError("Please enter a valid username");
       return false;
     }
@@ -64,7 +66,7 @@ function Login() {
     onSuccess: (response) => {
       console.log(response.status);
       console.log("Login successful!");
-      navigate("/");
+      navigate("/temp");
     },
   });
 
@@ -88,7 +90,7 @@ function Login() {
   };
 
   return (
-    <div className="h-screen items-center justify-center flex bg-[url('https://support.discord.com/hc/article_attachments/22839154408087')] bg-cover bg-center">
+    <div className="h-screen items-center justify-center flex bg-[url('https://support.discord.com/hc/article_attachments/22839154408087')] bg-cover bg-center h-screen">
       <div className="wrapper bg-amber-100 rounded-xl p-4 flex flex-col">
         <form onSubmit={handleSubmit}>
           <h1 className="text-center text-2xl font-bold mr-7 ml-7 mb-5">
@@ -131,7 +133,7 @@ function Login() {
           <br />
 
           <div className={"remember-forgot flex justify-between"}>
-            <Link to="/login/forgotPassword" className={linkStyle}>
+            <Link to="/" className={linkStyle}>
               Forgot Password?
             </Link>
           </div>
@@ -149,6 +151,22 @@ function Login() {
             <Link to="/register" className={linkStyle}>
               Register
             </Link>
+          </div>
+          <div>
+            <div className="inline-flex items-center justify-center w-full">
+              <hr className="w-96 h-px my-8 bg-gray-700 border-0" />
+              <span className="uppercase text-lg -translate-x-1/2 absolute bg-amber-100 left-1/2 px-2 font-bold">
+                or
+              </span>
+            </div>
+            <OauthButton>
+              <FcGoogle className="mr-3" size={25} />
+              Continue with Google account.
+            </OauthButton>
+            <OauthButton>
+              <FaGithub className="mr-3" size={25} />
+              Continue with Github account.
+            </OauthButton>
           </div>
         </form>
       </div>
