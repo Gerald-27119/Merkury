@@ -66,7 +66,7 @@ function Login() {
     onSuccess: (response) => {
       console.log(response.status);
       console.log("Login successful!");
-      navigate("/");
+      navigate("/temp");
     },
   });
 
