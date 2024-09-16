@@ -27,6 +27,8 @@ public class AccountController {
 
     private final AccountService accountService;
     private final EmailService emailService;
+    private final String USER_REGISTERED_MESSAGE = "Thank you for registering in our service!\nYour account is now active.";
+    private final String USER_REGISTERED_TITLE = "Register confirmation";
 
     /**
      * @param userRegisterDto the user registration details containing:
@@ -43,8 +45,7 @@ public class AccountController {
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
 
         accountService.registerUser(userRegisterDto);
-        String message = "Thank you for registering in our service!\nYour account is now active.";
-        emailService.sendEmail(userRegisterDto.email(), "Register confirmation",message);
+        emailService.sendEmail(userRegisterDto.email(), USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body("User registered successfully");
@@ -69,14 +70,27 @@ public class AccountController {
                 .build();
     }
 
-    @GetMapping("/oauth2/success")
-    public ResponseEntity<String> oauth2LoginSuccess(@AuthenticationPrincipal OAuth2User principal) {
-        String name = principal.getAttribute("name");
+    @GetMapping("/oauth2/register/success")
+    public ResponseEntity<String> oauth2RegisterSuccess(@AuthenticationPrincipal OAuth2User principal) throws EmailTakenException, UsernameTakenException {
         String email = principal.getAttribute("email");
-        // TODO: how to know if register or log user, how to register user
+        String username = principal.getAttribute("username");
+        accountService.registerOauth2User(email, username);
+        var jwt = accountService.loginOauth2User(email);
+        emailService.sendEmail(email, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("OAuth2 login successful for user: " + name + " with email: " + email);
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
+                .build();
+    }
+
+    @GetMapping("/oauth2/login/success")
+    public ResponseEntity<String> oauth2LoginSuccess(@AuthenticationPrincipal OAuth2User principal) {
+        String email = principal.getAttribute("email");
+        var jwt = accountService.loginOauth2User(email);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
+                .build();
     }
 
     @GetMapping("/forget-password")
