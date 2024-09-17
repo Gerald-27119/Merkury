@@ -3,6 +3,7 @@ version: '3.8'
 services:
   # PostgreSQL service
   postgres-db:
+    container_name: postgres-db
     image: postgres:latest
     environment:
       POSTGRES_USER: user
@@ -15,6 +16,7 @@ services:
 
   # MongoDB service
   mongo-db:
+    container_name: mongo-db
     image: mongo:latest
     environment:
       MONGO_INITDB_ROOT_USERNAME: user
@@ -24,6 +26,7 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
 
   # Spring Boot application service
   spring-boot-app:
