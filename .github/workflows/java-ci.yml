@@ -2,11 +2,11 @@ name: Java CI
 
 on:
   push:
-    branches: [ master, develop ]
+    branches: [master, develop]
   pull_request:
-    branches: [ master, develop ]
+    branches: [master, develop]
   merge_group:
-    branches: [ master, develop ]
+    branches: [master, develop]
 
 jobs:
   build:
@@ -42,14 +42,14 @@ jobs:
       - name: Verify Docker Compose Installation
         run: docker-compose --version
 
+      - name: Build the JAR file
+        run: mvn clean package --file vulcanus/pom.xml
+
       - name: Build and start services
-        run: docker-compose -f vulcanus/docker/merkury/docker-compose.yml up -d
+        run: docker-compose -f vulcanus/docker/merkury/docker-compose.yml up -d --build
 
       - name: Wait for services to be ready
         run: sleep 30 # Adjust this timing as necessary based on service initialization.
-
-      - name: Build vulcanus
-        run: mvn -B package --file vulcanus/pom.xml
 
       - name: Test vulcanus
         run: mvn -B test --file vulcanus/pom.xml
