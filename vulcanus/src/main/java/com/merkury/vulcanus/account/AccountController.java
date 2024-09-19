@@ -70,7 +70,7 @@ public class AccountController {
                 .build();
     }
 
-    @GetMapping("/oauth2/register/success")
+    @PostMapping("/oauth2/register/success")
     public ResponseEntity<String> oauth2RegisterSuccess(@AuthenticationPrincipal OAuth2User principal) throws EmailTakenException, UsernameTakenException {
         String email = principal.getAttribute("email");
         String username = principal.getAttribute("username");
@@ -83,7 +83,7 @@ public class AccountController {
                 .build();
     }
 
-    @GetMapping("/oauth2/login/success")
+    @PostMapping("/oauth2/login/success")
     public ResponseEntity<String> oauth2LoginSuccess(@AuthenticationPrincipal OAuth2User principal) {
         String email = principal.getAttribute("email");
         var jwt = accountService.loginOauth2User(email);

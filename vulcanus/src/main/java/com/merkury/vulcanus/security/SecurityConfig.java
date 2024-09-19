@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/account/**", "/register").permitAll() // Permit access to /register endpoint
+                        .requestMatchers("/account/**", "/register", "/oauth2**").permitAll() // Permit access to /register endpoint
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
