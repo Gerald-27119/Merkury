@@ -42,10 +42,10 @@ public class SecurityConfig {
                         .requestMatchers("/account/**", "/register", "/oauth2**").permitAll() // Permit access to /register endpoint
                         .anyRequest().authenticated()
                 )
-                .oauth2Login(oauth2 -> oauth2
-                        .loginPage("http://localhost:5173/login")
-                        .defaultSuccessUrl("http://localhost:5173/loggedin")
-                        .failureUrl("http://localhost:5173/login?error=true"))
+//                .oauth2Login(oauth2 -> oauth2
+//                        .loginPage("http://localhost:5173/login")
+//                        .defaultSuccessUrl("http://localhost:5173/loggedin")
+//                        .failureUrl("http://localhost:5173/login?error=true"))
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authEntryPoint)
                 )
