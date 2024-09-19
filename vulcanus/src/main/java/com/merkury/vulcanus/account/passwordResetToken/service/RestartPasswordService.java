@@ -1,11 +1,10 @@
-package com.merkury.vulcanus.account.service;
+package com.merkury.vulcanus.account.passwordResetToken.service;
 
 import com.merkury.vulcanus.account.dto.UserPasswordResetDto;
 import com.merkury.vulcanus.account.excepion.excpetions.UserNotFoundException;
 import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.account.user.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

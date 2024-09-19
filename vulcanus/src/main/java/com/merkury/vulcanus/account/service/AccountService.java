@@ -8,6 +8,7 @@ import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsExcept
 import com.merkury.vulcanus.account.excepion.excpetions.UserNotFoundException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import com.merkury.vulcanus.account.user.UserEntity;
+import com.merkury.vulcanus.account.passwordResetToken.service.RestartPasswordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

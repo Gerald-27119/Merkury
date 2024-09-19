@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.account.tokens.passwordResetToken;
+package com.merkury.vulcanus.account.passwordResetToken;
 
 import com.merkury.vulcanus.account.user.UserEntity;
 import jakarta.persistence.*;

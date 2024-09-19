@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.account.tokens.passwordResetToken;
+package com.merkury.vulcanus.account.passwordResetToken;
 
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;

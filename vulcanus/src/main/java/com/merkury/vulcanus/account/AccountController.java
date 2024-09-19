@@ -7,8 +7,8 @@ import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import com.merkury.vulcanus.account.service.AccountService;
-import com.merkury.vulcanus.account.service.PasswordResetTokenService;
-import com.merkury.vulcanus.account.tokens.passwordResetToken.PasswordResetToken;
+import com.merkury.vulcanus.account.passwordResetToken.service.PasswordResetTokenService;
+import com.merkury.vulcanus.account.passwordResetToken.PasswordResetToken;
 import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.email.service.EmailService;
 import jakarta.validation.Valid;
@@ -17,8 +17,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 /**
  * <h1>We are using HS256 algorithm to sign the JWT token (for now).</h1>
@@ -77,7 +75,7 @@ public class AccountController {
     public ResponseEntity<String> forgetPasswordSendEmail(@RequestBody String email) {
         UserEntity user = accountService.getUserByEmail(email);
 
-        PasswordResetToken resetToken = passwordResetTokenService.generateToken(user);
+        PasswordResetToken resetToken = passwordResetTokenService.changeToken(user);
         passwordResetTokenService.saveToken(resetToken);
 
         String resetLink = "http://localhost:5173/login/newPassword?token=" + resetToken.getToken().toString();
