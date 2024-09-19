@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import OauthButton from "./OauthButton.jsx";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import handleOauth2Login from "../handleOauth2Login.js";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -18,6 +19,14 @@ function Login() {
   const errorStyle = "text-red-600 text-xs p-0 m-0";
   const linkStyle = "text-blue-700 text-sm hover:underline";
   const navigate = useNavigate();
+
+  const handleGoogleLogin = async () => {
+    handleOauth2Login("Error initiating Google login:", "/auth/google");
+  };
+
+  const handleGithubLogin = async () => {
+    handleOauth2Login("Error initiating Github login:", "/auth/github");
+  };
 
   useEffect(() => {
     if (username) setUsernameError("");
@@ -147,7 +156,7 @@ function Login() {
           {loginError && <label className={errorStyle}>{loginError}</label>}
 
           <div className="register-link flex">
-            <p className="text-sm">Don't have an account?&nbsp;</p>
+            <p className="text-sm">Don&apos;t have an account?&nbsp;</p>
             <Link to="/register" className={linkStyle}>
               Register
             </Link>
@@ -159,11 +168,11 @@ function Login() {
                 or
               </span>
             </div>
-            <OauthButton>
+            <OauthButton onClick={handleGoogleLogin}>
               <FcGoogle className="mr-3" size={25} />
               Continue with Google account.
             </OauthButton>
-            <OauthButton>
+            <OauthButton onClick={handleGithubLogin}>
               <FaGithub className="mr-3" size={25} />
               Continue with Github account.
             </OauthButton>
