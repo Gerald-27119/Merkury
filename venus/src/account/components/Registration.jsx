@@ -13,6 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import OauthButton from "./OauthButton.jsx";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import handleOauth2Login from "../handleOauth2Login.js";
 
 export default function Registration() {
   const [enteredValue, setEnteredValue] = useState({
@@ -85,6 +86,14 @@ export default function Registration() {
     },
   };
 
+  const handleGoogleRegistration = async () => {
+    handleOauth2Login("Error initiating Google login:", "/auth/google");
+  };
+
+  const handleGithubRegistration = async () => {
+    handleOauth2Login("Error initiating Github login:", "/auth/github");
+  };
+
   function handleSubmit(event) {
     event.preventDefault();
     mutate({
@@ -93,6 +102,7 @@ export default function Registration() {
       password: enteredValue.password,
     });
   }
+
   function handleInputChange(id, event) {
     setEnteredValue((prevState) => ({
       ...prevState,
@@ -180,11 +190,11 @@ export default function Registration() {
                 or
               </span>
             </div>
-            <OauthButton>
+            <OauthButton onClick={handleGoogleRegistration}>
               <FcGoogle className="mr-3" size={25} />
               Continue with Google account.
             </OauthButton>
-            <OauthButton>
+            <OauthButton onClick={handleGithubRegistration}>
               <FaGithub className="mr-3" size={25} />
               Continue with Github account.
             </OauthButton>
