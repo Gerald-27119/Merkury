@@ -7,6 +7,7 @@ import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UserNotFoundException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
+import com.merkury.vulcanus.account.user.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,8 @@ public class AccountService {
         restartPasswordService.restartUserPassword(userPasswordResetDto);
     }
 
-    public void checkIfUserToResetPasswordExists(String emailAddress) {
-        restartPasswordService.checkIfUserToResetPasswordExists(emailAddress);
+    public UserEntity getUserByEmail(String email) {
+       return restartPasswordService.getUserByEmail(email);
     }
+
 }

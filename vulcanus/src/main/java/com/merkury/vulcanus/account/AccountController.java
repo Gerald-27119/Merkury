@@ -7,6 +7,9 @@ import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import com.merkury.vulcanus.account.service.AccountService;
+import com.merkury.vulcanus.account.service.PasswordResetTokenService;
+import com.merkury.vulcanus.account.tokens.passwordResetToken.PasswordResetToken;
+import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.email.service.EmailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +17,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 /**
  * <h1>We are using HS256 algorithm to sign the JWT token (for now).</h1>
@@ -25,6 +30,7 @@ public class AccountController {
 
     private final AccountService accountService;
     private final EmailService emailService;
+    private final PasswordResetTokenService passwordResetTokenService;
 
     /**
      * @param userRegisterDto the user registration details containing:
@@ -42,7 +48,7 @@ public class AccountController {
 
         accountService.registerUser(userRegisterDto);
         String message = "Thank you for registering in our service!\nYour account is now active.";
-        emailService.sendEmail(userRegisterDto.email(), "Register confirmation",message);
+        emailService.sendEmail(userRegisterDto.email(), "Register confirmation", message);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body("User registered successfully");
@@ -67,25 +73,27 @@ public class AccountController {
                 .build();
     }
 
-    @GetMapping("/forget-password")
-    public ResponseEntity<String> forgetPasswordSendEmail(@RequestParam String email) {
-        accountService.checkIfUserToResetPasswordExists(email);
-        //TODO: provide valid link, implement token for URL
-        String token = "";
-        String resetLink = "http://localhost:5173/login/newPassword?token=" + token;
+    @PostMapping("/forget-password")
+    public ResponseEntity<String> forgetPasswordSendEmail(@RequestBody String email) {
+        UserEntity user = accountService.getUserByEmail(email);
+
+        PasswordResetToken resetToken = passwordResetTokenService.generateToken(user);
+        passwordResetTokenService.saveToken(resetToken);
+
+        String resetLink = "http://localhost:5173/login/newPassword?token=" + resetToken.getToken().toString();
         String message = "Click this link to reset password: <a href='" + resetLink + "'>New password</a>";
         emailService.sendEmail(email, "Restart password", message);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Password reset link sent to: " + email);
     }
-//TODO: String email = tokenService.getEmailByToken(userPasswordResetDto.token());
+
     @PostMapping("/set-new-password")
     public ResponseEntity<String> setNewPassword(@Valid @RequestBody UserPasswordResetDto userPasswordResetDto) {
         accountService.restartUserPassword(userPasswordResetDto);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("Password set successfully for user: " + userPasswordResetDto.email());
+                .body("Password set successfully!");
     }
 
     @GetMapping("/test")

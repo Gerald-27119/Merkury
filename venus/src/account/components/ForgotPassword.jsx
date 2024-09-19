@@ -27,11 +27,12 @@ function ForgotPassword() {
     return true;
   };
 
-  const remindUser = (userData) => {
-    return axios.post(
-      "http://localhost:8080/account/forget-password",
-      userData,
-    );
+  const remindUser = (email) => {
+    return axios.post("http://localhost:8080/account/forget-password", email, {
+      headers: {
+        "Content-Type": "text/plain",
+      },
+    });
   };
 
   const remindMutation = useMutation({
@@ -55,10 +56,11 @@ function ForgotPassword() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    console.log(email);
     const isEmailValid = validateEmail();
 
-    if (isEmailValid) {
-      remindMutation.mutate({ email });
+    if (isEmailValid && !remindMutation.isLoading) {
+      remindMutation.mutate(email);
     }
   };
 
@@ -74,7 +76,7 @@ function ForgotPassword() {
               value={email}
               onBlur={validateEmail}
               onChange={(e) => setEmail(e.target.value)}
-              type="text"
+              type="email"
               placeholder="Email"
               className={inputStyle}
               maxLength={100}
