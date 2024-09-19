@@ -66,7 +66,7 @@ public class PopulateDbs {
     @Bean
     CommandLineRunner initMongoDb(MongoTemplate mongoTemplate) {
         // Drop the collection before initializing it (in .properties it doesn't work, idk why)
-        mongoTemplate.getDb().drop();
+        mongoTemplate.getDb().getCollection("messages").drop();
 
         return args -> {
             List<Message> messages = List.of(
