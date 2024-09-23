@@ -91,7 +91,10 @@ export default function Registration() {
   };
 
   const handleGithubRegistration = async () => {
-    handleOauth2Login("Error initiating Github login:", "/auth/github");
+    handleOauth2Login(
+      "Error initiating Github login:",
+      "http://localhost:8080/account/login/oauth2/code/github",
+    );
   };
 
   function handleSubmit(event) {
@@ -190,16 +193,16 @@ export default function Registration() {
                 or
               </span>
             </div>
-            <OauthButton onClick={handleGoogleRegistration}>
-              <FcGoogle className="mr-3" size={25} />
-              Continue with Google account.
-            </OauthButton>
-            <OauthButton onClick={handleGithubRegistration}>
-              <FaGithub className="mr-3" size={25} />
-              Continue with Github account.
-            </OauthButton>
           </div>
         </form>
+        <OauthButton onClick={handleGoogleRegistration}>
+          <FcGoogle className="mr-3" size={25} />
+          Continue with Google account.
+        </OauthButton>
+        <OauthButton onClick={handleGithubRegistration}>
+          <FaGithub className="mr-3" size={25} />
+          Continue with Github account.
+        </OauthButton>
         <Link
           to="/login"
           className="text-sm hover:underline pt-8 text-gray-600"

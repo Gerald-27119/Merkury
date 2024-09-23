@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -20,6 +21,9 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <h1>We are using HS256 algorithm to sign the JWT token (for now).</h1>
@@ -76,7 +80,7 @@ public class AccountController {
     }
 
     @GetMapping("/login/oauth2/code/{provider}")
-    public ResponseEntity<String> loginSuccess(@PathVariable String provider, OAuth2AuthenticationToken authenticationToken) throws EmailTakenException, UsernameTakenException {
+    public ResponseEntity<Map<String, String>> loginSuccess(@PathVariable String provider, OAuth2AuthenticationToken authenticationToken) throws EmailTakenException, UsernameTakenException {
         OAuth2AuthorizedClient client = oAuth2AuthorizedClientService.loadAuthorizedClient(
                 authenticationToken.getAuthorizedClientRegistrationId(),
                 authenticationToken.getName()
@@ -90,10 +94,20 @@ public class AccountController {
 
         emailService.sendEmail(userEmail, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
-                .build();
+//        return ResponseEntity
+//                .status(HttpStatus.CREATED)
+//                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
+//                .build();
+//        RedirectView redirectView = new RedirectView();
+//        redirectView.setUrl("/main-view");
+//        redirectView.setStatusCode(HttpStatus.CREATED);
+//        return redirectView;
+        Map<String, String> response = new HashMap<>();
+        response.put("redirectUrl", "/main-view?token=" + jwt);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
     }
 
     @GetMapping("/forget-password")
