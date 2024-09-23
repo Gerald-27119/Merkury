@@ -14,8 +14,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * <h1>We are using HS256 algorithm to sign the JWT token (for now).</h1>
@@ -27,6 +31,7 @@ public class AccountController {
 
     private final AccountService accountService;
     private final EmailService emailService;
+    private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final String USER_REGISTERED_MESSAGE = "Thank you for registering in our service!\nYour account is now active.";
     private final String USER_REGISTERED_TITLE = "Register confirmation";
 
@@ -70,25 +75,23 @@ public class AccountController {
                 .build();
     }
 
-    @PostMapping("/oauth2/register/success")
-    public ResponseEntity<String> oauth2RegisterSuccess(@AuthenticationPrincipal OAuth2User principal) throws EmailTakenException, UsernameTakenException {
-        String email = principal.getAttribute("email");
-        String username = principal.getAttribute("username");
-        accountService.registerOauth2User(email, username);
-        var jwt = accountService.loginOauth2User(email);
-        emailService.sendEmail(email, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
-                .build();
-    }
+    @GetMapping("/login/oauth2/code/{provider}")
+    public ResponseEntity<String> loginSuccess(@PathVariable String provider, OAuth2AuthenticationToken authenticationToken) throws EmailTakenException, UsernameTakenException {
+        OAuth2AuthorizedClient client = oAuth2AuthorizedClientService.loadAuthorizedClient(
+                authenticationToken.getAuthorizedClientRegistrationId(),
+                authenticationToken.getName()
+        );
+        OAuth2User oAuth2User = authenticationToken.getPrincipal();
+        String userEmail = oAuth2User.getAttribute("email");
+        String username = client.getPrincipalName();
+//        String authorizationProvider = authenticationToken.getAuthorizedClientRegistrationId();
 
-    @PostMapping("/oauth2/login/success")
-    public ResponseEntity<String> oauth2LoginSuccess(@AuthenticationPrincipal OAuth2User principal) {
-        String email = principal.getAttribute("email");
-        var jwt = accountService.loginOauth2User(email);
+        var jwt = accountService.handleOAuth2User(userEmail, username, provider);
+
+        emailService.sendEmail(userEmail, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
+
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(HttpStatus.CREATED)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
                 .build();
     }

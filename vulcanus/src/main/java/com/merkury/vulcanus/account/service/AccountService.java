@@ -39,16 +39,24 @@ public class AccountService {
         restartPasswordService.checkIfUserToResetPasswordExists(emailAddress);
     }
 
-    public void registerOauth2User(String email, String username) throws EmailTakenException, UsernameTakenException {
-        registerService.registerOauth2User(email, username);
+    private void registerOauth2User(String email, String username, String provider) throws EmailTakenException, UsernameTakenException {
+        registerService.registerOauth2User(email, username, provider);
     }
 
-    public String loginOauth2User(String email) {
+    private String loginOauth2User(String email) {
         Optional<UserEntity> user = userEntityRepository.findByEmail(email);
         if (user.isEmpty()) {
             throw new UserNotFoundException(String.format("User with %s not found.", email));
         }
 
         return loginService.loginOauth2User(user.get());
+    }
+
+    public String handleOAuth2User(String email, String username, String provider) throws EmailTakenException, UsernameTakenException {
+        if (!userEntityRepository.existsByEmail(email)) {
+            this.registerOauth2User(email, username, provider);
+        }
+
+        return this.loginOauth2User(email);
     }
 }

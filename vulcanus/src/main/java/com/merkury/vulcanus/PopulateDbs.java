@@ -1,5 +1,6 @@
 package com.merkury.vulcanus;
 
+import com.merkury.vulcanus.account.user.Provider;
 import com.merkury.vulcanus.account.user.Role;
 import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.account.user.UserEntityRepository;
@@ -32,6 +33,7 @@ public class PopulateDbs {
                     .username("admin")
                     .password(passwordEncoder.encode("password"))
                     .role(Role.ADMIN)
+                    .provider(Provider.NONE)
                     .build();
 
             UserEntity user = UserEntity.builder()
@@ -39,6 +41,7 @@ public class PopulateDbs {
                     .username("user")
                     .password(passwordEncoder.encode("password"))
                     .role(Role.USER)
+                    .provider(Provider.NONE)
                     .build();
 
             userEntityRepository.save(admin);
