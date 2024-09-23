@@ -10,6 +10,7 @@ import com.merkury.vulcanus.account.service.AccountService;
 import com.merkury.vulcanus.email.service.EmailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -80,7 +81,9 @@ public class AccountController {
     }
 
     @GetMapping("/login/oauth2/code/{provider}")
-    public ResponseEntity<Map<String, String>> loginSuccess(@PathVariable String provider, OAuth2AuthenticationToken authenticationToken) throws EmailTakenException, UsernameTakenException {
+    public ResponseEntity<Map<String, String>> loginSuccess(@PathVariable String provider,
+                                                            @RequestParam(required = false) String state,
+                                                            OAuth2AuthenticationToken authenticationToken) throws EmailTakenException, UsernameTakenException {
         OAuth2AuthorizedClient client = oAuth2AuthorizedClientService.loadAuthorizedClient(
                 authenticationToken.getAuthorizedClientRegistrationId(),
                 authenticationToken.getName()
@@ -103,7 +106,9 @@ public class AccountController {
 //        redirectView.setStatusCode(HttpStatus.CREATED);
 //        return redirectView;
         Map<String, String> response = new HashMap<>();
-        response.put("redirectUrl", "/main-view?token=" + jwt);
+        response.put("redirectUrl", "/main-view");
+        response.put("jwt", "Bearer" + jwt);
+        response.put("state", state);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .contentType(MediaType.APPLICATION_JSON)

@@ -90,12 +90,15 @@ export default function Registration() {
     handleOauth2Login("Error initiating Google login:", "/auth/google");
   };
 
-  const handleGithubRegistration = async () => {
-    handleOauth2Login(
-      "Error initiating Github login:",
-      "http://localhost:8080/account/login/oauth2/code/github",
-    );
-  };
+  // const handleGithubRegistration = async () => {
+  //   handleOauth2Login(
+  //     "Error initiating Github login:",
+  //     "http://localhost:8080/oauth2/authorization/github",
+  //   );
+  // };
+  function handleGithubRegistration() {
+    window.location.href = "http://localhost:8080/oauth2/authorization/github";
+  }
 
   function handleSubmit(event) {
     event.preventDefault();

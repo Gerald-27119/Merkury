@@ -32,19 +32,17 @@ public class SecurityConfig {
 
     private final JwtAuthEntryPoint authEntryPoint;
     private final CustomUserDetailsService userDetailsService;
-    //TODO: provide valid link for defaultSuccessUrl
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/account/**", "/register", "/oauth2**").permitAll() // Permit access to /register endpoint
+                        .requestMatchers("/account/register", "/register", "/oauth2**").permitAll() // Permit access to /register endpoint
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/account/login/oauth2/code/{provider}")
-                        .defaultSuccessUrl("http://localhost:5173/main-view",true)
+                        .defaultSuccessUrl("http://localhost:8080/account/login/oauth2/code/{provider}",true)
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authEntryPoint)
@@ -64,6 +62,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // Add your frontend's URL here
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
