@@ -32,6 +32,10 @@ public class SecurityConfig {
 
     private final JwtAuthEntryPoint authEntryPoint;
     private final CustomUserDetailsService userDetailsService;
+    private final String OAUTH2_LOGIN_PAGE_URL = "http://localhost:5173/login";
+    private final String OAUTH2_DEFAULT_SUCCESS_URL = "http://localhost:8080/account/login/oauth2/code/{provider}";
+    private final String OAUTH2_FAILURE_URL = "http://localhost:5173/error?error=ouau2-login-failure";
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -42,7 +46,9 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("http://localhost:8080/account/login/oauth2/code/{provider}",true)
+                        .loginPage(OAUTH2_LOGIN_PAGE_URL)
+                        .defaultSuccessUrl(OAUTH2_DEFAULT_SUCCESS_URL, true)
+                        .failureUrl(OAUTH2_FAILURE_URL)
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authEntryPoint)
