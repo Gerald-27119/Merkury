@@ -34,7 +34,7 @@ public class SecurityConfig {
     private final CustomUserDetailsService userDetailsService;
     private final String OAUTH2_LOGIN_PAGE_URL = "http://localhost:5173/login";
     private final String OAUTH2_DEFAULT_SUCCESS_URL = "http://localhost:8080/account/login/oauth2/code/{provider}";
-    private final String OAUTH2_FAILURE_URL = "http://localhost:5173/error?error=ouau2-login-failure";
+    private final String OAUTH2_FAILURE_URL = "http://localhost:5173/error?error=oauth2-login-failure";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -42,7 +42,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/account/register", "/register", "/oauth2**").permitAll() // Permit access to /register endpoint
+//                        .requestMatchers("/account/register", "/register", "/oauth2**").permitAll() // Permit access to /register endpoint
+                        .requestMatchers("/account/**").permitAll() // Permit access to /register endpoint
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
