@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configurers.HttpBasicC
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -33,7 +34,8 @@ public class SecurityConfig {
     private final JwtAuthEntryPoint authEntryPoint;
     private final CustomUserDetailsService userDetailsService;
     private final String OAUTH2_LOGIN_PAGE_URL = "http://localhost:5173/login";
-    private final String OAUTH2_DEFAULT_SUCCESS_URL = "http://localhost:8080/account/login/oauth2/code/{provider}";
+//    private final String OAUTH2_DEFAULT_SUCCESS_URL = "http://localhost:8080/account/login/oauth2/code/{provider}";
+    private final String OAUTH2_DEFAULT_SUCCESS_URL = "http://localhost:8080/account/login-success";
     private final String OAUTH2_FAILURE_URL = "http://localhost:5173/error?error=oauth2-login-failure";
 
     @Bean
@@ -43,22 +45,30 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
 //                        .requestMatchers("/account/register", "/register", "/oauth2**").permitAll() // Permit access to /register endpoint
-                        .requestMatchers("/account/**").permitAll() // Permit access to /register endpoint
+                        .requestMatchers("/account/**","/oauth2/**").permitAll() // Permit access to /register endpoint
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage(OAUTH2_LOGIN_PAGE_URL)
                         .defaultSuccessUrl(OAUTH2_DEFAULT_SUCCESS_URL, true)
                         .failureUrl(OAUTH2_FAILURE_URL)
+                        .successHandler((request, response, authentication) -> {
+                            // This handler is called when OAuth2 login is successful
+                            if (authentication instanceof OAuth2AuthenticationToken) {
+                                System.out.println("OAuth2 Authentication Success!");
+                                System.out.println("User Name: " + authentication.getName());
+                            }
+                            response.sendRedirect(OAUTH2_DEFAULT_SUCCESS_URL);
+                        })
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authEntryPoint)
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 )
                 .httpBasic(HttpBasicConfigurer::disable)
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
@@ -71,6 +81,7 @@ public class SecurityConfig {
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
         configuration.setAllowCredentials(true);
+        configuration.setMaxAge(300L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

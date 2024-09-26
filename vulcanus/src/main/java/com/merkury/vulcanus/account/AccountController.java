@@ -8,6 +8,8 @@ import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsExcept
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import com.merkury.vulcanus.account.service.AccountService;
 import com.merkury.vulcanus.email.service.EmailService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
@@ -15,7 +17,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -79,18 +84,44 @@ public class AccountController {
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
                 .build();
     }
+//    @PathVariable String provider,
+//    @RequestParam(required = false) String state,
+//    OAuth2AuthenticationToken authenticationToken,
+    @GetMapping("/login-success")
+    public ResponseEntity<Map<String, String>> loginSuccess(HttpServletRequest request) throws EmailTakenException, UsernameTakenException {
 
-    @GetMapping("/login/oauth2/code/{provider}")
-    public ResponseEntity<Map<String, String>> loginSuccess(@PathVariable String provider,
-                                                            @RequestParam(required = false) String state,
-                                                            OAuth2AuthenticationToken authenticationToken) throws EmailTakenException, UsernameTakenException {
-        OAuth2AuthorizedClient client = oAuth2AuthorizedClientService.loadAuthorizedClient(
-                authenticationToken.getAuthorizedClientRegistrationId(),
-                authenticationToken.getName()
-        );
-        OAuth2User oAuth2User = authenticationToken.getPrincipal();
+//        OAuth2AuthenticationToken authentication = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+//        if (authentication instanceof AnonymousAuthenticationToken) {
+//            System.out.println("User is anonymous");
+//        } else if (authentication instanceof OAuth2AuthenticationToken) {
+//            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+//            System.out.println("User is authenticated via OAuth2: " + oauth2Token.getPrincipal().getName());
+//        }
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            System.out.println("Session ID: " + session.getId());
+        } else {
+            System.out.println("No session exists");
+        }
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+
+        // Extract information from OAuth2 token
+        OAuth2User oAuth2User = oauth2Token.getPrincipal();
         String userEmail = oAuth2User.getAttribute("email");
-        String username = client.getPrincipalName();
+        String username = oAuth2User.getAttribute("login");
+        String provider = oauth2Token.getAuthorizedClientRegistrationId();
+//        OAuth2AuthorizedClient client = oAuth2AuthorizedClientService.loadAuthorizedClient(
+//                authenticationToken.getAuthorizedClientRegistrationId(),
+//                authenticationToken.getName()
+//        );
+//        OAuth2User oAuth2User = authenticationToken.getPrincipal();
+//        String userEmail = oAuth2User.getAttribute("email");
+//        String username = client.getPrincipalName();
 //        String authorizationProvider = authenticationToken.getAuthorizedClientRegistrationId();
 
         var jwt = accountService.handleOAuth2User(userEmail, username, provider);
@@ -108,7 +139,7 @@ public class AccountController {
         Map<String, String> response = new HashMap<>();
         response.put("redirectUrl", "/main-view");
         response.put("jwt", "Bearer" + jwt);
-        response.put("state", state);
+//        response.put("state", state);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .contentType(MediaType.APPLICATION_JSON)
