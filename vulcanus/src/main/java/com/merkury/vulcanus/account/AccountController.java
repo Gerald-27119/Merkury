@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,11 +25,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,8 +46,10 @@ public class AccountController {
     private final AccountService accountService;
     private final EmailService emailService;
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
+    private final WebClient webClient;
     private final String USER_REGISTERED_MESSAGE = "Thank you for registering in our service!\nYour account is now active.";
     private final String USER_REGISTERED_TITLE = "Register confirmation";
+    private final String GITHUB_EMAIL_ENDPOINT = "https://api.github.com/user/emails";
 
     /**
      * @param userRegisterDto the user registration details containing:
@@ -84,13 +90,14 @@ public class AccountController {
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
                 .build();
     }
-//    @PathVariable String provider,
+
+    //    @PathVariable String provider,
 //    @RequestParam(required = false) String state,
 //    OAuth2AuthenticationToken authenticationToken,
     @GetMapping("/login-success")
     public ResponseEntity<Map<String, String>> loginSuccess(HttpServletRequest request) throws EmailTakenException, UsernameTakenException {
 
-//        OAuth2AuthenticationToken authentication = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+//        OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
 //        if (authentication instanceof AnonymousAuthenticationToken) {
 //            System.out.println("User is anonymous");
@@ -113,6 +120,12 @@ public class AccountController {
         // Extract information from OAuth2 token
         OAuth2User oAuth2User = oauth2Token.getPrincipal();
         String userEmail = oAuth2User.getAttribute("email");
+        if (userEmail == null || userEmail.isEmpty()) {
+            userEmail = this.fetchUserEmail(oauth2Token);
+        }
+        if (userEmail == null) {
+            //TODO:thrown email null exception
+        }
         String username = oAuth2User.getAttribute("login");
         String provider = oauth2Token.getAuthorizedClientRegistrationId();
 //        OAuth2AuthorizedClient client = oAuth2AuthorizedClientService.loadAuthorizedClient(
@@ -146,6 +159,29 @@ public class AccountController {
                 .body(response);
     }
 
+    private String fetchUserEmail(OAuth2AuthenticationToken oAuth2AuthenticationToken) {
+        OAuth2AuthorizedClient client = oAuth2AuthorizedClientService.loadAuthorizedClient(
+                oAuth2AuthenticationToken.getAuthorizedClientRegistrationId(),
+                oAuth2AuthenticationToken.getName()
+        );
+
+        List<Map<String, Object>> emailsList = webClient
+                .get()
+                .uri(GITHUB_EMAIL_ENDPOINT)
+                .attributes(ServletOAuth2AuthorizedClientExchangeFilterFunction.oauth2AuthorizedClient(client))
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {
+                })
+                .block();
+
+        return emailsList.stream()
+                .filter(email -> Boolean.TRUE.equals(email.get("primary")) &&
+                        Boolean.TRUE.equals(email.get("verified")))
+                .map(email -> (String) email.get("email"))
+                .findFirst()
+                .orElse(null);
+    }
+
     @GetMapping("/forget-password")
     public ResponseEntity<String> forgetPasswordSendEmail(@RequestParam String email) {
         accountService.checkIfUserToResetPasswordExists(email);
@@ -172,5 +208,4 @@ public class AccountController {
                 .status(HttpStatus.OK)
                 .body("test");
     }
-
 }
