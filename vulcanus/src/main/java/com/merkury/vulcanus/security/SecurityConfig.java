@@ -20,10 +20,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 @Configuration
@@ -37,6 +39,7 @@ public class SecurityConfig {
 //    private final String OAUTH2_DEFAULT_SUCCESS_URL = "http://localhost:8080/account/login/oauth2/code/{provider}";
     private final String OAUTH2_DEFAULT_SUCCESS_URL = "http://localhost:8080/account/login-success";
     private final String OAUTH2_FAILURE_URL = "http://localhost:5173/error?error=oauth2-login-failure";
+    private final String LOGOUT_URL = "http://localhost:5173/";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -61,6 +64,8 @@ public class SecurityConfig {
                             response.sendRedirect(OAUTH2_DEFAULT_SUCCESS_URL);
                         })
                 )
+                .logout( logout -> logout.
+                        addLogoutHandler(logoutHandler()))
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authEntryPoint)
                 )
@@ -68,7 +73,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 )
                 .httpBasic(HttpBasicConfigurer::disable)
-//                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
@@ -101,5 +106,15 @@ public class SecurityConfig {
     @Bean
     public JwtAuthFilter jwtAuthenticationFilter() {
         return new JwtAuthFilter(new JwtGenerator(), userDetailsService);
+    }
+
+    private LogoutHandler logoutHandler() {
+        return ((request, response, authentication) -> {
+            try {
+                response.sendRedirect(LOGOUT_URL);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }
