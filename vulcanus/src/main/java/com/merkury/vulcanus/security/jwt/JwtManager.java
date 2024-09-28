@@ -46,12 +46,16 @@ public class JwtManager {
     }
 
     public Date getExpirationDateFromToken(String token) {
-        return Jwts.parser()
-                .verifyWith(getKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getExpiration();
+        try {
+            return Jwts.parser()
+                    .verifyWith(getKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload()
+                    .getExpiration();
+        }catch (ExpiredJwtException e){
+            return e.getClaims().getExpiration();
+        }
     }
 
     public boolean isTokenExpired(String token) {
@@ -68,14 +72,18 @@ public class JwtManager {
     }
 
     public boolean isAccessToken(String token){
-        Claims claims = Jwts
-                .parser()
-                .verifyWith(getKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+        try {
+            Claims claims = Jwts
+                    .parser()
+                    .verifyWith(getKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
 
-        return claims.get(getTokenType()).equals("ACCESS");
+            return claims.get(getTokenType()).equals("ACCESS");
+        }catch (ExpiredJwtException e){
+            return e.getClaims().get(getTokenType()).equals("ACCESS");
+        }
     }
 
     public String getJWTFromRequest(HttpServletRequest request) {

@@ -1,8 +1,8 @@
 package com.merkury.vulcanus.security.jwt;
 
 import com.merkury.vulcanus.security.CustomUserDetailsService;
-import com.merkury.vulcanus.security.jwt.exception.IsNotAccessTokenException;
-import com.merkury.vulcanus.security.jwt.exception.RefreshTokenExpatriateException;
+import com.merkury.vulcanus.security.jwt.exception.RefreshTokenExpiredException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +19,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Date;
 
-
+/*
+    Throw Forbidden (403)  status code if refresh token is invalid or expired
+    Throw Unauthorized (401) status code if token isn't access token
+ */
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
@@ -42,25 +45,35 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+        try {
+            if (StringUtils.hasText(token) && jwtManager.validateToken(token)) {
+                validateRefreshToken(refreshToken);
+                if (!jwtManager.isAccessToken(token)) {
+                    throw new JwtException("Token is not access token");
+                }
 
-        if (StringUtils.hasText(token) && jwtManager.validateToken(token)) {
-            if (!StringUtils.hasText(refreshToken) || !jwtManager.validateToken(refreshToken)) {
-                throw new RefreshTokenExpatriateException();
+                String username = jwtManager.getUsernameFromJWT(token);
+
+                UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null,
+                        userDetails.getAuthorities());
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+                renewRefreshToken(refreshToken, response, authenticationToken);
             }
-            if (!jwtManager.isAccessToken(token)) {
-                throw new IsNotAccessTokenException();
-            }
-            String username = jwtManager.getUsernameFromJWT(token);
-
-            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null,
-                    userDetails.getAuthorities());
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
-            renewRefreshToken(refreshToken, response, authenticationToken);
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            handleJwtException(response, e);
         }
-        filterChain.doFilter(request, response);
+    }
+
+    private void validateRefreshToken(String refreshToken) throws RefreshTokenExpiredException {
+        try {
+            jwtManager.validateToken(refreshToken);
+        } catch (Exception e) {
+            throw new RefreshTokenExpiredException();
+        }
     }
 
     private void renewRefreshToken(
@@ -77,5 +90,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 jwtManager.addTokenToCookie(response, newToken);
             }
         }
+    }
+
+    private void handleJwtException(HttpServletResponse response, Exception e) throws IOException {
+        if (e.getMessage().equals("Refresh token expired")){
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        }else {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        response.setContentType("application/json");
+        response.getWriter().write(e.getMessage());
+        response.getWriter().flush();
     }
 }

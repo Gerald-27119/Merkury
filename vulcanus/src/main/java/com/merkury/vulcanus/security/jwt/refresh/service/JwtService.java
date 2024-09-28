@@ -3,6 +3,8 @@ package com.merkury.vulcanus.security.jwt.refresh.service;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import com.merkury.vulcanus.security.jwt.JwtGenerator;
 import com.merkury.vulcanus.security.jwt.JwtManager;
+import com.merkury.vulcanus.security.jwt.exception.RefreshTokenExpiredException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,16 +21,22 @@ public class JwtService {
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtManager jwtManager;
 
-    public String refreshAccessToken(HttpServletRequest request) {
+    public String refreshAccessToken(HttpServletRequest request) throws RefreshTokenExpiredException {
         var refreshToken = jwtManager.getJWTFromCookie(request);
         var token = jwtManager.getJWTFromRequest(request);
 
         if (StringUtils.hasText(refreshToken) && jwtManager.validateToken(refreshToken)) {
+            if (!jwtManager.isAccessToken(token)) {
+                throw new JwtException("Token is not access token");
+            }
+            if (!jwtManager.isTokenExpired(token)) {
+                return token;
+            }
             String username = jwtManager.getUsernameFromJWT(token);
             String usernameFromRefreshToken = jwtManager.getUsernameFromJWT(refreshToken);
 
             if (!username.equals(usernameFromRefreshToken)) {
-                return null;
+                throw new JwtException("Username from token and refresh token are not the same");
             }
 
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
@@ -39,6 +47,6 @@ public class JwtService {
 
             return tokenGenerator.generateToken(authenticationToken);
         }
-        return null;
+        throw new RefreshTokenExpiredException();
     }
 }
