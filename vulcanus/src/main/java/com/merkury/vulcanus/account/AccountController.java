@@ -8,7 +8,9 @@ import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsExcept
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import com.merkury.vulcanus.account.service.AccountService;
 import com.merkury.vulcanus.email.service.EmailService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +52,7 @@ public class AccountController {
     private final String USER_REGISTERED_MESSAGE = "Thank you for registering in our service!\nYour account is now active.";
     private final String USER_REGISTERED_TITLE = "Register confirmation";
     private final String GITHUB_EMAIL_ENDPOINT = "https://api.github.com/user/emails";
+    private final String AFTER_LOGIN_PAGE_URL = "http://localhost:5173/main-view";
 
     /**
      * @param userRegisterDto the user registration details containing:
@@ -95,7 +98,7 @@ public class AccountController {
 //    @RequestParam(required = false) String state,
 //    OAuth2AuthenticationToken authenticationToken,
     @GetMapping("/login-success")
-    public ResponseEntity<Map<String, String>> loginSuccess(HttpServletRequest request) throws EmailTakenException, UsernameTakenException {
+    public RedirectView loginSuccess(HttpServletResponse response, HttpServletRequest request) throws EmailTakenException, UsernameTakenException {
 
 //        OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
@@ -149,14 +152,24 @@ public class AccountController {
 //        redirectView.setUrl("/main-view");
 //        redirectView.setStatusCode(HttpStatus.CREATED);
 //        return redirectView;
-        Map<String, String> response = new HashMap<>();
-        response.put("redirectUrl", "/main-view");
-        response.put("jwt", "Bearer" + jwt);
+//        Map<String, String> response = new HashMap<>();
+//        response.put("redirectUrl", "/main-view");
+//        response.put("jwt", "Bearer" + jwt);
 //        response.put("state", state);
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(response);
+//        return ResponseEntity.status(HttpStatus.CREATED)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .body(response);
+        Cookie jwtCookie = new Cookie("jwt", jwt);
+        jwtCookie.setHttpOnly(true);
+        //TODO: IMPORTANT! WHEN IN PRODUCTION MUST BE SET TO TRUE,
+        // COOKIE WILL BE SENT ONLY OVER HTTPS
+        jwtCookie.setSecure(false);
+        jwtCookie.setPath("/");
+        jwtCookie.setMaxAge(60 * 60 * 24);
+        response.addCookie(jwtCookie);
+
+        return new RedirectView(AFTER_LOGIN_PAGE_URL);
     }
 
     private String fetchUserEmail(OAuth2AuthenticationToken oAuth2AuthenticationToken) {
