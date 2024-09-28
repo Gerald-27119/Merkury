@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
@@ -40,6 +41,7 @@ import java.util.Map;
 /**
  * <h1>We are using HS256 algorithm to sign the JWT token (for now).</h1>
  */
+@Slf4j
 @RestController
 @RequestMapping("/account")
 @RequiredArgsConstructor
@@ -94,20 +96,9 @@ public class AccountController {
                 .build();
     }
 
-    //    @PathVariable String provider,
-//    @RequestParam(required = false) String state,
-//    OAuth2AuthenticationToken authenticationToken,
     @GetMapping("/login-success")
     public RedirectView loginSuccess(HttpServletResponse response, HttpServletRequest request) throws EmailTakenException, UsernameTakenException {
 
-//        OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-
-//        if (authentication instanceof AnonymousAuthenticationToken) {
-//            System.out.println("User is anonymous");
-//        } else if (authentication instanceof OAuth2AuthenticationToken) {
-//            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
-//            System.out.println("User is authenticated via OAuth2: " + oauth2Token.getPrincipal().getName());
-//        }
         HttpSession session = request.getSession(false);
         if (session != null) {
             System.out.println("Session ID: " + session.getId());
@@ -120,7 +111,6 @@ public class AccountController {
 
         OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
 
-        // Extract information from OAuth2 token
         OAuth2User oAuth2User = oauth2Token.getPrincipal();
         String userEmail = oAuth2User.getAttribute("email");
         if (userEmail == null || userEmail.isEmpty()) {
@@ -131,35 +121,11 @@ public class AccountController {
         }
         String username = oAuth2User.getAttribute("login");
         String provider = oauth2Token.getAuthorizedClientRegistrationId();
-//        OAuth2AuthorizedClient client = oAuth2AuthorizedClientService.loadAuthorizedClient(
-//                authenticationToken.getAuthorizedClientRegistrationId(),
-//                authenticationToken.getName()
-//        );
-//        OAuth2User oAuth2User = authenticationToken.getPrincipal();
-//        String userEmail = oAuth2User.getAttribute("email");
-//        String username = client.getPrincipalName();
-//        String authorizationProvider = authenticationToken.getAuthorizedClientRegistrationId();
 
         var jwt = accountService.handleOAuth2User(userEmail, username, provider);
 
         emailService.sendEmail(userEmail, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
 
-//        return ResponseEntity
-//                .status(HttpStatus.CREATED)
-//                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
-//                .build();
-//        RedirectView redirectView = new RedirectView();
-//        redirectView.setUrl("/main-view");
-//        redirectView.setStatusCode(HttpStatus.CREATED);
-//        return redirectView;
-//        Map<String, String> response = new HashMap<>();
-//        response.put("redirectUrl", "/main-view");
-//        response.put("jwt", "Bearer" + jwt);
-//        response.put("state", state);
-
-//        return ResponseEntity.status(HttpStatus.CREATED)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(response);
         Cookie jwtCookie = new Cookie("jwt", jwt);
         jwtCookie.setHttpOnly(true);
         //TODO: IMPORTANT! WHEN IN PRODUCTION MUST BE SET TO TRUE,

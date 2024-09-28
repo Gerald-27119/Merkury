@@ -36,7 +36,6 @@ public class SecurityConfig {
     private final JwtAuthEntryPoint authEntryPoint;
     private final CustomUserDetailsService userDetailsService;
     private final String OAUTH2_LOGIN_PAGE_URL = "http://localhost:5173/login";
-//    private final String OAUTH2_DEFAULT_SUCCESS_URL = "http://localhost:8080/account/login/oauth2/code/{provider}";
     private final String OAUTH2_DEFAULT_SUCCESS_URL = "http://localhost:8080/account/login-success";
     private final String OAUTH2_FAILURE_URL = "http://localhost:5173/error?error=oauth2-login-failure";
     private final String LOGOUT_URL = "http://localhost:5173/";
@@ -47,7 +46,6 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/account/register", "/register", "/oauth2**").permitAll() // Permit access to /register endpoint
                         .requestMatchers("/account/**","/oauth2/**").permitAll() // Permit access to /register endpoint
                         .anyRequest().authenticated()
                 )
