@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.account.service;
 
+import com.merkury.vulcanus.account.dto.OAuth2LoginResponseDto;
 import com.merkury.vulcanus.account.dto.UserLoginDto;
 import com.merkury.vulcanus.account.dto.UserPasswordResetDto;
 import com.merkury.vulcanus.account.dto.UserRegisterDto;
@@ -10,8 +11,17 @@ import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.account.user.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -21,6 +31,7 @@ public class AccountService {
     private final RegisterService registerService;
     private final LoginService loginService;
     private final RestartPasswordService restartPasswordService;
+    private final UserDataService userDataService;
     private final UserEntityRepository userEntityRepository;
 
     public void registerUser(UserRegisterDto userDto) throws EmailTakenException, UsernameTakenException {
@@ -52,11 +63,27 @@ public class AccountService {
         return loginService.loginOauth2User(user.get());
     }
 
-    public String handleOAuth2User(String email, String username, String provider) throws EmailTakenException, UsernameTakenException {
-        if (!userEntityRepository.existsByEmail(email)) {
-            this.registerOauth2User(email, username, provider);
+    public OAuth2LoginResponseDto handleOAuth2User(OAuth2AuthenticationToken oAuth2Token) throws EmailTakenException, UsernameTakenException {
+
+        OAuth2User oAuth2User = oAuth2Token.getPrincipal();
+        String username = oAuth2User.getAttribute("login");
+        String provider = oAuth2Token.getAuthorizedClientRegistrationId();
+        String userEmail = oAuth2User.getAttribute("email");
+
+        if (provider.equals("github") && (userEmail == null || userEmail.isEmpty())) {
+            userEmail = userDataService.fetchUserEmail(oAuth2Token);
         }
 
-        return this.loginOauth2User(email);
+        if (userEmail == null) {
+            //TODO:thrown email null exception
+        }
+
+        if (!userEntityRepository.existsByEmail(userEmail)) {
+            this.registerOauth2User(userEmail, username, provider);
+        }
+
+        var jwt = this.loginOauth2User(userEmail);
+
+        return new OAuth2LoginResponseDto(jwt, userEmail);
     }
 }
