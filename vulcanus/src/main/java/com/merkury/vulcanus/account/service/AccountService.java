@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
@@ -70,12 +71,18 @@ public class AccountService {
         String provider = oAuth2Token.getAuthorizedClientRegistrationId();
         String userEmail = oAuth2User.getAttribute("email");
 
-        if (provider.equals("github") && (userEmail == null || userEmail.isEmpty())) {
-            userEmail = userDataService.fetchUserEmail(oAuth2Token);
-        }
+        if (!StringUtils.hasText(userEmail)) {
 
-        if (userEmail == null) {
-            //TODO:thrown email null exception
+            if (provider.equals("github")) {
+                userEmail = userDataService.fetchUserEmail(oAuth2Token);
+
+                if (!StringUtils.hasText(userEmail)) {
+                    //TODO: throw exception
+                }
+            } else {
+                //TODO: throw exception
+            }
+
         }
 
         if (!userEntityRepository.existsByEmail(userEmail)) {
