@@ -8,11 +8,13 @@ import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsExcept
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
 import com.merkury.vulcanus.account.service.AccountService;
 import com.merkury.vulcanus.email.service.EmailService;
+import com.merkury.vulcanus.properties.UrlsProperties;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +35,7 @@ public class AccountController {
     private final EmailService emailService;
     private final String USER_REGISTERED_MESSAGE = "Thank you for registering in our service!\nYour account is now active.";
     private final String USER_REGISTERED_TITLE = "Register confirmation";
-    private final String AFTER_LOGIN_PAGE_URL = "http://localhost:5173/main-view";
+    private final UrlsProperties urlsProperties;
 
     /**
      * @param userRegisterDto the user registration details containing:
@@ -93,7 +95,8 @@ public class AccountController {
         jwtCookie.setMaxAge(60 * 60 * 24);
         response.addCookie(jwtCookie);
 
-        return new RedirectView(AFTER_LOGIN_PAGE_URL);
+        var afterLoginPageUrl = urlsProperties.getAfterLoginPageUrl();
+        return new RedirectView(afterLoginPageUrl);
     }
 
     @GetMapping("/forget-password")

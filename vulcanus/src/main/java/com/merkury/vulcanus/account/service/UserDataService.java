@@ -1,6 +1,8 @@
 package com.merkury.vulcanus.account.service;
 
+import com.merkury.vulcanus.properties.UrlsProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -17,7 +19,7 @@ import java.util.Map;
 public class UserDataService {
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final WebClient webClient;
-    private final String GITHUB_EMAIL_ENDPOINT = "https://api.github.com/user/emails";
+    private final UrlsProperties urlsProperties;
 
     public String fetchUserEmail(OAuth2AuthenticationToken oAuth2AuthenticationToken) {
         OAuth2AuthorizedClient client = oAuth2AuthorizedClientService.loadAuthorizedClient(
@@ -25,9 +27,10 @@ public class UserDataService {
                 oAuth2AuthenticationToken.getName()
         );
 
+        var githubEmailEndpoint = urlsProperties.getGithubEmailEndpoint();
         List<Map<String, Object>> emailsList = webClient
                 .get()
-                .uri(GITHUB_EMAIL_ENDPOINT)
+                .uri(githubEmailEndpoint)
                 .attributes(ServletOAuth2AuthorizedClientExchangeFilterFunction.oauth2AuthorizedClient(client))
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {
