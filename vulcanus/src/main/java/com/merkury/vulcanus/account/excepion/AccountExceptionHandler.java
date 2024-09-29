@@ -4,8 +4,9 @@ import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UserNotFoundException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
+import com.merkury.vulcanus.security.jwt.exception.IsNotAccessTokenException;
 import com.merkury.vulcanus.security.jwt.exception.RefreshTokenExpiredException;
-import io.jsonwebtoken.JwtException;
+import com.merkury.vulcanus.security.jwt.exception.UsernameIsNotIdenticalException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -35,13 +36,18 @@ public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
-    @ExceptionHandler(JwtException.class)
-    public ResponseEntity<String> handleJwtException(JwtException ex) {
+    @ExceptionHandler(IsNotAccessTokenException.class)
+    public ResponseEntity<String> handleIsNotAccessTokenException(IsNotAccessTokenException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
 
     @ExceptionHandler(RefreshTokenExpiredException.class)
     public ResponseEntity<String> handleRefreshTokenExpiredException(RefreshTokenExpiredException ex) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UsernameIsNotIdenticalException.class)
+    public ResponseEntity<String> handleUsernameIsNotIdenticalException(UsernameIsNotIdenticalException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
 }

@@ -3,8 +3,9 @@ package com.merkury.vulcanus.security.jwt.refresh.service;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import com.merkury.vulcanus.security.jwt.JwtGenerator;
 import com.merkury.vulcanus.security.jwt.JwtManager;
+import com.merkury.vulcanus.security.jwt.exception.IsNotAccessTokenException;
 import com.merkury.vulcanus.security.jwt.exception.RefreshTokenExpiredException;
-import io.jsonwebtoken.JwtException;
+import com.merkury.vulcanus.security.jwt.exception.UsernameIsNotIdenticalException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,13 +22,14 @@ public class JwtService {
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtManager jwtManager;
 
-    public String refreshAccessToken(HttpServletRequest request) throws RefreshTokenExpiredException {
+    public String refreshAccessToken(HttpServletRequest request)
+            throws UsernameIsNotIdenticalException, RefreshTokenExpiredException, IsNotAccessTokenException {
         var refreshToken = jwtManager.getJWTFromCookie(request);
         var token = jwtManager.getJWTFromRequest(request);
 
         if (StringUtils.hasText(refreshToken) && jwtManager.validateToken(refreshToken)) {
             if (!jwtManager.isAccessToken(token)) {
-                throw new JwtException("Token is not access token");
+                throw new IsNotAccessTokenException();
             }
             if (!jwtManager.isTokenExpired(token)) {
                 return token;
@@ -36,7 +38,7 @@ public class JwtService {
             String usernameFromRefreshToken = jwtManager.getUsernameFromJWT(refreshToken);
 
             if (!username.equals(usernameFromRefreshToken)) {
-                throw new JwtException("Username from token and refresh token are not the same");
+                throw new UsernameIsNotIdenticalException();
             }
 
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);

@@ -1,14 +1,15 @@
 package com.merkury.vulcanus.security.jwt;
 
 import com.merkury.vulcanus.security.CustomUserDetailsService;
+import com.merkury.vulcanus.security.jwt.exception.IsNotAccessTokenException;
 import com.merkury.vulcanus.security.jwt.exception.RefreshTokenExpiredException;
-import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,9 +20,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Date;
 
-/*
-    Throw Forbidden (403)  status code if refresh token is invalid or expired
-    Throw Unauthorized (401) status code if token isn't access token
+/**
+ *  Throw Forbidden (403)  status code if refresh token is invalid or expired
+ *     Throw Unauthorized (401) status code if token isn't access token
  */
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -37,8 +38,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        String token = jwtManager.getJWTFromRequest(request);
-        String refreshToken = jwtManager.getJWTFromCookie(request);
         String path = request.getRequestURI();
 
         if (path.equals("/security/refresh")) {
@@ -46,10 +45,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
         try {
+            String token = jwtManager.getJWTFromRequest(request);
+            String refreshToken = jwtManager.getJWTFromCookie(request);
+
             if (StringUtils.hasText(token) && jwtManager.validateToken(token)) {
                 validateRefreshToken(refreshToken);
                 if (!jwtManager.isAccessToken(token)) {
-                    throw new JwtException("Token is not access token");
+                    throw new IsNotAccessTokenException();
                 }
 
                 String username = jwtManager.getUsernameFromJWT(token);
@@ -63,7 +65,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 renewRefreshToken(refreshToken, response, authenticationToken);
             }
             filterChain.doFilter(request, response);
-        } catch (Exception e) {
+        } catch (IsNotAccessTokenException | RefreshTokenExpiredException e) {
             handleJwtException(response, e);
         }
     }
@@ -71,7 +73,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private void validateRefreshToken(String refreshToken) throws RefreshTokenExpiredException {
         try {
             jwtManager.validateToken(refreshToken);
-        } catch (Exception e) {
+        } catch (AuthenticationCredentialsNotFoundException e) {
             throw new RefreshTokenExpiredException();
         }
     }
@@ -93,7 +95,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private void handleJwtException(HttpServletResponse response, Exception e) throws IOException {
-        if (e.getMessage().equals("Refresh token expired")){
+        if (e instanceof RefreshTokenExpiredException) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

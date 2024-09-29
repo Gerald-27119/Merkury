@@ -1,6 +1,8 @@
 package com.merkury.vulcanus.security.jwt.refresh;
 
+import com.merkury.vulcanus.security.jwt.exception.IsNotAccessTokenException;
 import com.merkury.vulcanus.security.jwt.exception.RefreshTokenExpiredException;
+import com.merkury.vulcanus.security.jwt.exception.UsernameIsNotIdenticalException;
 import com.merkury.vulcanus.security.jwt.refresh.service.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class JwtController {
     private final JwtService jwyService;
 
-    /*
-        Return ok and new access token in Authorization header
-        Return Unauthorized (401) if refresh token is invalid
+    /**
+     * @return ok (200) and new access token in Authorization header
+     *or Unauthorized (401) if refresh token is invalid
      */
     @GetMapping("/refresh")
-    public ResponseEntity<String> refreshAccessToken(HttpServletRequest request) throws RefreshTokenExpiredException {
+    public ResponseEntity<String> refreshAccessToken(HttpServletRequest request)
+            throws RefreshTokenExpiredException, UsernameIsNotIdenticalException, IsNotAccessTokenException {
         String accessToken = jwyService.refreshAccessToken(request);
 
         return ResponseEntity

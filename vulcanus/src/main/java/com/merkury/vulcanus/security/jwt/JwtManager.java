@@ -18,6 +18,8 @@ import static com.merkury.vulcanus.security.jwt.JwtConfig.getTokenType;
 
 @Component
 public class JwtManager {
+    private static final int COOKIE_EXPIRATION = 60 * 60 * 24 * 7; // 7 days
+
     public String getUsernameFromJWT(String token) {
         try {
             return Jwts.parser()
@@ -26,7 +28,7 @@ public class JwtManager {
                     .parseSignedClaims(token)
                     .getPayload()
                     .getSubject();
-        }catch (ExpiredJwtException e){
+        } catch (ExpiredJwtException e) {
             return e.getClaims().getSubject();
         }
     }
@@ -53,7 +55,7 @@ public class JwtManager {
                     .parseSignedClaims(token)
                     .getPayload()
                     .getExpiration();
-        }catch (ExpiredJwtException e){
+        } catch (ExpiredJwtException e) {
             return e.getClaims().getExpiration();
         }
     }
@@ -64,14 +66,14 @@ public class JwtManager {
 
     public void addTokenToCookie(HttpServletResponse response, String  token) {
         Cookie cookie = new Cookie("refreshToken", token);
-        cookie.setSecure(true);
+        cookie.setSecure(false);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24 * 7); // 7 days
+        cookie.setMaxAge(COOKIE_EXPIRATION); // 7 days
         response.addCookie(cookie);
     }
 
-    public boolean isAccessToken(String token){
+    public boolean isAccessToken(String token) {
         try {
             Claims claims = Jwts
                     .parser()
@@ -81,7 +83,7 @@ public class JwtManager {
                     .getPayload();
 
             return claims.get(getTokenType()).equals("ACCESS");
-        }catch (ExpiredJwtException e){
+        } catch (ExpiredJwtException e) {
             return e.getClaims().get(getTokenType()).equals("ACCESS");
         }
     }

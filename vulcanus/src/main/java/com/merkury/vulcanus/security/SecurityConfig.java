@@ -28,7 +28,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig{
+public class SecurityConfig {
 
     private final JwtAuthEntryPoint authEntryPoint;
     private final CustomUserDetailsService userDetailsService;
