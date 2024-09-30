@@ -25,7 +25,7 @@ function Login() {
   };
 
   const handleGithubLogin = async () => {
-    handleOauth2Login("Error initiating Github login:", "/auth/github");
+    window.location.href = "http://localhost:8080/oauth2/authorization/github";
   };
 
   useEffect(() => {
@@ -168,16 +168,16 @@ function Login() {
                 or
               </span>
             </div>
-            <OauthButton onClick={handleGoogleLogin}>
-              <FcGoogle className="mr-3" size={25} />
-              Continue with Google account.
-            </OauthButton>
-            <OauthButton onClick={handleGithubLogin}>
-              <FaGithub className="mr-3" size={25} />
-              Continue with Github account.
-            </OauthButton>
           </div>
         </form>
+        <OauthButton onClick={handleGoogleLogin}>
+          <FcGoogle className="mr-3" size={25} />
+          Continue with Google account.
+        </OauthButton>
+        <OauthButton onClick={handleGithubLogin}>
+          <FaGithub className="mr-3" size={25} />
+          Continue with Github account.
+        </OauthButton>
       </div>
     </div>
   );

@@ -36,6 +36,7 @@ public class AccountController {
     private final String USER_REGISTERED_MESSAGE = "Thank you for registering in our service!\nYour account is now active.";
     private final String USER_REGISTERED_TITLE = "Register confirmation";
     private final UrlsProperties urlsProperties;
+    private final int COOKIE_MAX_AGE = 60 * 15; //15 minutes
 
     /**
      * @param userRegisterDto the user registration details containing:
@@ -92,7 +93,7 @@ public class AccountController {
         // COOKIE WILL BE SENT ONLY OVER HTTPS
         jwtCookie.setSecure(false);
         jwtCookie.setPath("/");
-        jwtCookie.setMaxAge(60 * 60 * 24);
+        jwtCookie.setMaxAge(COOKIE_MAX_AGE);
         response.addCookie(jwtCookie);
 
         var afterLoginPageUrl = urlsProperties.getAfterLoginPageUrl();
