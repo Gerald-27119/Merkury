@@ -10,4 +10,8 @@ import org.springframework.stereotype.Component;
 public class UrlsProperties {
     private String afterLoginPageUrl;
     private String githubEmailEndpoint;
+    private String oauth2LoginPageUrl;
+    private String oauth2DefaultSuccessUrl;
+    private String oauth2FailureUrl;
+    private String logoutUrl;
 }

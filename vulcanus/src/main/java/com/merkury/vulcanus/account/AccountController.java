@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +32,9 @@ public class AccountController {
 
     private final AccountService accountService;
     private final EmailService emailService;
+    private final UrlsProperties urlsProperties;
     private final String USER_REGISTERED_MESSAGE = "Thank you for registering in our service!\nYour account is now active.";
     private final String USER_REGISTERED_TITLE = "Register confirmation";
-    private final UrlsProperties urlsProperties;
     private final int COOKIE_MAX_AGE = 60 * 15; //15 minutes
 
     /**

@@ -1,15 +1,13 @@
 package com.merkury.vulcanus.security;
 
+import com.merkury.vulcanus.properties.UrlsProperties;
 import com.merkury.vulcanus.security.jwt.JwtAuthEntryPoint;
 import com.merkury.vulcanus.security.jwt.JwtAuthFilter;
 import com.merkury.vulcanus.security.jwt.JwtGenerator;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,16 +16,12 @@ import org.springframework.security.config.annotation.web.configurers.HttpBasicC
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 @Configuration
@@ -37,10 +31,7 @@ public class SecurityConfig {
 
     private final JwtAuthEntryPoint authEntryPoint;
     private final CustomUserDetailsService userDetailsService;
-    private final String OAUTH2_LOGIN_PAGE_URL = "http://localhost:5173/login";
-    private final String OAUTH2_DEFAULT_SUCCESS_URL = "http://localhost:8080/account/login-success";
-    private final String OAUTH2_FAILURE_URL = "http://localhost:5173/error?error=oauth2-login-failure";
-    private final String LOGOUT_URL = "http://localhost:5173/";
+    private final UrlsProperties urlsProperties;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -52,21 +43,13 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .loginPage(OAUTH2_LOGIN_PAGE_URL)
-                        .defaultSuccessUrl(OAUTH2_DEFAULT_SUCCESS_URL, true)
-                        .failureUrl(OAUTH2_FAILURE_URL)
-                        .successHandler((request, response, authentication) -> {
-                            // This handler is called when OAuth2 login is successful
-                            if (authentication instanceof OAuth2AuthenticationToken) {
-                                System.out.println("OAuth2 Authentication Success!");
-                                System.out.println("User Name: " + authentication.getName());
-                            }
-                            response.sendRedirect(OAUTH2_DEFAULT_SUCCESS_URL);
-                        })
+                        .loginPage(urlsProperties.getOauth2LoginPageUrl())
+                        .defaultSuccessUrl(urlsProperties.getOauth2DefaultSuccessUrl(), true)
+                        .failureUrl(urlsProperties.getOauth2FailureUrl())
                 )
                 .logout(logout -> logout
                         .logoutUrl("/account/oauth2/logout")
-                        .logoutSuccessUrl(LOGOUT_URL)
+                        .logoutSuccessUrl(urlsProperties.getLogoutUrl())
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .deleteCookies("JSESSIONID", "jwt")
