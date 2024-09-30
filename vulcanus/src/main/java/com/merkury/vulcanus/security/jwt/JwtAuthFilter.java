@@ -20,6 +20,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Date;
 
+import static com.merkury.vulcanus.security.jwt.TokenType.ACCESS;
 import static com.merkury.vulcanus.security.jwt.TokenType.REFRESH;
 
 /**
@@ -48,16 +49,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
         try {
-            String token = jwtManager.getJWTFromRequest(request);
-            String refreshToken = jwtManager.getJWTFromCookie(request);
+            String accessToken = jwtManager.getJWTFromCookie(request, ACCESS);
+            String refreshToken = jwtManager.getJWTFromCookie(request, REFRESH);
 
-            if (StringUtils.hasText(token) && jwtManager.validateToken(token)) {
+            if (StringUtils.hasText(accessToken) && jwtManager.validateToken(accessToken)) {
                 validateRefreshToken(refreshToken);
-                if (!jwtManager.isAccessToken(token)) {
+                if (!jwtManager.isAccessToken(accessToken)) {
                     throw new IsNotAccessTokenException();
                 }
 
-                String username = jwtManager.getUsernameFromJWT(token);
+                String username = jwtManager.getUsernameFromJWT(accessToken);
 
                 UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null,
@@ -91,7 +92,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             long timeUntilExpired = tokenExpirationDate.getTime() - new Date().getTime();
             if (timeUntilExpired <= ONE_DAY_IN_MILLISECONDS) {
                 String newToken = tokenGenerator.generateToken(authenticationToken, REFRESH);
-                jwtManager.addTokenToCookie(response, newToken);
+                jwtManager.addTokenToCookie(response, newToken, REFRESH);
             }
         }
     }

@@ -24,7 +24,7 @@ class LoginService {
     private final JwtGenerator jwtGenerator;
     private final JwtManager jwtManager;
 
-    public String loginUser(UserLoginDto userDto, HttpServletResponse response) throws InvalidCredentialsException {
+    public void loginUser(UserLoginDto userDto, HttpServletResponse response) throws InvalidCredentialsException {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -33,9 +33,10 @@ class LoginService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             String refreshToken = jwtGenerator.generateToken(authentication, REFRESH);
-            jwtManager.addTokenToCookie(response, refreshToken);
+            jwtManager.addTokenToCookie(response, refreshToken, REFRESH);
 
-            return jwtGenerator.generateToken(authentication, ACCESS);
+            String accessToken = jwtGenerator.generateToken(authentication, ACCESS);
+            jwtManager.addTokenToCookie(response, accessToken, ACCESS);
         } catch (AuthenticationException ex) {
             throw new InvalidCredentialsException();
         }

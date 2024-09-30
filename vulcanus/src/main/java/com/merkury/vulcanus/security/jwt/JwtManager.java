@@ -9,16 +9,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.util.Date;
 
 import static com.merkury.vulcanus.security.jwt.JwtConfig.getKey;
 import static com.merkury.vulcanus.security.jwt.JwtConfig.getTokenType;
+import static com.merkury.vulcanus.security.jwt.TokenType.REFRESH;
 
 @Component
 public class JwtManager {
-    private static final int COOKIE_EXPIRATION = 60 * 60 * 24 * 7; // 7 days
+    private static final int REFRESH_TOKEN_COOKIE_EXPIRATION = 60 * 60 * 24 * 7; // 7 days
+    private static final int ACCESS_TOKEN_COOKIE_EXPIRATION = 60 * 15; // 15 minutes
 
     public String getUsernameFromJWT(String token) {
         try {
@@ -64,13 +65,21 @@ public class JwtManager {
         return getExpirationDateFromToken(token).before(new Date());
     }
 
-    public void addTokenToCookie(HttpServletResponse response, String  token) {
-        Cookie cookie = new Cookie("refreshToken", token);
+    public void addTokenToCookie(HttpServletResponse response, String  token, TokenType tokenType) {
+        String tokenName = "accessToken";
+        int expiration = ACCESS_TOKEN_COOKIE_EXPIRATION;
+        if (tokenType == REFRESH){
+            tokenName = "refreshToken";
+            expiration = REFRESH_TOKEN_COOKIE_EXPIRATION;
+        }
+        Cookie cookie = new Cookie(tokenName, token);
         cookie.setSecure(false);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-        cookie.setMaxAge(COOKIE_EXPIRATION); // 7 days
+        cookie.setMaxAge(expiration);
         response.addCookie(cookie);
+
+
     }
 
     public boolean isAccessToken(String token) {
@@ -88,19 +97,12 @@ public class JwtManager {
         }
     }
 
-    public String getJWTFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
-    }
-
-    public String getJWTFromCookie(HttpServletRequest request) {
+    public String getJWTFromCookie(HttpServletRequest request, TokenType tokenType) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("refreshToken")) {
+                if (cookie.getName().equals("refreshToken") && tokenType == REFRESH
+                        || cookie.getName().equals("accessToken") && tokenType == TokenType.ACCESS) {
                     return cookie.getValue();
                 }
             }

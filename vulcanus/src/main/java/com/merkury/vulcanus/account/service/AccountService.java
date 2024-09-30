@@ -23,8 +23,8 @@ public class AccountService {
         registerService.registerUser(userDto);
     }
 
-    public String loginUser(UserLoginDto userDto, HttpServletResponse response) throws InvalidCredentialsException {
-        return loginService.loginUser(userDto, response);
+    public void loginUser(UserLoginDto userDto, HttpServletResponse response) throws InvalidCredentialsException {
+        loginService.loginUser(userDto, response);
     }
 
     public void restartUserPassword(UserPasswordResetDto userPasswordResetDto) throws UserNotFoundException {

@@ -7,6 +7,7 @@ import com.merkury.vulcanus.security.jwt.exception.IsNotAccessTokenException;
 import com.merkury.vulcanus.security.jwt.exception.RefreshTokenExpiredException;
 import com.merkury.vulcanus.security.jwt.exception.UsernameIsNotIdenticalException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import static com.merkury.vulcanus.security.jwt.TokenType.ACCESS;
+import static com.merkury.vulcanus.security.jwt.TokenType.REFRESH;
 
 @Service
 @RequiredArgsConstructor
@@ -24,19 +26,20 @@ public class JwtService {
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtManager jwtManager;
 
-    public String refreshAccessToken(HttpServletRequest request)
+    public void refreshAccessToken(HttpServletRequest request, HttpServletResponse response)
             throws UsernameIsNotIdenticalException, RefreshTokenExpiredException, IsNotAccessTokenException {
-        var refreshToken = jwtManager.getJWTFromCookie(request);
-        var token = jwtManager.getJWTFromRequest(request);
+        var refreshToken = jwtManager.getJWTFromCookie(request, REFRESH);
+        var accessToken = jwtManager.getJWTFromCookie(request, ACCESS);
 
         if (StringUtils.hasText(refreshToken) && jwtManager.validateToken(refreshToken)) {
-            if (!jwtManager.isAccessToken(token)) {
+            if (!jwtManager.isAccessToken(accessToken)) {
                 throw new IsNotAccessTokenException();
             }
-            if (!jwtManager.isTokenExpired(token)) {
-                return token;
+            if (!jwtManager.isTokenExpired(accessToken)) {
+                jwtManager.addTokenToCookie(response, accessToken, ACCESS);
+                return;
             }
-            String username = jwtManager.getUsernameFromJWT(token);
+            String username = jwtManager.getUsernameFromJWT(accessToken);
             String usernameFromRefreshToken = jwtManager.getUsernameFromJWT(refreshToken);
 
             if (!username.equals(usernameFromRefreshToken)) {
@@ -49,7 +52,9 @@ public class JwtService {
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-            return tokenGenerator.generateToken(authenticationToken, ACCESS);
+            var newAccessToken = tokenGenerator.generateToken(authenticationToken, ACCESS);
+            jwtManager.addTokenToCookie(response, newAccessToken, ACCESS);
+            return;
         }
         throw new RefreshTokenExpiredException();
     }
