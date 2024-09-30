@@ -1,6 +1,22 @@
 import Button from "./components/Button.jsx";
+import axios from "axios";
 
 export default function MainView() {
+  const handleSignOut = async () => {
+    try {
+      await axios.post(
+        "http://localhost:8080/account/oauth2/logout",
+        {},
+        {
+          withCredentials: true,
+        },
+      );
+    } catch (error) {
+      console.log("error logout: ", error);
+    }
+    window.location.href = "/";
+  };
+
   return (
     <div className="p-px h-dvh bg-neutral-700 flex flex-col items-center justify-center">
       <div className="h-1/10 w-screen bg-basalt flex m-1 rounded-b border-b-2 border-b-gold"></div>
@@ -8,7 +24,7 @@ export default function MainView() {
         <div className=" flex flex-col-reverse h-full w-auto bg-basalt rounded-r border-r-2 border-r-gold basis-1/5 grow">
           <div className="bottom-0 flex h-1/10 w-auto bg-basalt m-1 rounded-t-2xl border-t-2 border-t-gold">
             <div>
-              <Button />
+              <Button onClick={handleSignOut} />
             </div>
             <div></div>
             <div></div>

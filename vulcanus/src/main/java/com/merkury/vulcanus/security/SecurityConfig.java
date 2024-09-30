@@ -3,6 +3,7 @@ package com.merkury.vulcanus.security;
 import com.merkury.vulcanus.security.jwt.JwtAuthEntryPoint;
 import com.merkury.vulcanus.security.jwt.JwtAuthFilter;
 import com.merkury.vulcanus.security.jwt.JwtGenerator;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -62,8 +64,13 @@ public class SecurityConfig {
                             response.sendRedirect(OAUTH2_DEFAULT_SUCCESS_URL);
                         })
                 )
-                .logout( logout -> logout.
-                        addLogoutHandler(logoutHandler()))
+                .logout(logout -> logout
+                        .logoutUrl("/account/oauth2/logout")
+                        .logoutSuccessUrl(LOGOUT_URL)
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID", "jwt")
+                )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authEntryPoint)
                 )
@@ -106,13 +113,4 @@ public class SecurityConfig {
         return new JwtAuthFilter(new JwtGenerator(), userDetailsService);
     }
 
-    private LogoutHandler logoutHandler() {
-        return ((request, response, authentication) -> {
-            try {
-                response.sendRedirect(LOGOUT_URL);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
 }
