@@ -20,6 +20,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Date;
 
+import static com.merkury.vulcanus.security.jwt.TokenType.REFRESH;
+
 /**
  *  Throw Forbidden (403)  status code if refresh token is invalid or expired
  *     Throw Unauthorized (401) status code if token isn't access token
@@ -30,6 +32,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtGenerator tokenGenerator;
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtManager jwtManager;
+    private final long ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
 
 
     @Override
@@ -86,9 +89,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(refreshToken) && !jwtManager.isTokenExpired(refreshToken)) {
             Date tokenExpirationDate = jwtManager.getExpirationDateFromToken(refreshToken);
             long timeUntilExpired = tokenExpirationDate.getTime() - new Date().getTime();
-            long oneDayInMilliSeconds = 1000 * 60 * 60 * 24;
-            if (timeUntilExpired <= oneDayInMilliSeconds) {
-                String newToken = tokenGenerator.generateRefreshToken(authenticationToken);
+            if (timeUntilExpired <= ONE_DAY_IN_MILLISECONDS) {
+                String newToken = tokenGenerator.generateToken(authenticationToken, REFRESH);
                 jwtManager.addTokenToCookie(response, newToken);
             }
         }

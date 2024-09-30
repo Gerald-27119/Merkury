@@ -13,6 +13,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import static com.merkury.vulcanus.security.jwt.TokenType.ACCESS;
+import static com.merkury.vulcanus.security.jwt.TokenType.REFRESH;
+
 @Service
 @RequiredArgsConstructor
 class LoginService {
@@ -29,10 +32,10 @@ class LoginService {
                             userDto.password()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            String refreshToken = jwtGenerator.generateRefreshToken(authentication);
+            String refreshToken = jwtGenerator.generateToken(authentication, REFRESH);
             jwtManager.addTokenToCookie(response, refreshToken);
 
-            return jwtGenerator.generateToken(authentication);
+            return jwtGenerator.generateToken(authentication, ACCESS);
         } catch (AuthenticationException ex) {
             throw new InvalidCredentialsException();
         }

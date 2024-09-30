@@ -15,6 +15,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import static com.merkury.vulcanus.security.jwt.TokenType.ACCESS;
+
 @Service
 @RequiredArgsConstructor
 public class JwtService {
@@ -47,7 +49,7 @@ public class JwtService {
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-            return tokenGenerator.generateToken(authenticationToken);
+            return tokenGenerator.generateToken(authenticationToken, ACCESS);
         }
         throw new RefreshTokenExpiredException();
     }
