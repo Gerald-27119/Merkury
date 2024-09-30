@@ -6,14 +6,18 @@ import com.merkury.vulcanus.account.dto.UserRegisterDto;
 import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
+import com.merkury.vulcanus.account.password.reset.token.exception.PasswordResetTokenIsInvalidException;
+import com.merkury.vulcanus.account.password.reset.token.exception.PasswordResetTokenNotFoundException;
+import com.merkury.vulcanus.account.service.RestartPasswordService;
 import com.merkury.vulcanus.account.service.AccountService;
-import com.merkury.vulcanus.account.passwordResetToken.service.PasswordResetTokenService;
-import com.merkury.vulcanus.account.passwordResetToken.PasswordResetToken;
+import com.merkury.vulcanus.account.password.reset.token.service.PasswordResetTokenService;
+import com.merkury.vulcanus.account.password.reset.token.PasswordResetToken;
 import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.email.service.EmailService;
 import com.merkury.vulcanus.observability.counter.invocations.InvocationsCounter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +35,9 @@ public class AccountController {
     private final AccountService accountService;
     private final EmailService emailService;
     private final PasswordResetTokenService passwordResetTokenService;
+    private final RestartPasswordService restartPasswordService;
+    @Value("${reset.password.link}")
+    private String resetPasswordLink;
 
     /**
      * @param userRegisterDto the user registration details containing:
@@ -73,15 +80,14 @@ public class AccountController {
                 .build();
     }
 
-    @PostMapping("/forget-password")
-    public ResponseEntity<String> forgetPasswordSendEmail(@RequestBody String email) {
-        UserEntity user = accountService.getUserByEmail(email);
-
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPasswordSendEmail(@RequestBody String email) {
+        UserEntity user = restartPasswordService.getUserByEmail(email);
         PasswordResetToken resetToken = passwordResetTokenService.changeToken(user);
-        passwordResetTokenService.saveToken(resetToken);
 
-        String resetLink = "http://localhost:5173/login/newPassword?token=" + resetToken.getToken().toString();
+        String resetLink = resetPasswordLink + resetToken.getToken().toString();
         String message = "Click this link to reset password: <a href='" + resetLink + "'>New password</a>";
+
         emailService.sendEmail(email, "Restart password", message);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -89,7 +95,7 @@ public class AccountController {
     }
 
     @PostMapping("/set-new-password")
-    public ResponseEntity<String> setNewPassword(@Valid @RequestBody UserPasswordResetDto userPasswordResetDto) {
+    public ResponseEntity<String> setNewPassword(@Valid @RequestBody UserPasswordResetDto userPasswordResetDto) throws PasswordResetTokenIsInvalidException, PasswordResetTokenNotFoundException {
         accountService.restartUserPassword(userPasswordResetDto);
         return ResponseEntity
                 .status(HttpStatus.OK)

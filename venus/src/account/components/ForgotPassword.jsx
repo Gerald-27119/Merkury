@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { isEmail } from "../regex.js";
+import Input from "./Input.jsx";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -12,7 +13,9 @@ function ForgotPassword() {
   const errorStyle = "text-red-600 text-xs p-0 m-0";
 
   useEffect(() => {
-    if (email) setEmailError("");
+    if (email) {
+      setEmailError("");
+    }
     setMainError("");
   }, [email]);
 
@@ -28,7 +31,7 @@ function ForgotPassword() {
   };
 
   const remindUser = (email) => {
-    return axios.post("http://localhost:8080/account/forget-password", email, {
+    return axios.post("http://localhost:8080/account/forgot-password", email, {
       headers: {
         "Content-Type": "text/plain",
       },
@@ -55,8 +58,6 @@ function ForgotPassword() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    console.log(email);
     const isEmailValid = validateEmail();
 
     if (isEmailValid && !remindMutation.isLoading) {

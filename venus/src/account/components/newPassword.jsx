@@ -3,6 +3,7 @@ import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { isEmail, isPassword, isEqualsToOtherValue } from "../regex.js";
+import Input from "./Input.jsx";
 
 function newPassword() {
   const [searchParams] = useSearchParams();
@@ -18,7 +19,9 @@ function newPassword() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (password) setPasswordError("");
+    if (password) {
+      setPasswordError("");
+    }
     setMainError("");
   }, [password, confirmPassword]);
 
@@ -68,7 +71,6 @@ function newPassword() {
     onSuccess: (response) => {
       console.log(response.status);
       console.log("Success! Password has been changed!");
-      // navigate("/login");
     },
   });
 

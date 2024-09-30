@@ -1,6 +1,5 @@
-package com.merkury.vulcanus.account.passwordResetToken;
+package com.merkury.vulcanus.account.password.reset.token;
 
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +11,4 @@ public interface PasswordResetTokenRepository extends JpaRepository<PasswordRese
 
     Optional<PasswordResetToken> findByToken(UUID token);
 
-    @Transactional
-    void deleteByToken(UUID token);
 }

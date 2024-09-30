@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.account.passwordResetToken.exception;
+package com.merkury.vulcanus.account.password.reset.token.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +17,6 @@ public class PasswordResetTokenExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler({PasswordResetTokenIsInvalidException.class})
     public ResponseEntity<String> handleInvalidTokenException(Exception ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

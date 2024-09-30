@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.account.user;
 
-import com.merkury.vulcanus.account.passwordResetToken.PasswordResetToken;
+import com.merkury.vulcanus.account.password.reset.token.PasswordResetToken;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

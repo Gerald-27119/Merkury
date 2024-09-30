@@ -1,9 +1,9 @@
-package com.merkury.vulcanus.account.passwordResetToken.service;
+package com.merkury.vulcanus.account.password.reset.token.service;
 
-import com.merkury.vulcanus.account.passwordResetToken.PasswordResetTokenRepository;
-import com.merkury.vulcanus.account.passwordResetToken.PasswordResetToken;
-import com.merkury.vulcanus.account.passwordResetToken.exception.PasswordResetTokenIsInvalidException;
-import com.merkury.vulcanus.account.passwordResetToken.exception.PasswordResetTokenNotFoundException;
+import com.merkury.vulcanus.account.password.reset.token.PasswordResetTokenRepository;
+import com.merkury.vulcanus.account.password.reset.token.PasswordResetToken;
+import com.merkury.vulcanus.account.password.reset.token.exception.PasswordResetTokenIsInvalidException;
+import com.merkury.vulcanus.account.password.reset.token.exception.PasswordResetTokenNotFoundException;
 import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.account.user.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +21,7 @@ public class PasswordResetTokenService {
 
 
     private UUID generateToken() {
-        UUID token;
-        boolean tokenUnique;
-
-        do {
-            token = UUID.randomUUID();
-            tokenUnique = passwordResetTokenRepository.findByToken(token).isEmpty();
-        } while (!tokenUnique);
-
-        return token;
+        return UUID.randomUUID();
     }
 
     private void deleteOldToken(UserEntity user) {
@@ -47,10 +39,13 @@ public class PasswordResetTokenService {
 
         LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(15);
 
-        return new PasswordResetToken(token, expirationDate, user);
+        PasswordResetToken newToken = new PasswordResetToken(token, expirationDate, user);
+        saveToken(newToken);
+
+        return newToken;
     }
 
-    public void saveToken(PasswordResetToken passwordResetToken) {
+    private void saveToken(PasswordResetToken passwordResetToken) {
         UserEntity user = passwordResetToken.getUser();
         passwordResetTokenRepository.save(passwordResetToken);
 
@@ -62,7 +57,7 @@ public class PasswordResetTokenService {
         return !token.getExpirationDate().isBefore(LocalDateTime.now());
     }
 
-    public String getEmailByToken(UUID token) {
+    public String getEmailByToken(UUID token) throws PasswordResetTokenIsInvalidException, PasswordResetTokenNotFoundException {
         PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token).orElseThrow(PasswordResetTokenNotFoundException::new);
 
         if (isTokenValid(resetToken)) {

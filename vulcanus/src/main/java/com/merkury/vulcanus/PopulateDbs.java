@@ -1,7 +1,7 @@
 package com.merkury.vulcanus;
 
-import com.merkury.vulcanus.account.passwordResetToken.PasswordResetToken;
-import com.merkury.vulcanus.account.passwordResetToken.PasswordResetTokenRepository;
+import com.merkury.vulcanus.account.password.reset.token.PasswordResetToken;
+import com.merkury.vulcanus.account.password.reset.token.PasswordResetTokenRepository;
 import com.merkury.vulcanus.account.user.Role;
 import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.account.user.UserEntityRepository;

@@ -7,8 +7,8 @@ import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UserNotFoundException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
-import com.merkury.vulcanus.account.user.UserEntity;
-import com.merkury.vulcanus.account.passwordResetToken.service.RestartPasswordService;
+import com.merkury.vulcanus.account.password.reset.token.exception.PasswordResetTokenIsInvalidException;
+import com.merkury.vulcanus.account.password.reset.token.exception.PasswordResetTokenNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +28,8 @@ public class AccountService {
         return loginService.loginUser(userDto);
     }
 
-    public void restartUserPassword(UserPasswordResetDto userPasswordResetDto) throws UserNotFoundException {
+    public void restartUserPassword(UserPasswordResetDto userPasswordResetDto) throws UserNotFoundException, PasswordResetTokenIsInvalidException, PasswordResetTokenNotFoundException {
         restartPasswordService.restartUserPassword(userPasswordResetDto);
-    }
-
-    public UserEntity getUserByEmail(String email) {
-       return restartPasswordService.getUserByEmail(email);
     }
 
 }

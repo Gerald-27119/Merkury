@@ -133,7 +133,7 @@ function Login() {
           <br />
 
           <div className={"remember-forgot flex justify-between"}>
-            <Link to="/login/forgotPassword" className={linkStyle}>
+            <Link to="/login/forgot-password" className={linkStyle}>
               Forgot Password?
             </Link>
           </div>

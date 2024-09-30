@@ -14,8 +14,8 @@ const router = createBrowserRouter([
   { path: "/", element: <WelcomePage />, errorElement: <Error /> },
   { path: "/register", element: <Registration /> },
   { path: "/login", element: <Login /> },
-  { path: "/login/forgotPassword", element: <ForgotPassword /> },
-  { path: "/login/newPassword", element: <NewPassword /> },
+  { path: "/login/forgot-password", element: <ForgotPassword /> },
+  { path: "/login/new-password", element: <NewPassword /> },
 ]);
 
 const queryClient = new QueryClient();
