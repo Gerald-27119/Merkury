@@ -86,7 +86,7 @@ export default function Registration() {
   };
 
   function handleGoogleRegistration() {
-    window.location.href = "https://accounts.google.com/o/oauth2/auth";
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
   }
 
   function handleGithubRegistration() {
