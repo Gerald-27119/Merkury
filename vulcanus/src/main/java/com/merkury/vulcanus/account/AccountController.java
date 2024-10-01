@@ -15,10 +15,10 @@ import com.merkury.vulcanus.account.password.reset.token.PasswordResetToken;
 import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.email.service.EmailService;
 import com.merkury.vulcanus.observability.counter.invocations.InvocationsCounter;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,16 +67,15 @@ public class AccountController {
      *                      <li>username
      *                      <li>password
      *                     </ul>
-     * @return HTTP status 200 (OK) and the JWT token in the Authorization header
+     * @return HTTP status 200 (OK) and the JWT tokens in the http only cookies
      * or 401 (Unauthorized) if the credentials are invalid
      */
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@Valid @RequestBody UserLoginDto userLoginDto) throws InvalidCredentialsException {
+    public ResponseEntity<String> loginUser(@Valid @RequestBody UserLoginDto userLoginDto, HttpServletResponse response) throws InvalidCredentialsException {
 
-        var jwt = accountService.loginUser(userLoginDto);
+        accountService.loginUser(userLoginDto, response);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
                 .build();
     }
 
@@ -100,6 +99,13 @@ public class AccountController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Password set successfully!");
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<String> logoutUser() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("User logged out successfully");
     }
 
     @GetMapping("/test")

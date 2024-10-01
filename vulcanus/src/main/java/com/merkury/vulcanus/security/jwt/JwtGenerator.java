@@ -1,52 +1,36 @@
 package com.merkury.vulcanus.security.jwt;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.SignatureException;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
 import java.util.Date;
+
+import static com.merkury.vulcanus.security.jwt.JwtConfig.getKey;
+import static com.merkury.vulcanus.security.jwt.JwtConfig.getTokenType;
+import static com.merkury.vulcanus.security.jwt.TokenType.REFRESH;
+
 
 @Component
 public class JwtGenerator {
-    private static final SecretKey key = Jwts.SIG.HS256.key().build();
+    private static final long ACCESS_TOKEN_EXPIRATION_TIME_MS = 1000 * 60 * 15; // 15 minutes
+    private static final long REFRESH_TOKEN_EXPIRATION_TIME_MS = 1000 * 60 * 60 * 24 * 7; //7 days
 
-    public String generateToken(Authentication authentication) {
+    public String generateToken(Authentication authentication, TokenType tokenType) {
         String username = authentication.getName();
         Date issuedAt = new Date();
-        Date expiration = new Date(issuedAt.getTime() + 1000 * 60 * 60 * 10); // 10 hours
+        Date expiration = new Date(issuedAt.getTime() + ACCESS_TOKEN_EXPIRATION_TIME_MS); // 15 minutes
+        if (tokenType == REFRESH) {
+            expiration = new Date(issuedAt.getTime() + REFRESH_TOKEN_EXPIRATION_TIME_MS); // 7 days
+        }
         var algorithm = Jwts.SIG.HS256;
         return Jwts
                 .builder()
                 .subject(username)
                 .issuedAt(issuedAt)
                 .expiration(expiration)
-                .signWith(key, algorithm)
+                .claim(getTokenType(), tokenType)
+                .signWith(getKey(), algorithm)
                 .compact();
-    }
-
-    public String getUsernameFromJWT(String token) {
-        return Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
-    }
-
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parser()
-                    .verifyWith(key)
-                    .build()
-                    .parseSignedClaims(token);
-            return true;
-        } catch (SignatureException ex) {
-            throw new AuthenticationCredentialsNotFoundException("JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.", ex);
-        } catch (Exception ex) {
-            throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect", ex);
-        }
     }
 }

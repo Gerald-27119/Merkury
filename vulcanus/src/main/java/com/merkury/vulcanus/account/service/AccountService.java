@@ -7,6 +7,7 @@ import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UserNotFoundException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
+import jakarta.servlet.http.HttpServletResponse;
 import com.merkury.vulcanus.account.password.reset.token.exception.PasswordResetTokenIsInvalidException;
 import com.merkury.vulcanus.account.password.reset.token.exception.PasswordResetTokenNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,8 @@ public class AccountService {
         registerService.registerUser(userDto);
     }
 
-    public String loginUser(UserLoginDto userDto) throws InvalidCredentialsException {
-        return loginService.loginUser(userDto);
+    public void loginUser(UserLoginDto userDto, HttpServletResponse response) throws InvalidCredentialsException {
+        loginService.loginUser(userDto, response);
     }
 
     public void restartUserPassword(UserPasswordResetDto userPasswordResetDto) throws UserNotFoundException, PasswordResetTokenIsInvalidException, PasswordResetTokenNotFoundException {
