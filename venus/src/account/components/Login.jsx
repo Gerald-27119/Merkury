@@ -6,7 +6,6 @@ import { useMutation } from "@tanstack/react-query";
 import OauthButton from "./OauthButton.jsx";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import handleOauth2Login from "../handleOauth2Login.js";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -20,9 +19,9 @@ function Login() {
   const linkStyle = "text-blue-700 text-sm hover:underline";
   const navigate = useNavigate();
 
-  const handleGoogleLogin = async () => {
-    handleOauth2Login("Error initiating Google login:", "/auth/google");
-  };
+  function handleGoogleLogin() {
+    window.location.href = "https://accounts.google.com/o/oauth2/auth";
+  }
 
   const handleGithubLogin = async () => {
     window.location.href = "http://localhost:8080/oauth2/authorization/github";

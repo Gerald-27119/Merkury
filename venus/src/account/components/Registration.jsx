@@ -13,7 +13,6 @@ import { useMutation } from "@tanstack/react-query";
 import OauthButton from "./OauthButton.jsx";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import handleOauth2Login from "../handleOauth2Login.js";
 
 export default function Registration() {
   const [enteredValue, setEnteredValue] = useState({
@@ -86,16 +85,10 @@ export default function Registration() {
     },
   };
 
-  const handleGoogleRegistration = async () => {
-    handleOauth2Login("Error initiating Google login:", "/auth/google");
-  };
+  function handleGoogleRegistration() {
+    window.location.href = "https://accounts.google.com/o/oauth2/auth";
+  }
 
-  // const handleGithubRegistration = async () => {
-  //   handleOauth2Login(
-  //     "Error initiating Github login:",
-  //     "http://localhost:8080/oauth2/authorization/github",
-  //   );
-  // };
   function handleGithubRegistration() {
     window.location.href = "http://localhost:8080/oauth2/authorization/github";
   }
