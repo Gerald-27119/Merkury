@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/security")
 @RequiredArgsConstructor
 public class JwtController {
-    private final JwtService jwyService;
+    private final JwtService jwtService;
 
     /**
      * @return ok (200) and new access token in http only cookie
@@ -26,7 +26,7 @@ public class JwtController {
     @GetMapping("/refresh")
     public ResponseEntity<String> refreshAccessToken(HttpServletRequest request, HttpServletResponse response)
             throws RefreshTokenExpiredException, UsernameIsNotIdenticalException, IsNotAccessTokenException {
-        jwyService.refreshAccessToken(request, response);
+        jwtService.refreshAccessToken(request, response);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

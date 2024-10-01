@@ -54,7 +54,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             if (StringUtils.hasText(accessToken) && jwtManager.validateToken(accessToken)) {
                 validateRefreshToken(refreshToken);
-                if (!jwtManager.isAccessToken(accessToken)) {
+                if (jwtManager.isNotAccessToken(accessToken)) {
                     throw new IsNotAccessTokenException();
                 }
 
@@ -87,7 +87,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             UsernamePasswordAuthenticationToken authenticationToken
     ) {
-        if (StringUtils.hasText(refreshToken) && !jwtManager.isTokenExpired(refreshToken)) {
+        if (StringUtils.hasText(refreshToken) && jwtManager.isNotTokenExpired(refreshToken)) {
             Date tokenExpirationDate = jwtManager.getExpirationDateFromToken(refreshToken);
             long timeUntilExpired = tokenExpirationDate.getTime() - new Date().getTime();
             if (timeUntilExpired <= ONE_DAY_IN_MILLISECONDS) {

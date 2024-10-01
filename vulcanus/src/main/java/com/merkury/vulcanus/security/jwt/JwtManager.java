@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import static com.merkury.vulcanus.security.jwt.JwtConfig.getKey;
@@ -61,18 +62,16 @@ public class JwtManager {
         }
     }
 
-    public boolean isTokenExpired(String token) {
-        return getExpirationDateFromToken(token).before(new Date());
+    public boolean isNotTokenExpired(String token) {
+        return !getExpirationDateFromToken(token).before(new Date());
     }
 
-    public void addTokenToCookie(HttpServletResponse response, String  token, TokenType tokenType) {
-        String tokenName = "accessToken";
+    public void addTokenToCookie(HttpServletResponse response, String token, TokenType tokenType) {
         int expiration = ACCESS_TOKEN_COOKIE_EXPIRATION;
-        if (tokenType == REFRESH){
-            tokenName = "refreshToken";
+        if (tokenType == REFRESH) {
             expiration = REFRESH_TOKEN_COOKIE_EXPIRATION;
         }
-        Cookie cookie = new Cookie(tokenName, token);
+        Cookie cookie = new Cookie(tokenType.getCookieName(), token);
         cookie.setSecure(false);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
@@ -82,7 +81,7 @@ public class JwtManager {
 
     }
 
-    public boolean isAccessToken(String token) {
+    public boolean isNotAccessToken(String token) {
         try {
             Claims claims = Jwts
                     .parser()
@@ -91,22 +90,21 @@ public class JwtManager {
                     .parseSignedClaims(token)
                     .getPayload();
 
-            return claims.get(getTokenType()).equals("ACCESS");
+            return !claims.get(getTokenType()).equals("ACCESS");
         } catch (ExpiredJwtException e) {
-            return e.getClaims().get(getTokenType()).equals("ACCESS");
+            return !e.getClaims().get(getTokenType()).equals("ACCESS");
         }
     }
 
     public String getJWTFromCookie(HttpServletRequest request, TokenType tokenType) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("refreshToken") && tokenType == REFRESH
-                        || cookie.getName().equals("accessToken") && tokenType == TokenType.ACCESS) {
-                    return cookie.getValue();
-                }
-            }
+        if (request.getCookies() == null) {
+            return null;
         }
-        return null;
+
+        return Arrays.stream(request.getCookies())
+                .filter(cookie -> cookie.getName().equals(tokenType.getCookieName()))
+                .map(Cookie::getValue).
+                findFirst()
+                .orElse(null);
     }
 }

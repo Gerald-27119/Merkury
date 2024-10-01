@@ -32,6 +32,8 @@ public class SecurityConfig {
 
     private final JwtAuthEntryPoint authEntryPoint;
     private final CustomUserDetailsService userDetailsService;
+    private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
+    private static final String ACCESS_TOKEN_COOKIE = "accessToken";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -43,6 +45,11 @@ public class SecurityConfig {
                         .requestMatchers("/account/**", "/register").permitAll()
                         .requestMatchers("/security/refresh").permitAll()
                         .anyRequest().authenticated()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/account/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
+                        .deleteCookies(REFRESH_TOKEN_COOKIE_NAME, ACCESS_TOKEN_COOKIE)
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authEntryPoint)
@@ -62,7 +69,6 @@ public class SecurityConfig {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
         configuration.setAllowCredentials(true);
-        configuration.setExposedHeaders(List.of("Authorization"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

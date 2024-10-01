@@ -32,10 +32,10 @@ public class JwtService {
         var accessToken = jwtManager.getJWTFromCookie(request, ACCESS);
 
         if (StringUtils.hasText(refreshToken) && jwtManager.validateToken(refreshToken)) {
-            if (!jwtManager.isAccessToken(accessToken)) {
+            if (jwtManager.isNotAccessToken(accessToken)) {
                 throw new IsNotAccessTokenException();
             }
-            if (!jwtManager.isTokenExpired(accessToken)) {
+            if (jwtManager.isNotTokenExpired(accessToken)) {
                 jwtManager.addTokenToCookie(response, accessToken, ACCESS);
                 return;
             }
@@ -54,8 +54,8 @@ public class JwtService {
 
             var newAccessToken = tokenGenerator.generateToken(authenticationToken, ACCESS);
             jwtManager.addTokenToCookie(response, newAccessToken, ACCESS);
-            return;
+        }else {
+            throw new RefreshTokenExpiredException();
         }
-        throw new RefreshTokenExpiredException();
     }
 }

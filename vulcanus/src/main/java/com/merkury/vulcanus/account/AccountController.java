@@ -19,7 +19,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -100,6 +99,13 @@ public class AccountController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Password set successfully!");
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<String> logoutUser() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("User logged out successfully");
     }
 
     @GetMapping("/test")
