@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.account.excepion;
 
-import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
-import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
-import com.merkury.vulcanus.account.excepion.excpetions.UserNotFoundException;
-import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
+import com.merkury.vulcanus.account.excepion.excpetions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -28,8 +25,8 @@ public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred: " + ex.getMessage());
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
+    @ExceptionHandler({UserNotFoundException.class, EmailNotFoundException.class})
+    public ResponseEntity<String> handleUserNotFoundException(Exception ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

@@ -3,6 +3,7 @@ package com.merkury.vulcanus.account;
 import com.merkury.vulcanus.account.dto.UserLoginDto;
 import com.merkury.vulcanus.account.dto.UserPasswordResetDto;
 import com.merkury.vulcanus.account.dto.UserRegisterDto;
+import com.merkury.vulcanus.account.excepion.excpetions.EmailNotFoundException;
 import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
@@ -78,7 +79,7 @@ public class AccountController {
     }
 
     @GetMapping("/login-success")
-    public RedirectView loginSuccess(HttpServletResponse response, OAuth2AuthenticationToken oAuth2Token) throws EmailTakenException, UsernameTakenException {
+    public RedirectView loginSuccess(HttpServletResponse response, OAuth2AuthenticationToken oAuth2Token) throws EmailTakenException, UsernameTakenException, EmailNotFoundException {
 
         var loginResponseDto = accountService.handleOAuth2User(oAuth2Token);
         var jwt = loginResponseDto.jwt();
