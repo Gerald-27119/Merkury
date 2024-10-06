@@ -51,10 +51,6 @@ public class AccountService {
         restartPasswordService.restartUserPassword(userPasswordResetDto);
     }
 
-    public void checkIfUserToResetPasswordExists(String emailAddress) {
-        restartPasswordService.checkIfUserToResetPasswordExists(emailAddress);
-    }
-
     private void registerOauth2User(String email, String username, String provider) throws EmailTakenException, UsernameTakenException {
         registerService.registerOauth2User(email, username, provider);
     }

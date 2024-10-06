@@ -56,7 +56,9 @@ function Login() {
   };
 
   const loginUser = (userData) => {
-    return axios.post("http://localhost:8080/account/login", userData);
+    return axios.post("http://localhost:8080/account/login", userData, {
+      withCredentials: true,
+    });
   };
 
   const loginMutation = useMutation({
@@ -74,7 +76,7 @@ function Login() {
     onSuccess: (response) => {
       console.log(response.status);
       console.log("Login successful!");
-      navigate("/temp");
+      navigate("/main-view");
     },
   });
 
