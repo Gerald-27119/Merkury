@@ -4,6 +4,7 @@ import com.merkury.vulcanus.properties.UrlsProperties;
 import com.merkury.vulcanus.security.jwt.JwtAuthEntryPoint;
 import com.merkury.vulcanus.security.jwt.JwtAuthFilter;
 import com.merkury.vulcanus.security.jwt.JwtGenerator;
+import com.merkury.vulcanus.security.jwt.JwtManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -32,6 +34,8 @@ public class SecurityConfig {
     private final JwtAuthEntryPoint authEntryPoint;
     private final CustomUserDetailsService userDetailsService;
     private final UrlsProperties urlsProperties;
+    private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
+    private static final String ACCESS_TOKEN_COOKIE = "accessToken";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -40,6 +44,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/account/**","/oauth2/**").permitAll() // Permit access to /register endpoint
+                        .requestMatchers("/actuator/prometheus", "/actuator/health", "/actuator/info").permitAll()
+                        .requestMatchers("/security/refresh").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
@@ -54,6 +60,11 @@ public class SecurityConfig {
                         .clearAuthentication(true)
                         .deleteCookies("JSESSIONID", "jwt")
                 )
+                .logout(logout -> logout
+                        .logoutUrl("/account/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
+                        .deleteCookies(REFRESH_TOKEN_COOKIE_NAME, ACCESS_TOKEN_COOKIE)
+                )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authEntryPoint)
                 )
@@ -65,11 +76,10 @@ public class SecurityConfig {
                 .build();
     }
 
-
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // Add your frontend's URL here
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
@@ -93,7 +103,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthFilter jwtAuthenticationFilter() {
-        return new JwtAuthFilter(new JwtGenerator(), userDetailsService);
+        return new JwtAuthFilter(new JwtGenerator(), userDetailsService, new JwtManager());
     }
 
 }

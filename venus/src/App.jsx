@@ -6,6 +6,8 @@ import Error from "./errors/Error.jsx";
 import MainView from "./mainView/MainView.jsx";
 import "./welcomePage/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ForgotPassword from "./account/components/ForgotPassword.jsx";
+import NewPassword from "./account/components/newPassword.jsx";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +18,8 @@ const router = createBrowserRouter([
       { path: "main-view", element: <MainView /> },
       { path: "register", element: <Registration /> },
       { path: "login", element: <Login /> },
+      { path: "/login/forgot-password", element: <ForgotPassword /> },
+      { path: "/login/new-password", element: <NewPassword /> },
     ],
   },
 ]);

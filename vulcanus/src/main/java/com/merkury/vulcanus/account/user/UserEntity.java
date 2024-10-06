@@ -1,11 +1,7 @@
 package com.merkury.vulcanus.account.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.merkury.vulcanus.account.password.reset.token.PasswordResetToken;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,6 +29,8 @@ public class UserEntity implements UserDetails {
     private Role role;
     @Enumerated(value = EnumType.STRING)
     private Provider provider;
+    @OneToOne
+    private PasswordResetToken passwordResetToken;
 
     private Boolean accountNonExpired;
     private Boolean accountNonLocked;

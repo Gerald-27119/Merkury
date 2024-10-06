@@ -141,7 +141,7 @@ function Login() {
           <br />
 
           <div className={"remember-forgot flex justify-between"}>
-            <Link to="/" className={linkStyle}>
+            <Link to="/login/forgot-password" className={linkStyle}>
               Forgot Password?
             </Link>
           </div>
@@ -149,6 +149,7 @@ function Login() {
           <button
             type="submit"
             className="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
+            disabled={loginMutation.isLoading}
           >
             Log In
           </button>
