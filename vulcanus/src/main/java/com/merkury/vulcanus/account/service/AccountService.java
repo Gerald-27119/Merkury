@@ -15,18 +15,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import com.merkury.vulcanus.account.password.reset.token.exception.PasswordResetTokenIsInvalidException;
 import com.merkury.vulcanus.account.password.reset.token.exception.PasswordResetTokenNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.reactive.function.client.WebClient;
-
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -55,16 +47,17 @@ public class AccountService {
         registerService.registerOauth2User(email, username, provider);
     }
 
-    private String loginOauth2User(String email) {
+    private void loginOauth2User(String email, HttpServletResponse response) {
         Optional<UserEntity> user = userEntityRepository.findByEmail(email);
         if (user.isEmpty()) {
             throw new UserNotFoundException(String.format("User with %s not found.", email));
         }
 
-        return loginService.loginOauth2User(user.get());
+        loginService.loginOauth2User(user.get(), response);
     }
 
-    public OAuth2LoginResponseDto handleOAuth2User(OAuth2AuthenticationToken oAuth2Token) throws EmailTakenException, UsernameTakenException, EmailNotFoundException {
+    public OAuth2LoginResponseDto handleOAuth2User(OAuth2AuthenticationToken oAuth2Token, HttpServletResponse response)
+            throws EmailTakenException, UsernameTakenException, EmailNotFoundException {
 
         OAuth2User oAuth2User = oAuth2Token.getPrincipal();
         String username;
@@ -93,8 +86,8 @@ public class AccountService {
             this.registerOauth2User(userEmail, username, provider);
         }
 
-        var jwt = this.loginOauth2User(userEmail);
+        this.loginOauth2User(userEmail, response);
 
-        return new OAuth2LoginResponseDto(jwt, userEmail);
+        return new OAuth2LoginResponseDto(userEmail);
     }
 }

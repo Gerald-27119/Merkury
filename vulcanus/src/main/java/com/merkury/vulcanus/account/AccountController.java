@@ -18,13 +18,9 @@ import com.merkury.vulcanus.email.service.EmailService;
 import com.merkury.vulcanus.observability.counter.invocations.InvocationsCounter;
 import jakarta.servlet.http.HttpServletResponse;
 import com.merkury.vulcanus.properties.UrlsProperties;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -46,11 +42,8 @@ public class AccountController {
     private final UrlsProperties urlsProperties;
     private final String USER_REGISTERED_MESSAGE = "Thank you for registering in our service!\nYour account is now active.";
     private final String USER_REGISTERED_TITLE = "Register confirmation";
-    private final int COOKIE_MAX_AGE = 60 * 15; //15 minutes
     private final PasswordResetTokenService passwordResetTokenService;
     private final RestartPasswordService restartPasswordService;
-    @Value("${reset.password.link}")
-    private String resetPasswordLink;
 
     /**
      * @param userRegisterDto the user registration details containing:
@@ -94,20 +87,10 @@ public class AccountController {
     @GetMapping("/login-success")
     public RedirectView loginSuccess(HttpServletResponse response, OAuth2AuthenticationToken oAuth2Token) throws EmailTakenException, UsernameTakenException, EmailNotFoundException {
 
-        var loginResponseDto = accountService.handleOAuth2User(oAuth2Token);
-        var jwt = loginResponseDto.jwt();
+        var loginResponseDto = accountService.handleOAuth2User(oAuth2Token, response);
         var userEmail = loginResponseDto.userEmail();
 
         emailService.sendEmail(userEmail, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
-
-        Cookie jwtCookie = new Cookie("jwt", jwt);
-        jwtCookie.setHttpOnly(true);
-        //TODO: IMPORTANT! WHEN IN PRODUCTION MUST BE SET TO TRUE,
-        // COOKIE WILL BE SENT ONLY OVER HTTPS
-        jwtCookie.setSecure(false);
-        jwtCookie.setPath("/");
-        jwtCookie.setMaxAge(COOKIE_MAX_AGE);
-        response.addCookie(jwtCookie);
 
         var afterLoginPageUrl = urlsProperties.getAfterLoginPageUrl();
         return new RedirectView(afterLoginPageUrl);
@@ -118,7 +101,7 @@ public class AccountController {
         UserEntity user = restartPasswordService.getUserByEmail(email);
         PasswordResetToken resetToken = passwordResetTokenService.changeToken(user);
 
-        String resetLink = resetPasswordLink + resetToken.getToken().toString();
+        String resetLink = urlsProperties.getResetPasswordUrl() + resetToken.getToken().toString();
         String message = "Click this link to reset password: <a href='" + resetLink + "'>New password</a>";
 
         emailService.sendEmail(email, "Restart password", message);

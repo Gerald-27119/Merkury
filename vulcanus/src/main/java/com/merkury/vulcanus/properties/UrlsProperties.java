@@ -14,4 +14,5 @@ public class UrlsProperties {
     private String oauth2DefaultSuccessUrl;
     private String oauth2FailureUrl;
     private String logoutUrl;
+    private String resetPasswordUrl;
 }

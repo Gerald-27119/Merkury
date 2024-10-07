@@ -56,13 +56,9 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/account/oauth2/logout")
                         .logoutSuccessUrl(urlsProperties.getLogoutUrl())
+                        .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
-                        .deleteCookies("JSESSIONID", "jwt")
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/account/logout")
-                        .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
                         .deleteCookies(REFRESH_TOKEN_COOKIE_NAME, ACCESS_TOKEN_COOKIE)
                 )
                 .exceptionHandling(exception -> exception

@@ -5,6 +5,7 @@ import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsExcept
 import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.security.jwt.JwtGenerator;
 import com.merkury.vulcanus.security.jwt.JwtManager;
+import com.merkury.vulcanus.security.jwt.TokenType;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,21 +34,23 @@ class LoginService {
                             userDto.password()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            String refreshToken = jwtGenerator.generateToken(authentication, REFRESH);
-            jwtManager.addTokenToCookie(response, refreshToken, REFRESH);
-
-            String accessToken = jwtGenerator.generateToken(authentication, ACCESS);
-            jwtManager.addTokenToCookie(response, accessToken, ACCESS);
+            generateToken(response, authentication, REFRESH);
+            generateToken(response, authentication, ACCESS);
         } catch (AuthenticationException ex) {
             throw new InvalidCredentialsException();
         }
     }
 
-    public String loginOauth2User(UserEntity user) {
-        UsernamePasswordAuthenticationToken authenticationToken =
+    public void loginOauth2User(UserEntity user, HttpServletResponse response) {
+        UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        return jwtGenerator.generateToken(authenticationToken, ACCESS);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        generateToken(response, authentication, REFRESH);
+        generateToken(response, authentication, ACCESS);
     }
 
+    private void generateToken(HttpServletResponse response, Authentication authentication, TokenType tokenType) {
+        String token = jwtGenerator.generateToken(authentication, tokenType);
+        jwtManager.addTokenToCookie(response, token, tokenType);
+    }
 }

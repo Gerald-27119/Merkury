@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public record OAuth2LoginResponseDto(
         @NotBlank
-        String jwt,
-        @NotBlank
         @Email
         String userEmail) {
 }
