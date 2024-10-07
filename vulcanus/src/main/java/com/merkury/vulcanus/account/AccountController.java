@@ -58,9 +58,14 @@ public class AccountController {
     @PostMapping("/register")
 
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
-
+        log.info("Start handling user registration...");
         accountService.registerUser(userRegisterDto);
+        log.info("User registered successfully!");
+
+        log.info("Sending email...");
         emailService.sendEmail(userRegisterDto.email(), USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
+        log.info("Email sent successfully!");
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body("User registered successfully");
@@ -77,8 +82,10 @@ public class AccountController {
      */
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@Valid @RequestBody UserLoginDto userLoginDto, HttpServletResponse response) throws InvalidCredentialsException {
-
+        log.info("Start handling logging in user");
         accountService.loginUser(userLoginDto, response);
+        log.info("User logged in successfully!");
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .build();
@@ -86,25 +93,35 @@ public class AccountController {
 
     @GetMapping("/login-success")
     public RedirectView loginSuccess(HttpServletResponse response, OAuth2AuthenticationToken oAuth2Token) throws EmailTakenException, UsernameTakenException, EmailNotFoundException {
-
+        log.info("Start handling oAuth2 user...");
         var loginResponseDto = accountService.handleOAuth2User(oAuth2Token, response);
-        var userEmail = loginResponseDto.userEmail();
+        log.info("Successfully handled oAuth2 user!");
 
+        var userEmail = loginResponseDto.userEmail();
+        log.info("Sending email...");
         emailService.sendEmail(userEmail, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
+        log.info("Email sent successfully!");
 
         var afterLoginPageUrl = urlsProperties.getAfterLoginPageUrl();
+        log.info("User should be redirected");
+
         return new RedirectView(afterLoginPageUrl);
     }
 
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPasswordSendEmail(@RequestBody String email) {
+        log.info("Start handling forgot password procedure...");
         UserEntity user = restartPasswordService.getUserByEmail(email);
         PasswordResetToken resetToken = passwordResetTokenService.changeToken(user);
+        log.info("Procedure finished!");
 
         String resetLink = urlsProperties.getResetPasswordUrl() + resetToken.getToken().toString();
         String message = "Click this link to reset password: <a href='" + resetLink + "'>New password</a>";
 
+        log.info("Sending email...");
         emailService.sendEmail(email, "Restart password", message);
+        log.info("Email sent successfully!");
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Password reset link sent to: " + email);
@@ -112,7 +129,10 @@ public class AccountController {
 
     @PostMapping("/set-new-password")
     public ResponseEntity<String> setNewPassword(@Valid @RequestBody UserPasswordResetDto userPasswordResetDto) throws PasswordResetTokenIsInvalidException, PasswordResetTokenNotFoundException {
+        log.info("Start restarting password...");
         accountService.restartUserPassword(userPasswordResetDto);
+        log.info("Password restarted successfully!");
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Password set successfully!");
@@ -120,6 +140,7 @@ public class AccountController {
 
     @GetMapping("/logout")
     public ResponseEntity<String> logoutUser() {
+        log.info("Logging out user...");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("User logged out successfully");
