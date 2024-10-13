@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "user_entity")
@@ -27,8 +28,7 @@ public class UserEntity implements UserDetails {
     private String password;
     @Enumerated(value = EnumType.STRING)
     private Role role;
-    @OneToOne
-    private PasswordResetToken passwordResetToken;
+    private UUID passwordResetToken;
 
     private Boolean accountNonExpired;
     private Boolean accountNonLocked;

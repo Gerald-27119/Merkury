@@ -19,15 +19,14 @@ import java.util.UUID;
 public class PasswordResetToken {
     @Id
     @GeneratedValue
-    private long id;
+    private String id;
     private UUID token;
     private LocalDateTime expirationDate;
-    @OneToOne(mappedBy = "passwordResetToken")
-    private UserEntity user;
+    private String userEmail;
 
-    public PasswordResetToken(UUID token, LocalDateTime expirationDate, UserEntity user) {
+    public PasswordResetToken(UUID token, LocalDateTime expirationDate, String userEmail) {
         this.token = token;
         this.expirationDate = expirationDate;
-        this.user = user;
+        this.userEmail = userEmail;
     }
 }
