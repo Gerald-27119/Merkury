@@ -55,6 +55,9 @@ dataSources.local.xml
 .env.test.local
 .env.production.local
 
+# Ignore all .properties files
+*.properties
+
 # Local files
 *.local
 

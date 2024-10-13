@@ -2,17 +2,8 @@
 *.tmp
 *.swp
 
-# Ignore MongoDB data directory
-mongo/data/
-
-# Ignore Postgres data directory
-postgres/data/
-
 # Ignore Prometheus data directory
-prometheus/data/
-
-# Ignore Grafana temporary data
-grafana/data/
+prometheus/*.yml
 
 # Ignore backup files
 *.backup
