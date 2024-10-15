@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
 import java.util.Optional;
 
 @Service
@@ -57,7 +58,7 @@ public class AccountService {
     }
 
     public OAuth2LoginResponseDto handleOAuth2User(OAuth2AuthenticationToken oAuth2Token, HttpServletResponse response)
-            throws EmailTakenException, UsernameTakenException, EmailNotFoundException {
+            throws EmailTakenException, UsernameTakenException, EmailNotFoundException, UsernameNotFoundException {
 
         OAuth2User oAuth2User = oAuth2Token.getPrincipal();
         String username;
@@ -67,20 +68,18 @@ public class AccountService {
             case "google" -> oAuth2User.getAttribute("given_name");
             default -> null;
         };
-        String userEmail = oAuth2User.getAttribute("email");
 
-        if (!StringUtils.hasText(userEmail)) {
-
-            if (provider.equals("github")) {
-                userEmail = userDataService.fetchUserEmail(oAuth2Token);
-
-                if (!StringUtils.hasText(userEmail)) {
-                    throw new EmailNotFoundException();
-                }
-            } else {
-                throw new EmailNotFoundException();
-            }
+        if (!StringUtils.hasText(username)) {
+            throw new UsernameNotFoundException();
         }
+
+        String userEmail = oAuth2User.getAttribute("email");
+        if (!StringUtils.hasText(userEmail) && provider.equals("github")) {
+            userEmail = userDataService.getUserEmailFromGithub(oAuth2Token);
+        } else if (!StringUtils.hasText(userEmail)) {
+            throw new EmailNotFoundException();
+        }
+
 
         if (!userEntityRepository.existsByEmail(userEmail)) {
             this.registerOauth2User(userEmail, username, provider);

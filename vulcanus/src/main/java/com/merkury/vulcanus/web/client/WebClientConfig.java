@@ -11,7 +11,7 @@ public class WebClientConfig {
 
     @Bean
     public WebClient webClient(OAuth2AuthorizedClientManager authorizedClientManager) {
-        ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2Client =
+        var oauth2Client =
                 new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
         return WebClient.builder()
                 .apply(oauth2Client.oauth2Configuration())

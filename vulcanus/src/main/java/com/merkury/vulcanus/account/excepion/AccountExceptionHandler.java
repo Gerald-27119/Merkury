@@ -37,8 +37,14 @@ public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred: " + ex.getMessage());
     }
 
-    @ExceptionHandler({UserNotFoundException.class, EmailNotFoundException.class})
+    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<String> handleUserNotFoundException(Exception ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler({EmailNotFoundException.class, UsernameNotFoundException.class})
+    public ResponseEntity<String> handleUserDataNotFoundException(Exception ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
