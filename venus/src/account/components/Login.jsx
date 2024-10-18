@@ -19,6 +19,14 @@ function Login() {
   const linkStyle = "text-blue-700 text-sm hover:underline";
   const navigate = useNavigate();
 
+  function handleGoogleLogin() {
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+  }
+
+  const handleGithubLogin = async () => {
+    window.location.href = "http://localhost:8080/oauth2/authorization/github";
+  };
+
   useEffect(() => {
     if (username) setUsernameError("");
     if (password) setPasswordError("");
@@ -48,7 +56,9 @@ function Login() {
   };
 
   const loginUser = (userData) => {
-    return axios.post("http://localhost:8080/account/login", userData);
+    return axios.post("http://localhost:8080/account/login", userData, {
+      withCredentials: true,
+    });
   };
 
   const loginMutation = useMutation({
@@ -66,7 +76,7 @@ function Login() {
     onSuccess: (response) => {
       console.log(response.status);
       console.log("Login successful!");
-      navigate("/temp");
+      navigate("/main-view");
     },
   });
 
@@ -148,7 +158,7 @@ function Login() {
           {loginError && <label className={errorStyle}>{loginError}</label>}
 
           <div className="register-link flex">
-            <p className="text-sm">Don't have an account?&nbsp;</p>
+            <p className="text-sm">Don&apos;t have an account?&nbsp;</p>
             <Link to="/register" className={linkStyle}>
               Register
             </Link>
@@ -160,16 +170,16 @@ function Login() {
                 or
               </span>
             </div>
-            <OauthButton>
-              <FcGoogle className="mr-3" size={25} />
-              Continue with Google account.
-            </OauthButton>
-            <OauthButton>
-              <FaGithub className="mr-3" size={25} />
-              Continue with Github account.
-            </OauthButton>
           </div>
         </form>
+        <OauthButton onClick={handleGoogleLogin}>
+          <FcGoogle className="mr-3" size={25} />
+          Continue with Google account.
+        </OauthButton>
+        <OauthButton onClick={handleGithubLogin}>
+          <FaGithub className="mr-3" size={25} />
+          Continue with Github account.
+        </OauthButton>
       </div>
     </div>
   );

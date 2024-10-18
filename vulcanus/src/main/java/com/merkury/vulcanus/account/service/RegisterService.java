@@ -3,6 +3,7 @@ package com.merkury.vulcanus.account.service;
 import com.merkury.vulcanus.account.dto.UserRegisterDto;
 import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
+import com.merkury.vulcanus.account.user.Provider;
 import com.merkury.vulcanus.account.user.Role;
 import com.merkury.vulcanus.account.user.UserEntity;
 import com.merkury.vulcanus.account.user.UserEntityRepository;
@@ -18,13 +19,25 @@ class RegisterService {
     private final PasswordEncoder passwordEncoder;
 
     public void registerUser(UserRegisterDto userDto) throws EmailTakenException, UsernameTakenException {
-        if (userEntityRepository.existsByEmail(userDto.email())) {
-            throw new EmailTakenException();
-        }
-        if(userEntityRepository.existsByUsername(userDto.username())) {
-            throw new UsernameTakenException();
-        }
+        checkIfCredentialsTaken(userDto.email(), userDto.username());
         var user = mapToUser(userDto);
+        userEntityRepository.save(user);
+    }
+
+    public void registerOauth2User(String email, String username, String provider)
+            throws UsernameTakenException, EmailTakenException {
+        checkIfCredentialsTaken(email, username);
+        Provider authProvider = Provider.valueOf(provider.toUpperCase());
+        UserEntity user = UserEntity.builder()
+                .email(email)
+                .username(username)
+                .role(Role.USER)
+                .provider(authProvider)
+                .enabled(true)
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .accountNonExpired(true)
+                .build();
         userEntityRepository.save(user);
     }
 
@@ -34,6 +47,18 @@ class RegisterService {
                 .email(userDto.email())
                 .password(passwordEncoder.encode(userDto.password()))
                 .role(Role.USER)
+                .provider(Provider.NONE)
                 .build();
     }
+
+    private void checkIfCredentialsTaken(String userEmail, String username)
+            throws EmailTakenException, UsernameTakenException {
+        if (userEntityRepository.existsByEmail(userEmail)) {
+            throw new EmailTakenException();
+        }
+        if (userEntityRepository.existsByUsername(username)) {
+            throw new UsernameTakenException();
+        }
+    }
+
 }

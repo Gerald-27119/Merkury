@@ -27,6 +27,8 @@ public class UserEntity implements UserDetails {
     private String password;
     @Enumerated(value = EnumType.STRING)
     private Role role;
+    @Enumerated(value = EnumType.STRING)
+    private Provider provider;
     @OneToOne
     private PasswordResetToken passwordResetToken;
 
