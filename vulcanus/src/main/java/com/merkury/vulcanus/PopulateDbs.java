@@ -47,7 +47,6 @@ public class PopulateDbs {
                     .password(passwordEncoder.encode("password"))
                     .role(Role.USER)
                     .provider(Provider.NONE)
-                    .passwordResetToken(token)
                     .build();
 
             userEntityRepository.save(admin);
