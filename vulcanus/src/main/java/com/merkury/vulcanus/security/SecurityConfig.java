@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.security;
 
+import com.merkury.vulcanus.properties.UrlsProperties;
 import com.merkury.vulcanus.security.jwt.JwtAuthEntryPoint;
 import com.merkury.vulcanus.security.jwt.JwtAuthFilter;
 import com.merkury.vulcanus.security.jwt.JwtGenerator;
@@ -32,6 +33,7 @@ public class SecurityConfig {
 
     private final JwtAuthEntryPoint authEntryPoint;
     private final CustomUserDetailsService userDetailsService;
+    private final UrlsProperties urlsProperties;
     private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
     private static final String ACCESS_TOKEN_COOKIE = "accessToken";
 
@@ -41,21 +43,29 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/account/**","/oauth2/**").permitAll() // Permit access to /register endpoint
                         .requestMatchers("/actuator/prometheus", "/actuator/health", "/actuator/info").permitAll()
-                        .requestMatchers("/account/**", "/register").permitAll()
                         .requestMatchers("/security/refresh").permitAll()
                         .anyRequest().authenticated()
                 )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage(urlsProperties.getOauth2LoginPageUrl())
+                        .defaultSuccessUrl(urlsProperties.getOauth2DefaultSuccessUrl(), true)
+                        .failureUrl(urlsProperties.getOauth2FailureUrl())
+                )
                 .logout(logout -> logout
-                        .logoutUrl("/account/logout")
+                        .logoutUrl("/account/oauth2/logout")
+                        .logoutSuccessUrl(urlsProperties.getLogoutUrl())
                         .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
                         .deleteCookies(REFRESH_TOKEN_COOKIE_NAME, ACCESS_TOKEN_COOKIE)
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authEntryPoint)
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 )
                 .httpBasic(HttpBasicConfigurer::disable)
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -69,6 +79,7 @@ public class SecurityConfig {
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
         configuration.setAllowCredentials(true);
+        configuration.setMaxAge(300L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -89,4 +100,5 @@ public class SecurityConfig {
     public JwtAuthFilter jwtAuthenticationFilter() {
         return new JwtAuthFilter(new JwtGenerator(), userDetailsService, new JwtManager());
     }
+
 }

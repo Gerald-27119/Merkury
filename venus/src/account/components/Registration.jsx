@@ -85,6 +85,14 @@ export default function Registration() {
     },
   };
 
+  function handleGoogleRegistration() {
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+  }
+
+  function handleGithubRegistration() {
+    window.location.href = "http://localhost:8080/oauth2/authorization/github";
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
     mutate({
@@ -93,6 +101,7 @@ export default function Registration() {
       password: enteredValue.password,
     });
   }
+
   function handleInputChange(id, event) {
     setEnteredValue((prevState) => ({
       ...prevState,
@@ -180,16 +189,16 @@ export default function Registration() {
                 or
               </span>
             </div>
-            <OauthButton>
-              <FcGoogle className="mr-3" size={25} />
-              Continue with Google account.
-            </OauthButton>
-            <OauthButton>
-              <FaGithub className="mr-3" size={25} />
-              Continue with Github account.
-            </OauthButton>
           </div>
         </form>
+        <OauthButton onClick={handleGoogleRegistration}>
+          <FcGoogle className="mr-3" size={25} />
+          Continue with Google account.
+        </OauthButton>
+        <OauthButton onClick={handleGithubRegistration}>
+          <FaGithub className="mr-3" size={25} />
+          Continue with Github account.
+        </OauthButton>
         <Link
           to="/login"
           className="text-sm hover:underline pt-8 text-gray-600"
