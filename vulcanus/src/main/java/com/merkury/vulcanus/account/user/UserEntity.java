@@ -28,7 +28,6 @@ public class UserEntity implements UserDetails {
     private String password;
     @Enumerated(value = EnumType.STRING)
     private Role role;
-    private UUID passwordResetToken;
 
     private Boolean accountNonExpired;
     private Boolean accountNonLocked;

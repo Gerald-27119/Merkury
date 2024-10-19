@@ -6,20 +6,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
-@Table(name = "password_reset_token")
+@Document(collection = "password_reset_token")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 public class PasswordResetToken {
     @Id
-    @GeneratedValue
     private String id;
+    @Indexed(unique = true)
     private UUID token;
     private LocalDateTime expirationDate;
     private String userEmail;
