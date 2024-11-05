@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { isEmail } from "../regex.js";
-import Input from "./Input.jsx";
+import { isEmail } from "../../validation/regex.js";
 
-function ForgotPassword() {
+export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [mainError, setMainError] = useState("");
@@ -98,5 +97,3 @@ function ForgotPassword() {
     </div>
   );
 }
-
-export default ForgotPassword;

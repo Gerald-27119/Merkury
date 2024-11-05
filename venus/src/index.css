@@ -12,19 +12,11 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     flex-direction: column;
 }
 
-header {
-    padding: 3rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
+/*jeszcze nie rozgryzłem czemu ale styl do rozmiaru mapy musi być w index.css, inaczej nie działa*/
 .leaflet-container {
-    height: 90vh;
-    width: 90%;
-    border-radius: 2rem;
+    height: 95vh;
+    width: 100%;
 }

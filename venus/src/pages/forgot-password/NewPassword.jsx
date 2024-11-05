@@ -2,10 +2,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { isEmail, isPassword, isEqualsToOtherValue } from "../regex.js";
-import Input from "./Input.jsx";
+import {
+  isEmail,
+  isPassword,
+  isEqualsToOtherValue,
+} from "../../validation/regex.js";
+import Input from "../../components/Input.jsx";
 
-function newPassword() {
+export default function newPassword() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
 
@@ -132,5 +136,3 @@ function newPassword() {
     </div>
   );
 }
-
-export default newPassword;

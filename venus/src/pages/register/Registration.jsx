@@ -1,4 +1,4 @@
-import Input from "./Input.jsx";
+import Input from "../../components/Input.jsx";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import {
@@ -7,10 +7,10 @@ import {
   isNotEmpty,
   isPassword,
   isUsername,
-} from "../regex.js";
-import { fetchRegistration } from "../http.js";
+} from "../../validation/regex.js";
+import { fetchRegistration } from "../../http/account.js";
 import { useMutation } from "@tanstack/react-query";
-import OauthButton from "./OauthButton.jsx";
+import OauthButton from "../../components/OauthButton.jsx";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
