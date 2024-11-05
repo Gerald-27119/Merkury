@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 export default function SpotDetails({ spot }) {
   return (
     <div>
@@ -15,19 +13,3 @@ export default function SpotDetails({ spot }) {
     </div>
   );
 }
-
-SpotDetails.propTypes = {
-  spot: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    rating: PropTypes.number,
-    comments: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-          .isRequired,
-        text: PropTypes.string,
-        rating: PropTypes.number,
-      }),
-    ),
-  }).isRequired,
-};
