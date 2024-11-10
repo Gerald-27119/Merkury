@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.module.css";
 import { useMutation } from "@tanstack/react-query";
 import OauthForm from "../../components/oauth/OauthForm.jsx";
+import Input from "../../components/Input.jsx";
+import Button from "../account/Button.jsx";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -66,7 +67,7 @@ function Login() {
     onSuccess: (response) => {
       console.log(response.status);
       console.log("Login successful!");
-      navigate("/main-view");
+      navigate("/");
     },
   });
 
@@ -90,12 +91,12 @@ function Login() {
   };
 
   return (
-    <div className="h-screen items-center justify-center flex bg-[url('https://support.discord.com/hc/article_attachments/22839154408087')] bg-cover bg-center h-screen">
+    <div className="h-screen items-center justify-center flex bg-[url('https://support.discord.com/hc/article_attachments/22839154408087')] bg-cover bg-center">
       <div className="wrapper bg-amber-100 rounded-xl p-4 flex flex-col">
+        <h1 className="text-center text-2xl font-bold mr-7 ml-7 mb-5">
+          Welcome Back!
+        </h1>
         <form onSubmit={handleSubmit}>
-          <h1 className="text-center text-2xl font-bold mr-7 ml-7 mb-5">
-            Welcome Back!
-          </h1>
           <div className="input-box text-sm font-medium text-gray-900 dark:text-black">
             <input
               value={username}
@@ -106,16 +107,13 @@ function Login() {
               className={inputStyle}
               maxLength={100}
             />
-            <br />
             {/*If Error is not empty or null then display*/}
             {usernameError && (
               <label className={errorStyle}>{usernameError}</label>
             )}
           </div>
-          <br />
-
           <div className="input-box text-sm font-medium text-gray-900 dark:text-black">
-            <input
+            <Input
               value={password}
               onBlur={validatePassword}
               onChange={(e) => setPassword(e.target.value)}
@@ -123,28 +121,25 @@ function Login() {
               placeholder="Password"
               className={inputStyle}
               maxLength={100}
+              error={passwordError}
             />
-            <br />
             {/*If passwordError is not empty or null then display*/}
             {passwordError && (
               <label className={errorStyle}>{passwordError}</label>
             )}
           </div>
-          <br />
-
           <div className={"remember-forgot flex justify-between"}>
             <Link to="/login/forgot-password" className={linkStyle}>
               Forgot Password?
             </Link>
           </div>
-
-          <button
+          <Button
             type="submit"
-            className="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
+            classNames="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
             disabled={loginMutation.isLoading}
           >
             Sign In
-          </button>
+          </Button>
           {loginError && <label className={errorStyle}>{loginError}</label>}
 
           <div className="register-link flex">
