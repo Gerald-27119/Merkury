@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.module.css";
 import { useMutation } from "@tanstack/react-query";
-import OauthButton from "../../components/OauthButton.jsx";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
+import OauthForm from "../../components/oauth/OauthForm.jsx";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -18,14 +16,6 @@ function Login() {
   const errorStyle = "text-red-600 text-xs p-0 m-0";
   const linkStyle = "text-blue-700 text-sm hover:underline";
   const navigate = useNavigate();
-
-  function handleGoogleLogin() {
-    window.location.href = "http://localhost:8080/oauth2/authorization/google";
-  }
-
-  const handleGithubLogin = async () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/github";
-  };
 
   useEffect(() => {
     if (username) setUsernameError("");
@@ -153,7 +143,7 @@ function Login() {
             className="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
             disabled={loginMutation.isLoading}
           >
-            Log In
+            Sign In
           </button>
           {loginError && <label className={errorStyle}>{loginError}</label>}
 
@@ -172,14 +162,7 @@ function Login() {
             </div>
           </div>
         </form>
-        <OauthButton onClick={handleGoogleLogin}>
-          <FcGoogle className="mr-3" size={25} />
-          Continue with Google account.
-        </OauthButton>
-        <OauthButton onClick={handleGithubLogin}>
-          <FaGithub className="mr-3" size={25} />
-          Continue with Github account.
-        </OauthButton>
+        <OauthForm />
       </div>
     </div>
   );

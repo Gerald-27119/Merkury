@@ -10,11 +10,9 @@ import {
 } from "../../validation/regex.js";
 import { fetchRegistration } from "../../http/account.js";
 import { useMutation } from "@tanstack/react-query";
-import OauthButton from "../../components/OauthButton.jsx";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
+import OauthForm from "../../components/oauth/OauthForm.jsx";
 
-export default function Registration() {
+export default function Register() {
   const [enteredValue, setEnteredValue] = useState({
     username: "",
     password: "",
@@ -84,14 +82,6 @@ export default function Registration() {
           ) && "Passwords must be the same",
     },
   };
-
-  function handleGoogleRegistration() {
-    window.location.href = "http://localhost:8080/oauth2/authorization/google";
-  }
-
-  function handleGithubRegistration() {
-    window.location.href = "http://localhost:8080/oauth2/authorization/github";
-  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -191,14 +181,7 @@ export default function Registration() {
             </div>
           </div>
         </form>
-        <OauthButton onClick={handleGoogleRegistration}>
-          <FcGoogle className="mr-3" size={25} />
-          Continue with Google account.
-        </OauthButton>
-        <OauthButton onClick={handleGithubRegistration}>
-          <FaGithub className="mr-3" size={25} />
-          Continue with Github account.
-        </OauthButton>
+        <OauthForm />
         <Link
           to="/login"
           className="text-sm hover:underline pt-8 text-gray-600"
