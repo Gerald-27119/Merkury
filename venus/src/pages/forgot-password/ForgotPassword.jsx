@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { isEmail } from "../../validation/regex.js";
+import { isEmail } from "../../validation/validator.js";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");

@@ -7,7 +7,7 @@ import {
   isNotEmpty,
   isPassword,
   isUsername,
-} from "../../validation/regex.js";
+} from "../../validation/validator.js";
 import { fetchRegistration } from "../../http/account.js";
 import { useMutation } from "@tanstack/react-query";
 import OauthForm from "../../components/oauth/OauthForm.jsx";

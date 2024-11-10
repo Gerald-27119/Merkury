@@ -6,7 +6,7 @@ import {
   isEmail,
   isPassword,
   isEqualsToOtherValue,
-} from "../../validation/regex.js";
+} from "../../validation/validator.js";
 import Input from "../../components/Input.jsx";
 
 export default function newPassword() {
