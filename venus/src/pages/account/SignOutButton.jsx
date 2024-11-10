@@ -12,19 +12,14 @@ export default function SignOutButton() {
         },
       );
     } catch (error) {
-      console.log("error logout: ", error);
+      console.error("error logout: ", error);
     }
     window.location.href = "/";
   };
 
-  const customStyle = {
-    backgroundColor: "red",
-    fontSize: "20px",
-  };
-
   return (
     <>
-      <Button onClick={handleSignOut} className="text-3xl" style={customStyle}>
+      <Button classNames={"px-1.5"} onClick={handleSignOut}>
         Sign out
       </Button>
     </>
