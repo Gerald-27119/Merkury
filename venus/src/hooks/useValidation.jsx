@@ -7,7 +7,7 @@ import {
   isUsername,
 } from "../validation/validator.js";
 
-const useValidation = (initialValues) => {
+const useValidation = (initialValues, shouldValidatePassword = true) => {
   const [enteredValue, setEnteredValue] = useState(initialValues);
   const [didEdit, setDidEdit] = useState(
     Object.fromEntries(Object.keys(initialValues).map((key) => [key, false])),
@@ -39,7 +39,7 @@ const useValidation = (initialValues) => {
       } else if (!isEmail(value)) {
         error = { value: true, message: "E-mail must contain @." };
       }
-    } else if (field === "password") {
+    } else if (field === "password" && shouldValidatePassword) {
       if (!isNotEmpty(value)) {
         error = { value: true, message: "Password can't be empty." };
       } else if (!isPassword(value)) {

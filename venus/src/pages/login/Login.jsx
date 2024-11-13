@@ -12,7 +12,7 @@ function Login() {
   });
 
   const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
-    useValidation({ username: "", password: "" });
+    useValidation({ username: "", password: "" }, false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
