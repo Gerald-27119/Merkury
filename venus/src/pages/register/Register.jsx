@@ -8,20 +8,6 @@ import useValidation from "../../hooks/useValidation.jsx";
 export default function Register() {
   const { mutate, isSuccess, error } = useMutation({
     mutationFn: registerUser,
-    // onSuccess: () => {
-    //   setEnteredValue({
-    //     username: "",
-    //     password: "",
-    //     "confirm-password": "",
-    //     email: "",
-    //   });
-    //   setDidEdit({
-    //     username: false,
-    //     password: false,
-    //     "confirm-password": false,
-    //     email: false,
-    //   });
-    // },
   });
 
   const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
