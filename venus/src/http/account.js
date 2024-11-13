@@ -12,6 +12,7 @@ export async function loginUser(userData) {
 }
 
 export async function sentEmailWithNewPasswordLink(email) {
+  console.log("sending email...");
   return await axios.post(
     "http://localhost:8080/account/forgot-password",
     email,

@@ -12,7 +12,7 @@ function Login() {
   });
 
   const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
-    useValidation({ username: "" });
+    useValidation({ username: "", password: "" });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -56,7 +56,7 @@ function Login() {
         />
         <div className={"remember-forgot flex justify-between"}>
           <Link
-            to="/login/forgot-password"
+            to="/forgot-password"
             className="text-blue-700 text-sm hover:underline"
           >
             Forgot Password?

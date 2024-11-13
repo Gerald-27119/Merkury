@@ -13,16 +13,14 @@ export default function NewPassword() {
   const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
     useValidation({ password: "", "confirm-password": "" });
 
-  const { isSuccess, error, mutate, isLoading } = useMutation({
+  const { isSuccess, error, mutate } = useMutation({
     mutationFn: changePassword,
   });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (isValid.password.value && isValid["confirm-password"].value) {
-      mutate({ token, password: enteredValue.password });
-    }
+    mutate({ token, password: enteredValue.password });
   };
 
   return (
@@ -43,7 +41,8 @@ export default function NewPassword() {
           type="password"
           placeholder="New Password"
           maxLength={100}
-          error={error}
+          error={isValid?.password}
+          label="new password"
         />
         <Input
           id="confirm-password"
@@ -53,18 +52,17 @@ export default function NewPassword() {
           type="password"
           placeholder="Confirm New Password"
           maxLength={100}
-          error={error}
+          error={isValid["confirm-password"]}
           label="confirm password"
         />
         <Button
           type="submit"
           classNames="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
           disabled={
-            isLoading ||
             !didEdit.password ||
             !didEdit["confirm-password"] ||
-            !isValid.password.value ||
-            !isValid["confirm-password"].value
+            isValid.password.value ||
+            isValid["confirm-password"].value
           }
         >
           Set Password

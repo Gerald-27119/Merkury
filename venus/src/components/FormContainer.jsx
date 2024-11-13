@@ -36,15 +36,16 @@ export default function FormContainer({
           </p>
         )}
         {children}
-        <div>
-          <div className="inline-flex items-center justify-center w-full">
-            <hr className="w-96 h-px my-8 bg-white border-0" />
-            <span className="uppercase text-lg -translate-x-1/2 absolute bg-amber-400 left-1/2 px-2 font-bold text-white">
-              or
-            </span>
-          </div>
-        </div>
-        {showOauth && <OauthForm />}
+        {showOauth && (
+            <div>
+              <div className="inline-flex items-center justify-center w-full">
+                <hr className="w-96 h-px my-8 bg-white border-0" />
+                <span className="uppercase text-lg -translate-x-1/2 absolute bg-amber-400 left-1/2 px-2 font-bold text-white">
+                  or
+                </span>
+              </div>
+            </div>
+          ) && <OauthForm />}
         {showLink && (
           <Link
             to={navigateTo}
