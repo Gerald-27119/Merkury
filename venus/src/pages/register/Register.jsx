@@ -1,87 +1,36 @@
 import Input from "../../components/Input.jsx";
-import { useState } from "react";
-import {
-  isEmail,
-  isEqualsToOtherValue,
-  isNotEmpty,
-  isPassword,
-  isUsername,
-} from "../../validation/validator.js";
 import { registerUser } from "../../http/account.js";
 import { useMutation } from "@tanstack/react-query";
 import FormContainer from "../../components/FormContainer.jsx";
 import Button from "../account/Button.jsx";
+import useValidation from "../../hooks/useValidation.jsx";
 
 export default function Register() {
-  const [enteredValue, setEnteredValue] = useState({
-    username: "",
-    password: "",
-    "confirm-password": "",
-    email: "",
-  });
-
-  const [didEdit, setDidEdit] = useState({
-    username: false,
-    password: false,
-    "confirm-password": false,
-    email: false,
-  });
-
   const { mutate, isSuccess, error } = useMutation({
     mutationFn: registerUser,
-    onSuccess: () => {
-      setEnteredValue({
-        username: "",
-        password: "",
-        "confirm-password": "",
-        email: "",
-      });
-      setDidEdit({
-        username: false,
-        password: false,
-        "confirm-password": false,
-        email: false,
-      });
-    },
+    // onSuccess: () => {
+    //   setEnteredValue({
+    //     username: "",
+    //     password: "",
+    //     "confirm-password": "",
+    //     email: "",
+    //   });
+    //   setDidEdit({
+    //     username: false,
+    //     password: false,
+    //     "confirm-password": false,
+    //     email: false,
+    //   });
+    // },
   });
 
-  const isValid = {
-    username: {
-      value: didEdit.username && !isUsername(enteredValue.username),
-      message: !isNotEmpty(enteredValue.username)
-        ? "Username can't be empty."
-        : !isUsername(enteredValue.username) &&
-          "Username must contain 3 to 16.",
-    },
-    email: {
-      value: didEdit.email && !isEmail(enteredValue.email),
-      message: !isNotEmpty(enteredValue.email)
-        ? "E-mail can't be empty."
-        : !isEmail(enteredValue.email) && "E-mail must contain @.",
-    },
-    password: {
-      value: didEdit.password && !isPassword(enteredValue.password),
-      message: !isNotEmpty(enteredValue.password)
-        ? "Password can't be empty."
-        : !isPassword(enteredValue.password) &&
-          "Password must be minimum 8 long, contains small letter, big letter, number and special char.",
-    },
-    "confirm-password": {
-      value:
-        didEdit["confirm-password"] &&
-        (!isPassword(enteredValue["confirm-password"]) ||
-          !isEqualsToOtherValue(
-            enteredValue["confirm-password"],
-            enteredValue.password,
-          )),
-      message: !isNotEmpty(enteredValue.password)
-        ? "Password can't be empty."
-        : !isEqualsToOtherValue(
-            enteredValue["confirm-password"],
-            enteredValue.password,
-          ) && "Passwords must be the same",
-    },
-  };
+  const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
+    useValidation({
+      password: "",
+      username: "",
+      email: "",
+      "confirm-password": "",
+    });
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -90,20 +39,6 @@ export default function Register() {
       email: enteredValue.email,
       password: enteredValue.password,
     });
-  }
-
-  function handleInputChange(id, event) {
-    setEnteredValue((prevState) => ({
-      ...prevState,
-      [id]: event.target.value,
-    }));
-  }
-
-  function handleInputBlur(id) {
-    setDidEdit((prevState) => ({
-      ...prevState,
-      [id]: true,
-    }));
   }
 
   return (

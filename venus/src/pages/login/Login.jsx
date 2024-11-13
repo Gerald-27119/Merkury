@@ -1,71 +1,28 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import Input from "../../components/Input.jsx";
 import Button from "../account/Button.jsx";
-import {
-  isNotEmpty,
-  isPassword,
-  isUsername,
-} from "../../validation/validator.js";
 import { loginUser } from "../../http/account.js";
 import FormContainer from "../../components/FormContainer.jsx";
+import useValidation from "../../hooks/useValidation.jsx";
 
 function Login() {
-  const [enteredValue, setEnteredValue] = useState({
-    username: "",
-    password: "",
-  });
-
-  const [didEdit, setDidEdit] = useState({
-    username: false,
-    password: false,
-  });
-
   const { mutate, isSuccess, error } = useMutation({
     mutationFn: loginUser,
-    onSuccess: () => {
-      setEnteredValue({
-        username: "",
-        password: "",
-      });
-      setDidEdit({
-        username: false,
-        password: false,
-      });
-    },
+    // onSuccess: () => {
+    //   setEnteredValue({
+    //     username: "",
+    //     password: "",
+    //   });
+    //   setDidEdit({
+    //     username: false,
+    //     password: false,
+    //   });
+    // },
   });
 
-  const isValid = {
-    username: {
-      value: didEdit.username && !isUsername(enteredValue.username),
-      message: !isNotEmpty(enteredValue.username)
-        ? "Username can't be empty."
-        : !isUsername(enteredValue.username) &&
-          "Username must contain 3 to 16.",
-    },
-    password: {
-      value: didEdit.password && !isPassword(enteredValue.password),
-      message: !isNotEmpty(enteredValue.password)
-        ? "Password can't be empty."
-        : !isPassword(enteredValue.password) &&
-          "Password must be minimum 8 long, contains small letter, big letter, number and special char.",
-    },
-  };
-
-  function handleInputChange(id, event) {
-    setEnteredValue((prevState) => ({
-      ...prevState,
-      [id]: event.target.value,
-    }));
-  }
-
-  function handleInputBlur(id) {
-    setDidEdit((prevState) => ({
-      ...prevState,
-      [id]: true,
-    }));
-  }
+  const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
+    useValidation({ password: "", username: "" });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -74,7 +31,6 @@ function Login() {
       password: enteredValue.password,
     });
   };
-
   return (
     <FormContainer
       error={error}
@@ -92,7 +48,7 @@ function Login() {
           type="text"
           placeholder="Username"
           maxLength={100}
-          error={isValid.username}
+          error={isValid?.username}
         />
         <Input
           id="password"
@@ -103,7 +59,7 @@ function Login() {
           type="password"
           placeholder="Password"
           maxLength={100}
-          error={isValid.password}
+          error={isValid?.password}
         />
         <div className={"remember-forgot flex justify-between"}>
           <Link
