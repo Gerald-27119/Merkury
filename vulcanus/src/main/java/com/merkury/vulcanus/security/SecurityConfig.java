@@ -34,8 +34,7 @@ public class SecurityConfig {
     private final JwtAuthEntryPoint authEntryPoint;
     private final CustomUserDetailsService userDetailsService;
     private final UrlsProperties urlsProperties;
-    private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
-    private static final String ACCESS_TOKEN_COOKIE = "accessToken";
+    private static final String TOKEN_NAME = "JWT_token";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -43,9 +42,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/account/**","/oauth2/**").permitAll() // Permit access to /register endpoint
+                        .requestMatchers("/account/login","/oauth2/**").permitAll() // Permit access to /register endpoint
                         .requestMatchers("/actuator/prometheus", "/actuator/health", "/actuator/info").permitAll()
-                        .requestMatchers("/security/refresh").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
@@ -59,7 +57,7 @@ public class SecurityConfig {
                         .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
-                        .deleteCookies(REFRESH_TOKEN_COOKIE_NAME, ACCESS_TOKEN_COOKIE)
+                        .deleteCookies(TOKEN_NAME)
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authEntryPoint)
