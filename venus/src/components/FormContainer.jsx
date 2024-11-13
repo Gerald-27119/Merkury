@@ -5,8 +5,11 @@ import { useEffect } from "react";
 export default function FormContainer({
   isSuccess,
   error,
-  navigateTo,
-  linkCaption,
+  header,
+  navigateTo = "",
+  linkCaption = "",
+  showOauth = true,
+  showLink = true,
   children,
 }) {
   const navigate = useNavigate();
@@ -21,7 +24,7 @@ export default function FormContainer({
     <div className="h-screen bg-[url('/bg-form.png')] bg-cover bg-no-repeat bg-center flex items-center justify-center w-screen">
       <div className="bg-amber-400 w-[30rem] rounded-md px-10 py-8 flex flex-col h-full justify-center">
         <h1 className="text-center text-2xl text-white font-bold pb-8">
-          Create account
+          {header}
         </h1>
         {isSuccess && (
           <p className="text-center text-xl text-gray-600">Account created!</p>
@@ -40,13 +43,15 @@ export default function FormContainer({
             </span>
           </div>
         </div>
-        <OauthForm />
-        <Link
-          to={navigateTo}
-          className="text-sm hover:underline pt-8 text-gray-600"
-        >
-          {linkCaption}
-        </Link>
+        {showOauth && <OauthForm />}
+        {showLink && (
+          <Link
+            to={navigateTo}
+            className="text-sm hover:underline pt-8 text-gray-600"
+          >
+            {linkCaption}
+          </Link>
+        )}
       </div>
     </div>
   );

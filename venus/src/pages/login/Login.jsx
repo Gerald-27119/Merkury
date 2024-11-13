@@ -27,6 +27,7 @@ function Login() {
       isSuccess={isSuccess}
       navigateTo="/register"
       linkCaption="Don't have an account?"
+      header="Sign in"
     >
       <form onSubmit={handleSubmit}>
         <Input

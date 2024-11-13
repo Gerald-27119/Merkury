@@ -10,3 +10,14 @@ export async function loginUser(userData) {
     withCredentials: true,
   });
 }
+export async function sentEmailWithNewPasswordLink(email) {
+  return await axios.post(
+    "http://localhost:8080/account/forgot-password",
+    email,
+    {
+      headers: {
+        "Content-Type": "text/plain",
+      },
+    },
+  );
+}
