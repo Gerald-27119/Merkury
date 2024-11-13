@@ -34,6 +34,7 @@ export default function Register() {
       navigateTo="/login"
       linkCaption="Already have an account?"
       header="Create Account"
+      navigateOnSuccess="/"
     >
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <Input

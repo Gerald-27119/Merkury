@@ -7,16 +7,16 @@ import { sentEmailWithNewPasswordLink } from "../../http/account.js";
 
 export default function ForgotPassword() {
   const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
-    useValidation();
+    useValidation({ email: "" });
 
-  const { mutate, isSuccess, error, isPending } = useMutation({
+  const { mutate, isSuccess, error, isLoading } = useMutation({
     mutationFn: sentEmailWithNewPasswordLink,
   });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (isValid.email.value && !isPending) {
+    if (isValid.email.value && !isLoading) {
       mutate(enteredValue.email);
     }
   };
@@ -38,11 +38,13 @@ export default function ForgotPassword() {
           type="email"
           placeholder="Email"
           maxLength={100}
+          error={error}
+          label="email"
         />
         <Button
           type="submit"
           classNames="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
-          disabled={isPending || !didEdit.email || !isValid.email.value}
+          disabled={isLoading || !didEdit.email || !isValid.email.value}
         >
           Remind me
         </Button>

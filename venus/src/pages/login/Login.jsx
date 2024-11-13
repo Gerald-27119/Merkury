@@ -28,6 +28,7 @@ function Login() {
       navigateTo="/register"
       linkCaption="Don't have an account?"
       header="Sign in"
+      navigateOnSuccess="/"
     >
       <form onSubmit={handleSubmit}>
         <Input

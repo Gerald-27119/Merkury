@@ -10,15 +10,16 @@ export default function FormContainer({
   linkCaption = "",
   showOauth = true,
   showLink = true,
+  navigateOnSuccess = null,
   children,
 }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isSuccess) {
-      navigate("/");
+    if (isSuccess && navigateOnSuccess) {
+      navigate(navigateOnSuccess);
     }
-  }, [isSuccess, navigate]);
+  }, [isSuccess, navigate, navigateOnSuccess]);
 
   return (
     <div className="h-screen bg-[url('/bg-form.png')] bg-cover bg-no-repeat bg-center flex items-center justify-center w-screen">

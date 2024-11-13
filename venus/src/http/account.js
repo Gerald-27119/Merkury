@@ -10,6 +10,7 @@ export async function loginUser(userData) {
     withCredentials: true,
   });
 }
+
 export async function sentEmailWithNewPasswordLink(email) {
   return await axios.post(
     "http://localhost:8080/account/forgot-password",
@@ -19,5 +20,12 @@ export async function sentEmailWithNewPasswordLink(email) {
         "Content-Type": "text/plain",
       },
     },
+  );
+}
+
+export async function changePassword(userData) {
+  return await axios.post(
+    "http://localhost:8080/account/set-new-password",
+    userData,
   );
 }
