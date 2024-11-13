@@ -9,20 +9,10 @@ import useValidation from "../../hooks/useValidation.jsx";
 function Login() {
   const { mutate, isSuccess, error } = useMutation({
     mutationFn: loginUser,
-    // onSuccess: () => {
-    //   setEnteredValue({
-    //     username: "",
-    //     password: "",
-    //   });
-    //   setDidEdit({
-    //     username: false,
-    //     password: false,
-    //   });
-    // },
   });
 
   const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
-    useValidation({ password: "", username: "" });
+    useValidation({ username: "" });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -60,6 +50,7 @@ function Login() {
           placeholder="Password"
           maxLength={100}
           error={isValid?.password}
+          required={true}
         />
         <div className={"remember-forgot flex justify-between"}>
           <Link

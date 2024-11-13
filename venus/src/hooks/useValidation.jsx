@@ -67,7 +67,6 @@ const useValidation = (initialValues) => {
     });
     setIsValid(newIsValid);
 
-    // Return true if all fields are valid
     return Object.values(newIsValid).every((field) => !field.value);
   };
 
@@ -76,12 +75,10 @@ const useValidation = (initialValues) => {
     setEnteredValue((prev) => ({ ...prev, [field]: value }));
     setDidEdit((prev) => ({ ...prev, [field]: true }));
 
-    // Validate the field as the user types
     setIsValid((prev) => ({ ...prev, [field]: validateField(field, value) }));
   };
 
   const handleInputBlur = (field) => {
-    // Always validate the field when it loses focus
     setDidEdit((prev) => ({ ...prev, [field]: true }));
     setIsValid((prev) => ({
       ...prev,
