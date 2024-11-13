@@ -1,23 +1,12 @@
-export async function fetchRegistration(user) {
-  try {
-    const response = await fetch("http://localhost:8080/account/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
+import axios from "axios";
 
-    if (!response.ok) {
-      const errorDetails = await response.text();
-      const error = new Error(errorDetails);
-      error.status = response.status;
-      throw error.status;
-    }
+export async function registerUser(user) {
+  const url = "http://localhost:8080/account/register";
+  return await axios.post(url, user);
+}
 
-    const responseData = await response.text();
-    return responseData.response;
-  } catch (error) {
-    throw error;
-  }
+export async function loginUser(userData) {
+  return await axios.post("http://localhost:8080/account/login", userData, {
+    withCredentials: true,
+  });
 }

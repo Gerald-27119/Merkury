@@ -1,5 +1,4 @@
 import Input from "../../components/Input.jsx";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import {
   isEmail,
@@ -8,9 +7,10 @@ import {
   isPassword,
   isUsername,
 } from "../../validation/validator.js";
-import { fetchRegistration } from "../../http/account.js";
+import { registerUser } from "../../http/account.js";
 import { useMutation } from "@tanstack/react-query";
-import OauthForm from "../../components/oauth/OauthForm.jsx";
+import FormContainer from "../../components/FormContainer.jsx";
+import Button from "../account/Button.jsx";
 
 export default function Register() {
   const [enteredValue, setEnteredValue] = useState({
@@ -28,7 +28,7 @@ export default function Register() {
   });
 
   const { mutate, isSuccess, error } = useMutation({
-    mutationFn: fetchRegistration,
+    mutationFn: registerUser,
     onSuccess: () => {
       setEnteredValue({
         username: "",
@@ -107,88 +107,66 @@ export default function Register() {
   }
 
   return (
-    <div className="h-screen bg-amber-100 flex items-center justify-center">
-      <div className="bg-amber-400 w-[30rem] rounded-md px-10 py-8 flex flex-col">
-        <h1 className="text-center text-2xl text-white font-bold pb-8">
-          Create account
-        </h1>
-        {isSuccess && (
-          <p className="text-center text-xl text-gray-600">Account created!</p>
-        )}
-        {error === 409 && (
-          <p className="text-center text-xl text-red-600">
-            E-mail or Username already taken.
-          </p>
-        )}
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <Input
-            label="Username"
-            type="text"
-            id="username"
-            onChange={(event) => handleInputChange("username", event)}
-            value={enteredValue.username}
-            onBlur={() => handleInputBlur("username")}
-            error={isValid.username}
-          />
-          <Input
-            label="E-mail"
-            type="email"
-            id="email"
-            onChange={(event) => handleInputChange("email", event)}
-            value={enteredValue.email}
-            onBlur={() => handleInputBlur("email")}
-            error={isValid.email}
-          />
-          <Input
-            label="Password"
-            type="password"
-            id="password"
-            onChange={(event) => handleInputChange("password", event)}
-            value={enteredValue.password}
-            onBlur={() => handleInputBlur("password")}
-            error={isValid.password}
-          />
-          <Input
-            label="Confirm Password"
-            type="password"
-            id="confirm-password"
-            onChange={(event) => handleInputChange("confirm-password", event)}
-            value={enteredValue["confirm-password"]}
-            onBlur={() => handleInputBlur("confirm-password")}
-            error={isValid["confirm-password"]}
-          />
-          <button
-            className="bg-red-600 p-3 mt-3 text-white rounded-md text-lg"
-            disabled={
-              !didEdit.username ||
-              !didEdit.password ||
-              !didEdit.email ||
-              !didEdit["confirm-password"] ||
-              isValid.email.value ||
-              isValid.password.value ||
-              isValid.username.value ||
-              isValid["confirm-password"].value
-            }
-          >
-            Sign up
-          </button>
-          <div>
-            <div className="inline-flex items-center justify-center w-full">
-              <hr className="w-96 h-px my-8 bg-white border-0" />
-              <span className="uppercase text-lg -translate-x-1/2 absolute bg-amber-400 left-1/2 px-2 font-bold text-white">
-                or
-              </span>
-            </div>
-          </div>
-        </form>
-        <OauthForm />
-        <Link
-          to="/login"
-          className="text-sm hover:underline pt-8 text-gray-600"
+    <FormContainer
+      isSuccess={isSuccess}
+      error={error}
+      navigateTo="/login"
+      linkCaption="Already have an account?"
+    >
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        <Input
+          label="Username"
+          type="text"
+          id="username"
+          onChange={(event) => handleInputChange("username", event)}
+          value={enteredValue.username}
+          onBlur={() => handleInputBlur("username")}
+          error={isValid.username}
+        />
+        <Input
+          label="E-mail"
+          type="email"
+          id="email"
+          onChange={(event) => handleInputChange("email", event)}
+          value={enteredValue.email}
+          onBlur={() => handleInputBlur("email")}
+          error={isValid.email}
+        />
+        <Input
+          label="Password"
+          type="password"
+          id="password"
+          onChange={(event) => handleInputChange("password", event)}
+          value={enteredValue.password}
+          onBlur={() => handleInputBlur("password")}
+          error={isValid.password}
+        />
+        <Input
+          label="Confirm Password"
+          type="password"
+          id="confirm-password"
+          onChange={(event) => handleInputChange("confirm-password", event)}
+          value={enteredValue["confirm-password"]}
+          onBlur={() => handleInputBlur("confirm-password")}
+          error={isValid["confirm-password"]}
+        />
+        <Button
+          type="submit"
+          classNames="bg-red-600 p-3 mt-3 text-white rounded-md text-lg"
+          disabled={
+            !didEdit.username ||
+            !didEdit.password ||
+            !didEdit.email ||
+            !didEdit["confirm-password"] ||
+            isValid.email.value ||
+            isValid.password.value ||
+            isValid.username.value ||
+            isValid["confirm-password"].value
+          }
         >
-          Already have an account?
-        </Link>
-      </div>
-    </div>
+          Sign up
+        </Button>
+      </form>
+    </FormContainer>
   );
 }
