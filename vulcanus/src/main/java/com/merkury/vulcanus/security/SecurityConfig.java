@@ -26,6 +26,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.merkury.vulcanus.security.jwt.JwtConfig.getTokenName;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -34,7 +36,6 @@ public class SecurityConfig {
     private final JwtAuthEntryPoint authEntryPoint;
     private final CustomUserDetailsService userDetailsService;
     private final UrlsProperties urlsProperties;
-    private static final String TOKEN_NAME = "JWT_token";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -42,7 +43,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/account/login","/oauth2/**").permitAll() // Permit access to /register endpoint
+                        .requestMatchers("/account/login", "/oauth2/**").permitAll() // Permit access to /register endpoint
                         .requestMatchers("/actuator/prometheus", "/actuator/health", "/actuator/info").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -57,7 +58,7 @@ public class SecurityConfig {
                         .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
-                        .deleteCookies(TOKEN_NAME)
+                        .deleteCookies(getTokenName())
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authEntryPoint)

@@ -1,12 +1,12 @@
 package com.merkury.vulcanus.security.jwt;
 
 import com.merkury.vulcanus.security.CustomUserDetailsService;
-import com.merkury.vulcanus.security.jwt.exception.TokenExpiredException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,17 +18,18 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Date;
 
+import static com.merkury.vulcanus.security.jwt.JwtConfig.getOneDayInMs;
+
 /**
- * Throw Forbidden (403)  status code if token is invalid or expired
+ * Throw Forbidden (401) status code if token is invalid or expired
  */
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtGenerator tokenGenerator;
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtManager jwtManager;
-    private static final long ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
-
 
     @Override
     protected void doFilterInternal(
@@ -36,8 +37,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        String token = jwtManager.getJWTFromCookie(request);
-        if (StringUtils.hasText(token) && jwtManager.validateToken(token)) {
+        if (request.getRequestURI().equals("/account/login")) {
+            filterChain.doFilter(request, response);
+            log.debug("This path is not use JWT.");
+            return;
+        }
+        try {
+            String token = jwtManager.getJWTFromCookie(request);
+            jwtManager.validateToken(token);
+
             String username = jwtManager.getUsernameFromJWT(token);
 
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
@@ -47,19 +55,21 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
             renewRefreshToken(token, response, authenticationToken);
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            handleJwtException(response, e);
         }
-        filterChain.doFilter(request, response);
     }
 
     private void renewRefreshToken(
-            String refreshToken,
+            String token,
             HttpServletResponse response,
             UsernamePasswordAuthenticationToken authenticationToken
     ) {
-        if (StringUtils.hasText(refreshToken) && jwtManager.isNotTokenExpired(refreshToken)) {
-            Date tokenExpirationDate = jwtManager.getExpirationDateFromToken(refreshToken);
+        if (jwtManager.isNotTokenExpired(token)) {
+            Date tokenExpirationDate = jwtManager.getExpirationDateFromToken(token);
             long timeUntilExpired = tokenExpirationDate.getTime() - new Date().getTime();
-            if (timeUntilExpired <= ONE_DAY_IN_MILLISECONDS) {
+            if (timeUntilExpired <= getOneDayInMs()) {
                 String newToken = tokenGenerator.generateToken(authenticationToken);
                 jwtManager.addTokenToCookie(response, newToken);
             }
@@ -67,11 +77,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private void handleJwtException(HttpServletResponse response, Exception e) throws IOException {
-        if (e instanceof TokenExpiredException) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        } else {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        }
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
         response.getWriter().write(e.getMessage());
         response.getWriter().flush();

@@ -7,15 +7,15 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 import static com.merkury.vulcanus.security.jwt.JwtConfig.getKey;
+import static com.merkury.vulcanus.security.jwt.JwtConfig.getTokenExpiration;
 
 @Component
 public class JwtGenerator {
-    private static final long TOKEN_EXPIRATION_TIME_MS = 1000 * 60 * 60 * 24 * 7; //7 days
 
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
         Date issuedAt = new Date();
-        Date expiration =  new Date(issuedAt.getTime() + TOKEN_EXPIRATION_TIME_MS); // 7 days
+        Date expiration =  new Date(issuedAt.getTime() + getTokenExpiration());
 
         var algorithm = Jwts.SIG.HS256;
         return Jwts
