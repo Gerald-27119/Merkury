@@ -11,8 +11,13 @@ function Login() {
     mutationFn: loginUser,
   });
 
-  const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
-    useValidation({ username: "", password: "" }, false);
+  const {
+    enteredValue,
+    didEdit,
+    isNotValid,
+    handleInputChange,
+    handleInputBlur,
+  } = useValidation({ username: "", password: "" }, false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -40,7 +45,7 @@ function Login() {
           type="text"
           placeholder="Username"
           maxLength={100}
-          error={isValid?.username}
+          error={isNotValid?.username}
         />
         <Input
           id="password"
@@ -51,7 +56,7 @@ function Login() {
           type="password"
           placeholder="Password"
           maxLength={100}
-          error={isValid?.password}
+          error={isNotValid?.password}
           required={true}
         />
         <div className={"remember-forgot flex justify-between"}>
@@ -68,8 +73,8 @@ function Login() {
           disabled={
             !didEdit.username ||
             !didEdit.password ||
-            isValid.password.value ||
-            isValid.username.value
+            isNotValid.password.value ||
+            isNotValid.username.value
           }
         >
           Sign In

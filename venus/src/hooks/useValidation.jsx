@@ -12,7 +12,7 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
   const [didEdit, setDidEdit] = useState(
     Object.fromEntries(Object.keys(initialValues).map((key) => [key, false])),
   );
-  const [isValid, setIsValid] = useState(
+  const [isNotValid, setIsNotValid] = useState(
     Object.fromEntries(
       Object.keys(initialValues).map((key) => [
         key,
@@ -39,10 +39,10 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
       } else if (!isEmail(value)) {
         error = { value: true, message: "E-mail must contain @." };
       }
-    } else if (field === "password" && shouldValidatePassword) {
+    } else if (field === "password") {
       if (!isNotEmpty(value)) {
         error = { value: true, message: "Password can't be empty." };
-      } else if (!isPassword(value)) {
+      } else if (shouldValidatePassword && !isPassword(value)) {
         error = {
           value: true,
           message:
@@ -65,7 +65,7 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
     Object.keys(enteredValue).forEach((field) => {
       newIsValid[field] = validateField(field, enteredValue[field]);
     });
-    setIsValid(newIsValid);
+    setIsNotValid(newIsValid);
 
     return Object.values(newIsValid).every((field) => !field.value);
   };
@@ -75,12 +75,15 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
     setEnteredValue((prev) => ({ ...prev, [field]: value }));
     setDidEdit((prev) => ({ ...prev, [field]: true }));
 
-    setIsValid((prev) => ({ ...prev, [field]: validateField(field, value) }));
+    setIsNotValid((prev) => ({
+      ...prev,
+      [field]: validateField(field, value),
+    }));
   };
 
   const handleInputBlur = (field) => {
     setDidEdit((prev) => ({ ...prev, [field]: true }));
-    setIsValid((prev) => ({
+    setIsNotValid((prev) => ({
       ...prev,
       [field]: validateField(field, enteredValue[field]),
     }));
@@ -89,7 +92,7 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
   return {
     enteredValue,
     didEdit,
-    isValid,
+    isNotValid,
     handleInputChange,
     handleInputBlur,
     validate,

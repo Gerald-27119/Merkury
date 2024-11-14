@@ -10,8 +10,13 @@ export default function NewPassword() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
 
-  const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
-    useValidation({ password: "", "confirm-password": "" });
+  const {
+    enteredValue,
+    didEdit,
+    isNotValid,
+    handleInputChange,
+    handleInputBlur,
+  } = useValidation({ password: "", "confirm-password": "" });
 
   const { isSuccess, error, mutate } = useMutation({
     mutationFn: changePassword,
@@ -41,7 +46,7 @@ export default function NewPassword() {
           type="password"
           placeholder="New Password"
           maxLength={100}
-          error={isValid?.password}
+          error={isNotValid?.password}
           label="new password"
         />
         <Input
@@ -52,7 +57,7 @@ export default function NewPassword() {
           type="password"
           placeholder="Confirm New Password"
           maxLength={100}
-          error={isValid["confirm-password"]}
+          error={isNotValid["confirm-password"]}
           label="confirm password"
         />
         <Button
@@ -61,8 +66,8 @@ export default function NewPassword() {
           disabled={
             !didEdit.password ||
             !didEdit["confirm-password"] ||
-            isValid.password.value ||
-            isValid["confirm-password"].value
+            isNotValid.password.value ||
+            isNotValid["confirm-password"].value
           }
         >
           Set Password

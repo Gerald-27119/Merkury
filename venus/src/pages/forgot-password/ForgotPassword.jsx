@@ -10,15 +10,18 @@ export default function ForgotPassword() {
     mutationFn: sentEmailWithNewPasswordLink,
   });
 
-  const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
-    useValidation({ email: "" });
+  const {
+    enteredValue,
+    didEdit,
+    isNotValid,
+    handleInputChange,
+    handleInputBlur,
+  } = useValidation({ email: "" });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!isValid.email.value) {
-      mutate(enteredValue.email);
-    }
+    mutate(enteredValue.email);
   };
 
   return (
@@ -38,13 +41,13 @@ export default function ForgotPassword() {
           type="email"
           placeholder="Email"
           maxLength={100}
-          error={isValid?.email}
+          error={isNotValid?.email}
           label="email"
         />
         <Button
           type="submit"
           classNames="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
-          disabled={!didEdit.email || isValid.email.value}
+          disabled={!didEdit.email || isNotValid.email.value}
         >
           Remind me
         </Button>
