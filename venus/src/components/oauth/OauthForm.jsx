@@ -1,14 +1,15 @@
 import OauthButton from "../OauthButton.jsx";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { githubLogoutUrl, googleLogoutUrl } from "../../http/account.js";
 
 export default function OauthForm() {
   function handleGoogleAuth() {
-    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+    window.location.href = googleLogoutUrl;
   }
 
   function handleGithubAuth() {
-    window.location.href = "http://localhost:8080/oauth2/authorization/github";
+    window.location.href = githubLogoutUrl;
   }
 
   return (

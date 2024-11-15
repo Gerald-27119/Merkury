@@ -1,16 +1,11 @@
 import axios from "axios";
 import Button from "./Button.jsx";
+import { logout } from "../../http/account.js";
 
 export default function SignOutButton() {
   const handleSignOut = async () => {
     try {
-      await axios.post(
-        "http://localhost:8080/account/oauth2/logout",
-        {},
-        {
-          withCredentials: true,
-        },
-      );
+      await logout();
     } catch (error) {
       console.error("error logout: ", error);
     }

@@ -43,8 +43,6 @@ function Login() {
           onBlur={() => handleInputBlur("username")}
           onChange={(event) => handleInputChange("username", event)}
           type="text"
-          placeholder="Username"
-          maxLength={100}
           error={isNotValid?.username}
         />
         <Input
@@ -54,8 +52,6 @@ function Login() {
           onBlur={() => handleInputBlur("password")}
           onChange={(event) => handleInputChange("password", event)}
           type="password"
-          placeholder="Password"
-          maxLength={100}
           error={isNotValid?.password}
           required={true}
         />

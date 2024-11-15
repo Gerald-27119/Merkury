@@ -39,8 +39,6 @@ export default function ForgotPassword() {
           onBlur={() => handleInputBlur("email")}
           onChange={(event) => handleInputChange("email", event)}
           type="email"
-          placeholder="Email"
-          maxLength={100}
           error={isNotValid?.email}
           label="email"
         />

@@ -30,3 +30,18 @@ export async function changePassword(userData) {
     userData,
   );
 }
+
+export async function logout() {
+  await axios.post(
+    "http://localhost:8080/account/oauth2/logout",
+    {},
+    {
+      withCredentials: true,
+    },
+  );
+}
+
+export const googleLogoutUrl =
+  "http://localhost:8080/oauth2/authorization/google";
+export const githubLogoutUrl =
+  "http://localhost:8080/oauth2/authorization/github";

@@ -44,8 +44,6 @@ export default function NewPassword() {
           onChange={(event) => handleInputChange("password", event)}
           onBlur={() => handleInputBlur("password")}
           type="password"
-          placeholder="New Password"
-          maxLength={100}
           error={isNotValid?.password}
           label="new password"
         />
@@ -55,14 +53,12 @@ export default function NewPassword() {
           onChange={(event) => handleInputChange("confirm-password", event)}
           onBlur={() => handleInputBlur("confirm-password")}
           type="password"
-          placeholder="Confirm New Password"
-          maxLength={100}
           error={isNotValid["confirm-password"]}
           label="confirm password"
         />
         <Button
           type="submit"
-          classNames="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
+          classNames="bg-black text-white rounded-md w-full p-1 mx-1 my-2"
           disabled={
             !didEdit.password ||
             !didEdit["confirm-password"] ||
