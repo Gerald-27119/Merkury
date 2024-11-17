@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, redirect, useNavigate } from "react-router-dom";
 import "./Login.module.css";
 import { useMutation } from "@tanstack/react-query";
-import OauthButton from "./OauthButton.jsx";
+import OauthButton from "../../components/OauthButton.jsx";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 

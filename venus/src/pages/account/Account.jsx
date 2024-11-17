@@ -1,7 +1,7 @@
-import Button from "./Button.jsx";
 import { Link } from "react-router-dom";
+import Button from "./Button.jsx";
 
-export default function WelcomePage() {
+export default function Account() {
   return (
     <div className="background-image flex h-screen w-full items-center justify-center space-x-8">
       <Link to="/login">
