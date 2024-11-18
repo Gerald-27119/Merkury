@@ -2,7 +2,6 @@ package com.merkury.vulcanus.security.jwt;
 
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -36,32 +34,31 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
-        if (request.getRequestURI().equals("/account/login")) {
-            filterChain.doFilter(request, response);
-            log.debug("This path is not use JWT.");
-            return;
-        }
+    ) throws IOException {
         try {
             String token = jwtManager.getJWTFromCookie(request);
-            jwtManager.validateToken(token);
+            if (token == null || token.isEmpty()){
+                filterChain.doFilter(request, response);
+            }else {
+                jwtManager.validateToken(token);
 
-            String username = jwtManager.getUsernameFromJWT(token);
+                String username = jwtManager.getUsernameFromJWT(token);
 
-            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null,
-                    userDetails.getAuthorities());
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null,
+                        userDetails.getAuthorities());
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-            renewRefreshToken(token, response, authenticationToken);
-            filterChain.doFilter(request, response);
+                renewJwtToken(token, response, authenticationToken);
+                filterChain.doFilter(request, response);
+            }
         } catch (Exception e) {
             handleJwtException(response, e);
         }
     }
 
-    private void renewRefreshToken(
+    private void renewJwtToken(
             String token,
             HttpServletResponse response,
             UsernamePasswordAuthenticationToken authenticationToken
