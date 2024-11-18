@@ -5,7 +5,6 @@ import com.merkury.vulcanus.account.password.reset.token.PasswordResetToken;
 import com.merkury.vulcanus.account.password.reset.token.exception.PasswordResetTokenIsInvalidException;
 import com.merkury.vulcanus.account.password.reset.token.exception.PasswordResetTokenNotFoundException;
 import com.merkury.vulcanus.account.user.UserEntity;
-import com.merkury.vulcanus.account.user.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,40 +16,29 @@ import java.util.UUID;
 public class PasswordResetTokenService {
 
     private final PasswordResetTokenRepository passwordResetTokenRepository;
-    private final UserEntityRepository userEntityRepository;
-
 
     private UUID generateToken() {
         return UUID.randomUUID();
     }
 
-    private void deleteOldToken(UserEntity user) {
-        if (user.getPasswordResetToken() != null) {
-            PasswordResetToken oldToken = user.getPasswordResetToken();
-            user.setPasswordResetToken(null);
-            userEntityRepository.save(user);
-            passwordResetTokenRepository.delete(oldToken);
-        }
-    }
-
     public PasswordResetToken changeToken(UserEntity user) {
         UUID token = generateToken();
-        deleteOldToken(user);
+        deleteOldToken(user.getEmail());
 
         LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(15);
 
-        PasswordResetToken newToken = new PasswordResetToken(token, expirationDate, user);
+        PasswordResetToken newToken = new PasswordResetToken(token, expirationDate, user.getEmail());
         saveToken(newToken);
 
         return newToken;
     }
 
-    private void saveToken(PasswordResetToken passwordResetToken) {
-        UserEntity user = passwordResetToken.getUser();
-        passwordResetTokenRepository.save(passwordResetToken);
+    private void deleteOldToken(String userEmail) {
+        passwordResetTokenRepository.deleteByUserEmail(userEmail);
+    }
 
-        user.setPasswordResetToken(passwordResetToken);
-        userEntityRepository.save(user);
+    private void saveToken(PasswordResetToken passwordResetToken) {
+        passwordResetTokenRepository.save(passwordResetToken);
     }
 
     public boolean isTokenValid(PasswordResetToken token) {
@@ -61,8 +49,7 @@ public class PasswordResetTokenService {
         PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token).orElseThrow(PasswordResetTokenNotFoundException::new);
 
         if (isTokenValid(resetToken)) {
-            UserEntity user = resetToken.getUser();
-            return user.getEmail();
+            return resetToken.getUserEmail();
         }
         throw new PasswordResetTokenIsInvalidException();
     }

@@ -33,9 +33,6 @@ public class PopulateDbs {
     @Bean
     CommandLineRunner initPostgresDb() {
         return args -> {
-
-            PasswordResetToken token = new PasswordResetToken(UUID.fromString("fff3a3f6-fbd8-4fc5-890c-626343f2f324"), LocalDateTime.now().plusMinutes(15), null);
-
             UserEntity admin = UserEntity.builder()
                     .email("admin@example.com")
                     .username("admin")
@@ -50,19 +47,21 @@ public class PopulateDbs {
                     .password(passwordEncoder.encode("password"))
                     .role(Role.USER)
                     .provider(Provider.NONE)
-                    .passwordResetToken(token)
                     .build();
 
-            passwordResetTokenRepository.save(token);
             userEntityRepository.save(admin);
             userEntityRepository.save(user);
-            token.setUser(user);
-            passwordResetTokenRepository.save(token);
-
 
             log.info("Users from db:");
             userEntityRepository.findAll().forEach(userEntity ->
                     log.info(userEntity.toString()));
+
+            PasswordResetToken token = new PasswordResetToken(
+                    UUID.fromString("fff3a3f6-fbd8-4fc5-890c-626343f2f324"),
+                    LocalDateTime.now().plusMinutes(15),
+                    user.getEmail());
+
+            passwordResetTokenRepository.save(token);
         };
     }
 
@@ -70,6 +69,7 @@ public class PopulateDbs {
     CommandLineRunner initMongoDb(MongoTemplate mongoTemplate) {
         // Drop the collection before initializing it (in .properties it doesn't work, idk why)
         mongoTemplate.getDb().getCollection("messages").drop();
+        mongoTemplate.getDb().getCollection("password_reset_token").drop();
 
         return args -> {
             List<Message> messages = List.of(

@@ -128,6 +128,16 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>net.javacrumbs.shedlock</groupId>
+            <artifactId>shedlock-spring</artifactId>
+            <version>5.16.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.javacrumbs.shedlock</groupId>
+            <artifactId>shedlock-provider-mongo</artifactId>
+            <version>5.16.0</version>
+        </dependency>
     </dependencies>
 
     <build>
