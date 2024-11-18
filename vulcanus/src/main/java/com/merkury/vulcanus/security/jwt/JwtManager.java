@@ -1,6 +1,5 @@
 package com.merkury.vulcanus.security.jwt;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.SignatureException;
@@ -13,15 +12,10 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Date;
 
-import static com.merkury.vulcanus.security.jwt.JwtConfig.getKey;
-import static com.merkury.vulcanus.security.jwt.JwtConfig.getTokenType;
-import static com.merkury.vulcanus.security.jwt.TokenType.REFRESH;
+import static com.merkury.vulcanus.security.jwt.JwtConfig.*;
 
 @Component
 public class JwtManager {
-    private static final int REFRESH_TOKEN_COOKIE_EXPIRATION = 60 * 60 * 24 * 7; // 7 days
-    private static final int ACCESS_TOKEN_COOKIE_EXPIRATION = 60 * 15; // 15 minutes
-
     public String getUsernameFromJWT(String token) {
         try {
             return Jwts.parser()
@@ -35,13 +29,12 @@ public class JwtManager {
         }
     }
 
-    public boolean validateToken(String token) {
+    public void validateToken(String token) {
         try {
             Jwts.parser()
                     .verifyWith(getKey())
                     .build()
                     .parseSignedClaims(token);
-            return true;
         } catch (SignatureException ex) {
             throw new AuthenticationCredentialsNotFoundException("JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.", ex);
         } catch (Exception ex) {
@@ -66,43 +59,22 @@ public class JwtManager {
         return !getExpirationDateFromToken(token).before(new Date());
     }
 
-    public void addTokenToCookie(HttpServletResponse response, String token, TokenType tokenType) {
-        int expiration = ACCESS_TOKEN_COOKIE_EXPIRATION;
-        if (tokenType == REFRESH) {
-            expiration = REFRESH_TOKEN_COOKIE_EXPIRATION;
-        }
-        Cookie cookie = new Cookie(tokenType.getCookieName(), token);
+    public void addTokenToCookie(HttpServletResponse response, String token) {
+        Cookie cookie = new Cookie(getTokenName(), token);
         cookie.setSecure(false);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-        cookie.setMaxAge(expiration);
+        cookie.setMaxAge(getTokenCookieExpiration());
         response.addCookie(cookie);
-
-
     }
 
-    public boolean isNotAccessToken(String token) {
-        try {
-            Claims claims = Jwts
-                    .parser()
-                    .verifyWith(getKey())
-                    .build()
-                    .parseSignedClaims(token)
-                    .getPayload();
-
-            return !claims.get(getTokenType()).equals("ACCESS");
-        } catch (ExpiredJwtException e) {
-            return !e.getClaims().get(getTokenType()).equals("ACCESS");
-        }
-    }
-
-    public String getJWTFromCookie(HttpServletRequest request, TokenType tokenType) {
+    public String getJWTFromCookie(HttpServletRequest request) {
         if (request.getCookies() == null) {
             return null;
         }
 
         return Arrays.stream(request.getCookies())
-                .filter(cookie -> cookie.getName().equals(tokenType.getCookieName()))
+                .filter(cookie -> cookie.getName().equals(getTokenName()))
                 .map(Cookie::getValue).
                 findFirst()
                 .orElse(null);
