@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Error from "./components/error/Error.jsx";
 import WelcomePage from "./pages/welcome/WelcomePage.jsx";
-import Registration from "./pages/register/Registration.jsx";
+import Register from "./pages/register/Register.jsx";
 import Login from "./pages/login/Login.jsx";
 import ForgotPassword from "./pages/forgot-password/ForgotPassword.jsx";
 import NewPassword from "./pages/forgot-password/NewPassword.jsx";
@@ -24,21 +24,19 @@ const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <Registration />,
+        element: <Register />,
       },
       {
         path: "login",
         element: <Login />,
-        children: [
-          {
-            path: "forgot-password",
-            element: <ForgotPassword />,
-          },
-          {
-            path: "new-password",
-            element: <NewPassword />,
-          },
-        ],
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "new-password",
+        element: <NewPassword />,
       },
     ],
   },

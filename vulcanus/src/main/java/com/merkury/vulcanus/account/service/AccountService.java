@@ -60,6 +60,7 @@ public class AccountService {
     public OAuth2LoginResponseDto handleOAuth2User(OAuth2AuthenticationToken oAuth2Token, HttpServletResponse response)
             throws EmailTakenException, UsernameTakenException, EmailNotFoundException, UsernameNotFoundException {
 
+        Boolean shouldSendRegisterEmail = false;
         OAuth2User oAuth2User = oAuth2Token.getPrincipal();
         String username;
         String provider = oAuth2Token.getAuthorizedClientRegistrationId();
@@ -83,10 +84,11 @@ public class AccountService {
 
         if (!userEntityRepository.existsByEmail(userEmail)) {
             this.registerOauth2User(userEmail, username, provider);
+            shouldSendRegisterEmail = true;
         }
 
         this.loginOauth2User(userEmail, response);
 
-        return new OAuth2LoginResponseDto(userEmail);
+        return new OAuth2LoginResponseDto(userEmail, shouldSendRegisterEmail);
     }
 }

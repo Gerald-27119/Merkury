@@ -1,6 +1,6 @@
 export default function Input({ label, id, error, ...props }) {
   let classesInput = "p-2 rounded-md";
-  if (error.value) {
+  if (error?.value) {
     classesInput += " outline  outline-red-600";
   }
   return (
@@ -10,9 +10,9 @@ export default function Input({ label, id, error, ...props }) {
       </label>
       <input id={id} className={classesInput} {...props} />
       <div>
-        {error.value && (
+        {error?.value && (
           <p className="text-red-500 font-bold text-sm break-words">
-            {error.message}
+            {error?.message}
           </p>
         )}
       </div>

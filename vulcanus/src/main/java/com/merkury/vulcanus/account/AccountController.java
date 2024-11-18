@@ -99,9 +99,11 @@ public class AccountController {
         log.info("Successfully handled oAuth2 user!");
 
         var userEmail = loginResponseDto.userEmail();
-        log.info("Sending email...");
-        emailService.sendEmail(userEmail, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
-        log.info("Email sent successfully!");
+        if (loginResponseDto.isUserRegistered()) {
+            log.info("Sending email...");
+            emailService.sendEmail(userEmail, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
+            log.info("Email sent successfully!");
+        }
 
         var afterLoginPageUrl = urlsProperties.getAfterLoginPageUrl();
         log.info("User should be redirected");
