@@ -89,7 +89,7 @@ public class AccountController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .build();
+                .body("Logged in successfully");
     }
 
     @GetMapping("/login-success")
