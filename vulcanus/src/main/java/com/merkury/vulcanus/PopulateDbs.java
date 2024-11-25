@@ -1,13 +1,13 @@
 package com.merkury.vulcanus;
 
-import com.merkury.vulcanus.account.user.Provider;
-import com.merkury.vulcanus.account.password.reset.token.PasswordResetToken;
-import com.merkury.vulcanus.account.password.reset.token.PasswordResetTokenRepository;
-import com.merkury.vulcanus.account.user.Role;
-import com.merkury.vulcanus.account.user.UserEntity;
-import com.merkury.vulcanus.account.user.UserEntityRepository;
-import com.merkury.vulcanus.message.Message;
-import com.merkury.vulcanus.message.MessageRepository;
+import com.merkury.vulcanus.model.enums.Provider;
+import com.merkury.vulcanus.model.entities.PasswordResetToken;
+import com.merkury.vulcanus.model.repositories.PasswordResetTokenRepository;
+import com.merkury.vulcanus.model.enums.Role;
+import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.repositories.UserEntityRepository;
+import com.merkury.vulcanus.model.entities.Message;
+import com.merkury.vulcanus.model.repositories.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
