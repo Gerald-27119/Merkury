@@ -1,15 +1,13 @@
+import Weather from "../Weather.jsx";
+import PhotoGallery from "./PhotoGallery.jsx";
+import Comments from "./Comments.jsx";
+
 export default function SpotDetails({ spot }) {
   return (
     <div>
-      <h2>{spot.name}</h2>
-      <p>{spot.description}</p>
-      <p>{spot.rating}</p>
-      {spot.comments.map((comment) => (
-        <div key={comment.id}>
-          <p>{comment.text}</p>
-          <p>{comment.rating}</p>
-        </div>
-      ))}
+      <Weather />
+      <PhotoGallery />
+      <Comments />
     </div>
   );
 }
