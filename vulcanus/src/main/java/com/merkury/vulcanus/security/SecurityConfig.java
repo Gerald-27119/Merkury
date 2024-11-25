@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -69,8 +70,8 @@ public class SecurityConfig {
                         .defaultSuccessUrl(urlsProperties.getOauth2DefaultSuccessUrl(), true)
                         .failureUrl(urlsProperties.getOauth2FailureUrl())
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .httpBasic(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))//musi byc sesja
+                .httpBasic(HttpBasicConfigurer::disable)
                 .build();
     }
 
@@ -94,8 +95,8 @@ public class SecurityConfig {
                         })
                         .authenticationEntryPoint(authEntryPoint)
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .httpBasic(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))//a tutaj?
+                .httpBasic(HttpBasicConfigurer::disable)
                 .addFilterBefore(jwtAuthenticationFilter(), LogoutFilter.class)
                 .build();
     }

@@ -57,7 +57,6 @@ public class AccountController {
      */
 
     @PostMapping("/register")
-
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
         log.info("Start handling user registration...");
         accountService.registerUser(userRegisterDto);
