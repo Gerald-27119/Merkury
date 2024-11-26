@@ -8,13 +8,17 @@ export const SpotsData = [
     comments: [
       {
         id: 1,
-        text: "Comment 1",
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam accumsan pharetra eros, a convallis lacus porttitor vel. Ut sit amet est posuere, tincidunt mi sit amet, lobortis libero. Nunc posuere lorem urna, eget pulvinar orci fringilla sed. Quisque ut lacus ac sem fermentum ultricies et bibendum mauris. Nam at dolor. ",
         rating: 5,
+        publishDate: "12-06-2024",
+        author: "user2",
       },
       {
         id: 2,
-        text: "Comment 2",
-        rating: 3,
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus, turpis quis porttitor pellentesque, justo erat interdum justo, sit amet rutrum urna nulla quis mi. Nunc interdum dolor a lorem ullamcorper, vel eleifend elit congue. ",
+        rating: 3.5,
+        publishDate: "14-06-2024",
+        author: "user1",
       },
     ],
     contourCoordinates: [
@@ -34,13 +38,17 @@ export const SpotsData = [
     comments: [
       {
         id: 1,
-        text: "Comment 1",
-        rating: 4,
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae tortor et metus condimentum dapibus. Pellentesque ac ligula ut massa. ",
+        rating: 4.5,
+        publishDate: "12-07-2024",
+        author: "user1",
       },
       {
         id: 2,
-        text: "Comment 2",
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pulvinar congue tellus at eleifend. Cras lorem enim, egestas vel ex a, euismod varius metus. Quisque imperdiet iaculis tempus. Nunc eget maximus odio. Donec dignissim ligula vitae nulla molestie, vitae interdum. ",
         rating: 2,
+        publishDate: "12-06-2023",
+        author: "user4",
       },
     ],
     contourCoordinates: [
