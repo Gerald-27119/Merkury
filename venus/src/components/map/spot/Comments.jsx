@@ -2,7 +2,7 @@ import Comment from "./Comment.jsx";
 
 export default function Comments({ comments }) {
   return (
-    <div>
+    <div className="overflow-y-auto h-72">
       {comments && comments.length >= 0 ? (
         <div className="border-2 border-neutral-200 px-2.5 py-1 rounded-sm">
           <div className="text-lg">Comments:</div>

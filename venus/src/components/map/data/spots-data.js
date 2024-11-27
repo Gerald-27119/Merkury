@@ -20,6 +20,13 @@ export const SpotsData = [
         publishDate: "14-06-2024",
         author: "user1",
       },
+      {
+        id: 3,
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus, turpis quis porttitor pellentesque, justo erat interdum justo, sit amet rutrum urna nulla quis mi. Nunc interdum dolor a lorem ullamcorper, vel eleifend elit congue. ",
+        rating: 3.5,
+        publishDate: "10-06-2024",
+        author: "user31",
+      },
     ],
     contourCoordinates: [
       [54.352223, 18.647865],
