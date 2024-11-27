@@ -63,7 +63,7 @@ public class AccountController {
         log.info("User registered successfully!");
 
         log.info("Sending email...");
-        emailService.sendEmail(userRegisterDto.email(), USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
+//        emailService.sendEmail(userRegisterDto.email(), USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
         log.info("Email sent successfully!");
 
         return ResponseEntity
@@ -100,7 +100,7 @@ public class AccountController {
         var userEmail = loginResponseDto.userEmail();
         if (loginResponseDto.isUserRegistered()) {
             log.info("Sending email...");
-            emailService.sendEmail(userEmail, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
+//            emailService.sendEmail(userEmail, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
             log.info("Email sent successfully!");
         }
 

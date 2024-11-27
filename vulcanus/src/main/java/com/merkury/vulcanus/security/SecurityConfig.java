@@ -35,6 +35,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.merkury.vulcanus.security.jwt.JwtConfig.getTokenName;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -69,6 +71,14 @@ public class SecurityConfig {
                         .loginPage(urlsProperties.getOauth2LoginPageUrl())
                         .defaultSuccessUrl(urlsProperties.getOauth2DefaultSuccessUrl(), true)
                         .failureUrl(urlsProperties.getOauth2FailureUrl())
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/account/oauth2/logout")
+                        .logoutSuccessUrl(urlsProperties.getLogoutUrl())
+                        .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies(getTokenName())
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))//musi byc sesja
                 .httpBasic(HttpBasicConfigurer::disable)
