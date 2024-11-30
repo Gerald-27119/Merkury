@@ -25,7 +25,6 @@ import static com.merkury.vulcanus.security.jwt.JwtConfig.getOneDayInMs;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtGenerator tokenGenerator;
-    //    private final CompositeUserDetailsService compositeUserDetailsService;
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtManager jwtManager;
 
@@ -35,27 +34,20 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String token = jwtManager.getJWTFromCookie(request);
 
-//        try {
         if (!jwtManager.validateToken(token)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String identifier = jwtManager.getUsernameFromJWT(token); // Może być username lub email
+        String identifier = jwtManager.getUsernameFromJWT(token);
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(identifier);
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities()
         );
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
         renewToken(token, response, authenticationToken);
-//        } catch (Exception e) {
-////            handleJwtException(response, e);
-//        }
-
         filterChain.doFilter(request, response);
     }
 

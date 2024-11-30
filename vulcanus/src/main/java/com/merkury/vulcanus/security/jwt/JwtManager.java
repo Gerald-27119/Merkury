@@ -18,7 +18,6 @@ import static com.merkury.vulcanus.security.jwt.JwtConfig.getKey;
 import static com.merkury.vulcanus.security.jwt.JwtConfig.getTokenCookieExpiration;
 import static com.merkury.vulcanus.security.jwt.JwtConfig.getTokenName;
 
-
 @Component
 public class JwtManager {
     public String getUsernameFromJWT(String token) {
@@ -59,7 +58,7 @@ public class JwtManager {
                     .parseSignedClaims(token)
                     .getPayload()
                     .getExpiration();
-        } catch (ExpiredJwtException e) {//???
+        } catch (ExpiredJwtException e) {
             return e.getClaims().getExpiration();
         }
     }
