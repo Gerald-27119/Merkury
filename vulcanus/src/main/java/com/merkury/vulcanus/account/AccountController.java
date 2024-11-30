@@ -64,7 +64,6 @@ public class AccountController {
 
         log.info("Sending email...");
         emailService.sendEmail(userRegisterDto.email(), USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
-        log.info("Email sent successfully!");
 
         var user = new UserLoginDto(userRegisterDto.username(), userRegisterDto.password());
         log.info("Start handling logging in user");

@@ -13,12 +13,15 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Properties;
 
 @Service
 @NoArgsConstructor
+@Slf4j
 public class EmailService {
 
     private final int[] PORTS = new int[]{25, 465, 587, 2525};
@@ -52,7 +55,7 @@ public class EmailService {
             }
         });
     }
-
+    @Async
     public void sendEmail(String sendTo, String subject, String message) {
         boolean emailSent = false;
 
@@ -77,6 +80,7 @@ public class EmailService {
                 Transport.send(mimeMessage);
 
                 emailSent = true;
+                log.info("Email sent successfully!");
                 break;
             } catch (Exception ex) {
                 System.err.print(ex.getMessage());
