@@ -28,6 +28,32 @@ export const SpotsData = [
         author: "user31",
       },
     ],
+    photos: [
+      {
+        id: 1,
+        author: "user2",
+        title: "title1",
+        img: "https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature-825x465.jpg",
+      },
+      {
+        id: 2,
+        author: "user2",
+        title: "title2",
+        img: "https://www.printique.com/wp-content/uploads/2016/10/photography-landscape-adoramapix.jpg",
+      },
+      {
+        id: 3,
+        author: "user1",
+        title: "title",
+        img: "https://iso.500px.com/wp-content/uploads/2014/07/big-one.jpg",
+      },
+      {
+        id: 4,
+        author: "user1",
+        title: "title",
+        img: "https://cdn.pixabay.com/photo/2023/12/15/22/37/mountains-8451480_640.jpg",
+      },
+    ],
     contourCoordinates: [
       [54.352223, 18.647865],
       [54.352293, 18.648729],
@@ -58,6 +84,7 @@ export const SpotsData = [
         author: "user4",
       },
     ],
+    photos: [],
     contourCoordinates: [
       [54.352541, 18.643992],
       [54.35239, 18.64477],

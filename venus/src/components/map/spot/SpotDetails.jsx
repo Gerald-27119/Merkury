@@ -6,7 +6,7 @@ export default function SpotDetails({ spot }) {
   return (
     <div>
       <Weather />
-      <PhotoGallery />
+      <PhotoGallery photos={spot.photos} />
       <Comments comments={spot.comments} />
     </div>
   );
