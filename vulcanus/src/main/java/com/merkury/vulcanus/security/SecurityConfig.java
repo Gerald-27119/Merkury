@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.security;
 
 import com.merkury.vulcanus.properties.UrlsProperties;
-import com.merkury.vulcanus.security.jwt.JwtAuthEntryPoint;
 import com.merkury.vulcanus.security.jwt.JwtAuthFilter;
 import com.merkury.vulcanus.security.jwt.JwtGenerator;
 import com.merkury.vulcanus.security.jwt.JwtManager;
@@ -25,7 +24,6 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
-import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -44,11 +42,10 @@ import static com.merkury.vulcanus.security.jwt.JwtConfig.getTokenName;
 public class SecurityConfig {
 
     private final UrlsProperties urlsProperties;
-    private final JwtAuthEntryPoint authEntryPoint;
     private final CustomUserDetailsService customUserDetailsService;
     private final RequestMatcher publicPathsMatcher = new OrRequestMatcher(
             new AntPathRequestMatcher("/public/**"),
-            new AntPathRequestMatcher("/error/**"),
+            new AntPathRequestMatcher("/error"),
             new AntPathRequestMatcher("/login/**"),
             new AntPathRequestMatcher("/account/**"),
             new AntPathRequestMatcher("/oauth2/**"),
@@ -103,10 +100,9 @@ public class SecurityConfig {
                             response.getWriter().write("{ \"error\": \"Forbidden\", \"message\": \"You don't have permission to access this resource\", \"path\": \"" + request.getRequestURI() + "\", \"exception message\": \"" + accessDeniedException.getMessage() + "\" }");
                             response.getWriter().flush();
                         })
-                        .authenticationEntryPoint(authEntryPoint)
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-                .httpBasic(HttpBasicConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthenticationFilter(), LogoutFilter.class)
                 .build();
     }

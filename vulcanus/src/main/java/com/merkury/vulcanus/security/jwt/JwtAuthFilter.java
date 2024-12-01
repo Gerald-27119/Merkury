@@ -33,12 +33,23 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         String token = jwtManager.getJWTFromCookie(request);
+        try {
+            jwtManager.validateToken(token);
+        } catch (Exception e) {
+            log.error("Unauthorized access error: {}", e.getMessage(), e);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            String responseBody = String.format(
+                    "{ \"message\": \"Unauthorized access\", \"error\": \"%s\" }",
+                    e.getMessage()
+            );
+            response.getWriter().write(responseBody);
 
-        if (!jwtManager.validateToken(token)) {
-            filterChain.doFilter(request, response);
+            response.getWriter().flush();
+            response.getWriter().close();
             return;
         }
-
         String identifier = jwtManager.getUsernameFromJWT(token);
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(identifier);
 

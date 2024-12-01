@@ -33,7 +33,7 @@ public class JwtManager {
         }
     }
 
-    public boolean validateToken(String token) {
+    public void validateToken(String token) {
         if (token == null || token.isBlank()) {
             throw new AuthenticationCredentialsNotFoundException("JWT is null or empty. code: 401");
         }
@@ -43,11 +43,8 @@ public class JwtManager {
                     .build()
                     .parseSignedClaims(token);
         } catch (SignatureException ex) {
-            throw new AuthenticationCredentialsNotFoundException("JWT signature does not match locally computed signature.", ex);
-        } catch (Exception ex) {
-            throw new JwtValidationException("There was another problem with JWT", ex);
+            throw new JwtValidationException("JWT signature does not match locally computed signature.", ex);
         }
-        return true;
     }
 
     public Date getExpirationDateFromToken(String token) {
