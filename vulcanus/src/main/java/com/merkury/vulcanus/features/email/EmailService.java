@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.email;
+package com.merkury.vulcanus.features.email;
 
 import com.merkury.vulcanus.exception.excpetions.EmailNotSendException;
 import com.merkury.vulcanus.exception.excpetions.MissingCredentialsException;

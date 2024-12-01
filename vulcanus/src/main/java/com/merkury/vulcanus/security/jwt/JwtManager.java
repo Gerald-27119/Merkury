@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.security.jwt;
 
+import com.merkury.vulcanus.exception.excpetions.JwtValidationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.SignatureException;
@@ -9,10 +10,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.stereotype.Component;
 
+
 import java.util.Arrays;
 import java.util.Date;
 
-import static com.merkury.vulcanus.security.jwt.JwtConfig.*;
+import static com.merkury.vulcanus.config.JwtConfig.getKey;
+import static com.merkury.vulcanus.config.JwtConfig.getTokenCookieExpiration;
+import static com.merkury.vulcanus.config.JwtConfig.getTokenName;
 
 @Component
 public class JwtManager {
@@ -30,15 +34,16 @@ public class JwtManager {
     }
 
     public void validateToken(String token) {
+        if (token == null || token.isBlank()) {
+            throw new AuthenticationCredentialsNotFoundException("JWT is null or empty. code: 401");
+        }
         try {
             Jwts.parser()
                     .verifyWith(getKey())
                     .build()
                     .parseSignedClaims(token);
         } catch (SignatureException ex) {
-            throw new AuthenticationCredentialsNotFoundException("JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.", ex);
-        } catch (Exception ex) {
-            throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect", ex);
+            throw new JwtValidationException("JWT signature does not match locally computed signature.", ex);
         }
     }
 

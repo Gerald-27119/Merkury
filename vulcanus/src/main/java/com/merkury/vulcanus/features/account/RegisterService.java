@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.account;
+package com.merkury.vulcanus.features.account;
 
 import com.merkury.vulcanus.model.dtos.UserRegisterDto;
 import com.merkury.vulcanus.exception.excpetions.EmailTakenException;

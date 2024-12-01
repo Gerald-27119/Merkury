@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.account;
+package com.merkury.vulcanus.features.account;
 
 import com.merkury.vulcanus.model.dtos.UserLoginDto;
 import com.merkury.vulcanus.exception.excpetions.InvalidCredentialsException;

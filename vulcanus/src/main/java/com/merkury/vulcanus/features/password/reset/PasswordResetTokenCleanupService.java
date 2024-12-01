@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.password.reset;
+package com.merkury.vulcanus.features.password.reset;
 
 import com.merkury.vulcanus.model.entities.PasswordResetToken;
 import com.merkury.vulcanus.model.repositories.PasswordResetTokenRepository;

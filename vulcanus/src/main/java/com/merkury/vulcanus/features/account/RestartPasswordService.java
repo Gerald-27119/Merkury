@@ -1,10 +1,10 @@
-package com.merkury.vulcanus.account;
+package com.merkury.vulcanus.features.account;
 
 import com.merkury.vulcanus.model.dtos.UserPasswordResetDto;
 import com.merkury.vulcanus.exception.excpetions.UserNotFoundException;
 import com.merkury.vulcanus.exception.excpetions.PasswordResetTokenIsInvalidException;
 import com.merkury.vulcanus.exception.excpetions.PasswordResetTokenNotFoundException;
-import com.merkury.vulcanus.password.reset.PasswordResetTokenService;
+import com.merkury.vulcanus.features.password.reset.PasswordResetTokenService;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import lombok.RequiredArgsConstructor;

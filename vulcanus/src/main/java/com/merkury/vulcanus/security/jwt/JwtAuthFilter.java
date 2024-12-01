@@ -1,7 +1,9 @@
 package com.merkury.vulcanus.security.jwt;
 
 import com.merkury.vulcanus.security.CustomUserDetailsService;
+
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Date;
 
-import static com.merkury.vulcanus.security.jwt.JwtConfig.getOneDayInMs;
+import static com.merkury.vulcanus.config.JwtConfig.getOneDayInMs;
 
-/**
- * Throw Forbidden (401) status code if token is invalid or expired
- */
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -30,35 +29,40 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtManager jwtManager;
 
     @Override
-    protected void doFilterInternal(
-            @NonNull HttpServletRequest request,
-            @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain
-    ) throws IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
+
+        String token = jwtManager.getJWTFromCookie(request);
         try {
-            String token = jwtManager.getJWTFromCookie(request);
-            if (token == null || token.isEmpty()){
-                filterChain.doFilter(request, response);
-            }else {
-                jwtManager.validateToken(token);
-
-                String username = jwtManager.getUsernameFromJWT(token);
-
-                UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null,
-                        userDetails.getAuthorities());
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
-                renewJwtToken(token, response, authenticationToken);
-                filterChain.doFilter(request, response);
-            }
+            jwtManager.validateToken(token);
         } catch (Exception e) {
-            handleJwtException(response, e);
+            log.error("Unauthorized access error: {}", e.getMessage(), e);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            String responseBody = String.format(
+                    "{ \"message\": \"Unauthorized access\", \"error\": \"%s\" }",
+                    e.getMessage()
+            );
+            response.getWriter().write(responseBody);
+
+            response.getWriter().flush();
+            response.getWriter().close();
+            return;
         }
+        String identifier = jwtManager.getUsernameFromJWT(token);
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(identifier);
+
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities()
+        );
+        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        renewToken(token, response, authenticationToken);
+        filterChain.doFilter(request, response);
     }
 
-    private void renewJwtToken(
+    private void renewToken(
             String token,
             HttpServletResponse response,
             UsernamePasswordAuthenticationToken authenticationToken
@@ -71,12 +75,5 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 jwtManager.addTokenToCookie(response, newToken);
             }
         }
-    }
-
-    private void handleJwtException(HttpServletResponse response, Exception e) throws IOException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType("application/json");
-        response.getWriter().write(e.getMessage());
-        response.getWriter().flush();
     }
 }

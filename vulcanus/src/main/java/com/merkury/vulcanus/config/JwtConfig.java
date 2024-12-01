@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.security.jwt;
+package com.merkury.vulcanus.config;
 
 import io.jsonwebtoken.Jwts;
 
