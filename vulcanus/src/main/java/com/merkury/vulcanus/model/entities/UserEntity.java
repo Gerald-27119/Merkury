@@ -13,11 +13,10 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@Entity(name = "users")
 public class UserEntity implements UserDetails {
 
     @Id
@@ -27,7 +26,8 @@ public class UserEntity implements UserDetails {
     private String email;
     private String username;
     private String password;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Img> images;
 
     @ManyToMany
@@ -44,13 +44,8 @@ public class UserEntity implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private Provider provider;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_friends",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id")
-    )
-    private List<UserEntity> friends = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Friendship> friendships = new ArrayList<>();
 
     private Boolean accountNonExpired = true;
     private Boolean accountNonLocked = true;

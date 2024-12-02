@@ -1,11 +1,14 @@
 package com.merkury.vulcanus.model.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 /**
  * Represents a zone restricted by law.
@@ -15,12 +18,18 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Zone extends Area {
+public class Zone {
 
-    private Integer AGL;
-    private Integer AMSL;
     @Id
     private Long id;
 
+    private String areaColor;
+    private String name;
+    private String description;
 
+    @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Point> borderPoints;
+
+    private Integer AGL;
+    private Integer AMSL;
 }
