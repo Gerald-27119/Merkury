@@ -31,7 +31,7 @@ class RegisterService {
         UserEntity user = UserEntity.builder()
                 .email(email)
                 .username(username)
-                .role(Role.USER)
+                .role(Role.ROLE_USER)
                 .provider(authProvider)
                 .enabled(true)
                 .accountNonExpired(true)
@@ -46,7 +46,7 @@ class RegisterService {
                 .username(userDto.username())
                 .email(userDto.email())
                 .password(passwordEncoder.encode(userDto.password()))
-                .role(Role.USER)
+                .role(Role.ROLE_USER)
                 .provider(Provider.NONE)
                 .build();
     }

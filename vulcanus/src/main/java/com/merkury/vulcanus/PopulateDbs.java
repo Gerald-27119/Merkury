@@ -37,7 +37,7 @@ public class PopulateDbs {
                     .email("admin@example.com")
                     .username("admin")
                     .password(passwordEncoder.encode("password"))
-                    .role(Role.ADMIN)
+                    .role(Role.ROLE_ADMIN)
                     .provider(Provider.NONE)
                     .build();
 
@@ -45,7 +45,7 @@ public class PopulateDbs {
                     .email("user@example.com")
                     .username("user")
                     .password(passwordEncoder.encode("password"))
-                    .role(Role.USER)
+                    .role(Role.ROLE_USER)
                     .provider(Provider.NONE)
                     .build();
 
