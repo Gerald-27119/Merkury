@@ -6,8 +6,6 @@ import com.merkury.vulcanus.model.repositories.PasswordResetTokenRepository;
 import com.merkury.vulcanus.model.enums.Role;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
-import com.merkury.vulcanus.model.entities.Message;
-import com.merkury.vulcanus.model.repositories.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -25,7 +23,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PopulateDbs {
 
-    private final MessageRepository messageRepository;
     private final UserEntityRepository userEntityRepository;
     private final PasswordEncoder passwordEncoder;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
@@ -66,25 +63,10 @@ public class PopulateDbs {
     }
 
     @Bean
-    CommandLineRunner initMongoDb(MongoTemplate mongoTemplate) {
+    void initMongoDb(MongoTemplate mongoTemplate) {
         // Drop the collection before initializing it (in .properties it doesn't work, idk why)
-        mongoTemplate.getDb().getCollection("messages").drop();
         mongoTemplate.getDb().getCollection("password_reset_token").drop();
 
-        return args -> {
-            List<Message> messages = List.of(
-                    Message.builder().message("Hello, this is the first message!").build(),
-                    Message.builder().message("Second message with more content.").build(),
-                    Message.builder().message("Another interesting message here.").build(),
-                    Message.builder().message("Learning Spring Boot with MongoDB.").build(),
-                    Message.builder().message("Final message for initialization.").build()
-            );
 
-            messageRepository.saveAll(messages);
-
-            log.info("Messages from db:");
-            messageRepository.findAll().forEach(message ->
-                    log.info(message.toString()));
-        };
     }
 }
