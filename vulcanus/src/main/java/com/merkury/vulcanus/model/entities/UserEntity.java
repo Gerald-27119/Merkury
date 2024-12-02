@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_entity")
+@Table(name = "users")
 public class UserEntity implements UserDetails {
 
     @Id
@@ -27,8 +27,16 @@ public class UserEntity implements UserDetails {
     private String email;
     private String username;
     private String password;
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Img> images;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_favorite_spots",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "spot_id")
+    )
+    private List<Spot> favoriteSpots = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
