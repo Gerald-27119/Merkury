@@ -57,14 +57,18 @@ public class AccountController {
      */
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto) throws EmailTakenException, UsernameTakenException {
+    public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto, HttpServletResponse response) throws EmailTakenException, UsernameTakenException, InvalidCredentialsException {
         log.info("Start handling user registration...");
         accountService.registerUser(userRegisterDto);
         log.info("User registered successfully!");
 
         log.info("Sending email...");
-//        emailService.sendEmail(userRegisterDto.email(), USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
-        log.info("Email sent successfully!");
+        emailService.sendEmail(userRegisterDto.email(), USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
+
+        var user = new UserLoginDto(userRegisterDto.username(), userRegisterDto.password());
+        log.info("Start handling logging in user");
+        accountService.loginUser(user, response);
+        log.info("User logged in successfully!");
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -88,7 +92,7 @@ public class AccountController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("Logged in successfully");
+                .build();
     }
 
     @GetMapping("/login-success")
@@ -100,7 +104,7 @@ public class AccountController {
         var userEmail = loginResponseDto.userEmail();
         if (loginResponseDto.isUserRegistered()) {
             log.info("Sending email...");
-//            emailService.sendEmail(userEmail, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
+            emailService.sendEmail(userEmail, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
             log.info("Email sent successfully!");
         }
 

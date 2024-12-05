@@ -13,12 +13,18 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Properties;
 
 @Service
 @NoArgsConstructor
+@Slf4j
 public class EmailService {
 
     private final int[] PORTS = new int[]{25, 465, 587, 2525};
@@ -53,6 +59,8 @@ public class EmailService {
         });
     }
 
+    @Async
+    @Retryable(retryFor = EmailNotSendException.class, maxAttempts = 3, backoff = @Backoff(delay = 2000))
     public void sendEmail(String sendTo, String subject, String message) {
         boolean emailSent = false;
 
@@ -77,15 +85,22 @@ public class EmailService {
                 Transport.send(mimeMessage);
 
                 emailSent = true;
+                log.info("Email sent successfully!");
                 break;
             } catch (Exception ex) {
-                System.err.print(ex.getMessage());
-                ex.printStackTrace(System.err);
+                log.error("Failed to send email on port {}: {}", port, ex.getMessage());
             }
         }
 
         if (!emailSent) {
             throw new EmailNotSendException("Failed to send email using all available ports.");
         }
+    }
+
+    //Recover musi użyć tych samych argumentów co metoda która się powtarza, nawet jeśli ich nie używa
+    @Recover
+    private void recover(EmailNotSendException e, String sendTo, String subject, String message) {
+        log.error("Unable to send email to {} after multiple attempts. Error: {}", sendTo, e.getMessage());
+
     }
 }
