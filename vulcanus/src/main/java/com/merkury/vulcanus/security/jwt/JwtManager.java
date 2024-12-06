@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.security.jwt;
 
-import com.merkury.vulcanus.exception.excpetions.JwtValidationException;
+import com.merkury.vulcanus.exception.JwtValidationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.SignatureException;
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Date;
 
-import static com.merkury.vulcanus.config.JwtConfig.getKey;
-import static com.merkury.vulcanus.config.JwtConfig.getTokenCookieExpiration;
-import static com.merkury.vulcanus.config.JwtConfig.getTokenName;
+import static com.merkury.vulcanus.security.jwt.JwtConfig.getKey;
+import static com.merkury.vulcanus.security.jwt.JwtConfig.getTokenCookieExpiration;
+import static com.merkury.vulcanus.security.jwt.JwtConfig.getTokenName;
 
 @Component
 public class JwtManager {
