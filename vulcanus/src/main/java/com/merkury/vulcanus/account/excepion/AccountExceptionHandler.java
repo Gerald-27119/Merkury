@@ -5,15 +5,17 @@ import com.merkury.vulcanus.account.excepion.excpetions.EmailTakenException;
 import com.merkury.vulcanus.account.excepion.excpetions.InvalidCredentialsException;
 import com.merkury.vulcanus.account.excepion.excpetions.UserNotFoundException;
 import com.merkury.vulcanus.account.excepion.excpetions.UsernameTakenException;
+import com.merkury.vulcanus.exception.JwtValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @Slf4j
-@ControllerAdvice(basePackages = {"com.merkury.vulcanus.account", "com.merkury.vulcanus.security"})
+@ControllerAdvice(basePackages = {"com.merkury.vulcanus.account", "com.merkury.vulcanus.security","com.merkury.vulcanus.map"})
 public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({EmailTakenException.class, UsernameTakenException.class})
@@ -44,5 +46,10 @@ public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleUserDataNotFoundException(Exception ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+    @ExceptionHandler({AuthenticationCredentialsNotFoundException.class, JwtValidationException.class})
+    public ResponseEntity<String> handleJWTException(Exception ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
 }
