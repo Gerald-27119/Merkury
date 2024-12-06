@@ -1,15 +1,15 @@
-package com.merkury.vulcanus.account.user;
+package com.merkury.vulcanus.model.enums;
 
 import lombok.Getter;
 
 @Getter
-public enum Role {
+public enum UserRole {
     ROLE_USER("USER"),
     ROLE_ADMIN("ADMIN");
 
     private final String roleName;
 
-    Role(String roleName) {
+    UserRole(String roleName) {
         this.roleName = roleName;
     }
 

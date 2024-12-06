@@ -4,7 +4,7 @@ import com.merkury.vulcanus.model.dtos.UserRegisterDto;
 import com.merkury.vulcanus.exception.excpetions.EmailTakenException;
 import com.merkury.vulcanus.exception.excpetions.UsernameTakenException;
 import com.merkury.vulcanus.model.enums.Provider;
-import com.merkury.vulcanus.model.enums.Role;
+import com.merkury.vulcanus.model.enums.UserRole;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ class RegisterService {
         UserEntity user = UserEntity.builder()
                 .email(email)
                 .username(username)
-                .role(Role.ROLE_USER)
+                .userRole(UserRole.ROLE_USER)
                 .provider(authProvider)
                 .enabled(true)
                 .accountNonExpired(true)
@@ -46,7 +46,7 @@ class RegisterService {
                 .username(userDto.username())
                 .email(userDto.email())
                 .password(passwordEncoder.encode(userDto.password()))
-                .role(Role.ROLE_USER)
+                .userRole(UserRole.ROLE_USER)
                 .provider(Provider.NONE)
                 .build();
     }

@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.model.entities;
 
 import com.merkury.vulcanus.model.enums.Provider;
-import com.merkury.vulcanus.model.enums.Role;
+import com.merkury.vulcanus.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,9 +27,19 @@ public class UserEntity implements UserDetails {
     private String username;
     private String password;
 
+    /**
+     * Default lazy loading: Images are not loaded immediately with the UserEntity.
+     * Implication: Accessing this collection outside an active transaction will throw a LazyInitializationException.
+     * Benefit: Improves performance by loading the collection only when needed.
+     **/
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Img> images;
 
+    /**
+     *  Default lazy loading: Favorite spots are loaded only when explicitly accessed.
+     *  Implication: Improper use of this collection outside a transaction can result in LazyInitializationException.
+     *  Reason: Avoids unnecessary fetching of potentially large collections unless required.
+     **/
     @ManyToMany
     @JoinTable(
             name = "user_favorite_spots",
@@ -39,11 +49,16 @@ public class UserEntity implements UserDetails {
     private List<Spot> favoriteSpots = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
-    private Role role;
+    private UserRole userRole;
 
     @Enumerated(value = EnumType.STRING)
     private Provider provider;
 
+    /**
+     * Default lazy loading: Friendships are loaded on-demand.
+     * Implication: Direct access to this collection outside a transaction will result in LazyInitializationException.
+     * Purpose: Optimizes memory and database performance by avoiding eager loading of relationships.
+     **/
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Friendship> friendships = new ArrayList<>();
 
@@ -54,7 +69,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(userRole.name()));
     }
 
     @Override
