@@ -5,7 +5,7 @@ import Comments from "./Comments.jsx";
 export default function SpotDetails({ spot }) {
   return (
     <div>
-      <Weather />
+      <Weather weather={spot.weather} />
       <PhotoGallery photos={spot.photos} />
       <Comments comments={spot.comments} />
     </div>

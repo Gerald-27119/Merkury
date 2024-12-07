@@ -54,6 +54,31 @@ export const SpotsData = [
         img: "https://cdn.pixabay.com/photo/2023/12/15/22/37/mountains-8451480_640.jpg",
       },
     ],
+    weather: {
+      general: "sunny",
+      sunrise: "06:54",
+      sunset: "20:32",
+      temperature: 20,
+      humidity: 50,
+      winds: [
+        {
+          height: 0,
+          speed: 20,
+        },
+        {
+          height: 20,
+          speed: 30,
+        },
+        {
+          height: 70,
+          speed: 90,
+        },
+        {
+          height: 200,
+          speed: 120,
+        },
+      ],
+    },
     contourCoordinates: [
       [54.352223, 18.647865],
       [54.352293, 18.648729],
@@ -85,6 +110,31 @@ export const SpotsData = [
       },
     ],
     photos: [],
+    weather: {
+      general: "sunny",
+      sunrise: "06:54",
+      sunset: "20:32",
+      temperature: 20,
+      humidity: 50,
+      winds: [
+        {
+          height: 0,
+          speed: 20.4,
+        },
+        {
+          height: 20,
+          speed: 30.67,
+        },
+        {
+          height: 70,
+          speed: 90,
+        },
+        {
+          height: 200,
+          speed: 120.1,
+        },
+      ],
+    },
     contourCoordinates: [
       [54.352541, 18.643992],
       [54.35239, 18.64477],
