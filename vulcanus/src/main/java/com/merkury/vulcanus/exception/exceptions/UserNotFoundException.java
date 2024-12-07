@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.exception.excpetions;
+package com.merkury.vulcanus.exception.exceptions;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message) {

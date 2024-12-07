@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.exception.excpetions;
+package com.merkury.vulcanus.exception.exceptions;
 
 import org.springframework.security.core.AuthenticationException;
 

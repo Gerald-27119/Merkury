@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.exception;
 
-import com.merkury.vulcanus.exception.excpetions.PasswordResetTokenIsInvalidException;
-import com.merkury.vulcanus.exception.excpetions.PasswordResetTokenNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenIsInvalidException;
+import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

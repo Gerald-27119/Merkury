@@ -2,8 +2,8 @@ package com.merkury.vulcanus.features.password.reset;
 
 import com.merkury.vulcanus.model.repositories.PasswordResetTokenRepository;
 import com.merkury.vulcanus.model.entities.PasswordResetToken;
-import com.merkury.vulcanus.exception.excpetions.PasswordResetTokenIsInvalidException;
-import com.merkury.vulcanus.exception.excpetions.PasswordResetTokenNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenIsInvalidException;
+import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenNotFoundException;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.security.jwt;
 
-import com.merkury.vulcanus.exception.excpetions.JwtValidationException;
+import com.merkury.vulcanus.exception.exceptions.JwtValidationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.SignatureException;

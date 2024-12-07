@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.exception;
 
-import com.merkury.vulcanus.exception.excpetions.EmailNotSendException;
-import com.merkury.vulcanus.exception.excpetions.MissingCredentialsException;
+import com.merkury.vulcanus.exception.exceptions.EmailNotSendException;
+import com.merkury.vulcanus.exception.exceptions.MissingCredentialsException;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.features.email;
 
-import com.merkury.vulcanus.exception.excpetions.EmailNotSendException;
-import com.merkury.vulcanus.exception.excpetions.MissingCredentialsException;
+import com.merkury.vulcanus.exception.exceptions.EmailNotSendException;
+import com.merkury.vulcanus.exception.exceptions.MissingCredentialsException;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
 import jakarta.mail.Multipart;

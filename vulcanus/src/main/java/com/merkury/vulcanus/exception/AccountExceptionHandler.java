@@ -1,11 +1,11 @@
 package com.merkury.vulcanus.exception;
 
-import com.merkury.vulcanus.exception.excpetions.EmailNotFoundException;
-import com.merkury.vulcanus.exception.excpetions.EmailTakenException;
-import com.merkury.vulcanus.exception.excpetions.InvalidCredentialsException;
-import com.merkury.vulcanus.exception.excpetions.UserNotFoundException;
-import com.merkury.vulcanus.exception.excpetions.UsernameNotFoundException;
-import com.merkury.vulcanus.exception.excpetions.UsernameTakenException;
+import com.merkury.vulcanus.exception.exceptions.EmailNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
+import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
+import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UsernameNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

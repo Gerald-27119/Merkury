@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.features.account;
 
-import com.merkury.vulcanus.exception.excpetions.EmailNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.EmailNotFoundException;
 import com.merkury.vulcanus.config.properties.UrlsProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;

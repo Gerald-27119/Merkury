@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.exception.excpetions;
+package com.merkury.vulcanus.exception.exceptions;
 
 public class InvalidCredentialsException extends Exception {
     public InvalidCredentialsException() {
