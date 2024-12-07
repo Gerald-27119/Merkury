@@ -16,6 +16,16 @@ export default function PhotoGallery({ photos }) {
     nextBtn: false,
   });
 
+  const [expandPhoto, setExpandPhoto] = useState(false);
+
+  const handleExpandPhoto = () => {
+    setExpandPhoto(true);
+  };
+
+  const handleMinimizePhoto = () => {
+    setExpandPhoto(false);
+  };
+
   useEffect(() => {
     setDisableButton({
       previousBtn: currentPhotoIndex === 0,
@@ -37,7 +47,7 @@ export default function PhotoGallery({ photos }) {
 
   return (
     <>
-      {(photos && photos.length) > 0 ? (
+      {photos && photos.length > 0 ? (
         <div className="flex justify-center items-stretch border m-1">
           <div className="flex items-center  min-h-full bg-gray-950">
             <RiArrowLeftWideLine
@@ -50,7 +60,11 @@ export default function PhotoGallery({ photos }) {
               }
             />
           </div>
-          <Photo photo={photos[currentPhotoIndex]} />
+          <Photo
+            onClick={handleExpandPhoto}
+            className="h-40 w-80 cursor-pointer"
+            photo={photos[currentPhotoIndex]}
+          />
           <div className="flex items-center  min-h-full bg-gray-950">
             <RiArrowRightWideLine
               size={20}
