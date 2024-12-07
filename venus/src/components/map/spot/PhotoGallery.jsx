@@ -50,9 +50,7 @@ export default function PhotoGallery({ photos }) {
               }
             />
           </div>
-          <div>
-            <Photo photo={photos[currentPhotoIndex]} />
-          </div>
+          <Photo photo={photos[currentPhotoIndex]} />
           <div className="flex items-center  min-h-full bg-gray-950">
             <RiArrowRightWideLine
               size={20}
