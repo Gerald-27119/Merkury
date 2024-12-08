@@ -22,14 +22,20 @@ export default function Weather({ weather }) {
               </div>
             </div>
           </div>
-          {showDetails && (
-            <WeatherDetails
-              sunrise={weather.sunrise}
-              sunset={weather.sunset}
-              humidity={weather.humidity}
-              winds={weather.winds}
-            />
-          )}
+          <div
+            className={`transition-all duration-300 ${
+              showDetails ? "max-h-screen" : "max-h-0"
+            } overflow-hidden`}
+          >
+            {showDetails && (
+              <WeatherDetails
+                sunrise={weather.sunrise}
+                sunset={weather.sunset}
+                humidity={weather.humidity}
+                winds={weather.winds}
+              />
+            )}
+          </div>
           <div
             onClick={() => setShowDetails((prevState) => !prevState)}
             className="w-full mt-1 flex justify-center border border-sky-100 hover:bg-sky-100 cursor-pointer"

@@ -4,7 +4,7 @@ import Comments from "./Comments.jsx";
 
 export default function SpotDetails({ spot }) {
   return (
-    <div>
+    <div className="overflow-y-auto h-96">
       <Weather weather={spot.weather} />
       <PhotoGallery photos={spot.photos} />
       <Comments comments={spot.comments} />
