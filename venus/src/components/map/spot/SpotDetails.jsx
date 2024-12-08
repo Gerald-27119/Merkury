@@ -1,4 +1,4 @@
-import Weather from "../Weather.jsx";
+import Weather from "./Weather.jsx";
 import PhotoGallery from "./PhotoGallery.jsx";
 import Comments from "./Comments.jsx";
 

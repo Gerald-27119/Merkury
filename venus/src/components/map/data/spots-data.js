@@ -70,6 +70,10 @@ export const SpotsData = [
           speed: 30,
         },
         {
+          height: 40,
+          speed: 50,
+        },
+        {
           height: 70,
           speed: 90,
         },
