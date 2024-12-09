@@ -43,7 +43,7 @@ export default function PhotoGallery({ photos }) {
   };
   console.log(expandPhoto);
   return (
-    <div className="bg-blue-500">
+    <>
       {expandPhoto && (
         <ExpandedPhoto
           author={photos[currentPhotoIndex].author}
@@ -77,11 +77,11 @@ export default function PhotoGallery({ photos }) {
           </div>
         </ExpandedPhoto>
       )}
-      {!expandPhoto && photos && photos.length > 0 ? (
-        <div className="flex justify-center items-stretch border m-1">
-          <div className="flex items-center  min-h-full bg-gray-950">
+      {photos && photos.length > 0 ? (
+        <div className="flex justify-center items-stretch border my-1.5">
+          <div className="flex items-center  min-h-full bg-gray-950 flex-grow justify-center">
             <RiArrowLeftWideLine
-              size={20}
+              size={25}
               onClick={handlePreviousPhoto}
               className={
                 disableButton.previousBtn
@@ -91,13 +91,13 @@ export default function PhotoGallery({ photos }) {
             />
           </div>
           <Photo
-            className="h-40 w-80 cursor-pointer"
+            className="h-56 w-96 cursor-pointer"
             photo={photos[currentPhotoIndex]}
             onClick={() => dispatch(photoAction.handleExpandPhoto())}
           />
-          <div className="flex items-center  min-h-full bg-gray-950">
+          <div className="flex items-center min-h-full bg-gray-950 flex-grow justify-center">
             <RiArrowRightWideLine
-              size={20}
+              size={25}
               onClick={handleNextPhoto}
               className={
                 disableButton.nextBtn ? disabledBtnClasses : activeBtnClasses
@@ -112,6 +112,6 @@ export default function PhotoGallery({ photos }) {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

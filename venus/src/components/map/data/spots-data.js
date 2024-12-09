@@ -27,6 +27,13 @@ export const SpotsData = [
         publishDate: "10-06-2024",
         author: "user31",
       },
+      {
+        id: 4,
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus, turpis quis porttitor pellentesque, justo erat interdum justo, sit amet rutrum urna nulla quis mi. Nunc interdum dolor a lorem ullamcorper, vel eleifend elit congue. ",
+        rating: 3,
+        publishDate: "10-06-2024",
+        author: "user31",
+      },
     ],
     photos: [
       {
