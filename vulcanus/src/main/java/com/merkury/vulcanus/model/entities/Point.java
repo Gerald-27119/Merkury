@@ -24,8 +24,8 @@ public class Point {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double x;
-    private double y;
+    private Double x;
+    private Double y;
 
     @ManyToOne
     private Spot spot;

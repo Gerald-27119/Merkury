@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@ControllerAdvice(basePackages = {"com.vulcanus.account", "com.vulcanus.security"})
+@ControllerAdvice(basePackages = {"com.merkury.vulcanus.controllers"})
 public class PasswordResetTokenExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({PasswordResetTokenNotFoundException.class})
