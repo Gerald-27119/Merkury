@@ -74,8 +74,8 @@ services:
     ports:
      - "8089:8089"
     command: >
-      locust -f /mnt/locust/locust.py
-      --host=http://host.docker.internal:5173
+      -f /mnt/locust/userTraffic.py
+      --host=http://host.docker.internal:8080
 
 volumes:
   postgres_data:
