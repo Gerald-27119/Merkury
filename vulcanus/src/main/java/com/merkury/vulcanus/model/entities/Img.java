@@ -25,8 +25,8 @@ public class Img {
     private String url;
     private String description;
     private String alt;
-    private long likes;
-    private long views;
+    private Integer likes;
+    private Integer views;
 
     @ManyToOne
     @JoinColumn(name = "author_id")

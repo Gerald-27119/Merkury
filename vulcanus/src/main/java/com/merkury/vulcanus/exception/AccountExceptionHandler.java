@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @Slf4j
-@ControllerAdvice(basePackages = {"com.merkury.vulcanus.model.enums.account", "com.merkury.vulcanus.security"})
+@ControllerAdvice(basePackages = {"com.merkury.vulcanus.controllers"})
 public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({EmailTakenException.class, UsernameTakenException.class})

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @Slf4j
-@ControllerAdvice(basePackages = {"com.vulcanus.email"})
+@ControllerAdvice(basePackages = {"com.merkury.vulcanus.controllers"})
 public class EmailExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({MessagingException.class, EmailNotSendException.class, MissingCredentialsException.class})

@@ -24,7 +24,7 @@ public class Comment {
 
     private String text;
     private Double rating;
-    private long likes;
+    private Integer likes;
 
     @ManyToOne
     @JoinColumn(name = "spot_id")

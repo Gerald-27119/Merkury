@@ -27,7 +27,7 @@ public class TestController {
     @GetMapping("/private/test")
     public ResponseEntity<String> privateEndpoint() {
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .status(HttpStatus.OK)
                 .body("Private test endpoint says hello!");
     }
 }
