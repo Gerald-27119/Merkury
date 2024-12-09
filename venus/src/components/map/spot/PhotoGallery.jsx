@@ -2,6 +2,7 @@ import { RiArrowLeftWideLine } from "react-icons/ri";
 import { RiArrowRightWideLine } from "react-icons/ri";
 import Photo from "./Photo.jsx";
 import { useEffect, useState } from "react";
+import ExpandedPhoto from "./ExpandedPhoto.jsx";
 
 export default function PhotoGallery({ photos }) {
   const disabledBtnClasses = "bg-gray-300 border border-red-600 text-zinc-950";
@@ -47,7 +48,41 @@ export default function PhotoGallery({ photos }) {
 
   return (
     <>
-      {photos && photos.length > 0 ? (
+      {expandPhoto && (
+        <ExpandedPhoto
+          author={photos[currentPhotoIndex].author}
+          title={photos[currentPhotoIndex].title}
+          onClose={handleMinimizePhoto}
+        >
+          <div className="flex justify-center items-stretch m-1">
+            <div className="flex items-center  min-h-full bg-gray-950">
+              <RiArrowLeftWideLine
+                size={50}
+                onClick={handlePreviousPhoto}
+                className={
+                  disableButton.previousBtn
+                    ? disabledBtnClasses
+                    : activeBtnClasses
+                }
+              />
+            </div>
+            <Photo
+              className="h-[60rem] w-[90rem]"
+              photo={photos[currentPhotoIndex]}
+            />
+            <div className="flex items-center  min-h-full bg-gray-950">
+              <RiArrowRightWideLine
+                size={50}
+                onClick={handleNextPhoto}
+                className={
+                  disableButton.nextBtn ? disabledBtnClasses : activeBtnClasses
+                }
+              />
+            </div>
+          </div>
+        </ExpandedPhoto>
+      )}
+      {!expandPhoto && photos && photos.length > 0 ? (
         <div className="flex justify-center items-stretch border m-1">
           <div className="flex items-center  min-h-full bg-gray-950">
             <RiArrowLeftWideLine
