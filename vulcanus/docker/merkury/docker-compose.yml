@@ -66,6 +66,17 @@ services:
     depends_on:
       - prometheus
 
+  # Locust service
+  locust:
+    build:
+      context: ./locust
+      dockerfile: Dockerfile
+    ports:
+     - "8089:8089"
+    command: >
+      locust -f /mnt/locust/locust.py
+      --host=http://host.docker.internal:5173
+
 volumes:
   postgres_data:
   mongo_data:
