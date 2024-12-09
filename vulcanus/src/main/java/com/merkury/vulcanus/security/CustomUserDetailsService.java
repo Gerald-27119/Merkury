@@ -1,8 +1,8 @@
 package com.merkury.vulcanus.security;
 
 
-import com.merkury.vulcanus.account.user.UserEntity;
-import com.merkury.vulcanus.account.user.UserEntityRepository;
+import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
