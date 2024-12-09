@@ -5,8 +5,13 @@ import Button from "../account/Button.jsx";
 import { loginUser } from "../../http/account.js";
 import FormContainer from "../../components/FormContainer.jsx";
 import useValidation from "../../hooks/useValidation.jsx";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { accountAction } from "../../redux/account.jsx";
 
 function Login() {
+  const dispatch = useDispatch();
+
   const { mutate, isSuccess, error } = useMutation({
     mutationFn: loginUser,
   });
@@ -26,6 +31,13 @@ function Login() {
       password: enteredValue.password,
     });
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(accountAction.setIsLogged());
+    }
+  }, [dispatch, isSuccess]);
+
   return (
     <FormContainer
       error={error}
