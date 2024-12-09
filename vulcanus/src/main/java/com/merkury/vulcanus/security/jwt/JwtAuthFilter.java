@@ -18,7 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Date;
 
-import static com.merkury.vulcanus.security.jwt.JwtConfig.getOneDayInMs;
+import static com.merkury.vulcanus.config.JwtConfig.getOneDayInMs;
+
 
 @Slf4j
 @RequiredArgsConstructor

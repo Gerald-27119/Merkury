@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-import static com.merkury.vulcanus.security.jwt.JwtConfig.getKey;
-import static com.merkury.vulcanus.security.jwt.JwtConfig.getTokenExpiration;
+import static com.merkury.vulcanus.config.JwtConfig.getKey;
+import static com.merkury.vulcanus.config.JwtConfig.getTokenExpiration;
 
 @Component
 public class JwtGenerator {
