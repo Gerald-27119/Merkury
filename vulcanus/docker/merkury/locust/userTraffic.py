@@ -1,7 +1,15 @@
 import time
+import logging
 import json
 from queue import Queue, Empty
 from locust import HttpUser, task, between
+
+logger = logging.getLogger("locust")
+logger.setLevel(logging.INFO)
+console_handler = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(message)s')
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
 
 with open("users.json", "r") as file:
     users = json.load(file)
@@ -19,8 +27,11 @@ class MercuryUser(HttpUser):
     # Userzy wykonują taski
     @task
     def logout(self):
+        if not hasattr(self.environment, 'logouts'):
+            self.environment.logouts = 0
         self.client.get("/account/logout")
-        print(f"Successful logouts: {self.logouts}.")
+        self.environment.logouts += 1
+        logger.info(f"Successful logouts: {self.environment.logouts}.")
         time.sleep(5)
         self.login()
 
@@ -30,17 +41,19 @@ class MercuryUser(HttpUser):
 
 
     def on_start(self):
-        self.logins = 0
-        self.logouts = 0
         try:
             self.user = user_queue.get_nowait()
             self.login()
         except Empty:
-            print("Ran out of users in queue.")
-            self.environment.runner.quit()
+            logger.info("Ran out of users in queue.")
+            self.environment.runner.greenlet.kill()
+            self.stop()
 
 
     def login(self):
+        # inicjalizuje jak nie istnieje
+        if not hasattr(self.environment, 'logins'):
+            self.environment.logins = 0
         headers = {
             "Content-Type": "application/json"
         }
@@ -50,9 +63,9 @@ class MercuryUser(HttpUser):
         }
         response = self.client.post("/account/login", json = payload, headers = headers)
         if response.status_code == 200:
-            self.logins += 1
-            print(f"Successful logins: {self.logins}.")
+            self.environment.logins += 1
+            logger.info(f"Successful logins: {self.environment.logins}.")
         else:
-            print(f"Login failed with status code: {response.status_code}.")
+            logger.error(f"Login failed with status code: {response.status_code}.")
             self.environment.runner.quit()
             return
