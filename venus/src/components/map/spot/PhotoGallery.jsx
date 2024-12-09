@@ -3,8 +3,14 @@ import { RiArrowRightWideLine } from "react-icons/ri";
 import Photo from "./Photo.jsx";
 import { useEffect, useState } from "react";
 import ExpandedPhoto from "./ExpandedPhoto.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { photoAction } from "../../../redux/photo.jsx";
 
 export default function PhotoGallery({ photos }) {
+  const dispatch = useDispatch();
+
+  const expandPhoto = useSelector((state) => state.photo.expandPhoto);
+
   const disabledBtnClasses = "bg-gray-300 border border-red-600 text-zinc-950";
   const activeBtnClasses =
     "bg-neutral-600 text-slate-50 cursor-pointer hover:bg-neutral-400 hover:text-zinc-950";
@@ -16,16 +22,6 @@ export default function PhotoGallery({ photos }) {
     previousBtn: true,
     nextBtn: false,
   });
-
-  const [expandPhoto, setExpandPhoto] = useState(false);
-
-  const handleExpandPhoto = () => {
-    setExpandPhoto(true);
-  };
-
-  const handleMinimizePhoto = () => {
-    setExpandPhoto(false);
-  };
 
   useEffect(() => {
     setDisableButton({
@@ -45,14 +41,13 @@ export default function PhotoGallery({ photos }) {
       setCurrentPhotoIndex((prevState) => prevState - 1);
     }
   };
-
+  console.log(expandPhoto);
   return (
-    <>
+    <div className="bg-blue-500">
       {expandPhoto && (
         <ExpandedPhoto
           author={photos[currentPhotoIndex].author}
           title={photos[currentPhotoIndex].title}
-          onClose={handleMinimizePhoto}
         >
           <div className="flex justify-center items-stretch m-1">
             <div className="flex items-center  min-h-full bg-gray-950">
@@ -96,9 +91,9 @@ export default function PhotoGallery({ photos }) {
             />
           </div>
           <Photo
-            onClick={handleExpandPhoto}
             className="h-40 w-80 cursor-pointer"
             photo={photos[currentPhotoIndex]}
+            onClick={() => dispatch(photoAction.handleExpandPhoto())}
           />
           <div className="flex items-center  min-h-full bg-gray-950">
             <RiArrowRightWideLine
@@ -117,6 +112,6 @@ export default function PhotoGallery({ photos }) {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

@@ -1,4 +1,6 @@
 import { Polygon, Popup } from "react-leaflet";
+import { useDispatch } from "react-redux";
+import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
 
 /**
  * Zone.jsx - renderuje strefę w formie wielokąta na mapie
@@ -12,11 +14,22 @@ import { Polygon, Popup } from "react-leaflet";
  * @returns {JSX.Element} Element JSX przedstawiający strefę na mapie.
  */
 export default function Zone({ zone, color, DetailsComponent }) {
+  const dispatch = useDispatch();
+
   return (
-    <Polygon pathOptions={{ color: color }} positions={zone.contourCoordinates}>
-      <Popup>
-        <DetailsComponent spot={zone} />
-      </Popup>
+    <Polygon
+      pathOptions={{ color: color }}
+      positions={zone.contourCoordinates}
+      eventHandlers={{
+        click: () => {
+          dispatch(spotDetailsModalAction.handleShowModal());
+          dispatch(spotDetailsModalAction.setSpot(zone));
+        },
+      }}
+    >
+      {/*<Popup>*/}
+      {/*  <DetailsComponent spot={zone} />*/}
+      {/*</Popup>*/}
     </Polygon>
   );
 }

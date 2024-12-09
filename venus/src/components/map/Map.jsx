@@ -15,7 +15,12 @@ export default function Map() {
   const defaultPosition = [54.352553, 18.64745];
 
   return (
-    <MapContainer center={defaultPosition} zoom={13} scrollWheelZoom={true}>
+    <MapContainer
+      center={defaultPosition}
+      zoom={13}
+      scrollWheelZoom={true}
+      className="relative z-10"
+    >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
