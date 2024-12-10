@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoCloseOutline } from "react-icons/io5";
 import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
 import ExpandedPhotoGallery from "./ExpandedPhotoGallery.jsx";
+import { photoAction } from "../../../redux/photo.jsx";
 
 export default function SpotDetails() {
   const spot = useSelector((state) => state.spotDetails.spot);
@@ -25,9 +26,10 @@ export default function SpotDetails() {
             <IoCloseOutline
               size={20}
               className="cursor-pointer text-black hover:bg-red-500 hover:rounded-md hover:text-white"
-              onClick={() =>
-                dispatch(spotDetailsModalAction.handleCloseModal())
-              }
+              onClick={() => {
+                dispatch(spotDetailsModalAction.handleCloseModal());
+                dispatch(photoAction.handleMinimizePhoto());
+              }}
             />
           </div>
           <Info

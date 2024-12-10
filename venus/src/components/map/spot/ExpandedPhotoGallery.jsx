@@ -24,27 +24,34 @@ export default function ExpandedPhotoGallery({ photos }) {
     currentPhoto = photos[currentPhotoIndex];
   }, [currentPhotoIndex, photos]);
 
-  const disabledBtnClasses = "bg-gray-300 border border-red-600 text-zinc-950";
+  const disabledBtnClasses =
+    "bg-gray-300 border border-red-600 text-zinc-950 rounded-full";
   const activeBtnClasses =
-    "bg-neutral-600 text-slate-50 cursor-pointer hover:bg-neutral-400 hover:text-zinc-950";
+    "bg-neutral-600 text-slate-50 cursor-pointer hover:bg-neutral-400 hover:text-zinc-950 rounded-full";
 
   return (
-    <div className="bg-gray-950 bg-opacity-95 flex justify-center items-center">
+    <div className="bg-gray-950 bg-opacity-95 flex justify-center items-center h-full">
       <Button
         onClick={() => dispatch(photoAction.handleMinimizePhoto())}
         classNames="absolute top-2 right-2"
       >
         <IoCloseOutline
-          className="text-white bg-red-500 hover:bg-red-700 hover:text-gray-200 mr-6"
+          className="text-white bg-red-500 hover:bg-red-700 hover:text-gray-200 mr-6 rounded-sm mt-4"
           size={20}
         />
       </Button>
       <div className="flex-col">
-        <div className="text-xl text-white text-center">
+        <div className="text-2xl text-white text-center font-semibold mb-4">
           {currentPhoto.title}
         </div>
         <div className="flex justify-center items-stretch m-1">
-          <div className="flex items-center  min-h-full bg-gray-950">
+          <Photo className="h-[60rem] w-[90rem]" photo={currentPhoto} />
+        </div>
+        <div className="text-lg text-white ml-2">
+          Author:&nbsp;{currentPhoto.author}
+        </div>
+        <div className="flex justify-center space-x-24">
+          <div className="flex items-center">
             <RiArrowLeftWideLine
               size={50}
               onClick={() => dispatch(photoGalleryAction.setPreviousPhoto())}
@@ -53,8 +60,7 @@ export default function ExpandedPhotoGallery({ photos }) {
               }
             />
           </div>
-          <Photo className="h-[60rem] w-[90rem]" photo={currentPhoto} />
-          <div className="flex items-center  min-h-full bg-gray-950">
+          <div className="flex items-center">
             <RiArrowRightWideLine
               size={50}
               onClick={() => dispatch(photoGalleryAction.setNextPhoto())}
@@ -65,9 +71,6 @@ export default function ExpandedPhotoGallery({ photos }) {
               }
             />
           </div>
-        </div>
-        <div className="text-lg text-white ml-2">
-          Author:&nbsp;{currentPhoto.author}
         </div>
       </div>
     </div>
