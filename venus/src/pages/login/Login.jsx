@@ -6,7 +6,6 @@ import { loginUser } from "../../http/account.js";
 import FormContainer from "../../components/FormContainer.jsx";
 import useValidation from "../../hooks/useValidation.jsx";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 import { accountAction } from "../../redux/account.jsx";
 
 function Login() {
@@ -32,11 +31,10 @@ function Login() {
     });
   };
 
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(accountAction.setIsLogged());
-    }
-  }, [dispatch, isSuccess]);
+  if (isSuccess) {
+    console.log("sucess");
+    dispatch(accountAction.setIsLogged());
+  }
 
   return (
     <FormContainer
