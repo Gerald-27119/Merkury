@@ -41,7 +41,7 @@ export default function PhotoGallery({ photos }) {
       setCurrentPhotoIndex((prevState) => prevState - 1);
     }
   };
-  console.log(expandPhoto);
+
   return (
     <>
       {expandPhoto && (
