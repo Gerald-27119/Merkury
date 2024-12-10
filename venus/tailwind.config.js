@@ -17,7 +17,7 @@ export default {
         },
       },
       animation: {
-        slideInFromLeft: "slideInFromLeft 0.5s ease-out",
+        slideInFromLeft: "slideInFromLeft 0.3s ease-out",
       },
     },
   },
