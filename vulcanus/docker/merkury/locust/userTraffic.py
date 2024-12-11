@@ -19,10 +19,10 @@ user_queue = Queue()
 for user in users:
     user_queue.put(user)
 
-# Główna klasa którą locust generuje tyle razy ile mu sie wskaże
+# locust generuje tyle userów ile sie mu da
 class MercuryUser(HttpUser):
 
-    wait_time = between(3,9)
+    wait_time = between(2,10)
 
     # Userzy wykonują taski
     @task
@@ -35,33 +35,48 @@ class MercuryUser(HttpUser):
         time.sleep(5)
         self.login()
 
-    # @task(10)
-    # def to_map(self):
-    #     self.client.get("")
-
+    @task(5)
+    def public_endpoint_test(self):
+        response = self.client.get("/public/test")
+        logger.info(self.user["username"] + ": Public Endpoint Test")
+    @task(5)
+    def private_endpoint_test(self):
+        response = self.client.get("/private/test")
+        logger.info(self.user["username"] + ": Private Endpoint Test")
 
     def on_start(self):
         try:
             self.user = user_queue.get_nowait()
             self.login()
         except Empty:
-            logger.info("Ran out of users in queue.")
-            self.environment.runner.greenlet.kill()
-            self.stop()
-
+            logger.info("Ran out of users in queue. Registering new users.")
+            # inicjalizuje jak nie istnieje
+            try:
+                if not hasattr(self.environment, 'registrations'):
+                    self.environment.registrations = 0
+                self.user = {
+                    "email": f"registeruser{self.environment.registrations}@example.com",
+                    "username": f"registeruser{self.environment.registrations}",
+                    "password": f"P@55wordd"
+                }
+                logger.info(self.user)
+                self.register()
+            except Empty:
+                logger.info("Stopping user generation....")
+                self.environment.runner.greenlet.kill()
+                self.stop()
 
     def login(self):
-        # inicjalizuje jak nie istnieje
         if not hasattr(self.environment, 'logins'):
             self.environment.logins = 0
         headers = {
             "Content-Type": "application/json"
         }
-        payload = {
+        login_payload = {
             "username": self.user["username"],
             "password": self.user["password"]
         }
-        response = self.client.post("/account/login", json = payload, headers = headers)
+        response = self.client.post("/account/login", json = login_payload, headers = headers)
         if response.status_code == 200:
             self.environment.logins += 1
             logger.info(f"Successful logins: {self.environment.logins}.")
@@ -69,3 +84,22 @@ class MercuryUser(HttpUser):
             logger.error(f"Login failed with status code: {response.status_code}.")
             self.environment.runner.quit()
             return
+
+    def register(self):
+        headers = {
+            "Content-Type": "application/json"
+        }
+        register_payload = {
+            "email": self.user["email"],
+            "username": self.user["username"],
+            "password": self.user["password"]
+        }
+        logger.info(register_payload)
+        response = self.client.post("/account/register", json = register_payload, headers = headers)
+        logger.info(response)
+        if response.status_code == 201:
+            self.environment.registrations += 1
+            logger.info(f"Successful registrations: {self.environment.registrations}.")
+        else:
+            logger.error(f"Registration failed with status code: {response.status_code}.")
+        return
