@@ -59,7 +59,6 @@ class MercuryUser(HttpUser):
                     "username": f"registeruser{self.environment.registrations}",
                     "password": f"P@55wordd"
                 }
-                logger.info(self.user)
                 self.register()
             except Empty:
                 logger.info("Stopping user generation....")
@@ -82,7 +81,7 @@ class MercuryUser(HttpUser):
             logger.info(f"Successful logins: {self.environment.logins}.")
         else:
             logger.error(f"Login failed with status code: {response.status_code}.")
-            self.environment.runner.quit()
+            self.stop()
             return
 
     def register(self):
@@ -94,12 +93,14 @@ class MercuryUser(HttpUser):
             "username": self.user["username"],
             "password": self.user["password"]
         }
-        logger.info(register_payload)
         response = self.client.post("/account/register", json = register_payload, headers = headers)
         logger.info(response)
         if response.status_code == 201:
             self.environment.registrations += 1
-            logger.info(f"Successful registrations: {self.environment.registrations}.")
+            logger.info(f"Registered user: {self.environment.registrations}.")
+        elif response.status_code == 409:
+            logger.info(f"User 'registeruser{self.environment.registrations}' already exists! Skipping registration...")
+            self.environment.registrations += 1
         else:
             logger.error(f"Registration failed with status code: {response.status_code}.")
         return
