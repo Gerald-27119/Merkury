@@ -41,15 +41,18 @@ export default function ExpandedPhotoGallery({ photos }) {
         />
       </Button>
       <div className="flex-col">
-        <div className="text-2xl text-white text-center font-semibold mb-4">
+        <p className="text-2xl text-white text-center font-semibold mb-4">
           {currentPhoto.title}
-        </div>
+        </p>
         <div className="flex justify-center items-stretch m-1">
-          <Photo className="h-[60rem] w-[90rem]" photo={currentPhoto} />
+          <Photo
+            className="h-[60rem] w-[90rem] md:h-[30rem] md:w-[60rem]"
+            photo={currentPhoto}
+          />
         </div>
-        <div className="text-lg text-white ml-2">
+        <p className="text-lg text-white ml-2">
           Author:&nbsp;{currentPhoto.author}
-        </div>
+        </p>
         <div className="flex justify-center space-x-24">
           <div className="flex items-center">
             <RiArrowLeftWideLine

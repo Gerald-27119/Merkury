@@ -39,7 +39,7 @@ export default function PhotoGallery({ photos }) {
             />
           </div>
           <Photo
-            className="h-56 w-96 cursor-pointer"
+            className="h-56 w-96 md:h-40 cursor-pointer"
             photo={photos[currentPhotoIndex]}
             onClick={() => dispatch(photoAction.handleExpandPhoto())}
           />
@@ -57,9 +57,9 @@ export default function PhotoGallery({ photos }) {
         </div>
       ) : (
         <div className="border rounded-sm border-orange-500 my-1">
-          <div className="text-lg text-center">
+          <p className="text-lg text-center">
             There are no photos for this spot.
-          </div>
+          </p>
         </div>
       )}
     </>

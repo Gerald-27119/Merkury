@@ -47,14 +47,14 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
             size={40}
             className="bg-gradient-to-b from-pink-500 via-red-500 to-orange-500 p-1 rounded-md"
           />
-          <div>{sunrise}</div>
+          <time>{sunrise}</time>
         </div>
         <div className="flex items-center text-xl space-x-3">
           <FiSunset
             size={40}
             className="bg-gradient-to-b from-red-500 via-orange-500 to-yellow-500 p-1 rounded-md"
           />
-          <div>{sunset} </div>
+          <time>{sunset}</time>
         </div>
         <div className="flex items-center text-xl">
           <WiHumidity size={40} className="text-blue-500" />
@@ -69,7 +69,7 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
           />
         </div>
         <div className="flex">
-          <div className="text-lg">Speed:&nbsp;</div>
+          <p className="text-lg">Speed:&nbsp;</p>
           <div className="w-fit bg-white text-lg text-center px-1">
             {windSpeed}&nbsp;m/s
           </div>
@@ -83,7 +83,7 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
           className="w-full"
         />
         <div className="flex">
-          <div className="text-lg">Height:&nbsp;</div>
+          <p className="text-lg">Height:&nbsp;</p>
           <input
             type="text"
             value={`${enteredHeight} m`}
@@ -92,7 +92,7 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
           />
         </div>
         {isError && (
-          <div className="text-red-500 text-sm">Invalid height value</div>
+          <p className="text-red-500 text-sm">Invalid height value</p>
         )}
       </div>
     </div>

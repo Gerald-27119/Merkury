@@ -1,4 +1,4 @@
-import { Polygon, Popup } from "react-leaflet";
+import { Polygon } from "react-leaflet";
 import { useDispatch } from "react-redux";
 import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
 
@@ -13,7 +13,7 @@ import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
  * @param {React.ComponentType} props.DetailsComponent - Komponent renderujący szczegóły strefy w oknie Popup.
  * @returns {JSX.Element} Element JSX przedstawiający strefę na mapie.
  */
-export default function Zone({ zone, color, DetailsComponent }) {
+export default function Zone({ zone, color }) {
   const dispatch = useDispatch();
 
   return (
@@ -26,10 +26,6 @@ export default function Zone({ zone, color, DetailsComponent }) {
           dispatch(spotDetailsModalAction.setSpot(zone));
         },
       }}
-    >
-      {/*<Popup>*/}
-      {/*  <DetailsComponent spot={zone} />*/}
-      {/*</Popup>*/}
-    </Polygon>
+    ></Polygon>
   );
 }

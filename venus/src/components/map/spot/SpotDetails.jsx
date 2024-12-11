@@ -17,8 +17,8 @@ export default function SpotDetails() {
   return (
     <div className="w-full h-full absolute flex">
       <div
-        className={`h-full w-1/5 bg-white z-50 ${
-          showDetailsModal ? "animate-slideInFromLeft" : undefined
+        className={`h-full w-1/5 bg-white z-50 overflow-y-auto ${
+          showDetailsModal && "animate-slideInFromLeft"
         }`}
       >
         <div className="mx-3 flex flex-col h-full">
@@ -39,7 +39,7 @@ export default function SpotDetails() {
           />
           <Weather weather={spot.weather} />
           <PhotoGallery photos={spot.photos} />
-          <div className="overflow-y-auto flex-grow">
+          <div className="overflow-y-auto flex-grow min-h-60">
             <Comments comments={spot.comments} />
           </div>
         </div>

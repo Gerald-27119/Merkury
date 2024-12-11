@@ -17,9 +17,7 @@ export default function Weather({ weather }) {
             )}
             <div className="right-0 mr-5 flex items-center">
               <WiThermometer size={30} className="text-red-400" />
-              <div className="text-xl text-white">
-                {weather.temperature}&deg;C
-              </div>
+              <p className="text-xl text-white">{weather.temperature}&deg;C</p>
             </div>
           </div>
           <div
@@ -49,7 +47,7 @@ export default function Weather({ weather }) {
           </div>
         </div>
       ) : (
-        <div>No weather is available!</div>
+        <p>No weather is available!</p>
       )}
     </>
   );
