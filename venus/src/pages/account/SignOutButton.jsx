@@ -2,6 +2,7 @@ import Button from "./Button.jsx";
 import { logout } from "../../http/account.js";
 import { useDispatch } from "react-redux";
 import { accountAction } from "../../redux/account.jsx";
+import { notificationAction } from "../../redux/notification.jsx";
 
 export default function SignOutButton() {
   const dispatch = useDispatch();
@@ -10,6 +11,7 @@ export default function SignOutButton() {
     try {
       await logout();
       dispatch(accountAction.signOut());
+      dispatch(notificationAction.signOutNotification());
     } catch (error) {
       console.error("error logout: ", error);
     }
