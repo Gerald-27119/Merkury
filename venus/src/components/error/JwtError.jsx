@@ -11,7 +11,11 @@ export default function JwtError({ error }) {
   useEffect(() => {
     if (error?.response?.status === 401) {
       dispatch(accountAction.signOut());
-      dispatch(notificationAction.signOutNotification());
+      dispatch(
+        notificationAction.setError({
+          message: "You have been logged out.",
+        }),
+      );
     }
   }, [error, dispatch]);
 

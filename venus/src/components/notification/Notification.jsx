@@ -9,6 +9,7 @@ export default function Notification() {
   const isOpen = useSelector((state) => state.notification.isOpen);
   const error = useSelector((state) => state.notification.error);
   const success = useSelector((state) => state.notification.success);
+  const info = useSelector((state) => state.notification.info);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,6 +30,8 @@ export default function Notification() {
     classes += " text-red-600";
   } else if (success) {
     classes += " text-green-600";
+  } else if (info) {
+    classes += " text-yellow-600";
   }
 
   return (

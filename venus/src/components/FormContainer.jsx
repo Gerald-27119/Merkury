@@ -32,11 +32,8 @@ export default function FormContainer({
 
     if (error?.response?.status && errorMessages[error.response.status]) {
       dispatch(
-        notificationAction.openNotification({
-          title: "Error",
+        notificationAction.setError({
           message: errorMessages[error.response.status],
-          isOpen: true,
-          error: true,
         }),
       );
     }
@@ -45,15 +42,13 @@ export default function FormContainer({
   useEffect(() => {
     if (isSuccess) {
       dispatch(
-        notificationAction.openNotification({
-          title: "Success",
-          message: "Account created!",
-          isOpen: true,
-          success: true,
+        notificationAction.setSuccess({
+          message:
+            header === "Sign in" ? "Successfully log in" : "Account created!",
         }),
       );
     }
-  }, [dispatch, isSuccess]);
+  }, [dispatch, header, isSuccess]);
 
   return (
     <div className="h-screen bg-[url('/bg-form.png')] bg-cover bg-no-repeat bg-center flex items-center justify-center w-screen">
