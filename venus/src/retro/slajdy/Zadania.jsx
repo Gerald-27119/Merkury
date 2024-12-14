@@ -2,8 +2,7 @@ export default function Zadania() {
 
     return (
         <>
-            <h1 className="text-4xl mb-8">Jak zarządzamy projektem?</h1>
-            <h2 className="text-3xl mb-4">Zadania</h2>
+            <h2 className="text-4xl mb-10 mt-10">Zadania</h2>
             <div className="flex gap-11">
                 <ul>
                     <h2 className="text-3xl mb-4">Założenia</h2>
@@ -12,7 +11,7 @@ export default function Zadania() {
                     <li>logowanie</li>
                     <li>resetowanie hasła</li>
                     <li>
-                        <h2 className="text-3xl mb-4">interaktywna mapa</h2>
+                        <h2 className="text-2xl mb-4">interaktywna mapa</h2>
                         <ul>
                             <li>wyświetlanie spotów</li>
                             <li>wyświetlanie lokalizacji użytkownika</li>
@@ -28,7 +27,7 @@ export default function Zadania() {
                     <li>logowanie - zrobione</li>
                     <li>resetowanie hasła - zrobione</li>
                     <li>
-                        <h2 className="text-3xl mb-4">interaktywna mapa</h2>
+                        <h2 className="text-2xl mb-4">interaktywna mapa</h2>
                         <ul>
                             <li>wyświetlanie lokalizacji użytkownika - zrobione</li>
                             <li>wyświetlanie spotów (na razie wyświetlanie paru przykładowych) - zrobione</li>
@@ -49,9 +48,14 @@ export default function Zadania() {
                     <li>stworzenie przykładowych testów (jednostkowe + E2E) na backendzie - do zrobienia</li>
                 </ul>
             </div>
-
-            <h2 className="text-3xl mb-4 mt-6">Założyliśmy że przeznaczymy na projekt w ciągu semestru 225h
-                Obecnie poświęciliśmy na projekt łącznie 154h i 17min</h2>
+            <div>
+                <h2 className="text-3xl mb-2 mt-10">Założyliśmy że przeznaczymy na projekt w ciągu semestru 225h
+                </h2>
+                <h2 className="text-3xl mb-4 ">
+                    Obecnie poświęciliśmy na projekt łącznie 154h i 17min</h2>
+            </div>
+            <h2 className="text-3xl mb-20 mt-6">Ogólna konkluzja jest taka, że zrobimy więcej w ramach przedmiotu, niż
+                                                początkowo planowaliśmy</h2>
         </>
     )
 }
