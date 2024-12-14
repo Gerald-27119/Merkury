@@ -24,20 +24,26 @@ export default function Notification() {
     return null;
   }
 
-  let classes = "";
+  let classesH1 = "";
+  let classesDiv = "";
 
   if (error) {
-    classes += " text-red-600";
+    classesH1 += " text-red-600";
+    classesDiv += " border-red-600";
   } else if (success) {
-    classes += " text-green-600";
+    classesH1 += " text-green-600";
+    classesDiv += " border-green-600";
   } else if (info) {
-    classes += " text-yellow-600";
+    classesH1 += " text-yellow-600";
+    classesDiv += " border-yellow-600";
   }
 
   return (
-    <div className="w-72 h-32 rounded-md shadow-md absolute top-4 right-4 z-50 bg-white p-4 space-y-2">
+    <div
+      className={`w-72 h-32 rounded-md shadow-md absolute top-4 right-4 z-50 bg-white p-4 space-y-2 border-2 ${classesDiv}`}
+    >
       <div className="flex justify-between">
-        <h1 className={`text-2xl font-semibold ${classes}`}>{title}</h1>
+        <h1 className={`text-2xl font-semibold ${classesH1}`}>{title}</h1>
         <button
           onClick={() => dispatch(notificationAction.closeNotification())}
         >
