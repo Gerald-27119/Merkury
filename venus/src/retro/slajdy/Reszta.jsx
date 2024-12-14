@@ -13,7 +13,7 @@ export default function Reszta() {
                        czasie głosowym.</p>
                 </li>
                 <li>
-                    <h2>Lessons learned</h2>
+                    <h2 className="mt-6">Czego się nauczyliśmy?</h2>
                     <ul>
                         <li>Nauczyliśmy się przebiegu Code Review podczas Pull Requestów na Githubie</li>
                         <li>Korzystania z JIRa</li>

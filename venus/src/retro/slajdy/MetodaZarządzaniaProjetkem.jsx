@@ -7,10 +7,11 @@ export default function MetodaZarzDzaniaProjetkem(){
                 <li>Chcieliśmy robić SCRUM</li>
                 <li>Potem okazało się że pracujemy zbyt nieregularnie, więc zmieniliśmy na Waterfall</li>
                 <li>
-                    <ul>A realnie to pracujemy w zmodyfikowanym SCRUMie
+                    <ul>A realnie to pracujemy w zmodyfikowanym SCRUMie (SCRUM Ad hoc/Task-Driven Agile)
                         <li>można to nazwać SCRUMem ponieważ dostarczamy całe funkcjonalności, z których od razu można korzystać</li>
                         <li>nie mamy sprintów - dana osoba po przypisaniu zadania stara się je zrealizować najszybciej jak może (zazwyczaj 2-3 tyg.)</li>
                         <li>obrana strategia wynika z nieprzewidywalności dostępnego czasu w danym tygodniu</li>
+                        <li>wyróżnia nas zorientowanie na pojedyńcze zadania</li>
                     </ul>
                 </li>
             </ul>
