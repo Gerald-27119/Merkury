@@ -1,5 +1,5 @@
 import {NavLink, Outlet} from "react-router-dom";
-import SignOutButton from "../pages/account/SignOutButton.jsx";
+import './style.css';
 
 export default function RetroLayout() {
     const activeClassNames =

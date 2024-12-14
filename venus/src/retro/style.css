@@ -1,0 +1,15 @@
+/*na headery nie łapie mi styli, idk why*/
+ul {
+    list-style: initial;
+}
+
+li {
+    line-height: 2.6rem;
+    list-style-type: disc;
+    margin-left: 3rem;
+    font-size: 1.6rem;
+}
+
+ul > li > ul > li {
+    list-style-type: square;
+}

@@ -2,17 +2,17 @@ export default function Zadania() {
 
     return (
         <>
-            <h1 >Jak zarządzamy projektem?</h1>
-            <h2 className="my-4">Zadania</h2>
+            <h1 className="text-4xl mb-8">Jak zarządzamy projektem?</h1>
+            <h2 className="text-3xl mb-4">Zadania</h2>
             <div className="flex gap-11">
                 <ul>
-                    <h3>Założenia</h3>
+                    <h2 className="text-3xl mb-4">Założenia</h2>
                     <li>tworzenie dokumentacji</li>
                     <li>rejestracja</li>
                     <li>logowanie</li>
                     <li>resetowanie hasła</li>
                     <li>
-                        <h2>interaktywna mapa</h2>
+                        <h2 className="text-3xl mb-4">interaktywna mapa</h2>
                         <ul>
                             <li>wyświetlanie spotów</li>
                             <li>wyświetlanie lokalizacji użytkownika</li>
@@ -22,13 +22,13 @@ export default function Zadania() {
                     </li>
                 </ul>
                 <ul>
-                    <h3>Jak wyszło?</h3>
+                    <h2 className="text-3xl mb-4">Jak wyszło?</h2>
                     <li>tworzenie dokumentacji - zrobione</li>
                     <li>rejestracja - zrobione</li>
                     <li>logowanie - zrobione</li>
                     <li>resetowanie hasła - zrobione</li>
                     <li>
-                        <h2>interaktywna mapa</h2>
+                        <h2 className="text-3xl mb-4">interaktywna mapa</h2>
                         <ul>
                             <li>wyświetlanie lokalizacji użytkownika - zrobione</li>
                             <li>wyświetlanie spotów (na razie wyświetlanie paru przykładowych) - zrobione</li>
@@ -50,8 +50,8 @@ export default function Zadania() {
                 </ul>
             </div>
 
-            Założyliśmy że przeznaczymy na projekt w ciągu semestru 225h
-            Obecnie poświęciliśmy na projekt łącznie 154h i 17min
+            <h2 className="text-3xl mb-4 mt-6">Założyliśmy że przeznaczymy na projekt w ciągu semestru 225h
+                Obecnie poświęciliśmy na projekt łącznie 154h i 17min</h2>
         </>
     )
 }

@@ -2,7 +2,6 @@ export default function Reszta() {
 
     return (
         <>
-            <h1>dasada</h1>
             <ul className="flex flex-col w-2/3">
                 <li>
                     <h2>Jak wygląda obieg informacji w zespole?</h2>
