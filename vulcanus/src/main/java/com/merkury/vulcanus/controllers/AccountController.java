@@ -28,6 +28,9 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * <h1>We are using HS256 algorithm to sign the JWT token (for now).</h1>
  */
@@ -41,8 +44,8 @@ public class AccountController {
     private final AccountService accountService;
     private final EmailService emailService;
     private final UrlsProperties urlsProperties;
-    private final String USER_REGISTERED_MESSAGE = "Thank you for registering in our service!\nYour account is now active.";
     private final String USER_REGISTERED_TITLE = "Register confirmation";
+    private final String PASSWORD_RESET_TITLE = "Password reset";
     private final PasswordResetTokenService passwordResetTokenService;
     private final RestartPasswordService restartPasswordService;
 
@@ -62,8 +65,10 @@ public class AccountController {
         accountService.registerUser(userRegisterDto);
         log.info("User registered successfully!");
 
+        Map<String, Object> variables = emailService.createEmailVariables(userRegisterDto.username(), null);
+
         log.info("Sending email...");
-        emailService.sendEmail(userRegisterDto.email(), USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
+        emailService.sendEmail(userRegisterDto.email(), USER_REGISTERED_TITLE, "registrationEmail", variables);
 
         var user = new UserLoginDto(userRegisterDto.username(), userRegisterDto.password());
         log.info("Start handling logging in user");
@@ -103,8 +108,11 @@ public class AccountController {
 
         var userEmail = loginResponseDto.userEmail();
         if (loginResponseDto.isUserRegistered()) {
+            String username = restartPasswordService.getUserByEmail(userEmail).getUsername();
+            Map<String, Object> variables = emailService.createEmailVariables(username, null);
+
             log.info("Sending email...");
-            emailService.sendEmail(userEmail, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
+            emailService.sendEmail(userEmail, USER_REGISTERED_TITLE, "registrationEmail", variables);
             log.info("Email sent successfully!");
         }
 
@@ -122,10 +130,11 @@ public class AccountController {
         log.info("Procedure finished!");
 
         String resetLink = urlsProperties.getResetPasswordUrl() + resetToken.getToken().toString();
-        String message = "Click this link to reset password: <a href='" + resetLink + "'>New password</a>";
+
+        Map<String, Object> variables = emailService.createEmailVariables(user.getUsername(), resetLink);
 
         log.info("Sending email...");
-        emailService.sendEmail(email, "Restart password", message);
+        emailService.sendEmail(email, PASSWORD_RESET_TITLE, "forgotPasswordEmail", variables);
         log.info("Email sent successfully!");
 
         return ResponseEntity
