@@ -1,7 +1,6 @@
 import time
 import logging
 import psycopg2
-#import json
 from queue import Queue, Empty
 from locust import HttpUser, task, between
 from tasks.public_tasks import public_endpoint_test, sign_in_test, register_test
