@@ -18,20 +18,24 @@ export default function Header() {
         >
           Welcome
         </NavLink>
-        <NavLink
-          to="forum"
-          end
-          className={({ isActive }) => (isActive ? activeClassNames : "")}
-        >
-          Forum
-        </NavLink>
-        <NavLink
-          to="account"
-          end
-          className={({ isActive }) => (isActive ? activeClassNames : "")}
-        >
-          Account
-        </NavLink>
+        {isLogged && (
+          <NavLink
+            to="forum"
+            end
+            className={({ isActive }) => (isActive ? activeClassNames : "")}
+          >
+            Forum
+          </NavLink>
+        )}
+        {!isLogged && (
+          <NavLink
+            to="account"
+            end
+            className={({ isActive }) => (isActive ? activeClassNames : "")}
+          >
+            Account
+          </NavLink>
+        )}
         {isLogged && <SignOutButton />}
       </nav>
     </header>
