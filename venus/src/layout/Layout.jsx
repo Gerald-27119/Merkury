@@ -6,7 +6,7 @@ export default function Layout() {
   return (
     <>
       <Header />
-      <main className="flex flex-col justify-center items-center">
+      <main className="flex flex-col justify-center items-center relative">
         <Outlet />
       </main>
       <Footer />
