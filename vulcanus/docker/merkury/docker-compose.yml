@@ -74,7 +74,7 @@ services:
     ports:
      - "8089:8089"
     command: >
-      -f /mnt/locust/userTraffic.py
+      -f /mnt/locust/user_traffic.py
       --host=http://host.docker.internal:8080
 
 volumes:
