@@ -1,6 +1,7 @@
 import time
 import logging
-import json
+import psycopg2
+#import json
 from queue import Queue, Empty
 from locust import HttpUser, task, between
 from tasks.public_tasks import public_endpoint_test, sign_in_test, register_test
@@ -14,13 +15,39 @@ formatter = logging.Formatter('%(asctime)s - %(message)s')
 console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
-with open("users.json", "r") as file:
-    users = json.load(file)
+
 
 user_queue = Queue()
 
-for user in users:
-    user_queue.put(user)
+DB_CONFIG = {
+    "host": "postgres-db",
+    "database": "dev_postgres_db",
+    "user": "user",
+    "password": "password",
+}
+def fetch_users():
+    connection = None
+    cursor = None
+    logger.info("Fetching users.")
+    try:
+        connection = psycopg2.connect(**DB_CONFIG)
+        cursor = connection.cursor()
+        cursor.execute("SELECT username, email, 'password' AS password FROM users")
+        users = cursor.fetchall()
+        for user in users:
+            logger.info({"username": user[0], "email": user[1], "password": user[2]})
+            user_queue.put({"username": user[0], "email": user[1], "password": user[2]})
+        logger.info("Fetched users.")
+    except Exception as e:
+        logger.error(f"Error fetching users: {e}")
+    finally:
+        if connection:
+            cursor.close()
+            connection.close()
+
+fetch_users()
+
+logger.info(user_queue.qsize())
 
 # locust generates as many users as needed
 class MercuryUser(HttpUser):

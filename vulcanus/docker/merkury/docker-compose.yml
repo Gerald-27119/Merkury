@@ -71,6 +71,13 @@ services:
     build:
       context: ./locust
       dockerfile: Dockerfile
+    depends_on:
+      - postgres-db
+    environment:
+      POSTGRES_HOST: postgres-db
+      POSTGRES_DB: dev_postgres_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
     ports:
      - "8089:8089"
     command: >
