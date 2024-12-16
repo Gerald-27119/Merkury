@@ -153,14 +153,6 @@ public class AccountController {
                 .body("Password set successfully!");
     }
 
-    @GetMapping("/logout")
-    public ResponseEntity<String> logoutUser() {
-        log.info("Logging out user...");
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("User logged out successfully");
-    }
-
     @GetMapping("/test")
     public ResponseEntity<String> test() {
         return ResponseEntity

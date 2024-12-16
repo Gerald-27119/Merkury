@@ -44,6 +44,18 @@ public class PopulateDbsService {
                 .provider(Provider.NONE)
                 .build();
 
+        for(int i = 0; i <10; i++){
+            UserEntity locustUser = UserEntity.builder()
+                    .email("user"+i+"@example.com")
+                    .username("user"+i)
+                    .password(passwordEncoder.encode("password"))
+                    .userRole(ROLE_USER)
+                    .provider(Provider.NONE)
+                    .build();
+
+            userEntityRepository.save(locustUser);
+        }
+
         userEntityRepository.save(admin);
         userEntityRepository.save(user);
 
