@@ -2,18 +2,26 @@ import Button from "./Button.jsx";
 import { logout } from "../../http/account.js";
 import { useDispatch } from "react-redux";
 import { accountAction } from "../../redux/account.jsx";
+import { notificationAction } from "../../redux/notification.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function SignOutButton() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSignOut = async () => {
     try {
       await logout();
+      dispatch(
+        notificationAction.setSuccess({
+          message: "You have been successfully logged out",
+        }),
+      );
       dispatch(accountAction.signOut());
     } catch (error) {
       console.error("error logout: ", error);
     }
-    window.location.href = "/";
+    navigate("/");
   };
 
   return (
