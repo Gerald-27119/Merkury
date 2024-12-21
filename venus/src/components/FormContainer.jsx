@@ -1,6 +1,8 @@
 import OauthForm from "./oauth/OauthForm.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { notificationAction } from "../redux/notification.jsx";
 
 export default function FormContainer({
   isSuccess,
@@ -14,6 +16,7 @@ export default function FormContainer({
   children,
 }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isSuccess && navigateOnSuccess) {
@@ -21,20 +24,38 @@ export default function FormContainer({
     }
   }, [isSuccess, navigate, navigateOnSuccess]);
 
+  useEffect(() => {
+    const errorMessages = {
+      409: "E-mail or Username already taken.",
+      401: "Invalid credentials",
+    };
+
+    if (error?.response?.status && errorMessages[error.response.status]) {
+      dispatch(
+        notificationAction.setError({
+          message: errorMessages[error.response.status],
+        }),
+      );
+    }
+  }, [dispatch, error?.response?.status]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(
+        notificationAction.setSuccess({
+          message:
+            header === "Sign in" ? "Successfully log in" : "Account created!",
+        }),
+      );
+    }
+  }, [dispatch, header, isSuccess]);
+
   return (
     <div className="h-screen bg-[url('/bg-form.png')] bg-cover bg-no-repeat bg-center flex items-center justify-center w-screen">
       <div className="bg-amber-400 w-[30rem] rounded-md px-10 py-8 flex flex-col h-full justify-center">
         <h1 className="text-center text-2xl text-white font-bold pb-8">
           {header}
         </h1>
-        {isSuccess && (
-          <p className="text-center text-xl text-gray-600">Account created!</p>
-        )}
-        {error === 409 && (
-          <p className="text-center text-xl text-red-600">
-            E-mail or Username already taken.
-          </p>
-        )}
         {children}
         {showOauth && (
             <div>

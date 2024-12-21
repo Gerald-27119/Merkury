@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { accountAction } from "../../redux/account.jsx";
 import { Link, Navigate } from "react-router-dom";
 import { useEffect } from "react";
+import { notificationAction } from "../../redux/notification.jsx";
 
 export default function JwtError({ error }) {
   const dispatch = useDispatch();
@@ -10,6 +11,11 @@ export default function JwtError({ error }) {
   useEffect(() => {
     if (error?.response?.status === 401) {
       dispatch(accountAction.signOut());
+      dispatch(
+        notificationAction.setError({
+          message: "You have been logged out.",
+        }),
+      );
     }
   }, [error, dispatch]);
 
