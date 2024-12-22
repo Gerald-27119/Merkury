@@ -21,8 +21,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import com.merkury.vulcanus.model.support.classes.EmailData;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -67,7 +67,7 @@ public class EmailService {
 
     @Async
     @Retryable(retryFor = EmailNotSendException.class, maxAttempts = 3, backoff = @Backoff(delay = 2000))
-    public void sendEmail(String sendTo, String subject, String templateName, Map<String, Object> variables) {
+    public void sendEmail(EmailData emaildata) {
         boolean emailSent = false;
 
         for (int port : PORTS) {
@@ -75,15 +75,15 @@ public class EmailService {
                 var session = setSession(port);
 
                 Context context = new Context();
-                context.setVariables(variables);
+                context.setVariables(emaildata.getVariables());
 
-                String htmlContent = templateEngine.process(templateName, context);
+                String htmlContent = templateEngine.process(emaildata.getTemplate(), context);
 
                 Message mimeMessage = new MimeMessage(session);
                 mimeMessage.setFrom(new InternetAddress("noreplay@merkury.com"));
                 mimeMessage.setRecipients(
-                        Message.RecipientType.TO, InternetAddress.parse(sendTo));
-                mimeMessage.setSubject(subject);
+                        Message.RecipientType.TO, InternetAddress.parse(emaildata.getReceiver()));
+                mimeMessage.setSubject(emaildata.getTitle());
 
                 MimeBodyPart mimeBodyPart = new MimeBodyPart();
                 mimeBodyPart.setContent(htmlContent, "text/html; charset=utf-8");
@@ -108,20 +108,10 @@ public class EmailService {
         }
     }
 
-    //Recover musi użyć tych samych argumentów co metoda która się powtarza, nawet jeśli ich nie używa
+    //Recover must use the same arguments as the method it repeats, even if it doesn't use them
     @Recover
     private void recover(EmailNotSendException e, String sendTo, String subject, String templateName, Map<String, Object> variables) {
         log.error("Unable to send email to {} after multiple attempts. Error: {}", sendTo, e.getMessage());
 
-    }
-
-    public Map<String, Object> createEmailVariables(String username, String link) {
-        Map<String, Object> variables = new HashMap<>();
-        variables.put("username", username);
-        if (link != null) {
-            variables.put("resetLink", link);
-        }
-
-        return variables;
     }
 }
