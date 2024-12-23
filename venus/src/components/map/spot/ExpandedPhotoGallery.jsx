@@ -42,7 +42,7 @@ export default function ExpandedPhotoGallery({ photos }) {
       </Button>
       <div className="flex-col">
         <p className="text-2xl text-white text-center font-semibold mb-4">
-          {currentPhoto.title}
+          {currentPhoto.alt}
         </p>
         <div className="flex justify-center items-stretch m-1">
           <Photo

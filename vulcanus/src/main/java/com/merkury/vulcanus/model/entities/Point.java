@@ -1,10 +1,6 @@
 package com.merkury.vulcanus.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,4 +28,10 @@ public class Point {
 
     @ManyToOne
     private Zone zone;
+
+    public Point(Double x, Double y, Spot spot) {
+        this.x = x;
+        this.y = y;
+        this.spot = spot;
+    }
 }

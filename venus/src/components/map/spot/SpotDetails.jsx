@@ -37,7 +37,7 @@ export default function SpotDetails() {
             description={spot.description}
             rating={spot.rating}
           />
-          <Weather weather={spot.weather} />
+          {/*<Weather weather={spot.weather} />*/}
           <PhotoGallery photos={spot.photos} />
           <div className="overflow-y-auto flex-grow min-h-60">
             <Comments comments={spot.comments} />

@@ -23,8 +23,8 @@ public class Img {
     private Long id;
 
     private String url;
-    private String description;
     private String alt;
+    private String description;
     private Integer likes;
     private Integer views;
 
