@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @DataMongoTest()
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-public class AutoConfigTest {
+class AutoConfigTest {
 
     @Test
     void example(@Autowired final MongoTemplate mongoTemplate) {

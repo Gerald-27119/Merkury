@@ -24,7 +24,4 @@ class AccountControllerTest {
     void setNewPassword() {
     }
 
-    @Test
-    void test1() {
-    }
 }

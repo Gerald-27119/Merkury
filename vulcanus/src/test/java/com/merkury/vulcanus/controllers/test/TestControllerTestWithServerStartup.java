@@ -22,14 +22,20 @@ class TestControllerTestWithServerStartup {
 
     @Test
     void publicEndpoint() {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/public/test",
-                String.class)).contains("Public test endpoint says hello!");
+        var responseEntity = this.restTemplate.getForObject("http://localhost:" + port + "/public/test", String.class);
+        assertThat(responseEntity).contains("Public test endpoint says hello!");
     }
 
     @Test
     void privateEndpoint() {
         var responseEntity = this.restTemplate.getForEntity("http://localhost:" + port + "/private/test", String.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(401));
+    }
+
+    @Test
+    void publicEndpointWithServiceCall() {
+        var responseEntity = this.restTemplate.getForObject("http://localhost:" + port + "/public/test/service", String.class);
+        assertThat(responseEntity).contains("Test");
     }
 
 }
