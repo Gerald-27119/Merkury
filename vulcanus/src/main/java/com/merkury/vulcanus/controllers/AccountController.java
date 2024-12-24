@@ -144,10 +144,4 @@ public class AccountController {
                 .body("Password set successfully!");
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("test");
-    }
 }
