@@ -13,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 public class AutoConfigTest {
+
     @Test
     void example(@Autowired final MongoTemplate mongoTemplate) {
         Assertions.assertThat(mongoTemplate.getDb()).isNotNull();
