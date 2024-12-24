@@ -11,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import static com.merkury.vulcanus.config.JwtConfig.getKey;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest// czy to na pewno dobry pomysł tak context odpalać dla zwykłej metody generującej klucz?
+@SpringBootTest
 @ActiveProfiles("test")
 class JwtGeneratorTest {
 
