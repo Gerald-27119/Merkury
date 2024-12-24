@@ -30,7 +30,7 @@ class LoginService {
                             userDto.password()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            generateToken(response, authentication);
+            jwtManager.addTokenToCookie(response, jwtGenerator.generateToken());
         } catch (AuthenticationException ex) {
             throw new InvalidCredentialsException();
         }
@@ -40,11 +40,8 @@ class LoginService {
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        generateToken(response, authentication);
+        jwtManager.addTokenToCookie(response, jwtGenerator.generateToken());
+
     }
 
-    private void generateToken(HttpServletResponse response, Authentication authentication) {
-        String token = jwtGenerator.generateToken(authentication);
-        jwtManager.addTokenToCookie(response, token);
-    }
 }
