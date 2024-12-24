@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.controllers.test;
+package com.merkury.vulcanus.test;
 
 import com.merkury.vulcanus.test.TestController;
 import com.merkury.vulcanus.test.TestService;
