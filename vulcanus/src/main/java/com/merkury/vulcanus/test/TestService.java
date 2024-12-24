@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.controllers.test.logic;
+package com.merkury.vulcanus.test;
 
 import org.springframework.stereotype.Service;
 

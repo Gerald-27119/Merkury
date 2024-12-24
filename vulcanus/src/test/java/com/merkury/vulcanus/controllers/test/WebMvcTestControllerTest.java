@@ -1,8 +1,7 @@
 package com.merkury.vulcanus.controllers.test;
 
-import com.merkury.vulcanus.config.SecurityConfig;
-import com.merkury.vulcanus.controllers.test.logic.TestController;
-import com.merkury.vulcanus.controllers.test.logic.TestService;
+import com.merkury.vulcanus.test.TestController;
+import com.merkury.vulcanus.test.TestService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ class WebMvcTestControllerTest {
     * The problem is that the default security configuration is loaded which locks down the endpoints.
      */
     @Test
-    @Disabled("Need to figure out how to disable default security config")
+    @Disabled("Need to figure out how to resolve it")
     void publicEndpointWithServiceCall() throws Exception {
         when(testService.getTest()).thenReturn("Test");
 

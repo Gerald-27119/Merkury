@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.controllers.test.logic;
+package com.merkury.vulcanus.test;
 
 import com.merkury.vulcanus.observability.counter.invocations.InvocationsCounter;
 import lombok.RequiredArgsConstructor;
