@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.controllers.test.controller;
+package com.merkury.vulcanus.controllers.test;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

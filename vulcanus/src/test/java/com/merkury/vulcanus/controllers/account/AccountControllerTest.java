@@ -1,8 +1,6 @@
-package com.merkury.vulcanus.controllers;
+package com.merkury.vulcanus.controllers.account;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class AccountControllerTest {
 
