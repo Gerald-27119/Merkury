@@ -17,6 +17,7 @@ public class SpotMapper {
         }
 
         return SpotDto.builder()
+                .id(spot.getId())
                 .areaColor(spot.getAreaColor())
                 .name(spot.getName())
                 .description(spot.getDescription())

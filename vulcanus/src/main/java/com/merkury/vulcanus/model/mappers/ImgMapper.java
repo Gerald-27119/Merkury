@@ -45,17 +45,5 @@ public class ImgMapper {
 
         return img;
     }
-
-    public static List<ImgDto> toDtoList(List<Img> imgs) {
-        return imgs.stream()
-                .map(ImgMapper::toDto)
-                .collect(Collectors.toList());
-    }
-
-    public static List<Img> toEntityList(List<ImgDto> dtos, Spot spot, UserEntity author) {
-        return dtos.stream()
-                .map(dto -> toEntity(dto, spot, author))
-                .collect(Collectors.toList());
-    }
 }
 

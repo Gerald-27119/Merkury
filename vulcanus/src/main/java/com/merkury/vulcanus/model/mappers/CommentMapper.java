@@ -22,6 +22,7 @@ public class CommentMapper {
         dto.setLikes(comment.getLikes());
 
         dto.setAuthor(comment.getAuthor() != null ? comment.getAuthor().getUsername() : null);
+        dto.setPublishDate(comment.getPublishDate());
 
         return dto;
     }
@@ -38,22 +39,9 @@ public class CommentMapper {
         comment.setLikes(dto.getLikes());
         comment.setSpot(spot);
         comment.setAuthor(author);
+        comment.setPublishDate(dto.getPublishDate());
 
         return comment;
-    }
-
-    // Mapper: List<Comment> -> List<CommentDto>
-    public static List<CommentDto> toDtoList(List<Comment> comments) {
-        return comments.stream()
-                .map(CommentMapper::toDto)
-                .collect(Collectors.toList());
-    }
-
-    // Mapper: List<CommentDto> -> List<Comment>
-    public static List<Comment> toEntityList(List<CommentDto> dtos, Spot spot, UserEntity author) {
-        return dtos.stream()
-                .map(dto -> toEntity(dto, spot, author))
-                .collect(Collectors.toList());
     }
 }
 

@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/public")
+@RequestMapping("/spot")
 @RequiredArgsConstructor
 public class SpotController {
 
     private final SpotService spotService;
 
-    @GetMapping("/spot")
+    @GetMapping("")
     public ResponseEntity<List<SpotDto>> getAllSpots() {
         return ResponseEntity.ok(spotService.getAllSpots());
     }

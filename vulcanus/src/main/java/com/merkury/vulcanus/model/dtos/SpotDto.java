@@ -16,6 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SpotDto {
+    @Positive
+    private Long id;
     @NotBlank
     private String areaColor;
     @NotBlank

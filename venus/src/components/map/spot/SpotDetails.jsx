@@ -14,6 +14,12 @@ export default function SpotDetails() {
   const expandPhoto = useSelector((state) => state.photo.expandPhoto);
   const dispatch = useDispatch();
 
+  const averageRating =
+    spot.comments.length > 0
+      ? spot.comments.reduce((sum, comment) => sum + comment.rating, 0) /
+        spot.comments.length
+      : 0;
+
   return (
     <div className="w-full h-full absolute flex">
       <div
@@ -35,9 +41,9 @@ export default function SpotDetails() {
           <Info
             name={spot.name}
             description={spot.description}
-            rating={spot.rating}
+            rating={averageRating}
           />
-          {/*<Weather weather={spot.weather} />*/}
+          <Weather weather={spot.weather} />
           <PhotoGallery photos={spot.photos} />
           <div className="overflow-y-auto flex-grow min-h-60">
             <Comments comments={spot.comments} />
