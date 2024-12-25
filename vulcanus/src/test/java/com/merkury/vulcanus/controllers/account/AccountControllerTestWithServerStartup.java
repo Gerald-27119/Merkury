@@ -5,6 +5,7 @@ import com.merkury.vulcanus.model.dtos.UserLoginDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.UserRole;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,16 +34,18 @@ class AccountControllerTestWithServerStartup {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private UserEntityRepository userEntityRepository;
-
+    private  UserEntityRepository userEntityRepository;
     @Autowired
+    private  PasswordEncoder passwordEncoder;
+
+    @Autowired//wyrzucic
     private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
         var user = UserEntity.builder()
                 .username("test")
-                .password("test")
+                .password(passwordEncoder.encode("test"))
                 .userRole(UserRole.ROLE_USER)
                 .build();
 
@@ -54,7 +58,7 @@ class AccountControllerTestWithServerStartup {
     }
 
     @Test
-    void loginUser() {
+    void loginSuccess() {
         setUp();
         UserLoginDto loginDto = new UserLoginDto("test", "test");
 
@@ -76,11 +80,11 @@ class AccountControllerTestWithServerStartup {
                 () -> assertThat(setCookieHeader).isNotNull(),
                 () -> assertThat(setCookieHeader).contains("JWT_token")
         );
-    }
-
+    }//jak rozbic testy na zagniezdzone czy cos? abym mial iles testow na dany endpoint w kupie oddzielonych
 
     @Test
-    void loginSuccess() {
+    void loginInvalidCredentials() {
+
     }
 
     @Test
