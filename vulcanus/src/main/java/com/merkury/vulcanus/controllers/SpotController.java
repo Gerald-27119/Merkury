@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.controllers;
 
+import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.features.spot.SpotService;
 import com.merkury.vulcanus.model.dtos.SpotDto;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class SpotController {
     }
 
     @GetMapping("/{spotId}")
-    public ResponseEntity<SpotDto> getSpotById(@PathVariable("spotId") Long id) {
+    public ResponseEntity<SpotDto> getSpotById(@PathVariable("spotId") Long id) throws SpotNotFoundException {
         return ResponseEntity.ok(spotService.getSpotById(id));
     }
 
