@@ -58,21 +58,15 @@ class AccountControllerTestWithAppContextStartup {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonBody)
                 )
-                .andExpect(status().isOk())
-                .andExpect(header().exists("Set-Cookie"))
-                .andExpect(header().string("Set-Cookie",
-                        containsString("JWT_token")));
+                .andExpectAll(
+                        status().isOk(),
+                        header().exists("Set-Cookie"),
+                        header().string("Set-Cookie", containsString("JWT_token"))
+                );
     }
 
     @Test
     void loginSuccess() {
     }
 
-    @Test
-    void forgotPasswordSendEmail() {
-    }
-
-    @Test
-    void setNewPassword() {
-    }
 }
