@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.controllers.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.merkury.vulcanus.config.TestRestTemplateConfig;
+//import com.merkury.vulcanus.config.TestRestTemplateConfig;
 import com.merkury.vulcanus.model.dtos.UserLoginDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.UserRole;
@@ -14,22 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.web.client.ResponseErrorHandler;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@Import(TestRestTemplateConfig.class)
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AccountControllerTestWithServerStartup {
@@ -56,17 +50,6 @@ class AccountControllerTestWithServerStartup {
 
         userEntityRepository.deleteAll();
         userEntityRepository.save(user);
-
-        restTemplate.getRestTemplate().setErrorHandler(new ResponseErrorHandler() {
-            @Override
-            public boolean hasError(ClientHttpResponse response) {
-                return false;
-            }
-
-            @Override
-            public void handleError(ClientHttpResponse response) {
-            }
-        });
     }
 
     @Test
@@ -76,7 +59,6 @@ class AccountControllerTestWithServerStartup {
     @Test
     @DisplayName("Login with valid credentials")
     void loginSuccess() {
-        setUp();
         UserLoginDto loginDto = new UserLoginDto("test", "test");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -116,26 +98,22 @@ class AccountControllerTestWithServerStartup {
     }
 
     @Test
-    @DisplayName("Login with invalid credentials")
-    void loginFailure() {
+    @DisplayName("Login with invalid credentials returns 401")
+    void loginWithInvalidCredentialsReturns401() {
         UserLoginDto loginDto = new UserLoginDto("invalidUser", "wrongPassword");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<UserLoginDto> request = new HttpEntity<>(loginDto, headers);
-        ResponseEntity<String> responseEntity = null;
-        try {
-            responseEntity = restTemplate.postForEntity(
-                    "http://localhost:" + port + "/account/login",
-                    request,
-                    String.class
-            );
-        } catch (Exception ignored) {
-            assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
-        }
-    }
+        var request = new HttpEntity<>(loginDto, headers);
 
-    @Test
-    void loginInvalidCredentials() {
+        var responseEntity = restTemplate.postForEntity(
+                "http://localhost:" + port + "/account/login",
+                request,
+                String.class
+        );
+        assertAll(
+                () -> assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(401)),
+                () -> assertThat(responseEntity.getHeaders().get("Set-Cookie")).isNull()
+        );
 
     }
 
