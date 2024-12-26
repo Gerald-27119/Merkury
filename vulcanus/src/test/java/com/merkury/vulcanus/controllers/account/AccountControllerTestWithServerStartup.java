@@ -3,6 +3,7 @@ package com.merkury.vulcanus.controllers.account;
 import com.fasterxml.jackson.databind.ObjectMapper;
 //import com.merkury.vulcanus.config.TestRestTemplateConfig;
 import com.merkury.vulcanus.model.dtos.UserLoginDto;
+import com.merkury.vulcanus.model.dtos.UserRegisterDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.UserRole;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
@@ -53,11 +54,64 @@ class AccountControllerTestWithServerStartup {
     }
 
     @Test
-    void registerUser() {
+    @DisplayName("Successful registration")
+    void registerSuccess() {
+        var registerDto = new UserRegisterDto("usegdrname1", "emafdil@example.com", "Passwds2@ord1");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<UserRegisterDto> request = new HttpEntity<>(registerDto, headers);
+
+        var responseEntity = restTemplate.postForEntity(
+                "http://localhost:" + port + "/account/register",
+                request,
+                String.class
+        );
+
+        assertAll(
+                () -> assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(201)),
+                () -> assertThat(responseEntity.getBody()).isEqualTo("User registered successfully")
+        );
     }
 
     @Test
-    @DisplayName("Login with valid credentials")
+    @DisplayName("Registration with taken username returns 409")
+    void registerWithTakenUsernameReturns409() {
+        var registerDto = new UserRegisterDto("test", "newemail@example.com", "Password123!");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<UserRegisterDto> request = new HttpEntity<>(registerDto, headers);
+
+        var responseEntity = restTemplate.postForEntity(
+                "http://localhost:" + port + "/account/register",
+                request,
+                String.class
+        );
+
+        assertAll(
+                () -> assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(409)),
+                () -> assertThat(responseEntity.getBody()).contains("Username taken")
+        );
+    }
+
+    @Test
+    @DisplayName("Registration with invalid email format returns 400")
+    void registerWithInvalidEmailFormatReturns400() {
+        var registerDto = new UserRegisterDto("newuser", "invalid-email", "Password123!");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<UserRegisterDto> request = new HttpEntity<>(registerDto, headers);
+
+        var responseEntity = restTemplate.postForEntity(
+                "http://localhost:" + port + "/account/register",
+                request,
+                String.class
+        );
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(400));
+    }
+
+    @Test
+    @DisplayName("Successful login")
     void loginSuccess() {
         UserLoginDto loginDto = new UserLoginDto("test", "test");
         HttpHeaders headers = new HttpHeaders();

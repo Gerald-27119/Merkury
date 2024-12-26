@@ -34,5 +34,3 @@ class TestControllerTestWithAppContextStartup {
     }
 
 }
-//TODO:
-//ogarnac te przypadki co my mielismy bledy np uderzenie na publcizny endpoint z niepoprawnym jwt i byl wtedy sprawdzany a nie powiniene byc

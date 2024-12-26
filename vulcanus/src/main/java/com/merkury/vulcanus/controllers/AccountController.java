@@ -22,6 +22,7 @@ import com.merkury.vulcanus.config.properties.UrlsProperties;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -38,6 +39,8 @@ import org.springframework.web.servlet.view.RedirectView;
 @InvocationsCounter
 public class AccountController {
 
+    @Value("${email.sending.enabled}")
+    private boolean isEmailSendingEnabled;
     private final AccountService accountService;
     private final EmailService emailService;
     private final UrlsProperties urlsProperties;
@@ -62,8 +65,10 @@ public class AccountController {
         accountService.registerUser(userRegisterDto);
         log.info("User registered successfully!");
 
-        log.info("Sending email...");
-        emailService.sendEmail(userRegisterDto.email(), USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
+        if (isEmailSendingEnabled) {
+            log.info("Sending email...");
+            emailService.sendEmail(userRegisterDto.email(), USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
+        }
 
         var user = new UserLoginDto(userRegisterDto.username(), userRegisterDto.password());
         log.info("Start handling logging in user");
@@ -74,6 +79,7 @@ public class AccountController {
                 .status(HttpStatus.CREATED)
                 .body("User registered successfully");
     }
+
 
     /**
      * @param userLoginDto the user login details containing:
