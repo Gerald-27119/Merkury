@@ -17,6 +17,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -148,6 +149,38 @@ class AccountControllerTestWithServerStartup {
                     // 4. Check the length; it can vary depending on encoded claims
                     assertThat(jwtToken.length()).isGreaterThan(30);
                 }
+        );
+    }
+
+    @Test
+    @DisplayName("After successful login, the user can access the private endpoint")
+    void loginSuccessGivesAccessToPrivateEndpoint() {
+        UserLoginDto loginDto = new UserLoginDto("test", "test");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<UserLoginDto> request = new HttpEntity<>(loginDto, headers);
+
+        var responseEntity = restTemplate.postForEntity(
+                "http://localhost:" + port + "/account/login",
+                request,
+                String.class
+        );
+
+        var setCookieHeader = responseEntity.getHeaders().getFirst("Set-Cookie");
+        headers = new HttpHeaders();
+        headers.add("Cookie", setCookieHeader);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        var finalResponseEntity = restTemplate.exchange(
+                "http://localhost:" + port + "/private/test",
+                HttpMethod.GET,
+                entity,
+                String.class
+        );
+
+        assertAll(
+                () -> assertThat(finalResponseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200)),
+                () -> assertThat(finalResponseEntity.getBody()).contains("Private test endpoint says hello!")
         );
     }
 
