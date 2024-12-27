@@ -12,22 +12,28 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import com.merkury.vulcanus.model.support.classes.EmailData;
 
+import java.util.Map;
 import java.util.Properties;
 
 @Service
-@NoArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class EmailService {
 
     private final int[] PORTS = new int[]{25, 465, 587, 2525};
+    private final TemplateEngine templateEngine;
+
 
     private Properties setProperties(int port) {
         Properties prop = new Properties();
@@ -61,21 +67,26 @@ public class EmailService {
 
     @Async
     @Retryable(retryFor = EmailNotSendException.class, maxAttempts = 3, backoff = @Backoff(delay = 2000))
-    public void sendEmail(String sendTo, String subject, String message) {
+    public void sendEmail(EmailData emaildata) {
         boolean emailSent = false;
 
         for (int port : PORTS) {
             try {
                 var session = setSession(port);
 
+                Context context = new Context();
+                context.setVariables(emaildata.getVariables());
+
+                String htmlContent = templateEngine.process(emaildata.getTemplate(), context);
+
                 Message mimeMessage = new MimeMessage(session);
                 mimeMessage.setFrom(new InternetAddress("noreplay@merkury.com"));
                 mimeMessage.setRecipients(
-                        Message.RecipientType.TO, InternetAddress.parse(sendTo));
-                mimeMessage.setSubject(subject);
+                        Message.RecipientType.TO, InternetAddress.parse(emaildata.getReceiver()));
+                mimeMessage.setSubject(emaildata.getTitle());
 
                 MimeBodyPart mimeBodyPart = new MimeBodyPart();
-                mimeBodyPart.setContent(message, "text/html; charset=utf-8");
+                mimeBodyPart.setContent(htmlContent, "text/html; charset=utf-8");
 
                 Multipart multipart = new MimeMultipart();
                 multipart.addBodyPart(mimeBodyPart);
@@ -97,9 +108,9 @@ public class EmailService {
         }
     }
 
-    //Recover musi użyć tych samych argumentów co metoda która się powtarza, nawet jeśli ich nie używa
+    //Recover must use the same arguments as the method it repeats, even if it doesn't use them
     @Recover
-    private void recover(EmailNotSendException e, String sendTo, String subject, String message) {
+    private void recover(EmailNotSendException e, String sendTo, String subject, String templateName, Map<String, Object> variables) {
         log.error("Unable to send email to {} after multiple attempts. Error: {}", sendTo, e.getMessage());
 
     }

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--THIS FILE IS MEANT FOR CSS INLINER ONLY!!! -->
+
+    <style>
+        .divbody {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .content {
+            background: #ffffff;
+            padding: 3%;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+
+        p:last-of-type {
+            color: #777;
+        }
+
+        .logo {
+            width: 15%;
+            max-width: 120px;
+            height: auto;
+            border-radius: 4px;
+            margin-top: 4%;
+        }
+    </style>
+
+    <title>Registration Confirmation</title>
+</head>
+<div class="divbody">
+    <div class="container">
+        <div class="content">
+            <h1>Welcome, <span th:text="${username}"></span>!</h1>
+            <p>Thank you for registering in our service. Your account is now active.</p>
+            <p>If you did not register, please ignore this email.</p>
+            <div>
+                <img src="https://drive.google.com/thumbnail?id=1N6KlXDVxQqW51nvtQr7yrz9WaRPFWqFt" alt="Logo"
+                     class="logo">
+            </div>
+        </div>
+    </div>
+</div>
+</html>
