@@ -10,6 +10,8 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+import java.time.LocalDateTime;
+
 @Entity(name = "comments")
 @Data
 @Builder
@@ -23,8 +25,8 @@ public class Comment {
 
     private String text;
     private Double rating;
-    private Integer likes;
-
+    //private Integer likes;
+    private LocalDateTime date;
     @ManyToOne
     @JoinColumn(name = "spot_id")
     @ToString.Exclude

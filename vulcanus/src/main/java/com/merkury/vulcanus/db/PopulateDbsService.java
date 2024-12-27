@@ -1,19 +1,20 @@
 package com.merkury.vulcanus;
 
-import com.merkury.vulcanus.model.entities.*;
+import com.merkury.vulcanus.model.entities.Comment;
+import com.merkury.vulcanus.model.entities.PasswordResetToken;
+import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.Provider;
-import com.merkury.vulcanus.model.repositories.*;
+import com.merkury.vulcanus.model.repositories.CommentRepository;
+import com.merkury.vulcanus.model.repositories.PasswordResetTokenRepository;
+import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_ADMIN;
@@ -49,10 +50,10 @@ public class PopulateDbsService {
                 .provider(Provider.NONE)
                 .build();
 
-        for (int i = 0; i < 10; i++) {
+        for(int i = 0; i <10; i++){
             UserEntity locustUser = UserEntity.builder()
-                    .email("user" + i + "@example.com")
-                    .username("user" + i)
+                    .email("user"+i+"@example.com")
+                    .username("user"+i)
                     .password(passwordEncoder.encode("password"))
                     .userRole(ROLE_USER)
                     .provider(Provider.NONE)
@@ -63,6 +64,18 @@ public class PopulateDbsService {
 
         userEntityRepository.save(admin);
         userEntityRepository.save(user);
+
+        for(int i = 0; i <100; i++){
+            Comment comment = Comment.builder()
+                    .text("Comment"+i+": Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                    .rating(5.0%i+1.0)
+                    .publishDate(LocalDate.now())
+                    .author(user)
+                    .spot(null)
+                    .build();
+
+            commentRepository.save(comment);
+        }
 
         log.info("Users from db:");
         userEntityRepository.findAll().forEach(userEntity ->
