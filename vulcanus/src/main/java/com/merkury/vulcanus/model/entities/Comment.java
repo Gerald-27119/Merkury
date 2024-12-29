@@ -35,13 +35,4 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private UserEntity author;
-
-    public Comment(String text, Double rating, Integer likes, Spot spot, LocalDate publishDate, UserEntity author) {
-        this.text = text;
-        this.rating = rating;
-        this.likes = likes;
-        this.spot = spot;
-        this.publishDate = publishDate;
-        this.author = author;
-    }
 }

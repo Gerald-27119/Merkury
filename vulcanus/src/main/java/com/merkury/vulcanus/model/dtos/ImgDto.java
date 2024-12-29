@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ImgDto {
-    @Positive
-    private Long id;
     @NotBlank
     private String url;
     @NotBlank

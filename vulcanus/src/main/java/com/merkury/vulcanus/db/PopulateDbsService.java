@@ -300,113 +300,113 @@ public class PopulateDbsService {
         );
 
         List<Comment> commentList1 = Arrays.asList(
-                new Comment("Świetne miejsce, warto odwiedzić!", 5.0, 0, spot1, LocalDate.of(2024, 6, 1), user),
-                new Comment("Było fajnie, choć spodziewałem się więcej.", 4.0, 0, spot1, LocalDate.of(2024, 6, 2), user)
+                new Comment(null, "Świetne miejsce, warto odwiedzić!", 5.0, 0, spot1, LocalDate.of(2024, 6, 1), user),
+                new Comment(null, "Było fajnie, choć spodziewałem się więcej.", 4.0, 0, spot1, LocalDate.of(2024, 6, 2), user)
         );
 
         List<Comment> commentList2 = Arrays.asList(
-                new Comment("Idealne miejsce na relaks.", 5.0, 0, spot2, LocalDate.of(2024, 6, 3), user),
-                new Comment("Widoki niezłe, ale tłoczno i głośno.", 3.0, 0, spot2, LocalDate.of(2024, 6, 4), user)
+                new Comment(null, "Idealne miejsce na relaks.", 5.0, 0, spot2, LocalDate.of(2024, 6, 3), user),
+                new Comment(null, "Widoki niezłe, ale tłoczno i głośno.", 3.0, 0, spot2, LocalDate.of(2024, 6, 4), user)
         );
 
         List<Comment> commentList3 = Arrays.asList(
-                new Comment("Czysto, spokojnie i klimatycznie.", 5.0, 0, spot3, LocalDate.of(2024, 6, 5), user),
-                new Comment("Trochę zbyt mało atrakcji jak dla mnie.", 3.5, 0, spot3, LocalDate.of(2024, 6, 6), user)
+                new Comment(null, "Czysto, spokojnie i klimatycznie.", 5.0, 0, spot3, LocalDate.of(2024, 6, 5), user),
+                new Comment(null, "Trochę zbyt mało atrakcji jak dla mnie.", 3.5, 0, spot3, LocalDate.of(2024, 6, 6), user)
         );
 
         List<Comment> commentList4 = Arrays.asList(
-                new Comment("Miejsce warte odwiedzenia, polecam.", 4.5, 0, spot4, LocalDate.of(2024, 6, 7), user),
-                new Comment("Atmosfera w porządku, ale spodziewałem się więcej zieleni.", 3.0, 0, spot4, LocalDate.of(2024, 6, 8), user)
+                new Comment(null, "Miejsce warte odwiedzenia, polecam.", 4.5, 0, spot4, LocalDate.of(2024, 6, 7), user),
+                new Comment(null, "Atmosfera w porządku, ale spodziewałem się więcej zieleni.", 3.0, 0, spot4, LocalDate.of(2024, 6, 8), user)
         );
 
         List<Comment> commentList5 = Arrays.asList(
-                new Comment("Rewelacyjne miejsce na wycieczkę!", 5.0, 0, spot5, LocalDate.of(2024, 6, 9), user),
-                new Comment("Dobre miejsce, ale trochę za drogo jak na jakość.", 4.0, 0, spot5, LocalDate.of(2024, 6, 10), user)
+                new Comment(null, "Rewelacyjne miejsce na wycieczkę!", 5.0, 0, spot5, LocalDate.of(2024, 6, 9), user),
+                new Comment(null, "Dobre miejsce, ale trochę za drogo jak na jakość.", 4.0, 0, spot5, LocalDate.of(2024, 6, 10), user)
         );
 
         List<Comment> commentList6 = Arrays.asList(
-                new Comment("Wspaniałe widoki, aż chce się wracać.", 5.0, 0, spot6, LocalDate.of(2024, 6, 11), user),
-                new Comment("Było przyjemnie, choć obsługa mogłaby być milsza.", 4.0, 0, spot6, LocalDate.of(2024, 6, 12), user)
+                new Comment(null, "Wspaniałe widoki, aż chce się wracać.", 5.0, 0, spot6, LocalDate.of(2024, 6, 11), user),
+                new Comment(null, "Było przyjemnie, choć obsługa mogłaby być milsza.", 4.0, 0, spot6, LocalDate.of(2024, 6, 12), user)
         );
 
         List<Comment> commentList7 = Arrays.asList(
-                new Comment("Bardzo ciekawe miejsce z historią.", 5.0, 0, spot7, LocalDate.of(2024, 6, 13), user),
-                new Comment("Miejsce okej, ale parking był problematyczny.", 3.5, 0, spot7, LocalDate.of(2024, 6, 14), user)
+                new Comment(null, "Bardzo ciekawe miejsce z historią.", 5.0, 0, spot7, LocalDate.of(2024, 6, 13), user),
+                new Comment(null, "Miejsce okej, ale parking był problematyczny.", 3.5, 0, spot7, LocalDate.of(2024, 6, 14), user)
         );
 
         List<Comment> commentList8 = Arrays.asList(
-                new Comment("Czyste i dobrze zorganizowane miejsce.", 4.5, 0, spot8, LocalDate.of(2024, 6, 15), user),
-                new Comment("Naprawdę wyjątkowe miejsce, choć trochę za dużo ludzi.", 4.0, 0, spot8, LocalDate.of(2024, 6, 16), user)
+                new Comment(null, "Czyste i dobrze zorganizowane miejsce.", 4.5, 0, spot8, LocalDate.of(2024, 6, 15), user),
+                new Comment(null, "Naprawdę wyjątkowe miejsce, choć trochę za dużo ludzi.", 4.0, 0, spot8, LocalDate.of(2024, 6, 16), user)
         );
 
         List<Comment> commentList9 = Arrays.asList(
-                new Comment("Super miejsce na rodzinny wypad.", 5.0, 0, spot9, LocalDate.of(2024, 6, 17), user),
-                new Comment("Nie najgorsze, ale brakowało mi większych atrakcji.", 3.5, 0, spot9, LocalDate.of(2024, 6, 18), user)
+                new Comment(null, "Super miejsce na rodzinny wypad.", 5.0, 0, spot9, LocalDate.of(2024, 6, 17), user),
+                new Comment(null, "Nie najgorsze, ale brakowało mi większych atrakcji.", 3.5, 0, spot9, LocalDate.of(2024, 6, 18), user)
         );
 
         List<Comment> commentList10 = Arrays.asList(
-                new Comment("Miejsce godne polecenia, świetna organizacja.", 5.0, 0, spot10, LocalDate.of(2024, 6, 19), user),
-                new Comment("Podobało mi się, choć były drobne niedociągnięcia.", 4.5, 0, spot10, LocalDate.of(2024, 6, 20), user)
+                new Comment(null, "Miejsce godne polecenia, świetna organizacja.", 5.0, 0, spot10, LocalDate.of(2024, 6, 19), user),
+                new Comment(null, "Podobało mi się, choć były drobne niedociągnięcia.", 4.5, 0, spot10, LocalDate.of(2024, 6, 20), user)
         );
 
 
         List<Img> gallery1 = Arrays.asList(
-                new Img("https://upload.wikimedia.org/wikipedia/commons/8/8f/John_III_Sobieski_Monument_in_Gda%C5%84sk_2669.JPG", "pomnik", "pomnik", 0, 0, user, spot1),
-                new Img("https://gaps.gda.pl/wp-content/uploads/2021/09/SM_065-1-1024x681.jpg", "pomnik", "pomnik", 0, 0, user, spot1),
-                new Img("https://i1.nocimg.pl/d6/416/158-gdansk-pomnik-jana-iii-sobieskiego.jpg", "pomnik", "pomnik", 0, 0, user, spot1)
+                new Img(null, "https://upload.wikimedia.org/wikipedia/commons/8/8f/John_III_Sobieski_Monument_in_Gda%C5%84sk_2669.JPG", "pomnik", "pomnik", 0, 0, user, spot1),
+                new Img(null, "https://gaps.gda.pl/wp-content/uploads/2021/09/SM_065-1-1024x681.jpg", "pomnik", "pomnik", 0, 0, user, spot1),
+                new Img(null, "https://i1.nocimg.pl/d6/416/158-gdansk-pomnik-jana-iii-sobieskiego.jpg", "pomnik", "pomnik", 0, 0, user, spot1)
         );
 
         List<Img> gallery2 = Arrays.asList(
-                new Img("https://lh5.googleusercontent.com/p/AF1QipONWLJ_OEhtiG9pHEZbmmBNZiaQuVG82uROLoj9=w408-h306-k-no", "skwer", "skwer", 0, 0, user, spot2),
-                new Img("https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Gda%C5%84sk_Skwer_Czes%C5%82awa_Niemena.JPG/2560px-Gda%C5%84sk_Skwer_Czes%C5%82awa_Niemena.JPG", "skwer", "skwer", 0, 0, user, spot2),
-                new Img("https://s-trojmiasto.pl/zdj/c/n/9/2986/750x600/2986010-Zielen-na-terenie-skweru-Niemena.webp", "skwer", "skwer", 0, 0, user, spot2)
+                new Img(null, "https://lh5.googleusercontent.com/p/AF1QipONWLJ_OEhtiG9pHEZbmmBNZiaQuVG82uROLoj9=w408-h306-k-no", "skwer", "skwer", 0, 0, user, spot2),
+                new Img(null, "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Gda%C5%84sk_Skwer_Czes%C5%82awa_Niemena.JPG/2560px-Gda%C5%84sk_Skwer_Czes%C5%82awa_Niemena.JPG", "skwer", "skwer", 0, 0, user, spot2),
+                new Img(null, "https://s-trojmiasto.pl/zdj/c/n/9/2986/750x600/2986010-Zielen-na-terenie-skweru-Niemena.webp", "skwer", "skwer", 0, 0, user, spot2)
         );
 
         List<Img> gallery3 = Arrays.asList(
-                new Img("https://s-trojmiasto.pl/zdj/c/n/9/2922/1920x0/2922075-Obecnie-to-nieco-zapomniany-teren-ktory-czeka-na-rewitalizacje.webp", "park wałowy", "park wałowy", 0, 0, user, spot3),
-                new Img("https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=gmCXVf6Sftf-V9WiIuwVUg&cb_client=search.gws-prod.gps&w=408&h=240&yaw=232.89917&pitch=0&thumbfov=100", "park wałowy", "park wałowy", 0, 0, user, spot3),
-                new Img("https://s-trojmiasto.pl/zdj/c/n/9/2331/1500x0/2331938-Obecnie-plac-Walowy-to-zaniedbane-miejsce.webp", "park wałowy", "park wałowy", 0, 0, user, spot3)
+                new Img(null, "https://s-trojmiasto.pl/zdj/c/n/9/2922/1920x0/2922075-Obecnie-to-nieco-zapomniany-teren-ktory-czeka-na-rewitalizacje.webp", "park wałowy", "park wałowy", 0, 0, user, spot3),
+                new Img(null, "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=gmCXVf6Sftf-V9WiIuwVUg&cb_client=search.gws-prod.gps&w=408&h=240&yaw=232.89917&pitch=0&thumbfov=100", "park wałowy", "park wałowy", 0, 0, user, spot3),
+                new Img(null, "https://s-trojmiasto.pl/zdj/c/n/9/2331/1500x0/2331938-Obecnie-plac-Walowy-to-zaniedbane-miejsce.webp", "park wałowy", "park wałowy", 0, 0, user, spot3)
         );
 
         List<Img> gallery4 = Arrays.asList(
-                new Img("https://lh5.googleusercontent.com/p/AF1QipMBnWPy-4MYt0WQbIC8HafWEPN7GwTl6I7XrWdN=w408-h544-k-no", "park", "park", 0, 0, user, spot4),
-                new Img("https://lh5.googleusercontent.com/p/AF1QipMT3elr7EwlwKnqxpmGfoQ2lOlYxR213NagDzOK=w408-h725-k-no", "park", "park", 0, 0, user, spot4),
-                new Img("https://gdansk.gedanopedia.pl/images/6/63/Pomnik_kwiat.JPG", "park", "park", 0, 0, user, spot4)
+                new Img(null, "https://lh5.googleusercontent.com/p/AF1QipMBnWPy-4MYt0WQbIC8HafWEPN7GwTl6I7XrWdN=w408-h544-k-no", "park", "park", 0, 0, user, spot4),
+                new Img(null, "https://lh5.googleusercontent.com/p/AF1QipMT3elr7EwlwKnqxpmGfoQ2lOlYxR213NagDzOK=w408-h725-k-no", "park", "park", 0, 0, user, spot4),
+                new Img(null, "https://gdansk.gedanopedia.pl/images/6/63/Pomnik_kwiat.JPG", "park", "park", 0, 0, user, spot4)
         );
 
         List<Img> gallery5 = Arrays.asList(
-                new Img("https://d-art.ppstatic.pl/kadry/k/r/75/0b/59b1497fa1405_o_original.jpg", "jar", "jar", 0, 0, user, spot5),
-                new Img("https://s-trojmiasto.pl/zdj/c/n/9/2189/1500x0/2189954-We-wschodniej-czesci-jaru-powstaly-m-in-pola-do-minigolfa-stoly-pingpongowe-oraz-plac-sasiedzki.webp", "jar", "jar", 0, 0, user, spot5),
-                new Img("https://foto.cloudgdansk.pl/foto/Jar_Wilanowski_81897_1280px.JPG", "jar", "jar", 0, 0, user, spot5)
+                new Img(null, "https://d-art.ppstatic.pl/kadry/k/r/75/0b/59b1497fa1405_o_original.jpg", "jar", "jar", 0, 0, user, spot5),
+                new Img(null, "https://s-trojmiasto.pl/zdj/c/n/9/2189/1500x0/2189954-We-wschodniej-czesci-jaru-powstaly-m-in-pola-do-minigolfa-stoly-pingpongowe-oraz-plac-sasiedzki.webp", "jar", "jar", 0, 0, user, spot5),
+                new Img(null, "https://foto.cloudgdansk.pl/foto/Jar_Wilanowski_81897_1280px.JPG", "jar", "jar", 0, 0, user, spot5)
         );
 
         List<Img> gallery6 = Arrays.asList(
-                new Img("https://gaps.gda.pl/wp-content/uploads/2021/08/SM_031-1-1024x681.jpg", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6),
-                new Img("https://upload.wikimedia.org/wikipedia/commons/a/ab/Gdansk-plac_Kobzdeja-obelisk-Herbert.jpg", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6),
-                new Img("https://upload.wikimedia.org/wikipedia/commons/c/cd/Gda%C5%84sk_plac_Kobzdeja.JPG", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6)
+                new Img(null, "https://gaps.gda.pl/wp-content/uploads/2021/08/SM_031-1-1024x681.jpg", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6),
+                new Img(null, "https://upload.wikimedia.org/wikipedia/commons/a/ab/Gdansk-plac_Kobzdeja-obelisk-Herbert.jpg", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6),
+                new Img(null, "https://upload.wikimedia.org/wikipedia/commons/c/cd/Gda%C5%84sk_plac_Kobzdeja.JPG", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6)
         );
 
         List<Img> gallery7 = Arrays.asList(
-                new Img("https://lh5.googleusercontent.com/p/AF1QipPV2HWroKJF1MEQ542bKpmIlLGNj42dNJM2N2w=w408-h306-k-no", "wrona", "wrona", 0, 0, user, spot7),
-                new Img("https://files.cloudgdansk.pl/files/objects/thumb/10155_275.jpg", "wrona", "wrona", 0, 0, user, spot7),
-                new Img("https://ibedeker.pl/wp-content/gallery/wronia-gorka/img_2006.jpg", "wrona", "wrona", 0, 0, user, spot7)
+                new Img(null, "https://lh5.googleusercontent.com/p/AF1QipPV2HWroKJF1MEQ542bKpmIlLGNj42dNJM2N2w=w408-h306-k-no", "wrona", "wrona", 0, 0, user, spot7),
+                new Img(null, "https://files.cloudgdansk.pl/files/objects/thumb/10155_275.jpg", "wrona", "wrona", 0, 0, user, spot7),
+                new Img(null, "https://ibedeker.pl/wp-content/gallery/wronia-gorka/img_2006.jpg", "wrona", "wrona", 0, 0, user, spot7)
         );
 
         List<Img> gallery8 = Arrays.asList(
-                new Img("https://lh5.googleusercontent.com/p/AF1QipMF6_xAfFIKoVnLYaW5agOblgtiDZUomDBDUuCt=w408-h306-k-no", "plaża", "plaża", 0, 0, user, spot8),
-                new Img("https://stogi.info.pl/wp-content/uploads/2024/02/Kompleksowy_przewodnik_po_plazy_Jelitkowo_atrakcje_historia_i_ciekawostki_2-1080x675.jpg", "plaża", "plaża", 0, 0, user, spot8),
-                new Img("https://i.ytimg.com/vi/hs9TdD8TZd4/maxresdefault.jpg", "plaża", "plaża", 0, 0, user, spot8)
+                new Img(null, "https://lh5.googleusercontent.com/p/AF1QipMF6_xAfFIKoVnLYaW5agOblgtiDZUomDBDUuCt=w408-h306-k-no", "plaża", "plaża", 0, 0, user, spot8),
+                new Img(null, "https://stogi.info.pl/wp-content/uploads/2024/02/Kompleksowy_przewodnik_po_plazy_Jelitkowo_atrakcje_historia_i_ciekawostki_2-1080x675.jpg", "plaża", "plaża", 0, 0, user, spot8),
+                new Img(null, "https://i.ytimg.com/vi/hs9TdD8TZd4/maxresdefault.jpg", "plaża", "plaża", 0, 0, user, spot8)
         );
 
         List<Img> gallery9 = Arrays.asList(
-                new Img("https://d-art.ppstatic.pl/kadry/k/r/9c/65/5df1faf14a73e_o_large.jpg", "orunia", "orunia", 0, 0, user, spot9),
-                new Img("https://lh5.googleusercontent.com/p/AF1QipOL4nY6WdI-icmazsrcesbFB9zkd1WSsgQFSnah=w408-h306-k-no", "orunia", "orunia", 0, 0, user, spot9),
-                new Img("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRR-F1umTowNMlCuAQNZwmd6p4Xet-hQg0bQ&s", "orunia", "orunia", 0, 0, user, spot9)
+                new Img(null, "https://d-art.ppstatic.pl/kadry/k/r/9c/65/5df1faf14a73e_o_large.jpg", "orunia", "orunia", 0, 0, user, spot9),
+                new Img(null, "https://lh5.googleusercontent.com/p/AF1QipOL4nY6WdI-icmazsrcesbFB9zkd1WSsgQFSnah=w408-h306-k-no", "orunia", "orunia", 0, 0, user, spot9),
+                new Img(null, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRR-F1umTowNMlCuAQNZwmd6p4Xet-hQg0bQ&s", "orunia", "orunia", 0, 0, user, spot9)
         );
 
         List<Img> gallery10 = Arrays.asList(
-                new Img("https://lh5.googleusercontent.com/p/AF1QipPfl720UMdhBi_3zoXU2qJJ2QJABydhihYSO3WX=w408-h306-k-no", "workout", "workout", 0, 0, user, spot10),
-                new Img("https://files.cloudgdansk.pl/files/objects/thumb/10276_275.jpg", "workout", "workout", 0, 0, user, spot10)
+                new Img(null, "https://lh5.googleusercontent.com/p/AF1QipPfl720UMdhBi_3zoXU2qJJ2QJABydhihYSO3WX=w408-h306-k-no", "workout", "workout", 0, 0, user, spot10),
+                new Img(null, "https://files.cloudgdansk.pl/files/objects/thumb/10276_275.jpg", "workout", "workout", 0, 0, user, spot10)
         );
 
 

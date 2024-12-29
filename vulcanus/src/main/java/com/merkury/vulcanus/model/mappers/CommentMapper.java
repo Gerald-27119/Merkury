@@ -20,8 +20,7 @@ public class CommentMapper {
         dto.setText(comment.getText());
         dto.setRating(comment.getRating());
         dto.setLikes(comment.getLikes());
-
-        dto.setAuthor(comment.getAuthor() != null ? comment.getAuthor().getUsername() : null);
+        dto.setAuthor(comment.getAuthor().getUsername());
         dto.setPublishDate(comment.getPublishDate());
 
         return dto;

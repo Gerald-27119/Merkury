@@ -16,7 +16,6 @@ public class ImgMapper {
         }
 
         ImgDto dto = new ImgDto();
-        dto.setId(img.getId());
         dto.setUrl(img.getUrl());
         dto.setAlt(img.getAlt());
         dto.setDescription(img.getDescription());
@@ -34,7 +33,6 @@ public class ImgMapper {
         }
 
         Img img = new Img();
-        img.setId(dto.getId());
         img.setUrl(dto.getUrl());
         img.setAlt(dto.getAlt());
         img.setDescription(dto.getDescription());
