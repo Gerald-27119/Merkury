@@ -2,7 +2,9 @@ import axios from "axios";
 
 export async function registerUser(user) {
   const url = "http://localhost:8080/account/register";
-  return await axios.post(url, user);
+  return await axios.post(url, user, {
+    withCredentials: true,
+  });
 }
 
 export async function loginUser(userData) {
@@ -39,6 +41,14 @@ export async function logout() {
       withCredentials: true,
     },
   );
+}
+
+export async function test() {
+  return (
+    await axios.get("http://localhost:8080/private/test", {
+      withCredentials: true,
+    })
+  ).data;
 }
 
 export const googleLogoutUrl =

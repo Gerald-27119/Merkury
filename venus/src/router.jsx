@@ -7,6 +7,8 @@ import ForgotPassword from "./pages/forgot-password/ForgotPassword.jsx";
 import NewPassword from "./pages/forgot-password/NewPassword.jsx";
 import Account from "./pages/account/Account.jsx";
 import Layout from "./layout/Layout.jsx";
+import Forum from "./pages/forum/Forum.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
       {
         path: "new-password",
         element: <NewPassword />,
+      },
+      {
+        path: "forum",
+        element: (
+          <ProtectedRoute>
+            <Forum />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
