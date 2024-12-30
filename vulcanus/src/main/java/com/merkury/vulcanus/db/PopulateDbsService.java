@@ -1,12 +1,8 @@
 package com.merkury.vulcanus;
 
-import com.merkury.vulcanus.model.entities.Comment;
-import com.merkury.vulcanus.model.entities.PasswordResetToken;
-import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.entities.*;
 import com.merkury.vulcanus.model.enums.Provider;
-import com.merkury.vulcanus.model.repositories.CommentRepository;
-import com.merkury.vulcanus.model.repositories.PasswordResetTokenRepository;
-import com.merkury.vulcanus.model.repositories.UserEntityRepository;
+import com.merkury.vulcanus.model.repositories.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_ADMIN;
