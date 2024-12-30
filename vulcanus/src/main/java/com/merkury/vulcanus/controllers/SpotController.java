@@ -40,7 +40,7 @@ public class SpotController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PutMapping("/{commentId}")
+    @PutMapping("/{commentId}/delete")
     public ResponseEntity<String> deleteComment(@PathVariable Long commentId,
                                                 @AuthenticationPrincipal UserDetails userDetails)
                                                 throws CommentNotFoundException, InvalidCredentialsException {
@@ -53,7 +53,7 @@ public class SpotController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PutMapping("/{commentId}")
+    @PutMapping("/{commentId}/edit")
     public ResponseEntity<String> editComment(@PathVariable Long commentId,
                                               @RequestBody String text,
                                               @AuthenticationPrincipal UserDetails userDetails)
