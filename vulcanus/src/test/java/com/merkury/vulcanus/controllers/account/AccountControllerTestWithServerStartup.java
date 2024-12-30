@@ -1,13 +1,10 @@
 package com.merkury.vulcanus.controllers.account;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.merkury.vulcanus.config.TestRestTemplateConfig;
 import com.merkury.vulcanus.model.dtos.UserLoginDto;
 import com.merkury.vulcanus.model.dtos.UserRegisterDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.UserRole;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
