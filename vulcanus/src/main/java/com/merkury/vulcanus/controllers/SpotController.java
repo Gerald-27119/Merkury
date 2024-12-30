@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,10 +42,10 @@ public class SpotController {
     @PreAuthorize("isAuthenticated()")
     @PutMapping("/{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable Long commentId,
-                                                @AuthenticationPrincipal String username)
+                                                @AuthenticationPrincipal UserDetails userDetails)
                                                 throws CommentNotFoundException, InvalidCredentialsException {
         log.info("Deleting comment, id:" + commentId + "...");
-        spotService.deleteComment(commentId, username);
+        spotService.deleteComment(commentId, userDetails.getUsername());
         log.info("Deleted comment successfully! id:" + commentId);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -55,10 +56,10 @@ public class SpotController {
     @PutMapping("/{commentId}")
     public ResponseEntity<String> editComment(@PathVariable Long commentId,
                                               @RequestBody String text,
-                                              @AuthenticationPrincipal String username)
+                                              @AuthenticationPrincipal UserDetails userDetails)
                                               throws CommentNotFoundException, InvalidCredentialsException {
         log.info("Editing comment, id:" + commentId + "...");
-        spotService.editComment(commentId, text, username);
+        spotService.editComment(commentId, text, userDetails.getUsername());
         log.info("Edited comment successfully! id:" + commentId + "!");
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
@@ -69,10 +70,10 @@ public class SpotController {
     @PostMapping("{spotId}/add")
     public ResponseEntity<String> addComment(@RequestBody String text,
                                              @PathVariable Long spotId,
-                                             @AuthenticationPrincipal String username)
+                                             @AuthenticationPrincipal UserDetails userDetails)
                                              throws CommentNotFoundException, SpotNotFoundException {
         log.info("Submitting new comment...");
-        spotService.addComment(text, username, spotId);
+        spotService.addComment(text, userDetails.getUsername(), spotId);
         log.info("Edited comment successfully! spot id:" + spotId + "!");
         return ResponseEntity
                 .status(HttpStatus.CREATED)
