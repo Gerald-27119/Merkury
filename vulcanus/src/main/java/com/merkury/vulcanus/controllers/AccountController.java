@@ -16,6 +16,10 @@ import com.merkury.vulcanus.features.password.reset.PasswordResetTokenService;
 import com.merkury.vulcanus.model.entities.PasswordResetToken;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.features.email.EmailService;
+import com.merkury.vulcanus.model.enums.EmailTemplate;
+import com.merkury.vulcanus.model.enums.EmailTitle;
+import com.merkury.vulcanus.model.enums.EmailVariable;
+import com.merkury.vulcanus.model.support.classes.EmailData;
 import com.merkury.vulcanus.observability.counter.invocations.InvocationsCounter;
 import jakarta.servlet.http.HttpServletResponse;
 import com.merkury.vulcanus.config.properties.UrlsProperties;
@@ -28,6 +32,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.Map;
 
 /**
  * <h1>We are using HS256 algorithm to sign the JWT token (for now).</h1>
@@ -44,8 +50,6 @@ public class AccountController {
     private final AccountService accountService;
     private final EmailService emailService;
     private final UrlsProperties urlsProperties;
-    private final String USER_REGISTERED_MESSAGE = "Thank you for registering in our service!\nYour account is now active.";
-    private final String USER_REGISTERED_TITLE = "Register confirmation";
     private final PasswordResetTokenService passwordResetTokenService;
     private final RestartPasswordService restartPasswordService;
 
@@ -66,8 +70,15 @@ public class AccountController {
         log.info("User registered successfully!");
 
         if (isEmailSendingEnabled) {
+            EmailData emailData = EmailData.builder()
+                    .receiver(userRegisterDto.email())
+                    .title(EmailTitle.USER_REGISTERED.getTitle())
+                    .template(EmailTemplate.REGISTRATION.getTemplateName())
+                    .variables(Map.of(EmailVariable.USERNAME.getVariable(), userRegisterDto.username()))
+                    .build();
+
             log.info("Sending email...");
-            emailService.sendEmail(userRegisterDto.email(), USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
+            emailService.sendEmail(emailData);
         }
 
         var user = new UserLoginDto(userRegisterDto.username(), userRegisterDto.password());
@@ -79,7 +90,6 @@ public class AccountController {
                 .status(HttpStatus.CREATED)
                 .body("User registered successfully");
     }
-
 
     /**
      * @param userLoginDto the user login details containing:
@@ -108,10 +118,18 @@ public class AccountController {
         log.info("Successfully handled oAuth2 user!");
 
         var userEmail = loginResponseDto.userEmail();
-        if (loginResponseDto.isUserRegistered()) {
+        if (isEmailSendingEnabled && loginResponseDto.isUserRegistered()) {
+            String username = restartPasswordService.getUserByEmail(userEmail).getUsername();
+
+            EmailData emailData = EmailData.builder()
+                    .receiver(userEmail)
+                    .title(EmailTitle.USER_REGISTERED.getTitle())
+                    .template(EmailTemplate.REGISTRATION.getTemplateName())
+                    .variables(Map.of(EmailVariable.USERNAME.getVariable(), username))
+                    .build();
+
             log.info("Sending email...");
-            emailService.sendEmail(userEmail, USER_REGISTERED_TITLE, USER_REGISTERED_MESSAGE);
-            log.info("Email sent successfully!");
+            emailService.sendEmail(emailData);
         }
 
         var afterLoginPageUrl = urlsProperties.getAfterLoginPageUrl();
@@ -128,11 +146,16 @@ public class AccountController {
         log.info("Procedure finished!");
 
         String resetLink = urlsProperties.getResetPasswordUrl() + resetToken.getToken().toString();
-        String message = "Click this link to reset password: <a href='" + resetLink + "'>New password</a>";
+
+        EmailData emailData = EmailData.builder()
+                .receiver(email)
+                .title(EmailTitle.PASSWORD_RESET.getTitle())
+                .template(EmailTemplate.FORGOT_PASSWORD.getTemplateName())
+                .variables(Map.of(EmailVariable.USERNAME.getVariable(), user.getUsername(), EmailVariable.RESET_LINK.getVariable(), resetLink))
+                .build();
 
         log.info("Sending email...");
-        emailService.sendEmail(email, "Restart password", message);
-        log.info("Email sent successfully!");
+        emailService.sendEmail(emailData);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
