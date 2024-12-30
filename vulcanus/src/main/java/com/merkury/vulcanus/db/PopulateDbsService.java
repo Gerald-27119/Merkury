@@ -64,17 +64,6 @@ public class PopulateDbsService {
         userEntityRepository.save(admin);
         userEntityRepository.save(user);
 
-        for(int i = 0; i <100; i++){
-            Comment comment = Comment.builder()
-                    .text("Comment"+i+": Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
-                    .rating(5.0%i+1.0)
-                    .publishDate(LocalDate.now())
-                    .author(user)
-                    .spot(null)
-                    .build();
-
-            commentRepository.save(comment);
-        }
 
         log.info("Users from db:");
         userEntityRepository.findAll().forEach(userEntity ->
@@ -311,18 +300,18 @@ public class PopulateDbsService {
                 new Point(54.32202428469449, 18.63395637969597, spot10)
         );
 
-        List<Comment> commentList1 = Arrays.asList(
+        List<Comment> commentList1 = new ArrayList<>(Arrays.asList(
                 new Comment("Świetne miejsce, warto odwiedzić!", 5.0, 0, spot1, LocalDate.of(2024, 6, 1), user),
-                new Comment("Było fajnie, choć spodziewałem się więcej.", 4.0, 0, spot1, LocalDate.of(2024, 6, 2), user)
-        );
+                new Comment("Było fajnie, choć spodziewałem się więcej.", 4.0, 0, spot1, LocalDate.of(2024, 6, 2), admin)
+        ));
 
         List<Comment> commentList2 = Arrays.asList(
-                new Comment("Idealne miejsce na relaks.", 5.0, 0, spot2, LocalDate.of(2024, 6, 3), user),
-                new Comment("Widoki niezłe, ale tłoczno i głośno.", 3.0, 0, spot2, LocalDate.of(2024, 6, 4), user)
+                new Comment("Idealne miejsce na relaks.", 5.0, 0, spot2, LocalDate.of(2024, 6, 3), admin),
+                new Comment("Widoki niezłe, ale tłoczno i głośno.", 3.0, 0, spot2, LocalDate.of(2024, 6, 4), admin)
         );
 
         List<Comment> commentList3 = Arrays.asList(
-                new Comment("Czysto, spokojnie i klimatycznie.", 5.0, 0, spot3, LocalDate.of(2024, 6, 5), user),
+                new Comment("Czysto, spokojnie i klimatycznie.", 5.0, 0, spot3, LocalDate.of(2024, 6, 5), admin),
                 new Comment("Trochę zbyt mało atrakcji jak dla mnie.", 3.5, 0, spot3, LocalDate.of(2024, 6, 6), user)
         );
 
@@ -361,6 +350,18 @@ public class PopulateDbsService {
                 new Comment("Podobało mi się, choć były drobne niedociągnięcia.", 4.5, 0, spot10, LocalDate.of(2024, 6, 20), user)
         );
 
+        for(int i = 0; i <100; i++){
+            Comment comment = Comment.builder()
+                    .text("Comment"+i+": Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                    .rating((i+1.0)%5.0)
+                    .likes(1)
+                    .spot(spot1)
+                    .publishDate(LocalDate.now())
+                    .author(user)
+                    .build();
+            System.out.print(commentList1);
+            commentList1.add(comment);
+        }
 
         List<Img> gallery1 = Arrays.asList(
                 new Img("https://upload.wikimedia.org/wikipedia/commons/8/8f/John_III_Sobieski_Monument_in_Gda%C5%84sk_2669.JPG", "pomnik", "pomnik", 0, 0, user, spot1),

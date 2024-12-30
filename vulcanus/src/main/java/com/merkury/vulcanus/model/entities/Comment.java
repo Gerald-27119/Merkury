@@ -25,10 +25,10 @@ public class Comment {
 
     private String text;
     private Double rating;
-    //private Integer likes;
-    private LocalDateTime date;
+    private Integer likes;
+
     @ManyToOne
-    @JoinColumn(name = "spot_id")
+    @JoinColumn(name = "spot_id", nullable = false)
     @ToString.Exclude
     private Spot spot;
 
