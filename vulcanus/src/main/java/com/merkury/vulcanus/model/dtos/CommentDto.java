@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -23,7 +24,7 @@ public class CommentDto {
     private Integer likes;
     @PastOrPresent
     @NotNull
-    private LocalDate publishDate;
+    private LocalDateTime publishDate;
     @NotBlank
     private String author;
 }

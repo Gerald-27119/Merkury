@@ -9,6 +9,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity(name = "comments")
 @Data
@@ -30,7 +31,7 @@ public class Comment {
     @ToString.Exclude
     private Spot spot;
 
-    private LocalDate publishDate;
+    private LocalDateTime publishDate;
 
     @ManyToOne
     @JoinColumn(name = "author_id")

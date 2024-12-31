@@ -300,53 +300,53 @@ public class PopulateDbsService {
         );
 
         List<Comment> commentList1 = Arrays.asList(
-                new Comment(null, "Świetne miejsce, warto odwiedzić!", 5.0, 0, spot1, LocalDate.of(2024, 6, 1), user),
-                new Comment(null, "Było fajnie, choć spodziewałem się więcej.", 4.0, 0, spot1, LocalDate.of(2024, 6, 2), user)
+                new Comment(null, "Świetne miejsce, warto odwiedzić!", 5.0, 0, spot1, LocalDateTime.of(2024, 6, 1, 10, 15), user),
+                new Comment(null, "Było fajnie, choć spodziewałem się więcej.", 4.0, 0, spot1, LocalDateTime.of(2024, 6, 2, 14, 30), user)
         );
 
         List<Comment> commentList2 = Arrays.asList(
-                new Comment(null, "Idealne miejsce na relaks.", 5.0, 0, spot2, LocalDate.of(2024, 6, 3), user),
-                new Comment(null, "Widoki niezłe, ale tłoczno i głośno.", 3.0, 0, spot2, LocalDate.of(2024, 6, 4), user)
+                new Comment(null, "Idealne miejsce na relaks.", 5.0, 0, spot2, LocalDateTime.of(2024, 6, 3, 9, 45), user),
+                new Comment(null, "Widoki niezłe, ale tłoczno i głośno.", 3.0, 0, spot2, LocalDateTime.of(2024, 6, 4, 16, 20), user)
         );
 
         List<Comment> commentList3 = Arrays.asList(
-                new Comment(null, "Czysto, spokojnie i klimatycznie.", 5.0, 0, spot3, LocalDate.of(2024, 6, 5), user),
-                new Comment(null, "Trochę zbyt mało atrakcji jak dla mnie.", 3.5, 0, spot3, LocalDate.of(2024, 6, 6), user)
+                new Comment(null, "Czysto, spokojnie i klimatycznie.", 5.0, 0, spot3, LocalDateTime.of(2024, 6, 5, 8, 10), user),
+                new Comment(null, "Trochę zbyt mało atrakcji jak dla mnie.", 3.5, 0, spot3, LocalDateTime.of(2024, 6, 6, 18, 55), user)
         );
 
         List<Comment> commentList4 = Arrays.asList(
-                new Comment(null, "Miejsce warte odwiedzenia, polecam.", 4.5, 0, spot4, LocalDate.of(2024, 6, 7), user),
-                new Comment(null, "Atmosfera w porządku, ale spodziewałem się więcej zieleni.", 3.0, 0, spot4, LocalDate.of(2024, 6, 8), user)
+                new Comment(null, "Miejsce warte odwiedzenia, polecam.", 4.5, 0, spot4, LocalDateTime.of(2024, 6, 7, 11, 40), user),
+                new Comment(null, "Atmosfera w porządku, ale spodziewałem się więcej zieleni.", 3.0, 0, spot4, LocalDateTime.of(2024, 6, 8, 13, 25), user)
         );
 
         List<Comment> commentList5 = Arrays.asList(
-                new Comment(null, "Rewelacyjne miejsce na wycieczkę!", 5.0, 0, spot5, LocalDate.of(2024, 6, 9), user),
-                new Comment(null, "Dobre miejsce, ale trochę za drogo jak na jakość.", 4.0, 0, spot5, LocalDate.of(2024, 6, 10), user)
+                new Comment(null, "Rewelacyjne miejsce na wycieczkę!", 5.0, 0, spot5, LocalDateTime.of(2024, 6, 9, 7, 50), user),
+                new Comment(null, "Dobre miejsce, ale trochę za drogo jak na jakość.", 4.0, 0, spot5, LocalDateTime.of(2024, 6, 10, 20, 15), user)
         );
 
         List<Comment> commentList6 = Arrays.asList(
-                new Comment(null, "Wspaniałe widoki, aż chce się wracać.", 5.0, 0, spot6, LocalDate.of(2024, 6, 11), user),
-                new Comment(null, "Było przyjemnie, choć obsługa mogłaby być milsza.", 4.0, 0, spot6, LocalDate.of(2024, 6, 12), user)
+                new Comment(null, "Wspaniałe widoki, aż chce się wracać.", 5.0, 0, spot6, LocalDateTime.of(2024, 6, 11, 15, 30), user),
+                new Comment(null, "Było przyjemnie, choć obsługa mogłaby być milsza.", 4.0, 0, spot6, LocalDateTime.of(2024, 6, 12, 19, 5), user)
         );
 
         List<Comment> commentList7 = Arrays.asList(
-                new Comment(null, "Bardzo ciekawe miejsce z historią.", 5.0, 0, spot7, LocalDate.of(2024, 6, 13), user),
-                new Comment(null, "Miejsce okej, ale parking był problematyczny.", 3.5, 0, spot7, LocalDate.of(2024, 6, 14), user)
+                new Comment(null, "Bardzo ciekawe miejsce z historią.", 5.0, 0, spot7, LocalDateTime.of(2024, 6, 13, 12, 10), user),
+                new Comment(null, "Miejsce okej, ale parking był problematyczny.", 3.5, 0, spot7, LocalDateTime.of(2024, 6, 14, 14, 50), user)
         );
 
         List<Comment> commentList8 = Arrays.asList(
-                new Comment(null, "Czyste i dobrze zorganizowane miejsce.", 4.5, 0, spot8, LocalDate.of(2024, 6, 15), user),
-                new Comment(null, "Naprawdę wyjątkowe miejsce, choć trochę za dużo ludzi.", 4.0, 0, spot8, LocalDate.of(2024, 6, 16), user)
+                new Comment(null, "Czyste i dobrze zorganizowane miejsce.", 4.5, 0, spot8, LocalDateTime.of(2024, 6, 15, 9, 0), user),
+                new Comment(null, "Naprawdę wyjątkowe miejsce, choć trochę za dużo ludzi.", 4.0, 0, spot8, LocalDateTime.of(2024, 6, 16, 18, 45), user)
         );
 
         List<Comment> commentList9 = Arrays.asList(
-                new Comment(null, "Super miejsce na rodzinny wypad.", 5.0, 0, spot9, LocalDate.of(2024, 6, 17), user),
-                new Comment(null, "Nie najgorsze, ale brakowało mi większych atrakcji.", 3.5, 0, spot9, LocalDate.of(2024, 6, 18), user)
+                new Comment(null, "Super miejsce na rodzinny wypad.", 5.0, 0, spot9, LocalDateTime.of(2024, 6, 17, 8, 30), user),
+                new Comment(null, "Nie najgorsze, ale brakowało mi większych atrakcji.", 3.5, 0, spot9, LocalDateTime.of(2024, 6, 18, 21, 10), user)
         );
 
         List<Comment> commentList10 = Arrays.asList(
-                new Comment(null, "Miejsce godne polecenia, świetna organizacja.", 5.0, 0, spot10, LocalDate.of(2024, 6, 19), user),
-                new Comment(null, "Podobało mi się, choć były drobne niedociągnięcia.", 4.5, 0, spot10, LocalDate.of(2024, 6, 20), user)
+                new Comment(null, "Miejsce godne polecenia, świetna organizacja.", 5.0, 0, spot10, LocalDateTime.of(2024, 6, 19, 10, 20), user),
+                new Comment(null, "Podobało mi się, choć były drobne niedociągnięcia.", 4.5, 0, spot10, LocalDateTime.of(2024, 6, 20, 17, 35), user)
         );
 
 

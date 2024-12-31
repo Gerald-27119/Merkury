@@ -15,16 +15,16 @@ export default function Spots() {
   }
   // For Testing
   // return (
-  //     <>
-  //       {SpotsData.map((spot) => (
-  //           <Zone
-  //               key={spot.id}
-  //               zone={spot}
-  //               color="green"
-  //               DetailsComponent={SpotDetails}
-  //           />
-  //       ))}
-  //     </>
+  //   <>
+  //     {SpotsData.map((spot) => (
+  //       <Zone
+  //         key={spot.id}
+  //         zone={spot}
+  //         color="green"
+  //         DetailsComponent={SpotDetails}
+  //       />
+  //     ))}
+  //   </>
   // );
 
   return (

@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ImgDto {
     @NotBlank
-    private String url;
+    private String img;
     @NotBlank
-    private String alt;
+    private String title;
     @NotBlank
     private String description;
     @Positive
