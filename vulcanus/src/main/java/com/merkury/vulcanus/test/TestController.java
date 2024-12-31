@@ -1,7 +1,6 @@
-package com.merkury.vulcanus.controllers;
+package com.merkury.vulcanus.test;
 
 import com.merkury.vulcanus.observability.counter.invocations.InvocationsCounter;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @InvocationsCounter
 public class TestController {
 
+    private final TestService testService;
+
     @GetMapping("/public/test")
     public ResponseEntity<String> publicEndpoint() {
         return ResponseEntity
@@ -30,4 +31,12 @@ public class TestController {
                 .status(HttpStatus.OK)
                 .body("Private test endpoint says hello!");
     }
+
+    @GetMapping("/public/test/service")
+    public ResponseEntity<String> publicEndpointWithServiceCall() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(testService.getTest());
+    }
+
 }

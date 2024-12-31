@@ -26,6 +26,7 @@ import com.merkury.vulcanus.config.properties.UrlsProperties;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -44,6 +45,8 @@ import java.util.Map;
 @InvocationsCounter
 public class AccountController {
 
+    @Value("${email.sending.enabled}")
+    private boolean isEmailSendingEnabled;
     private final AccountService accountService;
     private final EmailService emailService;
     private final UrlsProperties urlsProperties;
@@ -66,15 +69,17 @@ public class AccountController {
         accountService.registerUser(userRegisterDto);
         log.info("User registered successfully!");
 
-        EmailData emailData = EmailData.builder()
-                .receiver(userRegisterDto.email())
-                .title(EmailTitle.USER_REGISTERED.getTitle())
-                .template(EmailTemplate.REGISTRATION.getTemplateName())
-                .variables(Map.of(EmailVariable.USERNAME.getVariable(), userRegisterDto.username()))
-                .build();
+        if (isEmailSendingEnabled) {
+            EmailData emailData = EmailData.builder()
+                    .receiver(userRegisterDto.email())
+                    .title(EmailTitle.USER_REGISTERED.getTitle())
+                    .template(EmailTemplate.REGISTRATION.getTemplateName())
+                    .variables(Map.of(EmailVariable.USERNAME.getVariable(), userRegisterDto.username()))
+                    .build();
 
-        log.info("Sending email...");
-        emailService.sendEmail(emailData);
+            log.info("Sending email...");
+            emailService.sendEmail(emailData);
+        }
 
         var user = new UserLoginDto(userRegisterDto.username(), userRegisterDto.password());
         log.info("Start handling logging in user");
@@ -113,7 +118,7 @@ public class AccountController {
         log.info("Successfully handled oAuth2 user!");
 
         var userEmail = loginResponseDto.userEmail();
-        if (loginResponseDto.isUserRegistered()) {
+        if (isEmailSendingEnabled && loginResponseDto.isUserRegistered()) {
             String username = restartPasswordService.getUserByEmail(userEmail).getUsername();
 
             EmailData emailData = EmailData.builder()
@@ -168,10 +173,4 @@ public class AccountController {
                 .body("Password set successfully!");
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("test");
-    }
 }
