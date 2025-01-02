@@ -26,6 +26,7 @@ import com.merkury.vulcanus.model.enums.EmailVariable;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.support.classes.EmailData;
 import com.merkury.vulcanus.observability.counter.invocations.InvocationsCounter;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.merkury.vulcanus.config.properties.UrlsProperties;
 import jakarta.validation.Valid;
@@ -186,10 +187,10 @@ public class AccountController {
                 .body(updatedUser);
     }
 
-    @GetMapping("/get-user/{userId}")
-    public ResponseEntity<GetUserDto> getUserById(@PathVariable Long userId) {
+    @GetMapping("/get-user")
+    public ResponseEntity<GetUserDto> getUserData(HttpServletRequest request) {
         log.info("Start getting user...");
-        var user = accountService.getUserById(userId);
+        var user = accountService.getUser(request);
         log.info("User found successfully!");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(user);

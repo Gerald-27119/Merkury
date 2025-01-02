@@ -53,6 +53,7 @@ public class SecurityConfig {
             new AntPathRequestMatcher("/account/login-success"),
             new AntPathRequestMatcher("/account/forgot-password"),
             new AntPathRequestMatcher("/account/set-new-password"),
+            new AntPathRequestMatcher("/account/oauth2/logout"),
             new AntPathRequestMatcher("/oauth2/**"),
             new AntPathRequestMatcher("/favicon.ico"),
             new AntPathRequestMatcher("/actuator/**")

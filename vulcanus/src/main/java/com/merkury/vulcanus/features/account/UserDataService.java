@@ -9,8 +9,11 @@ import com.merkury.vulcanus.model.dtos.UserEditDataDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
+import com.merkury.vulcanus.security.jwt.JwtManager;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -32,11 +35,18 @@ public class UserDataService {
     private final UrlsProperties urlsProperties;
     private final UserEntityRepository userEntityRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtManager jwtManager;
 
-    public GetUserDto getUserById(Long userId) {
-        var user = this.getUserFromDbById(userId);
+    public GetUserDto getUserData(HttpServletRequest request) {
+        String token = jwtManager.getJWTFromCookie(request);
+        String username = jwtManager.getUsernameFromJWT(token);
+        var userFromDb  = userEntityRepository.findByUsername(username);
+        if (userFromDb.isEmpty()) {
+            throw new UserNotFoundException("User with provided id doesn't exist!");
+        }
+        var user = userFromDb.get();
 
-        return new GetUserDto(user.getId(), user.getUsername(), user.getProvider(), user.getEmail(), user.getPassword());
+        return new GetUserDto(user.getId(), user.getUsername(), user.getProvider(), user.getEmail());
     }
 
     public GetUserDto editUserData(Long userId, UserEditDataDto userEditDataDto) throws InvalidPasswordException {
@@ -60,7 +70,7 @@ public class UserDataService {
 
         var editedUser = userEntityRepository.save(userData);
 
-        return new GetUserDto(editedUser.getId(), editedUser.getUsername(), editedUser.getProvider(), editedUser.getEmail(), editedUser.getPassword());
+        return new GetUserDto(editedUser.getId(), editedUser.getUsername(), editedUser.getProvider(), editedUser.getEmail());
     }
 
     public String getUserEmailFromGithub(OAuth2AuthenticationToken oAuth2AuthenticationToken) throws EmailNotFoundException {

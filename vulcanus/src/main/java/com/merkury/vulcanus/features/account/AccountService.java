@@ -15,6 +15,7 @@ import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
 import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenIsInvalidException;
 import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenNotFoundException;
@@ -100,7 +101,7 @@ public class AccountService {
         return userDataService.editUserData(userId, userEditDataDto);
     }
 
-    public GetUserDto getUserById(Long userId) {
-        return userDataService.getUserById(userId);
+    public GetUserDto getUser(HttpServletRequest request) {
+        return userDataService.getUserData(request);
     }
 }
