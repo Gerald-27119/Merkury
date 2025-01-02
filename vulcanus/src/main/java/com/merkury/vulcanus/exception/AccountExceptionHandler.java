@@ -3,6 +3,7 @@ package com.merkury.vulcanus.exception;
 import com.merkury.vulcanus.exception.exceptions.EmailNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
 import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
+import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
@@ -16,6 +17,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 @ControllerAdvice(basePackages = {"com.merkury.vulcanus.controllers"})
 public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<String> handleInvalidDataException(Exception ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
 
     @ExceptionHandler({EmailTakenException.class, UsernameTakenException.class})
     public ResponseEntity<String> handleEmailOrUsernameTakenException(Exception ex) {

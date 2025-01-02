@@ -1,5 +1,9 @@
 package com.merkury.vulcanus.controllers;
 
+import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
+import com.merkury.vulcanus.features.account.UserDataService;
+import com.merkury.vulcanus.model.dtos.GetUserDto;
+import com.merkury.vulcanus.model.dtos.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.UserLoginDto;
 import com.merkury.vulcanus.model.dtos.UserPasswordResetDto;
 import com.merkury.vulcanus.model.dtos.UserRegisterDto;
@@ -19,6 +23,7 @@ import com.merkury.vulcanus.features.email.EmailService;
 import com.merkury.vulcanus.model.enums.EmailTemplate;
 import com.merkury.vulcanus.model.enums.EmailTitle;
 import com.merkury.vulcanus.model.enums.EmailVariable;
+import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.support.classes.EmailData;
 import com.merkury.vulcanus.observability.counter.invocations.InvocationsCounter;
 import jakarta.servlet.http.HttpServletResponse;
@@ -45,6 +50,7 @@ import java.util.Map;
 @InvocationsCounter
 public class AccountController {
 
+    private final UserDataService userDataService;
     @Value("${email.sending.enabled}")
     private boolean isEmailSendingEnabled;
     private final AccountService accountService;
@@ -173,10 +179,13 @@ public class AccountController {
                 .body("Password set successfully!");
     }
 
-    @PostMapping("/edit-data")
-    public ResponseEntity<String>editUser(){
+    @PostMapping("/edit-data/{userId}")
+    public ResponseEntity<GetUserDto>editUser(@PathVariable Long userId, @Valid @RequestBody UserEditDataDto userEditDataDto) throws InvalidPasswordException {
+        log.info("Start editing user...");
+        var updatedUser = userDataService.editUserData(userId, userEditDataDto);
+        log.info("User edited successfully!");
         return ResponseEntity.status(HttpStatus.OK)
-                .body("test");
+                .body(updatedUser);
     }
 
 }

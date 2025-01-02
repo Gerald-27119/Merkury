@@ -2,6 +2,12 @@ package com.merkury.vulcanus.features.account;
 
 import com.merkury.vulcanus.exception.exceptions.EmailNotFoundException;
 import com.merkury.vulcanus.config.properties.UrlsProperties;
+import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
+import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
+import com.merkury.vulcanus.model.dtos.GetUserDto;
+import com.merkury.vulcanus.model.dtos.UserEditDataDto;
+import com.merkury.vulcanus.model.enums.Provider;
+import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -14,6 +20,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 @Service
@@ -21,6 +28,34 @@ public class UserDataService {
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final WebClient webClient;
     private final UrlsProperties urlsProperties;
+    private final UserEntityRepository userEntityRepository;
+
+    public GetUserDto editUserData(Long userId, UserEditDataDto userEditDataDto) throws InvalidPasswordException {
+        var userFromDb = userEntityRepository.findById(userId);
+        if (userFromDb.isEmpty()) {
+            throw new UserNotFoundException("User with provided id doesn't exist!");
+        }
+
+        var userData = userFromDb.get();
+        if (userData.getProvider().equals(Provider.NONE)) {
+            String password = userEditDataDto.password();
+
+            String passwordRegex = "^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\s:])(\\S){8,16}$";
+            Pattern pattern = Pattern.compile(passwordRegex);
+
+            if (password == null || !pattern.matcher(password).matches()) {
+                throw new InvalidPasswordException("Password must be 8-16 characters long, contain at least one digit, one uppercase letter, one lowercase letter, and one special character.");
+            }
+
+            userData.setPassword(userEditDataDto.password());
+            userData.setEmail(userEditDataDto.email());
+        }
+        userData.setUsername(userEditDataDto.username());
+
+        var editedUser = userEntityRepository.save(userData);
+
+        return new GetUserDto(editedUser.getId(), editedUser.getUsername(), editedUser.getProvider(), editedUser.getEmail(), editedUser.getPassword());
+    }
 
     public String getUserEmailFromGithub(OAuth2AuthenticationToken oAuth2AuthenticationToken) throws EmailNotFoundException {
         var userEmail = this.fetchUserEmailFromGithub(oAuth2AuthenticationToken);
