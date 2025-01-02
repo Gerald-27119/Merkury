@@ -173,4 +173,10 @@ public class AccountController {
                 .body("Password set successfully!");
     }
 
+    @PostMapping("/edit-data")
+    public ResponseEntity<String>editUser(){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("test");
+    }
+
 }
