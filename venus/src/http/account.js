@@ -51,6 +51,26 @@ export async function test() {
   ).data;
 }
 
+export async function getUser() {
+  console.log("getting user...");
+  return (
+    await axios.get("http://localhost:8080/account/get-user", {
+      withCredentials: true,
+    })
+  ).data;
+}
+
+export async function editUserData(id, user) {
+  console.log("sent edited user...");
+  return (
+    await axios.post(
+      "http://localhost:8080/account/edit-data/1",
+      { user },
+      { withCredentials: true },
+    )
+  ).data;
+}
+
 export const googleLogoutUrl =
   "http://localhost:8080/oauth2/authorization/google";
 export const githubLogoutUrl =
