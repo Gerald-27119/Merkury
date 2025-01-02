@@ -7,12 +7,20 @@ import { IoCloseOutline } from "react-icons/io5";
 import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
 import ExpandedPhotoGallery from "./ExpandedPhotoGallery.jsx";
 import { photoAction } from "../../../redux/photo.jsx";
+import { useMemo } from "react";
 
 export default function SpotDetails() {
   const spot = useSelector((state) => state.spotDetails.spot);
   const showDetailsModal = useSelector((state) => state.spotDetails.showModal);
   const expandPhoto = useSelector((state) => state.photo.expandPhoto);
   const dispatch = useDispatch();
+
+  const averageRating = useMemo(() => {
+    return spot.comments.length > 0
+      ? spot.comments.reduce((sum, comment) => sum + comment.rating, 0) /
+          spot.comments.length
+      : 0;
+  }, [spot.comments]);
 
   return (
     <div className="w-full h-full absolute flex">
@@ -35,7 +43,7 @@ export default function SpotDetails() {
           <Info
             name={spot.name}
             description={spot.description}
-            rating={spot.rating}
+            rating={averageRating}
           />
           <Weather weather={spot.weather} />
           <PhotoGallery photos={spot.photos} />

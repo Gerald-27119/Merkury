@@ -6,10 +6,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity(name = "comments")
 @Data
@@ -28,7 +27,10 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "spot_id")
+    @ToString.Exclude
     private Spot spot;
+
+    private LocalDateTime publishDate;
 
     @ManyToOne
     @JoinColumn(name = "author_id")

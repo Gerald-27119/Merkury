@@ -1,15 +1,9 @@
 package com.merkury.vulcanus.model.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,14 +25,16 @@ public class Spot {
     private String description;
 
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Point> borderPoints;
+    private List<Point> borderPoints = new ArrayList<>();
 
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments;
+    @ToString.Exclude
+    private List<Comment> comments = new ArrayList<>();
 
     private Double rating;
     private Integer viewsCount;
 
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Img> images;
+    @ToString.Exclude
+    private List<Img> images = new ArrayList<>();
 }
