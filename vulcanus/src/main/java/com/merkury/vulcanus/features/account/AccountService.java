@@ -1,8 +1,11 @@
 package com.merkury.vulcanus.features.account;
 
 import com.merkury.vulcanus.exception.exceptions.EmailNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
 import com.merkury.vulcanus.exception.exceptions.UsernameNotFoundException;
+import com.merkury.vulcanus.model.dtos.GetUserDto;
 import com.merkury.vulcanus.model.dtos.OAuth2LoginResponseDto;
+import com.merkury.vulcanus.model.dtos.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.UserLoginDto;
 import com.merkury.vulcanus.model.dtos.UserPasswordResetDto;
 import com.merkury.vulcanus.model.dtos.UserRegisterDto;
@@ -91,5 +94,13 @@ public class AccountService {
         this.loginOauth2User(userEmail, response);
 
         return new OAuth2LoginResponseDto(userEmail, shouldSendRegisterEmail);
+    }
+
+    public GetUserDto editUserData(Long userId, UserEditDataDto userEditDataDto) throws InvalidPasswordException {
+        return userDataService.editUserData(userId, userEditDataDto);
+    }
+
+    public GetUserDto getUserById(Long userId) {
+        return userDataService.getUserById(userId);
     }
 }

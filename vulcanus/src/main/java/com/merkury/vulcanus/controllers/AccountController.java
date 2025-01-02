@@ -49,8 +49,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @InvocationsCounter
 public class AccountController {
-
-    private final UserDataService userDataService;
     @Value("${email.sending.enabled}")
     private boolean isEmailSendingEnabled;
     private final AccountService accountService;
@@ -182,10 +180,18 @@ public class AccountController {
     @PostMapping("/edit-data/{userId}")
     public ResponseEntity<GetUserDto>editUser(@PathVariable Long userId, @Valid @RequestBody UserEditDataDto userEditDataDto) throws InvalidPasswordException {
         log.info("Start editing user...");
-        var updatedUser = userDataService.editUserData(userId, userEditDataDto);
+        var updatedUser = accountService.editUserData(userId, userEditDataDto);
         log.info("User edited successfully!");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(updatedUser);
     }
 
+    @GetMapping("/get-user/{userId}")
+    public ResponseEntity<GetUserDto> getUserById(@PathVariable Long userId) {
+        log.info("Start getting user...");
+        var user = accountService.getUserById(userId);
+        log.info("User found successfully!");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(user);
+    }
 }
