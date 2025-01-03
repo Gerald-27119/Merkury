@@ -4,7 +4,6 @@ import Button from "./Button.jsx";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { editUserData, getUser } from "../../http/account.js";
 import useValidation from "../../hooks/useValidation.jsx";
-import { useEffect } from "react";
 
 export default function EditUserData() {
   const {
@@ -24,17 +23,18 @@ export default function EditUserData() {
   } = useQuery({
     queryKey: ["user", "user-data"],
     queryFn: () => getUser(),
-    staleTime: 10,
+    staleTime: 1000,
   });
 
   let userData = mutationData || queryData;
-  useEffect(() => {
-    userData = mutationData || queryData;
-  }, [isQuerySuccess, isMutationSuccess]);
+  console.log("user data: ", userData);
 
-  const { username, email, provider, id } = userData
-    ? userData
-    : { username: "", email: "", provider: "", id: 0 };
+  const { username, email, provider, id } = userData || {
+    username: "",
+    email: "",
+    provider: "",
+    id: 0,
+  };
   const isPasswordChangeable = provider === "NONE";
 
   const {
@@ -55,6 +55,15 @@ export default function EditUserData() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    console.log("Submitted data:", {
+      id,
+      user: {
+        username: enteredValue.username,
+        email: enteredValue.email,
+        provider,
+        password: enteredValue.password,
+      },
+    });
     mutate({
       id,
       user: {
@@ -78,7 +87,7 @@ export default function EditUserData() {
           navigateTo="/login"
           linkCaption="Already have an account?"
           header="Edit Your Data"
-          navigateOnSuccess="/"
+          navigateOnSuccess="/edit-data"
           showOauth={false}
           showLink={false}
         >

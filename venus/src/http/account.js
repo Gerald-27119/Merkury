@@ -60,14 +60,14 @@ export async function getUser() {
   ).data;
 }
 
-export async function editUserData(id, user) {
+export async function editUserData({ id, user }) {
   console.log("sent edited user...");
+  console.log(user);
+  console.log("user id: ", id);
   return (
-    await axios.post(
-      "http://localhost:8080/account/edit-data/1",
-      { user },
-      { withCredentials: true },
-    )
+    await axios.post(`http://localhost:8080/account/edit-data/1`, user, {
+      withCredentials: true,
+    })
   ).data;
 }
 
