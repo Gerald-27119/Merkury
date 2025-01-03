@@ -2,8 +2,10 @@ package com.merkury.vulcanus.features.account;
 
 import com.merkury.vulcanus.exception.exceptions.EmailNotFoundException;
 import com.merkury.vulcanus.config.properties.UrlsProperties;
+import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
 import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
 import com.merkury.vulcanus.model.dtos.GetUserDto;
 import com.merkury.vulcanus.model.dtos.UserEditDataDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
@@ -13,6 +15,7 @@ import com.merkury.vulcanus.security.jwt.JwtManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -49,9 +52,16 @@ public class UserDataService {
         return new GetUserDto(user.getId(), user.getUsername(), user.getProvider(), user.getEmail());
     }
 
-    public GetUserDto editUserData(Long userId, UserEditDataDto userEditDataDto) throws InvalidPasswordException {
+    public GetUserDto editUserData(Long userId, UserEditDataDto userEditDataDto, HttpServletRequest request) throws InvalidPasswordException, EmailTakenException, UsernameTakenException {
 
+        String token = jwtManager.getJWTFromCookie(request);
+        String username = jwtManager.getUsernameFromJWT(token);
         var userData = this.getUserFromDbById(userId);
+
+        if (!username.equals(userData.getUsername()) && !username.equals("admin")) {
+            throw new AccessDeniedException("You do not have permission to edit this user's data.");
+        }
+
         if (userData.getProvider().equals(Provider.NONE)) {
             //TODO: Czy user powinien móc zmienić hasło? Czy jednak tylko przez forgot password?
             String password = userEditDataDto.password();
@@ -64,7 +74,15 @@ public class UserDataService {
             }
 
             userData.setPassword(passwordEncoder.encode(userEditDataDto.password()));
+
+            if (userEntityRepository.existsByEmailAndIdNot(userEditDataDto.email(), userId)) {
+                throw new EmailTakenException();
+            }
             userData.setEmail(userEditDataDto.email());
+        }
+
+        if (userEntityRepository.existsByUsernameAndIdNot(userEditDataDto.username(), userId)) {
+            throw new UsernameTakenException();
         }
         userData.setUsername(userEditDataDto.username());
 

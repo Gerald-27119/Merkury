@@ -179,9 +179,9 @@ public class AccountController {
     }
 
     @PostMapping("/edit-data/{userId}")
-    public ResponseEntity<GetUserDto>editUser(@PathVariable Long userId, @Valid @RequestBody UserEditDataDto userEditDataDto) throws InvalidPasswordException {
+    public ResponseEntity<GetUserDto>editUser(@PathVariable Long userId, HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody UserEditDataDto userEditDataDto) throws InvalidPasswordException, EmailTakenException, UsernameTakenException, InvalidCredentialsException {
         log.info("Start editing user...");
-        var updatedUser = accountService.editUserData(userId, userEditDataDto);
+        var updatedUser = accountService.editUserData(userId, userEditDataDto, request, response);
         log.info("User edited successfully!");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(updatedUser);

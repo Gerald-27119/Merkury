@@ -10,6 +10,7 @@ import com.merkury.vulcanus.model.dtos.UserLoginDto;
 import com.merkury.vulcanus.model.dtos.UserPasswordResetDto;
 import com.merkury.vulcanus.model.dtos.UserRegisterDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
 import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
@@ -97,8 +98,16 @@ public class AccountService {
         return new OAuth2LoginResponseDto(userEmail, shouldSendRegisterEmail);
     }
 
-    public GetUserDto editUserData(Long userId, UserEditDataDto userEditDataDto) throws InvalidPasswordException {
-        return userDataService.editUserData(userId, userEditDataDto);
+    public GetUserDto editUserData(Long userId, UserEditDataDto userEditDataDto, HttpServletRequest request, HttpServletResponse response) throws InvalidPasswordException, EmailTakenException, UsernameTakenException, InvalidCredentialsException {
+        var updatedUser = userDataService.editUserData(userId, userEditDataDto, request);
+
+        if (userEditDataDto.provider().equals(Provider.NONE)) {
+            this.loginUser(new UserLoginDto(updatedUser.username(), userEditDataDto.password()), response);
+        } else {
+            this.loginOauth2User(updatedUser.email(), response);
+        }
+
+        return updatedUser;
     }
 
     public GetUserDto getUser(HttpServletRequest request) {
