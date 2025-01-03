@@ -4,18 +4,14 @@ import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.features.spot.SpotService;
+import com.merkury.vulcanus.model.dtos.CommentAddDto;
 import com.merkury.vulcanus.model.dtos.CommentDto;
+import com.merkury.vulcanus.model.dtos.CommentEditDto;
 import com.merkury.vulcanus.model.dtos.SpotDto;
-import com.merkury.vulcanus.observability.counter.invocations.InvocationsCounter;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,48 +34,37 @@ public class SpotController {
         return ResponseEntity.ok(spotService.getSpotById(id));
     }
 
-    //@PreAuthorize("isAuthenticated()")
-    @PostMapping("/{spotId}/comment/add")
-    public ResponseEntity<String> addComment(@RequestBody String text,
-                                             @PathVariable Long spotId,
-                                             @AuthenticationPrincipal UserDetails userDetails,
-                                             HttpServletResponse response)
+    @PostMapping("/comment/add")
+    public ResponseEntity<List<CommentDto>> addComment(@RequestBody CommentAddDto commentAddDto,
+                                                       HttpServletRequest request)
             throws CommentNotFoundException, SpotNotFoundException {
         log.info("Submitting new comment...");
-        spotService.addComment(text, userDetails.getUsername(), spotId);
-        log.info("Edited comment successfully! spot id:" + spotId + "!");
+        List<CommentDto> responseList = spotService.addComment(commentAddDto.text(),  commentAddDto.spotId(), request);
+        log.info("Edited comment successfully! spot id:" + commentAddDto.spotId() + "!");
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .build();
+                .ok(responseList);
     }
 
-    //@PreAuthorize("isAuthenticated()")
     @PostMapping("/comment/edit")
-    public ResponseEntity<String> editComment(@RequestBody Long commentId,
-                                              @RequestBody String text,
-                                              @AuthenticationPrincipal UserDetails userDetails)
-                                              throws CommentNotFoundException, InvalidCredentialsException {
+    public ResponseEntity<List<CommentDto>> editComment(@RequestBody CommentEditDto commentEditDto,
+                                                        HttpServletRequest request)
+            throws CommentNotFoundException, InvalidCredentialsException {
 
-        log.info("Editing comment, id:" + commentId + "...");
-        spotService.editComment(commentId, text, userDetails.getUsername());
-        log.info("Edited comment successfully! id:" + commentId + "!");
+        log.info("Editing comment, id:" + commentEditDto.commentId() + "...");
+        List<CommentDto> responseList = spotService.editComment(commentEditDto.commentId(), commentEditDto.text() , request);
+        log.info("Edited comment successfully! id:" + commentEditDto.commentId() + "!");
         return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
-                .build();
+                .ok(responseList);
     }
 
-
-    //@PreAuthorize("isAuthenticated()")
     @PostMapping("/comment/delete/{commentId}")
-    public ResponseEntity<String> deleteComment(@PathVariable Long commentId,
-                                                @AuthenticationPrincipal UserDetails userDetails)
+    public ResponseEntity<List<CommentDto>> deleteComment(@PathVariable("commentId") Long commentId,
+                                                          HttpServletRequest request)
             throws CommentNotFoundException, InvalidCredentialsException {
         log.info("Deleting comment, id:" + commentId + "...");
-        spotService.deleteComment(commentId, userDetails.getUsername());
+        List<CommentDto> responseList = spotService.deleteComment(commentId, request);
         log.info("Deleted comment successfully! id:" + commentId);
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .build();
+                .ok(responseList);
     }
-
 }

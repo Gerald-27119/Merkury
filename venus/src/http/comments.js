@@ -1,34 +1,47 @@
 import axios from "axios";
 
 export async function addComment({ text, spotId }) {
-  await axios.post(
-    `http://localhost:8080/spot/${spotId}/comment/add`,
-    { text },
-    {
-      withCredentials: true,
-    },
-  );
-  //return response.data; // Return the updated spot data
+  try {
+    await axios.post(
+      `http://localhost:8080/spot/comment/add`,
+      { text, spotId },
+      {
+        withCredentials: true,
+      },
+    );
+  } catch (error) {
+    console.error("Error adding comment:", error.response || error.message);
+  }
+
+  //return response.data;
 }
 
 export async function updateComment({ commentId, text }) {
-  await axios.post(
-    `http://localhost:8080/spot/comment/edit/${commentId}`,
-    { text },
-    {
-      withCredentials: true,
-    },
-  );
-  //return response.data; // Return the updated comment
+  try {
+    await axios.post(
+      `http://localhost:8080/spot/comment/edit`,
+      { text, commentId },
+      {
+        withCredentials: true,
+      },
+    );
+  } catch (error) {
+    console.error("Error adding comment:", error.response || error.message);
+  }
+  //return response.data;
 }
 
 export async function deleteComment({ commentId }) {
-  await axios.post(
-    `http://localhost:8080/spot/comment/delete/${commentId}`,
-    {},
-    {
-      withCredentials: true,
-    },
-  );
-  //return response.data; // Return updated comments list
+  try {
+    await axios.post(
+      `http://localhost:8080/spot/comment/delete/${commentId}`,
+      {},
+      {
+        withCredentials: true,
+      },
+    );
+  } catch (error) {
+    console.error("Error adding comment:", error.response || error.message);
+  }
+  //return response.data;
 }

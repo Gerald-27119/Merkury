@@ -13,18 +13,18 @@ export default function Spots() {
   if (error) {
     return <div>Error loading spots data</div>;
   }
-  // For Testing
+  //For Testing
   // return (
-  //     <>
-  //       {SpotsData.map((spot) => (
-  //           <Zone
-  //               key={spot.id}
-  //               zone={spot}
-  //               color="green"
-  //               DetailsComponent={SpotDetails}
-  //           />
-  //       ))}
-  //     </>
+  //   <>
+  //     {SpotsData.map((spot) => (
+  //       <Zone
+  //         key={spot.id}
+  //         zone={spot}
+  //         color="green"
+  //         DetailsComponent={SpotDetails}
+  //       />
+  //     ))}
+  //   </>
   // );
 
   return (

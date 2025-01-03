@@ -51,7 +51,6 @@ export default function SpotDetails() {
             <Comments comments={spot.comments} />
           </div>
           <div>
-            {spot.id}
             <CommentForm id={spotId} />
           </div>
         </div>
