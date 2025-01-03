@@ -65,7 +65,7 @@ export async function editUserData({ id, user }) {
   console.log(user);
   console.log("user id: ", id);
   return (
-    await axios.post(`http://localhost:8080/account/edit-data/1`, user, {
+    await axios.post(`http://localhost:8080/account/edit-data/${id}`, user, {
       withCredentials: true,
     })
   ).data;
