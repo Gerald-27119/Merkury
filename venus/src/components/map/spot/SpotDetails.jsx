@@ -8,6 +8,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
 import ExpandedPhotoGallery from "./ExpandedPhotoGallery.jsx";
 import { photoAction } from "../../../redux/photo.jsx";
+import { useMemo } from "react";
 
 export default function SpotDetails() {
   const spot = useSelector((state) => state.spotDetails.spot);
@@ -16,11 +17,12 @@ export default function SpotDetails() {
   const expandPhoto = useSelector((state) => state.photo.expandPhoto);
   const dispatch = useDispatch();
 
-  const averageRating =
-    spot.comments.length > 0
+  const averageRating = useMemo(() => {
+    return spot.comments.length > 0
       ? spot.comments.reduce((sum, comment) => sum + comment.rating, 0) /
-        spot.comments.length
+          spot.comments.length
       : 0;
+  }, [spot.comments]);
 
   return (
     <div className="w-full h-full absolute flex">

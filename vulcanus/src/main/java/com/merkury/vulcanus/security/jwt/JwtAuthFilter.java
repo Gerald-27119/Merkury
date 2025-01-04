@@ -59,21 +59,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         );
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        renewToken(token, response, authenticationToken);
+        renewToken(token, response);
         filterChain.doFilter(request, response);
     }
 
     private void renewToken(
             String token,
-            HttpServletResponse response,
-            UsernamePasswordAuthenticationToken authenticationToken
+            HttpServletResponse response
     ) {
         if (jwtManager.isNotTokenExpired(token)) {
             Date tokenExpirationDate = jwtManager.getExpirationDateFromToken(token);
             long timeUntilExpired = tokenExpirationDate.getTime() - new Date().getTime();
             if (timeUntilExpired <= getOneDayInMs()) {
-                String newToken = tokenGenerator.generateToken(authenticationToken);
-                jwtManager.addTokenToCookie(response, newToken);
+                jwtManager.addTokenToCookie(response, tokenGenerator.generateToken());
             }
         }
     }

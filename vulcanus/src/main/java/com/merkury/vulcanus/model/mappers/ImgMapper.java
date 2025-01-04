@@ -5,9 +5,6 @@ import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.entities.UserEntity;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class ImgMapper {
 
     public static ImgDto toDto(Img img) {
@@ -16,9 +13,8 @@ public class ImgMapper {
         }
 
         ImgDto dto = new ImgDto();
-        dto.setId(img.getId());
-        dto.setUrl(img.getUrl());
-        dto.setAlt(img.getAlt());
+        dto.setImg(img.getUrl());
+        dto.setTitle(img.getAlt());
         dto.setDescription(img.getDescription());
         dto.setLikes(img.getLikes());
         dto.setViews(img.getViews());
@@ -34,9 +30,8 @@ public class ImgMapper {
         }
 
         Img img = new Img();
-        img.setId(dto.getId());
-        img.setUrl(dto.getUrl());
-        img.setAlt(dto.getAlt());
+        img.setUrl(dto.getImg());
+        img.setAlt(dto.getTitle());
         img.setDescription(dto.getDescription());
         img.setLikes(dto.getLikes());
         img.setViews(dto.getViews());
