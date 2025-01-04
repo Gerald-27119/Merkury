@@ -9,6 +9,9 @@ import {
 
 const useValidation = (initialValues, shouldValidatePassword = true) => {
   const [enteredValue, setEnteredValue] = useState(initialValues);
+  function updateValues(newValues) {
+    setEnteredValue((prevValues) => ({ ...prevValues, ...newValues }));
+  }
   const [didEdit, setDidEdit] = useState(
     Object.fromEntries(Object.keys(initialValues).map((key) => [key, false])),
   );
@@ -96,6 +99,7 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
     handleInputChange,
     handleInputBlur,
     validate,
+    updateValues,
   };
 };
 

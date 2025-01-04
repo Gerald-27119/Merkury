@@ -4,6 +4,7 @@ import Button from "./Button.jsx";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { editUserData, getUser } from "../../http/account.js";
 import useValidation from "../../hooks/useValidation.jsx";
+import { useEffect } from "react";
 
 export default function EditUserData() {
   const {
@@ -23,35 +24,42 @@ export default function EditUserData() {
   } = useQuery({
     queryKey: ["user", "user-data"],
     queryFn: () => getUser(),
-    staleTime: 1000,
   });
 
-  let userData = mutationData || queryData;
-  console.log("user data: ", userData);
+  let userData = {};
+  if (queryData) {
+    userData = queryData;
+  }
 
-  const { username, email, provider, id } = userData || {
-    username: "",
-    email: "",
-    provider: "",
-    id: 0,
-  };
+  const { provider, id } = userData;
   const isPasswordChangeable = provider === "NONE";
-
   const {
     enteredValue,
     didEdit,
     isNotValid,
     handleInputChange,
     handleInputBlur,
+    updateValues,
   } = useValidation(
     {
       password: "",
-      username,
-      email,
+      username: "",
+      email: "",
       "confirm-password": "",
     },
     { isPasswordChangeable },
   );
+
+  useEffect(() => {
+    if (isQuerySuccess && queryData) {
+      updateValues({
+        username: queryData.username || "",
+        email: queryData.email || "",
+        password: "",
+        "confirm-password": "",
+      });
+    }
+  }, [isQuerySuccess, queryData]);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -97,7 +105,7 @@ export default function EditUserData() {
               type="text"
               id="username"
               onChange={(event) => handleInputChange("username", event)}
-              value={enteredValue.username}
+              value={userData.username}
               onBlur={() => handleInputBlur("username")}
               error={isNotValid.username}
             />
@@ -106,7 +114,7 @@ export default function EditUserData() {
               type="email"
               id="email"
               onChange={(event) => handleInputChange("email", event)}
-              value={enteredValue.email}
+              value={userData.email}
               onBlur={() => handleInputBlur("email")}
               error={isNotValid.email}
             />
@@ -117,7 +125,7 @@ export default function EditUserData() {
                   type="password"
                   id="password"
                   onChange={(event) => handleInputChange("password", event)}
-                  value={enteredValue.password}
+                  value={userData.password}
                   onBlur={() => handleInputBlur("password")}
                   error={isNotValid.password}
                 />
@@ -128,7 +136,7 @@ export default function EditUserData() {
                   onChange={(event) =>
                     handleInputChange("confirm-password", event)
                   }
-                  value={enteredValue["confirm-password"]}
+                  value={userData["confirm-password"]}
                   onBlur={() => handleInputBlur("confirm-password")}
                   error={isNotValid["confirm-password"]}
                 />
@@ -137,16 +145,16 @@ export default function EditUserData() {
             <Button
               type="submit"
               classNames="bg-red-600 p-3 mt-3 text-white rounded-md text-lg"
-              disabled={
-                !didEdit.username ||
-                !didEdit.password ||
-                !didEdit.email ||
-                !didEdit["confirm-password"] ||
-                isNotValid.email.value ||
-                isNotValid.password.value ||
-                isNotValid.username.value ||
-                isNotValid["confirm-password"].value
-              }
+              // disabled={
+              //   !didEdit.username ||
+              //   !didEdit.password ||
+              //   !didEdit.email ||
+              //   !didEdit["confirm-password"] ||
+              //   isNotValid.email.value ||
+              //   isNotValid.password.value ||
+              //   isNotValid.username.value ||
+              //   isNotValid["confirm-password"].value
+              // }
             >
               Save Changes
             </Button>

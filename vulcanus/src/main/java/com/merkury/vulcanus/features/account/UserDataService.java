@@ -63,7 +63,6 @@ public class UserDataService {
         }
 
         if (userData.getProvider().equals(Provider.NONE)) {
-            //TODO: Czy user powinien móc zmienić hasło? Czy jednak tylko przez forgot password?
             String password = userEditDataDto.password();
 
             String passwordRegex = "^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\s:])(\\S){8,16}$";
