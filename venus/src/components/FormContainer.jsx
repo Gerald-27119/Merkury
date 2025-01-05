@@ -13,6 +13,7 @@ export default function FormContainer({
   showOauth = true,
   showLink = true,
   navigateOnSuccess = null,
+  notificationHeader,
   children,
 }) {
   const navigate = useNavigate();
@@ -43,8 +44,11 @@ export default function FormContainer({
     if (isSuccess) {
       dispatch(
         notificationAction.setSuccess({
-          message:
-            header === "Sign in" ? "Successfully log in" : "Account created!",
+          message: notificationHeader
+            ? notificationHeader
+            : header === "Sign in"
+              ? "Successfully log in"
+              : "Account created!",
         }),
       );
     }

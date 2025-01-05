@@ -2,14 +2,20 @@ import OauthButton from "../OauthButton.jsx";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { githubLogoutUrl, googleLogoutUrl } from "../../http/account.js";
+import { useDispatch } from "react-redux";
+import { accountAction } from "../../redux/account.jsx";
 
 export default function OauthForm() {
+  const dispatch = useDispatch();
+
   function handleGoogleAuth() {
     window.location.href = googleLogoutUrl;
+    dispatch(accountAction.setIsLogged());
   }
 
   function handleGithubAuth() {
     window.location.href = githubLogoutUrl;
+    dispatch(accountAction.setIsLogged());
   }
 
   return (

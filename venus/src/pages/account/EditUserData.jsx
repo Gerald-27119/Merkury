@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { editUserData, getUser } from "../../http/account.js";
 import useValidation from "../../hooks/useValidation.jsx";
 import { useEffect, useState } from "react";
+import ShowProvider from "../../components/account/ShowProvider.jsx";
 
 export default function EditUserData() {
   const [isPasswordChange, setIsPasswordChange] = useState(false);
@@ -96,6 +97,7 @@ export default function EditUserData() {
       {isLoading && <div>Loading...</div>}
       {isQuerySuccess && (
         <FormContainer
+          notificationHeader="Data edited successfully!"
           isSuccess={
             isMutationSuccess !== undefined ? isMutationSuccess : isQuerySuccess
           }
@@ -117,15 +119,17 @@ export default function EditUserData() {
               onBlur={() => handleInputBlur("username")}
               error={isNotValid.username}
             />
-            <Input
-              label="E-mail"
-              type="email"
-              id="email"
-              onChange={(event) => handleInputChange("email", event)}
-              value={enteredValue.email}
-              onBlur={() => handleInputBlur("email")}
-              error={isNotValid.email}
-            />
+            {provider === "NONE" && (
+              <Input
+                label="E-mail"
+                type="email"
+                id="email"
+                onChange={(event) => handleInputChange("email", event)}
+                value={enteredValue.email}
+                onBlur={() => handleInputBlur("email")}
+                error={isNotValid.email}
+              />
+            )}
             {isPasswordChangeable && (
               <>
                 {isPasswordChange && (
@@ -164,6 +168,9 @@ export default function EditUserData() {
                     : "Don't change Password"}
                 </Button>
               </>
+            )}
+            {provider !== "NONE" && (
+              <ShowProvider provider={provider} email={userData.email} />
             )}
             <Button
               type="submit"
