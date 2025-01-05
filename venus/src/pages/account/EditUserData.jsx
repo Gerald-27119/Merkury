@@ -14,7 +14,6 @@ export default function EditUserData() {
     mutate,
     isSuccess: isMutationSuccess,
     error: mutationError,
-    data: mutationData,
   } = useMutation({
     mutationFn: editUserData,
   });
