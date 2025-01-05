@@ -37,12 +37,14 @@ export default function CommentForm({ id }) {
             placeholder="Type coment here..."
           />
         </div>
-        <button
-          className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600"
-          onClick={handleAddComment}
-        >
-          Add Comment
-        </button>
+        <div className="flex justify-center mt-2">
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600"
+            onClick={handleAddComment}
+          >
+            Add Comment
+          </button>
+        </div>
         {error && (
           <p className="text-red-500 mt-2">
             Error adding comment. Please try again.

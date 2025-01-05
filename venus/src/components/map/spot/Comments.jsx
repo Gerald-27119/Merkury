@@ -13,7 +13,7 @@ export default function Comments({ comments, commentsPerPage = 2 }) {
   };
 
   const offset = currentPage * commentsPerPage;
-  const currentComments = commentsState.slice(offset, offset + commentsPerPage);
+  const currentComments = comments.slice(offset, offset + commentsPerPage);
 
   return (
     <>
