@@ -63,16 +63,19 @@ public class UserDataService {
         }
 
         if (userData.getProvider().equals(Provider.NONE)) {
-            String password = userEditDataDto.password();
+            if (userEditDataDto.isPasswordChanged()) {
 
-            String passwordRegex = "^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\s:])(\\S){8,16}$";
-            Pattern pattern = Pattern.compile(passwordRegex);
+                String password = userEditDataDto.password();
 
-            if (password == null || !pattern.matcher(password).matches()) {
-                throw new InvalidPasswordException("Password must be 8-16 characters long, contain at least one digit, one uppercase letter, one lowercase letter, and one special character.");
+                String passwordRegex = "^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\s:])(\\S){8,16}$";
+                Pattern pattern = Pattern.compile(passwordRegex);
+
+                if (password == null || !pattern.matcher(password).matches()) {
+                    throw new InvalidPasswordException("Password must be 8-16 characters long, contain at least one digit, one uppercase letter, one lowercase letter, and one special character.");
+                }
+
+                userData.setPassword(passwordEncoder.encode(userEditDataDto.password()));
             }
-
-            userData.setPassword(passwordEncoder.encode(userEditDataDto.password()));
 
             if (userEntityRepository.existsByEmailAndIdNot(userEditDataDto.email(), userId)) {
                 throw new EmailTakenException();

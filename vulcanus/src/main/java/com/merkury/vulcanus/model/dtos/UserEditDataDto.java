@@ -12,5 +12,6 @@ public record UserEditDataDto(String password,
                               @NotBlank
                               @Size(min=3,max=16)
                               String username,
-                              Provider provider) {
+                              Provider provider,
+                              Boolean isPasswordChanged) {
 }

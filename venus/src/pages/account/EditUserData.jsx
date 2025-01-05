@@ -4,9 +4,11 @@ import Button from "./Button.jsx";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { editUserData, getUser } from "../../http/account.js";
 import useValidation from "../../hooks/useValidation.jsx";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function EditUserData() {
+  const [isPasswordChange, setIsPasswordChange] = useState(false);
+
   const {
     mutate,
     isSuccess: isMutationSuccess,
@@ -40,6 +42,7 @@ export default function EditUserData() {
     handleInputChange,
     handleInputBlur,
     updateValues,
+    updateShouldValidatePassword,
   } = useValidation(
     {
       password: "",
@@ -47,8 +50,12 @@ export default function EditUserData() {
       email: "",
       "confirm-password": "",
     },
-    { isPasswordChangeable },
+    isPasswordChangeable && isPasswordChange,
   );
+
+  useEffect(() => {
+    updateShouldValidatePassword(isPasswordChange);
+  }, [isPasswordChange]);
 
   useEffect(() => {
     if (isQuerySuccess && queryData) {
@@ -79,6 +86,7 @@ export default function EditUserData() {
         email: enteredValue.email,
         provider,
         password: enteredValue.password,
+        isPasswordChanged: isPasswordChangeable && isPasswordChange,
       },
     });
   }
@@ -105,7 +113,7 @@ export default function EditUserData() {
               type="text"
               id="username"
               onChange={(event) => handleInputChange("username", event)}
-              value={userData.username}
+              value={enteredValue.username}
               onBlur={() => handleInputBlur("username")}
               error={isNotValid.username}
             />
@@ -114,37 +122,52 @@ export default function EditUserData() {
               type="email"
               id="email"
               onChange={(event) => handleInputChange("email", event)}
-              value={userData.email}
+              value={enteredValue.email}
               onBlur={() => handleInputBlur("email")}
               error={isNotValid.email}
             />
             {isPasswordChangeable && (
               <>
-                <Input
-                  label="Password"
-                  type="password"
-                  id="password"
-                  onChange={(event) => handleInputChange("password", event)}
-                  value={userData.password}
-                  onBlur={() => handleInputBlur("password")}
-                  error={isNotValid.password}
-                />
-                <Input
-                  label="Confirm Password"
-                  type="password"
-                  id="confirm-password"
-                  onChange={(event) =>
-                    handleInputChange("confirm-password", event)
-                  }
-                  value={userData["confirm-password"]}
-                  onBlur={() => handleInputBlur("confirm-password")}
-                  error={isNotValid["confirm-password"]}
-                />
+                {isPasswordChange && (
+                  <>
+                    <Input
+                      label="Password"
+                      type="password"
+                      id="password"
+                      onChange={(event) => handleInputChange("password", event)}
+                      value={enteredValue.password}
+                      onBlur={() => handleInputBlur("password")}
+                      error={isNotValid.password}
+                    />
+                    <Input
+                      label="Confirm Password"
+                      type="password"
+                      id="confirm-password"
+                      onChange={(event) =>
+                        handleInputChange("confirm-password", event)
+                      }
+                      value={enteredValue["confirm-password"]}
+                      onBlur={() => handleInputBlur("confirm-password")}
+                      error={isNotValid["confirm-password"]}
+                    />
+                  </>
+                )}
+                <Button
+                  classNames="bg-blue-500 p-3 mt-3 text-white rounded-md text-lg hover:bg-blue-600"
+                  type="button"
+                  onClick={() => {
+                    setIsPasswordChange((prevState) => !prevState);
+                  }}
+                >
+                  {!isPasswordChange
+                    ? "Change Password"
+                    : "Don't change Password"}
+                </Button>
               </>
             )}
             <Button
               type="submit"
-              classNames="bg-red-600 p-3 mt-3 text-white rounded-md text-lg"
+              classNames="bg-red-600 p-3 mt-3 text-white rounded-md text-lg hover:bg-red-700"
               // disabled={
               //   !didEdit.username ||
               //   !didEdit.password ||

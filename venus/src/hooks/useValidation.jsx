@@ -9,6 +9,12 @@ import {
 
 const useValidation = (initialValues, shouldValidatePassword = true) => {
   const [enteredValue, setEnteredValue] = useState(initialValues);
+  const [validatePassword, setValidatePassword] = useState(
+    shouldValidatePassword,
+  );
+  function updateShouldValidatePassword(newValue) {
+    setValidatePassword((prevState) => ({ ...prevState, ...newValue }));
+  }
   function updateValues(newValues) {
     setEnteredValue((prevValues) => ({ ...prevValues, ...newValues }));
   }
@@ -45,7 +51,7 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
     } else if (field === "password") {
       if (!isNotEmpty(value)) {
         error = { value: true, message: "Password can't be empty." };
-      } else if (shouldValidatePassword && !isPassword(value)) {
+      } else if (validatePassword && !isPassword(value)) {
         error = {
           value: true,
           message:
@@ -100,6 +106,7 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
     handleInputBlur,
     validate,
     updateValues,
+    updateShouldValidatePassword,
   };
 };
 

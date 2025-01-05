@@ -102,7 +102,11 @@ public class AccountService {
         var updatedUser = userDataService.editUserData(userId, userEditDataDto, request);
 
         if (userEditDataDto.provider().equals(Provider.NONE)) {
-            this.loginUser(new UserLoginDto(updatedUser.username(), userEditDataDto.password()), response);
+            var userFromDb = userEntityRepository.findById(userId);
+            if (userFromDb.isEmpty()) {
+                throw new UserNotFoundException("User not found!");
+            }
+            this.loginUser(new UserLoginDto(updatedUser.username(), userFromDb.get().getPassword()), response);
         } else {
             this.loginOauth2User(updatedUser.email(), response);
         }
