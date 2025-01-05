@@ -49,6 +49,7 @@ export default function EditUserData() {
       username: "",
       email: "",
       "confirm-password": "",
+      "old-password": "",
     },
     isPasswordChangeable && isPasswordChange,
   );
@@ -70,15 +71,6 @@ export default function EditUserData() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log("Submitted data:", {
-      id,
-      user: {
-        username: enteredValue.username,
-        email: enteredValue.email,
-        provider,
-        password: enteredValue.password,
-      },
-    });
     mutate({
       id,
       user: {

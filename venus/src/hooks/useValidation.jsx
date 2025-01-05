@@ -51,8 +51,6 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
     } else if (field === "old-password") {
       if (!isNotEmpty(value)) {
         error = { value: true, message: "Old password can't be empty." };
-      } else if (isEqualsToOtherValue(value, enteredValue.password)) {
-        error = { value: true, message: "New password must be different." };
       }
     } else if (field === "password") {
       if (!isNotEmpty(value)) {

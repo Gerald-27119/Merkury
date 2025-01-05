@@ -52,7 +52,6 @@ export async function test() {
 }
 
 export async function getUser() {
-  console.log("getting user...");
   return (
     await axios.get("http://localhost:8080/account/get-user", {
       withCredentials: true,
@@ -61,9 +60,6 @@ export async function getUser() {
 }
 
 export async function editUserData({ id, user }) {
-  console.log("sent edited user...");
-  console.log(user);
-  console.log("user id: ", id);
   return (
     await axios.post(`http://localhost:8080/account/edit-data/${id}`, user, {
       withCredentials: true,
