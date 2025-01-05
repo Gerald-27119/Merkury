@@ -16,11 +16,15 @@ import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
 import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
+import com.merkury.vulcanus.security.jwt.JwtGenerator;
+import com.merkury.vulcanus.security.jwt.JwtManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenIsInvalidException;
 import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
@@ -37,6 +41,8 @@ public class AccountService {
     private final RestartPasswordService restartPasswordService;
     private final UserDataService userDataService;
     private final UserEntityRepository userEntityRepository;
+    private final JwtGenerator jwtGenerator;
+    private final JwtManager jwtManager;
 
     public void registerUser(UserRegisterDto userDto) throws EmailTakenException, UsernameTakenException {
         registerService.registerUser(userDto);
@@ -101,20 +107,23 @@ public class AccountService {
     public GetUserDto editUserData(Long userId, UserEditDataDto userEditDataDto, HttpServletRequest request, HttpServletResponse response) throws InvalidPasswordException, EmailTakenException, UsernameTakenException, InvalidCredentialsException {
         var updatedUser = userDataService.editUserData(userId, userEditDataDto, request);
 
-        if (userEditDataDto.provider().equals(Provider.NONE)) {
-            var userFromDb = userEntityRepository.findById(userId);
-            if (userFromDb.isEmpty()) {
-                throw new UserNotFoundException("User not found!");
-            }
-            this.loginUser(new UserLoginDto(updatedUser.username(), userFromDb.get().getPassword()), response);
-        } else {
-            this.loginOauth2User(updatedUser.email(), response);
+        var userFromDb = userEntityRepository.findById(userId);
+        if (userFromDb.isEmpty()) {
+            throw new UserNotFoundException("User not found!");
         }
+        regenerateToken(userFromDb.get(), response);
 
         return updatedUser;
     }
 
     public GetUserDto getUser(HttpServletRequest request) {
         return userDataService.getUserData(request);
+    }
+
+    private void regenerateToken(UserEntity user, HttpServletResponse response){
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        jwtManager.addTokenToCookie(response, jwtGenerator.generateToken());
     }
 }
