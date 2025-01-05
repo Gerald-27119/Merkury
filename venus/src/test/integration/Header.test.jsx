@@ -6,12 +6,11 @@ import Header from "../../layout/header/Header.jsx";
 import { configureStore } from "@reduxjs/toolkit";
 import { accountSlice } from "../../redux/account.jsx";
 import userEvent from "@testing-library/user-event";
-import React from "react";
 
 const queryClient = new QueryClient();
 
 describe("Header component integration tests", () => {
-  test("", async () => {
+  test("Check is navigation to account page works", async () => {
     const store = configureStore({
       reducer: {
         account: accountSlice.reducer,
