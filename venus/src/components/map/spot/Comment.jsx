@@ -2,8 +2,7 @@ import {
   calculateStars,
   formatPublishDate,
 } from "../../../utils/spot-utils.jsx";
-import { FaTrash, FaEdit } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { updateComment, deleteComment } from "../../../http/comments.js";
 import { useMutation } from "@tanstack/react-query";
@@ -11,11 +10,13 @@ import { useMutation } from "@tanstack/react-query";
 export default function Comment({ comment }) {
   const currentUser = localStorage.getItem("username");
   const [updatedText, setUpdatedText] = useState(comment.text);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const { mutate: handleDelete, isSuccess: deleteSuccess } = useMutation({
     mutationFn: deleteComment,
     onSuccess: () => {
-      //refetchComments();
+      setIsDeleting(false);
     },
     onError: (error) => {
       console.error("Error deleting comment:", error);
@@ -25,30 +26,22 @@ export default function Comment({ comment }) {
   const { mutate: handleUpdate, isSuccess: updateSuccess } = useMutation({
     mutationFn: updateComment,
     onSuccess: () => {
-      //refetchComments();
+      setIsEditing(false);
     },
     onError: (error) => {
       console.error("Error updating comment:", error);
     },
   });
 
-  useEffect(() => {
-    if (updateSuccess) {
-      setUpdatedText(comment.text);
+  const saveEdit = () => {
+    if (updatedText !== comment.text) {
+      handleUpdate({ commentId: comment.id, text: updatedText });
     }
-  }, [updateSuccess, comment.text]);
-
-  const onEdit = () => {
-    const newText = prompt("Edit your comment:", updatedText);
-    if (newText && newText !== updatedText) {
-      handleUpdate({ commentId: comment.id, text: newText });
-    }
+    setIsEditing(false);
   };
 
-  const onDelete = () => {
-    if (window.confirm("Are you sure you want to delete this comment?")) {
-      handleDelete({ commentId: comment.id });
-    }
+  const confirmDelete = () => {
+    handleDelete({ commentId: comment.id });
   };
 
   return (
@@ -62,25 +55,80 @@ export default function Comment({ comment }) {
           <div className="inline-flex">{calculateStars(comment.rating)}</div>
           {currentUser === comment.author && (
             <div className="flex space-x-2 mt-1">
-              <button
-                onClick={() => onEdit(comment)}
-                className="text-blue-500 hover:text-blue-700"
-                title="Edit Comment"
-              >
-                <FaEdit size={16} />
-              </button>
-              <button
-                onClick={() => onDelete(comment)}
-                className="text-red-500 hover:text-red-700"
-                title="Delete Comment"
-              >
-                <FaTrash size={16} />
-              </button>
+              {isDeleting ? (
+                <>
+                  <button
+                    onClick={confirmDelete}
+                    className="text-red-500 hover:text-red-700"
+                    title="Confirm Delete"
+                  >
+                    <FaCheck size={16} />
+                  </button>
+                  <button
+                    onClick={() => setIsDeleting(false)}
+                    className="text-gray-500 hover:text-gray-700"
+                    title="Cancel Delete"
+                  >
+                    <FaTimes size={16} />
+                  </button>
+                </>
+              ) : isEditing ? (
+                <>
+                  <button
+                    onClick={saveEdit}
+                    className="text-green-500 hover:text-green-700"
+                    title="Confirm Edit"
+                  >
+                    <FaCheck size={16} />
+                  </button>
+                  <button
+                    onClick={() => setIsEditing(false)}
+                    className="text-gray-500 hover:text-gray-700"
+                    title="Cancel Edit"
+                  >
+                    <FaTimes size={16} />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="text-blue-500 hover:text-blue-700"
+                    title="Edit Comment"
+                  >
+                    <FaEdit size={16} />
+                  </button>
+                  <button
+                    onClick={() => setIsDeleting(true)}
+                    className="text-red-500 hover:text-red-700"
+                    title="Delete Comment"
+                  >
+                    <FaTrash size={16} />
+                  </button>
+                </>
+              )}
             </div>
           )}
         </div>
       </div>
-      <div>{comment.text}</div>
+      <div>
+        {isEditing ? (
+          <textarea
+            className="w-full border border-stone-300 rounded-sm p-1"
+            value={updatedText}
+            onChange={(e) => setUpdatedText(e.target.value)}
+          />
+        ) : (
+          <p>{comment.text}</p>
+        )}
+      </div>
+      {isDeleting && (
+        <div className="mt-2 flex items-center space-x-2">
+          <p className="text-red-600">
+            Are you sure you want to delete this comment?
+          </p>
+        </div>
+      )}
     </div>
   );
 }

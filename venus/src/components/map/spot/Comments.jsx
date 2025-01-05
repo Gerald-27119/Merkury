@@ -4,6 +4,7 @@ import Comment from "./Comment.jsx";
 
 export default function Comments({ comments, commentsPerPage = 2 }) {
   const [currentPage, setCurrentPage] = useState(0);
+  const [commentsState, setCommentsState] = useState(comments);
 
   const pageCount = Math.ceil(comments.length / commentsPerPage);
 
@@ -12,17 +13,21 @@ export default function Comments({ comments, commentsPerPage = 2 }) {
   };
 
   const offset = currentPage * commentsPerPage;
-  const currentComments = comments.slice(offset, offset + commentsPerPage);
+  const currentComments = commentsState.slice(offset, offset + commentsPerPage);
 
   return (
     <>
-      {comments && comments.length >= 0 ? (
+      {commentsState && commentsState.length >= 0 ? (
         <div className="border-2 border-neutral-200 px-2.5 py-1 rounded-sm">
           <p className="text-lg">Comments:</p>
           <ul>
             {currentComments.map((comment) => (
               <li key={comment.id}>
-                <Comment comment={comment} />
+                <Comment
+                  comment={comment}
+                  //onEdit={handleEditComment()}
+                  //onDelete={handleDeleteComment()}
+                />
               </li>
             ))}
           </ul>

@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -42,7 +42,7 @@ public class CommentService {
                 .rating(0.0)
                 .likes(0)
                 .spot(spot)
-                .publishDate(LocalDate.now())
+                .publishDate(LocalDateTime.now())
                 .author(user)
                 .build());
 

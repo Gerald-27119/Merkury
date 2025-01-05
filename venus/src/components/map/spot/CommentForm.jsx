@@ -1,7 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import { addComment } from "../../../http/comments.js";
-import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
-import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 
 export default function CommentForm({ id }) {
@@ -14,18 +12,16 @@ export default function CommentForm({ id }) {
   });
   const handleAddComment = async (event) => {
     event.preventDefault();
-    mutate(
-      {
+    if (newCommentText.trim()) {
+      mutate({
         text: newCommentText,
         spotId: spotId,
-      },
-      spotId,
-    );
+      });
+    }
   };
 
   useEffect(() => {
     if (isSuccess) {
-      //dispatch(spotDetailsModalAction.updateComments(response.data.comments));
       setNewCommentText("");
     }
   }, [isSuccess, setNewCommentText]);
@@ -35,13 +31,23 @@ export default function CommentForm({ id }) {
       <div className="add-comment">
         <div className="flex-grow">
           <textarea
-            className=""
+            className="w-full border border-stone-300 rounded-sm p-1"
             value={newCommentText}
             onChange={(e) => setNewCommentText(e.target.value)}
             placeholder="Type coment here..."
           />
         </div>
-        <button onClick={handleAddComment}>Add Comment</button>
+        <button
+          className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600"
+          onClick={handleAddComment}
+        >
+          Add Comment
+        </button>
+        {error && (
+          <p className="text-red-500 mt-2">
+            Error adding comment. Please try again.
+          </p>
+        )}
       </div>
     </>
   );

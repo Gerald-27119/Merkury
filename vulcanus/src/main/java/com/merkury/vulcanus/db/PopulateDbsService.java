@@ -18,6 +18,7 @@ import java.util.UUID;
 
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_ADMIN;
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_USER;
+import static java.util.Arrays.asList;
 
 @Slf4j
 @Service
@@ -187,7 +188,7 @@ public class PopulateDbsService {
 
         spotRepository.saveAll(List.of(spot1, spot2, spot3, spot4, spot5, spot6, spot7, spot8, spot9, spot10));
 
-        List<Point> contour1 = Arrays.asList(
+        List<Point> contour1 = asList(
                 new Point(54.352223, 18.647865, spot1),
                 new Point(54.352293, 18.648729, spot1),
                 new Point(54.35217, 18.64886, spot1),
@@ -196,7 +197,7 @@ public class PopulateDbsService {
                 new Point(54.352223, 18.647865, spot1)
         );
 
-        List<Point> contour2 = Arrays.asList(
+        List<Point> contour2 = asList(
                 new Point(54.352541, 18.643992, spot2),
                 new Point(54.35239, 18.64477, spot2),
                 new Point(54.352299, 18.644891, spot2),
@@ -207,7 +208,7 @@ public class PopulateDbsService {
                 new Point(54.352541, 18.643992, spot2)
         );
 
-        List<Point> contour3 = Arrays.asList(
+        List<Point> contour3 = asList(
                 new Point(54.34259835347914, 18.646824493647234, spot3),
                 new Point(54.34199917555038, 18.64785810853534, spot3),
                 new Point(54.34195539522013, 18.647858779087542, spot3),
@@ -220,7 +221,7 @@ public class PopulateDbsService {
                 new Point(54.34259835347914, 18.646824493647234, spot3)
         );
 
-        List<Point> contour4 = Arrays.asList(
+        List<Point> contour4 = asList(
                 new Point(54.35165940763592, 18.648793774997493, spot4),
                 new Point(54.351680293212745, 18.648745327233843, spot4),
                 new Point(54.35183253332448, 18.648952025317534, spot4),
@@ -234,7 +235,7 @@ public class PopulateDbsService {
                 new Point(54.35165940763592, 18.648793774997493, spot4)
         );
 
-        List<Point> contour5 = Arrays.asList(
+        List<Point> contour5 = asList(
                 new Point(54.33273052789799, 18.607928515378298, spot5),
                 new Point(54.332883674817786, 18.602005681784895, spot5),
                 new Point(54.33347676722585, 18.602138197080475, spot5),
@@ -245,7 +246,7 @@ public class PopulateDbsService {
                 new Point(54.33273052789799, 18.607928515378298, spot5)
         );
 
-        List<Point> contour6 = Arrays.asList(
+        List<Point> contour6 = asList(
                 new Point(54.35200732546214, 18.65021445366572, spot6),
                 new Point(54.35220301624161, 18.649300832037643, spot6),
                 new Point(54.35241008337719, 18.6493203538673, spot6),
@@ -256,7 +257,7 @@ public class PopulateDbsService {
                 new Point(54.35200732546214, 18.65021445366572, spot6)
         );
 
-        List<Point> contour7 = Arrays.asList(
+        List<Point> contour7 = asList(
                 new Point(54.358542876913596, 18.63203900299652, spot7),
                 new Point(54.35822244612602, 18.630237221776515, spot7),
                 new Point(54.35864173271596, 18.630079273422812, spot7),
@@ -265,7 +266,7 @@ public class PopulateDbsService {
                 new Point(54.358542876913596, 18.63203900299652, spot7)
         );
 
-        List<Point> contour8 = Arrays.asList(
+        List<Point> contour8 = asList(
                 new Point(54.38058274498329, 18.71852472241705, spot8),
                 new Point(54.374571558766014, 18.734291452494816, spot8),
                 new Point(54.374154434956594, 18.73390498116206, spot8),
@@ -275,7 +276,7 @@ public class PopulateDbsService {
                 new Point(54.38058274498329, 18.71852472241705, spot8)
         );
 
-        List<Point> contour9 = Arrays.asList(
+        List<Point> contour9 = asList(
                 new Point(54.3230684167437, 18.629913718953556, spot9),
                 new Point(54.32202382781201, 18.629940753924505, spot9),
                 new Point(54.321889803154754, 18.629704197939827, spot9),
@@ -288,7 +289,7 @@ public class PopulateDbsService {
                 new Point(54.3230684167437, 18.629913718953556, spot9)
         );
 
-        List<Point> contour10 = Arrays.asList(
+        List<Point> contour10 = asList(
                 new Point(54.32202428469449, 18.63395637969597, spot10),
                 new Point(54.321451089176406, 18.633757481769084, spot10),
                 new Point(54.321451089176406, 18.635939509025782, spot10),
@@ -299,52 +300,52 @@ public class PopulateDbsService {
                 new Point(54.32202428469449, 18.63395637969597, spot10)
         );
 
-        List<Comment> commentList1 = Arrays.asList(
+        List<Comment> commentList1 = new ArrayList<>(asList(
                 new Comment(null, "Świetne miejsce, warto odwiedzić!", 5.0, 0, spot1, LocalDateTime.of(2024, 6, 1, 10, 15), user),
                 new Comment(null, "Było fajnie, choć spodziewałem się więcej.", 4.0, 0, spot1, LocalDateTime.of(2024, 6, 2, 14, 30), user)
-        );
+        ));
 
-        List<Comment> commentList2 = Arrays.asList(
+        List<Comment> commentList2 = asList(
                 new Comment(null, "Idealne miejsce na relaks.", 5.0, 0, spot2, LocalDateTime.of(2024, 6, 3, 9, 45), user),
                 new Comment(null, "Widoki niezłe, ale tłoczno i głośno.", 3.0, 0, spot2, LocalDateTime.of(2024, 6, 4, 16, 20), user)
         );
 
-        List<Comment> commentList3 = Arrays.asList(
+        List<Comment> commentList3 = asList(
                 new Comment(null, "Czysto, spokojnie i klimatycznie.", 5.0, 0, spot3, LocalDateTime.of(2024, 6, 5, 8, 10), user),
                 new Comment(null, "Trochę zbyt mało atrakcji jak dla mnie.", 3.5, 0, spot3, LocalDateTime.of(2024, 6, 6, 18, 55), user)
         );
 
-        List<Comment> commentList4 = Arrays.asList(
+        List<Comment> commentList4 = asList(
                 new Comment(null, "Miejsce warte odwiedzenia, polecam.", 4.5, 0, spot4, LocalDateTime.of(2024, 6, 7, 11, 40), user),
                 new Comment(null, "Atmosfera w porządku, ale spodziewałem się więcej zieleni.", 3.0, 0, spot4, LocalDateTime.of(2024, 6, 8, 13, 25), user)
         );
 
-        List<Comment> commentList5 = Arrays.asList(
+        List<Comment> commentList5 = asList(
                 new Comment(null, "Rewelacyjne miejsce na wycieczkę!", 5.0, 0, spot5, LocalDateTime.of(2024, 6, 9, 7, 50), user),
                 new Comment(null, "Dobre miejsce, ale trochę za drogo jak na jakość.", 4.0, 0, spot5, LocalDateTime.of(2024, 6, 10, 20, 15), user)
         );
 
-        List<Comment> commentList6 = Arrays.asList(
+        List<Comment> commentList6 = asList(
                 new Comment(null, "Wspaniałe widoki, aż chce się wracać.", 5.0, 0, spot6, LocalDateTime.of(2024, 6, 11, 15, 30), user),
                 new Comment(null, "Było przyjemnie, choć obsługa mogłaby być milsza.", 4.0, 0, spot6, LocalDateTime.of(2024, 6, 12, 19, 5), user)
         );
 
-        List<Comment> commentList7 = Arrays.asList(
+        List<Comment> commentList7 = asList(
                 new Comment(null, "Bardzo ciekawe miejsce z historią.", 5.0, 0, spot7, LocalDateTime.of(2024, 6, 13, 12, 10), user),
                 new Comment(null, "Miejsce okej, ale parking był problematyczny.", 3.5, 0, spot7, LocalDateTime.of(2024, 6, 14, 14, 50), user)
         );
 
-        List<Comment> commentList8 = Arrays.asList(
+        List<Comment> commentList8 = asList(
                 new Comment(null, "Czyste i dobrze zorganizowane miejsce.", 4.5, 0, spot8, LocalDateTime.of(2024, 6, 15, 9, 0), user),
                 new Comment(null, "Naprawdę wyjątkowe miejsce, choć trochę za dużo ludzi.", 4.0, 0, spot8, LocalDateTime.of(2024, 6, 16, 18, 45), user)
         );
 
-        List<Comment> commentList9 = Arrays.asList(
+        List<Comment> commentList9 = asList(
                 new Comment(null, "Super miejsce na rodzinny wypad.", 5.0, 0, spot9, LocalDateTime.of(2024, 6, 17, 8, 30), user),
                 new Comment(null, "Nie najgorsze, ale brakowało mi większych atrakcji.", 3.5, 0, spot9, LocalDateTime.of(2024, 6, 18, 21, 10), user)
         );
 
-        List<Comment> commentList10 = Arrays.asList(
+        List<Comment> commentList10 = asList(
                 new Comment(null, "Miejsce godne polecenia, świetna organizacja.", 5.0, 0, spot10, LocalDateTime.of(2024, 6, 19, 10, 20), user),
                 new Comment(null, "Podobało mi się, choć były drobne niedociągnięcia.", 4.5, 0, spot10, LocalDateTime.of(2024, 6, 20, 17, 35), user)
         );
@@ -362,61 +363,61 @@ public class PopulateDbsService {
             commentList1.add(comment);
         }
 
-        List<Img> gallery1 = Arrays.asList(
+        List<Img> gallery1 = asList(
                 new Img(null, "https://upload.wikimedia.org/wikipedia/commons/8/8f/John_III_Sobieski_Monument_in_Gda%C5%84sk_2669.JPG", "pomnik", "pomnik", 0, 0, user, spot1),
                 new Img(null, "https://gaps.gda.pl/wp-content/uploads/2021/09/SM_065-1-1024x681.jpg", "pomnik", "pomnik", 0, 0, user, spot1),
                 new Img(null, "https://i1.nocimg.pl/d6/416/158-gdansk-pomnik-jana-iii-sobieskiego.jpg", "pomnik", "pomnik", 0, 0, user, spot1)
         );
 
-        List<Img> gallery2 = Arrays.asList(
+        List<Img> gallery2 = asList(
                 new Img(null, "https://lh5.googleusercontent.com/p/AF1QipONWLJ_OEhtiG9pHEZbmmBNZiaQuVG82uROLoj9=w408-h306-k-no", "skwer", "skwer", 0, 0, user, spot2),
                 new Img(null, "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Gda%C5%84sk_Skwer_Czes%C5%82awa_Niemena.JPG/2560px-Gda%C5%84sk_Skwer_Czes%C5%82awa_Niemena.JPG", "skwer", "skwer", 0, 0, user, spot2),
                 new Img(null, "https://s-trojmiasto.pl/zdj/c/n/9/2986/750x600/2986010-Zielen-na-terenie-skweru-Niemena.webp", "skwer", "skwer", 0, 0, user, spot2)
         );
 
-        List<Img> gallery3 = Arrays.asList(
+        List<Img> gallery3 = asList(
                 new Img(null, "https://s-trojmiasto.pl/zdj/c/n/9/2922/1920x0/2922075-Obecnie-to-nieco-zapomniany-teren-ktory-czeka-na-rewitalizacje.webp", "park wałowy", "park wałowy", 0, 0, user, spot3),
                 new Img(null, "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=gmCXVf6Sftf-V9WiIuwVUg&cb_client=search.gws-prod.gps&w=408&h=240&yaw=232.89917&pitch=0&thumbfov=100", "park wałowy", "park wałowy", 0, 0, user, spot3),
                 new Img(null, "https://s-trojmiasto.pl/zdj/c/n/9/2331/1500x0/2331938-Obecnie-plac-Walowy-to-zaniedbane-miejsce.webp", "park wałowy", "park wałowy", 0, 0, user, spot3)
         );
 
-        List<Img> gallery4 = Arrays.asList(
+        List<Img> gallery4 = asList(
                 new Img(null, "https://lh5.googleusercontent.com/p/AF1QipMBnWPy-4MYt0WQbIC8HafWEPN7GwTl6I7XrWdN=w408-h544-k-no", "park", "park", 0, 0, user, spot4),
                 new Img(null, "https://lh5.googleusercontent.com/p/AF1QipMT3elr7EwlwKnqxpmGfoQ2lOlYxR213NagDzOK=w408-h725-k-no", "park", "park", 0, 0, user, spot4),
                 new Img(null, "https://gdansk.gedanopedia.pl/images/6/63/Pomnik_kwiat.JPG", "park", "park", 0, 0, user, spot4)
         );
 
-        List<Img> gallery5 = Arrays.asList(
+        List<Img> gallery5 = asList(
                 new Img(null, "https://d-art.ppstatic.pl/kadry/k/r/75/0b/59b1497fa1405_o_original.jpg", "jar", "jar", 0, 0, user, spot5),
                 new Img(null, "https://s-trojmiasto.pl/zdj/c/n/9/2189/1500x0/2189954-We-wschodniej-czesci-jaru-powstaly-m-in-pola-do-minigolfa-stoly-pingpongowe-oraz-plac-sasiedzki.webp", "jar", "jar", 0, 0, user, spot5),
                 new Img(null, "https://foto.cloudgdansk.pl/foto/Jar_Wilanowski_81897_1280px.JPG", "jar", "jar", 0, 0, user, spot5)
         );
 
-        List<Img> gallery6 = Arrays.asList(
+        List<Img> gallery6 = asList(
                 new Img(null, "https://gaps.gda.pl/wp-content/uploads/2021/08/SM_031-1-1024x681.jpg", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6),
                 new Img(null, "https://upload.wikimedia.org/wikipedia/commons/a/ab/Gdansk-plac_Kobzdeja-obelisk-Herbert.jpg", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6),
                 new Img(null, "https://upload.wikimedia.org/wikipedia/commons/c/cd/Gda%C5%84sk_plac_Kobzdeja.JPG", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6)
         );
 
-        List<Img> gallery7 = Arrays.asList(
+        List<Img> gallery7 = asList(
                 new Img(null, "https://lh5.googleusercontent.com/p/AF1QipPV2HWroKJF1MEQ542bKpmIlLGNj42dNJM2N2w=w408-h306-k-no", "wrona", "wrona", 0, 0, user, spot7),
                 new Img(null, "https://files.cloudgdansk.pl/files/objects/thumb/10155_275.jpg", "wrona", "wrona", 0, 0, user, spot7),
                 new Img(null, "https://ibedeker.pl/wp-content/gallery/wronia-gorka/img_2006.jpg", "wrona", "wrona", 0, 0, user, spot7)
         );
 
-        List<Img> gallery8 = Arrays.asList(
+        List<Img> gallery8 = asList(
                 new Img(null, "https://lh5.googleusercontent.com/p/AF1QipMF6_xAfFIKoVnLYaW5agOblgtiDZUomDBDUuCt=w408-h306-k-no", "plaża", "plaża", 0, 0, user, spot8),
                 new Img(null, "https://stogi.info.pl/wp-content/uploads/2024/02/Kompleksowy_przewodnik_po_plazy_Jelitkowo_atrakcje_historia_i_ciekawostki_2-1080x675.jpg", "plaża", "plaża", 0, 0, user, spot8),
                 new Img(null, "https://i.ytimg.com/vi/hs9TdD8TZd4/maxresdefault.jpg", "plaża", "plaża", 0, 0, user, spot8)
         );
 
-        List<Img> gallery9 = Arrays.asList(
+        List<Img> gallery9 = asList(
                 new Img(null, "https://d-art.ppstatic.pl/kadry/k/r/9c/65/5df1faf14a73e_o_large.jpg", "orunia", "orunia", 0, 0, user, spot9),
                 new Img(null, "https://lh5.googleusercontent.com/p/AF1QipOL4nY6WdI-icmazsrcesbFB9zkd1WSsgQFSnah=w408-h306-k-no", "orunia", "orunia", 0, 0, user, spot9),
                 new Img(null, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRR-F1umTowNMlCuAQNZwmd6p4Xet-hQg0bQ&s", "orunia", "orunia", 0, 0, user, spot9)
         );
 
-        List<Img> gallery10 = Arrays.asList(
+        List<Img> gallery10 = asList(
                 new Img(null, "https://lh5.googleusercontent.com/p/AF1QipPfl720UMdhBi_3zoXU2qJJ2QJABydhihYSO3WX=w408-h306-k-no", "workout", "workout", 0, 0, user, spot10),
                 new Img(null, "https://files.cloudgdansk.pl/files/objects/thumb/10276_275.jpg", "workout", "workout", 0, 0, user, spot10)
         );

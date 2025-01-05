@@ -52,9 +52,12 @@ public class SecurityConfig {
             new AntPathRequestMatcher("/oauth2/**"),
             new AntPathRequestMatcher("/favicon.ico"),
             new AntPathRequestMatcher("/actuator/**"),
-            new AntPathRequestMatcher("/spot/**")
+            new AntPathRequestMatcher("/spot"),
+            new AntPathRequestMatcher("/spot/{spotId}")
     );
-    private final RequestMatcher privatePathsMatcher = new NegatedRequestMatcher(publicPathsMatcher);
+    private final RequestMatcher privatePathsMatcher = new OrRequestMatcher(
+            new AntPathRequestMatcher("/spot/comment/**")
+    );
 
     @Bean
     @Order(1)
