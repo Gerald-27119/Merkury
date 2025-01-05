@@ -64,6 +64,9 @@ public class UserDataService {
 
         if (userData.getProvider().equals(Provider.NONE)) {
             if (userEditDataDto.isPasswordChanged()) {
+                if (userEditDataDto.oldPassword() == null || !passwordEncoder.matches(userEditDataDto.oldPassword(), userData.getPassword())){
+                    throw new InvalidPasswordException("Old password is invalid!");
+                }
 
                 String password = userEditDataDto.password();
 

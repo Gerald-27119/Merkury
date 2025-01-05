@@ -87,6 +87,7 @@ export default function EditUserData() {
         email: enteredValue.email,
         provider,
         password: enteredValue.password,
+        oldPassword: enteredValue["old-password"],
         isPasswordChanged: isPasswordChangeable && isPasswordChange,
       },
     });
@@ -135,6 +136,17 @@ export default function EditUserData() {
                 {isPasswordChange && (
                   <>
                     <Input
+                      label="Old Password"
+                      type="password"
+                      id="old-password"
+                      onChange={(event) =>
+                        handleInputChange("old-password", event)
+                      }
+                      value={enteredValue["old-password"]}
+                      onBlur={() => handleInputBlur("old-password")}
+                      error={isNotValid["old-password"]}
+                    />
+                    <Input
                       label="Password"
                       type="password"
                       id="password"
@@ -175,16 +187,14 @@ export default function EditUserData() {
             <Button
               type="submit"
               classNames="bg-red-600 p-3 mt-3 text-white rounded-md text-lg hover:bg-red-700"
-              // disabled={
-              //   !didEdit.username ||
-              //   !didEdit.password ||
-              //   !didEdit.email ||
-              //   !didEdit["confirm-password"] ||
-              //   isNotValid.email.value ||
-              //   isNotValid.password.value ||
-              //   isNotValid.username.value ||
-              //   isNotValid["confirm-password"].value
-              // }
+              disabled={
+                (didEdit.username && isNotValid.username.value) ||
+                (didEdit["old-password"] && isNotValid["old-password"].value) ||
+                (didEdit.password && isNotValid.password.value) ||
+                (didEdit.email && isNotValid.email.value) ||
+                (didEdit["confirm-password"] &&
+                  isNotValid["confirm-password"].value)
+              }
             >
               Save Changes
             </Button>

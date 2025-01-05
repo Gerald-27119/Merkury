@@ -22,7 +22,7 @@ public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<String> handleInvalidDataException(Exception ex) {
         log.error(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
 
     @ExceptionHandler({EmailTakenException.class, UsernameTakenException.class})
