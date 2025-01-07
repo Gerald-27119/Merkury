@@ -61,7 +61,7 @@ export async function getUser() {
 
 export async function editUserData({ id, user }) {
   return (
-    await axios.post(`http://localhost:8080/account/edit-data/${id}`, user, {
+    await axios.patch(`http://localhost:8080/account/edit-data/${id}`, user, {
       withCredentials: true,
     })
   ).data;

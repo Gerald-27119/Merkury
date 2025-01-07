@@ -6,17 +6,17 @@ import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
 import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
-import com.merkury.vulcanus.model.dtos.GetUserDto;
+import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
 import com.merkury.vulcanus.model.dtos.UserEditDataDto;
-import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.security.jwt.JwtManager;
+import com.merkury.vulcanus.security.jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -39,8 +39,9 @@ public class UserDataService {
     private final UserEntityRepository userEntityRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtManager jwtManager;
+    private final JwtService jwtService;
 
-    public GetUserDto getUserData(HttpServletRequest request) {
+    public GetUserBasicInfoDto getUserData(HttpServletRequest request) {
         String token = jwtManager.getJWTFromCookie(request);
         String username = jwtManager.getUsernameFromJWT(token);
         var userFromDb  = userEntityRepository.findByUsername(username);
@@ -49,14 +50,15 @@ public class UserDataService {
         }
         var user = userFromDb.get();
 
-        return new GetUserDto(user.getId(), user.getUsername(), user.getProvider(), user.getEmail());
+        return new GetUserBasicInfoDto(user.getId(), user.getUsername(), user.getProvider(), user.getEmail());
     }
 
-    public GetUserDto editUserData(Long userId, UserEditDataDto userEditDataDto, HttpServletRequest request) throws InvalidPasswordException, EmailTakenException, UsernameTakenException {
+    public GetUserBasicInfoDto editUserData(Long userId, UserEditDataDto userEditDataDto, HttpServletRequest request, HttpServletResponse response)
+            throws InvalidPasswordException, EmailTakenException, UsernameTakenException {
 
         String token = jwtManager.getJWTFromCookie(request);
         String username = jwtManager.getUsernameFromJWT(token);
-        var userData = this.getUserFromDbById(userId);
+        var userData = userEntityRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User with provided id doesn't exist!"));
 
         if (!username.equals(userData.getUsername()) && !username.equals("admin")) {
             throw new AccessDeniedException("You do not have permission to edit this user's data.");
@@ -93,7 +95,11 @@ public class UserDataService {
 
         var editedUser = userEntityRepository.save(userData);
 
-        return new GetUserDto(editedUser.getId(), editedUser.getUsername(), editedUser.getProvider(), editedUser.getEmail());
+        var userFromDb = userEntityRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User with provided id doesn't exist!"));
+
+        jwtService.refreshUserToken(userFromDb, response);
+
+        return new GetUserBasicInfoDto(editedUser.getId(), editedUser.getUsername(), editedUser.getProvider(), editedUser.getEmail());
     }
 
     public String getUserEmailFromGithub(OAuth2AuthenticationToken oAuth2AuthenticationToken) throws EmailNotFoundException {
@@ -103,15 +109,6 @@ public class UserDataService {
         } else {
             throw new EmailNotFoundException();
         }
-    }
-
-    private UserEntity getUserFromDbById(Long id) {
-        var userFromDb = userEntityRepository.findById(id);
-        if (userFromDb.isEmpty()) {
-            throw new UserNotFoundException("User with provided id doesn't exist!");
-        }
-
-        return userFromDb.get();
     }
 
     private String fetchUserEmailFromGithub(OAuth2AuthenticationToken oAuth2AuthenticationToken) {

@@ -8,23 +8,19 @@ import { accountAction } from "../../redux/account.jsx";
 export default function OauthForm() {
   const dispatch = useDispatch();
 
-  function handleGoogleAuth() {
-    window.location.href = googleLogoutUrl;
+  const handleAuth = (provider) => {
+    window.location.href =
+      provider === "GOOGLE" ? googleLogoutUrl : githubLogoutUrl;
     dispatch(accountAction.setIsLogged());
-  }
-
-  function handleGithubAuth() {
-    window.location.href = githubLogoutUrl;
-    dispatch(accountAction.setIsLogged());
-  }
+  };
 
   return (
     <>
-      <OauthButton onClick={handleGoogleAuth}>
+      <OauthButton onClick={() => handleAuth("GOOGLE")}>
         <FcGoogle className="mr-3" size={25} />
         Continue with Google account.
       </OauthButton>
-      <OauthButton onClick={handleGithubAuth}>
+      <OauthButton onClick={() => handleAuth("GITHUB")}>
         <FaGithub className="mr-3" size={25} />
         Continue with Github account.
       </OauthButton>

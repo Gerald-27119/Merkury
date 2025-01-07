@@ -13,7 +13,7 @@ export default function FormContainer({
   showOauth = true,
   showLink = true,
   navigateOnSuccess = null,
-  notificationHeader,
+  notificationMessage,
   children,
 }) {
   const navigate = useNavigate();
@@ -42,17 +42,15 @@ export default function FormContainer({
 
   useEffect(() => {
     if (isSuccess) {
+      const headerBasedMessage =
+        header === "Sign in" ? "Successfully log in" : "Account created!";
       dispatch(
         notificationAction.setSuccess({
-          message: notificationHeader
-            ? notificationHeader
-            : header === "Sign in"
-              ? "Successfully log in"
-              : "Account created!",
+          message: notificationMessage || headerBasedMessage,
         }),
       );
     }
-  }, [dispatch, header, isSuccess]);
+  }, [dispatch, header, isSuccess, notificationMessage]);
 
   return (
     <div className="h-screen bg-[url('/bg-form.png')] bg-cover bg-no-repeat bg-center flex items-center justify-center w-screen">

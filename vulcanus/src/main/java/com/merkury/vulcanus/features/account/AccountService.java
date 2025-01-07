@@ -3,28 +3,23 @@ package com.merkury.vulcanus.features.account;
 import com.merkury.vulcanus.exception.exceptions.EmailNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
 import com.merkury.vulcanus.exception.exceptions.UsernameNotFoundException;
-import com.merkury.vulcanus.model.dtos.GetUserDto;
+import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
 import com.merkury.vulcanus.model.dtos.OAuth2LoginResponseDto;
 import com.merkury.vulcanus.model.dtos.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.UserLoginDto;
 import com.merkury.vulcanus.model.dtos.UserPasswordResetDto;
 import com.merkury.vulcanus.model.dtos.UserRegisterDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
-import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
 import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
-import com.merkury.vulcanus.security.jwt.JwtGenerator;
-import com.merkury.vulcanus.security.jwt.JwtManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenIsInvalidException;
 import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
@@ -41,8 +36,6 @@ public class AccountService {
     private final RestartPasswordService restartPasswordService;
     private final UserDataService userDataService;
     private final UserEntityRepository userEntityRepository;
-    private final JwtGenerator jwtGenerator;
-    private final JwtManager jwtManager;
 
     public void registerUser(UserRegisterDto userDto) throws EmailTakenException, UsernameTakenException {
         registerService.registerUser(userDto);
@@ -104,26 +97,12 @@ public class AccountService {
         return new OAuth2LoginResponseDto(userEmail, shouldSendRegisterEmail);
     }
 
-    public GetUserDto editUserData(Long userId, UserEditDataDto userEditDataDto, HttpServletRequest request, HttpServletResponse response) throws InvalidPasswordException, EmailTakenException, UsernameTakenException, InvalidCredentialsException {
-        var updatedUser = userDataService.editUserData(userId, userEditDataDto, request);
-
-        var userFromDb = userEntityRepository.findById(userId);
-        if (userFromDb.isEmpty()) {
-            throw new UserNotFoundException("User not found!");
-        }
-        regenerateToken(userFromDb.get(), response);
-
-        return updatedUser;
+    public GetUserBasicInfoDto editUserData(Long userId, UserEditDataDto userEditDataDto, HttpServletRequest request, HttpServletResponse response)
+            throws InvalidPasswordException, EmailTakenException, UsernameTakenException {
+        return userDataService.editUserData(userId, userEditDataDto, request, response);
     }
 
-    public GetUserDto getUser(HttpServletRequest request) {
+    public GetUserBasicInfoDto getUser(HttpServletRequest request) {
         return userDataService.getUserData(request);
-    }
-
-    private void regenerateToken(UserEntity user, HttpServletResponse response){
-        UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        jwtManager.addTokenToCookie(response, jwtGenerator.generateToken());
     }
 }

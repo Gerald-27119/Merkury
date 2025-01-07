@@ -89,7 +89,7 @@ export default function EditUserData() {
       {isLoading && <div>Loading...</div>}
       {isQuerySuccess && (
         <FormContainer
-          notificationHeader="Data edited successfully!"
+          notificationMessage="Data edited successfully!"
           isSuccess={
             isMutationSuccess !== undefined ? isMutationSuccess : isQuerySuccess
           }

@@ -1,8 +1,7 @@
 package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
-import com.merkury.vulcanus.features.account.UserDataService;
-import com.merkury.vulcanus.model.dtos.GetUserDto;
+import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
 import com.merkury.vulcanus.model.dtos.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.UserLoginDto;
 import com.merkury.vulcanus.model.dtos.UserPasswordResetDto;
@@ -23,7 +22,6 @@ import com.merkury.vulcanus.features.email.EmailService;
 import com.merkury.vulcanus.model.enums.EmailTemplate;
 import com.merkury.vulcanus.model.enums.EmailTitle;
 import com.merkury.vulcanus.model.enums.EmailVariable;
-import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.support.classes.EmailData;
 import com.merkury.vulcanus.observability.counter.invocations.InvocationsCounter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -178,8 +176,8 @@ public class AccountController {
                 .body("Password set successfully!");
     }
 
-    @PostMapping("/edit-data/{userId}")
-    public ResponseEntity<GetUserDto>editUser(@PathVariable Long userId, HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody UserEditDataDto userEditDataDto) throws InvalidPasswordException, EmailTakenException, UsernameTakenException, InvalidCredentialsException {
+    @PatchMapping("/edit-data/{userId}")
+    public ResponseEntity<GetUserBasicInfoDto>editUser(@PathVariable Long userId, HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody UserEditDataDto userEditDataDto) throws InvalidPasswordException, EmailTakenException, UsernameTakenException, InvalidCredentialsException {
         log.info("Start editing user...");
         var updatedUser = accountService.editUserData(userId, userEditDataDto, request, response);
         log.info("User edited successfully!");
@@ -188,7 +186,7 @@ public class AccountController {
     }
 
     @GetMapping("/get-user")
-    public ResponseEntity<GetUserDto> getUserData(HttpServletRequest request) {
+    public ResponseEntity<GetUserBasicInfoDto> getUserData(HttpServletRequest request) {
         log.info("Start getting user...");
         var user = accountService.getUser(request);
         log.info("User found successfully!");
