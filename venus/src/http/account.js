@@ -1,22 +1,26 @@
 import axios from "axios";
 
 export async function registerUser(user) {
-  const url = "http://localhost:8080/account/register";
+  const url = "http://localhost:8080/public/account/register";
   return await axios.post(url, user, {
     withCredentials: true,
   });
 }
 
 export async function loginUser(userData) {
-  return await axios.post("http://localhost:8080/account/login", userData, {
-    withCredentials: true,
-  });
+  return await axios.post(
+    "http://localhost:8080/public/account/login",
+    userData,
+    {
+      withCredentials: true,
+    },
+  );
 }
 
 export async function sentEmailWithNewPasswordLink(email) {
   console.log("sending email...");
   return await axios.post(
-    "http://localhost:8080/account/forgot-password",
+    "http://localhost:8080/public/account/forgot-password",
     email,
     {
       headers: {
@@ -28,7 +32,7 @@ export async function sentEmailWithNewPasswordLink(email) {
 
 export async function changePassword(userData) {
   return await axios.post(
-    "http://localhost:8080/account/set-new-password",
+    "http://localhost:8080/public/account/set-new-password",
     userData,
   );
 }
