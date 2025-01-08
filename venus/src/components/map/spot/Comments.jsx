@@ -1,47 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import Comment from "./Comment.jsx";
-import { useQueryClient } from "@tanstack/react-query";
 
 export default function Comments({ comments, commentsPerPage = 2 }) {
   const [currentPage, setCurrentPage] = useState(0);
-  const [commentsState, setCommentsState] = useState(comments);
-  //const queryClient = useQueryClient();
 
   const pageCount = Math.ceil(comments.length / commentsPerPage);
 
   const handlePageClick = (event) => {
     setCurrentPage(event.selected);
-    setCommentsState(comments);
-    console.log(commentsState[0]);
   };
-
-  // useEffect(() => {
-  //   setCommentsState();
-  // }, [comments]);
 
   const offset = currentPage * commentsPerPage;
   const currentComments = comments.slice(offset, offset + commentsPerPage);
-  // const handleUpdateComment = (updatedComment) => {
-  //   setCommentsState((prevComments) =>
-  //     prevComments.map((comment) =>
-  //       comment.id === updatedComment.id ? updatedComment : comment,
-  //     ),
-  //   );
-  //   currentComments = commentsState.slice(offset, offset + commentsPerPage);
-  // };
-
-  // const handleDeleteComment = (commentId) => {
-  //   setCommentsState((prevComments) =>
-  //     prevComments.filter((comment) => comment.id !== commentId),
-  //   );
-  //   currentComments = commentsState.slice(offset, offset + commentsPerPage);
-  // };
-  //
-  const handleDeleteComment = () => {
-    setCommentsState(comments);
-    console.log(commentsState[0]);
-  };
 
   return (
     <>
@@ -51,11 +22,7 @@ export default function Comments({ comments, commentsPerPage = 2 }) {
           <ul>
             {currentComments.map((comment) => (
               <li key={comment.id}>
-                <Comment
-                  comment={comment}
-                  // onUpdate={handleUpdateComment}
-                  onDelete={handleDeleteComment}
-                />
+                <Comment comment={comment} />
               </li>
             ))}
           </ul>

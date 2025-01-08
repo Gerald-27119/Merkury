@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 export default function CommentForm({ id }) {
   const spotId = id;
   const [newCommentText, setNewCommentText] = useState("");
-  //const dispatch = useDispatch();
 
   const { mutate, isSuccess, error } = useMutation({
     mutationFn: addComment,

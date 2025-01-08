@@ -3,35 +3,33 @@ import {
   formatPublishDate,
 } from "../../../utils/spot-utils.jsx";
 import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { updateComment, deleteComment } from "../../../http/comments.js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export default function Comment({ comment, onUpdate, onDelete }) {
+export default function Comment({ comment }) {
   const currentUser = localStorage.getItem("username");
   const [updatedText, setUpdatedText] = useState(comment.text);
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const queryClient = useQueryClient();
 
-  const { mutateAsync: handleDelete, isSuccess: deleteSuccess } = useMutation({
+  const { mutateAsync: handleDelete } = useMutation({
     mutationFn: deleteComment,
     onSuccess: () => {
       setIsDeleting(false);
       queryClient.invalidateQueries("spots");
-      onDelete();
     },
     onError: (error) => {
       console.error("Error deleting comment:", error);
     },
   });
 
-  const { mutateAsync: handleUpdate, isSuccess: updateSuccess } = useMutation({
+  const { mutateAsync: handleUpdate } = useMutation({
     mutationFn: updateComment,
     onSuccess: () => {
       setIsEditing(false);
       queryClient.invalidateQueries("spots");
-      onUpdate({ ...comment, text: updatedText });
     },
     onError: (error) => {
       console.error("Error updating comment:", error);
@@ -46,7 +44,6 @@ export default function Comment({ comment, onUpdate, onDelete }) {
   };
 
   const confirmDelete = async () => {
-    console.log("umieram!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     await handleDelete({ commentId: comment.id });
   };
 
