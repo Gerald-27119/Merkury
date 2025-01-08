@@ -5,28 +5,33 @@ import {
 import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { updateComment, deleteComment } from "../../../http/comments.js";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export default function Comment({ comment }) {
+export default function Comment({ comment, onUpdate, onDelete }) {
   const currentUser = localStorage.getItem("username");
   const [updatedText, setUpdatedText] = useState(comment.text);
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const queryClient = useQueryClient();
 
-  const { mutate: handleDelete, isSuccess: deleteSuccess } = useMutation({
+  const { mutateAsync: handleDelete, isSuccess: deleteSuccess } = useMutation({
     mutationFn: deleteComment,
     onSuccess: () => {
       setIsDeleting(false);
+      queryClient.invalidateQueries("spots");
+      onDelete();
     },
     onError: (error) => {
       console.error("Error deleting comment:", error);
     },
   });
 
-  const { mutate: handleUpdate, isSuccess: updateSuccess } = useMutation({
+  const { mutateAsync: handleUpdate, isSuccess: updateSuccess } = useMutation({
     mutationFn: updateComment,
     onSuccess: () => {
       setIsEditing(false);
+      queryClient.invalidateQueries("spots");
+      onUpdate({ ...comment, text: updatedText });
     },
     onError: (error) => {
       console.error("Error updating comment:", error);
@@ -40,8 +45,9 @@ export default function Comment({ comment }) {
     setIsEditing(false);
   };
 
-  const confirmDelete = () => {
-    handleDelete({ commentId: comment.id });
+  const confirmDelete = async () => {
+    console.log("umieram!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    await handleDelete({ commentId: comment.id });
   };
 
   return (

@@ -1,23 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import Comment from "./Comment.jsx";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Comments({ comments, commentsPerPage = 2 }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [commentsState, setCommentsState] = useState(comments);
+  //const queryClient = useQueryClient();
 
   const pageCount = Math.ceil(comments.length / commentsPerPage);
 
   const handlePageClick = (event) => {
     setCurrentPage(event.selected);
+    setCommentsState(comments);
+    console.log(commentsState[0]);
   };
+
+  // useEffect(() => {
+  //   setCommentsState();
+  // }, [comments]);
 
   const offset = currentPage * commentsPerPage;
   const currentComments = comments.slice(offset, offset + commentsPerPage);
+  // const handleUpdateComment = (updatedComment) => {
+  //   setCommentsState((prevComments) =>
+  //     prevComments.map((comment) =>
+  //       comment.id === updatedComment.id ? updatedComment : comment,
+  //     ),
+  //   );
+  //   currentComments = commentsState.slice(offset, offset + commentsPerPage);
+  // };
+
+  // const handleDeleteComment = (commentId) => {
+  //   setCommentsState((prevComments) =>
+  //     prevComments.filter((comment) => comment.id !== commentId),
+  //   );
+  //   currentComments = commentsState.slice(offset, offset + commentsPerPage);
+  // };
+  //
+  const handleDeleteComment = () => {
+    setCommentsState(comments);
+    console.log(commentsState[0]);
+  };
 
   return (
     <>
-      {commentsState && commentsState.length >= 0 ? (
+      {comments && comments.length >= 0 ? (
         <div className="border-2 border-neutral-200 px-2.5 py-1 rounded-sm">
           <p className="text-lg">Comments:</p>
           <ul>
@@ -25,8 +53,8 @@ export default function Comments({ comments, commentsPerPage = 2 }) {
               <li key={comment.id}>
                 <Comment
                   comment={comment}
-                  //onEdit={handleEditComment()}
-                  //onDelete={handleDeleteComment()}
+                  // onUpdate={handleUpdateComment}
+                  onDelete={handleDeleteComment}
                 />
               </li>
             ))}

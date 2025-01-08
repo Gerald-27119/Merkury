@@ -30,6 +30,11 @@ public class CommentService {
     private final JwtManager jwtManager;
     private final SpotRepository spotRepository;
 
+
+//    public List<CommentDto> getCommentsBySpotId(Long spotId){
+//        Spot spot = spotRepository.findBySpotId()
+//    }
+
     public List<CommentDto> addComment(String text, Long spotId, HttpServletRequest request) throws SpotNotFoundException {
 
         String token = jwtManager.getJWTFromCookie(request);
