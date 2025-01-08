@@ -9,6 +9,15 @@ import {
 
 const useValidation = (initialValues, shouldValidatePassword = true) => {
   const [enteredValue, setEnteredValue] = useState(initialValues);
+  const [validatePassword, setValidatePassword] = useState(
+    shouldValidatePassword,
+  );
+  function updateShouldValidatePassword(newValue) {
+    setValidatePassword((prevState) => ({ ...prevState, ...newValue }));
+  }
+  function updateValues(newValues) {
+    setEnteredValue((prevValues) => ({ ...prevValues, ...newValues }));
+  }
   const [didEdit, setDidEdit] = useState(
     Object.fromEntries(Object.keys(initialValues).map((key) => [key, false])),
   );
@@ -39,15 +48,21 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
       } else if (!isEmail(value)) {
         error = { value: true, message: "E-mail must contain @." };
       }
+    } else if (field === "old-password") {
+      if (!isNotEmpty(value)) {
+        error = { value: true, message: "Old password can't be empty." };
+      }
     } else if (field === "password") {
       if (!isNotEmpty(value)) {
         error = { value: true, message: "Password can't be empty." };
-      } else if (shouldValidatePassword && !isPassword(value)) {
+      } else if (validatePassword && !isPassword(value)) {
         error = {
           value: true,
           message:
             "Password must be at least 8 characters long and contain a lowercase letter, uppercase letter, number, and special character.",
         };
+      } else if (isEqualsToOtherValue(value, enteredValue["old-password"])) {
+        error = { value: true, message: "New password must be different." };
       }
     } else if (field === "confirm-password") {
       if (!isNotEmpty(value)) {
@@ -96,6 +111,8 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
     handleInputChange,
     handleInputBlur,
     validate,
+    updateValues,
+    updateShouldValidatePassword,
   };
 };
 

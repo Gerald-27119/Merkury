@@ -7,6 +7,7 @@ import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.enums.UserRole;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
+import com.merkury.vulcanus.utils.PasswordGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ class RegisterService {
 
     private final UserEntityRepository userEntityRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PasswordGenerator passwordGenerator;
 
     public void registerUser(UserRegisterDto userDto) throws EmailTakenException, UsernameTakenException {
         checkIfCredentialsTaken(userDto.email(), userDto.username());
@@ -28,11 +30,13 @@ class RegisterService {
             throws UsernameTakenException, EmailTakenException {
         checkIfCredentialsTaken(email, username);
         Provider authProvider = Provider.valueOf(provider.toUpperCase());
+        String generatedPassword = passwordGenerator.generate();
         UserEntity user = UserEntity.builder()
                 .email(email)
                 .username(username)
                 .userRole(UserRole.ROLE_USER)
                 .provider(authProvider)
+                .password(passwordEncoder.encode(generatedPassword))
                 .enabled(true)
                 .accountNonExpired(true)
                 .accountNonLocked(true)
