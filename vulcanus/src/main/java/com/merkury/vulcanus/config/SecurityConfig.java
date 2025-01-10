@@ -56,9 +56,8 @@ public class SecurityConfig {
             new AntPathRequestMatcher("/spot"),
             new AntPathRequestMatcher("/spot/{spotId}")
     );
-    private final RequestMatcher privatePathsMatcher = new OrRequestMatcher(
-            new AntPathRequestMatcher("/spot/comment/**")
-    );
+    private final RequestMatcher privatePathsMatcher = new NegatedRequestMatcher(publicPathsMatcher);
+
 
     @Bean
     @Order(1)
