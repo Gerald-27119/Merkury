@@ -1,5 +1,8 @@
 package com.merkury.vulcanus.controllers;
 
+import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
+import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
+import com.merkury.vulcanus.model.dtos.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.UserLoginDto;
 import com.merkury.vulcanus.model.dtos.UserPasswordResetDto;
 import com.merkury.vulcanus.model.dtos.UserRegisterDto;
@@ -21,6 +24,7 @@ import com.merkury.vulcanus.model.enums.EmailTitle;
 import com.merkury.vulcanus.model.enums.EmailVariable;
 import com.merkury.vulcanus.model.support.classes.EmailData;
 import com.merkury.vulcanus.observability.counter.invocations.InvocationsCounter;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.merkury.vulcanus.config.properties.UrlsProperties;
 import jakarta.validation.Valid;
@@ -40,11 +44,9 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/account")
 @RequiredArgsConstructor
 @InvocationsCounter
 public class AccountController {
-
     @Value("${email.sending.enabled}")
     private boolean isEmailSendingEnabled;
     private final AccountService accountService;
@@ -63,7 +65,7 @@ public class AccountController {
      * @return HTTP status 201 (Created) or 409 (Conflict) if the email or username is taken
      */
 
-    @PostMapping("/register")
+    @PostMapping("/public/account/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto, HttpServletResponse response) throws EmailTakenException, UsernameTakenException, InvalidCredentialsException {
         log.info("Start handling user registration...");
         accountService.registerUser(userRegisterDto);
@@ -100,7 +102,7 @@ public class AccountController {
      * @return HTTP status 200 (OK) and the JWT tokens in the http only cookies
      * or 401 (Unauthorized) if the credentials are invalid
      */
-    @PostMapping("/login")
+    @PostMapping("/public/account/login")
     public ResponseEntity<String> loginUser(@Valid @RequestBody UserLoginDto userLoginDto, HttpServletResponse response) throws InvalidCredentialsException {
         log.info("Start handling logging in user");
         accountService.loginUser(userLoginDto, response);
@@ -111,7 +113,7 @@ public class AccountController {
                 .build();
     }
 
-    @GetMapping("/login-success")
+    @GetMapping("/account/login-success")
     public RedirectView loginSuccess(HttpServletResponse response, OAuth2AuthenticationToken oAuth2Token) throws EmailTakenException, UsernameTakenException, EmailNotFoundException, UsernameNotFoundException {
         log.info("Start handling oAuth2 user...");
         var loginResponseDto = accountService.handleOAuth2User(oAuth2Token, response);
@@ -138,7 +140,7 @@ public class AccountController {
         return new RedirectView(afterLoginPageUrl);
     }
 
-    @PostMapping("/forgot-password")
+    @PostMapping("/public/account/forgot-password")
     public ResponseEntity<String> forgotPasswordSendEmail(@RequestBody String email) {
         log.info("Start handling forgot password procedure...");
         UserEntity user = restartPasswordService.getUserByEmail(email);
@@ -162,7 +164,7 @@ public class AccountController {
                 .body("Password reset link sent to: " + email);
     }
 
-    @PostMapping("/set-new-password")
+    @PostMapping("/public/account/set-new-password")
     public ResponseEntity<String> setNewPassword(@Valid @RequestBody UserPasswordResetDto userPasswordResetDto) throws PasswordResetTokenIsInvalidException, PasswordResetTokenNotFoundException {
         log.info("Start restarting password...");
         accountService.restartUserPassword(userPasswordResetDto);
@@ -173,4 +175,21 @@ public class AccountController {
                 .body("Password set successfully!");
     }
 
+    @PatchMapping("/account/edit-data/{userId}")
+    public ResponseEntity<GetUserBasicInfoDto>editUser(@PathVariable Long userId, HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody UserEditDataDto userEditDataDto) throws InvalidPasswordException, EmailTakenException, UsernameTakenException, InvalidCredentialsException {
+        log.info("Start editing user...");
+        var updatedUser = accountService.editUserData(userId, userEditDataDto, request, response);
+        log.info("User edited successfully!");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(updatedUser);
+    }
+
+    @GetMapping("/account/get-user")
+    public ResponseEntity<GetUserBasicInfoDto> getUserData(HttpServletRequest request) {
+        log.info("Start getting user...");
+        var user = accountService.getUser(request);
+        log.info("User found successfully!");
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(user);
+    }
 }

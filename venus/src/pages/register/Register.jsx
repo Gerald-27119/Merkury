@@ -4,11 +4,16 @@ import { useMutation } from "@tanstack/react-query";
 import FormContainer from "../../components/FormContainer.jsx";
 import Button from "../account/Button.jsx";
 import useValidation from "../../hooks/useValidation.jsx";
+import { useEffect } from "react";
+import { accountAction } from "../../redux/account.jsx";
+import { useDispatch } from "react-redux";
 
 export default function Register() {
   const { mutate, isSuccess, error } = useMutation({
     mutationFn: registerUser,
   });
+
+  const dispatch = useDispatch();
 
   const {
     enteredValue,
@@ -31,6 +36,12 @@ export default function Register() {
       password: enteredValue.password,
     });
   }
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(accountAction.setIsLogged());
+    }
+  }, [isSuccess, dispatch]);
 
   return (
     <FormContainer
