@@ -25,7 +25,6 @@ export default function Zone({ zone, color }) {
           dispatch(spotDetailsModalAction.handleCloseModal());
           dispatch(spotDetailsModalAction.handleShowModal());
           dispatch(spotDetailsModalAction.setSpot(zone));
-          console.log(zone.comments);
         },
       }}
     ></Polygon>
