@@ -1,13 +1,17 @@
 package com.merkury.vulcanus.security.jwt;
 
 import com.merkury.vulcanus.exception.exceptions.JwtValidationException;
+import com.merkury.vulcanus.model.entities.UserEntity;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.Date;
@@ -82,4 +86,5 @@ public class JwtManager {
                 findFirst()
                 .orElse(null);
     }
+
 }

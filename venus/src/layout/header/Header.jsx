@@ -27,15 +27,13 @@ export default function Header() {
             Forum
           </NavLink>
         )}
-        {!isLogged && (
-          <NavLink
-            to="account"
-            end
-            className={({ isActive }) => (isActive ? activeClassNames : "")}
-          >
-            Account
-          </NavLink>
-        )}
+        <NavLink
+          to="account"
+          end
+          className={({ isActive }) => (isActive ? activeClassNames : "")}
+        >
+          {isLogged ? "My Account" : "Account"}
+        </NavLink>
         {isLogged && <SignOutButton />}
       </nav>
     </header>
