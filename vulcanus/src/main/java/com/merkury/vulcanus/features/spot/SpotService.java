@@ -29,16 +29,16 @@ public class SpotService {
         return spotRepository.findById(id).map(SpotMapper::toDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
 
-    public List<CommentDto> addComment(String text, Long spotId, HttpServletRequest request) throws SpotNotFoundException, UserNotFoundException {
-        return commentService.addComment(text, spotId, request);
+    public void addComment(String text, Long spotId, HttpServletRequest request) throws SpotNotFoundException, UserNotFoundException {
+        commentService.addComment(text, spotId, request);
     }
 
-    public List<CommentDto> editComment(Long commentId, String text, HttpServletRequest request) throws CommentNotFoundException, InvalidCredentialsException {
-        return commentService.editComment(commentId, text, request);
+    public void editComment(Long commentId, String text, HttpServletRequest request) throws CommentNotFoundException, InvalidCredentialsException {
+        commentService.editComment(commentId, text, request);
     }
 
-    public List<CommentDto> deleteComment(Long commentId, HttpServletRequest request) throws CommentNotFoundException, InvalidCredentialsException {
-        return commentService.deleteComment(commentId, request);
+    public void deleteComment(Long commentId, HttpServletRequest request) throws CommentNotFoundException, InvalidCredentialsException {
+        commentService.deleteComment(commentId, request);
     }
 
 }

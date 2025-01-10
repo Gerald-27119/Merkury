@@ -22,7 +22,6 @@ export default function Zone({ zone, color }) {
       positions={zone.contourCoordinates}
       eventHandlers={{
         click: () => {
-          dispatch(spotDetailsModalAction.handleCloseModal());
           dispatch(spotDetailsModalAction.handleShowModal());
           dispatch(spotDetailsModalAction.setSpot(zone));
         },

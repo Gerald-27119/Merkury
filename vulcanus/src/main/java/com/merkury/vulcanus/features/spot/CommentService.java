@@ -31,11 +31,7 @@ public class CommentService {
     private final SpotRepository spotRepository;
 
 
-//    public List<CommentDto> getCommentsBySpotId(Long spotId){
-//        Spot spot = spotRepository.findBySpotId()
-//    }
-
-    public List<CommentDto> addComment(String text, Long spotId, HttpServletRequest request) throws SpotNotFoundException {
+    public void addComment(String text, Long spotId, HttpServletRequest request) throws SpotNotFoundException {
 
         String token = jwtManager.getJWTFromCookie(request);
         String jwtUsername = jwtManager.getUsernameFromJWT(token);
@@ -50,13 +46,11 @@ public class CommentService {
                 .publishDate(LocalDateTime.now())
                 .author(user)
                 .build());
-
-        return commentRepository.findAllBySpot(spot).stream().map(CommentMapper::toDto).toList();
     }
 
-    public List<CommentDto> editComment(Long commentId, String text, HttpServletRequest request) throws CommentNotFoundException, InvalidCredentialsException {
+    public void editComment(Long commentId, String text, HttpServletRequest request) throws CommentNotFoundException, InvalidCredentialsException {
 
-        Comment comment = commentRepository.findById(commentId).orElse(null);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
         String token = jwtManager.getJWTFromCookie(request);
         String jwtUsername = jwtManager.getUsernameFromJWT(token);
 
@@ -69,16 +63,13 @@ public class CommentService {
 
         comment.setText(text);
         commentRepository.save(comment);
-        return commentRepository.findAllBySpot(comment.getSpot()).stream().map(CommentMapper::toDto).toList();
     }
 
-    public List<CommentDto> deleteComment(Long commentId, HttpServletRequest request) throws CommentNotFoundException, InvalidCredentialsException {
+    public void deleteComment(Long commentId, HttpServletRequest request) throws CommentNotFoundException, InvalidCredentialsException {
 
-        Comment comment = commentRepository.findById(commentId).orElse(null);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
         String token = jwtManager.getJWTFromCookie(request);
         String jwtUsername = jwtManager.getUsernameFromJWT(token);
-
-        assert comment != null;
 
         String commentAuthor = comment.getAuthor().getUsername();
 
@@ -86,7 +77,6 @@ public class CommentService {
             throw new InvalidCredentialsException();
 
         commentRepository.deleteById(commentId);
-        return commentRepository.findAllBySpot(comment.getSpot()).stream().map(CommentMapper::toDto).toList();
     }
 
 }

@@ -9,6 +9,7 @@ import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
 import ExpandedPhotoGallery from "./ExpandedPhotoGallery.jsx";
 import { photoAction } from "../../../redux/photo.jsx";
 import { useMemo } from "react";
+import { NavLink } from "react-router-dom";
 
 export default function SpotDetails() {
   const spot = useSelector((state) => state.spotDetails.spot);
@@ -16,6 +17,7 @@ export default function SpotDetails() {
   const showDetailsModal = useSelector((state) => state.spotDetails.showModal);
   const expandPhoto = useSelector((state) => state.photo.expandPhoto);
   const dispatch = useDispatch();
+  const isLogged = useSelector((state) => state.account.isLogged);
 
   const averageRating = useMemo(() => {
     return spot.comments.length > 0
@@ -52,9 +54,11 @@ export default function SpotDetails() {
           <div className="overflow-y-auto flex-grow min-h-60">
             <Comments comments={spot.comments} />
           </div>
-          <div>
-            <CommentForm id={spotId} />
-          </div>
+          {isLogged && (
+            <div>
+              <CommentForm id={spotId} />
+            </div>
+          )}
         </div>
       </div>
       {expandPhoto && (

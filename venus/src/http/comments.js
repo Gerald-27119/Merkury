@@ -1,8 +1,9 @@
 import axios from "axios";
+import BASE_URL from "./baseUrl.js";
 
 export async function addComment({ text, spotId }) {
   await axios.post(
-    `http://localhost:8080/spot/comment/add`,
+    `${BASE_URL}/spot/comment/add`,
     { text, spotId },
     {
       withCredentials: true,

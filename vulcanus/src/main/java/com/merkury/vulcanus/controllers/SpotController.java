@@ -35,36 +35,36 @@ public class SpotController {
     }
 
     @PostMapping("/comment/add")
-    public ResponseEntity<List<CommentDto>> addComment(@RequestBody CommentAddDto commentAddDto,
+    public ResponseEntity<String> addComment(@RequestBody CommentAddDto commentAddDto,
                                                        HttpServletRequest request)
             throws CommentNotFoundException, SpotNotFoundException {
         log.info("Submitting new comment...");
-        List<CommentDto> responseList = spotService.addComment(commentAddDto.text(),  commentAddDto.spotId(), request);
+        spotService.addComment(commentAddDto.text(),  commentAddDto.spotId(), request);
         log.info("Edited comment successfully! spot id:" + commentAddDto.spotId() + "!");
         return ResponseEntity
-                .ok(responseList);
+                .ok().build();
     }
 
     @PostMapping("/comment/edit")
-    public ResponseEntity<List<CommentDto>> editComment(@RequestBody CommentEditDto commentEditDto,
+    public ResponseEntity<String> editComment(@RequestBody CommentEditDto commentEditDto,
                                                         HttpServletRequest request)
             throws CommentNotFoundException, InvalidCredentialsException {
 
         log.info("Editing comment, id:" + commentEditDto.commentId() + "...");
-        List<CommentDto> responseList = spotService.editComment(commentEditDto.commentId(), commentEditDto.text() , request);
+        spotService.editComment(commentEditDto.commentId(), commentEditDto.text() , request);
         log.info("Edited comment successfully! id:" + commentEditDto.commentId() + "!");
         return ResponseEntity
-                .ok(responseList);
+                .ok().build();
     }
 
     @PostMapping("/comment/delete/{commentId}")
-    public ResponseEntity<List<CommentDto>> deleteComment(@PathVariable("commentId") Long commentId,
+    public ResponseEntity<String> deleteComment(@PathVariable("commentId") Long commentId,
                                                           HttpServletRequest request)
             throws CommentNotFoundException, InvalidCredentialsException {
         log.info("Deleting comment, id:" + commentId + "...");
-        List<CommentDto> responseList = spotService.deleteComment(commentId, request);
+        spotService.deleteComment(commentId, request);
         log.info("Deleted comment successfully! id:" + commentId);
         return ResponseEntity
-                .ok(responseList);
+                .ok().build();
     }
 }

@@ -6,7 +6,7 @@ import { fetchSpotsData } from "../../../http/spotsData.js";
 
 export default function Spots() {
   const { data, error } = useQuery({
-    queryFn: ({ signal }) => fetchSpotsData({ signal }),
+    queryFn: fetchSpotsData,
     queryKey: ["spots"],
   });
 
