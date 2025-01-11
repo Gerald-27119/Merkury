@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @Slf4j
-@Order(5)
+@Order(Integer.MAX_VALUE)
 @ControllerAdvice()
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
