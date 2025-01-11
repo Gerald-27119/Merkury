@@ -6,10 +6,12 @@ import com.merkury.vulcanus.model.dtos.SpotDto;
 import com.merkury.vulcanus.model.mappers.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SpotService {
@@ -29,9 +31,11 @@ public class SpotService {
         if (allSpots.isEmpty()) {
             throw new SpotsNotFoundException("Spots not found!");
         }
-
+        log.info("name: {}", name);
+        log.info("min: {}", minRating);
+        log.info("max: {}", maxRating);
         var filteredSpots = allSpots.stream()
-                .filter(spot -> (name.isBlank() || spot.getName().toLowerCase().contains(name.toLowerCase())) &&
+                .filter(spot -> (name.isBlank() || spot.getName().toLowerCase().contains(name.trim().toLowerCase())) &&
                         (minRating == null || spot.getRating() >= minRating) &&
                         (maxRating == null || spot.getRating() <= maxRating))
                 .toList();

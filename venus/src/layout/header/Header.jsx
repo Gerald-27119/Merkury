@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import SignOutButton from "../../pages/account/SignOutButton.jsx";
 import { useSelector } from "react-redux";
+import SpotsFilters from "../../components/map/filters/SpotsFilters.jsx";
 
 export default function Header() {
   const activeClassNames =
@@ -9,8 +10,8 @@ export default function Header() {
   const isLogged = useSelector((state) => state.account.isLogged);
 
   return (
-    <header className="bg-gray-800 text-white p-4 flex w-full text-3xl">
-      <nav className="flex gap-20 w-full justify-center">
+    <header className="bg-gray-800 p-4 flex w-full text-3xl flex-col justify-center">
+      <nav className="flex gap-20 w-full justify-center text-white">
         <NavLink
           to="/"
           end
@@ -36,6 +37,7 @@ export default function Header() {
         </NavLink>
         {isLogged && <SignOutButton />}
       </nav>
+      <SpotsFilters />
     </header>
   );
 }
