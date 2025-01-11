@@ -8,10 +8,7 @@ const fetchWeatherData = async (latitude, longitude) => {
       "temperature_2m",
       "relative_humidity_2m",
       "is_day",
-      "precipitation",
-      "rain",
-      "showers",
-      "cloud_cover",
+      "weather_code",
     ],
     hourly: [
       "wind_speed_1000hPa",
@@ -22,7 +19,6 @@ const fetchWeatherData = async (latitude, longitude) => {
     ],
     daily: ["sunrise", "sunset"],
     wind_speed_unit: "ms",
-    timezone: "Europe/Berlin",
   };
   const url = "https://api.open-meteo.com/v1/forecast";
 
@@ -30,11 +26,11 @@ const fetchWeatherData = async (latitude, longitude) => {
     const responses = await fetchWeatherApi(url, params);
     const response = responses[0];
 
-    const utcOffsetSeconds = response.utcOffsetSeconds();
     const current = response.current();
     const hourly = response.hourly();
     const daily = response.daily();
-
+    console.log(response.daily().variables(0));
+    console.log(response.current().variables(0));
     const currentHour = new Date().getUTCHours();
     const flooredHour = Math.floor(currentHour);
     const closestHourlyIndex =
@@ -42,45 +38,51 @@ const fetchWeatherData = async (latitude, longitude) => {
 
     return {
       current: {
-        time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
-        temperature2m: current.variables(0).value(),
+        temperature2m: current.variables(0).value().toFixed(1),
         relativeHumidity2m: current.variables(1).value(),
-        isDay: current.variables(2).value(),
-        precipitation: current.variables(3).value(),
-        rain: current.variables(4).value(),
-        showers: current.variables(5).value(),
-        cloudCover: current.variables(6).value(),
+        isDay: current.variables(2).values(),
+        type: current.variables(3).value(),
       },
       hourly: {
-        time: new Date(
-          (Number(hourly.time()) +
-            closestHourlyIndex * hourly.interval() +
-            utcOffsetSeconds) *
-            1000,
-        ),
-        windSpeeds: [
-          hourly.variables(0).valuesArray()[closestHourlyIndex],
-          hourly.variables(1).valuesArray()[closestHourlyIndex],
-          hourly.variables(2).valuesArray()[closestHourlyIndex],
-          hourly.variables(3).valuesArray()[closestHourlyIndex],
-          hourly.variables(4).valuesArray()[closestHourlyIndex],
+        winds: [
+          {
+            height: 100,
+            speed: parseInt(
+              hourly.variables(0).valuesArray()[closestHourlyIndex],
+            ),
+          },
+          {
+            height: 300,
+            speed: parseInt(
+              hourly.variables(1).valuesArray()[closestHourlyIndex],
+            ),
+          },
+          {
+            height: 500,
+            speed: hourly
+              .variables(2)
+              .valuesArray()
+              [closestHourlyIndex].toFixed(0),
+          },
+          {
+            height: 800,
+            speed: hourly
+              .variables(3)
+              .valuesArray()
+              [closestHourlyIndex].toFixed(0),
+          },
+          {
+            height: 1000,
+            speed: hourly
+              .variables(4)
+              .valuesArray()
+              [closestHourlyIndex].toFixed(0),
+          },
         ],
       },
       daily: {
-        time: Array.from(
-          {
-            length:
-              (Number(daily.timeEnd()) - Number(daily.time())) /
-              daily.interval(),
-          },
-          (_, i) =>
-            new Date(
-              (Number(daily.time()) + i * daily.interval() + utcOffsetSeconds) *
-                1000,
-            ),
-        ),
-        sunrise: daily.variables(0).valuesArray(),
-        sunset: daily.variables(1).valuesArray(),
+        sunrise: daily.variables(0).value(),
+        sunset: daily.variables(1).value(),
       },
     };
   } catch (error) {

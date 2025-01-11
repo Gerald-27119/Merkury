@@ -8,7 +8,7 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
     () => Math.max(...winds.map((wind) => wind.height)),
     [winds],
   );
-
+  console.log(winds);
   const initialWindSpeed = useMemo(() => winds[0].speed, [winds]);
 
   const [enteredHeight, setEnteredHeight] = useState(0);
@@ -47,14 +47,22 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
             size={40}
             className="bg-gradient-to-b from-pink-500 via-red-500 to-orange-500 p-1 rounded-md"
           />
-          <time>{sunrise}</time>
+          {sunrise !== undefined && sunrise !== 0 ? (
+            <time>{sunrise}</time>
+          ) : (
+            <time>Unav.</time>
+          )}
         </div>
         <div className="flex items-center text-xl space-x-3">
           <FiSunset
             size={40}
             className="bg-gradient-to-b from-red-500 via-orange-500 to-yellow-500 p-1 rounded-md"
           />
-          <time>{sunset}</time>
+          {sunset !== undefined && sunrise !== 0 ? (
+            <time>{sunset}</time>
+          ) : (
+            <time>Unav.</time>
+          )}
         </div>
         <div className="flex items-center text-xl">
           <WiHumidity size={40} className="text-blue-500" />
@@ -88,7 +96,7 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
             type="text"
             value={`${enteredHeight} m`}
             onChange={(event) => handleHeightChange(event)}
-            className="w-1/3 text-lg text-center"
+            className="w-2/3 text-lg text-center"
           />
         </div>
         {isError && (
