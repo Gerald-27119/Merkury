@@ -1,8 +1,5 @@
 package com.merkury.vulcanus.exception;
 
-import com.merkury.vulcanus.exception.exceptions.EmailNotSendException;
-import com.merkury.vulcanus.exception.exceptions.MissingCredentialsException;
-import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -11,13 +8,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@Order(2)
 @Slf4j
-@ControllerAdvice(basePackages = {"com.merkury.vulcanus.controllers"})
-public class EmailExceptionHandler extends ResponseEntityExceptionHandler {
+@Order(5)
+@ControllerAdvice()
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({MessagingException.class, EmailNotSendException.class, MissingCredentialsException.class})
-    public ResponseEntity<String> handleMessagingException(Exception ex) {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGenericException(Exception ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred: " + ex.getMessage());
     }

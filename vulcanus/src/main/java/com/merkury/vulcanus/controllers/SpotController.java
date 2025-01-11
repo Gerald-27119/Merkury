@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.features.spot.SpotService;
 import com.merkury.vulcanus.model.dtos.SpotDto;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,8 +32,11 @@ public class SpotController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<String> getFilteredSpots() {
-        return ResponseEntity.ok("spots");
+    public ResponseEntity<List<SpotDto>> getFilteredSpots(
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "0") Double minRating,
+            @RequestParam(defaultValue = "5") Double maxRating) throws SpotsNotFoundException {
+        return ResponseEntity.ok(spotService.getFilteredSpots(name, minRating, maxRating));
     }
 
 }
