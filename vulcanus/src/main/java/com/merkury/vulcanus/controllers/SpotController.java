@@ -29,4 +29,9 @@ public class SpotController {
         return ResponseEntity.ok(spotService.getSpotById(id));
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<String> getFilteredSpots() {
+        return ResponseEntity.ok("spots");
+    }
+
 }
