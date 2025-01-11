@@ -4,14 +4,12 @@ import com.merkury.vulcanus.exception.exceptions.EmailNotSendException;
 import com.merkury.vulcanus.exception.exceptions.MissingCredentialsException;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@Order(2)
 @Slf4j
 @ControllerAdvice(basePackages = {"com.merkury.vulcanus.controllers"})
 public class EmailExceptionHandler extends ResponseEntityExceptionHandler {

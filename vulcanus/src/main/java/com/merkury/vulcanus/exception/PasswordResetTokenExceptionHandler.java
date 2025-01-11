@@ -2,14 +2,12 @@ package com.merkury.vulcanus.exception;
 
 import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenIsInvalidException;
 import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenNotFoundException;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@Order(3)
 @ControllerAdvice(basePackages = {"com.merkury.vulcanus.controllers"})
 public class PasswordResetTokenExceptionHandler extends ResponseEntityExceptionHandler {
 

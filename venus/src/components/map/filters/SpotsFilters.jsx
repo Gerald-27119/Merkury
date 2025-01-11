@@ -23,7 +23,6 @@ export default function SpotsFilters() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    console.log("name changed");
     if (name) {
       const hints = spotsNames.filter((spotName) =>
         spotName.toLowerCase().includes(name.toLowerCase()),
