@@ -11,8 +11,14 @@ export const spotFiltersSlice = createSlice({
   reducers: {
     setFilters(state, action) {
       state.name = action.payload.name || state.name;
-      state.minRating = action.payload.minRating || state.minRating;
-      state.maxRating = action.payload.maxRating || state.maxRating;
+      state.minRating =
+        action.payload.minRating !== undefined
+          ? action.payload.minRating
+          : state.minRating;
+      state.maxRating =
+        action.payload.maxRating !== undefined
+          ? action.payload.maxRating
+          : state.maxRating;
     },
   },
 });
