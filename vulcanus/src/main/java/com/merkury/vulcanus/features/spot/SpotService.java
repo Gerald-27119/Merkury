@@ -26,7 +26,7 @@ public class SpotService {
         return spotRepository.findById(id).map(SpotMapper::toDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
 
-    public List<SpotDto> getFilteredSpots (String name, Double minRating, Double maxRating) throws SpotsNotFoundException {
+    public List<SpotDto> getFilteredSpots(String name, Double minRating, Double maxRating) throws SpotsNotFoundException {
         var allSpots = this.getAllSpots();
         if (allSpots.isEmpty()) {
             throw new SpotsNotFoundException("Spots not found!");
@@ -44,5 +44,20 @@ public class SpotService {
         }
 
         return filteredSpots;
+    }
+
+    public List<String> getSpotsNames() throws SpotsNotFoundException {
+        var allSpots = this.getAllSpots();
+        if (allSpots.isEmpty()) {
+            throw new SpotsNotFoundException("Spots not found!");
+        }
+
+        var spotsNames = allSpots.stream().map(SpotDto::getName).toList();
+
+        if (spotsNames.isEmpty()) {
+            throw new SpotsNotFoundException("No spot names found!");
+        }
+
+        return spotsNames;
     }
 }

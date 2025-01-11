@@ -39,4 +39,8 @@ public class SpotController {
         return ResponseEntity.ok(spotService.getFilteredSpots(name, minRating, maxRating));
     }
 
+    @GetMapping("/names")
+    public ResponseEntity<List<String>> getSpotsNames() throws SpotsNotFoundException {
+        return ResponseEntity.ok(spotService.getSpotsNames());
+    }
 }

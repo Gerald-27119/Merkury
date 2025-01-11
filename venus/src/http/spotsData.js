@@ -12,3 +12,8 @@ export async function fetchFilteredSpots(name, minRating, maxRating) {
     `/filter?name=${name}&minRating=${minRating}&maxRating=${maxRating}`;
   return (await axios.get(url)).data;
 }
+
+export async function fetchSpotsNames() {
+  const url = API_URL + "/names";
+  return (await axios.get(url)).data;
+}
