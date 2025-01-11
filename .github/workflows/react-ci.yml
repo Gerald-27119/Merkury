@@ -22,9 +22,8 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
-        working-directory: Merkury/venus
+        working-directory: /venus
         run: npm install
 
       - name: Run tests
-        working-directory: Merkury/venus
         run: npm test -- --watchAll=false
