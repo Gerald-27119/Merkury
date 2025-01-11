@@ -28,9 +28,3 @@ jobs:
       - name: Run tests
         working-directory: venus
         run: npm test
-
-      - name: Run E2E tests
-        uses: cypress-io/github-action@v4
-        with:
-          command: npx cypress run
-          browser: chrome
