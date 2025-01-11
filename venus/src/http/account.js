@@ -1,8 +1,7 @@
 import axios from "axios";
 import BASE_URL from "./baseUrl.js";
 export async function registerUser(user) {
-  const url = `${BASE_URL}/public/account/register`;
-  return await axios.post(url, user, {
+  return await axios.post(${BASE_URL}/public/account/register, user, {
     withCredentials: true,
   });
 }
