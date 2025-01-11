@@ -50,7 +50,7 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
           {sunrise !== undefined && sunrise !== 0 ? (
             <time>{sunrise}</time>
           ) : (
-            <time>Unav.</time>
+            <time>Unv.</time>
           )}
         </div>
         <div className="flex items-center text-xl space-x-3">
@@ -61,7 +61,7 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
           {sunset !== undefined && sunrise !== 0 ? (
             <time>{sunset}</time>
           ) : (
-            <time>Unav.</time>
+            <time>Unv.</time>
           )}
         </div>
         <div className="flex items-center text-xl">
