@@ -28,3 +28,7 @@ jobs:
       - name: Run tests
         working-directory: venus
         run: npm test
+
+      - name: Run E2E tests
+        working-directory: venus
+        run: npm cypress:run
