@@ -11,15 +11,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SpotService {
 
     private final SpotRepository spotRepository;
 
-    public List<SpotDto> getAllSpots() {
-        return spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
+    private List<SpotDto> getAllSpots() throws SpotsNotFoundException {
+        var allSpots = spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
+        if (allSpots.isEmpty()) {
+            throw new SpotsNotFoundException("Spots not found!");
+        }
+
+        return allSpots;
     }
 
     public SpotDto getSpotById(Long id) throws SpotNotFoundException {
@@ -28,12 +32,6 @@ public class SpotService {
 
     public List<SpotDto> getFilteredSpots(String name, Double minRating, Double maxRating) throws SpotsNotFoundException {
         var allSpots = this.getAllSpots();
-        if (allSpots.isEmpty()) {
-            throw new SpotsNotFoundException("Spots not found!");
-        }
-        log.info("name: {}", name);
-        log.info("min: {}", minRating);
-        log.info("max: {}", maxRating);
         var filteredSpots = allSpots.stream()
                 .filter(spot -> (name.isBlank() || spot.getName().toLowerCase().contains(name.trim().toLowerCase())) &&
                         (minRating == null || spot.getRating() >= minRating) &&
@@ -48,9 +46,6 @@ public class SpotService {
 
     public List<String> getSpotsNames() throws SpotsNotFoundException {
         var allSpots = this.getAllSpots();
-        if (allSpots.isEmpty()) {
-            throw new SpotsNotFoundException("Spots not found!");
-        }
 
         var spotsNames = allSpots.stream().map(SpotDto::getName).toList();
 
