@@ -16,7 +16,7 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    const wind = winds.find((wind) => wind.height === enteredHeight);
+    const wind = winds.find((wind) => wind.height >= enteredHeight);
     if (wind) {
       setWindSpeed(wind.speed);
     }
@@ -25,17 +25,13 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
   const handleHeightChange = (event) => {
     setIsError(false);
     const inputValue = event.target.value.replace(/\s*m$/, "");
-    if (!inputValue || isNaN(inputValue)) {
+    console.log(inputValue);
+    if (!inputValue || isNaN(inputValue) || Number(inputValue) < 0) {
       setIsError(true);
       return;
     }
     const value = Number.parseInt(inputValue);
-
-    if (value < 0) {
-      setIsError(true);
-      return;
-    }
-
+    console.log(value);
     setEnteredHeight(value);
   };
 
@@ -58,7 +54,7 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
             size={40}
             className="bg-gradient-to-b from-red-500 via-orange-500 to-yellow-500 p-1 rounded-md"
           />
-          {sunset !== undefined && sunrise !== 0 ? (
+          {sunset !== undefined && sunset !== 0 ? (
             <time>{sunset}</time>
           ) : (
             <time>Unv.</time>
