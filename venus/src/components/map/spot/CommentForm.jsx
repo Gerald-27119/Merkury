@@ -6,17 +6,22 @@ export default function CommentForm({ id }) {
   const spotId = id;
   const [newCommentText, setNewCommentText] = useState("");
 
-  const { mutate, isSuccess, error } = useMutation({
+  const { mutateAsync, isSuccess, error } = useMutation({
+    mutationKey: "addCommentMutation",
     mutationFn: addComment,
   });
   const handleAddComment = async (event) => {
     event.preventDefault();
     if (newCommentText.trim()) {
-      mutate({
+      await mutateAsync({
         text: newCommentText,
         spotId: spotId,
       });
     }
+  };
+
+  const handleCommentChange = (event) => {
+    setNewCommentText(event.target.value);
   };
 
   useEffect(() => {
@@ -32,7 +37,7 @@ export default function CommentForm({ id }) {
           <textarea
             className="w-full border border-stone-300 rounded-sm p-1"
             value={newCommentText}
-            onChange={(e) => setNewCommentText(e.target.value)}
+            onChange={handleCommentChange}
             placeholder="Type coment here..."
           />
         </div>
