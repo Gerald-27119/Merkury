@@ -25,6 +25,10 @@ jobs:
         working-directory: venus
         run: npm install
 
+      - name: Start application server
+        run: npm run dev
+        working-directory: venus
+
       - name: Run tests
         working-directory: venus
         run: npm test
