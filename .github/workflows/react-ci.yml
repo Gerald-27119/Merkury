@@ -22,7 +22,7 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
-        working-directory: /venus
+        working-directory: venus
         run: npm install
 
       - name: Run tests
