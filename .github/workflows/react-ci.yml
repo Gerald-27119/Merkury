@@ -26,4 +26,5 @@ jobs:
         run: npm install
 
       - name: Run tests
+        working-directory: venus
         run: npm test -- --watchAll=false
