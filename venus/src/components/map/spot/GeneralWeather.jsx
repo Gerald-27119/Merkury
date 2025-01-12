@@ -8,7 +8,6 @@ import {
 } from "react-icons/io5";
 
 export default function GeneralWeather({ generalWeather }) {
-  console.log(generalWeather);
   return (
     <>
       {generalWeather === 0 && (

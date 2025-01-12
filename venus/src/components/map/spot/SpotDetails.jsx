@@ -18,6 +18,7 @@ export default function SpotDetails() {
   const expandPhoto = useSelector((state) => state.photo.expandPhoto);
   const [weather, setWeather] = useState(null);
   const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchWeather = async () => {
       const weatherData = await fetchWeatherData(

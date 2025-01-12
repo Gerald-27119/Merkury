@@ -6,7 +6,6 @@ import GeneralWeather from "./GeneralWeather.jsx";
 
 export default function Weather({ weather }) {
   const [showDetails, setShowDetails] = useState(false);
-  console.log(weather);
   return (
     <>
       {weather ? (

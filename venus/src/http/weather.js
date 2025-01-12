@@ -20,10 +20,12 @@ const fetchWeatherData = async (latitude, longitude) => {
     daily: ["sunrise", "sunset"],
     wind_speed_unit: "ms",
   };
-  const url = "https://api.open-meteo.com/v1/forecast";
 
   try {
-    const responses = await fetchWeatherApi(url, params);
+    const responses = await fetchWeatherApi(
+      "https://api.open-meteo.com/v1/forecast",
+      params,
+    );
     const response = responses[0];
 
     const current = response.current();

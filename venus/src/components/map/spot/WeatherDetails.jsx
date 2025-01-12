@@ -8,7 +8,6 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
     () => Math.max(...winds.map((wind) => wind.height)),
     [winds],
   );
-  console.log(winds);
   const initialWindSpeed = useMemo(() => winds[0].speed, [winds]);
 
   const [enteredHeight, setEnteredHeight] = useState(0);
@@ -25,13 +24,11 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
   const handleHeightChange = (event) => {
     setIsError(false);
     const inputValue = event.target.value.replace(/\s*m$/, "");
-    console.log(inputValue);
     if (!inputValue || isNaN(inputValue) || Number(inputValue) < 0) {
       setIsError(true);
       return;
     }
     const value = Number.parseInt(inputValue);
-    console.log(value);
     setEnteredHeight(value);
   };
 
