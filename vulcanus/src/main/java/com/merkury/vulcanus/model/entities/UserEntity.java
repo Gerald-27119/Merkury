@@ -22,9 +22,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Builder
@@ -63,7 +61,7 @@ public class UserEntity implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "spot_id")
     )
-    private List<Spot> favoriteSpots = new ArrayList<>();
+    private Set<Spot> favoriteSpots = new HashSet<>();
 
     @Enumerated(value = EnumType.STRING)
     private UserRole userRole;
