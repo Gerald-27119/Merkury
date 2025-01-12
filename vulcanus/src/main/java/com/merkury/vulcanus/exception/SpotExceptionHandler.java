@@ -13,8 +13,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice(basePackages = {"com.merkury.vulcanus.controllers"})
 public class SpotExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({SpotNotFoundException.class, SpotsNotFoundException.class})
-    public ResponseEntity<String> handleSpotNotFoundException(Exception ex) {
+    @ExceptionHandler(SpotNotFoundException.class)
+    public ResponseEntity<String> handleSpotNotFoundException(SpotNotFoundException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(SpotsNotFoundException.class)
+    public ResponseEntity<String> handleSpotsNotFoundException(SpotsNotFoundException ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }

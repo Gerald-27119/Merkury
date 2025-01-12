@@ -6,7 +6,6 @@ import com.merkury.vulcanus.model.dtos.SpotDto;
 import com.merkury.vulcanus.model.mappers.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,10 +43,13 @@ public class SpotService {
         return filteredSpots;
     }
 
-    public List<String> getSpotsNames() throws SpotsNotFoundException {
+    public List<String> getFilteredSpotsNames(String text) throws SpotsNotFoundException {
         var allSpots = this.getAllSpots();
 
-        var spotsNames = allSpots.stream().map(SpotDto::getName).toList();
+        var spotsNames = allSpots.stream()
+                .map(SpotDto::getName)
+                .filter(spotName -> spotName.toLowerCase().contains(text.trim().toLowerCase()))
+                .toList();
 
         if (spotsNames.isEmpty()) {
             throw new SpotsNotFoundException("No spot names found!");

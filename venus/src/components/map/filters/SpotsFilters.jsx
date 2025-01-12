@@ -8,58 +8,70 @@ import { useEffect, useState } from "react";
 import { fetchSpotsNames } from "../../../http/spotsData.js";
 
 export default function SpotsFilters() {
-  const [name, setName] = useState("");
-  const [minRating, setMinRating] = useState(0);
-  const [maxRating, setMaxRating] = useState(5);
+  const [filters, setFilters] = useState({
+    name: "",
+    minRating: 0,
+    maxRating: 5,
+  });
   const [showHints, setShowHints] = useState(false);
   const [filteredNames, setFilteredNames] = useState([]);
 
   const { data: spotsNames = [] } = useQuery({
-    queryKey: ["spotsNames"],
-    queryFn: fetchSpotsNames,
+    queryKey: ["spotsNames", filters.name],
+    queryFn: () => fetchSpotsNames(filters.name),
   });
 
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (name) {
-      const hints = spotsNames.filter((spotName) =>
-        spotName.toLowerCase().includes(name.toLowerCase()),
-      );
-      setFilteredNames(hints);
+    if (filters.name) {
+      setFilteredNames(spotsNames);
       setShowHints(true);
     } else {
       setShowHints(false);
     }
-  }, [name, spotsNames]);
+  }, [filters.name, spotsNames]);
 
   const handleNameChange = (e) => {
-    setName(e.target.value);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      name: e.target.value,
+    }));
+    queryClient.invalidateQueries(["spotsNames", filters.name]);
   };
 
   const handleMinRatingChange = (e) => {
-    setMinRating(parseFloat(e.target.value));
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      minRating: parseFloat(e.target.value),
+    }));
   };
 
   const handlerMaxRatingChange = (e) => {
-    setMaxRating(parseFloat(e.target.value));
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      maxRating: parseFloat(e.target.value),
+    }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(spotFiltersAction.setFilters({ name, minRating, maxRating }));
+    dispatch(spotFiltersAction.setFilters(filters));
     queryClient.invalidateQueries([
       "spots",
       "filter",
-      name,
-      minRating,
-      maxRating,
+      filters.name,
+      filters.minRating,
+      filters.maxRating,
     ]);
   };
 
   const handleHintClick = (hint) => {
-    setName(hint);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      name: hint,
+    }));
     setShowHints(false);
   };
 
@@ -75,7 +87,7 @@ export default function SpotsFilters() {
           type="text"
           placeholder="Search..."
           onBlur={() => setShowHints(false)}
-          value={name}
+          value={filters.name}
           onChange={handleNameChange}
         />
         {showHints && filteredNames.length > 0 && (
@@ -102,7 +114,7 @@ export default function SpotsFilters() {
             min={0}
             max={5}
             step={0.5}
-            value={minRating.toFixed(1)}
+            value={filters.minRating.toFixed(1)}
             onChange={handleMinRatingChange}
           />
           <Input
@@ -112,7 +124,7 @@ export default function SpotsFilters() {
             min={0}
             max={5}
             step={0.5}
-            value={maxRating.toFixed(1)}
+            value={filters.maxRating.toFixed(1)}
             onChange={handlerMaxRatingChange}
           />
         </div>

@@ -39,8 +39,8 @@ public class SpotController {
     }
 
     @GetMapping("/names")
-    public ResponseEntity<List<String>> getSpotsNames() throws SpotsNotFoundException {
+    public ResponseEntity<List<String>> getFilteredSpotsNames(@RequestParam(defaultValue = "") String text) throws SpotsNotFoundException {
         log.info("getting spots names");
-        return ResponseEntity.ok(spotService.getSpotsNames());
+        return ResponseEntity.ok(spotService.getFilteredSpotsNames(text));
     }
 }
