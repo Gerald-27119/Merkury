@@ -34,7 +34,7 @@ public class SpotController {
         return ResponseEntity.ok(spotService.getSpotById(id));
     }
 
-    @PostMapping("/comment/add")
+    @PostMapping("/comment")
     public ResponseEntity<String> addComment(@RequestBody CommentAddDto commentAddDto,
                                                        HttpServletRequest request)
             throws CommentNotFoundException, SpotNotFoundException {
@@ -45,7 +45,7 @@ public class SpotController {
                 .ok().build();
     }
 
-    @PutMapping("/comment/edit")
+    @PatchMapping("/comment")
     public ResponseEntity<String> editComment(@RequestBody CommentEditDto commentEditDto,
                                                         HttpServletRequest request)
             throws CommentNotFoundException, InvalidCredentialsException {
@@ -57,7 +57,7 @@ public class SpotController {
                 .ok().build();
     }
 
-    @DeleteMapping("/comment/delete/{commentId}")
+    @DeleteMapping("/comment/{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable("commentId") Long commentId,
                                                           HttpServletRequest request)
             throws CommentNotFoundException, InvalidCredentialsException {

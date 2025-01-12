@@ -31,7 +31,7 @@ public class CommentService {
     private final SpotRepository spotRepository;
 
 
-    public void addComment(String text, Long spotId, HttpServletRequest request) throws SpotNotFoundException {
+    public void addComment(String text, Long spotId, HttpServletRequest request) throws SpotNotFoundException, UserNotFoundException {
 
         String token = jwtManager.getJWTFromCookie(request);
         String jwtUsername = jwtManager.getUsernameFromJWT(token);
@@ -53,8 +53,6 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
         String token = jwtManager.getJWTFromCookie(request);
         String jwtUsername = jwtManager.getUsernameFromJWT(token);
-
-        assert comment != null;
 
         String commentAuthor = comment.getAuthor().getUsername();
 
