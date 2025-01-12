@@ -1,8 +1,8 @@
 package com.merkury.vulcanus.features.spot;
 
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
-import com.merkury.vulcanus.model.dtos.SpotDetailsDto;
-import com.merkury.vulcanus.model.dtos.SpotDto;
+import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
+import com.merkury.vulcanus.model.dtos.spot.SpotDto;
 import com.merkury.vulcanus.model.mappers.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import lombok.RequiredArgsConstructor;

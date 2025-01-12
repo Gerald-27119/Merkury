@@ -2,8 +2,8 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.features.spot.SpotService;
-import com.merkury.vulcanus.model.dtos.SpotDetailsDto;
-import com.merkury.vulcanus.model.dtos.SpotDto;
+import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
+import com.merkury.vulcanus.model.dtos.spot.SpotDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

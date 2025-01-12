@@ -1,5 +1,6 @@
-package com.merkury.vulcanus.model.dtos;
+package com.merkury.vulcanus.model.dtos.spot;
 
+import com.merkury.vulcanus.model.dtos.ImgDto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
