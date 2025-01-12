@@ -1,14 +1,12 @@
 package com.merkury.vulcanus.controllers;
 
-import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.features.spot.SpotService;
 import com.merkury.vulcanus.model.dtos.SpotDto;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,8 +23,30 @@ public class SpotController {
     }
 
     @GetMapping("/{spotId}")
-    public ResponseEntity<SpotDto> getSpotById(@PathVariable("spotId") Long id) throws SpotNotFoundException {
+    public ResponseEntity<SpotDto> getSpotById(@PathVariable("spotId") Long id) {
         return ResponseEntity.ok(spotService.getSpotById(id));
     }
 
+    @GetMapping("/favourites")
+    public ResponseEntity<List<SpotDto>> getUserFavouriteSpots(HttpServletRequest request) {
+        spotService.getUserFavouriteSpots(request);
+        return ResponseEntity.ok(spotService.getUserFavouriteSpots(request));
+    }
+
+    @PutMapping("/favourites/add")
+    public ResponseEntity<String> addSpotToFavourites(HttpServletRequest request, @RequestParam Long spotId) {
+        spotService.addSpotToFavourites(request, spotId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PutMapping("/favourites/remove")
+    public ResponseEntity<String> removeSpotFromFavourites(HttpServletRequest request, @RequestParam Long spotId) {
+        spotService.removeSpotFromFavourites(request, spotId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/favourites/check")
+    public ResponseEntity<Boolean> isSpotFavourite(HttpServletRequest request, @RequestParam Long spotId) {
+        return ResponseEntity.ok(spotService.isSpotFavourite(request, spotId));
+    }
 }
