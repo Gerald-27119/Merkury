@@ -10,7 +10,7 @@ export default function CommentForm({ id }) {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { mutateAsync, isSuccess } = useMutation({
-    mutationKey: "addCommentMutation",
+    mutationKey: ["addCommentMutation"],
     mutationFn: addComment,
     onSuccess: () => {
       setNewCommentText(""); // Reset the input field

@@ -30,7 +30,7 @@ export async function changePassword(userData) {
 
 export async function logout() {
   await axios.post(
-    "http://localhost:8080/account/oauth2/logout",
+    `${BASE_URL}/account/oauth2/logout`,
     {},
     {
       withCredentials: true,
