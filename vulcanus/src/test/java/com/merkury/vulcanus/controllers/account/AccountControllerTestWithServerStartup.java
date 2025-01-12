@@ -60,7 +60,7 @@ class AccountControllerTestWithServerStartup {
         HttpEntity<UserRegisterDto> request = new HttpEntity<>(registerDto, headers);
 
         var responseEntity = restTemplate.postForEntity(
-                "http://localhost:" + port + "/account/register",
+                "http://localhost:" + port + "/public/account/register",
                 request,
                 String.class
         );
@@ -80,7 +80,7 @@ class AccountControllerTestWithServerStartup {
         HttpEntity<UserRegisterDto> request = new HttpEntity<>(registerDto, headers);
 
         var responseEntity = restTemplate.postForEntity(
-                "http://localhost:" + port + "/account/register",
+                "http://localhost:" + port + "/public/account/register",
                 request,
                 String.class
         );
@@ -100,7 +100,7 @@ class AccountControllerTestWithServerStartup {
         HttpEntity<UserRegisterDto> request = new HttpEntity<>(registerDto, headers);
 
         var responseEntity = restTemplate.postForEntity(
-                "http://localhost:" + port + "/account/register",
+                "http://localhost:" + port + "/public/account/register",
                 request,
                 String.class
         );
@@ -117,7 +117,7 @@ class AccountControllerTestWithServerStartup {
         HttpEntity<UserLoginDto> request = new HttpEntity<>(loginDto, headers);
 
         var responseEntity = restTemplate.postForEntity(
-                "http://localhost:" + port + "/account/login",
+                "http://localhost:" + port + "/public/account/login",
                 request,
                 String.class
         );
@@ -158,7 +158,7 @@ class AccountControllerTestWithServerStartup {
         HttpEntity<UserLoginDto> request = new HttpEntity<>(loginDto, headers);
 
         var responseEntity = restTemplate.postForEntity(
-                "http://localhost:" + port + "/account/login",
+                "http://localhost:" + port + "/public/account/login",
                 request,
                 String.class
         );
