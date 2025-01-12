@@ -81,11 +81,6 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Friendship> friendships = new ArrayList<>();
 
-    /**
-     * Nowa relacja: Comments.
-     * Dzięki @OneToMany z cascade = ALL i orphanRemoval = true,
-     * przy usunięciu użytkownika skasują się także jego komentarze.
-     **/
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Comment> comments = new ArrayList<>();
