@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addComment } from "../../../http/comments.js";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ export default function CommentForm({ id }) {
   const spotId = id;
   const [newCommentText, setNewCommentText] = useState("");
   const dispatch = useDispatch();
-
+  const queryClient = useQueryClient();
   const { mutateAsync, isSuccess } = useMutation({
     mutationKey: "addCommentMutation",
     mutationFn: addComment,
@@ -19,6 +19,7 @@ export default function CommentForm({ id }) {
           message: "Comment added successfully!",
         }),
       );
+      queryClient.invalidateQueries("spots");
     },
     onError: (error) => {
       if (error?.response?.data) {
