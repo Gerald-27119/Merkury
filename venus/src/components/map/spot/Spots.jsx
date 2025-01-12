@@ -1,5 +1,4 @@
 import Zone from "../zone/Zone.jsx";
-import { SpotsData } from "../data/spots-data.js";
 import SpotDetails from "./SpotDetails.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSpotsData } from "../../../http/spotsData.js";
@@ -8,6 +7,8 @@ export default function Spots() {
   const { data, error } = useQuery({
     queryFn: fetchSpotsData,
     queryKey: ["spots"],
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5,
   });
 
   if (error) {

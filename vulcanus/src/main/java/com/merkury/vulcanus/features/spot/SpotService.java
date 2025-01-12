@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.spot;
 
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
+import com.merkury.vulcanus.model.dtos.SpotDetailsDto;
 import com.merkury.vulcanus.model.dtos.SpotDto;
 import com.merkury.vulcanus.model.mappers.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
@@ -19,7 +20,7 @@ public class SpotService {
         return spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
     }
 
-    public SpotDto getSpotById(Long id) throws SpotNotFoundException {
-        return spotRepository.findById(id).map(SpotMapper::toDto).orElseThrow(() -> new SpotNotFoundException(id));
+    public SpotDetailsDto getSpotById(Long id) throws SpotNotFoundException {
+        return spotRepository.findById(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
 }

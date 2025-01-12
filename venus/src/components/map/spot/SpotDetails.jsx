@@ -7,20 +7,29 @@ import { IoCloseOutline } from "react-icons/io5";
 import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
 import ExpandedPhotoGallery from "./ExpandedPhotoGallery.jsx";
 import { photoAction } from "../../../redux/photo.jsx";
-import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSpotsDataById } from "../../../http/spotsData.js";
 
 export default function SpotDetails() {
-  const spot = useSelector((state) => state.spotDetails.spot);
+  const spotId = useSelector((state) => state.spotDetails.spotId);
   const showDetailsModal = useSelector((state) => state.spotDetails.showModal);
   const expandPhoto = useSelector((state) => state.photo.expandPhoto);
   const dispatch = useDispatch();
 
-  const averageRating = useMemo(() => {
-    return spot.comments.length > 0
-      ? spot.comments.reduce((sum, comment) => sum + comment.rating, 0) /
-          spot.comments.length
-      : 0;
-  }, [spot.comments]);
+  const {
+    data: spot,
+    isLoading,
+    error,
+  } = useQuery({
+    queryFn: () => fetchSpotsDataById(spotId),
+    queryKey: ["spotDetails", spotId],
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="w-full h-full absolute flex">
@@ -43,12 +52,12 @@ export default function SpotDetails() {
           <Info
             name={spot.name}
             description={spot.description}
-            rating={averageRating}
+            rating={spot.rating}
           />
           <Weather weather={spot.weather} />
           <PhotoGallery photos={spot.photos} />
           <div className="overflow-y-auto flex-grow min-h-60">
-            <Comments comments={spot.comments} />
+            {/*<Comments comments={spot.comments} />*/}
           </div>
         </div>
       </div>

@@ -23,7 +23,7 @@ export default function Zone({ zone, color }) {
       eventHandlers={{
         click: () => {
           dispatch(spotDetailsModalAction.handleShowModal());
-          dispatch(spotDetailsModalAction.setSpot(zone));
+          dispatch(spotDetailsModalAction.setSpotId(zone.id));
         },
       }}
     ></Polygon>
