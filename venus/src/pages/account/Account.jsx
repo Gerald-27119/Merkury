@@ -24,6 +24,11 @@ export default function Account() {
           <Button classNames={buttonClasses}>Edit data</Button>
         </Link>
       )}
+      {isLogged && (
+        <Link to="/favourite-spots">
+          <Button classNames={buttonClasses}>Favourite spots</Button>
+        </Link>
+      )}
     </div>
   );
 }

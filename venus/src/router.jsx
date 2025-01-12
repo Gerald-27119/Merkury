@@ -10,6 +10,7 @@ import Layout from "./layout/Layout.jsx";
 import Forum from "./pages/forum/Forum.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import EditUserData from "./pages/account/EditUserData.jsx";
+import FavouriteSpots from "./pages/account/FavouriteSpots.jsx";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +55,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <EditUserData />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "favourite-spots",
+        element: (
+          <ProtectedRoute>
+            <FavouriteSpots />
           </ProtectedRoute>
         ),
       },

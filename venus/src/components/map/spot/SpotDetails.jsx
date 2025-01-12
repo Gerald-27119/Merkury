@@ -8,11 +8,13 @@ import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
 import ExpandedPhotoGallery from "./ExpandedPhotoGallery.jsx";
 import { photoAction } from "../../../redux/photo.jsx";
 import { useMemo } from "react";
+import AddTofavouritesButton from "./AddToFavouritesButton.jsx";
 
 export default function SpotDetails() {
   const spot = useSelector((state) => state.spotDetails.spot);
   const showDetailsModal = useSelector((state) => state.spotDetails.showModal);
   const expandPhoto = useSelector((state) => state.photo.expandPhoto);
+  const isLogged = useSelector((state) => state.account.isLogged);
   const dispatch = useDispatch();
 
   const averageRating = useMemo(() => {
@@ -45,6 +47,7 @@ export default function SpotDetails() {
             description={spot.description}
             rating={averageRating}
           />
+          {isLogged && <AddTofavouritesButton spotId={spot.id} />}
           <Weather weather={spot.weather} />
           <PhotoGallery photos={spot.photos} />
           <div className="overflow-y-auto flex-grow min-h-60">
