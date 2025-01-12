@@ -1,14 +1,40 @@
 import { useMutation } from "@tanstack/react-query";
 import { addComment } from "../../../http/comments.js";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { notificationAction } from "../../../redux/notification.jsx";
 
 export default function CommentForm({ id }) {
   const spotId = id;
   const [newCommentText, setNewCommentText] = useState("");
+  const dispatch = useDispatch();
 
-  const { mutateAsync, isSuccess, error } = useMutation({
+  const { mutateAsync, isSuccess } = useMutation({
     mutationKey: "addCommentMutation",
     mutationFn: addComment,
+    onSuccess: () => {
+      setNewCommentText(""); // Reset the input field
+      dispatch(
+        notificationAction.setSuccess({
+          message: "Comment added successfully!",
+        }),
+      );
+    },
+    onError: (error) => {
+      if (error?.response?.data) {
+        dispatch(
+          notificationAction.setError({
+            message: error.response.data,
+          }),
+        );
+      } else {
+        dispatch(
+          notificationAction.setError({
+            message: "An unexpected error occurred. Please try again.",
+          }),
+        );
+      }
+    },
   });
   const handleAddComment = async (event) => {
     event.preventDefault();
@@ -49,11 +75,6 @@ export default function CommentForm({ id }) {
             Add Comment
           </button>
         </div>
-        {error && (
-          <p className="text-red-500 mt-2">
-            Error adding comment. Please try again.
-          </p>
-        )}
       </div>
     </>
   );
