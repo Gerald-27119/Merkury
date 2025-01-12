@@ -1,7 +1,8 @@
 package com.merkury.vulcanus.model.mappers;
 
-import com.merkury.vulcanus.model.dtos.SpotDetailsDto;
-import com.merkury.vulcanus.model.dtos.SpotDto;
+import com.merkury.vulcanus.model.dtos.spot.FullSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
+import com.merkury.vulcanus.model.dtos.spot.SpotDto;
 import com.merkury.vulcanus.model.entities.Comment;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.Point;
@@ -10,6 +11,9 @@ import com.merkury.vulcanus.model.entities.Spot;
 import java.util.List;
 
 public class SpotMapper {
+
+    private SpotMapper() {
+    }
 
     public static SpotDto toDto(Spot spot) {
         if (spot == null) {
@@ -25,20 +29,20 @@ public class SpotMapper {
                         .stream()
                         .map(point -> new Double[]{point.getX(), point.getY()})
                         .toList()
-                );
+        );
     }
 
-    public static Spot toEntity(SpotDto dto, List<Point> points, List<Comment> comments, List<Img> images) {
+    public static Spot toEntity(FullSpotDto dto, List<Point> points, List<Comment> comments, List<Img> images) {
         if (dto == null) {
             return null;
         }
 
         Spot spot = new Spot();
-//        spot.setAreaColor(dto.getAreaColor());
-//        spot.setName(dto.getName());
-//        spot.setDescription(dto.getDescription());
-//        spot.setRating(dto.getRating());
-//        spot.setViewsCount(dto.getViewsCount());
+        spot.setAreaColor(dto.areaColor());
+        spot.setName(dto.name());
+        spot.setDescription(dto.description());
+        spot.setRating(dto.rating());
+        spot.setViewsCount(dto.viewsCount());
 
         spot.setBorderPoints(points);
 
@@ -52,6 +56,7 @@ public class SpotMapper {
         if (spot == null) {
             return null;
         }
+
         return new SpotDetailsDto(
                 spot.getId(),
                 spot.getName(),
