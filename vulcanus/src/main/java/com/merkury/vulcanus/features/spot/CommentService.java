@@ -77,4 +77,8 @@ public class CommentService {
         commentRepository.deleteById(commentId);
     }
 
+    public List<CommentDto> getCommentsBySpotId(Long spotId) throws SpotNotFoundException {
+        spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
+        return commentRepository.findAllCommentsBySpotIdOrderByPublishDateDesc(spotId).stream().map(CommentMapper::toDto).toList();
+    }
 }

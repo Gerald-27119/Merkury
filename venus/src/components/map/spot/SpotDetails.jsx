@@ -9,7 +9,6 @@ import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
 import ExpandedPhotoGallery from "./ExpandedPhotoGallery.jsx";
 import { photoAction } from "../../../redux/photo.jsx";
 import { useMemo } from "react";
-import { NavLink } from "react-router-dom";
 
 export default function SpotDetails() {
   const spot = useSelector((state) => state.spotDetails.spot);
@@ -52,11 +51,11 @@ export default function SpotDetails() {
           <Weather weather={spot.weather} />
           <PhotoGallery photos={spot.photos} />
           <div className="overflow-y-auto flex-grow min-h-60">
-            <Comments comments={spot.comments} />
+            <Comments spotId={spotId} />
           </div>
           {isLogged && (
             <div>
-              <CommentForm id={spotId} />
+              <CommentForm spotId={spotId} />
             </div>
           )}
         </div>

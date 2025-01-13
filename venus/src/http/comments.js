@@ -10,3 +10,7 @@ export async function addComment({ text, spotId }) {
     },
   );
 }
+
+export async function getComments(spotId) {
+  return (await axios.get(`${BASE_URL}/public/spot/${spotId}/comments`)).data;
+}

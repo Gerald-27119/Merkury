@@ -41,4 +41,7 @@ public class SpotService {
         commentService.deleteComment(commentId, request);
     }
 
+    public List<CommentDto> getCommentsBySpotId(Long spotId) throws SpotNotFoundException {
+        return commentService.getCommentsBySpotId(spotId);
+    }
 }

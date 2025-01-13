@@ -18,23 +18,27 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/spot")
 @RequiredArgsConstructor
 public class SpotController {
 
     private final SpotService spotService;
 
-    @GetMapping("")
+    @GetMapping("/public/spot")
     public ResponseEntity<List<SpotDto>> getAllSpots() {
         return ResponseEntity.ok(spotService.getAllSpots());
     }
 
-    @GetMapping("/{spotId}")
+    @GetMapping("/public/spot/{spotId}")
     public ResponseEntity<SpotDto> getSpotById(@PathVariable("spotId") Long id) throws SpotNotFoundException {
         return ResponseEntity.ok(spotService.getSpotById(id));
     }
 
-    @PostMapping("/comment")
+    @GetMapping("/public/spot/{spotId}/comments")
+    public ResponseEntity<List<CommentDto>> getCommentsBySpotId(@PathVariable Long spotId) throws SpotNotFoundException {
+        return ResponseEntity.ok(spotService.getCommentsBySpotId(spotId));
+    }
+
+    @PostMapping("/spot/comment")
     public ResponseEntity<String> addComment(@RequestBody CommentAddDto commentAddDto,
                                                        HttpServletRequest request)
             throws CommentNotFoundException, SpotNotFoundException {
@@ -45,7 +49,7 @@ public class SpotController {
                 .ok().build();
     }
 
-    @PatchMapping("/comment")
+    @PatchMapping("/spot/comment")
     public ResponseEntity<String> editComment(@RequestBody CommentEditDto commentEditDto,
                                                         HttpServletRequest request)
             throws CommentNotFoundException, InvalidCredentialsException {
@@ -57,7 +61,7 @@ public class SpotController {
                 .ok().build();
     }
 
-    @DeleteMapping("/comment/{commentId}")
+    @DeleteMapping("/spot/comment/{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable("commentId") Long commentId,
                                                           HttpServletRequest request)
             throws CommentNotFoundException, InvalidCredentialsException {

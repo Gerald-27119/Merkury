@@ -4,22 +4,21 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { notificationAction } from "../../../redux/notification.jsx";
 
-export default function CommentForm({ id }) {
-  const spotId = id;
+export default function CommentForm({ spotId }) {
   const [newCommentText, setNewCommentText] = useState("");
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { mutateAsync, isSuccess } = useMutation({
     mutationKey: ["addCommentMutation"],
     mutationFn: addComment,
-    onSuccess: () => {
+    onSuccess: async () => {
       setNewCommentText(""); // Reset the input field
       dispatch(
         notificationAction.setSuccess({
           message: "Comment added successfully!",
         }),
       );
-      queryClient.invalidateQueries("spots");
+      await queryClient.invalidateQueries("comments", spotId);
     },
     onError: (error) => {
       if (error?.response?.data) {

@@ -52,9 +52,7 @@ public class SecurityConfig {
             new AntPathRequestMatcher("/account/oauth2/logout"),
             new AntPathRequestMatcher("/oauth2/**"),
             new AntPathRequestMatcher("/favicon.ico"),
-            new AntPathRequestMatcher("/actuator/**"),
-            new AntPathRequestMatcher("/spot"),
-            new AntPathRequestMatcher("/spot/{spotId}")
+            new AntPathRequestMatcher("/actuator/**")
     );
     private final RequestMatcher privatePathsMatcher = new NegatedRequestMatcher(publicPathsMatcher);
 

@@ -1,26 +1,32 @@
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import Comment from "./Comment.jsx";
+import { useQuery } from "@tanstack/react-query";
+import { getComments } from "../../../http/comments.js";
 
-export default function Comments({ comments, commentsPerPage = 2 }) {
+export default function Comments({ spotId, commentsPerPage = 2 }) {
   const [currentPage, setCurrentPage] = useState(0);
 
-  const pageCount = Math.ceil(comments.length / commentsPerPage);
+  const { data, error } = useQuery({
+    queryFn: () => getComments(spotId),
+    queryKey: ["comments", spotId],
+  });
 
+  const pageCount = Math.ceil(data?.length / commentsPerPage);
+  console.log(data);
   const handlePageClick = (event) => {
     setCurrentPage(event.selected);
   };
 
   const offset = currentPage * commentsPerPage;
-  const currentComments = comments.slice(offset, offset + commentsPerPage);
 
   return (
     <>
-      {comments && comments.length >= 0 ? (
+      {data && data?.length >= 0 ? (
         <div className="border-2 border-neutral-200 px-2.5 py-1 rounded-sm">
           <p className="text-lg">Comments:</p>
           <ul>
-            {currentComments.map((comment) => (
+            {data?.slice(offset, offset + commentsPerPage).map((comment) => (
               <li key={comment.id}>
                 <Comment comment={comment} />
               </li>
