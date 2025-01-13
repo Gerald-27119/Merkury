@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.spot;
 
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.model.dtos.SpotDto;
 import com.merkury.vulcanus.model.mappers.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
@@ -15,11 +16,45 @@ public class SpotService {
 
     private final SpotRepository spotRepository;
 
-    public List<SpotDto> getAllSpots() {
-        return spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
+    private List<SpotDto> getAllSpots() throws SpotsNotFoundException {
+        var allSpots = spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
+        if (allSpots.isEmpty()) {
+            throw new SpotsNotFoundException("Spots not found!");
+        }
+
+        return allSpots;
     }
 
     public SpotDto getSpotById(Long id) throws SpotNotFoundException {
         return spotRepository.findById(id).map(SpotMapper::toDto).orElseThrow(() -> new SpotNotFoundException(id));
+    }
+
+    public List<SpotDto> getFilteredSpots(String name, Double minRating, Double maxRating) throws SpotsNotFoundException {
+        var allSpots = this.getAllSpots();
+        var filteredSpots = allSpots.stream()
+                .filter(spot -> (name.isBlank() || spot.getName().toLowerCase().contains(name.trim().toLowerCase())) &&
+                        (minRating == null || spot.getRating() >= minRating) &&
+                        (maxRating == null || spot.getRating() <= maxRating))
+                .toList();
+        if (filteredSpots.isEmpty()) {
+            throw new SpotsNotFoundException("No spots match filters!");
+        }
+
+        return filteredSpots;
+    }
+
+    public List<String> getFilteredSpotsNames(String text) throws SpotsNotFoundException {
+        var allSpots = this.getAllSpots();
+
+        var spotsNames = allSpots.stream()
+                .map(SpotDto::getName)
+                .filter(spotName -> spotName.toLowerCase().contains(text.trim().toLowerCase()))
+                .toList();
+
+        if (spotsNames.isEmpty()) {
+            throw new SpotsNotFoundException("No spot names found!");
+        }
+
+        return spotsNames;
     }
 }
