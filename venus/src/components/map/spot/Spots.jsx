@@ -2,17 +2,31 @@ import Zone from "../zone/Zone.jsx";
 import { SpotsData } from "../data/spots-data.js";
 import SpotDetails from "./SpotDetails.jsx";
 import { useQuery } from "@tanstack/react-query";
-import { fetchSpotsData } from "../../../http/spotsData.js";
+import { fetchFilteredSpots } from "../../../http/spotsData.js";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { notificationAction } from "../../../redux/notification.jsx";
 
 export default function Spots() {
+  const { name, minRating, maxRating } = useSelector(
+    (state) => state.spotFilters,
+  );
+  const dispatch = useDispatch();
   const { data, error } = useQuery({
-    queryFn: fetchSpotsData,
-    queryKey: ["spots"],
+    queryFn: () => fetchFilteredSpots(name, minRating, maxRating),
+    queryKey: ["spots", "filter", name, minRating, maxRating],
   });
 
-  if (error) {
-    return <div>Error loading spots data</div>;
-  }
+  useEffect(() => {
+    if (error?.response?.data) {
+      dispatch(
+        notificationAction.setError({
+          message: error.response.data,
+        }),
+      );
+    }
+  }, [dispatch, error]);
+
   // For Testing
   // return (
   //   <>
