@@ -6,6 +6,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { spotFiltersAction } from "../../../redux/spot-filters.jsx";
 import { useEffect, useState } from "react";
 import { fetchSpotsNames } from "../../../http/spotsData.js";
+import useDebounce from "../../../hooks/useDebounce.jsx";
 
 export default function SpotsFilters() {
   const [filters, setFilters] = useState({
@@ -13,32 +14,32 @@ export default function SpotsFilters() {
     minRating: 0,
     maxRating: 5,
   });
+  const debounceSpotNamesHints = useDebounce(filters.name, 500);
   const [showHints, setShowHints] = useState(false);
-  const [filteredNames, setFilteredNames] = useState([]);
 
   const { data: spotsNames = [] } = useQuery({
-    queryKey: ["spotsNames", filters.name],
-    queryFn: () => fetchSpotsNames(filters.name),
+    queryKey: ["spotsNames", debounceSpotNamesHints],
+    queryFn: () => fetchSpotsNames(debounceSpotNamesHints),
+    enabled: debounceSpotNamesHints.trim().length > 0,
   });
 
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (filters.name) {
-      setFilteredNames(spotsNames);
+    if (debounceSpotNamesHints) {
       setShowHints(true);
     } else {
       setShowHints(false);
     }
-  }, [filters.name, spotsNames]);
+  }, [debounceSpotNamesHints]);
 
-  const handleNameChange = (e) => {
+  const handleNameChange = async (e) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       name: e.target.value,
     }));
-    queryClient.invalidateQueries(["spotsNames", filters.name]);
+    await queryClient.invalidateQueries(["spotsNames", debounceSpotNamesHints]);
   };
 
   const handleMinRatingChange = (e) => {
@@ -61,7 +62,7 @@ export default function SpotsFilters() {
     queryClient.invalidateQueries([
       "spots",
       "filter",
-      filters.name,
+      debounceSpotNamesHints,
       filters.minRating,
       filters.maxRating,
     ]);
@@ -90,9 +91,9 @@ export default function SpotsFilters() {
           value={filters.name}
           onChange={handleNameChange}
         />
-        {showHints && filteredNames.length > 0 && (
+        {showHints && spotsNames.length > 0 && (
           <ul className="absolute text-base bg-white border border-neutral-950 mt-2 w-full z-50 left-0 top-full shadow-lg">
-            {filteredNames.map((name) => (
+            {spotsNames.map((name) => (
               <li
                 key={name}
                 className="p-2 cursor-pointer hover:bg-gray-200"
