@@ -9,6 +9,8 @@ import ExpandedPhotoGallery from "./ExpandedPhotoGallery.jsx";
 import { photoAction } from "../../../redux/photo.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSpotsDataById } from "../../../http/spotsData.js";
+import { useEffect } from "react";
+import { notificationAction } from "../../../redux/notification.jsx";
 
 export default function SpotDetails() {
   const spotId = useSelector((state) => state.spotDetails.spotId);
@@ -26,6 +28,16 @@ export default function SpotDetails() {
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
+
+  useEffect(() => {
+    if (error?.response?.data) {
+      dispatch(
+        notificationAction.setError({
+          message: error.response.data,
+        }),
+      );
+    }
+  }, [dispatch, error]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -57,7 +69,7 @@ export default function SpotDetails() {
           <Weather weather={spot.weather} />
           <PhotoGallery photos={spot.photos} />
           <div className="overflow-y-auto flex-grow min-h-60">
-            {/*<Comments comments={spot.comments} />*/}
+            <Comments />
           </div>
         </div>
       </div>

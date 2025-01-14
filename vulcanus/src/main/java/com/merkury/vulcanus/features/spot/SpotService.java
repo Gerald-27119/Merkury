@@ -33,9 +33,9 @@ public class SpotService {
     public List<SpotDto> getFilteredSpots(String name, Double minRating, Double maxRating) throws SpotsNotFoundException {
         var allSpots = this.getAllSpots();
         var filteredSpots = allSpots.stream()
-                .filter(spot -> (name.isBlank() || spot.getName().toLowerCase().contains(name.trim().toLowerCase())) &&
-                        (minRating == null || spot.getRating() >= minRating) &&
-                        (maxRating == null || spot.getRating() <= maxRating))
+                .filter(spot -> (name.isBlank() || spot.name().toLowerCase().contains(name.trim().toLowerCase())) &&
+                        (minRating == null || spot.rating() >= minRating) &&
+                        (maxRating == null || spot.rating() <= maxRating))
                 .toList();
         if (filteredSpots.isEmpty()) {
             throw new SpotsNotFoundException("No spots match filters!");
@@ -48,7 +48,7 @@ public class SpotService {
         var allSpots = this.getAllSpots();
 
         var spotsNames = allSpots.stream()
-                .map(SpotDto::getName)
+                .map(SpotDto::name)
                 .filter(spotName -> spotName.toLowerCase().contains(text.trim().toLowerCase()))
                 .toList();
 
