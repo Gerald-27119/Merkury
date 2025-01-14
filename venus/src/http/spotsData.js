@@ -1,15 +1,14 @@
 import axios from "axios";
-
-const API_URL = "http://localhost:8080/spot";
+import BASE_URL from "./baseUrl.js";
 
 export async function fetchFilteredSpots(name, minRating, maxRating) {
   return (
     await axios.get(
-      `${API_URL}/filter?name=${name}&minRating=${minRating}&maxRating=${maxRating}`,
+      `${BASE_URL}/public/spot/filter?name=${name}&minRating=${minRating}&maxRating=${maxRating}`,
     )
   ).data;
 }
 
 export async function fetchSpotsNames(name) {
-  return (await axios.get(`${API_URL}/names?text=${name}`)).data;
+  return (await axios.get(`${BASE_URL}/public/spot/names?text=${name}`)).data;
 }

@@ -11,9 +11,11 @@ export default function Comment({ comment }) {
           <p className="text-xs">{formatPublishDate(comment.publishDate)}</p>
           <p className="text-base">{comment.author}</p>
         </div>
-        <div className="inline-flex">{calculateStars(comment.rating)}</div>
+          <div className="inline-flex">{calculateStars(comment.rating)}</div>
       </div>
-      <div>{comment.text}</div>
+      <div>
+        <p>{comment.text}</p>
+      </div>
     </div>
   );
 }

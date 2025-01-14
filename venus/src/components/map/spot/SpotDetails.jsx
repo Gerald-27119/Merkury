@@ -1,6 +1,7 @@
 import Weather from "./Weather.jsx";
 import PhotoGallery from "./PhotoGallery.jsx";
 import Comments from "./Comments.jsx";
+import CommentForm from "./CommentForm.jsx";
 import Info from "./Info.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { IoCloseOutline } from "react-icons/io5";
@@ -11,9 +12,11 @@ import { useMemo } from "react";
 
 export default function SpotDetails() {
   const spot = useSelector((state) => state.spotDetails.spot);
+  const spotId = spot.id;
   const showDetailsModal = useSelector((state) => state.spotDetails.showModal);
   const expandPhoto = useSelector((state) => state.photo.expandPhoto);
   const dispatch = useDispatch();
+  const isLogged = useSelector((state) => state.account.isLogged);
 
   const averageRating = useMemo(() => {
     return spot.comments.length > 0
@@ -48,8 +51,13 @@ export default function SpotDetails() {
           <Weather weather={spot.weather} />
           <PhotoGallery photos={spot.photos} />
           <div className="overflow-y-auto flex-grow min-h-60">
-            <Comments comments={spot.comments} />
+            <Comments spotId={spotId} />
           </div>
+          {isLogged && (
+            <div>
+              <CommentForm spotId={spotId} />
+            </div>
+          )}
         </div>
       </div>
       {expandPhoto && (
