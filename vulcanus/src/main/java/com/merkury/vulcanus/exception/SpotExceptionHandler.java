@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.exception;
 
+import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import lombok.extern.slf4j.Slf4j;

@@ -73,7 +73,6 @@ public class SpotController {
         return ResponseEntity
                 .ok().build();
     }
-}
 
     @GetMapping("/public/spot/filter")
     public ResponseEntity<List<SpotDto>> getFilteredSpots(
