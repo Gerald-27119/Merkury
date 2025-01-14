@@ -8,25 +8,22 @@ export default function Comments({ spotId, commentsPerPage = 2 }) {
   const [currentPage, setCurrentPage] = useState(0);
 
   const { data, error } = useQuery({
-    queryFn: () => getComments(spotId),
-    queryKey: ["comments", spotId],
+    queryFn: () => getComments(spotId, currentPage, commentsPerPage),
+    queryKey: ["comments", spotId, currentPage, commentsPerPage],
+    keepPreviousData: true,
   });
 
-  const pageCount = Math.ceil(data?.length / commentsPerPage);
-  console.log(data);
   const handlePageClick = (event) => {
     setCurrentPage(event.selected);
   };
 
-  const offset = currentPage * commentsPerPage;
-
   return (
     <>
-      {data && data?.length >= 0 ? (
+      {data && data?.content.length >= 0 ? (
         <div className="border-2 border-neutral-200 px-2.5 py-1 rounded-sm">
           <p className="text-lg">Comments:</p>
           <ul>
-            {data?.slice(offset, offset + commentsPerPage).map((comment) => (
+            {data.content.map((comment) => (
               <li key={comment.id}>
                 <Comment comment={comment} />
               </li>
@@ -44,7 +41,7 @@ export default function Comments({ spotId, commentsPerPage = 2 }) {
         pageRangeDisplayed={1}
         marginPagesDisplayed={1}
         onPageChange={handlePageClick}
-        pageCount={pageCount}
+        pageCount={data?.totalPages || 0}
         containerClassName="flex justify-center space-x-2 mt-1 text-sm"
         pageClassName="bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded cursor-pointer"
         activeClassName="bg-blue-300 text-black"

@@ -11,6 +11,7 @@ import com.merkury.vulcanus.model.mappers.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,8 +48,8 @@ public class SpotService {
         commentService.deleteComment(commentId, request);
     }
 
-    public List<CommentDto> getCommentsBySpotId(Long spotId) throws SpotNotFoundException {
-        return commentService.getCommentsBySpotId(spotId);
+    public Page<CommentDto> getCommentsPageBySpotId(Long spotId, int page, int size) throws SpotNotFoundException {
+        return commentService.getCommentsPageBySpotId(spotId, page, size);
     }
 
     public List<SpotDto> getFilteredSpots(String name, Double minRating, Double maxRating) throws SpotsNotFoundException {

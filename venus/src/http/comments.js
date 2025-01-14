@@ -11,6 +11,9 @@ export async function addComment({ text, spotId }) {
   );
 }
 
-export async function getComments(spotId) {
-  return (await axios.get(`${BASE_URL}/public/spot/${spotId}/comments`)).data;
+export async function getComments(spotId, page, size) {
+  const response = await axios.get(`${BASE_URL}/public/spot/comments`, {
+    params: { spotId, page, size },
+  });
+  return response.data;
 }

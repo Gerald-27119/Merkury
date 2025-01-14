@@ -12,6 +12,7 @@ import com.merkury.vulcanus.model.dtos.SpotDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,20 +25,15 @@ public class SpotController {
 
     private final SpotService spotService;
 
-    @GetMapping("/public/spot")
-    public ResponseEntity<List<SpotDto>> getAllSpots() {
-        return ResponseEntity.ok(spotService.getAllSpots());
-    }
-
     @GetMapping("/public/spot/{spotId}")
     public ResponseEntity<SpotDto> getSpotById(@PathVariable("spotId") Long id) throws SpotNotFoundException {
         log.info("getting spot with id: {}", id);
         return ResponseEntity.ok(spotService.getSpotById(id));
     }
 
-    @GetMapping("/public/spot/{spotId}/comments")
-    public ResponseEntity<List<CommentDto>> getCommentsBySpotId(@PathVariable Long spotId) throws SpotNotFoundException {
-        return ResponseEntity.ok(spotService.getCommentsBySpotId(spotId));
+    @GetMapping("/public/spot/comments")
+    public ResponseEntity<Page<CommentDto>> getCommentsBySpotId(@RequestParam Long spotId, @RequestParam int page, @RequestParam int size) throws SpotNotFoundException {
+        return ResponseEntity.ok(spotService.getCommentsPageBySpotId(spotId, page, size));
     }
 
     @PostMapping("/spot/comment")

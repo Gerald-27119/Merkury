@@ -1,6 +1,5 @@
 package com.merkury.vulcanus.features.spot;
 
-
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
@@ -16,10 +15,12 @@ import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.security.jwt.JwtManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -77,8 +78,9 @@ public class CommentService {
         commentRepository.deleteById(commentId);
     }
 
-    public List<CommentDto> getCommentsBySpotId(Long spotId) throws SpotNotFoundException {
+    public Page<CommentDto> getCommentsPageBySpotId(Long spotId, int page, int size) throws SpotNotFoundException {
         spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
-        return commentRepository.findAllCommentsBySpotIdOrderByPublishDateDesc(spotId).stream().map(CommentMapper::toDto).toList();
+        Pageable pageable = PageRequest.of(page, size);
+        return commentRepository.findAllCommentsBySpotIdOrderByPublishDateDesc(spotId, pageable).map(CommentMapper::toDto);
     }
 }
