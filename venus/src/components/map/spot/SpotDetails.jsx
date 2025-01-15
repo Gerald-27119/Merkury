@@ -8,11 +8,9 @@ import { IoCloseOutline } from "react-icons/io5";
 import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
 import ExpandedPhotoGallery from "./ExpandedPhotoGallery.jsx";
 import { photoAction } from "../../../redux/photo.jsx";
-import { useQuery } from "@tanstack/react-query";
 import { fetchSpotsDataById } from "../../../http/spotsData.js";
 import { useEffect } from "react";
 import { notificationAction } from "../../../redux/notification.jsx";
-import { useMemo } from "react";
 import fetchWeatherData from "../../../http/weather.js";
 import { useQuery } from "@tanstack/react-query";
 
@@ -30,10 +28,7 @@ export default function SpotDetails() {
     staleTime: 1000 * 60 * 5,
   });
 
-  const {
-    data: weather,
-    error: weatherError,
-  } = useQuery({
+  const { data: weather, error: weatherError } = useQuery({
     queryFn: () =>
       fetchWeatherData(
         spot.contourCoordinates[0][0],
