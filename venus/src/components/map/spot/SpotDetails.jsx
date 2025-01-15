@@ -12,6 +12,9 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchSpotsDataById } from "../../../http/spotsData.js";
 import { useEffect } from "react";
 import { notificationAction } from "../../../redux/notification.jsx";
+import { useMemo } from "react";
+import fetchWeatherData from "../../../http/weather.js";
+import { useQuery } from "@tanstack/react-query";
 
 export default function SpotDetails() {
   const spotId = useSelector((state) => state.spotDetails.spotId);
@@ -20,12 +23,26 @@ export default function SpotDetails() {
   const dispatch = useDispatch();
   const isLogged = useSelector((state) => state.account.isLogged);
 
-  const { data: spot, error } = useQuery({
+  const { data: spot, error: spotError } = useQuery({
     queryFn: () => fetchSpotsDataById(spotId),
     queryKey: ["spotDetails", spotId],
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
+
+  const {
+    data: weather,
+    error: weatherError,
+  } = useQuery({
+    queryFn: () =>
+      fetchWeatherData(
+        spot.contourCoordinates[0][0],
+        spot.contourCoordinates[0][1],
+      ),
+    queryKey: ["weather", spotId],
+  });
+
+  let error = spotError || weatherError;
 
   useEffect(() => {
     if (error?.response?.data) {
@@ -61,7 +78,7 @@ export default function SpotDetails() {
               description={spot.description}
               rating={spot.rating}
             />
-            <Weather weather={spot.weather} />
+            <Weather weather={weather} />
             <PhotoGallery photos={spot.photos} />
             <div className="overflow-y-auto flex-grow min-h-60">
               <Comments spotId={spotId} />
