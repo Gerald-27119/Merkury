@@ -36,13 +36,4 @@ public class Img {
     @JoinColumn(name = "spot_id")
     private Spot spot;
 
-    public Img(String url, String alt, String description, Integer likes, Integer views, UserEntity author, Spot spot) {
-        this.url = url;
-        this.alt = alt;
-        this.description = description;
-        this.likes = likes;
-        this.views = views;
-        this.author = author;
-        this.spot = spot;
-    }
 }

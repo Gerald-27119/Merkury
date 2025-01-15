@@ -1,23 +1,54 @@
-import { useMutation } from "@tanstack/react-query";
+
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addComment } from "../../../http/comments.js";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { notificationAction } from "../../../redux/notification.jsx";
 
-export default function CommentForm({ id }) {
-  const spotId = id;
+export default function CommentForm({ spotId }) {
   const [newCommentText, setNewCommentText] = useState("");
-  //const dispatch = useDispatch();
-
-  const { mutate, isSuccess, error } = useMutation({
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+  const { mutateAsync, isSuccess } = useMutation({
+    mutationKey: ["addCommentMutation"],
     mutationFn: addComment,
+    onSuccess: async () => {
+      setNewCommentText(""); // Reset the input field
+      dispatch(
+        notificationAction.setSuccess({
+          message: "Comment added successfully!",
+        }),
+      );
+      await queryClient.invalidateQueries("comments", spotId);
+    },
+    onError: (error) => {
+      if (error?.response?.data) {
+        dispatch(
+          notificationAction.setError({
+            message: error.response.data,
+          }),
+        );
+      } else {
+        dispatch(
+          notificationAction.setError({
+            message: "An unexpected error occurred. Please try again.",
+          }),
+        );
+      }
+    },
   });
   const handleAddComment = async (event) => {
     event.preventDefault();
     if (newCommentText.trim()) {
-      mutate({
+      await mutateAsync({
         text: newCommentText,
         spotId: spotId,
       });
     }
+  };
+
+  const handleCommentChange = (event) => {
+    setNewCommentText(event.target.value);
   };
 
   useEffect(() => {
@@ -33,7 +64,7 @@ export default function CommentForm({ id }) {
           <textarea
             className="w-full border border-stone-300 rounded-sm p-1"
             value={newCommentText}
-            onChange={(e) => setNewCommentText(e.target.value)}
+            onChange={handleCommentChange}
             placeholder="Type coment here..."
           />
         </div>
@@ -45,11 +76,6 @@ export default function CommentForm({ id }) {
             Add Comment
           </button>
         </div>
-        {error && (
-          <p className="text-red-500 mt-2">
-            Error adding comment. Please try again.
-          </p>
-        )}
       </div>
     </>
   );

@@ -1,43 +1,19 @@
-import axios from "axios";
+import axios from "axios";\
+import BASE_URL from "./baseUrl.js";
 
 export async function addComment({ text, spotId }) {
-  try {
-    return await axios.post(
-      `http://localhost:8080/spot/comment/add`,
-      { text, spotId },
-      {
-        withCredentials: true,
-      },
-    );
-  } catch (error) {
-    console.error("Error adding comment:", error.response || error.message);
-  }
+  await axios.post(
+    `${BASE_URL}/spot/comment`,
+    { text, spotId },
+    {
+      withCredentials: true,
+    },
+  );
 }
 
-export async function updateComment({ commentId, text }) {
-  try {
-    return await axios.post(
-      `http://localhost:8080/spot/comment/edit`,
-      { text, commentId },
-      {
-        withCredentials: true,
-      },
-    );
-  } catch (error) {
-    console.error("Error adding comment:", error.response || error.message);
-  }
-}
-
-export async function deleteComment({ commentId }) {
-  try {
-    return await axios.post(
-      `http://localhost:8080/spot/comment/delete/${commentId}`,
-      {},
-      {
-        withCredentials: true,
-      },
-    );
-  } catch (error) {
-    console.error("Error adding comment:", error.response || error.message);
-  }
+export async function getComments(spotId, page, size) {
+  const response = await axios.get(`${BASE_URL}/public/spot/comments`, {
+    params: { spotId, page, size },
+  });
+  return response.data;
 }

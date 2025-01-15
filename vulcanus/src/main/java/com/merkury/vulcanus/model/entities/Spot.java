@@ -29,7 +29,8 @@ public class Spot {
 
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    @OrderBy("publishDate ASC")
+
+    @OrderBy("publishDate DESC")
     private List<Comment> comments = new ArrayList<>();
 
     private Double rating;

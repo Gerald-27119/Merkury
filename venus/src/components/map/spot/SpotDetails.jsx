@@ -18,6 +18,7 @@ export default function SpotDetails() {
   const expandPhoto = useSelector((state) => state.photo.expandPhoto);
   const [weather, setWeather] = useState(null);
   const dispatch = useDispatch();
+  const isLogged = useSelector((state) => state.account.isLogged);
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -63,11 +64,13 @@ export default function SpotDetails() {
           <Weather weather={weather} />
           <PhotoGallery photos={spot.photos} />
           <div className="overflow-y-auto flex-grow min-h-60">
-            <Comments comments={spot.comments} />
+            <Comments spotId={spotId} />
           </div>
-          <div>
-            <CommentForm id={spotId} />
-          </div>
+          {isLogged && (
+            <div>
+              <CommentForm spotId={spotId} />
+            </div>
+          )}
         </div>
       </div>
       {expandPhoto && (
