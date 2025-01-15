@@ -3,12 +3,19 @@ import { WiHumidity } from "react-icons/wi";
 import { GiWindsock } from "react-icons/gi";
 import { useEffect, useMemo, useState } from "react";
 
+function renderTime(time, fallback = "Unv.") {
+  return time !== undefined && time !== 0 && time !== null ? (
+    <time>{time}</time>
+  ) : (
+    <time>{fallback}</time>
+  );
+}
+
 export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
   const maxHeight = useMemo(
     () => Math.max(...winds.map((wind) => wind.height)),
     [winds],
   );
-
   const initialWindSpeed = useMemo(() => winds[0].speed, [winds]);
 
   const [enteredHeight, setEnteredHeight] = useState(0);
@@ -16,7 +23,7 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    const wind = winds.find((wind) => wind.height === enteredHeight);
+    const wind = winds.find((wind) => wind.height >= enteredHeight);
     if (wind) {
       setWindSpeed(wind.speed);
     }
@@ -25,17 +32,11 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
   const handleHeightChange = (event) => {
     setIsError(false);
     const inputValue = event.target.value.replace(/\s*m$/, "");
-    if (!inputValue || isNaN(inputValue)) {
+    if (!inputValue || isNaN(inputValue) || Number(inputValue) < 0) {
       setIsError(true);
       return;
     }
     const value = Number.parseInt(inputValue);
-
-    if (value < 0) {
-      setIsError(true);
-      return;
-    }
-
     setEnteredHeight(value);
   };
 
@@ -47,14 +48,14 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
             size={40}
             className="bg-gradient-to-b from-pink-500 via-red-500 to-orange-500 p-1 rounded-md"
           />
-          <time>{sunrise}</time>
+          {renderTime(sunrise)}
         </div>
         <div className="flex items-center text-xl space-x-3">
           <FiSunset
             size={40}
             className="bg-gradient-to-b from-red-500 via-orange-500 to-yellow-500 p-1 rounded-md"
           />
-          <time>{sunset}</time>
+          {renderTime(sunset)}
         </div>
         <div className="flex items-center text-xl">
           <WiHumidity size={40} className="text-blue-500" />
@@ -88,7 +89,7 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
             type="text"
             value={`${enteredHeight} m`}
             onChange={(event) => handleHeightChange(event)}
-            className="w-1/3 text-lg text-center"
+            className="w-2/3 text-lg text-center"
           />
         </div>
         {isError && (

@@ -1,23 +1,22 @@
-import { IoSunny } from "react-icons/io5";
 import { RiArrowDownWideFill } from "react-icons/ri";
 import { WiThermometer } from "react-icons/wi";
 import { useState } from "react";
 import WeatherDetails from "./WeatherDetails.jsx";
+import GeneralWeather from "./GeneralWeather.jsx";
 
 export default function Weather({ weather }) {
   const [showDetails, setShowDetails] = useState(false);
-
   return (
     <>
       {weather ? (
         <div className="border border-violet-700 rounded-sm p-1 bg-sky-200">
           <div className="flex items-center justify-between">
-            {weather.general === "sunny" && (
-              <IoSunny size={40} className="text-yellow-300 ml-3" />
-            )}
+            <GeneralWeather generalWeather={weather.current.type} />
             <div className="right-0 mr-5 flex items-center">
               <WiThermometer size={30} className="text-red-400" />
-              <p className="text-xl text-white">{weather.temperature}&deg;C</p>
+              <p className="text-xl text-white">
+                {weather.current.temperature2m}&deg;C
+              </p>
             </div>
           </div>
           <div
@@ -27,10 +26,10 @@ export default function Weather({ weather }) {
           >
             {showDetails && (
               <WeatherDetails
-                sunrise={weather.sunrise}
-                sunset={weather.sunset}
-                humidity={weather.humidity}
-                winds={weather.winds}
+                sunrise={weather.daily.sunrise}
+                sunset={weather.daily.sunset}
+                humidity={weather.current.relativeHumidity2m}
+                winds={weather.hourly.winds}
               />
             )}
           </div>

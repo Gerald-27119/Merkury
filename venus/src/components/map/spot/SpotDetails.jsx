@@ -9,6 +9,8 @@ import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
 import ExpandedPhotoGallery from "./ExpandedPhotoGallery.jsx";
 import { photoAction } from "../../../redux/photo.jsx";
 import { useMemo } from "react";
+import fetchWeatherData from "../../../http/weather.js";
+import { useQuery } from "@tanstack/react-query";
 
 export default function SpotDetails() {
   const spot = useSelector((state) => state.spotDetails.spot);
@@ -17,6 +19,19 @@ export default function SpotDetails() {
   const expandPhoto = useSelector((state) => state.photo.expandPhoto);
   const dispatch = useDispatch();
   const isLogged = useSelector((state) => state.account.isLogged);
+
+  const {
+    data: weather,
+    isLoading,
+    error,
+  } = useQuery({
+    queryFn: () =>
+      fetchWeatherData(
+        spot.contourCoordinates[0][0],
+        spot.contourCoordinates[0][1],
+      ),
+    queryKey: ["weather", spotId],
+  });
 
   const averageRating = useMemo(() => {
     return spot.comments.length > 0
@@ -48,7 +63,7 @@ export default function SpotDetails() {
             description={spot.description}
             rating={averageRating}
           />
-          <Weather weather={spot.weather} />
+          <Weather weather={weather} />
           <PhotoGallery photos={spot.photos} />
           <div className="overflow-y-auto flex-grow min-h-60">
             <Comments spotId={spotId} />
