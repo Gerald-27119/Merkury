@@ -7,15 +7,15 @@ import jakarta.validation.constraints.Positive;
 
 import java.util.List;
 
-public record SpotDto(@Positive
+public record GeneralSpotDto(@Positive
                       Long id,
-                      @NotBlank
+                             @NotBlank
                       String areaColor,
-                      @NotBlank
+                             @NotBlank
                       String name,
-                      @Positive
+                             @Positive
                       @Min(0)
                       Double rating,
-                      @NotEmpty
+                             @NotEmpty
                       List<Double[]> contourCoordinates) {
 }

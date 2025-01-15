@@ -11,6 +11,8 @@ export default function Comments({ spotId, commentsPerPage = 2 }) {
     queryFn: () => getComments(spotId, currentPage, commentsPerPage),
     queryKey: ["comments", spotId, currentPage, commentsPerPage],
     keepPreviousData: true,
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5,
   });
 
   const handlePageClick = (event) => {

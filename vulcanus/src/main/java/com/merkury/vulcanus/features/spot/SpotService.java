@@ -4,7 +4,7 @@ import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
-import com.merkury.vulcanus.model.dtos.spot.SpotDto;
+import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.model.dtos.CommentDto;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
@@ -24,7 +24,7 @@ public class SpotService {
     private final SpotRepository spotRepository;
     private final CommentService commentService;
 
-    private List<SpotDto> getAllSpots() throws SpotsNotFoundException {
+    private List<GeneralSpotDto> getAllSpots() throws SpotsNotFoundException {
         var allSpots = spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
         if (allSpots.isEmpty()) {
             throw new SpotsNotFoundException("Spots not found!");
@@ -53,7 +53,7 @@ public class SpotService {
         return commentService.getCommentsPageBySpotId(spotId, page, size);
     }
 
-    public List<SpotDto> getFilteredSpots(String name, Double minRating, Double maxRating) throws SpotsNotFoundException {
+    public List<GeneralSpotDto> getFilteredSpots(String name, Double minRating, Double maxRating) throws SpotsNotFoundException {
         var allSpots = this.getAllSpots();
         var filteredSpots = allSpots.stream()
                 .filter(spot -> (name.isBlank() || spot.name().toLowerCase().contains(name.trim().toLowerCase())) &&
@@ -71,7 +71,7 @@ public class SpotService {
         var allSpots = this.getAllSpots();
 
         var spotsNames = allSpots.stream()
-                .map(SpotDto::name)
+                .map(GeneralSpotDto::name)
                 .filter(spotName -> spotName.toLowerCase().contains(text.trim().toLowerCase()))
                 .toList();
 

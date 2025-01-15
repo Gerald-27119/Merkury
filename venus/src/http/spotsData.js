@@ -14,5 +14,5 @@ export async function fetchSpotsNames(name) {
 }
 
 export async function fetchSpotsDataById(id) {
-  return (await axios.get(`${API_URL}/${id}`)).data;
+  return (await axios.get(`${BASE_URL}/public/spot/${id}`)).data;
 }

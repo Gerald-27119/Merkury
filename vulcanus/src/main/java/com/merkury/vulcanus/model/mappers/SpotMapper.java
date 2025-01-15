@@ -2,7 +2,7 @@ package com.merkury.vulcanus.model.mappers;
 
 import com.merkury.vulcanus.model.dtos.spot.FullSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
-import com.merkury.vulcanus.model.dtos.spot.SpotDto;
+import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.entities.Comment;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.Point;
@@ -15,12 +15,12 @@ public class SpotMapper {
     private SpotMapper() {
     }
 
-    public static SpotDto toDto(Spot spot) {
+    public static GeneralSpotDto toDto(Spot spot) {
         if (spot == null) {
             return null;
         }
 
-        return new SpotDto(
+        return new GeneralSpotDto(
                 spot.getId(),
                 spot.getAreaColor(),
                 spot.getName(),

@@ -6,7 +6,7 @@ import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.features.spot.SpotService;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
-import com.merkury.vulcanus.model.dtos.spot.SpotDto;
+import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.dtos.CommentAddDto;
 import com.merkury.vulcanus.model.dtos.CommentDto;
 import com.merkury.vulcanus.model.dtos.CommentEditDto;
@@ -71,7 +71,7 @@ public class SpotController {
     }
 
     @GetMapping("/public/spot/filter")
-    public ResponseEntity<List<SpotDto>> getFilteredSpots(
+    public ResponseEntity<List<GeneralSpotDto>> getFilteredSpots(
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue = "0") Double minRating,
             @RequestParam(defaultValue = "5") Double maxRating) throws SpotsNotFoundException {
