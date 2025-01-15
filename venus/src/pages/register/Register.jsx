@@ -39,9 +39,9 @@ export default function Register() {
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(accountAction.setIsLogged());
+      dispatch(accountAction.setIsLogged({ username: enteredValue.username }));
     }
-  }, [isSuccess, dispatch]);
+  }, [isSuccess, dispatch, enteredValue.username]);
 
   return (
     <FormContainer
