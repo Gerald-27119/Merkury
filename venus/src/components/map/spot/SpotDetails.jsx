@@ -20,11 +20,7 @@ export default function SpotDetails() {
   const dispatch = useDispatch();
   const isLogged = useSelector((state) => state.account.isLogged);
 
-  const {
-    data: spot,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: spot, error } = useQuery({
     queryFn: () => fetchSpotsDataById(spotId),
     queryKey: ["spotDetails", spotId],
     refetchOnWindowFocus: false,
@@ -41,10 +37,6 @@ export default function SpotDetails() {
     }
   }, [dispatch, error]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="w-full h-full absolute flex">
       <div
@@ -52,33 +44,35 @@ export default function SpotDetails() {
           showDetailsModal && "animate-slideInFromLeft"
         }`}
       >
-        <div className="mx-3 flex flex-col h-full">
-          <div className="flex justify-end mt-3">
-            <IoCloseOutline
-              size={20}
-              className="cursor-pointer text-black hover:bg-red-500 hover:rounded-md hover:text-white"
-              onClick={() => {
-                dispatch(spotDetailsModalAction.handleCloseModal());
-                dispatch(photoAction.handleMinimizePhoto());
-              }}
-            />
-          </div>
-          <Info
-            name={spot.name}
-            description={spot.description}
-            rating={spot.rating}
-          />
-          <Weather weather={spot.weather} />
-          <PhotoGallery photos={spot.photos} />
-          <div className="overflow-y-auto flex-grow min-h-60">
-            <Comments spotId={spotId} />
-          </div>
-          {isLogged && (
-            <div>
-              <CommentForm spotId={spotId} />
+        {spot && (
+          <div className="mx-3 flex flex-col h-full">
+            <div className="flex justify-end mt-3">
+              <IoCloseOutline
+                size={20}
+                className="cursor-pointer text-black hover:bg-red-500 hover:rounded-md hover:text-white"
+                onClick={() => {
+                  dispatch(spotDetailsModalAction.handleCloseModal());
+                  dispatch(photoAction.handleMinimizePhoto());
+                }}
+              />
             </div>
-          )}
-        </div>
+            <Info
+              name={spot.name}
+              description={spot.description}
+              rating={spot.rating}
+            />
+            <Weather weather={spot.weather} />
+            <PhotoGallery photos={spot.photos} />
+            <div className="overflow-y-auto flex-grow min-h-60">
+              <Comments spotId={spotId} />
+            </div>
+            {isLogged && (
+              <div>
+                <CommentForm spotId={spotId} />
+              </div>
+            )}
+          </div>
+        )}
       </div>
       {expandPhoto && (
         <div className="flex-grow h-full z-50">
