@@ -9,24 +9,25 @@ import jakarta.validation.constraints.Positive;
 
 import java.util.List;
 
-public record FullSpotDto(@Positive
+public record FullSpotDto(@Positive(message = "ID must be a positive number.")
                           Long id,
-                          @NotBlank
+                          @NotBlank(message = "Area color cannot be empty.")
                           String areaColor,
-                          @NotBlank
+                          @NotBlank(message = "Name cannot be empty.")
                           String name,
-                          @NotBlank
+                          @NotBlank(message = "Description cannot be empty.")
                           String description,
-                          @Positive
-                          @Min(0)
+                          @Positive(message = "Rating must be a positive number.")
+                          @Min(value = 0, message = "Rating cannot be less than 0.")
                           Double rating,
-                          @Positive
-                          @Min(0)
+                          @Positive(message = "Views count must be a positive number.")
+                          @Min(value = 0, message = "Views count cannot be less than 0.")
                           Integer viewsCount,
-                          @NotEmpty
+                          @NotEmpty(message = "Contour coordinates list cannot be empty.")
                           List<Double[]> contourCoordinates,
-                          @NotEmpty
+                          @NotEmpty(message = "Comments list cannot be empty.")
                           List<CommentDto> comments,
-                          @NotEmpty
-                          List<ImgDto> photos) {
+                          @NotEmpty(message = "Photos list cannot be empty.")
+                          List<ImgDto> photos
+) {
 }
