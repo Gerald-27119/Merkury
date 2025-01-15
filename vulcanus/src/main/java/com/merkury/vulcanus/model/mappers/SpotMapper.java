@@ -7,6 +7,7 @@ import com.merkury.vulcanus.model.entities.Comment;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.Point;
 import com.merkury.vulcanus.model.entities.Spot;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -15,11 +16,7 @@ public class SpotMapper {
     private SpotMapper() {
     }
 
-    public static GeneralSpotDto toDto(Spot spot) {
-        if (spot == null) {
-            return null;
-        }
-
+    public static GeneralSpotDto toDto(@NotNull Spot spot) {
         return new GeneralSpotDto(
                 spot.getId(),
                 spot.getAreaColor(),
@@ -32,11 +29,10 @@ public class SpotMapper {
         );
     }
 
-    public static Spot toEntity(FullSpotDto dto, List<Point> points, List<Comment> comments, List<Img> images) {
-        if (dto == null) {
-            return null;
-        }
-
+    public static Spot toEntity(@NotNull FullSpotDto dto,
+                                @NotNull List<Point> points,
+                                @NotNull List<Comment> comments,
+                                @NotNull List<Img> images) {
         Spot spot = new Spot();
         spot.setAreaColor(dto.areaColor());
         spot.setName(dto.name());
@@ -52,11 +48,7 @@ public class SpotMapper {
         return spot;
     }
 
-    public static SpotDetailsDto toDetailsDto(Spot spot) {
-        if (spot == null) {
-            return null;
-        }
-
+    public static SpotDetailsDto toDetailsDto(@NotNull Spot spot) {
         return new SpotDetailsDto(
                 spot.getId(),
                 spot.getName(),
