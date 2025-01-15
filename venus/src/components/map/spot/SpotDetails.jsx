@@ -8,28 +8,30 @@ import { IoCloseOutline } from "react-icons/io5";
 import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
 import ExpandedPhotoGallery from "./ExpandedPhotoGallery.jsx";
 import { photoAction } from "../../../redux/photo.jsx";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import fetchWeatherData from "../../../http/weather.js";
+import { useQuery } from "@tanstack/react-query";
 
 export default function SpotDetails() {
   const spot = useSelector((state) => state.spotDetails.spot);
   const spotId = spot.id;
   const showDetailsModal = useSelector((state) => state.spotDetails.showModal);
   const expandPhoto = useSelector((state) => state.photo.expandPhoto);
-  const [weather, setWeather] = useState(null);
   const dispatch = useDispatch();
   const isLogged = useSelector((state) => state.account.isLogged);
 
-  useEffect(() => {
-    const fetchWeather = async () => {
-      const weatherData = await fetchWeatherData(
+  const {
+    data: weather,
+    isLoading,
+    error,
+  } = useQuery({
+    queryFn: () =>
+      fetchWeatherData(
         spot.contourCoordinates[0][0],
         spot.contourCoordinates[0][1],
-      );
-      setWeather(weatherData);
-    };
-    fetchWeather();
-  }, [spot]);
+      ),
+    queryKey: ["weather", spotId],
+  });
 
   const averageRating = useMemo(() => {
     return spot.comments.length > 0

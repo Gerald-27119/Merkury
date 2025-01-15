@@ -25,11 +25,7 @@ export default function Comments({ spotId, commentsPerPage = 2 }) {
           <ul>
             {data.content.map((comment) => (
               <li key={comment.id}>
-                <Comment
-                  comment={comment}
-                  //onEdit={handleEditComment()}
-                  //onDelete={handleDeleteComment()}
-                />
+                <Comment comment={comment} />
               </li>
             ))}
           </ul>

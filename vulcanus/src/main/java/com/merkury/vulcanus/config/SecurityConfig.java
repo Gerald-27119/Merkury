@@ -56,6 +56,7 @@ public class SecurityConfig {
     );
     private final RequestMatcher privatePathsMatcher = new NegatedRequestMatcher(publicPathsMatcher);
 
+
     @Bean
     @Order(1)
     public SecurityFilterChain publicSecurityFilterChain(HttpSecurity http) throws Exception {

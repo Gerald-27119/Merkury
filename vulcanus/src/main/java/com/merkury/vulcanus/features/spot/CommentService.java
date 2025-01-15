@@ -62,7 +62,6 @@ public class CommentService {
 
         comment.setText(text);
         commentRepository.save(comment);
-
     }
 
     public void deleteComment(Long commentId, HttpServletRequest request) throws CommentNotFoundException, InvalidCredentialsException {

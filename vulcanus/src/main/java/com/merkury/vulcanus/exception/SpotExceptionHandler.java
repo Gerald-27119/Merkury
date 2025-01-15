@@ -30,9 +30,4 @@ public class SpotExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleCommentNotFoundException(CommentNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
-
-    @ExceptionHandler(CommentNotFoundException.class)
-    public ResponseEntity<String> handleCommentNotFoundException(CommentNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
 }

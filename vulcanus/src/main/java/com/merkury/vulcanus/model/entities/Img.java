@@ -35,5 +35,4 @@ public class Img {
     @ManyToOne
     @JoinColumn(name = "spot_id")
     private Spot spot;
-
 }

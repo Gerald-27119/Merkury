@@ -31,7 +31,6 @@ public class SpotController {
         return ResponseEntity.ok(spotService.getSpotById(id));
     }
 
-
     @GetMapping("/public/spot/comments")
     public ResponseEntity<Page<CommentDto>> getCommentsBySpotId(@RequestParam Long spotId, @RequestParam int page, @RequestParam int size) throws SpotNotFoundException {
         return ResponseEntity.ok(spotService.getCommentsPageBySpotId(spotId, page, size));
@@ -54,7 +53,6 @@ public class SpotController {
             throws CommentNotFoundException, InvalidCredentialsException {
 
         log.info("Editing comment, id:" + commentEditDto.commentId() + "...");
-
         spotService.editComment(commentEditDto.commentId(), commentEditDto.text() , request);
         log.info("Edited comment successfully! id:" + commentEditDto.commentId() + "!");
         return ResponseEntity

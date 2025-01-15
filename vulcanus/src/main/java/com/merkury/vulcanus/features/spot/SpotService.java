@@ -80,5 +80,4 @@ public class SpotService {
 
         return spotsNames;
     }
-
 }

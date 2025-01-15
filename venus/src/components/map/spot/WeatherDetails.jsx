@@ -3,6 +3,14 @@ import { WiHumidity } from "react-icons/wi";
 import { GiWindsock } from "react-icons/gi";
 import { useEffect, useMemo, useState } from "react";
 
+function renderTime(time, fallback = "Unv.") {
+  return time !== undefined && time !== 0 && time !== null ? (
+    <time>{time}</time>
+  ) : (
+    <time>{fallback}</time>
+  );
+}
+
 export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
   const maxHeight = useMemo(
     () => Math.max(...winds.map((wind) => wind.height)),
@@ -40,22 +48,14 @@ export default function WeatherDetails({ sunrise, sunset, humidity, winds }) {
             size={40}
             className="bg-gradient-to-b from-pink-500 via-red-500 to-orange-500 p-1 rounded-md"
           />
-          {sunrise !== undefined && sunrise !== 0 ? (
-            <time>{sunrise}</time>
-          ) : (
-            <time>Unv.</time>
-          )}
+          {renderTime(sunrise)}
         </div>
         <div className="flex items-center text-xl space-x-3">
           <FiSunset
             size={40}
             className="bg-gradient-to-b from-red-500 via-orange-500 to-yellow-500 p-1 rounded-md"
           />
-          {sunset !== undefined && sunset !== 0 ? (
-            <time>{sunset}</time>
-          ) : (
-            <time>Unv.</time>
-          )}
+          {renderTime(sunset)}
         </div>
         <div className="flex items-center text-xl">
           <WiHumidity size={40} className="text-blue-500" />
