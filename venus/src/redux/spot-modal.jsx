@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   showModal: false,
-  spot: null,
+  spotId: null,
 };
 
 export const spotDetailsModalSlice = createSlice({
@@ -15,8 +15,8 @@ export const spotDetailsModalSlice = createSlice({
     handleCloseModal(state) {
       state.showModal = false;
     },
-    setSpot(state, action) {
-      state.spot = action.payload;
+    setSpotId(state, action) {
+      state.spotId = action.payload;
     },
   },
 });

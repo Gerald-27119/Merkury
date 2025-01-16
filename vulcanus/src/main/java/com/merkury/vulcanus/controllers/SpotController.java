@@ -5,10 +5,11 @@ import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.features.spot.SpotService;
+import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
+import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.dtos.CommentAddDto;
 import com.merkury.vulcanus.model.dtos.CommentDto;
 import com.merkury.vulcanus.model.dtos.CommentEditDto;
-import com.merkury.vulcanus.model.dtos.SpotDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +25,8 @@ import java.util.List;
 public class SpotController {
 
     private final SpotService spotService;
-
     @GetMapping("/public/spot/{spotId}")
-    public ResponseEntity<SpotDto> getSpotById(@PathVariable("spotId") Long id) throws SpotNotFoundException {
+    public ResponseEntity<SpotDetailsDto> getSpotById(@PathVariable("spotId") Long id) throws SpotNotFoundException {
         log.info("getting spot with id: {}", id);
         return ResponseEntity.ok(spotService.getSpotById(id));
     }
@@ -71,7 +71,7 @@ public class SpotController {
     }
 
     @GetMapping("/public/spot/filter")
-    public ResponseEntity<List<SpotDto>> getFilteredSpots(
+    public ResponseEntity<List<GeneralSpotDto>> getFilteredSpots(
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue = "0") Double minRating,
             @RequestParam(defaultValue = "5") Double maxRating) throws SpotsNotFoundException {

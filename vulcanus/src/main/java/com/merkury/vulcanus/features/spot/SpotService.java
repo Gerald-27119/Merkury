@@ -3,10 +3,11 @@ package com.merkury.vulcanus.features.spot;
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
+import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
+import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.model.dtos.CommentDto;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
-import com.merkury.vulcanus.model.dtos.SpotDto;
 import com.merkury.vulcanus.model.mappers.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +24,7 @@ public class SpotService {
     private final SpotRepository spotRepository;
     private final CommentService commentService;
 
-    private List<SpotDto> getAllSpots() throws SpotsNotFoundException {
+    private List<GeneralSpotDto> getAllSpots() throws SpotsNotFoundException {
         var allSpots = spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
         if (allSpots.isEmpty()) {
             throw new SpotsNotFoundException("Spots not found!");
@@ -32,8 +33,8 @@ public class SpotService {
         return allSpots;
     }
 
-    public SpotDto getSpotById(Long id) throws SpotNotFoundException {
-        return spotRepository.findById(id).map(SpotMapper::toDto).orElseThrow(() -> new SpotNotFoundException(id));
+    public SpotDetailsDto getSpotById(Long id) throws SpotNotFoundException {
+        return spotRepository.findById(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
 
     public void addComment(String text, Long spotId, HttpServletRequest request) throws SpotNotFoundException, UserNotFoundException {
@@ -52,12 +53,12 @@ public class SpotService {
         return commentService.getCommentsPageBySpotId(spotId, page, size);
     }
 
-    public List<SpotDto> getFilteredSpots(String name, Double minRating, Double maxRating) throws SpotsNotFoundException {
+    public List<GeneralSpotDto> getFilteredSpots(String name, Double minRating, Double maxRating) throws SpotsNotFoundException {
         var allSpots = this.getAllSpots();
         var filteredSpots = allSpots.stream()
-                .filter(spot -> (name.isBlank() || spot.getName().toLowerCase().contains(name.trim().toLowerCase())) &&
-                        (minRating == null || spot.getRating() >= minRating) &&
-                        (maxRating == null || spot.getRating() <= maxRating))
+                .filter(spot -> (name.isBlank() || spot.name().toLowerCase().contains(name.trim().toLowerCase())) &&
+                        (minRating == null || spot.rating() >= minRating) &&
+                        (maxRating == null || spot.rating() <= maxRating))
                 .toList();
         if (filteredSpots.isEmpty()) {
             throw new SpotsNotFoundException("No spots match filters!");
@@ -70,7 +71,7 @@ public class SpotService {
         var allSpots = this.getAllSpots();
 
         var spotsNames = allSpots.stream()
-                .map(SpotDto::getName)
+                .map(GeneralSpotDto::name)
                 .filter(spotName -> spotName.toLowerCase().contains(text.trim().toLowerCase()))
                 .toList();
 

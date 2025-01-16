@@ -12,3 +12,7 @@ export async function fetchFilteredSpots(name, minRating, maxRating) {
 export async function fetchSpotsNames(name) {
   return (await axios.get(`${BASE_URL}/public/spot/names?text=${name}`)).data;
 }
+
+export async function fetchSpotsDataById(id) {
+  return (await axios.get(`${BASE_URL}/public/spot/${id}`)).data;
+}

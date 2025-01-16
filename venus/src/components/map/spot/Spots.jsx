@@ -1,5 +1,4 @@
 import Zone from "../zone/Zone.jsx";
-import { SpotsData } from "../data/spots-data.js";
 import SpotDetails from "./SpotDetails.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { fetchFilteredSpots } from "../../../http/spotsData.js";
@@ -12,9 +11,12 @@ export default function Spots() {
     (state) => state.spotFilters,
   );
   const dispatch = useDispatch();
+
   const { data, error } = useQuery({
     queryFn: () => fetchFilteredSpots(name, minRating, maxRating),
     queryKey: ["spots", "filter", name, minRating, maxRating],
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5,
   });
 
   useEffect(() => {
@@ -26,20 +28,6 @@ export default function Spots() {
       );
     }
   }, [dispatch, error]);
-
-  // For Testing
-  // return (
-  //   <>
-  //     {SpotsData.map((spot) => (
-  //       <Zone
-  //         key={spot.id}
-  //         zone={spot}
-  //         color="green"
-  //         DetailsComponent={SpotDetails}
-  //       />
-  //     ))}
-  //   </>
-  // );
 
   return (
     <>
