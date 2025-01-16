@@ -11,7 +11,7 @@ import com.merkury.vulcanus.model.dtos.CommentAddDto;
 import com.merkury.vulcanus.model.dtos.CommentDto;
 import com.merkury.vulcanus.model.dtos.CommentEditDto;
 import jakarta.servlet.http.HttpServletRequest;
-import com.merkury.vulcanus.model.dtos.FavouriteSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.FavouriteSpotDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

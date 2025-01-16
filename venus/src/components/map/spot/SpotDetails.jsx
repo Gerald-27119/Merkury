@@ -22,14 +22,12 @@ export default function SpotDetails() {
   const dispatch = useDispatch();
   const isLogged = useSelector((state) => state.account.isLogged);
 
-  console.log(spotId);
   const { data: spot, error: spotError } = useQuery({
     queryFn: () => fetchSpotsDataById(spotId),
     queryKey: ["spotDetails", spotId],
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
-  console.log(spot);
 
   const { data: weather, error: weatherError } = useQuery({
     queryFn: () =>
@@ -59,29 +57,6 @@ export default function SpotDetails() {
           showDetailsModal && "animate-slideInFromLeft"
         }`}
       >
-        <div className="mx-3 flex flex-col h-full">
-          <div className="flex justify-end mt-3">
-            <IoCloseOutline
-              size={20}
-              className="cursor-pointer text-black hover:bg-red-500 hover:rounded-md hover:text-white"
-              onClick={() => {
-                dispatch(spotDetailsModalAction.handleCloseModal());
-                dispatch(photoAction.handleMinimizePhoto());
-              }}
-            />
-          </div>
-          <Info
-            name={spot.name}
-            description={spot.description}
-            rating={averageRating}
-          />
-          {/*{isLogged && <AddTofavouritesButton spotId={spotId} />}*/}
-          <Weather weather={spot.weather} />
-          <PhotoGallery photos={spot.photos} />
-          <div className="overflow-y-auto flex-grow min-h-60">
-            <Comments comments={spot.comments} />
-          </div>
-        </div>
         {spot && (
           <div className="mx-3 flex flex-col h-full">
             <div className="flex justify-end mt-3">
@@ -99,6 +74,7 @@ export default function SpotDetails() {
               description={spot.description}
               rating={spot.rating}
             />
+            {isLogged && <AddTofavouritesButton spotId={spotId} />}
             <Weather weather={weather} />
             <PhotoGallery photos={spot.photos} />
             <div className="overflow-y-auto flex-grow min-h-60">

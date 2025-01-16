@@ -26,7 +26,6 @@ export default function AddTofavouritesButton({ spotId }) {
     try {
       await mutationAdd.mutateAsync(spotId);
       await queryClient.invalidateQueries(["isFavourite", spotId]);
-      console.log("Spot added to favourites!");
     } catch (error) {
       console.log("Error adding spot to favourites:", error);
     }

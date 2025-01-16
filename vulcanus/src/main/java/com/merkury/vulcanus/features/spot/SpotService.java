@@ -11,7 +11,7 @@ import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.model.dtos.CommentDto;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
-import com.merkury.vulcanus.model.dtos.FavouriteSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.FavouriteSpotDto;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.mappers.FavouriteSpotMapper;
 import com.merkury.vulcanus.model.mappers.SpotMapper;

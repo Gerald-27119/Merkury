@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.model.mappers;
 
-import com.merkury.vulcanus.model.dtos.FavouriteSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.FavouriteSpotDto;
 import com.merkury.vulcanus.model.entities.Spot;
 
 import java.util.stream.Collectors;
