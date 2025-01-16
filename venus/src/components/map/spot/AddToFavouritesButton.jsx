@@ -9,7 +9,7 @@ import Button from "../../../pages/account/Button.jsx";
 export default function AddTofavouritesButton({ spotId }) {
   const queryClient = useQueryClient();
 
-  const { data, error } = useQuery({
+  const { data } = useQuery({
     queryFn: () => isSpotFavourite(spotId),
     queryKey: ["isFavourite", spotId],
   });
