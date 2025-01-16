@@ -1,56 +1,44 @@
 package com.merkury.vulcanus.model.mappers;
 
-import com.merkury.vulcanus.model.dtos.SpotDto;
+import com.merkury.vulcanus.model.dtos.spot.FullSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
+import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.entities.Comment;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.Point;
 import com.merkury.vulcanus.model.entities.Spot;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SpotMapper {
 
-    public static SpotDto toDto(Spot spot) {
-        if (spot == null) {
-            return null;
-        }
-
-        return SpotDto.builder()
-                .id(spot.getId())
-                .areaColor(spot.getAreaColor())
-                .name(spot.getName())
-                .description(spot.getDescription())
-
-                .contourCoordinates(spot.getBorderPoints().stream()
-                        .map(point -> new Double[]{point.getX(), point.getY()})
-                        .collect(Collectors.toList()))
-
-                .comments(spot.getComments().stream()
-                        .map(CommentMapper::toDto)
-                        .collect(Collectors.toList()))
-
-                .rating(spot.getRating())
-                .viewsCount(spot.getViewsCount())
-
-                .photos(spot.getImages().stream()
-                        .map(ImgMapper::toDto)
-                        .collect(Collectors.toList()))
-
-                .build();
+    private SpotMapper() {
     }
 
-    public static Spot toEntity(SpotDto dto, List<Point> points, List<Comment> comments, List<Img> images) {
-        if (dto == null) {
-            return null;
-        }
+    public static GeneralSpotDto toDto(@NotNull Spot spot) {
+        return new GeneralSpotDto(
+                spot.getId(),
+                spot.getAreaColor(),
+                spot.getName(),
+                spot.getRating(),
+                spot.getBorderPoints()
+                        .stream()
+                        .map(point -> new Double[]{point.getX(), point.getY()})
+                        .toList()
+        );
+    }
 
+    public static Spot toEntity(@NotNull FullSpotDto dto,
+                                @NotNull List<Point> points,
+                                @NotNull List<Comment> comments,
+                                @NotNull List<Img> images) {
         Spot spot = new Spot();
-        spot.setAreaColor(dto.getAreaColor());
-        spot.setName(dto.getName());
-        spot.setDescription(dto.getDescription());
-        spot.setRating(dto.getRating());
-        spot.setViewsCount(dto.getViewsCount());
+        spot.setAreaColor(dto.areaColor());
+        spot.setName(dto.name());
+        spot.setDescription(dto.description());
+        spot.setRating(dto.rating());
+        spot.setViewsCount(dto.viewsCount());
 
         spot.setBorderPoints(points);
 
@@ -58,6 +46,19 @@ public class SpotMapper {
         spot.setImages(images);
 
         return spot;
+    }
+
+    public static SpotDetailsDto toDetailsDto(@NotNull Spot spot) {
+        return new SpotDetailsDto(
+                spot.getId(),
+                spot.getName(),
+                spot.getDescription(),
+                spot.getRating(),
+                spot.getViewsCount(),
+                spot.getImages()
+                        .stream()
+                        .map(ImgMapper::toDto)
+                        .toList());
     }
 }
 

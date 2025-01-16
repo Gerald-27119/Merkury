@@ -1,16 +1,18 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import SignOutButton from "../../pages/account/SignOutButton.jsx";
 import { useSelector } from "react-redux";
+import SpotsFilters from "../../components/map/filters/SpotsFilters.jsx";
 
 export default function Header() {
+  const { pathname } = useLocation();
   const activeClassNames =
     "underline underline-offset-7 decoration-text-fuchsia-100 decoration-2";
 
   const isLogged = useSelector((state) => state.account.isLogged);
 
   return (
-    <header className="bg-gray-800 text-white p-4 flex w-full text-3xl">
-      <nav className="flex gap-20 w-full justify-center">
+    <header className="bg-gray-800 p-4 flex w-full text-3xl flex-col justify-center">
+      <nav className="flex gap-20 w-full justify-center text-white">
         <NavLink
           to="/"
           end
@@ -36,6 +38,7 @@ export default function Header() {
         </NavLink>
         {isLogged && <SignOutButton />}
       </nav>
+      {pathname === "/" && <SpotsFilters />}
     </header>
   );
 }
