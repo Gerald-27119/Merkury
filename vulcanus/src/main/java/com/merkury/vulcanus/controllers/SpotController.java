@@ -12,11 +12,8 @@ import com.merkury.vulcanus.model.dtos.CommentDto;
 import com.merkury.vulcanus.model.dtos.CommentEditDto;
 import jakarta.servlet.http.HttpServletRequest;
 import com.merkury.vulcanus.model.dtos.FavouriteSpotDto;
-import com.merkury.vulcanus.model.dtos.SpotDto;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -31,10 +28,11 @@ import java.util.List;
 public class SpotController {
 
     private final SpotService spotService;
+
     @GetMapping("/public/spot/{spotId}")
-    public ResponseEntity<SpotDetailsDto> getSpotById(@PathVariable("spotId") Long id) throws SpotNotFoundException {
-        log.info("getting spot with id: {}", id);
-        return ResponseEntity.ok(spotService.getSpotById(id));
+    public ResponseEntity<SpotDetailsDto> getSpotById(@PathVariable Long spotId) throws SpotNotFoundException {
+        log.info("getting spot with id: {}", spotId);
+        return ResponseEntity.ok(spotService.getSpotById(spotId));
     }
 
     @GetMapping("/public/spot/comments")
@@ -90,7 +88,7 @@ public class SpotController {
         log.info("getting spots names");
         return ResponseEntity.ok(spotService.getFilteredSpotsNames(text));
     }
-    @GetMapping("/favourites")
+    @GetMapping("/spot/favourites")
     public ResponseEntity<Page<FavouriteSpotDto>> getUserFavouriteSpots(HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
         int defaultPageSize = 5;
         Page<FavouriteSpotDto> favourites = spotService.getUserFavouriteSpots(request, PageRequest.of(page, defaultPageSize));
@@ -98,20 +96,20 @@ public class SpotController {
         return ResponseEntity.ok(favourites);
     }
 
-    @PutMapping("/favourites/add")
-    public ResponseEntity<String> addSpotToFavourites(HttpServletRequest request, @RequestParam Long spotId) {
+    @PutMapping("/spot/favourites/add/{spotId}")
+    public ResponseEntity<String> addSpotToFavourites(HttpServletRequest request, @PathVariable Long spotId) {
         spotService.addSpotToFavourites(request, spotId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PutMapping("/favourites/remove")
-    public ResponseEntity<String> removeSpotFromFavourites(HttpServletRequest request, @RequestParam Long spotId) {
+    @PutMapping("/spot/favourites/remove/{spotId}")
+    public ResponseEntity<String> removeSpotFromFavourites(HttpServletRequest request, @PathVariable Long spotId) {
         spotService.removeSpotFromFavourites(request, spotId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/favourites/check")
-    public ResponseEntity<Boolean> isSpotFavourite(HttpServletRequest request, @RequestParam Long spotId) {
+    @GetMapping("/spot/favourites/{spotId}")
+    public ResponseEntity<Boolean> isSpotFavourite(HttpServletRequest request, @PathVariable Long spotId) {
         return ResponseEntity.ok(spotService.isSpotFavourite(request, spotId));
     }
 }

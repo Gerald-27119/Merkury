@@ -29,8 +29,6 @@ public class PopulateDbsService {
     private final UserEntityRepository userEntityRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final SpotRepository spotRepository;
-    private final CommentRepository commentRepository;
-    private final ImgRepository imgRepository;
 
     @Transactional
     public void initPostgresDb() {

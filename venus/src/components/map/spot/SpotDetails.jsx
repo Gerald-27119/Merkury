@@ -13,7 +13,6 @@ import { useEffect } from "react";
 import { notificationAction } from "../../../redux/notification.jsx";
 import fetchWeatherData from "../../../http/weather.js";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
 import AddTofavouritesButton from "./AddToFavouritesButton.jsx";
 
 export default function SpotDetails() {
@@ -23,12 +22,14 @@ export default function SpotDetails() {
   const dispatch = useDispatch();
   const isLogged = useSelector((state) => state.account.isLogged);
 
+  console.log(spotId);
   const { data: spot, error: spotError } = useQuery({
     queryFn: () => fetchSpotsDataById(spotId),
     queryKey: ["spotDetails", spotId],
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
+  console.log(spot);
 
   const { data: weather, error: weatherError } = useQuery({
     queryFn: () =>
@@ -74,7 +75,7 @@ export default function SpotDetails() {
             description={spot.description}
             rating={averageRating}
           />
-          {isLogged && <AddTofavouritesButton spotId={spotId} />}
+          {/*{isLogged && <AddTofavouritesButton spotId={spotId} />}*/}
           <Weather weather={spot.weather} />
           <PhotoGallery photos={spot.photos} />
           <div className="overflow-y-auto flex-grow min-h-60">

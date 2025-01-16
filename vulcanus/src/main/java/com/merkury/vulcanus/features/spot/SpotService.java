@@ -12,16 +12,13 @@ import com.merkury.vulcanus.model.dtos.CommentDto;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
 import com.merkury.vulcanus.model.dtos.FavouriteSpotDto;
-import com.merkury.vulcanus.model.dtos.SpotDto;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.mappers.FavouriteSpotMapper;
 import com.merkury.vulcanus.model.mappers.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -76,8 +73,6 @@ public class SpotService {
         if (filteredSpots.isEmpty()) {
             throw new SpotsNotFoundException("No spots match filters!");
         }
-    private final UserEntityRepository userEntityRepository;
-    private final UserDataService userDataService;
 
         return filteredSpots;
     }
