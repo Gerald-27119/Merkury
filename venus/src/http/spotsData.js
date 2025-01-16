@@ -6,9 +6,13 @@ export async function fetchSpotsData() {
   return (await axios.get(API_URL)).data;
 }
 
-export async function fetchUserFavouriteSpots() {
-  return (await axios.get(API_URL + "/favourites", { withCredentials: true }))
-    .data;
+export async function fetchUserFavouriteSpots(page) {
+  return (
+    await axios.get(API_URL + "/favourites", {
+      params: { page },
+      withCredentials: true,
+    })
+  ).data;
 }
 
 export async function addSpotToFavourites(spotId) {

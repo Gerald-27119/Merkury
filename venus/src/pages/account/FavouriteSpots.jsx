@@ -5,13 +5,17 @@ import {
 } from "../../http/spotsData.js";
 import FavouriteSpot from "../../components/map/spot/FavouriteSpot.jsx";
 import DefaultView from "../../components/DefaultView.jsx";
+import { useState } from "react";
+import ReactPaginate from "react-paginate";
 
 export default function FavouriteSpots() {
   const queryClient = useQueryClient();
-
+  const [currentPage, setCurrentPage] = useState(0);
   const { data, error, isLoading } = useQuery({
-    queryFn: fetchUserFavouriteSpots,
-    queryKey: ["favouriteSpots"],
+    queryFn: () => fetchUserFavouriteSpots(currentPage),
+    queryKey: ["favouriteSpots", currentPage],
+    keepPreviousData: true,
+    staleTime: 10 * 60 * 1000,
   });
 
   const mutationRemove = useMutation({
@@ -27,6 +31,10 @@ export default function FavouriteSpots() {
     }
   };
 
+  const handlePageChange = (event) => {
+    setCurrentPage(event.selected);
+  };
+
   return (
     <DefaultView>
       <h1 className="text-center text-2xl text-white font-bold pb-8">
@@ -36,16 +44,35 @@ export default function FavouriteSpots() {
       {isLoading && <div>Loading...</div>}
       {error && <div>Error loading favourite spots</div>}
 
-      {data && data.length > 0 ? (
-        data.map((spot) => (
-          <FavouriteSpot
-            key={spot.id}
-            spot={spot}
-            handleRemove={handleRemove}
+      {!isLoading && data && data.content.length > 0 ? (
+        <>
+          {data.content.map((spot) => (
+            <FavouriteSpot
+              key={spot.id}
+              spot={spot}
+              handleRemove={handleRemove}
+            />
+          ))}
+
+          <ReactPaginate
+            previousLabel={"<"}
+            nextLabel={">"}
+            breakLabel={"..."}
+            pageCount={data.totalPages}
+            initialPage={currentPage}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={2}
+            onPageChange={handlePageChange}
+            containerClassName="flex justify-center items-center space-x-2 mt-6"
+            pageLinkClassName="px-4 py-2 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
+            activeLinkClassName="!bg-blue-500 !text-white !border-blue-500"
+            nextLinkClassName="px-4 py-2 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
+            previousLinkClassName="px-4 py-2 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
+            disabledLinkClassName="opacity-50 cursor-not-allowed"
           />
-        ))
+        </>
       ) : (
-        <p className="text-center text-gray-700">No spots available</p>
+        <p className="text-center">No spots available</p>
       )}
     </DefaultView>
   );

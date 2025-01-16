@@ -61,7 +61,7 @@ public class UserEntity implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "spot_id")
     )
-    private Set<Spot> favoriteSpots = new HashSet<>();
+    private List<Spot> favoriteSpots = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     private UserRole userRole;

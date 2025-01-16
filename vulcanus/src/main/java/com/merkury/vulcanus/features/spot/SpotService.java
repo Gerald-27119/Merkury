@@ -1,14 +1,20 @@
 package com.merkury.vulcanus.features.spot;
 
+import com.merkury.vulcanus.exception.exceptions.SpotAlreadyFavouriteException;
+import com.merkury.vulcanus.exception.exceptions.SpotNotFavouriteException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
+import com.merkury.vulcanus.model.dtos.FavouriteSpotDto;
 import com.merkury.vulcanus.model.dtos.SpotDto;
 import com.merkury.vulcanus.model.entities.Spot;
+import com.merkury.vulcanus.model.mappers.FavouriteSpotMapper;
 import com.merkury.vulcanus.model.mappers.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,9 +35,11 @@ public class SpotService {
         return spotRepository.findById(id).map(SpotMapper::toDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
 
-    public List<SpotDto> getUserFavouriteSpots(HttpServletRequest request) {
+    public Page<FavouriteSpotDto> getUserFavouriteSpots(HttpServletRequest request, Pageable pageable) {
         var user = userDataService.getUserFromRequest(request);
-        return user.getFavoriteSpots().stream().map(SpotMapper::toDto).toList();
+        Page<Spot> favouriteSpotsPage = userEntityRepository.findPagedFavouriteSpotsByUserId(user.getId(), pageable);
+
+        return favouriteSpotsPage.map(FavouriteSpotMapper::toDto);
     }
 
     public void addSpotToFavourites(HttpServletRequest request, Long spotId) {
@@ -39,9 +47,8 @@ public class SpotService {
         var spot = getSpotByIdOrThrow(spotId);
 
         if (user.getFavoriteSpots().contains(spot)) {
-            throw new IllegalStateException("Spot is already in the user's favourites");
+            throw new SpotAlreadyFavouriteException();
         }
-
         user.getFavoriteSpots().add(spot);
         userEntityRepository.save(user);
     }
@@ -51,9 +58,8 @@ public class SpotService {
         var spot = getSpotByIdOrThrow(spotId);
 
         if (!user.getFavoriteSpots().contains(spot)) {
-            throw new IllegalStateException("Spot is not in the user's favourites");
+            throw new SpotNotFavouriteException();
         }
-
         user.getFavoriteSpots().remove(spot);
         userEntityRepository.save(user);
     }
@@ -66,7 +72,6 @@ public class SpotService {
     }
 
     private Spot getSpotByIdOrThrow(Long spotId) {
-        return spotRepository.findById(spotId)
-                .orElseThrow(() -> new SpotNotFoundException(spotId));
+        return spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
     }
 }
