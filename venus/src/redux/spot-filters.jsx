@@ -10,7 +10,7 @@ export const spotFiltersSlice = createSlice({
   initialState,
   reducers: {
     setFilters(state, action) {
-      state.name = action.payload.name || state.name;
+      state.name = action.payload.name;
       state.minRating =
         action.payload.minRating !== undefined
           ? action.payload.minRating
