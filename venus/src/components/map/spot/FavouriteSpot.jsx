@@ -2,10 +2,7 @@ import Button from "../../../pages/account/Button.jsx";
 
 export default function FavouriteSpot({ spot, handleRemove }) {
   return (
-    <div
-      key={spot.id}
-      className="flex items-center justify-between bg-white rounded-md p-4 mb-4 shadow-md"
-    >
+    <div className="flex items-center justify-between bg-white rounded-md p-4 mb-4 shadow-md">
       {spot.photos && spot.photos.length > 0 ? (
         <img
           src={spot.photos[0].img}

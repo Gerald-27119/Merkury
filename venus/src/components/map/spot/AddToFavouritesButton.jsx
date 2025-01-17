@@ -14,17 +14,17 @@ export default function AddTofavouritesButton({ spotId }) {
     queryKey: ["isFavourite", spotId],
   });
 
-  const mutationAdd = useMutation({
+  const { mutateAsync: mutateAdd, error: errorAdd } = useMutation({
     mutationFn: addSpotToFavourites,
   });
 
-  const mutationRemove = useMutation({
+  const { mutateAsync: mutateRemove, error: errorRemove } = useMutation({
     mutationFn: removeSpotFromFavourites,
   });
 
   const handleAdd = async () => {
     try {
-      await mutationAdd.mutateAsync(spotId);
+      await mutateAdd(spotId);
       await queryClient.invalidateQueries(["isFavourite", spotId]);
     } catch (error) {
       console.log("Error adding spot to favourites:", error);
@@ -33,7 +33,7 @@ export default function AddTofavouritesButton({ spotId }) {
 
   const handleRemove = async () => {
     try {
-      await mutationRemove.mutateAsync(spotId);
+      await mutateRemove(spotId);
       await queryClient.invalidateQueries(["isFavourite", spotId]);
     } catch (error) {
       console.log("Error removing spot from favourites:", error);

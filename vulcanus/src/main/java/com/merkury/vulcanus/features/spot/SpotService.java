@@ -99,7 +99,7 @@ public class SpotService {
         return favouriteSpotsPage.map(FavouriteSpotMapper::toDto);
     }
 
-    public void addSpotToFavourites(HttpServletRequest request, Long spotId) {
+    public void addSpotToFavourites(HttpServletRequest request, Long spotId) throws SpotNotFoundException, SpotAlreadyFavouriteException {
         var user = userDataService.getUserFromRequest(request);
         var spot = getSpotByIdOrThrow(spotId);
 
@@ -110,7 +110,7 @@ public class SpotService {
         userEntityRepository.save(user);
     }
 
-    public void removeSpotFromFavourites(HttpServletRequest request, Long spotId) {
+    public void removeSpotFromFavourites(HttpServletRequest request, Long spotId) throws SpotNotFoundException, SpotNotFavouriteException {
         var user = userDataService.getUserFromRequest(request);
         var spot = getSpotByIdOrThrow(spotId);
 
@@ -121,14 +121,14 @@ public class SpotService {
         userEntityRepository.save(user);
     }
 
-    public Boolean isSpotFavourite(HttpServletRequest request, Long spotId){
+    public Boolean isSpotFavourite(HttpServletRequest request, Long spotId) throws SpotNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var spot = getSpotByIdOrThrow(spotId);
 
         return user.getFavoriteSpots().contains(spot);
     }
 
-    private Spot getSpotByIdOrThrow(Long spotId) {
+    private Spot getSpotByIdOrThrow(Long spotId) throws SpotNotFoundException {
         return spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
     }
 }

@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.controllers;
 
-import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
-import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.spot.SpotService;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
@@ -96,20 +93,20 @@ public class SpotController {
         return ResponseEntity.ok(favourites);
     }
 
-    @PutMapping("/spot/favourites/add/{spotId}")
-    public ResponseEntity<String> addSpotToFavourites(HttpServletRequest request, @PathVariable Long spotId) {
+    @PatchMapping("/spot/favourites/add/{spotId}")
+    public ResponseEntity<String> addSpotToFavourites(HttpServletRequest request, @PathVariable Long spotId) throws SpotNotFoundException, SpotAlreadyFavouriteException {
         spotService.addSpotToFavourites(request, spotId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PutMapping("/spot/favourites/remove/{spotId}")
-    public ResponseEntity<String> removeSpotFromFavourites(HttpServletRequest request, @PathVariable Long spotId) {
+    @PatchMapping("/spot/favourites/remove/{spotId}")
+    public ResponseEntity<String> removeSpotFromFavourites(HttpServletRequest request, @PathVariable Long spotId) throws SpotNotFoundException, SpotNotFavouriteException {
         spotService.removeSpotFromFavourites(request, spotId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("/spot/favourites/{spotId}")
-    public ResponseEntity<Boolean> isSpotFavourite(HttpServletRequest request, @PathVariable Long spotId) {
+    public ResponseEntity<Boolean> isSpotFavourite(HttpServletRequest request, @PathVariable Long spotId) throws SpotNotFoundException {
         return ResponseEntity.ok(spotService.isSpotFavourite(request, spotId));
     }
 }

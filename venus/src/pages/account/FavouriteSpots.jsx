@@ -4,7 +4,7 @@ import {
   removeSpotFromFavourites,
 } from "../../http/spotsData.js";
 import FavouriteSpot from "../../components/map/spot/FavouriteSpot.jsx";
-import DefaultView from "../../components/DefaultView.jsx";
+import MainContainer from "../../components/MainContainer.jsx";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 
@@ -36,7 +36,7 @@ export default function FavouriteSpots() {
   };
 
   return (
-    <DefaultView>
+    <MainContainer>
       <h1 className="text-center text-2xl text-white font-bold pb-8">
         Your favourite spots
       </h1>
@@ -46,13 +46,13 @@ export default function FavouriteSpots() {
 
       {!isLoading && data && data.content.length > 0 ? (
         <>
-          {data.content.map((spot) => (
-            <FavouriteSpot
-              key={spot.id}
-              spot={spot}
-              handleRemove={handleRemove}
-            />
-          ))}
+          <ul>
+            {data.content.map((spot) => (
+              <li key={spot.id}>
+                <FavouriteSpot spot={spot} handleRemove={handleRemove} />
+              </li>
+            ))}
+          </ul>
 
           <ReactPaginate
             previousLabel={"<"}
@@ -74,6 +74,6 @@ export default function FavouriteSpots() {
       ) : (
         <p className="text-center">No spots available</p>
       )}
-    </DefaultView>
+    </MainContainer>
   );
 }

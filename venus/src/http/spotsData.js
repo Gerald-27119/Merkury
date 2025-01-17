@@ -27,15 +27,19 @@ export async function fetchUserFavouriteSpots(page) {
 }
 
 export async function addSpotToFavourites(spotId) {
-  return await axios.put(`${BASE_URL}/spot/favourites/add/${spotId}`, null, {
+  return await axios.patch(`${BASE_URL}/spot/favourites/add/${spotId}`, null, {
     withCredentials: true,
   });
 }
 
 export async function removeSpotFromFavourites(spotId) {
-  return await axios.put(`${BASE_URL}/spot/favourites/remove/${spotId}`, null, {
-    withCredentials: true,
-  });
+  return await axios.patch(
+    `${BASE_URL}/spot/favourites/remove/${spotId}`,
+    null,
+    {
+      withCredentials: true,
+    },
+  );
 }
 
 export async function isSpotFavourite(spotId) {

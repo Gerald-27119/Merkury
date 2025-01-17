@@ -40,7 +40,7 @@ public class SpotExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(SpotNotFavouriteException.class)
     public ResponseEntity<String> handleSpotNotFavouriteException(SpotNotFavouriteException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
 }
