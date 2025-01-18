@@ -5,45 +5,78 @@ import {
   isSpotFavourite,
 } from "../../../http/spotsData.js";
 import Button from "../../../pages/account/Button.jsx";
+import { useDispatch } from "react-redux";
+import { notificationAction } from "../../../redux/notification.jsx";
+import JwtError from "../../../components/error/JwtError.jsx";
 
-export default function AddTofavouritesButton({ spotId }) {
+export default function AddToFavouritesButton({ spotId }) {
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
-  const { data } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryFn: () => isSpotFavourite(spotId),
     queryKey: ["isFavourite", spotId],
   });
 
-  const { mutateAsync: mutateAdd, error: errorAdd } = useMutation({
+  const { mutateAsync: mutateAdd } = useMutation({
     mutationFn: addSpotToFavourites,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["isFavourite", spotId]);
+      dispatch(
+        notificationAction.setSuccess({
+          message: "Spot added to favourites!",
+        }),
+      );
+    },
+    onError: () => {
+      dispatch(
+        notificationAction.setError({
+          message: "Failed to add spot to favourites. Please try again later.",
+        }),
+      );
+    },
   });
 
-  const { mutateAsync: mutateRemove, error: errorRemove } = useMutation({
+  const { mutateAsync: mutateRemove } = useMutation({
     mutationFn: removeSpotFromFavourites,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["isFavourite", spotId]);
+      dispatch(
+        notificationAction.setSuccess({
+          message: "Spot removed from favourites!",
+        }),
+      );
+    },
+    onError: () => {
+      dispatch(
+        notificationAction.setError({
+          message:
+            "Failed to remove spot from favourites. Please try again later.",
+        }),
+      );
+    },
   });
 
-  const handleAdd = async () => {
-    try {
-      await mutateAdd(spotId);
-      await queryClient.invalidateQueries(["isFavourite", spotId]);
-    } catch (error) {
-      console.log("Error adding spot to favourites:", error);
-    }
-  };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-  const handleRemove = async () => {
-    try {
+  if (error) {
+    return <JwtError error={error} />;
+  }
+
+  const handleClick = async () => {
+    if (data) {
       await mutateRemove(spotId);
-      await queryClient.invalidateQueries(["isFavourite", spotId]);
-    } catch (error) {
-      console.log("Error removing spot from favourites:", error);
+    } else {
+      await mutateAdd(spotId);
     }
   };
 
   return (
     <div>
       <Button
-        onClick={!data ? handleAdd : handleRemove}
+        onClick={handleClick}
         classNames={`p-2 rounded-md text-white ${
           data ? "bg-red-600 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700"
         }`}

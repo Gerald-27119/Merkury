@@ -1,15 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  fetchUserFavouriteSpots,
-  removeSpotFromFavourites,
-} from "../../http/spotsData.js";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserFavouriteSpots } from "../../http/spotsData.js";
 import FavouriteSpot from "../../components/map/spot/FavouriteSpot.jsx";
 import MainContainer from "../../components/MainContainer.jsx";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 
 export default function FavouriteSpots() {
-  const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(0);
   const { data, error, isLoading } = useQuery({
     queryFn: () => fetchUserFavouriteSpots(currentPage),
@@ -18,16 +14,9 @@ export default function FavouriteSpots() {
     staleTime: 10 * 60 * 1000,
   });
 
-  const mutationRemove = useMutation({
-    mutationFn: removeSpotFromFavourites,
-  });
-
-  const handleRemove = async (spotId) => {
-    try {
-      await mutationRemove.mutateAsync(spotId);
-      await queryClient.invalidateQueries("favouriteSpots");
-    } catch (error) {
-      console.log("Error removing spot from favourites:", error);
+  const handlePageAfterRemove = () => {
+    if (data && data.content.length === 1 && currentPage > 0) {
+      setCurrentPage((prev) => prev - 1);
     }
   };
 
@@ -49,7 +38,11 @@ export default function FavouriteSpots() {
           <ul>
             {data.content.map((spot) => (
               <li key={spot.id}>
-                <FavouriteSpot spot={spot} handleRemove={handleRemove} />
+                <FavouriteSpot
+                  spot={spot}
+                  currentPage={currentPage}
+                  onRemove={handlePageAfterRemove}
+                />
               </li>
             ))}
           </ul>

@@ -87,7 +87,7 @@ public class SpotController {
     }
     @GetMapping("/spot/favourites")
     public ResponseEntity<Page<FavouriteSpotDto>> getUserFavouriteSpots(HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
-        int defaultPageSize = 5;
+        int defaultPageSize = 2;
         Page<FavouriteSpotDto> favourites = spotService.getUserFavouriteSpots(request, PageRequest.of(page, defaultPageSize));
 
         return ResponseEntity.ok(favourites);
