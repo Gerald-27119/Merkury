@@ -21,5 +21,7 @@ public record SpotDetailsDto(@Positive(message = "ID must be a positive number."
                              @Min(value = 0, message = "Views count cannot be less than 0.")
                              Integer viewsCount,
                              @NotEmpty(message = "Photos list cannot be empty.")
-                             List<ImgDto> photos) {
+                             List<ImgDto> photos,
+                             @NotEmpty(message = "Coordinates cannot be empty.")
+                             Double[] firstCoordinates) {
 }
