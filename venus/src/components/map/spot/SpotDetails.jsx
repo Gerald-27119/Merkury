@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { notificationAction } from "../../../redux/notification.jsx";
 import fetchWeatherData from "../../../http/weather.js";
 import { useQuery } from "@tanstack/react-query";
+import AddTofavouritesButton from "./AddToFavouritesButton.jsx";
 
 export default function SpotDetails() {
   const spotId = useSelector((state) => state.spotDetails.spotId);
@@ -78,6 +79,7 @@ export default function SpotDetails() {
               description={spot.description}
               rating={spot.rating}
             />
+            {isLogged && <AddTofavouritesButton spotId={spotId} />}
             {weatherLoading ? (
               <div className="flex justify-center items-center h-20">
                 <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>

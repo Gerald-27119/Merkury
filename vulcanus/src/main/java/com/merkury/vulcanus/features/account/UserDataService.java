@@ -8,6 +8,7 @@ import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
 import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
 import com.merkury.vulcanus.model.dtos.UserEditDataDto;
+import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.security.jwt.JwtManager;
@@ -40,6 +41,14 @@ public class UserDataService {
     private final PasswordEncoder passwordEncoder;
     private final JwtManager jwtManager;
     private final JwtService jwtService;
+
+    public UserEntity getUserFromRequest(HttpServletRequest request) {
+        String token = jwtManager.getJWTFromCookie(request);
+        String username = jwtManager.getUsernameFromJWT(token);
+
+        return userEntityRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User with provided id doesn't exist!"));
+    }
 
     public GetUserBasicInfoDto getUserData(HttpServletRequest request) {
         String token = jwtManager.getJWTFromCookie(request);
