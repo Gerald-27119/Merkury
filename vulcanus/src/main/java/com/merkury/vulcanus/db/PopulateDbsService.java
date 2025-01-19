@@ -29,8 +29,6 @@ public class PopulateDbsService {
     private final UserEntityRepository userEntityRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final SpotRepository spotRepository;
-    private final CommentRepository commentRepository;
-    private final ImgRepository imgRepository;
 
     @Transactional
     public void initPostgresDb() {
@@ -363,63 +361,63 @@ public class PopulateDbsService {
             commentList1.add(comment);
         }
 
-        List<Img> gallery1 = asList(
-                new Img(null, "https://upload.wikimedia.org/wikipedia/commons/8/8f/John_III_Sobieski_Monument_in_Gda%C5%84sk_2669.JPG", "pomnik", "pomnik", 0, 0, user, spot1),
-                new Img(null, "https://gaps.gda.pl/wp-content/uploads/2021/09/SM_065-1-1024x681.jpg", "pomnik", "pomnik", 0, 0, user, spot1),
-                new Img(null, "https://i1.nocimg.pl/d6/416/158-gdansk-pomnik-jana-iii-sobieskiego.jpg", "pomnik", "pomnik", 0, 0, user, spot1)
+        List<Img> gallery1 = Arrays.asList(
+                new Img(null, "https://lh3.googleusercontent.com/d/1J4_BtivXgNKGf4dFpvxjdxXfllW1HTcr", "pomnik", "pomnik", 0, 0, user, spot1),
+                new Img(null, "https://lh3.googleusercontent.com/d/1xyS6gNVeTgKBCs5uctu3ISwzOJ7CRZUC", "pomnik", "pomnik", 0, 0, user, spot1),
+                new Img(null, "https://lh3.googleusercontent.com/d/1g10-_SsUwVlB2rD-cu89X0XLAa4xZY29", "pomnik", "pomnik", 0, 0, user, spot1)
         );
 
-        List<Img> gallery2 = asList(
-                new Img(null, "https://lh5.googleusercontent.com/p/AF1QipONWLJ_OEhtiG9pHEZbmmBNZiaQuVG82uROLoj9=w408-h306-k-no", "skwer", "skwer", 0, 0, user, spot2),
-                new Img(null, "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Gda%C5%84sk_Skwer_Czes%C5%82awa_Niemena.JPG/2560px-Gda%C5%84sk_Skwer_Czes%C5%82awa_Niemena.JPG", "skwer", "skwer", 0, 0, user, spot2),
-                new Img(null, "https://s-trojmiasto.pl/zdj/c/n/9/2986/750x600/2986010-Zielen-na-terenie-skweru-Niemena.webp", "skwer", "skwer", 0, 0, user, spot2)
+        List<Img> gallery2 = Arrays.asList(
+                new Img(null, "https://lh3.googleusercontent.com/d/1vjqnIOG93OtFfIcq9xcvSMXV1Yxe_aln", "skwer", "skwer", 0, 0, user, spot2),
+                new Img(null, "https://lh3.googleusercontent.com/d/1XMsLfEF65LMlqitRTWlsee9yI4ncXv8H", "skwer", "skwer", 0, 0, user, spot2),
+                new Img(null, "https://lh3.googleusercontent.com/d/1MjD6IwvVz-Z0O16cwZwY_L_FNFbPbTO1", "skwer", "skwer", 0, 0, user, spot2)
         );
 
-        List<Img> gallery3 = asList(
-                new Img(null, "https://s-trojmiasto.pl/zdj/c/n/9/2922/1920x0/2922075-Obecnie-to-nieco-zapomniany-teren-ktory-czeka-na-rewitalizacje.webp", "park wałowy", "park wałowy", 0, 0, user, spot3),
-                new Img(null, "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=gmCXVf6Sftf-V9WiIuwVUg&cb_client=search.gws-prod.gps&w=408&h=240&yaw=232.89917&pitch=0&thumbfov=100", "park wałowy", "park wałowy", 0, 0, user, spot3),
-                new Img(null, "https://s-trojmiasto.pl/zdj/c/n/9/2331/1500x0/2331938-Obecnie-plac-Walowy-to-zaniedbane-miejsce.webp", "park wałowy", "park wałowy", 0, 0, user, spot3)
+        List<Img> gallery3 = Arrays.asList(
+                new Img(null, "https://lh3.googleusercontent.com/d/1DgIH0iKDgbnvAV7cEpHPrSIffrt4umvl", "park wałowy", "park wałowy", 0, 0, user, spot3),
+                new Img(null, "https://lh3.googleusercontent.com/d/1wkG_4lPPY300NdBA3O8mmC5zN56ZsVXh", "park wałowy", "park wałowy", 0, 0, user, spot3),
+                new Img(null, "https://lh3.googleusercontent.com/d/12Nv4RC3jqB7K-_D2vSZBwJ0a4WF41JN5", "park wałowy", "park wałowy", 0, 0, user, spot3)
         );
 
-        List<Img> gallery4 = asList(
-                new Img(null, "https://lh5.googleusercontent.com/p/AF1QipMBnWPy-4MYt0WQbIC8HafWEPN7GwTl6I7XrWdN=w408-h544-k-no", "park", "park", 0, 0, user, spot4),
-                new Img(null, "https://lh5.googleusercontent.com/p/AF1QipMT3elr7EwlwKnqxpmGfoQ2lOlYxR213NagDzOK=w408-h725-k-no", "park", "park", 0, 0, user, spot4),
-                new Img(null, "https://gdansk.gedanopedia.pl/images/6/63/Pomnik_kwiat.JPG", "park", "park", 0, 0, user, spot4)
+        List<Img> gallery4 = Arrays.asList(
+                new Img(null, "https://lh3.googleusercontent.com/d/14f_jGNXnNJLNo0hJaiDE0G5kugud3TIg", "park", "park", 0, 0, user, spot4),
+                new Img(null, "https://lh3.googleusercontent.com/d/1Zd-b4kyj7LJieg85PteTiIBCjKBnQGK9", "park", "park", 0, 0, user, spot4),
+                new Img(null, "https://lh3.googleusercontent.com/d/1iJvpHSBHxERkgr2rOA3W6tofn331FTfX", "park", "park", 0, 0, user, spot4)
         );
 
-        List<Img> gallery5 = asList(
-                new Img(null, "https://d-art.ppstatic.pl/kadry/k/r/75/0b/59b1497fa1405_o_original.jpg", "jar", "jar", 0, 0, user, spot5),
-                new Img(null, "https://s-trojmiasto.pl/zdj/c/n/9/2189/1500x0/2189954-We-wschodniej-czesci-jaru-powstaly-m-in-pola-do-minigolfa-stoly-pingpongowe-oraz-plac-sasiedzki.webp", "jar", "jar", 0, 0, user, spot5),
-                new Img(null, "https://foto.cloudgdansk.pl/foto/Jar_Wilanowski_81897_1280px.JPG", "jar", "jar", 0, 0, user, spot5)
+        List<Img> gallery5 = Arrays.asList(
+                new Img(null, "https://lh3.googleusercontent.com/d/1SvakIJR_FeXt4ySPwCM5PIiMi_D00AP0", "jar", "jar", 0, 0, user, spot5),
+                new Img(null, "https://lh3.googleusercontent.com/d/1jOI-9e4CjttjImKcgEP30eBkEeAzI-SP", "jar", "jar", 0, 0, user, spot5),
+                new Img(null, "https://lh3.googleusercontent.com/d/16127OXRWoQp7-q7ToKewFjjtIxFNl4s4", "jar", "jar", 0, 0, user, spot5)
         );
 
-        List<Img> gallery6 = asList(
-                new Img(null, "https://gaps.gda.pl/wp-content/uploads/2021/08/SM_031-1-1024x681.jpg", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6),
-                new Img(null, "https://upload.wikimedia.org/wikipedia/commons/a/ab/Gdansk-plac_Kobzdeja-obelisk-Herbert.jpg", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6),
-                new Img(null, "https://upload.wikimedia.org/wikipedia/commons/c/cd/Gda%C5%84sk_plac_Kobzdeja.JPG", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6)
+        List<Img> gallery6 = Arrays.asList(
+                new Img(null, "https://lh3.googleusercontent.com/d/1TsbUFw4OISEa-jHXeuO6PyFpsP3H-2i5", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6),
+                new Img(null, "https://lh3.googleusercontent.com/d/1GTQ04HD147i934PheVwA56NjL2zDuRIa", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6),
+                new Img(null, "https://lh3.googleusercontent.com/d/1pmN2Pw3xEyyGTakf835CCzTqRtMPuwN2", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6)
         );
 
-        List<Img> gallery7 = asList(
-                new Img(null, "https://lh5.googleusercontent.com/p/AF1QipPV2HWroKJF1MEQ542bKpmIlLGNj42dNJM2N2w=w408-h306-k-no", "wrona", "wrona", 0, 0, user, spot7),
-                new Img(null, "https://files.cloudgdansk.pl/files/objects/thumb/10155_275.jpg", "wrona", "wrona", 0, 0, user, spot7),
-                new Img(null, "https://ibedeker.pl/wp-content/gallery/wronia-gorka/img_2006.jpg", "wrona", "wrona", 0, 0, user, spot7)
+        List<Img> gallery7 = Arrays.asList(
+                new Img(null, "https://lh3.googleusercontent.com/d/1-HJnw3DYEF_uG6Ns10gBNPkCbg_s4ZZV", "wrona", "wrona", 0, 0, user, spot7),
+                new Img(null, "https://lh3.googleusercontent.com/d/18zoDX1ETDIEsKDZzZpD8I79wsZAsw1Mi", "wrona", "wrona", 0, 0, user, spot7),
+                new Img(null, "https://lh3.googleusercontent.com/d/1k9VAhDzRrnIAM2BbKERttwW2aMG4Cis4", "wrona", "wrona", 0, 0, user, spot7)
         );
 
-        List<Img> gallery8 = asList(
-                new Img(null, "https://lh5.googleusercontent.com/p/AF1QipMF6_xAfFIKoVnLYaW5agOblgtiDZUomDBDUuCt=w408-h306-k-no", "plaża", "plaża", 0, 0, user, spot8),
-                new Img(null, "https://stogi.info.pl/wp-content/uploads/2024/02/Kompleksowy_przewodnik_po_plazy_Jelitkowo_atrakcje_historia_i_ciekawostki_2-1080x675.jpg", "plaża", "plaża", 0, 0, user, spot8),
-                new Img(null, "https://i.ytimg.com/vi/hs9TdD8TZd4/maxresdefault.jpg", "plaża", "plaża", 0, 0, user, spot8)
+        List<Img> gallery8 = Arrays.asList(
+                new Img(null, "https://lh3.googleusercontent.com/d/1ZHZle8PmbNyTCkbgOnwSAjrQAnYmR80G", "plaża", "plaża", 0, 0, user, spot8),
+                new Img(null, "https://lh3.googleusercontent.com/d/1LUlzuddI8pd-ptF6viMn2Xzl4qh4sUTr", "plaża", "plaża", 0, 0, user, spot8),
+                new Img(null, "https://lh3.googleusercontent.com/d/15jWJ8Fmt7jXZNlLh3klPhzcHe995zkbL", "plaża", "plaża", 0, 0, user, spot8)
         );
 
-        List<Img> gallery9 = asList(
-                new Img(null, "https://d-art.ppstatic.pl/kadry/k/r/9c/65/5df1faf14a73e_o_large.jpg", "orunia", "orunia", 0, 0, user, spot9),
-                new Img(null, "https://lh5.googleusercontent.com/p/AF1QipOL4nY6WdI-icmazsrcesbFB9zkd1WSsgQFSnah=w408-h306-k-no", "orunia", "orunia", 0, 0, user, spot9),
-                new Img(null, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRR-F1umTowNMlCuAQNZwmd6p4Xet-hQg0bQ&s", "orunia", "orunia", 0, 0, user, spot9)
+        List<Img> gallery9 = Arrays.asList(
+                new Img(null, "https://lh3.googleusercontent.com/d/1SR-ft17f_8j0bjn_7I3EAjTUCPTiW3nP", "orunia", "orunia", 0, 0, user, spot9),
+                new Img(null, "https://lh3.googleusercontent.com/d/1NEalkqOXoRrVNswZGo1ftb9KczI8BNde", "orunia", "orunia", 0, 0, user, spot9),
+                new Img(null, "https://lh3.googleusercontent.com/d/1-AbYbbjZj_yTQJpNpLSOWcbXap_JO-3n", "orunia", "orunia", 0, 0, user, spot9)
         );
 
-        List<Img> gallery10 = asList(
-                new Img(null, "https://lh5.googleusercontent.com/p/AF1QipPfl720UMdhBi_3zoXU2qJJ2QJABydhihYSO3WX=w408-h306-k-no", "workout", "workout", 0, 0, user, spot10),
-                new Img(null, "https://files.cloudgdansk.pl/files/objects/thumb/10276_275.jpg", "workout", "workout", 0, 0, user, spot10)
+        List<Img> gallery10 = Arrays.asList(
+                new Img(null, "https://lh3.googleusercontent.com/d/1jKIQK6u2zcdsydVL-zC601-dOSL752nv", "workout", "workout", 0, 0, user, spot10),
+                new Img(null, "https://lh3.googleusercontent.com/d/1HjmEcx-9Fk5pg16IcrLUs9cK6S0-0Ufq", "workout", "workout", 0, 0, user, spot10)
         );
 
 

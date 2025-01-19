@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { notificationAction } from "../../../redux/notification.jsx";
 import fetchWeatherData from "../../../http/weather.js";
 import { useQuery } from "@tanstack/react-query";
+import AddTofavouritesButton from "./AddToFavouritesButton.jsx";
 
 export default function SpotDetails() {
   const spotId = useSelector((state) => state.spotDetails.spotId);
@@ -73,6 +74,7 @@ export default function SpotDetails() {
               description={spot.description}
               rating={spot.rating}
             />
+            {isLogged && <AddTofavouritesButton spotId={spotId} />}
             <Weather weather={weather} />
             <PhotoGallery photos={spot.photos} />
             <div className="overflow-y-auto flex-grow min-h-60">

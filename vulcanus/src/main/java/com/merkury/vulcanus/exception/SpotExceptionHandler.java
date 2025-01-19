@@ -1,6 +1,8 @@
 package com.merkury.vulcanus.exception;
 
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.SpotAlreadyFavouriteException;
+import com.merkury.vulcanus.exception.exceptions.SpotNotFavouriteException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -30,4 +32,15 @@ public class SpotExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleCommentNotFoundException(CommentNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    @ExceptionHandler(SpotAlreadyFavouriteException.class)
+    public ResponseEntity<String> handleSpotAlreadyFavouriteException(SpotAlreadyFavouriteException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(SpotNotFavouriteException.class)
+    public ResponseEntity<String> handleSpotNotFavouriteException(SpotNotFavouriteException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
 }
