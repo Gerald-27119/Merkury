@@ -184,8 +184,6 @@ public class PopulateDbsService {
                 .images(new ArrayList<>())
                 .build();
 
-        spotRepository.saveAll(List.of(spot1, spot2, spot3, spot4, spot5, spot6, spot7, spot8, spot9, spot10));
-
         List<Point> contour1 = asList(
                 new Point(54.352223, 18.647865, spot1),
                 new Point(54.352293, 18.648729, spot1),

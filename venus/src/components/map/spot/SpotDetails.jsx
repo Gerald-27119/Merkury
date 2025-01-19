@@ -29,13 +29,18 @@ export default function SpotDetails() {
     staleTime: 1000 * 60 * 5,
   });
 
-  const { data: weather, error: weatherError } = useQuery({
+  const {
+    data: weather,
+    isLoading: weatherLoading,
+    error: weatherError,
+  } = useQuery({
     queryFn: () =>
       fetchWeatherData(
-        spot.contourCoordinates[0][0],
-        spot.contourCoordinates[0][1],
+        spot.weatherApiCallCoords[0],
+        spot.weatherApiCallCoords[1],
       ),
     queryKey: ["weather", spotId],
+    enabled: !!spot,
   });
 
   let error = spotError || weatherError;
@@ -75,7 +80,13 @@ export default function SpotDetails() {
               rating={spot.rating}
             />
             {isLogged && <AddTofavouritesButton spotId={spotId} />}
-            <Weather weather={weather} />
+            {weatherLoading ? (
+              <div className="flex justify-center items-center h-20">
+                <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            ) : (
+              <Weather weather={weather} />
+            )}
             <PhotoGallery photos={spot.photos} />
             <div className="overflow-y-auto flex-grow min-h-60">
               <Comments spotId={spotId} />
