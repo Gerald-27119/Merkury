@@ -23,5 +23,5 @@ public record SpotDetailsDto(@Positive(message = "ID must be a positive number."
                              @NotEmpty(message = "Photos list cannot be empty.")
                              List<ImgDto> photos,
                              @NotEmpty(message = "Coordinates cannot be empty.")
-                             Double[] firstCoordinates) {
+                             Double[] weatherApiCallCoords) {
 }

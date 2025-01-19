@@ -34,9 +34,12 @@ export default function SpotDetails() {
     error: weatherError,
   } = useQuery({
     queryFn: () =>
-      fetchWeatherData(spot.firstCoordinates[0], spot.firstCoordinates[1]),
+      fetchWeatherData(
+        spot.weatherApiCallCoords[0],
+        spot.weatherApiCallCoords[1],
+      ),
     queryKey: ["weather", spotId],
-    enabled: !!spot.firstCoordinates,
+    enabled: !!spot,
   });
 
   let error = spotError || weatherError;

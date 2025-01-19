@@ -59,9 +59,7 @@ public class SpotMapper {
                         .stream()
                         .map(ImgMapper::toDto)
                         .toList(),
-                spot.getBorderPoints().isEmpty()
-                        ? null
-                        : new Double[]{
+                new Double[]{
                         spot.getBorderPoints().getFirst().getX(),
                         spot.getBorderPoints().getFirst().getY()
                 });
