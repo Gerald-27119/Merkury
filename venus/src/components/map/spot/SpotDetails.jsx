@@ -36,7 +36,7 @@ export default function SpotDetails() {
     queryFn: () =>
       fetchWeatherData(spot.firstCoordinates[0], spot.firstCoordinates[1]),
     queryKey: ["weather", spotId],
-    enabled: !!spot,
+    enabled: !!spot.firstCoordinates,
   });
 
   let error = spotError || weatherError;
