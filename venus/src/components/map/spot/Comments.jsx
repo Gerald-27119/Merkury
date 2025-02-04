@@ -3,16 +3,34 @@ import ReactPaginate from "react-paginate";
 import Comment from "./Comment.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { getComments } from "../../../http/comments.js";
+import { notificationAction } from "../../../redux/notification.jsx";
+import { useDispatch } from "react-redux";
 
 export default function Comments({ spotId, commentsPerPage = 2 }) {
   const [currentPage, setCurrentPage] = useState(0);
-
-  const { data } = useQuery({
+  const dispatch = useDispatch();
+  const { data, error } = useQuery({
     queryFn: () => getComments(spotId, currentPage, commentsPerPage),
     queryKey: ["comments", spotId, currentPage, commentsPerPage],
     keepPreviousData: true,
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
+    onError: (error) => {
+      if (error?.response?.data) {
+        dispatch(
+          notificationAction.setError({
+            message:
+              "An error occured while loading comments: " + error.response.data,
+          }),
+        );
+      } else {
+        dispatch(
+          notificationAction.setError({
+            message: "An error occured while loading comments.",
+          }),
+        );
+      }
+    },
   });
 
   const handlePageClick = (event) => {
@@ -21,6 +39,22 @@ export default function Comments({ spotId, commentsPerPage = 2 }) {
 
   return (
     <>
+      {/*{error ? (*/}
+      {/*  <p className="text-red-500">Failed to load comments.</p>*/}
+      {/*) : data && data?.content.length >= 0 ? (*/}
+      {/*  <div className="border-2 border-neutral-200 px-2.5 py-1 rounded-sm">*/}
+      {/*    <p className="text-lg">Comments:</p>*/}
+      {/*    <ul>*/}
+      {/*      {data.content.map((comment) => (*/}
+      {/*        <li key={comment.id}>*/}
+      {/*          <Comment comment={comment} />*/}
+      {/*        </li>*/}
+      {/*      ))}*/}
+      {/*    </ul>*/}
+      {/*  </div>*/}
+      {/*) : (*/}
+      {/*  <span>There are no comments!</span>*/}
+      {/*)}*/}
       {data && data?.content.length >= 0 ? (
         <div className="border-2 border-neutral-200 px-2.5 py-1 rounded-sm">
           <p className="text-lg">Comments:</p>
