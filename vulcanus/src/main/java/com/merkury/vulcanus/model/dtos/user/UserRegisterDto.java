@@ -3,7 +3,7 @@ package com.merkury.vulcanus.model.dtos.user;
 import jakarta.validation.constraints.*;
 
 public record UserRegisterDto(@NotBlank(message = "Username cannot be empty.")
-                              @Pattern(regexp="\\w", message = "Username can only contain letters, numbers and underscores.")
+                              @Pattern(regexp = "^\\w+$", message = "Username can only contain letters, numbers and underscores.")
                               @Size(min=3,max=16, message = "Username must be between 3 and 16 characters long.")
                               String username,
                               @NotBlank(message = "Email cannot be empty.")
