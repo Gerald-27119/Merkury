@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @Slf4j
 @ControllerAdvice(basePackages = {"com.merkury.vulcanus.controllers"})
-public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
+public class AccountExceptionHandler {
 
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<String> handleInvalidDataException(Exception ex) {
