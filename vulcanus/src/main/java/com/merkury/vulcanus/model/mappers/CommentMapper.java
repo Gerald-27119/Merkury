@@ -1,44 +1,34 @@
 package com.merkury.vulcanus.model.mappers;
 
-import com.merkury.vulcanus.model.dtos.CommentDto;
+import com.merkury.vulcanus.model.dtos.coment.CommentDto;
 import com.merkury.vulcanus.model.entities.Comment;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.entities.UserEntity;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import jakarta.validation.constraints.NotNull;
 
 public class CommentMapper {
-
-    public static CommentDto toDto(Comment comment) {
-        if (comment == null) {
-            return null;
-        }
-
-        CommentDto dto = new CommentDto();
-        dto.setId(comment.getId());
-        dto.setText(comment.getText());
-        dto.setRating(comment.getRating());
-        dto.setLikes(comment.getLikes());
-        dto.setAuthor(comment.getAuthor().getUsername());
-        dto.setPublishDate(comment.getPublishDate());
-
-        return dto;
+    private CommentMapper() {
     }
 
-    public static Comment toEntity(CommentDto dto, Spot spot, UserEntity author) {
-        if (dto == null) {
-            return null;
-        }
+    public static CommentDto toDto(@NotNull Comment comment) {
+        return new CommentDto(
+                comment.getId(),
+                comment.getText(),
+                comment.getRating(),
+                comment.getLikes(),
+                comment.getPublishDate(),
+                comment.getAuthor().getUsername());
+    }
 
+    public static Comment toEntity(@NotNull CommentDto dto, @NotNull Spot spot, @NotNull UserEntity author) {
         Comment comment = new Comment();
-        comment.setId(dto.getId());
-        comment.setText(dto.getText());
-        comment.setRating(dto.getRating());
-        comment.setLikes(dto.getLikes());
+        comment.setId(dto.id());
+        comment.setText(dto.text());
+        comment.setRating(dto.rating());
+        comment.setLikes(dto.likes());
         comment.setSpot(spot);
         comment.setAuthor(author);
-        comment.setPublishDate(dto.getPublishDate());
+        comment.setPublishDate(dto.publishDate());
 
         return comment;
     }

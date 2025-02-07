@@ -4,37 +4,30 @@ import com.merkury.vulcanus.model.dtos.ImgDto;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.entities.UserEntity;
+import jakarta.validation.constraints.NotNull;
 
 public class ImgMapper {
-
-    public static ImgDto toDto(Img img) {
-        if (img == null) {
-            return null;
-        }
-
-        ImgDto dto = new ImgDto();
-        dto.setImg(img.getUrl());
-        dto.setTitle(img.getAlt());
-        dto.setDescription(img.getDescription());
-        dto.setLikes(img.getLikes());
-        dto.setViews(img.getViews());
-
-        dto.setAuthor(img.getAuthor() != null ? img.getAuthor().getUsername() : null);
-
-        return dto;
+    private ImgMapper() {
     }
 
-    public static Img toEntity(ImgDto dto, Spot spot, UserEntity author) {
-        if (dto == null) {
-            return null;
-        }
+    public static ImgDto toDto(@NotNull Img img) {
 
+        return new ImgDto(
+                img.getUrl(),
+                img.getAlt(),
+                img.getDescription(),
+                img.getLikes(),
+                img.getViews(),
+                img.getAuthor().getUsername() != null ? img.getAuthor().getUsername() : null);
+    }
+
+    public static Img toEntity(@NotNull ImgDto dto, @NotNull Spot spot, @NotNull UserEntity author) {
         Img img = new Img();
-        img.setUrl(dto.getImg());
-        img.setAlt(dto.getTitle());
-        img.setDescription(dto.getDescription());
-        img.setLikes(dto.getLikes());
-        img.setViews(dto.getViews());
+        img.setUrl(dto.img());
+        img.setAlt(dto.title());
+        img.setDescription(dto.description());
+        img.setLikes(dto.likes());
+        img.setViews(dto.views());
         img.setSpot(spot);
         img.setAuthor(author);
 

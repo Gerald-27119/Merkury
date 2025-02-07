@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.features.account;
 
-import com.merkury.vulcanus.model.dtos.UserPasswordResetDto;
+import com.merkury.vulcanus.model.dtos.user.UserPasswordResetDto;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenIsInvalidException;
 import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenNotFoundException;

@@ -8,7 +8,7 @@ import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
-import com.merkury.vulcanus.model.dtos.CommentDto;
+import com.merkury.vulcanus.model.dtos.coment.CommentDto;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
 import com.merkury.vulcanus.model.dtos.spot.FavouriteSpotDto;

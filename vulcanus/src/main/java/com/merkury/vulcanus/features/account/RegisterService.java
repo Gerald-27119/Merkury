@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.features.account;
 
-import com.merkury.vulcanus.model.dtos.UserRegisterDto;
+import com.merkury.vulcanus.model.dtos.user.UserRegisterDto;
 import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
 import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
 import com.merkury.vulcanus.model.enums.Provider;
