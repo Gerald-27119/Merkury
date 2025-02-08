@@ -7,6 +7,7 @@ import { spotFiltersAction } from "../../../redux/spot-filters.jsx";
 import { useEffect, useState } from "react";
 import { fetchSpotsNames } from "../../../http/spots-data.js";
 import useDebounce from "../../../hooks/useDebounce.jsx";
+import { Rate } from "antd";
 
 export default function SpotsFilters() {
   const [filters, setFilters] = useState({
@@ -42,17 +43,17 @@ export default function SpotsFilters() {
     await queryClient.invalidateQueries(["spotsNames", debounceSpotNamesHints]);
   };
 
-  const handleMinRatingChange = (e) => {
+  const handleMinRatingChange = (value) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
-      minRating: parseFloat(e.target.value),
+      minRating: parseFloat(value),
     }));
   };
 
-  const handlerMaxRatingChange = (e) => {
+  const handleMaxRatingChange = (value) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
-      maxRating: parseFloat(e.target.value),
+      maxRating: parseFloat(value),
     }));
   };
 
@@ -108,25 +109,19 @@ export default function SpotsFilters() {
       <div className="flex flex-col items-center">
         <p className="text-white text-lg">Rating:</p>
         <div className="flex space-x-3">
-          <Input
-            id="minRate"
-            label="From"
-            type="number"
-            min={0}
-            max={5}
-            step={0.5}
-            value={filters.minRating.toFixed(1)}
+          <label className="text-white">FROM</label>
+          <Rate
+            allowHalf
+            value={filters.minRating}
             onChange={handleMinRatingChange}
+            className="bg-white rounded-md p-0.5 "
           />
-          <Input
-            id="maxRate"
-            label="To"
-            type="number"
-            min={0}
-            max={5}
-            step={0.5}
-            value={filters.maxRating.toFixed(1)}
-            onChange={handlerMaxRatingChange}
+          <label className="text-white">TO</label>
+          <Rate
+            allowHalf
+            value={filters.maxRating}
+            onChange={handleMaxRatingChange}
+            className="bg-white rounded-md p-0.5"
           />
         </div>
       </div>
