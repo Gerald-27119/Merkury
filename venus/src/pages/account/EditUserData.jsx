@@ -89,6 +89,10 @@ export default function EditUserData() {
     return <Error error={error} />;
   }
 
+  const handleClickChangePassword = () => {
+    setIsPasswordChange((prevState) => !prevState);
+  };
+
   return (
     <>
       {isLoading && <div>Loading...</div>}
@@ -165,9 +169,7 @@ export default function EditUserData() {
                 <button
                   className="bg-blue-500 p-3 mt-3 text-white rounded-md text-lg hover:bg-blue-600"
                   type="button"
-                  onClick={() => {
-                    setIsPasswordChange((prevState) => !prevState);
-                  }}
+                  onClick={() => handleClickChangePassword()}
                 >
                   {!isPasswordChange
                     ? "Change Password"

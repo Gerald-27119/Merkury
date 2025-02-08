@@ -28,10 +28,22 @@ export default function ExpandedPhotoGallery({ photos }) {
     currentPhoto = photos[currentPhotoIndex];
   }, [currentPhotoIndex, photos]);
 
+  const handleClickMinimizePhoto = () => {
+    dispatch(photoAction.handleMinimizePhoto());
+  };
+
+  const handleClickPreviousPhoto = () => {
+    dispatch(photoGalleryAction.setPreviousPhoto());
+  };
+
+  const handleClickNextPhoto = () => {
+    dispatch(photoGalleryAction.setNextPhoto());
+  };
+
   return (
     <div className="bg-gray-950 bg-opacity-95 flex justify-center items-center h-full">
       <button
-        onClick={() => dispatch(photoAction.handleMinimizePhoto())}
+        onClick={() => handleClickMinimizePhoto()}
         className="absolute top-2 right-2"
       >
         <IoCloseOutline
@@ -56,7 +68,7 @@ export default function ExpandedPhotoGallery({ photos }) {
           <div className="flex items-center">
             <RiArrowLeftWideLine
               size={50}
-              onClick={() => dispatch(photoGalleryAction.setPreviousPhoto())}
+              onClick={() => handleClickPreviousPhoto()}
               className={
                 currentPhotoIndex === 0 ? disabledBtnClasses : activeBtnClasses
               }
@@ -65,7 +77,7 @@ export default function ExpandedPhotoGallery({ photos }) {
           <div className="flex items-center">
             <RiArrowRightWideLine
               size={50}
-              onClick={() => dispatch(photoGalleryAction.setNextPhoto())}
+              onClick={() => handleClickNextPhoto()}
               className={
                 currentPhotoIndex === numberOfPhotos - 1
                   ? disabledBtnClasses

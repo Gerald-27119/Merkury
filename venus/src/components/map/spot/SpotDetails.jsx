@@ -54,6 +54,11 @@ export default function SpotDetails() {
     }
   }, [dispatch, error]);
 
+  const handleClickCloseModal = () => {
+    dispatch(spotDetailsModalAction.handleCloseModal());
+    dispatch(photoAction.handleMinimizePhoto());
+  };
+
   return (
     <div className="w-full h-full absolute flex">
       <div
@@ -67,10 +72,7 @@ export default function SpotDetails() {
               <IoCloseOutline
                 size={20}
                 className="cursor-pointer text-black hover:bg-red-500 hover:rounded-md hover:text-white"
-                onClick={() => {
-                  dispatch(spotDetailsModalAction.handleCloseModal());
-                  dispatch(photoAction.handleMinimizePhoto());
-                }}
+                onClick={() => handleClickCloseModal()}
               />
             </div>
             <SpotGeneralInfo

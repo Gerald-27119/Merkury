@@ -25,6 +25,18 @@ export default function PhotoGallery({ photos }) {
     dispatch(photoGalleryAction.setNumberOfPhotos(photos.length));
   }, [photos]);
 
+  const handleClickPreviousPhoto = () => {
+    dispatch(photoGalleryAction.setPreviousPhoto());
+  };
+
+  const handleClickExpandPhoto = () => {
+    dispatch(photoAction.handleExpandPhoto());
+  };
+
+  const handleClickNextPhoto = () => {
+    dispatch(photoGalleryAction.setNextPhoto());
+  };
+
   return (
     <>
       {photos && photos.length > 0 ? (
@@ -32,7 +44,7 @@ export default function PhotoGallery({ photos }) {
           <div className="flex items-center  min-h-full bg-gray-950 flex-grow justify-center">
             <RiArrowLeftWideLine
               size={25}
-              onClick={() => dispatch(photoGalleryAction.setPreviousPhoto())}
+              onClick={() => handleClickPreviousPhoto()}
               className={
                 currentPhotoIndex === 0 ? disabledBtnClasses : activeBtnClasses
               }
@@ -41,12 +53,12 @@ export default function PhotoGallery({ photos }) {
           <Photo
             className="h-56 w-96 md:h-40 cursor-pointer"
             photo={photos[currentPhotoIndex]}
-            onClick={() => dispatch(photoAction.handleExpandPhoto())}
+            onClick={() => handleClickExpandPhoto()}
           />
           <div className="flex items-center min-h-full bg-gray-950 flex-grow justify-center">
             <RiArrowRightWideLine
               size={25}
-              onClick={() => dispatch(photoGalleryAction.setNextPhoto())}
+              onClick={() => handleClickNextPhoto()}
               className={
                 currentPhotoIndex === numberOfPhotos - 1
                   ? disabledBtnClasses
