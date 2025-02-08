@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { test } from "../../http/account.js";
-import JwtError from "../../components/error/JwtError.jsx";
+import Error from "../../components/error/Error.jsx";
 
 export default function Forum() {
   const { error, isError, isLoading } = useQuery({
@@ -13,7 +13,7 @@ export default function Forum() {
   }
 
   if (isError) {
-    return <JwtError error={error} />;
+    return <Error error={error} />;
   }
 
   return (

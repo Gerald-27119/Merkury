@@ -10,11 +10,11 @@ export default function Error({ error }) {
   let message = "Could not find page or resource.";
 
   useEffect(() => {
-    if (error?.response?.status === 401) {
+    if (error?.response?.status !== 404) {
       dispatch(accountAction.signOut());
       dispatch(
         notificationAction.setError({
-          message: "You have been logged out.",
+          message: error?.response?.message || "Error occurred!",
         }),
       );
     }
@@ -24,17 +24,17 @@ export default function Error({ error }) {
     return <Navigate to="/" />;
   }
 
-  if (error.message || routeError.message) {
-    message = error.message || routeError.message;
+  if (routeError.message) {
+    message = routeError.message;
   }
   return (
     <>
       <h1 className="text-red-600 text-4xl font-bold text-center m-4">
         Error occurred!
       </h1>
-      {error.status && (
+      {routeError.status && (
         <p className="text-center text-xl text-yellow-400">
-          Status code: {error.status}
+          Status code: {routeError.status}
         </p>
       )}
       <p className="text-yellow-400 text-center text-xl m-4">{message}</p>
