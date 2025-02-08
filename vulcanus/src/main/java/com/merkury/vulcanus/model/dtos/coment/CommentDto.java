@@ -8,10 +8,9 @@ public record CommentDto(@Positive(message = "ID must be a positive number.")
                          Long id,
                          @NotBlank(message = "Text cannot be empty.")
                          String text,
-                         @Positive(message = "Rating must be a positive number.")
-                         @Min(value = 0, message = "Rating cannot be less than 0.")
+                         @Min(value = 1, message = "Rating count cannot be less than 1.")
+                         @Max(value = 5, message = "Rating count cannot be more than 5.")
                          Double rating,
-                         @Positive(message = "Likes must be a positive number.")
                          @Min(value = 0, message = "Likes cannot be less than 0.")
                          Integer likes,
                          @PastOrPresent(message = "PublishDate must be in the past or present.")
