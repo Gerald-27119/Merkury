@@ -4,6 +4,7 @@ import FavouriteSpot from "../../components/map/spot/FavouriteSpot.jsx";
 import MainContainer from "../../components/MainContainer.jsx";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
+import Error from "../../components/error/Error.jsx";
 
 export default function FavouriteSpots() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -31,7 +32,7 @@ export default function FavouriteSpots() {
       </h1>
 
       {isLoading && <div>Loading...</div>}
-      {error && <div>Error loading favourite spots</div>}
+      {error && <Error error={error} />}
 
       {!isLoading && data && data.content.length > 0 ? (
         <>
