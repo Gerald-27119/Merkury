@@ -1,11 +1,31 @@
-import { Link, useRouteError } from "react-router-dom";
+import { Link, Navigate, useRouteError } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { accountAction } from "../../redux/account.jsx";
+import { notificationAction } from "../../redux/notification.jsx";
 
-export default function Error() {
+export default function Error({ error }) {
+  const dispatch = useDispatch();
+  const routeError = useRouteError();
   let message = "Could not find page or resource.";
-  const error = useRouteError();
 
-  if (error.message) {
-    message = error.message;
+  useEffect(() => {
+    if (error?.response?.status === 401) {
+      dispatch(accountAction.signOut());
+      dispatch(
+        notificationAction.setError({
+          message: "You have been logged out.",
+        }),
+      );
+    }
+  }, [error, dispatch]);
+
+  if (error?.response?.status === 401) {
+    return <Navigate to="/" />;
+  }
+
+  if (error.message || routeError.message) {
+    message = error.message || routeError.message;
   }
   return (
     <>
