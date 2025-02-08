@@ -6,7 +6,6 @@ import { editUserData, getUser } from "../../http/account.js";
 import useValidation from "../../hooks/useValidation.jsx";
 import { useEffect, useState } from "react";
 import ShowProvider from "../../components/account/ShowProvider.jsx";
-import JwtError from "../../components/error/JwtError.jsx";
 
 export default function EditUserData() {
   const [isPasswordChange, setIsPasswordChange] = useState(false);
@@ -83,11 +82,6 @@ export default function EditUserData() {
         isPasswordChanged: isPasswordChangeable && isPasswordChange,
       },
     });
-  }
-
-  if (queryError || mutationError) {
-    const error = queryError || mutationError;
-    return <JwtError error={error} />;
   }
 
   return (

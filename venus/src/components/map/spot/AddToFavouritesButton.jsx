@@ -7,13 +7,12 @@ import {
 import Button from "../../../pages/account/Button.jsx";
 import { useDispatch } from "react-redux";
 import { notificationAction } from "../../../redux/notification.jsx";
-import JwtError from "../../../components/error/JwtError.jsx";
 
 export default function AddToFavouritesButton({ spotId }) {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
 
-  const { data, error, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryFn: () => isSpotFavourite(spotId),
     queryKey: ["isFavourite", spotId],
   });
@@ -59,10 +58,6 @@ export default function AddToFavouritesButton({ spotId }) {
 
   if (isLoading) {
     return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <JwtError error={error} />;
   }
 
   const handleClick = async () => {
