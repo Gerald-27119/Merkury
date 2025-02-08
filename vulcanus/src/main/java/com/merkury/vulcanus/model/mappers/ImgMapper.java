@@ -18,7 +18,7 @@ public class ImgMapper {
                 img.getDescription(),
                 img.getLikes(),
                 img.getViews(),
-                img.getAuthor().getUsername() != null ? img.getAuthor().getUsername() : null);
+                img.getAuthor().getUsername());
     }
 
     public static Img toEntity(@NotNull ImgDto dto, @NotNull Spot spot, @NotNull UserEntity author) {
