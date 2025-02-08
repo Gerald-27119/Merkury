@@ -19,7 +19,11 @@ export default function SignOutButton() {
       );
       dispatch(accountAction.signOut());
     } catch (error) {
-      console.error("error logout: ", error);
+      dispatch(
+        notificationAction.setError({
+          message: error?.message || "Logout failed!",
+        }),
+      );
     }
     navigate("/");
   };
