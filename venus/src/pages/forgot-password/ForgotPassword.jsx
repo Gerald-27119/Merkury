@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import useValidation from "../../hooks/useValidation.jsx";
-import Button from "../account/Button.jsx";
 import FormContainer from "../../components/FormContainer.jsx";
 import Input from "../../components/Input.jsx";
 import { sentEmailWithNewPasswordLink } from "../../http/account.js";
@@ -42,13 +41,13 @@ export default function ForgotPassword() {
           error={isNotValid?.email}
           label="email"
         />
-        <Button
+        <button
           type="submit"
-          classNames="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
+          className="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
           disabled={!didEdit.email || isNotValid.email.value}
         >
           Remind me
-        </Button>
+        </button>
       </form>
     </FormContainer>
   );

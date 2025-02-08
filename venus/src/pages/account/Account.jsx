@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Button from "./Button.jsx";
 import { useSelector } from "react-redux";
 
 const buttonClasses =
@@ -12,22 +11,22 @@ export default function Account() {
     <div className="bg-[url('/bg-kapi.png')] bg-cover bg-center bg-no-repeat flex h-screen w-full items-center justify-center space-x-8">
       {!isLogged && (
         <Link to="/login">
-          <Button classNames={buttonClasses}>Login</Button>
+          <button className={buttonClasses}>Login</button>
         </Link>
       )}
       {!isLogged && (
         <Link to="/register">
-          <Button classNames={buttonClasses}>Register</Button>
+          <button className={buttonClasses}>Register</button>
         </Link>
       )}
       {isLogged && (
         <Link to="/edit-data">
-          <Button classNames={buttonClasses}>Edit data</Button>
+          <button className={buttonClasses}>Edit data</button>
         </Link>
       )}
       {isLogged && (
         <Link to="/favourite-spots">
-          <Button classNames={buttonClasses}>Favourite spots</Button>
+          <button className={buttonClasses}>Favourite spots</button>
         </Link>
       )}
     </div>

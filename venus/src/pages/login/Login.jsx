@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import Input from "../../components/Input.jsx";
-import Button from "../account/Button.jsx";
 import { loginUser } from "../../http/account.js";
 import FormContainer from "../../components/FormContainer.jsx";
 import useValidation from "../../hooks/useValidation.jsx";
@@ -75,9 +74,9 @@ function Login() {
             Forgot Password?
           </Link>
         </div>
-        <Button
+        <button
           type="submit"
-          classNames="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
+          className="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
           disabled={
             !didEdit.username ||
             !didEdit.password ||
@@ -86,7 +85,7 @@ function Login() {
           }
         >
           Sign In
-        </Button>
+        </button>
       </form>
     </FormContainer>
   );

@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { removeSpotFromFavourites } from "../../../http/spots-data.js";
-import Button from "../../../pages/account/Button.jsx";
 import { notificationAction } from "../../../redux/notification.jsx";
 import { useDispatch } from "react-redux";
 
@@ -49,12 +48,12 @@ export default function FavouriteSpot({ spot, currentPage, onRemove }) {
 
       <p className="flex-1 px-4 text-gray-800 font-medium">{spot.name}</p>
 
-      <Button
-        classNames="bg-red-500 text-white px-4 py-2 rounded-md text-sm hover:bg-red-600"
+      <button
+        className="bg-red-500 text-white px-4 py-2 rounded-md text-sm hover:bg-red-600"
         onClick={handleRemove}
       >
         Remove
-      </Button>
+      </button>
     </div>
   );
 }

@@ -2,7 +2,6 @@ import Input from "../../components/Input.jsx";
 import { registerUser } from "../../http/account.js";
 import { useMutation } from "@tanstack/react-query";
 import FormContainer from "../../components/FormContainer.jsx";
-import Button from "../account/Button.jsx";
 import useValidation from "../../hooks/useValidation.jsx";
 import { useEffect } from "react";
 import { accountAction } from "../../redux/account.jsx";
@@ -89,9 +88,9 @@ export default function Register() {
           onBlur={() => handleInputBlur("confirm-password")}
           error={isNotValid["confirm-password"]}
         />
-        <Button
+        <button
           type="submit"
-          classNames="bg-red-600 p-3 mt-3 text-white rounded-md text-lg"
+          className="bg-red-600 p-3 mt-3 text-white rounded-md text-lg"
           disabled={
             !didEdit.username ||
             !didEdit.password ||
@@ -104,7 +103,7 @@ export default function Register() {
           }
         >
           Sign up
-        </Button>
+        </button>
       </form>
     </FormContainer>
   );

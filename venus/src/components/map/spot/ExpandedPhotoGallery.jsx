@@ -1,4 +1,3 @@
-import Button from "../../../pages/account/Button.jsx";
 import { IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { photoAction } from "../../../redux/photo.jsx";
@@ -31,15 +30,15 @@ export default function ExpandedPhotoGallery({ photos }) {
 
   return (
     <div className="bg-gray-950 bg-opacity-95 flex justify-center items-center h-full">
-      <Button
+      <button
         onClick={() => dispatch(photoAction.handleMinimizePhoto())}
-        classNames="absolute top-2 right-2"
+        className="absolute top-2 right-2"
       >
         <IoCloseOutline
           className="text-white bg-red-500 hover:bg-red-700 hover:text-gray-200 mr-6 rounded-sm mt-4"
           size={20}
         />
-      </Button>
+      </button>
       <div className="flex-col">
         <p className="text-2xl text-white text-center font-semibold mb-4">
           {currentPhoto.title}

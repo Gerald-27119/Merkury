@@ -1,6 +1,5 @@
 import FormContainer from "../../components/FormContainer.jsx";
 import Input from "../../components/Input.jsx";
-import Button from "./Button.jsx";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { editUserData, getUser } from "../../http/account.js";
 import useValidation from "../../hooks/useValidation.jsx";
@@ -165,8 +164,8 @@ export default function EditUserData() {
                     />
                   </>
                 )}
-                <Button
-                  classNames="bg-blue-500 p-3 mt-3 text-white rounded-md text-lg hover:bg-blue-600"
+                <button
+                  className="bg-blue-500 p-3 mt-3 text-white rounded-md text-lg hover:bg-blue-600"
                   type="button"
                   onClick={() => {
                     setIsPasswordChange((prevState) => !prevState);
@@ -175,15 +174,15 @@ export default function EditUserData() {
                   {!isPasswordChange
                     ? "Change Password"
                     : "Don't change Password"}
-                </Button>
+                </button>
               </>
             )}
             {provider !== "NONE" && (
               <ProviderInfo provider={provider} email={userData.email} />
             )}
-            <Button
+            <button
               type="submit"
-              classNames="bg-red-600 p-3 mt-3 text-white rounded-md text-lg hover:bg-red-700"
+              className="bg-red-600 p-3 mt-3 text-white rounded-md text-lg hover:bg-red-700"
               disabled={
                 (didEdit.username && isNotValid.username.value) ||
                 (didEdit["old-password"] && isNotValid["old-password"].value) ||
@@ -194,7 +193,7 @@ export default function EditUserData() {
               }
             >
               Save Changes
-            </Button>
+            </button>
           </form>
         </FormContainer>
       )}

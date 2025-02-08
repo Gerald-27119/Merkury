@@ -1,6 +1,5 @@
 import { LiaSearchSolid } from "react-icons/lia";
 import Input from "../../Input.jsx";
-import Button from "../../../pages/account/Button.jsx";
 import { useDispatch } from "react-redux";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { spotFiltersAction } from "../../../redux/spot-filters.jsx";
@@ -125,12 +124,12 @@ export default function SpotsFilters() {
           />
         </div>
       </div>
-      <Button
+      <button
         type="submit"
-        classNames="text-white bg-teal-400 hover:bg-emerald-400 p-2 rounded-md"
+        className="text-white bg-teal-400 hover:bg-emerald-400 p-2 rounded-md"
       >
         Apply filters
-      </Button>
+      </button>
     </form>
   );
 }
