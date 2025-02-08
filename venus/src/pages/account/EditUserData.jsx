@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { editUserData, getUser } from "../../http/account.js";
 import useValidation from "../../hooks/useValidation.jsx";
 import { useEffect, useState } from "react";
-import ShowProvider from "../../components/account/ShowProvider.jsx";
+import ProviderInfo from "../../components/account/ProviderInfo.jsx";
 import JwtError from "../../components/error/JwtError.jsx";
 
 export default function EditUserData() {
@@ -179,7 +179,7 @@ export default function EditUserData() {
               </>
             )}
             {provider !== "NONE" && (
-              <ShowProvider provider={provider} email={userData.email} />
+              <ProviderInfo provider={provider} email={userData.email} />
             )}
             <Button
               type="submit"
