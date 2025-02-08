@@ -2,7 +2,7 @@ import Weather from "./Weather.jsx";
 import PhotoGallery from "./PhotoGallery.jsx";
 import Comments from "./Comments.jsx";
 import CommentForm from "./CommentForm.jsx";
-import Info from "./Info.jsx";
+import SpotGeneralInfo from "./SpotGeneralInfo.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { IoCloseOutline } from "react-icons/io5";
 import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
@@ -74,7 +74,7 @@ export default function SpotDetails() {
                 }}
               />
             </div>
-            <Info
+            <SpotGeneralInfo
               name={spot.name}
               description={spot.description}
               rating={spot.rating}
