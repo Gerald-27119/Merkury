@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getPaginatedComments } from "../../../http/comments.js";
 import ReactPaginate from "react-paginate";
 import { useState } from "react";
+import LoadingSpinner from "../../LoadingSpinner.jsx";
 
 export default function Comments({ spotId }) {
   const [currentPage, setCurrentPage] = useState(0);
@@ -25,6 +26,7 @@ export default function Comments({ spotId }) {
   return (
     <>
       {error && <Error error={error} />}
+      {isLoading && <LoadingSpinner />}
       {data && data.content.length >= 0 ? (
         <div className="border-2 border-neutral-200 px-2.5 py-1 rounded-sm">
           <p className="text-lg">Comments:</p>

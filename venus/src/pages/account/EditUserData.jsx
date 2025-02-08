@@ -6,6 +6,7 @@ import useValidation from "../../hooks/useValidation.jsx";
 import { useEffect, useState } from "react";
 import ProviderInfo from "../../components/account/ProviderInfo.jsx";
 import Error from "../../components/error/Error.jsx";
+import LoadingSpinner from "../../components/LoadingSpinner.jsx";
 
 export default function EditUserData() {
   const [isPasswordChange, setIsPasswordChange] = useState(false);
@@ -95,7 +96,7 @@ export default function EditUserData() {
 
   return (
     <>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <LoadingSpinner />}
       {isQuerySuccess && (
         <FormContainer
           notificationMessage="Data edited successfully!"

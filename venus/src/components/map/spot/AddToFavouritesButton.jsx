@@ -9,6 +9,7 @@ import { notificationAction } from "../../../redux/notification.jsx";
 import Error from "../../error/Error.jsx";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
+import LoadingSpinner from "../../LoadingSpinner.jsx";
 
 export default function AddToFavouritesButton({ spotId }) {
   const queryClient = useQueryClient();
@@ -59,7 +60,7 @@ export default function AddToFavouritesButton({ spotId }) {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   if (error) {

@@ -4,10 +4,11 @@ import FavouriteSpot from "../../components/map/spot/FavouriteSpot.jsx";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import Error from "../../components/error/Error.jsx";
+import LoadingSpinner from "../../components/LoadingSpinner.jsx";
 
 export default function FavouriteSpots() {
   const [currentPage, setCurrentPage] = useState(0);
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, isSuccess } = useQuery({
     queryFn: () => fetchUserFavouriteSpots(currentPage),
     queryKey: ["favouriteSpots", currentPage],
     keepPreviousData: true,
@@ -31,43 +32,43 @@ export default function FavouriteSpots() {
           Your favourite spots
         </h1>
 
-        {isLoading && <div>Loading...</div>}
+        {isLoading && <LoadingSpinner />}
         {error && <Error error={error} />}
+        {isSuccess &&
+          (data.content?.length > 0 ? (
+            <>
+              <ul>
+                {data.content.map((spot) => (
+                  <li key={spot.id}>
+                    <FavouriteSpot
+                      spot={spot}
+                      currentPage={currentPage}
+                      onRemove={handlePageAfterRemove}
+                    />
+                  </li>
+                ))}
+              </ul>
 
-        {!isLoading && data && data.content.length > 0 ? (
-          <>
-            <ul>
-              {data.content.map((spot) => (
-                <li key={spot.id}>
-                  <FavouriteSpot
-                    spot={spot}
-                    currentPage={currentPage}
-                    onRemove={handlePageAfterRemove}
-                  />
-                </li>
-              ))}
-            </ul>
-
-            <ReactPaginate
-              previousLabel={"<"}
-              nextLabel={">"}
-              breakLabel={"..."}
-              pageCount={data.totalPages}
-              initialPage={currentPage}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={2}
-              onPageChange={handlePageChange}
-              containerClassName="flex justify-center items-center space-x-2 mt-6"
-              pageLinkClassName="px-4 py-2 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
-              activeLinkClassName="!bg-blue-500 !text-white !border-blue-500"
-              nextLinkClassName="px-4 py-2 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
-              previousLinkClassName="px-4 py-2 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
-              disabledLinkClassName="opacity-50 cursor-not-allowed"
-            />
-          </>
-        ) : (
-          <p className="text-center">No spots available</p>
-        )}
+              <ReactPaginate
+                previousLabel={"<"}
+                nextLabel={">"}
+                breakLabel={"..."}
+                pageCount={data.totalPages}
+                initialPage={currentPage}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={2}
+                onPageChange={handlePageChange}
+                containerClassName="flex justify-center items-center space-x-2 mt-6"
+                pageLinkClassName="px-4 py-2 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
+                activeLinkClassName="!bg-blue-500 !text-white !border-blue-500"
+                nextLinkClassName="px-4 py-2 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
+                previousLinkClassName="px-4 py-2 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
+                disabledLinkClassName="opacity-50 cursor-not-allowed"
+              />
+            </>
+          ) : (
+            <p className="text-center">No spots available</p>
+          ))}
       </div>
     </div>
   );

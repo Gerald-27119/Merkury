@@ -13,6 +13,7 @@ import { notificationAction } from "../../../redux/notification.jsx";
 import fetchWeatherData from "../../../http/weather.js";
 import { useQuery } from "@tanstack/react-query";
 import AddToFavouritesButton from "./AddToFavouritesButton.jsx";
+import LoadingSpinner from "../../LoadingSpinner.jsx";
 
 export default function SpotDetails() {
   const spotId = useSelector((state) => state.spotDetails.spotId);
@@ -21,7 +22,11 @@ export default function SpotDetails() {
   const dispatch = useDispatch();
   const isLogged = useSelector((state) => state.account.isLogged);
 
-  const { data: spot, error: spotError } = useQuery({
+  const {
+    data: spot,
+    error: spotError,
+    isLoading: spotLoading,
+  } = useQuery({
     queryFn: () => fetchSpotsDataById(spotId),
     queryKey: ["spotDetails", spotId],
     refetchOnWindowFocus: false,
@@ -66,6 +71,7 @@ export default function SpotDetails() {
           showDetailsModal && "animate-slideInFromLeft"
         }`}
       >
+        {spotLoading && <LoadingSpinner />}
         {spot && (
           <div className="mx-3 flex flex-col h-full">
             <div className="flex justify-end mt-3">
@@ -83,7 +89,7 @@ export default function SpotDetails() {
             {isLogged && <AddToFavouritesButton spotId={spotId} />}
             {weatherLoading ? (
               <div className="flex justify-center items-center h-20">
-                <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                <LoadingSpinner />
               </div>
             ) : (
               <Weather weather={weather} />

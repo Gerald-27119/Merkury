@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { test } from "../../http/account.js";
 import Error from "../../components/error/Error.jsx";
+import LoadingSpinner from "../../components/LoadingSpinner.jsx";
 
 export default function Forum() {
   const { error, isError, isLoading } = useQuery({
@@ -9,7 +10,7 @@ export default function Forum() {
   });
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   if (isError) {
