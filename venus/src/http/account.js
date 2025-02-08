@@ -62,5 +62,5 @@ export async function editUserData({ id, user }) {
   ).data;
 }
 
-export const googleLogoutUrl = `${BASE_URL}/oauth2/authorization/google`;
-export const githubLogoutUrl = `${BASE_URL}/oauth2/authorization/github`;
+export const googleLoginUrl = `${BASE_URL}/oauth2/authorization/google`;
+export const githubLoginUrl = `${BASE_URL}/oauth2/authorization/github`;
