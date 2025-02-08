@@ -12,14 +12,14 @@ export default function Notification() {
   const info = useSelector((state) => state.notification.info);
   const dispatch = useDispatch();
 
-  const [progrress, setProgrress] = useState(100);
+  const [progress, setProgress] = useState(100);
 
   useEffect(() => {
     const duration = 5000;
-    setProgrress(100);
+    setProgress(100);
 
     const interval = setInterval(() => {
-      setProgrress((prevState) =>
+      setProgress((prevState) =>
         Math.max(prevState - 100 / (duration / 100), 0),
       );
     }, 100);
@@ -72,7 +72,7 @@ export default function Notification() {
       <div className="relative w-full h-1 bg-gray-200 rounded-full overflow-hidden">
         <div
           className={`absolute h-full ${classesProgress}`}
-          style={{ width: `${progrress}%` }}
+          style={{ width: `${progress}%` }}
         ></div>
       </div>
     </div>
