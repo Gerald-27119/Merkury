@@ -28,8 +28,7 @@ export default function ForgotPassword() {
       isSuccess={isSuccess}
       error={error}
       header="Forgot your password?"
-      showLink={false}
-      showOauth={false}
+      notificationMessage="Reminder email sent!"
     >
       <form onSubmit={handleSubmit}>
         <Input

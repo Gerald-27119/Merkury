@@ -50,6 +50,9 @@ export default function Register() {
       linkCaption="Already have an account?"
       header="Create Account"
       navigateOnSuccess="/"
+      showOauth={true}
+      showLink={true}
+      notificationMessage="Account created successfully!"
     >
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <Input

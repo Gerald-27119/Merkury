@@ -4,14 +4,19 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { notificationAction } from "../redux/notification.jsx";
 
+const errorMessages = {
+  409: "E-mail or Username already taken.",
+  401: "Invalid credentials",
+};
+
 export default function FormContainer({
   isSuccess,
   error,
   header,
   navigateTo = "",
   linkCaption = "",
-  showOauth = true,
-  showLink = true,
+  showOauth = false,
+  showLink = false,
   navigateOnSuccess = null,
   notificationMessage,
   children,
@@ -26,27 +31,21 @@ export default function FormContainer({
   }, [isSuccess, navigate, navigateOnSuccess]);
 
   useEffect(() => {
-    const errorMessages = {
-      409: "E-mail or Username already taken.",
-      401: "Invalid credentials",
-    };
-
-    if (error?.response?.status && errorMessages[error.response.status]) {
+    if (error) {
+      const message = errorMessages[error.response?.status] || error.message;
       dispatch(
         notificationAction.setError({
-          message: errorMessages[error.response.status],
+          message: message || "Error occurred!",
         }),
       );
     }
-  }, [dispatch, error?.response?.status]);
+  }, [dispatch, error]);
 
   useEffect(() => {
     if (isSuccess) {
-      const headerBasedMessage =
-        header === "Sign in" ? "Successfully log in" : "Account created!";
       dispatch(
         notificationAction.setSuccess({
-          message: notificationMessage || headerBasedMessage,
+          message: notificationMessage || "Success!",
         }),
       );
     }

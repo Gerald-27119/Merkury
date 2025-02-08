@@ -30,11 +30,10 @@ export default function NewPassword() {
   return (
     <FormContainer
       header="Set new Password"
-      showOauth={false}
-      showLink={false}
       isSuccess={isSuccess}
       error={error}
       navigateOnSuccess="/login"
+      notificationMessage="New password set successfully!"
     >
       <form onSubmit={handleSubmit}>
         <Input

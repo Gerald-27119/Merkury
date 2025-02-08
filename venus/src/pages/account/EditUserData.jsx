@@ -103,8 +103,6 @@ export default function EditUserData() {
           linkCaption="Already have an account?"
           header="Edit Your Data"
           navigateOnSuccess="/edit-data"
-          showOauth={false}
-          showLink={false}
         >
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <Input

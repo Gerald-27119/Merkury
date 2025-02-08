@@ -45,6 +45,9 @@ function Login() {
       linkCaption="Don't have an account?"
       header="Sign in"
       navigateOnSuccess="/"
+      showOauth={true}
+      showLink={true}
+      notificationMessage="Signed in successfully!"
     >
       <form onSubmit={handleSubmit}>
         <Input
