@@ -7,6 +7,11 @@ import Photo from "./Photo.jsx";
 import { photoGalleryAction } from "../../../redux/photo-gallery.jsx";
 import { useEffect } from "react";
 
+const disabledBtnClasses =
+  "bg-gray-300 border border-red-600 text-zinc-950 rounded-full";
+const activeBtnClasses =
+  "bg-neutral-600 text-slate-50 cursor-pointer hover:bg-neutral-400 hover:text-zinc-950 rounded-full";
+
 export default function ExpandedPhotoGallery({ photos }) {
   const dispatch = useDispatch();
 
@@ -23,11 +28,6 @@ export default function ExpandedPhotoGallery({ photos }) {
   useEffect(() => {
     currentPhoto = photos[currentPhotoIndex];
   }, [currentPhotoIndex, photos]);
-
-  const disabledBtnClasses =
-    "bg-gray-300 border border-red-600 text-zinc-950 rounded-full";
-  const activeBtnClasses =
-    "bg-neutral-600 text-slate-50 cursor-pointer hover:bg-neutral-400 hover:text-zinc-950 rounded-full";
 
   return (
     <div className="bg-gray-950 bg-opacity-95 flex justify-center items-center h-full">
