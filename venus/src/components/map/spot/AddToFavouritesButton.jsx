@@ -4,10 +4,11 @@ import {
   removeSpotFromFavourites,
   isSpotFavourite,
 } from "../../../http/spots-data.js";
-import Button from "../../../pages/account/Button.jsx";
 import { useDispatch } from "react-redux";
 import { notificationAction } from "../../../redux/notification.jsx";
 import Error from "../../error/Error.jsx";
+import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
 export default function AddToFavouritesButton({ spotId }) {
   const queryClient = useQueryClient();
@@ -74,15 +75,20 @@ export default function AddToFavouritesButton({ spotId }) {
   };
 
   return (
-    <div>
-      <Button
-        onClick={handleClick}
-        classNames={`p-2 rounded-md text-white ${
-          data ? "bg-red-600 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700"
-        }`}
-      >
-        {!data ? "Add to favourites" : "Remove from favourites"}
-      </Button>
+    <div className="mb-2">
+      {!data ? (
+        <FaRegHeart
+          className="text-red-600 cursor-pointer"
+          onClick={handleClick}
+          size={20}
+        />
+      ) : (
+        <FaHeart
+          className="text-red-600 cursor-pointer"
+          onClick={handleClick}
+          size={20}
+        />
+      )}
     </div>
   );
 }
