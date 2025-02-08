@@ -1,11 +1,18 @@
-export default function Input({ label, id, error, ...props }) {
+export default function Input({ label, id, error, labelClassNames, ...props }) {
   let classesInput = "p-2 rounded-md";
   if (error?.value) {
     classesInput += " outline  outline-red-600";
   }
   return (
     <div className="flex flex-col">
-      <label htmlFor={id} className="uppercase text-sm text-gray-600 pb-1">
+      <label
+        htmlFor={id}
+        className={
+          labelClassNames
+            ? labelClassNames
+            : "uppercase text-sm text-gray-600 pb-1"
+        }
+      >
         {label}
       </label>
       <input id={id} className={classesInput} {...props} />
