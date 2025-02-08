@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserFavouriteSpots } from "../../http/spotsData.js";
+import { fetchUserFavouriteSpots } from "../../http/spots-data.js";
 import FavouriteSpot from "../../components/map/spot/FavouriteSpot.jsx";
 import MainContainer from "../../components/MainContainer.jsx";
 import { useState } from "react";

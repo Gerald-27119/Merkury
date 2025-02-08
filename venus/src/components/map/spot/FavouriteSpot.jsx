@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { removeSpotFromFavourites } from "../../../http/spotsData.js";
+import { removeSpotFromFavourites } from "../../../http/spots-data.js";
 import Button from "../../../pages/account/Button.jsx";
 import { notificationAction } from "../../../redux/notification.jsx";
 import { useDispatch } from "react-redux";

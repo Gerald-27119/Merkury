@@ -3,7 +3,7 @@ import {
   addSpotToFavourites,
   removeSpotFromFavourites,
   isSpotFavourite,
-} from "../../../http/spotsData.js";
+} from "../../../http/spots-data.js";
 import Button from "../../../pages/account/Button.jsx";
 import { useDispatch } from "react-redux";
 import { notificationAction } from "../../../redux/notification.jsx";

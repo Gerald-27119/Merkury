@@ -5,7 +5,7 @@ import {
   isNotEmpty,
   isPassword,
   isUsername,
-} from "../validation/validator.js";
+} from "../validation/validation-rules.js";
 
 const useValidation = (initialValues, shouldValidatePassword = true) => {
   const [enteredValue, setEnteredValue] = useState(initialValues);

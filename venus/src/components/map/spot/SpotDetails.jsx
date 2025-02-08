@@ -8,7 +8,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
 import ExpandedPhotoGallery from "./ExpandedPhotoGallery.jsx";
 import { photoAction } from "../../../redux/photo.jsx";
-import { fetchSpotsDataById } from "../../../http/spotsData.js";
+import { fetchSpotsDataById } from "../../../http/spots-data.js";
 import { useEffect } from "react";
 import { notificationAction } from "../../../redux/notification.jsx";
 import fetchWeatherData from "../../../http/weather.js";

@@ -1,5 +1,5 @@
 import axios from "axios";
-import BASE_URL from "./baseUrl.js";
+import BASE_URL from "./base-url.js";
 
 export async function addComment({ text, spotId }) {
   await axios.post(
