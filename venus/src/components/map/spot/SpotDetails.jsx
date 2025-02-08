@@ -1,7 +1,6 @@
 import Weather from "./Weather.jsx";
 import PhotoGallery from "./PhotoGallery.jsx";
 import Comments from "./Comments.jsx";
-import CommentForm from "./CommentForm.jsx";
 import SpotGeneralInfo from "./SpotGeneralInfo.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { IoCloseOutline } from "react-icons/io5";
@@ -13,7 +12,7 @@ import { useEffect } from "react";
 import { notificationAction } from "../../../redux/notification.jsx";
 import fetchWeatherData from "../../../http/weather.js";
 import { useQuery } from "@tanstack/react-query";
-import AddTofavouritesButton from "./AddToFavouritesButton.jsx";
+import AddToFavouritesButton from "./AddToFavouritesButton.jsx";
 
 export default function SpotDetails() {
   const spotId = useSelector((state) => state.spotDetails.spotId);
@@ -79,7 +78,7 @@ export default function SpotDetails() {
               description={spot.description}
               rating={spot.rating}
             />
-            {isLogged && <AddTofavouritesButton spotId={spotId} />}
+            {isLogged && <AddToFavouritesButton spotId={spotId} />}
             {weatherLoading ? (
               <div className="flex justify-center items-center h-20">
                 <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
@@ -91,11 +90,6 @@ export default function SpotDetails() {
             <div className="overflow-y-auto flex-grow min-h-60">
               <Comments spotId={spotId} />
             </div>
-            {isLogged && (
-              <div>
-                <CommentForm spotId={spotId} />
-              </div>
-            )}
           </div>
         )}
       </div>
