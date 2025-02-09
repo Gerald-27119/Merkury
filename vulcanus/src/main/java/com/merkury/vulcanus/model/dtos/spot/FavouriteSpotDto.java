@@ -10,6 +10,6 @@ import java.util.List;
 public record FavouriteSpotDto(
         @Positive Long id,
         @NotBlank String name,
-        @NotEmpty List<ImgDto> photos
+        @NotEmpty ImgDto photo
 ) {
 }
