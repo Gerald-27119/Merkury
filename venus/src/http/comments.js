@@ -1,5 +1,5 @@
 import axios from "axios";
-import BASE_URL from "./base-url.js";
+const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getPaginatedComments(spotId, page, commentsPerPage) {
   return (
