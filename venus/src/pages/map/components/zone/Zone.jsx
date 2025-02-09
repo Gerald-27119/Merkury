@@ -1,6 +1,6 @@
 import { Polygon } from "react-leaflet";
 import { useDispatch } from "react-redux";
-import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
+import { spotDetailsModalAction } from "../../../../redux/spot-modal.jsx";
 
 /**
  * Zone.jsx - renderuje strefę w formie wielokąta na mapie

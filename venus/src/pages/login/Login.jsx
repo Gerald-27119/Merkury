@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import Input from "../../components/Input.jsx";
+import Input from "../../components/form/Input.jsx";
 import { loginUser } from "../../http/account.js";
-import FormContainer from "../../components/FormContainer.jsx";
+import FormContainer from "../../components/form/FormContainer.jsx";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import { useDispatch } from "react-redux";
 import { accountAction } from "../../redux/account.jsx";

@@ -1,4 +1,4 @@
-import LoadingSpinner from "../../LoadingSpinner.jsx";
+import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
 import { useState } from "react";
 
 export default function Photo({ photo, onClick = () => {}, ...props }) {

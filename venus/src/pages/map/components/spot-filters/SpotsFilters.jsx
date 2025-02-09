@@ -1,11 +1,11 @@
 import { LiaSearchSolid } from "react-icons/lia";
-import Input from "../../Input.jsx";
+import Input from "../../../../components/form/Input.jsx";
 import { useDispatch } from "react-redux";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { spotFiltersAction } from "../../../redux/spot-filters.jsx";
+import { spotFiltersAction } from "../../../../redux/spot-filters.jsx";
 import { useEffect, useState } from "react";
-import { fetchSpotsNames } from "../../../http/spots-data.js";
-import useDebounce from "../../../hooks/useDebounce.jsx";
+import { fetchSpotsNames } from "../../../../http/spots-data.js";
+import useDebounce from "../../../../hooks/useDebounce.jsx";
 import { Rate } from "antd";
 
 export default function SpotsFilters() {

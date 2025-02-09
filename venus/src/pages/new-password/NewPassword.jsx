@@ -2,8 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { changePassword } from "../../http/account.js";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
-import FormContainer from "../../components/FormContainer.jsx";
-import Input from "../../components/Input.jsx";
+import FormContainer from "../../components/form/FormContainer.jsx";
+import Input from "../../components/form/Input.jsx";
 
 export default function NewPassword() {
   const [searchParams] = useSearchParams();

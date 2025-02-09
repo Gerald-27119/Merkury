@@ -1,9 +1,9 @@
 import { IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { photoAction } from "../../../redux/photo.jsx";
+import { photoAction } from "../../../../redux/photo.jsx";
 import { RiArrowLeftWideLine, RiArrowRightWideLine } from "react-icons/ri";
 import Photo from "./Photo.jsx";
-import { photoGalleryAction } from "../../../redux/photo-gallery.jsx";
+import { photoGalleryAction } from "../../../../redux/photo-gallery.jsx";
 import { useEffect } from "react";
 
 const disabledBtnClasses =

@@ -5,7 +5,7 @@ import {
   isEmpty,
   isPassword,
   isUsername,
-} from "../validation/validation-rules.js";
+} from "../utils/validation/validation-rules.js";
 
 const useUserDataValidation = (
   initialValues,

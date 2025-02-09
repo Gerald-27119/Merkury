@@ -3,13 +3,13 @@ import {
   addSpotToFavourites,
   removeSpotFromFavourites,
   isSpotFavourite,
-} from "../../../http/spots-data.js";
+} from "../../../../http/spots-data.js";
 import { useDispatch } from "react-redux";
-import { notificationAction } from "../../../redux/notification.jsx";
-import Error from "../../error/Error.jsx";
+import { notificationAction } from "../../../../redux/notification.jsx";
+import Error from "../../../../components/error/Error.jsx";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
-import LoadingSpinner from "../../LoadingSpinner.jsx";
+import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
 
 export default function AddToFavouritesButton({ spotId }) {
   const queryClient = useQueryClient();

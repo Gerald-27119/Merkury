@@ -1,8 +1,8 @@
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import PjatkLocationMarker from "./PjatkMarker.jsx";
-import UserLocationMarker from "./UserLocationMarker.jsx";
-import Spots from "./spot/Spots.jsx";
+import PjatkLocationMarker from "./components/locations/PjatkMarker.jsx";
+import UserLocationMarker from "./components/locations/UserLocationMarker.jsx";
+import Spots from "./components/spots/Spots.jsx";
 import { useEffect } from "react";
 
 /**

@@ -1,10 +1,10 @@
 import Comment from "./Comment.jsx";
-import Error from "../../error/Error.jsx";
+import Error from "../../../../components/error/Error.jsx";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getPaginatedComments } from "../../../http/comments.js";
+import { getPaginatedComments } from "../../../../http/comments.js";
 import ReactPaginate from "react-paginate";
 import { useState } from "react";
-import LoadingSpinner from "../../LoadingSpinner.jsx";
+import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
 
 export default function Comments({ spotId }) {
   const [currentPage, setCurrentPage] = useState(0);

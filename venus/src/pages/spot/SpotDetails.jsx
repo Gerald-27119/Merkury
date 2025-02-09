@@ -1,19 +1,19 @@
-import Weather from "./Weather.jsx";
-import PhotoGallery from "./PhotoGallery.jsx";
-import Comments from "./Comments.jsx";
-import SpotGeneralInfo from "./SpotGeneralInfo.jsx";
+import Weather from "./components/weather/Weather.jsx";
+import PhotoGallery from "./components/photo-gallery/PhotoGallery.jsx";
+import Comments from "./components/comments/Comments.jsx";
+import SpotGeneralInfo from "./components/general-info/SpotGeneralInfo.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { IoCloseOutline } from "react-icons/io5";
-import { spotDetailsModalAction } from "../../../redux/spot-modal.jsx";
-import ExpandedPhotoGallery from "./ExpandedPhotoGallery.jsx";
-import { photoAction } from "../../../redux/photo.jsx";
-import { fetchSpotsDataById } from "../../../http/spots-data.js";
+import { spotDetailsModalAction } from "../../redux/spot-modal.jsx";
+import ExpandedPhotoGallery from "./components/photo-gallery/ExpandedPhotoGallery.jsx";
+import { photoAction } from "../../redux/photo.jsx";
+import { fetchSpotsDataById } from "../../http/spots-data.js";
 import { useEffect } from "react";
-import { notificationAction } from "../../../redux/notification.jsx";
-import fetchWeatherData from "../../../http/weather.js";
+import { notificationAction } from "../../redux/notification.jsx";
+import fetchWeatherData from "../../http/weather.js";
 import { useQuery } from "@tanstack/react-query";
-import AddToFavouritesButton from "./AddToFavouritesButton.jsx";
-import LoadingSpinner from "../../LoadingSpinner.jsx";
+import AddToFavouritesButton from "./components/buttons/AddToFavouritesButton.jsx";
+import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
 
 export default function SpotDetails() {
   const spotId = useSelector((state) => state.spotDetails.spotId);

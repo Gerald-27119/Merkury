@@ -1,4 +1,4 @@
-import { getOauth2ProviderIcon } from "../../utils/account.jsx";
+import { getOauth2ProviderIcon } from "../../../utils/account.jsx";
 
 export default function ProviderInfo({ provider, email }) {
   return (

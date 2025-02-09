@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserFavouriteSpots } from "../../http/spots-data.js";
-import FavouriteSpot from "../../components/map/spot/FavouriteSpot.jsx";
+import FavouriteSpot from "./FavouriteSpot.jsx";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import Error from "../../components/error/Error.jsx";
-import LoadingSpinner from "../../components/LoadingSpinner.jsx";
+import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
 
 export default function FavouriteSpots() {
   const [currentPage, setCurrentPage] = useState(0);

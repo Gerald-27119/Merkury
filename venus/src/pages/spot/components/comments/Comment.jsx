@@ -1,4 +1,4 @@
-import { formatPublishDate } from "../../../utils/spot-utils.jsx";
+import { formatPublishDate } from "../../../../utils/spot-utils.jsx";
 import { Rate } from "antd";
 
 export default function Comment({ comment }) {

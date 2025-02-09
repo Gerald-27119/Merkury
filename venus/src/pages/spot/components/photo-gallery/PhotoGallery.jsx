@@ -2,8 +2,8 @@ import { RiArrowLeftWideLine } from "react-icons/ri";
 import { RiArrowRightWideLine } from "react-icons/ri";
 import Photo from "./Photo.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { photoAction } from "../../../redux/photo.jsx";
-import { photoGalleryAction } from "../../../redux/photo-gallery.jsx";
+import { photoAction } from "../../../../redux/photo.jsx";
+import { photoGalleryAction } from "../../../../redux/photo-gallery.jsx";
 import { useEffect } from "react";
 
 const disabledBtnClasses = "bg-gray-300 border border-red-600 text-zinc-950";

@@ -1,4 +1,4 @@
-import OauthButton from "../OauthButton.jsx";
+import OauthButton from "./OauthButton.jsx";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { githubLoginUrl, googleLoginUrl } from "../../http/account.js";

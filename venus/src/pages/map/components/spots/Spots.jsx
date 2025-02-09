@@ -1,10 +1,10 @@
 import Zone from "../zone/Zone.jsx";
-import SpotDetails from "./SpotDetails.jsx";
+import SpotDetails from "../../../spot/SpotDetails.jsx";
 import { useQuery } from "@tanstack/react-query";
-import { fetchFilteredSpots } from "../../../http/spots-data.js";
+import { fetchFilteredSpots } from "../../../../http/spots-data.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { notificationAction } from "../../../redux/notification.jsx";
+import { notificationAction } from "../../../../redux/notification.jsx";
 
 export default function Spots() {
   const { name, minRating, maxRating } = useSelector(

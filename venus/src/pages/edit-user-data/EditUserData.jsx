@@ -1,12 +1,12 @@
-import FormContainer from "../../components/FormContainer.jsx";
-import Input from "../../components/Input.jsx";
+import FormContainer from "../../components/form/FormContainer.jsx";
+import Input from "../../components/form/Input.jsx";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { editUserData, getUser } from "../../http/account.js";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import { useEffect, useState } from "react";
-import ProviderInfo from "../../components/account/ProviderInfo.jsx";
+import ProviderInfo from "../account/components/ProviderInfo.jsx";
 import Error from "../../components/error/Error.jsx";
-import LoadingSpinner from "../../components/LoadingSpinner.jsx";
+import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
 
 export default function EditUserData() {
   const [isPasswordChange, setIsPasswordChange] = useState(false);

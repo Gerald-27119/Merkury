@@ -1,8 +1,8 @@
-import OauthForm from "./oauth/OauthForm.jsx";
+import OauthForm from "../oauth/OauthForm.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { notificationAction } from "../redux/notification.jsx";
+import { notificationAction } from "../../redux/notification.jsx";
 
 const errorMessages = {
   409: "E-mail or Username already taken.",
