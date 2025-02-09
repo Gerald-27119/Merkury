@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   isEmail,
   isEqualsToOtherValue,
-  isNotEmpty,
+  isEmpty,
   isPassword,
   isUsername,
 } from "../validation/validation-rules.js";
@@ -21,58 +21,58 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
   const [didEdit, setDidEdit] = useState(
     Object.fromEntries(Object.keys(initialValues).map((key) => [key, false])),
   );
-  const [isNotValid, setIsNotValid] = useState(
+  const [isValid, setIsValid] = useState(
     Object.fromEntries(
       Object.keys(initialValues).map((key) => [
         key,
-        { value: false, message: "" },
+        { value: true, message: "" },
       ]),
     ),
   );
 
   const validateField = (field, value) => {
-    let error = { value: false, message: "" };
+    let error = { isValid: true, message: "" };
 
     if (field === "username") {
-      if (!isNotEmpty(value)) {
-        error = { value: true, message: "Username can't be empty." };
+      if (isEmpty(value)) {
+        error = { isValid: false, message: "Username can't be empty." };
       } else if (!isUsername(value)) {
         error = {
-          value: true,
+          isValid: false,
           message: "Username must contain 3 to 16 characters.",
         };
       }
     } else if (field === "email") {
-      if (!isNotEmpty(value)) {
-        error = { value: true, message: "E-mail can't be empty." };
+      if (isEmpty(value)) {
+        error = { isValid: false, message: "E-mail can't be empty." };
       } else if (!isEmail(value)) {
-        error = { value: true, message: "E-mail must contain @." };
+        error = { isValid: false, message: "E-mail must contain @." };
       }
     } else if (field === "old-password") {
-      if (!isNotEmpty(value)) {
-        error = { value: true, message: "Old password can't be empty." };
+      if (isEmpty(value)) {
+        error = { isValid: false, message: "Old password can't be empty." };
       }
     } else if (field === "password") {
-      if (!isNotEmpty(value)) {
-        error = { value: true, message: "Password can't be empty." };
+      if (isEmpty(value)) {
+        error = { isValid: false, message: "Password can't be empty." };
       } else if (validatePassword && !isPassword(value)) {
         error = {
-          value: true,
+          isValid: false,
           message:
             "Password must be at least 8 characters long and contain a lowercase letter, uppercase letter, number, and special character.",
         };
       } else if (isEqualsToOtherValue(value, enteredValue["old-password"])) {
-        error = { value: true, message: "New password must be different." };
+        error = { isValid: false, message: "New password must be different." };
       }
     } else if (field === "confirm-password") {
-      if (!isNotEmpty(value)) {
-        error = { value: true, message: "Password can't be empty." };
+      if (isEmpty(value)) {
+        error = { isValid: false, message: "Password can't be empty." };
       } else if (!isEqualsToOtherValue(value, enteredValue.password)) {
-        error = { value: true, message: "Passwords must be the same." };
+        error = { isValid: false, message: "Passwords must be the same." };
       }
     }
-
-    return error;
+    console.log(field, error);
+    return { value: error.isValid, message: error.message };
   };
 
   const validate = () => {
@@ -80,7 +80,7 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
     Object.keys(enteredValue).forEach((field) => {
       newIsValid[field] = validateField(field, enteredValue[field]);
     });
-    setIsNotValid(newIsValid);
+    setIsValid(newIsValid);
 
     return Object.values(newIsValid).every((field) => !field.value);
   };
@@ -90,15 +90,15 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
     setEnteredValue((prev) => ({ ...prev, [field]: value }));
     setDidEdit((prev) => ({ ...prev, [field]: true }));
 
-    setIsNotValid((prev) => ({
-      ...prev,
-      [field]: validateField(field, value),
-    }));
+    // setIsValid((prev) => ({
+    //   ...prev,
+    //   [field]: validateField(field, value),
+    // }));
   };
 
   const handleInputBlur = (field) => {
     setDidEdit((prev) => ({ ...prev, [field]: true }));
-    setIsNotValid((prev) => ({
+    setIsValid((prev) => ({
       ...prev,
       [field]: validateField(field, enteredValue[field]),
     }));
@@ -107,7 +107,7 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
   return {
     enteredValue,
     didEdit,
-    isNotValid,
+    isValid,
     handleInputChange,
     handleInputBlur,
     validate,

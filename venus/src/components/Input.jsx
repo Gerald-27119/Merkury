@@ -1,6 +1,12 @@
-export default function Input({ label, id, error, labelClassNames, ...props }) {
+export default function Input({
+  label,
+  id,
+  isValid,
+  labelClassNames,
+  ...props
+}) {
   let classesInput = "p-2 rounded-md";
-  if (error?.value) {
+  if (!isValid?.value) {
     classesInput += " outline  outline-red-600";
   }
   return (
@@ -17,9 +23,9 @@ export default function Input({ label, id, error, labelClassNames, ...props }) {
       </label>
       <input id={id} className={classesInput} {...props} />
       <div>
-        {error?.value && (
+        {!isValid?.value && (
           <p className="text-red-500 font-bold text-sm break-words">
-            {error?.message}
+            {isValid?.message}
           </p>
         )}
       </div>

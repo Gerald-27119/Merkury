@@ -1,5 +1,5 @@
-export function isNotEmpty(value) {
-  return value.trim().length > 0;
+export function isEmpty(value) {
+  return value.trim().length === 0;
 }
 
 export function isEqualsToOtherValue(value, otherValue) {

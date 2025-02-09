@@ -14,18 +14,13 @@ export default function Register() {
 
   const dispatch = useDispatch();
 
-  const {
-    enteredValue,
-    didEdit,
-    isNotValid,
-    handleInputChange,
-    handleInputBlur,
-  } = useValidation({
-    password: "",
-    username: "",
-    email: "",
-    "confirm-password": "",
-  });
+  const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
+    useValidation({
+      password: "",
+      username: "",
+      email: "",
+      "confirm-password": "",
+    });
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -62,7 +57,7 @@ export default function Register() {
           onChange={(event) => handleInputChange("username", event)}
           value={enteredValue.username}
           onBlur={() => handleInputBlur("username")}
-          error={isNotValid.username}
+          isValid={isValid.username}
         />
         <Input
           label="E-mail"
@@ -71,7 +66,7 @@ export default function Register() {
           onChange={(event) => handleInputChange("email", event)}
           value={enteredValue.email}
           onBlur={() => handleInputBlur("email")}
-          error={isNotValid.email}
+          isValid={isValid.email}
         />
         <Input
           label="Password"
@@ -80,7 +75,7 @@ export default function Register() {
           onChange={(event) => handleInputChange("password", event)}
           value={enteredValue.password}
           onBlur={() => handleInputBlur("password")}
-          error={isNotValid.password}
+          isValid={isValid.password}
         />
         <Input
           label="Confirm Password"
@@ -89,7 +84,7 @@ export default function Register() {
           onChange={(event) => handleInputChange("confirm-password", event)}
           value={enteredValue["confirm-password"]}
           onBlur={() => handleInputBlur("confirm-password")}
-          error={isNotValid["confirm-password"]}
+          isValid={isValid["confirm-password"]}
         />
         <button
           type="submit"
@@ -99,10 +94,10 @@ export default function Register() {
             !didEdit.password ||
             !didEdit.email ||
             !didEdit["confirm-password"] ||
-            isNotValid.email.value ||
-            isNotValid.password.value ||
-            isNotValid.username.value ||
-            isNotValid["confirm-password"].value
+            !isValid.email.value ||
+            !isValid.password.value ||
+            !isValid.username.value ||
+            !isValid["confirm-password"].value
           }
         >
           Sign up
