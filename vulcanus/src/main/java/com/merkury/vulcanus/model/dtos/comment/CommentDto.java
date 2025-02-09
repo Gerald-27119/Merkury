@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.dtos.coment;
+package com.merkury.vulcanus.model.dtos.comment;
 
 import jakarta.validation.constraints.*;
 

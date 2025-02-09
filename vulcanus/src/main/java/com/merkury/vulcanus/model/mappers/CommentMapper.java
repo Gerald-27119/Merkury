@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.model.mappers;
 
-import com.merkury.vulcanus.model.dtos.coment.CommentDto;
+import com.merkury.vulcanus.model.dtos.comment.CommentDto;
 import com.merkury.vulcanus.model.entities.Comment;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.entities.UserEntity;

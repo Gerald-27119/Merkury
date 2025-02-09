@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.model.dtos.spot;
 
-import com.merkury.vulcanus.model.dtos.coment.CommentDto;
+import com.merkury.vulcanus.model.dtos.comment.CommentDto;
 import com.merkury.vulcanus.model.dtos.ImgDto;
 import jakarta.validation.constraints.*;
 
