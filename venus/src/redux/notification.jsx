@@ -27,7 +27,8 @@ export const notificationSlice = createSlice({
     },
     setInfo(state, action) {
       state.title = "Info";
-      state.message = action.payload?.message || "You do something wrong.";
+      state.message =
+        action.payload?.message || "No action is needed at this moment.";
       state.isOpen = true;
       state.info = true;
     },
