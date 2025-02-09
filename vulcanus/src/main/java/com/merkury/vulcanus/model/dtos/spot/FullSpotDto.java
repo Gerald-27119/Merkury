@@ -14,7 +14,7 @@ public record FullSpotDto(@Positive(message = "ID must be a positive number.")
                           String name,
                           @NotBlank(message = "Description cannot be empty.")
                           String description,
-                          @Min(value = 1, message = "Rating count cannot be less than 1.")
+                          @Min(value = 0, message = "Rating count cannot be less than 0.")
                           @Max(value = 5, message = "Rating count cannot be more than 5.")
                           Double rating,
                           @Min(value = 0, message = "Views count cannot be less than 0.")

@@ -10,7 +10,7 @@ public record GeneralSpotDto(@Positive(message = "ID must be a positive number."
                              String areaColor,
                              @NotBlank(message = "Name cannot be empty.")
                              String name,
-                             @Min(value = 1, message = "Rating count cannot be less than 1.")
+                             @Min(value = 0, message = "Rating count cannot be less than 0.")
                              @Max(value = 5, message = "Rating count cannot be more than 5.")
                              Double rating,
                              @NotEmpty(message = "Contour coordinates list cannot be empty.")
