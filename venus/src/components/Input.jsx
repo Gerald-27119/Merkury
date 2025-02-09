@@ -1,7 +1,7 @@
 export default function Input({
   label,
   id,
-  isValid,
+  isValid = { value: true, message: "" },
   labelClassNames,
   ...props
 }) {
@@ -13,11 +13,7 @@ export default function Input({
     <div className="flex flex-col">
       <label
         htmlFor={id}
-        className={
-          labelClassNames
-            ? labelClassNames
-            : "uppercase text-sm text-gray-600 pb-1"
-        }
+        className={labelClassNames || "uppercase text-sm text-gray-600 pb-1"}
       >
         {label}
       </label>

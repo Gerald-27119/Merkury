@@ -2,7 +2,7 @@ import Input from "../../components/Input.jsx";
 import { registerUser } from "../../http/account.js";
 import { useMutation } from "@tanstack/react-query";
 import FormContainer from "../../components/FormContainer.jsx";
-import useValidation from "../../hooks/useValidation.jsx";
+import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import { useEffect } from "react";
 import { accountAction } from "../../redux/account.jsx";
 import { useDispatch } from "react-redux";
@@ -15,7 +15,7 @@ export default function Register() {
   const dispatch = useDispatch();
 
   const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
-    useValidation({
+    useUserDataValidation({
       password: "",
       username: "",
       email: "",

@@ -2,7 +2,7 @@ import FormContainer from "../../components/FormContainer.jsx";
 import Input from "../../components/Input.jsx";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { editUserData, getUser } from "../../http/account.js";
-import useValidation from "../../hooks/useValidation.jsx";
+import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import { useEffect, useState } from "react";
 import ProviderInfo from "../../components/account/ProviderInfo.jsx";
 import Error from "../../components/error/Error.jsx";
@@ -39,12 +39,12 @@ export default function EditUserData() {
   const {
     enteredValue,
     didEdit,
-    isNotValid,
+    isValid,
     handleInputChange,
     handleInputBlur,
     updateValues,
-    updateShouldValidatePassword,
-  } = useValidation(
+    updateShouldPasswordMatchRegex,
+  } = useUserDataValidation(
     {
       password: "",
       username: "",
@@ -56,7 +56,7 @@ export default function EditUserData() {
   );
 
   useEffect(() => {
-    updateShouldValidatePassword(isPasswordChange);
+    updateShouldPasswordMatchRegex(isPasswordChange);
   }, [isPasswordChange]);
 
   useEffect(() => {
@@ -117,7 +117,7 @@ export default function EditUserData() {
               onChange={(event) => handleInputChange("username", event)}
               value={enteredValue.username}
               onBlur={() => handleInputBlur("username")}
-              error={isNotValid.username}
+              isValid={isValid.username}
             />
             {provider === "NONE" && (
               <Input
@@ -127,7 +127,7 @@ export default function EditUserData() {
                 onChange={(event) => handleInputChange("email", event)}
                 value={enteredValue.email}
                 onBlur={() => handleInputBlur("email")}
-                error={isNotValid.email}
+                isValid={isValid.email}
               />
             )}
             {isPasswordChangeable && (
@@ -143,7 +143,7 @@ export default function EditUserData() {
                       }
                       value={enteredValue["old-password"]}
                       onBlur={() => handleInputBlur("old-password")}
-                      error={isNotValid["old-password"]}
+                      isValid={isValid["old-password"]}
                     />
                     <Input
                       label="Password"
@@ -152,7 +152,7 @@ export default function EditUserData() {
                       onChange={(event) => handleInputChange("password", event)}
                       value={enteredValue.password}
                       onBlur={() => handleInputBlur("password")}
-                      error={isNotValid.password}
+                      isValid={isValid.password}
                     />
                     <Input
                       label="Confirm Password"
@@ -163,7 +163,7 @@ export default function EditUserData() {
                       }
                       value={enteredValue["confirm-password"]}
                       onBlur={() => handleInputBlur("confirm-password")}
-                      error={isNotValid["confirm-password"]}
+                      isValid={isValid["confirm-password"]}
                     />
                   </>
                 )}
@@ -185,12 +185,12 @@ export default function EditUserData() {
               type="submit"
               className="bg-red-600 p-3 mt-3 text-white rounded-md text-lg hover:bg-red-700"
               disabled={
-                (didEdit.username && isNotValid.username.value) ||
-                (didEdit["old-password"] && isNotValid["old-password"].value) ||
-                (didEdit.password && isNotValid.password.value) ||
-                (didEdit.email && isNotValid.email.value) ||
+                (didEdit.username && !isValid.username.value) ||
+                (didEdit["old-password"] && !isValid["old-password"].value) ||
+                (didEdit.password && !isValid.password.value) ||
+                (didEdit.email && !isValid.email.value) ||
                 (didEdit["confirm-password"] &&
-                  isNotValid["confirm-password"].value)
+                  !isValid["confirm-password"].value)
               }
             >
               Save Changes

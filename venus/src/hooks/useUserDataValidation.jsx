@@ -7,13 +7,16 @@ import {
   isUsername,
 } from "../validation/validation-rules.js";
 
-const useValidation = (initialValues, shouldValidatePassword = true) => {
+const useUserDataValidation = (
+  initialValues,
+  shouldPasswordMatchRegex = true,
+) => {
   const [enteredValue, setEnteredValue] = useState(initialValues);
-  const [validatePassword, setValidatePassword] = useState(
-    shouldValidatePassword,
+  const [validatePasswordRegex, setValidatePasswordRegex] = useState(
+    shouldPasswordMatchRegex,
   );
-  function updateShouldValidatePassword(newValue) {
-    setValidatePassword((prevState) => ({ ...prevState, ...newValue }));
+  function updateShouldPasswordMatchRegex(newValue) {
+    setValidatePasswordRegex((prevState) => ({ ...prevState, ...newValue }));
   }
   function updateValues(newValues) {
     setEnteredValue((prevValues) => ({ ...prevValues, ...newValues }));
@@ -55,7 +58,7 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
     } else if (field === "password") {
       if (isEmpty(value)) {
         error = { isValid: false, message: "Password can't be empty." };
-      } else if (validatePassword && !isPassword(value)) {
+      } else if (validatePasswordRegex && !isPassword(value)) {
         error = {
           isValid: false,
           message:
@@ -71,7 +74,6 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
         error = { isValid: false, message: "Passwords must be the same." };
       }
     }
-    console.log(field, error);
     return { value: error.isValid, message: error.message };
   };
 
@@ -89,11 +91,6 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
     const { value } = event.target;
     setEnteredValue((prev) => ({ ...prev, [field]: value }));
     setDidEdit((prev) => ({ ...prev, [field]: true }));
-
-    // setIsValid((prev) => ({
-    //   ...prev,
-    //   [field]: validateField(field, value),
-    // }));
   };
 
   const handleInputBlur = (field) => {
@@ -112,8 +109,8 @@ const useValidation = (initialValues, shouldValidatePassword = true) => {
     handleInputBlur,
     validate,
     updateValues,
-    updateShouldValidatePassword,
+    updateShouldPasswordMatchRegex,
   };
 };
 
-export default useValidation;
+export default useUserDataValidation;

@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { changePassword } from "../../http/account.js";
-import useValidation from "../../hooks/useValidation.jsx";
+import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import FormContainer from "../../components/FormContainer.jsx";
 import Input from "../../components/Input.jsx";
 
@@ -9,13 +9,8 @@ export default function NewPassword() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
 
-  const {
-    enteredValue,
-    didEdit,
-    isNotValid,
-    handleInputChange,
-    handleInputBlur,
-  } = useValidation({ password: "", "confirm-password": "" });
+  const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
+    useUserDataValidation({ password: "", "confirm-password": "" });
 
   const { isSuccess, error, mutate } = useMutation({
     mutationFn: changePassword,
@@ -42,7 +37,7 @@ export default function NewPassword() {
           onChange={(event) => handleInputChange("password", event)}
           onBlur={() => handleInputBlur("password")}
           type="password"
-          error={isNotValid?.password}
+          isValid={isValid?.password}
           label="new password"
         />
         <Input
@@ -51,7 +46,7 @@ export default function NewPassword() {
           onChange={(event) => handleInputChange("confirm-password", event)}
           onBlur={() => handleInputBlur("confirm-password")}
           type="password"
-          error={isNotValid["confirm-password"]}
+          isValid={isValid["confirm-password"]}
           label="confirm password"
         />
         <button
@@ -60,8 +55,8 @@ export default function NewPassword() {
           disabled={
             !didEdit.password ||
             !didEdit["confirm-password"] ||
-            isNotValid.password.value ||
-            isNotValid["confirm-password"].value
+            !isValid.password.value ||
+            !isValid["confirm-password"].value
           }
         >
           Set Password

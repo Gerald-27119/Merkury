@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import Input from "../../components/Input.jsx";
 import { loginUser } from "../../http/account.js";
 import FormContainer from "../../components/FormContainer.jsx";
-import useValidation from "../../hooks/useValidation.jsx";
+import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import { useDispatch } from "react-redux";
 import { accountAction } from "../../redux/account.jsx";
 import { useEffect } from "react";
@@ -15,13 +15,8 @@ function Login() {
     mutationFn: loginUser,
   });
 
-  const {
-    enteredValue,
-    didEdit,
-    isNotValid,
-    handleInputChange,
-    handleInputBlur,
-  } = useValidation({ username: "", password: "" }, false);
+  const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
+    useUserDataValidation({ username: "", password: "" }, false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -57,7 +52,7 @@ function Login() {
           onBlur={() => handleInputBlur("username")}
           onChange={(event) => handleInputChange("username", event)}
           type="text"
-          error={isNotValid?.username}
+          isValid={isValid?.username}
         />
         <Input
           id="password"
@@ -66,7 +61,7 @@ function Login() {
           onBlur={() => handleInputBlur("password")}
           onChange={(event) => handleInputChange("password", event)}
           type="password"
-          error={isNotValid?.password}
+          isValid={isValid?.password}
           required={true}
         />
         <div className={"remember-forgot flex justify-between"}>
@@ -83,8 +78,8 @@ function Login() {
           disabled={
             !didEdit.username ||
             !didEdit.password ||
-            isNotValid.password.value ||
-            isNotValid.username.value
+            !isValid.password.value ||
+            !isValid.username.value
           }
         >
           Sign In
