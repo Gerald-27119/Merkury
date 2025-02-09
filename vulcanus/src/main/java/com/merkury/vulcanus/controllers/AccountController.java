@@ -192,4 +192,9 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(user);
     }
+
+    @GetMapping("/account/check")
+    public ResponseEntity<Void> checkIsAuthenticated() {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
