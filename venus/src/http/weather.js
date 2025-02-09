@@ -1,91 +1,58 @@
-import { fetchWeatherApi } from "openmeteo";
+import axios from "axios";
 
-const fetchWeatherData = async (latitude, longitude) => {
-  const params = {
-    latitude: latitude,
-    longitude: longitude,
-    current: [
-      "temperature_2m",
-      "relative_humidity_2m",
-      "is_day",
-      "weather_code",
-    ],
-    hourly: [
-      "wind_speed_1000hPa",
-      "wind_speed_975hPa",
-      "wind_speed_950hPa",
-      "wind_speed_925hPa",
-      "wind_speed_900hPa",
-    ],
-    daily: ["sunrise", "sunset"],
-    wind_speed_unit: "ms",
-  };
-
-  try {
-    const responses = await fetchWeatherApi(
-      "https://api.open-meteo.com/v1/forecast",
-      params,
-    );
-    const response = responses[0];
-
-    const current = response.current();
-    const hourly = response.hourly();
-    const daily = response.daily();
-    const currentHour = new Date().getUTCHours();
-    const flooredHour = Math.floor(currentHour);
-    const closestHourlyIndex =
-      flooredHour % hourly.variables(0).valuesArray().length;
-
-    return {
-      current: {
-        temperature2m: current.variables(0).value().toFixed(1),
-        relativeHumidity2m: current.variables(1).value(),
-        isDay: current.variables(2).values(),
-        type: current.variables(3).value(),
-      },
-      hourly: {
-        winds: [
-          {
-            height: 100,
-            speed: parseInt(
-              hourly.variables(0).valuesArray()[closestHourlyIndex],
-            ),
-          },
-          {
-            height: 300,
-            speed: parseInt(
-              hourly.variables(1).valuesArray()[closestHourlyIndex],
-            ),
-          },
-          {
-            height: 500,
-            speed: parseInt(
-              hourly.variables(2).valuesArray()[closestHourlyIndex],
-            ),
-          },
-          {
-            height: 800,
-            speed: parseInt(
-              hourly.variables(3).valuesArray()[closestHourlyIndex],
-            ),
-          },
-          {
-            height: 1000,
-            speed: parseInt(
-              hourly.variables(4).valuesArray()[closestHourlyIndex],
-            ),
-          },
+export async function fetchWeather(latitude, longitude) {
+  return (
+    await axios.get("https://api.open-meteo.com/v1/forecast", {
+      params: {
+        latitude,
+        longitude,
+        current: ["temperature_2m", "weather_code"],
+        hourly: [
+          "wind_speed_1000hPa",
+          "wind_speed_975hPa",
+          "wind_speed_950hPa",
+          "wind_speed_925hPa",
+          "wind_speed_900hPa",
+          "wind_speed_10m",
+          "wind_speed_80m",
         ],
+        daily: ["sunrise", "sunset"],
+        wind_speed_unit: "ms",
       },
-      daily: {
-        sunrise: daily.variables(0).valuesArray(),
-        sunset: daily.variables(1).valuesArray(),
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching weather data:", error);
-    throw error;
-  }
-};
+    })
+  ).data;
+}
 
-export default fetchWeatherData;
+export function getWeatherData(data) {
+  const date = new Date();
+  const currentDay = date.getUTCDay();
+  const currentHour = date.getHours();
+  const hourInWeek = currentHour * (currentDay + 1);
+
+  const current = data.current;
+  const hourly = data.hourly;
+  const daily = data.daily;
+
+  return {
+    temperature: current.temperature_2m,
+    weatherCode: current.weather_code,
+    winds: [
+      { height: 10, speed: hourly.wind_speed_10m[hourInWeek] },
+      { height: 80, speed: hourly.wind_speed_80m[hourInWeek] },
+      { height: 110, speed: hourly.wind_speed_1000hPa[hourInWeek] },
+      { height: 320, speed: hourly.wind_speed_975hPa[hourInWeek] },
+      { height: 500, speed: hourly.wind_speed_950hPa[hourInWeek] },
+      { height: 800, speed: hourly.wind_speed_925hPa[hourInWeek] },
+      { height: 1000, speed: hourly.wind_speed_900hPa[hourInWeek] },
+    ],
+    sunrise: formatTime(daily.sunrise[currentDay]),
+    sunset: formatTime(daily.sunset[currentDay]),
+  };
+}
+
+const formatTime = (dateString) => {
+  const date = new Date(dateString);
+  const hours = date.getHours();
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  return `${hours}:${minutes}`;
+};

@@ -1,53 +1,45 @@
-import { RiArrowDownWideFill } from "react-icons/ri";
-import { WiThermometer } from "react-icons/wi";
-import { useState } from "react";
-import WeatherDetails from "./WeatherDetails.jsx";
-import GeneralWeather from "./GeneralWeather.jsx";
+import { useQuery } from "@tanstack/react-query";
+import { fetchWeather, getWeatherData } from "../../../http/weather.js";
 
-export default function Weather({ weather }) {
-  const [showDetails, setShowDetails] = useState(false);
+export default function Weather({ spot }) {
+  const { data, error, isLoading } = useQuery({
+    queryFn: () =>
+      fetchWeather(spot.weatherApiCallCoords[0], spot.weatherApiCallCoords[1]),
+    queryKey: ["weather"],
+  });
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  const weatherData = getWeatherData(data);
+
   return (
-    <>
-      {weather ? (
-        <div className="border border-violet-700 rounded-sm p-1 bg-sky-200">
-          <div className="flex items-center justify-between">
-            <GeneralWeather generalWeather={weather.current.type} />
-            <div className="right-0 mr-5 flex items-center">
-              <WiThermometer size={30} className="text-red-400" />
-              <p className="text-xl text-white">
-                {weather.current.temperature2m}&deg;C
-              </p>
-            </div>
-          </div>
-          <div
-            className={`transition-all duration-300 ${
-              showDetails ? "max-h-screen" : "max-h-0"
-            } overflow-hidden`}
-          >
-            {showDetails && (
-              <WeatherDetails
-                sunrise={weather.daily.sunrise}
-                sunset={weather.daily.sunset}
-                humidity={weather.current.relativeHumidity2m}
-                winds={weather.hourly.winds}
-              />
-            )}
-          </div>
-          <div
-            onClick={() => setShowDetails((prevState) => !prevState)}
-            className="w-full mt-1 flex justify-center border border-sky-100 hover:bg-sky-100 cursor-pointer"
-          >
-            <RiArrowDownWideFill
-              size={30}
-              className={`transform transition-transform duration-300 ${
-                showDetails ? "rotate-180" : ""
-              }`}
-            />
-          </div>
-        </div>
-      ) : (
-        <p>No weather is available!</p>
-      )}
-    </>
+    <div>
+      <div>
+        <h1>Sunrise:</h1>
+        <p>{weatherData.sunrise}</p>
+      </div>
+      <div>
+        <h1>Sunset:</h1>
+        <p>{weatherData.sunset}</p>
+      </div>
+      <div>
+        <h1>Temperature:</h1>
+        <p>{weatherData.temperature}</p>
+      </div>
+      <div>
+        <h1>Weather code:</h1>
+        <p>{weatherData.weatherCode}</p>
+      </div>
+      <div>
+        <h1>Wind speed:</h1>
+        {weatherData.winds.map((wind) => (
+          <p key={wind.height}>
+            {wind.height}m - {wind.speed}m/s
+          </p>
+        ))}
+      </div>
+    </div>
   );
 }

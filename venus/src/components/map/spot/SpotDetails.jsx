@@ -1,4 +1,3 @@
-import Weather from "./Weather.jsx";
 import PhotoGallery from "./PhotoGallery.jsx";
 import Comments from "./Comments.jsx";
 import CommentForm from "./CommentForm.jsx";
@@ -11,9 +10,9 @@ import { photoAction } from "../../../redux/photo.jsx";
 import { fetchSpotsDataById } from "../../../http/spotsData.js";
 import { useEffect } from "react";
 import { notificationAction } from "../../../redux/notification.jsx";
-import fetchWeatherData from "../../../http/weather.js";
 import { useQuery } from "@tanstack/react-query";
 import AddTofavouritesButton from "./AddToFavouritesButton.jsx";
+import Weather from "./Weather.jsx";
 
 export default function SpotDetails() {
   const spotId = useSelector((state) => state.spotDetails.spotId);
@@ -29,21 +28,7 @@ export default function SpotDetails() {
     staleTime: 1000 * 60 * 5,
   });
 
-  const {
-    data: weather,
-    isLoading: weatherLoading,
-    error: weatherError,
-  } = useQuery({
-    queryFn: () =>
-      fetchWeatherData(
-        spot.weatherApiCallCoords[0],
-        spot.weatherApiCallCoords[1],
-      ),
-    queryKey: ["weather", spotId],
-    enabled: !!spot,
-  });
-
-  let error = spotError || weatherError;
+  let error = spotError;
 
   useEffect(() => {
     if (error?.response?.data) {
@@ -80,13 +65,7 @@ export default function SpotDetails() {
               rating={spot.rating}
             />
             {isLogged && <AddTofavouritesButton spotId={spotId} />}
-            {weatherLoading ? (
-              <div className="flex justify-center items-center h-20">
-                <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-              </div>
-            ) : (
-              <Weather weather={weather} />
-            )}
+            <Weather spot={spot} />
             <PhotoGallery photos={spot.photos} />
             <div className="overflow-y-auto flex-grow min-h-60">
               <Comments spotId={spotId} />
