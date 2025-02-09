@@ -5,37 +5,32 @@ import SpotsFilters from "../../components/map/filters/SpotsFilters.jsx";
 
 export default function Header() {
   const { pathname } = useLocation();
-  const activeClassNames =
-    "underline underline-offset-7 decoration-text-fuchsia-100 decoration-2";
 
   const isLogged = useSelector((state) => state.account.isLogged);
+
+  const links = [
+    { to: "/", label: "Map" },
+    { to: "/account", label: isLogged ? "My Account" : "Account" },
+    ...(isLogged ? [{ to: "/forum", label: "Forum" }] : []),
+  ];
 
   return (
     <header className="bg-gray-800 p-4 flex w-full text-3xl flex-col justify-center">
       <nav className="flex gap-20 w-full justify-center text-white">
-        <NavLink
-          to="/"
-          end
-          className={({ isActive }) => (isActive ? activeClassNames : "")}
-        >
-          Welcome
-        </NavLink>
-        {isLogged && (
+        {links.map(({ to, label }) => (
           <NavLink
-            to="forum"
+            to={to}
+            key={to}
             end
-            className={({ isActive }) => (isActive ? activeClassNames : "")}
+            className={({ isActive }) =>
+              isActive
+                ? "underline underline-offset-7 decoration-text-fuchsia-100 decoration-2"
+                : ""
+            }
           >
-            Forum
+            {label}
           </NavLink>
-        )}
-        <NavLink
-          to="account"
-          end
-          className={({ isActive }) => (isActive ? activeClassNames : "")}
-        >
-          {isLogged ? "My Account" : "Account"}
-        </NavLink>
+        ))}
         {isLogged && <SignOutButton />}
       </nav>
       {pathname === "/" && <SpotsFilters />}
