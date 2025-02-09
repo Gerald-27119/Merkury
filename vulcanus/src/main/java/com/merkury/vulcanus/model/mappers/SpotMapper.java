@@ -3,6 +3,7 @@ package com.merkury.vulcanus.model.mappers;
 import com.merkury.vulcanus.model.dtos.spot.FullSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
+import com.merkury.vulcanus.model.entities.BorderPoint;
 import com.merkury.vulcanus.model.entities.Comment;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.Point;
@@ -30,7 +31,7 @@ public class SpotMapper {
     }
 
     public static Spot toEntity(@NotNull FullSpotDto dto,
-                                @NotNull List<Point> points,
+                                @NotNull List<BorderPoint> points,
                                 @NotNull List<Comment> comments,
                                 @NotNull List<Img> images) {
         Spot spot = new Spot();

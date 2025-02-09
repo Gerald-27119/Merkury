@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.db;
 
 
-import com.merkury.vulcanus.PopulateDbsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
