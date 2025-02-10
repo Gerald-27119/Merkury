@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import WindSpeedRadioButton from "./WindSpeedRadioButton.jsx";
+import WindSpeedColumn from "./WindSpeedColumn.jsx";
 
 const availableHeights = [0, 100, 200, 500, 1000];
 
@@ -78,7 +79,7 @@ export default function WindSpeed({ winds }) {
           </p>
         </div>
         <div className="flex gap-4 text-xl">
-          <div className="flex flex-col">
+          <WindSpeedColumn>
             {availableHeights.slice(0, 3).map((value) => (
               <WindSpeedRadioButton
                 key={value}
@@ -88,8 +89,8 @@ export default function WindSpeed({ winds }) {
                 allValues={availableHeights}
               />
             ))}
-          </div>
-          <div className="flex flex-col">
+          </WindSpeedColumn>
+          <WindSpeedColumn>
             {availableHeights.slice(3).map((value) => (
               <WindSpeedRadioButton
                 key={value}
@@ -99,7 +100,7 @@ export default function WindSpeed({ winds }) {
                 allValues={availableHeights}
               />
             ))}
-          </div>
+          </WindSpeedColumn>
         </div>
       </div>
     </div>

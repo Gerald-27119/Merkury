@@ -36,7 +36,6 @@ export default function Weather({ spot }) {
             <p>{weatherData.sunset}</p>
           </WeatherTile>
         </WeatherRow>
-
         <WeatherRow>
           <WeatherTile>
             <WiThermometer className="text-4xl mt-1" />
