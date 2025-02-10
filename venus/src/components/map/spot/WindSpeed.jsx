@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import WindSpeedRadioButton from "./WindSpeedRadioButton.jsx";
 
+const availableHeights = [0, 100, 200, 500, 1000];
+
 export default function WindSpeed({ winds }) {
   const [windSpeed, setWindSpeed] = useState(0);
   const [windHeight, setWindHeight] = useState(0);
-  const [heightError, setHeightError] = useState("sda");
+  const [heightError, setHeightError] = useState("");
 
   const changeWindHeightHandler = (e) => {
     let windHeight = e.target.value;
@@ -17,7 +19,7 @@ export default function WindSpeed({ winds }) {
       if (windHeight > 2000) {
         setWindHeight(2000);
       } else {
-        setWindHeight(windHeight);
+        setWindHeight(Number(windHeight));
       }
     } else {
       setWindHeight(0);
@@ -58,7 +60,6 @@ export default function WindSpeed({ winds }) {
           onChange={changeWindHeightHandler}
           min={0}
           max={2000}
-          pattern="[0-9]*"
           className="py-2 px-4 shadow-md rounded-md w-1/3 focus:outline-none focus:ring-0 text-center flex-grow"
         />
         <p className="text-center flex-grow">{windSpeed} m/s</p>
@@ -78,33 +79,26 @@ export default function WindSpeed({ winds }) {
         </div>
         <div className="flex gap-4 text-xl">
           <div className="flex flex-col">
-            <WindSpeedRadioButton
-              value={0}
-              onChange={changeWindHeightHandler}
-              windHeight={windHeight}
-            />
-            <WindSpeedRadioButton
-              value={100}
-              onChange={changeWindHeightHandler}
-              windHeight={windHeight}
-            />
-            <WindSpeedRadioButton
-              value={200}
-              onChange={changeWindHeightHandler}
-              windHeight={windHeight}
-            />
+            {availableHeights.slice(0, 3).map((value) => (
+              <WindSpeedRadioButton
+                key={value}
+                value={value}
+                onChange={changeWindHeightHandler}
+                windHeight={windHeight}
+                allValues={availableHeights}
+              />
+            ))}
           </div>
           <div className="flex flex-col">
-            <WindSpeedRadioButton
-              value={500}
-              onChange={changeWindHeightHandler}
-              windHeight={windHeight}
-            />
-            <WindSpeedRadioButton
-              value={1000}
-              onChange={changeWindHeightHandler}
-              windHeight={windHeight}
-            />
+            {availableHeights.slice(3).map((value) => (
+              <WindSpeedRadioButton
+                key={value}
+                value={value}
+                onChange={changeWindHeightHandler}
+                windHeight={windHeight}
+                allValues={availableHeights}
+              />
+            ))}
           </div>
         </div>
       </div>

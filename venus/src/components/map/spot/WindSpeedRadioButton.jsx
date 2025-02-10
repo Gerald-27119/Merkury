@@ -1,10 +1,19 @@
-export default function WindSpeedRadioButton({ value, onChange, windHeight }) {
+export default function WindSpeedRadioButton({
+  value,
+  onChange,
+  windHeight,
+  allValues,
+}) {
+  const closestValue = allValues.reduce(
+    (prev, curr) => (windHeight >= curr && curr > prev ? curr : prev),
+    0,
+  );
+
   return (
     <div className="flex space-x-2 items-center">
       <input
         type="radio"
-        defaultChecked={value === 0}
-        checked={windHeight >= value}
+        checked={closestValue === value}
         value={value}
         name="windHeight"
         id={`windHeight_${value}`}
