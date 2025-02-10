@@ -73,6 +73,7 @@ export default function WindSpeed({ winds }) {
             max={2000}
             value={windHeight}
             onChange={changeWindHeightHandler}
+            className="appearance-none w-full h-2 py-2 bg-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-300 accent-slate-800"
           />
           <p className="text-red-500 font-semibold text-base mt-2">
             {heightError}
