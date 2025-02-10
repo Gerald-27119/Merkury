@@ -43,7 +43,7 @@ export default function ExpandedPhotoGallery({ photos }) {
   return (
     <div className="bg-gray-950 bg-opacity-95 flex justify-center items-center h-full">
       <button
-        onClick={() => handleClickMinimizePhoto()}
+        onClick={handleClickMinimizePhoto}
         className="absolute top-2 right-2"
       >
         <IoCloseOutline
@@ -68,7 +68,7 @@ export default function ExpandedPhotoGallery({ photos }) {
           <div className="flex items-center">
             <RiArrowLeftWideLine
               size={50}
-              onClick={() => handleClickPreviousPhoto()}
+              onClick={handleClickPreviousPhoto}
               className={
                 currentPhotoIndex === 0 ? disabledBtnClasses : activeBtnClasses
               }
@@ -77,7 +77,7 @@ export default function ExpandedPhotoGallery({ photos }) {
           <div className="flex items-center">
             <RiArrowRightWideLine
               size={50}
-              onClick={() => handleClickNextPhoto()}
+              onClick={handleClickNextPhoto}
               className={
                 currentPhotoIndex === numberOfPhotos - 1
                   ? disabledBtnClasses

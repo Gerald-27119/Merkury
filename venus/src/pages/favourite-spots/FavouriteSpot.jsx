@@ -34,10 +34,10 @@ export default function FavouriteSpot({ spot, currentPage, onRemove }) {
 
   return (
     <div className="flex items-center justify-between bg-white rounded-md p-4 mb-4 shadow-md">
-      {spot.photo ? (
+      {spot.img ? (
         <img
-          src={spot.photo.img}
-          alt={spot.photo.title}
+          src={spot.img.img}
+          alt={spot.img.title}
           className="w-12 h-12 rounded-full object-cover"
         />
       ) : (

@@ -14,7 +14,7 @@ export default function Error({ error }) {
       dispatch(accountAction.signOut());
       dispatch(
         notificationAction.setError({
-          message: error?.response?.data || "Error occurred!",
+          message: error?.response?.data,
         }),
       );
     }

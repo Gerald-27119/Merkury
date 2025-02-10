@@ -44,7 +44,7 @@ export default function PhotoGallery({ photos }) {
           <div className="flex items-center  min-h-full bg-gray-950 flex-grow justify-center">
             <RiArrowLeftWideLine
               size={25}
-              onClick={() => handleClickPreviousPhoto()}
+              onClick={handleClickPreviousPhoto}
               className={
                 currentPhotoIndex === 0 ? disabledBtnClasses : activeBtnClasses
               }
@@ -53,12 +53,12 @@ export default function PhotoGallery({ photos }) {
           <Photo
             className="h-56 w-96 md:h-40 cursor-pointer"
             photo={photos[currentPhotoIndex]}
-            onClick={() => handleClickExpandPhoto()}
+            onClick={handleClickExpandPhoto}
           />
           <div className="flex items-center min-h-full bg-gray-950 flex-grow justify-center">
             <RiArrowRightWideLine
               size={25}
-              onClick={() => handleClickNextPhoto()}
+              onClick={handleClickNextPhoto}
               className={
                 currentPhotoIndex === numberOfPhotos - 1
                   ? disabledBtnClasses

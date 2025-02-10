@@ -66,7 +66,7 @@ export default function Notification() {
     >
       <div className="flex justify-between">
         <h1 className={`text-2xl font-semibold ${classesH1}`}>{title}</h1>
-        <button onClick={() => handleClickCloseNotification()}>
+        <button onClick={handleClickCloseNotification}>
           <IoIosClose size={30} />
         </button>
       </div>

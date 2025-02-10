@@ -4,11 +4,6 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { notificationAction } from "../../redux/notification.jsx";
 
-const errorMessages = {
-  409: "E-mail or Username already taken.",
-  401: "Invalid credentials",
-};
-
 export default function FormContainer({
   isSuccess,
   error,
@@ -32,10 +27,9 @@ export default function FormContainer({
 
   useEffect(() => {
     if (error) {
-      const message = errorMessages[error.response?.status] || error.message;
       dispatch(
         notificationAction.setError({
-          message: message || "Error occurred!",
+          message: error?.response?.data,
         }),
       );
     }
@@ -45,7 +39,7 @@ export default function FormContainer({
     if (isSuccess) {
       dispatch(
         notificationAction.setSuccess({
-          message: notificationMessage || "Success!",
+          message: notificationMessage,
         }),
       );
     }

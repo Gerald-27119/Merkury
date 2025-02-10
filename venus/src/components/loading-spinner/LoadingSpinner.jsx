@@ -3,7 +3,6 @@ export default function LoadingSpinner() {
 
   return (
     <div className="flex justify-center items-center">
-      {/* Container for the rings */}
       <div className="relative w-16 h-16">
         {delays.map((delay, idx) => (
           <div

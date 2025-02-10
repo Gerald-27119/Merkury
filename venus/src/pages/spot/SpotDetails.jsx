@@ -78,7 +78,7 @@ export default function SpotDetails() {
               <IoCloseOutline
                 size={20}
                 className="cursor-pointer text-black hover:bg-red-500 hover:rounded-md hover:text-white"
-                onClick={() => handleClickCloseModal()}
+                onClick={handleClickCloseModal}
               />
             </div>
             <SpotGeneralInfo
