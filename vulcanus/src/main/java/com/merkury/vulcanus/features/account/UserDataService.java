@@ -7,7 +7,7 @@ import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
 import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
-import com.merkury.vulcanus.model.dtos.UserEditDataDto;
+import com.merkury.vulcanus.model.dtos.user.UserEditDataDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;

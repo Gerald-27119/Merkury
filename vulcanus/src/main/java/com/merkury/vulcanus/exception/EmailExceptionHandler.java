@@ -6,13 +6,12 @@ import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
-@ControllerAdvice(basePackages = {"com.merkury.vulcanus.controllers"})
-public class EmailExceptionHandler extends ResponseEntityExceptionHandler {
+@RestControllerAdvice(basePackages = {"com.merkury.vulcanus.controllers"})
+public class EmailExceptionHandler {
 
     @ExceptionHandler({MessagingException.class, EmailNotSendException.class, MissingCredentialsException.class})
     public ResponseEntity<String> handleMessagingException(Exception ex) {

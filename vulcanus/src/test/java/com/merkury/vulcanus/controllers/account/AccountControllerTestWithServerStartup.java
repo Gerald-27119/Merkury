@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.controllers.account;
 
-import com.merkury.vulcanus.model.dtos.UserLoginDto;
-import com.merkury.vulcanus.model.dtos.UserRegisterDto;
+import com.merkury.vulcanus.model.dtos.user.UserLoginDto;
+import com.merkury.vulcanus.model.dtos.user.UserRegisterDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.UserRole;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
