@@ -6,26 +6,48 @@ const availableHeights = [0, 100, 200, 500, 1000];
 
 export default function WindSpeed({ winds }) {
   const [windSpeed, setWindSpeed] = useState(0);
-  const [windHeight, setWindHeight] = useState(0);
+  const [windHeight, setWindHeight] = useState({
+    numberValue: 0,
+    textValue: "0m",
+  });
   const [heightError, setHeightError] = useState("");
 
   const changeWindHeightHandler = (e) => {
-    let windHeight = e.target.value;
+    let windHeight = e.target.value.replace("m", "");
 
     if (windHeight.startsWith("0") && windHeight.length > 1) {
       windHeight = windHeight.replace(/^0+/, "");
     }
     if (/^\d*$/.test(windHeight)) {
       setHeightError("");
-      if (windHeight > 2000) {
-        setWindHeight(2000);
-      } else {
-        setWindHeight(Number(windHeight));
-      }
+      const parsedHeight = Math.min(Number(windHeight), 2000);
+      setWindHeight((prevState) => ({
+        ...prevState,
+        numberValue: parsedHeight,
+        textValue: `${parsedHeight}m`,
+      }));
     } else {
-      setWindHeight(0);
+      setWindHeight((prevState) => ({
+        ...prevState,
+        numberValue: 0,
+        textValue: "0m",
+      }));
       setHeightError("You can type only numbers greater than 0.");
     }
+  };
+
+  const formatHeightDisplay = () => {
+    setWindHeight((prevState) => ({
+      ...prevState,
+      textValue: `${prevState.numberValue}m`,
+    }));
+  };
+
+  const parseHeightInput = () => {
+    setWindHeight((prevState) => ({
+      ...prevState,
+      textValue: prevState.numberValue.toString(),
+    }));
   };
 
   useEffect(() => {
@@ -56,9 +78,11 @@ export default function WindSpeed({ winds }) {
     <div className="flex flex-col p-4 bg-white rounded-xl shadow-md text-3xl flex-grow space-y-2">
       <div className="flex justify-around items-center">
         <input
-          type="number"
-          value={windHeight}
+          type="text"
+          value={windHeight.textValue}
           onChange={changeWindHeightHandler}
+          onBlur={formatHeightDisplay}
+          onFocus={parseHeightInput}
           min={0}
           max={2000}
           className="py-2 px-4 shadow-md rounded-md w-1/3 focus:outline-none focus:ring-0 text-center flex-grow"
@@ -71,7 +95,7 @@ export default function WindSpeed({ winds }) {
             type="range"
             min={0}
             max={2000}
-            value={windHeight}
+            value={windHeight.numberValue}
             onChange={changeWindHeightHandler}
             className="appearance-none w-full h-2 py-2 bg-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-300 accent-slate-800"
           />
@@ -86,7 +110,7 @@ export default function WindSpeed({ winds }) {
                 key={value}
                 value={value}
                 onChange={changeWindHeightHandler}
-                windHeight={windHeight}
+                windHeight={windHeight.numberValue}
                 allValues={availableHeights}
               />
             ))}
@@ -97,7 +121,7 @@ export default function WindSpeed({ winds }) {
                 key={value}
                 value={value}
                 onChange={changeWindHeightHandler}
-                windHeight={windHeight}
+                windHeight={windHeight.numberValue}
                 allValues={availableHeights}
               />
             ))}
