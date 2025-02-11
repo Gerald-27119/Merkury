@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.features.account;
 
-import com.merkury.vulcanus.model.dtos.UserLoginDto;
+import com.merkury.vulcanus.model.dtos.user.UserLoginDto;
 import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.security.jwt.JwtGenerator;

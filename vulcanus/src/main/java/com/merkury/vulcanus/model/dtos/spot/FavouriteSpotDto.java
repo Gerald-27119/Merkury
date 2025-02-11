@@ -5,9 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 
-public record FavouriteSpotDto(
-        @Positive Long id,
-        @NotBlank String name,
-        @NotEmpty ImgDto img
-) {
+import java.util.List;
+
+public record FavouriteSpotDto(@Positive(message = "ID must be a positive number.")
+                               Long id,
+                               @NotBlank(message = "Name cannot be empty.")
+                               String name,
+                               @NotBlank(message = "Image cannot be empty.")
+                               ImgDto img) {
 }
