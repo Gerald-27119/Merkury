@@ -40,7 +40,6 @@ class RegisterService {
                 .enabled(true)
                 .accountNonExpired(true)
                 .accountNonLocked(true)
-                .accountNonExpired(true)
                 .build();
         userEntityRepository.save(user);
     }
