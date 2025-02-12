@@ -16,7 +16,7 @@ import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinne
 export default function Weather({ spot }) {
   const { data, error, isLoading } = useQuery({
     queryFn: () =>
-      fetchWeather(spot.weatherApiCallCoords[0], spot.weatherApiCallCoords[1]),
+      fetchWeather(spot.weatherApiCallCoords.x, spot.weatherApiCallCoords.y),
     queryKey: ["weather", spot.id],
   });
 
