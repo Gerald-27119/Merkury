@@ -29,7 +29,12 @@ class RegisterService {
     public void registerOauth2User(String email, String username, String provider)
             throws UsernameTakenException, EmailTakenException {
         checkIfCredentialsTaken(email, username);
-        Provider authProvider = Provider.valueOf(provider.toUpperCase());
+        Provider authProvider;
+        try {
+            authProvider = Provider.valueOf(provider.toUpperCase());
+        } catch (IllegalArgumentException | NullPointerException exception) {
+            throw new IllegalArgumentException("Invalid provider: " + provider);
+        }
         String generatedPassword = passwordGenerator.generate();
         UserEntity user = UserEntity.builder()
                 .email(email)
