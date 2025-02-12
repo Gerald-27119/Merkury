@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import WindSpeedRadioButton from "./WindSpeedRadioButton.jsx";
 import WindSpeedColumn from "./WindSpeedColumn.jsx";
+import { calculateWindSpeed } from "../../../../../utils/weather.jsx";
 
 const availableHeights = [0, 100, 200, 500, 1000];
 
@@ -51,30 +52,7 @@ export default function WindSpeed({ winds }) {
   };
 
   useEffect(() => {
-    if (winds) {
-      const lower = winds
-        .filter((wind) => wind.height <= windHeight.numberValue)
-        .pop();
-      const upper = winds.find((wind) => wind.height > windHeight.numberValue);
-
-      if (lower && upper) {
-        const interpolatedSpeed =
-          lower.speed +
-          ((windHeight.numberValue - lower.height) /
-            (upper.height - lower.height)) *
-            (upper.speed - lower.speed);
-
-        setWindSpeed(interpolatedSpeed.toPrecision(2));
-      } else if (lower) {
-        setWindSpeed(lower.speed.toPrecision(2));
-      } else if (upper) {
-        setWindSpeed(upper.speed.toPrecision(2));
-      } else {
-        setWindSpeed(0);
-      }
-    } else {
-      setWindSpeed(0);
-    }
+    setWindSpeed(calculateWindSpeed(winds, windHeight));
   }, [windHeight, winds]);
 
   return (

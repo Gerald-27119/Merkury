@@ -33,3 +33,30 @@ const formatTime = (dateString) => {
   const minutes = date.getMinutes().toString().padStart(2, "0");
   return `${hours}:${minutes}`;
 };
+
+export function calculateWindSpeed(winds, windHeight) {
+  if (winds) {
+    const lower = winds
+      .filter((wind) => wind.height <= windHeight.numberValue)
+      .pop();
+    const upper = winds.find((wind) => wind.height > windHeight.numberValue);
+
+    if (lower && upper) {
+      const interpolatedSpeed =
+        lower.speed +
+        ((windHeight.numberValue - lower.height) /
+          (upper.height - lower.height)) *
+          (upper.speed - lower.speed);
+
+      return interpolatedSpeed.toPrecision(2);
+    } else if (lower) {
+      return lower.speed.toPrecision(2);
+    } else if (upper) {
+      return upper.speed.toPrecision(2);
+    } else {
+      return 0;
+    }
+  } else {
+    return 0;
+  }
+}

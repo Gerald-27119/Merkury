@@ -7,6 +7,7 @@ import {
   WiSnow,
   WiThunderstorm,
 } from "react-icons/wi";
+import { FaQuestion } from "react-icons/fa";
 
 const weatherIcons = {
   0: <WiDaySunny className="text-yellow-500 text-5xl" />,
@@ -40,5 +41,7 @@ const weatherIcons = {
 };
 
 export default function WeatherIcon({ code }) {
-  return weatherIcons[code] || <WiCloud className="text-gray-400 text-5xl" />;
+  return (
+    weatherIcons[code] || <FaQuestion className="text-gray-400 text-5xl" />
+  );
 }
