@@ -10,11 +10,9 @@ import { photoAction } from "../../redux/photo.jsx";
 import { fetchSpotsDataById } from "../../http/spots-data.js";
 import { useEffect } from "react";
 import { notificationAction } from "../../redux/notification.jsx";
-import fetchWeatherData from "../../http/weather.js";
 import { useQuery } from "@tanstack/react-query";
-import Weather from "./Weather.jsx";
-import AddToFavouritesButton from "./components/buttons/AddToFavouritesButton.jsx";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
+import AddToFavouritesButton from "./components/buttons/AddToFavouritesButton.jsx";
 
 export default function SpotDetails() {
   const spotId = useSelector((state) => state.spotDetails.spotId);
@@ -73,7 +71,7 @@ export default function SpotDetails() {
               description={spot.description}
               rating={spot.rating}
             />
-            {isLogged && <AddTofavouritesButton spotId={spotId} />}
+            {isLogged && <AddToFavouritesButton spotId={spotId} />}
             <Weather spot={spot} />
             <PhotoGallery photos={spot.photos} />
             <div className="overflow-y-auto flex-grow min-h-60">

@@ -52,13 +52,16 @@ export default function WindSpeed({ winds }) {
 
   useEffect(() => {
     if (winds) {
-      const lower = winds.filter((wind) => wind.height <= windHeight).pop();
-      const upper = winds.find((wind) => wind.height > windHeight);
+      const lower = winds
+        .filter((wind) => wind.height <= windHeight.numberValue)
+        .pop();
+      const upper = winds.find((wind) => wind.height > windHeight.numberValue);
 
       if (lower && upper) {
         const interpolatedSpeed =
           lower.speed +
-          ((windHeight - lower.height) / (upper.height - lower.height)) *
+          ((windHeight.numberValue - lower.height) /
+            (upper.height - lower.height)) *
             (upper.speed - lower.speed);
 
         setWindSpeed(interpolatedSpeed.toPrecision(2));

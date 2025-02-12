@@ -1,13 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchWeather } from "../../../http/weather.js";
+import { fetchWeather } from "../../../../http/weather.js";
 import { FiSunrise, FiSunset } from "react-icons/fi";
 import { TbTemperatureCelsius } from "react-icons/tb";
-import { getWeatherData } from "../../../utils/weather.jsx";
+import { getWeatherData } from "../../../../utils/weather.jsx";
 import { WiThermometer } from "react-icons/wi";
 import WeatherIcon from "./WeatherIcon.jsx";
-import WindSpeed from "./WindSpeed.jsx";
+import WindSpeed from "./wind-speed/WindSpeed.jsx";
 import WeatherTile from "./WeatherTile.jsx";
 import WeatherRow from "./WeatherRow.jsx";
+import { useEffect } from "react";
+import { notificationAction } from "../../../../redux/notification.jsx";
+import { useDispatch } from "react-redux";
+import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
 
 export default function Weather({ spot }) {
   const { data, error, isLoading } = useQuery({
@@ -16,8 +20,20 @@ export default function Weather({ spot }) {
     queryKey: ["weather", spot.id],
   });
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (error?.response?.data) {
+      dispatch(
+        notificationAction.setError({
+          message: error.response.data,
+        }),
+      );
+    }
+  }, [dispatch, error]);
+
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   const weatherData = getWeatherData(data);
