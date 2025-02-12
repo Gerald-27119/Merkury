@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.features.account;
 
+import com.merkury.vulcanus.exception.exceptions.InvalidProviderException;
 import com.merkury.vulcanus.model.dtos.user.UserRegisterDto;
 import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
 import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
@@ -27,13 +28,13 @@ class RegisterService {
     }
 
     public void registerOauth2User(String email, String username, String provider)
-            throws UsernameTakenException, EmailTakenException {
+            throws UsernameTakenException, EmailTakenException, InvalidProviderException {
         checkIfCredentialsTaken(email, username);
         Provider authProvider;
         try {
             authProvider = Provider.valueOf(provider.toUpperCase());
         } catch (IllegalArgumentException | NullPointerException exception) {
-            throw new IllegalArgumentException("Invalid provider: " + provider);
+            throw new InvalidProviderException("Invalid provider: " + provider);
         }
         String generatedPassword = passwordGenerator.generate();
         UserEntity user = UserEntity.builder()

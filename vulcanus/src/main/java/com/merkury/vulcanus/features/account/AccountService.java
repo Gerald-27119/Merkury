@@ -2,6 +2,7 @@ package com.merkury.vulcanus.features.account;
 
 import com.merkury.vulcanus.exception.exceptions.EmailNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
+import com.merkury.vulcanus.exception.exceptions.InvalidProviderException;
 import com.merkury.vulcanus.exception.exceptions.UsernameNotFoundException;
 import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
 import com.merkury.vulcanus.model.dtos.OAuth2LoginResponseDto;
@@ -49,7 +50,7 @@ public class AccountService {
         restartPasswordService.restartUserPassword(userPasswordResetDto);
     }
 
-    private void registerOauth2User(String email, String username, String provider) throws EmailTakenException, UsernameTakenException {
+    private void registerOauth2User(String email, String username, String provider) throws EmailTakenException, UsernameTakenException, InvalidProviderException {
         registerService.registerOauth2User(email, username, provider);
     }
 
@@ -63,7 +64,7 @@ public class AccountService {
     }
 
     public OAuth2LoginResponseDto handleOAuth2User(OAuth2AuthenticationToken oAuth2Token, HttpServletResponse response)
-            throws EmailTakenException, UsernameTakenException, EmailNotFoundException, UsernameNotFoundException {
+            throws EmailTakenException, UsernameTakenException, EmailNotFoundException, UsernameNotFoundException, InvalidProviderException {
 
         Boolean shouldSendRegisterEmail = false;
         OAuth2User oAuth2User = oAuth2Token.getPrincipal();

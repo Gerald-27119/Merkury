@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.account;
 
 import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
+import com.merkury.vulcanus.exception.exceptions.InvalidProviderException;
 import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.Provider;
@@ -58,7 +59,7 @@ public class RegisterServiceTest {
     }
 
     @Test
-    void registerOauth2UserWithGoogleProviderShouldSaveUser() throws EmailTakenException, UsernameTakenException {
+    void registerOauth2UserWithGoogleProviderShouldSaveUser() throws EmailTakenException, UsernameTakenException, InvalidProviderException {
         when(userEntityRepository.existsByEmail(anyString())).thenReturn(false);
         when(userEntityRepository.existsByUsername(anyString())).thenReturn(false);
 
@@ -71,7 +72,7 @@ public class RegisterServiceTest {
     }
 
     @Test
-    void registerOauth2UserWithGithubProviderShouldSaveUser() throws EmailTakenException, UsernameTakenException {
+    void registerOauth2UserWithGithubProviderShouldSaveUser() throws EmailTakenException, UsernameTakenException, InvalidProviderException {
         when(userEntityRepository.existsByEmail(anyString())).thenReturn(false);
         when(userEntityRepository.existsByUsername(anyString())).thenReturn(false);
 
@@ -84,14 +85,14 @@ public class RegisterServiceTest {
     }
 
     @Test
-    void registerOauth2UserWithInvalidProviderShouldThrowIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class,
+    void registerOauth2UserWithInvalidProviderShouldThrowInvalidProviderException() {
+        assertThrows(InvalidProviderException.class,
                 () -> registerService.registerOauth2User("test@example.com", "testuser", "invalidProvider"));
     }
 
     @Test
-    void registerOauth2UserWithNullProviderShouldThrowIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class,
+    void registerOauth2UserWithNullProviderShouldThrowInvalidProviderException() {
+        assertThrows(InvalidProviderException.class,
                 () -> registerService.registerOauth2User("test@example.com", "testuser", null));
     }
 
