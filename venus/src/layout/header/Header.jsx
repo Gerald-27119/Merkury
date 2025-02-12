@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
-import SignOutButton from "../../pages/account/SignOutButton.jsx";
+import SignOutButton from "../../components/sign-out-button/SignOutButton.jsx";
 import { useSelector } from "react-redux";
-import SpotsFilters from "../../components/map/filters/SpotsFilters.jsx";
+import SpotsFilters from "../../pages/map/components/spot-filters/SpotsFilters.jsx";
 
 export default function Header() {
   const { pathname } = useLocation();

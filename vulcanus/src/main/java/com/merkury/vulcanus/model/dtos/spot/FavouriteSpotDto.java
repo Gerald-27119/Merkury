@@ -11,6 +11,6 @@ public record FavouriteSpotDto(@Positive(message = "ID must be a positive number
                                Long id,
                                @NotBlank(message = "Name cannot be empty.")
                                String name,
-                               @NotEmpty(message = "Photos list cannot be empty.")
-                               List<ImgDto> photos) {
+                               @NotBlank(message = "Image cannot be empty.")
+                               ImgDto img) {
 }

@@ -10,7 +10,7 @@ public class FavouriteSpotMapper {
         return new FavouriteSpotDto(
                 spot.getId(),
                 spot.getName(),
-                spot.getImages().stream().map(ImgMapper::toDto).toList()
+                spot.getImages().isEmpty() ? null : ImgMapper.toDto(spot.getImages().getFirst())
         );
     }
 }
