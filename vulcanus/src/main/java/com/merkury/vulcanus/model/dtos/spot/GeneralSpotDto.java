@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.model.dtos.spot;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 
@@ -13,8 +10,8 @@ public record GeneralSpotDto(@Positive(message = "ID must be a positive number."
                              String areaColor,
                              @NotBlank(message = "Name cannot be empty.")
                              String name,
-                             @Positive(message = "Rating must be a positive number.")
-                             @Min(value = 0, message = "Rating cannot be less than 0.")
+                             @Min(value = 0, message = "Rating count cannot be less than 0.")
+                             @Max(value = 5, message = "Rating count cannot be more than 5.")
                              Double rating,
                              @NotEmpty(message = "Contour coordinates list cannot be empty.")
                              List<Double[]> contourCoordinates) {

@@ -1,19 +1,10 @@
 import axios from "axios";
-import BASE_URL from "./baseUrl.js";
+const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
-export async function addComment({ text, spotId }) {
-  await axios.post(
-    `${BASE_URL}/spot/comment`,
-    { text, spotId },
-    {
-      withCredentials: true,
-    },
-  );
-}
-
-export async function getComments(spotId, page, size) {
-  const response = await axios.get(`${BASE_URL}/public/spot/comments`, {
-    params: { spotId, page, size },
-  });
-  return response.data;
+export async function getPaginatedComments(spotId, page, commentsPerPage) {
+  return (
+    await axios.get(
+      `${BASE_URL}/public/spot/comments?spotId=${spotId}&page=${page}&size=${commentsPerPage}`,
+    )
+  ).data;
 }

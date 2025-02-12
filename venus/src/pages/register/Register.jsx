@@ -1,9 +1,8 @@
-import Input from "../../components/Input.jsx";
+import Input from "../../components/form/Input.jsx";
 import { registerUser } from "../../http/account.js";
 import { useMutation } from "@tanstack/react-query";
-import FormContainer from "../../components/FormContainer.jsx";
-import Button from "../account/Button.jsx";
-import useValidation from "../../hooks/useValidation.jsx";
+import FormContainer from "../../components/form/FormContainer.jsx";
+import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import { useEffect } from "react";
 import { accountAction } from "../../redux/account.jsx";
 import { useDispatch } from "react-redux";
@@ -15,18 +14,13 @@ export default function Register() {
 
   const dispatch = useDispatch();
 
-  const {
-    enteredValue,
-    didEdit,
-    isNotValid,
-    handleInputChange,
-    handleInputBlur,
-  } = useValidation({
-    password: "",
-    username: "",
-    email: "",
-    "confirm-password": "",
-  });
+  const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
+    useUserDataValidation({
+      password: "",
+      username: "",
+      email: "",
+      "confirm-password": "",
+    });
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -51,6 +45,9 @@ export default function Register() {
       linkCaption="Already have an account?"
       header="Create Account"
       navigateOnSuccess="/"
+      showOauth={true}
+      showLink={true}
+      notificationMessage="Account created successfully!"
     >
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <Input
@@ -60,7 +57,7 @@ export default function Register() {
           onChange={(event) => handleInputChange("username", event)}
           value={enteredValue.username}
           onBlur={() => handleInputBlur("username")}
-          error={isNotValid.username}
+          isValid={isValid.username}
         />
         <Input
           label="E-mail"
@@ -69,7 +66,7 @@ export default function Register() {
           onChange={(event) => handleInputChange("email", event)}
           value={enteredValue.email}
           onBlur={() => handleInputBlur("email")}
-          error={isNotValid.email}
+          isValid={isValid.email}
         />
         <Input
           label="Password"
@@ -78,7 +75,7 @@ export default function Register() {
           onChange={(event) => handleInputChange("password", event)}
           value={enteredValue.password}
           onBlur={() => handleInputBlur("password")}
-          error={isNotValid.password}
+          isValid={isValid.password}
         />
         <Input
           label="Confirm Password"
@@ -87,24 +84,24 @@ export default function Register() {
           onChange={(event) => handleInputChange("confirm-password", event)}
           value={enteredValue["confirm-password"]}
           onBlur={() => handleInputBlur("confirm-password")}
-          error={isNotValid["confirm-password"]}
+          isValid={isValid["confirm-password"]}
         />
-        <Button
+        <button
           type="submit"
-          classNames="bg-red-600 p-3 mt-3 text-white rounded-md text-lg"
+          className="bg-red-600 p-3 mt-3 text-white rounded-md text-lg"
           disabled={
             !didEdit.username ||
             !didEdit.password ||
             !didEdit.email ||
             !didEdit["confirm-password"] ||
-            isNotValid.email.value ||
-            isNotValid.password.value ||
-            isNotValid.username.value ||
-            isNotValid["confirm-password"].value
+            !isValid.email.value ||
+            !isValid.password.value ||
+            !isValid.username.value ||
+            !isValid["confirm-password"].value
           }
         >
           Sign up
-        </Button>
+        </button>
       </form>
     </FormContainer>
   );
