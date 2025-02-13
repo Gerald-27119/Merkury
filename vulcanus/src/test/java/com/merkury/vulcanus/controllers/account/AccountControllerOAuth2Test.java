@@ -43,9 +43,6 @@ public class AccountControllerOAuth2Test {
     private MockMvc mockMvc;
 
     @Autowired
-    private TestRestTemplate restTemplate;
-
-    @Autowired
     private UserEntityRepository userEntityRepository;
 
     @Autowired
