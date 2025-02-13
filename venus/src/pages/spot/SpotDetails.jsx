@@ -10,10 +10,9 @@ import { photoAction } from "../../redux/photo.jsx";
 import { fetchSpotsDataById } from "../../http/spots-data.js";
 import { useEffect } from "react";
 import { notificationAction } from "../../redux/notification.jsx";
-import fetchWeatherData from "../../http/weather.js";
 import { useQuery } from "@tanstack/react-query";
-import AddToFavouritesButton from "./components/buttons/AddToFavouritesButton.jsx";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
+import AddToFavouritesButton from "./components/buttons/AddToFavouritesButton.jsx";
 
 export default function SpotDetails() {
   const spotId = useSelector((state) => state.spotDetails.spotId);
@@ -22,32 +21,12 @@ export default function SpotDetails() {
   const dispatch = useDispatch();
   const isLogged = useSelector((state) => state.account.isLogged);
 
-  const {
-    data: spot,
-    error: spotError,
-    isLoading: spotLoading,
-  } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryFn: () => fetchSpotsDataById(spotId),
     queryKey: ["spotDetails", spotId],
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
-
-  const {
-    data: weather,
-    isLoading: weatherLoading,
-    error: weatherError,
-  } = useQuery({
-    queryFn: () =>
-      fetchWeatherData(
-        spot.weatherApiCallCoords[0],
-        spot.weatherApiCallCoords[1],
-      ),
-    queryKey: ["weather", spotId],
-    enabled: !!spot,
-  });
-
-  let error = spotError || weatherError;
 
   useEffect(() => {
     if (error?.response?.data) {
@@ -71,8 +50,8 @@ export default function SpotDetails() {
           showDetailsModal && "animate-slideInFromLeft"
         }`}
       >
-        {spotLoading && <LoadingSpinner />}
-        {spot && (
+        {isLoading && <LoadingSpinner />}
+        {data && (
           <div className="mx-3 flex flex-col h-full">
             <div className="flex justify-end mt-3">
               <IoCloseOutline
@@ -82,19 +61,13 @@ export default function SpotDetails() {
               />
             </div>
             <SpotGeneralInfo
-              name={spot.name}
-              description={spot.description}
-              rating={spot.rating}
+              name={data.name}
+              description={data.description}
+              rating={data.rating}
             />
             {isLogged && <AddToFavouritesButton spotId={spotId} />}
-            {weatherLoading ? (
-              <div className="flex justify-center items-center h-20">
-                <LoadingSpinner />
-              </div>
-            ) : (
-              <Weather weather={weather} />
-            )}
-            <PhotoGallery photos={spot.photos} />
+            <Weather spot={data} />
+            <PhotoGallery photos={data.photos} />
             <div className="overflow-y-auto flex-grow min-h-60">
               <Comments spotId={spotId} />
             </div>
@@ -103,7 +76,7 @@ export default function SpotDetails() {
       </div>
       {expandPhoto && (
         <div className="flex-grow h-full z-50">
-          <ExpandedPhotoGallery photos={spot.photos} />
+          <ExpandedPhotoGallery photos={data.photos} />
         </div>
       )}
     </div>

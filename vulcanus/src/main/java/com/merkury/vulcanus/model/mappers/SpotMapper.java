@@ -3,6 +3,7 @@ package com.merkury.vulcanus.model.mappers;
 import com.merkury.vulcanus.model.dtos.spot.FullSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.weather.WeatherApiCallCordsDto;
 import com.merkury.vulcanus.model.entities.Comment;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.Point;
@@ -59,10 +60,9 @@ public class SpotMapper {
                         .stream()
                         .map(ImgMapper::toDto)
                         .toList(),
-                new Double[]{
+                new WeatherApiCallCordsDto(
                         spot.getBorderPoints().getFirst().getX(),
-                        spot.getBorderPoints().getFirst().getY()
-                });
+                        spot.getBorderPoints().getFirst().getY()));
     }
 }
 
