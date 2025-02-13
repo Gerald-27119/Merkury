@@ -15,7 +15,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -27,7 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class RegisterServiceTest {
+class RegisterServiceTest {
 
     @Mock
     private UserEntityRepository userEntityRepository;
@@ -42,14 +41,13 @@ public class RegisterServiceTest {
     private PasswordGenerator passwordGenerator;
 
     @Captor
-    ArgumentCaptor<UserEntity> userCaptor = ArgumentCaptor.forClass(UserEntity.class);
+    private ArgumentCaptor<UserEntity> userCaptor = ArgumentCaptor.forClass(UserEntity.class);
 
     @InjectMocks
     private RegisterService registerService;
 
     @BeforeEach
     void setUp() {
-        openMocks = MockitoAnnotations.openMocks(this);
         registerService = new RegisterService(userEntityRepository, passwordEncoder, passwordGenerator);
     }
 
