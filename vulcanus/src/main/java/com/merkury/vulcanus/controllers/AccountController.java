@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
+import com.merkury.vulcanus.exception.exceptions.InvalidProviderException;
 import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
 import com.merkury.vulcanus.model.dtos.user.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.user.UserLoginDto;
@@ -114,7 +115,7 @@ public class AccountController {
     }
 
     @GetMapping("/account/login-success")
-    public RedirectView loginSuccess(HttpServletResponse response, OAuth2AuthenticationToken oAuth2Token) throws EmailTakenException, UsernameTakenException, EmailNotFoundException, UsernameNotFoundException {
+    public RedirectView loginSuccess(HttpServletResponse response, OAuth2AuthenticationToken oAuth2Token) throws EmailTakenException, UsernameTakenException, EmailNotFoundException, UsernameNotFoundException, InvalidProviderException {
         log.info("Start handling oAuth2 user...");
         var loginResponseDto = accountService.handleOAuth2User(oAuth2Token, response);
         log.info("Successfully handled oAuth2 user!");
