@@ -1,16 +1,24 @@
 package com.merkury.vulcanus.db;
 
-import com.merkury.vulcanus.model.entities.*;
+import com.merkury.vulcanus.model.embeddable.BorderPoint;
+import com.merkury.vulcanus.model.entities.Comment;
+import com.merkury.vulcanus.model.entities.Img;
+import com.merkury.vulcanus.model.entities.PasswordResetToken;
+import com.merkury.vulcanus.model.entities.Spot;
+import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.entities.Zone;
 import com.merkury.vulcanus.model.enums.Provider;
-import com.merkury.vulcanus.model.repositories.*;
+import com.merkury.vulcanus.model.repositories.PasswordResetTokenRepository;
+import com.merkury.vulcanus.model.repositories.SpotRepository;
+import com.merkury.vulcanus.model.repositories.UserEntityRepository;
+import com.merkury.vulcanus.model.repositories.ZoneRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +37,7 @@ public class PopulateDbsService {
     private final UserEntityRepository userEntityRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final SpotRepository spotRepository;
+    private final ZoneRepository zoneRepository;
 
     @Transactional
     public void initPostgresDb() {
@@ -78,7 +87,6 @@ public class PopulateDbsService {
                 .name("Pomnik konny Jana III Sobieskiego")
                 .areaColor("green")
                 .description("Brązowy posąg XVII-wiecznego polskiego króla Jana III Sobieskiego na koniu usytuowany na małym placu.")
-                .borderPoints(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .rating(5.0)
                 .viewsCount(100)
@@ -89,7 +97,6 @@ public class PopulateDbsService {
                 .name("Skwer Czesława Niemena")
                 .areaColor("green")
                 .description("Mały park z ławkami i pomnikiem Czesława Niemena.")
-                .borderPoints(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .rating(5.0)
                 .viewsCount(100)
@@ -100,7 +107,6 @@ public class PopulateDbsService {
                 .name("Park Wałowy")
                 .areaColor("green")
                 .description("Mały park z ławkami")
-                .borderPoints(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .rating(3.5)
                 .viewsCount(10)
@@ -111,7 +117,6 @@ public class PopulateDbsService {
                 .name("Park")
                 .areaColor("green")
                 .description("Mały park")
-                .borderPoints(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .rating(3.6)
                 .viewsCount(17)
@@ -122,7 +127,6 @@ public class PopulateDbsService {
                 .name("Jar Wilanowski")
                 .areaColor("green")
                 .description("Zielona strefa z jeziorem")
-                .borderPoints(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .rating(4.6)
                 .viewsCount(120)
@@ -133,7 +137,6 @@ public class PopulateDbsService {
                 .name("Plac imienia Dariusza Kobzdeja")
                 .areaColor("green")
                 .description("Mały, zadbany plac z ławeczkami i zielenią. Znajduje się on z jednej strony w pobliżu pomnika Jana III Sobieskiego, a z drugiej strony w pobliżu Hali Targowej.")
-                .borderPoints(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .rating(4.5)
                 .viewsCount(500)
@@ -144,7 +147,6 @@ public class PopulateDbsService {
                 .name("Plac Zabaw na Wroniej Górce")
                 .areaColor("green")
                 .description("Plac zabaw")
-                .borderPoints(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .rating(4.8)
                 .viewsCount(100)
@@ -155,7 +157,6 @@ public class PopulateDbsService {
                 .name("Plaża stogi")
                 .areaColor("green")
                 .description("Szeroka piaszczysta plaża.")
-                .borderPoints(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .rating(4.6)
                 .viewsCount(100)
@@ -166,7 +167,6 @@ public class PopulateDbsService {
                 .name("Park Oruński im. Emilii Hoene")
                 .areaColor("green")
                 .description("Park Oruński należy, obok Parku Oliwskiego, należy do najcenniejszych zachowanych dawnych gdańskich parków.")
-                .borderPoints(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .rating(5.0)
                 .viewsCount(100)
@@ -177,7 +177,6 @@ public class PopulateDbsService {
                 .name("Park Street Workout")
                 .areaColor("green")
                 .description("Park, który oryginalnie był cmentarzem protestanckim, należącym dawniej do kościoła przy placu Oruńskim.")
-                .borderPoints(new ArrayList<>())
                 .comments(new ArrayList<>())
                 .rating(4.4)
                 .viewsCount(7)
@@ -273,7 +272,8 @@ public class PopulateDbsService {
         );
 
         var contour9 = asList(
-                new BorderPoint(54.3230684167437, 18.629913718953556), new BorderPoint(54.32202382781201, 18.629940753924505),
+                new BorderPoint(54.3230684167437, 18.629913718953556),
+                new BorderPoint(54.32202382781201, 18.629940753924505),
                 new BorderPoint(54.321889803154754, 18.629704197939827),
                 new BorderPoint(54.32202382780555, 18.628724180242937),
                 new BorderPoint(54.321909512689615, 18.628399760591552),
@@ -431,6 +431,17 @@ public class PopulateDbsService {
         }
 
         spotRepository.saveAll(spots);
+
+        var zone = Zone.builder()
+                .name("Test Zone")
+                .borderPoints(List.of(
+                        new BorderPoint(54.362207, 18.626871),
+                        new BorderPoint(54.357756, 18.629189),
+                        new BorderPoint(54.359757, 18.642449)
+                ))
+                .build();
+
+        zoneRepository.save(zone);
     }
 
 }

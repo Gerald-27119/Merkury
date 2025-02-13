@@ -1,8 +1,21 @@
 package com.merkury.vulcanus.model.entities;
 
 import com.merkury.vulcanus.model.converters.BorderPointListConverter;
-import jakarta.persistence.*;
-import lombok.*;
+import com.merkury.vulcanus.model.embeddable.BorderPoint;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,19 +41,20 @@ public class Spot {
     /**
      * A list of {@link BorderPoint} objects that define the boundary points of the spot.
      * <p>
-     * This field is persisted as a JSON string in the database using the custom
-     * {@link BorderPointListConverter}. The converter serializes the list to a JSON
-     * representation when storing it in the column and deserializes the JSON back to
-     * a {@code List<BorderPoint>} when reading the entity.
+     * This field is stored as a TEXT column in the database using the custom
+     * {@link BorderPointListConverter}. The converter serializes the list into a TEXT string that looks like JSON,
+     * when persisting the entity and deserializes it back into a {@code List<BorderPoint>},
+     * when reading from the database.
      * </p>
      * <p>
-     * The {@code columnDefinition = "JSON"} attribute specifies that the JSON string is stored
-     * in a column of type JSON. Ensure that this type is supported by your underlying database.
+     * The {@code columnDefinition = "TEXT"} attribute specifies that the data is stored
+     * as a TEXT type in PostgreSQL.
      * </p>
      */
-    @Convert(converter = BorderPointListConverter.class)
+    @Builder.Default
     @Column(columnDefinition = "TEXT")
-    private List<BorderPoint> borderPoints;
+    @Convert(converter = BorderPointListConverter.class)
+    private List<BorderPoint> borderPoints = new ArrayList<>();
 
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude

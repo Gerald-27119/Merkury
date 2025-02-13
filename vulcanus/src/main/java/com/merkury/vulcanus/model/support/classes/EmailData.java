@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
 
+//TODO: Transform to DTO (Record) and move to dtos package
 @RequiredArgsConstructor
 @Builder
 @Getter

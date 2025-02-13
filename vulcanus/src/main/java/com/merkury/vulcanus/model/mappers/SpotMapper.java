@@ -1,12 +1,11 @@
 package com.merkury.vulcanus.model.mappers;
 
 import com.merkury.vulcanus.model.dtos.spot.FullSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
-import com.merkury.vulcanus.model.entities.BorderPoint;
+import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
+import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.entities.Comment;
 import com.merkury.vulcanus.model.entities.Img;
-import com.merkury.vulcanus.model.entities.Point;
 import com.merkury.vulcanus.model.entities.Spot;
 import jakarta.validation.constraints.NotNull;
 
