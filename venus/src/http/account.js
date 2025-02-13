@@ -1,5 +1,6 @@
 import axios from "axios";
-import BASE_URL from "./baseUrl.js";
+const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
+
 export async function registerUser(user) {
   return await axios.post(`${BASE_URL}/public/account/register`, user, {
     withCredentials: true,
@@ -62,5 +63,5 @@ export async function editUserData({ id, user }) {
   ).data;
 }
 
-export const googleLogoutUrl = `${BASE_URL}/oauth2/authorization/google`;
-export const githubLogoutUrl = `${BASE_URL}/oauth2/authorization/github`;
+export const googleLoginUrl = `${BASE_URL}/oauth2/authorization/google`;
+export const githubLoginUrl = `${BASE_URL}/oauth2/authorization/github`;

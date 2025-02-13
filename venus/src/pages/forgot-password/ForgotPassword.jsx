@@ -1,8 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import useValidation from "../../hooks/useValidation.jsx";
-import Button from "../account/Button.jsx";
-import FormContainer from "../../components/FormContainer.jsx";
-import Input from "../../components/Input.jsx";
+import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
+import FormContainer from "../../components/form/FormContainer.jsx";
+import Input from "../../components/form/Input.jsx";
 import { sentEmailWithNewPasswordLink } from "../../http/account.js";
 
 export default function ForgotPassword() {
@@ -10,13 +9,8 @@ export default function ForgotPassword() {
     mutationFn: sentEmailWithNewPasswordLink,
   });
 
-  const {
-    enteredValue,
-    didEdit,
-    isNotValid,
-    handleInputChange,
-    handleInputBlur,
-  } = useValidation({ email: "" });
+  const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
+    useUserDataValidation({ email: "" });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -29,8 +23,7 @@ export default function ForgotPassword() {
       isSuccess={isSuccess}
       error={error}
       header="Forgot your password?"
-      showLink={false}
-      showOauth={false}
+      notificationMessage="Reminder email sent!"
     >
       <form onSubmit={handleSubmit}>
         <Input
@@ -39,16 +32,16 @@ export default function ForgotPassword() {
           onBlur={() => handleInputBlur("email")}
           onChange={(event) => handleInputChange("email", event)}
           type="email"
-          error={isNotValid?.email}
+          isValid={isValid?.email}
           label="email"
         />
-        <Button
+        <button
           type="submit"
-          classNames="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
-          disabled={!didEdit.email || isNotValid.email.value}
+          className="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
+          disabled={!didEdit.email || !isValid.email.value}
         >
           Remind me
-        </Button>
+        </button>
       </form>
     </FormContainer>
   );

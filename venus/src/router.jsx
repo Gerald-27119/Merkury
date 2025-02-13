@@ -4,13 +4,13 @@ import WelcomePage from "./pages/welcome/WelcomePage.jsx";
 import Register from "./pages/register/Register.jsx";
 import Login from "./pages/login/Login.jsx";
 import ForgotPassword from "./pages/forgot-password/ForgotPassword.jsx";
-import NewPassword from "./pages/forgot-password/NewPassword.jsx";
+import NewPassword from "./pages/new-password/NewPassword.jsx";
 import Account from "./pages/account/Account.jsx";
 import Layout from "./layout/Layout.jsx";
 import Forum from "./pages/forum/Forum.jsx";
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
-import EditUserData from "./pages/account/EditUserData.jsx";
-import FavouriteSpots from "./pages/account/FavouriteSpots.jsx";
+import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
+import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
+import FavouriteSpots from "./pages/favourite-spots/FavouriteSpots.jsx";
 
 const router = createBrowserRouter([
   {

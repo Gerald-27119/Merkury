@@ -15,19 +15,20 @@ export const notificationSlice = createSlice({
   reducers: {
     setError(state, action) {
       state.title = "Error";
-      state.message = action.payload.message;
+      state.message = action.payload?.message || "An error occurred.";
       state.isOpen = true;
       state.error = true;
     },
     setSuccess(state, action) {
       state.title = "Success";
-      state.message = action.payload.message;
+      state.message = action.payload?.message || "Completed successfully.";
       state.isOpen = true;
       state.success = true;
     },
     setInfo(state, action) {
       state.title = "Info";
-      state.message = action.payload.message;
+      state.message =
+        action.payload?.message || "No action is needed at this moment.";
       state.isOpen = true;
       state.info = true;
     },

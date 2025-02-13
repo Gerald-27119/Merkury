@@ -2,10 +2,10 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
 import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
-import com.merkury.vulcanus.model.dtos.UserEditDataDto;
-import com.merkury.vulcanus.model.dtos.UserLoginDto;
-import com.merkury.vulcanus.model.dtos.UserPasswordResetDto;
-import com.merkury.vulcanus.model.dtos.UserRegisterDto;
+import com.merkury.vulcanus.model.dtos.user.UserEditDataDto;
+import com.merkury.vulcanus.model.dtos.user.UserLoginDto;
+import com.merkury.vulcanus.model.dtos.user.UserPasswordResetDto;
+import com.merkury.vulcanus.model.dtos.user.UserRegisterDto;
 import com.merkury.vulcanus.exception.exceptions.EmailNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
 import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
@@ -191,5 +191,10 @@ public class AccountController {
         log.info("User found successfully!");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(user);
+    }
+
+    @GetMapping("/account/check")
+    public ResponseEntity<Void> checkIsAuthenticated() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
