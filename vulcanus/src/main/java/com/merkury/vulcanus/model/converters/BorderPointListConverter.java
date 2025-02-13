@@ -18,9 +18,7 @@ import java.util.List;
  * </p>
  *
  * <p>
- * The {@link Converter} annotation marks this class as a JPA converter. The {@code autoApply = false} parameter
- * means that this converter is not automatically applied to all {@code List<BorderPoint>} fields across the application.
- * Instead, it must be explicitly referenced in the entity mapping where needed.
+ * The {@link Converter} annotation marks this class as a JPA converter.
  * </p>
  *
  * <p>
@@ -32,7 +30,7 @@ import java.util.List;
  * @see AttributeConverter
  * @see BorderPoint
  */
-@Converter(autoApply = false)
+@Converter
 public class BorderPointListConverter implements AttributeConverter<List<BorderPoint>, String> {
 
     private final ObjectMapper mapper = new ObjectMapper();
