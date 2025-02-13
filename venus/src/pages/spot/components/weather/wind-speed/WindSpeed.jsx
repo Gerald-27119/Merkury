@@ -14,27 +14,20 @@ export default function WindSpeed({ winds }) {
   const [heightError, setHeightError] = useState("");
 
   const changeWindHeightHandler = (e) => {
-    let windHeight = e.target.value.replace("m", "");
+    let windHeight = e.target.value.replace("m", "").replace(/^0+/, "");
 
-    if (windHeight.startsWith("0") && windHeight.length > 1) {
-      windHeight = windHeight.replace(/^0+/, "");
-    }
-    if (/^\d*$/.test(windHeight)) {
-      setHeightError("");
-      const parsedHeight = Math.min(Number(windHeight), 2000);
-      setWindHeight((prevState) => ({
-        ...prevState,
-        numberValue: parsedHeight,
-        textValue: `${parsedHeight}m`,
-      }));
-    } else {
-      setWindHeight((prevState) => ({
-        ...prevState,
-        numberValue: 0,
-        textValue: "0m",
-      }));
-      setHeightError("You can type only numbers greater than 0.");
-    }
+    const isValidNumber = /^\d*$/.test(windHeight);
+    const parsedHeight = isValidNumber ? Math.min(Number(windHeight), 2000) : 0;
+
+    setWindHeight((prevState) => ({
+      ...prevState,
+      numberValue: parsedHeight,
+      textValue: `${parsedHeight}m`,
+    }));
+
+    setHeightError(
+      isValidNumber ? "" : "You can type only numbers greater than 0.",
+    );
   };
 
   const formatHeightDisplay = () => {
