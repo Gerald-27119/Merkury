@@ -44,7 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class AccountControllerTestWithServerStartup {
+class AccountControllerWithServerStartupTest {
 
     @LocalServerPort
     private int port;
@@ -117,7 +117,7 @@ class AccountControllerTestWithServerStartup {
     }
 
     @Test
-    @DisplayName("Registration with invalid email format returns 400")
+    @DisplayName("Registration with invalid email format returns 422")
     void registerWithInvalidEmailFormatReturns400() {
         var registerDto = new UserRegisterDto("newuser", "invalid-email", "Password123!");
         HttpHeaders headers = new HttpHeaders();
@@ -130,7 +130,7 @@ class AccountControllerTestWithServerStartup {
                 String.class
         );
 
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(400));
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(422));
     }
 
     @Test
