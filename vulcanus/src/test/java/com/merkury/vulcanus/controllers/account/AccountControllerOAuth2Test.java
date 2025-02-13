@@ -71,8 +71,7 @@ public class AccountControllerOAuth2Test {
     void registerOauth2UserWithInvalidProviderReturns422() throws Exception {
         Map<String, Object> attributes = Map.of(
                 "email", "test@example.com",
-                "login", "testuser",
-                "given_name", "Test"
+                "login", "testuser"
         );
         DefaultOAuth2User oAuth2User = new DefaultOAuth2User(
                 List.of(new SimpleGrantedAuthority("ROLE_USER")),
