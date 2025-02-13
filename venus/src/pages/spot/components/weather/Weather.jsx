@@ -1,53 +1,70 @@
-import { RiArrowDownWideFill } from "react-icons/ri";
+import { useQuery } from "@tanstack/react-query";
+import { fetchWeather } from "../../../../http/weather.js";
+import { FiSunrise, FiSunset } from "react-icons/fi";
+import { TbTemperatureCelsius } from "react-icons/tb";
+import { getWeatherData } from "../../../../utils/weather.jsx";
 import { WiThermometer } from "react-icons/wi";
-import { useState } from "react";
-import WeatherDetails from "./WeatherDetails.jsx";
-import GeneralWeather from "./GeneralWeather.jsx";
+import WeatherIcon from "./WeatherIcon.jsx";
+import WindSpeed from "./wind-speed/WindSpeed.jsx";
+import WeatherTile from "./WeatherTile.jsx";
+import WeatherRow from "./WeatherRow.jsx";
+import { useEffect } from "react";
+import { notificationAction } from "../../../../redux/notification.jsx";
+import { useDispatch } from "react-redux";
+import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
 
-export default function Weather({ weather }) {
-  const [showDetails, setShowDetails] = useState(false);
+export default function Weather({ spot }) {
+  const { data, error, isLoading } = useQuery({
+    queryFn: () =>
+      fetchWeather(spot.weatherApiCallCoords.x, spot.weatherApiCallCoords.y),
+    queryKey: ["weather", spot.id],
+  });
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (error?.response?.data) {
+      dispatch(
+        notificationAction.setError({
+          message: error.response.data,
+        }),
+      );
+    }
+  }, [dispatch, error]);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  const weatherData = getWeatherData(data);
+
   return (
-    <>
-      {weather ? (
-        <div className="border border-violet-700 rounded-sm p-1 bg-sky-200">
-          <div className="flex items-center justify-between">
-            <GeneralWeather generalWeather={weather.current.type} />
-            <div className="right-0 mr-5 flex items-center">
-              <WiThermometer size={30} className="text-red-400" />
-              <p className="text-xl text-white">
-                {weather.current.temperature2m}&deg;C
-              </p>
-            </div>
-          </div>
-          <div
-            className={`transition-all duration-300 ${
-              showDetails ? "max-h-screen" : "max-h-0"
-            } overflow-hidden`}
-          >
-            {showDetails && (
-              <WeatherDetails
-                sunrise={weather.daily.sunrise}
-                sunset={weather.daily.sunset}
-                humidity={weather.current.relativeHumidity2m}
-                winds={weather.hourly.winds}
-              />
-            )}
-          </div>
-          <div
-            onClick={() => setShowDetails((prevState) => !prevState)}
-            className="w-full mt-1 flex justify-center border border-sky-100 hover:bg-sky-100 cursor-pointer"
-          >
-            <RiArrowDownWideFill
-              size={30}
-              className={`transform transition-transform duration-300 ${
-                showDetails ? "rotate-180" : ""
-              }`}
-            />
-          </div>
-        </div>
-      ) : (
-        <p>No weather is available!</p>
-      )}
-    </>
+    <div className="flex flex-col space-y-2 p-2 rounded-md shadow-md bg-white">
+      <h1 className="font-semibold text-xl text-center">Weather</h1>
+      <div className="flex flex-col space-y-2">
+        <WeatherRow>
+          <WeatherTile>
+            <FiSunrise className="mr-2" />
+            <p>{weatherData.sunrise}</p>
+          </WeatherTile>
+          <WeatherTile>
+            <FiSunset className="mr-2" />
+            <p>{weatherData.sunset}</p>
+          </WeatherTile>
+        </WeatherRow>
+        <WeatherRow>
+          <WeatherTile>
+            <WiThermometer className="text-4xl mt-1" />
+            <p className="flex items-center">
+              {weatherData.temperature} <TbTemperatureCelsius />
+            </p>
+          </WeatherTile>
+          <WeatherTile>
+            <WeatherIcon code={weatherData.weatherCode} />
+          </WeatherTile>
+        </WeatherRow>
+        <WindSpeed winds={weatherData.winds} />
+      </div>
+    </div>
   );
 }
