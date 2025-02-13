@@ -7,8 +7,6 @@ import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.utils.PasswordGenerator;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -32,9 +30,6 @@ class RegisterServiceTest {
     private UserEntityRepository userEntityRepository;
 
     @Mock
-    private AutoCloseable openMocks;
-
-    @Mock
     private PasswordEncoder passwordEncoder;
 
     @Mock
@@ -45,16 +40,6 @@ class RegisterServiceTest {
 
     @InjectMocks
     private RegisterService registerService;
-
-    @BeforeEach
-    void setUp() {
-        registerService = new RegisterService(userEntityRepository, passwordEncoder, passwordGenerator);
-    }
-
-    @AfterEach
-    public void tearDown() throws Exception {
-        openMocks.close();
-    }
 
     @Test
     void registerOauth2UserWithGoogleProviderShouldSaveUser() throws EmailTakenException, UsernameTakenException, InvalidProviderException {
