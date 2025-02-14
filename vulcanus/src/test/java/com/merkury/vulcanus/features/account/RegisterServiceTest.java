@@ -16,6 +16,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -43,8 +45,7 @@ class RegisterServiceTest {
 
     @Test
     void registerOauth2UserWithGoogleProviderShouldSaveUser() throws EmailTakenException, UsernameTakenException, InvalidProviderException {
-        when(userEntityRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userEntityRepository.existsByUsername(anyString())).thenReturn(false);
+        when(userEntityRepository.findByUsernameOrEmail(anyString(),anyString())).thenReturn(Optional.empty());
 
         registerService.registerOauth2User("test@example.com", "testuser", "google");
 
@@ -56,8 +57,7 @@ class RegisterServiceTest {
 
     @Test
     void registerOauth2UserWithGithubProviderShouldSaveUser() throws EmailTakenException, UsernameTakenException, InvalidProviderException {
-        when(userEntityRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userEntityRepository.existsByUsername(anyString())).thenReturn(false);
+        when(userEntityRepository.findByUsernameOrEmail(anyString(),anyString())).thenReturn(Optional.empty());
 
         registerService.registerOauth2User("test@example.com", "testuser", "github");
 
@@ -81,7 +81,10 @@ class RegisterServiceTest {
 
     @Test
     void registerOauth2UserWithTakenEmailShouldThrowEmailTakenException() {
-        when(userEntityRepository.existsByEmail(anyString())).thenReturn(true);
+        UserEntity existingUser = new UserEntity();
+        existingUser.setEmail("test@example.com");
+        when(userEntityRepository.findByUsernameOrEmail(anyString(), anyString())).thenReturn(Optional.of(existingUser));
+
 
         assertThrows(EmailTakenException.class, () -> {
             registerService.registerOauth2User("test@example.com", "testuser", "google");
@@ -90,7 +93,11 @@ class RegisterServiceTest {
 
     @Test
     void registerOauth2UserWithTakenUsernameShouldThrowUsernameTakenException() {
-        when(userEntityRepository.existsByUsername(anyString())).thenReturn(true);
+        UserEntity existingUser = new UserEntity();
+        existingUser.setEmail("unique@example.com");
+        existingUser.setUsername("testuser");
+        when(userEntityRepository.findByUsernameOrEmail(anyString(), anyString())).thenReturn(Optional.of(existingUser));
+
 
         assertThrows(UsernameTakenException.class, () -> {
             registerService.registerOauth2User("test@example.com", "testuser", "google");
