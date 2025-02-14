@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # PostgreSQL service
   postgres-db:
     container_name: postgres-db
     image: postgres:latest
@@ -14,7 +13,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  # MongoDB service
   mongo-db:
     container_name: mongo-db
     image: mongo:latest
@@ -28,7 +26,12 @@ services:
       - mongo_data:/data/db
       - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
 
-  # Spring Boot application service
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
   spring-boot-app:
     build:
       context: ./spring-boot-app
@@ -36,6 +39,7 @@ services:
     depends_on:
       - postgres-db
       - mongo-db
+      - redis
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/dev_postgres_db
@@ -43,10 +47,11 @@ services:
       SPRING_DATASOURCE_PASSWORD: password
       SPRING_DATA_MONGODB_URI: mongodb://user:password@mongo-db:27017/dev_mongo_db
       SPRING_DATA_MONGODB_DATABASE: dev_mongo_db
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
     ports:
       - "8081:8081"
 
-  # Prometheus service
   prometheus:
     build:
       context: ./prometheus
@@ -56,7 +61,6 @@ services:
     depends_on:
       - spring-boot-app
 
-  # Grafana service
   grafana:
     build:
       context: ./grafana
@@ -66,7 +70,6 @@ services:
     depends_on:
       - prometheus
 
-  # Locust service
   locust:
     build:
       context: ./locust
@@ -79,7 +82,7 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     ports:
-     - "8089:8089"
+      - "8089:8089"
     command: >
       -f /mnt/locust/user_traffic.py
       --host=http://host.docker.internal:8080

@@ -32,7 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc//TODO: validate if the mockMvc is appropriate in that test, it's a test with full server startup,not only web layer or application context
+        //probably pure restTemplate would be more suitable
 class AccountControllerOAuth2WithServerStartupTest {
     @LocalServerPort
     private int port;
