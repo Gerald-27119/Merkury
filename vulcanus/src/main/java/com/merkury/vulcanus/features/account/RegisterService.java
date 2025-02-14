@@ -62,11 +62,15 @@ class RegisterService {
 
     private void checkIfCredentialsTaken(String userEmail, String username)
             throws EmailTakenException, UsernameTakenException {
-        if (userEntityRepository.existsByEmail(userEmail)) {
-            throw new EmailTakenException();
-        }
-        if (userEntityRepository.existsByUsername(username)) {
-            throw new UsernameTakenException();
+
+        var userFromDb = userEntityRepository.findByUsernameOrEmail(username, userEmail);
+        if (userFromDb.isPresent()) {
+            if (userFromDb.get().getEmail().equals(userEmail)) {
+                throw new EmailTakenException();
+            }
+            if (userFromDb.get().getUsername().equals(username)) {
+                throw new UsernameTakenException();
+            }
         }
     }
 
