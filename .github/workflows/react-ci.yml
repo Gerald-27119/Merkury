@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - 'feature/**'
+    paths:
+      - 'venus/**'
   pull_request:
     branches: [ master, develop ]
   merge_group:
