@@ -13,7 +13,7 @@ export default function Header() {
     { to: "/account", label: isLogged ? "My Account" : "Account" },
     ...(isLogged ? [{ to: "/forum", label: "Forum" }] : []),
   ];
-  //testt
+  //testtt
   return (
     <header className="bg-gray-800 p-4 flex w-full text-3xl flex-col justify-center">
       <nav className="flex gap-20 w-full justify-center text-white">
