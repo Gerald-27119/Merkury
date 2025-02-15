@@ -5,7 +5,8 @@ export default function Input({
   labelClassNames,
   ...props
 }) {
-  let classesInput = "p-2 rounded-md";
+  let classesInput =
+    "p-2 rounded-md bg-darkBgMuted focus:outline-none focus:ring-1 focus:ring-darkBorder text-darkText";
   if (!isValid?.value) {
     classesInput += " outline  outline-red-600";
   }
@@ -13,7 +14,7 @@ export default function Input({
     <div className="flex flex-col">
       <label
         htmlFor={id}
-        className={labelClassNames || "uppercase text-sm text-gray-600 pb-1"}
+        className={labelClassNames || "uppercase text-sm text-darkText pb-1"}
       >
         {label}
       </label>

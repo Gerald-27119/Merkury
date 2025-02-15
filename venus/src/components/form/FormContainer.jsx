@@ -46,9 +46,9 @@ export default function FormContainer({
   }, [dispatch, header, isSuccess, notificationMessage]);
 
   return (
-    <div className="h-screen bg-[url('/bg-form.png')] bg-cover bg-no-repeat bg-center flex items-center justify-center w-screen">
-      <div className="bg-amber-400 w-[30rem] rounded-md px-10 py-8 flex flex-col h-full justify-center">
-        <h1 className="text-center text-2xl text-white font-bold pb-8">
+    <div className="h-screen bg-darkBg bg-cover bg-no-repeat bg-center flex items-center justify-center w-screen">
+      <div className="bg-darkBgSoft w-[30rem] rounded-md px-10 py-8 flex flex-col h-full justify-center">
+        <h1 className="text-center text-2xl text-darkText font-bold pb-8">
           {header}
         </h1>
         {children}
@@ -65,7 +65,7 @@ export default function FormContainer({
         {showLink && (
           <Link
             to={navigateTo}
-            className="text-sm hover:underline pt-8 text-gray-600"
+            className="text-sm hover:underline pt-8 text-darkText"
           >
             {linkCaption}
           </Link>
