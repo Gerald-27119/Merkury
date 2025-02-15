@@ -69,6 +69,11 @@ jobs:
       - name: Wait for services to be ready
         run: sleep 30
 
+      - name: Check Java Version
+        run: |
+          java -version
+          echo "JAVA_HOME=$JAVA_HOME"
+
       - name: Build vulcanus
         run: mvn -B package --file vulcanus/pom.xml
 
