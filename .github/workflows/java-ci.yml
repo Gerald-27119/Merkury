@@ -72,11 +72,7 @@ jobs:
         run: docker compose -f vulcanus/docker/merkury/docker-compose.yml up -d
 
       - name: Wait for services to be ready
-        run: |
-          for i in {1..30}; do
-            curl -sSf http://localhost:8080 && break
-            sleep 2
-          done
+        run: sleep 30
 
       - name: Build vulcanus
         run: mvn -B package --file vulcanus/pom.xml
