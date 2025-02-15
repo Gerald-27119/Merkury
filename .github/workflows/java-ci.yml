@@ -63,7 +63,7 @@ jobs:
             maven-${{ runner.os }}-
 
       - name: Build and start services
-        run: docker-compose -f vulcanus/docker/merkury/docker-compose.yml up -d
+        run: docker compose -f vulcanus/docker/merkury/docker-compose.yml up -d
 
       - name: Wait for services to be ready
         run: sleep 30
