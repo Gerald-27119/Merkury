@@ -1,10 +1,7 @@
 package com.merkury.vulcanus.features.account;
 
-import com.merkury.vulcanus.exception.exceptions.UserNotNativeException;
+import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.model.dtos.user.UserPasswordResetDto;
-import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenIsInvalidException;
-import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenNotFoundException;
 import com.merkury.vulcanus.features.password.reset.PasswordResetTokenService;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.Provider;
@@ -31,9 +28,9 @@ public class RestartPasswordService {
         return userFromDb.get();
     }
 
-    public void throwIfUserNotNative(UserEntity user) throws UserNotNativeException {
+    public void throwIfUserNotNative(UserEntity user) throws InvalidProviderException {
         if (!user.getProvider().equals(Provider.NONE)) {
-            throw new UserNotNativeException();
+            throw new InvalidProviderException(user.getProvider().toString());
         }
     }
 

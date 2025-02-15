@@ -61,9 +61,4 @@ public class AccountExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(ex.getMessage());
     }
 
-    @ExceptionHandler(UserNotNativeException.class)
-    public ResponseEntity<String> handleUserNotNativeException(Exception ex) {
-        log.error(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
-    }
 }
