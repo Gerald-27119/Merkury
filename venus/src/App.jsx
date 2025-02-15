@@ -30,6 +30,14 @@ function App() {
     fetchData();
   }, [dispatch]);
 
+  useEffect(() => {
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
