@@ -34,7 +34,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-react.outputs.cache-hit != 'true'
-        run: npm ci
+        run: npm install
         working-directory: venus
 
       - name: Run tests
