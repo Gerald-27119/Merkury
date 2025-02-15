@@ -43,6 +43,7 @@ class AccountControllerWithServerStartupTest {
     void setUp() {
         var user = UserEntity.builder()
                 .username("test")
+                .email("tes@email.com")
                 .password(passwordEncoder.encode("test"))
                 .userRole(UserRole.ROLE_USER)
                 .build();

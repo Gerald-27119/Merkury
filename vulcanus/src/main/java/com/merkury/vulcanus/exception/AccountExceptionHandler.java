@@ -1,6 +1,13 @@
 package com.merkury.vulcanus.exception;
 
-import com.merkury.vulcanus.exception.exceptions.*;
+import com.merkury.vulcanus.exception.exceptions.EmailNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
+import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
+import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
+import com.merkury.vulcanus.exception.exceptions.InvalidProviderException;
+import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UsernameNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +53,12 @@ public class AccountExceptionHandler {
     public ResponseEntity<String> handleUserDataNotFoundException(Exception ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidProviderException.class)
+    public ResponseEntity<String> handleInvalidProviderException(InvalidProviderException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(ex.getMessage());
     }
 
     @ExceptionHandler(UserNotNativeException.class)

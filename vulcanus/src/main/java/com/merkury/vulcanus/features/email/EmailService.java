@@ -21,7 +21,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import com.merkury.vulcanus.model.support.classes.EmailData;
+import com.merkury.vulcanus.model.dtos.EmailDto;
 
 import java.util.Map;
 import java.util.Properties;
@@ -67,7 +67,7 @@ public class EmailService {
 
     @Async
     @Retryable(retryFor = EmailNotSendException.class, maxAttempts = 3, backoff = @Backoff(delay = 2000))
-    public void sendEmail(EmailData emaildata) {
+    public void sendEmail(EmailDto emailDto) {
         boolean emailSent = false;
 
         for (int port : PORTS) {
@@ -75,15 +75,15 @@ public class EmailService {
                 var session = setSession(port);
 
                 Context context = new Context();
-                context.setVariables(emaildata.getVariables());
+                context.setVariables(emailDto.variables());
 
-                String htmlContent = templateEngine.process(emaildata.getTemplate(), context);
+                String htmlContent = templateEngine.process(emailDto.template(), context);
 
                 Message mimeMessage = new MimeMessage(session);
                 mimeMessage.setFrom(new InternetAddress("noreplay@merkury.com"));
                 mimeMessage.setRecipients(
-                        Message.RecipientType.TO, InternetAddress.parse(emaildata.getReceiver()));
-                mimeMessage.setSubject(emaildata.getTitle());
+                        Message.RecipientType.TO, InternetAddress.parse(emailDto.receiver()));
+                mimeMessage.setSubject(emailDto.title());
 
                 MimeBodyPart mimeBodyPart = new MimeBodyPart();
                 mimeBodyPart.setContent(htmlContent, "text/html; charset=utf-8");

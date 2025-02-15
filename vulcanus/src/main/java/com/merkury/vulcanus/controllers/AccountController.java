@@ -1,11 +1,19 @@
 package com.merkury.vulcanus.controllers;
 
-import com.merkury.vulcanus.exception.exceptions.*;
+import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
+import com.merkury.vulcanus.exception.exceptions.InvalidProviderException;
 import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
 import com.merkury.vulcanus.model.dtos.user.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.user.UserLoginDto;
 import com.merkury.vulcanus.model.dtos.user.UserPasswordResetDto;
 import com.merkury.vulcanus.model.dtos.user.UserRegisterDto;
+import com.merkury.vulcanus.exception.exceptions.EmailNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
+import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
+import com.merkury.vulcanus.exception.exceptions.UsernameNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
+import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenIsInvalidException;
+import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenNotFoundException;
 import com.merkury.vulcanus.features.account.RestartPasswordService;
 import com.merkury.vulcanus.features.account.AccountService;
 import com.merkury.vulcanus.features.password.reset.PasswordResetTokenService;
@@ -15,7 +23,7 @@ import com.merkury.vulcanus.features.email.EmailService;
 import com.merkury.vulcanus.model.enums.EmailTemplate;
 import com.merkury.vulcanus.model.enums.EmailTitle;
 import com.merkury.vulcanus.model.enums.EmailVariable;
-import com.merkury.vulcanus.model.support.classes.EmailData;
+import com.merkury.vulcanus.model.dtos.EmailDto;
 import com.merkury.vulcanus.observability.counter.invocations.InvocationsCounter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -65,7 +73,7 @@ public class AccountController {
         log.info("User registered successfully!");
 
         if (isEmailSendingEnabled) {
-            EmailData emailData = EmailData.builder()
+            EmailDto emailDto = EmailDto.builder()
                     .receiver(userRegisterDto.email())
                     .title(EmailTitle.USER_REGISTERED.getTitle())
                     .template(EmailTemplate.REGISTRATION.getTemplateName())
@@ -73,7 +81,7 @@ public class AccountController {
                     .build();
 
             log.info("Sending email...");
-            emailService.sendEmail(emailData);
+            emailService.sendEmail(emailDto);
         }
 
         var user = new UserLoginDto(userRegisterDto.username(), userRegisterDto.password());
@@ -107,7 +115,7 @@ public class AccountController {
     }
 
     @GetMapping("/account/login-success")
-    public RedirectView loginSuccess(HttpServletResponse response, OAuth2AuthenticationToken oAuth2Token) throws EmailTakenException, UsernameTakenException, EmailNotFoundException, UsernameNotFoundException {
+    public RedirectView loginSuccess(HttpServletResponse response, OAuth2AuthenticationToken oAuth2Token) throws EmailTakenException, UsernameTakenException, EmailNotFoundException, UsernameNotFoundException, InvalidProviderException {
         log.info("Start handling oAuth2 user...");
         var loginResponseDto = accountService.handleOAuth2User(oAuth2Token, response);
         log.info("Successfully handled oAuth2 user!");
@@ -116,7 +124,7 @@ public class AccountController {
         if (isEmailSendingEnabled && loginResponseDto.isUserRegistered()) {
             String username = restartPasswordService.getUserByEmail(userEmail).getUsername();
 
-            EmailData emailData = EmailData.builder()
+            EmailDto emailDto = EmailDto.builder()
                     .receiver(userEmail)
                     .title(EmailTitle.USER_REGISTERED.getTitle())
                     .template(EmailTemplate.REGISTRATION.getTemplateName())
@@ -124,7 +132,7 @@ public class AccountController {
                     .build();
 
             log.info("Sending email...");
-            emailService.sendEmail(emailData);
+            emailService.sendEmail(emailDto);
         }
 
         var afterLoginPageUrl = urlsProperties.getAfterLoginPageUrl();
@@ -143,7 +151,7 @@ public class AccountController {
 
         String resetLink = urlsProperties.getResetPasswordUrl() + resetToken.getToken().toString();
 
-        EmailData emailData = EmailData.builder()
+        EmailDto emailDto = EmailDto.builder()
                 .receiver(email)
                 .title(EmailTitle.PASSWORD_RESET.getTitle())
                 .template(EmailTemplate.FORGOT_PASSWORD.getTemplateName())
@@ -151,7 +159,7 @@ public class AccountController {
                 .build();
 
         log.info("Sending email...");
-        emailService.sendEmail(emailData);
+        emailService.sendEmail(emailDto);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

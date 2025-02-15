@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.security.jwt;
 
+import com.merkury.vulcanus.config.properties.JwtProperties;
 import com.merkury.vulcanus.exception.exceptions.JwtValidationException;
-import com.merkury.vulcanus.model.entities.UserEntity;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.SignatureException;
@@ -10,22 +10,21 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 import java.util.Date;
 
-import static com.merkury.vulcanus.config.JwtConfig.getKey;
-import static com.merkury.vulcanus.config.JwtConfig.getTokenCookieExpiration;
-import static com.merkury.vulcanus.config.JwtConfig.getTokenName;
-
 @Component
+@RequiredArgsConstructor
 public class JwtManager {
+
+    private final JwtProperties jwtProperties;
+
     public String getUsernameFromJWT(String token) {
         try {
             return Jwts.parser()
-                    .verifyWith(getKey())
+                    .verifyWith(jwtProperties.getKey())
                     .build()
                     .parseSignedClaims(token)
                     .getPayload()
@@ -41,7 +40,7 @@ public class JwtManager {
         }
         try {
             Jwts.parser()
-                    .verifyWith(getKey())
+                    .verifyWith(jwtProperties.getKey())
                     .build()
                     .parseSignedClaims(token);
         } catch (SignatureException ex) {
@@ -52,7 +51,7 @@ public class JwtManager {
     public Date getExpirationDateFromToken(String token) {
         try {
             return Jwts.parser()
-                    .verifyWith(getKey())
+                    .verifyWith(jwtProperties.getKey())
                     .build()
                     .parseSignedClaims(token)
                     .getPayload()
@@ -67,11 +66,11 @@ public class JwtManager {
     }
 
     public void addTokenToCookie(HttpServletResponse response, String token) {
-        Cookie cookie = new Cookie(getTokenName(), token);
+        Cookie cookie = new Cookie(jwtProperties.getTokenName(), token);
         cookie.setSecure(false);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-        cookie.setMaxAge(getTokenCookieExpiration());
+        cookie.setMaxAge(jwtProperties.getTokenCookieExpiration());
         response.addCookie(cookie);
     }
 
@@ -81,7 +80,7 @@ public class JwtManager {
         }
 
         return Arrays.stream(request.getCookies())
-                .filter(cookie -> cookie.getName().equals(getTokenName()))
+                .filter(cookie -> cookie.getName().equals(jwtProperties.getTokenName()))
                 .map(Cookie::getValue).
                 findFirst()
                 .orElse(null);

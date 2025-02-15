@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.features.account;
 
+import com.merkury.vulcanus.exception.exceptions.InvalidProviderException;
 import com.merkury.vulcanus.model.dtos.user.UserRegisterDto;
 import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
 import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
@@ -27,9 +28,14 @@ class RegisterService {
     }
 
     public void registerOauth2User(String email, String username, String provider)
-            throws UsernameTakenException, EmailTakenException {
+            throws UsernameTakenException, EmailTakenException, InvalidProviderException {
         checkIfCredentialsTaken(email, username);
-        Provider authProvider = Provider.valueOf(provider.toUpperCase());
+        Provider authProvider;
+        try {
+            authProvider = Provider.valueOf(provider.toUpperCase());
+        } catch (IllegalArgumentException | NullPointerException exception) {
+            throw new InvalidProviderException("Invalid provider: " + provider);
+        }
         String generatedPassword = passwordGenerator.generate();
         UserEntity user = UserEntity.builder()
                 .email(email)
@@ -40,7 +46,6 @@ class RegisterService {
                 .enabled(true)
                 .accountNonExpired(true)
                 .accountNonLocked(true)
-                .accountNonExpired(true)
                 .build();
         userEntityRepository.save(user);
     }
@@ -57,11 +62,14 @@ class RegisterService {
 
     private void checkIfCredentialsTaken(String userEmail, String username)
             throws EmailTakenException, UsernameTakenException {
-        if (userEntityRepository.existsByEmail(userEmail)) {
-            throw new EmailTakenException();
-        }
-        if (userEntityRepository.existsByUsername(username)) {
-            throw new UsernameTakenException();
+        var userFromDb = userEntityRepository.findByUsernameOrEmail(username, userEmail);
+        if (userFromDb.isPresent()) {
+            if (userFromDb.get().getEmail().equals(userEmail)) {
+                throw new EmailTakenException();
+            }
+            if (userFromDb.get().getUsername().equals(username)) {
+                throw new UsernameTakenException();
+            }
         }
     }
 

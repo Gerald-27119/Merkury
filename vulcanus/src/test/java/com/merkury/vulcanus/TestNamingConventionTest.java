@@ -7,10 +7,10 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TestNamingConventionTest {
+class TestNamingConventionTest {
 
     @Test
-    public void testTestFilesNamingConvention() throws Exception {
+    void testTestFilesNamingConvention() throws Exception {
         Path testDirectory = Paths.get("src/test");
 
         try (Stream<Path> paths = Files.walk(testDirectory)) {
