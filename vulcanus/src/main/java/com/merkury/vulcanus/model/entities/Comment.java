@@ -30,4 +30,17 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private UserEntity author;
+
+    @PrePersist
+    public void prePersist() {
+        if (rating == null) {
+            rating = 0.0;
+        }
+        if (likes == null) {
+            likes = 0;
+        }
+        if (publishDate == null) {
+            publishDate = LocalDateTime.now();
+        }
+    }
 }

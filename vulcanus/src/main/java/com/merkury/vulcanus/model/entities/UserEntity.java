@@ -2,17 +2,7 @@ package com.merkury.vulcanus.model.entities;
 
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.enums.UserRole;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -83,10 +73,10 @@ public class UserEntity implements UserDetails {
     @ToString.Exclude
     private List<Comment> comments = new ArrayList<>();
 
-    private Boolean accountNonExpired = true;
-    private Boolean accountNonLocked = true;
-    private Boolean credentialsNonExpired = true;
-    private Boolean enabled = true;
+    private Boolean accountNonExpired;
+    private Boolean accountNonLocked;
+    private Boolean credentialsNonExpired;
+    private Boolean enabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -111,5 +101,21 @@ public class UserEntity implements UserDetails {
     @Override
     public boolean isAccountNonExpired() {
         return accountNonExpired;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (accountNonExpired == null) {
+            accountNonExpired = true;
+        }
+        if (accountNonLocked == null) {
+            accountNonLocked = true;
+        }
+        if (credentialsNonExpired == null) {
+            credentialsNonExpired = true;
+        }
+        if (enabled == null) {
+            enabled = true;
+        }
     }
 }

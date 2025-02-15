@@ -29,4 +29,11 @@ public class PasswordResetToken {
         this.expirationDate = expirationDate;
         this.userEmail = userEmail;
     }
+
+    @PrePersist
+    public void prePersist() {
+        if (expirationDate == null) {
+            expirationDate = LocalDateTime.now().plusMinutes(15);
+        }
+    }
 }

@@ -2,21 +2,14 @@ package com.merkury.vulcanus.model.entities;
 
 import com.merkury.vulcanus.model.converters.BorderPointListConverter;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,4 +60,14 @@ public class Spot {
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Img> images = new ArrayList<>();
+
+    @PrePersist
+    public void prePersist() {
+        if (rating == null) {
+            rating = 0.0;
+        }
+        if (viewsCount == null) {
+            viewsCount = 0;
+        }
+    }
 }

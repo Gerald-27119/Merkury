@@ -36,4 +36,15 @@ public class Zone {
 
     private Integer AGL;
     private Integer AMSL;
+
+
+    @PrePersist
+    public void prePersist() {
+        if (AGL == null) {
+            AGL = 0;
+        }
+        if (AMSL == null) {
+            AMSL = 0;
+        }
+    }
 }
