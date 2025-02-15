@@ -3,7 +3,9 @@ name: Java CI
 on:
   push:
     branches:
-      - '**'
+      - 'feature/**'
+    paths:
+      - 'vulcanus/**'
   pull_request:
     branches: [ master, develop ]
   merge_group:
