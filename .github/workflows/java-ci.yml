@@ -48,10 +48,13 @@ jobs:
       - name: Cache local Maven repository
         uses: actions/cache@v4
         with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          path: |
+            ~/.m2/repository
+            ~/.m2/wrapper
+          key: maven-${{ runner.os }}-${{ hashFiles('vulcanus/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
+            maven-${{ runner.os }}-
+            maven-
 
       - name: Build and start services
         run: docker-compose -f vulcanus/docker/merkury/docker-compose.yml up -d
