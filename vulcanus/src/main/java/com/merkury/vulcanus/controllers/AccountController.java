@@ -1,18 +1,11 @@
 package com.merkury.vulcanus.controllers;
 
-import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
+import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
 import com.merkury.vulcanus.model.dtos.user.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.user.UserLoginDto;
 import com.merkury.vulcanus.model.dtos.user.UserPasswordResetDto;
 import com.merkury.vulcanus.model.dtos.user.UserRegisterDto;
-import com.merkury.vulcanus.exception.exceptions.EmailNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
-import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
-import com.merkury.vulcanus.exception.exceptions.UsernameNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
-import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenIsInvalidException;
-import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenNotFoundException;
 import com.merkury.vulcanus.features.account.RestartPasswordService;
 import com.merkury.vulcanus.features.account.AccountService;
 import com.merkury.vulcanus.features.password.reset.PasswordResetTokenService;
@@ -141,9 +134,10 @@ public class AccountController {
     }
 
     @PostMapping("/public/account/forgot-password")
-    public ResponseEntity<String> forgotPasswordSendEmail(@RequestBody String email) {
+    public ResponseEntity<String> forgotPasswordSendEmail(@RequestBody String email) throws UserNotNativeException {
         log.info("Start handling forgot password procedure...");
         UserEntity user = restartPasswordService.getUserByEmail(email);
+        restartPasswordService.throwIfUserNotNative(user);
         PasswordResetToken resetToken = passwordResetTokenService.changeToken(user);
         log.info("Procedure finished!");
 
