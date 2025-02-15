@@ -11,27 +11,26 @@ public class ImgMapper {
     }
 
     public static ImgDto toDto(@NotNull Img img) {
-
-        return new ImgDto(
-                img.getUrl(),
-                img.getAlt(),
-                img.getDescription(),
-                img.getLikes(),
-                img.getViews(),
-                img.getAuthor().getUsername());
+        return ImgDto.builder()
+                .img(img.getUrl())
+                .title(img.getAlt())
+                .description(img.getDescription())
+                .likes(img.getLikes())
+                .views(img.getViews())
+                .author(img.getAuthor().getUsername())
+                .build();
     }
 
     public static Img toEntity(@NotNull ImgDto dto, @NotNull Spot spot, @NotNull UserEntity author) {
-        Img img = new Img();
-        img.setUrl(dto.img());
-        img.setAlt(dto.title());
-        img.setDescription(dto.description());
-        img.setLikes(dto.likes());
-        img.setViews(dto.views());
-        img.setSpot(spot);
-        img.setAuthor(author);
-
-        return img;
+        return Img.builder()
+                .url(dto.img())
+                .alt(dto.title())
+                .description(dto.description())
+                .likes(dto.likes())
+                .views(dto.views())
+                .spot(spot)
+                .author(author)
+                .build();
     }
 }
 

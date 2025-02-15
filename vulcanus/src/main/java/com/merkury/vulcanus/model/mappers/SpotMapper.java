@@ -18,51 +18,48 @@ public class SpotMapper {
     }
 
     public static GeneralSpotDto toDto(@NotNull Spot spot) {
-        return new GeneralSpotDto(
-                spot.getId(),
-                spot.getAreaColor(),
-                spot.getName(),
-                spot.getRating(),
-                spot.getBorderPoints()
+        return GeneralSpotDto.builder()
+                .id(spot.getId())
+                .areaColor(spot.getAreaColor())
+                .name(spot.getName())
+                .rating(spot.getRating())
+                .contourCoordinates(spot.getBorderPoints()
                         .stream()
                         .map(point -> new Double[]{point.getX(), point.getY()})
-                        .toList()
-        );
+                        .toList())
+                .build();
     }
 
     public static Spot toEntity(@NotNull FullSpotDto dto,
                                 @NotNull List<BorderPoint> points,
                                 @NotNull List<Comment> comments,
                                 @NotNull List<Img> images) {
-        Spot spot = new Spot();
-        spot.setAreaColor(dto.areaColor());
-        spot.setName(dto.name());
-        spot.setDescription(dto.description());
-        spot.setRating(dto.rating());
-        spot.setViewsCount(dto.viewsCount());
-
-        spot.setBorderPoints(points);
-
-        spot.setComments(comments);
-        spot.setImages(images);
-
-        return spot;
+        return Spot.builder()
+                .areaColor(dto.areaColor())
+                .name(dto.name())
+                .description(dto.description())
+                .rating(dto.rating())
+                .viewsCount(dto.viewsCount())
+                .borderPoints(points)
+                .comments(comments)
+                .images(images)
+                .build();
     }
 
     public static SpotDetailsDto toDetailsDto(@NotNull Spot spot) {
-        return new SpotDetailsDto(
-                spot.getId(),
-                spot.getName(),
-                spot.getDescription(),
-                spot.getRating(),
-                spot.getViewsCount(),
-                spot.getImages()
-                        .stream()
+        return SpotDetailsDto.builder()
+                .id(spot.getId())
+                .name(spot.getName())
+                .description(spot.getDescription())
+                .rating(spot.getRating())
+                .viewsCount(spot.getViewsCount())
+                .photos(spot.getImages().stream()
                         .map(ImgMapper::toDto)
-                        .toList(),
-                new WeatherApiCallCordsDto(
+                        .toList())
+                .weatherApiCallCoords(new WeatherApiCallCordsDto(
                         spot.getBorderPoints().getFirst().getX(),
-                        spot.getBorderPoints().getFirst().getY()));
+                        spot.getBorderPoints().getFirst().getY()))
+                .build();
     }
 }
 

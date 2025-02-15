@@ -2,7 +2,9 @@ package com.merkury.vulcanus.model.dtos;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 
+@Builder
 public record ImgDto(@NotBlank(message = "Img url cannot be empty.")
                      String img,
                      @NotBlank(message = "Title cannot be empty.")

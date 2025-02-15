@@ -3,9 +3,10 @@ package com.merkury.vulcanus.model.dtos.spot;
 import com.merkury.vulcanus.model.dtos.ImgDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.WeatherApiCallCordsDto;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 
 import java.util.List;
-
+@Builder
 public record SpotDetailsDto(@Positive(message = "ID must be a positive number.")
                              Long id,
                              @NotBlank(message = "Name cannot be empty.")
