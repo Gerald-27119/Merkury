@@ -23,6 +23,7 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+          check-latest: true
 
       - name: Set up Docker
         uses: docker/setup-buildx-action@v2
