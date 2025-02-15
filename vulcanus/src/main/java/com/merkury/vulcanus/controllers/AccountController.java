@@ -137,7 +137,7 @@ public class AccountController {
     public ResponseEntity<String> forgotPasswordSendEmail(@RequestBody String email) throws InvalidProviderException {
         log.info("Start handling forgot password procedure...");
         UserEntity user = restartPasswordService.getUserByEmail(email);
-        restartPasswordService.throwIfUserNotNative(user);
+        restartPasswordService.abortIfOauthUser(user);
         PasswordResetToken resetToken = passwordResetTokenService.changeToken(user);
         log.info("Procedure finished!");
 

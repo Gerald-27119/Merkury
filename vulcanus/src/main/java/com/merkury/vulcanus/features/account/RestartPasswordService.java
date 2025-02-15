@@ -28,7 +28,7 @@ public class RestartPasswordService {
         return userFromDb.get();
     }
 
-    public void throwIfUserNotNative(UserEntity user) throws InvalidProviderException {
+    public void abortIfOauthUser(UserEntity user) throws InvalidProviderException {
         if (!user.getProvider().equals(Provider.NONE)) {
             throw new InvalidProviderException(user.getProvider().toString());
         }

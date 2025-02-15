@@ -60,5 +60,4 @@ public class AccountExceptionHandler {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(ex.getMessage());
     }
-
 }
