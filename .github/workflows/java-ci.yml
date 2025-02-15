@@ -7,7 +7,13 @@ on:
     paths:
       - 'vulcanus/**'
   pull_request:
-    branches: [ master, develop ]
+    types:
+      - opened
+      - synchronize
+      - reopened
+    branches:
+      - master
+      - develop
   merge_group:
     branches: [ master, develop ]
 
