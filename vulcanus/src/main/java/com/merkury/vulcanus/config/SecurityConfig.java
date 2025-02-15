@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.config;
 
+import com.merkury.vulcanus.config.properties.JwtProperties;
 import com.merkury.vulcanus.config.properties.UrlsProperties;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import com.merkury.vulcanus.security.jwt.JwtAuthFilter;
@@ -34,7 +35,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.merkury.vulcanus.config.JwtConfig.getTokenName;
 
 @Configuration
 @EnableWebSecurity
@@ -59,7 +59,7 @@ public class SecurityConfig {
 
     @Bean
     @Order(1)
-    public SecurityFilterChain publicSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain publicSecurityFilterChain(HttpSecurity http, JwtProperties jwtProperties) throws Exception {
         return http
                 .securityMatcher(publicPathsMatcher)
                 .csrf(AbstractHttpConfigurer::disable)
@@ -78,7 +78,7 @@ public class SecurityConfig {
                         .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
-                        .deleteCookies(getTokenName())
+                        .deleteCookies(jwtProperties.getTokenName())
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .httpBasic(HttpBasicConfigurer::disable)
@@ -87,7 +87,7 @@ public class SecurityConfig {
 
     @Bean
     @Order(2)
-    public SecurityFilterChain privateSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain privateSecurityFilterChain(HttpSecurity http,JwtAuthFilter jwtAuthFilter) throws Exception {
         return http
                 .securityMatcher(privatePathsMatcher)
                 .csrf(AbstractHttpConfigurer::disable)
@@ -96,6 +96,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
+                        //TODO: add custom access denied handler
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.setStatus(403);
                             response.setContentType("application/json");
@@ -106,7 +107,7 @@ public class SecurityConfig {
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .addFilterBefore(jwtAuthenticationFilter(), LogoutFilter.class)
+                .addFilterBefore(jwtAuthFilter, LogoutFilter.class)
                 .build();
     }
 
@@ -134,11 +135,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JwtAuthFilter jwtAuthenticationFilter() {
+    public JwtAuthFilter jwtAuthenticationFilter(JwtGenerator jwtGenerator, JwtManager jwtManager, JwtProperties jwtProperties) {
         return new JwtAuthFilter(
-                new JwtGenerator(),
+                jwtGenerator,
                 customUserDetailsService,
-                new JwtManager()
+                jwtManager,
+                jwtProperties
         );
     }
 

@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.security.jwt;
 
+import com.merkury.vulcanus.config.properties.JwtProperties;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Date;
 
-import static com.merkury.vulcanus.config.JwtConfig.getOneDayInMs;
 
 
 @Slf4j
@@ -28,6 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtGenerator tokenGenerator;
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtManager jwtManager;
+    private final JwtProperties jwtProperties;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain
@@ -70,7 +70,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (jwtManager.isNotTokenExpired(token)) {
             Date tokenExpirationDate = jwtManager.getExpirationDateFromToken(token);
             long timeUntilExpired = tokenExpirationDate.getTime() - new Date().getTime();
-            if (timeUntilExpired <= getOneDayInMs()) {
+            if (timeUntilExpired <= jwtProperties.getOneDayInMs()) {
                 jwtManager.addTokenToCookie(response, tokenGenerator.generateToken());
             }
         }

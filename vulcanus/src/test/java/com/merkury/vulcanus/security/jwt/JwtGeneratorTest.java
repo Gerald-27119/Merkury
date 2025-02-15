@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.security.jwt;
 
+import com.merkury.vulcanus.config.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import io.jsonwebtoken.Jwts;
 import org.springframework.test.context.ActiveProfiles;
 
-import static com.merkury.vulcanus.config.JwtConfig.getKey;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -18,13 +18,16 @@ class JwtGeneratorTest {
     @Autowired
     private JwtGenerator jwtGenerator;
 
+    @Autowired
+    private JwtProperties jwtProperties;
+
     @WithMockUser
     @Test
     void generateToken() {
         String token = jwtGenerator.generateToken();
 
         Claims claims = Jwts.parser()
-                .verifyWith(getKey())
+                .verifyWith(jwtProperties.getKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
