@@ -1,11 +1,10 @@
 package com.merkury.vulcanus.features.account;
 
+import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.model.dtos.user.UserPasswordResetDto;
-import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenIsInvalidException;
-import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenNotFoundException;
 import com.merkury.vulcanus.features.password.reset.PasswordResetTokenService;
 import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +26,12 @@ public class RestartPasswordService {
             throw new UserNotFoundException("User with provided email doesn't exist!");
         }
         return userFromDb.get();
+    }
+
+    public void abortIfOauthUser(UserEntity user) throws InvalidProviderException {
+        if (!user.getProvider().equals(Provider.NONE)) {
+            throw new InvalidProviderException();
+        }
     }
 
     public void restartUserPassword(UserPasswordResetDto userPasswordResetDto) throws PasswordResetTokenIsInvalidException, PasswordResetTokenNotFoundException {
