@@ -47,8 +47,8 @@ services:
       SPRING_DATASOURCE_PASSWORD: password
       SPRING_DATA_MONGODB_URI: mongodb://user:password@mongo-db:27017/dev_mongo_db
       SPRING_DATA_MONGODB_DATABASE: dev_mongo_db
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
     ports:
       - "8081:8081"
 
