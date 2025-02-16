@@ -33,7 +33,11 @@ import java.util.List;
 @Converter
 public class BorderPointListConverter implements AttributeConverter<List<BorderPoint>, String> {
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper;
+
+    public BorderPointListConverter() {
+        this.mapper = new ObjectMapper();
+    }
 
     @Override
     public String convertToDatabaseColumn(List<BorderPoint> borderPoints) {
@@ -53,8 +57,7 @@ public class BorderPointListConverter implements AttributeConverter<List<BorderP
             return null;
         }
         try {
-            return mapper.readValue(json, new TypeReference<>() {
-            });
+            return mapper.readValue(json, new TypeReference<>() {});
         } catch (Exception e) {
             throw new RuntimeException("Error converting JSON to BorderPoint list", e);
         }

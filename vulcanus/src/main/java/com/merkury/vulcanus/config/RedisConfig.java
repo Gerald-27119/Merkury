@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.serializers.border.point.BorderPointJsonDeserializer;
 import com.merkury.vulcanus.model.serializers.border.point.BorderPointJsonSerializer;
+import com.merkury.vulcanus.model.serializers.border.point.BorderPointTypeResolverBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -85,13 +86,16 @@ public class RedisConfig {
     @Bean
     public GenericJackson2JsonRedisSerializer redisSerializer() {
         ObjectMapper objectMapper = new ObjectMapper();
+        BorderPointTypeResolverBuilder tpBuilder = new BorderPointTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL);
+        objectMapper.setDefaultTyping(tpBuilder);
+
         SimpleModule module = new SimpleModule();
         module.addSerializer(BorderPoint.class, new BorderPointJsonSerializer());
-        module.addDeserializer(BorderPoint.class, new BorderPointJsonDeserializer());
+        module.addDeserializer(BorderPoint.class, new BorderPointJsonDeserializer(objectMapper));
         objectMapper.registerModule(module);
+
         return new GenericJackson2JsonRedisSerializer(objectMapper);
     }
-
 
     @Bean
     public RedisCacheConfiguration defaultCacheConfiguration(GenericJackson2JsonRedisSerializer serializer) {

@@ -9,7 +9,12 @@ import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import java.io.IOException;
 
 public class BorderPointJsonDeserializer extends JsonDeserializer<BorderPoint> {
-    private final ObjectMapper mapper = new ObjectMapper();
+
+    private final ObjectMapper mapper;
+
+    public BorderPointJsonDeserializer(ObjectMapper mapper) {
+        this.mapper = mapper;
+    }
 
     @Override
     public BorderPoint deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {

@@ -8,16 +8,18 @@ import lombok.NoArgsConstructor;
 import java.io.Serial;
 import java.io.Serializable;
 
+//@JsonTypeInfo(
+//        use = JsonTypeInfo.Id.CLASS,
+//        include = JsonTypeInfo.As.PROPERTY,
+//        property = "@class"
+//)
 @Embeddable
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class BorderPoint implements Serializable {
-
     @Serial
     private static final long serialVersionUID = 4868207685462237247L;
-
     private Double x;
     private Double y;
-
 }
