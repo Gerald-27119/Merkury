@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.exception;
+package com.merkury.vulcanus.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

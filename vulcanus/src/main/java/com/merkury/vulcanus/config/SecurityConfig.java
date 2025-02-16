@@ -2,7 +2,7 @@ package com.merkury.vulcanus.config;
 
 import com.merkury.vulcanus.config.properties.JwtProperties;
 import com.merkury.vulcanus.config.properties.UrlsProperties;
-import com.merkury.vulcanus.exception.CustomAccessDeniedHandler;
+import com.merkury.vulcanus.security.CustomAccessDeniedHandler;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import com.merkury.vulcanus.security.jwt.JwtAuthFilter;
 import com.merkury.vulcanus.security.jwt.JwtGenerator;
