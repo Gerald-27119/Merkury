@@ -2,6 +2,7 @@ package com.merkury.vulcanus.config;
 
 import com.merkury.vulcanus.config.properties.JwtProperties;
 import com.merkury.vulcanus.config.properties.UrlsProperties;
+import com.merkury.vulcanus.exception.CustomAccessDeniedHandler;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import com.merkury.vulcanus.security.jwt.JwtAuthFilter;
 import com.merkury.vulcanus.security.jwt.JwtGenerator;
@@ -87,7 +88,7 @@ public class SecurityConfig {
 
     @Bean
     @Order(2)
-    public SecurityFilterChain privateSecurityFilterChain(HttpSecurity http,JwtAuthFilter jwtAuthFilter) throws Exception {
+    public SecurityFilterChain privateSecurityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter, CustomAccessDeniedHandler customAccessDeniedHandler) throws Exception {
         return http
                 .securityMatcher(privatePathsMatcher)
                 .csrf(AbstractHttpConfigurer::disable)
@@ -96,14 +97,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
-                        //TODO: add custom access denied handler
-                        .accessDeniedHandler((request, response, accessDeniedException) -> {
-                            response.setStatus(403);
-                            response.setContentType("application/json");
-                            response.setCharacterEncoding("UTF-8");
-                            response.getWriter().write("{ \"error\": \"Forbidden\", \"message\": \"You don't have permission to access this resource\", \"path\": \"" + request.getRequestURI() + "\", \"exception message\": \"" + accessDeniedException.getMessage() + "\" }");
-                            response.getWriter().flush();
-                        })
+                        .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .httpBasic(AbstractHttpConfigurer::disable)
