@@ -30,7 +30,7 @@ public class RestartPasswordService {
 
     public void abortIfOauthUser(UserEntity user) throws InvalidProviderException {
         if (!user.getProvider().equals(Provider.NONE)) {
-            throw new InvalidProviderException(user.getProvider().toString());
+            throw new InvalidProviderException();
         }
     }
 
