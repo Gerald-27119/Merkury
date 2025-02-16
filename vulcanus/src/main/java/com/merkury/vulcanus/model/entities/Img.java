@@ -20,8 +20,10 @@ public class Img {
     private String url;
     private String alt;
     private String description;
-    private Integer likes;
-    private Integer views;
+    @Builder.Default
+    private Integer likes = 0;
+    @Builder.Default
+    private Integer views = 0;
 
     @ManyToOne
     @JoinColumn(name = "author_id")
@@ -30,14 +32,4 @@ public class Img {
     @ManyToOne
     @JoinColumn(name = "spot_id")
     private Spot spot;
-
-    @PrePersist
-    public void prePersist() {
-        if (likes == null) {
-            likes = 0;
-        }
-        if (views == null) {
-            views = 0;
-        }
-    }
 }

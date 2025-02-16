@@ -76,10 +76,11 @@ public class PopulateDbsService {
         userEntityRepository.findAll().forEach(userEntity ->
                 log.info(userEntity.toString()));
 
-        PasswordResetToken token = new PasswordResetToken(
-                UUID.fromString("fff3a3f6-fbd8-4fc5-890c-626343f2f324"),
-                LocalDateTime.now().plusMinutes(15),
-                user.getEmail());
+        var token = PasswordResetToken.builder()
+                .token(UUID.fromString("fff3a3f6-fbd8-4fc5-890c-626343f2f324"))
+                .expirationDate(LocalDateTime.now().plusMinutes(15))
+                .userEmail(user.getEmail())
+                .build();
 
         passwordResetTokenRepository.save(token);
 

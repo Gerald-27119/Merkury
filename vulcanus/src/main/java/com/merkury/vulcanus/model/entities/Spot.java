@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,25 +48,19 @@ public class Spot {
     @Convert(converter = BorderPointListConverter.class)
     private List<BorderPoint> borderPoints = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @OrderBy("publishDate DESC")
     private List<Comment> comments = new ArrayList<>();
 
-    private Double rating;
-    private Integer viewsCount;
+    @Builder.Default
+    private Double rating = 0.0;
+    @Builder.Default
+    private Integer viewsCount = 0;
 
+    @Builder.Default
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Img> images = new ArrayList<>();
-
-    @PrePersist
-    public void prePersist() {
-        if (rating == null) {
-            rating = 0.0;
-        }
-        if (viewsCount == null) {
-            viewsCount = 0;
-        }
-    }
 }

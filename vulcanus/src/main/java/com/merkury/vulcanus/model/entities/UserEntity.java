@@ -35,8 +35,9 @@ public class UserEntity implements UserDetails {
      * throw a LazyInitializationException.
      * Benefit: Improves performance by loading the collection only when needed.
      **/
+    @Builder.Default
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Img> images;
+    private List<Img> images = new ArrayList<>();
 
     /**
      * Default lazy loading: Favorite spots are loaded only when explicitly accessed.
@@ -45,6 +46,7 @@ public class UserEntity implements UserDetails {
      * Reason: Avoids unnecessary fetching of potentially large collections
      * unless required.
      **/
+    @Builder.Default
     @ManyToMany
     @JoinTable(
             name = "user_favorite_spots",
@@ -66,17 +68,23 @@ public class UserEntity implements UserDetails {
      * Purpose: Optimizes memory and database performance by avoiding eager
      * loading of relationships.
      **/
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Friendship> friendships = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Comment> comments = new ArrayList<>();
 
-    private Boolean accountNonExpired;
-    private Boolean accountNonLocked;
-    private Boolean credentialsNonExpired;
-    private Boolean enabled;
+    @Builder.Default
+    private Boolean accountNonExpired = true;
+    @Builder.Default
+    private Boolean accountNonLocked = true;
+    @Builder.Default
+    private Boolean credentialsNonExpired = true;
+    @Builder.Default
+    private Boolean enabled = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -101,21 +109,5 @@ public class UserEntity implements UserDetails {
     @Override
     public boolean isAccountNonExpired() {
         return accountNonExpired;
-    }
-
-    @PrePersist
-    public void prePersist() {
-        if (accountNonExpired == null) {
-            accountNonExpired = true;
-        }
-        if (accountNonLocked == null) {
-            accountNonLocked = true;
-        }
-        if (credentialsNonExpired == null) {
-            credentialsNonExpired = true;
-        }
-        if (enabled == null) {
-            enabled = true;
-        }
     }
 }

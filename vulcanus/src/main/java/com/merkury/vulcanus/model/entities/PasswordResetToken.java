@@ -1,10 +1,7 @@
 package com.merkury.vulcanus.model.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,24 +13,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class PasswordResetToken {
     @Id
     private String id;
     @Indexed(unique = true)
     private UUID token;
-    private LocalDateTime expirationDate;
+    @Builder.Default
+    private LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(15);
     private String userEmail;
-
-    public PasswordResetToken(UUID token, LocalDateTime expirationDate, String userEmail) {
-        this.token = token;
-        this.expirationDate = expirationDate;
-        this.userEmail = userEmail;
-    }
-
-    @PrePersist
-    public void prePersist() {
-        if (expirationDate == null) {
-            expirationDate = LocalDateTime.now().plusMinutes(15);
-        }
-    }
 }
