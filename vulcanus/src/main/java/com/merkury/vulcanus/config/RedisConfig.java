@@ -31,7 +31,7 @@ import java.util.Map;
  * <p>
  * The default configuration is set to:
  * <ul>
- *     <li>Time-to-live (TTL) of 20 seconds,</li>
+ *     <li>Time-to-live (TTL) of 30 seconds,</li>
  *     <li>Null values are not cached (disableCachingNullValues),</li>
  *     <li>Values are serialized using a {@code GenericJackson2JsonRedisSerializer} that is configured
  *         with a custom {@code ObjectMapper}. This mapper registers a module with custom serializers/deserializers
@@ -42,8 +42,8 @@ import java.util.Map;
  * <p>
  * In the {@code cacheManager} bean, individual cache configurations are defined for:
  * <ul>
- *     <li>{@code "filteredSpots"} – TTL set to 20 seconds,</li>
- *     <li>{@code "filteredSpotsNames"} – TTL set to 10 seconds.</li>
+ *     <li>{@code "filteredSpots"} – TTL set to 50 seconds,</li>
+ *     <li>{@code "filteredSpotsNames"} – TTL set to 40 seconds.</li>
  * </ul>
  * </p>
  *
@@ -96,7 +96,7 @@ public class RedisConfig {
     @Bean
     public RedisCacheConfiguration defaultCacheConfiguration(GenericJackson2JsonRedisSerializer serializer) {
         return RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(20))
+                .entryTtl(Duration.ofSeconds(30))
                 .disableCachingNullValues()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer));
     }
@@ -107,12 +107,12 @@ public class RedisConfig {
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
 
         cacheConfigurations.put("filteredSpots", RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(20))
+                .entryTtl(Duration.ofSeconds(50))
                 .disableCachingNullValues()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer)));
 
         cacheConfigurations.put("filteredSpotsNames", RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(10))
+                .entryTtl(Duration.ofSeconds(40))
                 .disableCachingNullValues()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer)));
 
