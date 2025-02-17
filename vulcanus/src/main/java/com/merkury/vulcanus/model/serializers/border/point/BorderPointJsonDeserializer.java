@@ -5,16 +5,14 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
+import lombok.AllArgsConstructor;
 
 import java.io.IOException;
 
+@AllArgsConstructor
 public class BorderPointJsonDeserializer extends JsonDeserializer<BorderPoint> {
 
     private final ObjectMapper mapper;
-
-    public BorderPointJsonDeserializer(ObjectMapper mapper) {
-        this.mapper = mapper;
-    }
 
     @Override
     public BorderPoint deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {

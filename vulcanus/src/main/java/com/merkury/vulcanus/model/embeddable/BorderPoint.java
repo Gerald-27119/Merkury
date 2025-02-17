@@ -8,11 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serial;
 import java.io.Serializable;
 
-//@JsonTypeInfo(
-//        use = JsonTypeInfo.Id.CLASS,
-//        include = JsonTypeInfo.As.PROPERTY,
-//        property = "@class"
-//)
+
 @Embeddable
 @Data
 @NoArgsConstructor

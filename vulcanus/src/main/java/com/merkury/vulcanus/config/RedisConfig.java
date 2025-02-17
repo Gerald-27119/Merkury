@@ -85,11 +85,11 @@ public class RedisConfig {
 
     @Bean
     public GenericJackson2JsonRedisSerializer redisSerializer() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        BorderPointTypeResolverBuilder tpBuilder = new BorderPointTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL);
+        var objectMapper = new ObjectMapper();
+        var tpBuilder = new BorderPointTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL);
         objectMapper.setDefaultTyping(tpBuilder);
 
-        SimpleModule module = new SimpleModule();
+        var module = new SimpleModule();
         module.addSerializer(BorderPoint.class, new BorderPointJsonSerializer());
         module.addDeserializer(BorderPoint.class, new BorderPointJsonDeserializer(objectMapper));
         objectMapper.registerModule(module);
