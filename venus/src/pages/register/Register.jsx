@@ -88,7 +88,7 @@ export default function Register() {
         />
         <button
           type="submit"
-          className="bg-mainBlue p-3 mt-3 text-darkText rounded-md text-lg"
+          className="bg-mainBlue p-3 mt-3 dark:text-darkText rounded-md text-lg"
           disabled={
             !didEdit.username ||
             !didEdit.password ||

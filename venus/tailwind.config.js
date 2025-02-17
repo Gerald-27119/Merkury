@@ -8,17 +8,17 @@ export default {
         "1/10": "10%",
       },
       colors: {
-        mainBlue: "#191970",
+        mainBlue: "#4242f0",
         darkText: "#E5E5E5",
         darkBg: "#0F0F10",
         darkBgSoft: "#1B1C1D",
         darkBgMuted: "#323539",
         darkBorder: "#939394",
-        // darkText: "#222222",
-        // darkBg: "#F7F7F7",
-        // darkBgSoft: "#FFFFFF",
-        // darkBgMuted: "#F2F2F2",
-        // darkBorder: "#FBFDFF",
+        lightText: "#222222",
+        lightBg: "#F7F7F7",
+        lightBgSoft: "#FFFFFF",
+        lightBgMuted: "#F2F2F2",
+        lightBorder: "#FBFDFF",
       },
       keyframes: {
         slideInFromLeft: {
