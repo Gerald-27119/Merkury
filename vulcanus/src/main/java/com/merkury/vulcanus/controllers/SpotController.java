@@ -29,45 +29,6 @@ public class SpotController {
         return ResponseEntity.ok(spotService.getSpotById(spotId));
     }
 
-//    @GetMapping("/public/spot/comments")
-//    public ResponseEntity<Page<CommentDto>> getCommentsBySpotId(@RequestParam Long spotId, @RequestParam int page, @RequestParam int size) throws SpotNotFoundException {
-//        return ResponseEntity.ok(spotService.getCommentsPageBySpotId(spotId, page, size));
-//    }
-
-//    @PostMapping("/spot/comment")
-//    public ResponseEntity<String> addComment(@RequestBody CommentAddDto commentAddDto,
-//                                                       HttpServletRequest request)
-//            throws CommentNotFoundException, SpotNotFoundException {
-//        log.info("Submitting new comment...");
-//        spotService.addComment(commentAddDto.text(),  commentAddDto.spotId(), request);
-//        log.info("Edited comment successfully! spot id:" + commentAddDto.spotId() + "!");
-//        return ResponseEntity
-//                .ok().build();
-//    }
-
-//    @PatchMapping("/spot/comment")
-//    public ResponseEntity<String> editComment(@RequestBody CommentEditDto commentEditDto,
-//                                                        HttpServletRequest request)
-//            throws CommentNotFoundException, InvalidCredentialsException {
-//
-//        log.info("Editing comment, id:" + commentEditDto.id() + "...");
-//        spotService.editComment(commentEditDto.id(), commentEditDto.text() , request);
-//        log.info("Edited comment successfully! id:" + commentEditDto.id() + "!");
-//        return ResponseEntity
-//                .ok().build();
-//    }
-//
-//    @DeleteMapping("/spot/comment/{commentId}")
-//    public ResponseEntity<String> deleteComment(@PathVariable("commentId") Long commentId,
-//                                                          HttpServletRequest request)
-//            throws CommentNotFoundException, InvalidCredentialsException {
-//        log.info("Deleting comment, id:" + commentId + "...");
-//        spotService.deleteComment(commentId, request);
-//        log.info("Deleted comment successfully! id:" + commentId);
-//        return ResponseEntity
-//                .ok().build();
-//    }
-
     @GetMapping("/public/spot/filter")
     public ResponseEntity<List<GeneralSpotDto>> getFilteredSpots(
             @RequestParam(defaultValue = "") String name,

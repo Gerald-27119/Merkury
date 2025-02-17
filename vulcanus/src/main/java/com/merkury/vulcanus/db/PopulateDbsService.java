@@ -8,16 +8,15 @@ import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.Zone;
 import com.merkury.vulcanus.model.enums.Provider;
-import com.merkury.vulcanus.model.repositories.PasswordResetTokenRepository;
-import com.merkury.vulcanus.model.repositories.SpotRepository;
-import com.merkury.vulcanus.model.repositories.UserEntityRepository;
-import com.merkury.vulcanus.model.repositories.ZoneRepository;
+import com.merkury.vulcanus.model.repositories.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -428,6 +427,13 @@ public class PopulateDbsService {
             spot.getBorderPoints().addAll(contours.get(i));
             spot.getComments().addAll(commentLists.get(i));
             spot.getImages().addAll(galleries.get(i));
+
+            var comments = commentLists.get(i);
+            var rating = comments.stream()
+                    .mapToDouble(Comment::getRating)
+                    .average()
+                    .orElse(0.0);
+            spot.setRating(BigDecimal.valueOf(rating).setScale(2, RoundingMode.HALF_UP).doubleValue());
         }
 
         spotRepository.saveAll(spots);

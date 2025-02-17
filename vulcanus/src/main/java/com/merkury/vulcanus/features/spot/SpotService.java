@@ -42,22 +42,6 @@ public class SpotService {
         return spotRepository.findById(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
 
-//    public void addComment(String text, Long spotId, HttpServletRequest request) throws SpotNotFoundException, UserNotFoundException {
-//        commentService.addComment(text, spotId, request);
-//    }
-//
-//    public void editComment(Long commentId, String text, HttpServletRequest request) throws CommentNotFoundException, InvalidCredentialsException {
-//        commentService.editComment(commentId, text, request);
-//    }
-//
-//    public void deleteComment(Long commentId, HttpServletRequest request) throws CommentNotFoundException, InvalidCredentialsException {
-//        commentService.deleteComment(commentId, request);
-//    }
-//
-//    public Page<CommentDto> getCommentsPageBySpotId(Long spotId, int page, int size) throws SpotNotFoundException {
-//        return commentService.getCommentsPageBySpotId(spotId, page, size);
-//    }
-
     public List<GeneralSpotDto> getFilteredSpots(String name, Double minRating, Double maxRating) throws SpotsNotFoundException {
         var allSpots = this.getAllSpots();
         var filteredSpots = allSpots.stream()

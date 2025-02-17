@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -15,4 +16,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Page<Comment> findAllCommentsBySpotIdOrderByPublishDateDesc(Long spotId, Pageable pageable);
     Optional<Comment> findCommentByIdAndAuthor(Long commentId, UserEntity author);
+    List<Comment> findBySpotId(Long spotId);
 }
