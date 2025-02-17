@@ -13,7 +13,7 @@ export default function Comments({ spotId }) {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["spot", "comments", spotId],
-    queryFn: () => getPaginatedComments(spotId, currentPage, 2),
+    queryFn: () => getPaginatedComments(spotId, currentPage),
     keepPreviousData: true,
     staleTime: 10 * 60 * 1000,
   });

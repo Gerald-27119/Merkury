@@ -21,7 +21,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping("/public/{spotId}")
+    @GetMapping("/public/spot/{spotId}/comments")
     public ResponseEntity<Page<CommentDto>> getCommentsBySpotId(@PathVariable Long spotId, @RequestParam(defaultValue = "0") int page) {
         int defaultPageSize = 5;
         Page<CommentDto> comments = commentService.getCommentsBySpotId(spotId, PageRequest.of(page, defaultPageSize));
