@@ -1,9 +1,10 @@
 package com.merkury.vulcanus.model.dtos.comment;
 
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
-
+@Builder
 public record CommentDto(@Positive(message = "ID must be a positive number.")
                          Long id,
                          @NotBlank(message = "Text cannot be empty.")

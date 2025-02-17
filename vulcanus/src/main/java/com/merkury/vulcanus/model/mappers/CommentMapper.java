@@ -11,26 +11,26 @@ public class CommentMapper {
     }
 
     public static CommentDto toDto(@NotNull Comment comment) {
-        return new CommentDto(
-                comment.getId(),
-                comment.getText(),
-                comment.getRating(),
-                comment.getLikes(),
-                comment.getPublishDate(),
-                comment.getAuthor().getUsername());
+        return CommentDto.builder()
+                .id(comment.getId())
+                .text(comment.getText())
+                .rating(comment.getRating())
+                .likes(comment.getLikes())
+                .publishDate(comment.getPublishDate())
+                .author(comment.getAuthor().getUsername())
+                .build();
     }
 
     public static Comment toEntity(@NotNull CommentDto dto, @NotNull Spot spot, @NotNull UserEntity author) {
-        Comment comment = new Comment();
-        comment.setId(dto.id());
-        comment.setText(dto.text());
-        comment.setRating(dto.rating());
-        comment.setLikes(dto.likes());
-        comment.setSpot(spot);
-        comment.setAuthor(author);
-        comment.setPublishDate(dto.publishDate());
-
-        return comment;
+        return Comment.builder()
+                .id(dto.id())
+                .text(dto.text())
+                .rating(dto.rating())
+                .likes(dto.likes())
+                .spot(spot)
+                .author(author)
+                .publishDate(dto.publishDate())
+                .build();
     }
 }
 

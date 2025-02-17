@@ -7,6 +7,7 @@ import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.enums.UserRole;
 import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.mappers.UserMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.utils.PasswordGenerator;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ class RegisterService {
 
     public void registerUser(UserRegisterDto userDto) throws EmailTakenException, UsernameTakenException {
         checkIfCredentialsTaken(userDto.email(), userDto.username());
-        var user = mapToUser(userDto);
+        var user = UserMapper.toEntity(userDto, passwordEncoder);
         userEntityRepository.save(user);
     }
 
@@ -48,16 +49,6 @@ class RegisterService {
                 .accountNonLocked(true)
                 .build();
         userEntityRepository.save(user);
-    }
-
-    private UserEntity mapToUser(UserRegisterDto userDto) {
-        return UserEntity.builder()
-                .username(userDto.username())
-                .email(userDto.email())
-                .password(passwordEncoder.encode(userDto.password()))
-                .userRole(UserRole.ROLE_USER)
-                .provider(Provider.NONE)
-                .build();
     }
 
     private void checkIfCredentialsTaken(String userEmail, String username)

@@ -1,9 +1,10 @@
 package com.merkury.vulcanus.model.dtos.spot;
 
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 
 import java.util.List;
-
+@Builder
 public record GeneralSpotDto(@Positive(message = "ID must be a positive number.")
                              Long id,
                              @NotBlank(message = "Area color cannot be empty.")
