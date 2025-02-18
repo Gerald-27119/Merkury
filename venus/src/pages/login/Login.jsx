@@ -74,7 +74,7 @@ function Login() {
         </div>
         <button
           type="submit"
-          className="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
+          className="bg-mainBlue p-3 mt-3 text-darkText rounded-lg w-full hover:bg-mainBlueDarker"
           disabled={
             !didEdit.username ||
             !didEdit.password ||
