@@ -3,18 +3,19 @@ package com.merkury.vulcanus.features.spot;
 import com.merkury.vulcanus.exception.exceptions.SpotAlreadyFavouriteException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFavouriteException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
-import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
-import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
 import com.merkury.vulcanus.model.dtos.spot.FavouriteSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.mappers.FavouriteSpotMapper;
 import com.merkury.vulcanus.model.mappers.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,7 @@ public class SpotService {
         return filteredSpots;
     }
 
+    @Cacheable(value = "filteredSpotsNames", key = "#text", unless = "#result == null")
     public List<String> getFilteredSpotsNames(String text) throws SpotsNotFoundException {
         var allSpots = this.getAllSpots();
 

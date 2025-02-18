@@ -37,18 +37,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         try {
             jwtManager.validateToken(token);
         } catch (Exception e) {
-            log.error("Unauthorized access error: {}", e.getMessage(), e);
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            String responseBody = String.format(
-                    "{ \"message\": \"Unauthorized access\", \"error\": \"%s\" }",
-                    e.getMessage()
-            );
-            response.getWriter().write(responseBody);
-
-            response.getWriter().flush();
-            response.getWriter().close();
+            handleUnauthorized(response, e.getMessage());
             return;
         }
         String identifier = jwtManager.getUsernameFromJWT(token);
@@ -74,6 +63,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 jwtManager.addTokenToCookie(response, tokenGenerator.generateToken());
             }
         }
+    }
+
+    private void handleUnauthorized(HttpServletResponse response, String errorMessage) throws IOException {
+        log.error("Unauthorized access error: {}", errorMessage);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        String responseBody = String.format("{ \"message\": \"Unauthorized access\", \"error\": \"%s\" }", errorMessage);
+        response.getWriter().write(responseBody);
+        response.getWriter().flush();
     }
 }
 

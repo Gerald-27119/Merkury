@@ -6,11 +6,15 @@ import jakarta.validation.constraints.NotNull;
 
 public class FavouriteSpotMapper {
 
+    private FavouriteSpotMapper() {
+    }
+
     public static FavouriteSpotDto toDto(@NotNull Spot spot) {
-        return new FavouriteSpotDto(
-                spot.getId(),
-                spot.getName(),
-                spot.getImages().isEmpty() ? null : ImgMapper.toDto(spot.getImages().getFirst())
-        );
+
+        return FavouriteSpotDto.builder()
+                .id(spot.getId())
+                .name(spot.getName())
+                .img(spot.getImages().isEmpty() ? null : ImgMapper.toDto(spot.getImages().getFirst()))
+                .build();
     }
 }
