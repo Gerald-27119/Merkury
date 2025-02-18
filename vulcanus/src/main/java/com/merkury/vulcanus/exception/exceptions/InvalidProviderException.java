@@ -5,4 +5,8 @@ public class InvalidProviderException extends Exception {
         super("Invalid provider:" +
                 provider);
     }
+
+    public InvalidProviderException() {
+        super("Account was created using an external provider. To change your password, please do so through your original authentication provider.");
+    }
 }

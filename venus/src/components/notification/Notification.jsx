@@ -62,7 +62,7 @@ export default function Notification() {
 
   return (
     <div
-      className={`w-72 h-32 rounded-md shadow-md absolute top-4 right-4 z-50 bg-white p-4 space-y-2 border-2 ${classesDiv}`}
+      className={`w-72 min-h-32 max-h-64 rounded-md shadow-md absolute top-4 right-4 z-50 bg-white p-4 space-y-2 border-2 ${classesDiv}`}
     >
       <div className="flex justify-between">
         <h1 className={`text-2xl font-semibold ${classesH1}`}>{title}</h1>
