@@ -25,7 +25,8 @@ public class Zone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String areaColor;
+    @Builder.Default
+    private String areaColor = "green";
     private String name;
     private String description;
 
@@ -34,6 +35,8 @@ public class Zone {
     @Convert(converter = BorderPointListConverter.class)
     private List<BorderPoint> borderPoints = new ArrayList<>();
 
-    private Integer AGL;
-    private Integer AMSL;
+    @Builder.Default
+    private Integer AGL = 0;
+    @Builder.Default
+    private Integer AMSL = 0;
 }

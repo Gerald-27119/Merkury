@@ -2,17 +2,7 @@ package com.merkury.vulcanus.model.entities;
 
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.enums.UserRole;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,8 +35,9 @@ public class UserEntity implements UserDetails {
      * throw a LazyInitializationException.
      * Benefit: Improves performance by loading the collection only when needed.
      **/
+    @Builder.Default
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Img> images;
+    private List<Img> images = new ArrayList<>();
 
     /**
      * Default lazy loading: Favorite spots are loaded only when explicitly accessed.
@@ -55,6 +46,7 @@ public class UserEntity implements UserDetails {
      * Reason: Avoids unnecessary fetching of potentially large collections
      * unless required.
      **/
+    @Builder.Default
     @ManyToMany
     @JoinTable(
             name = "user_favorite_spots",
@@ -76,16 +68,22 @@ public class UserEntity implements UserDetails {
      * Purpose: Optimizes memory and database performance by avoiding eager
      * loading of relationships.
      **/
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Friendship> friendships = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Comment> comments = new ArrayList<>();
 
+    @Builder.Default
     private Boolean accountNonExpired = true;
+    @Builder.Default
     private Boolean accountNonLocked = true;
+    @Builder.Default
     private Boolean credentialsNonExpired = true;
+    @Builder.Default
     private Boolean enabled = true;
 
     @Override
