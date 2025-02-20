@@ -5,6 +5,7 @@ import { getPaginatedComments } from "../../../../http/comments.js";
 import ReactPaginate from "react-paginate";
 import { useState } from "react";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
+import AddCommentForm from "./AddCommentForm.jsx";
 
 export default function Comments({ spotId }) {
   const [currentPage, setCurrentPage] = useState(0);
@@ -27,9 +28,12 @@ export default function Comments({ spotId }) {
     <>
       {error && <Error error={error} />}
       {isLoading && <LoadingSpinner />}
+
+      <AddCommentForm spotId={spotId} />
+
+      <p className="text-lg">Comments:</p>
       {data && data.content.length >= 0 ? (
         <div className="border-2 border-neutral-200 px-2.5 py-1 rounded-sm">
-          <p className="text-lg">Comments:</p>
           <ul>
             {data.content.map((comment) => (
               <li key={comment.id}>
