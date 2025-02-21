@@ -54,11 +54,14 @@ services:
       - spring-boot-app
 
   grafana:
+    container_name: grafana
     build:
       context: ./grafana
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
     depends_on:
       - prometheus
 
@@ -82,3 +85,4 @@ services:
 volumes:
   postgres_data:
   mongo_data:
+  grafana-storage:
