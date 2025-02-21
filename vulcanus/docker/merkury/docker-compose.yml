@@ -66,21 +66,20 @@ services:
       - prometheus
 
   locust:
+    container_name: locust
     build:
       context: ./locust
       dockerfile: Dockerfile
     depends_on:
       - postgres-db
-    environment:
-      POSTGRES_HOST: postgres-db
-      POSTGRES_DB: dev_postgres_db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      - spring-boot-app
+    env_file:
+      - ./locust/locust.env
     ports:
       - "8089:8089"
     command: >
       -f /mnt/locust/user_traffic.py
-      --host=http://host.docker.internal:8080
+      --host=http://vulcanus-spring-boot-app:8080
 
 volumes:
   postgres_data:
