@@ -44,6 +44,7 @@ services:
       - redis
 
   prometheus:
+    container_name: prometheus
     build:
       context: ./prometheus
       dockerfile: Dockerfile
