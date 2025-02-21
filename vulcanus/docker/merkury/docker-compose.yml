@@ -37,7 +37,7 @@ services:
     env_file:
       - ./spring-boot-app/spring_boot_app.env
     ports:
-      - "8081:8081"
+      - "8080:8080"
     depends_on:
       - postgres-db
       - mongo-db
