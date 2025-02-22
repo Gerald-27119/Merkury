@@ -27,7 +27,12 @@ public class PasswordResetTokenService {
 
         LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(15);
 
-        PasswordResetToken newToken = new PasswordResetToken(token, expirationDate, user.getEmail());
+        var newToken = PasswordResetToken.builder()
+                .token(token)
+                .expirationDate(expirationDate)
+                .userEmail(user.getEmail())
+                .build();
+
         saveToken(newToken);
 
         return newToken;

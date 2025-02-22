@@ -2,15 +2,7 @@ package com.merkury.vulcanus.model.entities;
 
 import com.merkury.vulcanus.model.converters.BorderPointListConverter;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -56,14 +48,18 @@ public class Spot {
     @Convert(converter = BorderPointListConverter.class)
     private List<BorderPoint> borderPoints = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @OrderBy("publishDate DESC")
     private List<Comment> comments = new ArrayList<>();
 
-    private Double rating;
-    private Integer viewsCount;
+    @Builder.Default
+    private Double rating = 0.0;
+    @Builder.Default
+    private Integer viewsCount = 0;
 
+    @Builder.Default
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Img> images = new ArrayList<>();

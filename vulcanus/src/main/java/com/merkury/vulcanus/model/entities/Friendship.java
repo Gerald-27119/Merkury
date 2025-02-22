@@ -24,5 +24,6 @@ public class Friendship {
     private UserEntity friend;
 
     private String status;
-    private LocalDateTime createdAt;
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 }
