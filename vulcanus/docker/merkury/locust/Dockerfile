@@ -4,10 +4,12 @@ RUN pip3 install psycopg2-binary
 
 WORKDIR /mnt/locust
 
-COPY user_traffic.py .
+COPY user_traffic.py ./
 
-COPY tasks/public_tasks.py ./tasks/
+WORKDIR /mnt/locust/tasks
 
-COPY tasks/private_tasks.py ./tasks/
+COPY tasks/public_tasks.py ./
 
-COPY tasks/auth_tasks.py ./tasks/
+COPY tasks/private_tasks.py ./
+
+COPY tasks/auth_tasks.py ./

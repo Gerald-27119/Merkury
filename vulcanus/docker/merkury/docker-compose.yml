@@ -13,9 +13,7 @@ services:
 
   mongo-db:
     container_name: mongo-db
-    build:
-      context: ./mongo
-      dockerfile: Dockerfile
+    build: ./mongo
     env_file:
       - ./mongo/mongo.env
     ports:
