@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.controllers.account;
 
+import com.merkury.vulcanus.config.properties.UrlsProperties;
 import com.merkury.vulcanus.exception.exceptions.InvalidProviderException;
 import com.merkury.vulcanus.features.account.AccountService;
 import com.merkury.vulcanus.model.dtos.OAuth2LoginResponseDto;
@@ -30,6 +31,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -47,6 +49,9 @@ class AccountControllerOAuth2WithServerStartupTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UrlsProperties urlsProperties;
 
     @MockBean
     private AccountService accountService;
@@ -109,6 +114,7 @@ class AccountControllerOAuth2WithServerStartupTest {
 
         mockMvc.perform(get("http://localhost:" + port + "/account/login-success")
                         .with(authentication(oAuth2Token)))
-                .andExpect(status().isFound());
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrl(urlsProperties.getAfterLoginPageUrl()));
     }
 }
