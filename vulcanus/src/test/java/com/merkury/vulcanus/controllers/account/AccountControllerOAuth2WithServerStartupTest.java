@@ -2,6 +2,7 @@ package com.merkury.vulcanus.controllers.account;
 
 import com.merkury.vulcanus.exception.exceptions.InvalidProviderException;
 import com.merkury.vulcanus.features.account.AccountService;
+import com.merkury.vulcanus.model.dtos.OAuth2LoginResponseDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.UserRole;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
@@ -26,6 +27,7 @@ import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -84,5 +86,29 @@ class AccountControllerOAuth2WithServerStartupTest {
         mockMvc.perform(get("http://localhost:" + port + "/account/login-success")
                         .with(authentication(oAuth2Token)))
                 .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @DisplayName("Registration of oauth2 user with valid provider returns 302")
+    void registerOauth2UserWithValidProviderReturns302() throws Exception {
+        Map<String, Object> attributes = Map.of(
+                "email", "test@example.com",
+                "login", "testuser"
+        );
+        DefaultOAuth2User oAuth2User = new DefaultOAuth2User(
+                List.of(new SimpleGrantedAuthority("ROLE_USER")),
+                attributes,
+                "login"
+        );
+
+        OAuth2AuthenticationToken oAuth2Token =
+                new OAuth2AuthenticationToken(oAuth2User, oAuth2User.getAuthorities(), "github");
+
+        when(accountService.handleOAuth2User(any(OAuth2AuthenticationToken.class), any(HttpServletResponse.class)))
+                .thenReturn(new OAuth2LoginResponseDto(attributes.get("email").toString(), false));
+
+        mockMvc.perform(get("http://localhost:" + port + "/account/login-success")
+                        .with(authentication(oAuth2Token)))
+                .andExpect(status().isFound());
     }
 }
