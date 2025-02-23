@@ -18,11 +18,18 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Testcontainers
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SpotControllerWithServerStartupTest {
@@ -33,37 +40,17 @@ public class SpotControllerWithServerStartupTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Autowired
-    private SpotRepository spotRepository;
+    private static final int REDIS_PORT = 6379;
+    private static final String REDIS_IMAGE_NAME = "redis:6-alpine";
 
-    @BeforeEach
-    void setUp() {
-        var borderPoints1 = List.of(
-                new BorderPoint(40.785091, -73.968285),
-                new BorderPoint(40.784091, -73.969285)
-        );
+    @Container
+    public static GenericContainer<?> redis = new GenericContainer<>(DockerImageName.parse(REDIS_IMAGE_NAME))
+            .withExposedPorts(REDIS_PORT);
 
-        var borderPoints2 = List.of(
-                new BorderPoint(37.769420, -122.486214),
-                new BorderPoint(37.768420, -122.487214)
-        );
-        var spot1 = Spot.builder()
-                .name("Spot1")
-                .rating(3.0)
-                .areaColor("#000000")
-                .borderPoints(borderPoints1)
-                .build();
-
-        var spot2 = Spot.builder()
-                .name("Spot2")
-                .rating(4.5)
-                .areaColor("#000000")
-                .borderPoints(borderPoints2)
-                .build();
-
-        spotRepository.deleteAll();
-        spotRepository.save(spot1);
-        spotRepository.save(spot2);
+    @DynamicPropertySource
+    static void setRedisProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.data.redis.host", redis::getHost);
+        registry.add("spring.data.redis.port", () -> redis.getMappedPort(REDIS_PORT));
     }
 
     @Test
