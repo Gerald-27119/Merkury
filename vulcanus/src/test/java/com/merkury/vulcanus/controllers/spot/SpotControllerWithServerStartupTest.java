@@ -204,4 +204,24 @@ public class SpotControllerWithServerStartupTest {
                 () -> assertThat(responseEntity.getBody().contains("No spots match filters!"))
         );
     }
+
+    @Test
+    @DisplayName("Filter spots should return 404 when no spots match rating filters.")
+    void filterSpotsShouldReturn404WhenNoSpotsMatchRatingFilters() {
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        var responseEntity = restTemplate.exchange(
+                "http://localhost:" + port + "/public/spot/filter?name=spot&minRating=0.0&maxRating=2.0",
+                HttpMethod.GET,
+                entity,
+                String.class
+        );
+
+        assertAll("Response assertions",
+                () -> assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode(), "Status code should be 404"),
+                () -> assertThat(responseEntity.getBody().contains("No spots match filters!"))
+        );
+    }
 }
