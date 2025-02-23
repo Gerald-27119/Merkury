@@ -4,7 +4,6 @@ import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -64,6 +63,7 @@ public class SpotControllerWithServerStartupTest {
                 new BorderPoint(40.785091, -73.968285),
                 new BorderPoint(40.784091, -73.969285)
         );
+
         var spot1 = Spot.builder()
                 .name("Spot1")
                 .rating(3.0)
@@ -71,8 +71,24 @@ public class SpotControllerWithServerStartupTest {
                 .borderPoints(borderPoints)
                 .build();
 
+        var spot2 = Spot.builder()
+                .name("Spot2")
+                .rating(4.0)
+                .areaColor("#000000")
+                .borderPoints(borderPoints)
+                .build();
+
+        var spot3 = Spot.builder()
+                .name("Other")
+                .rating(5.0)
+                .areaColor("#000000")
+                .borderPoints(borderPoints)
+                .build();
+
         spotRepository.deleteAll();
         spotRepository.save(spot1);
+        spotRepository.save(spot2);
+        spotRepository.save(spot3);
     }
 
     @Test
@@ -87,40 +103,21 @@ public class SpotControllerWithServerStartupTest {
                 "http://localhost:" + port + "/public/spot/filter",
                 HttpMethod.GET,
                 entity,
-                new ParameterizedTypeReference<List<GeneralSpotDto>>() {}
+                new ParameterizedTypeReference<List<GeneralSpotDto>>() {
+                }
         );
 
         assertAll("Response Assertions",
                 () -> assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "Status code should be OK"),
                 () -> assertNotNull(responseEntity.getBody(), "Response body should not be null"),
-                () -> assertFalse(responseEntity.getBody().isEmpty(), "Response body should not be empty")
+                () -> assertFalse(responseEntity.getBody().isEmpty(), "Response body should not be empty"),
+                () -> assertThat(responseEntity.getBody()).hasSize(3)
         );
     }
 
     @Test
-    @DisplayName("Filter spots should return 404 when no spots match filters.")
-    void filterSpotsShouldReturn404WhenNoSpotsMatchFilters() {
-
-        var headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Void> entity = new HttpEntity<>(headers);
-
-        var responseEntity = restTemplate.exchange(
-                "http://localhost:" + port + "/public/spot/filter?name=xxxxxxx",
-                HttpMethod.GET,
-                entity,
-                String.class
-        );
-
-        assertAll("Response assertions",
-                () -> assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode(), "Status code should be 404"),
-                () -> assertThat(responseEntity.getBody().contains("No spots match filters!"))
-        );
-    }
-
-    @Test
-    @DisplayName("Filter spot should return at least one spot when name filter matches.")
-    void filterSpotShouldReturnAtLeastSpotWhenNameFilterMatches() {
+    @DisplayName("Filter spot should return all spots that match filter name.")
+    void filterSpotShouldReturnAllSpotsThatMatchFilterName() {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
@@ -129,20 +126,21 @@ public class SpotControllerWithServerStartupTest {
                 "http://localhost:" + port + "/public/spot/filter?name=p",
                 HttpMethod.GET,
                 entity,
-                new ParameterizedTypeReference<List<GeneralSpotDto>>() {}
+                new ParameterizedTypeReference<List<GeneralSpotDto>>() {
+                }
         );
 
         assertAll("Response assertions",
                 () -> assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "Status code should be OK"),
                 () -> assertNotNull(responseEntity.getBody(), "Response body should not be null"),
                 () -> assertFalse(responseEntity.getBody().isEmpty(), "Response body should not be empty"),
-                () -> assertThat(responseEntity.getBody()).hasSizeGreaterThanOrEqualTo(1)
+                () -> assertThat(responseEntity.getBody()).hasSize(2)
         );
     }
 
     @Test
-    @DisplayName("Filter spot should return at least one spot when rating filters match.")
-    void filterSpotShouldReturnAtLeastOneSpotWhenRatingFiltersMatch() {
+    @DisplayName("Filter spot should return all spots that match rating filters.")
+    void filterSpotShouldReturnAllSpotsThatMatchRatingFilters() {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
@@ -151,36 +149,59 @@ public class SpotControllerWithServerStartupTest {
                 "http://localhost:" + port + "/public/spot/filter?minRating=2.0&maxRating=3.5",
                 HttpMethod.GET,
                 entity,
-                new ParameterizedTypeReference<List<GeneralSpotDto>>() {}
+                new ParameterizedTypeReference<List<GeneralSpotDto>>() {
+                }
         );
 
         assertAll("Response assertions",
                 () -> assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "Status code should be OK"),
                 () -> assertNotNull(responseEntity.getBody(), "Response body should not be null"),
                 () -> assertFalse(responseEntity.getBody().isEmpty(), "Response body should not be empty"),
-                () -> assertThat(responseEntity.getBody()).hasSizeGreaterThanOrEqualTo(1)
+                () -> assertThat(responseEntity.getBody()).hasSize(1)
         );
     }
 
     @Test
-    @DisplayName("Filter spot should return at least one spot when all filters match.")
-    void filterSpotShouldReturnAtLeastOneSpotWhenAllFiltersMatch() {
+    @DisplayName("Filter spot should return all spots that match all filters.")
+    void filterSpotShouldReturnAllSpotsThatMatchAllFilters() {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         var responseEntity = restTemplate.exchange(
-                "http://localhost:" + port + "/public/spot/filter?name=p&minRating=2.0&maxRating=3.5",
+                "http://localhost:" + port + "/public/spot/filter?name=p&minRating=2.0&maxRating=4.0",
                 HttpMethod.GET,
                 entity,
-                new ParameterizedTypeReference<List<GeneralSpotDto>>() {}
+                new ParameterizedTypeReference<List<GeneralSpotDto>>() {
+                }
         );
 
         assertAll("Response assertions",
                 () -> assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "Status code should be OK"),
                 () -> assertNotNull(responseEntity.getBody(), "Response body should not be null"),
                 () -> assertFalse(responseEntity.getBody().isEmpty(), "Response body should not be empty"),
-                () -> assertThat(responseEntity.getBody()).hasSizeGreaterThanOrEqualTo(1)
+                () -> assertThat(responseEntity.getBody()).hasSize(2)
+        );
+    }
+
+    @Test
+    @DisplayName("Filter spots should return 404 when no spots match name filter.")
+    void filterSpotsShouldReturn404WhenNoSpotsMatchNameFilter() {
+
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        var responseEntity = restTemplate.exchange(
+                "http://localhost:" + port + "/public/spot/filter?name=xxxxxxx&minRating=0.0&maxRating=5.0",
+                HttpMethod.GET,
+                entity,
+                String.class
+        );
+
+        assertAll("Response assertions",
+                () -> assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode(), "Status code should be 404"),
+                () -> assertThat(responseEntity.getBody().contains("No spots match filters!"))
         );
     }
 }
