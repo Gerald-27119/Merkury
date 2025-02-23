@@ -7,14 +7,14 @@ import { useDispatch } from "react-redux";
 
 export default function AddCommentForm({ spotId }) {
   const [newComment, setNewComment] = useState("");
-  const [rating, setRating] = useState(2.5);
+  const [rating, setRating] = useState(5.0);
   const [revealed, setRevealed] = useState(false);
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
 
   const resetForm = () => {
     setNewComment("");
-    setRating(2.5);
+    setRating(5.0);
     setRevealed(false);
   };
 

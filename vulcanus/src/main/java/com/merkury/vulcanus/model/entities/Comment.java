@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "comments")
 @Data
@@ -20,7 +22,27 @@ public class Comment {
     @Builder.Default
     private Double rating = 0.0;
     @Builder.Default
-    private Integer likes = 0;
+    private Integer upvotes = 0;
+    @Builder.Default
+    private Integer downvotes = 0;
+
+    @Builder.Default
+    @ManyToMany
+    @JoinTable(
+            name = "comment_upvotes",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<UserEntity> upvotedBy = new HashSet<>();
+
+    @Builder.Default
+    @ManyToMany
+    @JoinTable(
+            name = "comment_downvotes",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<UserEntity> downvotedBy = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "spot_id")

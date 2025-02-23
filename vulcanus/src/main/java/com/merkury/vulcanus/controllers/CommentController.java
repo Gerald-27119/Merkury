@@ -49,11 +49,13 @@ public class CommentController {
 
     @PatchMapping("/spot/comments/{commentId}/upvote")
     public ResponseEntity<Void> upvoteComment(HttpServletRequest request, @PathVariable Long commentId) {
-        return ResponseEntity.ok().build();
+        commentService.upvoteComment(request, commentId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/spot/comments/{commentId}/downvote")
     public ResponseEntity<Void> downvoteComment(HttpServletRequest request, @PathVariable Long commentId) {
-        return ResponseEntity.ok().build();
+        commentService.downvoteComment(request, commentId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

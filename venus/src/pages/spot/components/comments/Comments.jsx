@@ -1,16 +1,25 @@
 import Comment from "./Comment.jsx";
 import Error from "../../../../components/error/Error.jsx";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getPaginatedComments } from "../../../../http/comments.js";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  getPaginatedComments,
+  deleteComment,
+  editComment,
+  upvoteComment,
+  downvoteComment,
+} from "../../../../http/comments.js";
 import ReactPaginate from "react-paginate";
 import { useState } from "react";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
 import AddCommentForm from "./AddCommentForm.jsx";
+import { notificationAction } from "../../../../redux/notification.jsx";
+import { useDispatch } from "react-redux";
 
 export default function Comments({ spotId }) {
   const [currentPage, setCurrentPage] = useState(0);
 
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["spot", "comments", spotId],
@@ -19,9 +28,73 @@ export default function Comments({ spotId }) {
     staleTime: 10 * 60 * 1000,
   });
 
+  const { mutateAsync: mutateUpvote } = useMutation({
+    mutationFn: upvoteComment,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["spot", "comments", spotId]);
+    },
+    onError: () => {},
+  });
+
+  const { mutateAsync: mutateDownvote } = useMutation({
+    mutationFn: downvoteComment,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["spot", "comments", spotId]);
+    },
+    onError: () => {},
+  });
+
+  const { mutateAsync: mutateEdit } = useMutation({
+    mutationFn: editComment,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["spot", "comments", spotId]);
+      dispatch(
+        notificationAction.setSuccess({
+          message: "Comment edited successfully!",
+        }),
+      );
+    },
+    onError: () => {},
+  });
+
+  const { mutateAsync: mutateDelete } = useMutation({
+    mutationFn: deleteComment,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["spot", "comments", spotId]);
+      dispatch(
+        notificationAction.setSuccess({
+          message: "Comment deleted successfully!",
+        }),
+      );
+    },
+    onError: () => {
+      dispatch(
+        notificationAction.setError({
+          message: "Failed to delete comment. Please try again later.",
+        }),
+      );
+    },
+  });
+
   const handlePageChange = (event) => {
     setCurrentPage(event.selected);
     queryClient.invalidateQueries(["spot", "comments", spotId]);
+  };
+
+  const handleUpvote = async (commentId) => {
+    await mutateUpvote(commentId);
+  };
+
+  const handleDownvote = async (commentId) => {
+    await mutateDownvote(commentId);
+  };
+
+  const handleEdit = async (commentId, editedComment) => {
+    await mutateEdit(commentId, editedComment);
+  };
+
+  const handleDelete = async (commentId) => {
+    await mutateDelete(commentId);
   };
 
   return (
@@ -37,7 +110,13 @@ export default function Comments({ spotId }) {
           <ul>
             {data.content.map((comment) => (
               <li key={comment.id}>
-                <Comment comment={comment} />
+                <Comment
+                  comment={comment}
+                  onUpvote={handleUpvote}
+                  onDownvote={handleDownvote}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                />
               </li>
             ))}
           </ul>

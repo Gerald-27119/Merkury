@@ -85,14 +85,39 @@ public class CommentService {
         spotRepository.save(spot);
     }
 
+    public void upvoteComment(HttpServletRequest request, Long commentId) {
+        var user = userDataService.getUserFromRequest(request);
+        var userId = user.getId();
+        var comment = commentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
 
-    public void upvoteComment() {
+        if (comment.getUpvotedBy().removeIf(u -> u.getId().equals(userId))) {
+            comment.setUpvotes(comment.getUpvotes() - 1);
+        } else {
+            if (comment.getDownvotedBy().removeIf(u -> u.getId().equals(userId))) {
+                comment.setDownvotes(comment.getDownvotes() - 1);
+            }
+            comment.getUpvotedBy().add(user);
+            comment.setUpvotes(comment.getUpvotes() + 1);
+        }
 
+        commentRepository.save(comment);
     }
 
-    public void downvoteComment() {
+    public void downvoteComment(HttpServletRequest request, Long commentId) {
+        var user = userDataService.getUserFromRequest(request);
+        var userId = user.getId();
+        var comment = commentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
 
+        if (comment.getDownvotedBy().removeIf(u -> u.getId().equals(userId))) {
+            comment.setDownvotes(comment.getDownvotes() - 1);
+        } else {
+            if (comment.getUpvotedBy().removeIf(u -> u.getId().equals(userId))) {
+                comment.setUpvotes(comment.getUpvotes() - 1);
+            }
+            comment.getDownvotedBy().add(user);
+            comment.setDownvotes(comment.getDownvotes() + 1);
+        }
+
+        commentRepository.save(comment);
     }
-
-
 }
