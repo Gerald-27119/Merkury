@@ -10,6 +10,5 @@ public record CommentEditDto(@NotBlank(message = "Text cannot be empty.")
                              @Min(value = 0, message = "Rating count cannot be less than 0.")
                              @Max(value = 5, message = "Rating count cannot be more than 5.")
                              Double rating) {
-
 }
 

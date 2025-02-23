@@ -22,13 +22,11 @@ export async function deleteComment(commentId) {
   });
 }
 
-export async function editComment(commentId, updatedComment) {
+export async function editComment({ commentId, editedComment }) {
   return await axios.patch(
     `${BASE_URL}/spot/comments/${commentId}`,
-    updatedComment,
-    {
-      withCredentials: true,
-    },
+    editedComment,
+    { withCredentials: true },
   );
 }
 

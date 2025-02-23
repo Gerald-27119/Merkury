@@ -29,12 +29,20 @@ export default function AddCommentForm({ spotId }) {
         }),
       );
     },
-    onError: () => {
-      dispatch(
-        notificationAction.setError({
-          message: "Failed to add comment. Please try again later.",
-        }),
-      );
+    onError: (error) => {
+      if (error.response && error.response.status === 401) {
+        dispatch(
+          notificationAction.setError({
+            message: "Log in in order to comment.",
+          }),
+        );
+      } else {
+        dispatch(
+          notificationAction.setError({
+            message: "Failed to add comment. Please try again later.",
+          }),
+        );
+      }
     },
   });
 

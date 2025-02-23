@@ -25,7 +25,7 @@ export default function Comments({ spotId }) {
     queryKey: ["spot", "comments", spotId],
     queryFn: () => getPaginatedComments(spotId, currentPage),
     keepPreviousData: true,
-    staleTime: 10 * 60 * 1000,
+    //staleTime: 10 * 60 * 1000,
   });
 
   const { mutateAsync: mutateUpvote } = useMutation({
@@ -33,7 +33,21 @@ export default function Comments({ spotId }) {
     onSuccess: () => {
       queryClient.invalidateQueries(["spot", "comments", spotId]);
     },
-    onError: () => {},
+    onError: (error) => {
+      if (error.response && error.response.status === 401) {
+        dispatch(
+          notificationAction.setError({
+            message: "Log in in order to vote.",
+          }),
+        );
+      } else {
+        dispatch(
+          notificationAction.setError({
+            message: "An error has occured. Please try again later.",
+          }),
+        );
+      }
+    },
   });
 
   const { mutateAsync: mutateDownvote } = useMutation({
@@ -41,7 +55,21 @@ export default function Comments({ spotId }) {
     onSuccess: () => {
       queryClient.invalidateQueries(["spot", "comments", spotId]);
     },
-    onError: () => {},
+    onError: (error) => {
+      if (error.response && error.response.status === 401) {
+        dispatch(
+          notificationAction.setError({
+            message: "Log in in order to vote.",
+          }),
+        );
+      } else {
+        dispatch(
+          notificationAction.setError({
+            message: "An error has occured. Please try again later.",
+          }),
+        );
+      }
+    },
   });
 
   const { mutateAsync: mutateEdit } = useMutation({
@@ -54,7 +82,13 @@ export default function Comments({ spotId }) {
         }),
       );
     },
-    onError: () => {},
+    onError: () => {
+      dispatch(
+        notificationAction.setError({
+          message: "Failed to edit comment. Please try again later.",
+        }),
+      );
+    },
   });
 
   const { mutateAsync: mutateDelete } = useMutation({
@@ -90,7 +124,8 @@ export default function Comments({ spotId }) {
   };
 
   const handleEdit = async (commentId, editedComment) => {
-    await mutateEdit(commentId, editedComment);
+    await mutateEdit({ commentId, editedComment });
+    queryClient.invalidateQueries(["spot", "comments", spotId]);
   };
 
   const handleDelete = async (commentId) => {
