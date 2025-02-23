@@ -27,6 +27,7 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Testcontainers
@@ -73,6 +74,26 @@ public class SpotControllerWithServerStartupTest {
                 () -> assertNotNull(responseEntity.getBody(), "Response body should not be null"),
                 () -> assertFalse(responseEntity.getBody().isEmpty(), "Response body should not be empty")
         );
+    }
 
+    @Test
+    @DisplayName("Filter spots should return 404 when no spots match filters.")
+    void filterSpotsShouldReturn404WhenNoSpotsMatchFilters() {
+
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        var responseEntity = restTemplate.exchange(
+                "http://localhost:" + port + "/public/spot/filter?name=xxxxxxx",
+                HttpMethod.GET,
+                entity,
+                String.class
+        );
+
+        assertAll("Response assertions",
+                () -> assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode(), "Status code should be 404"),
+                () -> assertThat(responseEntity.getBody().contains("No spots match filters!"))
+                );
     }
 }
