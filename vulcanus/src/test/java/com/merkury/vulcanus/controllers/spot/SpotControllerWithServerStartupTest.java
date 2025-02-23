@@ -24,7 +24,6 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -94,7 +93,6 @@ public class SpotControllerWithServerStartupTest {
     @Test
     @DisplayName("Filter spots should return all spots when no filters are set and spots are found.")
     void filterSpotsWithNoFiltersReturnsAllSpotsWhenSpotsFound() {
-
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
@@ -187,7 +185,6 @@ public class SpotControllerWithServerStartupTest {
     @Test
     @DisplayName("Filter spots should return 404 when no spots match name filter.")
     void filterSpotsShouldReturn404WhenNoSpotsMatchNameFilter() {
-
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
