@@ -25,7 +25,7 @@ export default function Comments({ spotId }) {
     queryKey: ["spot", "comments", spotId],
     queryFn: () => getPaginatedComments(spotId, currentPage),
     keepPreviousData: true,
-    //staleTime: 10 * 60 * 1000,
+    staleTime: 10 * 60 * 1000,
   });
 
   const { mutateAsync: mutateUpvote } = useMutation({
@@ -125,7 +125,6 @@ export default function Comments({ spotId }) {
 
   const handleEdit = async (commentId, editedComment) => {
     await mutateEdit({ commentId, editedComment });
-    queryClient.invalidateQueries(["spot", "comments", spotId]);
   };
 
   const handleDelete = async (commentId) => {

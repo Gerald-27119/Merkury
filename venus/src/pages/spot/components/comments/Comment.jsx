@@ -41,12 +41,7 @@ export default function Comment({
           <p className="text-base font-semibold">{comment.author}</p>
         </div>
         <div className="inline-flex">
-          <Rate
-            disabled
-            allowHalf
-            className="text-xs"
-            defaultValue={comment.rating}
-          />
+          <Rate disabled allowHalf className="text-xs" value={comment.rating} />
         </div>
       </div>
 
@@ -71,21 +66,22 @@ export default function Comment({
             <span className="text-sm ml-1">{comment.downvotes}</span>
           </button>
         </div>
-
-        <div className="flex space-x-2">
-          <button
-            className="hover:text-yellow-500"
-            onClick={() => setIsEditing(true)}
-          >
-            <FaRegEdit />
-          </button>
-          <button
-            className="hover:text-red-500"
-            onClick={() => onDelete(comment.id)}
-          >
-            <FaRegTrashCan />
-          </button>
-        </div>
+        {comment.isAuthor && (
+          <div className="flex space-x-2">
+            <button
+              className="hover:text-yellow-500"
+              onClick={() => setIsEditing(true)}
+            >
+              <FaRegEdit />
+            </button>
+            <button
+              className="hover:text-red-500"
+              onClick={() => onDelete(comment.id)}
+            >
+              <FaRegTrashCan />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -28,10 +27,11 @@ public class CommentService {
     private final SpotRepository spotRepository;
     private final UserDataService userDataService;
 
-    public Page<CommentDto> getCommentsBySpotId(Long spotId, Pageable pageable) {
+    public Page<CommentDto> getCommentsBySpotId(HttpServletRequest request, Long spotId, Pageable pageable) {
         Page<Comment> commentsPage = commentRepository.findAllCommentsBySpotIdOrderByPublishDateDesc(spotId, pageable);
+        var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
 
-        return commentsPage.map(CommentMapper::toDto);
+        return commentsPage.map(comment -> CommentMapper.toDto(comment, user));
     }
 
     public void addComment(HttpServletRequest request, CommentAddDto dto) throws SpotNotFoundException {

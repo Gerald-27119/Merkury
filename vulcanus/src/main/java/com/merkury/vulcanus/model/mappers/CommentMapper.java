@@ -13,7 +13,7 @@ public class CommentMapper {
     private CommentMapper() {
     }
 
-    public static CommentDto toDto(@NotNull Comment comment) {
+    public static CommentDto toDto(@NotNull Comment comment, UserEntity currentUser) {
         return CommentDto.builder()
                 .id(comment.getId())
                 .text(comment.getText())
@@ -22,6 +22,7 @@ public class CommentMapper {
                 .downvotes(comment.getDownvotes())
                 .publishDate(comment.getPublishDate())
                 .author(comment.getAuthor().getUsername())
+                .isAuthor(comment.getAuthor().equals(currentUser))
                 .build();
     }
 

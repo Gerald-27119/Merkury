@@ -6,6 +6,7 @@ export async function getPaginatedComments(spotId, page) {
   return (
     await axios.get(`${BASE_URL}/public/spot/${spotId}/comments`, {
       params: { page },
+      withCredentials: true,
     })
   ).data;
 }

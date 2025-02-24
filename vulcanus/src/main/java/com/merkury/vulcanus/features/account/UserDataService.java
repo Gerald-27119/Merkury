@@ -50,10 +50,15 @@ public class UserDataService {
                 .orElseThrow(() -> new UserNotFoundException("User with provided id doesn't exist!"));
     }
 
+    public boolean isJwtPresent(HttpServletRequest request) {
+        String token = jwtManager.getJWTFromCookie(request);
+        return token != null && !token.isEmpty();
+    }
+
     public GetUserBasicInfoDto getUserData(HttpServletRequest request) {
         String token = jwtManager.getJWTFromCookie(request);
         String username = jwtManager.getUsernameFromJWT(token);
-        var userFromDb  = userEntityRepository.findByUsername(username);
+        var userFromDb = userEntityRepository.findByUsername(username);
         if (userFromDb.isEmpty()) {
             throw new UserNotFoundException("User with provided id doesn't exist!");
         }
@@ -75,7 +80,7 @@ public class UserDataService {
 
         if (userData.getProvider().equals(Provider.NONE)) {
             if (userEditDataDto.isPasswordChanged()) {
-                if (userEditDataDto.oldPassword() == null || !passwordEncoder.matches(userEditDataDto.oldPassword(), userData.getPassword())){
+                if (userEditDataDto.oldPassword() == null || !passwordEncoder.matches(userEditDataDto.oldPassword(), userData.getPassword())) {
                     throw new InvalidPasswordException("Old password is invalid!");
                 }
 

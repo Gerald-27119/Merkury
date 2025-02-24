@@ -22,9 +22,9 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("/public/spot/{spotId}/comments")
-    public ResponseEntity<Page<CommentDto>> getCommentsBySpotId(@PathVariable Long spotId, @RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<Page<CommentDto>> getCommentsBySpotId(HttpServletRequest request, @PathVariable Long spotId, @RequestParam(defaultValue = "0") int page) {
         int defaultPageSize = 5;
-        Page<CommentDto> comments = commentService.getCommentsBySpotId(spotId, PageRequest.of(page, defaultPageSize));
+        Page<CommentDto> comments = commentService.getCommentsBySpotId(request, spotId, PageRequest.of(page, defaultPageSize));
 
         return ResponseEntity.ok(comments);
     }
