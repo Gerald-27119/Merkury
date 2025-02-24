@@ -5,8 +5,7 @@ import {
   getPaginatedComments,
   deleteComment,
   editComment,
-  upvoteComment,
-  downvoteComment,
+  voteComment,
 } from "../../../../http/comments.js";
 import ReactPaginate from "react-paginate";
 import { useState } from "react";
@@ -28,30 +27,8 @@ export default function Comments({ spotId }) {
     staleTime: 10 * 60 * 1000,
   });
 
-  const { mutateAsync: mutateUpvote } = useMutation({
-    mutationFn: upvoteComment,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["spot", "comments", spotId]);
-    },
-    onError: (error) => {
-      if (error.response && error.response.status === 401) {
-        dispatch(
-          notificationAction.setError({
-            message: "Log in in order to vote.",
-          }),
-        );
-      } else {
-        dispatch(
-          notificationAction.setError({
-            message: "An error has occured. Please try again later.",
-          }),
-        );
-      }
-    },
-  });
-
-  const { mutateAsync: mutateDownvote } = useMutation({
-    mutationFn: downvoteComment,
+  const { mutateAsync: mutateVote } = useMutation({
+    mutationFn: voteComment,
     onSuccess: () => {
       queryClient.invalidateQueries(["spot", "comments", spotId]);
     },
@@ -102,9 +79,14 @@ export default function Comments({ spotId }) {
       );
     },
     onError: () => {
+      const errorMessage =
+        error.response && error.response.status === 401
+          ? "Log in in order to vote."
+          : "An error has occured. Please try again later.";
+
       dispatch(
         notificationAction.setError({
-          message: "Failed to delete comment. Please try again later.",
+          message: errorMessage,
         }),
       );
     },
@@ -115,12 +97,8 @@ export default function Comments({ spotId }) {
     queryClient.invalidateQueries(["spot", "comments", spotId]);
   };
 
-  const handleUpvote = async (commentId) => {
-    await mutateUpvote(commentId);
-  };
-
-  const handleDownvote = async (commentId) => {
-    await mutateDownvote(commentId);
+  const handleVote = async (commentId, isUpvote) => {
+    await mutateVote({ commentId, isUpvote });
   };
 
   const handleEdit = async (commentId, editedComment) => {
@@ -146,10 +124,9 @@ export default function Comments({ spotId }) {
               <li key={comment.id}>
                 <Comment
                   comment={comment}
-                  onUpvote={handleUpvote}
-                  onDownvote={handleDownvote}
                   onEdit={handleEdit}
                   onDelete={handleDelete}
+                  onVote={handleVote}
                 />
               </li>
             ))}

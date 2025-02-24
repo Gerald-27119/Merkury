@@ -8,6 +8,7 @@ import com.merkury.vulcanus.model.dtos.comment.CommentDto;
 import com.merkury.vulcanus.model.dtos.comment.CommentEditDto;
 import com.merkury.vulcanus.model.entities.Comment;
 import com.merkury.vulcanus.model.entities.Spot;
+import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.mappers.CommentMapper;
 import com.merkury.vulcanus.model.repositories.CommentRepository;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -37,32 +40,28 @@ public class CommentService {
     public void addComment(HttpServletRequest request, CommentAddDto dto) throws SpotNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var spot = spotRepository.findById(dto.spotId()).orElseThrow(() -> new SpotNotFoundException(dto.spotId()));
-        var comment = CommentMapper.toEntity(dto, spot, user);
 
-        commentRepository.save(comment);
-        spot.setRating(calculateSpotRating(spot.getId()));
+        commentRepository.save(CommentMapper.toEntity(dto, spot, user));
         updateSpotRating(spot);
     }
 
     public void deleteComment(HttpServletRequest request, Long commentId) {
         var user = userDataService.getUserFromRequest(request);
         var comment = commentRepository.findCommentByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentNotFoundException(commentId));
-        var spot = comment.getSpot();
 
         commentRepository.delete(comment);
-        updateSpotRating(spot);
+        updateSpotRating(comment.getSpot());
     }
 
     public void editComment(HttpServletRequest request, Long commentId, CommentEditDto dto) {
         var user = userDataService.getUserFromRequest(request);
         var comment = commentRepository.findCommentByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentNotFoundException(commentId));
-        var spot = comment.getSpot();
 
         comment.setText(dto.text());
         comment.setRating(dto.rating());
 
         commentRepository.save(comment);
-        updateSpotRating(spot);
+        updateSpotRating(comment.getSpot());
     }
 
     private Double calculateSpotRating(Long spotId) {
@@ -85,39 +84,32 @@ public class CommentService {
         spotRepository.save(spot);
     }
 
-    public void upvoteComment(HttpServletRequest request, Long commentId) {
+    public void voteComment(HttpServletRequest request, Long commentId, boolean isUpvote) {
         var user = userDataService.getUserFromRequest(request);
-        var userId = user.getId();
         var comment = commentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
 
-        if (comment.getUpvotedBy().removeIf(u -> u.getId().equals(userId))) {
-            comment.setUpvotes(comment.getUpvotes() - 1);
+        var voteList = isUpvote ? comment.getUpvotedBy() : comment.getDownvotedBy();
+        var oppositeVoteList = isUpvote ? comment.getDownvotedBy() : comment.getUpvotedBy();
+
+        if (voteList.contains(user)) {
+            removeUserFromVoteList(voteList, user);
         } else {
-            if (comment.getDownvotedBy().removeIf(u -> u.getId().equals(userId))) {
-                comment.setDownvotes(comment.getDownvotes() - 1);
-            }
-            comment.getUpvotedBy().add(user);
-            comment.setUpvotes(comment.getUpvotes() + 1);
+            removeUserFromVoteList(oppositeVoteList, user);
+            addUserToVoteList(voteList, user);
         }
+
+        comment.setUpvotes(comment.getUpvotedBy().size());
+        comment.setDownvotes(comment.getDownvotedBy().size());
 
         commentRepository.save(comment);
     }
 
-    public void downvoteComment(HttpServletRequest request, Long commentId) {
-        var user = userDataService.getUserFromRequest(request);
-        var userId = user.getId();
-        var comment = commentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
-
-        if (comment.getDownvotedBy().removeIf(u -> u.getId().equals(userId))) {
-            comment.setDownvotes(comment.getDownvotes() - 1);
-        } else {
-            if (comment.getUpvotedBy().removeIf(u -> u.getId().equals(userId))) {
-                comment.setUpvotes(comment.getUpvotes() - 1);
-            }
-            comment.getDownvotedBy().add(user);
-            comment.setDownvotes(comment.getDownvotes() + 1);
-        }
-
-        commentRepository.save(comment);
+    private void removeUserFromVoteList(Set<UserEntity> voteList, UserEntity user) {
+        voteList.remove(user);
     }
+
+    private void addUserToVoteList(Set<UserEntity> voteList, UserEntity user) {
+        voteList.add(user);
+    }
+
 }

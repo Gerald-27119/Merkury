@@ -5,13 +5,7 @@ import { FaRegEdit } from "react-icons/fa";
 import EditCommentForm from "./EditCommentForm.jsx";
 import { useState } from "react";
 
-export default function Comment({
-  comment,
-  onUpvote,
-  onDownvote,
-  onEdit,
-  onDelete,
-}) {
+export default function Comment({ comment, onEdit, onDelete, onVote }) {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleEdit = (editedComment) => {
@@ -53,14 +47,14 @@ export default function Comment({
         <div className="flex items-center space-x-2">
           <button
             className="hover:text-blue-500 flex items-center"
-            onClick={() => onUpvote(comment.id)}
+            onClick={() => onVote(comment.id, true)}
           >
             <FaRegThumbsUp />
             <span className="text-sm ml-1">{comment.upvotes}</span>
           </button>
           <button
             className="hover:text-red-500 flex items-center"
-            onClick={() => onDownvote(comment.id)}
+            onClick={() => onVote(comment.id, false)}
           >
             <FaRegThumbsDown />
             <span className="text-sm ml-1">{comment.downvotes}</span>

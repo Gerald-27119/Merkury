@@ -31,20 +31,12 @@ export async function editComment({ commentId, editedComment }) {
   );
 }
 
-export async function upvoteComment(commentId) {
+export async function voteComment({ commentId, isUpvote }) {
   return await axios.patch(
-    `${BASE_URL}/spot/comments/${commentId}/upvote`,
+    `${BASE_URL}/spot/comments/${commentId}/vote`,
     null,
     {
-      withCredentials: true,
-    },
-  );
-}
-export async function downvoteComment(commentId) {
-  return await axios.patch(
-    `${BASE_URL}/spot/comments/${commentId}/downvote`,
-    null,
-    {
+      params: { isUpvote },
       withCredentials: true,
     },
   );

@@ -47,15 +47,9 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PatchMapping("/spot/comments/{commentId}/upvote")
-    public ResponseEntity<Void> upvoteComment(HttpServletRequest request, @PathVariable Long commentId) {
-        commentService.upvoteComment(request, commentId);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    @PatchMapping("/spot/comments/{commentId}/downvote")
-    public ResponseEntity<Void> downvoteComment(HttpServletRequest request, @PathVariable Long commentId) {
-        commentService.downvoteComment(request, commentId);
+    @PatchMapping("/spot/comments/{commentId}/vote")
+    public ResponseEntity<Void> voteComment(HttpServletRequest request, @PathVariable Long commentId, @RequestParam boolean isUpvote) {
+        commentService.voteComment(request, commentId, isUpvote);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
