@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Testcontainers
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SpotControllerWithServerStartupTest {
+class SpotControllerWithServerStartupTest {
 
     @LocalServerPort
     private int port;
