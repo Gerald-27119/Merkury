@@ -3,13 +3,16 @@ import { useDispatch } from "react-redux";
 import { accountAction } from "../../redux/account.jsx";
 import { notificationAction } from "../../redux/notification.jsx";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function SignOutButton() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const handleSignOut = async () => {
     try {
+      await queryClient.invalidateQueries(["comments"]);
       await logout();
       dispatch(
         notificationAction.setSuccess({

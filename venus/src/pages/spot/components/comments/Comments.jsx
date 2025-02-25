@@ -21,8 +21,8 @@ export default function Comments({ spotId }) {
   const dispatch = useDispatch();
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["spot", "comments", spotId],
     queryFn: () => getPaginatedComments(spotId, currentPage),
+    queryKey: ["spot", "comments", spotId, currentPage],
     keepPreviousData: true,
     staleTime: 10 * 60 * 1000,
   });
@@ -30,29 +30,26 @@ export default function Comments({ spotId }) {
   const { mutateAsync: mutateVote } = useMutation({
     mutationFn: voteComment,
     onSuccess: () => {
-      queryClient.invalidateQueries(["spot", "comments", spotId]);
+      queryClient.invalidateQueries(["spot", "comments", spotId, currentPage]);
     },
-    onError: (error) => {
-      if (error.response && error.response.status === 401) {
-        dispatch(
-          notificationAction.setError({
-            message: "Log in in order to vote.",
-          }),
-        );
-      } else {
-        dispatch(
-          notificationAction.setError({
-            message: "An error has occured. Please try again later.",
-          }),
-        );
-      }
+    onError: () => {
+      const errorMessage =
+        error.response && error.response.status === 401
+          ? "Log in in order to vote."
+          : "An error has occured. Please try again later.";
+
+      dispatch(
+        notificationAction.setError({
+          message: errorMessage,
+        }),
+      );
     },
   });
 
   const { mutateAsync: mutateEdit } = useMutation({
     mutationFn: editComment,
     onSuccess: () => {
-      queryClient.invalidateQueries(["spot", "comments", spotId]);
+      queryClient.invalidateQueries(["spot", "comments", spotId, currentPage]);
       dispatch(
         notificationAction.setSuccess({
           message: "Comment edited successfully!",
@@ -79,14 +76,9 @@ export default function Comments({ spotId }) {
       );
     },
     onError: () => {
-      const errorMessage =
-        error.response && error.response.status === 401
-          ? "Log in in order to vote."
-          : "An error has occured. Please try again later.";
-
       dispatch(
         notificationAction.setError({
-          message: errorMessage,
+          message: "Failed to delete comment. Please try again later.",
         }),
       );
     },
@@ -94,7 +86,6 @@ export default function Comments({ spotId }) {
 
   const handlePageChange = (event) => {
     setCurrentPage(event.selected);
-    queryClient.invalidateQueries(["spot", "comments", spotId]);
   };
 
   const handleVote = async (commentId, isUpvote) => {
@@ -132,13 +123,13 @@ export default function Comments({ spotId }) {
             ))}
           </ul>
           <ReactPaginate
-            pageCount={data.totalPages}
             previousLabel={"<"}
             nextLabel={">"}
             breakLabel={"..."}
+            pageCount={data.totalPages}
             initialPage={currentPage}
             marginPagesDisplayed={1}
-            pageRangeDisplayed={1}
+            pageRangeDisplayed={2}
             onPageChange={handlePageChange}
             containerClassName="flex justify-center items-center space-x-2 mt-3 mb-1"
             pageLinkClassName="px-2 py-1 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
@@ -149,7 +140,7 @@ export default function Comments({ spotId }) {
           />
         </div>
       ) : (
-        <span>There are no comments!</span>
+        <span>Be the first one to comment!</span>
       )}
     </>
   );

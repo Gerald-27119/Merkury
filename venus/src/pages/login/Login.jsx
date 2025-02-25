@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Input from "../../components/form/Input.jsx";
 import { loginUser } from "../../http/account.js";
 import FormContainer from "../../components/form/FormContainer.jsx";
@@ -10,6 +10,7 @@ import { useEffect } from "react";
 
 function Login() {
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const { mutate, isSuccess, error } = useMutation({
     mutationFn: loginUser,
@@ -29,6 +30,7 @@ function Login() {
   useEffect(() => {
     if (isSuccess) {
       dispatch(accountAction.setIsLogged({ username: enteredValue.username }));
+      queryClient.invalidateQueries(["comments"]);
     }
   }, [isSuccess, dispatch, enteredValue.username]);
 
