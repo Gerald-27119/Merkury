@@ -23,6 +23,8 @@ public class CommentMapper {
                 .publishDate(comment.getPublishDate())
                 .author(comment.getAuthor().getUsername())
                 .isAuthor(comment.getAuthor().equals(currentUser))
+                .isUpvoted(comment.getUpvotedBy().contains(currentUser))
+                .isDownvoted(comment.getDownvotedBy().contains(currentUser))
                 .build();
     }
 

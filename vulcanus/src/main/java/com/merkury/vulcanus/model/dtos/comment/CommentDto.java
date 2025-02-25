@@ -23,5 +23,9 @@ public record CommentDto(@Positive(message = "ID must be a positive number.")
                          @NotBlank(message = "Author cannot be empty.")
                          String author,
                          @NotNull(message = "isAuthor cannot be empty.")
-                         Boolean isAuthor) {
+                         Boolean isAuthor,
+                         @NotNull(message = "isUpvoted cannot be empty.")
+                         Boolean isUpvoted,
+                         @NotNull(message = "isDownvoted cannot be empty.")
+                         Boolean isDownvoted) {
 }

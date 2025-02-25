@@ -46,14 +46,14 @@ export default function Comment({ comment, onEdit, onDelete, onVote }) {
       <div className="flex justify-between items-center text-gray-600 text-lg">
         <div className="flex items-center space-x-2">
           <button
-            className="hover:text-blue-500 flex items-center"
+            className={`hover:text-blue-500 flex items-center ${comment.isUpvoted ? "text-blue-500" : ""}`}
             onClick={() => onVote(comment.id, true)}
           >
             <FaRegThumbsUp />
             <span className="text-sm ml-1">{comment.upvotes}</span>
           </button>
           <button
-            className="hover:text-red-500 flex items-center"
+            className={`hover:text-red-500 flex items-center ${comment.isDownvoted ? "text-red-500" : ""}`}
             onClick={() => onVote(comment.id, false)}
           >
             <FaRegThumbsDown />
