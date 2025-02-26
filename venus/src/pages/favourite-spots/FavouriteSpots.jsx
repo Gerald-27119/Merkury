@@ -54,7 +54,7 @@ export default function FavouriteSpots() {
                 nextLabel={">"}
                 breakLabel={"..."}
                 pageCount={data.totalPages}
-                initialPage={currentPage}
+                forcePage={currentPage}
                 marginPagesDisplayed={1}
                 pageRangeDisplayed={2}
                 onPageChange={handlePageChange}

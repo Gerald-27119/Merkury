@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.features.comment;
 
+import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
@@ -37,25 +38,25 @@ public class CommentService {
         return commentsPage.map(comment -> CommentMapper.toDto(comment, user));
     }
 
-    public void addComment(HttpServletRequest request, CommentAddDto dto) throws SpotNotFoundException {
+    public void addComment(HttpServletRequest request, CommentAddDto dto, Long spotId) throws SpotNotFoundException {
         var user = userDataService.getUserFromRequest(request);
-        var spot = spotRepository.findById(dto.spotId()).orElseThrow(() -> new SpotNotFoundException(dto.spotId()));
+        var spot = spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
 
         commentRepository.save(CommentMapper.toEntity(dto, spot, user));
         updateSpotRating(spot);
     }
 
-    public void deleteComment(HttpServletRequest request, Long commentId) {
+    public void deleteComment(HttpServletRequest request, Long commentId) throws CommentAccessException {
         var user = userDataService.getUserFromRequest(request);
-        var comment = commentRepository.findCommentByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentNotFoundException(commentId));
+        var comment = commentRepository.findCommentByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("You do not have access to delete this comment or it does not exist."));
 
         commentRepository.delete(comment);
         updateSpotRating(comment.getSpot());
     }
 
-    public void editComment(HttpServletRequest request, Long commentId, CommentEditDto dto) {
+    public void editComment(HttpServletRequest request, Long commentId, CommentEditDto dto) throws CommentAccessException {
         var user = userDataService.getUserFromRequest(request);
-        var comment = commentRepository.findCommentByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentNotFoundException(commentId));
+        var comment = commentRepository.findCommentByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("You do not have access to edit this comment or it does not exist."));
 
         comment.setText(dto.text());
         comment.setRating(dto.rating());

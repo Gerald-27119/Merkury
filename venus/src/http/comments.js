@@ -11,8 +11,8 @@ export async function getPaginatedComments(spotId, page) {
   ).data;
 }
 
-export async function addComment(newComment) {
-  return await axios.post(`${BASE_URL}/spot/comments`, newComment, {
+export async function addComment({ spotId, newComment }) {
+  return await axios.post(`${BASE_URL}/spot/${spotId}/comments`, newComment, {
     withCredentials: true,
   });
 }

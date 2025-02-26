@@ -1,11 +1,13 @@
 package com.merkury.vulcanus.controllers;
 
+import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.features.comment.CommentService;
 import com.merkury.vulcanus.model.dtos.comment.CommentAddDto;
 import com.merkury.vulcanus.model.dtos.comment.CommentDto;
 import com.merkury.vulcanus.model.dtos.comment.CommentEditDto;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -29,20 +31,20 @@ public class CommentController {
         return ResponseEntity.ok(comments);
     }
 
-    @PostMapping("/spot/comments")
-    public ResponseEntity<String> addComment(HttpServletRequest request, @RequestBody CommentAddDto commentAddDto) throws SpotNotFoundException {
-        commentService.addComment(request, commentAddDto);
+    @PostMapping("/spot/{spotId}/comments")
+    public ResponseEntity<String> addComment(HttpServletRequest request, @PathVariable Long spotId, @Valid @RequestBody CommentAddDto commentAddDto) throws SpotNotFoundException {
+        commentService.addComment(request, commentAddDto, spotId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/spot/comments/{commentId}")
-    public ResponseEntity<Void> deleteComment(HttpServletRequest request, @PathVariable Long commentId) {
+    public ResponseEntity<Void> deleteComment(HttpServletRequest request, @PathVariable Long commentId) throws CommentAccessException {
         commentService.deleteComment(request, commentId);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/spot/comments/{commentId}")
-    public ResponseEntity<CommentDto> editComment(HttpServletRequest request, @PathVariable Long commentId, @RequestBody CommentEditDto commentEditDto) {
+    public ResponseEntity<CommentDto> editComment(HttpServletRequest request, @PathVariable Long commentId, @Valid @RequestBody CommentEditDto commentEditDto) throws CommentAccessException {
         commentService.editComment(request, commentId, commentEditDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

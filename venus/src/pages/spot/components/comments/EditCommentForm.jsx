@@ -13,6 +13,7 @@ export default function EditCommentForm({ comment, onSave, onCancel }) {
       <textarea
         className="w-full p-2 border rounded resize-none text-base"
         rows="2"
+        maxLength="300"
         value={editedText}
         onChange={(e) => setEditedText(e.target.value)}
       ></textarea>

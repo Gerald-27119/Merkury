@@ -10,7 +10,6 @@ import {
 import ReactPaginate from "react-paginate";
 import { useState } from "react";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
-import AddCommentForm from "./AddCommentForm.jsx";
 import { notificationAction } from "../../../../redux/notification.jsx";
 import { useDispatch } from "react-redux";
 
@@ -88,6 +87,13 @@ export default function Comments({ spotId }) {
     setCurrentPage(event.selected);
   };
 
+  const handlePageAfterRemove = () => {
+    if (data && data.content.length === 1 && currentPage > 0) {
+      setCurrentPage((prev) => prev - 1);
+      console.log(currentPage);
+    }
+  };
+
   const handleVote = async (commentId, isUpvote) => {
     await mutateVote({ commentId, isUpvote });
   };
@@ -98,14 +104,13 @@ export default function Comments({ spotId }) {
 
   const handleDelete = async (commentId) => {
     await mutateDelete(commentId);
+    handlePageAfterRemove();
   };
 
   return (
     <>
       {error && <Error error={error} />}
       {isLoading && <LoadingSpinner />}
-
-      <AddCommentForm spotId={spotId} />
 
       <p className="text-lg">Comments:</p>
       {data && data.content.length >= 0 ? (
@@ -127,7 +132,7 @@ export default function Comments({ spotId }) {
             nextLabel={">"}
             breakLabel={"..."}
             pageCount={data.totalPages}
-            initialPage={currentPage}
+            forcePage={currentPage}
             marginPagesDisplayed={1}
             pageRangeDisplayed={2}
             onPageChange={handlePageChange}

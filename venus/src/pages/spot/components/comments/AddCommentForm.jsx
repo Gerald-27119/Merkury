@@ -6,20 +6,20 @@ import { notificationAction } from "../../../../redux/notification.jsx";
 import { useDispatch } from "react-redux";
 
 export default function AddCommentForm({ spotId }) {
-  const [newComment, setNewComment] = useState("");
+  const [commentText, setCommentText] = useState("");
   const [rating, setRating] = useState(5.0);
   const [revealed, setRevealed] = useState(false);
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
 
   const resetForm = () => {
-    setNewComment("");
+    setCommentText("");
     setRating(5.0);
     setRevealed(false);
   };
 
   const { mutateAsync: mutate } = useMutation({
-    mutationFn: (comment) => addComment(comment, rating, spotId),
+    mutationFn: addComment,
     onSuccess: () => {
       resetForm();
       queryClient.invalidateQueries(["spot", "comments", spotId]);
@@ -47,7 +47,7 @@ export default function AddCommentForm({ spotId }) {
   });
 
   const handleAddComment = async () => {
-    if (!newComment.trim()) {
+    if (!commentText.trim()) {
       dispatch(
         notificationAction.setError({
           message: "Comment can't be empty!",
@@ -55,44 +55,40 @@ export default function AddCommentForm({ spotId }) {
       );
       return;
     }
-    await mutate({
-      text: newComment,
-      rating,
-      spotId,
-    });
+    let newComment = { text: commentText, rating: rating };
+    await mutate({ spotId, newComment });
   };
 
   return (
-    <div>
+    <div className="p-2 mt-4 mb-8 rounded-lg bg-gray-100">
       <div>
-        <Rate allowHalf value={rating} onChange={setRating} />
+        {revealed && <Rate allowHalf value={rating} onChange={setRating} />}
       </div>
       <textarea
         className="w-full p-2 border rounded resize-none"
-        rows="3"
+        rows="2"
         placeholder="Write your opinion"
-        value={newComment}
-        onChange={(e) => setNewComment(e.target.value)}
+        maxLength="300"
+        value={commentText}
+        onChange={(e) => setCommentText(e.target.value)}
         onFocus={() => setRevealed(true)}
       />
-      <div className="flex justify-end space-x-2 mt-2">
-        {revealed && (
-          <div>
-            <button
-              className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-              onClick={resetForm}
-            >
-              Cancel
-            </button>
-            <button
-              className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-              onClick={handleAddComment}
-            >
-              Comment
-            </button>
-          </div>
-        )}
-      </div>
+      {revealed && (
+        <div className="flex justify-end space-x-2 mt-2">
+          <button
+            className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+            onClick={resetForm}
+          >
+            Cancel
+          </button>
+          <button
+            className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+            onClick={handleAddComment}
+          >
+            Comment
+          </button>
+        </div>
+      )}
     </div>
   );
 }
