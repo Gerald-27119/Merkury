@@ -43,6 +43,7 @@ public class SpotService {
         return spotRepository.findById(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
 
+    @Cacheable(value = "filteredSpots", key = "{#name, #minRating, #maxRating}", unless = "#result == null")
     public List<GeneralSpotDto> getFilteredSpots(String name, Double minRating, Double maxRating) throws SpotsNotFoundException {
         var allSpots = this.getAllSpots();
         var filteredSpots = allSpots.stream()
