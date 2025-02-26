@@ -30,7 +30,6 @@ import static java.util.Arrays.asList;
 @Service
 @RequiredArgsConstructor
 public class PopulateDbsService {
-
     private final PasswordEncoder passwordEncoder;
     private final UserEntityRepository userEntityRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
