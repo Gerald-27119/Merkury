@@ -14,7 +14,6 @@ import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.ZoneRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +27,9 @@ import static com.merkury.vulcanus.model.enums.UserRole.ROLE_ADMIN;
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_USER;
 import static java.util.Arrays.asList;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PopulateDbsService {
-
     private final PasswordEncoder passwordEncoder;
     private final UserEntityRepository userEntityRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
@@ -71,10 +68,6 @@ public class PopulateDbsService {
 
         userEntityRepository.save(admin);
         userEntityRepository.save(user);
-
-        log.info("Users from db:");
-        userEntityRepository.findAll().forEach(userEntity ->
-                log.info(userEntity.toString()));
 
         var token = PasswordResetToken.builder()
                 .token(UUID.fromString("fff3a3f6-fbd8-4fc5-890c-626343f2f324"))
@@ -355,7 +348,6 @@ public class PopulateDbsService {
                     .publishDate(LocalDateTime.now())
                     .author(user)
                     .build();
-            System.out.print(commentList1);
             commentList1.add(comment);
         }
 
