@@ -17,9 +17,9 @@ on:
     branches: [ master, develop ]
 
 jobs:
-  setup:
+    test:
     runs-on: ubuntu-latest
-    if: github.event_name != 'push' || github.event.pull_request == null
+
     steps:
       - uses: actions/checkout@v3
 
@@ -31,13 +31,6 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: venus
-
-  test:
-    runs-on: ubuntu-latest
-    needs: setup
-
-    steps:
-      - uses: actions/checkout@v3
 
       - name: Run tests
         working-directory: venus
