@@ -64,7 +64,7 @@ public class SpotService {
         return commentService.getCommentsPageBySpotId(spotId, page, size);
     }
 
-    @Cacheable(value = "filteredSpots", key = "{#name, #minRating, #maxRating}", unless = "#result == null")
+//    @Cacheable(value = "filteredSpots", key = "{#name, #minRating, #maxRating}", unless = "#result == null")
     public List<GeneralSpotDto> getFilteredSpots(String name, Double minRating, Double maxRating) throws SpotsNotFoundException {
         var allSpots = this.getAllSpots();
         var filteredSpots = allSpots.stream()
@@ -79,7 +79,7 @@ public class SpotService {
         return filteredSpots;
     }
 
-    @Cacheable(value = "filteredSpotsNames", key = "#text", unless = "#result == null")
+//    @Cacheable(value = "filteredSpotsNames", key = "#text", unless = "#result == null")
     public List<String> getFilteredSpotsNames(String text) throws SpotsNotFoundException {
         var allSpots = this.getAllSpots();
 
