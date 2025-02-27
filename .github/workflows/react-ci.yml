@@ -17,7 +17,7 @@ on:
     branches: [ master, develop ]
 
 jobs:
-    test:
+  test:
     runs-on: ubuntu-latest
 
     steps:
