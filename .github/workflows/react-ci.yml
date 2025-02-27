@@ -35,7 +35,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: venus/node_modules
-          key: react-${{ hashFiles('venus/package-lock.json') }}
+          key: react-${{ hashFiles('venus/package.json') }}
 
       - name: Install dependencies
         if: steps.cache-react.outputs.cache-hit != 'true'
