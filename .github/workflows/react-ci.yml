@@ -27,18 +27,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: venus/package-lock.json
-
-      - name: Cache node_modules
-        id: cache-react
-        uses: actions/cache@v4
-        with:
-          path: venus/node_modules
-          key: react-${{ hashFiles('venus/package-lock.json') }}
 
       - name: Install dependencies
-        if: steps.cache-react.outputs.cache-hit != 'true'
         run: npm install
         working-directory: venus
 
@@ -48,12 +38,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: Use cached node_modules
-        uses: actions/cache@v4
-        with:
-          path: venus/node_modules
-          key: react-${{ hashFiles('venus/package-lock.json') }}
 
       - name: Run tests
         working-directory: venus
