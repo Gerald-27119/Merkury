@@ -48,7 +48,7 @@ public class CommentService {
 
     public void deleteComment(HttpServletRequest request, Long commentId) throws CommentAccessException {
         var user = userDataService.getUserFromRequest(request);
-        var comment = commentRepository.findCommentByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("You do not have access to delete this comment or it does not exist."));
+        var comment = commentRepository.findCommentByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("delete"));
 
         commentRepository.delete(comment);
         updateSpotRating(comment.getSpot());
@@ -56,7 +56,7 @@ public class CommentService {
 
     public void editComment(HttpServletRequest request, Long commentId, CommentEditDto dto) throws CommentAccessException {
         var user = userDataService.getUserFromRequest(request);
-        var comment = commentRepository.findCommentByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("You do not have access to edit this comment or it does not exist."));
+        var comment = commentRepository.findCommentByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("edit"));
 
         comment.setText(dto.text());
         comment.setRating(dto.rating());

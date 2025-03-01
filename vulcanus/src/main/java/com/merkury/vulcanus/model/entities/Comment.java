@@ -18,6 +18,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 300)
     private String text;
     @Builder.Default
     private Double rating = 0.0;

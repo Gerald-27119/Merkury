@@ -5,6 +5,18 @@ export default function EditCommentForm({ comment, onSave, onCancel }) {
   const [editedText, setEditedText] = useState(comment.text);
   const [rating, setRating] = useState(comment.rating);
 
+  const handleSave = () => {
+    onSave({ text: editedText, rating: rating });
+  };
+
+  const handleCommentChange = (text) => {
+    setEditedText(text);
+  };
+
+  const handleCancel = () => {
+    onCancel();
+  };
+
   return (
     <div>
       <div>
@@ -15,18 +27,18 @@ export default function EditCommentForm({ comment, onSave, onCancel }) {
         rows="2"
         maxLength="300"
         value={editedText}
-        onChange={(e) => setEditedText(e.target.value)}
+        onChange={(e) => handleCommentChange(e.target.value)}
       ></textarea>
       <div className="flex justify-end space-x-2 mt-2">
         <button
           className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-          onClick={() => onSave({ text: editedText, rating: rating })}
+          onClick={handleSave}
         >
           Save
         </button>
         <button
           className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-          onClick={onCancel}
+          onClick={handleCancel}
         >
           Cancel
         </button>

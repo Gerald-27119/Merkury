@@ -13,6 +13,18 @@ export default function Comment({ comment, onEdit, onDelete, onVote }) {
     setIsEditing(false);
   };
 
+  const triggerEdit = () => {
+    setIsEditing((prevState) => !prevState);
+  };
+
+  const handleDelete = () => {
+    onDelete(comment.id);
+  };
+
+  const handleVote = (isUpvote) => {
+    onVote(comment.id, isUpvote);
+  };
+
   if (isEditing) {
     return (
       <div className="border border-stone-400 rounded-md m-1 p-2">
@@ -47,14 +59,14 @@ export default function Comment({ comment, onEdit, onDelete, onVote }) {
         <div className="flex items-center space-x-2">
           <button
             className={`hover:text-blue-500 flex items-center ${comment.isUpvoted ? "text-blue-500" : ""}`}
-            onClick={() => onVote(comment.id, true)}
+            onClick={() => handleVote(true)}
           >
             <FaRegThumbsUp />
             <span className="text-sm ml-1">{comment.upvotes}</span>
           </button>
           <button
             className={`hover:text-red-500 flex items-center ${comment.isDownvoted ? "text-red-500" : ""}`}
-            onClick={() => onVote(comment.id, false)}
+            onClick={() => handleVote(false)}
           >
             <FaRegThumbsDown />
             <span className="text-sm ml-1">{comment.downvotes}</span>
@@ -62,16 +74,10 @@ export default function Comment({ comment, onEdit, onDelete, onVote }) {
         </div>
         {comment.isAuthor && (
           <div className="flex space-x-2">
-            <button
-              className="hover:text-yellow-500"
-              onClick={() => setIsEditing(true)}
-            >
+            <button className="hover:text-yellow-500" onClick={triggerEdit}>
               <FaRegEdit />
             </button>
-            <button
-              className="hover:text-red-500"
-              onClick={() => onDelete(comment.id)}
-            >
+            <button className="hover:text-red-500" onClick={handleDelete}>
               <FaRegTrashCan />
             </button>
           </div>

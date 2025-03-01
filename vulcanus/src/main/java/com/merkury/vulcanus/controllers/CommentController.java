@@ -32,7 +32,7 @@ public class CommentController {
     }
 
     @PostMapping("/spot/{spotId}/comments")
-    public ResponseEntity<String> addComment(HttpServletRequest request, @PathVariable Long spotId, @Valid @RequestBody CommentAddDto commentAddDto) throws SpotNotFoundException {
+    public ResponseEntity<Void> addComment(HttpServletRequest request, @PathVariable Long spotId, @Valid @RequestBody CommentAddDto commentAddDto) throws SpotNotFoundException {
         commentService.addComment(request, commentAddDto, spotId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

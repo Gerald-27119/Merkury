@@ -28,14 +28,19 @@ export default function Comments({ spotId }) {
 
   const { mutateAsync: mutateVote } = useMutation({
     mutationFn: voteComment,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["spot", "comments", spotId, currentPage]);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries([
+        "spot",
+        "comments",
+        spotId,
+        currentPage,
+      ]);
     },
-    onError: () => {
+    onError: (error) => {
       const errorMessage =
         error.response && error.response.status === 401
           ? "Log in in order to vote."
-          : "An error has occured. Please try again later.";
+          : undefined;
 
       dispatch(
         notificationAction.setError({
@@ -47,8 +52,13 @@ export default function Comments({ spotId }) {
 
   const { mutateAsync: mutateEdit } = useMutation({
     mutationFn: editComment,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["spot", "comments", spotId, currentPage]);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries([
+        "spot",
+        "comments",
+        spotId,
+        currentPage,
+      ]);
       dispatch(
         notificationAction.setSuccess({
           message: "Comment edited successfully!",
@@ -66,8 +76,8 @@ export default function Comments({ spotId }) {
 
   const { mutateAsync: mutateDelete } = useMutation({
     mutationFn: deleteComment,
-    onSuccess: () => {
-      queryClient.invalidateQueries(["spot", "comments", spotId]);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(["spot", "comments", spotId]);
       dispatch(
         notificationAction.setSuccess({
           message: "Comment deleted successfully!",
@@ -90,7 +100,6 @@ export default function Comments({ spotId }) {
   const handlePageAfterRemove = () => {
     if (data && data.content.length === 1 && currentPage > 0) {
       setCurrentPage((prev) => prev - 1);
-      console.log(currentPage);
     }
   };
 
