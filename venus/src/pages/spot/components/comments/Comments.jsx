@@ -116,8 +116,11 @@ export default function Comments({ spotId, isUserLoggedIn }) {
     handlePageAfterRemove();
   };
 
-  useEffect(async () => {
-    await queryClient.invalidateQueries(["spot", "comments", spotId]);
+  useEffect(() => {
+    const invalidate = async () => {
+      await queryClient.invalidateQueries(["spot", "comments", spotId]);
+    };
+    invalidate();
   }, [isUserLoggedIn]);
 
   return (
