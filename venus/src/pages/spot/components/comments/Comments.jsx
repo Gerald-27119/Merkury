@@ -8,12 +8,12 @@ import {
   voteComment,
 } from "../../../../http/comments.js";
 import ReactPaginate from "react-paginate";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
 import { notificationAction } from "../../../../redux/notification.jsx";
 import { useDispatch } from "react-redux";
 
-export default function Comments({ spotId }) {
+export default function Comments({ spotId, isUserLoggedIn }) {
   const [currentPage, setCurrentPage] = useState(0);
 
   const queryClient = useQueryClient();
@@ -115,6 +115,10 @@ export default function Comments({ spotId }) {
     await mutateDelete(commentId);
     handlePageAfterRemove();
   };
+
+  useEffect(() => {
+    queryClient.invalidateQueries(["spot", "comments", spotId]);
+  }, [isUserLoggedIn]);
 
   return (
     <>

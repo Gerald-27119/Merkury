@@ -69,9 +69,9 @@ export default function SpotDetails() {
             {isLogged && <AddToFavouritesButton spotId={spotId} />}
             <Weather spot={data} />
             <PhotoGallery photos={data.photos} />
-            <AddCommentForm spotId={spotId} />
+            <AddCommentForm spotId={spotId} isUserLoggedIn={isLogged} />
             <div className="overflow-y-auto flex-grow min-h-60">
-              <Comments spotId={spotId} />
+              <Comments spotId={spotId} isUserLoggedIn={isLogged} />
             </div>
           </div>
         )}

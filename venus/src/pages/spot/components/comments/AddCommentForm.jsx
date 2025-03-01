@@ -3,17 +3,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addComment } from "../../../../http/comments.js";
 import { Rate } from "antd";
 import { notificationAction } from "../../../../redux/notification.jsx";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-export default function AddCommentForm({ spotId }) {
+export default function AddCommentForm({ spotId, isUserLoggedIn }) {
   const [commentText, setCommentText] = useState("");
   const [rating, setRating] = useState(5.0);
   const [revealed, setRevealed] = useState(false);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isLogged = useSelector((state) => state.account.isLogged);
 
   const resetForm = () => {
     setCommentText("");
@@ -82,7 +81,9 @@ export default function AddCommentForm({ spotId }) {
       <textarea
         className="w-full p-2 border rounded resize-none"
         rows="2"
-        placeholder={isLogged ? "Write your opinion" : "Log in to comment"}
+        placeholder={
+          isUserLoggedIn ? "Write your opinion" : "Log in to comment"
+        }
         maxLength="300"
         value={commentText}
         onChange={(e) => handleCommentChange(e.target.value)}
@@ -98,7 +99,7 @@ export default function AddCommentForm({ spotId }) {
             Cancel
           </button>
 
-          {!isLogged && (
+          {!isUserLoggedIn && (
             <button
               className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
               onClick={handleLogin}
@@ -107,7 +108,7 @@ export default function AddCommentForm({ spotId }) {
             </button>
           )}
 
-          {isLogged && (
+          {isUserLoggedIn && (
             <button
               className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
               onClick={handleAddComment}
