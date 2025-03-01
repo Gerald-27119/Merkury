@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <style>
+        table {
+            border-spacing: 0;
+        }
+
+        td {
+            padding: 0;
+        }
+
+        .main {
+            table-layout: fixed;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+        }
+
+        .content {
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        .logo {
+            border: 0;
+            width: 15%;
+            border-radius: 4px;
+        }
+    </style>
+
+    <title>Test</title>
+</head>
+<body>
+
+<table class="main">
+    <tr class="container">
+        <td class="content">
+            <h1>Welcome, <span th:text="${username}"></span>!</h1>
+            <p>Thank you for registering in our service. Your account is now active.</p>
+            <p>If you did not register, please ignore this email.</p>
+            <img
+                    src="https://drive.google.com/thumbnail?id=1N6KlXDVxQqW51nvtQr7yrz9WaRPFWqFt"
+                    alt="Logo"
+                    class="logo"
+            />
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

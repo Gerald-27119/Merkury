@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!--THIS FILE IS MEANT FOR CSS INLINER ONLY!!! -->
 
     <style>
+        table {
+            border-collapse: separate;
+            padding: 0;
+            border-spacing: 0;
+            border: 0;
+        }
+
+        a, a:link, a:visited {
+            text-decoration: none;
+            color: #00788a;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        h2, h2 a, h2 a:visited, h3, h3 a, h3 a:visited, h4, h5, h6, .t_cht {
+            color: #000;
+        }
+
+        .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td {
+            line-height: 100%;
+        }
+
+        .ExternalClass {
+            width: 100%;
+        }
+
         .divbody {
             margin: 0;
             padding: 0;
@@ -54,17 +82,18 @@
 
     <title>Registration Confirmation</title>
 </head>
-<div class="divbody">
-    <div class="container">
-        <div class="content">
+<table class="divbody">
+    <tr class="container">
+        <td class="content">
             <h1>Welcome, <span th:text="${username}"></span>!</h1>
             <p>Thank you for registering in our service. Your account is now active.</p>
             <p>If you did not register, please ignore this email.</p>
-            <div>
-                <img src="https://drive.google.com/thumbnail?id=1N6KlXDVxQqW51nvtQr7yrz9WaRPFWqFt" alt="Logo"
-                     class="logo">
-            </div>
-        </div>
-    </div>
-</div>
+            <img
+                    src="https://drive.google.com/thumbnail?id=1N6KlXDVxQqW51nvtQr7yrz9WaRPFWqFt"
+                    alt="Logo"
+                    class="logo"
+            />
+        </td>
+    </tr>
+</table>
 </html>
