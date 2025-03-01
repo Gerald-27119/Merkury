@@ -80,7 +80,7 @@ jobs:
         run: sleep 30
 
       - name: Build vulcanus
-        run: mvn -B package --file vulcanus/pom.xml
+        run: mvn -B package -DskipTests --file vulcanus/pom.xml
 
   test:
     runs-on: ubuntu-latest
