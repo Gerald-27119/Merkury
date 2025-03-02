@@ -4,9 +4,6 @@ import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.spot.SpotService;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
-import com.merkury.vulcanus.model.dtos.comment.CommentAddDto;
-import com.merkury.vulcanus.model.dtos.comment.CommentDto;
-import com.merkury.vulcanus.model.dtos.comment.CommentEditDto;
 import jakarta.servlet.http.HttpServletRequest;
 import com.merkury.vulcanus.model.dtos.spot.FavouriteSpotDto;
 import lombok.RequiredArgsConstructor;
@@ -30,45 +27,6 @@ public class SpotController {
     public ResponseEntity<SpotDetailsDto> getSpotById(@PathVariable Long spotId) throws SpotNotFoundException {
         log.info("getting spot with id: {}", spotId);
         return ResponseEntity.ok(spotService.getSpotById(spotId));
-    }
-
-    @GetMapping("/public/spot/comments")
-    public ResponseEntity<Page<CommentDto>> getCommentsBySpotId(@RequestParam Long spotId, @RequestParam int page, @RequestParam int size) throws SpotNotFoundException {
-        return ResponseEntity.ok(spotService.getCommentsPageBySpotId(spotId, page, size));
-    }
-
-    @PostMapping("/spot/comment")
-    public ResponseEntity<String> addComment(@RequestBody CommentAddDto commentAddDto,
-                                                       HttpServletRequest request)
-            throws CommentNotFoundException, SpotNotFoundException {
-        log.info("Submitting new comment...");
-        spotService.addComment(commentAddDto.text(),  commentAddDto.spotId(), request);
-        log.info("Edited comment successfully! spot id:" + commentAddDto.spotId() + "!");
-        return ResponseEntity
-                .ok().build();
-    }
-
-    @PatchMapping("/spot/comment")
-    public ResponseEntity<String> editComment(@RequestBody CommentEditDto commentEditDto,
-                                                        HttpServletRequest request)
-            throws CommentNotFoundException, InvalidCredentialsException {
-
-        log.info("Editing comment, id:" + commentEditDto.commentId() + "...");
-        spotService.editComment(commentEditDto.commentId(), commentEditDto.text() , request);
-        log.info("Edited comment successfully! id:" + commentEditDto.commentId() + "!");
-        return ResponseEntity
-                .ok().build();
-    }
-
-    @DeleteMapping("/spot/comment/{commentId}")
-    public ResponseEntity<String> deleteComment(@PathVariable("commentId") Long commentId,
-                                                          HttpServletRequest request)
-            throws CommentNotFoundException, InvalidCredentialsException {
-        log.info("Deleting comment, id:" + commentId + "...");
-        spotService.deleteComment(commentId, request);
-        log.info("Deleted comment successfully! id:" + commentId);
-        return ResponseEntity
-                .ok().build();
     }
 
     @GetMapping("/public/spot/filter")

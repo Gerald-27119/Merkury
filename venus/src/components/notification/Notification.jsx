@@ -70,7 +70,17 @@ export default function Notification() {
           <IoIosClose size={30} />
         </button>
       </div>
-      <p className="text-base">{message}</p>
+      <p className="text-base">
+        {typeof message === "object" && message !== null ? (
+          <>
+            {message.message && <span>{message.message}</span>}
+            {message.error && <span> {message.error}</span>}
+          </>
+        ) : (
+          message
+        )}
+      </p>
+
       <div className="relative w-full h-1 bg-gray-200 rounded-full overflow-hidden">
         <div
           className={`absolute h-full ${classesProgress}`}

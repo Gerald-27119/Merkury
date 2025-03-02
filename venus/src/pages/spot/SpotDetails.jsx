@@ -13,6 +13,7 @@ import { notificationAction } from "../../redux/notification.jsx";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
 import AddToFavouritesButton from "./components/buttons/AddToFavouritesButton.jsx";
+import AddCommentForm from "./components/comments/AddCommentForm.jsx";
 
 export default function SpotDetails() {
   const spotId = useSelector((state) => state.spotDetails.spotId);
@@ -68,8 +69,9 @@ export default function SpotDetails() {
             {isLogged && <AddToFavouritesButton spotId={spotId} />}
             <Weather spot={data} />
             <PhotoGallery photos={data.photos} />
+            <AddCommentForm spotId={spotId} isUserLoggedIn={isLogged} />
             <div className="overflow-y-auto flex-grow min-h-60">
-              <Comments spotId={spotId} />
+              <Comments spotId={spotId} isUserLoggedIn={isLogged} />
             </div>
           </div>
         )}

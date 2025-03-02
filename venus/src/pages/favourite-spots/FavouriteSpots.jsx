@@ -54,8 +54,8 @@ export default function FavouriteSpots() {
                 nextLabel={">"}
                 breakLabel={"..."}
                 pageCount={data.totalPages}
-                initialPage={currentPage}
-                marginPagesDisplayed={2}
+                forcePage={currentPage}
+                marginPagesDisplayed={1}
                 pageRangeDisplayed={2}
                 onPageChange={handlePageChange}
                 containerClassName="flex justify-center items-center space-x-2 mt-6"

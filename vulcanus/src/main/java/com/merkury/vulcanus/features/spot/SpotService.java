@@ -1,14 +1,10 @@
 package com.merkury.vulcanus.features.spot;
 
-import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
 import com.merkury.vulcanus.exception.exceptions.SpotAlreadyFavouriteException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFavouriteException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
-import com.merkury.vulcanus.model.dtos.comment.CommentDto;
 import com.merkury.vulcanus.model.dtos.spot.FavouriteSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
@@ -31,7 +27,6 @@ import java.util.List;
 public class SpotService {
 
     private final SpotRepository spotRepository;
-    private final CommentService commentService;
     private final UserEntityRepository userEntityRepository;
     private final UserDataService userDataService;
 
@@ -46,22 +41,6 @@ public class SpotService {
 
     public SpotDetailsDto getSpotById(Long id) throws SpotNotFoundException {
         return spotRepository.findById(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
-    }
-
-    public void addComment(String text, Long spotId, HttpServletRequest request) throws SpotNotFoundException, UserNotFoundException {
-        commentService.addComment(text, spotId, request);
-    }
-
-    public void editComment(Long commentId, String text, HttpServletRequest request) throws CommentNotFoundException, InvalidCredentialsException {
-        commentService.editComment(commentId, text, request);
-    }
-
-    public void deleteComment(Long commentId, HttpServletRequest request) throws CommentNotFoundException, InvalidCredentialsException {
-        commentService.deleteComment(commentId, request);
-    }
-
-    public Page<CommentDto> getCommentsPageBySpotId(Long spotId, int page, int size) throws SpotNotFoundException {
-        return commentService.getCommentsPageBySpotId(spotId, page, size);
     }
 
     @Cacheable(value = "filteredSpots", key = "{#name, #minRating, #maxRating}", unless = "#result == null")

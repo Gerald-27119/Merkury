@@ -8,15 +8,14 @@ import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.Zone;
 import com.merkury.vulcanus.model.enums.Provider;
-import com.merkury.vulcanus.model.repositories.PasswordResetTokenRepository;
-import com.merkury.vulcanus.model.repositories.SpotRepository;
-import com.merkury.vulcanus.model.repositories.UserEntityRepository;
-import com.merkury.vulcanus.model.repositories.ZoneRepository;
+import com.merkury.vulcanus.model.repositories.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -290,60 +289,179 @@ public class PopulateDbsService {
         );
 
         List<Comment> commentList1 = new ArrayList<>(asList(
-                new Comment(null, "Świetne miejsce, warto odwiedzić!", 5.0, 0, spot1, LocalDateTime.of(2024, 6, 1, 10, 15), user),
-                new Comment(null, "Było fajnie, choć spodziewałem się więcej.", 4.0, 0, spot1, LocalDateTime.of(2024, 6, 2, 14, 30), user)
+                Comment.builder()
+                        .text("Świetne miejsce, warto odwiedzić!")
+                        .rating(5.0)
+                        .spot(spot1)
+                        .publishDate(LocalDateTime.of(2024, 6, 1, 10, 15))
+                        .author(user)
+                        .build(),
+                Comment.builder()
+                        .text("Było fajnie, choć spodziewałem się więcej.")
+                        .rating(4.0)
+                        .spot(spot1)
+                        .publishDate(LocalDateTime.of(2024, 6, 2, 14, 30))
+                        .author(user)
+                        .build()
         ));
 
         List<Comment> commentList2 = asList(
-                new Comment(null, "Idealne miejsce na relaks.", 5.0, 0, spot2, LocalDateTime.of(2024, 6, 3, 9, 45), user),
-                new Comment(null, "Widoki niezłe, ale tłoczno i głośno.", 3.0, 0, spot2, LocalDateTime.of(2024, 6, 4, 16, 20), user)
+                Comment.builder()
+                        .text("Idealne miejsce na relaks.")
+                        .rating(5.0)
+                        .spot(spot2)
+                        .publishDate(LocalDateTime.of(2024, 6, 3, 9, 45))
+                        .author(user)
+                        .build(),
+                Comment.builder()
+                        .text("Widoki niezłe, ale tłoczno i głośno.")
+                        .rating(3.0)
+                        .spot(spot2)
+                        .publishDate(LocalDateTime.of(2024, 6, 4, 16, 20))
+                        .author(user)
+                        .build()
         );
 
         List<Comment> commentList3 = asList(
-                new Comment(null, "Czysto, spokojnie i klimatycznie.", 5.0, 0, spot3, LocalDateTime.of(2024, 6, 5, 8, 10), user),
-                new Comment(null, "Trochę zbyt mało atrakcji jak dla mnie.", 3.5, 0, spot3, LocalDateTime.of(2024, 6, 6, 18, 55), user)
+                Comment.builder()
+                        .text("Czysto, spokojnie i klimatycznie.")
+                        .rating(5.0)
+                        .spot(spot3)
+                        .publishDate(LocalDateTime.of(2024, 6, 5, 8, 10))
+                        .author(user)
+                        .build(),
+                Comment.builder()
+                        .text("Trochę zbyt mało atrakcji jak dla mnie.")
+                        .rating(3.5)
+                        .spot(spot3)
+                        .publishDate(LocalDateTime.of(2024, 6, 6, 18, 55))
+                        .author(user)
+                        .build()
         );
 
         List<Comment> commentList4 = asList(
-                new Comment(null, "Miejsce warte odwiedzenia, polecam.", 4.5, 0, spot4, LocalDateTime.of(2024, 6, 7, 11, 40), user),
-                new Comment(null, "Atmosfera w porządku, ale spodziewałem się więcej zieleni.", 3.0, 0, spot4, LocalDateTime.of(2024, 6, 8, 13, 25), user)
+                Comment.builder()
+                        .text("Miejsce warte odwiedzenia, polecam.")
+                        .rating(4.5)
+                        .spot(spot4)
+                        .publishDate(LocalDateTime.of(2024, 6, 7, 11, 40))
+                        .author(user)
+                        .build(),
+                Comment.builder()
+                        .text("Atmosfera w porządku, ale spodziewałem się więcej zieleni.")
+                        .rating(3.0)
+                        .spot(spot4)
+                        .publishDate(LocalDateTime.of(2024, 6, 8, 13, 25))
+                        .author(user)
+                        .build()
         );
 
         List<Comment> commentList5 = asList(
-                new Comment(null, "Rewelacyjne miejsce na wycieczkę!", 5.0, 0, spot5, LocalDateTime.of(2024, 6, 9, 7, 50), user),
-                new Comment(null, "Dobre miejsce, ale trochę za drogo jak na jakość.", 4.0, 0, spot5, LocalDateTime.of(2024, 6, 10, 20, 15), user)
+                Comment.builder()
+                        .text("Rewelacyjne miejsce na wycieczkę!")
+                        .rating(5.0)
+                        .spot(spot5)
+                        .publishDate(LocalDateTime.of(2024, 6, 9, 7, 50))
+                        .author(user)
+                        .build(),
+                Comment.builder()
+                        .text("Dobre miejsce, ale trochę za drogo jak na jakość.")
+                        .rating(4.0)
+                        .spot(spot5)
+                        .publishDate(LocalDateTime.of(2024, 6, 10, 20, 15))
+                        .author(user)
+                        .build()
         );
 
         List<Comment> commentList6 = asList(
-                new Comment(null, "Wspaniałe widoki, aż chce się wracać.", 5.0, 0, spot6, LocalDateTime.of(2024, 6, 11, 15, 30), user),
-                new Comment(null, "Było przyjemnie, choć obsługa mogłaby być milsza.", 4.0, 0, spot6, LocalDateTime.of(2024, 6, 12, 19, 5), user)
+                Comment.builder()
+                        .text("Wspaniałe widoki, aż chce się wracać.")
+                        .rating(5.0)
+                        .spot(spot6)
+                        .publishDate(LocalDateTime.of(2024, 6, 11, 15, 30))
+                        .author(user)
+                        .build(),
+                Comment.builder()
+                        .text("Było przyjemnie, choć obsługa mogłaby być milsza.")
+                        .rating(4.0)
+                        .spot(spot6)
+                        .publishDate(LocalDateTime.of(2024, 6, 12, 19, 5))
+                        .author(user)
+                        .build()
         );
 
         List<Comment> commentList7 = asList(
-                new Comment(null, "Bardzo ciekawe miejsce z historią.", 5.0, 0, spot7, LocalDateTime.of(2024, 6, 13, 12, 10), user),
-                new Comment(null, "Miejsce okej, ale parking był problematyczny.", 3.5, 0, spot7, LocalDateTime.of(2024, 6, 14, 14, 50), user)
+                Comment.builder()
+                        .text("Bardzo ciekawe miejsce z historią.")
+                        .rating(5.0)
+                        .spot(spot7)
+                        .publishDate(LocalDateTime.of(2024, 6, 13, 12, 10))
+                        .author(user)
+                        .build(),
+                Comment.builder()
+                        .text("Miejsce okej, ale parking był problematyczny.")
+                        .rating(3.5)
+                        .spot(spot7)
+                        .publishDate(LocalDateTime.of(2024, 6, 14, 14, 50))
+                        .author(user)
+                        .build()
         );
 
         List<Comment> commentList8 = asList(
-                new Comment(null, "Czyste i dobrze zorganizowane miejsce.", 4.5, 0, spot8, LocalDateTime.of(2024, 6, 15, 9, 0), user),
-                new Comment(null, "Naprawdę wyjątkowe miejsce, choć trochę za dużo ludzi.", 4.0, 0, spot8, LocalDateTime.of(2024, 6, 16, 18, 45), user)
+                Comment.builder()
+                        .text("Czyste i dobrze zorganizowane miejsce.")
+                        .rating(4.5)
+                        .spot(spot8)
+                        .publishDate(LocalDateTime.of(2024, 6, 15, 9, 0))
+                        .author(user)
+                        .build(),
+                Comment.builder()
+                        .text("Naprawdę wyjątkowe miejsce, choć trochę za dużo ludzi.")
+                        .rating(4.0)
+                        .spot(spot8)
+                        .publishDate(LocalDateTime.of(2024, 6, 16, 18, 45))
+                        .author(user)
+                        .build()
         );
 
         List<Comment> commentList9 = asList(
-                new Comment(null, "Super miejsce na rodzinny wypad.", 5.0, 0, spot9, LocalDateTime.of(2024, 6, 17, 8, 30), user),
-                new Comment(null, "Nie najgorsze, ale brakowało mi większych atrakcji.", 3.5, 0, spot9, LocalDateTime.of(2024, 6, 18, 21, 10), user)
+                Comment.builder()
+                        .text("Super miejsce na rodzinny wypad.")
+                        .rating(5.0)
+                        .spot(spot9)
+                        .publishDate(LocalDateTime.of(2024, 6, 17, 8, 30))
+                        .author(user)
+                        .build(),
+                Comment.builder()
+                        .text("Nie najgorsze, ale brakowało mi większych atrakcji.")
+                        .rating(3.5)
+                        .spot(spot9)
+                        .publishDate(LocalDateTime.of(2024, 6, 18, 21, 10))
+                        .author(user)
+                        .build()
         );
 
         List<Comment> commentList10 = asList(
-                new Comment(null, "Miejsce godne polecenia, świetna organizacja.", 5.0, 0, spot10, LocalDateTime.of(2024, 6, 19, 10, 20), user),
-                new Comment(null, "Podobało mi się, choć były drobne niedociągnięcia.", 4.5, 0, spot10, LocalDateTime.of(2024, 6, 20, 17, 35), user)
+                Comment.builder()
+                        .text("Miejsce godne polecenia, świetna organizacja.")
+                        .rating(5.0)
+                        .spot(spot10)
+                        .publishDate(LocalDateTime.of(2024, 6, 19, 10, 20))
+                        .author(user)
+                        .build(),
+                Comment.builder()
+                        .text("Podobało mi się, choć były drobne niedociągnięcia.")
+                        .rating(4.5)
+                        .spot(spot10)
+                        .publishDate(LocalDateTime.of(2024, 6, 20, 17, 35))
+                        .author(user)
+                        .build()
         );
 
         for (int i = 0; i < 100; i++) {
             Comment comment = Comment.builder()
                     .text("Comment" + i + ": Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
                     .rating((i + 1.0) % 5.0)
-                    .likes(1)
                     .spot(spot1)
                     .publishDate(LocalDateTime.now())
                     .author(user)
@@ -421,6 +539,13 @@ public class PopulateDbsService {
             spot.getBorderPoints().addAll(contours.get(i));
             spot.getComments().addAll(commentLists.get(i));
             spot.getImages().addAll(galleries.get(i));
+
+            var comments = commentLists.get(i);
+            var rating = comments.stream()
+                    .mapToDouble(Comment::getRating)
+                    .average()
+                    .orElse(0.0);
+            spot.setRating(BigDecimal.valueOf(rating).setScale(2, RoundingMode.HALF_UP).doubleValue());
         }
 
         spotRepository.saveAll(spots);
