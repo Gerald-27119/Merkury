@@ -104,7 +104,9 @@ export default function Comments({ spotId, isUserLoggedIn }) {
   };
 
   const handleVote = async (commentId, isUpvote) => {
-    await mutateVote({ commentId, isUpvote });
+    try {
+      await mutateVote({ commentId, isUpvote });
+    } catch (error) {}
   };
 
   const handleEdit = async (commentId, editedComment) => {
