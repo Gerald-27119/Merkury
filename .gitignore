@@ -36,6 +36,7 @@
 *.xml
 hs_err_pid*
 *.properties
+
 # Maven
 target/
 pom.xml.tag
