@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import router from "./router.jsx";
+import axios from "axios";
+const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
+import { accountAction } from "./redux/account.jsx";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { logout } from "./http/account.js";
+
+const queryClient = new QueryClient();
 
 function App() {
-  const [count, setCount] = useState(0)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await axios.get(`${BASE_URL}/account/check`, {
+          withCredentials: true,
+        });
+      } catch (error) {
+        if (error.response?.status === 401) {
+          await logout();
+          dispatch(accountAction.signOut());
+        }
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
 
-export default App
+export default App;

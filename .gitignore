@@ -8,7 +8,6 @@
 /dataSources.local.xml
 # General
 *.properties
-dataSources.xml
 *.log
 *.pid
 *.pid.lock
@@ -22,39 +21,6 @@ dataSources.xml
 .env.test.local
 .env.production.local
 .idea/
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
 *.iml
 *.ipr
 *.iws
@@ -67,9 +33,10 @@ build/
 *.zip
 *.tar.gz
 *.rar
+*.xml
 hs_err_pid*
 *.properties
-README.md
+
 # Maven
 target/
 pom.xml.tag
@@ -81,30 +48,7 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
 # IntelliJ IDEA
 /.idea/
 *.iws
@@ -213,3 +157,5 @@ dist
 
 # TernJS port file
 .tern-port
+
+.idea

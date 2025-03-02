@@ -1,33 +1,67 @@
-HELP.md
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.pid.lock
+*.seed
+*.state
+
+# Maven-related files
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Java-related files
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.rar
+*.zip
+*.tar.gz
+hs_err_pid*
 
-### IntelliJ IDEA ###
-.idea
-*.iws
+# Editor settings and IDE files (IntelliJ, VSCode)
+.idea/
 *.iml
 *.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+*.iws
+/out/
 .vscode/
+!.vscode/extensions.json
+
+# Datasource local storage ignored files
+/dataSources/
+dataSources.xml
+dataSources.local.xml
+
+# dotenv environment variables files
+.env
+.env.test
+.env.production
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore all .properties files
+*.properties
+
+# Local files
+*.local
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
