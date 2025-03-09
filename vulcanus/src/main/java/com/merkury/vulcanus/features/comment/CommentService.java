@@ -32,7 +32,7 @@ public class CommentService {
     private final UserDataService userDataService;
 
     public Page<CommentDto> getCommentsBySpotId(HttpServletRequest request, Long spotId, Pageable pageable) {
-        Page<Comment> commentsPage = commentRepository.findAllCommentsBySpotIdOrderByPublishDateDesc(spotId, pageable);
+        Page<Comment> commentsPage = commentRepository.findBySpotIdOrderByPublishDateDescIdAsc(spotId, pageable);
         var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
 
         return commentsPage.map(comment -> CommentMapper.toDto(comment, user));

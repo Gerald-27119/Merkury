@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    Page<Comment> findAllCommentsBySpotIdOrderByPublishDateDesc(Long spotId, Pageable pageable);
+    Page<Comment> findBySpotIdOrderByPublishDateDescIdAsc(Long spotId, Pageable pageable);
     Optional<Comment> findCommentByIdAndAuthor(Long commentId, UserEntity author);
     List<Comment> findBySpotId(Long spotId);
 }
