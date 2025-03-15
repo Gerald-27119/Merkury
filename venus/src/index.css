@@ -13,3 +13,8 @@
     height: 95vh;
     width: 100%;
 }
+
+.custom-rate .ant-rate-star:not(.ant-rate-star-full) .ant-rate-star-second {
+    color: #404040;
+}
+
