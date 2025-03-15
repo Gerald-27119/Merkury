@@ -16,7 +16,8 @@ export default function Header() {
   const isLogged = useSelector((state) => state.account.isLogged);
 
   const links = [
-    { to: "/", label: "Map" },
+    { to: "/", label: "Main Page" },
+    { to: "/map", label: "Map" },
     { to: "/account", label: isLogged ? "My Account" : "Account" },
     ...(isLogged ? [{ to: "/forum", label: "Forum" }] : []),
   ];
@@ -71,7 +72,7 @@ export default function Header() {
           )}
         </div>
       </nav>
-      {pathname === "/" && <SpotsFilters />}
+      {pathname === "/map" && <SpotsFilters />}
     </header>
   );
 }

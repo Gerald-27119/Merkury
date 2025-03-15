@@ -1,8 +1,8 @@
-import Map from "../map/Map.jsx";
 import SpotDetails from "../spot/SpotDetails.jsx";
+import Map from "./Map.jsx";
 import { useSelector } from "react-redux";
 
-export default function WelcomePage() {
+export default function SpotMapViewer() {
   const showDetailsModal = useSelector((state) => state.spotDetails.showModal);
   return (
     <div className="relative w-full h-full">
