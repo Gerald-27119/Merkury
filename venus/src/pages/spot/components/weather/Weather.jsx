@@ -39,7 +39,7 @@ export default function Weather({ spot }) {
   const weatherData = getWeatherData(data);
 
   return (
-    <div className="flex flex-col space-y-2 p-2 rounded-md shadow-md bg-white">
+    <div className="flex flex-col space-y-2 p-2 rounded-md shadow-md bg-darkBgSoft">
       <h1 className="font-semibold text-xl text-center">Weather</h1>
       <div className="flex flex-col space-y-2">
         <WeatherRow>

@@ -40,8 +40,8 @@ export default function PhotoGallery({ photos }) {
   return (
     <>
       {photos && photos.length > 0 ? (
-        <div className="flex justify-center items-stretch border my-1.5">
-          <div className="flex items-center  min-h-full bg-gray-950 flex-grow justify-center">
+        <div className="flex justify-center items-stretch rounded-md my-1.5">
+          <div className="flex items-center  min-h-full bg-darkBgSoft rounded-l-md flex-grow justify-center">
             <RiArrowLeftWideLine
               size={25}
               onClick={handleClickPreviousPhoto}
@@ -55,7 +55,7 @@ export default function PhotoGallery({ photos }) {
             photo={photos[currentPhotoIndex]}
             onClick={handleClickExpandPhoto}
           />
-          <div className="flex items-center min-h-full bg-gray-950 flex-grow justify-center">
+          <div className="flex items-center min-h-full bg-darkBgSoft rounded-r-md flex-grow justify-center">
             <RiArrowRightWideLine
               size={25}
               onClick={handleClickNextPhoto}
