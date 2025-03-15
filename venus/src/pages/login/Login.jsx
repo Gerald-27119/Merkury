@@ -44,7 +44,7 @@ function Login() {
       showLink={true}
       notificationMessage="Signed in successfully!"
     >
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-3">
         <Input
           id="username"
           label="Username"
@@ -67,14 +67,21 @@ function Login() {
         <div className={"remember-forgot flex justify-between"}>
           <Link
             to="/forgot-password"
-            className="text-blue-700 text-sm hover:underline"
+            className="text-blue-500 text-sm hover:underline"
           >
             Forgot Password?
           </Link>
         </div>
         <button
           type="submit"
-          className="bg-mainBlue p-3 mt-3 text-darkText rounded-lg w-full hover:bg-mainBlueDarker"
+          className={`bg-mainBlue p-3 mt-3 text-darkText rounded-lg w-full ${
+            didEdit.username &&
+            didEdit.password &&
+            isValid.password.value &&
+            isValid.username.value
+              ? " hover:bg-mainBlueDarker"
+              : ""
+          }`}
           disabled={
             !didEdit.username ||
             !didEdit.password ||
