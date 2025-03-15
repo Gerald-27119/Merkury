@@ -7,7 +7,7 @@ export default function Home() {
         <h1 className="text-3xl uppercase font-semibold text-center mt-3">
           Filters
         </h1>
-        <div className="flex flex-col w-full items-center">
+        <div className="flex flex-col w-full items-center space-y-1">
           <label className="font-semibold text-lg">Sort</label>
           <select className="py-2 px-3 rounded-md w-3/4 focus:outline-none bg-darkBgMuted focus:ring-1 dark:focus:ring-darkBorder focus:ring-lightBorder">
             <option>Default</option>
@@ -17,14 +17,14 @@ export default function Home() {
             <option>Decrease by rating</option>
           </select>
         </div>
-        <div className="flex flex-col w-full items-center">
+        <div className="flex flex-col w-full items-center space-y-1">
           <label className="font-semibold text-lg ">City</label>
           <input
             type="text"
             className="py-2 px-3 rounded-md  w-3/4 focus:outline-none bg-darkBgMuted focus:ring-1 dark:focus:ring-darkBorder focus:ring-lightBorder"
           />
         </div>
-        <div className="flex flex-col w-3/4 items-center">
+        <div className="flex flex-col w-3/4 items-center space-y-1">
           <h1 className="font-semibold text-lg">Rating</h1>
           <div className="flex justify-around bg-darkBgMuted pb-2 pt-1 rounded-md w-full">
             <div className="flex flex-col">
@@ -89,9 +89,8 @@ export default function Home() {
             </label>
           </div>
         </div>
-
         <div className="w-full flex flex-col items-center space-y-2">
-          <label className="">Drone weight</label>
+          <label className="font-semibold text-lg">Drone weight</label>
           <input
             type="range"
             min={0}
