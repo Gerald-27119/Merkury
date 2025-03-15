@@ -1,8 +1,14 @@
 import { FaLocationDot } from "react-icons/fa6";
 import { Rate } from "antd";
 import { RiArrowDownSFill } from "react-icons/ri";
+import { useState } from "react";
+import SpotProfile from "./SpotProfile.jsx";
 
 export default function Spot({ spot }) {
+  const [isTileExpanded, setIsTileExpanded] = useState(false);
+  const handleClickToggleExpandFile = () => {
+    setIsTileExpanded((prevState) => !prevState);
+  };
   return (
     <div className="w-fit border-2 rounded-2xl my-1">
       <div className="flex items-center space-x-3 my-2 ml-2">
@@ -11,9 +17,9 @@ export default function Spot({ spot }) {
       </div>
       <div className="flex">
         <img
-          src={spot.photos[0]?.url}
+          src={spot.photos[0]?.img}
           alt={spot.name}
-          className="w-80 h-72 rounded-bl-2xl"
+          className={`w-80 h-72 ${!isTileExpanded ? "rounded-bl-2xl" : ""}`}
         />
         <div className="h-72 flex-col flex justify-between">
           <div className="flex pr-6">
@@ -31,10 +37,34 @@ export default function Spot({ spot }) {
               ))}
             </ul>
           </div>
-          <button className="flex items-center border-2 rounded-md w-fit mx-auto mb-3.5 px-1.5 hover:bg-gray-800 hover:border-zinc-600 hover:text-zinc-300">
-            Read more <RiArrowDownSFill size={35} />
+          <button
+            onClick={handleClickToggleExpandFile}
+            className="flex items-center justify-center border-2 rounded-md w-48 mx-auto mb-3.5 px-1.5 hover:bg-gray-800 hover:border-zinc-600 hover:text-zinc-300"
+          >
+            {isTileExpanded ? (
+              <>
+                Hide{" "}
+                <RiArrowDownSFill
+                  size={35}
+                  className={`transform transition duration-500 ${isTileExpanded ? "rotate-180" : ""}`}
+                />
+              </>
+            ) : (
+              <>
+                Read more{" "}
+                <RiArrowDownSFill
+                  size={35}
+                  className={`transform transition duration-500 ${isTileExpanded ? "rotate-180" : ""}`}
+                />
+              </>
+            )}
           </button>
         </div>
+      </div>
+      <div
+        className={`transition-all duration-500 ${isTileExpanded ? "max-h-screen opacity-100" : "max-h-0 opacity-0 overflow-hidden"}`}
+      >
+        <SpotProfile photos={spot.photos} comments={spot.comments} />
       </div>
     </div>
   );

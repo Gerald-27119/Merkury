@@ -10,19 +10,19 @@ export const SPOTS = [
     photos: [
       {
         id: 1,
-        url: "https://upload.wikimedia.org/wikipedia/commons/8/8f/John_III_Sobieski_Monument_in_Gda%C5%84sk_2669.JPG",
+        img: "https://upload.wikimedia.org/wikipedia/commons/8/8f/John_III_Sobieski_Monument_in_Gda%C5%84sk_2669.JPG",
         title: "pomnik",
         description: "pomnik",
       },
       {
         id: 2,
-        url: "https://gaps.gda.pl/wp-content/uploads/2021/09/SM_065-1-1024x681.jpg",
+        img: "https://gaps.gda.pl/wp-content/uploads/2021/09/SM_065-1-1024x681.jpg",
         title: "pomnik",
         description: "pomnik",
       },
       {
         id: 3,
-        url: "https://i1.nocimg.pl/d6/416/158-gdansk-pomnik-jana-iii-sobieskiego.jpg",
+        img: "https://i1.nocimg.pl/d6/416/158-gdansk-pomnik-jana-iii-sobieskiego.jpg",
         title: "pomnik",
         description: "pomnik",
       },
@@ -117,19 +117,19 @@ export const SPOTS = [
     photos: [
       {
         id: 4,
-        url: "https://lh5.googleusercontent.com/p/AF1QipONWLJ_OEhtiG9pHEZbmmBNZiaQuVG82uROLoj9=w408-h306-k-no",
+        img: "https://lh5.googleusercontent.com/p/AF1QipONWLJ_OEhtiG9pHEZbmmBNZiaQuVG82uROLoj9=w408-h306-k-no",
         title: "skwer",
         description: "skwer",
       },
       {
         id: 5,
-        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Gda%C5%84sk_Skwer_Czes%C5%82awa_Niemena.JPG/2560px-Gda%C5%84sk_Skwer_Czes%C5%82awa_Niemena.JPG",
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Gda%C5%84sk_Skwer_Czes%C5%82awa_Niemena.JPG/2560px-Gda%C5%84sk_Skwer_Czes%C5%82awa_Niemena.JPG",
         title: "skwer",
         description: "skwer",
       },
       {
         id: 6,
-        url: "https://s-trojmiasto.pl/zdj/c/n/9/2986/750x600/2986010-Zielen-na-terenie-skweru-Niemena.webp",
+        img: "https://s-trojmiasto.pl/zdj/c/n/9/2986/750x600/2986010-Zielen-na-terenie-skweru-Niemena.webp",
         title: "skwer",
         description: "skwer",
       },
@@ -163,19 +163,19 @@ export const SPOTS = [
     photos: [
       {
         id: 7,
-        url: "https://s-trojmiasto.pl/zdj/c/n/9/2922/1920x0/2922075-Obecnie-to-nieco-zapomniany-teren-ktory-czeka-na-rewitalizacje.webp",
+        img: "https://s-trojmiasto.pl/zdj/c/n/9/2922/1920x0/2922075-Obecnie-to-nieco-zapomniany-teren-ktory-czeka-na-rewitalizacje.webp",
         title: "park wałowy",
         description: "park wałowy",
       },
       {
         id: 8,
-        url: "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=gmCXVf6Sftf-V9WiIuwVUg&cb_client=search.gws-prod.gps&w=408&h=240&yaw=232.89917&pitch=0&thumbfov=100",
+        img: "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=gmCXVf6Sftf-V9WiIuwVUg&cb_client=search.gws-prod.gps&w=408&h=240&yaw=232.89917&pitch=0&thumbfov=100",
         title: "park wałowy",
         description: "park wałowy",
       },
       {
         id: 9,
-        url: "https://s-trojmiasto.pl/zdj/c/n/9/2331/1500x0/2331938-Obecnie-plac-Walowy-to-zaniedbane-miejsce.webp",
+        img: "https://s-trojmiasto.pl/zdj/c/n/9/2331/1500x0/2331938-Obecnie-plac-Walowy-to-zaniedbane-miejsce.webp",
         title: "park wałowy",
         description: "park wałowy",
       },
@@ -209,19 +209,19 @@ export const SPOTS = [
     photos: [
       {
         id: 10,
-        url: "https://lh5.googleusercontent.com/p/AF1QipMBnWPy-4MYt0WQbIC8HafWEPN7GwTl6I7XrWdN=w408-h544-k-no",
+        img: "https://lh5.googleusercontent.com/p/AF1QipMBnWPy-4MYt0WQbIC8HafWEPN7GwTl6I7XrWdN=w408-h544-k-no",
         title: "park",
         description: "park",
       },
       {
         id: 11,
-        url: "https://lh5.googleusercontent.com/p/AF1QipMT3elr7EwlwKnqxpmGfoQ2lOlYxR213NagDzOK=w408-h725-k-no",
+        img: "https://lh5.googleusercontent.com/p/AF1QipMT3elr7EwlwKnqxpmGfoQ2lOlYxR213NagDzOK=w408-h725-k-no",
         title: "park",
         description: "park",
       },
       {
         id: 12,
-        url: "https://gdansk.gedanopedia.pl/images/6/63/Pomnik_kwiat.JPG",
+        img: "https://gdansk.gedanopedia.pl/images/6/63/Pomnik_kwiat.JPG",
         title: "park",
         description: "park",
       },
@@ -255,19 +255,19 @@ export const SPOTS = [
     photos: [
       {
         id: 13,
-        url: "https://d-art.ppstatic.pl/kadry/k/r/75/0b/59b1497fa1405_o_original.jpg",
+        img: "https://d-art.ppstatic.pl/kadry/k/r/75/0b/59b1497fa1405_o_original.jpg",
         title: "jar",
         description: "jar",
       },
       {
         id: 14,
-        url: "https://s-trojmiasto.pl/zdj/c/n/9/2189/1500x0/2189954-We-wschodniej-czesci-jaru-powstaly-m-in-pola-do-minigolfa-stoly-pingpongowe-oraz-plac-sasiedzki.webp",
+        img: "https://s-trojmiasto.pl/zdj/c/n/9/2189/1500x0/2189954-We-wschodniej-czesci-jaru-powstaly-m-in-pola-do-minigolfa-stoly-pingpongowe-oraz-plac-sasiedzki.webp",
         title: "jar",
         description: "jar",
       },
       {
         id: 15,
-        url: "https://foto.cloudgdansk.pl/foto/Jar_Wilanowski_81897_1280px.JPG",
+        img: "https://foto.cloudgdansk.pl/foto/Jar_Wilanowski_81897_1280px.JPG",
         title: "jar",
         description: "jar",
       },
@@ -302,19 +302,19 @@ export const SPOTS = [
     photos: [
       {
         id: 16,
-        url: "https://gaps.gda.pl/wp-content/uploads/2021/08/SM_031-1-1024x681.jpg",
+        img: "https://gaps.gda.pl/wp-content/uploads/2021/08/SM_031-1-1024x681.jpg",
         title: "plac kobzdeja",
         description: "plac kobzdeja",
       },
       {
         id: 17,
-        url: "https://upload.wikimedia.org/wikipedia/commons/a/ab/Gdansk-plac_Kobzdeja-obelisk-Herbert.jpg",
+        img: "https://upload.wikimedia.org/wikipedia/commons/a/ab/Gdansk-plac_Kobzdeja-obelisk-Herbert.jpg",
         title: "plac kobzdeja",
         description: "plac kobzdeja",
       },
       {
         id: 18,
-        url: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Gda%C5%84sk_plac_Kobzdeja.JPG",
+        img: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Gda%C5%84sk_plac_Kobzdeja.JPG",
         title: "plac kobzdeja",
         description: "plac kobzdeja",
       },
@@ -348,19 +348,19 @@ export const SPOTS = [
     photos: [
       {
         id: 19,
-        url: "https://lh5.googleusercontent.com/p/AF1QipPV2HWroKJF1MEQ542bKpmIlLGNj42dNJM2N2w=w408-h306-k-no",
+        img: "https://lh5.googleusercontent.com/p/AF1QipPV2HWroKJF1MEQ542bKpmIlLGNj42dNJM2N2w=w408-h306-k-no",
         title: "wrona",
         description: "wrona",
       },
       {
         id: 20,
-        url: "https://files.cloudgdansk.pl/files/objects/thumb/10155_275.jpg",
+        img: "https://files.cloudgdansk.pl/files/objects/thumb/10155_275.jpg",
         title: "wrona",
         description: "wrona",
       },
       {
         id: 21,
-        url: "https://ibedeker.pl/wp-content/gallery/wronia-gorka/img_2006.jpg",
+        img: "https://ibedeker.pl/wp-content/gallery/wronia-gorka/img_2006.jpg",
         title: "wrona",
         description: "wrona",
       },
@@ -394,19 +394,19 @@ export const SPOTS = [
     photos: [
       {
         id: 22,
-        url: "https://lh5.googleusercontent.com/p/AF1QipMF6_xAfFIKoVnLYaW5agOblgtiDZUomDBDUuCt=w408-h306-k-no",
+        img: "https://lh5.googleusercontent.com/p/AF1QipMF6_xAfFIKoVnLYaW5agOblgtiDZUomDBDUuCt=w408-h306-k-no",
         title: "plaża",
         description: "plaża",
       },
       {
         id: 23,
-        url: "https://stogi.info.pl/wp-content/uploads/2024/02/Kompleksowy_przewodnik_po_plazy_Jelitkowo_atrakcje_historia_i_ciekawostki_2-1080x675.jpg",
+        img: "https://stogi.info.pl/wp-content/uploads/2024/02/Kompleksowy_przewodnik_po_plazy_Jelitkowo_atrakcje_historia_i_ciekawostki_2-1080x675.jpg",
         title: "plaża",
         description: "plaża",
       },
       {
         id: 24,
-        url: "https://i.ytimg.com/vi/hs9TdD8TZd4/maxresdefault.jpg",
+        img: "https://i.ytimg.com/vi/hs9TdD8TZd4/maxresdefault.jpg",
         title: "plaża",
         description: "plaża",
       },
@@ -441,19 +441,19 @@ export const SPOTS = [
     photos: [
       {
         id: 25,
-        url: "https://d-art.ppstatic.pl/kadry/k/r/9c/65/5df1faf14a73e_o_large.jpg",
+        img: "https://d-art.ppstatic.pl/kadry/k/r/9c/65/5df1faf14a73e_o_large.jpg",
         title: "orunia",
         description: "orunia",
       },
       {
         id: 26,
-        url: "https://lh5.googleusercontent.com/p/AF1QipOL4nY6WdI-icmazsrcesbFB9zkd1WSsgQFSnah=w408-h306-k-no",
+        img: "https://lh5.googleusercontent.com/p/AF1QipOL4nY6WdI-icmazsrcesbFB9zkd1WSsgQFSnah=w408-h306-k-no",
         title: "orunia",
         description: "orunia",
       },
       {
         id: 27,
-        url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRR-F1umTowNMlCuAQNZwmd6p4Xet-hQg0bQ&s",
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRR-F1umTowNMlCuAQNZwmd6p4Xet-hQg0bQ&s",
         title: "orunia",
         description: "orunia",
       },
@@ -488,13 +488,13 @@ export const SPOTS = [
     photos: [
       {
         id: 28,
-        url: "https://lh5.googleusercontent.com/p/AF1QipPfl720UMdhBi_3zoXU2qJJ2QJABydhihYSO3WX=w408-h306-k-no",
+        img: "https://lh5.googleusercontent.com/p/AF1QipPfl720UMdhBi_3zoXU2qJJ2QJABydhihYSO3WX=w408-h306-k-no",
         title: "workout",
         description: "workout",
       },
       {
         id: 29,
-        url: "https://files.cloudgdansk.pl/files/objects/thumb/10276_275.jpg",
+        img: "https://files.cloudgdansk.pl/files/objects/thumb/10276_275.jpg",
         title: "workout",
         description: "workout",
       },
