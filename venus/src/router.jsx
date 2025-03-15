@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Error from "./components/error/Error.jsx";
-import MainPage from "./pages/welcome/MainPage.jsx";
+import MainPage from "./pages/main-page/MainPage.jsx";
 import Register from "./pages/register/Register.jsx";
 import Login from "./pages/login/Login.jsx";
 import ForgotPassword from "./pages/forgot-password/ForgotPassword.jsx";
