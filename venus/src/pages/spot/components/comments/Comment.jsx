@@ -40,7 +40,7 @@ export default function Comment({ comment, onEdit, onDelete, onVote }) {
   }
 
   return (
-    <div className="border border-stone-400 rounded-md m-1 p-2">
+    <div className="border border-stone-400 rounded-md m-1 p-2 max-w-96">
       <div className="flex mb-1 justify-between">
         <div>
           <p className="text-xs">{formatPublishDate(comment.publishDate)}</p>

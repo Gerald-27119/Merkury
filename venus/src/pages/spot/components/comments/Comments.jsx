@@ -130,9 +130,9 @@ export default function Comments({ spotId, isUserLoggedIn }) {
       {error && <Error error={error} />}
       {isLoading && <LoadingSpinner />}
 
-      <p className="text-lg">Comments:</p>
+      <p className="text-lg w-fit">Comments:</p>
       {data && data.content.length >= 0 ? (
-        <div className="border-2 border-neutral-200 px-2.5 py-1 rounded-sm">
+        <div className="px-2.5 py-1 rounded-sm flex flex-col items-center">
           <ul>
             {data.content.map((comment) => (
               <li key={comment.id}>

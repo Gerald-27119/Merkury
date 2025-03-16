@@ -24,7 +24,7 @@ export default function Error({ error }) {
     return <Navigate to="/" />;
   }
 
-  if (routeError.message) {
+  if (routeError?.message) {
     message = routeError.message;
   }
   return (
@@ -32,9 +32,9 @@ export default function Error({ error }) {
       <h1 className="text-red-600 text-4xl font-bold text-center m-4">
         Error occurred!
       </h1>
-      {routeError.status && (
+      {routeError?.status && (
         <p className="text-center text-xl text-yellow-400">
-          Status code: {routeError.status}
+          Status code: {routeError?.status}
         </p>
       )}
       <p className="text-yellow-400 text-center text-xl m-4">{message}</p>

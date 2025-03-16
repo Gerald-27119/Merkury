@@ -71,7 +71,7 @@ export default function Spot({ spot }) {
       <div
         className={`transition-all duration-500 ${isTileExpanded ? "max-h-screen opacity-100" : "max-h-0 opacity-0 overflow-hidden"}`}
       >
-        <SpotProfile photos={spot.photos} comments={spot.comments} />
+        <SpotProfile photos={spot.photos} spotId={spot.id} />
       </div>
     </div>
   );
