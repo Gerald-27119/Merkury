@@ -3,6 +3,7 @@ import { Rate } from "antd";
 import { RiArrowDownSFill } from "react-icons/ri";
 import { useState } from "react";
 import SpotProfile from "./SpotProfile.jsx";
+import { TfiMapAlt } from "react-icons/tfi";
 
 export default function Spot({ spot }) {
   const [isTileExpanded, setIsTileExpanded] = useState(false);
@@ -11,9 +12,15 @@ export default function Spot({ spot }) {
   };
   return (
     <div className="w-fit border-2 rounded-2xl my-1">
-      <div className="flex items-center space-x-3 my-2 ml-2">
-        <FaLocationDot size={17} className="text-red-500" />
-        <h3 className="text-lg">{spot.location}</h3>
+      <div className="flex space-x-6 mb-2">
+        <div className="flex items-center space-x-3 my-2 ml-2">
+          <FaLocationDot size={17} className="text-red-500" />
+          <h3 className="text-lg">{spot.location}</h3>
+        </div>
+        <div className="flex items-center space-x-2 cursor-pointer justify-end mr-3.5 w-fit ml-auto">
+          <span className="text-lg">See on the map</span>
+          <TfiMapAlt size={30} />
+        </div>
       </div>
       <div className="flex">
         <img
