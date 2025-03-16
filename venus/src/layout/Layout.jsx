@@ -1,9 +1,11 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Footer from "./footer/Footer.jsx";
 import Header from "./header/Header.jsx";
 import Notification from "../components/notification/Notification.jsx";
 
 export default function Layout() {
+  const location = useLocation();
+
   return (
     <>
       <Header />
@@ -11,7 +13,7 @@ export default function Layout() {
         <Notification title="test" message="message" />
         <Outlet />
       </main>
-      <Footer />
+      {location.pathname !== "/map" && <Footer />}
     </>
   );
 }
