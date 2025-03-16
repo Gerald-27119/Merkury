@@ -11,7 +11,7 @@ export default function Input({
     classesInput += " outline  outline-red-600";
   }
   return (
-    <div className="flex flex-col">
+    <div className="flex">
       <label
         htmlFor={id}
         className={
