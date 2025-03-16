@@ -7,6 +7,11 @@ export default {
       height: {
         "1/10": "10%",
       },
+      fontFamily: {
+        noto: ['"Noto Sans"', "sans-serif"],
+        outfit: ["Outfit", "sans-serif"],
+        moderustic: ["Moderustic", "sans-serif"],
+      },
       colors: {
         mainBlue: "#4242f0",
         mainBlueDarker: "#0d0db5",

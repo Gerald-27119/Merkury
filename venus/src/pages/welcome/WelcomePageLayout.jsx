@@ -1,13 +1,12 @@
 import { Outlet } from "react-router-dom";
-import Footer from "./footer/Footer.jsx";
-import Header from "./header/Header.jsx";
+import Header from "../layout/header/Header.jsx";
 import Notification from "../components/notification/Notification.jsx";
 
-export default function Layout() {
+export default function We() {
   return (
     <>
       <Header />
-      <main className="flex flex-col justify-center items-center relative">
+      <main className="flex flex-col justify-center items-center relative overflow-hidden">
         <Notification title="test" message="message" />
         <Outlet />
       </main>

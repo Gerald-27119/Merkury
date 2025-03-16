@@ -47,7 +47,7 @@ export default function SpotDetails() {
   return (
     <div className="w-full h-full absolute flex">
       <div
-        className={`h-full w-1/5 bg-white z-50 overflow-y-auto ${
+        className={`h-full w-[25vw] bg-white z-50 overflow-y-auto ${
           showDetailsModal && "animate-slideInFromLeft"
         }`}
       >

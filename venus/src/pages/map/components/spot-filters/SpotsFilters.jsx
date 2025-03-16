@@ -79,7 +79,7 @@ export default function SpotsFilters() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-end justify-center text-base mt-5 space-x-3"
+      className="flex items-end justify-center text-base mt-5 space-x-3 absolute w-[30vw] z-[52] top-1 left-1/2 bg-black top-2/4"
     >
       <div className="flex items-center relative">
         <LiaSearchSolid size={30} className="mr-2 mt-1 text-white" />
@@ -105,25 +105,25 @@ export default function SpotsFilters() {
           </ul>
         )}
       </div>
-      <div className="flex flex-col items-center">
-        <p className="text-white text-lg">Rating:</p>
-        <div className="flex space-x-3">
-          <label className="text-white">FROM</label>
-          <Rate
-            allowHalf
-            value={filters.minRating}
-            onChange={handleMinRatingChange}
-            className="bg-white rounded-md p-0.5 "
-          />
-          <label className="text-white">TO</label>
-          <Rate
-            allowHalf
-            value={filters.maxRating}
-            onChange={handleMaxRatingChange}
-            className="bg-white rounded-md p-0.5"
-          />
-        </div>
-      </div>
+      {/*<div className="flex flex-col items-center">*/}
+      {/*  <p className="text-white text-lg">Rating:</p>*/}
+      {/*  <div className="flex space-x-3">*/}
+      {/*    <label className="text-white">FROM</label>*/}
+      {/*    <Rate*/}
+      {/*      allowHalf*/}
+      {/*      value={filters.minRating}*/}
+      {/*      onChange={handleMinRatingChange}*/}
+      {/*      className="bg-white rounded-md p-0.5 "*/}
+      {/*    />*/}
+      {/*    <label className="text-white">TO</label>*/}
+      {/*    <Rate*/}
+      {/*      allowHalf*/}
+      {/*      value={filters.maxRating}*/}
+      {/*      onChange={handleMaxRatingChange}*/}
+      {/*      className="bg-white rounded-md p-0.5"*/}
+      {/*    />*/}
+      {/*  </div>*/}
+      {/*</div>*/}
       <button
         type="submit"
         className="text-white bg-teal-400 hover:bg-emerald-400 p-2 rounded-md"
