@@ -1,14 +1,14 @@
-import { RiArrowLeftWideLine } from "react-icons/ri";
-import { RiArrowRightWideLine } from "react-icons/ri";
+import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import Photo from "./Photo.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { photoAction } from "../../../../redux/photo.jsx";
 import { photoGalleryAction } from "../../../../redux/photo-gallery.jsx";
 import { useEffect } from "react";
 
-const disabledBtnClasses = "bg-gray-300 border border-red-600 text-zinc-950";
+const disabledBtnClasses =
+  "bg-gray-300 border border-red-600 text-zinc-950 rounded-full";
 const activeBtnClasses =
-  "bg-neutral-600 text-slate-50 cursor-pointer hover:bg-neutral-400 hover:text-zinc-950";
+  "text-slate-50 cursor-pointer invisible group-hover:visible";
 
 export default function PhotoGallery({ photos }) {
   const dispatch = useDispatch();
@@ -41,9 +41,9 @@ export default function PhotoGallery({ photos }) {
     <>
       {photos && photos.length > 0 ? (
         <div className="flex justify-center items-stretch border my-1.5">
-          <div className="flex items-center  min-h-full bg-gray-950 flex-grow justify-center">
-            <RiArrowLeftWideLine
-              size={25}
+          <div className="flex items-center min-h-full bg-gray-900 flex-grow justify-center group">
+            <BsChevronCompactLeft
+              size={50}
               onClick={handleClickPreviousPhoto}
               className={
                 currentPhotoIndex === 0 ? disabledBtnClasses : activeBtnClasses
@@ -51,13 +51,13 @@ export default function PhotoGallery({ photos }) {
             />
           </div>
           <Photo
-            className="h-56 w-96 md:h-40 cursor-pointer"
+            className="h-80 w-96 cursor-pointer"
             photo={photos[currentPhotoIndex]}
             onClick={handleClickExpandPhoto}
           />
-          <div className="flex items-center min-h-full bg-gray-950 flex-grow justify-center">
-            <RiArrowRightWideLine
-              size={25}
+          <div className="flex items-center min-h-full bg-gray-900 flex-grow justify-center group">
+            <BsChevronCompactRight
+              size={50}
               onClick={handleClickNextPhoto}
               className={
                 currentPhotoIndex === numberOfPhotos - 1
