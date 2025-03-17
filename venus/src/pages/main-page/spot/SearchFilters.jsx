@@ -130,7 +130,7 @@ export default function SearchFilters() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col justify-center text-base mt-5 space-x-3"
+      className="flex flex-col items-center text-base mt-5"
     >
       <div className="flex flex-col items-center space-y-4 relative">
         <div className="relative">
@@ -188,33 +188,39 @@ export default function SearchFilters() {
           )}
         </div>
       </div>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center mt-3">
         <p className="text-white text-lg mt-2">Rating:</p>
-        <div className="flex flex-col space-y-3">
-          <label className="text-white">FROM</label>
-          <Rate
-            allowHalf
-            value={filters.minRating}
-            onChange={handleMinRatingChange}
-            className="bg-white rounded-md p-0.5 "
-          />
-          <label className="text-white">TO</label>
-          <Rate
-            allowHalf
-            value={filters.maxRating}
-            onChange={handleMaxRatingChange}
-            className="bg-white rounded-md p-0.5"
-          />
+        <div className="flex flex-col space-y-3 items-end">
+          <div className="flex space-x-3 items-center">
+            <label className="text-white">FROM</label>
+            <div className="custom-rate mt-1">
+              <Rate
+                allowHalf
+                value={filters.minRating}
+                onChange={handleMinRatingChange}
+              />
+            </div>
+          </div>
+          <div className="flex space-x-3 items-center">
+            <label className="text-white">TO</label>
+            <div className="custom-rate mt-1">
+              <Rate
+                allowHalf
+                value={filters.maxRating}
+                onChange={handleMaxRatingChange}
+              />
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mt-4">
           <p className="text-white text-lg w-28">Tags:</p>
-          <div className="flex flex-col items-end space-x-3 mr-10 text-lg text-white ">
+          <div className="flex flex-col items-end text-lg text-white ">
             {CATEGORIES.map((category) => (
               <button
                 onClick={() => handleCategoryChange(category)}
                 className={
                   filters.categories.includes(category)
-                    ? "border-2 border-emerald-600 w-28 my-1.5 rounded-md text-emerald-600 font-bold"
+                    ? "border-2 border-emerald-600 w-28 my-1.5 rounded-md text-emerald-600 font-semibold"
                     : "border-2 border-white w-28 my-1.5 rounded-md"
                 }
               >
@@ -226,7 +232,7 @@ export default function SearchFilters() {
       </div>
       <button
         type="submit"
-        className="text-white bg-teal-400 hover:bg-emerald-400 p-2 rounded-md mt-4"
+        className="text-white text-center text-lg hover:font-semibold bg-emerald-600 hover:bg-emerald-700 p-2 rounded-md mt-4 w-36"
       >
         Apply filters
       </button>

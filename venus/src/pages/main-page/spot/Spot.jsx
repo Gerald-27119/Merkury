@@ -37,10 +37,15 @@ export default function Spot({ spot }) {
               <h2 className="text-xl max-w-36">{spot.name}</h2>
               <span className="block w-72">{spot.description}</span>
             </div>
-            <ul className="list-disc text-left ml-4">
+            <ul>
               <h3 className="text-lg">Tags:</h3>
               {spot.categories.map((category) => (
-                <li key={category}>{category}</li>
+                <li
+                  key={category}
+                  className="border border-white rounded-md text-center w-20 my-1.5 py-1 px-0.5"
+                >
+                  {category}
+                </li>
               ))}
             </ul>
           </div>
