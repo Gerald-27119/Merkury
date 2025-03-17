@@ -72,7 +72,7 @@ export default function Header() {
           )}
         </div>
       </nav>
-      {(pathname === "/map" || pathname === "/") && <SpotsFilters />}
+      {pathname === "/map" && <SpotsFilters />}
     </header>
   );
 }
