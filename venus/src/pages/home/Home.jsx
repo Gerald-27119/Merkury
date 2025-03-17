@@ -5,15 +5,35 @@ import Select from "./components/Select.jsx";
 import SearchBar from "./components/SearchBar.jsx";
 import SpotTile from "./components/SpotTile.jsx";
 import { useQuery } from "@tanstack/react-query";
-import { fetchFilteredSpots } from "../../http/spots-data.js";
+import {
+  fetchFilteredSpots,
+  fetchUserFavouriteSpots,
+} from "../../http/spots-data.js";
+import { useSelector } from "react-redux";
+import { FaLocationDot } from "react-icons/fa6";
 
-export default function Home() {
+export default function Home({
+  isAdvance,
+  handleToSimpleSearch,
+  handleToAdvanceSearch,
+}) {
   const { data } = useQuery({
     queryFn: () => fetchFilteredSpots("", 0, 5),
     queryKey: ["spots", "filter", "name", 0, 5],
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
+
+  const { data: favorites } = useQuery({
+    queryFn: () => fetchUserFavouriteSpots(0),
+    queryKey: ["favouriteSpots", 0],
+    keepPreviousData: true,
+    staleTime: 10 * 60 * 1000,
+  });
+
+  console.log(favorites.content);
+
+  const isLogged = useSelector((state) => state.account.isLogged);
 
   return (
     <div className="min-h-screen w-full flex text-darkText">
@@ -38,13 +58,48 @@ export default function Home() {
         <Range />
       </div>
       <div className="w-3/4 bg-darkBg flex flex-col items-center space-y-4 p-3 ">
-        <h1 className="text-6xl font-semibold uppercase">All spots</h1>
-        <div className="flex flex-col items-center space-y-4">
+        <div className="space-x-3">
+          <button
+            className={`rounded-full bg-darkBgSoft py-2 px-3 ${!isAdvance && "border border-darkBorder"}`}
+            onClick={handleToSimpleSearch}
+          >
+            Simple search
+          </button>
+          <button
+            onClick={handleToAdvanceSearch}
+            className={`rounded-full bg-darkBgSoft py-2 px-3 ${isAdvance && "border border-darkBorder"}`}
+          >
+            Advance search
+          </button>
+        </div>
+        <ul className="flex flex-col items-center space-y-4">
           {data?.map((spot) => (
             <SpotTile key={spot.id} id={spot.id} />
           ))}
-        </div>
+        </ul>
       </div>
+      {isLogged && (
+        <div className="w-1/4 bg-darkBgSoft flex flex-col space-y-4">
+          <h1 className="text-3xl uppercase font-semibold text-center mt-3">
+            Favorites Spots
+          </h1>
+          <ul className="w-full p-4 flex flex-col space-y-3">
+            {favorites.content?.map((spot) => (
+              <li
+                key={spot?.id}
+                className="h-fit w-full flex items-center p-4 shadow-lg shadow-darkBg bg-darkBgSoft rounded-md rounded-l-lg space-x-6"
+              >
+                <img
+                  className="w-48 aspect-square rounded-full object-cover"
+                  src={spot?.img.img}
+                  alt={spot?.name}
+                />
+                <h1>{spot.name}</h1>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

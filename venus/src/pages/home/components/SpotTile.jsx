@@ -12,7 +12,7 @@ export default function SpotTile({ id }) {
   });
 
   return (
-    <div className="h-fit w-1/2 flex p-4 bg-darkBgSoft rounded-md rounded-l-lg gap-4">
+    <li className="h-fit w-1/2 flex p-4 bg-darkBgSoft rounded-md rounded-l-lg gap-4">
       <img
         className="w-96 aspect-square rounded-full object-cover"
         src={data?.photos[0].img}
@@ -42,6 +42,6 @@ export default function SpotTile({ id }) {
         </div>
         <span className="text-base break-words">{data?.description}</span>
       </div>
-    </div>
+    </li>
   );
 }

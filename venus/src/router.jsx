@@ -11,7 +11,7 @@ import Forum from "./pages/forum/Forum.jsx";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
 import FavouriteSpots from "./pages/favourite-spots/FavouriteSpots.jsx";
-import Home from "./pages/home/Home.jsx";
+import FirstHomePage from "./pages/home/FirstHomePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <FirstHomePage />,
       },
       {
         path: "account",
