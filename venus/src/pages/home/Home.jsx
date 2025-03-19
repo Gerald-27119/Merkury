@@ -31,26 +31,24 @@ export default function Home({
     staleTime: 10 * 60 * 1000,
   });
 
-  console.log(favorites.content);
-
   const isLogged = useSelector((state) => state.account.isLogged);
 
   return (
     <div className="min-h-screen w-full flex text-darkText">
-      <div className="w-1/4 bg-darkBgSoft flex flex-col items-center space-y-4">
+      <div className="w-1/4 bg-darkBgSoft flex flex-col items-center space-y-4 px-4">
         <h1 className="text-3xl uppercase font-semibold text-center mt-3">
           Filters
         </h1>
         <Select />
         <SearchBar />
-        <div className="flex flex-col w-3/4 items-center space-y-1">
+        <div className="flex flex-col w-full items-center space-y-1">
           <h1 className="font-semibold text-lg">Rating</h1>
           <div className="flex justify-around bg-darkBgMuted pb-2 pt-1 rounded-md w-full">
             <Stars value={0} text="from" />
             <Stars value={4} text="to" />
           </div>
         </div>
-        <div className="flex flex-col w-3/4">
+        <div className="flex flex-col w-full">
           <TagCheckbox number={1} />
           <TagCheckbox number={2} />
           <TagCheckbox number={3} />
@@ -84,7 +82,7 @@ export default function Home({
             Favorites Spots
           </h1>
           <ul className="w-full p-4 flex flex-col space-y-3">
-            {favorites.content?.map((spot) => (
+            {favorites?.content?.map((spot) => (
               <li
                 key={spot?.id}
                 className="h-fit w-full flex items-center p-4 shadow-lg shadow-darkBg bg-darkBgSoft rounded-md rounded-l-lg space-x-6"

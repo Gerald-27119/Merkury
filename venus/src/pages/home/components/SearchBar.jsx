@@ -4,7 +4,7 @@ export default function SearchBar() {
       <label className="font-semibold text-lg ">City</label>
       <input
         type="text"
-        className="py-2 px-3 rounded-md  w-3/4 focus:outline-none bg-darkBgMuted focus:ring-1 dark:focus:ring-darkBorder focus:ring-lightBorder"
+        className="py-2 px-3 rounded-md  w-full focus:outline-none bg-darkBgMuted focus:ring-1 dark:focus:ring-darkBorder focus:ring-lightBorder"
       />
     </div>
   );

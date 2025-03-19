@@ -2,6 +2,7 @@ import Stars from "./Stars.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSpotsDataById } from "../../../http/spots-data.js";
 import { FaLocationDot } from "react-icons/fa6";
+import { FaRegEye } from "react-icons/fa";
 
 export default function SpotTile({ id }) {
   const { data } = useQuery({
@@ -12,17 +13,23 @@ export default function SpotTile({ id }) {
   });
 
   return (
-    <li className="h-fit w-1/2 flex p-4 bg-darkBgSoft rounded-md rounded-l-lg gap-4">
+    <li className="h-fit w-3/4 flex bg-darkBgSoft rounded-lg gap-4">
       <img
-        className="w-96 aspect-square rounded-full object-cover"
+        className="w-96 aspect-square rounded-lg object-cover"
         src={data?.photos[0].img}
         alt={data?.name}
       />
-      <div className="flex flex-col space-y-2 w-full">
+      <div className="flex flex-col space-y-2 w-full m-4">
         <div className="flex flex-col space-y-4">
-          <div className="flex justify-end space-x-3 items-center">
-            <FaLocationDot className="text-red-600" size={23} />
-            <span className="text-end text-lg">Gdańsk</span>
+          <div className="flex justify-between">
+            <div className="flex space-x-3 items-center">
+              <FaRegEye className="text-darkText" size={23} />
+              <span className="text-end text-lg">{data.viewsCount}</span>
+            </div>
+            <div className="flex space-x-3 items-center">
+              <FaLocationDot className="text-red-600" size={23} />
+              <span className="text-end text-lg">Gdańsk</span>
+            </div>
           </div>
           <div className="flex flex-col space-y-3">
             <Stars value={data?.rating} disabled />

@@ -6,7 +6,7 @@ export default function Range() {
         type="range"
         min={0}
         max={2000}
-        className="appearance-none w-3/4 h-2 py-2 bg-darkBgMuted rounded-md focus:outline-none accent-darkText"
+        className="appearance-none w-full h-2 py-2 bg-darkBgMuted rounded-md focus:outline-none accent-darkText"
       />
     </div>
   );

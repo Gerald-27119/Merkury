@@ -4,6 +4,7 @@ import { fetchFilteredSpots } from "../../http/spots-data.js";
 import { FaSearch } from "react-icons/fa";
 import { useState } from "react";
 import Home from "./Home.jsx";
+import Carousel from "./components/Carousel.jsx";
 
 export default function FirstHomePage() {
   const { data } = useQuery({
@@ -14,6 +15,7 @@ export default function FirstHomePage() {
   });
 
   const [isAdvance, setIsAdvance] = useState(false);
+  const [city, setCity] = useState("");
 
   const handleToAdvanceSearch = () => {
     setIsAdvance(true);
@@ -23,10 +25,16 @@ export default function FirstHomePage() {
     setIsAdvance(false);
   };
 
+  const handleSearchCity = (event) => {
+    setCity(event.target.value);
+  };
+
   return (
     <>
       {!isAdvance && (
-        <div className="w-full text-darkText bg-darkBg flex flex-col items-center space-y-4 p-3 ">
+        <div
+          className={`w-full min-h-screen text-darkText bg-darkBg flex flex-col items-center space-y-4 p-3 `}
+        >
           <div className="space-x-3">
             <button
               className={`rounded-full bg-darkBgSoft py-2 px-3 ${!isAdvance && "border border-darkBorder"}`}
@@ -50,6 +58,7 @@ export default function FirstHomePage() {
                 className="w-full rounded-lg py-3 px-2 bg-darkBgSoft focus:ring-0 focus:outline-0"
                 id="search"
                 placeholder="Your city"
+                onChange={handleSearchCity}
               />
             </div>
             <button
@@ -60,9 +69,16 @@ export default function FirstHomePage() {
             </button>
           </div>
           <div className="flex flex-col items-center space-y-4">
-            {data?.map((spot) => (
-              <SpotTile key={spot.id} id={spot.id} />
-            ))}
+            <h1 className="text-3xl font-semibold capitalize">
+              the most popular spots
+            </h1>
+            {data && <Carousel spots={data} />}
+          </div>
+          <div
+            className={`flex flex-col items-center ${city === "" ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"} space-y-4 transition-all duration-1000 ease-out`}
+          >
+            {city !== "" &&
+              data?.map((spot) => <SpotTile key={spot.id} id={spot.id} />)}
           </div>
         </div>
       )}
