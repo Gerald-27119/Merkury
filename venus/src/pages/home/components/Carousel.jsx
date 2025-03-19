@@ -17,13 +17,11 @@ export default function Carousel({ spots }) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevState) =>
-        prevState + 1 >= data?.photos.length ? 0 : prevState + 1,
-      );
+      setCurrentIndex((prevState) => (prevState + 1) % data?.photos.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, [data?.photos.length]);
 
   return (
     <div className="h-fit w-3/4 flex bg-darkBgSoft rounded-lg gap-4 overflow-hidden">
