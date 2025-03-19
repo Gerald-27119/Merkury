@@ -217,6 +217,7 @@ export default function SearchFilters() {
           <div className="flex flex-col items-end text-lg text-white ">
             {CATEGORIES.map((category) => (
               <button
+                key={category}
                 onClick={() => handleCategoryChange(category)}
                 className={
                   filters.categories.includes(category)
