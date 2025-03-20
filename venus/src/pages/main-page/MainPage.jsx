@@ -68,13 +68,13 @@ export default function MainPage() {
       <div className="flex text-white my-5">
         <button
           onClick={handleClickHideAdvancedFilters}
-          className={`border ${showAdvancedFilters ? "" : "bg-gray-700 "}border-stone-100 px-2 py-1.5 rounded-l-xl`}
+          className={`${showAdvancedFilters ? "" : "bg-slate-700 "}px-2 py-1.5 rounded-l-xl transform transition duration-500`}
         >
           Simple filters
         </button>
         <button
           onClick={handleClickShowAdvancedFilters}
-          className={`border ${showAdvancedFilters ? "bg-gray-700 " : ""} border-stone-100 px-2 py-1.5 rounded-r-xl`}
+          className={`${showAdvancedFilters ? "bg-gray-700 " : ""}px-2 py-1.5 rounded-r-xl transform transition duration-500`}
         >
           Advanced filters
         </button>
