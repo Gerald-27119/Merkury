@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addComment } from "../../../../http/comments.js";
-import { Rate } from "antd";
+import { ConfigProvider, Rate } from "antd";
 import { notificationAction } from "../../../../redux/notification.jsx";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -74,12 +74,24 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
   };
 
   return (
-    <div className="p-2 mt-4 mb-8 rounded-lg bg-gray-100">
+    <div className="p-2 rounded-lg bg-darkBgSoft space-y-2">
       <div>
-        {revealed && <Rate allowHalf value={rating} onChange={setRating} />}
+        {revealed && (
+          <ConfigProvider
+            theme={{
+              components: {
+                Rate: {
+                  starBg: "#939394",
+                },
+              },
+            }}
+          >
+            <Rate allowHalf value={rating} onChange={setRating} />
+          </ConfigProvider>
+        )}
       </div>
       <textarea
-        className="w-full p-2 border rounded resize-none"
+        className="w-full p-2 rounded resize-none bg-darkBgMuted focus:ring-0 focus:outline-0"
         rows="2"
         placeholder={
           isUserLoggedIn ? "Write your opinion" : "Log in to comment"
@@ -93,7 +105,7 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
       {revealed && (
         <div className="flex justify-end space-x-2 mt-2">
           <button
-            className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+            className="px-3 py-1 bg-gray-300 rounded text-gray-700 hover:bg-gray-400"
             onClick={resetForm}
           >
             Cancel
@@ -101,7 +113,7 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
 
           {!isUserLoggedIn && (
             <button
-              className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+              className="px-3 py-1 bg-mainBlue rounded hover:bg-mainBlueDarker"
               onClick={handleLogin}
             >
               Log In
@@ -110,7 +122,7 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
 
           {isUserLoggedIn && (
             <button
-              className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+              className="px-3 py-1 bg-mainBlue rounded hover:bg-mainBlueDarker"
               onClick={handleAddComment}
             >
               Comment

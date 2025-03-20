@@ -130,10 +130,9 @@ export default function Comments({ spotId, isUserLoggedIn }) {
       {error && <Error error={error} />}
       {isLoading && <LoadingSpinner />}
 
-      <p className="text-lg w-fit">Comments:</p>
       {data && data.content.length >= 0 ? (
-        <div className="px-2.5 py-1 rounded-sm flex flex-col items-center">
-          <ul>
+        <div className="px-2.5 py-2 rounded-md bg-darkBgSoft">
+          <ul className="space-y-3">
             {data.content.map((comment) => (
               <li key={comment.id}>
                 <Comment
@@ -156,7 +155,7 @@ export default function Comments({ spotId, isUserLoggedIn }) {
             onPageChange={handlePageChange}
             containerClassName="flex justify-center items-center space-x-2 mt-3 mb-1"
             pageLinkClassName="px-2 py-1 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
-            activeLinkClassName="!bg-blue-500 !text-white !border-blue-500"
+            activeLinkClassName="!bg-mainBlue !text-white !border-blue-500"
             nextLinkClassName="px-2 py-1 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
             previousLinkClassName="px-2 py-1 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
             disabledLinkClassName="opacity-50 cursor-not-allowed"

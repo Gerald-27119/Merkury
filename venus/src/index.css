@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,13 +8,15 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Moderustic', sans-serif;
 }
 
+/*TODO: do usuniecia*/
 /*jeszcze nie rozgryzłem czemu ale styl do rozmiaru mapy musi być w index.css, inaczej nie działa*/
-.leaflet-container {
-    height: 95vh;
-    width: 100%;
-}
+/*.leaflet-container {*/
+/*    height: 95vh;*/
+/*    width: 100%;*/
+/*}*/
 
 .custom-rate .ant-rate-star:not(.ant-rate-star-full) .ant-rate-star-second {
     color: #404040;

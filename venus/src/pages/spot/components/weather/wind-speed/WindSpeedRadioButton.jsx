@@ -24,9 +24,9 @@ export default function WindSpeedRadioButton({
         className="peer hidden"
       />
       <span
-        className="text-slate-900 font-semibold h-full w-full flex items-center justify-center
-          rounded-md border border-slate-300 bg-slate-50 transition-all duration-300 cursor-pointer
-          hover:bg-gray-700 hover:text-white active:scale-95 peer-checked:text-white peer-checked:bg-slate-700"
+        className="text-darkText font-semibold h-full w-full flex items-center justify-center
+          rounded-md bg-darkBorder transition-all duration-300 cursor-pointer
+          hover:bg-mainBlueDarker active:scale-95 peer-checked:text-darkText peer-checked:bg-mainBlue"
       >
         {value}m
       </span>

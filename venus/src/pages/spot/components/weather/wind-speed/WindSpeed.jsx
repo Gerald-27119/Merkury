@@ -49,7 +49,7 @@ export default function WindSpeed({ winds }) {
   }, [windHeight, winds]);
 
   return (
-    <div className="flex flex-col p-4 bg-white rounded-xl shadow-md text-3xl flex-grow space-y-2">
+    <div className="flex flex-col p-4 bg-darkBgMuted rounded-xl shadow-md text-3xl flex-grow space-y-2">
       <div className="flex justify-around items-center">
         <input
           type="text"
@@ -59,7 +59,7 @@ export default function WindSpeed({ winds }) {
           onFocus={parseHeightInput}
           min={0}
           max={2000}
-          className="py-2 px-4 shadow-md rounded-md w-1/3 focus:outline-none focus:ring-0 text-center flex-grow"
+          className="py-2 px-4 shadow-md rounded-md w-1/3 focus:outline-none focus:ring-0 bg-darkBorder text-center flex-grow"
         />
         <p className="text-center flex-grow">{windSpeed} m/s</p>
       </div>
@@ -71,7 +71,7 @@ export default function WindSpeed({ winds }) {
             max={2000}
             value={windHeight.numberValue}
             onChange={changeWindHeightHandler}
-            className="appearance-none w-full h-2 py-2 bg-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-300 accent-slate-800"
+            className="appearance-none w-full h-2 py-2 bg-darkBorder rounded-md focus:outline-none accent-mainBlue"
           />
           <p className="text-red-500 font-semibold text-base mt-2">
             {heightError}

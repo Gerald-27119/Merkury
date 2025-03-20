@@ -16,7 +16,7 @@ export default function Header() {
   const isLogged = useSelector((state) => state.account.isLogged);
 
   const links = [
-    { to: "/", label: "Main Page" },
+    { to: "/", label: "Home" },
     { to: "/map", label: "Map" },
     { to: "/account", label: isLogged ? "My Account" : "Account" },
     ...(isLogged ? [{ to: "/forum", label: "Forum" }] : []),
@@ -38,21 +38,12 @@ export default function Header() {
   const handleMouse = (isEnter) => {
     setIsMouseEnter(isEnter);
   };
-
+  // TODO: usunąć modules.xml z .idea
   return (
     <header className="bg-gray-800 p-4 flex w-full text-3xl flex-col justify-center">
       <nav className="flex gap-20 w-full justify-center text-white">
         {links.map(({ to, label }) => (
-          <NavLink
-            to={to}
-            key={to}
-            end
-            className={({ isActive }) =>
-              isActive
-                ? "underline underline-offset-7 decoration-text-fuchsia-100 decoration-2"
-                : ""
-            }
-          >
+          <NavLink to={to} key={to} end>
             {label}
           </NavLink>
         ))}

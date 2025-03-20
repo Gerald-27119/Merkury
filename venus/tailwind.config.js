@@ -7,6 +7,11 @@ export default {
       height: {
         "1/10": "10%",
       },
+      fontFamily: {
+        noto: ["Noto Sans", "sans-serif"],
+        outfit: ["Outfit", "sans-serif"],
+        moderustic: ["Moderustic", "sans-serif"],
+      },
       colors: {
         mainBlue: "#4242f0",
         mainBlueDarker: "#0d0db5",
@@ -20,6 +25,12 @@ export default {
         lightBgSoft: "#FFFFFF",
         lightBgMuted: "#F2F2F2",
         lightBorder: "#FBFDFF",
+        first: "#2C3E50",
+        second: "#34495E",
+        third: "#1ABC9C",
+        fourth: "#16A085",
+        fifth: "#ECF0F1",
+        sixth: "#E94560",
       },
       keyframes: {
         slideInFromLeft: {

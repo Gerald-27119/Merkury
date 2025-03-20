@@ -46,22 +46,25 @@ export default function FormContainer({
   }, [dispatch, header, isSuccess, notificationMessage]);
 
   return (
-    <div className="h-screen dark:bg-darkBg bg-lightBg bg-cover bg-no-repeat bg-center flex items-center justify-center w-screen">
-      <div className="dark:bg-darkBgSoft bg-lightBgSoft w-[30rem] rounded-md px-10 py-8 flex flex-col h-full justify-center">
+    <div className="h-screen dark:bg-slate-800 bg-lightBg bg-cover bg-no-repeat bg-center flex items-center justify-center w-full">
+      <div className="dark:bg-first shadow-2xl bg-lightBgSoft w-[30rem] rounded-md px-10 py-8 flex flex-col h-fit justify-center">
         <h1 className="text-center text-2xl dark:text-darkText text-lightText font-bold pb-8">
           {header}
         </h1>
         {children}
         {showOauth && (
+          <>
             <div>
               <div className="inline-flex items-center justify-center w-full">
-                <hr className="w-96 h-px my-8 bg-white border-0" />
-                <span className="uppercase text-lg -translate-x-1/2 absolute bg-amber-400 left-1/2 px-2 font-bold text-white">
+                <hr className="w-96 h-px my-8 bg-lightBg dark:bg-darkBorder border-0" />
+                <span className="uppercase text-lg -translate-x-1/2 absolute bg-lightBgSoft dark:bg-first left-1/2 px-2 font-bold text-lightText dark:text-darkText">
                   or
                 </span>
               </div>
             </div>
-          ) && <OauthForm />}
+            <OauthForm />
+          </>
+        )}
         {showLink && (
           <Link
             to={navigateTo}

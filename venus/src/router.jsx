@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Error from "./components/error/Error.jsx";
-import MainPage from "./pages/main-page/MainPage.jsx";
+import WelcomePage from "./pages/welcome/WelcomePage.jsx";
 import Register from "./pages/register/Register.jsx";
 import Login from "./pages/login/Login.jsx";
 import ForgotPassword from "./pages/forgot-password/ForgotPassword.jsx";
@@ -11,7 +11,7 @@ import Forum from "./pages/forum/Forum.jsx";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
 import FavouriteSpots from "./pages/favourite-spots/FavouriteSpots.jsx";
-import SpotMapViewer from "./pages/map/SpotMapViewer.jsx";
+import FirstHomePage from "./pages/home/FirstHomePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,11 +21,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MainPage />,
-      },
-      {
-        path: "/map",
-        element: <SpotMapViewer />,
+        element: <FirstHomePage />,
       },
       {
         path: "account",
@@ -70,6 +66,10 @@ const router = createBrowserRouter([
             <FavouriteSpots />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "map",
+        element: <WelcomePage />,
       },
     ],
   },

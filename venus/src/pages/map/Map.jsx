@@ -30,6 +30,7 @@ export default function Map() {
       zoom={13}
       scrollWheelZoom={true}
       className="relative z-10"
+      style={{ height: "calc(100vh - 141px)" }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -8,7 +8,7 @@ import { spotDetailsModalAction } from "../../redux/spot-modal.jsx";
 import ExpandedPhotoGallery from "./components/photo-gallery/ExpandedPhotoGallery.jsx";
 import { photoAction } from "../../redux/photo.jsx";
 import { fetchSpotsDataById } from "../../http/spots-data.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { notificationAction } from "../../redux/notification.jsx";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
@@ -21,6 +21,7 @@ export default function SpotDetails() {
   const expandPhoto = useSelector((state) => state.photo.expandPhoto);
   const dispatch = useDispatch();
   const isLogged = useSelector((state) => state.account.isLogged);
+  const [isCommentsTab, setIsCommentsTab] = useState(false);
 
   const { data, error, isLoading } = useQuery({
     queryFn: () => fetchSpotsDataById(spotId),
@@ -28,6 +29,10 @@ export default function SpotDetails() {
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
+
+  useEffect(() => {
+    setIsCommentsTab(false);
+  }, [spotId]);
 
   useEffect(() => {
     if (error?.response?.data) {
@@ -47,7 +52,7 @@ export default function SpotDetails() {
   return (
     <div className="w-full h-full absolute flex">
       <div
-        className={`h-full w-1/5 bg-white z-50 overflow-y-auto ${
+        className={`h-full w-1/5 bg-darkBg text-darkText z-50 overflow-y-auto ${
           showDetailsModal && "animate-slideInFromLeft"
         }`}
       >
@@ -57,7 +62,7 @@ export default function SpotDetails() {
             <div className="flex justify-end mt-3">
               <IoCloseOutline
                 size={20}
-                className="cursor-pointer text-black hover:bg-red-500 hover:rounded-md hover:text-white"
+                className="cursor-pointer text-darkText hover:bg-red-500 hover:rounded-md hover:text-darkText"
                 onClick={handleClickCloseModal}
               />
             </div>
@@ -67,12 +72,30 @@ export default function SpotDetails() {
               rating={data.rating}
             />
             {isLogged && <AddToFavouritesButton spotId={spotId} />}
-            <Weather spot={data} />
             <PhotoGallery photos={data.photos} />
-            <AddCommentForm spotId={spotId} isUserLoggedIn={isLogged} />
-            <div className="overflow-y-auto flex-grow min-h-60">
-              <Comments spotId={spotId} isUserLoggedIn={isLogged} />
+            <div className="my-3">
+              <button
+                className={`${isCommentsTab ? "bg-mainBlue" : "bg-mainBlueDarker"} hover:bg-mainBlueDarker px-3 py-2 w-1/2 rounded-l-md`}
+                onClick={() => setIsCommentsTab(false)}
+              >
+                Weather
+              </button>
+              <button
+                className={`${!isCommentsTab ? "bg-mainBlue" : "bg-mainBlueDarker"} hover:bg-mainBlueDarker px-3 py-2 w-1/2 rounded-r-md`}
+                onClick={() => setIsCommentsTab(true)}
+              >
+                Comments
+              </button>
             </div>
+            {!isCommentsTab && <Weather spot={data} />}
+            {isCommentsTab && (
+              <div className="space-y-4">
+                <AddCommentForm spotId={spotId} isUserLoggedIn={isLogged} />
+                <div className="overflow-y-auto flex-grow min-h-60">
+                  <Comments spotId={spotId} isUserLoggedIn={isLogged} />
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
