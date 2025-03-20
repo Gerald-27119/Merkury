@@ -6,12 +6,14 @@ export default function Input({
   ...props
 }) {
   let classesInput =
-    "p-2 rounded-md dark:bg-darkBgMuted bg-lightBgMuted focus:outline-none focus:ring-1 dark:focus:ring-darkBorder focus:ring-lightBorder dark:text-darkText text-lightText";
+    "p-2 rounded-md dark:bg-neutral-800 bg-lightBgMuted focus:outline-none dark:text-darkText text-lightText";
   if (!isValid?.value) {
     classesInput += " outline outline-1  outline-red-600";
   }
+  // TODO: Zrobić aby przy podaniu errora nie poszeszało się miejsce
+  //TODO: Zrobić jak na xkom
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col space-y-2">
       <label
         htmlFor={id}
         className={

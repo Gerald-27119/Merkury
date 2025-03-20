@@ -15,7 +15,7 @@ export default function SpotTile({ id }) {
   return (
     <li className="h-fit w-3/4 flex bg-darkBgSoft rounded-lg gap-4">
       <img
-        className="w-96 aspect-square rounded-lg object-cover"
+        className="w-96 aspect-square rounded-l-lg object-cover"
         src={data?.photos[0].img}
         alt={data?.name}
       />

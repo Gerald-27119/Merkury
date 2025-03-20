@@ -56,18 +56,18 @@ export default function Home({
         <Range />
       </div>
       <div className="w-3/4 bg-darkBg flex flex-col items-center space-y-4 p-3 ">
-        <div className="space-x-3">
+        <div className="flex text-white my-5">
           <button
-            className={`rounded-full bg-darkBgSoft py-2 px-3 ${!isAdvance && "border border-darkBorder"}`}
             onClick={handleToSimpleSearch}
+            className={`${!isAdvance && "bg-gray-700 "} px-2 py-1.5 rounded-l-xl`}
           >
-            Simple search
+            Simple filters
           </button>
           <button
             onClick={handleToAdvanceSearch}
-            className={`rounded-full bg-darkBgSoft py-2 px-3 ${isAdvance && "border border-darkBorder"}`}
+            className={`${isAdvance && "bg-gray-700 "} px-2 py-1.5 rounded-r-xl`}
           >
-            Advance search
+            Advanced filters
           </button>
         </div>
         <ul className="flex flex-col items-center space-y-4">
@@ -76,28 +76,28 @@ export default function Home({
           ))}
         </ul>
       </div>
-      {isLogged && (
-        <div className="w-1/4 bg-darkBgSoft flex flex-col space-y-4">
-          <h1 className="text-3xl uppercase font-semibold text-center mt-3">
-            Favorites Spots
-          </h1>
-          <ul className="w-full p-4 flex flex-col space-y-3">
-            {favorites?.content?.map((spot) => (
-              <li
-                key={spot?.id}
-                className="h-fit w-full flex items-center p-4 shadow-lg shadow-darkBg bg-darkBgSoft rounded-md rounded-l-lg space-x-6"
-              >
-                <img
-                  className="w-48 aspect-square rounded-full object-cover"
-                  src={spot?.img.img}
-                  alt={spot?.name}
-                />
-                <h1>{spot.name}</h1>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {/*{isLogged && (*/}
+      {/*  <div className="w-1/4 bg-darkBgSoft flex flex-col space-y-4">*/}
+      {/*    <h1 className="text-3xl uppercase font-semibold text-center mt-3">*/}
+      {/*      Favorites Spots*/}
+      {/*    </h1>*/}
+      {/*    <ul className="w-full p-4 flex flex-col space-y-3">*/}
+      {/*      {favorites?.content?.map((spot) => (*/}
+      {/*        <li*/}
+      {/*          key={spot?.id}*/}
+      {/*          className="h-fit w-full flex items-center p-4 shadow-lg shadow-darkBg bg-darkBgSoft rounded-md rounded-l-lg space-x-6"*/}
+      {/*        >*/}
+      {/*          <img*/}
+      {/*            className="w-48 aspect-square rounded-full object-cover"*/}
+      {/*            src={spot?.img.img}*/}
+      {/*            alt={spot?.name}*/}
+      {/*          />*/}
+      {/*          <h1>{spot.name}</h1>*/}
+      {/*        </li>*/}
+      {/*      ))}*/}
+      {/*    </ul>*/}
+      {/*  </div>*/}
+      {/*)}*/}
     </div>
   );
 }

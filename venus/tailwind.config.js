@@ -8,7 +8,7 @@ export default {
         "1/10": "10%",
       },
       fontFamily: {
-        noto: ['"Noto Sans"', "sans-serif"],
+        noto: ["Noto Sans", "sans-serif"],
         outfit: ["Outfit", "sans-serif"],
         moderustic: ["Moderustic", "sans-serif"],
       },
@@ -25,6 +25,12 @@ export default {
         lightBgSoft: "#FFFFFF",
         lightBgMuted: "#F2F2F2",
         lightBorder: "#FBFDFF",
+        first: "#2C3E50",
+        second: "#34495E",
+        third: "#1ABC9C",
+        fourth: "#16A085",
+        fifth: "#ECF0F1",
+        sixth: "#E94560",
       },
       keyframes: {
         slideInFromLeft: {

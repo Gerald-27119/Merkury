@@ -4,7 +4,7 @@ import { fetchFilteredSpots } from "../../http/spots-data.js";
 import { FaSearch } from "react-icons/fa";
 import { useState } from "react";
 import Home from "./Home.jsx";
-import Carousel from "./components/Carousel.jsx";
+import Carousel from "./components/SpotCarousel.jsx";
 
 export default function FirstHomePage() {
   const { data } = useQuery({
@@ -35,18 +35,18 @@ export default function FirstHomePage() {
         <div
           className={`w-full min-h-screen text-darkText bg-darkBg flex flex-col items-center space-y-4 p-3 `}
         >
-          <div className="space-x-3">
+          <div className="flex my-5">
             <button
-              className={`rounded-full bg-darkBgSoft py-2 px-3 ${!isAdvance && "border border-darkBorder"}`}
               onClick={handleToSimpleSearch}
+              className={`${!isAdvance && "bg-gray-700 "} px-2 py-1.5 rounded-l-xl`}
             >
-              Simple search
+              Simple filters
             </button>
             <button
               onClick={handleToAdvanceSearch}
-              className={`rounded-full bg-darkBgSoft py-2 px-3 ${isAdvance && "border border-darkBorder"}`}
+              className={`${isAdvance && "bg-gray-700 "} px-2 py-1.5 rounded-r-xl`}
             >
-              Advance search
+              Advanced filters
             </button>
           </div>
           <div className="w-1/2 flex justify-end bg-darkBgSoft rounded-lg p-2 items-center">
