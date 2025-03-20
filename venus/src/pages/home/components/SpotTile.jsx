@@ -24,7 +24,7 @@ export default function SpotTile({ id }) {
           <div className="flex justify-between">
             <div className="flex space-x-3 items-center">
               <FaRegEye className="text-darkText" size={23} />
-              <span className="text-end text-lg">{data.viewsCount}</span>
+              <span className="text-end text-lg">{data?.viewsCount}</span>
             </div>
             <div className="flex space-x-3 items-center">
               <FaLocationDot className="text-red-600" size={23} />
