@@ -11,7 +11,7 @@ export default function Spot({ spot }) {
     setIsTileExpanded((prevState) => !prevState);
   };
   return (
-    <div className="w-fit border-2 rounded-2xl my-1 pb-10">
+    <div className="w-fit border-2 rounded-2xl my-1">
       <div className="flex space-x-6 mb-2">
         <div className="flex items-center space-x-3 my-2 ml-2">
           <FaLocationDot size={17} className="text-red-500" />
