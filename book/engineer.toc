@@ -1,8 +1,0 @@
-\contentsline {chapter}{\numberline {1}Informacje wstępne}{3}{}%
-\contentsline {section}{\numberline {1.1}O projekcie}{3}{}%
-\contentsline {chapter}{\numberline {2}Przykładowe elementy}{4}{}%
-\contentsline {section}{\numberline {2.1}Listingi}{4}{}%
-\contentsline {section}{\numberline {2.2}Obrazki}{4}{}%
-\contentsline {chapter}{\numberline {3}Karty udziałowca}{6}{}%
-\contentsline {chapter}{\numberline {4}Wymagania wszelakie}{7}{}%
-\contentsline {chapter}{Bibliografia}{10}{}%
