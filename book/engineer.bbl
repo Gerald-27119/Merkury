@@ -1,0 +1,189 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{BEHESHTIROUI2021107419}{article}{}{}
+      \name{author}{11}{}{%
+        {{hash=2196fe0a0cf2a9cbd99b8b55f40b8de1}{%
+           family={{Beheshti Roui}},
+           familyi={B\bibinitperiod},
+           given={Mohammad},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f48db983da6fb48b258cf1fdb36fad8e}{%
+           family={Zomorodi},
+           familyi={Z\bibinitperiod},
+           given={Mariam},
+           giveni={M\bibinitperiod}}}%
+        {{hash=4092b92cb999c64173d059632a88c434}{%
+           family={Sarvelayati},
+           familyi={S\bibinitperiod},
+           given={Masoomeh},
+           giveni={M\bibinitperiod}}}%
+        {{hash=ca983cd25720ec2c2d73c39bacb24f30}{%
+           family={Abdar},
+           familyi={A\bibinitperiod},
+           given={Moloud},
+           giveni={M\bibinitperiod}}}%
+        {{hash=57302cde0080dc0484986d9f7d865bff}{%
+           family={Noori},
+           familyi={N\bibinitperiod},
+           given={Hamid},
+           giveni={H\bibinitperiod}}}%
+        {{hash=e8cbe17a659da7863a20369c14149107}{%
+           family={Pławiak},
+           familyi={P\bibinitperiod},
+           given={Paweł},
+           giveni={P\bibinitperiod}}}%
+        {{hash=c5bcd7b0efd9233a872ba517e005eaf8}{%
+           family={Tadeusiewicz},
+           familyi={T\bibinitperiod},
+           given={Ryszard},
+           giveni={R\bibinitperiod}}}%
+        {{hash=112b419fd2e22b51695085502a5cbc2a}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Xujuan},
+           giveni={X\bibinitperiod}}}%
+        {{hash=6fd74ce4facf770405e5aa929aa7dd56}{%
+           family={Khosravi},
+           familyi={K\bibinitperiod},
+           given={Abbas},
+           giveni={A\bibinitperiod}}}%
+        {{hash=5345efddc35011fcd0912e307fa90dab}{%
+           family={Nahavandi},
+           familyi={N\bibinitperiod},
+           given={Saeid},
+           giveni={S\bibinitperiod}}}%
+        {{hash=8656a591cea01cf0808ba7b2ce58786c}{%
+           family={Acharya},
+           familyi={A\bibinitperiod},
+           given={U.\bibnamedelimi Rajendra},
+           giveni={U\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \strng{namehash}{3f578da8c502557ddee955d62f8114ec}
+      \strng{fullhash}{6b6d5cff8281da1f74df24de72d7dba6}
+      \strng{fullhashraw}{6b6d5cff8281da1f74df24de72d7dba6}
+      \strng{bibnamehash}{3f578da8c502557ddee955d62f8114ec}
+      \strng{authorbibnamehash}{3f578da8c502557ddee955d62f8114ec}
+      \strng{authornamehash}{3f578da8c502557ddee955d62f8114ec}
+      \strng{authorfullhash}{6b6d5cff8281da1f74df24de72d7dba6}
+      \strng{authorfullhashraw}{6b6d5cff8281da1f74df24de72d7dba6}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0950-7051}
+      \field{journaltitle}{Knowledge-Based Systems}
+      \field{title}{A novel approach based on genetic algorithm to speed up the discovery of classification rules on GPUs}
+      \field{volume}{231}
+      \field{year}{2021}
+      \field{pages}{107419}
+      \range{pages}{1}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.knosys.2021.107419
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S095070512100681X
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S095070512100681X
+      \endverb
+      \keyw{Data mining,Machine learning,Rule discovery,Genetic algorithm,GPU programming,Classification rules}
+    \endentry
+    \entry{bla}{article}{}{}
+      \name{author}{11}{}{%
+        {{hash=2196fe0a0cf2a9cbd99b8b55f40b8de1}{%
+           family={{Beheshti Roui}},
+           familyi={B\bibinitperiod},
+           given={Mohammad},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f48db983da6fb48b258cf1fdb36fad8e}{%
+           family={Zomorodi},
+           familyi={Z\bibinitperiod},
+           given={Mariam},
+           giveni={M\bibinitperiod}}}%
+        {{hash=4092b92cb999c64173d059632a88c434}{%
+           family={Sarvelayati},
+           familyi={S\bibinitperiod},
+           given={Masoomeh},
+           giveni={M\bibinitperiod}}}%
+        {{hash=ca983cd25720ec2c2d73c39bacb24f30}{%
+           family={Abdar},
+           familyi={A\bibinitperiod},
+           given={Moloud},
+           giveni={M\bibinitperiod}}}%
+        {{hash=57302cde0080dc0484986d9f7d865bff}{%
+           family={Noori},
+           familyi={N\bibinitperiod},
+           given={Hamid},
+           giveni={H\bibinitperiod}}}%
+        {{hash=e8cbe17a659da7863a20369c14149107}{%
+           family={Pławiak},
+           familyi={P\bibinitperiod},
+           given={Paweł},
+           giveni={P\bibinitperiod}}}%
+        {{hash=c5bcd7b0efd9233a872ba517e005eaf8}{%
+           family={Tadeusiewicz},
+           familyi={T\bibinitperiod},
+           given={Ryszard},
+           giveni={R\bibinitperiod}}}%
+        {{hash=112b419fd2e22b51695085502a5cbc2a}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Xujuan},
+           giveni={X\bibinitperiod}}}%
+        {{hash=6fd74ce4facf770405e5aa929aa7dd56}{%
+           family={Khosravi},
+           familyi={K\bibinitperiod},
+           given={Abbas},
+           giveni={A\bibinitperiod}}}%
+        {{hash=5345efddc35011fcd0912e307fa90dab}{%
+           family={Nahavandi},
+           familyi={N\bibinitperiod},
+           given={Saeid},
+           giveni={S\bibinitperiod}}}%
+        {{hash=8656a591cea01cf0808ba7b2ce58786c}{%
+           family={Acharya},
+           familyi={A\bibinitperiod},
+           given={U.\bibnamedelimi Rajendra},
+           giveni={U\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \strng{namehash}{3f578da8c502557ddee955d62f8114ec}
+      \strng{fullhash}{6b6d5cff8281da1f74df24de72d7dba6}
+      \strng{fullhashraw}{6b6d5cff8281da1f74df24de72d7dba6}
+      \strng{bibnamehash}{3f578da8c502557ddee955d62f8114ec}
+      \strng{authorbibnamehash}{3f578da8c502557ddee955d62f8114ec}
+      \strng{authornamehash}{3f578da8c502557ddee955d62f8114ec}
+      \strng{authorfullhash}{6b6d5cff8281da1f74df24de72d7dba6}
+      \strng{authorfullhashraw}{6b6d5cff8281da1f74df24de72d7dba6}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{XXY}
+      \field{title}{Bla bal}
+      \field{year}{2021}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
