@@ -2,11 +2,11 @@ export default interface Comment {
   id: number;
   text: string;
   rating: number;
-  upvotes: number;
-  downvotes: number;
+  upVotes: number;
+  downVotes: number;
   publishDate: string;
   author: string;
   isAuthor: boolean;
-  isUpvoted: boolean;
+  isUpVoted: boolean;
   isDownVoted: boolean;
 }

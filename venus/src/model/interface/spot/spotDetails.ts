@@ -1,5 +1,5 @@
 import Img from "../img";
-import WeatherApiCallCords from "./weather/weatherApiCallCords";
+import WeatherApiCallCoords from "./weather/weatherApiCallCoords";
 
 export default interface SpotDetails {
   id: number;
@@ -8,5 +8,5 @@ export default interface SpotDetails {
   rating: number;
   viewsCount: number;
   photos: Img[];
-  weatherApiCallCords: WeatherApiCallCords;
+  weatherApiCallCoords: WeatherApiCallCoords;
 }
