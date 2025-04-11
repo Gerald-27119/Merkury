@@ -60,7 +60,7 @@ export default function FavouriteSpots() {
                 onPageChange={handlePageChange}
                 containerClassName="flex justify-center items-center space-x-2 mt-6"
                 pageLinkClassName="px-4 py-2 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
-                activeLinkClassName="!bg-blue-500 !text-white !border-blue-500"
+                activeLinkClassName="bg-blue-500! text-white! border-blue-500!"
                 nextLinkClassName="px-4 py-2 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
                 previousLinkClassName="px-4 py-2 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
                 disabledLinkClassName="opacity-50 cursor-not-allowed"

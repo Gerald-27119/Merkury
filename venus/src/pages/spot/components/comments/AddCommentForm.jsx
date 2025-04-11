@@ -79,7 +79,7 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
         {revealed && <Rate allowHalf value={rating} onChange={setRating} />}
       </div>
       <textarea
-        className="w-full p-2 border rounded resize-none"
+        className="w-full p-2 border rounded-sm resize-none"
         rows="2"
         placeholder={
           isUserLoggedIn ? "Write your opinion" : "Log in to comment"
@@ -93,7 +93,7 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
       {revealed && (
         <div className="flex justify-end space-x-2 mt-2">
           <button
-            className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+            className="px-3 py-1 bg-gray-300 text-gray-700 rounded-sm hover:bg-gray-400"
             onClick={resetForm}
           >
             Cancel
@@ -101,7 +101,7 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
 
           {!isUserLoggedIn && (
             <button
-              className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+              className="px-3 py-1 bg-blue-500 text-white rounded-sm hover:bg-blue-600"
               onClick={handleLogin}
             >
               Log In
@@ -110,7 +110,7 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
 
           {isUserLoggedIn && (
             <button
-              className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+              className="px-3 py-1 bg-blue-500 text-white rounded-sm hover:bg-blue-600"
               onClick={handleAddComment}
             >
               Comment
