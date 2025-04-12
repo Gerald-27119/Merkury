@@ -18,11 +18,11 @@ export default function Header() {
   const isLogged = useSelector((state) => state.account.isLogged);
 
   const links = [
-    { to: "/", label: <BiHome size={35} /> },
-    { to: "/map", label: <FaRegMap size={35} /> },
-    { to: "/forum", label: <MdOutlineForum size={35} /> },
-    { to: "/chat", label: <BiMessageRounded size={35} /> },
-    { to: "/spots-list", label: <FaRegHeart size={35} /> },
+    { to: "/", label: <BiHome size={35} title="home" /> },
+    { to: "/map", label: <FaRegMap size={35} title="map" /> },
+    { to: "/forum", label: <MdOutlineForum size={35} title="forum" /> },
+    { to: "/chat", label: <BiMessageRounded size={35} title="chat" /> },
+    { to: "/spots-list", label: <FaRegHeart size={35} title="spotsList" /> },
   ];
 
   const toggleDarkMode = () => {
@@ -68,7 +68,7 @@ export default function Header() {
               : ""
           }
         >
-          <FaRegUser size={35} />
+          <FaRegUser size={35} title="account" />
         </NavLink>
         <div className="relative flex justify-center">
           <button
