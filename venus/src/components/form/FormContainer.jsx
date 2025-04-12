@@ -46,7 +46,7 @@ export default function FormContainer({
   }, [dispatch, header, isSuccess, notificationMessage]);
 
   return (
-    <div className="h-screen dark:bg-darkBg bg-lightBg bg-cover bg-no-repeat bg-center flex items-center justify-center w-screen">
+    <div className="h-screen dark:bg-darkBg bg-lightBg bg-cover bg-no-repeat bg-center flex items-center justify-center w-full">
       <div className="dark:bg-darkBgSoft bg-lightBgSoft w-[30rem] rounded-md px-10 py-8 flex flex-col h-full justify-center">
         <h1 className="text-center text-2xl dark:text-darkText text-lightText font-bold pb-8">
           {header}

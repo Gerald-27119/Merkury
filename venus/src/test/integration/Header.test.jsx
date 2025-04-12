@@ -35,8 +35,11 @@ describe("Header component integration tests", () => {
       </Provider>,
     );
 
-    const accountButton = screen.getByText(/Account/i);
-    await userEvent.click(accountButton);
+    const links = screen.getAllByRole("link");
+    const accountLink = links.find(
+      (link) => link.getAttribute("href") === "/account",
+    );
+    await userEvent.click(accountLink);
 
     const accountPageText = await screen.findByText(/Account Page/i);
     expect(accountPageText).toBeInTheDocument();

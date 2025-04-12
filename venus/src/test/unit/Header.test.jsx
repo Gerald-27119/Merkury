@@ -8,64 +8,120 @@ import { accountSlice } from "../../redux/account.jsx";
 
 const queryClient = new QueryClient();
 
-describe("Header component unit tests", () => {
-  test("Render when user is logged in", () => {
-    const store = configureStore({
-      reducer: {
-        account: accountSlice.reducer,
-      },
-      preloadedState: {
-        account: {
-          isLogged: true,
-        },
-      },
-    });
-
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <QueryClientProvider client={queryClient}>
-            <Header />
-          </QueryClientProvider>
-        </MemoryRouter>
-      </Provider>,
-    );
-
-    const signOutButton = screen.getByText(/Sign out/i);
-    const forum = screen.getByText(/Forum/i);
-
-    expect(signOutButton).toBeInTheDocument();
-    expect(forum).toBeInTheDocument();
+const renderHeader = () => {
+  const store = configureStore({
+    reducer: {
+      account: accountSlice.reducer,
+    },
   });
 
-  test("Render when user is not logged in", () => {
-    const store = configureStore({
-      reducer: {
-        account: accountSlice.reducer,
-      },
-      preloadedState: {
-        account: {
-          isLogged: false,
-        },
-      },
+  render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <QueryClientProvider client={queryClient}>
+          <Header />
+        </QueryClientProvider>
+      </MemoryRouter>
+    </Provider>,
+  );
+};
+
+describe("Header component unit tests", () => {
+  describe("When header is small", () => {
+    beforeEach(() => {
+      renderHeader();
     });
 
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <QueryClientProvider client={queryClient}>
-            <Header />
-          </QueryClientProvider>
-        </MemoryRouter>
-      </Provider>,
-    );
+    describe("Check is links/buttons render", () => {
+      test("should render Home Link", () => {
+        const links = screen.getAllByRole("link");
+        const homeLink = links.find(
+          (link) => link.getAttribute("href") === "/",
+        );
+        expect(homeLink).toBeInTheDocument();
+      });
 
-    const signOutButton = screen.queryByText(/Sign out/i);
-    const forumButton = screen.queryByText(/Forum/i);
-    const accountButton = screen.getByText(/Account/i);
+      test("should render Map link", () => {
+        const links = screen.getAllByRole("link");
+        const mapLink = links.find(
+          (link) => link.getAttribute("href") === "/map",
+        );
+        expect(mapLink).toBeInTheDocument();
+      });
 
-    expect(signOutButton).not.toBeInTheDocument();
-    expect(forumButton).not.toBeInTheDocument();
-    expect(accountButton).toBeInTheDocument();
+      test("should render Forum link", () => {
+        const links = screen.getAllByRole("link");
+        const forumLink = links.find(
+          (link) => link.getAttribute("href") === "/forum",
+        );
+        expect(forumLink).toBeInTheDocument();
+      });
+
+      test("should render Chat link", () => {
+        const links = screen.getAllByRole("link");
+        const chatLink = links.find(
+          (link) => link.getAttribute("href") === "/chat",
+        );
+        expect(chatLink).toBeInTheDocument();
+      });
+
+      test("should render Spots List link", () => {
+        const links = screen.getAllByRole("link");
+        const spotsListLink = links.find(
+          (link) => link.getAttribute("href") === "/spots-list",
+        );
+        expect(spotsListLink).toBeInTheDocument();
+      });
+
+      test("should render Account link", () => {
+        const links = screen.getAllByRole("link");
+        const accountLink = links.find(
+          (link) => link.getAttribute("href") === "/account",
+        );
+        expect(accountLink).toBeInTheDocument();
+      });
+
+      test("should render Change mode button", () => {
+        const changeModeButton = screen.getByTitle("changeMode");
+        expect(changeModeButton).toBeInTheDocument();
+      });
+    });
+
+    describe("Check is icons render", () => {
+      test("should render Home icon", () => {
+        const notificationIcon = screen.getByTitle("home");
+        expect(notificationIcon).toBeInTheDocument();
+      });
+
+      test("should render Map icon", () => {
+        const mapIcon = screen.getByTitle("map");
+        expect(mapIcon).toBeInTheDocument();
+      });
+
+      test("should render Forum icon", () => {
+        const forumIcon = screen.getByTitle("forum");
+        expect(forumIcon).toBeInTheDocument();
+      });
+
+      test("should render Chat icon", () => {
+        const chatIcon = screen.getByTitle("chat");
+        expect(chatIcon).toBeInTheDocument();
+      });
+
+      test("should render Spots List icon", () => {
+        const spotsListIcon = screen.getByTitle("spotsList");
+        expect(spotsListIcon).toBeInTheDocument();
+      });
+
+      test("should render Notification icon", () => {
+        const notificationIcon = screen.getByTitle("notification");
+        expect(notificationIcon).toBeInTheDocument();
+      });
+
+      test("should render Account icon", () => {
+        const accountIcon = screen.getByTitle("account");
+        expect(accountIcon).toBeInTheDocument();
+      });
+    });
   });
 });

@@ -1,13 +1,15 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import SignOutButton from "../../components/sign-out-button/SignOutButton.jsx";
 import { useSelector } from "react-redux";
-import SpotsFilters from "../../pages/map/components/spot-filters/SpotsFilters.jsx";
-import { FaRegMoon } from "react-icons/fa";
+import { FaRegBell, FaRegHeart, FaRegMoon, FaRegUser } from "react-icons/fa";
 import { useState } from "react";
 import { LuSun } from "react-icons/lu";
+import { IoMenu } from "react-icons/io5";
+import { MdOutlineForum } from "react-icons/md";
+import { FaRegMap } from "react-icons/fa6";
+import { BiHome, BiMessageRounded } from "react-icons/bi";
 
 export default function Header() {
-  const { pathname } = useLocation();
   const [isDark, setIsDark] = useState(
     localStorage.getItem("theme") === "dark",
   );
@@ -16,9 +18,11 @@ export default function Header() {
   const isLogged = useSelector((state) => state.account.isLogged);
 
   const links = [
-    { to: "/", label: "Map" },
-    { to: "/account", label: isLogged ? "My Account" : "Account" },
-    ...(isLogged ? [{ to: "/forum", label: "Forum" }] : []),
+    { to: "/", label: <BiHome size={35} title="home" /> },
+    { to: "/map", label: <FaRegMap size={35} title="map" /> },
+    { to: "/forum", label: <MdOutlineForum size={35} title="forum" /> },
+    { to: "/chat", label: <BiMessageRounded size={35} title="chat" /> },
+    { to: "/spots-list", label: <FaRegHeart size={35} title="spotsList" /> },
   ];
 
   const toggleDarkMode = () => {
@@ -39,39 +43,49 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-gray-800 p-4 flex w-full text-3xl flex-col justify-center">
-      <nav className="flex gap-20 w-full justify-center text-white">
-        {links.map(({ to, label }) => (
-          <NavLink
-            to={to}
-            key={to}
-            end
-            className={({ isActive }) =>
-              isActive
-                ? "underline underline-offset-7 decoration-text-fuchsia-100 decoration-2"
-                : ""
-            }
-          >
-            {label}
-          </NavLink>
-        ))}
+    <header className="bg-violetDark text-darkText flex w-16 flex-col items-center justify-between p-4 text-3xl">
+      <div className="flex flex-col items-center space-y-10">
+        <IoMenu size={40} />
+        <nav className="flex w-full flex-col items-center space-y-5">
+          {links.map(({ to, label }) => (
+            <NavLink to={to} key={to} end>
+              {label}
+            </NavLink>
+          ))}
+          <hr className="border-violetLight w-12" />
+        </nav>
+      </div>
+      <div className="flex flex-col items-center space-y-8">
+        <hr className="border-violetLight w-12" />
         {isLogged && <SignOutButton />}
+        <FaRegBell size={35} title="notification" />
+        <NavLink
+          to="/account"
+          end
+          className={({ isActive }) =>
+            isActive
+              ? "decoration-text-fuchsia-100 underline decoration-2 underline-offset-7"
+              : ""
+          }
+        >
+          <FaRegUser size={35} title="account" />
+        </NavLink>
         <div className="relative flex justify-center">
           <button
             onClick={toggleDarkMode}
             onMouseOver={() => handleMouse(true)}
             onMouseOut={() => handleMouse(false)}
+            title="changeMode"
           >
-            {isDark ? <LuSun /> : <FaRegMoon />}
+            {isDark ? <LuSun size={35} /> : <FaRegMoon size={35} />}
           </button>
           {isMouseEnter && (
-            <div className="absolute bg-gray-800 text-sm text-center left-1/2 transform z-50 -translate-x-1/2 top-12 h-12 w-32 rounded-md p-1">
+            <div className="bg-violetDark absolute left-28 z-50 h-12 w-32 -translate-x-1/2 transform rounded-md p-1 text-center text-sm">
               {`Switch to ${isDark ? "light" : "dark"} mode.`}
             </div>
           )}
         </div>
-      </nav>
-      {pathname === "/" && <SpotsFilters />}
+      </div>
     </header>
   );
 }
