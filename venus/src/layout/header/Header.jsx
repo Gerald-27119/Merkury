@@ -43,20 +43,20 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-gray-800 p-4 flex flex-col w-16 text-3xl items-center justify-between text-darkText">
-      <div className="space-y-10 flex flex-col items-center">
+    <header className="bg-violetDark text-darkText flex w-16 flex-col items-center justify-between p-4 text-3xl">
+      <div className="flex flex-col items-center space-y-10">
         <IoMenu size={40} />
-        <nav className="flex flex-col w-full items-center space-y-5">
+        <nav className="flex w-full flex-col items-center space-y-5">
           {links.map(({ to, label }) => (
             <NavLink to={to} key={to} end>
               {label}
             </NavLink>
           ))}
-          <hr className="w-12" />
+          <hr className="border-violetLight w-12" />
         </nav>
       </div>
       <div className="flex flex-col items-center space-y-8">
-        <hr className="w-12" />
+        <hr className="border-violetLight w-12" />
         {isLogged && <SignOutButton />}
         <FaRegBell size={35} title="notification" />
         <NavLink
@@ -64,7 +64,7 @@ export default function Header() {
           end
           className={({ isActive }) =>
             isActive
-              ? "underline underline-offset-7 decoration-text-fuchsia-100 decoration-2"
+              ? "decoration-text-fuchsia-100 underline decoration-2 underline-offset-7"
               : ""
           }
         >
@@ -80,7 +80,7 @@ export default function Header() {
             {isDark ? <LuSun size={35} /> : <FaRegMoon size={35} />}
           </button>
           {isMouseEnter && (
-            <div className="absolute bg-gray-800 text-sm text-center left-28 transform z-50 -translate-x-1/2 h-12 w-32 rounded-md p-1">
+            <div className="bg-violetDark absolute left-28 z-50 h-12 w-32 -translate-x-1/2 transform rounded-md p-1 text-center text-sm">
               {`Switch to ${isDark ? "light" : "dark"} mode.`}
             </div>
           )}
