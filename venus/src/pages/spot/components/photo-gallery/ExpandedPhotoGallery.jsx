@@ -47,7 +47,7 @@ export default function ExpandedPhotoGallery({ photos }) {
         className="absolute top-2 right-2"
       >
         <IoCloseOutline
-          className="text-white bg-red-500 hover:bg-red-700 hover:text-gray-200 mr-6 rounded-sm mt-4"
+          className="text-white bg-red-500 hover:bg-red-700 hover:text-gray-200 mr-6 rounded-xs mt-4"
           size={20}
         />
       </button>
