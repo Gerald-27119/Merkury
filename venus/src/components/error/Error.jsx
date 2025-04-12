@@ -41,7 +41,7 @@ export default function Error({ error }) {
       <div className="text-center">
         <Link
           to="/"
-          className="bg-amber-200 rounded p-1 text-center hover:bg-amber-300"
+          className="bg-amber-200 rounded-sm p-1 text-center hover:bg-amber-300"
         >
           Return to the main page
         </Link>
