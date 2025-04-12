@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import SignOutButton from "../../components/sign-out-button/SignOutButton.jsx";
 import { useSelector } from "react-redux";
 import { FaRegBell, FaRegHeart, FaRegMoon, FaRegUser } from "react-icons/fa";
@@ -58,7 +58,7 @@ export default function Header() {
       <div className="flex flex-col items-center space-y-8">
         <hr className="w-12" />
         {isLogged && <SignOutButton />}
-        <FaRegBell size={35} />
+        <FaRegBell size={35} title="notification" />
         <NavLink
           to="/account"
           end
@@ -75,6 +75,7 @@ export default function Header() {
             onClick={toggleDarkMode}
             onMouseOver={() => handleMouse(true)}
             onMouseOut={() => handleMouse(false)}
+            title="changeMode"
           >
             {isDark ? <LuSun size={35} /> : <FaRegMoon size={35} />}
           </button>
