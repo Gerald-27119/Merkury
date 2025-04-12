@@ -6,11 +6,13 @@ import Notification from "../components/notification/Notification.jsx";
 export default function Layout() {
   return (
     <>
-      <Header />
-      <main className="flex flex-col justify-center items-center relative">
-        <Notification title="test" message="message" />
-        <Outlet />
-      </main>
+      <div className="flex h-full">
+        <Header />
+        <main className="flex flex-col w-full justify-center items-center relative">
+          <Notification title="test" message="message" />
+          <Outlet />
+        </main>
+      </div>
       <Footer />
     </>
   );

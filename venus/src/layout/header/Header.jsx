@@ -1,13 +1,15 @@
 import { NavLink, useLocation } from "react-router-dom";
 import SignOutButton from "../../components/sign-out-button/SignOutButton.jsx";
 import { useSelector } from "react-redux";
-import SpotsFilters from "../../pages/map/components/spot-filters/SpotsFilters.jsx";
-import { FaRegMoon } from "react-icons/fa";
+import { FaRegBell, FaRegHeart, FaRegMoon, FaRegUser } from "react-icons/fa";
 import { useState } from "react";
 import { LuSun } from "react-icons/lu";
+import { IoMenu } from "react-icons/io5";
+import { MdOutlineForum } from "react-icons/md";
+import { FaRegMap } from "react-icons/fa6";
+import { BiHome, BiMessageRounded } from "react-icons/bi";
 
 export default function Header() {
-  const { pathname } = useLocation();
   const [isDark, setIsDark] = useState(
     localStorage.getItem("theme") === "dark",
   );
@@ -16,9 +18,11 @@ export default function Header() {
   const isLogged = useSelector((state) => state.account.isLogged);
 
   const links = [
-    { to: "/", label: "Map" },
-    { to: "/account", label: isLogged ? "My Account" : "Account" },
-    ...(isLogged ? [{ to: "/forum", label: "Forum" }] : []),
+    { to: "/", label: <BiHome size={35} /> },
+    { to: "/map", label: <FaRegMap size={35} /> },
+    { to: "/forum", label: <MdOutlineForum size={35} /> },
+    { to: "/chat", label: <BiMessageRounded size={35} /> },
+    { to: "/spots-list", label: <FaRegHeart size={35} /> },
   ];
 
   const toggleDarkMode = () => {
@@ -39,39 +43,48 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-gray-800 p-4 flex w-full text-3xl flex-col justify-center">
-      <nav className="flex gap-20 w-full justify-center text-white">
-        {links.map(({ to, label }) => (
-          <NavLink
-            to={to}
-            key={to}
-            end
-            className={({ isActive }) =>
-              isActive
-                ? "underline underline-offset-7 decoration-text-fuchsia-100 decoration-2"
-                : ""
-            }
-          >
-            {label}
-          </NavLink>
-        ))}
+    <header className="bg-gray-800 p-4 flex flex-col w-16 text-3xl items-center justify-between text-darkText">
+      <div className="space-y-10 flex flex-col items-center">
+        <IoMenu size={40} />
+        <nav className="flex flex-col w-full items-center space-y-5">
+          {links.map(({ to, label }) => (
+            <NavLink to={to} key={to} end>
+              {label}
+            </NavLink>
+          ))}
+          <hr className="w-12" />
+        </nav>
+      </div>
+      <div className="flex flex-col items-center space-y-8">
+        <hr className="w-12" />
         {isLogged && <SignOutButton />}
+        <FaRegBell size={35} />
+        <NavLink
+          to="/account"
+          end
+          className={({ isActive }) =>
+            isActive
+              ? "underline underline-offset-7 decoration-text-fuchsia-100 decoration-2"
+              : ""
+          }
+        >
+          <FaRegUser size={35} />
+        </NavLink>
         <div className="relative flex justify-center">
           <button
             onClick={toggleDarkMode}
             onMouseOver={() => handleMouse(true)}
             onMouseOut={() => handleMouse(false)}
           >
-            {isDark ? <LuSun /> : <FaRegMoon />}
+            {isDark ? <LuSun size={35} /> : <FaRegMoon size={35} />}
           </button>
           {isMouseEnter && (
-            <div className="absolute bg-gray-800 text-sm text-center left-1/2 transform z-50 -translate-x-1/2 top-12 h-12 w-32 rounded-md p-1">
+            <div className="absolute bg-gray-800 text-sm text-center left-28 transform z-50 -translate-x-1/2 h-12 w-32 rounded-md p-1">
               {`Switch to ${isDark ? "light" : "dark"} mode.`}
             </div>
           )}
         </div>
-      </nav>
-      {pathname === "/" && <SpotsFilters />}
+      </div>
     </header>
   );
 }
