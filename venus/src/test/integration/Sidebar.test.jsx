@@ -2,10 +2,10 @@ import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Header from "../../layout/header/Header.jsx";
 import { configureStore } from "@reduxjs/toolkit";
 import { accountSlice } from "../../redux/account.jsx";
 import userEvent from "@testing-library/user-event";
+import Sidebar from "../../layout/sidebar/Sidebar.jsx";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +27,7 @@ describe("Header component integration tests", () => {
         <MemoryRouter initialEntries={["/"]}>
           <QueryClientProvider client={queryClient}>
             <Routes>
-              <Route path="/" element={<Header />} />
+              <Route path="/" element={<Sidebar />} />
               <Route path="/account" element={<div>Account Page</div>} />
             </Routes>
           </QueryClientProvider>

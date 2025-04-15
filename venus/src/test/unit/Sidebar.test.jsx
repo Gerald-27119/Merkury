@@ -3,8 +3,8 @@ import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { configureStore } from "@reduxjs/toolkit";
 import { MemoryRouter } from "react-router-dom";
-import Header from "../../layout/header/Header.jsx";
 import { accountSlice } from "../../redux/account.jsx";
+import Sidebar from "../../layout/sidebar/Sidebar.jsx";
 
 const queryClient = new QueryClient();
 
@@ -19,7 +19,7 @@ const renderHeader = () => {
     <Provider store={store}>
       <MemoryRouter>
         <QueryClientProvider client={queryClient}>
-          <Header />
+          <Sidebar />
         </QueryClientProvider>
       </MemoryRouter>
     </Provider>,
@@ -82,44 +82,44 @@ describe("Header component unit tests", () => {
       });
 
       test("should render Change mode button", () => {
-        const changeModeButton = screen.getByTitle("changeMode");
+        const changeModeButton = screen.getByLabelText("changeMode");
         expect(changeModeButton).toBeInTheDocument();
       });
     });
 
     describe("Check is icons render", () => {
       test("should render Home icon", () => {
-        const notificationIcon = screen.getByTitle("home");
+        const notificationIcon = screen.getByLabelText("home");
         expect(notificationIcon).toBeInTheDocument();
       });
 
       test("should render Map icon", () => {
-        const mapIcon = screen.getByTitle("map");
+        const mapIcon = screen.getByLabelText("map");
         expect(mapIcon).toBeInTheDocument();
       });
 
       test("should render Forum icon", () => {
-        const forumIcon = screen.getByTitle("forum");
+        const forumIcon = screen.getByLabelText("forum");
         expect(forumIcon).toBeInTheDocument();
       });
 
       test("should render Chat icon", () => {
-        const chatIcon = screen.getByTitle("chat");
+        const chatIcon = screen.getByLabelText("chat");
         expect(chatIcon).toBeInTheDocument();
       });
 
       test("should render Spots List icon", () => {
-        const spotsListIcon = screen.getByTitle("spotsList");
+        const spotsListIcon = screen.getByLabelText("spotsList");
         expect(spotsListIcon).toBeInTheDocument();
       });
 
       test("should render Notification icon", () => {
-        const notificationIcon = screen.getByTitle("notification");
+        const notificationIcon = screen.getByLabelText("notification");
         expect(notificationIcon).toBeInTheDocument();
       });
 
       test("should render Account icon", () => {
-        const accountIcon = screen.getByTitle("account");
+        const accountIcon = screen.getByLabelText("account");
         expect(accountIcon).toBeInTheDocument();
       });
     });
