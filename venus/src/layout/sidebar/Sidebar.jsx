@@ -29,8 +29,6 @@ export default function Sidebar() {
   useEffect(() => {
     if (location.pathname.includes("account")) {
       setIsSidebarOpen(true);
-    } else {
-      setIsSidebarOpen(false);
     }
   }, [location]);
 
