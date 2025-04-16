@@ -48,7 +48,7 @@ export default function Sidebar() {
     {
       to: "/spots-list",
       icon: <FaRegHeart size={35} aria-label="spotsList" />,
-      name: "favorite spots",
+      name: "favorites spots",
     },
   ];
 

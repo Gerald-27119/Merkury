@@ -6,7 +6,7 @@ interface SidebarItemProps {
   icon: ReactElement;
   name: string;
   isSidebarOpen: boolean;
-  onChangeTheme?: () => {};
+  onChangeTheme?: () => void;
 }
 
 export default function SidebarItem({
