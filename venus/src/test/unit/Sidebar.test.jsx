@@ -8,7 +8,7 @@ import Sidebar from "../../layout/sidebar/Sidebar.jsx";
 
 const queryClient = new QueryClient();
 
-const renderHeader = () => {
+const renderSidebar = () => {
   const store = configureStore({
     reducer: {
       account: accountSlice.reducer,
@@ -29,7 +29,7 @@ const renderHeader = () => {
 describe("Header component unit tests", () => {
   describe("When header is small", () => {
     beforeEach(() => {
-      renderHeader();
+      renderSidebar();
     });
 
     describe("Check is links/buttons render", () => {
@@ -76,7 +76,7 @@ describe("Header component unit tests", () => {
       test("should render Account link", () => {
         const links = screen.getAllByRole("link");
         const accountLink = links.find(
-          (link) => link.getAttribute("href") === "/account",
+          (link) => link.getAttribute("href") === "/login",
         );
         expect(accountLink).toBeInTheDocument();
       });
