@@ -6,7 +6,7 @@ import Sidebar from "./sidebar/Sidebar.jsx";
 export default function Layout() {
   return (
     <>
-      <div className="flex h-full">
+      <div className="relative">
         <Sidebar />
         <main className="relative flex w-full flex-col items-center justify-center">
           <Notification title="test" message="message" />

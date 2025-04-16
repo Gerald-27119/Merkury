@@ -135,7 +135,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`bg-violetDark text-darkText shrink-0 ${isSidebarOpen ? "w-[200px]" : "w-[70px]"} flex flex-col justify-between overflow-hidden p-2 transition-all duration-300`}
+      className={`bg-violetDark text-darkText absolute z-50 flex h-full shrink-0 flex-col justify-between overflow-hidden p-2 transition-all duration-300 ${isSidebarOpen ? "w-[200px]" : "w-[70px]"}`}
     >
       <div className="flex flex-col space-y-10">
         <IoMenu size={40} onClick={toggleSideBar} className="ml-2" />
