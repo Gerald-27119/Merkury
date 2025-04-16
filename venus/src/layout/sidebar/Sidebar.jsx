@@ -16,6 +16,69 @@ import { TbMapPin, TbMapPinPlus } from "react-icons/tb";
 import { BsGear } from "react-icons/bs";
 import SidebarItem from "./components/SidebarItem";
 
+const links = [
+  { to: "/", icon: <BiHome size={35} aria-label="home" />, name: "home" },
+  { to: "/map", icon: <FaRegMap size={35} aria-label="map" />, name: "map" },
+  {
+    to: "/forum",
+    icon: <MdOutlineForum size={35} aria-label="forum" />,
+    name: "forum",
+  },
+  {
+    to: "/chat",
+    icon: <BiMessageRounded size={35} aria-label="chat" />,
+    name: "chat",
+  },
+  {
+    to: "/spots-list",
+    icon: <FaRegHeart size={35} aria-label="spotsList" />,
+    name: "favorites spots",
+  },
+];
+
+const accountLinks = [
+  {
+    to: "/account/profile",
+    icon: <FaRegUser size={35} aria-label="profile" />,
+    name: "profile",
+  },
+  {
+    to: "/account/spots-list",
+    icon: <TbMapPin size={35} aria-label="accountSpotsList" />,
+    name: "spots list",
+  },
+  {
+    to: "/account/photos-list",
+    icon: <MdOutlinePhotoLibrary size={35} aria-label="photosList" />,
+    name: "photos list",
+  },
+  {
+    to: "/account/movies-list",
+    icon: <MdOutlineVideoLibrary size={35} aria-label="moviesList" />,
+    name: "movies list",
+  },
+  {
+    to: "/account/friends",
+    icon: <FiUsers size={35} aria-label="friends" />,
+    name: "friends",
+  },
+  {
+    to: "/account/add-spot",
+    icon: <TbMapPinPlus size={35} aria-label="addSpot" />,
+    name: "add spot",
+  },
+  {
+    to: "/account/comments",
+    icon: <BiComment size={35} aria-label="comments" />,
+    name: "comments",
+  },
+  {
+    to: "/account/settings",
+    icon: <BsGear size={35} aria-label="settings" />,
+    name: "settings",
+  },
+];
+
 export default function Sidebar() {
   const [isDark, setIsDark] = useState(
     localStorage.getItem("theme") === "dark",
@@ -31,69 +94,6 @@ export default function Sidebar() {
       setIsSidebarOpen(true);
     }
   }, [location]);
-
-  const links = [
-    { to: "/", icon: <BiHome size={35} aria-label="home" />, name: "home" },
-    { to: "/map", icon: <FaRegMap size={35} aria-label="map" />, name: "map" },
-    {
-      to: "/forum",
-      icon: <MdOutlineForum size={35} aria-label="forum" />,
-      name: "forum",
-    },
-    {
-      to: "/chat",
-      icon: <BiMessageRounded size={35} aria-label="chat" />,
-      name: "chat",
-    },
-    {
-      to: "/spots-list",
-      icon: <FaRegHeart size={35} aria-label="spotsList" />,
-      name: "favorites spots",
-    },
-  ];
-
-  const accountLinks = [
-    {
-      to: "/account/profile",
-      icon: <FaRegUser size={35} aria-label="profile" />,
-      name: "profile",
-    },
-    {
-      to: "/account/spots-list",
-      icon: <TbMapPin size={35} aria-label="accountSpotsList" />,
-      name: "spots list",
-    },
-    {
-      to: "/account/photos-list",
-      icon: <MdOutlinePhotoLibrary size={35} aria-label="photosList" />,
-      name: "photos list",
-    },
-    {
-      to: "/account/movies-list",
-      icon: <MdOutlineVideoLibrary size={35} aria-label="moviesList" />,
-      name: "movies list",
-    },
-    {
-      to: "/account/friends",
-      icon: <FiUsers size={35} aria-label="friends" />,
-      name: "friends",
-    },
-    {
-      to: "/account/add-spot",
-      icon: <TbMapPinPlus size={35} aria-label="addSpot" />,
-      name: "add spot",
-    },
-    {
-      to: "/account/comments",
-      icon: <BiComment size={35} aria-label="comments" />,
-      name: "comments",
-    },
-    {
-      to: "/account/settings",
-      icon: <BsGear size={35} aria-label="settings" />,
-      name: "settings",
-    },
-  ];
 
   const optionsLinks = [
     {
@@ -138,7 +138,13 @@ export default function Sidebar() {
       className={`bg-violetDark text-darkText absolute z-50 flex h-full shrink-0 flex-col justify-between overflow-hidden p-2 transition-all duration-300 ${isSidebarOpen ? "w-[200px]" : "w-[70px]"}`}
     >
       <div className="flex flex-col space-y-10">
-        <IoMenu size={40} onClick={toggleSideBar} className="ml-2" />
+        <button
+          type="button"
+          className="ml-2 w-fit cursor-pointer"
+          onClick={toggleSideBar}
+        >
+          <IoMenu size={40} />
+        </button>
         <nav className="flex flex-col space-y-1">
           {links.map(({ to, icon, name }) => (
             <SidebarItem
