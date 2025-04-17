@@ -7,6 +7,7 @@ interface SidebarItemProps {
   name: string;
   isSidebarOpen: boolean;
   onChangeTheme?: () => void;
+  isMiddlePart?: boolean;
 }
 
 export default function SidebarItem({
@@ -15,6 +16,7 @@ export default function SidebarItem({
   name,
   isSidebarOpen,
   onChangeTheme,
+  isMiddlePart,
 }: Readonly<SidebarItemProps>) {
   const content: ReactElement = (
     <>
@@ -34,7 +36,7 @@ export default function SidebarItem({
       <button
         type="button"
         onClick={name !== "notification" ? onChangeTheme : undefined}
-        className="hover:bg-violetLight flex w-full items-center space-x-4 rounded-md p-2 transition-all"
+        className="flex w-full cursor-pointer items-center space-x-4 rounded-md p-2 transition-all"
       >
         {content}
       </button>
@@ -45,7 +47,9 @@ export default function SidebarItem({
     <NavLink
       to={to}
       end
-      className="hover:bg-violetLight flex w-full items-center space-x-4 rounded-md p-2 transition-all"
+      className={({ isActive }) =>
+        `flex w-full items-center space-x-4 rounded-md p-2 transition-all ${isMiddlePart && "hover:bg-violetLight"} ${isActive && isMiddlePart && "bg-violetLight"}}`
+      }
     >
       {content}
     </NavLink>

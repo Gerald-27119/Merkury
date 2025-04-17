@@ -167,6 +167,7 @@ export default function Sidebar() {
               icon={icon}
               name={name}
               isSidebarOpen={isSidebarOpen}
+              isMiddlePart={true}
             />
           ))}
       </div>
