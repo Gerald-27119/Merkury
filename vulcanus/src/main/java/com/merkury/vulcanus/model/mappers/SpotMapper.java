@@ -5,7 +5,7 @@ import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.dtos.spot.weather.WeatherApiCallCordsDto;
-import com.merkury.vulcanus.model.entities.Comment;
+import com.merkury.vulcanus.model.entities.SpotComment;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.Spot;
 import jakarta.validation.constraints.NotNull;
@@ -32,7 +32,7 @@ public class SpotMapper {
 
     public static Spot toEntity(@NotNull FullSpotDto dto,
                                 @NotNull List<BorderPoint> points,
-                                @NotNull List<Comment> comments,
+                                @NotNull List<SpotComment> spotComments,
                                 @NotNull List<Img> images) {
         return Spot.builder()
                 .areaColor(dto.areaColor())
@@ -41,7 +41,7 @@ public class SpotMapper {
                 .rating(dto.rating())
                 .viewsCount(dto.viewsCount())
                 .borderPoints(points)
-                .comments(comments)
+                .spotComments(spotComments)
                 .images(images)
                 .build();
     }

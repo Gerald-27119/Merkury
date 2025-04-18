@@ -1,0 +1,22 @@
+package com.merkury.vulcanus.model.entities;
+
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+@Entity(name = "spot_comments")
+@SuperBuilder
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
+public class SpotComment extends Comment {
+
+    @Builder.Default
+    private Double rating = 0.0;
+
+    @ManyToOne
+    @JoinColumn(name = "spot_id")
+    @ToString.Exclude
+    private Spot spot;
+}

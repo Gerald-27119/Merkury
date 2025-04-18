@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.model.entities;
 
+import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.enums.UserRole;
 import jakarta.persistence.*;
@@ -55,6 +56,15 @@ public class UserEntity implements UserDetails {
     )
     private List<Spot> favoriteSpots = new ArrayList<>();
 
+    @Builder.Default
+    @ManyToMany
+    @JoinTable(
+            name = "user_followed_posts",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id")
+    )
+    private List<Post> followedPosts = new ArrayList<>();
+
     @Enumerated(value = EnumType.STRING)
     private UserRole userRole;
 
@@ -74,8 +84,12 @@ public class UserEntity implements UserDetails {
 
     @Builder.Default
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> posts = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private List<Comment> comments = new ArrayList<>();
+    private List<SpotComment> spotComments = new ArrayList<>();
 
     @Builder.Default
     private Boolean accountNonExpired = true;

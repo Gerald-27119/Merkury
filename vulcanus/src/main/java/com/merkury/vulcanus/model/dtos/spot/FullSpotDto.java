@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.model.dtos.spot;
 
-import com.merkury.vulcanus.model.dtos.comment.CommentDto;
+import com.merkury.vulcanus.model.dtos.comment.SpotCommentDto;
 import com.merkury.vulcanus.model.dtos.ImgDto;
 import jakarta.validation.constraints.*;
 
@@ -21,7 +21,7 @@ public record FullSpotDto(@Positive(message = "ID must be a positive number.")
                           Integer viewsCount,
                           @NotEmpty(message = "Contour coordinates list cannot be empty.")
                           List<Double[]> contourCoordinates,
-                          List<CommentDto> comments,
+                          List<SpotCommentDto> comments,
                           @NotEmpty(message = "Photos list cannot be empty.")
                           List<ImgDto> photos) {
 }

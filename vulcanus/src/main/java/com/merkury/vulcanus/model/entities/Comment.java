@@ -1,27 +1,29 @@
 package com.merkury.vulcanus.model.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "comments")
+@MappedSuperclass
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comment {
-
+public abstract class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 300)
     private String text;
-    @Builder.Default
-    private Double rating = 0.0;
+
     @Builder.Default
     private Integer upvotes = 0;
     @Builder.Default
@@ -44,11 +46,6 @@ public class Comment {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<UserEntity> downvotedBy = new HashSet<>();
-
-    @ManyToOne
-    @JoinColumn(name = "spot_id")
-    @ToString.Exclude
-    private Spot spot;
 
     @Builder.Default
     private LocalDateTime publishDate = LocalDateTime.now();
