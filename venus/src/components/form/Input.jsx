@@ -6,7 +6,7 @@ export default function Input({
   ...props
 }) {
   let classesInput =
-    "p-2 rounded-md dark:bg-darkBgMuted bg-lightBgMuted focus:outline-none focus:ring-1 dark:focus:ring-darkBorder focus:ring-lightBorder dark:text-darkText text-lightText";
+    "p-2 rounded-md dark:bg-darkBgMuted bg-lightBgMuted focus:outline-hidden focus:ring-1 dark:focus:ring-darkBorder focus:ring-lightBorder dark:text-darkText text-lightText";
   if (!isValid?.value) {
     classesInput += " outline  outline-red-600";
   }

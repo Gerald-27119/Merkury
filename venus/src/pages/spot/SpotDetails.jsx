@@ -70,14 +70,14 @@ export default function SpotDetails() {
             <Weather spot={data} />
             <PhotoGallery photos={data.photos} />
             <AddCommentForm spotId={spotId} isUserLoggedIn={isLogged} />
-            <div className="overflow-y-auto flex-grow min-h-60">
+            <div className="overflow-y-auto grow min-h-60">
               <Comments spotId={spotId} isUserLoggedIn={isLogged} />
             </div>
           </div>
         )}
       </div>
       {expandPhoto && (
-        <div className="flex-grow h-full z-50">
+        <div className="grow h-full z-50">
           <ExpandedPhotoGallery photos={data.photos} />
         </div>
       )}

@@ -132,7 +132,7 @@ export default function Comments({ spotId, isUserLoggedIn }) {
 
       <p className="text-lg">Comments:</p>
       {data && data.content.length >= 0 ? (
-        <div className="border-2 border-neutral-200 px-2.5 py-1 rounded-sm">
+        <div className="border-2 border-neutral-200 px-2.5 py-1 rounded-xs">
           <ul>
             {data.content.map((comment) => (
               <li key={comment.id}>
@@ -156,7 +156,7 @@ export default function Comments({ spotId, isUserLoggedIn }) {
             onPageChange={handlePageChange}
             containerClassName="flex justify-center items-center space-x-2 mt-3 mb-1"
             pageLinkClassName="px-2 py-1 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
-            activeLinkClassName="!bg-blue-500 !text-white !border-blue-500"
+            activeLinkClassName="bg-blue-500! text-white! border-blue-500!"
             nextLinkClassName="px-2 py-1 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
             previousLinkClassName="px-2 py-1 text-black bg-white border border-gray-300 rounded-md hover:bg-gray-200 hover:text-gray-900"
             disabledLinkClassName="opacity-50 cursor-not-allowed"
