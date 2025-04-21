@@ -25,6 +25,7 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String profileImage;
     private String email;
     private String username;
     private String password;
