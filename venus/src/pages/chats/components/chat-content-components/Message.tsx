@@ -3,11 +3,14 @@ import { formatSentAt } from "../../../../utils/chat";
 
 export interface MessageProps {
   message: SimpleMessageDto;
+  isCurrentUsers: boolean;
 }
 
-export default function Message({ message }: MessageProps) {
+export default function Message({ message, isCurrentUsers }: MessageProps) {
   return (
-    <div className="bg-violetDark flex w-fit gap-4 px-2 py-2">
+    <div
+      className={`bg-violetDark mr-5 flex w-fit gap-4 px-2 py-2 ${isCurrentUsers ? "ml-auto" : ""}`}
+    >
       <div className="w-10">
         <img
           className="aspect-square w-14 rounded-full"
