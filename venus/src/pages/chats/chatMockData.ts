@@ -29,11 +29,11 @@ export interface DetailedChat {
   id: number;
   name: string;
   img: string;
-  messages: Message[];
+  messages: SimpleMessageDto[];
   participants: Participant[];
 }
 
-export interface Message {
+export interface SimpleMessageDto {
   id: number;
   content: string;
   sentAt: string;
@@ -41,26 +41,26 @@ export interface Message {
 }
 
 export const MockSenders: MessageSender[] = [
-  { id: 1, name: "Ania", img: "" },
-  { id: 2, name: "Bartek", img: "" },
-  { id: 3, name: "Cezary", img: "" },
-  { id: 4, name: "Dominika", img: "" },
-  { id: 5, name: "Ewa", img: "" },
-  { id: 6, name: "Filip", img: "" },
-  { id: 7, name: "Grażyna", img: "" },
-  { id: 8, name: "Hubert", img: "" },
-  { id: 9, name: "Iwona", img: "" },
-  { id: 10, name: "Jacek", img: "" },
-  { id: 11, name: "Kamil", img: "" },
-  { id: 12, name: "Lena", img: "" },
-  { id: 13, name: "Marek", img: "" },
-  { id: 14, name: "Natalia", img: "" },
-  { id: 15, name: "Olga", img: "" },
-  { id: 16, name: "Paweł", img: "" },
-  { id: 17, name: "Roksana", img: "" },
-  { id: 18, name: "Szymon", img: "" },
-  { id: 19, name: "Teresa", img: "" },
-  { id: 20, name: "Wojciech", img: "" },
+  { id: 1, name: "Ania", img: "/public/logo.png" },
+  { id: 2, name: "Bartek", img: "/public/logo.png" },
+  { id: 3, name: "Cezary", img: "/public/logo.png" },
+  { id: 4, name: "Dominika", img: "/public/logo.png" },
+  { id: 5, name: "Ewa", img: "/public/logo.png" },
+  { id: 6, name: "Filip", img: "/public/logo.png" },
+  { id: 7, name: "Grażyna", img: "/public/logo.png" },
+  { id: 8, name: "Hubert", img: "/public/logo.png" },
+  { id: 9, name: "Iwona", img: "/public/logo.png" },
+  { id: 10, name: "Jacek", img: "/public/logo.png" },
+  { id: 11, name: "Kamil", img: "/public/logo.png" },
+  { id: 12, name: "Lena", img: "/public/logo.png" },
+  { id: 13, name: "Marek", img: "/public/logo.png" },
+  { id: 14, name: "Natalia", img: "/public/logo.png" },
+  { id: 15, name: "Olga", img: "/public/logo.png" },
+  { id: 16, name: "Paweł", img: "/public/logo.png" },
+  { id: 17, name: "Roksana", img: "/public/logo.png" },
+  { id: 18, name: "Szymon", img: "/public/logo.png" },
+  { id: 19, name: "Teresa", img: "/public/logo.png" },
+  { id: 20, name: "Wojciech", img: "/public/logo.png" },
 ];
 
 function getRandomElements<T>(arr: T[], count: number): T[] {
@@ -84,12 +84,15 @@ function makeParticipants(count: number): Participant[] {
 }
 
 // Generate 50 messages for given participants
-function makeMessages(chatId: number, participants: Participant[]): Message[] {
-  const messages: Message[] = [];
+function makeMessages(
+  chatId: number,
+  participants: Participant[],
+): SimpleMessageDto[] {
+  const messages: SimpleMessageDto[] = [];
   for (let i = 1; i <= 50; i++) {
     const sender =
       participants[Math.floor(Math.random() * participants.length)];
-    const msg: Message = {
+    const msg: SimpleMessageDto = {
       id: chatId * 1000 + i,
       content: `Sample message ${i} in chat ${chatId}`,
       sentAt: new Date(
