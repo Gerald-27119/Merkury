@@ -1,4 +1,9 @@
 package com.merkury.vulcanus.model.dtos.chat;
 
-public record DetailedChatDto() {
+import lombok.Builder;
+
+import java.util.List;
+
+@Builder
+public record DetailedChatDto(Long id, String name, List<ChatMessageDto> chatMessageDtoList, String imgUrl) {
 }

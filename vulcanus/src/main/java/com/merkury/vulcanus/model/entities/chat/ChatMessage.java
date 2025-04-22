@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.model.entities.chat;
 
 import com.merkury.vulcanus.model.entities.UserEntity;
+import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,5 +17,8 @@ public class ChatMessage {
     private UserEntity sender;
     private LocalDateTime sentAt;
     private boolean isSeen;
+
+    @ManyToOne
+    private Chat chat;
 
 }
