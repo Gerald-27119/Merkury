@@ -1,51 +1,35 @@
 import MostPopularImage from "./components/MostPopularImage";
 import ProfileStat from "./components/ProfileStat";
-
-const images = [
-  {
-    src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-    heartsCount: 30,
-    viewsCount: 120,
-    title: "Mountain Sunrise",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-    heartsCount: 45,
-    viewsCount: 300,
-    title: "Peaceful Forest",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-    heartsCount: 20,
-    viewsCount: 150,
-    title: "Lakeside View",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-    heartsCount: 70,
-    viewsCount: 540,
-    title: "Golden Sunset",
-  },
-];
+import useSelectorTyped from "../../../hooks/useSelectorTyped";
+import { useQuery } from "@tanstack/react-query";
+import { getUserProfile } from "../../../http/account";
+import UserProfile from "../../../model/interface/account/profile/userProfile";
 
 export default function Profile() {
+  const username = useSelectorTyped((state) => state.account.username);
+
+  const { data } = useQuery<UserProfile>({
+    queryFn: () => getUserProfile(username),
+    queryKey: ["userProfile"],
+  });
+
   return (
     <div className="dark:bg-darkBg dark:text-darkText flex h-screen w-full flex-col items-center justify-center-safe gap-20">
       <div className="-ml-80 flex items-center gap-10">
         <img
           alt="profileImage"
-          src="https://preview.redd.it/apple-cat-v0-8j62im9huxad1.jpeg?width=1080&crop=smart&auto=webp&s=2216680d98bf88d28c752a887b30d1194e15189a"
+          src={data?.profilePhoto}
           className="aspect-square h-[472px] rounded-full"
         />
         <div className="mt-18 flex flex-col gap-16">
           <p className="text-shadow-darkBorder text-3xl text-shadow-md">
-            Ludwik Kot
+            {data?.username}
           </p>
           <div className="flex gap-10">
-            <ProfileStat label="Followers" value={21} />
-            <ProfileStat label="Followed" value={45} />
-            <ProfileStat label="Friends" value={37} />
-            <ProfileStat label="Photos" value={65} />
+            <ProfileStat label="Followers" value={data?.followersCount} />
+            <ProfileStat label="Followed" value={data?.followedCount} />
+            <ProfileStat label="Friends" value={data?.friendsCount} />
+            <ProfileStat label="Photos" value={data?.photosCount} />
           </div>
         </div>
       </div>
@@ -54,7 +38,7 @@ export default function Profile() {
           most popular photos
         </h1>
         <div className="flex gap-6">
-          {images.map((image) => (
+          {data?.mostPopularPhotos?.map((image) => (
             <MostPopularImage image={image} key={image.title} />
           ))}
         </div>

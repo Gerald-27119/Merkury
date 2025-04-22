@@ -3,11 +3,7 @@ package com.merkury.vulcanus.model.entities;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.enums.UserRole;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +15,8 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "users")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 public class UserEntity implements UserDetails {
 
     @Id
@@ -28,6 +26,7 @@ public class UserEntity implements UserDetails {
     private String email;
     private String username;
     private String password;
+    private String profilePhoto;
 
     /**
      * Default lazy loading: Images are not loaded immediately with the UserEntity.
@@ -71,6 +70,21 @@ public class UserEntity implements UserDetails {
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Friendship> friendships = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_followers",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "follower_id")
+    )
+    @ToString.Exclude
+    @Builder.Default
+    private Set<UserEntity> followers = new HashSet<>();
+
+    @ManyToMany(mappedBy = "followers")
+    @ToString.Exclude
+    @Builder.Default
+    private Set<UserEntity> followed = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)

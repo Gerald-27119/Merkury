@@ -63,5 +63,13 @@ export async function editUserData({ id, user }) {
   ).data;
 }
 
+export async function getUserProfile(username) {
+  return (
+    await axios.get(`${BASE_URL}/account/profile/${username}`, {
+      withCredentials: true,
+    })
+  ).data;
+}
+
 export const googleLoginUrl = `${BASE_URL}/oauth2/authorization/google`;
 export const githubLoginUrl = `${BASE_URL}/oauth2/authorization/github`;

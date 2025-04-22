@@ -2,6 +2,7 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
+import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.dtos.user.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.user.UserLoginDto;
 import com.merkury.vulcanus.model.dtos.user.UserPasswordResetDto;
@@ -190,5 +191,11 @@ public class AccountController {
     @GetMapping("/account/check")
     public ResponseEntity<Void> checkIsAuthenticated() {
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/account/profile/{username}")
+    public ResponseEntity<UserProfileDto> getUserProfileDto(@PathVariable String username){
+        var user = accountService.getUserProfileDto(username);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }
