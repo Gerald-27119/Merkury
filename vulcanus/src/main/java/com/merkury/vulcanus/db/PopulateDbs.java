@@ -13,9 +13,16 @@ import org.springframework.context.annotation.Configuration;
 public class PopulateDbs {
 
     private final PopulateDbsService populateDbsService;
+    private final PopulateChatDataService populateChatDataService;
+
 
     @Bean
     CommandLineRunner initPostgresDb() {
         return args -> populateDbsService.initPostgresDb();
+    }
+
+    @Bean
+    CommandLineRunner initChatData() {
+        return args -> populateChatDataService.initChatData();
     }
 }
