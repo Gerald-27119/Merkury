@@ -135,7 +135,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`bg-violetDark text-darkText absolute z-50 flex h-full shrink-0 flex-col justify-between overflow-hidden p-2 transition-all duration-300 ${isSidebarOpen ? "w-[220px]" : "w-[70px]"}`}
+      className={`bg-violetDark text-darkText ${!location.pathname.includes("account") && "absolute"} z-50 flex h-full shrink-0 flex-col justify-between overflow-hidden p-2 transition-all duration-300 ${isSidebarOpen ? "w-[220px]" : "w-[70px]"}`}
     >
       <div className="flex flex-col space-y-10">
         <button
