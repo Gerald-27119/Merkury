@@ -5,7 +5,7 @@ export default interface UserProfile {
   profilePhoto: string;
   followersCount: number;
   followedCount: number;
-  friendsCount: string;
-  photosCount: string;
+  friendsCount: number;
+  photosCount: number;
   mostPopularPhotos: Image[];
 }
