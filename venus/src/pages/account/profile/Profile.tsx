@@ -22,7 +22,7 @@ export default function Profile() {
           className="aspect-square h-[472px] rounded-full"
         />
         <div className="mt-18 flex flex-col gap-16">
-          <p className="text-shadow-darkBorder text-3xl text-shadow-md">
+          <p className="text-shadow-darkBorder text-3xl capitalize text-shadow-md">
             {data?.username}
           </p>
           <div className="flex gap-10">
@@ -41,6 +41,9 @@ export default function Profile() {
           {data?.mostPopularPhotos?.map((image) => (
             <MostPopularImage image={image} key={image.title} />
           ))}
+          {data?.mostPopularPhotos.length === 0 && (
+            <p className="text-center text-lg">You didn't add any photos.</p>
+          )}
         </div>
       </div>
     </div>
