@@ -26,7 +26,8 @@ public class UserEntity implements UserDetails {
     private String email;
     private String username;
     private String password;
-    private String profilePhoto;
+    @Builder.Default
+    private String profilePhoto = "https://ucarecdn.com/ac4ffacd-8416-4d90-9613-35fb472a932d/defaultProfilePhoto.jpg";
 
     /**
      * Default lazy loading: Images are not loaded immediately with the UserEntity.
