@@ -2,13 +2,22 @@ package com.merkury.vulcanus.features.chat;
 
 import com.merkury.vulcanus.model.dtos.chat.DetailedChatDto;
 import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
-import com.merkury.vulcanus.model.repositories.UserEntityRepository;
+import com.merkury.vulcanus.model.entities.chat.Chat;
+import com.merkury.vulcanus.model.entities.chat.ChatMessage;
+import com.merkury.vulcanus.model.mappers.ChatMapper;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,17 +25,47 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
     private final ChatMessageRepository chatMessageRepository;
-    private final UserEntityRepository userEntityRepository;
 
-    //the userId is for development purposes only
+    //TODO: get rid off user id
+    public List<SimpleChatDto> getSimpleChatListForUserId(Long userId, int pageNumber) {
+        int size = 10;
+        Pageable pg = PageRequest.of(
+                pageNumber,
+                size,
+                Sort.by("lastMessageAt").descending()
+        );
+        Page<Chat> pageOfChats = chatRepository.findAllByParticipantsUserId(userId, pg);
 
-    public List<SimpleChatDto> getSimpleChatListForUserId(Long userId) {
-//        var userChats = userEntityRepository.findById(userId).orElseThrow().getChats();
-//        var chats
-        return null;
+        return pageOfChats.stream()
+                .map(chat -> {
+                    // assuming chat.getChatMessages() is @OrderBy("sentAt DESC"),
+                    // otherwise compute:
+                    ChatMessage lastMsg = chat.getChatMessages().stream()
+                            .max(Comparator.comparing(ChatMessage::getSentAt))
+                            .orElse(null);
+                    return ChatMapper.toSimpleChatDto(chat, lastMsg);
+                })
+                .collect(Collectors.toList());
     }
 
-    public List<DetailedChatDto> getDetailedChatForUserId(Long userId) {
-        return null;
+    public DetailedChatDto getDetailedChatForUserId(Long userId, Long chatId) {
+        Chat chat = chatRepository
+                .findByIdAndParticipantsUserId(chatId, userId)
+                .orElseThrow(() -> new EntityNotFoundException("Chat not found or access denied"));
+
+        // first 15 messages (most recent first)
+        Pageable firstPage = PageRequest.of(0, 15, Sort.by("sentAt").descending());
+        List<ChatMessage> messages = chatMessageRepository
+                .findAllByChatId(chatId, firstPage)
+                .getContent();
+
+        return ChatMapper.toDetailedChatDto(chat, messages);
+    }
+
+    public List<ChatMessage> getChatMessages(Long chatId, int pageNumber) {
+        int size = 10;
+        Pageable pg = PageRequest.of(pageNumber, size, Sort.by("sentAt").descending());
+        return chatMessageRepository.findAllByChatId(chatId, pg)
+                .getContent();
     }
 }

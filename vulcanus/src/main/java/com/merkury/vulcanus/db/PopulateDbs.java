@@ -13,7 +13,8 @@ import org.springframework.context.annotation.Configuration;
 public class PopulateDbs {
 
     private final PopulateDbsService populateDbsService;
-    private final PopulateChatDataService populateChatDataService;
+    private final PopulateChatsService populateChatsService;
+    private final PopulateUsersService populateUsersService;
 
 
     @Bean
@@ -22,7 +23,13 @@ public class PopulateDbs {
     }
 
     @Bean
-    CommandLineRunner initChatData() {
-        return args -> populateChatDataService.initChatData();
+    CommandLineRunner initUsers() {
+        return args -> populateUsersService.initUsers();
     }
+
+    @Bean
+    CommandLineRunner initChats() {
+        return args -> populateChatsService.initChatData();
+    }
+
 }
