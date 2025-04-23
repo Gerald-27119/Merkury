@@ -34,8 +34,9 @@ public class ChatInvitation {
     private Chat chat;
 
     @ManyToOne(fetch = LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "sender_id", nullable = false)
     private UserEntity sender;
+
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
@@ -45,5 +46,7 @@ public class ChatInvitation {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne(fetch = LAZY, optional = false)
+    @JoinColumn(name = "receiver_id", nullable = false)
     private UserEntity receiver;
+
 }

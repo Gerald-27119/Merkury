@@ -5,10 +5,12 @@ import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.mappers.ChatMapper;
+import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,11 +21,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ChatService {
 
     private final ChatRepository chatRepository;
+    private final UserEntityRepository userEntityRepository;
     private final ChatMessageRepository chatMessageRepository;
 
     //TODO: get rid off user id
@@ -34,6 +38,10 @@ public class ChatService {
                 size,
                 Sort.by("lastMessageAt").descending()
         );
+
+        var user = userEntityRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+        log.info("User id: [{}], Username: [{}], ChatParticipation's count:[{}]", userId, user.getUsername(),user.getChatParticipations().size());
+
         Page<Chat> pageOfChats = chatRepository.findAllByParticipantsUserId(userId, pg);
 
         return pageOfChats.stream()

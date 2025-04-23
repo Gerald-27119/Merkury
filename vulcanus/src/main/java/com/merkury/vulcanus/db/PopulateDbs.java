@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 @Slf4j
 @Configuration
@@ -14,19 +15,14 @@ public class PopulateDbs {
 
     private final PopulateDbsService populateDbsService;
     private final PopulateChatsService populateChatsService;
-    private final PopulateUsersService populateUsersService;
 
-
+    @Order(2)
     @Bean
     CommandLineRunner initPostgresDb() {
         return args -> populateDbsService.initPostgresDb();
     }
-
-    @Bean
-    CommandLineRunner initUsers() {
-        return args -> populateUsersService.initUsers();
-    }
-
+//TODO: jednak oddzielny na userow
+    @Order(1)
     @Bean
     CommandLineRunner initChats() {
         return args -> populateChatsService.initChatData();

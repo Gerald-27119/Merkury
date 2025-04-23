@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -27,38 +28,61 @@ public class PopulateChatsService {
     private final ChatMessageRepository chatMessageRepository;
 
     @Transactional
+    public void initUsers() {
+        var users = generateUsers();
+        userEntityRepository.saveAll(users);
+    }
+
+    private List<UserEntity> generateUsers() {
+        return IntStream.rangeClosed(1, 30)
+                .mapToObj(i -> UserEntity.builder()
+                        .email(String.format("user%d@example.com", i))
+                        .username("user" + i)
+                        .password(passwordEncoder.encode("password"))
+                        .build()
+                )
+                .collect(Collectors.toList());
+    }
+
+
+    @Transactional
     public void initChatData() {
-        var user1 = userEntityRepository.findByUsername("user1").orElseThrow();
-        var user2 = userEntityRepository.findByUsername("user2").orElseThrow();
+        initUsers();
 
-        var chatList = createChats();
-        var chat1 = chatList.getFirst();
+        // 1) load your users
+        UserEntity user1 = userEntityRepository.findByUsername("user1").orElseThrow();
+        UserEntity user2 = userEntityRepository.findByUsername("user2").orElseThrow();
 
+        // 2) create or load chats (make sure createChats() already persisted them,
+        //    otherwise you'll need to save here)
+        Chat chat1 = createChats().getFirst();
+
+        // 3) prepare your message stream
         List<ChatMessage> chat1Messages = getChatMessages().toList();
 
+        // 4) assign chat, sender and sentAt with random 1–3 runs
         UserEntity currentSender = user1;
-        int runLength = ThreadLocalRandom.current().nextInt(1, 4);
-        int runCount  = 0;
-
+        int runLength = ThreadLocalRandom.current().nextInt(1, 4), runCount = 0;
         for (int i = 0; i < chat1Messages.size(); i++) {
             ChatMessage msg = chat1Messages.get(i);
             msg.setChat(chat1);
+            msg.setSender(currentSender);
             msg.setSentAt(LocalDateTime.now().plusSeconds(i));
 
-            msg.setSender(currentSender);
-
-            runCount++;
-            if (runCount >= runLength) {
-                currentSender = (currentSender.equals(user1) ? user2 : user1);
+            if (++runCount >= runLength) {
+                currentSender = currentSender.equals(user1) ? user2 : user1;
                 runLength = ThreadLocalRandom.current().nextInt(1, 4);
                 runCount = 0;
             }
         }
-        chat1.getChatMessages().addAll(chat1Messages);
 
+        chatMessageRepository.saveAll(chat1Messages);
+        // 5) attach messages and participants to the chat
+        chat1.getChatMessages().addAll(chat1Messages);
         chat1.addParticipant(user1);
         chat1.addParticipant(user2);
 
+        // 6) save once—cascade will persist messages & participants
         chatRepository.save(chat1);
     }
 

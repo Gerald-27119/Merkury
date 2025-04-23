@@ -96,12 +96,20 @@ public class UserEntity implements UserDetails {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(
-            mappedBy = "user",
+            mappedBy = "receiver",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     @Builder.Default
-    private List<ChatInvitation> invitations = new ArrayList<>();
+    private List<ChatInvitation> receivedInvitations = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "sender",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @Builder.Default
+    private List<ChatInvitation> sentInvitations = new ArrayList<>();
 
 
     @OneToMany(

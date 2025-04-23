@@ -27,10 +27,12 @@ public class ChatMessage {
     private UserEntity sender;
 
 //    @Column(nullable = false)
-    private String content;
+    @Builder.Default
+    private String content = "";
 
 //    @Column(nullable = false)
-    private LocalDateTime sentAt;
+    @Builder.Default
+    private LocalDateTime sentAt = LocalDateTime.now();
 
 //    @Column(nullable = false)
     @Builder.Default

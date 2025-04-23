@@ -30,9 +30,16 @@ public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private LocalDateTime createdAt;
-    private String imgUrl;
+
+    @Builder.Default
+    private String name = "";
+
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Builder.Default
+    private String imgUrl = "";
+
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private ChatType chatType = ChatType.PRIVATE;
@@ -65,6 +72,7 @@ public class Chat {
 
     @OneToMany(mappedBy = "chat")
     @OrderBy("sentAt DESC")
-    private List<ChatMessage> chatMessages;
+    @Builder.Default
+    private List<ChatMessage> chatMessages = new ArrayList<>();
 
 }
