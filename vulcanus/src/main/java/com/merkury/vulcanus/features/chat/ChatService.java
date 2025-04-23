@@ -58,7 +58,7 @@ public class ChatService {
 
     public DetailedChatDto getDetailedChatForUserId(Long userId, Long chatId) {
         Chat chat = chatRepository
-                .findByIdAndParticipantsUserId(chatId, userId)
+                .findByIdAndParticipantsUserId(chatId, userId)//po co oba?
                 .orElseThrow(() -> new EntityNotFoundException("Chat not found or access denied"));
 
         // first 15 messages (most recent first)
@@ -73,7 +73,7 @@ public class ChatService {
     public List<ChatMessage> getChatMessages(Long chatId, int pageNumber) {
         int size = 10;
         Pageable pg = PageRequest.of(pageNumber, size, Sort.by("sentAt").descending());
-        return chatMessageRepository.findAllByChatId(chatId, pg)
+        return chatMessageRepository.findAllByChatId(chatId, pg)//TODO:map to dto
                 .getContent();
     }
 }

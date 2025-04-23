@@ -41,6 +41,10 @@ public class ChatMapper {
 
     private static ChatMessageDto toChatMessageDto(ChatMessage chatMessage,
                                                    ChatMessageSenderDto chatMessageSenderDto) {
+
+        if(chatMessage == null) {
+            return null;
+        }
         return ChatMessageDto.builder()
                 .id(chatMessage.getId())
                 .content(chatMessage.getContent())
@@ -50,6 +54,10 @@ public class ChatMapper {
     }
 
     private static ChatMessageSenderDto toChatMessageSenderDto(ChatMessage chatMessage) {
+        if(chatMessage == null) {
+            return null;
+        }
+
         return ChatMessageSenderDto.builder()
                 .id(chatMessage.getSender().getId())
                 .name(chatMessage.getSender().getUsername())

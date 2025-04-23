@@ -47,56 +47,99 @@ public class PopulateChatsService {
 
     @Transactional
     public void initChatData() {
+        // 1) ensure users exist
         initUsers();
 
-        // 1) load your users
-        UserEntity user1 = userEntityRepository.findByUsername("user1").orElseThrow();
-        UserEntity user2 = userEntityRepository.findByUsername("user2").orElseThrow();
+        UserEntity user1 = userEntityRepository
+                .findByUsername("user1")
+                .orElseThrow();
 
-        // 2) create or load chats (make sure createChats() already persisted them,
-        //    otherwise you'll need to save here)
-        Chat chat1 = createChats().getFirst();
-
-        // 3) prepare your message stream
-        List<ChatMessage> chat1Messages = getChatMessages().toList();
-
-        // 4) assign chat, sender and sentAt with random 1–3 runs
-        UserEntity currentSender = user1;
-        int runLength = ThreadLocalRandom.current().nextInt(1, 4), runCount = 0;
-        for (int i = 0; i < chat1Messages.size(); i++) {
-            ChatMessage msg = chat1Messages.get(i);
-            msg.setChat(chat1);
-            msg.setSender(currentSender);
-            msg.setSentAt(LocalDateTime.now().plusSeconds(i));
-
-            if (++runCount >= runLength) {
-                currentSender = currentSender.equals(user1) ? user2 : user1;
-                runLength = ThreadLocalRandom.current().nextInt(1, 4);
-                runCount = 0;
-            }
-        }
-
-        chatMessageRepository.saveAll(chat1Messages);
-        // 5) attach messages and participants to the chat
-        chat1.getChatMessages().addAll(chat1Messages);
-        chat1.addParticipant(user1);
-        chat1.addParticipant(user2);
-
-        // 6) save once—cascade will persist messages & participants
-        chatRepository.save(chat1);
-    }
-
-    private List<Chat> createChats() {
-        var chats = IntStream.range(0, 20)
-                .mapToObj(i -> createChat())
+        // we'll need “others” to fill participant slots
+        List<UserEntity> others = IntStream.rangeClosed(2, 30)
+                .mapToObj(i -> userEntityRepository
+                        .findByUsername("user" + i)
+                        .orElseThrow()
+                )
                 .toList();
 
-        return chatRepository.saveAll(chats);
+        // 2) create & persist, say,  twelve chats
+        List<Chat> chats = createChats()  // returns e.g. 12
+                .stream()
+                .peek(chatRepository::save)
+                .toList();
+
+        // 3) assign per-chat rules by index
+        for (int i = 0; i < chats.size(); i++) {
+            Chat chat = chats.get(i);
+
+            if (i < 3) {
+                // FIRST 3 CHATS — no messages, just 2 participants
+                initChat(chat,
+                        List.of(user1, others.get(i)),
+                        /* withMessages= */ false);
+
+            } else if (i < 6) {
+                // NEXT 3 CHATS — 3 participants, with messages
+                // we take two “others” per chat:
+                List<UserEntity> three =
+                        List.of(user1,
+                                others.get(i),
+                                others.get(i + 1));
+                initChat(chat, three, /* withMessages= */ true);
+
+            } else {
+                // REST — 2 participants, with messages
+                initChat(chat,
+                        List.of(user1, others.get(i)),
+                        /* withMessages= */ true);
+            }
+        }
     }
 
-    private Chat createChat() {
-        return Chat.builder()
-                .build();
+    /**
+     * Bootstraps a single chat: attaches participants, optionally seeds
+     * 50 messages with random 1–3 runs, and saves everything.
+     */
+    private void initChat(
+            Chat chat,
+            List<UserEntity> participants,
+            boolean withMessages
+    ) {
+        // attach participants
+        for (UserEntity u : participants) {
+            chat.addParticipant(u);
+        }
+
+        if (withMessages) {
+            // generate 50 sample ChatMessage instances
+            List<ChatMessage> msgs = getChatMessages().toList();
+
+            // round-robin across participants in runs of 1–3
+            int idx = 0, runLen = rndLen(), runCnt = 0;
+            for (int i = 0; i < msgs.size(); i++) {
+                ChatMessage m = msgs.get(i);
+                m.setChat(chat);
+                m.setSender(participants.get(idx));
+                m.setSentAt(LocalDateTime.now().plusSeconds(i));
+
+                if (++runCnt >= runLen) {
+                    idx = (idx + 1) % participants.size();
+                    runLen = rndLen();
+                    runCnt = 0;
+                }
+            }
+
+            // bulk-save messages, then wire into chat
+            chatMessageRepository.saveAll(msgs);
+            chat.getChatMessages().addAll(msgs);
+        }
+
+        // finally persist chat + participants (and messages if any)
+        chatRepository.save(chat);
+    }
+
+    private int rndLen() {
+        return ThreadLocalRandom.current().nextInt(1, 4);
     }
 
     private Stream<ChatMessage> getChatMessages() {
@@ -148,14 +191,25 @@ public class PopulateChatsService {
                 "End.",
                 "🐱‍🏍",
                 "🎶🎵",
-                "ChatMessage number fifty—mission accomplished!"
-        };
-
+                "ChatMessage number fifty—mission accomplished!"};
         return IntStream.rangeClosed(1, 50)
                 .mapToObj(i -> ChatMessage.builder()
                         .content(samples[(i - 1) % samples.length])
                         .build()
                 );
+    }
+
+    private List<Chat> createChats() {
+        var chats = IntStream.range(0, 20)
+                .mapToObj(i -> createChat())
+                .toList();
+
+        return chatRepository.saveAll(chats);
+    }
+
+    private Chat createChat() {
+        return Chat.builder()
+                .build();
     }
 
 }

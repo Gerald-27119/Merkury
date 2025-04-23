@@ -68,7 +68,8 @@ public class Chat {
     @Formula(
             "(SELECT MAX(m.sent_at) FROM chat_messages m WHERE m.chat_id = id)"
     )
-    private LocalDateTime lastMessageAt;
+    @Builder.Default
+    private LocalDateTime lastMessageAt = LocalDateTime.now();//ten default am sens?
 
     @OneToMany(mappedBy = "chat")
     @OrderBy("sentAt DESC")

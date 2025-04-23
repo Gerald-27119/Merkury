@@ -42,10 +42,10 @@ public class ChatController {
      * GET /api/chats/{chatId}?userId=42
      * returns chat metadata + first 15 messages
      */
-    @GetMapping("/{chatId}")
+    @GetMapping("/{chatId}/{userId}")
     public DetailedChatDto getChatDetail(
             @PathVariable Long chatId,
-            @RequestParam Long userId
+            @PathVariable Long userId
     ) {
         return chatService.getDetailedChatForUserId(userId, chatId);
     }
