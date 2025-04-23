@@ -5,6 +5,7 @@ import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.DetailedChatDto;
 import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,50 +18,58 @@ import java.util.List;
 @RequestMapping("/public/chats")
 @RequiredArgsConstructor
 public class ChatController {
-    //get all
-    //get detailed
-    //create chat
-    //send message ( i want by POST i guess, receiving new ones by WS, correcting with GET? )
-//    TODO: tell in the book about the use of the websocket in the project
-//    tell why relational db is worse for messaging
 
     private final ChatService chatService;
 
     /**
-     * GET /api/chats?userId=42&page=0
+     * GET /public/chats?userId=42&page=0
      * returns up to 10 SimpleChatDto sorted by last interaction
      */
     @GetMapping
-    public List<SimpleChatDto> listChats(
+    public ResponseEntity<List<SimpleChatDto>> listChats(
             @RequestParam Long userId,
             @RequestParam(defaultValue = "0") int page
     ) {
-        return chatService.getSimpleChatListForUserId(userId, page);
+        List<SimpleChatDto> chats = chatService.getSimpleChatListForUserId(userId, page);
+        return ResponseEntity.ok(chats);
     }
 
     /**
-     * GET /api/chats/{chatId}?userId=42
+     * GET /public/chats/{chatId}/{userId}
      * returns chat metadata + first 15 messages
      */
     @GetMapping("/{chatId}/{userId}")
-    public DetailedChatDto getChatDetail(
+    public ResponseEntity<DetailedChatDto> getChatDetail(
             @PathVariable Long chatId,
             @PathVariable Long userId
     ) {
-        return chatService.getDetailedChatForUserId(userId, chatId);
+        DetailedChatDto dto = chatService.getDetailedChatForUserId(userId, chatId);
+        return ResponseEntity.ok(dto);
     }
 
     /**
-     * GET /api/chats/{chatId}/messages?
-     * userId=42&page=1
-     * returns next 10 messages (page 1,2,…)
+     * GET /public/chats/{chatId}/messages?page=1
+     * returns next 10 messages (page 1, 2, …)
      */
     @GetMapping("/{chatId}/messages")
-    public List<ChatMessageDto> getMoreMessages(
+    public ResponseEntity<List<ChatMessageDto>> getMoreMessages(
             @PathVariable Long chatId,
             @RequestParam(defaultValue = "0") int page
     ) {
-        return chatService.getChatMessages(chatId, page);
+        List<ChatMessageDto> messages = chatService.getChatMessages(chatId, page);
+        return ResponseEntity.ok(messages);
     }
-
 }
+//Each method now explicitly returns ResponseEntity<T>.
+//
+//You can later change, e.g.,
+//
+//java
+//        Kopiuj
+//Edytuj
+//return chats.isEmpty()
+//    ? ResponseEntity.noContent().build()
+//    : ResponseEntity.ok(chats);
+//if you want to send 204 No Content when there are no chats.
+//
+//        Similarly, you can catch a ChatNotFoundException in an @ControllerAdvice and return 404 Not Found for the detail endpoint.

@@ -21,8 +21,8 @@ export interface Participant {
 export interface ListedChatDto {
   id: number;
   name: string;
-  img: string;
-  lastMessage: ListedChatLastedMessage;
+  imgUrl: string;
+  lastMessageDto: ListedChatLastedMessage;
 }
 
 export interface DetailedChat {
