@@ -14,15 +14,15 @@ export default function Profile() {
   });
 
   return (
-    <div className="dark:bg-darkBg dark:text-darkText flex h-screen w-full flex-col items-center justify-center-safe gap-20">
+    <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg flex h-screen w-full flex-col items-center justify-center-safe gap-20">
       <div className="-ml-80 flex items-center gap-10">
         <img
           alt="profileImage"
           src={data?.profilePhoto}
-          className="aspect-square h-[472px] rounded-full"
+          className="dark:drop-shadow-darkBgMuted aspect-square h-[472px] rounded-full shadow-md dark:drop-shadow-md"
         />
         <div className="mt-18 flex flex-col gap-16">
-          <p className="text-shadow-darkBorder text-3xl capitalize text-shadow-md">
+          <p className="dark:text-shadow-darkBorder text-3xl capitalize text-shadow-md">
             {data?.username}
           </p>
           <div className="flex gap-10">
@@ -34,7 +34,7 @@ export default function Profile() {
         </div>
       </div>
       <div className="flex flex-col gap-6">
-        <h1 className="text-shadow-darkBorder text-3xl font-semibold capitalize text-shadow-md">
+        <h1 className="dark:text-shadow-darkBorder text-3xl font-semibold capitalize text-shadow-md">
           most popular photos
         </h1>
         <div className="flex gap-6">
