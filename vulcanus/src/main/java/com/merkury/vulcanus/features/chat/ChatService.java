@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.features.chat;
 
+import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.DetailedChatDto;
 import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
@@ -70,10 +71,12 @@ public class ChatService {
         return ChatMapper.toDetailedChatDto(chat, messages);
     }
 
-    public List<ChatMessage> getChatMessages(Long chatId, int pageNumber) {
+    public List<ChatMessageDto> getChatMessages(Long chatId, int pageNumber) {
         int size = 10;
         Pageable pg = PageRequest.of(pageNumber, size, Sort.by("sentAt").descending());
-        return chatMessageRepository.findAllByChatId(chatId, pg)//TODO:map to dto
-                .getContent();
+        return chatMessageRepository.findAllByChatId(chatId, pg).stream().map(message->{
+            var mappedSender = ChatMapper.toChatMessageSenderDto(message);
+            return ChatMapper.toChatMessageDto(message,mappedSender);
+        }).toList();
     }
 }

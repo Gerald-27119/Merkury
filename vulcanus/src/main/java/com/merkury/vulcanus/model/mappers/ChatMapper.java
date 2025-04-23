@@ -39,7 +39,7 @@ public class ChatMapper {
                 .build();
     }
 
-    private static ChatMessageDto toChatMessageDto(ChatMessage chatMessage,
+    public static ChatMessageDto toChatMessageDto(ChatMessage chatMessage,
                                                    ChatMessageSenderDto chatMessageSenderDto) {
 
         if(chatMessage == null) {
@@ -53,7 +53,7 @@ public class ChatMapper {
                 .build();
     }
 
-    private static ChatMessageSenderDto toChatMessageSenderDto(ChatMessage chatMessage) {
+    public static ChatMessageSenderDto toChatMessageSenderDto(ChatMessage chatMessage) {
         if(chatMessage == null) {
             return null;
         }

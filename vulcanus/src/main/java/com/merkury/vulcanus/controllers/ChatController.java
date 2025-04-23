@@ -1,9 +1,9 @@
 package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.features.chat.ChatService;
+import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.DetailedChatDto;
 import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
-import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,7 +56,7 @@ public class ChatController {
      * returns next 10 messages (page 1,2,…)
      */
     @GetMapping("/{chatId}/messages")
-    public List<ChatMessage> getMoreMessages(
+    public List<ChatMessageDto> getMoreMessages(
             @PathVariable Long chatId,
             @RequestParam(defaultValue = "0") int page
     ) {
