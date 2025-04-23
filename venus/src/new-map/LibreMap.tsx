@@ -31,7 +31,8 @@ export default function LibreMap() {
         zoom: 15,
       }}
       style={{ width: "100vw", height: "100vh" }}
-      mapStyle="https://tiles.openfreemap.org/styles/positron"
+      // mapStyle="https://tiles.openfreemap.org/styles/positron"
+      mapStyle="/public/style1.json"
       attributionControl={false}
     >
       <Source id="my-data" type="geojson" data={geojson}>
