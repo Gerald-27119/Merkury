@@ -1,4 +1,5 @@
 import axios from "axios";
+import UserProfile from "../model/interface/account/profile/userProfile.js";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function registerUser(user) {
@@ -63,7 +64,7 @@ export async function editUserData({ id, user }) {
   ).data;
 }
 
-export async function getUserProfile(username) {
+export async function getUserProfile(username: string): Promise<UserProfile> {
   return (
     await axios.get(`${BASE_URL}/account/profile/${username}`, {
       withCredentials: true,

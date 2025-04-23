@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { test } from "../../http/account.js";
+import { test } from "../../http/account.ts";
 import Error from "../../components/error/Error.jsx";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
 

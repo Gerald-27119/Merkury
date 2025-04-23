@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import Input from "../../components/form/Input.jsx";
-import { loginUser } from "../../http/account.js";
+import { loginUser } from "../../http/account.ts";
 import FormContainer from "../../components/form/FormContainer.jsx";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import { useDispatch } from "react-redux";
@@ -67,14 +67,14 @@ function Login() {
         <div className={"remember-forgot flex justify-between"}>
           <Link
             to="/forgot-password"
-            className="text-blue-700 text-sm hover:underline"
+            className="text-sm text-blue-700 hover:underline"
           >
             Forgot Password?
           </Link>
         </div>
         <button
           type="submit"
-          className="bg-mainBlue p-3 mt-3 text-darkText rounded-lg w-full hover:bg-mainBlueDarker"
+          className="bg-mainBlue text-darkText hover:bg-mainBlueDarker mt-3 w-full rounded-lg p-3"
           disabled={
             !didEdit.username ||
             !didEdit.password ||

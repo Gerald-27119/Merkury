@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import FormContainer from "../../components/form/FormContainer.jsx";
 import Input from "../../components/form/Input.jsx";
-import { sentEmailWithNewPasswordLink } from "../../http/account.js";
+import { sentEmailWithNewPasswordLink } from "../../http/account.ts";
 
 export default function ForgotPassword() {
   const { mutate, isSuccess, error } = useMutation({
@@ -37,7 +37,7 @@ export default function ForgotPassword() {
         />
         <button
           type="submit"
-          className="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
+          className="m-1 mt-2 mb-2 w-full rounded-lg bg-black p-1 text-white"
           disabled={!didEdit.email || !isValid.email.value}
         >
           Remind me

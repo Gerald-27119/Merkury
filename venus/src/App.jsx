@@ -6,7 +6,7 @@ const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 import { accountAction } from "./redux/account.jsx";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { logout } from "./http/account.js";
+import { logout } from "./http/account.ts";
 
 const queryClient = new QueryClient();
 

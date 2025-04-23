@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
-import { changePassword } from "../../http/account.js";
+import { changePassword } from "../../http/account.ts";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import FormContainer from "../../components/form/FormContainer.jsx";
 import Input from "../../components/form/Input.jsx";
@@ -51,7 +51,7 @@ export default function NewPassword() {
         />
         <button
           type="submit"
-          className="bg-black text-white rounded-md w-full p-1 mx-1 my-2"
+          className="mx-1 my-2 w-full rounded-md bg-black p-1 text-white"
           disabled={
             !didEdit.password ||
             !didEdit["confirm-password"] ||
