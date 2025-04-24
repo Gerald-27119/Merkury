@@ -1,8 +1,8 @@
 export interface ListedChatLastedMessage {
   id: number;
-  message: string;
+  content: string;
   sentAt: string;
-  sender: string;
+  chatMessageSenderDto: ChatMessageSenderDto;
 }
 
 export interface MessageSender {
@@ -10,7 +10,11 @@ export interface MessageSender {
   name: string;
   img: string;
 }
-
+export interface ChatMessageSenderDto {
+  id: number;
+  name: string;
+  imgUrl: string;
+}
 export interface Participant {
   id: number;
   name: string;
@@ -105,7 +109,6 @@ function makeMessages(
   return messages;
 }
 
-export const MockChatListData: ListedChatDto[] = [];
 export const DetailedChats: DetailedChat[] = [];
 
 for (let chatId = 1; chatId <= 15; chatId++) {
@@ -116,18 +119,11 @@ for (let chatId = 1; chatId <= 15; chatId++) {
   const last = messages[messages.length - 1];
   const lastMessage: ListedChatLastedMessage = {
     id: last.id,
-    message: last.content,
+    content: last.content,
     sentAt: last.sentAt,
     sender: last.sender.name,
   };
   const name = isGroup ? `Group Chat ${chatId}` : `Private Chat ${chatId - 5}`;
-
-  MockChatListData.push({
-    id: chatId,
-    name,
-    img: "/public/logo.png",
-    lastMessage,
-  });
 
   DetailedChats.push({
     id: chatId,

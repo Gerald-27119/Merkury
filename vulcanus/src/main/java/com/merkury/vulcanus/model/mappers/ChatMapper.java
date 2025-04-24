@@ -8,18 +8,22 @@ import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static com.merkury.vulcanus.model.enums.chat.ChatType.PRIVATE;
 
 public class ChatMapper {
 
-    public static SimpleChatDto toSimpleChatDto(Chat chat, ChatMessage lastMessage) {
+    public static SimpleChatDto toSimpleChatDto(Chat chat, ChatMessage lastMessage, Long userId) {
         var messageSenderDto = toChatMessageSenderDto(lastMessage);
         var lastMessageDto = ChatMapper.toChatMessageDto(lastMessage, messageSenderDto);
 
         return SimpleChatDto.builder()
                 .id(chat.getId())
-                .name(chat.getName())
+                .name(getChatName(chat, userId))
                 .lastMessageDto(lastMessageDto)
-                .imgUrl(chat.getImgUrl())
+                .imgUrl(getChatImgUrl(chat, userId))
                 .build();
     }
 
@@ -40,9 +44,9 @@ public class ChatMapper {
     }
 
     public static ChatMessageDto toChatMessageDto(ChatMessage chatMessage,
-                                                   ChatMessageSenderDto chatMessageSenderDto) {
+                                                  ChatMessageSenderDto chatMessageSenderDto) {
 
-        if(chatMessage == null) {
+        if (chatMessage == null) {
             return null;
         }
         return ChatMessageDto.builder()
@@ -54,7 +58,7 @@ public class ChatMapper {
     }
 
     public static ChatMessageSenderDto toChatMessageSenderDto(ChatMessage chatMessage) {
-        if(chatMessage == null) {
+        if (chatMessage == null) {
             return null;
         }
 
@@ -63,5 +67,49 @@ public class ChatMapper {
                 .name(chatMessage.getSender().getUsername())
                 .profileImg(chatMessage.getSender().getProfileImage())
                 .build();
+    }
+
+    private static String getChatName(Chat chat, Long userId) {
+        if (chat.getName() != null) return chat.getName();
+        else {
+            switch (chat.getChatType()) {
+                case PRIVATE -> {
+                    return chat.getParticipants().stream()
+                            .filter(chatParticipant -> !Objects.equals(chatParticipant.getUser().getId(), userId))
+                            .map(chatParticipant -> chatParticipant.getUser().getUsername()).findFirst().orElse(null);
+                }
+                case GROUP -> {
+                    return chat.getParticipants().stream()
+                            .filter(chatParticipant -> !Objects.equals(chatParticipant.getUser().getId(), userId))
+                            .map(chatParticipant -> chatParticipant.getUser().getUsername())
+                            .collect(Collectors.joining(", "));
+                }
+                default -> {
+                    return null;
+                }
+            }
+        }
+    }
+
+    private static String getChatImgUrl(Chat chat, Long userId) {
+        if (chat.getImgUrl() != null) return chat.getImgUrl();
+        else {
+            switch (chat.getChatType()) {
+                case PRIVATE -> {
+                    return chat.getParticipants().stream()
+                            .filter(cp -> !Objects.equals(cp.getUser().getId(), userId))
+                            .findFirst()
+                            .map(cp -> cp.getUser().getProfileImage())
+                            .orElse(null);
+                }
+                case GROUP -> {
+                    return "default-group-img-url";
+                    //TODO: implement group images
+                }
+                default -> {
+                    return null;
+                }
+            }
+        }
     }
 }

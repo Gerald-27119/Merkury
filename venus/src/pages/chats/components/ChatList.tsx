@@ -9,7 +9,7 @@ export default function ChatList() {
   const page = 0;
 
   const {
-    data: chats = [],
+    data: chats,
     isLoading,
     isError,
     error,
@@ -27,7 +27,7 @@ export default function ChatList() {
     return <div>Failed to load chats</div>;
   }
 
-  if (chats.length === 0) {
+  if (chats === undefined || chats.length === 0) {
     return <p>Brak czatów</p>;
   }
 

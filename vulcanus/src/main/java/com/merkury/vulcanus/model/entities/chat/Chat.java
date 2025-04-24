@@ -32,13 +32,13 @@ public class Chat {
     private Long id;
 
     @Builder.Default
-    private String name = "";
+    private String name = null;
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Builder.Default
-    private String imgUrl = "";
+    private String imgUrl = null;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default

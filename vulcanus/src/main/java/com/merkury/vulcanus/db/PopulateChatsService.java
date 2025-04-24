@@ -3,6 +3,7 @@ package com.merkury.vulcanus.db;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
+import com.merkury.vulcanus.model.enums.chat.ChatType;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
@@ -17,6 +18,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import static com.merkury.vulcanus.model.enums.chat.ChatType.GROUP;
 
 @Service
 @RequiredArgsConstructor
@@ -108,6 +111,7 @@ public class PopulateChatsService {
         // attach participants
         for (UserEntity u : participants) {
             chat.addParticipant(u);
+            if (chat.getParticipants().size() > 2) chat.setChatType(GROUP);
         }
 
         if (withMessages) {
@@ -136,6 +140,18 @@ public class PopulateChatsService {
 
         // finally persist chat + participants (and messages if any)
         chatRepository.save(chat);
+
+        var groupChat = chatRepository.findById(4L).orElseThrow();
+        groupChat.setImgUrl("chat_group.png");
+        chatRepository.save(groupChat);
+
+
+        var users = IntStream.rangeClosed(1, 10)
+                .mapToObj(i -> userEntityRepository.findByUsername("user" + i)
+                        .orElseThrow(() -> new IllegalArgumentException("User not found: user" + i)))
+                .peek(user -> user.setProfileImage(user.getUsername() + ".png"))
+                .toList();
+        userEntityRepository.saveAll(users);
     }
 
     private int rndLen() {

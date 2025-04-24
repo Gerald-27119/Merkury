@@ -31,7 +31,6 @@ public class ChatService {
     private final UserEntityRepository userEntityRepository;
     private final ChatMessageRepository chatMessageRepository;
 
-    //TODO: get rid off user id
     public List<SimpleChatDto> getSimpleChatListForUserId(Long userId, int pageNumber) {
         int size = 10;
         Pageable pg = PageRequest.of(
@@ -39,9 +38,6 @@ public class ChatService {
                 size,
                 Sort.by("lastMessageAt").descending()
         );
-
-        var user = userEntityRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
-        log.info("User id: [{}], Username: [{}], ChatParticipation's count:[{}]", userId, user.getUsername(),user.getChatParticipations().size());
 
         Page<Chat> pageOfChats = chatRepository.findAllByParticipantsUserId(userId, pg);
 
@@ -52,9 +48,9 @@ public class ChatService {
                     ChatMessage lastMsg = chat.getChatMessages().stream()
                             .max(Comparator.comparing(ChatMessage::getSentAt))
                             .orElse(null);
-                    return ChatMapper.toSimpleChatDto(chat, lastMsg);
+                    return ChatMapper.toSimpleChatDto(chat, lastMsg, userId);
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public DetailedChatDto getDetailedChatForUserId(Long userId, Long chatId) {
