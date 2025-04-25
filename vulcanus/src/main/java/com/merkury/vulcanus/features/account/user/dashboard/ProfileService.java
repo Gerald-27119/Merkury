@@ -19,7 +19,7 @@ public class ProfileService {
         var user = userEntityRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundByUsernameException(username));
         var images = user.getImages().stream()
-                .sorted(Comparator.comparingInt(Img::getLikes))
+                .sorted(Comparator.comparingInt(Img::getLikes).reversed())
                 .limit(4)
                 .map(ProfileMapper::toDto)
                 .toList();
