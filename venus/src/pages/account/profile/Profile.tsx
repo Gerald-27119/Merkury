@@ -9,7 +9,7 @@ export default function Profile() {
 
   const { data } = useQuery({
     queryFn: () => getUserProfile(username),
-    queryKey: ["userProfile"],
+    queryKey: ["userProfile", username],
   });
 
   return (

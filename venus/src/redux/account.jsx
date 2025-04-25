@@ -19,7 +19,7 @@ export const accountSlice = createSlice({
       localStorage.removeItem("is_logged_in");
       state.isLogged = false;
       localStorage.removeItem("username");
-      state.username = null;
+      state.username = "";
     },
   },
 });
