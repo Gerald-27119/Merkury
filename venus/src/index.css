@@ -55,9 +55,3 @@
     border-color: var(--color-gray-200, currentcolor);
   }
 }
-
-/*jeszcze nie rozgryzłem czemu ale styl do rozmiaru mapy musi być w index.css, inaczej nie działa*/
-.leaflet-container {
-  height: 95vh;
-  width: 100%;
-}

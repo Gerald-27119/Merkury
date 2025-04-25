@@ -11,6 +11,7 @@ import Forum from "./pages/forum/Forum.jsx";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
 import FavouriteSpots from "./pages/favourite-spots/FavouriteSpots.jsx";
+import MapContainer from "./pages/map/MapContainer.tsx";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
             <FavouriteSpots />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "map",
+        element: <MapContainer />,
       },
     ],
   },
