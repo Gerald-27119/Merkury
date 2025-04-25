@@ -18,7 +18,7 @@ export default function Profile() {
         <img
           alt="profileImage"
           src={data?.profilePhoto}
-          className="dark:drop-shadow-darkBgMuted aspect-square h-[472px] rounded-full shadow-md dark:drop-shadow-md"
+          className="dark:drop-shadow-darkBgMuted aspect-square h-96 rounded-full shadow-md dark:drop-shadow-md"
         />
         <div className="mt-18 flex flex-col gap-16">
           <p className="dark:text-shadow-darkBorder text-3xl capitalize text-shadow-md">
