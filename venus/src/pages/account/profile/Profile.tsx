@@ -2,7 +2,7 @@ import MostPopularImage from "./components/MostPopularImage";
 import ProfileStat from "./components/ProfileStat";
 import useSelectorTyped from "../../../hooks/useSelectorTyped";
 import { useQuery } from "@tanstack/react-query";
-import { getUserProfile } from "../../../http/account";
+import { getUserProfile } from "../../../http/user-dashboard";
 
 export default function Profile() {
   const username = useSelectorTyped((state) => state.account.username);

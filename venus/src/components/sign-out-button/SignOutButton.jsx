@@ -1,4 +1,4 @@
-import { logout } from "../../http/account.ts";
+import { logout } from "../../http/account.js";
 import { useDispatch } from "react-redux";
 import { accountAction } from "../../redux/account.jsx";
 import { notificationAction } from "../../redux/notification.jsx";

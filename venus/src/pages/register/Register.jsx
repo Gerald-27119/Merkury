@@ -1,5 +1,5 @@
 import Input from "../../components/form/Input.jsx";
-import { registerUser } from "../../http/account.ts";
+import { registerUser } from "../../http/account.js";
 import { useMutation } from "@tanstack/react-query";
 import FormContainer from "../../components/form/FormContainer.jsx";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";

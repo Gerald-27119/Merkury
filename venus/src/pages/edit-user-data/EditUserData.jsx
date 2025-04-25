@@ -1,7 +1,7 @@
 import FormContainer from "../../components/form/FormContainer.jsx";
 import Input from "../../components/form/Input.jsx";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { editUserData, getUser } from "../../http/account.ts";
+import { editUserData, getUser } from "../../http/account.js";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import { useEffect, useState } from "react";
 import ProviderInfo from "./components/ProviderInfo.jsx";

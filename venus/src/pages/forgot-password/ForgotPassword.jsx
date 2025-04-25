@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import FormContainer from "../../components/form/FormContainer.jsx";
 import Input from "../../components/form/Input.jsx";
-import { sentEmailWithNewPasswordLink } from "../../http/account.ts";
+import { sentEmailWithNewPasswordLink } from "../../http/account.js";
 
 export default function ForgotPassword() {
   const { mutate, isSuccess, error } = useMutation({
