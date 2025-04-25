@@ -40,7 +40,7 @@ export default function Profile() {
           {data?.mostPopularPhotos?.map((image) => (
             <MostPopularImage image={image} key={image.title} />
           ))}
-          {data?.mostPopularPhotos.length === 0 && (
+          {data?.mostPopularPhotos?.length === 0 && (
             <p className="text-center text-lg">You didn't add any photos.</p>
           )}
         </div>
