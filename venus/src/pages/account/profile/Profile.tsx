@@ -13,18 +13,18 @@ export default function Profile() {
   });
 
   return (
-    <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg flex h-screen w-full flex-col items-center justify-center-safe gap-20">
-      <div className="-ml-80 flex items-center gap-10">
+    <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg flex h-fit w-full flex-col items-center justify-center gap-20 p-6 lg:h-full xl:p-0">
+      <div className="flex flex-col items-center gap-7 lg:-ml-40 lg:flex-row xl:-ml-42 xl:gap-10 2xl:-ml-80">
         <img
           alt="profileImage"
           src={data?.profilePhoto}
-          className="dark:drop-shadow-darkBgMuted aspect-square h-96 rounded-full shadow-md dark:drop-shadow-md"
+          className="dark:drop-shadow-darkBgMuted aspect-square h-64 rounded-full shadow-md sm:h-80 lg:h-85 xl:h-96 dark:drop-shadow-md"
         />
-        <div className="mt-18 flex flex-col gap-16">
-          <p className="dark:text-shadow-darkBorder text-3xl capitalize text-shadow-md">
+        <div className="flex flex-col gap-6 lg:mt-18 lg:gap-16">
+          <p className="dark:text-shadow-darkBorder text-center text-3xl capitalize text-shadow-md lg:text-start">
             {data?.username}
           </p>
-          <div className="flex gap-10">
+          <div className="flex flex-wrap justify-center gap-10 xl:flex-nowrap">
             <ProfileStat label="Followers" value={data?.followersCount} />
             <ProfileStat label="Followed" value={data?.followedCount} />
             <ProfileStat label="Friends" value={data?.friendsCount} />
@@ -32,11 +32,11 @@ export default function Profile() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col items-center gap-6">
         <h1 className="dark:text-shadow-darkBorder text-3xl font-semibold capitalize text-shadow-md">
           most popular photos
         </h1>
-        <div className="flex gap-6">
+        <div className="flex flex-wrap justify-center-safe gap-6 lg:flex-nowrap">
           {data?.mostPopularPhotos?.map((image) => (
             <MostPopularImage image={image} key={image.title} />
           ))}

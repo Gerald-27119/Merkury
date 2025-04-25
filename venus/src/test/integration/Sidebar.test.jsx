@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { configureStore } from "@reduxjs/toolkit";
 import { accountSlice } from "../../redux/account.jsx";
 import userEvent from "@testing-library/user-event";
-import Sidebar from "../../layout/sidebar/Sidebar.jsx";
+import Sidebar from "../../layout/sidebar/Sidebar.tsx";
 
 const queryClient = new QueryClient();
 
