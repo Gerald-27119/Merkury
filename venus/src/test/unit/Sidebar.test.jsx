@@ -27,7 +27,7 @@ const renderSidebar = (preloadedState, pathname) => {
   );
 };
 
-describe("Header component unit tests", () => {
+describe("Sidebar component unit tests", () => {
   describe("When sidebar is close and user is not logged", () => {
     beforeEach(() => {
       renderSidebar(
