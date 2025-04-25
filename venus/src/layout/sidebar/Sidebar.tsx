@@ -14,6 +14,7 @@ import { TbMapPin, TbMapPinPlus } from "react-icons/tb";
 import { BsGear } from "react-icons/bs";
 import SidebarItem from "./components/SidebarItem";
 import useSelectorTyped from "../../hooks/useSelectorTyped";
+import { useLocation } from "react-router-dom";
 
 const links = [
   { to: "/", icon: <BiHome size={35} aria-label="home" />, name: "home" },
@@ -94,6 +95,7 @@ export default function Sidebar({
   );
 
   const isLogged = useSelectorTyped((state) => state.account.isLogged);
+  const location = useLocation();
 
   const optionsLinks = [
     {
