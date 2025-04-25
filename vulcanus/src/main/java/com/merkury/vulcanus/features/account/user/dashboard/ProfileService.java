@@ -1,5 +1,6 @@
-package com.merkury.vulcanus.features.account;
+package com.merkury.vulcanus.features.account.user.dashboard;
 
+import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.mappers.ProfileMapper;
@@ -14,8 +15,9 @@ import java.util.Comparator;
 public class ProfileService {
     private final UserEntityRepository userEntityRepository;
 
-    public UserProfileDto getUserProfileDto(String username){
-        var user = userEntityRepository.findByUsername(username).orElseThrow();
+    public UserProfileDto getUserProfile(String username) throws UserNotFoundByUsernameException {
+        var user = userEntityRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundByUsernameException(username));
         var images = user.getImages().stream()
                 .sorted(Comparator.comparingInt(Img::getLikes))
                 .limit(4)

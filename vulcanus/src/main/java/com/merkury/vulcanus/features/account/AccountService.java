@@ -6,7 +6,6 @@ import com.merkury.vulcanus.exception.exceptions.InvalidProviderException;
 import com.merkury.vulcanus.exception.exceptions.UsernameNotFoundException;
 import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
 import com.merkury.vulcanus.model.dtos.OAuth2LoginResponseDto;
-import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.dtos.user.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.user.UserLoginDto;
 import com.merkury.vulcanus.model.dtos.user.UserPasswordResetDto;
@@ -38,7 +37,6 @@ public class AccountService {
     private final RestartPasswordService restartPasswordService;
     private final UserDataService userDataService;
     private final UserEntityRepository userEntityRepository;
-    private final ProfileService profileService;
 
     public void registerUser(UserRegisterDto userDto) throws EmailTakenException, UsernameTakenException {
         registerService.registerUser(userDto);
@@ -107,9 +105,5 @@ public class AccountService {
 
     public GetUserBasicInfoDto getUser(HttpServletRequest request) {
         return userDataService.getUserData(request);
-    }
-
-    public UserProfileDto getUserProfileDto(String username){
-        return profileService.getUserProfileDto(username);
     }
 }

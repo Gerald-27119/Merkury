@@ -192,10 +192,4 @@ public class AccountController {
     public ResponseEntity<Void> checkIsAuthenticated() {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
-    @GetMapping("/account/profile/{username}")
-    public ResponseEntity<UserProfileDto> getUserProfileDto(@PathVariable String username){
-        var user = accountService.getUserProfileDto(username);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
-    }
 }
