@@ -1,6 +1,8 @@
-import { Map } from "@vis.gl/react-maplibre";
+import { GeolocateControl, Map, MapRef } from "@vis.gl/react-maplibre";
 import ZoomControlPanel from "./components/ZoomControlPanel";
 import { useRef } from "react";
+import UserLocationButton from "./components/UserLocationButton";
+import type maplibregl from "maplibre-gl";
 
 type Position = {
   longitude: number;
@@ -13,6 +15,8 @@ const defaultPosition: Position = {
 };
 export default function MapContainer() {
   const mapRef = useRef<MapRef | null>(null);
+  const geoControlRef = useRef<maplibregl.GeolocateControl | null>(null);
+
   return (
     <Map
       ref={mapRef}
@@ -30,6 +34,12 @@ export default function MapContainer() {
       mapStyle="/map_style1.json"
       attributionControl={false}
     >
+      <GeolocateControl
+        position={"top-right"}
+        ref={geoControlRef}
+        style={{ display: "none" }}
+      />
+      <UserLocationButton geoRef={geoControlRef} />
       <ZoomControlPanel mapRef={mapRef} />
     </Map>
   );

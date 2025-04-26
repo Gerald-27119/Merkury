@@ -29,6 +29,8 @@
   --color-sixth: #E94560;
   --color-magenta: #A01BC1;
   --color-darkYellow: #C5A03C;
+  --color-locationMarkerDarkerBlue: #A3DCFF;
+  --color-locationMarkerLightBlue: #52BAFB;
 
   --animate-slide-in-from-left: slideInFromLeft 0.3s ease-out;
 
