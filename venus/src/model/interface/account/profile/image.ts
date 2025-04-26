@@ -3,4 +3,5 @@ export interface Image {
   heartsCount: number;
   viewsCount: number;
   title: string;
+  id: number;
 }

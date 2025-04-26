@@ -3,14 +3,19 @@ import ProfileStat from "./components/ProfileStat";
 import useSelectorTyped from "../../../hooks/useSelectorTyped";
 import { useQuery } from "@tanstack/react-query";
 import { getUserProfile } from "../../../http/user-dashboard";
+import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 
 export default function Profile() {
   const username = useSelectorTyped((state) => state.account.username);
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryFn: () => getUserProfile(username),
     queryKey: ["userProfile", username],
   });
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg flex min-h-screen w-full flex-col items-center gap-20 p-6 lg:justify-center xl:p-0">
@@ -38,7 +43,7 @@ export default function Profile() {
         </h1>
         <div className="flex flex-wrap justify-center-safe gap-6 lg:flex-nowrap">
           {data?.mostPopularPhotos?.map((image) => (
-            <MostPopularImage image={image} key={image.title} />
+            <MostPopularImage image={image} key={image.id} />
           ))}
           {data?.mostPopularPhotos?.length === 0 && (
             <p className="text-center text-lg">You didn't add any photos.</p>

@@ -18,6 +18,7 @@ public class ProfileMapper {
                 .heartsCount(img.getLikes())
                 .viewsCount(img.getViews())
                 .title(img.getAlt())
+                .id(img.getId())
                 .build();
     }
 

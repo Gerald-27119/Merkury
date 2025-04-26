@@ -25,22 +25,19 @@ export default function Layout() {
   };
 
   return (
-    <>
-      <div
-        className={`${location.pathname.includes("account") ? "flex" : "relative"} lg:h-screen`}
-      >
-        <Sidebar
-          isSidebarOpen={isSidebarOpen}
-          onToggle={toggleSideBar}
-          onClose={closeSideBar}
-        />
-        <main className="relative flex w-full flex-col items-center justify-center">
-          <MobileBar onToggle={toggleSideBar} />
-          <Notification title="test" message="message" />
-          <Outlet />
-        </main>
-      </div>
-      {/*<Footer />*/}
-    </>
+    <div
+      className={`${location.pathname.includes("account") ? "flex" : "relative"} lg:h-screen`}
+    >
+      <Sidebar
+        isSidebarOpen={isSidebarOpen}
+        onToggle={toggleSideBar}
+        onClose={closeSideBar}
+      />
+      <main className="relative flex w-full flex-col items-center justify-center">
+        <MobileBar onToggle={toggleSideBar} />
+        <Notification title="test" message="message" />
+        <Outlet />
+      </main>
+    </div>
   );
 }

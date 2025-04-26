@@ -12,5 +12,7 @@ public record ImageDto(@NotBlank(message = "Src cannot be empty.")
                        @Positive(message = "ViewsCount must be a positive number.")
                        Integer viewsCount,
                        @NotBlank(message = "Title cannot be empty.")
-                       String title) {
+                       String title,
+                       @Positive(message = "Id must be a positive number.")
+                       Long id) {
 }
