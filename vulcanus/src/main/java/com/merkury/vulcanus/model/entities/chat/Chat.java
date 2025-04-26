@@ -69,7 +69,7 @@ public class Chat {
             "(SELECT MAX(m.sent_at) FROM chat_messages m WHERE m.chat_id = id)"
     )
     @Builder.Default
-    private LocalDateTime lastMessageAt = LocalDateTime.now();//ten default am sens?
+    private LocalDateTime lastMessageAt = LocalDateTime.now();//TODO: figure out better default value
 
     @OneToMany(mappedBy = "chat")
     @OrderBy("sentAt DESC")

@@ -74,6 +74,7 @@ const router = createBrowserRouter([
       {
         path: "chat",
         element: (
+          // for demo purposes only
           // <ProtectedRoute>
           <ChatsPage />
           // </ProtectedRoute>

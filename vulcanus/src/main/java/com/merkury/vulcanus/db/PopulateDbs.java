@@ -21,7 +21,7 @@ public class PopulateDbs {
     CommandLineRunner initPostgresDb() {
         return args -> populateDbsService.initPostgresDb();
     }
-//TODO: jednak oddzielny na userow
+
     @Order(1)
     @Bean
     CommandLineRunner initChats() {

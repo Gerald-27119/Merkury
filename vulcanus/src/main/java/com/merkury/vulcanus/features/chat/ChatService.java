@@ -39,8 +39,6 @@ public class ChatService {
 
         return pageOfChats.stream()
                 .map(chat -> {
-                    // assuming chat.getChatMessages() is @OrderBy("sentAt DESC"),
-                    // otherwise compute:
                     ChatMessage lastMsg = chat.getChatMessages().stream()
                             .max(Comparator.comparing(ChatMessage::getSentAt))
                             .orElse(null);
@@ -51,10 +49,10 @@ public class ChatService {
 
     public DetailedChatDto getDetailedChatForUserId(Long userId, Long chatId) {
         Chat chat = chatRepository
-                .findByIdAndParticipantsUserId(chatId, userId)//po co oba?
+                .findByIdAndParticipantsUserId(chatId, userId)
                 .orElseThrow(() -> new EntityNotFoundException("Chat not found or access denied"));
 
-        // first 15 messages (most recent first)
+        //TODO: decide on the number of messages to fetch
         Pageable firstPage = PageRequest.of(0, 15, Sort.by("sentAt").descending());
         List<ChatMessage> messages = chatMessageRepository
                 .findAllByChatId(chatId, firstPage)

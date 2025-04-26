@@ -25,7 +25,7 @@ public class ChatMessage {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sender_id", nullable = false)
     private UserEntity sender;
-
+//TODO: figure out better defaults
 //    @Column(nullable = false)
     @Builder.Default
     private String content = "";
