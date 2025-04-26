@@ -1,8 +1,8 @@
-import { SimpleMessageDto } from "../../chatMockData";
 import { formatSentAt } from "../../../../utils/chat";
+import { ChatMessageDto } from "../../constants";
 
 export interface MessageProps {
-  message: SimpleMessageDto;
+  message: ChatMessageDto;
   isCurrentUsers: boolean;
 }
 
@@ -14,7 +14,7 @@ export default function Message({ message, isCurrentUsers }: MessageProps) {
       <div className="w-10">
         <img
           className="aspect-square w-14 rounded-full"
-          src={message.sender.img}
+          src={message.sender.imgUrl}
           alt={"Sender's image"}
         />
       </div>

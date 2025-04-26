@@ -6,7 +6,6 @@ import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.mappers.ChatMapper;
-import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -28,14 +26,12 @@ import java.util.stream.Collectors;
 public class ChatService {
 
     private final ChatRepository chatRepository;
-    private final UserEntityRepository userEntityRepository;
     private final ChatMessageRepository chatMessageRepository;
 
-    public List<SimpleChatDto> getSimpleChatListForUserId(Long userId, int pageNumber) {
-        int size = 10;
+    public List<SimpleChatDto> getSimpleChatListForUserId(Long userId, int pageNumber, int numberOfChatsPerPage) {
         Pageable pg = PageRequest.of(
                 pageNumber,
-                size,
+                numberOfChatsPerPage,
                 Sort.by("lastMessageAt").descending()
         );
 
@@ -67,12 +63,14 @@ public class ChatService {
         return ChatMapper.toDetailedChatDto(chat, messages);
     }
 
-    public List<ChatMessageDto> getChatMessages(Long chatId, int pageNumber) {
-        int size = 10;
-        Pageable pg = PageRequest.of(pageNumber, size, Sort.by("sentAt").descending());
-        return chatMessageRepository.findAllByChatId(chatId, pg).stream().map(message->{
+    public List<ChatMessageDto> getChatMessages(Long chatId, int pageNumber, int numberOfMessagesPerPage) {
+        Pageable pg = PageRequest.of(pageNumber,
+                numberOfMessagesPerPage,
+                Sort.by("sentAt").descending());
+
+        return chatMessageRepository.findAllByChatId(chatId, pg).stream().map(message -> {
             var mappedSender = ChatMapper.toChatMessageSenderDto(message);
-            return ChatMapper.toChatMessageDto(message,mappedSender);
+            return ChatMapper.toChatMessageDto(message, mappedSender);
         }).toList();
     }
 }

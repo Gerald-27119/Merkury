@@ -3,7 +3,6 @@ package com.merkury.vulcanus.db;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
-import com.merkury.vulcanus.model.enums.chat.ChatType;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
@@ -140,11 +139,6 @@ public class PopulateChatsService {
 
         // finally persist chat + participants (and messages if any)
         chatRepository.save(chat);
-
-        var groupChat = chatRepository.findById(4L).orElseThrow();
-        groupChat.setImgUrl("chat_group.png");
-        chatRepository.save(groupChat);
-
 
         var users = IntStream.rangeClosed(1, 10)
                 .mapToObj(i -> userEntityRepository.findByUsername("user" + i)

@@ -12,9 +12,15 @@ export interface ChatDto {
   detailedChatDto: DetailedChatDto;
 }
 
+interface ChatsState {
+  nextPage: number | null;
+}
+
 const chatsAdapter = createEntityAdapter<ChatDto>({});
 
-const initialState = chatsAdapter.getInitialState();
+const initialState = chatsAdapter.getInitialState<ChatsState>({
+  nextPage: 1,
+});
 
 export const chatsSlice = createSlice({
   name: "chats",
@@ -47,10 +53,14 @@ export const chatsSlice = createSlice({
       }));
       chatsAdapter.upsertMany(state, toUpsert);
     },
+    setNextPage(state, action: PayloadAction<number | null>) {
+      state.nextPage = action.payload;
+    },
   },
 });
 
-export const { addSimpleChatDtos, addDetailedChatDtos } = chatsSlice.actions;
+export const { addSimpleChatDtos, addDetailedChatDtos, setNextPage } =
+  chatsSlice.actions;
 
 export const {
   selectAll: selectAllChats,

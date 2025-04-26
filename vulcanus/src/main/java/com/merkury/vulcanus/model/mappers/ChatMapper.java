@@ -101,7 +101,7 @@ public class ChatMapper {
                             .orElse(null);
                 }
                 case GROUP -> {
-                    return "default-group-img-url";
+                    return null;
                     //TODO: implement group images
                 }
                 default -> {

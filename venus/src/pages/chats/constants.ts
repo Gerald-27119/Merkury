@@ -32,3 +32,8 @@ export interface DetailedChatDto {
   messages: ChatMessageDto[];
   participants: ChatParticipantDto[];
 }
+
+export interface ChatPage {
+  items: SimpleChatDto[];
+  nextPage?: number;
+}

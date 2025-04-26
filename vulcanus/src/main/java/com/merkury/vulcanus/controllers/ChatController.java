@@ -21,56 +21,30 @@ public class ChatController {
 
     private final ChatService chatService;
 
-    //TODO: parametrizacja ile na stronie
-    /**
-     * GET /public/chats?userId=42&page=0
-     * returns up to 10 SimpleChatDto sorted by last interaction
-     */
     @GetMapping
-    public ResponseEntity<List<SimpleChatDto>> listChats(
+    public ResponseEntity<List<SimpleChatDto>> getSimpleChatDtos(
             @RequestParam Long userId,
-            @RequestParam(defaultValue = "0") int page
+            @RequestParam(defaultValue = "0") int pageParam,
+            @RequestParam(defaultValue = "13") int numberOfChatsPerPage
     ) {
-        List<SimpleChatDto> chats = chatService.getSimpleChatListForUserId(userId, page);
-        return ResponseEntity.ok(chats);
+        return ResponseEntity.ok(chatService.getSimpleChatListForUserId(userId, pageParam, numberOfChatsPerPage));
     }
 
-    /**
-     * GET /public/chats/{chatId}/{userId}
-     * returns chat metadata + first 15 messages
-     */
-    @GetMapping("/{chatId}/{userId}")
-    public ResponseEntity<DetailedChatDto> getChatDetail(
+    @GetMapping("/{chatId}")
+    public ResponseEntity<DetailedChatDto> getDetailedChatDtos(
             @PathVariable Long chatId,
-            @PathVariable Long userId
+            @RequestParam Long userId
     ) {
-        DetailedChatDto dto = chatService.getDetailedChatForUserId(userId, chatId);
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok(chatService.getDetailedChatForUserId(userId, chatId));
     }
 
-    /**
-     * GET /public/chats/{chatId}/messages?page=1
-     * returns next 10 messages (page 1, 2, …)
-     */
+
     @GetMapping("/{chatId}/messages")
     public ResponseEntity<List<ChatMessageDto>> getMoreMessages(
             @PathVariable Long chatId,
-            @RequestParam(defaultValue = "0") int page
+            @RequestParam(defaultValue = "0") int pageParam,
+            @RequestParam(defaultValue = "20") int numberOfMessagesPerPage
     ) {
-        List<ChatMessageDto> messages = chatService.getChatMessages(chatId, page);
-        return ResponseEntity.ok(messages);
+        return ResponseEntity.ok(chatService.getChatMessages(chatId, pageParam, numberOfMessagesPerPage));
     }
 }
-//Each method now explicitly returns ResponseEntity<T>.
-//
-//You can later change, e.g.,
-//
-//java
-//        Kopiuj
-//Edytuj
-//return chats.isEmpty()
-//    ? ResponseEntity.noContent().build()
-//    : ResponseEntity.ok(chats);
-//if you want to send 204 No Content when there are no chats.
-//
-//        Similarly, you can catch a ChatNotFoundException in an @ControllerAdvice and return 404 Not Found for the detail endpoint.
