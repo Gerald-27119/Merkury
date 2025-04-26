@@ -29,8 +29,8 @@ export async function getDetailedChat(
   userId: number,
 ): Promise<DetailedChatDto> {
   const response = await axios.get<DetailedChatDto>(
-    `${BASE_URL}/public/chats/${chatId}/${userId}`,
-    { params: { chatId, userId } },
+    `${BASE_URL}/public/chats/${chatId}`,
+    { params: { userId } },
   );
   return response.data;
 }
