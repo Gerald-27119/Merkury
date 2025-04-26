@@ -4,7 +4,7 @@ interface MobileBarProps {
   onToggle: () => void;
 }
 
-export default function MobileBar({ onToggle }: Readonly<MobileBarProps>) {
+export default function MobileBar({ onToggle }: MobileBarProps) {
   return (
     <div className="bg-violetDark text-darkText absolute top-0 left-0 z-20 flex w-full items-center justify-between p-2 xl:hidden">
       <button onClick={onToggle} className="ml-2 w-fit cursor-pointer">

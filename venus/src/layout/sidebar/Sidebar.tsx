@@ -89,7 +89,7 @@ export default function Sidebar({
   isSidebarOpen,
   onToggle,
   onClose,
-}: Readonly<SidebarProps>) {
+}: SidebarProps) {
   const [isDark, setIsDark] = useState(
     localStorage.getItem("theme") === "dark",
   );

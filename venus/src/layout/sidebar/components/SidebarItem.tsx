@@ -20,7 +20,7 @@ export default function SidebarItem({
   onChangeTheme,
   isMiddlePart,
   onLinkClick,
-}: Readonly<SidebarItemProps>) {
+}: SidebarItemProps) {
   const content = (isActive: boolean): ReactElement => (
     <>
       <div className="flex h-10 w-10 shrink-0 items-center justify-center">

@@ -3,10 +3,7 @@ interface ProfileStatsProps {
   label: string;
 }
 
-export default function ProfileStat({
-  value,
-  label,
-}: Readonly<ProfileStatsProps>) {
+export default function ProfileStat({ value, label }: ProfileStatsProps) {
   return (
     <div className="flex cursor-pointer flex-col items-center gap-3">
       <p className="text-darkBorder text-2xl">{label}</p>

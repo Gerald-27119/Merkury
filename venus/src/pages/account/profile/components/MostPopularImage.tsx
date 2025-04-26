@@ -5,7 +5,7 @@ interface ImageProps {
   image: Image;
 }
 
-export default function MostPopularImage({ image }: Readonly<ImageProps>) {
+export default function MostPopularImage({ image }: ImageProps) {
   return (
     <div className="group relative">
       <img
