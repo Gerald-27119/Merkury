@@ -1,10 +1,8 @@
-import { DetailedChats } from "../../chatMockData";
 import Message from "./Message";
 
 export default function ChatMessagingWindow() {
   const selectedChatId = 1;
   const isCurrentUsers = true;
-  const chat = DetailedChats[selectedChatId];
   const chatMessages = chat.messages;
 
   return (

@@ -5,5 +5,5 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record ChatMessageDto(Long id, ChatMessageSenderDto chatMessageSenderDto, LocalDateTime sentAt, String content) {
+public record ChatMessageDto(Long id, ChatMessageSenderDto sender, LocalDateTime sentAt, String content) {
 }

@@ -6,7 +6,7 @@ export default function ChatContent() {
   return (
     <div className="flex h-full flex-col">
       <ChatTopBar />
-      <ChatMessagingWindow />
+      {/*<ChatMessagingWindow />*/}
       <ChatBottomBar />
     </div>
   );

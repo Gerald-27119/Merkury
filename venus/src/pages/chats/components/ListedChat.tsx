@@ -1,40 +1,38 @@
-import { ListedChatDto } from "../chatMockData";
 import { formatMessageLength, formatSentAt } from "../../../utils/chat";
+import { SimpleChatDto } from "../constants";
+import { memo } from "react";
 
 export interface ListedChatProps {
-  listedChatDto: ListedChatDto;
+  simpleChatDto: SimpleChatDto;
 }
 
-export default function ListedChat({ listedChatDto }: ListedChatProps) {
-  console.log(listedChatDto);
+function ListedChat({ simpleChatDto }: ListedChatProps) {
   return (
     <div className="flex items-center gap-4 px-3 py-3">
       <img
         className="aspect-square w-12 rounded-full"
         src={
-          listedChatDto.imgUrl
-            ? `/public/users/${listedChatDto.imgUrl}`
+          simpleChatDto.imgUrl
+            ? `/public/users/${simpleChatDto.imgUrl}`
             : "/public/users/default.png"
         }
         alt={"Image that listed chat has"}
       />
       <div className="flex flex-col">
-        <p className="text-lg font-medium">{listedChatDto.name}</p>
+        <p className="text-lg font-medium">{simpleChatDto.name}</p>
         <div className="flex gap-2 pr-3 text-sm text-nowrap text-gray-400">
-          {listedChatDto.lastMessageDto && (
+          {simpleChatDto.lastMessage && (
             <>
-              {listedChatDto.lastMessageDto?.chatMessageSenderDto?.name && (
+              {simpleChatDto.lastMessage?.sender?.name && (
                 <p className="font-semibold">
-                  {listedChatDto.lastMessageDto.chatMessageSenderDto.name}:
+                  {simpleChatDto.lastMessage.sender.name}:
                 </p>
               )}
               <p>
-                {formatMessageLength(
-                  listedChatDto.lastMessageDto.content ?? "",
-                )}
+                {formatMessageLength(simpleChatDto.lastMessage.content ?? "")}
               </p>
               <p className="text-xs text-gray-400">
-                {formatSentAt(listedChatDto.lastMessageDto.sentAt)}
+                {formatSentAt(simpleChatDto.lastMessage.sentAt)}
               </p>
             </>
           )}
@@ -43,3 +41,5 @@ export default function ListedChat({ listedChatDto }: ListedChatProps) {
     </div>
   );
 }
+
+export default memo(ListedChat);

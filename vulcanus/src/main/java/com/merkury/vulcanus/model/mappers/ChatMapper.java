@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.merkury.vulcanus.model.enums.chat.ChatType.PRIVATE;
-
 public class ChatMapper {
 
     public static SimpleChatDto toSimpleChatDto(Chat chat, ChatMessage lastMessage, Long userId) {
@@ -22,7 +20,7 @@ public class ChatMapper {
         return SimpleChatDto.builder()
                 .id(chat.getId())
                 .name(getChatName(chat, userId))
-                .lastMessageDto(lastMessageDto)
+                .lastMessage(lastMessageDto)
                 .imgUrl(getChatImgUrl(chat, userId))
                 .build();
     }
@@ -38,7 +36,7 @@ public class ChatMapper {
         return DetailedChatDto.builder()
                 .id(chat.getId())
                 .name(chat.getName())
-                .chatMessageDtoList(chatMessageDtoList)
+                .messages(chatMessageDtoList)
                 .imgUrl(chat.getImgUrl())
                 .build();
     }
@@ -53,7 +51,7 @@ public class ChatMapper {
                 .id(chatMessage.getId())
                 .content(chatMessage.getContent())
                 .sentAt(chatMessage.getSentAt())
-                .chatMessageSenderDto(chatMessageSenderDto)
+                .sender(chatMessageSenderDto)
                 .build();
     }
 
@@ -65,7 +63,7 @@ public class ChatMapper {
         return ChatMessageSenderDto.builder()
                 .id(chatMessage.getSender().getId())
                 .name(chatMessage.getSender().getUsername())
-                .profileImg(chatMessage.getSender().getProfileImage())
+                .imgUrl(chatMessage.getSender().getProfileImage())
                 .build();
     }
 

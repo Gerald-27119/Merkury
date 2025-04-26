@@ -21,6 +21,7 @@ public class ChatController {
 
     private final ChatService chatService;
 
+    //TODO: parametrizacja ile na stronie
     /**
      * GET /public/chats?userId=42&page=0
      * returns up to 10 SimpleChatDto sorted by last interaction
