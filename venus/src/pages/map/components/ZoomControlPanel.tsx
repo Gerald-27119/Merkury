@@ -7,11 +7,11 @@ type ZoomControlPanelProps = {
 const btnClasses: string =
   "cursor-pointer w-full p-4 dark:bg-violetDarker bg-fifth hover:dark:bg-violetDark hover:bg-lightBgButed inset-shadow-sm shadow-sm";
 export default function ZoomControlPanel({ mapRef }: ZoomControlPanelProps) {
-  const handleZoomIn: void = () => {
+  const handleZoomIn = () => {
     const map = mapRef.current?.getMap();
     if (map) map.zoomIn();
   };
-  const handleZoomOut: void = () => {
+  const handleZoomOut = () => {
     const map = mapRef.current?.getMap();
     if (map) map.zoomOut();
   };
