@@ -46,7 +46,7 @@ export default function SidebarItem({
         }),
       );
       dispatch(accountAction.signOut());
-    } catch (error) {
+    } catch (error: any) {
       dispatch(
         notificationAction.setError({
           message: error?.message || "Logout failed!",

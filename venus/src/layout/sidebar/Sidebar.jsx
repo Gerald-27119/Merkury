@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FaRegBell, FaRegUser } from "react-icons/fa";
+import { FaRegBell, FaRegHeart, FaRegUser } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { LuMoon, LuSun } from "react-icons/lu";
 import { IoMenu } from "react-icons/io5";
@@ -31,53 +31,60 @@ const staticLinks = [
   },
 ];
 
-const accountLinks = {
-  to: "/account/profile",
-  icon: <FaRegUser aria-label="account" />,
-  name: "account",
-  children: [
-    {
-      to: "/account/profile",
-      icon: <FaRegUser aria-label="profile" />,
-      name: "profile",
-    },
-    {
-      to: "/account/spots-list",
-      icon: <TbMapPin aria-label="accountSpotsList" />,
-      name: "spots",
-    },
-    {
-      to: "/account/photos-list",
-      icon: <MdOutlinePhotoLibrary aria-label="photosList" />,
-      name: "photos",
-    },
-    {
-      to: "/account/movies-list",
-      icon: <MdOutlineVideoLibrary aria-label="moviesList" />,
-      name: "movies",
-    },
-    {
-      to: "/account/friends",
-      icon: <FiUsers aria-label="friends" />,
-      name: "friends",
-    },
-    {
-      to: "/account/add-spot",
-      icon: <TbMapPinPlus aria-label="addSpot" />,
-      name: "add spot",
-    },
-    {
-      to: "/account/comments",
-      icon: <BiComment aria-label="comments" />,
-      name: "comments",
-    },
-    {
-      to: "/account/settings",
-      icon: <BsGear aria-label="settings" />,
-      name: "settings",
-    },
-  ],
-};
+const userLoggedLinks = [
+  {
+    to: "/spots-list",
+    icon: <FaRegHeart aria-label="spotsList" />,
+    name: "favorites spots",
+  },
+  {
+    to: "/account/profile",
+    icon: <FaRegUser aria-label="account" />,
+    name: "account",
+    children: [
+      {
+        to: "/account/profile",
+        icon: <FaRegUser aria-label="profile" />,
+        name: "profile",
+      },
+      {
+        to: "/account/spots-list",
+        icon: <TbMapPin aria-label="accountSpotsList" />,
+        name: "spots",
+      },
+      {
+        to: "/account/photos-list",
+        icon: <MdOutlinePhotoLibrary aria-label="photosList" />,
+        name: "photos",
+      },
+      {
+        to: "/account/movies-list",
+        icon: <MdOutlineVideoLibrary aria-label="moviesList" />,
+        name: "movies",
+      },
+      {
+        to: "/account/friends",
+        icon: <FiUsers aria-label="friends" />,
+        name: "friends",
+      },
+      {
+        to: "/account/add-spot",
+        icon: <TbMapPinPlus aria-label="addSpot" />,
+        name: "add spot",
+      },
+      {
+        to: "/account/comments",
+        icon: <BiComment aria-label="comments" />,
+        name: "comments",
+      },
+      {
+        to: "/account/settings",
+        icon: <BsGear aria-label="settings" />,
+        name: "settings",
+      },
+    ],
+  },
+];
 
 export default function Sidebar() {
   const [isDark, setIsDark] = useState(
@@ -89,7 +96,9 @@ export default function Sidebar() {
 
   const location = useLocation();
 
-  const links = isLogged ? [...staticLinks, accountLinks] : [...staticLinks];
+  const links = isLogged
+    ? [...staticLinks, ...userLoggedLinks]
+    : [...staticLinks];
 
   useEffect(() => {
     if (location.pathname.includes("account")) {
