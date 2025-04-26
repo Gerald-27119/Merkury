@@ -69,14 +69,6 @@ describe("Header component unit tests", () => {
         expect(link).toBeInTheDocument();
       });
 
-      test("should render Spots List link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/spots-list",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
       test("should render Login link", () => {
         const links = screen.getAllByRole("link");
         const link = links.find(
@@ -104,11 +96,6 @@ describe("Header component unit tests", () => {
 
       test("should render Chat icon", () => {
         const icon = screen.getByLabelText("chat");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render Spots List icon", () => {
-        const icon = screen.getByLabelText("spotsList");
         expect(icon).toBeInTheDocument();
       });
 
@@ -182,11 +169,6 @@ describe("Header component unit tests", () => {
 
       test("should render Chat Text", () => {
         const text = screen.getByText("chat");
-        expect(text).toBeInTheDocument();
-      });
-
-      test("should render Favorites spots Text", () => {
-        const text = screen.getByText("favorites spots");
         expect(text).toBeInTheDocument();
       });
 
@@ -342,17 +324,17 @@ describe("Header component unit tests", () => {
       });
 
       test("should render Spots List Text", () => {
-        const text = screen.getByText("spots list");
+        const text = screen.getByText("spots");
         expect(text).toBeInTheDocument();
       });
 
       test("should render Photos list Text", () => {
-        const text = screen.getByText("photos list");
+        const text = screen.getByText("photos");
         expect(text).toBeInTheDocument();
       });
 
       test("should render Movies list Text", () => {
-        const text = screen.getByText("movies list");
+        const text = screen.getByText("movies");
         expect(text).toBeInTheDocument();
       });
 
