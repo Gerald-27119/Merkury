@@ -17,6 +17,7 @@ export async function getChatListByPage(
   });
 
   const items = resp.data;
+  // TODO: move this somewhere else
   const nextPage =
     items.length === numberOfChatsPerPage ? pageParam + 1 : undefined;
 

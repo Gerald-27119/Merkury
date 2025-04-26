@@ -29,6 +29,7 @@ public class PopulateChatsService {
     private final ChatRepository chatRepository;
     private final ChatMessageRepository chatMessageRepository;
 
+    //TODO: move to separate populate service
     @Transactional
     public void initUsers() {
         var users = generateUsers();
@@ -46,17 +47,15 @@ public class PopulateChatsService {
                 .collect(Collectors.toList());
     }
 
-
+    //TODO: make more readable and customizable
     @Transactional
     public void initChatData() {
-        // 1) ensure users exist
         initUsers();
 
         UserEntity user1 = userEntityRepository
                 .findByUsername("user1")
                 .orElseThrow();
 
-        // we'll need “others” to fill participant slots
         List<UserEntity> others = IntStream.rangeClosed(2, 30)
                 .mapToObj(i -> userEntityRepository
                         .findByUsername("user" + i)
@@ -64,60 +63,47 @@ public class PopulateChatsService {
                 )
                 .toList();
 
-        // 2) create & persist, say,  twelve chats
-        List<Chat> chats = createChats()  // returns e.g. 12
+        List<Chat> chats = createChats()
                 .stream()
                 .peek(chatRepository::save)
                 .toList();
 
-        // 3) assign per-chat rules by index
         for (int i = 0; i < chats.size(); i++) {
             Chat chat = chats.get(i);
 
             if (i < 3) {
-                // FIRST 3 CHATS — no messages, just 2 participants
                 initChat(chat,
                         List.of(user1, others.get(i)),
-                        /* withMessages= */ false);
+                        false);
 
             } else if (i < 6) {
-                // NEXT 3 CHATS — 3 participants, with messages
-                // we take two “others” per chat:
                 List<UserEntity> three =
                         List.of(user1,
                                 others.get(i),
                                 others.get(i + 1));
-                initChat(chat, three, /* withMessages= */ true);
+                initChat(chat, three, true);
 
             } else {
-                // REST — 2 participants, with messages
                 initChat(chat,
                         List.of(user1, others.get(i)),
-                        /* withMessages= */ true);
+                        true);
             }
         }
     }
 
-    /**
-     * Bootstraps a single chat: attaches participants, optionally seeds
-     * 50 messages with random 1–3 runs, and saves everything.
-     */
     private void initChat(
             Chat chat,
             List<UserEntity> participants,
             boolean withMessages
     ) {
-        // attach participants
         for (UserEntity u : participants) {
             chat.addParticipant(u);
             if (chat.getParticipants().size() > 2) chat.setChatType(GROUP);
         }
 
         if (withMessages) {
-            // generate 50 sample ChatMessage instances
             List<ChatMessage> msgs = getChatMessages().toList();
 
-            // round-robin across participants in runs of 1–3
             int idx = 0, runLen = rndLen(), runCnt = 0;
             for (int i = 0; i < msgs.size(); i++) {
                 ChatMessage m = msgs.get(i);
@@ -132,12 +118,10 @@ public class PopulateChatsService {
                 }
             }
 
-            // bulk-save messages, then wire into chat
             chatMessageRepository.saveAll(msgs);
             chat.getChatMessages().addAll(msgs);
         }
 
-        // finally persist chat + participants (and messages if any)
         chatRepository.save(chat);
 
         var users = IntStream.rangeClosed(1, 10)

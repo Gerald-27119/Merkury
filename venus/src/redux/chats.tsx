@@ -26,11 +26,6 @@ export const chatsSlice = createSlice({
   name: "chats",
   initialState,
   reducers: {
-    /**
-     * Dodaje lub aktualizuje wiele prostych czatów naraz.
-     * Każdy SimpleChatDto mapujemy na pełne ChatDto,
-     * wypełniając `detailedChatDto` pustym obiektem.
-     */
     addSimpleChatDtos(state, action: PayloadAction<SimpleChatDto[]>) {
       const toUpsert: ChatDto[] = action.payload.map((simple) => ({
         id: simple.id,
@@ -39,12 +34,6 @@ export const chatsSlice = createSlice({
       }));
       chatsAdapter.upsertMany(state, toUpsert);
     },
-
-    /**
-     * Dodaje lub aktualizuje wiele szczegółowych czatów naraz.
-     * Dla każdego DetailedChatDto zachowujemy istniejący simpleChatDto,
-     * jeśli już był w stanie, lub wypełniamy pustym obiektem.
-     */
     addDetailedChatDtos(state, action: PayloadAction<DetailedChatDto[]>) {
       const toUpsert: ChatDto[] = action.payload.map((detail) => ({
         id: detail.id,
@@ -59,6 +48,7 @@ export const chatsSlice = createSlice({
   },
 });
 
+//TODO: need to figure out a better way to handle current page for ChatList, same for Messages inside Chat
 export const { addSimpleChatDtos, addDetailedChatDtos, setNextPage } =
   chatsSlice.actions;
 

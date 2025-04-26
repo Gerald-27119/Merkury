@@ -9,6 +9,7 @@ import { ChatPage } from "../constants";
 export default function ChatList() {
   const dispatch = useDispatch();
   const allChats = useSelector(selectAllChats);
+  // for development purposes
   const userId = 1;
   const pageSize = 13;
 

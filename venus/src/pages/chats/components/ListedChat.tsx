@@ -13,7 +13,8 @@ function ListedChat({ simpleChatDto }: ListedChatProps) {
         className="aspect-square w-12 rounded-full"
         src={
           simpleChatDto.imgUrl
-            ? `/public/users/${simpleChatDto.imgUrl}`
+            ? // for development purposes
+              `/public/users/${simpleChatDto.imgUrl}`
             : "/public/users/default.png"
         }
         alt={"Image that listed chat has"}
@@ -41,5 +42,5 @@ function ListedChat({ simpleChatDto }: ListedChatProps) {
     </div>
   );
 }
-
+//TODO: need to check if it's necessary to use memo here
 export default memo(ListedChat);
