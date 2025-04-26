@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { FaRegBell, FaRegHeart, FaRegUser } from "react-icons/fa";
+import { FaRegBell, FaRegUser } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { LuMoon, LuSun } from "react-icons/lu";
 import { IoMenu } from "react-icons/io5";
@@ -16,68 +16,68 @@ import { TbMapPin, TbMapPinPlus } from "react-icons/tb";
 import { BsGear } from "react-icons/bs";
 import SidebarItem from "./components/SidebarItem";
 
-const links = [
-  { to: "/", icon: <BiHome size={35} aria-label="home" />, name: "home" },
-  { to: "/map", icon: <FaRegMap size={35} aria-label="map" />, name: "map" },
+const staticLinks = [
+  { to: "/", icon: <BiHome aria-label="home" />, name: "home" },
+  { to: "/map", icon: <FaRegMap aria-label="map" />, name: "map" },
   {
     to: "/forum",
-    icon: <MdOutlineForum size={35} aria-label="forum" />,
+    icon: <MdOutlineForum aria-label="forum" />,
     name: "forum",
   },
   {
     to: "/chat",
-    icon: <BiMessageRounded size={35} aria-label="chat" />,
+    icon: <BiMessageRounded aria-label="chat" />,
     name: "chat",
-  },
-  {
-    to: "/spots-list",
-    icon: <FaRegHeart size={35} aria-label="spotsList" />,
-    name: "favorites spots",
   },
 ];
 
-const accountLinks = [
-  {
-    to: "/account/profile",
-    icon: <FaRegUser size={35} aria-label="profile" />,
-    name: "profile",
-  },
-  {
-    to: "/account/spots-list",
-    icon: <TbMapPin size={35} aria-label="accountSpotsList" />,
-    name: "spots list",
-  },
-  {
-    to: "/account/photos-list",
-    icon: <MdOutlinePhotoLibrary size={35} aria-label="photosList" />,
-    name: "photos list",
-  },
-  {
-    to: "/account/movies-list",
-    icon: <MdOutlineVideoLibrary size={35} aria-label="moviesList" />,
-    name: "movies list",
-  },
-  {
-    to: "/account/friends",
-    icon: <FiUsers size={35} aria-label="friends" />,
-    name: "friends",
-  },
-  {
-    to: "/account/add-spot",
-    icon: <TbMapPinPlus size={35} aria-label="addSpot" />,
-    name: "add spot",
-  },
-  {
-    to: "/account/comments",
-    icon: <BiComment size={35} aria-label="comments" />,
-    name: "comments",
-  },
-  {
-    to: "/account/settings",
-    icon: <BsGear size={35} aria-label="settings" />,
-    name: "settings",
-  },
-];
+const accountLinks = {
+  to: "/account/profile",
+  icon: <FaRegUser aria-label="account" />,
+  name: "account",
+  children: [
+    {
+      to: "/account/profile",
+      icon: <FaRegUser aria-label="profile" />,
+      name: "profile",
+    },
+    {
+      to: "/account/spots-list",
+      icon: <TbMapPin aria-label="accountSpotsList" />,
+      name: "spots",
+    },
+    {
+      to: "/account/photos-list",
+      icon: <MdOutlinePhotoLibrary aria-label="photosList" />,
+      name: "photos",
+    },
+    {
+      to: "/account/movies-list",
+      icon: <MdOutlineVideoLibrary aria-label="moviesList" />,
+      name: "movies",
+    },
+    {
+      to: "/account/friends",
+      icon: <FiUsers aria-label="friends" />,
+      name: "friends",
+    },
+    {
+      to: "/account/add-spot",
+      icon: <TbMapPinPlus aria-label="addSpot" />,
+      name: "add spot",
+    },
+    {
+      to: "/account/comments",
+      icon: <BiComment aria-label="comments" />,
+      name: "comments",
+    },
+    {
+      to: "/account/settings",
+      icon: <BsGear aria-label="settings" />,
+      name: "settings",
+    },
+  ],
+};
 
 export default function Sidebar() {
   const [isDark, setIsDark] = useState(
@@ -89,6 +89,8 @@ export default function Sidebar() {
 
   const location = useLocation();
 
+  const links = isLogged ? [...staticLinks, accountLinks] : [...staticLinks];
+
   useEffect(() => {
     if (location.pathname.includes("account")) {
       setIsSidebarOpen(true);
@@ -97,21 +99,21 @@ export default function Sidebar() {
 
   const optionsLinks = [
     {
-      icon: <FaRegBell size={35} aria-label="notification" />,
+      icon: <FaRegBell aria-label="notification" />,
       name: "notification",
     },
     {
-      to: isLogged ? "/account/profile" : "/login",
-      icon: <FaRegUser size={35} aria-label="account" />,
-      name: isLogged ? "account" : "login",
+      to: !isLogged && "/login",
+      icon: <FaRegUser aria-label="account" />,
+      name: isLogged ? "sign out" : "login",
     },
     isDark
       ? {
-          icon: <LuSun size={35} aria-label="changeMode" />,
+          icon: <LuSun aria-label="changeMode" />,
           name: "light mode",
         }
       : {
-          icon: <LuMoon size={35} aria-label="changeMode" />,
+          icon: <LuMoon aria-label="changeMode" />,
           name: "dark mode",
         },
   ];
@@ -146,39 +148,22 @@ export default function Sidebar() {
           <IoMenu size={40} />
         </button>
         <nav className="flex flex-col space-y-1">
-          {links.map(({ to, icon, name }) => (
+          {links.map((link) => (
             <SidebarItem
-              key={name}
-              to={to}
-              icon={icon}
-              name={name}
+              key={link.name}
+              link={link}
               isSidebarOpen={isSidebarOpen}
             />
           ))}
-          <hr className="border-violetLight w-full" />
+          <hr className="border-violetLight mt-1 w-full" />
         </nav>
       </div>
       <div className="flex flex-col space-y-3">
-        {location.pathname.includes("account") &&
-          accountLinks.map(({ to, icon, name }) => (
-            <SidebarItem
-              key={name}
-              to={to}
-              icon={icon}
-              name={name}
-              isSidebarOpen={isSidebarOpen}
-              isMiddlePart={true}
-            />
-          ))}
-      </div>
-      <div className="flex flex-col space-y-3">
         <hr className="border-violetLight w-full" />
-        {optionsLinks.map(({ to, icon, name }) => (
+        {optionsLinks.map((link) => (
           <SidebarItem
-            key={name}
-            to={to}
-            icon={icon}
-            name={name}
+            key={link.name}
+            link={link}
             isSidebarOpen={isSidebarOpen}
             onChangeTheme={toggleDarkMode}
           />
