@@ -2,6 +2,7 @@ package com.merkury.vulcanus.model.entities;
 
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatInvitation;
+import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.entities.chat.ChatParticipant;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.enums.UserRole;
@@ -125,6 +126,12 @@ public class UserEntity implements UserDetails {
                 .map(ChatParticipant::getChat)
                 .toList();
     }
+
+    @Builder.Default
+    @OneToMany(mappedBy = "sender",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true)
+    private List<ChatMessage> sentMessages = new ArrayList<>();
 
     @Builder.Default
     private Boolean accountNonExpired = true;
