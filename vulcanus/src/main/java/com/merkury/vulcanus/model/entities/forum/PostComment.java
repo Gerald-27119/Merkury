@@ -1,11 +1,12 @@
 package com.merkury.vulcanus.model.entities.forum;
 
 import com.merkury.vulcanus.model.entities.Comment;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "post_comments")
 @SuperBuilder
@@ -19,4 +20,13 @@ public class PostComment extends Comment {
     @JoinColumn(name = "post_id")
     @ToString.Exclude
     private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    @ToString.Exclude
+    private PostComment parent;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<PostComment> replies = new ArrayList<>();
 }
