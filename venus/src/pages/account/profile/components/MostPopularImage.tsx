@@ -9,7 +9,7 @@ export default function MostPopularImage({ image }: ImageProps) {
   return (
     <div className="group relative">
       <img
-        className="aspect-square h-64 rounded-md object-cover drop-shadow-md transition duration-300 group-hover:opacity-80"
+        className="aspect-square h-64 rounded-md object-cover drop-shadow-md"
         src={image.src}
         alt={image.title}
       />
