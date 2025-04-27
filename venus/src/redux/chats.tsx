@@ -3,10 +3,13 @@ import {
   createSlice,
   PayloadAction,
 } from "@reduxjs/toolkit";
-import { DetailedChatDto, SimpleChatDto } from "../pages/chats/constants";
+import {
+  DetailedChatDto,
+  SimpleChatDto,
+} from "../model/interface/chat/chatInterfaces";
 import { RootState } from "./store";
 
-export interface ChatDto {
+interface ChatDto {
   id: number;
   simpleChatDto: SimpleChatDto;
   detailedChatDto: DetailedChatDto;
@@ -49,8 +52,7 @@ export const chatsSlice = createSlice({
 });
 
 //TODO: need to figure out a better way to handle current page for ChatList, same for Messages inside Chat
-export const { addSimpleChatDtos, addDetailedChatDtos, setNextPage } =
-  chatsSlice.actions;
+export const chatActions = chatsSlice.actions;
 
 export const {
   selectAll: selectAllChats,

@@ -1,7 +1,7 @@
 import { formatSentAt } from "../../../../utils/chat";
-import { ChatMessageDto } from "../../constants";
+import { ChatMessageDto } from "../../../../model/interface/chat/chatInterfaces";
 
-export interface MessageProps {
+interface MessageProps {
   message: ChatMessageDto;
   isCurrentUsers: boolean;
 }
@@ -9,7 +9,7 @@ export interface MessageProps {
 export default function Message({ message, isCurrentUsers }: MessageProps) {
   return (
     <div
-      className={`bg-violetDark mr-5 flex w-fit gap-4 px-2 py-2 ${isCurrentUsers ? "ml-auto" : ""}`}
+      className={`bg-violetDark mr-5 flex w-fit gap-4 px-2 py-2 ${isCurrentUsers && "ml-auto"}`}
     >
       <div className="w-10">
         <img

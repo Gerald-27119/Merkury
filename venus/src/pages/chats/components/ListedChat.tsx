@@ -1,8 +1,8 @@
 import { formatMessageLength, formatSentAt } from "../../../utils/chat";
-import { SimpleChatDto } from "../constants";
+import { SimpleChatDto } from "../../../model/interface/chat/chatInterfaces";
 import { memo } from "react";
 
-export interface ListedChatProps {
+interface ListedChatProps {
   simpleChatDto: SimpleChatDto;
 }
 
@@ -42,5 +42,6 @@ function ListedChat({ simpleChatDto }: ListedChatProps) {
     </div>
   );
 }
+
 //TODO: need to check if it's necessary to use memo here
 export default memo(ListedChat);
