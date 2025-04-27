@@ -4,20 +4,36 @@ import { FaRegBell, FaRegHeart, FaRegUser } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { LuMoon, LuSun } from "react-icons/lu";
 import { IoMenu } from "react-icons/io5";
-import {
-  MdOutlineForum,
-  MdOutlinePhotoLibrary,
-  MdOutlineVideoLibrary,
-} from "react-icons/md";
+import { MdOutlineForum } from "react-icons/md";
 import { FaRegMap } from "react-icons/fa6";
-import { BiComment, BiHome, BiMessageRounded } from "react-icons/bi";
-import { FiUsers } from "react-icons/fi";
-import { TbMapPin, TbMapPinPlus } from "react-icons/tb";
-import { BsGear } from "react-icons/bs";
+import { BiHome, BiMessageRounded } from "react-icons/bi";
+import { TbLogin2, TbLogout2 } from "react-icons/tb";
 import SidebarItem from "./components/SidebarItem";
 
 const staticLinks = [
-  { to: "/", icon: <BiHome aria-label="home" />, name: "home" },
+  {
+    to: "/",
+    icon: <BiHome aria-label="home" />,
+    name: "home",
+    children: [
+      {
+        to: "/a",
+        name: "home 1",
+      },
+      {
+        to: "/a",
+        name: "home 2",
+      },
+      {
+        to: "/a",
+        name: "home 3",
+      },
+      {
+        to: "/a",
+        name: "home 4",
+      },
+    ],
+  },
   { to: "/map", icon: <FaRegMap aria-label="map" />, name: "map" },
   {
     to: "/forum",
@@ -38,48 +54,49 @@ const userLoggedLinks = [
     name: "favorites spots",
   },
   {
-    to: "/account/profile",
+    // to: "/account",
     icon: <FaRegUser aria-label="account" />,
     name: "account",
+    type: "account",
     children: [
       {
-        to: "/account/profile",
-        icon: <FaRegUser aria-label="profile" />,
+        to: "/account",
+        // icon: <FaRegUser aria-label="profile" />,
         name: "profile",
       },
       {
         to: "/account/spots-list",
-        icon: <TbMapPin aria-label="accountSpotsList" />,
+        // icon: <TbMapPin aria-label="accountSpotsList" />,
         name: "spots",
       },
       {
         to: "/account/photos-list",
-        icon: <MdOutlinePhotoLibrary aria-label="photosList" />,
+        // icon: <MdOutlinePhotoLibrary aria-label="photosList" />,
         name: "photos",
       },
       {
         to: "/account/movies-list",
-        icon: <MdOutlineVideoLibrary aria-label="moviesList" />,
+        // icon: <MdOutlineVideoLibrary aria-label="moviesList" />,
         name: "movies",
       },
       {
         to: "/account/friends",
-        icon: <FiUsers aria-label="friends" />,
+        // icon: <FiUsers aria-label="friends" />,
         name: "friends",
       },
       {
         to: "/account/add-spot",
-        icon: <TbMapPinPlus aria-label="addSpot" />,
+        // icon: <TbMapPinPlus aria-label="addSpot" />,
         name: "add spot",
       },
       {
         to: "/account/comments",
-        icon: <BiComment aria-label="comments" />,
+        // icon: <BiComment aria-label="comments" />,
         name: "comments",
       },
       {
         to: "/account/settings",
-        icon: <BsGear aria-label="settings" />,
+        // icon: <BsGear aria-label="settings" />,
         name: "settings",
       },
     ],
@@ -110,20 +127,28 @@ export default function Sidebar() {
     {
       icon: <FaRegBell aria-label="notification" />,
       name: "notification",
+      type: "notification",
     },
     {
       to: !isLogged && "/login",
-      icon: <FaRegUser aria-label="account" />,
+      icon: isLogged ? (
+        <TbLogout2 aria-label="account" />
+      ) : (
+        <TbLogin2 aria-label="account" />
+      ),
       name: isLogged ? "sign out" : "login",
+      type: "login",
     },
     isDark
       ? {
           icon: <LuSun aria-label="changeMode" />,
           name: "light mode",
+          type: "changeMode",
         }
       : {
           icon: <LuMoon aria-label="changeMode" />,
           name: "dark mode",
+          type: "changeMode",
         },
   ];
 

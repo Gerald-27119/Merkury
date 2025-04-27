@@ -5,11 +5,14 @@ import { logout } from "../../../http/account";
 import { notificationAction } from "../../../redux/notification";
 import { accountAction } from "../../../redux/account";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { useToggleState } from "../../../hooks/useToggleState";
 
 interface Link {
   to: string;
   icon: ReactElement;
   name: string;
+  type?: string;
 }
 
 interface SidebarItemProps {
@@ -18,20 +21,20 @@ interface SidebarItemProps {
   };
   isSidebarOpen: boolean;
   onChangeTheme?: () => void;
-  isMiddlePart?: boolean;
+  isChildren?: boolean;
   onClick?: () => void;
   index?: number;
 }
 
 export default function SidebarItem({
-  link: { to, icon, name, children },
+  link: { to, icon, name, children, type },
   isSidebarOpen,
   onChangeTheme,
-  isMiddlePart,
+  isChildren,
   onClick,
   index,
 }: SidebarItemProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, toggleSubmenu] = useToggleState(false);
 
   const location = useLocation();
   const dispatch = useDispatchTyped();
@@ -58,19 +61,19 @@ export default function SidebarItem({
 
   useEffect(() => {
     if (location.pathname !== to) {
-      setIsOpen(false);
+      // setIsOpen(false);
     }
   }, [location.pathname, to]);
 
-  const handleOpen = () => {
-    setIsOpen(true);
-    if (onClick) onClick();
-  };
+  // const handleOpen = () => {
+  //   setIsOpen((prevState) => !prevState);
+  //   if (onClick) onClick();
+  // };
 
   const content = (isActive: boolean): ReactElement => (
     <>
       <div
-        className={`flex h-10 w-10 shrink-0 items-center justify-center ${isMiddlePart ? "text-2xl" : "text-3xl"}`}
+        className={`flex h-10 w-10 shrink-0 items-center justify-center text-3xl`}
       >
         {icon}
       </div>
@@ -78,7 +81,13 @@ export default function SidebarItem({
         className={`flex min-w-[10rem] items-center text-start text-base font-semibold capitalize transition-opacity duration-300 ${!isSidebarOpen ? "pointer-events-none opacity-0" : "opacity-100"}`}
       >
         {name}
-        {!isMiddlePart && isActive && <GoDotFill className="ml-2" />}
+        {children?.length > 0 &&
+          (isOpen ? (
+            <IoIosArrowUp className="ml-2" />
+          ) : (
+            <IoIosArrowDown className="ml-2" />
+          ))}
+        {!isChildren && isActive && <GoDotFill className="ml-2" />}
       </p>
     </>
   );
@@ -86,20 +95,40 @@ export default function SidebarItem({
   if (!to) {
     let clickHandler: (() => void) | undefined;
 
-    if (name === "sign out") {
+    if (type === "login") {
       clickHandler = handleSignOut;
-    } else if (name !== "notification") {
+    } else if (type === "changeMode") {
       clickHandler = onChangeTheme;
+    } else if (type === "account") {
+      clickHandler = toggleSubmenu;
     }
 
     return (
-      <button
-        type="button"
-        onClick={clickHandler}
-        className="flex w-full cursor-pointer items-center space-x-4 rounded-md pl-2 transition-all"
+      <div
+        className={`group overflow-hidden transition-all duration-500 ${index === 0 && "mt-2"}`}
       >
-        {content(false)}
-      </button>
+        <button
+          type="button"
+          onClick={clickHandler}
+          className="flex w-full cursor-pointer items-center space-x-3 rounded-md pl-2 transition-all"
+        >
+          {content(false)}
+        </button>
+        <div
+          className={`space-y-1 overflow-hidden transition-all duration-500 ${isOpen ? "max-h-96" : "max-h-0"} ${!isSidebarOpen && "group-hover:max-h-96"}`}
+        >
+          {children?.map((link, index) => (
+            <SidebarItem
+              key={link.name}
+              link={link}
+              isSidebarOpen={isSidebarOpen}
+              isChildren={true}
+              onClick={toggleSubmenu}
+              index={index}
+            />
+          ))}
+        </div>
+      </div>
     );
   }
 
@@ -111,22 +140,22 @@ export default function SidebarItem({
         to={to}
         end
         className={({ isActive }) =>
-          `flex items-center rounded-md transition-all ${isMiddlePart ? "hover:bg-violetLight space-x-1" : "space-x-3"} ${isActive && isMiddlePart && "bg-violetLight"} ${isMiddlePart ? "pl-12" : "pl-2"}`
+          `flex items-center rounded-md transition-all ${isChildren ? "hover:bg-violetLight space-x-1" : "space-x-3"} ${isActive && isChildren && "bg-violetLight"} ${isChildren ? "text-darkBorder pl-5" : "pl-2"}`
         }
-        onClick={handleOpen}
+        onClick={toggleSubmenu}
       >
         {({ isActive }) => content(isActive)}
       </NavLink>
       <div
-        className={`space-y-1 overflow-hidden transition-all duration-500 group-hover:max-h-96 ${isOpen ? "max-h-96" : "max-h-0"}`}
+        className={`space-y-1 overflow-hidden transition-all duration-500 ${isOpen ? "max-h-96" : "max-h-0"} ${!isSidebarOpen && "group-hover:max-h-96"}`}
       >
         {children?.map((link, index) => (
           <SidebarItem
             key={link.name}
             link={link}
             isSidebarOpen={isSidebarOpen}
-            isMiddlePart={true}
-            onClick={handleOpen}
+            isChildren={true}
+            onClick={toggleSubmenu}
             index={index}
           />
         ))}
