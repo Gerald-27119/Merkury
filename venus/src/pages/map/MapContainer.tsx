@@ -14,12 +14,10 @@ const defaultPosition: Position = {
   latitude: 54.352553,
 };
 export default function MapContainer() {
-  const mapRef = useRef<MapRef | null>(null);
   const geoControlRef = useRef<maplibregl.GeolocateControl | null>(null);
 
   return (
     <Map
-      ref={mapRef}
       initialViewState={{
         ...defaultPosition,
         zoom: 15,
@@ -40,7 +38,7 @@ export default function MapContainer() {
         style={{ display: "none" }}
       />
       <UserLocationButton geoRef={geoControlRef} />
-      <ZoomControlPanel mapRef={mapRef} />
+      <ZoomControlPanel />
     </Map>
   );
 }

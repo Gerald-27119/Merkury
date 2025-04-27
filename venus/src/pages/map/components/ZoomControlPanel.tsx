@@ -1,19 +1,16 @@
 import { FaPlus, FaMinus } from "react-icons/fa";
 import React from "react";
-import { MapRef } from "@vis.gl/react-maplibre";
-type ZoomControlPanelProps = {
-  mapRef: React.RefObject<MapRef>;
-};
+import { useMap } from "@vis.gl/react-maplibre";
+
 const btnClasses: string =
   "cursor-pointer w-full p-4 dark:bg-violetDarker bg-fifth hover:dark:bg-violetDark hover:bg-lightBgButed";
-export default function ZoomControlPanel({ mapRef }: ZoomControlPanelProps) {
+export default function ZoomControlPanel() {
+  const { current: map } = useMap();
   const handleZoomIn = () => {
-    const map = mapRef.current?.getMap();
-    if (map) map.zoomIn();
+    map?.zoomIn();
   };
   const handleZoomOut = () => {
-    const map = mapRef.current?.getMap();
-    if (map) map.zoomOut();
+    map?.zoomOut();
   };
 
   return (
