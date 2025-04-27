@@ -1,23 +1,24 @@
-import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { FaRegBell, FaRegHeart, FaRegUser } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LuMoon, LuSun } from "react-icons/lu";
 import { IoMenu } from "react-icons/io5";
 import { MdOutlineForum } from "react-icons/md";
 import { FaRegMap } from "react-icons/fa6";
 import { BiHome, BiMessageRounded } from "react-icons/bi";
 import { TbLogin2, TbLogout2 } from "react-icons/tb";
-import SidebarItem from "./components/SidebarItem";
+import SidebarItem, { Link } from "./components/SidebarItem";
+import useSelectorTyped from "../../hooks/useSelectorTyped";
+import { useToggle } from "../../hooks/useToggle";
 
-const staticLinks = [
+const staticLinks: Link[] = [
   {
-    to: "/",
+    // to: "/",
     icon: <BiHome aria-label="home" />,
     name: "home",
+    type: "submenu",
     children: [
       {
-        to: "/a",
+        to: "/",
         name: "home 1",
       },
       {
@@ -47,17 +48,16 @@ const staticLinks = [
   },
 ];
 
-const userLoggedLinks = [
+const userLoggedLinks: Link[] = [
   {
     to: "/spots-list",
     icon: <FaRegHeart aria-label="spotsList" />,
     name: "favorites spots",
   },
   {
-    // to: "/account",
     icon: <FaRegUser aria-label="account" />,
     name: "account",
-    type: "account",
+    type: "submenu",
     children: [
       {
         to: "/account",
@@ -65,7 +65,7 @@ const userLoggedLinks = [
         name: "profile",
       },
       {
-        to: "/account/spots-list",
+        to: "/edit-data",
         // icon: <TbMapPin aria-label="accountSpotsList" />,
         name: "spots",
       },
@@ -107,30 +107,22 @@ export default function Sidebar() {
   const [isDark, setIsDark] = useState(
     localStorage.getItem("theme") === "dark",
   );
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, toggleSidebar] = useToggle(true);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>();
+  const isLogged = useSelectorTyped((state) => state.account.isLogged);
 
-  const isLogged = useSelector((state) => state.account.isLogged);
-
-  const location = useLocation();
-
-  const links = isLogged
+  const allLinks = isLogged
     ? [...staticLinks, ...userLoggedLinks]
     : [...staticLinks];
 
-  useEffect(() => {
-    if (location.pathname.includes("account")) {
-      setIsSidebarOpen(true);
-    }
-  }, [location]);
-
-  const optionsLinks = [
+  const optionsLinks: Link[] = [
     {
       icon: <FaRegBell aria-label="notification" />,
       name: "notification",
       type: "notification",
     },
     {
-      to: !isLogged && "/login",
+      to: !isLogged ? "/login" : undefined,
       icon: isLogged ? (
         <TbLogout2 aria-label="account" />
       ) : (
@@ -165,10 +157,6 @@ export default function Sidebar() {
     }
   };
 
-  const toggleSideBar = () => {
-    setIsSidebarOpen((prevState) => !prevState);
-  };
-
   return (
     <aside
       className={`bg-violetDark text-darkText absolute z-50 flex h-full shrink-0 flex-col justify-between overflow-hidden p-2 transition-all duration-300 ${isSidebarOpen ? "w-[220px]" : "w-[70px]"}`}
@@ -177,16 +165,18 @@ export default function Sidebar() {
         <button
           type="button"
           className="ml-2 w-fit cursor-pointer"
-          onClick={toggleSideBar}
+          onClick={toggleSidebar}
         >
           <IoMenu size={40} />
         </button>
         <nav className="flex flex-col space-y-1">
-          {links.map((link) => (
+          {allLinks.map((link) => (
             <SidebarItem
               key={link.name}
               link={link}
               isSidebarOpen={isSidebarOpen}
+              openSubmenu={openSubmenu}
+              setOpenSubmenu={setOpenSubmenu}
             />
           ))}
           <hr className="border-violetLight mt-1 w-full" />

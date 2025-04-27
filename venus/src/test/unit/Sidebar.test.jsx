@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { configureStore } from "@reduxjs/toolkit";
 import { MemoryRouter } from "react-router-dom";
 import { accountSlice } from "../../redux/account.jsx";
-import Sidebar from "../../layout/sidebar/Sidebar.jsx";
+import Sidebar from "../../layout/sidebar/Sidebar.tsx";
 
 const queryClient = new QueryClient();
 
@@ -41,12 +41,6 @@ describe("Header component unit tests", () => {
     });
 
     describe("Check is links render", () => {
-      test("should render Home Link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find((link) => link.getAttribute("href") === "/");
-        expect(link).toBeInTheDocument();
-      });
-
       test("should render Map link", () => {
         const links = screen.getAllByRole("link");
         const link = links.find((link) => link.getAttribute("href") === "/map");
@@ -127,16 +121,6 @@ describe("Header component unit tests", () => {
         "/",
       );
     });
-
-    describe("Check is links render", () => {
-      test("should render Account link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/profile",
-        );
-        expect(link).toBeInTheDocument();
-      });
-    });
   });
 
   describe("When header is open and user is not logged", () => {
@@ -197,14 +181,6 @@ describe("Header component unit tests", () => {
     });
 
     describe("Check is links render", () => {
-      test("should render Profile Text", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/profile",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
       test("should render Spots List Text", () => {
         const links = screen.getAllByRole("link");
         const link = links.find(
@@ -259,48 +235,6 @@ describe("Header component unit tests", () => {
           (link) => link.getAttribute("href") === "/account/settings",
         );
         expect(link).toBeInTheDocument();
-      });
-    });
-
-    describe("Check is icons render", () => {
-      test("should render Profile icon", () => {
-        const icon = screen.getByLabelText("profile");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render Spots list icon", () => {
-        const icon = screen.getByLabelText("accountSpotsList");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render Photos List icon", () => {
-        const icon = screen.getByLabelText("photosList");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render Movies List icon", () => {
-        const icon = screen.getByLabelText("moviesList");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render Friends icon", () => {
-        const icon = screen.getByLabelText("friends");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render Add Spot icon", () => {
-        const icon = screen.getByLabelText("addSpot");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render Comments icon", () => {
-        const icon = screen.getByLabelText("comments");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render settings icon", () => {
-        const icon = screen.getByLabelText("settings");
-        expect(icon).toBeInTheDocument();
       });
     });
   });

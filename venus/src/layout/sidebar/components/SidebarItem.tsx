@@ -1,5 +1,5 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
 import { logout } from "../../../http/account";
 import { notificationAction } from "../../../redux/notification";
@@ -8,22 +8,23 @@ import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useToggleState } from "../../../hooks/useToggleState";
 
-interface Link {
-  to: string;
-  icon: ReactElement;
+export interface Link {
+  to?: string;
+  icon?: React.ReactElement;
   name: string;
   type?: string;
+  children?: Link[];
 }
 
 interface SidebarItemProps {
-  link: Link & {
-    children?: Link[];
-  };
+  link: Link;
   isSidebarOpen: boolean;
   onChangeTheme?: () => void;
   isChildren?: boolean;
   onClick?: () => void;
   index?: number;
+  openSubmenu?: string | null;
+  setOpenSubmenu?: (name: string | null) => void;
 }
 
 export default function SidebarItem({
@@ -33,8 +34,11 @@ export default function SidebarItem({
   isChildren,
   onClick,
   index,
+  openSubmenu,
+  setOpenSubmenu,
 }: SidebarItemProps) {
-  const [isOpen, toggleSubmenu] = useToggleState(false);
+  const [isOpen, setIsOpenSubmenu, toggleSubmenu] = useToggleState(false);
+  const [isDot, setIsDot] = useState(false);
 
   const location = useLocation();
   const dispatch = useDispatchTyped();
@@ -60,10 +64,30 @@ export default function SidebarItem({
   };
 
   useEffect(() => {
-    if (location.pathname !== to) {
-      // setIsOpen(false);
+    if (openSubmenu !== name && isOpen) {
+      toggleSubmenu();
     }
-  }, [location.pathname, to]);
+  }, [openSubmenu]);
+
+  useEffect(() => {
+    let foundSubmenu: string | null = null;
+    let found = false;
+
+    for (const child of children || []) {
+      if (child.to === location.pathname) {
+        foundSubmenu = name;
+        found = true;
+        break;
+      }
+    }
+
+    setIsDot(found);
+
+    if (setOpenSubmenu && foundSubmenu) {
+      setOpenSubmenu(foundSubmenu);
+      setIsOpenSubmenu(true);
+    }
+  }, [location.pathname]);
 
   // const handleOpen = () => {
   //   setIsOpen((prevState) => !prevState);
@@ -81,13 +105,14 @@ export default function SidebarItem({
         className={`flex min-w-[10rem] items-center text-start text-base font-semibold capitalize transition-opacity duration-300 ${!isSidebarOpen ? "pointer-events-none opacity-0" : "opacity-100"}`}
       >
         {name}
-        {children?.length > 0 &&
+        {children &&
+          children?.length > 0 &&
           (isOpen ? (
             <IoIosArrowUp className="ml-2" />
           ) : (
             <IoIosArrowDown className="ml-2" />
           ))}
-        {!isChildren && isActive && <GoDotFill className="ml-2" />}
+        {!isChildren && (isActive || isDot) && <GoDotFill className="ml-2" />}
       </p>
     </>
   );
@@ -99,8 +124,13 @@ export default function SidebarItem({
       clickHandler = handleSignOut;
     } else if (type === "changeMode") {
       clickHandler = onChangeTheme;
-    } else if (type === "account") {
-      clickHandler = toggleSubmenu;
+    } else if (type === "submenu") {
+      clickHandler = () => {
+        if (setOpenSubmenu) {
+          setOpenSubmenu(isOpen ? null : name);
+        }
+        toggleSubmenu();
+      };
     }
 
     return (
@@ -133,33 +163,14 @@ export default function SidebarItem({
   }
 
   return (
-    <div
-      className={`group overflow-hidden transition-all duration-500 ${index === 0 && "mt-2"}`}
+    <NavLink
+      to={to}
+      end
+      className={({ isActive }) =>
+        `flex items-center rounded-md transition-all ${isChildren ? "hover:bg-violetLight space-x-1" : "space-x-3"} ${isActive && isChildren && "bg-violetLight"} ${isChildren ? "text-darkBorder pl-5" : "pl-2"}`
+      }
     >
-      <NavLink
-        to={to}
-        end
-        className={({ isActive }) =>
-          `flex items-center rounded-md transition-all ${isChildren ? "hover:bg-violetLight space-x-1" : "space-x-3"} ${isActive && isChildren && "bg-violetLight"} ${isChildren ? "text-darkBorder pl-5" : "pl-2"}`
-        }
-        onClick={toggleSubmenu}
-      >
-        {({ isActive }) => content(isActive)}
-      </NavLink>
-      <div
-        className={`space-y-1 overflow-hidden transition-all duration-500 ${isOpen ? "max-h-96" : "max-h-0"} ${!isSidebarOpen && "group-hover:max-h-96"}`}
-      >
-        {children?.map((link, index) => (
-          <SidebarItem
-            key={link.name}
-            link={link}
-            isSidebarOpen={isSidebarOpen}
-            isChildren={true}
-            onClick={toggleSubmenu}
-            index={index}
-          />
-        ))}
-      </div>
-    </div>
+      {({ isActive }) => content(isActive)}
+    </NavLink>
   );
 }
