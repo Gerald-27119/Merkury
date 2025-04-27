@@ -31,6 +31,7 @@
   --color-darkYellow: #C5A03C;
   --color-locationMarkerDarkerBlue: #A3DCFF;
   --color-locationMarkerLightBlue: #52BAFB;
+  --color-userLocationPin: #4285f4;
 
   --animate-slide-in-from-left: slideInFromLeft 0.3s ease-out;
 
