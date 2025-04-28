@@ -63,10 +63,8 @@ public class PopulateChatsService {
                 )
                 .toList();
 
-        List<Chat> chats = createChats()
-                .stream()
-                .peek(chatRepository::save)
-                .toList();
+        List<Chat> chats = createChats();
+        chatRepository.saveAll(chats);
 
         for (int i = 0; i < chats.size(); i++) {
             Chat chat = chats.get(i);
