@@ -1,6 +1,7 @@
 import { Map } from "@vis.gl/react-maplibre";
 import ZoomControlPanel from "./components/ZoomControlPanel";
 import UserLocationPanel from "./components/UserLocationPanel";
+import Spots from "./components/spots/Spots";
 
 type Position = {
   longitude: number;
@@ -30,6 +31,7 @@ export default function MapContainer() {
     >
       <UserLocationPanel />
       <ZoomControlPanel />
+      <Spots />
     </Map>
   );
 }

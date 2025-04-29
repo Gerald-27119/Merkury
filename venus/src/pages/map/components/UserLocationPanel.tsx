@@ -4,6 +4,7 @@ import { Marker, useMap } from "@vis.gl/react-maplibre";
 import { GrLocationPin } from "react-icons/gr";
 import { useDispatch } from "react-redux";
 import { notificationAction } from "../../../redux/notification";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
 
 type Cords = {
   longitude: number;
@@ -13,7 +14,7 @@ type Cords = {
 export default function UserLocationPanel() {
   const { current: map } = useMap();
   const [cords, setCords] = useState<Cords>();
-  const dispatch = useDispatch();
+  const dispatch = useDispatchTyped();
 
   const handleClick = () => {
     navigator.geolocation.getCurrentPosition(
