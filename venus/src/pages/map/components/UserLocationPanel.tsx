@@ -46,7 +46,7 @@ export default function UserLocationPanel() {
     <>
       <button
         onClick={handleClick}
-        className="dark:bg-violetDarker bg-fifth text-locationMarkerLightBlue hover:bg-lightBgButed dark:text-locationMarkerDarkerBlue hover:dark:bg-violetDark absolute right-10 bottom-48 cursor-pointer rounded-full p-4 text-3xl drop-shadow-md"
+        className="dark:bg-violetDarker bg-fifth text-locationMarkerLightBlue hover:bg-lightBgButed dark:text-locationMarkerDarkerBlue hover:dark:bg-violetDark absolute right-2.5 bottom-28 cursor-pointer rounded-full p-3 text-xl drop-shadow-md lg:right-10 lg:bottom-48 lg:p-4 lg:text-3xl xl:right-[1.45rem] xl:bottom-40 xl:text-2xl"
       >
         <MdMyLocation />
       </button>

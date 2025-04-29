@@ -14,17 +14,17 @@ export default function ZoomControlPanel() {
   };
 
   return (
-    <div className="dark:text-darkText text-violetBright absolute right-10 bottom-10 flex flex-col rounded-3xl text-3xl">
+    <div className="dark:text-darkText text-violetBright absolute right-2 bottom-1 flex flex-col rounded-3xl text-sm lg:right-10 lg:bottom-10 lg:text-3xl xl:right-5 xl:bottom-5 xl:text-2xl">
       <button
         onClick={handleZoomIn}
-        className={`${btnClasses} rounded-t-3xl inset-shadow-xs`}
+        className={`${btnClasses} rounded-t-full inset-shadow-xs`}
       >
         <FaPlus />
       </button>
       <div className="dark:bg-violetLight bg-darkBorder h-1 w-full"></div>
       <button
         onClick={handleZoomOut}
-        className={`${btnClasses} rounded-b-3xl shadow-md`}
+        className={`${btnClasses} rounded-b-full shadow-md`}
       >
         <FaMinus />
       </button>
