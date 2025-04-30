@@ -51,7 +51,7 @@ export default function NewPassword() {
         />
         <button
           type="submit"
-          className="bg-black text-white rounded-md w-full p-1 mx-1 my-2"
+          className="mx-1 my-2 w-full rounded-md bg-black p-1 text-white"
           disabled={
             !didEdit.password ||
             !didEdit["confirm-password"] ||

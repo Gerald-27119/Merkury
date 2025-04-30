@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { editUserData, getUser } from "../../http/account.js";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import { useEffect, useState } from "react";
-import ProviderInfo from "../account/components/ProviderInfo.jsx";
+import ProviderInfo from "./components/ProviderInfo.jsx";
 import Error from "../../components/error/Error.jsx";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
 
@@ -168,7 +168,7 @@ export default function EditUserData() {
                   </>
                 )}
                 <button
-                  className="bg-blue-500 p-3 mt-3 text-white rounded-md text-lg hover:bg-blue-600"
+                  className="mt-3 rounded-md bg-blue-500 p-3 text-lg text-white hover:bg-blue-600"
                   type="button"
                   onClick={() => handleClickChangePassword()}
                 >
@@ -183,7 +183,7 @@ export default function EditUserData() {
             )}
             <button
               type="submit"
-              className="bg-red-600 p-3 mt-3 text-white rounded-md text-lg hover:bg-red-700"
+              className="mt-3 rounded-md bg-red-600 p-3 text-lg text-white hover:bg-red-700"
               disabled={
                 (didEdit.username && !isValid.username.value) ||
                 (didEdit["old-password"] && !isValid["old-password"].value) ||

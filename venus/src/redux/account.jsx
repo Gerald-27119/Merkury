@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLogged: localStorage.getItem("is_logged_in") === "true",
-  username: null,
+  username: localStorage.getItem("username") ?? "",
 };
 
 export const accountSlice = createSlice({
@@ -19,7 +19,7 @@ export const accountSlice = createSlice({
       localStorage.removeItem("is_logged_in");
       state.isLogged = false;
       localStorage.removeItem("username");
-      state.username = null;
+      state.username = "";
     },
   },
 });

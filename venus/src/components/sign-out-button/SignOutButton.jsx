@@ -30,7 +30,7 @@ export default function SignOutButton() {
   return (
     <button
       className={
-        "px-1.5 bg-linear-to-r from-purple-500  to-teal-500 hover:to-purple-600  hover:from-teal-600 duration-600 justify-center rounded-sm text-center align-middle leading-normal text-fuchsia-50 transition-all delay-200 ease-in-out"
+        "justify-center rounded-sm bg-linear-to-r from-purple-500 to-teal-500 px-1.5 text-center align-middle leading-normal text-fuchsia-50 transition-all delay-200 duration-600 ease-in-out hover:from-teal-600 hover:to-purple-600"
       }
       onClick={handleSignOut}
     >
