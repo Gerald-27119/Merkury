@@ -4,16 +4,18 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { notificationAction } from "../../../../redux/notification.jsx";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
-import { Layer, Source } from "@vis.gl/react-maplibre";
+import { Layer, Source, useMap } from "@vis.gl/react-maplibre";
 import { createGeoJson } from "../../../../utils/spot-utils";
 import GeneralSpot from "../../../../model/interface/spot/generalSpot";
 import { AxiosError } from "axios";
+import { useZoom } from "../../../../hooks/useZoom";
 
 export default function Spots() {
   const { name, minRating, maxRating } = useSelectorTyped(
     (state) => state.spotFilters,
   );
   const dispatch = useDispatch();
+  const zoom = useZoom();
 
   const { data, error } = useQuery({
     queryFn: () => fetchFilteredSpots(name, minRating, maxRating),
@@ -21,6 +23,9 @@ export default function Spots() {
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
+  console.log(
+    data?.map((spot: GeneralSpot) => ({ name: spot.name, area: spot.area })),
+  );
 
   useEffect(() => {
     if ((error as AxiosError)?.response?.data) {
@@ -31,6 +36,10 @@ export default function Spots() {
       );
     }
   }, [dispatch, error]);
+
+  useEffect(() => {
+    console.log(`Map zoom: ${zoom}`);
+  }, [zoom]);
 
   return (
     <>
