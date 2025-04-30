@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
 import FavouriteSpots from "./pages/favourite-spots/FavouriteSpots.jsx";
 import MapContainer from "./pages/map/MapContainer.tsx";
+import ChatsPage from "./pages/chats/ChatsPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <WelcomePage />,
+        element: <h1>HOME PAGE</h1>,
       },
       {
         path: "account",
@@ -70,6 +71,15 @@ const router = createBrowserRouter([
       {
         path: "map",
         element: <MapContainer />,
+      },
+      {
+        path: "chat",
+        element: (
+          // for demo purposes only
+          // <ProtectedRoute>
+          <ChatsPage />
+          // </ProtectedRoute>
+        ),
       },
     ],
   },
