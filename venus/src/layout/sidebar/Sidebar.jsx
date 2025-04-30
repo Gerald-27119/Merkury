@@ -16,22 +16,28 @@ import { TbMapPin, TbMapPinPlus } from "react-icons/tb";
 import { BsGear } from "react-icons/bs";
 import SidebarItem from "./components/SidebarItem";
 
+const iconSize = 35;
+
 const links = [
-  { to: "/", icon: <BiHome size={35} aria-label="home" />, name: "home" },
-  { to: "/map", icon: <FaRegMap size={35} aria-label="map" />, name: "map" },
+  { to: "/", icon: <BiHome size={iconSize} aria-label="home" />, name: "home" },
+  {
+    to: "/map",
+    icon: <FaRegMap size={iconSize} aria-label="map" />,
+    name: "map",
+  },
   {
     to: "/forum",
-    icon: <MdOutlineForum size={35} aria-label="forum" />,
+    icon: <MdOutlineForum size={iconSize} aria-label="forum" />,
     name: "forum",
   },
   {
     to: "/chat",
-    icon: <BiMessageRounded size={35} aria-label="chat" />,
+    icon: <BiMessageRounded size={iconSize} aria-label="chat" />,
     name: "chat",
   },
   {
     to: "/spots-list",
-    icon: <FaRegHeart size={35} aria-label="spotsList" />,
+    icon: <FaRegHeart size={iconSize} aria-label="spotsList" />,
     name: "favorites spots",
   },
 ];
@@ -39,42 +45,42 @@ const links = [
 const accountLinks = [
   {
     to: "/account/profile",
-    icon: <FaRegUser size={35} aria-label="profile" />,
+    icon: <FaRegUser size={iconSize} aria-label="profile" />,
     name: "profile",
   },
   {
     to: "/account/spots-list",
-    icon: <TbMapPin size={35} aria-label="accountSpotsList" />,
+    icon: <TbMapPin size={iconSize} aria-label="accountSpotsList" />,
     name: "spots list",
   },
   {
     to: "/account/photos-list",
-    icon: <MdOutlinePhotoLibrary size={35} aria-label="photosList" />,
+    icon: <MdOutlinePhotoLibrary size={iconSize} aria-label="photosList" />,
     name: "photos list",
   },
   {
     to: "/account/movies-list",
-    icon: <MdOutlineVideoLibrary size={35} aria-label="moviesList" />,
+    icon: <MdOutlineVideoLibrary size={iconSize} aria-label="moviesList" />,
     name: "movies list",
   },
   {
     to: "/account/friends",
-    icon: <FiUsers size={35} aria-label="friends" />,
+    icon: <FiUsers size={iconSize} aria-label="friends" />,
     name: "friends",
   },
   {
     to: "/account/add-spot",
-    icon: <TbMapPinPlus size={35} aria-label="addSpot" />,
+    icon: <TbMapPinPlus size={iconSize} aria-label="addSpot" />,
     name: "add spot",
   },
   {
     to: "/account/comments",
-    icon: <BiComment size={35} aria-label="comments" />,
+    icon: <BiComment size={iconSize} aria-label="comments" />,
     name: "comments",
   },
   {
     to: "/account/settings",
-    icon: <BsGear size={35} aria-label="settings" />,
+    icon: <BsGear size={iconSize} aria-label="settings" />,
     name: "settings",
   },
 ];
@@ -84,10 +90,9 @@ export default function Sidebar() {
     localStorage.getItem("theme") === "dark",
   );
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   const isLogged = useSelector((state) => state.account.isLogged);
-
   const location = useLocation();
+  const isMapPage = location.pathname === "/map";
 
   useEffect(() => {
     if (location.pathname.includes("account")) {
@@ -97,21 +102,21 @@ export default function Sidebar() {
 
   const optionsLinks = [
     {
-      icon: <FaRegBell size={35} aria-label="notification" />,
+      icon: <FaRegBell size={iconSize} aria-label="notification" />,
       name: "notification",
     },
     {
       to: isLogged ? "/account/profile" : "/login",
-      icon: <FaRegUser size={35} aria-label="account" />,
+      icon: <FaRegUser size={iconSize} aria-label="account" />,
       name: isLogged ? "account" : "login",
     },
     isDark
       ? {
-          icon: <LuSun size={35} aria-label="changeMode" />,
+          icon: <LuSun size={iconSize} aria-label="changeMode" />,
           name: "light mode",
         }
       : {
-          icon: <LuMoon size={35} aria-label="changeMode" />,
+          icon: <LuMoon size={iconSize} aria-label="changeMode" />,
           name: "dark mode",
         },
   ];
@@ -135,7 +140,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`bg-violetDark text-darkText absolute z-50 flex h-full shrink-0 flex-col justify-between overflow-hidden p-2 transition-all duration-300 ${isSidebarOpen ? "w-[220px]" : "w-[70px]"}`}
+      className={`bg-violetDark text-darkText absolute z-50 flex h-screen shrink-0 flex-col justify-between overflow-hidden p-2 transition-all duration-300 ${isMapPage ? "absolute" : "static"} ${isSidebarOpen ? "w-[220px]" : "w-[70px]"}`}
     >
       <div className="flex flex-col space-y-10">
         <button

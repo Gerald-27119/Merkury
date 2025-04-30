@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Error from "./components/error/Error.jsx";
-import WelcomePage from "./pages/welcome/WelcomePage.jsx";
+import MapPage from "./pages/welcome/WelcomePage.jsx";
 import Register from "./pages/register/Register.jsx";
 import Login from "./pages/login/Login.jsx";
 import ForgotPassword from "./pages/forgot-password/ForgotPassword.jsx";
@@ -11,6 +11,7 @@ import Forum from "./pages/forum/Forum.jsx";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
 import FavouriteSpots from "./pages/favourite-spots/FavouriteSpots.jsx";
+import ChatsPage from "./pages/chats/ChatsPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <WelcomePage />,
+        element: <h1>HOME PAGE</h1>,
       },
       {
         path: "account",
@@ -64,6 +65,19 @@ const router = createBrowserRouter([
           <ProtectedRoute>
             <FavouriteSpots />
           </ProtectedRoute>
+        ),
+      },
+      {
+        path: "map",
+        element: <MapPage />,
+      },
+      {
+        path: "chat",
+        element: (
+          // for demo purposes only
+          // <ProtectedRoute>
+          <ChatsPage />
+          // </ProtectedRoute>
         ),
       },
     ],
