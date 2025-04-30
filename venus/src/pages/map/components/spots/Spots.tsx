@@ -1,14 +1,13 @@
-import Zone from "../zone/Zone.jsx";
-import SpotDetails from "../../../spot/SpotDetails.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { fetchFilteredSpots } from "../../../../http/spots-data.js";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { notificationAction } from "../../../../redux/notification.jsx";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { Layer, Source } from "@vis.gl/react-maplibre";
 import { createGeoJson } from "../../../../utils/spot-utils";
 import GeneralSpot from "../../../../model/interface/spot/generalSpot";
+import { AxiosError } from "axios";
 
 export default function Spots() {
   const { name, minRating, maxRating } = useSelectorTyped(
@@ -22,22 +21,22 @@ export default function Spots() {
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
-  console.log(data);
 
-  // useEffect(() => {
-  //   if (error?.response?.data) {
-  //     dispatch(
-  //       notificationAction.setError({
-  //         message: error.response.data,
-  //       }),
-  //     );
-  //   }
-  // }, [dispatch, error]);
+  useEffect(() => {
+    if ((error as AxiosError)?.response?.data) {
+      dispatch(
+        notificationAction.setError({
+          message: (error as AxiosError).response?.data,
+        }),
+      );
+    }
+  }, [dispatch, error]);
 
   return (
     <>
       {data?.map((spot: GeneralSpot) => (
         <Source
+          key={spot.id}
           id={spot.id.toString()}
           type="geojson"
           data={createGeoJson(spot)}
@@ -46,8 +45,8 @@ export default function Spots() {
             id={spot.id.toString()}
             type="fill"
             paint={{
-              "fill-color": "#007cbf",
-              "fill-opacity": 0.4,
+              "fill-color": "#A8071A",
+              "fill-opacity": 0.55,
             }}
           />
         </Source>
