@@ -6,6 +6,7 @@ import MobileBar from "./mobile-bar/MobileBar";
 
 export default function Layout() {
   const location = useLocation();
+  const isMapPage = location.pathname === "/map";
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
@@ -25,19 +26,23 @@ export default function Layout() {
   };
 
   return (
-    <div
-      className={`${location.pathname.includes("account") ? "flex" : "relative"} lg:h-screen`}
-    >
-      <Sidebar
-        isSidebarOpen={isSidebarOpen}
-        onToggle={toggleSideBar}
-        onClose={closeSideBar}
-      />
-      <main className="relative flex w-full flex-col items-center justify-center">
-        <MobileBar onToggle={toggleSideBar} />
-        <Notification title="test" message="message" />
-        <Outlet />
-      </main>
-    </div>
+    <>
+      <div
+       className={`${isMapPage ? "relative" : "flex"} lg:h-screen`}
+      >
+        <Sidebar
+         isSidebarOpen={isSidebarOpen}
+         onToggle={toggleSideBar}
+         onClose={closeSideBar}
+        />
+        <main className="relative flex w-full flex-col items-center justify-center">
+         <MobileBar onToggle={toggleSideBar} />
+         <Notification title="test" message="message" />
+         <Outlet />
+        </main>
+      </div>
+      {/*TODO: make Footer visible only on HomePage? - need to consult it*/}
+      {/*<Footer />*/}
+    </>
   );
 }

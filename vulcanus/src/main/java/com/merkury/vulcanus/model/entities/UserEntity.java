@@ -1,5 +1,9 @@
 package com.merkury.vulcanus.model.entities;
 
+import com.merkury.vulcanus.model.entities.chat.Chat;
+import com.merkury.vulcanus.model.entities.chat.ChatInvitation;
+import com.merkury.vulcanus.model.entities.chat.ChatMessage;
+import com.merkury.vulcanus.model.entities.chat.ChatParticipant;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.enums.UserRole;
 import jakarta.persistence.*;
@@ -23,6 +27,7 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String profileImage;
     private String email;
     private String username;
     private String password;
@@ -55,11 +60,13 @@ public class UserEntity implements UserDetails {
     )
     private List<Spot> favoriteSpots = new ArrayList<>();
 
+    @Builder.Default
     @Enumerated(value = EnumType.STRING)
-    private UserRole userRole;
+    private UserRole userRole = UserRole.ROLE_USER;
 
+    @Builder.Default
     @Enumerated(value = EnumType.STRING)
-    private Provider provider;
+    private Provider provider = Provider.NONE;
 
     /**
      * Default lazy loading: Friendships are loaded on-demand.
@@ -91,6 +98,43 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "receiver",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @Builder.Default
+    private List<ChatInvitation> receivedInvitations = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "sender",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @Builder.Default
+    private List<ChatInvitation> sentInvitations = new ArrayList<>();
+
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @Builder.Default
+    private List<ChatParticipant> chatParticipations = new ArrayList<>();
+
+    public List<Chat> getChats() {
+        return chatParticipations.stream()
+                .map(ChatParticipant::getChat)
+                .toList();
+    }
+
+    @Builder.Default
+    @OneToMany(mappedBy = "sender",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true)
+    private List<ChatMessage> sentMessages = new ArrayList<>();
 
     @Builder.Default
     private Boolean accountNonExpired = true;

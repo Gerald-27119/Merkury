@@ -16,22 +16,28 @@ import SidebarItem from "./components/SidebarItem";
 import useSelectorTyped from "../../hooks/useSelectorTyped";
 import { useLocation } from "react-router-dom";
 
+const iconSize = 35;
+
 const links = [
-  { to: "/", icon: <BiHome size={35} aria-label="home" />, name: "home" },
-  { to: "/map", icon: <FaRegMap size={35} aria-label="map" />, name: "map" },
+  { to: "/", icon: <BiHome size={iconSize} aria-label="home" />, name: "home" },
+  {
+    to: "/map",
+    icon: <FaRegMap size={iconSize} aria-label="map" />,
+    name: "map",
+  },
   {
     to: "/forum",
-    icon: <MdOutlineForum size={35} aria-label="forum" />,
+    icon: <MdOutlineForum size={iconSize} aria-label="forum" />,
     name: "forum",
   },
   {
     to: "/chat",
-    icon: <BiMessageRounded size={35} aria-label="chat" />,
+    icon: <BiMessageRounded size={iconSize} aria-label="chat" />,
     name: "chat",
   },
   {
     to: "/spots-list",
-    icon: <FaRegHeart size={35} aria-label="spotsList" />,
+    icon: <FaRegHeart size={iconSize} aria-label="spotsList" />,
     name: "favorites spots",
   },
 ];
@@ -39,42 +45,42 @@ const links = [
 const accountLinks = [
   {
     to: "/account/profile",
-    icon: <FaRegUser size={35} aria-label="profile" />,
+    icon: <FaRegUser size={iconSize} aria-label="profile" />,
     name: "profile",
   },
   {
     to: "/account/spots-list",
-    icon: <TbMapPin size={35} aria-label="accountSpotsList" />,
+    icon: <TbMapPin size={iconSize} aria-label="accountSpotsList" />,
     name: "spots list",
   },
   {
     to: "/account/photos-list",
-    icon: <MdOutlinePhotoLibrary size={35} aria-label="photosList" />,
+    icon: <MdOutlinePhotoLibrary size={iconSize} aria-label="photosList" />,
     name: "photos list",
   },
   {
     to: "/account/movies-list",
-    icon: <MdOutlineVideoLibrary size={35} aria-label="moviesList" />,
+    icon: <MdOutlineVideoLibrary size={iconSize} aria-label="moviesList" />,
     name: "movies list",
   },
   {
     to: "/account/friends",
-    icon: <FiUsers size={35} aria-label="friends" />,
+    icon: <FiUsers size={iconSize} aria-label="friends" />,
     name: "friends",
   },
   {
     to: "/account/add-spot",
-    icon: <TbMapPinPlus size={35} aria-label="addSpot" />,
+    icon: <TbMapPinPlus size={iconSize} aria-label="addSpot" />,
     name: "add spot",
   },
   {
     to: "/account/comments",
-    icon: <BiComment size={35} aria-label="comments" />,
+    icon: <BiComment size={iconSize} aria-label="comments" />,
     name: "comments",
   },
   {
     to: "/account/settings",
-    icon: <BsGear size={35} aria-label="settings" />,
+    icon: <BsGear size={iconSize} aria-label="settings" />,
     name: "settings",
   },
 ];
@@ -99,21 +105,21 @@ export default function Sidebar({
 
   const optionsLinks = [
     {
-      icon: <FaRegBell size={35} aria-label="notification" />,
+      icon: <FaRegBell size={iconSize} aria-label="notification" />,
       name: "notification",
     },
     {
       to: isLogged ? "/account/profile" : "/login",
-      icon: <FaRegUser size={35} aria-label="account" />,
+      icon: <FaRegUser size={iconSize} aria-label="account" />,
       name: isLogged ? "account" : "login",
     },
     isDark
       ? {
-          icon: <LuSun size={35} aria-label="changeMode" />,
+          icon: <LuSun size={iconSize} aria-label="changeMode" />,
           name: "light mode",
         }
       : {
-          icon: <LuMoon size={35} aria-label="changeMode" />,
+          icon: <LuMoon size={iconSize} aria-label="changeMode" />,
           name: "dark mode",
         },
   ];
