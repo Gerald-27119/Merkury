@@ -13,7 +13,7 @@ public class SpotCommentMapper {
     private SpotCommentMapper() {
     }
 
-    public static SpotCommentDto toDto(@NotNull SpotComment spotComment, @NotNull UserEntity currentUser) {
+    public static SpotCommentDto toDto(@NotNull SpotComment spotComment, UserEntity currentUser) {
         return SpotCommentDto.builder()
                 .id(spotComment.getId())
                 .text(spotComment.getText())

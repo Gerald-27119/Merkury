@@ -17,7 +17,7 @@ public class PostMapper {
     private PostMapper() {
     }
 
-    public static PostDetailsDto toDetailsDto(@NotNull Post post, @NotNull UserEntity currentUser) {
+    public static PostDetailsDto toDetailsDto(@NotNull Post post, UserEntity currentUser) {
         return PostDetailsDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
@@ -36,7 +36,7 @@ public class PostMapper {
                 .build();
     }
 
-    public static PostGeneralDto toGeneralDto(@NotNull Post post, @NotNull UserEntity currentUser) {
+    public static PostGeneralDto toGeneralDto(@NotNull Post post, UserEntity currentUser) {
         return PostGeneralDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
