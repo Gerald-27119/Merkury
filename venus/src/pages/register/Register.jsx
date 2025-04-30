@@ -88,7 +88,7 @@ export default function Register() {
         />
         <button
           type="submit"
-          className="bg-mainBlue p-3 mt-3 text-darkText rounded-md text-lg hover:bg-mainBlueDarker"
+          className="bg-mainBlue text-darkText hover:bg-mainBlueDarker mt-3 rounded-md p-3 text-lg"
           disabled={
             !didEdit.username ||
             !didEdit.password ||

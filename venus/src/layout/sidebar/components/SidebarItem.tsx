@@ -3,12 +3,13 @@ import { ReactElement } from "react";
 import { GoDotFill } from "react-icons/go";
 
 interface SidebarItemProps {
-  to: string;
+  to?: string;
   icon: ReactElement;
   name: string;
   isSidebarOpen: boolean;
   onChangeTheme?: () => void;
   isMiddlePart?: boolean;
+  onLinkClick: () => void;
 }
 
 export default function SidebarItem({
@@ -18,7 +19,8 @@ export default function SidebarItem({
   isSidebarOpen,
   onChangeTheme,
   isMiddlePart,
-}: Readonly<SidebarItemProps>) {
+  onLinkClick,
+}: SidebarItemProps) {
   const content = (isActive: boolean): ReactElement => (
     <>
       <div className="flex h-10 w-10 shrink-0 items-center justify-center">
@@ -52,6 +54,7 @@ export default function SidebarItem({
       className={({ isActive }) =>
         `flex w-full items-center space-x-4 rounded-md p-2 transition-all ${isMiddlePart && "hover:bg-violetLight"} ${isActive && isMiddlePart && "bg-violetLight"}`
       }
+      onClick={onLinkClick}
     >
       {({ isActive }) => content(isActive)}
     </NavLink>
