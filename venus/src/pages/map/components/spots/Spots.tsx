@@ -26,7 +26,7 @@ export default function Spots() {
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
-
+  console.log(data);
   useEffect(() => {
     if ((error as AxiosError)?.response?.data) {
       dispatch(
@@ -62,7 +62,7 @@ export default function Spots() {
               id={spot.id.toString()}
               type="fill"
               paint={{
-                "fill-color": "#A8071A",
+                "fill-color": spot.areaColor,
                 "fill-opacity": 0.55,
               }}
             />

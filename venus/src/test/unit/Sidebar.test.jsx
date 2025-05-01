@@ -47,7 +47,7 @@ describe("Sidebar component unit tests", () => {
         expect(link).toBeInTheDocument();
       });
 
-      test("should render MapContainer link", () => {
+      test("should render MapPage link", () => {
         const links = screen.getAllByRole("link");
         const link = links.find((link) => link.getAttribute("href") === "/map");
         expect(link).toBeInTheDocument();
@@ -92,7 +92,7 @@ describe("Sidebar component unit tests", () => {
         expect(icon).toBeInTheDocument();
       });
 
-      test("should render MapContainer icon", () => {
+      test("should render MapPage icon", () => {
         const icon = screen.getByLabelText("map");
         expect(icon).toBeInTheDocument();
       });
@@ -170,7 +170,7 @@ describe("Sidebar component unit tests", () => {
         expect(text).toBeInTheDocument();
       });
 
-      test("should render MapContainer Text", () => {
+      test("should render MapPage Text", () => {
         const text = screen.getByText("map");
         expect(text).toBeInTheDocument();
       });

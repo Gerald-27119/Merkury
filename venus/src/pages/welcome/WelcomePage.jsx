@@ -1,4 +1,4 @@
-import MapContainer from "../map/MapContainer.tsx";
+import MapPage from "../map/MapPage.tsx";
 import SpotDetails from "../spot/SpotDetails.jsx";
 import { useSelector } from "react-redux";
 
@@ -9,7 +9,7 @@ export default function WelcomePage() {
       <div className="relative z-10">
         <h1 className="h-screen">Welcome Page</h1>
         {/*{showDetailsModal && <SpotDetails />}*/}
-        {/*<MapContainer />*/}
+        {/*<MapPage />*/}
       </div>
     </div>
   );

@@ -46,6 +46,7 @@ export default function UserLocationPanel() {
   return (
     <>
       <button
+        data-testid="user-location-btn"
         onClick={handleClick}
         className="dark:bg-violetDarker bg-fifth text-locationMarkerLightBlue hover:bg-lightBgButed dark:text-locationMarkerDarkerBlue hover:dark:bg-violetDark absolute right-2.5 bottom-28 cursor-pointer rounded-full p-3 text-xl drop-shadow-md lg:right-10 lg:bottom-48 lg:p-4 lg:text-3xl xl:right-[1.45rem] xl:bottom-40 xl:text-2xl"
       >
@@ -54,8 +55,8 @@ export default function UserLocationPanel() {
       {cords && (
         <Marker longitude={cords.longitude} latitude={cords.latitude}>
           <div className="relative flex items-center justify-center">
-            <div className="absolute bottom-0 h-2.5 w-2.5 rounded-full bg-black/35" />
-            <GrLocationPin size={40} className="text-userLocationPin" />
+            <div className="absolute bottom-0 h-3 w-3 rounded-full bg-black/35" />
+            <GrLocationPin className="text-userLocationPin text-6xl" />
           </div>
         </Marker>
       )}
