@@ -28,6 +28,6 @@ describe("ZoomControlPanel unit tests", () => {
     expect(screen.getByTestId("zoom-in-btn")).toBeInTheDocument();
   });
   test("should render zoom-out button", () => {
-    expect(screen.getByTestId("zoom-in-btn")).toBeInTheDocument();
+    expect(screen.getByTestId("zoom-out-btn")).toBeInTheDocument();
   });
 });

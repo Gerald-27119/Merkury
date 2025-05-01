@@ -23,16 +23,13 @@ const renderUserLocationPanel = () => {
 };
 
 vi.mock("@vis.gl/react-maplibre", () => ({
-  Map: ({ children }) => <div>{children}</div>,
-  useMap: vi.fn(),
-}));
-vi.mock("@vis.gl/react-maplibre", () => ({
   ...vi.importActual("@vis.gl/react-maplibre"),
   useMap: vi.fn().mockReturnValue({
     current: {
       zoomIn: vi.fn(),
       zoomOut: vi.fn(),
     },
+    Map: ({ children }) => <div>{children}</div>,
   }),
 }));
 
