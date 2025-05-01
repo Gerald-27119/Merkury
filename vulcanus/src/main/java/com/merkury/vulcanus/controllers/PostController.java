@@ -21,12 +21,12 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping
+    @GetMapping("/public/posts/{postId}")
     public ResponseEntity<PostDetailsDto> getDetailedPost(HttpServletRequest request, @PathVariable Long postId) throws PostNotFoundException {
         return ResponseEntity.ok(postService.getDetailedPost(request, postId));
     }
 
-    @GetMapping
+    @GetMapping("/public/posts")
     public ResponseEntity<Page<PostGeneralDto>> getPostsPage(HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
         int defaultPageSize = 5;
         Page<PostGeneralDto> posts = postService.getPostsPage(request, PageRequest.of(page, defaultPageSize));
@@ -34,25 +34,25 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
-    @PostMapping
+    @PostMapping("/posts")
     public ResponseEntity<Void> addPost(HttpServletRequest request, @Valid @RequestBody PostDto post) {
         postService.addPost(request, post);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("posts/{postId}")
     public ResponseEntity<Void> deletePost(HttpServletRequest request, @PathVariable Long postId) throws PostAccessException {
         postService.deletePost(request, postId);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping
+    @PatchMapping("posts/{postId}")
     public ResponseEntity<Void> editPost(HttpServletRequest request, @PathVariable Long postId, @Valid @RequestBody PostDto post) throws PostAccessException {
         postService.editPost(request, postId, post);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PatchMapping
+    @PatchMapping("/posts/{postId}/vote")
     public ResponseEntity<Void> votePost(HttpServletRequest request, @PathVariable Long postId, @RequestParam boolean isUpvote) {
         postService.votePost(request, postId, isUpvote);
         return ResponseEntity.status(HttpStatus.OK).build();

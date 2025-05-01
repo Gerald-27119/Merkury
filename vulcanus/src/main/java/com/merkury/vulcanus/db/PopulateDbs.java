@@ -13,9 +13,15 @@ import org.springframework.context.annotation.Configuration;
 public class PopulateDbs {
 
     private final PopulateDbsService populateDbsService;
+    private final PopulateForumService populateForumService;
 
     @Bean
     CommandLineRunner initPostgresDb() {
         return args -> populateDbsService.initPostgresDb();
+    }
+
+    @Bean
+    CommandLineRunner initForumDb() {
+        return args -> populateForumService.initForumDb();
     }
 }

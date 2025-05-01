@@ -20,5 +20,5 @@ public class Category {
     private String name;
     private String description;
     @Builder.Default
-    private String colour = "blue";
+    private String colour = "Default/blue/500";
 }
