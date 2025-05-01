@@ -2,6 +2,8 @@ import { Map } from "@vis.gl/react-maplibre";
 import ZoomControlPanel from "./components/ZoomControlPanel";
 import UserLocationPanel from "./components/UserLocationPanel";
 import Spots from "./components/spots/Spots";
+import useDispatchTyped from "../../hooks/useDispatchTyped";
+import { mapAction } from "../../redux/map";
 
 type Position = {
   longitude: number;
@@ -13,6 +15,11 @@ const defaultPosition: Position = {
   latitude: 54.352553,
 };
 export default function MapContainer() {
+  const dispatch = useDispatchTyped();
+  const handleZoomEnd = (event: any) => {
+    dispatch(mapAction.setZoomLevel(event.target.getZoom()));
+  };
+
   return (
     <Map
       initialViewState={{
@@ -28,6 +35,7 @@ export default function MapContainer() {
       }}
       mapStyle="/map_style1.json"
       attributionControl={false}
+      onZoomEnd={handleZoomEnd}
     >
       <UserLocationPanel />
       <ZoomControlPanel />

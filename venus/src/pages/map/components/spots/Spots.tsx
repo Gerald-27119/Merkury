@@ -8,14 +8,13 @@ import { Layer, Source, useMap } from "@vis.gl/react-maplibre";
 import { createGeoJson } from "../../../../utils/spot-utils";
 import GeneralSpot from "../../../../model/interface/spot/generalSpot";
 import { AxiosError } from "axios";
-import { useZoom } from "../../../../hooks/useZoom";
 
 export default function Spots() {
   const { name, minRating, maxRating } = useSelectorTyped(
     (state) => state.spotFilters,
   );
+  const { zoomLevel } = useSelectorTyped((state) => state.map);
   const dispatch = useDispatch();
-  const zoom = useZoom();
 
   const { data, error } = useQuery({
     queryFn: () => fetchFilteredSpots(name, minRating, maxRating),
@@ -38,8 +37,8 @@ export default function Spots() {
   }, [dispatch, error]);
 
   useEffect(() => {
-    console.log(`Map zoom: ${zoom}`);
-  }, [zoom]);
+    console.log(`Map zoom: ${zoomLevel}`);
+  }, [zoomLevel]);
 
   return (
     <>
