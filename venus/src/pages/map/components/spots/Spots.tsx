@@ -26,7 +26,7 @@ export default function Spots() {
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
-  console.log(data);
+
   useEffect(() => {
     if ((error as AxiosError)?.response?.data) {
       dispatch(
