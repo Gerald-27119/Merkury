@@ -1,6 +1,11 @@
 import GeneralSpot from "../model/interface/spot/generalSpot";
 import type { FeatureCollection } from "geojson";
 
+type RenderCondition = {
+  maxZoom: number;
+  maxArea: number;
+};
+
 export function formatPublishDate(publishDate) {
   const date = new Date(publishDate);
   const year = date.getFullYear();
@@ -33,4 +38,15 @@ export function createGeoJson(spot: GeneralSpot): FeatureCollection {
       },
     ],
   };
+}
+
+const renderConditions: RenderCondition[] = [
+  { maxZoom: 14, maxArea: 70000 },
+  { maxZoom: 12, maxArea: 160000 },
+];
+
+export function shouldRenderMarker(area: number, zoomLevel: number): boolean {
+  return renderConditions.some(
+    (condition) => zoomLevel < condition.maxZoom && area < condition.maxArea,
+  );
 }

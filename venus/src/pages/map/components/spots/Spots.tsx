@@ -4,10 +4,14 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { notificationAction } from "../../../../redux/notification.jsx";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
-import { Layer, Source, useMap } from "@vis.gl/react-maplibre";
-import { createGeoJson } from "../../../../utils/spot-utils";
+import { Layer, Marker, Source } from "@vis.gl/react-maplibre";
+import {
+  createGeoJson,
+  shouldRenderMarker,
+} from "../../../../utils/spot-utils";
 import GeneralSpot from "../../../../model/interface/spot/generalSpot";
 import { AxiosError } from "axios";
+import { MdLocationPin } from "react-icons/md";
 
 export default function Spots() {
   const { name, minRating, maxRating } = useSelectorTyped(
@@ -22,9 +26,6 @@ export default function Spots() {
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
-  console.log(
-    data?.map((spot: GeneralSpot) => ({ name: spot.name, area: spot.area })),
-  );
 
   useEffect(() => {
     if ((error as AxiosError)?.response?.data) {
@@ -36,29 +37,38 @@ export default function Spots() {
     }
   }, [dispatch, error]);
 
-  useEffect(() => {
-    console.log(`Map zoom: ${zoomLevel}`);
-  }, [zoomLevel]);
-
   return (
     <>
-      {data?.map((spot: GeneralSpot) => (
-        <Source
-          key={spot.id}
-          id={spot.id.toString()}
-          type="geojson"
-          data={createGeoJson(spot)}
-        >
-          <Layer
+      {data?.map((spot: GeneralSpot) => {
+        return shouldRenderMarker(spot.area, zoomLevel) ? (
+          <Marker
+            key={spot.id}
+            longitude={spot.contourCoordinates[0][1]}
+            latitude={spot.contourCoordinates[0][0]}
+          >
+            <MdLocationPin
+              className="text-spotLocationMarker text-3xl"
+              key={spot.id}
+            />
+          </Marker>
+        ) : (
+          <Source
+            key={spot.id}
             id={spot.id.toString()}
-            type="fill"
-            paint={{
-              "fill-color": "#A8071A",
-              "fill-opacity": 0.55,
-            }}
-          />
-        </Source>
-      ))}
+            type="geojson"
+            data={createGeoJson(spot)}
+          >
+            <Layer
+              id={spot.id.toString()}
+              type="fill"
+              paint={{
+                "fill-color": "#A8071A",
+                "fill-opacity": 0.55,
+              }}
+            />
+          </Source>
+        );
+      })}
     </>
   );
 }
