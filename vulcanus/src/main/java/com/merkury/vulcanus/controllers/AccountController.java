@@ -2,6 +2,7 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
+import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.dtos.user.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.user.UserLoginDto;
 import com.merkury.vulcanus.model.dtos.user.UserPasswordResetDto;

@@ -7,6 +7,7 @@ import com.merkury.vulcanus.model.entities.PasswordResetToken;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.Zone;
+import com.merkury.vulcanus.model.entities.*;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.repositories.*;
 import jakarta.transaction.Transactional;
@@ -17,10 +18,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_ADMIN;
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_USER;
@@ -51,6 +49,7 @@ public class PopulateDbsService {
                 .password(passwordEncoder.encode("password"))
                 .userRole(ROLE_USER)
                 .provider(Provider.NONE)
+                .profilePhoto("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
                 .build();
 
         for (int i = 0; i < 10; i++) {
@@ -65,6 +64,8 @@ public class PopulateDbsService {
             userEntityRepository.save(locustUser);
         }
 
+        user.getFollowers().add(admin);
+        user.getFriendships().add(new Friendship(null, user, admin, "", LocalDateTime.now()));
         userEntityRepository.save(admin);
         userEntityRepository.save(user);
 

@@ -1,7 +1,6 @@
 import { Link, Navigate, useRouteError } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { accountAction } from "../../redux/account.jsx";
 import { notificationAction } from "../../redux/notification.jsx";
 
 export default function Error({ error }) {
@@ -11,7 +10,6 @@ export default function Error({ error }) {
 
   useEffect(() => {
     if (error?.response?.status !== 404) {
-      dispatch(accountAction.signOut());
       dispatch(
         notificationAction.setError({
           message: error?.response?.data,
@@ -29,7 +27,7 @@ export default function Error({ error }) {
   }
   return (
     <>
-      <h1 className="text-red-600 text-4xl font-bold text-center m-4">
+      <h1 className="m-4 text-center text-4xl font-bold text-red-600">
         Error occurred!
       </h1>
       {routeError.status && (
@@ -37,11 +35,11 @@ export default function Error({ error }) {
           Status code: {routeError.status}
         </p>
       )}
-      <p className="text-yellow-400 text-center text-xl m-4">{message}</p>
+      <p className="m-4 text-center text-xl text-yellow-400">{message}</p>
       <div className="text-center">
         <Link
           to="/"
-          className="bg-amber-200 rounded-sm p-1 text-center hover:bg-amber-300"
+          className="rounded-sm bg-amber-200 p-1 text-center hover:bg-amber-300"
         >
           Return to the main page
         </Link>
