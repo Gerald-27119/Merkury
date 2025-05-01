@@ -1,19 +1,23 @@
 package com.merkury.vulcanus.utils;
 
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
+import net.sf.geographiclib.Geodesic;
+import net.sf.geographiclib.PolygonArea;
+import net.sf.geographiclib.PolygonResult;
 
 public class PolygonAreaCalculator {
-
+    /**
+     * @param points must be added in clockwise or counterclockwise orders
+     * @return area in square meters
+     */
     public static double calculateArea(BorderPoint[] points) {
         int n = points.length;
-        double area = 0.0;
-
+        PolygonArea pa = new PolygonArea(Geodesic.WGS84, false);
         for (int i = 0; i < n - 1; i++) {
-            BorderPoint current = points[i];
-            BorderPoint next = points[i + 1];
-            area += (current.getX() * next.getY()) - (next.getX() * current.getY());
+            BorderPoint point = points[i];
+            pa.AddPoint(point.getX(), point.getY());
         }
-
-        return Math.abs(area) / 2.0;
+        PolygonResult res = pa.Compute(false, true);
+        return Math.abs(res.area);
     }
 }
