@@ -1,7 +1,8 @@
 import axios from "axios";
+import PostDto from "../model/interface/forum/post/PostDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
-export async function fetchPaginatedPosts(page) {
+export async function fetchPaginatedPosts(page: number) {
   return (
     await axios.get(`${BASE_URL}/public/post`, {
       params: { page },
@@ -10,7 +11,7 @@ export async function fetchPaginatedPosts(page) {
   ).data;
 }
 
-export async function fetchDetailedPost(postId) {
+export async function fetchDetailedPost(postId: number) {
   return (
     await axios.get(`${BASE_URL}/public/post/${postId}`, {
       withCredentials: true,
@@ -22,25 +23,25 @@ export async function fetchCategoriesAndTags() {
   return (await axios.get(`${BASE_URL}/categories-tags`)).data;
 }
 
-export async function addPost(newPost) {
+export async function addPost(newPost: PostDto) {
   return await axios.post(`${BASE_URL}/post`, newPost, {
     withCredentials: true,
   });
 }
 
-export async function editPost(postId, PostData) {
+export async function editPost(postId: number, PostData: PostDto) {
   return await axios.patch(`${BASE_URL}/post/${postId}`, PostData, {
     withCredentials: true,
   });
 }
 
-export async function deletePost(postId) {
+export async function deletePost(postId: number) {
   return await axios.delete(`${BASE_URL}/post/${postId}`, {
     withCredentials: true,
   });
 }
 
-export async function votePost(postId, isUpvote) {
+export async function votePost(postId: number, isUpvote: boolean) {
   return await axios.patch(`${BASE_URL}/post/${postId}/vote`, null, {
     params: { isUpvote },
     withCredentials: true,
