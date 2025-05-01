@@ -42,6 +42,7 @@ public class PostMapper {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .category(CategoryMapper.toDto(post.getCategory()))
+                .tags(post.getTags().stream().map(Tag::getName).toList())
                 .views(post.getViews())
                 .numberOfComments(post.getComments().size())
                 .isAuthor(post.getAuthor().equals(currentUser))
