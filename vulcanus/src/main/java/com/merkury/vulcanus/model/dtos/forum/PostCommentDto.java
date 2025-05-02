@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 @Builder
 public record PostCommentDto(@Positive(message = "ID must be a positive number.")
                              Long id,
-                             @NotBlank(message = "Text cannot be empty.")
-                             String text,
+                             @NotBlank(message = "Content cannot be empty.")
+                             String content,
                              @Min(value = 0, message = "Upvotes cannot be less than 0.")
                              Integer upvotes,
                              @Min(value = 0, message = "Downvotes cannot be less than 0.")

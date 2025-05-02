@@ -14,7 +14,7 @@ public class PostCommentMapper {
     public static PostCommentDto toDto(@NotNull PostComment postComment, @NotNull UserEntity currentUser) {
         return PostCommentDto.builder()
                 .id(postComment.getId())
-                .text(postComment.getText())
+                .content(postComment.getContent())
                 .upvotes(postComment.getUpvotes())
                 .downvotes(postComment.getDownvotes())
                 .publishDate(postComment.getPublishDate())

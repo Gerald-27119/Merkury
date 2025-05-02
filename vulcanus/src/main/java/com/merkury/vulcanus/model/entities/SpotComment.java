@@ -12,6 +12,9 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class SpotComment extends Comment {
 
+    @Column(length = 300)
+    private String text;
+
     @Builder.Default
     private Double rating = 0.0;
 

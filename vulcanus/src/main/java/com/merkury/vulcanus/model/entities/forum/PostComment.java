@@ -16,6 +16,10 @@ import java.util.List;
 @AllArgsConstructor
 public class PostComment extends Comment {
 
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String content;
+
     @ManyToOne
     @JoinColumn(name = "post_id")
     @ToString.Exclude

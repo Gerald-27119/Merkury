@@ -7,7 +7,7 @@ import java.util.Set;
 public interface Votable {
     Set<UserEntity> getUpvotedBy();
     Set<UserEntity> getDownvotedBy();
-    void setUpvotes(int upvotes);
-    void setDownvotes(int downvotes);
+    void setUpvotes(Integer upvotes);
+    void setDownvotes(Integer downvotes);
 }
 

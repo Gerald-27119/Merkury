@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.model.entities.forum;
 
 import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.interfaces.Votable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +16,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post {
+public class Post implements Votable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

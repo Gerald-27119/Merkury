@@ -86,7 +86,7 @@ public class EmailService {
                 mimeMessage.setSubject(emailDto.title());
 
                 MimeBodyPart mimeBodyPart = new MimeBodyPart();
-                mimeBodyPart.setContent(htmlContent, "text/html; charset=utf-8");
+                mimeBodyPart.setContent(htmlContent, "content/html; charset=utf-8");
 
                 Multipart multipart = new MimeMultipart();
                 multipart.addBodyPart(mimeBodyPart);

@@ -4,6 +4,7 @@ import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
+import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentAddDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentEditDto;
@@ -30,6 +31,7 @@ public class SpotCommentService {
     private final SpotCommentRepository spotCommentRepository;
     private final SpotRepository spotRepository;
     private final UserDataService userDataService;
+    private final VoteService voteService;
 
     public Page<SpotCommentDto> getCommentsBySpotId(HttpServletRequest request, Long spotId, Pageable pageable) {
         Page<SpotComment> commentsPage = spotCommentRepository.findBySpotIdOrderByPublishDateDescIdAsc(spotId, pageable);
@@ -89,28 +91,7 @@ public class SpotCommentService {
         var user = userDataService.getUserFromRequest(request);
         var comment = spotCommentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
 
-        var voteList = isUpvote ? comment.getUpvotedBy() : comment.getDownvotedBy();
-        var oppositeVoteList = isUpvote ? comment.getDownvotedBy() : comment.getUpvotedBy();
-
-        if (voteList.contains(user)) {
-            removeUserFromVoteList(voteList, user);
-        } else {
-            removeUserFromVoteList(oppositeVoteList, user);
-            addUserToVoteList(voteList, user);
-        }
-
-        comment.setUpvotes(comment.getUpvotedBy().size());
-        comment.setDownvotes(comment.getDownvotedBy().size());
-
+        voteService.vote(comment, user, isUpvote);
         spotCommentRepository.save(comment);
     }
-
-    private void removeUserFromVoteList(Set<UserEntity> voteList, UserEntity user) {
-        voteList.remove(user);
-    }
-
-    private void addUserToVoteList(Set<UserEntity> voteList, UserEntity user) {
-        voteList.add(user);
-    }
-
 }

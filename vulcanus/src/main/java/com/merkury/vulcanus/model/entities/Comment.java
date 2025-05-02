@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.model.entities;
 
+import com.merkury.vulcanus.model.interfaces.Votable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,13 +17,10 @@ import java.util.Set;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class Comment {
+public abstract class Comment implements Votable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(length = 300)
-    private String text;
 
     @Builder.Default
     private Integer upvotes = 0;

@@ -5,6 +5,7 @@ import com.merkury.vulcanus.exception.exceptions.PostAccessException;
 import com.merkury.vulcanus.exception.exceptions.PostNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.TagNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
+import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.forum.*;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.forum.Category;
@@ -35,6 +36,7 @@ public class PostService {
     private final CategoryRepository categoryRepository;
     private final TagRepository tagRepository;
     private final UserDataService userDataService;
+    private final VoteService voteService;
 
     public PostDetailsDto getDetailedPost(HttpServletRequest request, Long postId) throws PostNotFoundException {
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
@@ -91,19 +93,7 @@ public class PostService {
         var user = userDataService.getUserFromRequest(request);
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
 
-        var voteList = isUpvote ? post.getUpvotedBy() : post.getDownvotedBy();
-        var oppositeVoteList = isUpvote ? post.getDownvotedBy() : post.getUpvotedBy();
-
-        if (voteList.contains(user)) {
-            removeUserFromVoteList(voteList, user);
-        } else {
-            removeUserFromVoteList(oppositeVoteList, user);
-            addUserToVoteList(voteList, user);
-        }
-
-        post.setUpvotes(post.getUpvotedBy().size());
-        post.setDownvotes(post.getDownvotedBy().size());
-
+        voteService.vote(post, user, isUpvote);
         postRepository.save(post);
     }
 
@@ -112,14 +102,6 @@ public class PostService {
         var tags = tagRepository.findAll();
 
         return new CategoriesAndTagsDto(categories.stream().map(CategoryMapper::toDto).toList(), tags.stream().map(Tag::getName).toList());
-    }
-
-    private void removeUserFromVoteList(Set<UserEntity> voteList, UserEntity user) {
-        voteList.remove(user);
-    }
-
-    private void addUserToVoteList(Set<UserEntity> voteList, UserEntity user) {
-        voteList.add(user);
     }
 
     private Category getCategoryByName(String name) throws CategoryNotFoundException {
