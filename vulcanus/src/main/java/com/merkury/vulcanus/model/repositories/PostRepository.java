@@ -11,6 +11,5 @@ import java.util.Optional;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    Page<Post> findAll(Pageable pageable);
     Optional<Post> findPostByIdAndAuthor(Long postId, UserEntity author);
 }

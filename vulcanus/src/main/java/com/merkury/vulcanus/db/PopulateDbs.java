@@ -17,16 +17,16 @@ public class PopulateDbs {
     private final PopulateForumService populateForumService;
     private final PopulateChatsService populateChatsService;
 
-    @Order(2)
-    @Bean
-    CommandLineRunner initPostgresDb() {
-        return args -> populateDbsService.initPostgresDb();
-    }
-
     @Order(1)
     @Bean
     CommandLineRunner initChats() {
         return args -> populateChatsService.initChatData();
+    }
+
+    @Order(2)
+    @Bean
+    CommandLineRunner initPostgresDb() {
+        return args -> populateDbsService.initPostgresDb();
     }
 
     @Order(3)

@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
-public class MediaUploadController {
+public class AzureBlobMediaUploadController {
 
     private final AzureBlobService azureBlobService;
 
