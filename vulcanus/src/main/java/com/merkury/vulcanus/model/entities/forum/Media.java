@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//not sure if class is needed for now
+//TODO: Not sure if class is needed, discuss with others later
 public class Media {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
