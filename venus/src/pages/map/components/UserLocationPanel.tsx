@@ -48,7 +48,7 @@ export default function UserLocationPanel() {
       <button
         data-testid="user-location-btn"
         onClick={handleClick}
-        className="dark:bg-violetDarker bg-fifth text-locationMarkerLightBlue hover:bg-lightBgButed dark:text-locationMarkerDarkerBlue hover:dark:bg-violetDark absolute right-2.5 bottom-28 cursor-pointer rounded-full p-3 text-xl drop-shadow-md lg:right-10 lg:bottom-48 lg:p-4 lg:text-3xl xl:right-[1.45rem] xl:bottom-40 xl:text-2xl"
+        className="dark:bg-violetDarker bg-fifth text-locationMarkerLightBlue hover:bg-lightBgButed dark:text-locationMarkerDarkerBlue hover:dark:bg-violetDark cursor-pointer rounded-full p-3 text-xl drop-shadow-md xl:text-2xl"
       >
         <MdMyLocation />
       </button>
