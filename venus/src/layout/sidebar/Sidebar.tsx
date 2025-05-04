@@ -3,12 +3,23 @@ import { useState } from "react";
 import { LuMoon, LuSun } from "react-icons/lu";
 import { IoMenu } from "react-icons/io5";
 import { MdOutlineForum } from "react-icons/md";
+import {
+  MdOutlineForum,
+  MdOutlinePhotoLibrary,
+  MdOutlineVideoLibrary,
+} from "react-icons/md";
 import { FaRegMap } from "react-icons/fa6";
 import { BiHome, BiMessageRounded } from "react-icons/bi";
 import { TbLogin2, TbLogout2 } from "react-icons/tb";
 import SidebarItem, { Link } from "./components/SidebarItem";
+import { BiComment, BiHome, BiMessageRounded } from "react-icons/bi";
+import { FiUsers } from "react-icons/fi";
+import { TbMapPin, TbMapPinPlus } from "react-icons/tb";
+import { BsGear } from "react-icons/bs";
+import SidebarItem from "./components/SidebarItem";
 import useSelectorTyped from "../../hooks/useSelectorTyped";
 import { useToggle } from "../../hooks/useToggle";
+import { useLocation } from "react-router-dom";
 
 const staticLinks: Link[] = [
   {
@@ -103,6 +114,17 @@ const userLoggedLinks: Link[] = [
   },
 ];
 
+interface SidebarProps {
+  isSidebarOpen: boolean;
+  onToggle: () => void;
+  onClose: () => void;
+}
+
+export default function Sidebar({
+  isSidebarOpen,
+  onToggle,
+  onClose,
+}: SidebarProps) {
 export default function Sidebar() {
   const [isDark, setIsDark] = useState(
     localStorage.getItem("theme") === "dark",
@@ -110,6 +132,9 @@ export default function Sidebar() {
   const [isSidebarOpen, toggleSidebar] = useToggle(true);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>();
   const isLogged = useSelectorTyped((state) => state.account.isLogged);
+  const location = useLocation();
+  const isAccountPage = location.pathname.includes("/account");
+  const isChatPage = location.pathname.includes("/chat");
 
   const allLinks = isLogged
     ? [...staticLinks, ...userLoggedLinks]
@@ -159,16 +184,21 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`bg-violetDark text-darkText absolute z-50 flex h-full shrink-0 flex-col justify-between overflow-hidden p-2 transition-all duration-300 ${isSidebarOpen ? "w-[220px]" : "w-[70px]"}`}
+      className={`bg-violetDark text-darkText fixed top-0 left-0 z-50 flex h-full shrink-0 flex-col justify-between overflow-hidden p-2 transition-all duration-300 ${isAccountPage || isChatPage ? "xl:static" : "absolute"} ${isSidebarOpen ? "w-full translate-x-0 xl:w-[220px]" : "w-0 -translate-x-full p-0 lg:w-[70px] xl:translate-x-0"}`}
     >
       <div className="flex flex-col space-y-10">
-        <button
-          type="button"
-          className="ml-2 w-fit cursor-pointer"
-          onClick={toggleSidebar}
-        >
-          <IoMenu size={40} />
-        </button>
+        <div className="bg-violetDark flex items-center justify-between">
+          <button
+            type="button"
+            className="ml-2 w-fit cursor-pointer"
+            onClick={toggleSidebar}
+          >
+            <IoMenu size={40} />
+          </button>
+          <span className="text-darkText mr-2 font-semibold xl:hidden">
+            Merkury
+          </span>
+        </div>
         <nav className="flex flex-col space-y-1">
           {allLinks.map((link) => (
             <SidebarItem

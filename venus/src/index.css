@@ -1,4 +1,9 @@
 @import 'tailwindcss';
+/* documentation of the plugin https://adoxography.github.io/tailwind-scrollbar/ */
+@plugin 'tailwind-scrollbar' {
+  nocompatible: true;
+  preferredStrategy: 'pseudoelements';
+}
 
 @custom-variant dark (&:is(.dark *));
 

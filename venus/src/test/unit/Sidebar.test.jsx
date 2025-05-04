@@ -27,8 +27,8 @@ const renderSidebar = (preloadedState, pathname) => {
   );
 };
 
-describe("Header component unit tests", () => {
-  describe("When header is close and user is not logged", () => {
+describe("Sidebar component unit tests", () => {
+  describe("When sidebar is close and user is not logged", () => {
     beforeEach(() => {
       renderSidebar(
         {
@@ -110,7 +110,7 @@ describe("Header component unit tests", () => {
     });
   });
 
-  describe("When header is close and user is logged", () => {
+  describe("When sidebar is close and user is logged", () => {
     beforeEach(() => {
       renderSidebar(
         {
@@ -123,7 +123,7 @@ describe("Header component unit tests", () => {
     });
   });
 
-  describe("When header is open and user is not logged", () => {
+  describe("When sidebar is open and user is not logged", () => {
     beforeEach(() => {
       renderSidebar(
         {
@@ -168,7 +168,7 @@ describe("Header component unit tests", () => {
     });
   });
 
-  describe("When header is close and user is logged on account page", () => {
+  describe("When sidebar is close and user is logged on account page", () => {
     beforeEach(() => {
       renderSidebar(
         {
@@ -176,12 +176,22 @@ describe("Header component unit tests", () => {
             isLogged: true,
           },
         },
-        "/account",
+        "/account/profile",
       );
     });
 
     describe("Check is links render", () => {
-      test("should render Spots List Text", () => {
+      test("should render Profile Link", () => {
+        const links = screen.getAllByRole("link");
+        const link = links.find(
+          (link) => link.getAttribute("href") === "/account/profile",
+        );
+        expect(link).toBeInTheDocument();
+      });
+
+      test("should render Spots List Link", () => {
+        Object.assign(window, { innerWidth: 1920 });
+        window.dispatchEvent(new Event("resize"));
         const links = screen.getAllByRole("link");
         const link = links.find(
           (link) => link.getAttribute("href") === "/account/spots-list",
@@ -189,7 +199,7 @@ describe("Header component unit tests", () => {
         expect(link).toBeInTheDocument();
       });
 
-      test("should render Photos list Text", () => {
+      test("should render Photos list Link", () => {
         const links = screen.getAllByRole("link");
         const link = links.find(
           (link) => link.getAttribute("href") === "/account/photos-list",
@@ -197,7 +207,7 @@ describe("Header component unit tests", () => {
         expect(link).toBeInTheDocument();
       });
 
-      test("should render Movies list Text", () => {
+      test("should render Movies list Link", () => {
         const links = screen.getAllByRole("link");
         const link = links.find(
           (link) => link.getAttribute("href") === "/account/movies-list",
@@ -205,7 +215,7 @@ describe("Header component unit tests", () => {
         expect(link).toBeInTheDocument();
       });
 
-      test("should render friends Text", () => {
+      test("should render friends Link", () => {
         const links = screen.getAllByRole("link");
         const link = links.find(
           (link) => link.getAttribute("href") === "/account/friends",
@@ -213,7 +223,7 @@ describe("Header component unit tests", () => {
         expect(link).toBeInTheDocument();
       });
 
-      test("should render Add spot Text", () => {
+      test("should render Add spot Link", () => {
         const links = screen.getAllByRole("link");
         const link = links.find(
           (link) => link.getAttribute("href") === "/account/add-spot",
@@ -221,7 +231,7 @@ describe("Header component unit tests", () => {
         expect(link).toBeInTheDocument();
       });
 
-      test("should render Comments Text", () => {
+      test("should render Comments Link", () => {
         const links = screen.getAllByRole("link");
         const link = links.find(
           (link) => link.getAttribute("href") === "/account/comments",
@@ -229,7 +239,8 @@ describe("Header component unit tests", () => {
         expect(link).toBeInTheDocument();
       });
 
-      test("should render Settings Text", () => {
+      test("should render Settings Link", () => {
+        screen.debug();
         const links = screen.getAllByRole("link");
         const link = links.find(
           (link) => link.getAttribute("href") === "/account/settings",
@@ -239,7 +250,7 @@ describe("Header component unit tests", () => {
     });
   });
 
-  describe("When header is open and user is logged on account page", () => {
+  describe("When sidebar is open and user is logged on account page", () => {
     beforeEach(() => {
       renderSidebar(
         {
@@ -247,7 +258,7 @@ describe("Header component unit tests", () => {
             isLogged: true,
           },
         },
-        "/account",
+        "/account/profile",
       );
     });
 

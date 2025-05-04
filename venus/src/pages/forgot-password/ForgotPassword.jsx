@@ -37,7 +37,7 @@ export default function ForgotPassword() {
         />
         <button
           type="submit"
-          className="bg-black text-white rounded-lg w-full p-1 m-1 mt-2 mb-2"
+          className="m-1 mt-2 mb-2 w-full rounded-lg bg-black p-1 text-white"
           disabled={!didEdit.email || !isValid.email.value}
         >
           Remind me
