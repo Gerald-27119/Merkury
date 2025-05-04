@@ -39,8 +39,8 @@ export default function Spots() {
 
   return (
     <>
-      {data?.map((spot: GeneralSpot) => {
-        return shouldRenderMarker(spot.area, zoomLevel) ? (
+      {data?.map((spot: GeneralSpot) =>
+        shouldRenderMarker(spot.area, zoomLevel) ? (
           <Marker
             key={spot.id}
             longitude={spot.contourCoordinates[0][1]}
@@ -67,8 +67,8 @@ export default function Spots() {
               }}
             />
           </Source>
-        );
-      })}
+        ),
+      )}
     </>
   );
 }

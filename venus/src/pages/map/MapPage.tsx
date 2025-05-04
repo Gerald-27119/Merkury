@@ -1,5 +1,5 @@
 import { Map } from "@vis.gl/react-maplibre";
-import ZoomControlPanel from "./components/ZoomControlPanel";
+import ZoomControlPanel from "./components/zoom-control/ZoomControlPanel";
 import UserLocationPanel from "./components/UserLocationPanel";
 import Spots from "./components/spots/Spots";
 import useDispatchTyped from "../../hooks/useDispatchTyped";

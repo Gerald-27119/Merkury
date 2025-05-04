@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { screen } from "@testing-library/react";
-import ZoomControlPanel from "../../pages/map/components/ZoomControlPanel.tsx";
+import ZoomControlPanel from "../../pages/map/components/zoom-control/ZoomControlPanel.tsx";
 
 vi.mock("@vis.gl/react-maplibre", () => ({
   Map: ({ children }) => <div>{children}</div>,
