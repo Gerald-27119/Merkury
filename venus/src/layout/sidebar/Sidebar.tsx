@@ -3,22 +3,11 @@ import { useState } from "react";
 import { LuMoon, LuSun } from "react-icons/lu";
 import { IoMenu } from "react-icons/io5";
 import { MdOutlineForum } from "react-icons/md";
-import {
-  MdOutlineForum,
-  MdOutlinePhotoLibrary,
-  MdOutlineVideoLibrary,
-} from "react-icons/md";
 import { FaRegMap } from "react-icons/fa6";
 import { BiHome, BiMessageRounded } from "react-icons/bi";
 import { TbLogin2, TbLogout2 } from "react-icons/tb";
 import SidebarItem, { Link } from "./components/SidebarItem";
-import { BiComment, BiHome, BiMessageRounded } from "react-icons/bi";
-import { FiUsers } from "react-icons/fi";
-import { TbMapPin, TbMapPinPlus } from "react-icons/tb";
-import { BsGear } from "react-icons/bs";
-import SidebarItem from "./components/SidebarItem";
 import useSelectorTyped from "../../hooks/useSelectorTyped";
-import { useToggle } from "../../hooks/useToggle";
 import { useLocation } from "react-router-dom";
 
 const staticLinks: Link[] = [
@@ -117,19 +106,12 @@ const userLoggedLinks: Link[] = [
 interface SidebarProps {
   isSidebarOpen: boolean;
   onToggle: () => void;
-  onClose: () => void;
 }
 
-export default function Sidebar({
-  isSidebarOpen,
-  onToggle,
-  onClose,
-}: SidebarProps) {
-export default function Sidebar() {
+export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
   const [isDark, setIsDark] = useState(
     localStorage.getItem("theme") === "dark",
   );
-  const [isSidebarOpen, toggleSidebar] = useToggle(true);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>();
   const isLogged = useSelectorTyped((state) => state.account.isLogged);
   const location = useLocation();
@@ -191,7 +173,7 @@ export default function Sidebar() {
           <button
             type="button"
             className="ml-2 w-fit cursor-pointer"
-            onClick={toggleSidebar}
+            onClick={onToggle}
           >
             <IoMenu size={40} />
           </button>
