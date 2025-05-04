@@ -1,8 +1,12 @@
 import axios from "axios";
 import PostDto from "../model/interface/forum/post/PostDto";
+import PaginatedPosts from "../model/interface/forum/post/PaginatedPosts";
+import PostDetails from "../model/interface/forum/post/PostDetails";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
-export async function fetchPaginatedPosts(page: number) {
+export async function fetchPaginatedPosts(
+  page: number,
+): Promise<PaginatedPosts> {
   return (
     await axios.get(`${BASE_URL}/public/post`, {
       params: { page },
@@ -11,7 +15,7 @@ export async function fetchPaginatedPosts(page: number) {
   ).data;
 }
 
-export async function fetchDetailedPost(postId: number) {
+export async function fetchDetailedPost(postId: number): Promise<PostDetails> {
   return (
     await axios.get(`${BASE_URL}/public/post/${postId}`, {
       withCredentials: true,
