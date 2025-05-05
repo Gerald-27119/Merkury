@@ -60,7 +60,7 @@ const userLoggedLinks: Link[] = [
     type: "submenu",
     children: [
       {
-        to: "/account",
+        to: "/account/profile",
         // icon: <FaRegUser aria-label="profile" />,
         name: "profile",
       },
@@ -166,10 +166,10 @@ export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
 
   return (
     <aside
-      className={`bg-violetDark text-darkText fixed top-0 left-0 z-50 flex h-full shrink-0 flex-col justify-between overflow-hidden p-2 transition-all duration-300 ${isAccountPage || isChatPage ? "xl:static" : "absolute"} ${isSidebarOpen ? "w-full translate-x-0 xl:w-[220px]" : "w-0 -translate-x-full p-0 lg:w-[70px] xl:translate-x-0"}`}
+      className={`bg-violetDark text-darkText fixed top-0 left-0 z-50 flex h-full shrink-0 flex-col justify-between py-2 transition-all duration-300 ${isAccountPage || isChatPage ? "xl:static" : "absolute"} ${isSidebarOpen ? "w-full translate-x-0 xl:w-[220px]" : "w-0 -translate-x-full p-0 lg:w-[70px] xl:translate-x-0"}`}
     >
       <div className="flex flex-col space-y-10">
-        <div className="bg-violetDark flex items-center justify-between">
+        <div className="bg-violetDark mx-2 flex items-center justify-between">
           <button
             type="button"
             className="ml-2 w-fit cursor-pointer"
@@ -191,11 +191,11 @@ export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
               setOpenSubmenu={setOpenSubmenu}
             />
           ))}
-          <hr className="border-violetLight mt-1 w-full" />
+          <hr className="border-violetLight mx-2 mt-1" />
         </nav>
       </div>
       <div className="flex flex-col space-y-3">
-        <hr className="border-violetLight w-full" />
+        <hr className="border-violetLight mx-2" />
         {optionsLinks.map((link) => (
           <SidebarItem
             key={link.name}

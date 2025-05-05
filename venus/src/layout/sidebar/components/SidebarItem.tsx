@@ -21,7 +21,6 @@ interface SidebarItemProps {
   isSidebarOpen: boolean;
   onChangeTheme?: () => void;
   isChildren?: boolean;
-  onClick?: () => void;
   index?: number;
   openSubmenu?: string | null;
   setOpenSubmenu?: (name: string | null) => void;
@@ -32,7 +31,6 @@ export default function SidebarItem({
   isSidebarOpen,
   onChangeTheme,
   isChildren,
-  onClick,
   index,
   openSubmenu,
   setOpenSubmenu,
@@ -89,11 +87,6 @@ export default function SidebarItem({
     }
   }, [location.pathname]);
 
-  // const handleOpen = () => {
-  //   setIsOpen((prevState) => !prevState);
-  //   if (onClick) onClick();
-  // };
-
   const content = (isActive: boolean): ReactElement => (
     <>
       <div
@@ -102,7 +95,7 @@ export default function SidebarItem({
         {icon}
       </div>
       <p
-        className={`flex min-w-[10rem] items-center text-start text-base font-semibold capitalize transition-opacity duration-300 ${!isSidebarOpen ? "pointer-events-none opacity-0" : "opacity-100"}`}
+        className={`flex min-w-[10rem] items-center text-start font-semibold capitalize transition-opacity duration-300 ${!isSidebarOpen ? "pointer-events-none opacity-0" : "opacity-100"}`}
       >
         {name}
         {children &&
@@ -114,6 +107,22 @@ export default function SidebarItem({
           ))}
         {!isChildren && (isActive || isDot) && <GoDotFill className="ml-2" />}
       </p>
+      {!isSidebarOpen && (
+        <div className="text-darkText bg-violetLight absolute top-0 left-full rounded-r-md px-2.5 py-2 whitespace-nowrap capitalize opacity-0 duration-150 group-hover:pointer-events-auto group-hover:opacity-100">
+          <div className="flex flex-col text-start">
+            <p className="font-semibold">{name}</p>
+            {children?.map((link) => (
+              <NavLink
+                key={link.name}
+                to={link.to ?? ""}
+                className="text-darkBorder"
+              >
+                {link.name}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 
@@ -135,17 +144,17 @@ export default function SidebarItem({
 
     return (
       <div
-        className={`group overflow-hidden transition-all duration-500 ${index === 0 && "mt-2"}`}
+        className={`transition-all duration-500 ${index === 0 && "mt-2"} mx-2 ${!isSidebarOpen && "mr-0"}`}
       >
         <button
           type="button"
           onClick={clickHandler}
-          className="flex w-full cursor-pointer items-center space-x-3 rounded-md pl-2 transition-all"
+          className={`group relative flex w-full cursor-pointer items-center space-x-3 rounded-md pl-2 transition-all ${!isSidebarOpen && "hover:bg-violetLight rounded-r-none"}`}
         >
           {content(false)}
         </button>
         <div
-          className={`space-y-1 overflow-hidden transition-all duration-500 ${isOpen ? "max-h-96" : "max-h-0"} ${!isSidebarOpen && "group-hover:max-h-96"}`}
+          className={`space-y-1 overflow-hidden transition-all duration-500 ${isOpen && isSidebarOpen ? "max-h-96" : "max-h-0"}`}
         >
           {children?.map((link, index) => (
             <SidebarItem
@@ -153,7 +162,6 @@ export default function SidebarItem({
               link={link}
               isSidebarOpen={isSidebarOpen}
               isChildren={true}
-              onClick={toggleSubmenu}
               index={index}
             />
           ))}
@@ -167,7 +175,7 @@ export default function SidebarItem({
       to={to}
       end
       className={({ isActive }) =>
-        `flex items-center rounded-md transition-all ${isChildren ? "hover:bg-violetLight space-x-1" : "space-x-3"} ${isActive && isChildren && "bg-violetLight"} ${isChildren ? "text-darkBorder pl-5" : "pl-2"}`
+        `group relative mx-2 flex items-center rounded-md transition-all ${isChildren ? "hover:bg-violetLight text-darkBorder space-x-1 pl-5" : "space-x-3 pl-2"} ${isActive && isChildren && "bg-violetLight"} ${!isSidebarOpen && "hover:bg-violetLight rounded-r-none"}`
       }
     >
       {({ isActive }) => content(isActive)}
