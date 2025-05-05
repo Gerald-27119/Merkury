@@ -4,4 +4,5 @@ export default interface GeneralSpot {
   name: string;
   rating: number;
   contourCoordinates: number[][];
+  area: number;
 }

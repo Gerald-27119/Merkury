@@ -4,6 +4,7 @@ import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.entities.*;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.repositories.*;
+import com.merkury.vulcanus.utils.PolygonAreaCalculator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -73,7 +74,7 @@ public class PopulateDbsService {
 
         Spot spot1 = Spot.builder()
                 .name("Pomnik konny Jana III Sobieskiego")
-                .areaColor("green")
+                .areaColor("#A8071A")
                 .description("Brązowy posąg XVII-wiecznego polskiego króla Jana III Sobieskiego na koniu usytuowany na małym placu.")
                 .comments(new ArrayList<>())
                 .rating(5.0)
@@ -83,7 +84,7 @@ public class PopulateDbsService {
 
         Spot spot2 = Spot.builder()
                 .name("Skwer Czesława Niemena")
-                .areaColor("green")
+                .areaColor("#A8071A")
                 .description("Mały park z ławkami i pomnikiem Czesława Niemena.")
                 .comments(new ArrayList<>())
                 .rating(5.0)
@@ -93,7 +94,7 @@ public class PopulateDbsService {
 
         Spot spot3 = Spot.builder()
                 .name("Park Wałowy")
-                .areaColor("green")
+                .areaColor("#A8071A")
                 .description("Mały park z ławkami")
                 .comments(new ArrayList<>())
                 .rating(3.5)
@@ -103,7 +104,7 @@ public class PopulateDbsService {
 
         Spot spot4 = Spot.builder()
                 .name("Park")
-                .areaColor("green")
+                .areaColor("#A8071A")
                 .description("Mały park")
                 .comments(new ArrayList<>())
                 .rating(3.6)
@@ -113,7 +114,7 @@ public class PopulateDbsService {
 
         Spot spot5 = Spot.builder()
                 .name("Jar Wilanowski")
-                .areaColor("green")
+                .areaColor("#A8071A")
                 .description("Zielona strefa z jeziorem")
                 .comments(new ArrayList<>())
                 .rating(4.6)
@@ -123,7 +124,7 @@ public class PopulateDbsService {
 
         Spot spot6 = Spot.builder()
                 .name("Plac imienia Dariusza Kobzdeja")
-                .areaColor("green")
+                .areaColor("#A8071A")
                 .description("Mały, zadbany plac z ławeczkami i zielenią. Znajduje się on z jednej strony w pobliżu pomnika Jana III Sobieskiego, a z drugiej strony w pobliżu Hali Targowej.")
                 .comments(new ArrayList<>())
                 .rating(4.5)
@@ -133,7 +134,7 @@ public class PopulateDbsService {
 
         Spot spot7 = Spot.builder()
                 .name("Plac Zabaw na Wroniej Górce")
-                .areaColor("green")
+                .areaColor("#A8071A")
                 .description("Plac zabaw")
                 .comments(new ArrayList<>())
                 .rating(4.8)
@@ -143,7 +144,7 @@ public class PopulateDbsService {
 
         Spot spot8 = Spot.builder()
                 .name("Plaża stogi")
-                .areaColor("green")
+                .areaColor("#A8071A")
                 .description("Szeroka piaszczysta plaża.")
                 .comments(new ArrayList<>())
                 .rating(4.6)
@@ -153,7 +154,7 @@ public class PopulateDbsService {
 
         Spot spot9 = Spot.builder()
                 .name("Park Oruński im. Emilii Hoene")
-                .areaColor("green")
+                .areaColor("#A8071A")
                 .description("Park Oruński należy, obok Parku Oliwskiego, należy do najcenniejszych zachowanych dawnych gdańskich parków.")
                 .comments(new ArrayList<>())
                 .rating(5.0)
@@ -163,7 +164,7 @@ public class PopulateDbsService {
 
         Spot spot10 = Spot.builder()
                 .name("Park Street Workout")
-                .areaColor("green")
+                .areaColor("#A8071A")
                 .description("Park, który oryginalnie był cmentarzem protestanckim, należącym dawniej do kościoła przy placu Oruńskim.")
                 .comments(new ArrayList<>())
                 .rating(4.4)
@@ -534,6 +535,7 @@ public class PopulateDbsService {
             spot.getBorderPoints().addAll(contours.get(i));
             spot.getComments().addAll(commentLists.get(i));
             spot.getImages().addAll(galleries.get(i));
+            spot.setArea(PolygonAreaCalculator.calculateArea(spot.getBorderPoints().toArray(new BorderPoint[0])));
 
             var comments = commentLists.get(i);
             var rating = comments.stream()
