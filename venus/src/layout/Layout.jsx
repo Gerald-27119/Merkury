@@ -39,8 +39,6 @@ export default function Layout() {
           <Outlet />
         </main>
       </div>
-      {/*TODO: make Footer visible only on HomePage? - need to consult it*/}
-      {/*<Footer />*/}
     </>
   );
 }

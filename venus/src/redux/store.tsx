@@ -6,6 +6,7 @@ import { spotDetailsModalSlice } from "./spot-modal.jsx";
 import { photoGallerySlice } from "./photo-gallery.jsx";
 import { spotFiltersSlice } from "./spot-filters.jsx";
 import { chatsSlice } from "./chats";
+import { mapSlice } from "./map";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     photoGallery: photoGallerySlice.reducer,
     spotFilters: spotFiltersSlice.reducer,
     chats: chatsSlice.reducer,
+    map: mapSlice.reducer,
   },
 });
 

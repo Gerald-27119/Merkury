@@ -7,6 +7,7 @@ import { accountAction } from "./redux/account.jsx";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { logout } from "./http/account.js";
+import "maplibre-gl/dist/maplibre-gl.css";
 
 const queryClient = new QueryClient();
 

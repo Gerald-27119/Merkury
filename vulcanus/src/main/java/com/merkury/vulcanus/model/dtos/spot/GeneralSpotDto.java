@@ -15,5 +15,7 @@ public record GeneralSpotDto(@Positive(message = "ID must be a positive number."
                              @Max(value = 5, message = "Rating count cannot be more than 5.")
                              Double rating,
                              @NotEmpty(message = "Contour coordinates list cannot be empty.")
-                             List<Double[]> contourCoordinates) {
+                             List<Double[]> contourCoordinates,
+                             @Positive(message = "Area must be greater than 0.")
+                             Double area) {
 }
