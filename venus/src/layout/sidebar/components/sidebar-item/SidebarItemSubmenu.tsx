@@ -1,43 +1,18 @@
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useToggleState } from "../../../../hooks/useToggleState";
 import React, { ReactElement, useEffect, useState } from "react";
-import { GoDotFill } from "react-icons/go";
-import { logout } from "../../../http/account";
-import { notificationAction } from "../../../redux/notification";
-import { accountAction } from "../../../redux/account";
-import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { useBoolean } from "../../../../hooks/useBoolean";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import { logout } from "../../../../http/account";
+import { notificationAction } from "../../../../redux/notification";
+import { accountAction } from "../../../../redux/account";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { useToggleState } from "../../../hooks/useToggleState";
+import { GoDotFill } from "react-icons/go";
 
-export interface Link {
-  to?: string;
-  icon?: React.ReactElement;
-  name: string;
-  type?: string;
-  children?: Link[];
-}
-
-interface SidebarItemProps {
-  link: Link;
-  isSidebarOpen: boolean;
-  onChangeTheme?: () => void;
-  isChildren?: boolean;
-  index?: number;
-  openSubmenu?: string | null;
-  setOpenSubmenu?: (name: string | null) => void;
-}
-
-export default function SidebarItem({
-  link: { to, icon, name, children, type },
-  isSidebarOpen,
-  onChangeTheme,
-  isChildren,
-  index,
-  openSubmenu,
-  setOpenSubmenu,
-}: SidebarItemProps) {
+export default function SidebarItemSubmenu() {
   const [isOpen, setIsOpenSubmenu, toggleSubmenu] = useToggleState(false);
   const [isDot, setIsDot] = useState(false);
-  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+  const [isTooltipShown, showTooltip, hideTooltip] = useBoolean(false);
 
   const location = useLocation();
   const dispatch = useDispatchTyped();
@@ -90,21 +65,23 @@ export default function SidebarItem({
 
   const content = (isActive: boolean): ReactElement => (
     <div className="flex items-center">
-      <div className="relative flex h-10 w-10 shrink-0 items-center justify-center text-3xl">
+      <div
+        className={`relative flex shrink-0 items-center justify-center text-3xl ${isChildren ? "h-10 w-5" : "h-10 w-10"}`}
+      >
         <div>
           {!isSidebarOpen && to ? <NavLink to={to}>{icon}</NavLink> : icon}
 
-          {!isSidebarOpen && isTooltipOpen && (
+          {!isSidebarOpen && isTooltipShown && (
             <div className="bg-violetLight text-darkText absolute top-0 left-full z-50 ml-3.5 rounded-r-md px-3 py-2 text-start text-base font-semibold whitespace-nowrap capitalize">
               <p
-                className={`${children?.length > 0 ? "cursor-auto" : "cursor-pointer"}`}
+                className={`${children?.length ? "cursor-auto" : "cursor-pointer"}`}
               >
                 {name}
               </p>
               {children?.map((link) => (
                 <NavLink
                   key={link.name}
-                  to={link.to}
+                  to={link.to!}
                   className="block font-normal text-gray-300"
                 >
                   {link.name}
@@ -118,7 +95,7 @@ export default function SidebarItem({
       {isSidebarOpen && (
         <p className="ml-2 flex min-w-[10rem] items-center text-start font-semibold capitalize">
           {name}
-          {children?.length > 0 &&
+          {children?.length &&
             (isOpen ? (
               <IoIosArrowUp className="ml-2" />
             ) : (
@@ -130,31 +107,33 @@ export default function SidebarItem({
     </div>
   );
 
-  if (!to || children?.length > 0) {
+  if (!to || children?.length) {
     let clickHandler: (() => void) | undefined;
-
-    if (type === "login") {
-      clickHandler = handleSignOut;
-    } else if (type === "changeMode") {
-      clickHandler = onChangeTheme;
-    } else if (type === "submenu") {
-      clickHandler = () => {
-        if (setOpenSubmenu) {
-          setOpenSubmenu(isOpen ? null : name);
-        }
-        toggleSubmenu();
-      };
+    switch (type) {
+      case "login":
+        clickHandler = handleSignOut;
+        break;
+      case "changeMode":
+        clickHandler = onChangeTheme;
+        break;
+      default:
+        clickHandler = () => {
+          if (setOpenSubmenu) {
+            setOpenSubmenu(isOpen ? null : name);
+          }
+          toggleSubmenu();
+        };
     }
 
     return (
       <div
-        className={`transition-all duration-500 ${index === 0 && "mt-2"} mx-2 ${!isSidebarOpen && "mr-0"}`}
+        className={`mx-2 transition-all duration-500 ${index === 0 && "mt-2"} ${!isSidebarOpen && "mr-0"}`}
       >
         <button
           type="button"
           onClick={clickHandler}
-          onMouseEnter={() => setIsTooltipOpen(true)}
-          onMouseLeave={() => setIsTooltipOpen(false)}
+          onMouseEnter={showTooltip}
+          onMouseLeave={hideTooltip}
           className={`flex w-full cursor-pointer items-center space-x-3 rounded-md pl-2 transition-all ${!isSidebarOpen && "hover:bg-violetLight rounded-r-none transition-none"}`}
         >
           {content(false)}
@@ -180,8 +159,8 @@ export default function SidebarItem({
     <NavLink
       to={to}
       end
-      onMouseEnter={() => setIsTooltipOpen(true)}
-      onMouseLeave={() => setIsTooltipOpen(false)}
+      onMouseEnter={showTooltip}
+      onMouseLeave={hideTooltip}
       className={({ isActive }) =>
         `mx-2 flex items-center rounded-md transition-all ${isChildren ? "hover:bg-violetLight space-x-1 pl-5 text-gray-300" : "space-x-3 pl-2"} ${isActive && isChildren && "bg-violetLight"} ${!isSidebarOpen && "hover:bg-violetLight mr-0 rounded-r-none transition-none"}`
       }

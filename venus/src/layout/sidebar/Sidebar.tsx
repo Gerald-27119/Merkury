@@ -6,9 +6,12 @@ import { MdOutlineForum } from "react-icons/md";
 import { FaRegMap } from "react-icons/fa6";
 import { BiHome, BiMessageRounded } from "react-icons/bi";
 import { TbLogin2, TbLogout2 } from "react-icons/tb";
-import SidebarItem, { Link } from "./components/SidebarItem";
+import { Link } from "./components/sidebar-item/SidebarItem";
 import useSelectorTyped from "../../hooks/useSelectorTyped";
 import { useLocation } from "react-router-dom";
+import SidebarList from "./components/SidebarList";
+import { useDarkMode } from "../../hooks/useDarkMode";
+import SidebarSection from "./components/SidebarSection";
 
 const staticLinks: Link[] = [
   {
@@ -110,9 +113,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
-  const [isDark, setIsDark] = useState(
-    localStorage.getItem("theme") === "dark",
-  );
+  const [isDark, toggleDarkMode] = useDarkMode();
   const [openSubmenu, setOpenSubmenu] = useState<string | null>();
   const isLogged = useSelectorTyped((state) => state.account.isLogged);
   const location = useLocation();
@@ -152,19 +153,6 @@ export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
         },
   ];
 
-  const toggleDarkMode = () => {
-    const html = document.documentElement;
-    if (html.classList.contains("dark")) {
-      html.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setIsDark(false);
-    } else {
-      html.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setIsDark(true);
-    }
-  };
-
   return (
     <aside
       className={`bg-violetDark text-darkText fixed top-0 left-0 z-50 flex h-full shrink-0 flex-col justify-between py-2 transition-all duration-300 ${isAccountPage || isChatPage ? "xl:static" : "absolute"} ${isSidebarOpen ? "w-full translate-x-0 xl:w-[220px]" : "w-0 -translate-x-full p-0 lg:w-[70px] xl:translate-x-0"}`}
@@ -182,30 +170,22 @@ export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
             Merkury
           </span>
         </div>
-        <nav className="flex flex-col space-y-1">
-          {allLinks.map((link) => (
-            <SidebarItem
-              key={link.name}
-              link={link}
-              isSidebarOpen={isSidebarOpen}
-              openSubmenu={openSubmenu}
-              setOpenSubmenu={setOpenSubmenu}
-            />
-          ))}
-          <hr className="border-violetLight mx-2 mt-1" />
-        </nav>
-      </div>
-      <div className="flex flex-col space-y-3">
-        <hr className="border-violetLight mx-2" />
-        {optionsLinks.map((link) => (
-          <SidebarItem
-            key={link.name}
-            link={link}
+        <SidebarSection showBottomHr={true}>
+          <SidebarList
+            links={allLinks}
             isSidebarOpen={isSidebarOpen}
-            onChangeTheme={toggleDarkMode}
+            openSubmenu={openSubmenu}
+            setOpenSubmenu={setOpenSubmenu}
           />
-        ))}
+        </SidebarSection>
       </div>
+      <SidebarSection showTopHr={true}>
+        <SidebarList
+          links={optionsLinks}
+          isSidebarOpen={isSidebarOpen}
+          onChangeTheme={toggleDarkMode}
+        />
+      </SidebarSection>
     </aside>
   );
 }
