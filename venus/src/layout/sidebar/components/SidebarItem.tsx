@@ -92,16 +92,20 @@ export default function SidebarItem({
     <div className="flex items-center">
       <div className="relative flex h-10 w-10 shrink-0 items-center justify-center text-3xl">
         <div>
-          {!isSidebarOpen ? <NavLink to={to}>{icon}</NavLink> : icon}
+          {!isSidebarOpen && to ? <NavLink to={to}>{icon}</NavLink> : icon}
 
           {!isSidebarOpen && isTooltipOpen && (
             <div className="bg-violetLight text-darkText absolute top-0 left-full z-50 ml-3.5 rounded-r-md px-3 py-2 text-start text-base font-semibold whitespace-nowrap capitalize">
-              <p>{name}</p>
+              <p
+                className={`${children?.length > 0 ? "cursor-auto" : "cursor-pointer"}`}
+              >
+                {name}
+              </p>
               {children?.map((link) => (
                 <NavLink
                   key={link.name}
-                  to={link.to ?? ""}
-                  className="text-darkBorder block text-base font-normal"
+                  to={link.to}
+                  className="block font-normal text-gray-300"
                 >
                   {link.name}
                 </NavLink>
@@ -179,7 +183,7 @@ export default function SidebarItem({
       onMouseEnter={() => setIsTooltipOpen(true)}
       onMouseLeave={() => setIsTooltipOpen(false)}
       className={({ isActive }) =>
-        `mx-2 flex items-center rounded-md transition-all ${isChildren ? "hover:bg-violetLight text-darkBorder space-x-1 pl-5" : "space-x-3 pl-2"} ${isActive && isChildren && "bg-violetLight"} ${!isSidebarOpen && "hover:bg-violetLight mr-0 rounded-r-none transition-none"}`
+        `mx-2 flex items-center rounded-md transition-all ${isChildren ? "hover:bg-violetLight space-x-1 pl-5 text-gray-300" : "space-x-3 pl-2"} ${isActive && isChildren && "bg-violetLight"} ${!isSidebarOpen && "hover:bg-violetLight mr-0 rounded-r-none transition-none"}`
       }
     >
       {({ isActive }) => content(isActive)}
