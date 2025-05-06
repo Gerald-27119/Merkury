@@ -91,10 +91,7 @@ export default function SidebarItem({
   const content = (isActive: boolean): ReactElement => (
     <div className="flex items-center">
       <div className="relative flex h-10 w-10 shrink-0 items-center justify-center text-3xl">
-        <div
-          onMouseEnter={() => setIsTooltipOpen(true)}
-          onMouseLeave={() => setIsTooltipOpen(false)}
-        >
+        <div>
           {!isSidebarOpen ? <NavLink to={to}>{icon}</NavLink> : icon}
 
           {!isSidebarOpen && isTooltipOpen && (
@@ -152,7 +149,9 @@ export default function SidebarItem({
         <button
           type="button"
           onClick={clickHandler}
-          className={`flex w-full cursor-pointer items-center space-x-3 rounded-md pl-2 transition-all ${!isSidebarOpen && isTooltipOpen && "bg-violetLight rounded-r-none"}`}
+          onMouseEnter={() => setIsTooltipOpen(true)}
+          onMouseLeave={() => setIsTooltipOpen(false)}
+          className={`flex w-full cursor-pointer items-center space-x-3 rounded-md pl-2 transition-all ${!isSidebarOpen && "hover:bg-violetLight rounded-r-none transition-none"}`}
         >
           {content(false)}
         </button>
@@ -177,8 +176,10 @@ export default function SidebarItem({
     <NavLink
       to={to}
       end
+      onMouseEnter={() => setIsTooltipOpen(true)}
+      onMouseLeave={() => setIsTooltipOpen(false)}
       className={({ isActive }) =>
-        `mx-2 flex items-center rounded-md transition-all ${isChildren ? "hover:bg-violetLight text-darkBorder space-x-1 pl-5" : "space-x-3 pl-2"} ${isActive && isChildren && "bg-violetLight"} ${!isSidebarOpen && isTooltipOpen && "bg-violetLight mr-0 rounded-r-none"}`
+        `mx-2 flex items-center rounded-md transition-all ${isChildren ? "hover:bg-violetLight text-darkBorder space-x-1 pl-5" : "space-x-3 pl-2"} ${isActive && isChildren && "bg-violetLight"} ${!isSidebarOpen && "hover:bg-violetLight mr-0 rounded-r-none transition-none"}`
       }
     >
       {({ isActive }) => content(isActive)}
