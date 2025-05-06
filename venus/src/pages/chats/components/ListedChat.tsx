@@ -8,7 +8,7 @@ interface ListedChatProps {
 
 function ListedChat({ simpleChatDto }: ListedChatProps) {
   return (
-    <div className="flex items-center gap-4 px-3 py-3">
+    <button className="flex items-center gap-4 px-3 py-3" onClick={() => {}}>
       <img
         className="aspect-square w-12 rounded-full"
         src={
@@ -39,7 +39,7 @@ function ListedChat({ simpleChatDto }: ListedChatProps) {
           )}
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
