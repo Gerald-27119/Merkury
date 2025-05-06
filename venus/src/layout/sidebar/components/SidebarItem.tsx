@@ -37,6 +37,7 @@ export default function SidebarItem({
 }: SidebarItemProps) {
   const [isOpen, setIsOpenSubmenu, toggleSubmenu] = useToggleState(false);
   const [isDot, setIsDot] = useState(false);
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
   const location = useLocation();
   const dispatch = useDispatchTyped();
@@ -88,45 +89,47 @@ export default function SidebarItem({
   }, [location.pathname]);
 
   const content = (isActive: boolean): ReactElement => (
-    <>
-      <div
-        className={`flex h-10 w-10 shrink-0 items-center justify-center text-3xl`}
-      >
-        {icon}
-      </div>
-      <p
-        className={`flex min-w-[10rem] items-center text-start font-semibold capitalize transition-opacity duration-300 ${!isSidebarOpen ? "pointer-events-none opacity-0" : "opacity-100"}`}
-      >
-        {name}
-        {children &&
-          children?.length > 0 &&
-          (isOpen ? (
-            <IoIosArrowUp className="ml-2" />
-          ) : (
-            <IoIosArrowDown className="ml-2" />
-          ))}
-        {!isChildren && (isActive || isDot) && <GoDotFill className="ml-2" />}
-      </p>
-      {!isSidebarOpen && (
-        <div className="text-darkText bg-violetLight absolute top-0 left-full rounded-r-md px-2.5 py-2 whitespace-nowrap capitalize opacity-0 duration-150 group-hover:pointer-events-auto group-hover:opacity-100">
-          <div className="flex flex-col text-start">
-            <p className="font-semibold">{name}</p>
-            {children?.map((link) => (
-              <NavLink
-                key={link.name}
-                to={link.to ?? ""}
-                className="text-darkBorder"
-              >
-                {link.name}
-              </NavLink>
-            ))}
-          </div>
+    <div className="flex items-center">
+      <div className="relative flex h-10 w-10 shrink-0 items-center justify-center text-3xl">
+        <div
+          onMouseEnter={() => setIsTooltipOpen(true)}
+          onMouseLeave={() => setIsTooltipOpen(false)}
+        >
+          {!isSidebarOpen ? <NavLink to={to}>{icon}</NavLink> : icon}
+
+          {!isSidebarOpen && isTooltipOpen && (
+            <div className="bg-violetLight text-darkText absolute top-0 left-full z-50 ml-3.5 rounded-r-md px-3 py-2 text-start text-base font-semibold whitespace-nowrap capitalize">
+              <p>{name}</p>
+              {children?.map((link) => (
+                <NavLink
+                  key={link.name}
+                  to={link.to ?? ""}
+                  className="text-darkBorder block text-base font-normal"
+                >
+                  {link.name}
+                </NavLink>
+              ))}
+            </div>
+          )}
         </div>
+      </div>
+
+      {isSidebarOpen && (
+        <p className="ml-2 flex min-w-[10rem] items-center text-start font-semibold capitalize">
+          {name}
+          {children?.length > 0 &&
+            (isOpen ? (
+              <IoIosArrowUp className="ml-2" />
+            ) : (
+              <IoIosArrowDown className="ml-2" />
+            ))}
+          {!isChildren && (isActive || isDot) && <GoDotFill className="ml-2" />}
+        </p>
       )}
-    </>
+    </div>
   );
 
-  if (!to) {
+  if (!to || children?.length > 0) {
     let clickHandler: (() => void) | undefined;
 
     if (type === "login") {
@@ -149,7 +152,7 @@ export default function SidebarItem({
         <button
           type="button"
           onClick={clickHandler}
-          className={`group relative flex w-full cursor-pointer items-center space-x-3 rounded-md pl-2 transition-all ${!isSidebarOpen && "hover:bg-violetLight rounded-r-none"}`}
+          className={`flex w-full cursor-pointer items-center space-x-3 rounded-md pl-2 transition-all ${!isSidebarOpen && isTooltipOpen && "bg-violetLight rounded-r-none"}`}
         >
           {content(false)}
         </button>
@@ -175,7 +178,7 @@ export default function SidebarItem({
       to={to}
       end
       className={({ isActive }) =>
-        `group relative mx-2 flex items-center rounded-md transition-all ${isChildren ? "hover:bg-violetLight text-darkBorder space-x-1 pl-5" : "space-x-3 pl-2"} ${isActive && isChildren && "bg-violetLight"} ${!isSidebarOpen && "hover:bg-violetLight rounded-r-none"}`
+        `mx-2 flex items-center rounded-md transition-all ${isChildren ? "hover:bg-violetLight text-darkBorder space-x-1 pl-5" : "space-x-3 pl-2"} ${isActive && isChildren && "bg-violetLight"} ${!isSidebarOpen && isTooltipOpen && "bg-violetLight mr-0 rounded-r-none"}`
       }
     >
       {({ isActive }) => content(isActive)}

@@ -12,7 +12,7 @@ import { useLocation } from "react-router-dom";
 
 const staticLinks: Link[] = [
   {
-    // to: "/",
+    to: "/",
     icon: <BiHome aria-label="home" />,
     name: "home",
     type: "submenu",
@@ -58,6 +58,7 @@ const userLoggedLinks: Link[] = [
     icon: <FaRegUser aria-label="account" />,
     name: "account",
     type: "submenu",
+    to: "/account/profile",
     children: [
       {
         to: "/account/profile",
