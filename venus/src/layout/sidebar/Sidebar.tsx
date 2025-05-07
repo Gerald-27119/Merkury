@@ -32,7 +32,7 @@ export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
 
   return (
     <aside
-      className={`bg-violetDark text-darkText fixed top-0 left-0 z-50 flex h-full shrink-0 flex-col justify-between py-2 transition-all duration-300 ${isAccountPage || isChatPage ? "xl:static" : "absolute"} ${isSidebarOpen ? "w-full translate-x-0 xl:w-[220px]" : "w-0 -translate-x-full p-0 lg:w-[70px] xl:translate-x-0"}`}
+      className={`bg-violetDark text-darkText fixed top-0 left-0 z-50 flex h-full shrink-0 flex-col justify-between py-2 transition-all duration-300 ${isAccountPage || isChatPage ? "xl:static" : "absolute"} ${isSidebarOpen ? "w-full translate-x-0 xl:w-[220px]" : "w-[220px] -translate-x-full p-0 xl:w-[70px] xl:translate-x-0"}`}
     >
       <div className="flex flex-col space-y-10">
         <SidebarToggleButton onToggle={onToggle} />
