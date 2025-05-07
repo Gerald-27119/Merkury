@@ -35,22 +35,17 @@ export default function SidebarItemSubmenu({
   }, [openSubmenu]);
 
   useEffect(() => {
-    let foundSubmenu: string | null = null;
-    let found = false;
+    const hasActiveChild =
+      link.children?.some((child) => child.to === location.pathname) ?? false;
 
-    for (const child of link.children || []) {
-      if (child.to === location.pathname) {
-        foundSubmenu = link.name;
-        found = true;
-        break;
-      }
-    }
+    setIsDot(hasActiveChild);
 
-    setIsDot(found);
-
-    if (setOpenSubmenu && foundSubmenu) {
-      setOpenSubmenu(foundSubmenu);
+    if (hasActiveChild) {
+      setOpenSubmenu(link.name);
       setIsOpenSubmenu(true);
+    } else if (openSubmenu === link.name) {
+      setOpenSubmenu(null);
+      setIsOpenSubmenu(false);
     }
   }, [location.pathname]);
 
@@ -70,7 +65,7 @@ export default function SidebarItemSubmenu({
         onClick={handleOpenSubmenu}
         onMouseEnter={showTooltip}
         onMouseLeave={hideTooltip}
-        className={`flex w-full cursor-pointer items-center space-x-3 rounded-md pl-2 ${!isSidebarOpen && "hover:bg-violetLight rounded-r-none transition-none"}`}
+        className={`flex w-full cursor-pointer items-center space-x-3 rounded-md pl-2 ${!isSidebarOpen && "hover:bg-violetLight rounded-r-none"}`}
       >
         <SidebarItemContent
           isSidebarOpen={isSidebarOpen}
@@ -82,7 +77,7 @@ export default function SidebarItemSubmenu({
         />
       </button>
       <div
-        className={`space-y-1 overflow-hidden transition-all duration-500 ${isOpen && isSidebarOpen ? "max-h-96" : "max-h-0"}`}
+        className={`space-y-1 overflow-hidden transition-all duration-500 ${isOpen && isSidebarOpen ? "max-h-96" : "max-h-0"} ${isSidebarOpen ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"}`}
       >
         {link.children?.map((link) => (
           <SidebarItemSubmenuLink key={link.name} link={link} />

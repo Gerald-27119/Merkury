@@ -9,6 +9,7 @@ interface SidebarLabelProps {
   isChildren?: boolean;
   isActive: boolean;
   isDot?: boolean;
+  isSidebarOpen: boolean;
 }
 
 export default function SidebarLabel({
@@ -17,9 +18,14 @@ export default function SidebarLabel({
   isChildren,
   isActive,
   isDot,
+  isSidebarOpen,
 }: SidebarLabelProps) {
   return (
-    <p className="ml-2 flex min-w-[10rem] items-center text-start font-semibold capitalize">
+    <p
+      className={`ml-2 flex min-w-[10rem] items-center text-start font-semibold capitalize transition-all duration-300 ${
+        isSidebarOpen ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"
+      }`}
+    >
       {link.name}
       {isSidebarSubmenu(link) &&
         link.children?.length > 0 &&
