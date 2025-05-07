@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
+import { ReactElement } from "react";
 
 interface SidebarSectionProps {
-  children: ReactNode;
+  children: ReactElement;
   showTopHr?: boolean;
   showBottomHr?: boolean;
 }

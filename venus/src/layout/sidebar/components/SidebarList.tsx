@@ -1,28 +1,16 @@
-import SidebarItem, { Link } from "./sidebar-item/SidebarItem";
+import SidebarItem from "./sidebar-item/SidebarItem";
+import { BaseLink } from "../model/link";
 
 interface SidebarListProps {
-  links: Link[];
+  links: BaseLink[];
   isSidebarOpen: boolean;
   openSubmenu?: string | null;
   onChangeTheme?: () => void;
   setOpenSubmenu?: (name: string | null) => void;
 }
 
-export default function SidebarList({
-  links,
-  isSidebarOpen,
-  openSubmenu,
-  onChangeTheme,
-  setOpenSubmenu,
-}: SidebarListProps) {
-  return links.map((link) => (
-    <SidebarItem
-      key={link.name}
-      link={link}
-      isSidebarOpen={isSidebarOpen}
-      openSubmenu={openSubmenu}
-      setOpenSubmenu={setOpenSubmenu}
-      onChangeTheme={onChangeTheme}
-    />
+export default function SidebarList(props: SidebarListProps) {
+  return props.links.map((link, index) => (
+    <SidebarItem key={link.name} link={link} {...props} index={index} />
   ));
 }

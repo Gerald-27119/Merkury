@@ -21,11 +21,14 @@ export interface SidebarSubmenuLink extends BaseLink {
 export interface SidebarSubmenu extends BaseLink {
   type: "submenu";
   to: string;
+  icon: ReactElement;
   children: SidebarSubmenuLink[];
 }
 
 export interface SidebarAction extends BaseLink {
   type: "action";
-  action: () => void;
+  actionType: string;
   icon: ReactElement;
 }
+
+export type SidebarItemType = SidebarLink | SidebarSubmenu | SidebarAction;
