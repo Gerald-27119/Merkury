@@ -8,6 +8,7 @@ import com.merkury.vulcanus.model.entities.forum.Category;
 import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.Tag;
 import jakarta.validation.constraints.NotNull;
+import org.jsoup.Jsoup;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -37,10 +38,12 @@ public class PostMapper {
     }
 
     public static PostGeneralDto toGeneralDto(@NotNull Post post, UserEntity currentUser) {
+        var summary = summarizeContent(post.getContent());
+
         return PostGeneralDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
-                .content(post.getContent())
+                .content(summary)
                 .category(CategoryMapper.toDto(post.getCategory()))
                 .tags(post.getTags().stream().map(Tag::getName).toList())
                 .views(post.getViews())
@@ -58,6 +61,16 @@ public class PostMapper {
                 .category(category)
                 .tags(tags)
                 .build();
+    }
+
+    private static String summarizeContent(String content){
+        var doc = Jsoup.parse(content);
+        doc.select("img, video, iframe, object, embed, svg").remove();
+        String plainText = doc.text();
+
+        return plainText.length() > 200
+                ? plainText.substring(0, plainText.lastIndexOf(" ", 200)) + "..."
+                : plainText;
     }
 
 }

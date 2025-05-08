@@ -40,37 +40,37 @@ public class PopulateForumService {
         Category category1 = Category.builder()
                 .name("Drone for begginers")
                 .description("Getting started with drones.")
-                .colour("Default/yellow/500")
+                .colour("bg-yellow-500")
                 .build();
 
         Category category2 = Category.builder()
                 .name("Spots")
                 .description("Best places to fly.")
-                .colour("Default/blue/500")
+                .colour("bg-blue-500")
                 .build();
 
         Category category3 = Category.builder()
                 .name("Event")
                 .description("Meetups and drone events.")
-                .colour("Default/indigo/600")
+                .colour("bg-indigo-600")
                 .build();
 
         Category category4 = Category.builder()
                 .name("Best place for photos")
                 .description("Top photo-worthy locations.")
-                .colour("Default/red/500")
+                .colour("bg-red-500")
                 .build();
 
         Category category5 = Category.builder()
                 .name("Build first drone")
                 .description("DIY drone building tips.")
-                .colour("Default/green/500")
+                .colour("bg-green-500")
                 .build();
 
         Category category6 = Category.builder()
                 .name("FPV")
                 .description("All about FPV flying.")
-                .colour("Default/pink/500")
+                .colour("bg-pink-500")
                 .build();
 
         Tag tag1 = Tag.builder()

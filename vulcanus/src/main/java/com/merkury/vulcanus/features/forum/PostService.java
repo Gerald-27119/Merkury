@@ -17,6 +17,7 @@ import com.merkury.vulcanus.model.repositories.PostRepository;
 import com.merkury.vulcanus.model.repositories.TagRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
