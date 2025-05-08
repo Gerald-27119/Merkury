@@ -85,7 +85,9 @@ export default function ChatList() {
             ))}
             <div ref={loadMoreRef} className="h-1" />
             {/*TODO: add nicer spinner*/}
-            {isFetchingNextPage && <LoadingSpinner />}
+            {isFetchingNextPage && (
+                <LoadingSpinner borderTopClass="border-t-violetLight" />
+            )}
         </>
     );
 }

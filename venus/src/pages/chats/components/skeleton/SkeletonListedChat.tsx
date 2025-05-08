@@ -7,7 +7,7 @@ export default function SkeletonListedChat() {
         >
             <div className="aspect-square w-12 animate-pulse rounded-full bg-gray-400"></div>
 
-            <div className="flex w-full flex-col space-y-2">
+            <div className="flex w-full flex-col space-y-4">
                 <div className="h-6 w-1/3 animate-pulse rounded bg-gray-400"></div>
 
                 <div className="flex items-center gap-2 text-sm text-gray-400">

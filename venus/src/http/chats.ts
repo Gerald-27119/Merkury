@@ -29,7 +29,7 @@ export async function getDetailedChat(
     chatId: number,
     userId: number,
 ): Promise<DetailedChatDto> {
-    await sleep(3000);
+    // await sleep(3000);
     return (
         await axios.get<DetailedChatDto>(`${BASE_URL}/public/chats/${chatId}`, {
             params: { userId },
