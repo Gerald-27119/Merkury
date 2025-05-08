@@ -13,7 +13,16 @@ interface SidebarIconProps {
 
 export default function SidebarIcon({ link, isSidebarOpen }: SidebarIconProps) {
   if (isSidebarSubmenu(link) && !isSidebarOpen) {
-    return <NavLink to={link.to}>{link.icon}</NavLink>;
+    return (
+      <NavLink
+        to={link.to}
+        className="flex h-10 w-10 items-center justify-center"
+      >
+        <span className="z-50 flex h-full w-full items-center justify-center">
+          {link.icon}
+        </span>
+      </NavLink>
+    );
   }
 
   if (isSidebarLink(link) || isSidebarAction(link)) {

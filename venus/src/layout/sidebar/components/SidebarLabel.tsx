@@ -22,8 +22,10 @@ export default function SidebarLabel({
 }: SidebarLabelProps) {
   return (
     <p
-      className={`ml-2 flex min-w-[10rem] items-center text-start font-semibold capitalize transition-all duration-300 ${
-        isSidebarOpen ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"
+      className={`ml-2 flex items-center text-start font-semibold capitalize transition-all duration-300 ${
+        isSidebarOpen
+          ? "min-w-[10rem] translate-x-0 opacity-100"
+          : "min-w-[1rem] -translate-x-13 text-xs font-extralight opacity-0"
       }`}
     >
       {link.name}
