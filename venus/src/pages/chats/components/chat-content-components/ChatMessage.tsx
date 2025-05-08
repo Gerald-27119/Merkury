@@ -34,8 +34,8 @@ export default function ChatMessage({ message, isCurrentUsers }: MessageProps) {
                     className="aspect-square w-14 rounded-full"
                     src={
                         message.sender.imgUrl // for development purposes
-                            ? `/public/users/${message.sender.imgUrl}`
-                            : "/public/users/default.png"
+                            ? `/users/${message.sender.imgUrl}`
+                            : "/users/default.png"
                     }
                     alt={"Sender's image"}
                 />
