@@ -31,8 +31,8 @@ function ListedChat({ simpleChatDto }: ListedChatProps) {
                 src={
                     simpleChatDto?.imgUrl
                         ? // for development purposes
-                          `/public/users/${simpleChatDto.imgUrl}`
-                        : "/public/users/default.png"
+                          `/users/${simpleChatDto.imgUrl}`
+                        : "/users/default.png"
                 }
                 alt={"Image that listed chat has"}
             />
