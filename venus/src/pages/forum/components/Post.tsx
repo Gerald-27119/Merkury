@@ -1,6 +1,8 @@
 import { HiDotsHorizontal, HiEye } from "react-icons/hi";
 import { MdMessage } from "react-icons/md";
 import PostGeneral from "../../../model/interface/forum/post/PostGeneral";
+import Tag from "./Tag";
+import Category from "./Category";
 
 interface PostProps {
   post: PostGeneral;
@@ -12,17 +14,35 @@ export default function Post({ post }: PostProps) {
       <div className="p-6">
         {/* Title and DotsHorizontal */}
         <div className="flex items-start justify-between">
-          <h2 className="text-xl font-bold">{post.title}</h2>
-          <HiDotsHorizontal className="text-xl" />
+          <h2 className="cursor-pointer text-xl font-bold">{post.title}</h2>
+          <HiDotsHorizontal className="cursor-pointer text-2xl" />
         </div>
+
+        {/*Category and Tags*/}
+
+        {post.category && (
+          <div className="mt-2 flex flex-wrap gap-2">
+            <Category category={post.category} />
+          </div>
+        )}
+
+        {post.tags && post.tags.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-2">
+            {post.tags.map((tag, index) => (
+              <Tag key={index} tag={tag} />
+            ))}
+          </div>
+        )}
 
         {/* Content */}
         <div className="mt-4 flex justify-between">
           {/* Post content on the left */}
-          <p className="whitespace-pre-line">{post.content}</p>
+          <p className="cursor-pointer break-words whitespace-pre-line">
+            {post.content}
+          </p>
 
           {/* Views and Comments on the right */}
-          <div className="ml-2 flex flex-row items-end space-x-2">
+          <div className="ml-8 flex flex-row items-end space-x-2">
             <div className="flex flex-col items-center space-y-3 text-lg">
               <MdMessage />
               <HiEye />

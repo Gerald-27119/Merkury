@@ -6,7 +6,7 @@ export default interface PostGeneral {
   title: String;
   content: String;
   category: CategoryDto;
-  tags: TagDto[];
+  tags: String[];
   views: number;
   numberOfComments: number;
   isAuthor: boolean;

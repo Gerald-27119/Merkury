@@ -58,11 +58,7 @@ const router = createBrowserRouter([
       },
       {
         path: "forum",
-        element: (
-          <ProtectedRoute>
-            <Forum />
-          </ProtectedRoute>
-        ),
+        element: <Forum />,
       },
       {
         path: "edit-data",

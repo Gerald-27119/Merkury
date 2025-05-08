@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Error from "../../components/error/Error.jsx";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
 import { fetchPaginatedPosts } from "../../http/posts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Post from "./components/Post";
 
@@ -26,7 +26,7 @@ export default function Forum() {
 
   return (
     <>
-      <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg h-full w-full">
+      <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg min-h-screen w-full">
         {data && data.content.length > 0 ? (
           <div>
             <ul>
