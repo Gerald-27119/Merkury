@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.mappers;
+package com.merkury.vulcanus.model.mappers.user.dashboard;
 
 import com.merkury.vulcanus.model.dtos.account.profile.ImageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;

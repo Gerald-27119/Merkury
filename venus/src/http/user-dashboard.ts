@@ -18,3 +18,24 @@ export async function getUserFriends(username: string): Promise<Friend[]> {
     })
   ).data;
 }
+
+interface EditUserFriendsProps {
+  username: string;
+  friendUsername: string;
+  type: string;
+}
+
+export async function editUserFriends({
+  username,
+  friendUsername,
+  type,
+}: EditUserFriendsProps): Promise<void> {
+  return (
+    await axios.patch(
+      `${BASE_URL}/user-dashboard/friends/${username}?friendUsername=${friendUsername}&type=${type}`,
+      {
+        withCredentials: true,
+      },
+    )
+  ).data;
+}

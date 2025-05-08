@@ -1,12 +1,25 @@
 import { Friend } from "../../../../model/interface/account/friends/friend";
 import { BiMessageRounded } from "react-icons/bi";
 import { FaUser, FaUserMinus } from "react-icons/fa";
+import { useMutation } from "@tanstack/react-query";
+import { editUserFriends } from "../../../../http/user-dashboard";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 
 interface FriendCardProps {
   friend: Friend;
 }
 
 export default function FriendCard({ friend }: FriendCardProps) {
+  const username = useSelectorTyped((state) => state.account.username);
+
+  const { mutateAsync } = useMutation({
+    mutationFn: editUserFriends,
+  });
+
+  const removeUserFriend = async (friendUsername: string) => {
+    await mutateAsync({ username, friendUsername, type: "remove" });
+  };
+
   return (
     <div className="bg-darkBgSoft space-y-2 rounded-md px-3 pt-3 pb-4">
       <img
@@ -25,7 +38,10 @@ export default function FriendCard({ friend }: FriendCardProps) {
         <button className="bg-violetDark flex w-full items-center justify-center rounded-md py-1.5">
           <BiMessageRounded />
         </button>
-        <button className="bg-violetDark flex w-full items-center justify-center rounded-md py-1.5">
+        <button
+          className="bg-violetDark flex w-full items-center justify-center rounded-md py-1.5"
+          onClick={() => removeUserFriend(friend.username)}
+        >
           <FaUserMinus />
         </button>
       </div>
