@@ -19,6 +19,7 @@
     "@vis.gl/react-maplibre": "^8.0.4",
     "antd": "^5.23.4",
     "axios": "^1.7.3",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "maplibre-gl": "^5.4.0",
     "openmeteo": "^1.1.4",
