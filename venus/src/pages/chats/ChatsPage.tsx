@@ -27,7 +27,7 @@ export default function ChatsPage() {
     }, [isSuccess, data, dispatch]);
     return (
         <div className="flex h-screen w-full">
-            <div className="border-violetLight flex flex-col border-l">
+            <div className="border-violetLight flex w-1/6 flex-col border-l">
                 <div className="bg-violetDark border-violetLight flex items-center justify-end gap-20 border-b py-5 text-center font-medium text-white md:text-lg">
                     {/*  TODO: move both friends and new message to the sidebar, only leave text: Chats: ?*/}
                     {/*  TODO: work on responsiveness*/}

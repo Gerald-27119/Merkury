@@ -36,9 +36,9 @@ function ListedChat({ simpleChatDto }: ListedChatProps) {
                 }
                 alt={"Image that listed chat has"}
             />
-            <div className="flex flex-col">
+            <div className="flex w-full flex-col">
                 <p className="text-lg font-medium">{simpleChatDto?.name}</p>
-                <div className="flex gap-2 pr-3 text-sm text-nowrap text-gray-400">
+                <div className="flex gap-2 text-sm text-nowrap text-gray-400">
                     {simpleChatDto.lastMessage && (
                         <>
                             {simpleChatDto.lastMessage?.sender?.name && (
@@ -46,12 +46,12 @@ function ListedChat({ simpleChatDto }: ListedChatProps) {
                                     {simpleChatDto.lastMessage.sender.name}:
                                 </p>
                             )}
-                            <p>
+                            <p className="block">
                                 {formatMessageLength(
                                     simpleChatDto.lastMessage.content ?? "",
                                 )}
                             </p>
-                            <p className="text-xs text-gray-400">
+                            <p className="ml-auto block text-xs text-gray-400">
                                 {formatSentAt(simpleChatDto.lastMessage.sentAt)}
                             </p>
                         </>
