@@ -16,6 +16,17 @@ export default function ChatMessagingWindow({
     //     return <p className="mb-auto"></p>;
     // }
     // for development purposes
+    if (chatDto?.detailedChatDto?.messages.length === 0) {
+        return (
+            <p className="mt-auto px-4 py-1 font-light">
+                It's the beginning of the conversation with{" "}
+                <span className="font-semibold">
+                    {chatDto?.simpleChatDto?.name}
+                </span>
+                .
+            </p>
+        );
+    }
     return (
         // <div className="scrollbar-track-violetDark hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark/20 flex h-full flex-col gap-4 overflow-y-scroll py-3 pl-2">
         // flex-col
