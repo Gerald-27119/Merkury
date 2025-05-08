@@ -28,7 +28,7 @@ export default function SidebarItemContent({
       <div
         className={`relative flex shrink-0 items-center justify-center text-3xl ${isChildren ? "h-10 w-5" : "h-10 w-10"}`}
       >
-        <SidebarIcon link={link} />
+        <SidebarIcon link={link} isSidebarOpen={isSidebarOpen} />
         {!isSidebarOpen && isTooltipShown && (
           <Tooltip
             name={link.name}

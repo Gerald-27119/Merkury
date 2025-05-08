@@ -8,7 +8,8 @@ import { useToggleState } from "../hooks/useToggleState";
 export default function Layout() {
   const location = useLocation();
   const isMapPage = location.pathname === "/map";
-  const [isSidebarOpen, setIsSidebarOpen, toggleSidebar] = useToggleState(true);
+  const [isSidebarOpen, setIsSidebarOpen, toggleSidebar] =
+    useToggleState(false);
 
   useEffect(() => {
     if (location.pathname.includes("account") && window.innerWidth >= 1280) {

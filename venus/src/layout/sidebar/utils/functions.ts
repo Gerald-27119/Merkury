@@ -6,7 +6,12 @@ import {
 } from "../model/link";
 
 export function isSidebarSubmenu(link: BaseLink): link is SidebarSubmenu {
-  return "children" in link && Array.isArray(link.children);
+  return (
+    "children" in link &&
+    Array.isArray(link.children) &&
+    "to" in link &&
+    typeof link.to === "string"
+  );
 }
 
 export function isSidebarAction(link: BaseLink): link is SidebarAction {
