@@ -64,4 +64,11 @@ public class Spot {
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Img> images = new ArrayList<>();
+
+    @Builder.Default
+    @ManyToMany
+    @JoinTable(name= "spot_tag",
+    joinColumns = @JoinColumn(name = "spot_id"),
+    inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags = new ArrayList<>();
 }

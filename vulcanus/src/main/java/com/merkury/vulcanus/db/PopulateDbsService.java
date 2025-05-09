@@ -27,6 +27,7 @@ public class PopulateDbsService {
     private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final SpotRepository spotRepository;
     private final ZoneRepository zoneRepository;
+    private final TagRepository tagRepository;
 
     @Transactional
     public void initPostgresDb() {
@@ -530,6 +531,15 @@ public class PopulateDbsService {
         List<List<Comment>> commentLists = List.of(commentList1, commentList2, commentList3, commentList4, commentList5, commentList6, commentList7, commentList8, commentList9, commentList10);
         List<List<Img>> galleries = List.of(gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8, gallery9, gallery10);
 
+        List<Tag> tagList = new ArrayList<Tag>();
+        for (int i = 0; i < 10; i++) {
+            var tag = Tag.builder()
+                    .name("tag" + i)
+                    .build();
+            tagRepository.save(tag);
+            tagList.add(tag);
+        }
+
         for (int i = 0; i < spots.size(); i++) {
             Spot spot = spots.get(i);
             spot.getBorderPoints().addAll(contours.get(i));
@@ -544,6 +554,10 @@ public class PopulateDbsService {
                     .orElse(0.0);
             spot.setRating(BigDecimal.valueOf(rating).setScale(2, RoundingMode.HALF_UP).doubleValue());
         }
+
+        spot1.setTags(new ArrayList<>(
+                Arrays.asList(tagList.get(0), tagList.get(1))
+        ));
 
         spotRepository.saveAll(spots);
 
