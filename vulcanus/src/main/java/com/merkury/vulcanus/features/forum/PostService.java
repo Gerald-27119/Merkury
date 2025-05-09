@@ -16,6 +16,7 @@ import com.merkury.vulcanus.model.repositories.CategoryRepository;
 import com.merkury.vulcanus.model.repositories.PostRepository;
 import com.merkury.vulcanus.model.repositories.TagRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -66,6 +67,7 @@ public class PostService {
         postRepository.save(PostMapper.toEntity(dto, user, category, tags));
     }
 
+    @Transactional
     public void deletePost(HttpServletRequest request, Long postId) throws PostAccessException {
         var user = userDataService.getUserFromRequest(request);
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new PostAccessException("delete"));

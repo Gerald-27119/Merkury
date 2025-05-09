@@ -22,7 +22,7 @@ public class SpotCommentMapper {
                 .downvotes(spotComment.getDownvotes())
                 .publishDate(spotComment.getPublishDate())
                 .author(spotComment.getAuthor().getUsername())
-                .isAuthor(spotComment.getAuthor().equals(currentUser))
+                .isAuthor(currentUser != null && spotComment.getAuthor().getId().equals(currentUser.getId()))
                 .isUpvoted(spotComment.getUpvotedBy().contains(currentUser))
                 .isDownvoted(spotComment.getDownvotedBy().contains(currentUser))
                 .build();
