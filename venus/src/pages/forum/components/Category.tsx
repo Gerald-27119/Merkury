@@ -6,9 +6,10 @@ interface CategoryProps {
 
 export default function Category({ category }: CategoryProps) {
   return (
-    <span className="flex items-center space-x-2">
+    <span className="dark:hover:text-lightBgSoft inline-flex cursor-pointer items-center space-x-2 leading-none">
       <span
-        className={`inline-block h-4 w-1.5 rounded-full ${category.colour}`}
+        className="inline-block h-4 w-1.5 rounded-full"
+        style={{ backgroundColor: category.colour }}
       ></span>
       <span>{category.name}</span>
     </span>

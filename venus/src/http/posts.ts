@@ -39,7 +39,7 @@ export async function editPost(postId: number, PostData: PostDto) {
   });
 }
 
-export async function deletePost(postId: number) {
+export async function deletePost(postId: number): Promise<void> {
   return await axios.delete(`${BASE_URL}/post/${postId}`, {
     withCredentials: true,
   });

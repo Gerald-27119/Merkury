@@ -7,6 +7,7 @@ import MobileBar from "./mobile-bar/MobileBar";
 export default function Layout() {
   const location = useLocation();
   const isMapPage = location.pathname === "/map";
+  const isForumPage = location.pathname === "/forum";
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
@@ -27,7 +28,9 @@ export default function Layout() {
 
   return (
     <>
-      <div className={`${isMapPage ? "relative" : "flex"} lg:h-screen`}>
+      <div
+        className={`${isMapPage ? "relative" : "flex"} ${isForumPage ? "min-h-screen" : "lg:h-screen"}`}
+      >
         <Sidebar
           isSidebarOpen={isSidebarOpen}
           onToggle={toggleSideBar}

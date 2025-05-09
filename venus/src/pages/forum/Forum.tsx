@@ -2,14 +2,11 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Error from "../../components/error/Error.jsx";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
 import { fetchPaginatedPosts } from "../../http/posts";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
 import Post from "./components/Post";
 
 export default function Forum() {
   const [currentPage, setCurrentPage] = useState(0);
-  const queryClient = useQueryClient();
-  const dispatch = useDispatch();
 
   const { data, error, isError, isLoading } = useQuery({
     queryKey: ["posts", currentPage],
