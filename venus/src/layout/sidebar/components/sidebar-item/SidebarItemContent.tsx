@@ -24,7 +24,7 @@ export default function SidebarItemContent({
   isActive,
 }: SidebarItemContentProps) {
   return (
-    <div className="flex w-10 items-center transition-all">
+    <div className="flex items-center transition-all">
       <div
         className={`relative flex shrink-0 items-center justify-center text-3xl ${isChildren ? "h-10 w-5" : "h-10 w-10"}`}
       >

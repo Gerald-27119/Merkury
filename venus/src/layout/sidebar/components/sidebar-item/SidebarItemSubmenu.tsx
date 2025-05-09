@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useToggleState } from "../../../../hooks/useToggleState";
 import SidebarItemContent from "./SidebarItemContent";
 import { SidebarSubmenu } from "../../model/link";
+import { motion, AnimatePresence } from "motion/react";
 
 interface SidebarItemSubmenuProps {
   link: SidebarSubmenu;
@@ -76,13 +77,22 @@ export default function SidebarItemSubmenu({
           isTooltipShown={isTooltipShown}
         />
       </button>
-      <div
-        className={`space-y-1 overflow-hidden transition-all duration-500 ${isOpen && isSidebarOpen ? "max-h-96" : "max-h-0"} ${isSidebarOpen ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"}`}
-      >
-        {link.children?.map((link) => (
-          <SidebarItemSubmenuLink key={link.name} link={link} />
-        ))}
-      </div>
+      <AnimatePresence initial={false}>
+        {isOpen && isSidebarOpen && (
+          <motion.div
+            key="submenu"
+            initial={{ opacity: 0, height: 0, x: -8 }}
+            animate={{ opacity: 1, height: "auto", x: 0 }}
+            exit={{ opacity: 0, height: 0, x: -8 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-1 overflow-hidden"
+          >
+            {link.children?.map((link) => (
+              <SidebarItemSubmenuLink key={link.name} link={link} />
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
