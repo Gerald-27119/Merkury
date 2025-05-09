@@ -179,7 +179,7 @@ public class PopulateChatsService {
                 "This one’s just long enough to be interesting without being overwhelming.",
                 "Tiny.",
                 "Mid-sized message, right?",
-                "This is another example of a longer piece of content meant to simulate a user typing several sentences in one go for testing.",
+                "This is another example of a longer piece of text meant to simulate a user typing several sentences in one go for testing.",
                 "End.",
                 "🐱‍🏍",
                 "🎶🎵",
