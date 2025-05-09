@@ -4,6 +4,7 @@ import { useToggleState } from "../../../../hooks/useToggleState";
 import SidebarItemContent from "./SidebarItemContent";
 import { SidebarSubmenu } from "../../model/link";
 import { motion, AnimatePresence } from "motion/react";
+import { useLocation } from "react-router-dom";
 
 interface SidebarItemSubmenuProps {
   link: SidebarSubmenu;
@@ -28,6 +29,7 @@ export default function SidebarItemSubmenu({
 }: SidebarItemSubmenuProps) {
   const [isOpen, setIsOpenSubmenu, toggleSubmenu] = useToggleState(false);
   const [isDot, setIsDot] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     if (openSubmenu !== link.name && isOpen) {

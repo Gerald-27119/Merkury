@@ -192,4 +192,60 @@ describe("Sidebar component unit tests", () => {
       });
     });
   });
+
+  describe("When sidebar is open and user is logged on account page", () => {
+    beforeEach(() => {
+      renderSidebar(
+        {
+          account: {
+            isLogged: true,
+          },
+        },
+        "/account/profile",
+        true,
+      );
+    });
+
+    describe("Check is text render", () => {
+      test("should render Profile Text", () => {
+        const text = screen.getByText("profile");
+        expect(text).toBeInTheDocument();
+      });
+
+      test("should render Spots Text", () => {
+        const text = screen.getByText("spots");
+        expect(text).toBeInTheDocument();
+      });
+
+      test("should render Photos Text", () => {
+        const text = screen.getByText("photos");
+        expect(text).toBeInTheDocument();
+      });
+
+      test("should render Movies Text", () => {
+        const text = screen.getByText("movies");
+        expect(text).toBeInTheDocument();
+      });
+
+      test("should render friends Text", () => {
+        const text = screen.getByText("friends");
+        expect(text).toBeInTheDocument();
+      });
+
+      test("should render Add spot Text", () => {
+        const text = screen.getByText("add spot");
+        expect(text).toBeInTheDocument();
+      });
+
+      test("should render Comments Text", () => {
+        const text = screen.getByText("comments");
+        expect(text).toBeInTheDocument();
+      });
+
+      test("should render Settings Text", () => {
+        const text = screen.getByText("settings");
+        expect(text).toBeInTheDocument();
+      });
+    });
+  });
 });
