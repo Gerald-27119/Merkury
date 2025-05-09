@@ -11,29 +11,7 @@ export const staticLinks: SidebarItemType[] = [
     to: "/",
     icon: <BiHome aria-label="home" />,
     name: "home",
-    type: "submenu",
-    children: [
-      {
-        to: "/",
-        name: "home 1",
-        type: "link",
-      },
-      {
-        to: "/a",
-        name: "home 2",
-        type: "link",
-      },
-      {
-        to: "/a",
-        name: "home 3",
-        type: "link",
-      },
-      {
-        to: "/a",
-        name: "home 4",
-        type: "link",
-      },
-    ],
+    type: "link",
   },
   {
     to: "/map",
@@ -74,17 +52,17 @@ export const userLoggedLinks: SidebarItemType[] = [
         type: "link",
       },
       {
-        to: "/edit-data",
+        to: "/spots",
         name: "spots",
         type: "link",
       },
       {
-        to: "/account/photos-list",
+        to: "/account/photos",
         name: "photos",
         type: "link",
       },
       {
-        to: "/account/movies-list",
+        to: "/account/movies",
         name: "movies",
         type: "link",
       },
@@ -118,28 +96,33 @@ export const getOptionsLinks = (
 ): SidebarItemType[] => {
   return [
     {
-      icon: <FaRegBell />,
+      icon: <FaRegBell aria-label="notification" />,
       name: "notification",
       actionType: "notification",
       type: "action",
     },
     isLogged
       ? {
-          icon: <TbLogout2 />,
+          icon: <TbLogout2 aria-label="login" />,
           name: "sign out",
           actionType: "login",
           type: "action",
         }
-      : { icon: <TbLogin2 />, to: "/login", name: "login", type: "link" },
+      : {
+          icon: <TbLogin2 aria-label="login" />,
+          to: "/login",
+          name: "login",
+          type: "link",
+        },
     isDark
       ? {
-          icon: <LuSun />,
+          icon: <LuSun aria-label="changeMode" />,
           name: "light mode",
           actionType: "changeMode",
           type: "action",
         }
       : {
-          icon: <LuMoon />,
+          icon: <LuMoon aria-label="changeMode" />,
           name: "dark mode",
           actionType: "changeMode",
           type: "action",

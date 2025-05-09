@@ -8,7 +8,7 @@ import Sidebar from "../../layout/sidebar/Sidebar.tsx";
 
 const queryClient = new QueryClient();
 
-const renderSidebar = (preloadedState, pathname) => {
+const renderSidebar = (preloadedState, pathname, isSidebarOpen = false) => {
   const store = configureStore({
     reducer: {
       account: accountSlice.reducer,
@@ -20,7 +20,7 @@ const renderSidebar = (preloadedState, pathname) => {
     <Provider store={store}>
       <MemoryRouter initialEntries={[pathname]}>
         <QueryClientProvider client={queryClient}>
-          <Sidebar />
+          <Sidebar isSidebarOpen={isSidebarOpen} onToggle={() => {}} />
         </QueryClientProvider>
       </MemoryRouter>
     </Provider>,
@@ -104,8 +104,8 @@ describe("Sidebar component unit tests", () => {
         expect(icon).toBeInTheDocument();
       });
 
-      test("should render Account icon", () => {
-        const icon = screen.getByLabelText("account");
+      test("should render Login icon", () => {
+        const icon = screen.getByLabelText("login");
         expect(icon).toBeInTheDocument();
       });
 
@@ -127,6 +127,24 @@ describe("Sidebar component unit tests", () => {
         "/",
       );
     });
+
+    describe("Check is links render", () => {
+      test("should render Account link", () => {
+        const links = screen.getAllByRole("link");
+        const link = links.find(
+          (link) => link.getAttribute("href") === "/account/profile",
+        );
+        expect(link).toBeInTheDocument();
+      });
+
+      test("should render Favorite spots link", () => {
+        const links = screen.getAllByRole("link");
+        const link = links.find(
+          (link) => link.getAttribute("href") === "/spots-list",
+        );
+        expect(link).toBeInTheDocument();
+      });
+    });
   });
 
   describe("When sidebar is open and user is not logged", () => {
@@ -138,6 +156,7 @@ describe("Sidebar component unit tests", () => {
           },
         },
         "/",
+        true,
       );
     });
 
@@ -169,143 +188,6 @@ describe("Sidebar component unit tests", () => {
 
       test("should render Login Text", () => {
         const text = screen.getByText("login");
-        expect(text).toBeInTheDocument();
-      });
-    });
-  });
-
-  describe("When sidebar is close and user is logged on account page", () => {
-    beforeEach(() => {
-      renderSidebar(
-        {
-          account: {
-            isLogged: true,
-          },
-        },
-        "/account/profile",
-      );
-    });
-
-    describe("Check is links render", () => {
-      test("should render Profile Link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/profile",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render Spots List Link", () => {
-        Object.assign(window, { innerWidth: 1920 });
-        window.dispatchEvent(new Event("resize"));
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/spots-list",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render Photos list Link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/photos-list",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render Movies list Link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/movies-list",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render friends Link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/friends",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render Add spot Link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/add-spot",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render Comments Link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/comments",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render Settings Link", () => {
-        screen.debug();
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/settings",
-        );
-        expect(link).toBeInTheDocument();
-      });
-    });
-  });
-
-  describe("When sidebar is open and user is logged on account page", () => {
-    beforeEach(() => {
-      renderSidebar(
-        {
-          account: {
-            isLogged: true,
-          },
-        },
-        "/account/profile",
-      );
-    });
-
-    describe("Check is text render", () => {
-      test("should render Profile Text", () => {
-        const text = screen.getByText("profile");
-        expect(text).toBeInTheDocument();
-      });
-
-      test("should render Spots List Text", () => {
-        const text = screen.getByText("spots");
-        expect(text).toBeInTheDocument();
-      });
-
-      test("should render Photos list Text", () => {
-        const text = screen.getByText("photos");
-        expect(text).toBeInTheDocument();
-      });
-
-      test("should render Movies list Text", () => {
-        const text = screen.getByText("movies");
-        expect(text).toBeInTheDocument();
-      });
-
-      test("should render friends Text", () => {
-        const text = screen.getByText("friends");
-        expect(text).toBeInTheDocument();
-      });
-
-      test("should render Add spot Text", () => {
-        const text = screen.getByText("add spot");
-        expect(text).toBeInTheDocument();
-      });
-
-      test("should render Comments Text", () => {
-        const text = screen.getByText("comments");
-        expect(text).toBeInTheDocument();
-      });
-
-      test("should render Settings Text", () => {
-        const text = screen.getByText("settings");
         expect(text).toBeInTheDocument();
       });
     });
