@@ -12,11 +12,11 @@ public record PostDetailsDto(@Positive(message = "ID must be a positive number."
                              String title,
                              @NotBlank(message = "Content cannot be empty.")
                              String content,
-                             @NotNull(message = "Category cannot be empty")
+                             @NotNull(message = "Category cannot be null.")
                              CategoryDto category,
-                             List<String> tags,
-                             @NotBlank(message = "Author cannot be empty.")
-                             String author,
+                             List<TagDto> tags,
+                             @NotNull(message = "Author cannot be null.")
+                             AuthorDto author,
                              @NotNull(message = "isAuthor cannot be empty.")
                              Boolean isAuthor,
                              @PastOrPresent(message = "PublishDate must be in the past or present.")

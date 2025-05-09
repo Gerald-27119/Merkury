@@ -38,40 +38,41 @@ public class PopulateForumService {
                 .build();
 
         Category category1 = Category.builder()
-                .name("Drone for begginers")
+                .name("Drone for beginners")
                 .description("Getting started with drones.")
-                .colour("bg-yellow-500")
+                .colour("#eab308")
                 .build();
 
         Category category2 = Category.builder()
                 .name("Spots")
                 .description("Best places to fly.")
-                .colour("bg-blue-500")
+                .colour("#3b82f6")
                 .build();
 
         Category category3 = Category.builder()
                 .name("Event")
                 .description("Meetups and drone events.")
-                .colour("bg-indigo-600")
+                .colour("#4f46e5")
                 .build();
 
         Category category4 = Category.builder()
                 .name("Best place for photos")
                 .description("Top photo-worthy locations.")
-                .colour("bg-red-500")
+                .colour("#ef4444")
                 .build();
 
         Category category5 = Category.builder()
                 .name("Build first drone")
                 .description("DIY drone building tips.")
-                .colour("bg-green-500")
+                .colour("#22c55e")
                 .build();
 
         Category category6 = Category.builder()
                 .name("FPV")
                 .description("All about FPV flying.")
-                .colour("bg-pink-500")
+                .colour("#ec4899")
                 .build();
+
 
         Tag tag1 = Tag.builder()
                 .name("Gdańsk")

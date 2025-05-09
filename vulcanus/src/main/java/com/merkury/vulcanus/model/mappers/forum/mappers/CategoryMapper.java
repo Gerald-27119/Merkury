@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.mappers;
+package com.merkury.vulcanus.model.mappers.forum.mappers;
 
 import com.merkury.vulcanus.model.dtos.forum.CategoryDto;
 import com.merkury.vulcanus.model.entities.forum.Category;
@@ -11,6 +11,7 @@ public class CategoryMapper {
 
     public static CategoryDto toDto(@NotNull Category category) {
         return CategoryDto.builder()
+                .id(category.getId())
                 .name(category.getName())
                 .description(category.getDescription())
                 .colour(category.getColour())

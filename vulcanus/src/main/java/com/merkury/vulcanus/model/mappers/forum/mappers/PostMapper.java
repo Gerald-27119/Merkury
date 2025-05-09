@@ -1,5 +1,6 @@
-package com.merkury.vulcanus.model.mappers;
+package com.merkury.vulcanus.model.mappers.forum.mappers;
 
+import com.merkury.vulcanus.model.dtos.forum.AuthorDto;
 import com.merkury.vulcanus.model.dtos.forum.PostDetailsDto;
 import com.merkury.vulcanus.model.dtos.forum.PostDto;
 import com.merkury.vulcanus.model.dtos.forum.PostGeneralDto;
@@ -24,8 +25,8 @@ public class PostMapper {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .category(CategoryMapper.toDto(post.getCategory()))
-                .tags(post.getTags().stream().map(Tag::getName).toList())
-                .author(post.getAuthor().getUsername())
+                .tags(post.getTags().stream().map(TagMapper::toDto).toList())
+                .author(AuthorMapper.toDto(currentUser))
                 .isAuthor(post.getAuthor().equals(currentUser))
                 .publishDate(post.getPublishDate())
                 .views(post.getViews())
@@ -45,7 +46,7 @@ public class PostMapper {
                 .title(post.getTitle())
                 .content(summary)
                 .category(CategoryMapper.toDto(post.getCategory()))
-                .tags(post.getTags().stream().map(Tag::getName).toList())
+                .tags(post.getTags().stream().map(TagMapper::toDto).toList())
                 .views(post.getViews())
                 .numberOfComments(post.getComments().size())
                 .isAuthor(post.getAuthor().equals(currentUser))

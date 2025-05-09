@@ -13,7 +13,7 @@ public record PostGeneralDto(@Positive(message = "ID must be a positive number."
                              String content,
                              @NotNull(message = "Category cannot be empty")
                              CategoryDto category,
-                             List<String> tags,
+                             List<TagDto> tags,
                              @Min(value = 0, message = "Views cannot be less than 0.")
                              Integer views,
                              @Min(value = 0, message = "Comments cannot be less than 0")
