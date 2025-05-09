@@ -1,4 +1,4 @@
-import { formatPublishDate } from "../../../../utils/spot-utils.jsx";
+import { formatPublishDate } from "../../../../utils/spot-utils.tsx";
 import { Rate } from "antd";
 import { FaRegThumbsUp, FaRegThumbsDown, FaRegTrashCan } from "react-icons/fa6";
 import { FaRegEdit } from "react-icons/fa";
@@ -27,7 +27,7 @@ export default function Comment({ comment, onEdit, onDelete, onVote }) {
 
   if (isEditing) {
     return (
-      <div className="border border-stone-400 rounded-md m-1 p-2">
+      <div className="m-1 rounded-md border border-stone-400 p-2">
         <div className="mb-2">
           <EditCommentForm
             comment={comment}
@@ -40,8 +40,8 @@ export default function Comment({ comment, onEdit, onDelete, onVote }) {
   }
 
   return (
-    <div className="border border-stone-400 rounded-md m-1 p-2">
-      <div className="flex mb-1 justify-between">
+    <div className="m-1 rounded-md border border-stone-400 p-2">
+      <div className="mb-1 flex justify-between">
         <div>
           <p className="text-xs">{formatPublishDate(comment.publishDate)}</p>
           <p className="text-base font-semibold">{comment.author}</p>
@@ -55,21 +55,21 @@ export default function Comment({ comment, onEdit, onDelete, onVote }) {
         <p>{comment.text}</p>
       </div>
 
-      <div className="flex justify-between items-center text-gray-600 text-lg">
+      <div className="flex items-center justify-between text-lg text-gray-600">
         <div className="flex items-center space-x-2">
           <button
-            className={`hover:text-blue-500 flex items-center ${comment.isUpvoted ? "text-blue-500" : ""}`}
+            className={`flex items-center hover:text-blue-500 ${comment.isUpvoted ? "text-blue-500" : ""}`}
             onClick={() => handleVote(true)}
           >
             <FaRegThumbsUp />
-            <span className="text-sm ml-1">{comment.upvotes}</span>
+            <span className="ml-1 text-sm">{comment.upvotes}</span>
           </button>
           <button
-            className={`hover:text-red-500 flex items-center ${comment.isDownvoted ? "text-red-500" : ""}`}
+            className={`flex items-center hover:text-red-500 ${comment.isDownvoted ? "text-red-500" : ""}`}
             onClick={() => handleVote(false)}
           >
             <FaRegThumbsDown />
-            <span className="text-sm ml-1">{comment.downvotes}</span>
+            <span className="ml-1 text-sm">{comment.downvotes}</span>
           </button>
         </div>
         {comment.isAuthor && (

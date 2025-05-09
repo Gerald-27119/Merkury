@@ -26,6 +26,7 @@
   --color-violetDark: #363041;
   --color-violetLight: #6D6183;
   --color-violetDarker: #2C2734;
+  --color-violetBright: #835ACE;
   --color-first: #2C3E50;
   --color-second: #34495E;
   --color-third: #1ABC9C;
@@ -34,6 +35,10 @@
   --color-sixth: #E94560;
   --color-magenta: #A01BC1;
   --color-darkYellow: #C5A03C;
+  --color-locationMarkerDarkerBlue: #A3DCFF;
+  --color-locationMarkerLightBlue: #52BAFB;
+  --color-userLocationPin: #4285f4;
+  --color-spotLocationMarker: #A8071A;
 
   --animate-slide-in-from-left: slideInFromLeft 0.3s ease-out;
 
@@ -60,10 +65,4 @@
     padding: 0;
     border-color: var(--color-gray-200, currentcolor);
   }
-}
-
-/*jeszcze nie rozgryzłem czemu ale styl do rozmiaru mapy musi być w index.css, inaczej nie działa*/
-.leaflet-container {
-  height: 95vh;
-  width: 100%;
 }

@@ -29,6 +29,7 @@ public class Spot {
     private String areaColor;
     private String name;
     private String description;
+    private Double area;
 
     /**
      * A list of {@link BorderPoint} objects that define the boundary points of the spot.
