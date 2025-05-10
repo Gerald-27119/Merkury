@@ -23,13 +23,14 @@ export default function SidebarItemSubmenu({
   hideTooltip,
   isTooltipShown,
 }: SidebarItemSubmenuProps) {
-  const [isOpen, setIsOpenSubmenu, toggleSubmenu] = useToggleState(false);
+  const [isSubmenuOpen, setIsSubmenuOpen, toggleSubmenu] =
+    useToggleState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>();
   const [isDot, setIsDot] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    if (openSubmenu !== link.name && isOpen) {
+    if (openSubmenu !== link.name && isSubmenuOpen) {
       toggleSubmenu();
     }
   }, [openSubmenu]);
@@ -42,17 +43,15 @@ export default function SidebarItemSubmenu({
 
     if (hasActiveChild) {
       setOpenSubmenu(link.name);
-      setIsOpenSubmenu(true);
+      setIsSubmenuOpen(true);
     } else if (openSubmenu === link.name) {
       setOpenSubmenu(null);
-      setIsOpenSubmenu(false);
+      setIsSubmenuOpen(false);
     }
   }, [location.pathname]);
 
   const handleOpenSubmenu = () => {
-    if (setOpenSubmenu) {
-      setOpenSubmenu(isOpen ? null : link.name);
-    }
+    setOpenSubmenu(isSubmenuOpen ? null : link.name);
     toggleSubmenu();
   };
 
@@ -72,12 +71,12 @@ export default function SidebarItemSubmenu({
           isActive={false}
           link={link}
           isDot={isDot}
-          isOpen={isOpen}
+          isOpen={isSubmenuOpen}
           isTooltipShown={isTooltipShown}
         />
       </button>
       <AnimatePresence initial={false}>
-        {isOpen && isSidebarOpen && (
+        {isSubmenuOpen && isSidebarOpen && (
           <motion.div
             key="submenu"
             initial={{ opacity: 0, height: 0, x: -8 }}
