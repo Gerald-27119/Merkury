@@ -1,9 +1,11 @@
 package com.merkury.vulcanus.controllers;
 
+import com.azure.core.annotation.QueryParam;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
 import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
+import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,13 +23,17 @@ public class UserDashboardController {
 
     @GetMapping("/profile/{username}")
     public ResponseEntity<UserProfileDto> getUserProfile(@PathVariable String username) throws UserNotFoundByUsernameException {
-        var user = userDashboardService.getUserProfile(username);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+        return ResponseEntity.ok(userDashboardService.getUserProfile(username));
     }
 
     @GetMapping("/friends/{username}")
     public ResponseEntity<List<FriendDto>> getUserFriends(@PathVariable String username) throws UserNotFoundByUsernameException {
-        var friends = userDashboardService.getUserFriends(username);
-        return ResponseEntity.status(HttpStatus.OK).body(friends);
+        return ResponseEntity.ok(userDashboardService.getUserFriends(username));
+    }
+
+    @PatchMapping("/friends/{username}")
+    public ResponseEntity<Void> editUserFriends(@PathVariable String username, @QueryParam("friendUsername") String friendUsername, @QueryParam("type")EditUserFriendsType type) throws UserNotFoundByUsernameException {
+        userDashboardService.editUserFriends(username, friendUsername, type);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

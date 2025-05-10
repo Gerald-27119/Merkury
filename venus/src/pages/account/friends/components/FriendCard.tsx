@@ -1,9 +1,11 @@
 import { Friend } from "../../../../model/interface/account/friends/friend";
 import { BiMessageRounded } from "react-icons/bi";
 import { FaUser, FaUserMinus } from "react-icons/fa";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editUserFriends } from "../../../../http/user-dashboard";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
+import FriendButton from "./FriendButton";
+import { EditUserFriendsType } from "../../../../model/enum/editUserFriendsType";
 
 interface FriendCardProps {
   friend: Friend;
@@ -11,13 +13,21 @@ interface FriendCardProps {
 
 export default function FriendCard({ friend }: FriendCardProps) {
   const username = useSelectorTyped((state) => state.account.username);
+  const queryClient = useQueryClient();
 
   const { mutateAsync } = useMutation({
     mutationFn: editUserFriends,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["friends"] });
+    },
   });
 
   const removeUserFriend = async (friendUsername: string) => {
-    await mutateAsync({ username, friendUsername, type: "remove" });
+    await mutateAsync({
+      username,
+      friendUsername,
+      type: EditUserFriendsType.REMOVE,
+    });
   };
 
   return (
@@ -32,18 +42,15 @@ export default function FriendCard({ friend }: FriendCardProps) {
       </h3>
       <h5 className="text-darkBorder text-center capitalize">available</h5>
       <div className="flex gap-2 text-3xl">
-        <button className="bg-violetDark flex w-full items-center justify-center rounded-md py-1.5">
+        <FriendButton onClick={() => {}}>
           <FaUser />
-        </button>
-        <button className="bg-violetDark flex w-full items-center justify-center rounded-md py-1.5">
+        </FriendButton>
+        <FriendButton onClick={() => {}}>
           <BiMessageRounded />
-        </button>
-        <button
-          className="bg-violetDark flex w-full items-center justify-center rounded-md py-1.5"
-          onClick={() => removeUserFriend(friend.username)}
-        >
+        </FriendButton>
+        <FriendButton onClick={() => removeUserFriend(friend.username)}>
           <FaUserMinus />
-        </button>
+        </FriendButton>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg flex min-h-screen w-full flex-col items-center gap-20 p-6 lg:justify-center xl:p-0">
+    <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg flex min-h-full w-full flex-col items-center gap-20 p-6 lg:justify-center xl:p-0">
       <div className="mt-17 flex flex-col items-center gap-7 lg:mt-0 lg:-ml-40 lg:flex-row xl:-ml-42 xl:gap-10 2xl:-ml-80">
         <img
           alt="profileImage"

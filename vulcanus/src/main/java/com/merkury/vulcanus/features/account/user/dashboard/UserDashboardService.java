@@ -3,6 +3,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
+import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +21,9 @@ public class UserDashboardService {
 
     public List<FriendDto> getUserFriends(String username) throws UserNotFoundByUsernameException {
         return friendsService.getUserFriends(username);
+    }
+
+    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException {
+        friendsService.editUserFriends(username, friendUsername, type);
     }
 }

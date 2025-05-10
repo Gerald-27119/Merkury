@@ -33,6 +33,7 @@ export async function editUserFriends({
   return (
     await axios.patch(
       `${BASE_URL}/user-dashboard/friends/${username}?friendUsername=${friendUsername}&type=${type}`,
+      {},
       {
         withCredentials: true,
       },

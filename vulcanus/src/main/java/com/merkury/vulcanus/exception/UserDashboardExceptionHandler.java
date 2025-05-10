@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.exception;
 
+import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExist;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,5 +16,11 @@ public class UserDashboardExceptionHandler {
     public ResponseEntity<String> handleUserNotFoundByUsernameException(Exception ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(FriendshipAlreadyExist.class)
+    public ResponseEntity<String> handleFriendshipAlreadyExistException(Exception ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 }
