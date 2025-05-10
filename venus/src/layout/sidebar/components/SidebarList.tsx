@@ -4,9 +4,7 @@ import { BaseLink } from "../../../model/interface/sidebar/link";
 interface SidebarListProps {
   links: BaseLink[];
   isSidebarOpen: boolean;
-  openSubmenu?: string | null;
   onChangeTheme?: () => void;
-  setOpenSubmenu?: (name: string | null) => void;
 }
 
 export default function SidebarList(props: SidebarListProps) {

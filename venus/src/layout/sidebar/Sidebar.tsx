@@ -1,4 +1,3 @@
-import { useState } from "react";
 import useSelectorTyped from "../../hooks/useSelectorTyped";
 import { useLocation } from "react-router-dom";
 import SidebarList from "./components/SidebarList";
@@ -18,7 +17,6 @@ interface SidebarProps {
 
 export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
   const [isDark, toggleDarkMode] = useDarkMode();
-  const [openSubmenu, setOpenSubmenu] = useState<string | null>();
   const isLogged = useSelectorTyped((state) => state.account.isLogged);
   const location = useLocation();
   const isAccountPage = location.pathname.includes("/account");
@@ -37,12 +35,7 @@ export default function Sidebar({ isSidebarOpen, onToggle }: SidebarProps) {
       <div className="flex flex-col space-y-10">
         <SidebarToggleButton onToggle={onToggle} />
         <SidebarSection showBottomHr={true}>
-          <SidebarList
-            links={allLinks}
-            isSidebarOpen={isSidebarOpen}
-            openSubmenu={openSubmenu}
-            setOpenSubmenu={setOpenSubmenu}
-          />
+          <SidebarList links={allLinks} isSidebarOpen={isSidebarOpen} />
         </SidebarSection>
       </div>
       <SidebarSection showTopHr={true}>

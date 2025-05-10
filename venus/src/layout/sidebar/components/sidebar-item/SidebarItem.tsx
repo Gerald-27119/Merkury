@@ -14,8 +14,6 @@ interface SidebarItemProps {
   isSidebarOpen: boolean;
   onChangeTheme?: () => void;
   index: number;
-  openSubmenu?: string | null;
-  setOpenSubmenu?: (name: string | null) => void;
 }
 
 export default function SidebarItem({
@@ -23,8 +21,6 @@ export default function SidebarItem({
   isSidebarOpen,
   onChangeTheme,
   index,
-  openSubmenu,
-  setOpenSubmenu,
 }: SidebarItemProps) {
   const [isTooltipShown, showTooltip, hideTooltip] = useBoolean(false);
 
@@ -33,8 +29,6 @@ export default function SidebarItem({
       return (
         <SidebarItemSubmenu
           isSidebarOpen={isSidebarOpen}
-          openSubmenu={openSubmenu!}
-          setOpenSubmenu={setOpenSubmenu!}
           link={link as SidebarSubmenu}
           index={index}
           showTooltip={showTooltip}

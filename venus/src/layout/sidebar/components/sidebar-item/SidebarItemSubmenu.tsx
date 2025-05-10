@@ -9,8 +9,6 @@ import { useLocation } from "react-router-dom";
 interface SidebarItemSubmenuProps {
   link: SidebarSubmenu;
   isSidebarOpen: boolean;
-  openSubmenu: string | null;
-  setOpenSubmenu: (name: string | null) => void;
   index: number;
   showTooltip: () => void;
   hideTooltip: () => void;
@@ -18,8 +16,6 @@ interface SidebarItemSubmenuProps {
 }
 
 export default function SidebarItemSubmenu({
-  openSubmenu,
-  setOpenSubmenu,
   index,
   isSidebarOpen,
   link,
@@ -28,6 +24,7 @@ export default function SidebarItemSubmenu({
   isTooltipShown,
 }: SidebarItemSubmenuProps) {
   const [isOpen, setIsOpenSubmenu, toggleSubmenu] = useToggleState(false);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>();
   const [isDot, setIsDot] = useState(false);
   const location = useLocation();
 
