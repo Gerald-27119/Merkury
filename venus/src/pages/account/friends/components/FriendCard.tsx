@@ -31,7 +31,7 @@ export default function FriendCard({ friend }: FriendCardProps) {
   };
 
   return (
-    <div className="bg-darkBgSoft space-y-2 rounded-md px-3 pt-3 pb-4">
+    <div className="dark:bg-darkBgSoft bg-lightBgSoft space-y-2 rounded-md px-3 pt-3 pb-4">
       <img
         src={friend.profilePhoto}
         alt="profile"

@@ -8,7 +8,7 @@ interface FriendButtonProps {
 export default function FriendButton({ children, onClick }: FriendButtonProps) {
   return (
     <button
-      className="bg-violetDark hover:bg-violetLight flex w-full cursor-pointer items-center justify-center rounded-md py-1.5"
+      className="dark:bg-violetDark dark:hover:bg-violetLight bg-violetLight hover:bg-violetLighter flex w-full cursor-pointer items-center justify-center rounded-md py-1.5 transition-all duration-300"
       onClick={onClick}
     >
       {children}

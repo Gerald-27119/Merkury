@@ -12,7 +12,7 @@ export default function Friends() {
   });
 
   return (
-    <div className="dark:bg-darkBg bg-lightBg dark:text-darkText flex h-full w-full flex-col space-y-8 p-10">
+    <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText flex h-full w-full flex-col space-y-8 p-10">
       <h1 className="ml-27 text-4xl font-semibold capitalize">friends list</h1>
       <div className="flex flex-wrap items-center justify-center gap-5">
         {data?.map((f) => <FriendCard friend={f} key={f.username} />)}
