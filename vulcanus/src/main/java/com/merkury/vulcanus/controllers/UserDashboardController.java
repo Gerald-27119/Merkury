@@ -1,6 +1,5 @@
 package com.merkury.vulcanus.controllers;
 
-import com.azure.core.annotation.QueryParam;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
 import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
@@ -32,7 +31,7 @@ public class UserDashboardController {
     }
 
     @PatchMapping("/friends/{username}")
-    public ResponseEntity<Void> editUserFriends(@PathVariable String username, @QueryParam("friendUsername") String friendUsername, @QueryParam("type")EditUserFriendsType type) throws UserNotFoundByUsernameException {
+    public ResponseEntity<Void> editUserFriends(@PathVariable String username, @RequestParam("friendUsername") String friendUsername, @RequestParam("type")EditUserFriendsType type) throws UserNotFoundByUsernameException {
         userDashboardService.editUserFriends(username, friendUsername, type);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
