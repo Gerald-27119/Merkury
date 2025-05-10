@@ -3,7 +3,7 @@ import {
   SidebarAction,
   SidebarLink,
   SidebarSubmenu,
-} from "../../model/link";
+} from "../../../../model/interface/sidebar/link";
 import SidebarItemSubmenu from "./SidebarItemSubmenu";
 import SidebarItemAction from "./SidebarItemAction";
 import SidebarItemLink from "./SidebarItemLink";

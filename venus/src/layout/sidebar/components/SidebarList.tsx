@@ -1,5 +1,5 @@
 import SidebarItem from "./sidebar-item/SidebarItem";
-import { BaseLink } from "../model/link";
+import { BaseLink } from "../../../model/interface/sidebar/link";
 
 interface SidebarListProps {
   links: BaseLink[];

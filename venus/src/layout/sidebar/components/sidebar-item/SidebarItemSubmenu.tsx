@@ -2,7 +2,7 @@ import SidebarItemSubmenuLink from "./SidebarItemSubmenuLink";
 import React, { useEffect, useState } from "react";
 import { useToggleState } from "../../../../hooks/useToggleState";
 import SidebarItemContent from "./SidebarItemContent";
-import { SidebarSubmenu } from "../../model/link";
+import { SidebarSubmenu } from "../../../../model/interface/sidebar/link";
 import { motion, AnimatePresence } from "motion/react";
 import { useLocation } from "react-router-dom";
 

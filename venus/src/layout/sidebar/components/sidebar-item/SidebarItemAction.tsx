@@ -1,7 +1,7 @@
 import { logout } from "../../../../http/account";
 import { notificationAction } from "../../../../redux/notification";
 import { accountAction } from "../../../../redux/account";
-import { SidebarAction } from "../../model/link";
+import { SidebarAction } from "../../../../model/interface/sidebar/link";
 import SidebarItemContent from "./SidebarItemContent";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { useNavigate } from "react-router-dom";

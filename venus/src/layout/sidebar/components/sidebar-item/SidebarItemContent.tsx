@@ -1,8 +1,8 @@
-import { BaseLink } from "../../model/link";
+import { BaseLink } from "../../../../model/interface/sidebar/link";
 import Tooltip from "../Tooltip";
 import SidebarIcon from "../SidebarIcon";
 import SidebarLabel from "../SidebarLabel";
-import { isSidebarSubmenu } from "../../utils/functions";
+import { isSidebarSubmenu } from "../../../../utils/sidebar/functions";
 
 interface SidebarItemContentProps {
   link: BaseLink;

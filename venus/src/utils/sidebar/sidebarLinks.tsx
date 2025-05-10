@@ -1,4 +1,4 @@
-import { SidebarItemType } from "../model/link";
+import { SidebarItemType } from "../../model/interface/sidebar/link";
 import { BiHome, BiMessageRounded } from "react-icons/bi";
 import { FaRegMap } from "react-icons/fa6";
 import { MdOutlineForum } from "react-icons/md";

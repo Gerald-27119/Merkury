@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from "motion/react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
-import { BaseLink } from "../model/link";
-import { isSidebarSubmenu } from "../utils/functions";
+import { BaseLink } from "../../../model/interface/sidebar/link";
+import { isSidebarSubmenu } from "../../../utils/sidebar/functions";
 
 interface SidebarLabelProps {
   link: BaseLink;

@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { SidebarSubmenuLink } from "../model/link";
+import { SidebarSubmenuLink } from "../../../model/interface/sidebar/link";
 
 interface TooltipProps {
   links: SidebarSubmenuLink[];

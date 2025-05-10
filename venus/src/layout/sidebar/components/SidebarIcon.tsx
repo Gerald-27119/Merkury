@@ -1,9 +1,9 @@
-import { BaseLink } from "../model/link";
+import { BaseLink } from "../../../model/interface/sidebar/link";
 import {
   isSidebarAction,
   isSidebarLink,
   isSidebarSubmenu,
-} from "../utils/functions";
+} from "../../../utils/sidebar/functions";
 import { NavLink } from "react-router-dom";
 
 interface SidebarIconProps {

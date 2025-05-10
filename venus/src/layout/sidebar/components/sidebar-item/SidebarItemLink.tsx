@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import SidebarItemContent from "./SidebarItemContent";
-import { SidebarLink } from "../../model/link";
+import { SidebarLink } from "../../../../model/interface/sidebar/link";
 
 interface SidebarItemLinkProps {
   link: SidebarLink;

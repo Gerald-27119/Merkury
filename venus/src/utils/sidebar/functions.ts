@@ -3,7 +3,7 @@ import {
   SidebarAction,
   SidebarLink,
   SidebarSubmenu,
-} from "../model/link";
+} from "../../model/interface/sidebar/link";
 
 export function isSidebarSubmenu(link: BaseLink): link is SidebarSubmenu {
   return (

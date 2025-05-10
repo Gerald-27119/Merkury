@@ -9,7 +9,7 @@ import {
   getOptionsLinks,
   staticLinks,
   userLoggedLinks,
-} from "./utils/sidebarLinks";
+} from "../../utils/sidebar/sidebarLinks";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
