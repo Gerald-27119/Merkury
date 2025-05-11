@@ -25,15 +25,15 @@ export default function SidebarItemSubmenu({
 }: SidebarItemSubmenuProps) {
   const [isSubmenuOpen, setIsSubmenuOpen, toggleSubmenu] =
     useToggleState(false);
-  const [openSubmenu, setOpenSubmenu] = useState<string | null>();
+  const [openedSubmenuName, setOpenedSubmenuName] = useState<string | null>();
   const [isDot, setIsDot] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    if (openSubmenu !== link.name && isSubmenuOpen) {
+    if (openedSubmenuName !== link.name && isSubmenuOpen) {
       toggleSubmenu();
     }
-  }, [openSubmenu]);
+  }, [openedSubmenuName]);
 
   useEffect(() => {
     const hasActiveChild =
@@ -42,16 +42,16 @@ export default function SidebarItemSubmenu({
     setIsDot(hasActiveChild);
 
     if (hasActiveChild) {
-      setOpenSubmenu(link.name);
+      setOpenedSubmenuName(link.name);
       setIsSubmenuOpen(true);
-    } else if (openSubmenu === link.name) {
-      setOpenSubmenu(null);
+    } else if (openedSubmenuName === link.name) {
+      setOpenedSubmenuName(null);
       setIsSubmenuOpen(false);
     }
   }, [location.pathname]);
 
   const handleOpenSubmenu = () => {
-    setOpenSubmenu(isSubmenuOpen ? null : link.name);
+    setOpenedSubmenuName(isSubmenuOpen ? null : link.name);
     toggleSubmenu();
   };
 
