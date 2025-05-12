@@ -52,10 +52,8 @@ export default function UserLocationPanel() {
       </button>
       {cords && (
         <Marker longitude={cords.longitude} latitude={cords.latitude}>
-          <div className="relative">
-            <div className="bg-userLocationDot/25 flex h-7 w-7 items-center justify-center rounded-full">
-              <div className="bg-userLocationDot h-3 w-3 rounded-full ring-2 ring-white"></div>
-            </div>
+          <div className="bg-userLocationDot/25 relative flex h-7 w-7 items-center justify-center rounded-full">
+            <div className="bg-userLocationDot h-3 w-3 rounded-full ring-2 ring-white" />
           </div>
         </Marker>
       )}
