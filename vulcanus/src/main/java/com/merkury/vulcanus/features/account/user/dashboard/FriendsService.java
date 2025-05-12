@@ -67,4 +67,20 @@ public class FriendsService {
         return userEntityRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundByUsernameException(username));
     }
+
+    public List<FriendDto> getUserFollowers(String username) throws UserNotFoundByUsernameException {
+        return getUserByUsername(username)
+                .getFollowers()
+                .stream()
+                .map(FriendsMapper::toDto)
+                .toList();
+    }
+
+    public List<FriendDto> getUserFollowed(String username) throws UserNotFoundByUsernameException {
+        return getUserByUsername(username)
+                .getFollowed()
+                .stream()
+                .map(FriendsMapper::toDto)
+                .toList();
+    }
 }

@@ -1,0 +1,106 @@
+package com.merkury.vulcanus.db;
+
+import com.merkury.vulcanus.model.entities.Friendship;
+import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.enums.Provider;
+import com.merkury.vulcanus.model.repositories.UserEntityRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.merkury.vulcanus.model.enums.UserRole.ROLE_USER;
+
+@Service
+@RequiredArgsConstructor
+public class PopulateFriendsService {
+    private final UserEntityRepository userEntityRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Transactional
+    public void initPostgresDb() {
+        List<UserEntity> users = new ArrayList<>();
+
+        for (int i = 30; i < 50; i++) {
+            var user = UserEntity.builder()
+                    .email("user" + i + "@example.com")
+                    .username("user" + i)
+                    .password(passwordEncoder.encode("password"))
+                    .userRole(ROLE_USER)
+                    .provider(Provider.NONE)
+                    .followed(new HashSet<>())
+                    .build();
+
+            users.add(user);
+        }
+        userEntityRepository.saveAll(users);
+
+        Random random = new Random();
+
+        for (var user : users) {
+            int followCount = random.nextInt(5);
+
+            var follows = getRandomSubset(users, followCount, user);
+            user.getFollowers().addAll(follows);
+        }
+
+        userEntityRepository.saveAll(users);
+
+        var createdPairs = new HashSet<>();
+
+        for (var user : users){
+            int numberOfFriends = random.nextInt(5);
+
+            for (int i = 0; i < numberOfFriends; i++) {
+                var potentialFriend = users.get(random.nextInt(users.size()));
+
+                if (!user.getUsername().equals(potentialFriend.getUsername())){
+                    var key = user.getId() + "-" + potentialFriend.getId();
+                    var reverseKey = potentialFriend.getId() + "-" + user.getId();
+
+                    if (!createdPairs.contains(key) && !createdPairs.contains(reverseKey)){
+                        var friendship = Friendship.builder()
+                                .user(user)
+                                .friend(potentialFriend)
+                                .status("accepted")
+                                .createdAt(LocalDateTime.now())
+                                .build();
+
+                        var reverse = Friendship.builder()
+                                .user(potentialFriend)
+                                .friend(user)
+                                .status("accepted")
+                                .createdAt(LocalDateTime.now())
+                                .build();
+
+                        user.getFriendships().add(friendship);
+                        potentialFriend.getFriendships().add(reverse);
+
+                        createdPairs.add(key);
+                        createdPairs.add(reverseKey);
+
+                        userEntityRepository.save(user);
+                    }
+                }
+            }
+        }
+    }
+
+    private Set<UserEntity> getRandomSubset(List<UserEntity> allUsers, int count, UserEntity exclude) {
+        return allUsers.stream()
+                .filter(u -> !u.getUsername().equals(exclude.getUsername()))
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toList(),
+                        list -> {
+                            Collections.shuffle(list);
+                            return new HashSet<>(list.subList(0, Math.min(count, list.size())));
+                        }
+                ));
+    }
+
+
+}

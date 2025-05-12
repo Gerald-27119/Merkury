@@ -31,8 +31,18 @@ public class UserDashboardController {
     }
 
     @PatchMapping("/friends/{username}")
-    public ResponseEntity<Void> editUserFriends(@PathVariable String username, @RequestParam("friendUsername") String friendUsername, @RequestParam("type")EditUserFriendsType type) throws UserNotFoundByUsernameException {
+    public ResponseEntity<Void> editUserFriends(@PathVariable String username, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException {
         userDashboardService.editUserFriends(username, friendUsername, type);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/followers/{username}")
+    public ResponseEntity<List<FriendDto>> getUserFollowers(@PathVariable String username) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserFollowers(username));
+    }
+
+    @GetMapping("/followed/{username}")
+    public ResponseEntity<List<FriendDto>> getUserFollowed(@PathVariable String username) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserFollowed(username));
     }
 }

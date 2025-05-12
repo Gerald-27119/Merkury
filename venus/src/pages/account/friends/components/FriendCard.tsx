@@ -42,6 +42,7 @@ export default function FriendCard({ friend }: FriendCardProps) {
       </h3>
       <h5 className="text-darkBorder text-center capitalize">available</h5>
       <div className="flex gap-2 text-3xl">
+        {/*TODO zrobić działające przyciski*/}
         <FriendButton onClick={() => {}}>
           <FaUser />
         </FriendButton>

@@ -26,4 +26,12 @@ public class UserDashboardService {
     public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException {
         friendsService.editUserFriends(username, friendUsername, type);
     }
+
+    public List<FriendDto> getUserFollowers(String username) throws UserNotFoundByUsernameException {
+        return friendsService.getUserFollowers(username);
+    }
+
+    public List<FriendDto> getUserFollowed(String username) throws UserNotFoundByUsernameException {
+        return friendsService.getUserFollowed(username);
+    }
 }

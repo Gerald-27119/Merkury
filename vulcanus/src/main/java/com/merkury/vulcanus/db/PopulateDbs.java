@@ -15,6 +15,7 @@ public class PopulateDbs {
 
     private final PopulateDbsService populateDbsService;
     private final PopulateChatsService populateChatsService;
+    private final PopulateFriendsService populateFriendsService;
 
     @Order(2)
     @Bean
@@ -27,5 +28,9 @@ public class PopulateDbs {
     CommandLineRunner initChats() {
         return args -> populateChatsService.initChatData();
     }
+
+    @Order(4)
+    @Bean
+    CommandLineRunner initFriends(){return args -> populateFriendsService.initPostgresDb();}
 
 }

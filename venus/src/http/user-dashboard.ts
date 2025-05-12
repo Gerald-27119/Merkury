@@ -40,3 +40,19 @@ export async function editUserFriends({
     )
   ).data;
 }
+
+export async function getUserFollowed(username: string): Promise<Friend[]> {
+  return (
+    await axios.get(`${BASE_URL}/user-dashboard/followed/${username}`, {
+      withCredentials: true,
+    })
+  ).data;
+}
+
+export async function getUserFollowers(username: string): Promise<Friend[]> {
+  return (
+    await axios.get(`${BASE_URL}/user-dashboard/followers/${username}`, {
+      withCredentials: true,
+    })
+  ).data;
+}
