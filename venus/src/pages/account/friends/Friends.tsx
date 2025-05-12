@@ -1,4 +1,3 @@
-import FriendCard from "./components/FriendCard";
 import { useQuery } from "@tanstack/react-query";
 import {
   getUserFollowed,
@@ -8,10 +7,18 @@ import {
 import useSelectorTyped from "../../../hooks/useSelectorTyped";
 import FriendButton from "./components/FriendButton";
 import { useState } from "react";
+import FriendCards from "./components/FriendCards";
+import { FriendsListType } from "../../../model/enum/account/friends/friendsListType";
+
+const menuTypes = [
+  { label: "friends", type: FriendsListType.FRIENDS },
+  { label: "followed", type: FriendsListType.FOLLOWED },
+  { label: "followers", type: FriendsListType.FOLLOWERS },
+];
 
 export default function Friends() {
   const username = useSelectorTyped((state) => state.account.username);
-  const [type, setType] = useState("friends");
+  const [type, setType] = useState(FriendsListType.FRIENDS);
 
   const { data: friends } = useQuery({
     queryFn: () => getUserFriends(username),
@@ -28,34 +35,29 @@ export default function Friends() {
     queryKey: ["followers", username],
   });
 
+  const dataMap = {
+    [FriendsListType.FRIENDS]: friends,
+    [FriendsListType.FOLLOWED]: followed,
+    [FriendsListType.FOLLOWERS]: followers,
+  };
+
   return (
-    <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText flex h-full w-full flex-col space-y-8 p-10">
-      <h1 className="ml-27 text-4xl font-semibold capitalize">friends list</h1>
-      <div className="mx-27 flex gap-3 text-2xl">
-        <FriendButton onClick={() => setType("friends")}>
-          <p className="capitalize">friends</p>
-        </FriendButton>
-        <FriendButton onClick={() => setType("followed")}>
-          <p className="capitalize">followed</p>
-        </FriendButton>
-        <FriendButton onClick={() => setType("followers")}>
-          <p className="capitalize">followers</p>
-        </FriendButton>
+    <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText flex h-full w-full flex-col space-y-8 p-10 pt-17 xl:pt-10">
+      <h1 className="text-4xl font-semibold capitalize lg:ml-27">
+        friends list
+      </h1>
+      <div className="flex gap-3 text-2xl lg:mx-27">
+        {menuTypes.map(({ label, type: btnType }) => (
+          <FriendButton
+            key={label}
+            onClick={() => setType(btnType)}
+            isActive={type === btnType}
+          >
+            <p className="font-semibold capitalize">{label}</p>
+          </FriendButton>
+        ))}
       </div>
-      <div className="flex flex-wrap items-center justify-center gap-5">
-        {type === "friends" &&
-          friends?.map((f) => <FriendCard friend={f} key={f.username} />)}
-      </div>
-
-      <div className="flex flex-wrap items-center justify-center gap-5">
-        {type === "followed" &&
-          followed?.map((f) => <FriendCard friend={f} key={f.username} />)}
-      </div>
-
-      <div className="flex flex-wrap items-center justify-center gap-5">
-        {type === "followers" &&
-          followers?.map((f) => <FriendCard friend={f} key={f.username} />)}
-      </div>
+      <FriendCards list={dataMap[type]} type={type} />
     </div>
   );
 }

@@ -1,5 +1,7 @@
 package com.merkury.vulcanus.controllers;
 
+import com.merkury.vulcanus.exception.exceptions.FollowedConnectionAlreadyExist;
+import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExist;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
 import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
@@ -31,7 +33,7 @@ public class UserDashboardController {
     }
 
     @PatchMapping("/friends/{username}")
-    public ResponseEntity<Void> editUserFriends(@PathVariable String username, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException {
+    public ResponseEntity<Void> editUserFriends(@PathVariable String username, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExist {
         userDashboardService.editUserFriends(username, friendUsername, type);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -44,5 +46,11 @@ public class UserDashboardController {
     @GetMapping("/followed/{username}")
     public ResponseEntity<List<FriendDto>> getUserFollowed(@PathVariable String username) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.getUserFollowed(username));
+    }
+
+    @PatchMapping("/followed/{username}")
+    public ResponseEntity<Void> editUserFollowed(@PathVariable String username, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedConnectionAlreadyExist {
+        userDashboardService.editUserFollowed(username, friendUsername, type);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

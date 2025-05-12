@@ -56,3 +56,25 @@ export async function getUserFollowers(username: string): Promise<Friend[]> {
     })
   ).data;
 }
+
+interface EditUserFollowedProps {
+  username: string;
+  followedUsername: string;
+  type: string;
+}
+
+export async function editUserFollowed({
+  username,
+  followedUsername,
+  type,
+}: EditUserFollowedProps): Promise<void> {
+  return (
+    await axios.patch(
+      `${BASE_URL}/user-dashboard/followed/${username}?friendUsername=${followedUsername}&type=${type}`,
+      {},
+      {
+        withCredentials: true,
+      },
+    )
+  ).data;
+}

@@ -1,5 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
+import com.merkury.vulcanus.exception.exceptions.FollowedConnectionAlreadyExist;
+import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExist;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
@@ -23,7 +25,7 @@ public class UserDashboardService {
         return friendsService.getUserFriends(username);
     }
 
-    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException {
+    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExist {
         friendsService.editUserFriends(username, friendUsername, type);
     }
 
@@ -33,5 +35,9 @@ public class UserDashboardService {
 
     public List<FriendDto> getUserFollowed(String username) throws UserNotFoundByUsernameException {
         return friendsService.getUserFollowed(username);
+    }
+
+    public void editUserFollowed(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedConnectionAlreadyExist {
+        friendsService.editUserFollowed(username, friendUsername, type);
     }
 }

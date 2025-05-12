@@ -87,12 +87,12 @@ public class UserEntity implements UserDetails {
     )
     @ToString.Exclude
     @Builder.Default
-    private Set<UserEntity> followers = new HashSet<>();
+    private List<UserEntity> followers = new ArrayList<>();
 
     @ManyToMany(mappedBy = "followers")
     @ToString.Exclude
     @Builder.Default
-    private Set<UserEntity> followed = new HashSet<>();
+    private List<UserEntity> followed = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
+import com.merkury.vulcanus.exception.exceptions.FollowedConnectionAlreadyExist;
 import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExist;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
@@ -12,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType.ADD;
+import static com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType.REMOVE;
 
 @Service
 @RequiredArgsConstructor
@@ -26,14 +30,15 @@ public class FriendsService {
                 .toList();
     }
 
-    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException {
-        switch (type){
-            case ADD -> addUserFriends(username, friendUsername);
-            case REMOVE -> removeUserFriends(username, friendUsername);
+    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExist {
+        if (type == ADD){
+            addUserFriends(username, friendUsername);
+        } else if (type == REMOVE) {
+            removeUserFriends(username, friendUsername);
         }
     }
 
-    private void addUserFriends(String username, String friendUsername) throws UserNotFoundByUsernameException {
+    private void addUserFriends(String username, String friendUsername) throws UserNotFoundByUsernameException, FriendshipAlreadyExist {
         var user = getUserByUsername(username);
         var friendUser = getUserByUsername(friendUsername);
         var isFriends = user.getFriendships()
@@ -82,5 +87,37 @@ public class FriendsService {
                 .stream()
                 .map(FriendsMapper::toDto)
                 .toList();
+    }
+
+    public void editUserFollowed(String username, String followedUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedConnectionAlreadyExist {
+        if (type == ADD){
+            addUserFollowed(username, followedUsername);
+        } else if (type == REMOVE) {
+            removeUserFollowed(username, followedUsername);
+        }
+    }
+
+    private void addUserFollowed(String username, String followedUsername) throws UserNotFoundByUsernameException, FollowedConnectionAlreadyExist {
+        var user = getUserByUsername(username);
+        var followedUser = getUserByUsername(followedUsername);
+        var isFollowed = user.getFollowed()
+                .stream()
+                .anyMatch(f -> f.getUsername().equals(followedUsername));
+
+        if (!isFollowed){
+            followedUser.getFollowers().add(user);
+
+            userEntityRepository.save(followedUser);
+        }else {
+            throw new FollowedConnectionAlreadyExist();
+        }
+    }
+
+    private void removeUserFollowed(String username, String followedUsername) throws UserNotFoundByUsernameException {
+        var user = getUserByUsername(followedUsername);
+
+        user.getFollowers().removeIf(f -> f.getUsername().equals(username));
+
+        userEntityRepository.save(user);
     }
 }

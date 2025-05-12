@@ -2,40 +2,70 @@ import { Friend } from "../../../../model/interface/account/friends/friend";
 import { BiMessageRounded } from "react-icons/bi";
 import { FaUser, FaUserMinus } from "react-icons/fa";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { editUserFriends } from "../../../../http/user-dashboard";
+import {
+  editUserFollowed,
+  editUserFriends,
+} from "../../../../http/user-dashboard";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import FriendButton from "./FriendButton";
-import { EditUserFriendsType } from "../../../../model/enum/editUserFriendsType";
+import { EditUserFriendsType } from "../../../../model/enum/account/friends/editUserFriendsType";
+import { FriendsListType } from "../../../../model/enum/account/friends/friendsListType";
 
 interface FriendCardProps {
   friend: Friend;
+  type: FriendsListType;
 }
 
-export default function FriendCard({ friend }: FriendCardProps) {
+export default function FriendCard({ friend, type }: FriendCardProps) {
   const username = useSelectorTyped((state) => state.account.username);
   const queryClient = useQueryClient();
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync: mutateAsyncFriends } = useMutation({
     mutationFn: editUserFriends,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["friends"] });
     },
   });
 
+  const { mutateAsync: mutateAsyncFollowed } = useMutation({
+    mutationFn: editUserFollowed,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["followed"] });
+    },
+  });
+
   const removeUserFriend = async (friendUsername: string) => {
-    await mutateAsync({
+    await mutateAsyncFriends({
       username,
       friendUsername,
       type: EditUserFriendsType.REMOVE,
     });
   };
 
+  const removeUserFollowed = async (followedUsername: string) => {
+    await mutateAsyncFollowed({
+      username,
+      followedUsername,
+      type: EditUserFriendsType.REMOVE,
+    });
+  };
+
+  let handleRemove = async () => {};
+
+  switch (type) {
+    case FriendsListType.FOLLOWED:
+      handleRemove = () => removeUserFollowed(friend.username);
+      break;
+    case FriendsListType.FRIENDS:
+      handleRemove = () => removeUserFriend(friend.username);
+  }
+
   return (
     <div className="dark:bg-darkBgSoft bg-lightBgSoft space-y-2 rounded-md px-3 pt-3 pb-4">
       <img
         src={friend.profilePhoto}
         alt="profile"
-        className="mx-6 aspect-square h-56 rounded-full"
+        className="mx-6 aspect-square h-56 rounded-full shadow-md"
       />
       <h3 className="text-center text-xl font-semibold capitalize">
         {friend.username}
@@ -49,9 +79,11 @@ export default function FriendCard({ friend }: FriendCardProps) {
         <FriendButton onClick={() => {}}>
           <BiMessageRounded />
         </FriendButton>
-        <FriendButton onClick={() => removeUserFriend(friend.username)}>
-          <FaUserMinus />
-        </FriendButton>
+        {type !== FriendsListType.FOLLOWERS && (
+          <FriendButton onClick={handleRemove}>
+            <FaUserMinus />
+          </FriendButton>
+        )}
       </div>
     </div>
   );
