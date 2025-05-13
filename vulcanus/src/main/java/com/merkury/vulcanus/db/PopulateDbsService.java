@@ -59,8 +59,6 @@ public class PopulateDbsService {
             userEntityRepository.save(locustUser);
         }
 
-        user.getFollowers().add(admin);
-        user.getFriendships().add(new Friendship(null, user, admin, "", LocalDateTime.now()));
         userEntityRepository.save(admin);
         userEntityRepository.save(user);
 

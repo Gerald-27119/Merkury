@@ -3,6 +3,7 @@ package com.merkury.vulcanus.db;
 import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.Provider;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -66,14 +67,14 @@ public class PopulateFriendsService {
                         var friendship = Friendship.builder()
                                 .user(user)
                                 .friend(potentialFriend)
-                                .status("accepted")
+                                .status(UserFriendStatus.ACCEPTED)
                                 .createdAt(LocalDateTime.now())
                                 .build();
 
                         var reverse = Friendship.builder()
                                 .user(potentialFriend)
                                 .friend(user)
-                                .status("accepted")
+                                .status(UserFriendStatus.ACCEPTED)
                                 .createdAt(LocalDateTime.now())
                                 .build();
 

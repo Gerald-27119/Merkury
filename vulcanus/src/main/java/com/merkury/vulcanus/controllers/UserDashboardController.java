@@ -2,11 +2,13 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.FollowedConnectionAlreadyExist;
 import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExist;
+import com.merkury.vulcanus.exception.exceptions.FriendshipNotExist;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
 import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,12 @@ public class UserDashboardController {
     @PatchMapping("/friends/{username}")
     public ResponseEntity<Void> editUserFriends(@PathVariable String username, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExist {
         userDashboardService.editUserFriends(username, friendUsername, type);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PatchMapping("/followed/{username}")
+    public ResponseEntity<Void> changeUserFriendsStatus(@PathVariable String username, @RequestParam String friendUsername, @RequestParam UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExist {
+        userDashboardService.changeUserFriendsStatus(username, friendUsername, status);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
