@@ -34,7 +34,7 @@ public class PopulateFriendsService {
                     .password(passwordEncoder.encode("password"))
                     .userRole(ROLE_USER)
                     .provider(Provider.NONE)
-                    .followed(new ArrayList<>())
+                    .followed(new HashSet<>())
                     .build();
 
             users.add(user);
@@ -58,7 +58,7 @@ public class PopulateFriendsService {
             for (int i = 0; i < numberOfFriends; i++) {
                 var potentialFriend = users.get(random.nextInt(users.size()));
 
-                if (!user.getUsername().equals(potentialFriend.getUsername())) {
+                if (!user.equals(potentialFriend)) {
                     var key = user.getId() + "-" + potentialFriend.getId();
                     var reverseKey = potentialFriend.getId() + "-" + user.getId();
 
@@ -95,15 +95,16 @@ public class PopulateFriendsService {
         userEntityRepository.saveAll(users);
     }
 
-    private List<UserEntity> getRandomSubset(List<UserEntity> allUsers, int count, UserEntity exclude) {
+    private Set<UserEntity> getRandomSubset(List<UserEntity> allUsers, int count, UserEntity exclude) {
         return allUsers.stream()
-                .filter(u -> !u.getUsername().equals(exclude.getUsername()))
+                .filter(u -> !u.equals(exclude))
                 .collect(Collectors.collectingAndThen(
                         Collectors.toList(),
                         list -> {
                             Collections.shuffle(list);
-                            return list.subList(0, Math.min(count, list.size()));
+                            return new HashSet<>(list.subList(0, Math.min(count, list.size())));
                         }
                 ));
     }
+
 }
