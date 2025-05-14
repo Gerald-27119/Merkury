@@ -1,6 +1,7 @@
 import axios from "axios";
 import UserProfile from "../model/interface/account/profile/userProfile";
 import { Friend } from "../model/interface/account/friends/friend";
+import { EditUserFriendsType } from "../model/enum/account/friends/editUserFriendsType";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserProfile(username: string): Promise<UserProfile> {
@@ -22,7 +23,7 @@ export async function getUserFriends(username: string): Promise<Friend[]> {
 interface EditUserFriendsProps {
   username: string;
   friendUsername: string;
-  type: string;
+  type: EditUserFriendsType;
 }
 
 export async function editUserFriends({
@@ -60,7 +61,7 @@ export async function getUserFollowers(username: string): Promise<Friend[]> {
 interface EditUserFollowedProps {
   username: string;
   followedUsername: string;
-  type: string;
+  type: EditUserFriendsType;
 }
 
 export async function editUserFollowed({
