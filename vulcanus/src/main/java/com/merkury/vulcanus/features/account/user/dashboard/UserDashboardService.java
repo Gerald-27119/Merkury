@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
-import com.merkury.vulcanus.exception.exceptions.FollowedConnectionAlreadyExist;
-import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExist;
-import com.merkury.vulcanus.exception.exceptions.FriendshipNotExist;
-import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
+import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
@@ -28,11 +25,11 @@ public class UserDashboardService {
         return friendsService.getUserFriends(username);
     }
 
-    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExist {
+    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException {
         friendsService.editUserFriends(username, friendUsername, type);
     }
 
-    public void changeUserFriendsStatus(String username, String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExist {
+    public void changeUserFriendsStatus(String username, String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
         friendsService.changeUserFriendsStatus(username, friendUsername, status);
     }
 
@@ -44,7 +41,7 @@ public class UserDashboardService {
         return followersService.getUserFollowed(username);
     }
 
-    public void editUserFollowed(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedConnectionAlreadyExist {
+    public void editUserFollowed(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedAlreadyExistException, FollowedNotExistException {
         followersService.editUserFollowed(username, friendUsername, type);
     }
 }

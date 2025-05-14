@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
-import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExist;
-import com.merkury.vulcanus.exception.exceptions.FriendshipNotExist;
+import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExistException;
+import com.merkury.vulcanus.exception.exceptions.FriendshipNotExistException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
 import com.merkury.vulcanus.model.entities.Friendship;
@@ -33,7 +33,7 @@ public class FriendsService {
                 .toList();
     }
 
-    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExist {
+    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException {
         if (type == ADD){
             addUserFriends(username, friendUsername);
         } else if (type == REMOVE) {
@@ -41,7 +41,7 @@ public class FriendsService {
         }
     }
 
-    private void addUserFriends(String username, String friendUsername) throws UserNotFoundByUsernameException, FriendshipAlreadyExist {
+    private void addUserFriends(String username, String friendUsername) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException {
         var user = userEntityFetcher.getByUsername(username);
         var friendUser = userEntityFetcher.getByUsername(friendUsername);
         var isFriends = user.getFriendships()
@@ -55,22 +55,29 @@ public class FriendsService {
             userEntityRepository.save(user);
             userEntityRepository.save(friendUser);
         }else {
-            throw new FriendshipAlreadyExist();
+            throw new FriendshipAlreadyExistException();
         }
     }
 
-    private void removeUserFriends(String username, String friendUsername) throws UserNotFoundByUsernameException {
+    private void removeUserFriends(String username, String friendUsername) throws UserNotFoundByUsernameException, FriendshipNotExistException {
         var user = userEntityFetcher.getByUsername(username);
         var userFriend = userEntityFetcher.getByUsername(friendUsername);
+        var isFriends = user.getFriendships()
+                .stream()
+                .anyMatch(f -> f.getFriend().equals(userFriend));
 
-        user.getFriendships().removeIf(f -> f.getFriend().equals(userFriend));
-        userFriend.getFriendships().removeIf(f-> f.getFriend().equals(user));
+        if(isFriends) {
+            user.getFriendships().removeIf(f -> f.getFriend().equals(userFriend));
+            userFriend.getFriendships().removeIf(f -> f.getFriend().equals(user));
 
-        userEntityRepository.save(user);
-        userEntityRepository.save(userFriend);
+            userEntityRepository.save(user);
+            userEntityRepository.save(userFriend);
+        }else {
+            throw new FriendshipNotExistException();
+        }
     }
 
-    public void changeUserFriendsStatus(String username, String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExist {
+    public void changeUserFriendsStatus(String username, String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
         var user = userEntityFetcher.getByUsername(username);
         var friendUser = userEntityFetcher.getByUsername(friendUsername);
         var isFriends = user.getFriendships()
@@ -84,7 +91,7 @@ public class FriendsService {
             userEntityRepository.save(user);
             userEntityRepository.save(friendUser);
         }else {
-            throw new FriendshipNotExist();
+            throw new FriendshipNotExistException();
         }
     }
 }

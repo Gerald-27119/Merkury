@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.controllers;
 
-import com.merkury.vulcanus.exception.exceptions.FollowedConnectionAlreadyExist;
-import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExist;
-import com.merkury.vulcanus.exception.exceptions.FriendshipNotExist;
-import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
+import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
 import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
@@ -33,13 +30,13 @@ public class UserDashboardController {
     }
 
     @PatchMapping("/friends/{username}")
-    public ResponseEntity<Void> editUserFriends(@PathVariable String username, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExist {
+    public ResponseEntity<Void> editUserFriends(@PathVariable String username, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException {
         userDashboardService.editUserFriends(username, friendUsername, type);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/friends/change-status/{username}")
-    public ResponseEntity<Void> changeUserFriendsStatus(@PathVariable String username, @RequestParam String friendUsername, @RequestParam UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExist {
+    public ResponseEntity<Void> changeUserFriendsStatus(@PathVariable String username, @RequestParam String friendUsername, @RequestParam UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
         userDashboardService.changeUserFriendsStatus(username, friendUsername, status);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -55,7 +52,7 @@ public class UserDashboardController {
     }
 
     @PatchMapping("/followed/{username}")
-    public ResponseEntity<Void> editUserFollowed(@PathVariable String username, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedConnectionAlreadyExist {
+    public ResponseEntity<Void> editUserFollowed(@PathVariable String username, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedAlreadyExistException, FollowedNotExistException {
         userDashboardService.editUserFollowed(username, friendUsername, type);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.exception;
 
-import com.merkury.vulcanus.exception.exceptions.FollowedConnectionAlreadyExist;
-import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExist;
-import com.merkury.vulcanus.exception.exceptions.FriendshipNotExist;
-import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
+import com.merkury.vulcanus.exception.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,20 +17,26 @@ public class UserDashboardExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
-    @ExceptionHandler(FriendshipAlreadyExist.class)
-    public ResponseEntity<String> handleFriendshipAlreadyExistException(FriendshipAlreadyExist ex) {
+    @ExceptionHandler(FriendshipAlreadyExistException.class)
+    public ResponseEntity<String> handleFriendshipAlreadyExistException(FriendshipAlreadyExistException ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
-    @ExceptionHandler(FollowedConnectionAlreadyExist.class)
-    public ResponseEntity<String> handleFollowedAlreadyExistException(FollowedConnectionAlreadyExist ex) {
+    @ExceptionHandler(FollowedAlreadyExistException.class)
+    public ResponseEntity<String> handleFollowedAlreadyExistException(FollowedAlreadyExistException ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
-    @ExceptionHandler(FriendshipNotExist.class)
-    public ResponseEntity<String> handleFriendshipNotExistException(FriendshipNotExist ex) {
+    @ExceptionHandler(FriendshipNotExistException.class)
+    public ResponseEntity<String> handleFriendshipNotExistException(FriendshipNotExistException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(FollowedNotExistException.class)
+    public ResponseEntity<String> handleFollowedConnectionNotExistException(FollowedNotExistException ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }

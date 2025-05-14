@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
-import com.merkury.vulcanus.exception.exceptions.FollowedConnectionAlreadyExist;
+import com.merkury.vulcanus.exception.exceptions.FollowedAlreadyExistException;
+import com.merkury.vulcanus.exception.exceptions.FollowedNotExistException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
@@ -37,35 +38,41 @@ public class FollowersService {
                 .toList();
     }
 
-    public void editUserFollowed(String username, String followedUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedConnectionAlreadyExist {
-        if (type == ADD){
+    public void editUserFollowed(String username, String followedUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedAlreadyExistException, FollowedNotExistException {
+        if (type == ADD) {
             addUserFollowed(username, followedUsername);
         } else if (type == REMOVE) {
             removeUserFollowed(username, followedUsername);
         }
     }
 
-    private void addUserFollowed(String username, String followedUsername) throws UserNotFoundByUsernameException, FollowedConnectionAlreadyExist {
+    private void addUserFollowed(String username, String followedUsername) throws UserNotFoundByUsernameException, FollowedAlreadyExistException {
         var user = userEntityFetcher.getByUsername(username);
         var followedUser = userEntityFetcher.getByUsername(followedUsername);
-        var isFollowed = user.getFollowed()
+        var isFollowed = user.getFollowers()
                 .stream()
                 .anyMatch(f -> f.equals(followedUser));
 
-        if (!isFollowed){
-            followedUser.getFollowers().add(user);
+        if (!isFollowed) {
+            user.getFollowers().add(followedUser);
 
             userEntityRepository.save(followedUser);
-        }else {
-            throw new FollowedConnectionAlreadyExist();
+        } else {
+            throw new FollowedAlreadyExistException();
         }
     }
 
-    private void removeUserFollowed(String username, String followedUsername) throws UserNotFoundByUsernameException {
-        var followedUser = userEntityFetcher.getByUsername(followedUsername);
+    private void removeUserFollowed(String username, String followedUsername) throws UserNotFoundByUsernameException, FollowedNotExistException {
+        var user = userEntityFetcher.getByUsername(username);
+        var isFollowed = user.getFollowers()
+                .stream()
+                .anyMatch(f -> f.getUsername().equals(followedUsername));
 
-        followedUser.getFollowers().removeIf(f -> f.getUsername().equals(username));
-
-        userEntityRepository.save(followedUser);
+        if (isFollowed) {
+            user.getFollowers().removeIf(f -> f.getUsername().equals(followedUsername));
+            userEntityRepository.save(user);
+        } else {
+            throw new FollowedNotExistException();
+        }
     }
 }
