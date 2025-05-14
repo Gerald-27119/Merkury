@@ -41,7 +41,7 @@ public class UserDashboardService {
         return followersService.getUserFollowed(username);
     }
 
-    public void editUserFollowed(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedAlreadyExistException, FollowedNotExistException {
-        followersService.editUserFollowed(username, friendUsername, type);
+    public void editUserFollowed(String username, String followedUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedAlreadyExistException, FollowedNotExistException {
+        followersService.editUserFollowed(username, followedUsername, type);
     }
 }

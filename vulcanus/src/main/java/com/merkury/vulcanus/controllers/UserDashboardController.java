@@ -52,8 +52,8 @@ public class UserDashboardController {
     }
     /// TODO na frontendzie na razie obsłużone jest tylko usuwanie dodawanie będzie zrobione w innym zadaniu
     @PatchMapping("/followed/{username}")
-    public ResponseEntity<Void> editUserFollowed(@PathVariable String username, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedAlreadyExistException, FollowedNotExistException {
-        userDashboardService.editUserFollowed(username, friendUsername, type);
+    public ResponseEntity<Void> editUserFollowed(@PathVariable String username, @RequestParam String followedUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedAlreadyExistException, FollowedNotExistException {
+        userDashboardService.editUserFollowed(username, followedUsername, type);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

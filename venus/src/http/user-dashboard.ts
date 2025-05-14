@@ -70,7 +70,7 @@ export async function editUserFollowed({
 }: EditUserFollowedProps): Promise<void> {
   return (
     await axios.patch(
-      `${BASE_URL}/user-dashboard/followed/${username}?friendUsername=${followedUsername}&type=${type}`,
+      `${BASE_URL}/user-dashboard/followed/${username}?followedUsername=${followedUsername}&type=${type}`,
       {},
       {
         withCredentials: true,
