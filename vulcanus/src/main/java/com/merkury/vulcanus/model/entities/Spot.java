@@ -6,11 +6,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a spot where people can go.
@@ -20,6 +23,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Spot {
 
     @Id
@@ -28,6 +32,8 @@ public class Spot {
 
     private String areaColor;
     private String name;
+    private String country;
+    private String city;
     private String description;
     private Double area;
 
@@ -57,8 +63,6 @@ public class Spot {
 
     @Builder.Default
     private Double rating = 0.0;
-    @Builder.Default
-    private Integer viewsCount = 0;
 
     @Builder.Default
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -67,8 +71,8 @@ public class Spot {
 
     @Builder.Default
     @ManyToMany
-    @JoinTable(name= "spot_tag",
+    @JoinTable(name= "tags_od_spots",
     joinColumns = @JoinColumn(name = "spot_id"),
     inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private List<Tag> tags = new ArrayList<>();
+    private Set<SpotTag> tags = new HashSet<>();
 }

@@ -6,20 +6,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-@Entity(name = "tags")
+@Entity(name = "spots_tags")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class Tag {
+public class SpotTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     @Builder.Default
     @ManyToMany(mappedBy = "tags")
-    private List<Spot> spots = new ArrayList<>();
+    private Set<Spot> spots = new HashSet<>();
 }

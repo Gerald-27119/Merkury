@@ -27,7 +27,7 @@ public class PopulateDbsService {
     private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final SpotRepository spotRepository;
     private final ZoneRepository zoneRepository;
-    private final TagRepository tagRepository;
+    private final SpotTagRepository spotTagRepository;
 
     @Transactional
     public void initPostgresDb() {
@@ -75,102 +75,122 @@ public class PopulateDbsService {
 
         Spot spot1 = Spot.builder()
                 .name("Pomnik konny Jana III Sobieskiego")
+                .city("Gdańsk")
+                .country("Poland")
                 .areaColor("#A8071A")
                 .description("Brązowy posąg XVII-wiecznego polskiego króla Jana III Sobieskiego na koniu usytuowany na małym placu.")
                 .comments(new ArrayList<>())
                 .rating(5.0)
-                .viewsCount(100)
                 .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot2 = Spot.builder()
                 .name("Skwer Czesława Niemena")
+                .city("Gdańsk")
+                .country("Poland")
                 .areaColor("#A8071A")
                 .description("Mały park z ławkami i pomnikiem Czesława Niemena.")
                 .comments(new ArrayList<>())
                 .rating(5.0)
-                .viewsCount(100)
                 .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot3 = Spot.builder()
                 .name("Park Wałowy")
+                .city("Gdańsk")
+                .country("Poland")
                 .areaColor("#A8071A")
                 .description("Mały park z ławkami")
                 .comments(new ArrayList<>())
                 .rating(3.5)
-                .viewsCount(10)
                 .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot4 = Spot.builder()
                 .name("Park")
+                .city("Gdańsk")
+                .country("Poland")
                 .areaColor("#A8071A")
                 .description("Mały park")
                 .comments(new ArrayList<>())
                 .rating(3.6)
-                .viewsCount(17)
                 .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot5 = Spot.builder()
                 .name("Jar Wilanowski")
+                .city("Gdańsk")
+                .country("Poland")
                 .areaColor("#A8071A")
                 .description("Zielona strefa z jeziorem")
                 .comments(new ArrayList<>())
                 .rating(4.6)
-                .viewsCount(120)
                 .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot6 = Spot.builder()
                 .name("Plac imienia Dariusza Kobzdeja")
+                .city("Gdańsk")
+                .country("Poland")
                 .areaColor("#A8071A")
                 .description("Mały, zadbany plac z ławeczkami i zielenią. Znajduje się on z jednej strony w pobliżu pomnika Jana III Sobieskiego, a z drugiej strony w pobliżu Hali Targowej.")
                 .comments(new ArrayList<>())
                 .rating(4.5)
-                .viewsCount(500)
                 .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot7 = Spot.builder()
                 .name("Plac Zabaw na Wroniej Górce")
+                .city("Gdańsk")
+                .country("Poland")
                 .areaColor("#A8071A")
                 .description("Plac zabaw")
                 .comments(new ArrayList<>())
                 .rating(4.8)
-                .viewsCount(100)
                 .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot8 = Spot.builder()
                 .name("Plaża stogi")
+                .city("Gdańsk")
+                .country("Poland")
                 .areaColor("#A8071A")
                 .description("Szeroka piaszczysta plaża.")
                 .comments(new ArrayList<>())
                 .rating(4.6)
-                .viewsCount(100)
                 .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot9 = Spot.builder()
                 .name("Park Oruński im. Emilii Hoene")
+                .city("Gdańsk")
+                .country("Poland")
                 .areaColor("#A8071A")
                 .description("Park Oruński należy, obok Parku Oliwskiego, należy do najcenniejszych zachowanych dawnych gdańskich parków.")
                 .comments(new ArrayList<>())
                 .rating(5.0)
-                .viewsCount(100)
                 .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot10 = Spot.builder()
                 .name("Park Street Workout")
+                .city("Gdańsk")
+                .country("Poland")
                 .areaColor("#A8071A")
                 .description("Park, który oryginalnie był cmentarzem protestanckim, należącym dawniej do kościoła przy placu Oruńskim.")
                 .comments(new ArrayList<>())
                 .rating(4.4)
-                .viewsCount(7)
                 .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         var contour1 = asList(
@@ -531,12 +551,13 @@ public class PopulateDbsService {
         List<List<Comment>> commentLists = List.of(commentList1, commentList2, commentList3, commentList4, commentList5, commentList6, commentList7, commentList8, commentList9, commentList10);
         List<List<Img>> galleries = List.of(gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8, gallery9, gallery10);
 
-        List<Tag> tagList = new ArrayList<Tag>();
+        List<SpotTag> tagList = new ArrayList<SpotTag>();
         for (int i = 0; i < 10; i++) {
-            var tag = Tag.builder()
+            var tag = SpotTag.builder()
                     .name("tag" + i)
+                    .spots(new HashSet<>(Set.of(spot1)))
                     .build();
-            tagRepository.save(tag);
+            spotTagRepository.save(tag);
             tagList.add(tag);
         }
 
@@ -555,9 +576,7 @@ public class PopulateDbsService {
             spot.setRating(BigDecimal.valueOf(rating).setScale(2, RoundingMode.HALF_UP).doubleValue());
         }
 
-        spot1.setTags(new ArrayList<>(
-                Arrays.asList(tagList.get(0), tagList.get(1))
-        ));
+        spot1.getTags().addAll(new HashSet<>(Set.of(tagList.get(0), tagList.get(1))));
 
         spotRepository.saveAll(spots);
 
