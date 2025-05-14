@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.CategoryNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.TagNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UnauthorizedPostAccessException;
 import com.merkury.vulcanus.exception.exceptions.PostNotFoundException;
 import com.merkury.vulcanus.features.forum.PostService;
@@ -34,7 +35,7 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    public ResponseEntity<Void> addPost(HttpServletRequest request, @Valid @RequestBody PostDto post) throws CategoryNotFoundException {
+    public ResponseEntity<Void> addPost(HttpServletRequest request, @Valid @RequestBody PostDto post) throws CategoryNotFoundException, TagNotFoundException {
         postService.addPost(request, post);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -46,7 +47,7 @@ public class PostController {
     }
 
     @PatchMapping("post/{postId}")
-    public ResponseEntity<Void> editPost(HttpServletRequest request, @PathVariable Long postId, @Valid @RequestBody PostDto post) throws UnauthorizedPostAccessException, CategoryNotFoundException {
+    public ResponseEntity<Void> editPost(HttpServletRequest request, @PathVariable Long postId, @Valid @RequestBody PostDto post) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException {
         postService.editPost(request, postId, post);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

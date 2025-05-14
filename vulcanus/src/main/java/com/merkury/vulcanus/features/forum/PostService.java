@@ -24,9 +24,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +59,7 @@ public class PostService {
     }
 
     //TODO: use jsoup library for content filter
-    public void addPost(HttpServletRequest request, PostDto dto) throws CategoryNotFoundException {
+    public void addPost(HttpServletRequest request, PostDto dto) throws CategoryNotFoundException, TagNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var category = getCategoryByName(dto.category().name());
         var tags = getTagsByNames(dto.tags());
@@ -76,7 +76,7 @@ public class PostService {
     }
 
     //TODO: use jsoup library for content filter
-    public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException {
+    public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("edit"));
         var category = getCategoryByName(dto.category().name());
@@ -109,10 +109,14 @@ public class PostService {
         return postCategoryRepository.findByName(name)
                 .orElseThrow(() -> new CategoryNotFoundException(name));
     }
-    private Set<Tag> getTagsByNames(List<String> tagNames) {
-        return tagNames.stream()
-                .map(tagName -> tagRepository.findByName(tagName)
-                        .orElseThrow(() -> new TagNotFoundException(tagName)))
-                .collect(Collectors.toSet());
+    private Set<Tag> getTagsByNames(List<String> tagNames) throws TagNotFoundException {
+        Set<Tag> tags = new HashSet<>();
+        for (String tagName : tagNames) {
+            Tag tag = tagRepository.findByName(tagName)
+                    .orElseThrow(() -> new TagNotFoundException(tagName));
+            tags.add(tag);
+        }
+        return tags;
     }
+
 }
