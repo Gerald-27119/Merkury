@@ -28,13 +28,13 @@ public class UserDashboardController {
     public ResponseEntity<List<FriendDto>> getUserFriends(@PathVariable String username) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.getUserFriends(username));
     }
-
+    /// TODO na frontendzie na razie obsłużone jest tylko usuwanie dodawanie będzie zrobione w innym zadaniu
     @PatchMapping("/friends/{username}")
     public ResponseEntity<Void> editUserFriends(@PathVariable String username, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException {
         userDashboardService.editUserFriends(username, friendUsername, type);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
+    /// TODO na frontendzie na razie nie jest to obsłużone będzie to zrobione w innym zadaniu
     @PatchMapping("/friends/change-status/{username}")
     public ResponseEntity<Void> changeUserFriendsStatus(@PathVariable String username, @RequestParam String friendUsername, @RequestParam UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
         userDashboardService.changeUserFriendsStatus(username, friendUsername, status);
@@ -50,7 +50,7 @@ public class UserDashboardController {
     public ResponseEntity<List<FriendDto>> getUserFollowed(@PathVariable String username) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.getUserFollowed(username));
     }
-
+    /// TODO na frontendzie na razie obsłużone jest tylko usuwanie dodawanie będzie zrobione w innym zadaniu
     @PatchMapping("/followed/{username}")
     public ResponseEntity<Void> editUserFollowed(@PathVariable String username, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedAlreadyExistException, FollowedNotExistException {
         userDashboardService.editUserFollowed(username, friendUsername, type);
