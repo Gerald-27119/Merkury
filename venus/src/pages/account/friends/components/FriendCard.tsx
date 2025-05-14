@@ -64,7 +64,7 @@ export default function FriendCard({ friend, type }: FriendCardProps) {
     <div className="dark:bg-darkBgSoft bg-lightBgSoft space-y-2 rounded-md px-3 pt-3 pb-4">
       <img
         src={friend.profilePhoto}
-        alt="profile"
+        alt="profileImage"
         className="mx-6 aspect-square h-56 rounded-full shadow-md"
       />
       <h3 className="text-center text-xl font-semibold capitalize">
@@ -74,14 +74,14 @@ export default function FriendCard({ friend, type }: FriendCardProps) {
       <div className="flex gap-2 text-3xl">
         {/*TODO zrobić działające przyciski*/}
         <FriendButton onClick={() => {}}>
-          <FaUser />
+          <FaUser aria-label="userProfileFriendCardIcon" />
         </FriendButton>
         <FriendButton onClick={() => {}}>
-          <BiMessageRounded />
+          <BiMessageRounded aria-label="messageFriendCardIcon" />
         </FriendButton>
         {type !== FriendsListType.FOLLOWERS && (
           <FriendButton onClick={handleRemove}>
-            <FaUserMinus />
+            <FaUserMinus aria-label="userRemoveFriendCardIcon" />
           </FriendButton>
         )}
       </div>
