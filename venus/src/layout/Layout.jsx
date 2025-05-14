@@ -1,13 +1,15 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Notification from "../components/notification/Notification.jsx";
 import Sidebar from "./sidebar/Sidebar.tsx";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import MobileBar from "./mobile-bar/MobileBar";
+import { useToggleState } from "../hooks/useToggleState";
 
 export default function Layout() {
   const location = useLocation();
   const isMapPage = location.pathname === "/map";
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen, toggleSidebar] =
+    useToggleState(false);
 
   useEffect(() => {
     if (location.pathname.includes("account") && window.innerWidth >= 1280) {
@@ -15,30 +17,14 @@ export default function Layout() {
     }
   }, [location]);
 
-  const toggleSideBar = () => {
-    setIsSidebarOpen((prevState) => !prevState);
-  };
-
-  const closeSideBar = () => {
-    if (window.innerWidth < 1280) {
-      setIsSidebarOpen(false);
-    }
-  };
-
   return (
-    <>
-      <div className={`${isMapPage ? "relative" : "flex"} lg:h-screen`}>
-        <Sidebar
-          isSidebarOpen={isSidebarOpen}
-          onToggle={toggleSideBar}
-          onClose={closeSideBar}
-        />
-        <main className="relative flex w-full flex-col items-center justify-center">
-          <MobileBar onToggle={toggleSideBar} />
-          <Notification title="test" message="message" />
-          <Outlet />
-        </main>
-      </div>
-    </>
+    <div className={`${isMapPage ? "relative" : "flex"} lg:h-screen`}>
+      <Sidebar isSidebarOpen={isSidebarOpen} onToggle={toggleSidebar} />
+      <main className="relative flex w-full flex-col items-center justify-center">
+        <MobileBar onToggle={toggleSidebar} />
+        <Notification title="test" message="message" />
+        <Outlet />
+      </main>
+    </div>
   );
 }

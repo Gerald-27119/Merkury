@@ -1,8 +1,6 @@
 import { MdMyLocation } from "react-icons/md";
 import React, { useState } from "react";
 import { Marker, useMap } from "@vis.gl/react-maplibre";
-import { GrLocationPin } from "react-icons/gr";
-import { useDispatch } from "react-redux";
 import { notificationAction } from "../../../redux/notification";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 
@@ -54,9 +52,8 @@ export default function UserLocationPanel() {
       </button>
       {cords && (
         <Marker longitude={cords.longitude} latitude={cords.latitude}>
-          <div className="relative flex items-center justify-center">
-            <div className="absolute bottom-0 h-3 w-3 rounded-full bg-black/35" />
-            <GrLocationPin className="text-userLocationPin text-6xl" />
+          <div className="bg-userLocationDot/25 relative flex h-7 w-7 items-center justify-center rounded-full">
+            <div className="bg-userLocationDot h-3 w-3 rounded-full ring-2 ring-white" />
           </div>
         </Marker>
       )}

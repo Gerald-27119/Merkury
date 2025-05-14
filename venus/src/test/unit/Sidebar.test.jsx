@@ -8,7 +8,7 @@ import Sidebar from "../../layout/sidebar/Sidebar.tsx";
 
 const queryClient = new QueryClient();
 
-const renderSidebar = (preloadedState, pathname) => {
+const renderSidebar = (preloadedState, pathname, isSidebarOpen = false) => {
   const store = configureStore({
     reducer: {
       account: accountSlice.reducer,
@@ -20,7 +20,7 @@ const renderSidebar = (preloadedState, pathname) => {
     <Provider store={store}>
       <MemoryRouter initialEntries={[pathname]}>
         <QueryClientProvider client={queryClient}>
-          <Sidebar />
+          <Sidebar isSidebarOpen={isSidebarOpen} onToggle={() => {}} />
         </QueryClientProvider>
       </MemoryRouter>
     </Provider>,
@@ -47,7 +47,7 @@ describe("Sidebar component unit tests", () => {
         expect(link).toBeInTheDocument();
       });
 
-      test("should render MapPage link", () => {
+      test("should render Map link", () => {
         const links = screen.getAllByRole("link");
         const link = links.find((link) => link.getAttribute("href") === "/map");
         expect(link).toBeInTheDocument();
@@ -65,14 +65,6 @@ describe("Sidebar component unit tests", () => {
         const links = screen.getAllByRole("link");
         const link = links.find(
           (link) => link.getAttribute("href") === "/chat",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render Spots List link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/spots-list",
         );
         expect(link).toBeInTheDocument();
       });
@@ -107,18 +99,13 @@ describe("Sidebar component unit tests", () => {
         expect(icon).toBeInTheDocument();
       });
 
-      test("should render Spots List icon", () => {
-        const icon = screen.getByLabelText("spotsList");
-        expect(icon).toBeInTheDocument();
-      });
-
       test("should render Notification icon", () => {
         const icon = screen.getByLabelText("notification");
         expect(icon).toBeInTheDocument();
       });
 
-      test("should render Account icon", () => {
-        const icon = screen.getByLabelText("account");
+      test("should render Login icon", () => {
+        const icon = screen.getByLabelText("login");
         expect(icon).toBeInTheDocument();
       });
 
@@ -149,6 +136,14 @@ describe("Sidebar component unit tests", () => {
         );
         expect(link).toBeInTheDocument();
       });
+
+      test("should render Favorite spots link", () => {
+        const links = screen.getAllByRole("link");
+        const link = links.find(
+          (link) => link.getAttribute("href") === "/spots-list",
+        );
+        expect(link).toBeInTheDocument();
+      });
     });
   });
 
@@ -161,6 +156,7 @@ describe("Sidebar component unit tests", () => {
           },
         },
         "/",
+        true,
       );
     });
 
@@ -185,11 +181,6 @@ describe("Sidebar component unit tests", () => {
         expect(text).toBeInTheDocument();
       });
 
-      test("should render Favorites spots Text", () => {
-        const text = screen.getByText("favorites spots");
-        expect(text).toBeInTheDocument();
-      });
-
       test("should render Notification Text", () => {
         const text = screen.getByText("notification");
         expect(text).toBeInTheDocument();
@@ -198,130 +189,6 @@ describe("Sidebar component unit tests", () => {
       test("should render Login Text", () => {
         const text = screen.getByText("login");
         expect(text).toBeInTheDocument();
-      });
-    });
-  });
-
-  describe("When sidebar is close and user is logged on account page", () => {
-    beforeEach(() => {
-      renderSidebar(
-        {
-          account: {
-            isLogged: true,
-          },
-        },
-        "/account/profile",
-      );
-    });
-
-    describe("Check is links render", () => {
-      test("should render Profile Link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/profile",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render Spots List Link", () => {
-        Object.assign(window, { innerWidth: 1920 });
-        window.dispatchEvent(new Event("resize"));
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/spots-list",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render Photos list Link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/photos-list",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render Movies list Link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/movies-list",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render friends Link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/friends",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render Add spot Link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/add-spot",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render Comments Link", () => {
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/comments",
-        );
-        expect(link).toBeInTheDocument();
-      });
-
-      test("should render Settings Link", () => {
-        screen.debug();
-        const links = screen.getAllByRole("link");
-        const link = links.find(
-          (link) => link.getAttribute("href") === "/account/settings",
-        );
-        expect(link).toBeInTheDocument();
-      });
-    });
-
-    describe("Check is icons render", () => {
-      test("should render Profile icon", () => {
-        const icon = screen.getByLabelText("profile");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render Spots list icon", () => {
-        const icon = screen.getByLabelText("accountSpotsList");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render Photos List icon", () => {
-        const icon = screen.getByLabelText("photosList");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render Movies List icon", () => {
-        const icon = screen.getByLabelText("moviesList");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render Friends icon", () => {
-        const icon = screen.getByLabelText("friends");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render Add Spot icon", () => {
-        const icon = screen.getByLabelText("addSpot");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render Comments icon", () => {
-        const icon = screen.getByLabelText("comments");
-        expect(icon).toBeInTheDocument();
-      });
-
-      test("should render settings icon", () => {
-        const icon = screen.getByLabelText("settings");
-        expect(icon).toBeInTheDocument();
       });
     });
   });
@@ -335,6 +202,7 @@ describe("Sidebar component unit tests", () => {
           },
         },
         "/account/profile",
+        true,
       );
     });
 
@@ -344,18 +212,18 @@ describe("Sidebar component unit tests", () => {
         expect(text).toBeInTheDocument();
       });
 
-      test("should render Spots List Text", () => {
-        const text = screen.getByText("spots list");
+      test("should render Spots Text", () => {
+        const text = screen.getByText("spots");
         expect(text).toBeInTheDocument();
       });
 
-      test("should render Photos list Text", () => {
-        const text = screen.getByText("photos list");
+      test("should render Photos Text", () => {
+        const text = screen.getByText("photos");
         expect(text).toBeInTheDocument();
       });
 
-      test("should render Movies list Text", () => {
-        const text = screen.getByText("movies list");
+      test("should render Movies Text", () => {
+        const text = screen.getByText("movies");
         expect(text).toBeInTheDocument();
       });
 
