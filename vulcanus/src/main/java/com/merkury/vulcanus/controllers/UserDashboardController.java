@@ -38,7 +38,7 @@ public class UserDashboardController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PatchMapping("/followed/{username}")
+    @PatchMapping("/friends/change-status/{username}")
     public ResponseEntity<Void> changeUserFriendsStatus(@PathVariable String username, @RequestParam String friendUsername, @RequestParam UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExist {
         userDashboardService.changeUserFriendsStatus(username, friendUsername, status);
         return ResponseEntity.status(HttpStatus.OK).build();
