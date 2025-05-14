@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import PostGeneral from "../../../model/interface/forum/post/PostGeneral";
 import MenuItem from "./MenuItem";
 import { Menu } from "antd";
+import { useToggleState } from "../../../hooks/useToggleState";
 
 interface PostMenuProps {
   post: PostGeneral;
@@ -13,7 +14,8 @@ interface PostMenuProps {
 }
 
 export default function PostMenu({ post, onDelete }: PostMenuProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isPostMenuOpen, setIsPostMenuOpen, togglePostMenu] =
+    useToggleState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const handleFollow = () => {};
@@ -26,12 +28,10 @@ export default function PostMenu({ post, onDelete }: PostMenuProps) {
     onDelete(post.id);
   };
 
-  const toggleMenu = () => setIsOpen(!isOpen);
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+        setIsPostMenuOpen(false);
       }
     };
 
@@ -42,11 +42,11 @@ export default function PostMenu({ post, onDelete }: PostMenuProps) {
   return (
     <div className="relative" ref={menuRef}>
       <HiDotsHorizontal
-        onClick={toggleMenu}
+        onClick={togglePostMenu}
         className="dark:hover:text-lightBgSoft cursor-pointer text-2xl"
       />
 
-      {isOpen && (
+      {isPostMenuOpen && (
         <div className="dark:border-darkBorder dark:bg-darkBgSoft absolute right-0 z-10 mt-2 w-40 rounded-md border bg-white shadow-lg">
           <ul className="items-center py-1 text-sm">
             <MenuItem onClick={handleFollow}>
