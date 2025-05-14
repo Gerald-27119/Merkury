@@ -10,7 +10,7 @@ public class AuthorMapper {
 
     public static AuthorDto toDto(@NotNull UserEntity user) {
         return AuthorDto.builder()
-                .userName(user.getUsername())
+                .username(user.getUsername())
                 .profilePhoto(user.getProfilePhoto())
                 .build();
     }

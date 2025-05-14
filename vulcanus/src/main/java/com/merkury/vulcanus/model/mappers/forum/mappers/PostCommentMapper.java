@@ -15,13 +15,13 @@ public class PostCommentMapper {
         return PostCommentDto.builder()
                 .id(postComment.getId())
                 .content(postComment.getContent())
-                .upvotes(postComment.getUpvotes())
-                .downvotes(postComment.getDownvotes())
+                .upvotes(postComment.getUpVotes())
+                .downvotes(postComment.getDownVotes())
                 .publishDate(postComment.getPublishDate())
                 .author(postComment.getAuthor().getUsername())
                 .isAuthor(postComment.getAuthor().equals(currentUser))
-                .isUpvoted(postComment.getUpvotedBy().contains(currentUser))
-                .isDownvoted(postComment.getDownvotedBy().contains(currentUser))
+                .isUpVoted(postComment.getUpVotedBy().contains(currentUser))
+                .isDownVoted(postComment.getDownVotedBy().contains(currentUser))
                 .build();
     }
 

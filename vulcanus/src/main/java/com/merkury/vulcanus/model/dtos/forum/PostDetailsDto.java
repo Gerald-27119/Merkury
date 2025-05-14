@@ -24,13 +24,13 @@ public record PostDetailsDto(@Positive(message = "ID must be a positive number."
                              LocalDateTime publishDate,
                              @Min(value = 0, message = "Views cannot be less than 0.")
                              Integer views,
-                             @Min(value = 0, message = "Upvotes cannot be less than 0.")
-                             Integer upvotes,
-                             @Min(value = 0, message = "Downvotes cannot be less than 0.")
-                             Integer downvotes,
-                             @NotNull(message = "isUpvoted cannot be empty.")
-                             Boolean isUpvoted,
-                             @NotNull(message = "isDownvoted cannot be empty.")
-                             Boolean isDownvoted,
+                             @Min(value = 0, message = "UpVotes cannot be less than 0.")
+                             Integer upVotes,
+                             @Min(value = 0, message = "DownVotes cannot be less than 0.")
+                             Integer downVotes,
+                             @NotNull(message = "isUpVoted cannot be empty.")
+                             Boolean isUpVoted,
+                             @NotNull(message = "isDownVoted cannot be empty.")
+                             Boolean isDownVoted,
                              List<PostCommentDto> comments) {
 }

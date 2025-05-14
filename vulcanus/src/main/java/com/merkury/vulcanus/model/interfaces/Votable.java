@@ -5,9 +5,9 @@ import com.merkury.vulcanus.model.entities.UserEntity;
 import java.util.Set;
 
 public interface Votable {
-    Set<UserEntity> getUpvotedBy();
-    Set<UserEntity> getDownvotedBy();
-    void setUpvotes(Integer upvotes);
-    void setDownvotes(Integer downvotes);
+    Set<UserEntity> getUpVotedBy();
+    Set<UserEntity> getDownVotedBy();
+    void setUpVotes(Integer upVotes);
+    void setDownVotes(Integer downVotes);
 }
 

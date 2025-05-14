@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class VoteService {
 
-    public void vote(Votable votable, UserEntity user, boolean isUpvote) {
-        var voteList = isUpvote ? votable.getUpvotedBy() : votable.getDownvotedBy();
-        var oppositeVoteList = isUpvote ? votable.getDownvotedBy() : votable.getUpvotedBy();
+    public void vote(Votable votable, UserEntity user, boolean isUpVote) {
+        var voteList = isUpVote ? votable.getUpVotedBy() : votable.getDownVotedBy();
+        var oppositeVoteList = isUpVote ? votable.getDownVotedBy() : votable.getUpVotedBy();
 
         if (voteList.contains(user)) {
             voteList.remove(user);
@@ -18,7 +18,7 @@ public class VoteService {
             voteList.add(user);
         }
 
-        votable.setUpvotes(votable.getUpvotedBy().size());
-        votable.setDownvotes(votable.getDownvotedBy().size());
+        votable.setUpVotes(votable.getUpVotedBy().size());
+        votable.setDownVotes(votable.getDownVotedBy().size());
     }
 }

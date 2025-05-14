@@ -23,27 +23,27 @@ public abstract class Comment implements Votable {
     private Long id;
 
     @Builder.Default
-    private Integer upvotes = 0;
+    private Integer upVotes = 0;
     @Builder.Default
-    private Integer downvotes = 0;
+    private Integer downVotes = 0;
 
     @Builder.Default
     @ManyToMany
     @JoinTable(
-            name = "comment_upvotes",
+            name = "comment_upVotes",
             joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<UserEntity> upvotedBy = new HashSet<>();
+    private Set<UserEntity> upVotedBy = new HashSet<>();
 
     @Builder.Default
     @ManyToMany
     @JoinTable(
-            name = "comment_downvotes",
+            name = "comment_downVotes",
             joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<UserEntity> downvotedBy = new HashSet<>();
+    private Set<UserEntity> downVotedBy = new HashSet<>();
 
     @Builder.Default
     private LocalDateTime publishDate = LocalDateTime.now();

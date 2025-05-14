@@ -2,7 +2,6 @@ import { MdMyLocation } from "react-icons/md";
 import React, { useState } from "react";
 import { Marker, useMap } from "@vis.gl/react-maplibre";
 import { GrLocationPin } from "react-icons/gr";
-import { useDispatch } from "react-redux";
 import { notificationAction } from "../../../redux/notification";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 

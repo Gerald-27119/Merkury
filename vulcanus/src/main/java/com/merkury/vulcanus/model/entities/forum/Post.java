@@ -31,16 +31,16 @@ public class Post implements Votable {
     private UserEntity author;
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private Category category;
+    private PostCategory postCategory;
 
     @Builder.Default
     private LocalDateTime publishDate = LocalDateTime.now();
     @Builder.Default
     private Integer views = 0;
     @Builder.Default
-    private Integer upvotes = 0;
+    private Integer upVotes = 0;
     @Builder.Default
-    private Integer downvotes = 0;
+    private Integer downVotes = 0;
 
     @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -51,20 +51,20 @@ public class Post implements Votable {
     @Builder.Default
     @ManyToMany
     @JoinTable(
-            name = "post_upvotes",
+            name = "post_upVotes",
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<UserEntity> upvotedBy = new HashSet<>();
+    private Set<UserEntity> upVotedBy = new HashSet<>();
 
     @Builder.Default
     @ManyToMany
     @JoinTable(
-            name = "post_downvotes",
+            name = "post_downVotes",
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<UserEntity> downvotedBy = new HashSet<>();
+    private Set<UserEntity> downVotedBy = new HashSet<>();
 
     @Builder.Default
     @ManyToMany

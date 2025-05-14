@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
+public class PostCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,5 +20,5 @@ public class Category {
     private String name;
     private String description;
     @Builder.Default
-    private String colour = "Default/blue/500";
+    private String colour = "#3B82F6";
 }

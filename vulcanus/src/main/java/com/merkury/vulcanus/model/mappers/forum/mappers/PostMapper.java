@@ -4,7 +4,7 @@ import com.merkury.vulcanus.model.dtos.forum.PostDetailsDto;
 import com.merkury.vulcanus.model.dtos.forum.PostDto;
 import com.merkury.vulcanus.model.dtos.forum.PostGeneralDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
-import com.merkury.vulcanus.model.entities.forum.Category;
+import com.merkury.vulcanus.model.entities.forum.PostCategory;
 import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.Tag;
 import jakarta.validation.constraints.NotNull;
@@ -23,16 +23,16 @@ public class PostMapper {
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
-                .category(CategoryMapper.toDto(post.getCategory()))
+                .category(CategoryMapper.toDto(post.getPostCategory()))
                 .tags(post.getTags().stream().map(TagMapper::toDto).toList())
                 .author(AuthorMapper.toDto(post.getAuthor()))
                 .isAuthor(currentUser != null && post.getAuthor().getId().equals(currentUser.getId()))
                 .publishDate(post.getPublishDate())
                 .views(post.getViews())
-                .upvotes(post.getUpvotes())
-                .downvotes(post.getDownvotes())
-                .isUpvoted(post.getUpvotedBy().contains(currentUser))
-                .isDownvoted(post.getDownvotedBy().contains(currentUser))
+                .upVotes(post.getUpVotes())
+                .downVotes(post.getDownVotes())
+                .isUpVoted(post.getUpVotedBy().contains(currentUser))
+                .isDownVoted(post.getDownVotedBy().contains(currentUser))
                 .comments(PostCommentMapper.toDto(post.getComments(), currentUser))
                 .build();
     }
@@ -44,7 +44,7 @@ public class PostMapper {
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(summary)
-                .category(CategoryMapper.toDto(post.getCategory()))
+                .category(CategoryMapper.toDto(post.getPostCategory()))
                 .tags(post.getTags().stream().map(TagMapper::toDto).toList())
                 .views(post.getViews())
                 .numberOfComments(post.getComments().size())
@@ -52,13 +52,13 @@ public class PostMapper {
                 .build();
     }
 
-    public static Post toEntity(@NotNull PostDto postDto, @NotNull UserEntity author, @NotNull Category category, Set<Tag> tags) {
+    public static Post toEntity(@NotNull PostDto postDto, @NotNull UserEntity author, @NotNull PostCategory postCategory, Set<Tag> tags) {
         return Post.builder()
                 .title(postDto.title())
                 .content(postDto.content())
                 .author(author)
                 .publishDate(LocalDateTime.now())
-                .category(category)
+                .postCategory(postCategory)
                 .tags(tags)
                 .build();
     }

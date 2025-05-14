@@ -18,13 +18,13 @@ public class SpotCommentMapper {
                 .id(spotComment.getId())
                 .text(spotComment.getText())
                 .rating(spotComment.getRating())
-                .upvotes(spotComment.getUpvotes())
-                .downvotes(spotComment.getDownvotes())
+                .upvotes(spotComment.getUpVotes())
+                .downvotes(spotComment.getDownVotes())
                 .publishDate(spotComment.getPublishDate())
                 .author(spotComment.getAuthor().getUsername())
                 .isAuthor(currentUser != null && spotComment.getAuthor().getId().equals(currentUser.getId()))
-                .isUpvoted(spotComment.getUpvotedBy().contains(currentUser))
-                .isDownvoted(spotComment.getDownvotedBy().contains(currentUser))
+                .isUpVoted(spotComment.getUpVotedBy().contains(currentUser))
+                .isDownVoted(spotComment.getDownVotedBy().contains(currentUser))
                 .build();
     }
 
@@ -33,8 +33,8 @@ public class SpotCommentMapper {
                 .id(dto.id())
                 .text(dto.text())
                 .rating(dto.rating())
-                .upvotes(dto.upvotes())
-                .downvotes(dto.downvotes())
+                .upVotes(dto.upvotes())
+                .downVotes(dto.downvotes())
                 .spot(spot)
                 .author(author)
                 .publishDate(dto.publishDate())

@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
 @Builder
-public record AuthorDto(@NotBlank(message = "Author's userName cannot be empty.")
-                        String userName,
+public record AuthorDto(@NotBlank(message = "Author's username cannot be empty.")
+                        String username,
                         @NotBlank(message = "Author's profilePhoto cannot be empty.")
                         String profilePhoto) {
 }

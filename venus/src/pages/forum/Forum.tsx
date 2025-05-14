@@ -29,7 +29,7 @@ export default function Forum() {
             <ul>
               {data.content.map((post) => (
                 <li key={post.id}>
-                  <Post post={post}></Post>
+                  <Post post={post} />
                 </li>
               ))}
             </ul>

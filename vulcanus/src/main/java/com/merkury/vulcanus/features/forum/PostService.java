@@ -7,12 +7,12 @@ import com.merkury.vulcanus.exception.exceptions.TagNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.forum.*;
-import com.merkury.vulcanus.model.entities.forum.Category;
+import com.merkury.vulcanus.model.entities.forum.PostCategory;
 import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.Tag;
 import com.merkury.vulcanus.model.mappers.forum.mappers.CategoryMapper;
 import com.merkury.vulcanus.model.mappers.forum.mappers.PostMapper;
-import com.merkury.vulcanus.model.repositories.CategoryRepository;
+import com.merkury.vulcanus.model.repositories.PostCategoryRepository;
 import com.merkury.vulcanus.model.repositories.PostRepository;
 import com.merkury.vulcanus.model.repositories.TagRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final CategoryRepository categoryRepository;
+    private final PostCategoryRepository postCategoryRepository;
     private final TagRepository tagRepository;
     private final UserDataService userDataService;
     private final VoteService voteService;
@@ -84,7 +84,7 @@ public class PostService {
 
         post.setTitle(dto.title());
         post.setContent(dto.content());
-        post.setCategory(category);
+        post.setPostCategory(category);
         post.setTags(tags);
 
         postRepository.save(post);
@@ -99,14 +99,14 @@ public class PostService {
     }
 
     public CategoriesAndTagsDto getAllCategoriesAndTags() {
-        var categories = categoryRepository.findAll();
+        var categories = postCategoryRepository.findAll();
         var tags = tagRepository.findAll();
 
         return new CategoriesAndTagsDto(categories.stream().map(CategoryMapper::toDto).toList(), tags.stream().map(Tag::getName).toList());
     }
 
-    private Category getCategoryByName(String name) throws CategoryNotFoundException {
-        return categoryRepository.findByName(name)
+    private PostCategory getCategoryByName(String name) throws CategoryNotFoundException {
+        return postCategoryRepository.findByName(name)
                 .orElseThrow(() -> new CategoryNotFoundException(name));
     }
     private Set<Tag> getTagsByNames(List<String> tagNames) {

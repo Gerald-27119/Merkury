@@ -7,7 +7,7 @@ import PostMenu from "./PostMenu";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notificationAction } from "../../../redux/notification";
 import { deletePost } from "../../../http/posts";
-import { useDispatch } from "react-redux";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
 
 interface PostProps {
   post: PostGeneral;
@@ -15,7 +15,7 @@ interface PostProps {
 
 export default function Post({ post }: PostProps) {
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
+  const dispatch = useDispatchTyped();
 
   const { mutateAsync: mutateDelete } = useMutation({
     mutationFn: deletePost,
