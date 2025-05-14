@@ -82,100 +82,80 @@ public class PopulateDbsService {
                 .name("Pomnik konny Jana III Sobieskiego")
                 .areaColor("#A8071A")
                 .description("Brązowy posąg XVII-wiecznego polskiego króla Jana III Sobieskiego na koniu usytuowany na małym placu.")
-                .spotComments(new ArrayList<>())
                 .rating(5.0)
                 .viewsCount(100)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot2 = Spot.builder()
                 .name("Skwer Czesława Niemena")
                 .areaColor("#A8071A")
                 .description("Mały park z ławkami i pomnikiem Czesława Niemena.")
-                .spotComments(new ArrayList<>())
                 .rating(5.0)
                 .viewsCount(100)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot3 = Spot.builder()
                 .name("Park Wałowy")
                 .areaColor("#A8071A")
                 .description("Mały park z ławkami")
-                .spotComments(new ArrayList<>())
                 .rating(3.5)
                 .viewsCount(10)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot4 = Spot.builder()
                 .name("Park")
                 .areaColor("#A8071A")
                 .description("Mały park")
-                .spotComments(new ArrayList<>())
                 .rating(3.6)
                 .viewsCount(17)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot5 = Spot.builder()
                 .name("Jar Wilanowski")
                 .areaColor("#A8071A")
                 .description("Zielona strefa z jeziorem")
-                .spotComments(new ArrayList<>())
                 .rating(4.6)
                 .viewsCount(120)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot6 = Spot.builder()
                 .name("Plac imienia Dariusza Kobzdeja")
                 .areaColor("#A8071A")
                 .description("Mały, zadbany plac z ławeczkami i zielenią. Znajduje się on z jednej strony w pobliżu pomnika Jana III Sobieskiego, a z drugiej strony w pobliżu Hali Targowej.")
-                .spotComments(new ArrayList<>())
                 .rating(4.5)
                 .viewsCount(500)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot7 = Spot.builder()
                 .name("Plac Zabaw na Wroniej Górce")
                 .areaColor("#A8071A")
                 .description("Plac zabaw")
-                .spotComments(new ArrayList<>())
                 .rating(4.8)
                 .viewsCount(100)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot8 = Spot.builder()
                 .name("Plaża stogi")
                 .areaColor("#A8071A")
                 .description("Szeroka piaszczysta plaża.")
-                .spotComments(new ArrayList<>())
                 .rating(4.6)
                 .viewsCount(100)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot9 = Spot.builder()
                 .name("Park Oruński im. Emilii Hoene")
                 .areaColor("#A8071A")
                 .description("Park Oruński należy, obok Parku Oliwskiego, należy do najcenniejszych zachowanych dawnych gdańskich parków.")
-                .spotComments(new ArrayList<>())
                 .rating(5.0)
                 .viewsCount(100)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot10 = Spot.builder()
                 .name("Park Street Workout")
                 .areaColor("#A8071A")
                 .description("Park, który oryginalnie był cmentarzem protestanckim, należącym dawniej do kościoła przy placu Oruńskim.")
-                .spotComments(new ArrayList<>())
                 .rating(4.4)
                 .viewsCount(7)
-                .images(new ArrayList<>())
                 .build();
 
         var contour1 = asList(

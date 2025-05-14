@@ -1,22 +1,19 @@
 package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.CategoryNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.PostAccessException;
+import com.merkury.vulcanus.exception.exceptions.UnauthorizedPostAccessException;
 import com.merkury.vulcanus.exception.exceptions.PostNotFoundException;
 import com.merkury.vulcanus.features.forum.PostService;
 import com.merkury.vulcanus.model.dtos.forum.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class PostController {
@@ -43,13 +40,13 @@ public class PostController {
     }
 
     @DeleteMapping("post/{postId}")
-    public ResponseEntity<Void> deletePost(HttpServletRequest request, @PathVariable Long postId) throws PostAccessException {
+    public ResponseEntity<Void> deletePost(HttpServletRequest request, @PathVariable Long postId) throws UnauthorizedPostAccessException {
         postService.deletePost(request, postId);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("post/{postId}")
-    public ResponseEntity<Void> editPost(HttpServletRequest request, @PathVariable Long postId, @Valid @RequestBody PostDto post) throws PostAccessException, CategoryNotFoundException {
+    public ResponseEntity<Void> editPost(HttpServletRequest request, @PathVariable Long postId, @Valid @RequestBody PostDto post) throws UnauthorizedPostAccessException, CategoryNotFoundException {
         postService.editPost(request, postId, post);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

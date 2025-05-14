@@ -1,8 +1,8 @@
 package com.merkury.vulcanus.exception.exceptions;
 
 public class FileUploadFailedException extends RuntimeException {
-    public FileUploadFailedException(String message, Throwable cause) {
-        super(message, cause);
+    public FileUploadFailedException(Throwable cause) {
+        super(String.format("Upload to Azure Blob failed: %s", cause.getMessage()), cause);
     }
 }
 

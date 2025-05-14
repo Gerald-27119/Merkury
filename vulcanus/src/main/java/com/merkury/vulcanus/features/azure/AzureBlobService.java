@@ -33,7 +33,7 @@ public class AzureBlobService {
         try {
             blobClient.upload(file.getInputStream(), file.getSize(), true);
         } catch (BlobStorageException ex) {
-            throw new FileUploadFailedException("Upload to Azure Blob failed: " + ex.getMessage(), ex);
+            throw new FileUploadFailedException(ex);
         }
 
         return blobClient.getBlobUrl();

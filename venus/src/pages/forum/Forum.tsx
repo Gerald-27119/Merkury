@@ -24,7 +24,7 @@ export default function Forum() {
   return (
     <>
       <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg min-h-screen w-full">
-        {data && data.content.length > 0 ? (
+        {data?.content?.length ? (
           <div>
             <ul>
               {data.content.map((post) => (
@@ -35,7 +35,7 @@ export default function Forum() {
             </ul>
           </div>
         ) : (
-          <span>No posts</span>
+          <span>No posts available</span>
         )}
       </div>
     </>

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 @ControllerAdvice
-public class GlobalUploadExceptionHandler {
+public class GlobalFileUploadExceptionHandler {
 
     @Value("${spring.servlet.multipart.max-file-size}")
     private String maxFileSize;

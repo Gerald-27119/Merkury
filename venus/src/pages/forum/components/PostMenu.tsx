@@ -4,6 +4,8 @@ import { FaTrashCan } from "react-icons/fa6";
 import { MdFlag } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import PostGeneral from "../../../model/interface/forum/post/PostGeneral";
+import MenuItem from "./MenuItem";
+import { Menu } from "antd";
 
 interface PostMenuProps {
   post: PostGeneral;
@@ -13,6 +15,12 @@ interface PostMenuProps {
 export default function PostMenu({ post, onDelete }: PostMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const handleFollow = () => {};
+
+  const handleReport = () => {};
+
+  const handleEdit = () => {};
 
   const handleDelete = () => {
     onDelete(post.id);
@@ -41,28 +49,26 @@ export default function PostMenu({ post, onDelete }: PostMenuProps) {
       {isOpen && (
         <div className="dark:border-darkBorder dark:bg-darkBgSoft absolute right-0 z-10 mt-2 w-40 rounded-md border bg-white shadow-lg">
           <ul className="items-center py-1 text-sm">
-            <li className="dark:hover:bg-darkBgMuted flex cursor-pointer items-center gap-2 px-4 py-2 hover:bg-gray-100">
+            <MenuItem onClick={handleFollow}>
               <FaBell />
               Follow
-            </li>
-            <li className="dark:hover:bg-darkBgMuted flex cursor-pointer items-center gap-2 px-4 py-2 hover:bg-gray-100">
+            </MenuItem>
+
+            <MenuItem onClick={handleReport}>
               <MdFlag />
               Report
-            </li>
+            </MenuItem>
 
             {post.isAuthor && (
               <>
-                <li className="dark:hover:bg-darkBgMuted flex cursor-pointer items-center gap-2 px-4 py-2 hover:bg-gray-100">
+                <MenuItem onClick={handleEdit}>
                   <FaEdit />
                   Edit
-                </li>
-                <li
-                  className="dark:hover:bg-darkBgMuted flex cursor-pointer items-center gap-2 px-4 py-2 hover:bg-gray-100"
-                  onClick={handleDelete}
-                >
+                </MenuItem>
+                <MenuItem onClick={handleDelete}>
                   <FaTrashCan />
                   Delete
-                </li>
+                </MenuItem>
               </>
             )}
           </ul>

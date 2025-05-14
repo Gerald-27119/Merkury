@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.features.forum;
 
 import com.merkury.vulcanus.exception.exceptions.CategoryNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.PostAccessException;
+import com.merkury.vulcanus.exception.exceptions.UnauthorizedPostAccessException;
 import com.merkury.vulcanus.exception.exceptions.PostNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.TagNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
@@ -68,17 +68,17 @@ public class PostService {
     }
 
     @Transactional
-    public void deletePost(HttpServletRequest request, Long postId) throws PostAccessException {
+    public void deletePost(HttpServletRequest request, Long postId) throws UnauthorizedPostAccessException {
         var user = userDataService.getUserFromRequest(request);
-        var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new PostAccessException("delete"));
+        var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("delete"));
 
         postRepository.delete(post);
     }
 
     //TODO: use jsoup library for content filter
-    public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws PostAccessException, CategoryNotFoundException {
+    public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException {
         var user = userDataService.getUserFromRequest(request);
-        var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new PostAccessException("edit"));
+        var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("edit"));
         var category = getCategoryByName(dto.category().name());
         var tags = getTagsByNames(dto.tags());
 
