@@ -26,7 +26,7 @@ export default function SidebarItemSubmenu({
   const [isSubmenuOpen, setIsSubmenuOpen, toggleSubmenu] =
     useToggleState(false);
   const [openedSubmenuName, setOpenedSubmenuName] = useState<string | null>();
-  const [isDot, setIsDot] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function SidebarItemSubmenu({
     const hasActiveChild =
       link.children?.some((child) => child.to === location.pathname) ?? false;
 
-    setIsDot(hasActiveChild);
+    setIsActive(hasActiveChild);
 
     if (hasActiveChild) {
       setOpenedSubmenuName(link.name);
@@ -57,20 +57,18 @@ export default function SidebarItemSubmenu({
 
   return (
     <div
-      className={`mx-2 transition-all duration-500 ${index === 0 && "mt-2"} ${!isSidebarOpen && "mr-0"}`}
+      className={`mx-2 ${index === 0 && "mt-2"} ${!isSidebarOpen && "hover:mr-0"}`}
     >
       <button
         type="button"
         onClick={handleOpenSubmenu}
         onMouseEnter={showTooltip}
         onMouseLeave={hideTooltip}
-        className={`flex w-full cursor-pointer items-center space-x-3 rounded-md pl-2 ${!isSidebarOpen && "hover:bg-violetLight rounded-r-none"}`}
+        className={`flex w-full cursor-pointer items-center space-x-3 rounded-md pl-2 ${!isSidebarOpen && "hover:bg-violetLight hover:rounded-r-none"} ${isActive && "bg-violetLight"}`}
       >
         <SidebarItemContent
           isSidebarOpen={isSidebarOpen}
-          isActive={false}
           link={link}
-          isDot={isDot}
           isOpen={isSubmenuOpen}
           isTooltipShown={isTooltipShown}
         />
@@ -83,7 +81,7 @@ export default function SidebarItemSubmenu({
             animate={{ opacity: 1, height: "auto", x: 0 }}
             exit={{ opacity: 0, height: 0, x: -8 }}
             transition={{ duration: 0.3 }}
-            className="space-y-1 overflow-hidden"
+            className="mt-2 space-y-1 overflow-hidden"
           >
             {link.children?.map((link) => (
               <SidebarItemSubmenuLink key={link.name} link={link} />

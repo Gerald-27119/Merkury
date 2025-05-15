@@ -67,7 +67,6 @@ export default function SidebarItemAction({
     >
       <SidebarItemContent
         isSidebarOpen={isSidebarOpen}
-        isActive={false}
         link={link}
         isTooltipShown={isTooltipShown}
       />

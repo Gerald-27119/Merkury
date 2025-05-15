@@ -23,16 +23,15 @@ export default function SidebarItemLink({
       end
       onMouseEnter={showTooltip}
       onMouseLeave={hideTooltip}
-      className={`mx-2 flex items-center space-x-3 rounded-md pl-2 transition-all ${!isSidebarOpen && "hover:bg-violetLight mr-0 rounded-r-none transition-none"}`}
+      className={({ isActive }) =>
+        `mx-2 flex items-center space-x-3 rounded-md pl-2 transition-all ${!isSidebarOpen && "hover:bg-violetLight transition-none hover:mr-0 hover:rounded-r-none"} ${isActive && "bg-violetLight"}`
+      }
     >
-      {({ isActive }) => (
-        <SidebarItemContent
-          isSidebarOpen={isSidebarOpen}
-          isActive={isActive}
-          link={link}
-          isTooltipShown={isTooltipShown}
-        />
-      )}
+      <SidebarItemContent
+        isSidebarOpen={isSidebarOpen}
+        link={link}
+        isTooltipShown={isTooltipShown}
+      />
     </NavLink>
   );
 }
