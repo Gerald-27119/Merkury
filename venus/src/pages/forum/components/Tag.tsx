@@ -1,4 +1,4 @@
-import TagDto from "../../../model/interface/forum/TagDto";
+import TagDto from "../../../model/interface/forum/tagDto";
 
 interface TagProps {
   tag: TagDto;

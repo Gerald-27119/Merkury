@@ -1,4 +1,4 @@
-export default interface postCommentDto {
+export default interface PostCommentDto {
   id: number;
   text: string;
   upVotes: number;

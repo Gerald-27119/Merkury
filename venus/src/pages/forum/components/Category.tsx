@@ -1,4 +1,4 @@
-import CategoryDto from "../../../model/interface/forum/CategoryDto";
+import CategoryDto from "../../../model/interface/forum/categoryDto";
 
 interface CategoryProps {
   category: CategoryDto;

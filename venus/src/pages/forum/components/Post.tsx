@@ -1,4 +1,4 @@
-import PostGeneral from "../../../model/interface/forum/post/PostGeneral";
+import PostGeneral from "../../../model/interface/forum/post/postGeneral";
 import PostHeader from "./PostHeader";
 import PostMetaData from "./PostMetaData";
 import PostContent from "./PostContent";

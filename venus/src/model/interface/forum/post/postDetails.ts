@@ -1,6 +1,6 @@
-import CategoryDto from "../CategoryDto";
-import TagDto from "../TagDto";
-import postCommentDto from "../postComment/postCommentDto";
+import CategoryDto from "../categoryDto";
+import TagDto from "../tagDto";
+import PostCommentDto from "../postComment/postCommentDto";
 
 export default interface PostDetails {
   id: number;
@@ -16,5 +16,5 @@ export default interface PostDetails {
   downVotes: number;
   isUpVoted: boolean;
   isDownVoted: boolean;
-  comments: postCommentDto[];
+  comments: PostCommentDto[];
 }

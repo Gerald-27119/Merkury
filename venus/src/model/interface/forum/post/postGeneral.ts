@@ -1,5 +1,5 @@
-import CategoryDto from "../CategoryDto";
-import TagDto from "../TagDto";
+import CategoryDto from "../categoryDto";
+import TagDto from "../tagDto";
 
 export default interface PostGeneral {
   id: number;

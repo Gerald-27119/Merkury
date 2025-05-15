@@ -1,7 +1,7 @@
 import Category from "./Category";
 import Tag from "./Tag";
-import TagDto from "../../../model/interface/forum/TagDto";
-import CategoryDto from "../../../model/interface/forum/CategoryDto";
+import TagDto from "../../../model/interface/forum/tagDto";
+import CategoryDto from "../../../model/interface/forum/categoryDto";
 
 interface PostMetaDataProps {
   category?: CategoryDto;

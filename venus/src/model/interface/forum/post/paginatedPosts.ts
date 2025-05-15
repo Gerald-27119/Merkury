@@ -1,4 +1,4 @@
-import PostGeneral from "./PostGeneral";
+import PostGeneral from "./postGeneral";
 
 export default interface PaginatedPosts {
   content: PostGeneral[];

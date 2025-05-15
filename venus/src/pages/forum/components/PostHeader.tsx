@@ -1,5 +1,5 @@
 import PostMenu from "./PostMenu";
-import PostGeneral from "../../../model/interface/forum/post/PostGeneral";
+import PostGeneral from "../../../model/interface/forum/post/postGeneral";
 
 interface PostHeaderProps {
   post: PostGeneral;

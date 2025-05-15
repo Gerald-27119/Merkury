@@ -2,10 +2,9 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { FaBell, FaEdit } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 import { MdFlag } from "react-icons/md";
-import { useEffect, useRef, useState } from "react";
-import PostGeneral from "../../../model/interface/forum/post/PostGeneral";
+import { useEffect, useRef } from "react";
+import PostGeneral from "../../../model/interface/forum/post/postGeneral";
 import MenuItem from "./MenuItem";
-import { Menu } from "antd";
 import { useToggleState } from "../../../hooks/useToggleState";
 
 interface PostMenuProps {
