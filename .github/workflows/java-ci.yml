@@ -1,5 +1,8 @@
 name: Java CI
 
+env:
+  AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+
 on:
   push:
     branches:
