@@ -1,24 +1,17 @@
 import { AnimatePresence, motion } from "motion/react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { GoDotFill } from "react-icons/go";
 import { BaseLink } from "../../../model/interface/sidebar/link";
 import { isSidebarSubmenu } from "../../../utils/sidebar/functions";
 
 interface SidebarLabelProps {
   link: BaseLink;
   isOpen?: boolean;
-  isChildren?: boolean;
-  isActive: boolean;
-  isDot?: boolean;
   isSidebarOpen: boolean;
 }
 
 export default function SidebarLabel({
   link,
   isOpen,
-  isChildren,
-  isActive,
-  isDot,
   isSidebarOpen,
 }: SidebarLabelProps) {
   return (
@@ -41,9 +34,6 @@ export default function SidebarLabel({
               ) : (
                 <IoIosArrowDown className="ml-2" />
               ))}
-            {!isChildren && (isActive || isDot) && (
-              <GoDotFill className="ml-2" />
-            )}
           </motion.p>
         </div>
       )}
