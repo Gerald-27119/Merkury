@@ -1,4 +1,4 @@
-export enum FriendsListType {
+export enum SocialListType {
   FRIENDS = "friends",
   FOLLOWED = "followed",
   FOLLOWERS = "followers",

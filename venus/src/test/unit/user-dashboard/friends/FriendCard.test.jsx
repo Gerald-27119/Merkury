@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe } from "vitest";
-import FriendCard from "../../../../pages/account/friends/components/FriendCard";
+import SocialCard from "../../../../pages/account/social/components/SocialCard.js";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -28,7 +28,7 @@ const renderProfile = () => {
     <Provider store={store}>
       <MemoryRouter>
         <QueryClientProvider client={queryClient}>
-          <FriendCard friend={mockFriendsData} />
+          <SocialCard friend={mockFriendsData} />
         </QueryClientProvider>
       </MemoryRouter>
     </Provider>,

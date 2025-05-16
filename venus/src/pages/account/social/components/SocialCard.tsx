@@ -1,4 +1,4 @@
-import { Friend } from "../../../../model/interface/account/friends/friend";
+import { Social } from "../../../../model/interface/account/social/social";
 import { BiMessageRounded } from "react-icons/bi";
 import { FaUser, FaUserMinus } from "react-icons/fa";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -7,16 +7,16 @@ import {
   editUserFriends,
 } from "../../../../http/user-dashboard";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
-import FriendButton from "./FriendButton";
-import { EditUserFriendsType } from "../../../../model/enum/account/friends/editUserFriendsType";
-import { FriendsListType } from "../../../../model/enum/account/friends/friendsListType";
+import SocialButton from "./SocialButton";
+import { EditUserFriendsType } from "../../../../model/enum/account/social/editUserFriendsType";
+import { SocialListType } from "../../../../model/enum/account/social/socialListType";
 
 interface FriendCardProps {
-  friend: Friend;
-  type: FriendsListType;
+  friend: Social;
+  type: SocialListType;
 }
 
-export default function FriendCard({ friend, type }: FriendCardProps) {
+export default function SocialCard({ friend, type }: FriendCardProps) {
   const username = useSelectorTyped((state) => state.account.username);
   const queryClient = useQueryClient();
 
@@ -53,10 +53,10 @@ export default function FriendCard({ friend, type }: FriendCardProps) {
   let handleRemove = async () => {};
 
   switch (type) {
-    case FriendsListType.FOLLOWED:
+    case SocialListType.FOLLOWED:
       handleRemove = () => removeUserFollowed(friend.username);
       break;
-    case FriendsListType.FRIENDS:
+    case SocialListType.FRIENDS:
       handleRemove = () => removeUserFriend(friend.username);
   }
 
@@ -73,16 +73,16 @@ export default function FriendCard({ friend, type }: FriendCardProps) {
       <h5 className="text-darkBorder text-center capitalize">available</h5>
       <div className="flex gap-2 text-3xl">
         {/*TODO zrobić działające przyciski*/}
-        <FriendButton onClick={() => {}}>
+        <SocialButton onClick={() => {}}>
           <FaUser aria-label="userProfileFriendCardIcon" />
-        </FriendButton>
-        <FriendButton onClick={() => {}}>
+        </SocialButton>
+        <SocialButton onClick={() => {}}>
           <BiMessageRounded aria-label="messageFriendCardIcon" />
-        </FriendButton>
-        {type !== FriendsListType.FOLLOWERS && (
-          <FriendButton onClick={handleRemove}>
+        </SocialButton>
+        {type !== SocialListType.FOLLOWERS && (
+          <SocialButton onClick={handleRemove}>
             <FaUserMinus aria-label="userRemoveFriendCardIcon" />
-          </FriendButton>
+          </SocialButton>
         )}
       </div>
     </div>

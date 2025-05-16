@@ -28,7 +28,7 @@ public class PopulateFriendsService {
     public void initPostgresDb() {
         List<UserEntity> users = new ArrayList<>();
 
-        for (int i = 30; i < 80; i++) {
+        for (int i = 31; i < 80; i++) {
             var user = UserEntity.builder()
                     .email("user" + i + "@example.com")
                     .username("user" + i)

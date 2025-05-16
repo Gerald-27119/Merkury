@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
-import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
+import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
@@ -21,7 +21,7 @@ public class UserDashboardService {
         return profileService.getUserProfile(username);
     }
 
-    public List<FriendDto> getUserFriends(String username) throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserFriends(String username) throws UserNotFoundByUsernameException {
         return friendsService.getUserFriends(username);
     }
 
@@ -33,11 +33,11 @@ public class UserDashboardService {
         friendsService.changeUserFriendsStatus(username, friendUsername, status);
     }
 
-    public List<FriendDto> getUserFollowers(String username) throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserFollowers(String username) throws UserNotFoundByUsernameException {
         return followersService.getUserFollowers(username);
     }
 
-    public List<FriendDto> getUserFollowed(String username) throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserFollowed(String username) throws UserNotFoundByUsernameException {
         return followersService.getUserFollowed(username);
     }
 

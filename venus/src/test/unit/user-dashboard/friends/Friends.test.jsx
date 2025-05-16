@@ -9,7 +9,7 @@ import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { describe } from "vitest";
-import Friends from "../../../../pages/account/friends/Friends.tsx";
+import Social from "../../../../pages/account/social/Social.tsx";
 
 const queryClient = new QueryClient();
 
@@ -61,7 +61,7 @@ const renderProfile = () => {
     <Provider store={store}>
       <MemoryRouter>
         <QueryClientProvider client={queryClient}>
-          <Friends />
+          <Social />
         </QueryClientProvider>
       </MemoryRouter>
     </Provider>,
@@ -139,7 +139,7 @@ describe("Friends component unit tests", () => {
     });
 
     test("Should render h1 text", () => {
-      expect(screen.getByText("friends list")).toBeInTheDocument();
+      expect(screen.getByText("social list")).toBeInTheDocument();
     });
   });
 });

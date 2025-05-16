@@ -1,23 +1,23 @@
 package com.merkury.vulcanus.model.mappers.user.dashboard;
 
-import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
+import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import jakarta.validation.constraints.NotNull;
 
-public class FriendsMapper {
-    private FriendsMapper() {
+public class SocialMapper {
+    private SocialMapper() {
     }
 
-    public static FriendDto toDto(@NotNull Friendship friendship){
-        return FriendDto.builder()
+    public static SocialDto toDto(@NotNull Friendship friendship){
+        return SocialDto.builder()
                 .username(friendship.getFriend().getUsername())
                 .profilePhoto(friendship.getFriend().getProfilePhoto())
                 .build();
     }
 
-    public static FriendDto toDto(@NotNull UserEntity userEntity){
-        return FriendDto.builder()
+    public static SocialDto toDto(@NotNull UserEntity userEntity){
+        return SocialDto.builder()
                 .username(userEntity.getUsername())
                 .profilePhoto(userEntity.getProfilePhoto())
                 .build();

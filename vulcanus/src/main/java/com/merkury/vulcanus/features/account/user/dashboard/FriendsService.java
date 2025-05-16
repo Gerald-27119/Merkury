@@ -3,11 +3,11 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExistException;
 import com.merkury.vulcanus.exception.exceptions.FriendshipNotExistException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
-import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
+import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
-import com.merkury.vulcanus.model.mappers.user.dashboard.FriendsMapper;
+import com.merkury.vulcanus.model.mappers.user.dashboard.SocialMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +25,11 @@ public class FriendsService {
     private final UserEntityRepository userEntityRepository;
     private final UserEntityFetcher userEntityFetcher;
 
-    public List<FriendDto> getUserFriends(String username) throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserFriends(String username) throws UserNotFoundByUsernameException {
         return userEntityFetcher.getByUsername(username)
                 .getFriendships()
                 .stream()
-                .map(FriendsMapper::toDto)
+                .map(SocialMapper::toDto)
                 .toList();
     }
 

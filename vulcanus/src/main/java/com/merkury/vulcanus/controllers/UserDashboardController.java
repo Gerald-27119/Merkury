@@ -2,7 +2,7 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
-import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
+import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
@@ -25,7 +25,7 @@ public class UserDashboardController {
     }
 
     @GetMapping("/friends/{username}")
-    public ResponseEntity<List<FriendDto>> getUserFriends(@PathVariable String username) throws UserNotFoundByUsernameException {
+    public ResponseEntity<List<SocialDto>> getUserFriends(@PathVariable String username) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.getUserFriends(username));
     }
     /// TODO na frontendzie na razie obsłużone jest tylko usuwanie dodawanie będzie zrobione w innym zadaniu
@@ -42,12 +42,12 @@ public class UserDashboardController {
     }
 
     @GetMapping("/followers/{username}")
-    public ResponseEntity<List<FriendDto>> getUserFollowers(@PathVariable String username) throws UserNotFoundByUsernameException {
+    public ResponseEntity<List<SocialDto>> getUserFollowers(@PathVariable String username) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.getUserFollowers(username));
     }
 
     @GetMapping("/followed/{username}")
-    public ResponseEntity<List<FriendDto>> getUserFollowed(@PathVariable String username) throws UserNotFoundByUsernameException {
+    public ResponseEntity<List<SocialDto>> getUserFollowed(@PathVariable String username) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.getUserFollowed(username));
     }
     /// TODO na frontendzie na razie obsłużone jest tylko usuwanie dodawanie będzie zrobione w innym zadaniu

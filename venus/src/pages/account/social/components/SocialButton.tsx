@@ -6,7 +6,7 @@ interface FriendButtonProps {
   isActive?: boolean;
 }
 
-export default function FriendButton({
+export default function SocialButton({
   children,
   onClick,
   isActive,

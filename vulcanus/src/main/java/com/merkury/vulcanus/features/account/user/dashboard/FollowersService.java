@@ -3,9 +3,9 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 import com.merkury.vulcanus.exception.exceptions.FollowedAlreadyExistException;
 import com.merkury.vulcanus.exception.exceptions.FollowedNotExistException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
-import com.merkury.vulcanus.model.dtos.account.friends.FriendDto;
+import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
-import com.merkury.vulcanus.model.mappers.user.dashboard.FriendsMapper;
+import com.merkury.vulcanus.model.mappers.user.dashboard.SocialMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import lombok.RequiredArgsConstructor;
@@ -22,19 +22,19 @@ public class FollowersService {
     private final UserEntityRepository userEntityRepository;
     private final UserEntityFetcher userEntityFetcher;
 
-    public List<FriendDto> getUserFollowers(String username) throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserFollowers(String username) throws UserNotFoundByUsernameException {
         return userEntityFetcher.getByUsername(username)
                 .getFollowers()
                 .stream()
-                .map(FriendsMapper::toDto)
+                .map(SocialMapper::toDto)
                 .toList();
     }
 
-    public List<FriendDto> getUserFollowed(String username) throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserFollowed(String username) throws UserNotFoundByUsernameException {
         return userEntityFetcher.getByUsername(username)
                 .getFollowed()
                 .stream()
-                .map(FriendsMapper::toDto)
+                .map(SocialMapper::toDto)
                 .toList();
     }
 
