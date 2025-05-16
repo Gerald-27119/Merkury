@@ -24,7 +24,7 @@ export default function SidebarItemLink({
       onMouseEnter={showTooltip}
       onMouseLeave={hideTooltip}
       className={({ isActive }) =>
-        `mx-2 flex items-center space-x-3 rounded-md pl-2 transition-all ${!isSidebarOpen && "hover:bg-violetLight transition-none hover:mr-0 hover:rounded-r-none"} ${isActive && "bg-violetLight"}`
+        `hover:bg-violetLight mx-2 flex items-center space-x-3 rounded-md pl-2 transition-all ${!isSidebarOpen ? "transition-none hover:mr-0 hover:rounded-r-none" : ""} ${isActive ? "bg-violetLight" : ""}`
       }
     >
       <SidebarItemContent

@@ -64,7 +64,7 @@ export default function SidebarItemSubmenu({
         onClick={handleOpenSubmenu}
         onMouseEnter={showTooltip}
         onMouseLeave={hideTooltip}
-        className={`flex w-full cursor-pointer items-center space-x-3 rounded-md pl-2 ${!isSidebarOpen && "hover:bg-violetLight hover:rounded-r-none"} ${isActive && "bg-violetLight"}`}
+        className={`hover:bg-violetLight flex w-full cursor-pointer items-center space-x-3 rounded-md pl-2 ${!isSidebarOpen ? "hover:rounded-r-none" : ""} ${isActive ? "bg-violetLight" : ""}`}
       >
         <SidebarItemContent
           isSidebarOpen={isSidebarOpen}
