@@ -68,7 +68,7 @@ class FollowersServiceTest {
     }
 
     @Test
-    void shouldThrowWhenUserNotFound() throws UserNotFoundByUsernameException {
+    void shouldThrowUserNotFoundByUsernameExceptionWhenUserNotFound() throws UserNotFoundByUsernameException {
         when(userEntityFetcher.getByUsername(anyString())).thenThrow(new UserNotFoundByUsernameException(""));
         assertThrows(UserNotFoundByUsernameException.class, () -> followersService.getUserFollowers(anyString()));
     }
@@ -88,7 +88,7 @@ class FollowersServiceTest {
     }
 
     @Test
-    void shouldThrowWhenAddExistingFollower() throws UserNotFoundByUsernameException {
+    void shouldThrowUserNotFoundByUsernameExceptionWhenAddExistingFollower() throws UserNotFoundByUsernameException {
         var user = UserEntity.builder().username("user1").build();
         var follower = UserEntity.builder().username("user2").build();
         user.getFollowers().add(follower);
@@ -116,7 +116,7 @@ class FollowersServiceTest {
     }
 
     @Test
-    void shouldThrowWhenRemoveFollowerNotExist() throws UserNotFoundByUsernameException {
+    void shouldThrowUserNotFoundByUsernameExceptionWhenRemoveFollowerNotExist() throws UserNotFoundByUsernameException {
         var user = UserEntity.builder().username("user1").build();
 
         when(userEntityFetcher.getByUsername("user1")).thenReturn(user);

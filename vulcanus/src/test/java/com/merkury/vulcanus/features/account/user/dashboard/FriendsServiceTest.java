@@ -53,7 +53,7 @@ class FriendsServiceTest {
     }
 
     @Test
-    void shouldThrowWhenUserNotFound() throws UserNotFoundByUsernameException {
+    void shouldThrowUserNotFoundByUsernameExceptionWhenUserNotFound() throws UserNotFoundByUsernameException {
         when(userEntityFetcher.getByUsername(anyString())).thenThrow(new UserNotFoundByUsernameException(""));
         assertThrows(UserNotFoundByUsernameException.class, () -> friendsService.getUserFriends(anyString()));
     }
@@ -73,7 +73,7 @@ class FriendsServiceTest {
     }
 
     @Test
-    void shouldThrowWhenAddingExistingFriend() throws UserNotFoundByUsernameException {
+    void shouldThrowUserNotFoundByUsernameExceptionWhenAddingExistingFriend() throws UserNotFoundByUsernameException {
         var user = UserEntity.builder().username("user1").build();
         var friend = UserEntity.builder().username("user2").build();
         user.getFriendships().add(new Friendship(null, user, friend, null, null));
@@ -102,7 +102,7 @@ class FriendsServiceTest {
     }
 
     @Test
-    void shouldThrowWhenFriendNotExist() throws UserNotFoundByUsernameException {
+    void shouldThrowUserNotFoundByUsernameExceptionWhenFriendNotExist() throws UserNotFoundByUsernameException {
         var user = UserEntity.builder().username("user1").build();
         var friend = UserEntity.builder().username("user2").build();
 
@@ -135,7 +135,7 @@ class FriendsServiceTest {
     }
 
     @Test
-    void shouldThrowWhenChangeFriendStatusAndFriendNotExist() throws UserNotFoundByUsernameException {
+    void shouldThrowUserNotFoundByUsernameExceptionWhenChangeFriendStatusAndFriendNotExist() throws UserNotFoundByUsernameException {
         var user = UserEntity.builder().username("user1").build();
         var friend = UserEntity.builder().username("user2").build();
 
