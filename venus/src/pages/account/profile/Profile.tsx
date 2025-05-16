@@ -32,7 +32,7 @@ export default function Profile() {
           <div className="flex flex-wrap justify-center gap-10 xl:flex-nowrap">
             <ProfileStat label="Followers" value={data?.followersCount} />
             <ProfileStat label="Followed" value={data?.followedCount} />
-            <ProfileStat label="Social" value={data?.friendsCount} />
+            <ProfileStat label="Friends" value={data?.friendsCount} />
             <ProfileStat label="Photos" value={data?.photosCount} />
           </div>
         </div>

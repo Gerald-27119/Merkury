@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe } from "vitest";
-import SocialCard from "../../../../pages/account/social/components/SocialCard.js";
+import SocialCard from "../../../../pages/account/social/components/SocialCard";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -51,17 +51,17 @@ describe("Friend Card component unit tests", () => {
     });
 
     describe("Should render menu buttons text", () => {
-      test("Friends", () => {
+      test("Profile", () => {
         expect(
           screen.getByLabelText("userProfileFriendCardIcon"),
         ).toBeInTheDocument();
       });
-      test("Followed", () => {
+      test("Message", () => {
         expect(
           screen.getByLabelText("messageFriendCardIcon"),
         ).toBeInTheDocument();
       });
-      test("Followers", () => {
+      test("Remove", () => {
         expect(
           screen.getByLabelText("userRemoveFriendCardIcon"),
         ).toBeInTheDocument();
