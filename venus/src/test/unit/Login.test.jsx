@@ -87,5 +87,29 @@ describe("Login component unit tests", () => {
         });
       });
     });
+
+    describe("Should render Links", () => {
+      describe("Dont' have an account?", () => {
+        test("Text", () => {
+          expect(
+            screen.getByText(/don't have an account\?/i),
+          ).toBeInTheDocument();
+        });
+        test("Link", () => {
+          const link = screen.getByText(/don't have an account\?/i);
+          expect(link.closest("a")).toHaveAttribute("href", "/register");
+        });
+      });
+
+      describe("Forgot Password?", () => {
+        test("Text", () => {
+          expect(screen.getByText(/forgot password\?/i)).toBeInTheDocument();
+        });
+        test("Link", () => {
+          const link = screen.getByText(/forgot password\?/i);
+          expect(link.closest("a")).toHaveAttribute("href", "/forgot-password");
+        });
+      });
+    });
   });
 });
