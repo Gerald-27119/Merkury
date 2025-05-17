@@ -1,6 +1,12 @@
 package com.merkury.vulcanus.db;
 
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
+import com.merkury.vulcanus.model.entities.SpotComment;
+import com.merkury.vulcanus.model.entities.Img;
+import com.merkury.vulcanus.model.entities.PasswordResetToken;
+import com.merkury.vulcanus.model.entities.Spot;
+import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.entities.Zone;
 import com.merkury.vulcanus.model.entities.*;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.repositories.*;
@@ -76,100 +82,80 @@ public class PopulateDbsService {
                 .name("Pomnik konny Jana III Sobieskiego")
                 .areaColor("#A8071A")
                 .description("Brązowy posąg XVII-wiecznego polskiego króla Jana III Sobieskiego na koniu usytuowany na małym placu.")
-                .comments(new ArrayList<>())
                 .rating(5.0)
                 .viewsCount(100)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot2 = Spot.builder()
                 .name("Skwer Czesława Niemena")
                 .areaColor("#A8071A")
                 .description("Mały park z ławkami i pomnikiem Czesława Niemena.")
-                .comments(new ArrayList<>())
                 .rating(5.0)
                 .viewsCount(100)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot3 = Spot.builder()
                 .name("Park Wałowy")
                 .areaColor("#A8071A")
                 .description("Mały park z ławkami")
-                .comments(new ArrayList<>())
                 .rating(3.5)
                 .viewsCount(10)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot4 = Spot.builder()
                 .name("Park")
                 .areaColor("#A8071A")
                 .description("Mały park")
-                .comments(new ArrayList<>())
                 .rating(3.6)
                 .viewsCount(17)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot5 = Spot.builder()
                 .name("Jar Wilanowski")
                 .areaColor("#A8071A")
                 .description("Zielona strefa z jeziorem")
-                .comments(new ArrayList<>())
                 .rating(4.6)
                 .viewsCount(120)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot6 = Spot.builder()
                 .name("Plac imienia Dariusza Kobzdeja")
                 .areaColor("#A8071A")
                 .description("Mały, zadbany plac z ławeczkami i zielenią. Znajduje się on z jednej strony w pobliżu pomnika Jana III Sobieskiego, a z drugiej strony w pobliżu Hali Targowej.")
-                .comments(new ArrayList<>())
                 .rating(4.5)
                 .viewsCount(500)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot7 = Spot.builder()
                 .name("Plac Zabaw na Wroniej Górce")
                 .areaColor("#A8071A")
                 .description("Plac zabaw")
-                .comments(new ArrayList<>())
                 .rating(4.8)
                 .viewsCount(100)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot8 = Spot.builder()
                 .name("Plaża stogi")
                 .areaColor("#A8071A")
                 .description("Szeroka piaszczysta plaża.")
-                .comments(new ArrayList<>())
                 .rating(4.6)
                 .viewsCount(100)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot9 = Spot.builder()
                 .name("Park Oruński im. Emilii Hoene")
                 .areaColor("#A8071A")
                 .description("Park Oruński należy, obok Parku Oliwskiego, należy do najcenniejszych zachowanych dawnych gdańskich parków.")
-                .comments(new ArrayList<>())
                 .rating(5.0)
                 .viewsCount(100)
-                .images(new ArrayList<>())
                 .build();
 
         Spot spot10 = Spot.builder()
                 .name("Park Street Workout")
                 .areaColor("#A8071A")
                 .description("Park, który oryginalnie był cmentarzem protestanckim, należącym dawniej do kościoła przy placu Oruńskim.")
-                .comments(new ArrayList<>())
                 .rating(4.4)
                 .viewsCount(7)
-                .images(new ArrayList<>())
                 .build();
 
         var contour1 = asList(
@@ -284,15 +270,15 @@ public class PopulateDbsService {
                 new BorderPoint(54.32202428469449, 18.63395637969597)
         );
 
-        List<Comment> commentList1 = new ArrayList<>(asList(
-                Comment.builder()
+        List<SpotComment> spotCommentList1 = new ArrayList<>(asList(
+                SpotComment.builder()
                         .text("Świetne miejsce, warto odwiedzić!")
                         .rating(5.0)
                         .spot(spot1)
                         .publishDate(LocalDateTime.of(2024, 6, 1, 10, 15))
                         .author(user)
                         .build(),
-                Comment.builder()
+                SpotComment.builder()
                         .text("Było fajnie, choć spodziewałem się więcej.")
                         .rating(4.0)
                         .spot(spot1)
@@ -301,15 +287,15 @@ public class PopulateDbsService {
                         .build()
         ));
 
-        List<Comment> commentList2 = asList(
-                Comment.builder()
+        List<SpotComment> spotCommentList2 = asList(
+                SpotComment.builder()
                         .text("Idealne miejsce na relaks.")
                         .rating(5.0)
                         .spot(spot2)
                         .publishDate(LocalDateTime.of(2024, 6, 3, 9, 45))
                         .author(user)
                         .build(),
-                Comment.builder()
+                SpotComment.builder()
                         .text("Widoki niezłe, ale tłoczno i głośno.")
                         .rating(3.0)
                         .spot(spot2)
@@ -318,15 +304,15 @@ public class PopulateDbsService {
                         .build()
         );
 
-        List<Comment> commentList3 = asList(
-                Comment.builder()
+        List<SpotComment> spotCommentList3 = asList(
+                SpotComment.builder()
                         .text("Czysto, spokojnie i klimatycznie.")
                         .rating(5.0)
                         .spot(spot3)
                         .publishDate(LocalDateTime.of(2024, 6, 5, 8, 10))
                         .author(user)
                         .build(),
-                Comment.builder()
+                SpotComment.builder()
                         .text("Trochę zbyt mało atrakcji jak dla mnie.")
                         .rating(3.5)
                         .spot(spot3)
@@ -335,15 +321,15 @@ public class PopulateDbsService {
                         .build()
         );
 
-        List<Comment> commentList4 = asList(
-                Comment.builder()
+        List<SpotComment> spotCommentList4 = asList(
+                SpotComment.builder()
                         .text("Miejsce warte odwiedzenia, polecam.")
                         .rating(4.5)
                         .spot(spot4)
                         .publishDate(LocalDateTime.of(2024, 6, 7, 11, 40))
                         .author(user)
                         .build(),
-                Comment.builder()
+                SpotComment.builder()
                         .text("Atmosfera w porządku, ale spodziewałem się więcej zieleni.")
                         .rating(3.0)
                         .spot(spot4)
@@ -352,15 +338,15 @@ public class PopulateDbsService {
                         .build()
         );
 
-        List<Comment> commentList5 = asList(
-                Comment.builder()
+        List<SpotComment> spotCommentList5 = asList(
+                SpotComment.builder()
                         .text("Rewelacyjne miejsce na wycieczkę!")
                         .rating(5.0)
                         .spot(spot5)
                         .publishDate(LocalDateTime.of(2024, 6, 9, 7, 50))
                         .author(user)
                         .build(),
-                Comment.builder()
+                SpotComment.builder()
                         .text("Dobre miejsce, ale trochę za drogo jak na jakość.")
                         .rating(4.0)
                         .spot(spot5)
@@ -369,15 +355,15 @@ public class PopulateDbsService {
                         .build()
         );
 
-        List<Comment> commentList6 = asList(
-                Comment.builder()
+        List<SpotComment> spotCommentList6 = asList(
+                SpotComment.builder()
                         .text("Wspaniałe widoki, aż chce się wracać.")
                         .rating(5.0)
                         .spot(spot6)
                         .publishDate(LocalDateTime.of(2024, 6, 11, 15, 30))
                         .author(user)
                         .build(),
-                Comment.builder()
+                SpotComment.builder()
                         .text("Było przyjemnie, choć obsługa mogłaby być milsza.")
                         .rating(4.0)
                         .spot(spot6)
@@ -386,15 +372,15 @@ public class PopulateDbsService {
                         .build()
         );
 
-        List<Comment> commentList7 = asList(
-                Comment.builder()
+        List<SpotComment> spotCommentList7 = asList(
+                SpotComment.builder()
                         .text("Bardzo ciekawe miejsce z historią.")
                         .rating(5.0)
                         .spot(spot7)
                         .publishDate(LocalDateTime.of(2024, 6, 13, 12, 10))
                         .author(user)
                         .build(),
-                Comment.builder()
+                SpotComment.builder()
                         .text("Miejsce okej, ale parking był problematyczny.")
                         .rating(3.5)
                         .spot(spot7)
@@ -403,15 +389,15 @@ public class PopulateDbsService {
                         .build()
         );
 
-        List<Comment> commentList8 = asList(
-                Comment.builder()
+        List<SpotComment> spotCommentList8 = asList(
+                SpotComment.builder()
                         .text("Czyste i dobrze zorganizowane miejsce.")
                         .rating(4.5)
                         .spot(spot8)
                         .publishDate(LocalDateTime.of(2024, 6, 15, 9, 0))
                         .author(user)
                         .build(),
-                Comment.builder()
+                SpotComment.builder()
                         .text("Naprawdę wyjątkowe miejsce, choć trochę za dużo ludzi.")
                         .rating(4.0)
                         .spot(spot8)
@@ -420,15 +406,15 @@ public class PopulateDbsService {
                         .build()
         );
 
-        List<Comment> commentList9 = asList(
-                Comment.builder()
+        List<SpotComment> spotCommentList9 = asList(
+                SpotComment.builder()
                         .text("Super miejsce na rodzinny wypad.")
                         .rating(5.0)
                         .spot(spot9)
                         .publishDate(LocalDateTime.of(2024, 6, 17, 8, 30))
                         .author(user)
                         .build(),
-                Comment.builder()
+                SpotComment.builder()
                         .text("Nie najgorsze, ale brakowało mi większych atrakcji.")
                         .rating(3.5)
                         .spot(spot9)
@@ -437,15 +423,15 @@ public class PopulateDbsService {
                         .build()
         );
 
-        List<Comment> commentList10 = asList(
-                Comment.builder()
+        List<SpotComment> spotCommentList10 = asList(
+                SpotComment.builder()
                         .text("Miejsce godne polecenia, świetna organizacja.")
                         .rating(5.0)
                         .spot(spot10)
                         .publishDate(LocalDateTime.of(2024, 6, 19, 10, 20))
                         .author(user)
                         .build(),
-                Comment.builder()
+                SpotComment.builder()
                         .text("Podobało mi się, choć były drobne niedociągnięcia.")
                         .rating(4.5)
                         .spot(spot10)
@@ -455,14 +441,14 @@ public class PopulateDbsService {
         );
 
         for (int i = 0; i < 100; i++) {
-            Comment comment = Comment.builder()
+            SpotComment spotComment = SpotComment.builder()
                     .text("Comment" + i + ": Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
                     .rating((i + 1.0) % 5.0)
                     .spot(spot1)
                     .publishDate(LocalDateTime.now())
                     .author(user)
                     .build();
-            commentList1.add(comment);
+            spotCommentList1.add(spotComment);
         }
 
         List<Img> gallery1 = Arrays.asList(
@@ -527,19 +513,19 @@ public class PopulateDbsService {
 
         List<Spot> spots = List.of(spot1, spot2, spot3, spot4, spot5, spot6, spot7, spot8, spot9, spot10);
         var contours = List.of(contour1, contour2, contour3, contour4, contour5, contour6, contour7, contour8, contour9, contour10);
-        List<List<Comment>> commentLists = List.of(commentList1, commentList2, commentList3, commentList4, commentList5, commentList6, commentList7, commentList8, commentList9, commentList10);
+        List<List<SpotComment>> commentLists = List.of(spotCommentList1, spotCommentList2, spotCommentList3, spotCommentList4, spotCommentList5, spotCommentList6, spotCommentList7, spotCommentList8, spotCommentList9, spotCommentList10);
         List<List<Img>> galleries = List.of(gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8, gallery9, gallery10);
 
         for (int i = 0; i < spots.size(); i++) {
             Spot spot = spots.get(i);
             spot.getBorderPoints().addAll(contours.get(i));
-            spot.getComments().addAll(commentLists.get(i));
+            spot.getSpotComments().addAll(commentLists.get(i));
             spot.getImages().addAll(galleries.get(i));
             spot.setArea(PolygonAreaCalculator.calculateArea(spot.getBorderPoints().toArray(new BorderPoint[0])));
 
             var comments = commentLists.get(i);
             var rating = comments.stream()
-                    .mapToDouble(Comment::getRating)
+                    .mapToDouble(SpotComment::getRating)
                     .average()
                     .orElse(0.0);
             spot.setRating(BigDecimal.valueOf(rating).setScale(2, RoundingMode.HALF_UP).doubleValue());

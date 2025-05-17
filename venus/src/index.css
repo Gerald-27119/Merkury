@@ -19,6 +19,7 @@
   --color-darkBorder: #939394;
   --color-lightText: #222222;
   --color-lightBg: #e4e3e3;
+  --color-lightBgDarker: #cccaca;
   --color-lightBgSoft: #ffffff;
   --color-lightBgButed: #f2f2f2;
   --color-lightBorder: #fbfdff;
@@ -37,7 +38,7 @@
   --color-darkYellow: #C5A03C;
   --color-locationMarkerDarkerBlue: #A3DCFF;
   --color-locationMarkerLightBlue: #52BAFB;
-  --color-userLocationPin: #4285f4;
+  --color-userLocationDot: #4285f4;
   --color-spotLocationMarker: #A8071A;
 
   --animate-slide-in-from-left: slideInFromLeft 0.3s ease-out;

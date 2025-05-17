@@ -106,6 +106,8 @@ jobs:
             maven-${{ runner.os }}-
 
       - name: Test vulcanus
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
         run: mvn -B test --file vulcanus/pom.xml
 
       - name: Shut down services
