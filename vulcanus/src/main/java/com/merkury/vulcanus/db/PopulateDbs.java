@@ -14,14 +14,9 @@ import org.springframework.core.annotation.Order;
 public class PopulateDbs {
 
     private final PopulateDbsService populateDbsService;
+    private final PopulateForumService populateForumService;
     private final PopulateChatsService populateChatsService;
     private final PopulateFriendsService populateFriendsService;
-
-    @Order(2)
-    @Bean
-    CommandLineRunner initPostgresDb() {
-        return args -> populateDbsService.initPostgresDb();
-    }
 
     @Order(1)
     @Bean
@@ -29,8 +24,21 @@ public class PopulateDbs {
         return args -> populateChatsService.initChatData();
     }
 
+    @Order(2)
+    @Bean
+    CommandLineRunner initPostgresDb() {
+        return args -> populateDbsService.initPostgresDb();
+    }
+
+    @Order(3)
+    @Bean
+    CommandLineRunner initForumDb() {
+        return args -> populateForumService.initForumDb();
+    }
+
     @Order(4)
     @Bean
-    CommandLineRunner initFriends(){return args -> populateFriendsService.initPostgresDb();}
-
+    CommandLineRunner initFriends(){
+        return args -> populateFriendsService.initPostgresDb();
+    }
 }

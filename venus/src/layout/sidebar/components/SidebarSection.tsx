@@ -6,7 +6,7 @@ interface SidebarSectionProps {
   showBottomHr?: boolean;
 }
 
-const hrClasses = "border-violetLight mx-2 mt-1";
+const hrClasses = "border-violetLight mx-2 mt-1 mb-2";
 
 export default function SidebarSection({
   children,

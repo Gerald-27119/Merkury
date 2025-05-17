@@ -2,10 +2,10 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
-import com.merkury.vulcanus.features.comment.CommentService;
-import com.merkury.vulcanus.model.dtos.comment.CommentAddDto;
-import com.merkury.vulcanus.model.dtos.comment.CommentDto;
-import com.merkury.vulcanus.model.dtos.comment.CommentEditDto;
+import com.merkury.vulcanus.features.comment.SpotCommentService;
+import com.merkury.vulcanus.model.dtos.comment.SpotCommentAddDto;
+import com.merkury.vulcanus.model.dtos.comment.SpotCommentDto;
+import com.merkury.vulcanus.model.dtos.comment.SpotCommentEditDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,39 +19,39 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class CommentController {
+public class SpotCommentController {
 
-    private final CommentService commentService;
+    private final SpotCommentService spotCommentService;
 
     @GetMapping("/public/spot/{spotId}/comments")
-    public ResponseEntity<Page<CommentDto>> getCommentsBySpotId(HttpServletRequest request, @PathVariable Long spotId, @RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<Page<SpotCommentDto>> getCommentsBySpotId(HttpServletRequest request, @PathVariable Long spotId, @RequestParam(defaultValue = "0") int page) {
         int defaultPageSize = 5;
-        Page<CommentDto> comments = commentService.getCommentsBySpotId(request, spotId, PageRequest.of(page, defaultPageSize));
+        Page<SpotCommentDto> comments = spotCommentService.getCommentsBySpotId(request, spotId, PageRequest.of(page, defaultPageSize));
 
         return ResponseEntity.ok(comments);
     }
 
     @PostMapping("/spot/{spotId}/comments")
-    public ResponseEntity<Void> addComment(HttpServletRequest request, @PathVariable Long spotId, @Valid @RequestBody CommentAddDto commentAddDto) throws SpotNotFoundException {
-        commentService.addComment(request, commentAddDto, spotId);
+    public ResponseEntity<Void> addComment(HttpServletRequest request, @PathVariable Long spotId, @Valid @RequestBody SpotCommentAddDto spotCommentAddDto) throws SpotNotFoundException {
+        spotCommentService.addComment(request, spotCommentAddDto, spotId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/spot/comments/{commentId}")
     public ResponseEntity<Void> deleteComment(HttpServletRequest request, @PathVariable Long commentId) throws CommentAccessException {
-        commentService.deleteComment(request, commentId);
+        spotCommentService.deleteComment(request, commentId);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/spot/comments/{commentId}")
-    public ResponseEntity<CommentDto> editComment(HttpServletRequest request, @PathVariable Long commentId, @Valid @RequestBody CommentEditDto commentEditDto) throws CommentAccessException {
-        commentService.editComment(request, commentId, commentEditDto);
+    public ResponseEntity<SpotCommentDto> editComment(HttpServletRequest request, @PathVariable Long commentId, @Valid @RequestBody SpotCommentEditDto spotCommentEditDto) throws CommentAccessException {
+        spotCommentService.editComment(request, commentId, spotCommentEditDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/spot/comments/{commentId}/vote")
     public ResponseEntity<Void> voteComment(HttpServletRequest request, @PathVariable Long commentId, @RequestParam boolean isUpvote) {
-        commentService.voteComment(request, commentId, isUpvote);
+        spotCommentService.voteComment(request, commentId, isUpvote);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
