@@ -17,6 +17,8 @@ public record SpotDetailsDto(@Positive(message = "ID must be a positive number."
                              String country,
                              @NotBlank(message = "City cannot be empty.")
                              String city,
+                             @NotBlank(message = "Street cannot be empty.")
+                             String street,
                              @NotBlank(message = "Description cannot be empty.")
                              String description,
                              @Min(value = 0, message = "Rating count cannot be less than 0.")

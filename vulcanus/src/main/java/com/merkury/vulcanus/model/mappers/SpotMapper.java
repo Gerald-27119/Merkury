@@ -53,6 +53,7 @@ public class SpotMapper {
                 .name(spot.getName())
                 .country(spot.getCountry())
                 .city(spot.getCity())
+                .street(spot.getStreet())
                 .description(spot.getDescription())
                 .rating(spot.getRating())
                 .ratingCount(25)//TODO: should this be calculated here or stored in db?
