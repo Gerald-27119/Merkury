@@ -5,7 +5,7 @@ import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { describe } from "vitest";
-import Login from "../../pages/login/Login";
+import Register from "../../pages/register/Register";
 
 const queryClient = new QueryClient();
 
@@ -23,22 +23,22 @@ const renderProfile = () => {
     <Provider store={store}>
       <MemoryRouter>
         <QueryClientProvider client={queryClient}>
-          <Login />
+          <Register />
         </QueryClientProvider>
       </MemoryRouter>
     </Provider>,
   );
 };
 
-describe("Login component unit tests", () => {
-  describe("Login display data correctly", () => {
+describe("Register component unit tests", () => {
+  describe("Register display data correctly", () => {
     beforeEach(() => {
       renderProfile();
     });
 
     test("Should render header", () => {
       expect(
-        screen.getByRole("heading", { name: /sign in/i }),
+        screen.getByRole("heading", { name: /create account/i }),
       ).toBeInTheDocument();
     });
 
@@ -47,15 +47,23 @@ describe("Login component unit tests", () => {
         expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
       });
 
+      test("E-mail", () => {
+        expect(screen.getByLabelText(/e-mail/i)).toBeInTheDocument();
+      });
+
       test("Password", () => {
-        expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+        expect(screen.getByLabelText("password")).toBeInTheDocument();
+      });
+
+      test("Confirm Password", () => {
+        expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
       });
     });
 
     describe("Should render button", () => {
-      test("Sign In", () => {
+      test("Sign Up", () => {
         expect(
-          screen.getByRole("button", { name: /sign in/i }),
+          screen.getByRole("button", { name: /sign up/i }),
         ).toBeInTheDocument();
       });
     });

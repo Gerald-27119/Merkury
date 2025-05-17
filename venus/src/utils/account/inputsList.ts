@@ -6,7 +6,7 @@ interface InputsProps {
 
 export const inputs: InputsProps[] = [
   { name: "username", type: "text", id: "username" },
-  { name: "email", type: "email", id: "email" },
+  { name: "e-mail", type: "email", id: "email" },
   { name: "password", type: "password", id: "password" },
   { name: "confirm password", type: "password", id: "confirm-password" },
 ];
