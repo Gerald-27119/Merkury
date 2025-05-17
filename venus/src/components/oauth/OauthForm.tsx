@@ -17,11 +17,11 @@ export default function OauthForm() {
   return (
     <>
       <OauthButton onClick={() => handleAuth("GOOGLE")}>
-        <FcGoogle className="mr-3" size={25} />
+        <FcGoogle className="mr-3" aria-label="googleIcon" size={25} />
         Continue with Google account.
       </OauthButton>
       <OauthButton onClick={() => handleAuth("GITHUB")}>
-        <FaGithub className="mr-3" size={25} />
+        <FaGithub className="mr-3" aria-label="githubIcon" size={25} />
         Continue with Github account.
       </OauthButton>
     </>
