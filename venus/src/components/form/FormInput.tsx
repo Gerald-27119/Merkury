@@ -1,6 +1,7 @@
 import { ChangeEvent } from "react";
 import { motion } from "framer-motion";
 import { useBoolean } from "../../hooks/useBoolean";
+import { AnimatePresence } from "motion/react";
 
 interface InputProps {
   label: string;
@@ -46,7 +47,6 @@ export default function FormInput({
       >
         {label}
       </motion.label>
-
       <input
         id={id}
         value={value}
@@ -56,12 +56,20 @@ export default function FormInput({
         onBlur={handleOnBlur}
         className="dark:bg-darkBgMuted bg-lightBgMuted dark:text-darkText text-lightText w-full rounded-md p-2 shadow-md focus:outline-none dark:shadow-black/50"
       />
-
-      {!isValid?.value && (
-        <p className="mt-1 text-sm font-bold break-words text-red-500">
-          {isValid?.message}
-        </p>
-      )}
+      <AnimatePresence initial={false}>
+        {!isValid?.value && isValid?.message && (
+          <motion.p
+            key="formInputError"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.2 }}
+            className="text-xs font-bold break-words text-red-500"
+          >
+            {isValid.message}
+          </motion.p>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
