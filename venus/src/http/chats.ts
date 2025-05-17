@@ -13,7 +13,7 @@ export async function getChatListByPage(
     pageParam = 0,
     numberOfChatsPerPage = 20,
 ): Promise<ChatPage> {
-    await sleep(3000);
+    // await sleep(3000);
     const items = (
         await axios.get<SimpleChatDto[]>(`${BASE_URL}/public/chats`, {
             params: { userId, pageParam, numberOfChatsPerPage },

@@ -16,7 +16,7 @@ function ListedChat({ simpleChatDto }: ListedChatProps) {
         useSelectorTyped((state) => state.chats.selectedChatId);
 
     if (!simpleChatDto) {
-        return <div>Loading...</div>;
+        return <div>Loading... </div>;
     }
 
     return (

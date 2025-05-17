@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.controllers;
+package com.merkury.vulcanus.controllers.chat;
 
 import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
