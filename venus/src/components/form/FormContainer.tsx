@@ -60,7 +60,7 @@ export default function FormContainer({
 
   return (
     <div className="dark:bg-darkBg bg-lightBg flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat">
-      <div className="dark:bg-darkBgSoft bg-lightBgSoft flex h-fit w-[30rem] flex-col justify-center rounded-md px-10 py-8">
+      <div className="dark:bg-darkBgSoft bg-lightBgSoft mx-10 flex h-fit w-full flex-col justify-center rounded-md px-10 py-8 sm:mx-0 sm:w-[30rem]">
         <h1 className="dark:text-darkText text-lightText pb-8 text-center text-2xl font-bold text-shadow-md dark:text-shadow-white/20">
           {header}
         </h1>
