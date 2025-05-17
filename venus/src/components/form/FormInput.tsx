@@ -1,11 +1,15 @@
-import { InputHTMLAttributes } from "react";
+import { ChangeEvent } from "react";
 import { motion } from "framer-motion";
 import { useBoolean } from "../../hooks/useBoolean";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps {
   label: string;
   id: string;
   isValid: { value: boolean; message: string };
+  type: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur: () => void;
 }
 
 export default function FormInput({
@@ -13,11 +17,18 @@ export default function FormInput({
   id,
   isValid,
   value,
-  ...props
+  onBlur,
+  type,
+  onChange,
 }: InputProps) {
   const [isFocused, setFocusedToTrue, setFocusedToFalse] = useBoolean(false);
 
   const shouldFloat = isFocused || Boolean(value);
+
+  const handleOnBlur = () => {
+    setFocusedToFalse();
+    onBlur();
+  };
 
   return (
     <div className="relative">
@@ -39,10 +50,11 @@ export default function FormInput({
       <input
         id={id}
         value={value}
+        type={type}
+        onChange={onChange}
         onFocus={setFocusedToTrue}
-        onBlur={setFocusedToFalse}
-        className={`dark:bg-darkBgMuted bg-lightBgMuted dark:text-darkText text-lightText w-full rounded-md p-2 focus:outline-none`}
-        {...props}
+        onBlur={handleOnBlur}
+        className="dark:bg-darkBgMuted bg-lightBgMuted dark:text-darkText text-lightText w-full rounded-md p-2 shadow-md focus:outline-none dark:shadow-black/50"
       />
 
       {!isValid?.value && (

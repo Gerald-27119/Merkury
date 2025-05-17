@@ -9,7 +9,7 @@ export default function OauthButton({ children, onClick }: OauthButtonProps) {
   return (
     <button
       onClick={onClick}
-      className="mt-2 flex w-full cursor-pointer items-center rounded-md bg-gray-700 p-3 text-lg text-white transition-all duration-300 hover:bg-gray-600"
+      className="mt-2 flex w-full cursor-pointer items-center rounded-md bg-gray-600 p-3 text-lg text-white shadow-md shadow-gray-800/20 transition-all duration-300 hover:bg-gray-700 dark:bg-gray-700 dark:shadow-black/50 dark:hover:bg-gray-800"
     >
       {children}
     </button>

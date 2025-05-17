@@ -1,8 +1,8 @@
 import OauthForm from "../oauth/OauthForm";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactNode, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { notificationAction } from "../../redux/notification.jsx";
+import useDispatchTyped from "../../hooks/useDispatchTyped";
 
 interface FormContainerProps {
   isSuccess: boolean;
@@ -30,7 +30,7 @@ export default function FormContainer({
   children,
 }: FormContainerProps) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatchTyped();
 
   useEffect(() => {
     if (isSuccess && navigateOnSuccess) {
@@ -61,7 +61,7 @@ export default function FormContainer({
   return (
     <div className="dark:bg-darkBg bg-lightBg flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat">
       <div className="dark:bg-darkBgSoft bg-lightBgSoft flex h-fit w-[30rem] flex-col justify-center rounded-md px-10 py-8">
-        <h1 className="dark:text-darkText text-lightText pb-8 text-center text-2xl font-bold">
+        <h1 className="dark:text-darkText text-lightText pb-8 text-center text-2xl font-bold text-shadow-md dark:text-shadow-white/20">
           {header}
         </h1>
         {children}
@@ -69,8 +69,8 @@ export default function FormContainer({
           <>
             <div>
               <div className="inline-flex w-full items-center justify-center">
-                <hr className="dark:bg-darkBorder bg-lightBgButed my-8 h-px w-96 border-0" />
-                <span className="dark:text-darkText dark:bg-darkBgSoft bg-lightBgSoft text-lightText absolute left-1/2 -translate-x-1/2 px-2 text-lg font-bold uppercase">
+                <hr className="dark:bg-darkBorder bg-lightBgMuted my-8 h-px w-96 border-0" />
+                <span className="dark:text-darkText dark:bg-darkBgSoft bg-lightBgSoft text-lightText absolute left-1/2 -translate-x-1/2 px-2 text-lg font-bold uppercase text-shadow-md dark:text-shadow-white/20">
                   or
                 </span>
               </div>
@@ -81,7 +81,7 @@ export default function FormContainer({
         {showLink && (
           <Link
             to={navigateTo}
-            className="dark:text-darkText text-lightText pt-8 text-sm hover:underline"
+            className="dark:text-darkBorder text-lightText w-fit pt-8 text-sm text-shadow-md hover:underline dark:text-shadow-white/15"
           >
             {linkCaption}
           </Link>

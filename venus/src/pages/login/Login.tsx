@@ -4,13 +4,16 @@ import FormInput from "../../components/form/FormInput";
 import { loginUser } from "../../http/account.js";
 import FormContainer from "../../components/form/FormContainer";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
-import { useDispatch } from "react-redux";
 import { accountAction } from "../../redux/account.jsx";
 import { FormEvent, useEffect } from "react";
 import { inputs } from "../../utils/account/inputsList";
+import SubmitFormButton from "../../components/form/SubmitFormButton";
+import useDispatchTyped from "../../hooks/useDispatchTyped";
+
+const signInFields = ["username", "password"];
 
 function Login() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatchTyped();
 
   const { mutateAsync, isSuccess, error } = useMutation({
     mutationFn: loginUser,
@@ -48,17 +51,17 @@ function Login() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         {[inputs[0], inputs[2]].map(({ name, type, id }) => (
           <FormInput
-            key={id ?? name}
+            key={id}
             label={name}
             type={type}
-            id={id ?? name}
-            onChange={(event) => handleInputChange(id ?? name, event)}
-            value={enteredValue[id ?? name]}
-            onBlur={() => handleInputBlur(id ?? name)}
-            isValid={isValid[id ?? name]}
+            id={id}
+            onChange={(event) => handleInputChange(id, event)}
+            value={enteredValue[id]}
+            onBlur={() => handleInputBlur(id)}
+            isValid={isValid[id]}
           />
         ))}
-        <div className={"remember-forgot flex justify-between"}>
+        <div className={"flex justify-between"}>
           <Link
             to="/forgot-password"
             className="text-sm text-blue-700 hover:underline"
@@ -66,18 +69,12 @@ function Login() {
             Forgot Password?
           </Link>
         </div>
-        <button
-          type="submit"
-          className="bg-mainBlue text-darkText hover:bg-mainBlueDarker mt-3 w-full rounded-lg p-3"
-          disabled={
-            !didEdit.username ||
-            !didEdit.password ||
-            !isValid.password.value ||
-            !isValid.username.value
-          }
-        >
-          Sign In
-        </button>
+        <SubmitFormButton
+          label="sign in"
+          fields={signInFields}
+          didEdit={didEdit}
+          isValid={isValid}
+        />
       </form>
     </FormContainer>
   );
