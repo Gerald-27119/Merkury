@@ -95,5 +95,17 @@ describe("Register component unit tests", () => {
         });
       });
     });
+
+    describe("Should render Link", () => {
+      test("Text", () => {
+        expect(
+          screen.getByText(/already have an account\?/i),
+        ).toBeInTheDocument();
+      });
+      test("Link", () => {
+        const link = screen.getByText(/already have an account\?/i);
+        expect(link.closest("a")).toHaveAttribute("href", "/login");
+      });
+    });
   });
 });
