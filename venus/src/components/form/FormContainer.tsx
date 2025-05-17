@@ -1,8 +1,21 @@
-import OauthForm from "../oauth/OauthForm.jsx";
+import OauthForm from "../oauth/OauthForm";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { notificationAction } from "../../redux/notification.jsx";
+
+interface FormContainerProps {
+  isSuccess: boolean;
+  error: any;
+  header: string;
+  navigateTo: string;
+  linkCaption: string;
+  showOauth: boolean;
+  showLink: boolean;
+  navigateOnSuccess: string | null;
+  notificationMessage: string;
+  children: ReactNode;
+}
 
 export default function FormContainer({
   isSuccess,
@@ -15,7 +28,7 @@ export default function FormContainer({
   navigateOnSuccess = null,
   notificationMessage,
   children,
-}) {
+}: FormContainerProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -46,26 +59,29 @@ export default function FormContainer({
   }, [dispatch, header, isSuccess, notificationMessage]);
 
   return (
-    <div className="h-screen dark:bg-darkBg bg-lightBg bg-cover bg-no-repeat bg-center flex items-center justify-center w-full">
-      <div className="dark:bg-darkBgSoft bg-lightBgSoft w-[30rem] rounded-md px-10 py-8 flex flex-col h-full justify-center">
-        <h1 className="text-center text-2xl dark:text-darkText text-lightText font-bold pb-8">
+    <div className="dark:bg-darkBg bg-lightBg flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat">
+      <div className="dark:bg-darkBgSoft bg-lightBgSoft flex h-fit w-[30rem] flex-col justify-center rounded-md px-10 py-8">
+        <h1 className="dark:text-darkText text-lightText pb-8 text-center text-2xl font-bold">
           {header}
         </h1>
         {children}
         {showOauth && (
+          <>
             <div>
-              <div className="inline-flex items-center justify-center w-full">
-                <hr className="w-96 h-px my-8 bg-white border-0" />
-                <span className="uppercase text-lg -translate-x-1/2 absolute bg-amber-400 left-1/2 px-2 font-bold text-white">
+              <div className="inline-flex w-full items-center justify-center">
+                <hr className="dark:bg-darkBorder bg-lightBgButed my-8 h-px w-96 border-0" />
+                <span className="dark:text-darkText dark:bg-darkBgSoft bg-lightBgSoft text-lightText absolute left-1/2 -translate-x-1/2 px-2 text-lg font-bold uppercase">
                   or
                 </span>
               </div>
             </div>
-          ) && <OauthForm />}
+            <OauthForm />
+          </>
+        )}
         {showLink && (
           <Link
             to={navigateTo}
-            className="text-sm hover:underline pt-8 dark:text-darkText text-lightText"
+            className="dark:text-darkText text-lightText pt-8 text-sm hover:underline"
           >
             {linkCaption}
           </Link>

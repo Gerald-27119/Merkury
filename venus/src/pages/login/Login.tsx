@@ -1,26 +1,27 @@
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import Input from "../../components/form/Input.jsx";
+import FormInput from "../../components/form/FormInput";
 import { loginUser } from "../../http/account.js";
-import FormContainer from "../../components/form/FormContainer.jsx";
+import FormContainer from "../../components/form/FormContainer";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import { useDispatch } from "react-redux";
 import { accountAction } from "../../redux/account.jsx";
-import { useEffect } from "react";
+import { FormEvent, useEffect } from "react";
+import { inputs } from "../../utils/account/inputsList";
 
 function Login() {
   const dispatch = useDispatch();
 
-  const { mutate, isSuccess, error } = useMutation({
+  const { mutateAsync, isSuccess, error } = useMutation({
     mutationFn: loginUser,
   });
 
   const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
     useUserDataValidation({ username: "", password: "" }, false);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    mutate({
+    await mutateAsync({
       username: enteredValue.username,
       password: enteredValue.password,
     });
@@ -44,26 +45,19 @@ function Login() {
       showLink={true}
       notificationMessage="Signed in successfully!"
     >
-      <form onSubmit={handleSubmit}>
-        <Input
-          id="username"
-          label="Username"
-          value={enteredValue.username}
-          onBlur={() => handleInputBlur("username")}
-          onChange={(event) => handleInputChange("username", event)}
-          type="text"
-          isValid={isValid?.username}
-        />
-        <Input
-          id="password"
-          value={enteredValue.password}
-          label="password"
-          onBlur={() => handleInputBlur("password")}
-          onChange={(event) => handleInputChange("password", event)}
-          type="password"
-          isValid={isValid?.password}
-          required={true}
-        />
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        {[inputs[0], inputs[2]].map(({ name, type, id }) => (
+          <FormInput
+            key={id ?? name}
+            label={name}
+            type={type}
+            id={id ?? name}
+            onChange={(event) => handleInputChange(id ?? name, event)}
+            value={enteredValue[id ?? name]}
+            onBlur={() => handleInputBlur(id ?? name)}
+            isValid={isValid[id ?? name]}
+          />
+        ))}
         <div className={"remember-forgot flex justify-between"}>
           <Link
             to="/forgot-password"

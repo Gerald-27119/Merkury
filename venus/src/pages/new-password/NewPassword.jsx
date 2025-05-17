@@ -2,8 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { changePassword } from "../../http/account.js";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
-import FormContainer from "../../components/form/FormContainer.jsx";
-import Input from "../../components/form/Input.jsx";
+import FormContainer from "../../components/form/FormContainer.tsx";
+import FormInput from "../../components/form/FormInput.tsx";
 
 export default function NewPassword() {
   const [searchParams] = useSearchParams();
@@ -31,7 +31,7 @@ export default function NewPassword() {
       notificationMessage="New password set successfully!"
     >
       <form onSubmit={handleSubmit}>
-        <Input
+        <FormInput
           id="password"
           value={enteredValue.password}
           onChange={(event) => handleInputChange("password", event)}
@@ -40,7 +40,7 @@ export default function NewPassword() {
           isValid={isValid?.password}
           label="new password"
         />
-        <Input
+        <FormInput
           id="confirm-password"
           value={enteredValue["confirm-password"]}
           onChange={(event) => handleInputChange("confirm-password", event)}

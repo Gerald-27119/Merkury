@@ -1,14 +1,14 @@
-import OauthButton from "./OauthButton.jsx";
+import OauthButton from "./OauthButton";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { githubLoginUrl, googleLoginUrl } from "../../http/account.js";
-import { useDispatch } from "react-redux";
 import { accountAction } from "../../redux/account.jsx";
+import useDispatchTyped from "../../hooks/useDispatchTyped";
 
 export default function OauthForm() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatchTyped();
 
-  const handleAuth = (provider) => {
+  const handleAuth = (provider: string) => {
     window.location.href =
       provider === "GOOGLE" ? googleLoginUrl : githubLoginUrl;
     dispatch(accountAction.setIsLogged());

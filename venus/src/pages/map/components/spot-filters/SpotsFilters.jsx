@@ -1,5 +1,5 @@
 import { LiaSearchSolid } from "react-icons/lia";
-import Input from "../../../../components/form/Input.jsx";
+import FormInput from "../../../../components/form/FormInput.tsx";
 import { useDispatch } from "react-redux";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { spotFiltersAction } from "../../../../redux/spot-filters.jsx";
@@ -79,11 +79,11 @@ export default function SpotsFilters() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-end justify-center text-base mt-5 space-x-3"
+      className="mt-5 flex items-end justify-center space-x-3 text-base"
     >
-      <div className="flex items-center relative">
-        <LiaSearchSolid size={30} className="mr-2 mt-1 text-white" />
-        <Input
+      <div className="relative flex items-center">
+        <LiaSearchSolid size={30} className="mt-1 mr-2 text-white" />
+        <FormInput
           id="name"
           type="text"
           placeholder="Search..."
@@ -92,11 +92,11 @@ export default function SpotsFilters() {
           onChange={handleNameChange}
         />
         {showHints && spotsNames.length > 0 && (
-          <ul className="absolute text-base bg-white border border-neutral-950 mt-2 w-full z-50 left-0 top-full shadow-lg">
+          <ul className="absolute top-full left-0 z-50 mt-2 w-full border border-neutral-950 bg-white text-base shadow-lg">
             {spotsNames.map((name) => (
               <li
                 key={name}
-                className="p-2 cursor-pointer hover:bg-gray-200"
+                className="cursor-pointer p-2 hover:bg-gray-200"
                 onMouseDown={() => handleHintClick(name)}
               >
                 {name}
@@ -106,27 +106,27 @@ export default function SpotsFilters() {
         )}
       </div>
       <div className="flex flex-col items-center">
-        <p className="text-white text-lg">Rating:</p>
+        <p className="text-lg text-white">Rating:</p>
         <div className="flex space-x-3">
           <label className="text-white">FROM</label>
           <Rate
             allowHalf
             value={filters.minRating}
             onChange={handleMinRatingChange}
-            className="bg-white rounded-md p-0.5 "
+            className="rounded-md bg-white p-0.5"
           />
           <label className="text-white">TO</label>
           <Rate
             allowHalf
             value={filters.maxRating}
             onChange={handleMaxRatingChange}
-            className="bg-white rounded-md p-0.5"
+            className="rounded-md bg-white p-0.5"
           />
         </div>
       </div>
       <button
         type="submit"
-        className="text-white bg-teal-400 hover:bg-emerald-400 p-2 rounded-md"
+        className="rounded-md bg-teal-400 p-2 text-white hover:bg-emerald-400"
       >
         Apply filters
       </button>

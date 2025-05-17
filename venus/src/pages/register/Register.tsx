@@ -1,14 +1,15 @@
-import Input from "../../components/form/Input.jsx";
+import FormInput from "../../components/form/FormInput";
 import { registerUser } from "../../http/account.js";
 import { useMutation } from "@tanstack/react-query";
-import FormContainer from "../../components/form/FormContainer.jsx";
+import FormContainer from "../../components/form/FormContainer";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
-import { useEffect } from "react";
+import { FormEvent, useEffect } from "react";
 import { accountAction } from "../../redux/account.jsx";
 import { useDispatch } from "react-redux";
+import { inputs } from "../../utils/account/inputsList";
 
 export default function Register() {
-  const { mutate, isSuccess, error } = useMutation({
+  const { mutateAsync, isSuccess, error } = useMutation({
     mutationFn: registerUser,
   });
 
@@ -22,14 +23,14 @@ export default function Register() {
       "confirm-password": "",
     });
 
-  function handleSubmit(event) {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    mutate({
+    await mutateAsync({
       username: enteredValue.username,
       email: enteredValue.email,
       password: enteredValue.password,
     });
-  }
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -50,42 +51,18 @@ export default function Register() {
       notificationMessage="Account created successfully!"
     >
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        <Input
-          label="Username"
-          type="text"
-          id="username"
-          onChange={(event) => handleInputChange("username", event)}
-          value={enteredValue.username}
-          onBlur={() => handleInputBlur("username")}
-          isValid={isValid.username}
-        />
-        <Input
-          label="E-mail"
-          type="email"
-          id="email"
-          onChange={(event) => handleInputChange("email", event)}
-          value={enteredValue.email}
-          onBlur={() => handleInputBlur("email")}
-          isValid={isValid.email}
-        />
-        <Input
-          label="Password"
-          type="password"
-          id="password"
-          onChange={(event) => handleInputChange("password", event)}
-          value={enteredValue.password}
-          onBlur={() => handleInputBlur("password")}
-          isValid={isValid.password}
-        />
-        <Input
-          label="Confirm Password"
-          type="password"
-          id="confirm-password"
-          onChange={(event) => handleInputChange("confirm-password", event)}
-          value={enteredValue["confirm-password"]}
-          onBlur={() => handleInputBlur("confirm-password")}
-          isValid={isValid["confirm-password"]}
-        />
+        {inputs.map(({ name, type, id }) => (
+          <FormInput
+            key={id ?? name}
+            label={name}
+            type={type}
+            id={id ?? name}
+            onChange={(event) => handleInputChange(id ?? name, event)}
+            value={enteredValue[id ?? name]}
+            onBlur={() => handleInputBlur(id ?? name)}
+            isValid={isValid[id ?? name]}
+          />
+        ))}
         <button
           type="submit"
           className="bg-mainBlue text-darkText hover:bg-mainBlueDarker mt-3 rounded-md p-3 text-lg"
