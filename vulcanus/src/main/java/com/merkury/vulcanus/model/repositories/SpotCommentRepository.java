@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.model.repositories;
 
-import com.merkury.vulcanus.model.entities.Comment;
+import com.merkury.vulcanus.model.entities.SpotComment;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,9 +12,9 @@ import java.util.Optional;
 
 
 @Repository
-public interface CommentRepository extends JpaRepository<Comment, Long> {
+public interface SpotCommentRepository extends JpaRepository<SpotComment, Long> {
 
-    Page<Comment> findBySpotIdOrderByPublishDateDescIdAsc(Long spotId, Pageable pageable);
-    Optional<Comment> findCommentByIdAndAuthor(Long commentId, UserEntity author);
-    List<Comment> findBySpotId(Long spotId);
+    Page<SpotComment> findBySpotIdOrderByPublishDateDescIdAsc(Long spotId, Pageable pageable);
+    Optional<SpotComment> findCommentByIdAndAuthor(Long commentId, UserEntity author);
+    List<SpotComment> findBySpotId(Long spotId);
 }

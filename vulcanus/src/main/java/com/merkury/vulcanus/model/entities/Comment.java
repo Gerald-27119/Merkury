@@ -1,54 +1,49 @@
 package com.merkury.vulcanus.model.entities;
 
+import com.merkury.vulcanus.model.interfaces.Votable;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "comments")
+@MappedSuperclass
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comment {
-
+public abstract class Comment implements Votable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 300)
-    private String text;
     @Builder.Default
-    private Double rating = 0.0;
+    private Integer upVotes = 0;
     @Builder.Default
-    private Integer upvotes = 0;
-    @Builder.Default
-    private Integer downvotes = 0;
+    private Integer downVotes = 0;
 
     @Builder.Default
     @ManyToMany
     @JoinTable(
-            name = "comment_upvotes",
+            name = "comment_upVotes",
             joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<UserEntity> upvotedBy = new HashSet<>();
+    private Set<UserEntity> upVotedBy = new HashSet<>();
 
     @Builder.Default
     @ManyToMany
     @JoinTable(
-            name = "comment_downvotes",
+            name = "comment_downVotes",
             joinColumns = @JoinColumn(name = "comment_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<UserEntity> downvotedBy = new HashSet<>();
-
-    @ManyToOne
-    @JoinColumn(name = "spot_id")
-    @ToString.Exclude
-    private Spot spot;
+    private Set<UserEntity> downVotedBy = new HashSet<>();
 
     @Builder.Default
     private LocalDateTime publishDate = LocalDateTime.now();

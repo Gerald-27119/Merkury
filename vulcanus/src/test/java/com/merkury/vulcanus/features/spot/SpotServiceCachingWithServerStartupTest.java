@@ -56,7 +56,7 @@ class SpotServiceCachingWithServerStartupTest {
                 .city("city")
                 .areaColor("green")
                 .description("text")
-                .comments(new ArrayList<>())
+                .spotComments(new ArrayList<>())
                 .borderPoints(List.of(
                         new BorderPoint(54.34259835347914, 18.646824493647234),
                         new BorderPoint(54.34199917555038, 18.64785810853534)))
@@ -80,7 +80,7 @@ class SpotServiceCachingWithServerStartupTest {
                 .city("city")
                 .areaColor("green")
                 .description("text")
-                .comments(new ArrayList<>())
+                .spotComments(new ArrayList<>())
                 .borderPoints(List.of(
                         new BorderPoint(54.34259835347914, 18.646824493647234),
                         new BorderPoint(54.34199917555038, 18.64785810853534)))

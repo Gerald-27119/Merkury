@@ -63,11 +63,10 @@ export default function SidebarItemAction({
       onClick={clickHandler}
       onMouseEnter={showTooltip}
       onMouseLeave={hideTooltip}
-      className={`mx-2 flex cursor-pointer items-center space-x-3 rounded-md pl-2 ${!isSidebarOpen && "hover:bg-violetLight mr-0 rounded-r-none transition-none"}`}
+      className={`hover:bg-violetLight mx-2 flex cursor-pointer items-center space-x-3 rounded-md pl-2 ${!isSidebarOpen ? "mr-0 rounded-r-none transition-none" : ""}`}
     >
       <SidebarItemContent
         isSidebarOpen={isSidebarOpen}
-        isActive={false}
         link={link}
         isTooltipShown={isTooltipShown}
       />
