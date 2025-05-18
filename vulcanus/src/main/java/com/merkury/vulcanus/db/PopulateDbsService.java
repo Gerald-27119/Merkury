@@ -557,11 +557,27 @@ public class PopulateDbsService {
         List<List<SpotComment>> commentLists = List.of(spotCommentList1, spotCommentList2, spotCommentList3, spotCommentList4, spotCommentList5, spotCommentList6, spotCommentList7, spotCommentList8, spotCommentList9, spotCommentList10);
         List<List<Img>> galleries = List.of(gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8, gallery9, gallery10);
 
-        List<SpotTag> tagList = new ArrayList<SpotTag>();
-        for (int i = 0; i < 10; i++) {
+        List<String> tagsNames = new ArrayList<>(List.of(
+                "city",
+                "countryside",
+                "mountains",
+                "forest",
+                "park",
+                "ruins",
+                "lake",
+                "river",
+                "monument",
+                "beach",
+                "old town",
+                "fpv",
+                "photography",
+                "grassland"
+        ));
+        List<SpotTag> tagList = new ArrayList<>();
+        for (String tagName : tagsNames) {
             var tag = SpotTag.builder()
-                    .name("tag" + i)
-                    .spots(new HashSet<>(Set.of(spot1)))
+                    .name(tagName)
+                    .spots(new HashSet<>())
                     .build();
             spotTagRepository.save(tag);
             tagList.add(tag);
@@ -582,7 +598,16 @@ public class PopulateDbsService {
             spot.setRating(BigDecimal.valueOf(rating).setScale(2, RoundingMode.HALF_UP).doubleValue());
         }
 
-        spot1.getTags().addAll(new HashSet<>(Set.of(tagList.get(0), tagList.get(1))));
+        spot1.getTags().addAll((Set.of(tagList.getFirst(), tagList.get(8), tagList.get(12))));
+        spot2.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
+        spot3.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
+        spot4.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
+        spot5.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(3), tagList.get(4), tagList.get(11), tagList.get(12)));
+        spot6.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
+        spot7.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
+        spot8.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(9), tagList.get(12)));
+        spot9.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
+        spot10.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
 
         spotRepository.saveAll(spots);
 
