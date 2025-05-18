@@ -1,10 +1,8 @@
 import Weather from "./components/weather/Weather.jsx";
 import PhotoGallery from "./components/photo-gallery/PhotoGallery.jsx";
 import Comments from "./components/comments/Comments.jsx";
-import SpotGeneralInfo from "./components/general-info/SpotGeneralInfo.jsx";
-import { useDispatch, useSelector } from "react-redux";
-import { IoCloseOutline } from "react-icons/io5";
-import { spotDetailsModalAction } from "../../redux/spot-modal.jsx";
+import SpotGeneralInfo from "./components/general-info/SpotGeneralInfo.js";
+import { spotDetailsModalAction } from "../../redux/spot-modal";
 import ExpandedPhotoGallery from "./components/photo-gallery/ExpandedPhotoGallery.jsx";
 import { photoAction } from "../../redux/photo.jsx";
 import { fetchSpotsDataById } from "../../http/spots-data.js";
@@ -14,13 +12,19 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
 import AddToFavouritesButton from "./components/buttons/AddToFavouritesButton.jsx";
 import AddCommentForm from "./components/comments/AddCommentForm.jsx";
+import useDispatchTyped from "../../hooks/useDispatchTyped";
+import useSelectorTyped from "../../hooks/useSelectorTyped";
+import { AxiosError } from "axios";
+import { HiX } from "react-icons/hi";
 
 export default function SpotDetails() {
-  const spotId = useSelector((state) => state.spotDetails.spotId);
-  const showDetailsModal = useSelector((state) => state.spotDetails.showModal);
-  const expandPhoto = useSelector((state) => state.photo.expandPhoto);
-  const dispatch = useDispatch();
-  const isLogged = useSelector((state) => state.account.isLogged);
+  const spotId = useSelectorTyped((state) => state.spotDetails.spotId);
+  const showDetailsModal = useSelectorTyped(
+    (state) => state.spotDetails.showModal,
+  );
+  const expandPhoto = useSelectorTyped((state) => state.photo.expandPhoto);
+  const dispatch = useDispatchTyped();
+  const isLogged = useSelectorTyped((state) => state.account.isLogged);
 
   const { data, error, isLoading } = useQuery({
     queryFn: () => fetchSpotsDataById(spotId),
@@ -30,10 +34,10 @@ export default function SpotDetails() {
   });
 
   useEffect(() => {
-    if (error?.response?.data) {
+    if ((error as AxiosError)?.response?.data) {
       dispatch(
         notificationAction.setError({
-          message: error.response.data,
+          message: (error as AxiosError)?.response?.data,
         }),
       );
     }
@@ -41,46 +45,38 @@ export default function SpotDetails() {
 
   const handleClickCloseModal = () => {
     dispatch(spotDetailsModalAction.handleCloseModal());
-    dispatch(photoAction.handleMinimizePhoto());
   };
 
   return (
-    <div className="w-full h-full absolute flex">
+    <div className="absolute flex h-full w-full">
       <div
-        className={`h-full w-1/5 bg-white z-50 overflow-y-auto ${
+        className={`h-full w-1/5 overflow-y-auto bg-white ${
           showDetailsModal && "animate-slideInFromLeft"
         }`}
       >
         {isLoading && <LoadingSpinner />}
         {data && (
-          <div className="mx-3 flex flex-col h-full">
-            <div className="flex justify-end mt-3">
-              <IoCloseOutline
+          <div className="mx-3 flex h-full flex-col">
+            <div className="mt-3 flex justify-end">
+              <HiX
                 size={20}
-                className="cursor-pointer text-black hover:bg-red-500 hover:rounded-md hover:text-white"
+                className="cursor-pointer text-black hover:rounded-md hover:bg-red-500 hover:text-white"
                 onClick={handleClickCloseModal}
               />
             </div>
             <SpotGeneralInfo
               name={data.name}
+              country={data.country}
+              city={data.city}
+              street={data.street}
               description={data.description}
               rating={data.rating}
+              ratingCount={data.ratingCount}
+              tags={data.tags}
             />
-            {isLogged && <AddToFavouritesButton spotId={spotId} />}
-            <Weather spot={data} />
-            <PhotoGallery photos={data.photos} />
-            <AddCommentForm spotId={spotId} isUserLoggedIn={isLogged} />
-            <div className="overflow-y-auto grow min-h-60">
-              <Comments spotId={spotId} isUserLoggedIn={isLogged} />
-            </div>
           </div>
         )}
       </div>
-      {expandPhoto && (
-        <div className="grow h-full z-50">
-          <ExpandedPhotoGallery photos={data.photos} />
-        </div>
-      )}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserFavouriteSpots } from "../../http/spots-data.js";
+import { fetchUserFavouriteSpots } from "../../http/spots-data.ts";
 import FavouriteSpot from "./FavouriteSpot.jsx";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
@@ -26,9 +26,9 @@ export default function FavouriteSpots() {
   };
 
   return (
-    <div className="h-screen bg-[url('/bg-form.png')] bg-cover bg-no-repeat bg-center flex items-center justify-center w-screen">
-      <div className="bg-amber-400 w-[30rem] rounded-md px-10 py-8 flex flex-col h-full justify-center">
-        <h1 className="text-center text-2xl text-white font-bold pb-8">
+    <div className="flex h-screen w-screen items-center justify-center bg-[url('/bg-form.png')] bg-cover bg-center bg-no-repeat">
+      <div className="flex h-full w-[30rem] flex-col justify-center rounded-md bg-amber-400 px-10 py-8">
+        <h1 className="pb-8 text-center text-2xl font-bold text-white">
           Your favourite spots
         </h1>
 
