@@ -3,7 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { githubLoginUrl, googleLoginUrl } from "../../http/account.js";
 import { useDispatch } from "react-redux";
-import { accountAction } from "../../redux/account.jsx";
+import { accountAction } from "../../redux/account";
 
 export default function OauthForm() {
   const dispatch = useDispatch();

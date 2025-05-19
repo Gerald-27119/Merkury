@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import FormContainer from "../../components/form/FormContainer.jsx";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import { useEffect } from "react";
-import { accountAction } from "../../redux/account.jsx";
+import { accountAction } from "../../redux/account";
 import { useDispatch } from "react-redux";
 
 export default function Register() {

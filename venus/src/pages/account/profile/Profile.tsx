@@ -1,16 +1,13 @@
 import MostPopularImage from "./components/MostPopularImage";
 import ProfileStat from "./components/ProfileStat";
-import useSelectorTyped from "../../../hooks/useSelectorTyped";
 import { useQuery } from "@tanstack/react-query";
 import { getUserProfile } from "../../../http/user-dashboard";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 
 export default function Profile() {
-  const username = useSelectorTyped((state) => state.account.username);
-
   const { data, isLoading } = useQuery({
-    queryFn: () => getUserProfile(username),
-    queryKey: ["userProfile", username],
+    queryFn: getUserProfile,
+    queryKey: ["userProfile"],
   });
 
   if (isLoading) {

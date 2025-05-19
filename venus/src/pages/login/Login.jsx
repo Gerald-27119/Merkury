@@ -5,7 +5,7 @@ import { loginUser } from "../../http/account.js";
 import FormContainer from "../../components/form/FormContainer.jsx";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import { useDispatch } from "react-redux";
-import { accountAction } from "../../redux/account.jsx";
+import { accountAction } from "../../redux/account";
 import { useEffect } from "react";
 
 function Login() {

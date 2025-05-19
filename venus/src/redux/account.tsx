@@ -1,25 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface AccountSliceProps {
+  isLogged: boolean;
+}
+
+const initialState: AccountSliceProps = {
   isLogged: localStorage.getItem("is_logged_in") === "true",
-  username: localStorage.getItem("username") ?? "",
 };
 
 export const accountSlice = createSlice({
   name: "account",
   initialState,
   reducers: {
-    setIsLogged(state, action) {
-      localStorage.setItem("is_logged_in", true);
+    setIsLogged(state) {
+      localStorage.setItem("is_logged_in", "true");
       state.isLogged = true;
-      localStorage.setItem("username", action.payload.username);
-      state.username = action.payload.username;
     },
     signOut(state) {
       localStorage.removeItem("is_logged_in");
       state.isLogged = false;
-      localStorage.removeItem("username");
-      state.username = "";
     },
   },
 });
