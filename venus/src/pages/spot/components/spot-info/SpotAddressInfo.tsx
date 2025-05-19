@@ -11,8 +11,8 @@ export default function SpotAddressInfo({
 }: SpotAddressInfoProps) {
   return (
     <div className="flex flex-wrap text-lg underline underline-offset-2">
-      <span>{country}, </span>
-      <span>{city}, </span>
+      <span>{country},&nbsp;</span>
+      <span>{city},&nbsp;</span>
       <span>{street}</span>
     </div>
   );

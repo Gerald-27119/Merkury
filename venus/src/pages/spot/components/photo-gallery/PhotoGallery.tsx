@@ -20,7 +20,7 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
             },
           }}
         >
-          <Carousel arrows={true} className="max-w-[30rem]">
+          <Carousel arrows={true} className="max-w-[15rem] xl:max-w-[30rem]">
             {photos.map((photo, index) => (
               <Photo key={index} photo={photo} />
             ))}

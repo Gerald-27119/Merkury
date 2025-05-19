@@ -51,10 +51,10 @@ export default function SpotDetails() {
   };
 
   return (
-    <div className="h-fullt dark:bg-violetDarker dark:text-darkText absolute top-0 left-17 flex w-[35rem] p-2 text-xl">
+    <div className="dark:bg-violetDarker dark:text-darkText absolute top-10 left-0 flex h-full w-[20rem] p-2 text-lg xl:top-0 xl:left-17 xl:w-[35rem] xl:text-xl">
       {isLoading && <LoadingSpinner />}
       {data && (
-        <div className="mx-3 flex h-full w-full flex-col">
+        <div className="mx-3 flex h-fit w-full flex-col">
           <div className="mt-3 flex items-center justify-between text-xl">
             <div className="flex justify-start">
               <MdLocationPin className="mr-0.5 text-2xl text-red-600" />

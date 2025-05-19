@@ -27,7 +27,7 @@ export default function SpotActionButtonsContainer({
   };
 
   return (
-    <ul className="flex items-center justify-center space-x-3">
+    <ul className="mt-3 flex items-center justify-center space-x-3">
       <li>
         <SpotActionButton
           key={0}
