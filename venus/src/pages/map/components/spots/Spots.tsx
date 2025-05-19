@@ -42,17 +42,23 @@ export default function Spots() {
   useEffect(() => {
     if (map && data) {
       data?.forEach((spot: GeneralSpot) => {
-        map?.on("click", spot.id.toString(), () => handleSpotClick(spot.id));
+        if (!shouldRenderMarker(spot.area, zoomLevel)) {
+          map?.on("click", spot.id.toString(), () => handleSpotClick(spot.id));
+        }
       });
     }
     return () => {
       if (map || data) {
         data?.forEach((spot: GeneralSpot) => {
-          map?.off("click", spot.id.toString(), () => handleSpotClick(spot.id));
+          if (!shouldRenderMarker(spot.area, zoomLevel)) {
+            map?.off("click", spot.id.toString(), () =>
+              handleSpotClick(spot.id),
+            );
+          }
         });
       }
     };
-  }, [map, data]);
+  }, [map, data, zoomLevel]);
 
   const handleSpotClick = (spotId: number): void => {
     dispatch(spotDetailsModalAction.setSpotId(spotId));
