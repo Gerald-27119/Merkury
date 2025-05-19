@@ -1,15 +1,20 @@
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
-import { useState } from "react";
+import React, { useState } from "react";
+import Img from "../../../../model/interface/img";
 
-export default function Photo({ photo, onClick = () => {}, ...props }) {
-  const [isLoading, setIsLoading] = useState(true);
+type PhotoProps = {
+  photo: Img;
+} & React.HTMLAttributes<HTMLDivElement>;
+
+export default function Photo({ photo, ...props }: PhotoProps) {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const handleImageLoad = () => {
     setIsLoading(false);
   };
 
   return (
-    <div className="w-fit h-fit" onClick={photo ? onClick : undefined}>
+    <div className="max-h-60 overflow-hidden rounded-2xl">
       {isLoading && <LoadingSpinner />}
       {photo ? (
         <img

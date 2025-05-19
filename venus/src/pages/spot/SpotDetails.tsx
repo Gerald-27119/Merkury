@@ -1,7 +1,7 @@
 import Weather from "./components/weather/Weather.jsx";
-import PhotoGallery from "./components/photo-gallery/PhotoGallery.jsx";
+import PhotoGallery from "./components/photo-gallery/PhotoGallery.js";
 import Comments from "./components/comments/Comments.jsx";
-import SpotGeneralInfo from "./components/general-info/SpotGeneralInfo.js";
+import SpotGeneralInfo from "./components/spot-info/SpotGeneralInfo.js";
 import { spotDetailsModalAction } from "../../redux/spot-modal";
 import ExpandedPhotoGallery from "./components/photo-gallery/ExpandedPhotoGallery.jsx";
 import { photoAction } from "../../redux/photo.jsx";
@@ -16,6 +16,8 @@ import useDispatchTyped from "../../hooks/useDispatchTyped";
 import useSelectorTyped from "../../hooks/useSelectorTyped";
 import { AxiosError } from "axios";
 import { HiX } from "react-icons/hi";
+import { MdLocationPin } from "react-icons/md";
+import SpotAddressInfo from "./components/spot-info/SpotAddressInfo";
 
 export default function SpotDetails() {
   const spotId = useSelectorTyped((state) => state.spotDetails.spotId);
@@ -48,35 +50,31 @@ export default function SpotDetails() {
   };
 
   return (
-    <div className="absolute flex h-full w-full">
-      <div
-        className={`h-full w-1/5 overflow-y-auto bg-white ${
-          showDetailsModal && "animate-slideInFromLeft"
-        }`}
-      >
-        {isLoading && <LoadingSpinner />}
-        {data && (
-          <div className="mx-3 flex h-full flex-col">
-            <div className="mt-3 flex justify-end">
-              <HiX
-                size={20}
-                className="cursor-pointer text-black hover:rounded-md hover:bg-red-500 hover:text-white"
-                onClick={handleClickCloseModal}
+    <div className="h-fullt dark:bg-violetDarker dark:text-darkText absolute top-0 left-17 flex w-[35rem] p-2 text-xl">
+      {isLoading && <LoadingSpinner />}
+      {data && (
+        <div className="mx-3 flex h-full w-full flex-col">
+          <div className="mt-3 flex items-center justify-between text-xl">
+            <div className="flex justify-start">
+              <MdLocationPin className="mr-0.5 text-2xl text-red-600" />
+              <SpotAddressInfo
+                country={data.country}
+                city={data.city}
+                street={data.street}
               />
             </div>
-            <SpotGeneralInfo
-              name={data.name}
-              country={data.country}
-              city={data.city}
-              street={data.street}
-              description={data.description}
-              rating={data.rating}
-              ratingCount={data.ratingCount}
-              tags={data.tags}
-            />
+            <HiX className="cursor-pointer" onClick={handleClickCloseModal} />
           </div>
-        )}
-      </div>
+          <SpotGeneralInfo
+            name={data.name}
+            description={data.description}
+            rating={data.rating}
+            ratingCount={data.ratingCount}
+            tags={data.tags}
+          />
+          <PhotoGallery photos={data.photos} />
+        </div>
+      )}
     </div>
   );
 }
