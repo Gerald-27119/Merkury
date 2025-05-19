@@ -5,8 +5,6 @@ import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.mappers.ProfileMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
-import com.merkury.vulcanus.security.jwt.JwtManager;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +14,8 @@ import java.util.Comparator;
 @RequiredArgsConstructor
 public class ProfileService {
     private final UserEntityRepository userEntityRepository;
-    private final JwtManager jwtManager;
 
-    public UserProfileDto getUserProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        var token = jwtManager.getJWTFromCookie(request);
-        var username = jwtManager.getUsernameFromJWT(token);
-
+    public UserProfileDto getUserProfile(String username) throws UserNotFoundByUsernameException {
         var user = userEntityRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundByUsernameException(username));
         var images = user.getImages().stream()
