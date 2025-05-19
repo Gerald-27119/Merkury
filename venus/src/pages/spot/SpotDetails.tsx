@@ -18,6 +18,7 @@ import { AxiosError } from "axios";
 import { HiX } from "react-icons/hi";
 import { MdLocationPin } from "react-icons/md";
 import SpotAddressInfo from "./components/spot-info/SpotAddressInfo";
+import SpotActionButtonsContainer from "./components/buttons/SpotActionButtonsContainer";
 
 export default function SpotDetails() {
   const spotId = useSelectorTyped((state) => state.spotDetails.spotId);
@@ -73,6 +74,7 @@ export default function SpotDetails() {
             tags={data.tags}
           />
           <PhotoGallery photos={data.photos} />
+          <SpotActionButtonsContainer spotId={spotId} />
         </div>
       )}
     </div>
