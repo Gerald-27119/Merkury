@@ -14,8 +14,7 @@ public class UserDashboardService {
     private final JwtManager jwtManager;
 
     public UserProfileDto getUserProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        var token = jwtManager.getJWTFromCookie(request);
-        var username = jwtManager.getUsernameFromJWT(token);
+        var username = jwtManager.getUsernameFromJwtCookie(request);
 
         return profileService.getUserProfile(username);
     }
