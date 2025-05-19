@@ -13,18 +13,29 @@ import java.util.stream.Collectors;
 
 public class ChatMapper {
 
-    public static SimpleChatDto toSimpleChatDto(Chat chat, ChatMessage lastMessage, Long userId) {
+    public static SimpleChatDto toSimpleChatDto(Chat chat, ChatMessage lastMessage, Long userId, List<ChatMessage> chatMessages) {
+//        TODO:Get rid off
         var messageSenderDto = toChatMessageSenderDto(lastMessage);
         var lastMessageDto = ChatMapper.toChatMessageDto(lastMessage, messageSenderDto);
+
+        var chatMessageDtoList = chatMessages.stream()
+                .map(chatMessage -> {
+//                    TODO:change name
+                    var messageSenderDto1 = toChatMessageSenderDto(chatMessage);
+                    return ChatMapper.toChatMessageDto(chatMessage, messageSenderDto1);
+                })
+                .toList();
 
         return SimpleChatDto.builder()
                 .id(chat.getId())
                 .name(getChatName(chat, userId))
                 .lastMessage(lastMessageDto)
                 .imgUrl(getChatImgUrl(chat, userId))
+                .messages(chatMessageDtoList)
                 .build();
     }
 
+//    TODO:delete
     public static DetailedChatDto toDetailedChatDto(Chat chat, List<ChatMessage> chatMessageList) {
         var chatMessageDtoList = chatMessageList.stream()
                 .map(chatMessage -> {

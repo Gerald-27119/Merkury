@@ -43,10 +43,21 @@ public class ChatService {
         //TODO:od razu zwracaj
         var chatList = pageOfChats.stream()
         .map(chat -> {
+//            TODO:check if correct
+//            List<ChatMessage> last20Messages = chatMessageRepository
+//                    .findAllByChatId(chat.getId(), PageRequest.of(0, 20, Sort.by("sentAt").descending()))
+//                    .getContent();
+
+//            TODO: does this new repo method work???
+            List<ChatMessage> last20Messages = chatMessageRepository
+                    .findTop20ByChatIdOrderBySentAtDesc(chat.getId());
+
+//            TODO:get rid off
             ChatMessage lastMsg = chat.getChatMessages().stream()
                     .max(Comparator.comparing(ChatMessage::getSentAt))//TODO:to vs pole lastMEssageSentAt na chat
                     .orElse(null);
-            return ChatMapper.toSimpleChatDto(chat, lastMsg, userId);
+
+            return ChatMapper.toSimpleChatDto(chat, lastMsg, userId, last20Messages);
         })
         .toList();
 
