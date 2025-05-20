@@ -56,7 +56,7 @@ export default function FormContainer({
         }),
       );
     }
-  }, [dispatch, header, isSuccess, notificationMessage]);
+  }, [dispatch, isSuccess, notificationMessage]);
 
   return (
     <div className="dark:bg-darkBg bg-lightBg flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat">
