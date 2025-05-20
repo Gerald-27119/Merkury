@@ -13,8 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType.ADD;
-import static com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType.REMOVE;
+import static com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -124,5 +123,11 @@ class FollowersServiceTest {
 
         assertThrows(NotFollowedException.class,
                 () -> followersService.editUserFollowed("user1", "user2", REMOVE));
+    }
+
+    @Test
+    void shouldThrowUnsupportedEditUserFriendsTypeExceptionWhenEnterWrongType() {
+        assertThrows(UnsupportedEditUserFriendsTypeException.class,
+                () -> followersService.editUserFollowed("user1", "user2", UNKNOWN));
     }
 }
