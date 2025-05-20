@@ -2,6 +2,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExistException;
 import com.merkury.vulcanus.exception.exceptions.FriendshipNotExistException;
+import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.entities.UserEntity;
@@ -59,7 +60,7 @@ class FriendsServiceTest {
     }
 
     @Test
-    void shouldAddFriendWhenNotFriends() throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException {
+    void shouldAddFriendWhenNotFriends() throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
         var user = UserEntity.builder().username("user1").build();
         var friend = UserEntity.builder().username("user2").build();
 
@@ -86,7 +87,7 @@ class FriendsServiceTest {
     }
 
     @Test
-    void shouldRemoveFriendWhenExist() throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException {
+    void shouldRemoveFriendWhenExist() throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
         var user = UserEntity.builder().username("user1").build();
         var friend = UserEntity.builder().username("user2").build();
         user.getFriendships().add(new Friendship(null, user, friend, null, null));

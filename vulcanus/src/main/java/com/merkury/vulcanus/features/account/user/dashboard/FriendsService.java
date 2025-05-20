@@ -2,6 +2,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExistException;
 import com.merkury.vulcanus.exception.exceptions.FriendshipNotExistException;
+import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.entities.Friendship;
@@ -33,11 +34,11 @@ public class FriendsService {
                 .toList();
     }
 
-    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException {
-        if (type == ADD){
-            addUserFriends(username, friendUsername);
-        } else if (type == REMOVE) {
-            removeUserFriends(username, friendUsername);
+    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
+        switch (type){
+            case ADD -> addUserFriends(username, friendUsername);
+            case REMOVE -> removeUserFriends(username, friendUsername);
+            default -> throw new UnsupportedEditUserFriendsTypeException(type);
         }
     }
 

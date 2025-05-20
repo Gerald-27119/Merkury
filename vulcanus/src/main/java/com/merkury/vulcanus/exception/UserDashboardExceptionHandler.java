@@ -23,8 +23,8 @@ public class UserDashboardExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
-    @ExceptionHandler(FollowedAlreadyExistException.class)
-    public ResponseEntity<String> handleFollowedAlreadyExistException(FollowedAlreadyExistException ex) {
+    @ExceptionHandler(AlreadyFollowedException.class)
+    public ResponseEntity<String> handleFollowedAlreadyExistException(AlreadyFollowedException ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
@@ -35,9 +35,15 @@ public class UserDashboardExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
-    @ExceptionHandler(FollowedNotExistException.class)
-    public ResponseEntity<String> handleFollowedConnectionNotExistException(FollowedNotExistException ex) {
+    @ExceptionHandler(NotFollowedException.class)
+    public ResponseEntity<String> handleFollowedConnectionNotExistException(NotFollowedException ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UnsupportedEditUserFriendsTypeException.class)
+    public ResponseEntity<String> handleUnsupportedEditUserFriendsTypeException(UnsupportedEditUserFriendsTypeException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

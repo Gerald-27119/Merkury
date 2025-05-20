@@ -25,7 +25,7 @@ public class UserDashboardService {
         return friendsService.getUserFriends(username);
     }
 
-    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException {
+    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
         friendsService.editUserFriends(username, friendUsername, type);
     }
 
@@ -41,7 +41,7 @@ public class UserDashboardService {
         return followersService.getUserFollowed(username);
     }
 
-    public void editUserFollowed(String username, String followedUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FollowedAlreadyExistException, FollowedNotExistException {
+    public void editUserFollowed(String username, String followedUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, AlreadyFollowedException, NotFollowedException, UnsupportedEditUserFriendsTypeException {
         followersService.editUserFollowed(username, followedUsername, type);
     }
 }
