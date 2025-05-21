@@ -10,6 +10,8 @@ import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import SocialButton from "./SocialButton";
 import { EditUserFriendsType } from "../../../../model/enum/account/social/editUserFriendsType";
 import { SocialListType } from "../../../../model/enum/account/social/socialListType";
+import { useBoolean } from "../../../../hooks/useBoolean";
+import Modal from "../../../../components/modal/Modal";
 
 interface FriendCardProps {
   friend: Social;
@@ -19,6 +21,8 @@ interface FriendCardProps {
 export default function SocialCard({ friend, type }: FriendCardProps) {
   const username = useSelectorTyped((state) => state.account.username);
   const queryClient = useQueryClient();
+  const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
+    useBoolean(false);
 
   const { mutateAsync: mutateAsyncFriends } = useMutation({
     mutationFn: editUserFriends,
@@ -80,11 +84,21 @@ export default function SocialCard({ friend, type }: FriendCardProps) {
           <BiMessageRounded aria-label="messageFriendCardIcon" />
         </SocialButton>
         {type !== SocialListType.FOLLOWERS && (
-          <SocialButton onClick={handleRemove}>
+          <SocialButton onClick={setIsModalOpenToTrue}>
             <FaUserMinus aria-label="userRemoveFriendCardIcon" />
           </SocialButton>
         )}
       </div>
+      <Modal
+        onClose={setIsModalOpenToFalse}
+        onClick={handleRemove}
+        isOpen={isModalOpen}
+      >
+        <h2 className="text-xl text-shadow-md">
+          Are you sure you want to remove {friend.username} as
+          {type === SocialListType.FRIENDS ? " a friend" : " a follower"}?
+        </h2>
+      </Modal>
     </div>
   );
 }
