@@ -83,16 +83,16 @@ class FollowersServiceTest {
 
         followersService.editUserFollowed("user1", "user2", ADD);
 
-        assertAll(() -> assertEquals(1, user.getFollowers().size()),
-                () -> assertTrue(user.getFollowers().contains(follower)));
+        assertAll(() -> assertEquals(1, user.getFollowed().size()),
+                () -> assertTrue(user.getFollowed().contains(follower)));
     }
 
     @Test
     void shouldThrowUserNotFoundByUsernameExceptionWhenAddExistingFollower() throws UserNotFoundByUsernameException {
         var user = UserEntity.builder().username("user1").build();
         var follower = UserEntity.builder().username("user2").build();
-        user.getFollowers().add(follower);
-        follower.getFollowed().add(user);
+        user.getFollowed().add(follower);
+        follower.getFollowers().add(user);
 
         when(userEntityFetcher.getByUsername("user1")).thenReturn(user);
         when(userEntityFetcher.getByUsername("user2")).thenReturn(follower);
@@ -105,14 +105,16 @@ class FollowersServiceTest {
     void shouldRemoveFollowerWhenFollowerExist() throws UserNotFoundByUsernameException, AlreadyFollowedException, NotFollowedException, UnsupportedEditUserFriendsTypeException {
         var user = UserEntity.builder().username("user1").build();
         var follower = UserEntity.builder().username("user2").build();
-        user.getFollowers().add(follower);
+        user.getFollowed().add(follower);
+        follower.getFollowed().add(user);
 
         when(userEntityFetcher.getByUsername("user1")).thenReturn(user);
+        when(userEntityFetcher.getByUsername("user2")).thenReturn(follower);
 
         followersService.editUserFollowed("user1", "user2", REMOVE);
 
-        assertAll(() -> assertTrue(user.getFollowers().isEmpty()),
-                () -> assertFalse(user.getFollowers().contains(follower)));
+        assertAll(() -> assertTrue(user.getFollowed().isEmpty()),
+                () -> assertFalse(user.getFollowed().contains(follower)));
     }
 
     @Test

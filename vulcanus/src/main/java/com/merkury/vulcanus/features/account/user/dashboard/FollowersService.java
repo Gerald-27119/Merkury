@@ -14,9 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType.ADD;
-import static com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType.REMOVE;
-
 @Service
 @RequiredArgsConstructor
 public class FollowersService {
@@ -50,13 +47,16 @@ public class FollowersService {
     private void addUserFollowed(String username, String followedUsername) throws UserNotFoundByUsernameException, AlreadyFollowedException {
         var user = userEntityFetcher.getByUsername(username);
         var followedUser = userEntityFetcher.getByUsername(followedUsername);
-        var isFollowed = user.getFollowers()
+
+        var isAlreadyFollowed = user.getFollowed()
                 .stream()
                 .anyMatch(f -> f.equals(followedUser));
 
-        if (!isFollowed) {
-            user.getFollowers().add(followedUser);
+        if (!isAlreadyFollowed) {
+            user.getFollowed().add(followedUser);
+            followedUser.getFollowers().add(user);
 
+            userEntityRepository.save(user);
             userEntityRepository.save(followedUser);
         } else {
             throw new AlreadyFollowedException();
@@ -65,13 +65,18 @@ public class FollowersService {
 
     private void removeUserFollowed(String username, String followedUsername) throws UserNotFoundByUsernameException, NotFollowedException {
         var user = userEntityFetcher.getByUsername(username);
-        var isFollowed = user.getFollowers()
-                .stream()
-                .anyMatch(f -> f.getUsername().equals(followedUsername));
+        var followedUser = userEntityFetcher.getByUsername(followedUsername);
 
-        if (isFollowed) {
-            user.getFollowers().removeIf(f -> f.getUsername().equals(followedUsername));
+        var isAlreadyFollowed = user.getFollowed()
+                .stream()
+                .anyMatch(f -> f.equals(followedUser));
+
+        if (isAlreadyFollowed) {
+            user.getFollowed().remove(followedUser);
+            followedUser.getFollowers().remove(user);
+
             userEntityRepository.save(user);
+            userEntityRepository.save(followedUser);
         } else {
             throw new NotFollowedException();
         }
