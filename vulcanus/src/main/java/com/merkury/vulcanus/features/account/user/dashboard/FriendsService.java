@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType.ADD;
-import static com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType.REMOVE;
 import static com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus.PENDING;
 
 @Service
