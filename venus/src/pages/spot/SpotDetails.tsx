@@ -13,6 +13,13 @@ import { HiX } from "react-icons/hi";
 import { MdLocationPin } from "react-icons/md";
 import SpotAddressInfo from "./components/spot-info/SpotAddressInfo";
 import SpotActionButtonsContainer from "./components/buttons/SpotActionButtonsContainer";
+import { motion } from "framer-motion";
+
+const slideVariants = {
+  hidden: { x: "-100%", opacity: 0 },
+  visible: { x: 0, opacity: 1 },
+  exit: { x: "-100%", opacity: 0 },
+};
 
 export default function SpotDetails() {
   const spotId = useSelectorTyped((state) => state.spotDetails.spotId);
@@ -40,7 +47,15 @@ export default function SpotDetails() {
   };
 
   return (
-    <div className="dark:bg-violetDarker dark:text-darkText absolute top-10 left-0 flex h-full w-[20rem] p-2 text-lg xl:top-0 xl:left-17 xl:w-[35rem] xl:text-xl">
+    <motion.div
+      key={spotId}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      variants={slideVariants}
+      transition={{ duration: 0.3 }}
+      className="dark:bg-violetDarker dark:text-darkText absolute top-10 left-0 flex h-full w-[20rem] p-2 text-lg xl:top-0 xl:left-17 xl:w-[35rem] xl:text-xl"
+    >
       {isLoading && <LoadingSpinner />}
       {data && (
         <div className="mx-3 flex h-fit w-full flex-col">
@@ -66,6 +81,6 @@ export default function SpotDetails() {
           <SpotActionButtonsContainer spotId={spotId} />
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
