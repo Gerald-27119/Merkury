@@ -79,12 +79,6 @@
   }
 }
 
-@media (max-width: 480px) {
-  .custom-rate .ant-rate-star {
-    font-size: 16px;
-  }
-}
-
 .custom-rate .ant-rate-star:not(.ant-rate-star-full) .ant-rate-star-second {
   color: #ffffff;
 }
