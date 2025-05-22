@@ -33,7 +33,7 @@ export default function SpotActionButtonsContainer({
           key={0}
           onClickHandler={() => clickNavigateHandler(spotId)}
         >
-          <MdOutlineNavigation />
+          <MdOutlineNavigation data-testid="navigate-to-spot-button-icon" />
         </SpotActionButton>
       </li>
       <li>
@@ -41,7 +41,7 @@ export default function SpotActionButtonsContainer({
           key={1}
           onClickHandler={() => clickSaveSpotHandler(spotId)}
         >
-          <MdOutlineBookmarkBorder />
+          <MdOutlineBookmarkBorder data-testid="save-spot-button-icon" />
         </SpotActionButton>
       </li>
       <li>
@@ -49,7 +49,7 @@ export default function SpotActionButtonsContainer({
           key={2}
           onClickHandler={() => clickShareSpotHandler(spotId)}
         >
-          <AiOutlineShareAlt />
+          <AiOutlineShareAlt data-testid="share-spot-button-icon" />
         </SpotActionButton>
       </li>
       <li>
@@ -57,7 +57,7 @@ export default function SpotActionButtonsContainer({
           key={3}
           onClickHandler={() => clickAddPhotoToSpotHandler(spotId)}
         >
-          <MdOutlineAddPhotoAlternate />
+          <MdOutlineAddPhotoAlternate data-testid="add-photo-button-icon" />
         </SpotActionButton>
       </li>
     </ul>

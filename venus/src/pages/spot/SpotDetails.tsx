@@ -10,8 +10,6 @@ import { useEffect } from "react";
 import { notificationAction } from "../../redux/notification.jsx";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
-import AddToFavouritesButton from "./components/buttons/AddToFavouritesButton.jsx";
-import AddCommentForm from "./components/comments/AddCommentForm.jsx";
 import useDispatchTyped from "../../hooks/useDispatchTyped";
 import useSelectorTyped from "../../hooks/useSelectorTyped";
 import { AxiosError } from "axios";
@@ -22,12 +20,7 @@ import SpotActionButtonsContainer from "./components/buttons/SpotActionButtonsCo
 
 export default function SpotDetails() {
   const spotId = useSelectorTyped((state) => state.spotDetails.spotId);
-  const showDetailsModal = useSelectorTyped(
-    (state) => state.spotDetails.showModal,
-  );
-  const expandPhoto = useSelectorTyped((state) => state.photo.expandPhoto);
   const dispatch = useDispatchTyped();
-  const isLogged = useSelectorTyped((state) => state.account.isLogged);
 
   const { data, error, isLoading } = useQuery({
     queryFn: () => fetchSpotsDataById(spotId),

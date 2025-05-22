@@ -23,7 +23,7 @@ export default function SpotGeneralInfo({
         <p className="text-2xl">{name}</p>
         <div className="flex justify-end space-x-2">
           <div className="custom-rate text-ratingStarColor mx-2 mt-1 inline-flex min-w-fit">
-            <Rate disabled allowHalf value={rating} />
+            <Rate data-testid="spot-rating" disabled allowHalf value={rating} />
           </div>
           <div className="text-2xl">({ratingCount})</div>
         </div>
