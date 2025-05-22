@@ -9,6 +9,7 @@ import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import SpotDetails from "../../pages/spot/SpotDetails";
+import { sidebarSlice } from "../../redux/sidebar";
 
 const queryClient = new QueryClient();
 
@@ -23,10 +24,14 @@ const renderSpotDetails = () => {
   const store = configureStore({
     reducer: {
       spotDetails: spotDetailsModalSlice.reducer,
+      sidebar: sidebarSlice.reducer,
     },
     spotDetails: {
       showModal: true,
       spotId: 1,
+    },
+    sidebar: {
+      isOpen: false,
     },
   });
 

@@ -4,6 +4,8 @@ import Sidebar from "./sidebar/Sidebar.tsx";
 import { useEffect } from "react";
 import MobileBar from "./mobile-bar/MobileBar";
 import { useToggleState } from "../hooks/useToggleState";
+import useDispatchTyped from "../hooks/useDispatchTyped";
+import { sidebarAction } from "../redux/sidebar";
 
 export default function Layout() {
   const location = useLocation();
@@ -11,6 +13,7 @@ export default function Layout() {
   const isForumPage = location.pathname === "/forum";
   const [isSidebarOpen, setIsSidebarOpen, toggleSidebar] =
     useToggleState(false);
+  const dispatch = useDispatchTyped();
 
   useEffect(() => {
     if (location.pathname.includes("account") && window.innerWidth >= 1280) {
@@ -18,8 +21,14 @@ export default function Layout() {
     }
   }, [location]);
 
+  useEffect(() => {
+    dispatch(sidebarAction.setIsSidebarOpen(isSidebarOpen));
+  }, [isSidebarOpen]);
+
   return (
-    <div className={`${isMapPage ? "relative" : "flex"} ${isForumPage ? "min-h-screen" : "lg:h-screen"}`}>
+    <div
+      className={`${isMapPage ? "relative" : "flex"} ${isForumPage ? "min-h-screen" : "lg:h-screen"}`}
+    >
       <Sidebar isSidebarOpen={isSidebarOpen} onToggle={toggleSidebar} />
       <main className="relative flex w-full flex-col items-center justify-center">
         <MobileBar onToggle={toggleSidebar} />
