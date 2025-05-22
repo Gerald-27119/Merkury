@@ -50,7 +50,7 @@ export default function SpotDetails() {
   return (
     <>
       <div
-        className={`absolute top-0 z-5 h-screen w-screen bg-black/85 transition-opacity duration-300 ${
+        className={`absolute top-0 z-[5] h-screen w-screen bg-black/85 transition-opacity duration-300 ${
           isSidebarOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       ></div>

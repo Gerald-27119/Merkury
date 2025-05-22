@@ -28,33 +28,23 @@ export default function SpotActionButtonsContainer({
 
   return (
     <ul className="mt-3 flex items-center justify-center space-x-3">
-      <li>
-        <SpotActionButton
-          key={0}
-          onClickHandler={() => clickNavigateHandler(spotId)}
-        >
+      <li key={0}>
+        <SpotActionButton onClickHandler={() => clickNavigateHandler(spotId)}>
           <MdOutlineNavigation data-testid="navigate-to-spot-button-icon" />
         </SpotActionButton>
       </li>
-      <li>
-        <SpotActionButton
-          key={1}
-          onClickHandler={() => clickSaveSpotHandler(spotId)}
-        >
+      <li key={1}>
+        <SpotActionButton onClickHandler={() => clickSaveSpotHandler(spotId)}>
           <MdOutlineBookmarkBorder data-testid="save-spot-button-icon" />
         </SpotActionButton>
       </li>
-      <li>
-        <SpotActionButton
-          key={2}
-          onClickHandler={() => clickShareSpotHandler(spotId)}
-        >
+      <li key={2}>
+        <SpotActionButton onClickHandler={() => clickShareSpotHandler(spotId)}>
           <AiOutlineShareAlt data-testid="share-spot-button-icon" />
         </SpotActionButton>
       </li>
-      <li>
+      <li key={3}>
         <SpotActionButton
-          key={3}
           onClickHandler={() => clickAddPhotoToSpotHandler(spotId)}
         >
           <MdOutlineAddPhotoAlternate data-testid="add-photo-button-icon" />

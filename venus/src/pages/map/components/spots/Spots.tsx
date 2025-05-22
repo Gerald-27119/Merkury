@@ -14,6 +14,8 @@ import { MdLocationPin } from "react-icons/md";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { spotDetailsModalAction } from "../../../../redux/spot-modal";
 
+const clickHandlers = new Map<number, () => void>();
+
 export default function Spots() {
   const { name, minRating, maxRating } = useSelectorTyped(
     (state) => state.spotFilters,
@@ -43,7 +45,9 @@ export default function Spots() {
     if (map && data) {
       data?.forEach((spot: GeneralSpot) => {
         if (!shouldRenderMarker(spot.area, zoomLevel)) {
-          map?.on("click", spot.id.toString(), () => handleSpotClick(spot.id));
+          const handler = () => handleSpotClick(spot.id);
+          clickHandlers.set(spot.id, handler);
+          map?.on("click", spot.id.toString(), handler);
         }
       });
     }
@@ -51,9 +55,11 @@ export default function Spots() {
       if (map || data) {
         data?.forEach((spot: GeneralSpot) => {
           if (!shouldRenderMarker(spot.area, zoomLevel)) {
-            map?.off("click", spot.id.toString(), () =>
-              handleSpotClick(spot.id),
-            );
+            const handler = clickHandlers.get(spot.id);
+            if (handler) {
+              map?.off("click", spot.id.toString(), handler);
+              clickHandlers.delete(spot.id);
+            }
           }
         });
       }
