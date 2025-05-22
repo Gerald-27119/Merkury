@@ -1,10 +1,6 @@
-import Weather from "./components/weather/Weather.jsx";
 import PhotoGallery from "./components/photo-gallery/PhotoGallery.js";
-import Comments from "./components/comments/Comments.jsx";
 import SpotGeneralInfo from "./components/spot-info/SpotGeneralInfo.js";
 import { spotDetailsModalAction } from "../../redux/spot-modal";
-import ExpandedPhotoGallery from "./components/photo-gallery/ExpandedPhotoGallery.jsx";
-import { photoAction } from "../../redux/photo.jsx";
 import { fetchSpotsDataById } from "../../http/spots-data.js";
 import { useEffect } from "react";
 import { notificationAction } from "../../redux/notification.jsx";
