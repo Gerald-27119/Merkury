@@ -1,11 +1,10 @@
 import { Map } from "@vis.gl/react-maplibre";
 import ZoomControlPanel from "./components/zoom-control/ZoomControlPanel";
-import UserLocationPanel from "./components/UserLocationPanel";
+import UserLocationPanel from "./components/locations/UserLocationPanel";
 import Spots from "./components/spots/Spots";
 import useDispatchTyped from "../../hooks/useDispatchTyped";
 import { mapAction } from "../../redux/map";
 import useSelectorTyped from "../../hooks/useSelectorTyped";
-import { spotDetailsModalSlice } from "../../redux/spot-modal";
 import SpotDetails from "../spot/SpotDetails";
 
 type Position = {
