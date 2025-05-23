@@ -1,5 +1,5 @@
 import { LiaSearchSolid } from "react-icons/lia";
-import Input from "../../../../components/form/Input.jsx";
+import FormInput from "../../../../components/form/FormInput.tsx";
 import { useDispatch } from "react-redux";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { spotFiltersAction } from "../../../../redux/spot-filters.jsx";
@@ -83,7 +83,7 @@ export default function SpotsFilters() {
     >
       <div className="relative flex items-center">
         <LiaSearchSolid size={30} className="mt-1 mr-2 text-white" />
-        <Input
+        <FormInput
           id="name"
           type="text"
           placeholder="Search..."
