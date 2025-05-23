@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
-import com.merkury.vulcanus.exception.exceptions.AlreadyFollowedException;
-import com.merkury.vulcanus.exception.exceptions.NotFollowedException;
+import com.merkury.vulcanus.exception.exceptions.UserAlreadyFollowedException;
+import com.merkury.vulcanus.exception.exceptions.UserNotFollowedException;
 import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.entities.UserEntity;
@@ -74,7 +74,7 @@ class FollowersServiceTest {
     }
 
     @Test
-    void shouldAddFollowerWhenNotAtFollowerList() throws UserNotFoundByUsernameException, AlreadyFollowedException, NotFollowedException, UnsupportedEditUserFriendsTypeException {
+    void shouldAddFollowerWhenNotAtFollowerList() throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
         var user = UserEntity.builder().username("user1").build();
         var follower = UserEntity.builder().username("user2").build();
 
@@ -97,12 +97,12 @@ class FollowersServiceTest {
         when(userEntityFetcher.getByUsername("user1")).thenReturn(user);
         when(userEntityFetcher.getByUsername("user2")).thenReturn(follower);
 
-        assertThrows(AlreadyFollowedException.class,
+        assertThrows(UserAlreadyFollowedException.class,
                 () -> followersService.editUserFollowed("user1", "user2", ADD));
     }
 
     @Test
-    void shouldRemoveFollowerWhenFollowerExist() throws UserNotFoundByUsernameException, AlreadyFollowedException, NotFollowedException, UnsupportedEditUserFriendsTypeException {
+    void shouldRemoveFollowerWhenFollowerExist() throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
         var user = UserEntity.builder().username("user1").build();
         var follower = UserEntity.builder().username("user2").build();
         user.getFollowed().add(follower);
@@ -123,7 +123,7 @@ class FollowersServiceTest {
 
         when(userEntityFetcher.getByUsername("user1")).thenReturn(user);
 
-        assertThrows(NotFollowedException.class,
+        assertThrows(UserNotFollowedException.class,
                 () -> followersService.editUserFollowed("user1", "user2", REMOVE));
     }
 

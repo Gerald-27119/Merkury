@@ -23,8 +23,8 @@ public class UserDashboardExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
-    @ExceptionHandler(AlreadyFollowedException.class)
-    public ResponseEntity<String> handleFollowedAlreadyExistException(AlreadyFollowedException ex) {
+    @ExceptionHandler(UserAlreadyFollowedException.class)
+    public ResponseEntity<String> handleFollowedAlreadyExistException(UserAlreadyFollowedException ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
@@ -35,8 +35,8 @@ public class UserDashboardExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
-    @ExceptionHandler(NotFollowedException.class)
-    public ResponseEntity<String> handleFollowedConnectionNotExistException(NotFollowedException ex) {
+    @ExceptionHandler(UserNotFollowedException.class)
+    public ResponseEntity<String> handleFollowedConnectionNotExistException(UserNotFollowedException ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
