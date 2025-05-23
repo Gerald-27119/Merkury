@@ -12,6 +12,7 @@ import { EditUserFriendsType } from "../../../../model/enum/account/social/editU
 import { SocialListType } from "../../../../model/enum/account/social/socialListType";
 import { useBoolean } from "../../../../hooks/useBoolean";
 import Modal from "../../../../components/modal/Modal";
+import { useNavigate } from "react-router-dom";
 
 interface SocialCardProps {
   friend: Social;
@@ -21,6 +22,7 @@ interface SocialCardProps {
 export default function SocialCard({ friend, type }: SocialCardProps) {
   const username = useSelectorTyped((state) => state.account.username);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
     useBoolean(false);
 
@@ -54,6 +56,10 @@ export default function SocialCard({ friend, type }: SocialCardProps) {
     });
   };
 
+  const handleNavigateToUserProfile = () => {
+    navigate(`/account/profile/${friend.username}`);
+  };
+
   let handleRemove = async () => {};
 
   switch (type) {
@@ -77,7 +83,7 @@ export default function SocialCard({ friend, type }: SocialCardProps) {
       <h5 className="text-darkBorder text-center capitalize">available</h5>
       <div className="flex gap-2 text-3xl">
         {/*TODO zrobić działające przyciski*/}
-        <SocialButton onClick={() => {}}>
+        <SocialButton onClick={handleNavigateToUserProfile}>
           <FaUser aria-label="userProfileFriendCardIcon" />
         </SocialButton>
         <SocialButton onClick={() => {}}>

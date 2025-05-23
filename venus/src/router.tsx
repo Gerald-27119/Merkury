@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Error from "./components/error/Error.jsx";
-import Register from "./pages/register/Register.tsx";
-import Login from "./pages/login/Login.tsx";
+import Register from "./pages/register/Register";
+import Login from "./pages/login/Login";
 import ForgotPassword from "./pages/forgot-password/ForgotPassword.jsx";
 import NewPassword from "./pages/new-password/NewPassword.jsx";
 import Layout from "./layout/Layout.jsx";
@@ -38,6 +38,7 @@ const router = createBrowserRouter([
                 <Profile />
               </ProtectedRoute>
             ),
+            children: [{ path: ":id", element: <Profile /> }],
           },
           {
             path: "friends",

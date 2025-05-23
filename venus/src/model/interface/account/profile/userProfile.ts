@@ -8,4 +8,6 @@ export default interface UserProfile {
   friendsCount: number;
   photosCount: number;
   mostPopularPhotos: Image[];
+  isFriends: boolean;
+  isFollowing: boolean;
 }

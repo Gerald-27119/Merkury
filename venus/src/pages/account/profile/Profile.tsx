@@ -1,17 +1,75 @@
 import MostPopularImage from "./components/MostPopularImage";
 import ProfileStat from "./components/ProfileStat";
 import useSelectorTyped from "../../../hooks/useSelectorTyped";
-import { useQuery } from "@tanstack/react-query";
-import { getUserProfile } from "../../../http/user-dashboard";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  editUserFollowed,
+  editUserFriends,
+  getUserProfile,
+} from "../../../http/user-dashboard";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
+import { useParams } from "react-router-dom";
+import ProfileButton from "./components/ProfileButton";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { notificationAction } from "../../../redux/notification";
+import { AxiosError } from "axios";
+import { EditUserFriendsType } from "../../../model/enum/account/social/editUserFriendsType";
 
 export default function Profile() {
   const username = useSelectorTyped((state) => state.account.username);
+  const dispatch = useDispatchTyped();
+  const queryClient = useQueryClient();
+  const { id } = useParams();
+
+  let profileUsername = id ?? username;
 
   const { data, isLoading } = useQuery({
-    queryFn: () => getUserProfile(username),
-    queryKey: ["userProfile", username],
+    queryFn: () => getUserProfile(profileUsername),
+    queryKey: ["userProfile", profileUsername],
+    throwOnError: (e: AxiosError) => {
+      dispatch(notificationAction.setError({ message: e.response?.data }));
+    },
   });
+
+  const { mutateAsync: mutateFriends } = useMutation({
+    mutationFn: editUserFriends,
+    throwOnError: (e: AxiosError) => {
+      dispatch(notificationAction.setError({ message: e.response?.data }));
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["userProfile", profileUsername],
+      });
+    },
+  });
+
+  const { mutateAsync: mutateFollowed } = useMutation({
+    mutationFn: editUserFollowed,
+    throwOnError: (e: AxiosError) => {
+      dispatch(notificationAction.setError({ message: e.response?.data }));
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["userProfile", profileUsername],
+      });
+    },
+  });
+
+  const handleAddToFriends = async () => {
+    await mutateFriends({
+      username,
+      friendUsername: id!,
+      type: EditUserFriendsType.ADD,
+    });
+  };
+
+  const handleAddToFollowed = async () => {
+    await mutateFollowed({
+      username,
+      followedUsername: id!,
+      type: EditUserFriendsType.ADD,
+    });
+  };
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -35,6 +93,18 @@ export default function Profile() {
             <ProfileStat label="Friends" value={data?.friendsCount} />
             <ProfileStat label="Photos" value={data?.photosCount} />
           </div>
+          {id && (
+            <div className="text-darkText flex w-full flex-wrap justify-center gap-5 xl:flex-nowrap">
+              <ProfileButton
+                onClick={handleAddToFollowed}
+                text={data?.isFollowing ? "unfollow" : "follow"}
+              />
+              <ProfileButton
+                onClick={handleAddToFriends}
+                text="add to friends"
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-col items-center gap-6">
