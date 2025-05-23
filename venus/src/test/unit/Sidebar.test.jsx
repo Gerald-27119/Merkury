@@ -228,7 +228,7 @@ describe("Sidebar component unit tests", () => {
       });
 
       test("should render friends Text", () => {
-        const text = screen.getByText("friends");
+        const text = screen.getByText("social");
         expect(text).toBeInTheDocument();
       });
 

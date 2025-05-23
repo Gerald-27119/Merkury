@@ -5,19 +5,20 @@ import Login from "./pages/login/Login.tsx";
 import ForgotPassword from "./pages/forgot-password/ForgotPassword.jsx";
 import NewPassword from "./pages/new-password/NewPassword.jsx";
 import Layout from "./layout/Layout.jsx";
-import Forum from "./pages/forum/Forum.tsx";
+import Forum from "./pages/forum/Forum";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
 import FavouriteSpots from "./pages/favourite-spots/FavouriteSpots.jsx";
-import MapPage from "./pages/map/MapPage.tsx";
-import Profile from "./pages/account/profile/Profile.tsx";
-import ChatsPage from "./pages/chats/ChatsPage.tsx";
+import MapPage from "./pages/map/MapPage";
+import Profile from "./pages/account/profile/Profile";
+import ChatsPage from "./pages/chats/ChatsPage";
+import Social from "./pages/account/social/Social";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    errorElement: <Error />,
+    errorElement: <Error error={undefined} />,
     children: [
       {
         index: true,
@@ -35,6 +36,14 @@ const router = createBrowserRouter([
             element: (
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "friends",
+            element: (
+              <ProtectedRoute>
+                <Social />
               </ProtectedRoute>
             ),
           },

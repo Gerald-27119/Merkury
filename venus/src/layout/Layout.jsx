@@ -8,7 +8,6 @@ import { useToggleState } from "../hooks/useToggleState";
 export default function Layout() {
   const location = useLocation();
   const isMapPage = location.pathname === "/map";
-  const isForumPage = location.pathname === "/forum";
   const [isSidebarOpen, setIsSidebarOpen, toggleSidebar] =
     useToggleState(false);
 
@@ -19,9 +18,7 @@ export default function Layout() {
   }, [location]);
 
   return (
-    <div
-      className={`${isMapPage ? "relative" : "flex"} ${isForumPage ? "min-h-screen" : "lg:h-screen"}`}
-    >
+    <div className={`${isMapPage ? "relative" : "flex"} min-h-screen`}>
       <Sidebar isSidebarOpen={isSidebarOpen} onToggle={toggleSidebar} />
       <main className="relative flex w-full flex-col items-center justify-center">
         <MobileBar onToggle={toggleSidebar} />

@@ -3,7 +3,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.entities.Img;
-import com.merkury.vulcanus.model.mappers.ProfileMapper;
+import com.merkury.vulcanus.model.mappers.user.dashboard.ProfileMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

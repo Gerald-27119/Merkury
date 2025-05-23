@@ -7,8 +7,8 @@ import {
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
-import Profile from "../../pages/account/profile/Profile";
-import { accountSlice } from "../../redux/account.jsx";
+import Profile from "../../../../pages/account/profile/Profile";
+import { accountSlice } from "../../../../redux/account.jsx";
 import { describe } from "vitest";
 
 const queryClient = new QueryClient();
