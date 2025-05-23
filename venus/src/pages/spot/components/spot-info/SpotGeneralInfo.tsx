@@ -1,5 +1,5 @@
 import { Rate } from "antd";
-import Tag from "../../../../model/interface/spot/tag/tag";
+import SpotTagInterface from "../../../../model/interface/spot/tag/spotTagInterface";
 import SpotTag from "../tag/SpotTag";
 
 type SpotGeneralInfoProps = {
@@ -7,7 +7,7 @@ type SpotGeneralInfoProps = {
   description: string;
   rating: number;
   ratingCount: number;
-  tags: Tag[];
+  tags: SpotTagInterface[];
 };
 
 export default function SpotGeneralInfo({
@@ -25,7 +25,7 @@ export default function SpotGeneralInfo({
           <div className="custom-rate text-ratingStarColor mx-2 mt-1 inline-flex min-w-fit">
             <Rate data-testid="spot-rating" disabled allowHalf value={rating} />
           </div>
-          <div className="text-2xl">({ratingCount})</div>
+          <p className="text-2xl">({ratingCount})</p>
         </div>
       </div>
       <ul className="flex flex-wrap space-x-4">

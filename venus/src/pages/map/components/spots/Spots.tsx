@@ -42,24 +42,40 @@ export default function Spots() {
   }, [dispatch, error]);
 
   useEffect(() => {
-    if (map && data) {
+    if (!map) return;
+
+    const handleMouseEnter = () => {
+      map.getCanvas().style.cursor = "pointer";
+    };
+    const handleMouseLeave = () => {
+      map.getCanvas().style.cursor = "";
+    };
+
+    if (data) {
       data?.forEach((spot: GeneralSpot) => {
         if (!shouldRenderMarker(spot.area, zoomLevel)) {
           const handler = () => handleSpotClick(spot.id);
+          const layerId = spot.id.toString();
           clickHandlers.set(spot.id, handler);
-          map?.on("click", spot.id.toString(), handler);
+          map?.on("click", layerId, handler);
+          map?.on("mouseenter", layerId, handleMouseEnter);
+          map?.on("mouseleave", layerId, handleMouseLeave);
         }
       });
     }
     return () => {
-      if (map || data) {
+      if (data) {
         data?.forEach((spot: GeneralSpot) => {
           if (!shouldRenderMarker(spot.area, zoomLevel)) {
             const handler = clickHandlers.get(spot.id);
+            const layerId = spot.id.toString();
             if (handler) {
-              map?.off("click", spot.id.toString(), handler);
+              map?.off("click", layerId, handler);
               clickHandlers.delete(spot.id);
             }
+            map?.off("mouseenter", layerId, handleMouseEnter);
+            map?.off("mouseleave", layerId, handleMouseLeave);
+            map.getCanvas().style.cursor = "";
           }
         });
       }
@@ -82,7 +98,7 @@ export default function Spots() {
             onClick={() => handleSpotClick(spot.id)}
           >
             <MdLocationPin
-              className="text-spotLocationMarker text-3xl"
+              className="text-spotLocationMarker cursor-pointer text-3xl"
               key={spot.id}
             />
           </Marker>

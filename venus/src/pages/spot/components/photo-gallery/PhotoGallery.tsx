@@ -21,8 +21,8 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
           }}
         >
           <Carousel arrows={true} className="max-w-[15rem] xl:max-w-[30rem]">
-            {photos.map((photo, index) => (
-              <Photo key={index} photo={photo} />
+            {photos.map((photo) => (
+              <Photo key={photo.id} photo={photo} />
             ))}
           </Carousel>
         </ConfigProvider>

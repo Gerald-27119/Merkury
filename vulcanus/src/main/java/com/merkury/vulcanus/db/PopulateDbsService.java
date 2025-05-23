@@ -87,6 +87,7 @@ public class PopulateDbsService {
                 .areaColor("#A8071A")
                 .description("Brązowy posąg XVII-wiecznego polskiego króla Jana III Sobieskiego na koniu usytuowany na małym placu.")
                 .rating(5.0)
+                .ratingCount(25)
                 .images(new ArrayList<>())
                 .tags(new HashSet<>())
                 .build();
@@ -99,6 +100,7 @@ public class PopulateDbsService {
                 .areaColor("#A8071A")
                 .description("Mały park z ławkami i pomnikiem Czesława Niemena.")
                 .rating(5.0)
+                .ratingCount(25)
                 .images(new ArrayList<>())
                 .tags(new HashSet<>())
                 .build();
@@ -111,6 +113,7 @@ public class PopulateDbsService {
                 .areaColor("#A8071A")
                 .description("Mały park z ławkami")
                 .rating(3.5)
+                .ratingCount(20)
                 .images(new ArrayList<>())
                 .tags(new HashSet<>())
                 .build();
@@ -123,6 +126,7 @@ public class PopulateDbsService {
                 .areaColor("#A8071A")
                 .description("Mały park")
                 .rating(3.6)
+                .ratingCount(15)
                 .images(new ArrayList<>())
                 .tags(new HashSet<>())
                 .build();
@@ -135,6 +139,7 @@ public class PopulateDbsService {
                 .areaColor("#A8071A")
                 .description("Zielona strefa z jeziorem")
                 .rating(4.6)
+                .ratingCount(8)
                 .images(new ArrayList<>())
                 .tags(new HashSet<>())
                 .build();
@@ -147,6 +152,7 @@ public class PopulateDbsService {
                 .areaColor("#A8071A")
                 .description("Mały, zadbany plac z ławeczkami i zielenią. Znajduje się on z jednej strony w pobliżu pomnika Jana III Sobieskiego, a z drugiej strony w pobliżu Hali Targowej.")
                 .rating(4.5)
+                .ratingCount(1)
                 .images(new ArrayList<>())
                 .tags(new HashSet<>())
                 .build();
@@ -159,6 +165,7 @@ public class PopulateDbsService {
                 .areaColor("#A8071A")
                 .description("Plac zabaw")
                 .rating(4.8)
+                .ratingCount(99)
                 .images(new ArrayList<>())
                 .tags(new HashSet<>())
                 .build();
@@ -171,6 +178,7 @@ public class PopulateDbsService {
                 .areaColor("#A8071A")
                 .description("Szeroka piaszczysta plaża.")
                 .rating(4.6)
+                .ratingCount(25)
                 .images(new ArrayList<>())
                 .tags(new HashSet<>())
                 .build();
@@ -183,6 +191,7 @@ public class PopulateDbsService {
                 .areaColor("#A8071A")
                 .description("Park Oruński należy, obok Parku Oliwskiego, należy do najcenniejszych zachowanych dawnych gdańskich parków.")
                 .rating(5.0)
+                .ratingCount(25)
                 .images(new ArrayList<>())
                 .tags(new HashSet<>())
                 .build();
@@ -195,6 +204,7 @@ public class PopulateDbsService {
                 .areaColor("#A8071A")
                 .description("Park, który oryginalnie był cmentarzem protestanckim, należącym dawniej do kościoła przy placu Oruńskim.")
                 .rating(4.4)
+                .ratingCount(25)
                 .images(new ArrayList<>())
                 .tags(new HashSet<>())
                 .build();

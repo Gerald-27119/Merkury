@@ -1,10 +1,10 @@
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
-import React, { useState } from "react";
+import { HTMLAttributes, useState } from "react";
 import Img from "../../../../model/interface/img";
 
 type PhotoProps = {
   photo: Img;
-} & React.HTMLAttributes<HTMLDivElement>;
+} & HTMLAttributes<HTMLDivElement>;
 
 export default function Photo({ photo, ...props }: PhotoProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);

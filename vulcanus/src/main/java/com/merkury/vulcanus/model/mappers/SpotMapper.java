@@ -56,7 +56,7 @@ public class SpotMapper {
                 .street(spot.getStreet())
                 .description(spot.getDescription())
                 .rating(spot.getRating())
-                .ratingCount(25)//TODO: should this be calculated here or stored in db?
+                .ratingCount(spot.getRatingCount())
                 .photos(spot.getImages().stream()
                         .map(ImgMapper::toDto)
                         .toList())

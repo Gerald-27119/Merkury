@@ -66,6 +66,9 @@ public class Spot {
     private Double rating = 0.0;
 
     @Builder.Default
+    private int ratingCount = 0;
+
+    @Builder.Default
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Img> images = new ArrayList<>();

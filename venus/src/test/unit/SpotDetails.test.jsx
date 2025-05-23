@@ -101,51 +101,59 @@ describe("SpotDetails component unit tests", () => {
     });
     describe("Should render general info", () => {
       test("Spot name", () => {
-        expect(screen.getByText("SpotName")).toBeDefined();
+        expect(screen.getByText("SpotName")).toBeInTheDocument();
       });
       test("Description", () => {
-        expect(screen.getByText("Description")).toBeDefined();
+        expect(screen.getByText("Description")).toBeInTheDocument();
       });
       test("Rating", () => {
-        expect(screen.getByText("Description")).toBeDefined();
+        expect(screen.getByText("Description")).toBeInTheDocument();
       });
       test("Rating count", () => {
-        expect(screen.getByTestId("spot-rating")).toBeDefined();
+        expect(screen.getByTestId("spot-rating")).toBeInTheDocument();
       });
       test("Tags", () => {
-        expect(screen.getByText("Tag1")).toBeDefined();
-        expect(screen.getByText("Tag2")).toBeDefined();
+        expect(screen.getByText("Tag1")).toBeInTheDocument();
+        expect(screen.getByText("Tag2")).toBeInTheDocument();
       });
     });
     describe("Should render spot address info", () => {
       test("Country", () => {
-        expect(screen.getByText(/Country/i)).toBeDefined();
+        expect(screen.getByText(/Country/i)).toBeInTheDocument();
       });
       test("City", () => {
-        expect(screen.getByText(/City/i)).toBeDefined();
+        expect(screen.getByText(/City/i)).toBeInTheDocument();
       });
       test("Street", () => {
-        expect(screen.getByText("Street")).toBeDefined();
+        expect(screen.getByText("Street")).toBeInTheDocument();
       });
     });
     test("Should render photos", () => {
-      expect(screen.getAllByAltText("PhotoTitle1")).toBeDefined();
-      expect(screen.getAllByAltText("PhotoTitle2")).toBeDefined();
+      const photos1 = screen.getAllByAltText("PhotoTitle1");
+      photos1.forEach((p) => {
+        expect(p).toBeInTheDocument();
+      });
+      const photos2 = screen.getAllByAltText("PhotoTitle2");
+      photos2.forEach((p) => {
+        expect(p).toBeInTheDocument();
+      });
     });
     describe("Should render spot action buttons", () => {
       test("navigate to spot", () => {
         expect(
           screen.getByTestId("navigate-to-spot-button-icon"),
-        ).toBeDefined();
+        ).toBeInTheDocument();
       });
       test("save spot", () => {
-        expect(screen.getByTestId("save-spot-button-icon")).toBeDefined();
+        expect(screen.getByTestId("save-spot-button-icon")).toBeInTheDocument();
       });
       test("share spot", () => {
-        expect(screen.getByTestId("share-spot-button-icon")).toBeDefined();
+        expect(
+          screen.getByTestId("share-spot-button-icon"),
+        ).toBeInTheDocument();
       });
       test("add photo", () => {
-        expect(screen.getByTestId("add-photo-button-icon")).toBeDefined();
+        expect(screen.getByTestId("add-photo-button-icon")).toBeInTheDocument();
       });
     });
   });
