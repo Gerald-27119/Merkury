@@ -1,5 +1,7 @@
 import axios from "axios";
 import UserProfile from "../model/interface/account/profile/userProfile";
+import { Social } from "../model/interface/account/social/social";
+import { EditUserFriendsType } from "../model/enum/account/social/editUserFriendsType";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserProfile(username: string): Promise<UserProfile> {
@@ -7,5 +9,73 @@ export async function getUserProfile(username: string): Promise<UserProfile> {
     await axios.get(`${BASE_URL}/user-dashboard/profile/${username}`, {
       withCredentials: true,
     })
+  ).data;
+}
+
+export async function getUserFriends(username: string): Promise<Social[]> {
+  return (
+    await axios.get(`${BASE_URL}/user-dashboard/friends/${username}`, {
+      withCredentials: true,
+    })
+  ).data;
+}
+
+interface EditUserFriendsProps {
+  username: string;
+  friendUsername: string;
+  type: EditUserFriendsType;
+}
+
+export async function editUserFriends({
+  username,
+  friendUsername,
+  type,
+}: EditUserFriendsProps): Promise<void> {
+  return (
+    await axios.patch(
+      `${BASE_URL}/user-dashboard/friends/${username}?friendUsername=${friendUsername}&type=${type}`,
+      {},
+      {
+        withCredentials: true,
+      },
+    )
+  ).data;
+}
+
+export async function getUserFollowed(username: string): Promise<Social[]> {
+  return (
+    await axios.get(`${BASE_URL}/user-dashboard/followed/${username}`, {
+      withCredentials: true,
+    })
+  ).data;
+}
+
+export async function getUserFollowers(username: string): Promise<Social[]> {
+  return (
+    await axios.get(`${BASE_URL}/user-dashboard/followers/${username}`, {
+      withCredentials: true,
+    })
+  ).data;
+}
+
+interface EditUserFollowedProps {
+  username: string;
+  followedUsername: string;
+  type: EditUserFriendsType;
+}
+
+export async function editUserFollowed({
+  username,
+  followedUsername,
+  type,
+}: EditUserFollowedProps): Promise<void> {
+  return (
+    await axios.patch(
+      `${BASE_URL}/user-dashboard/followed/${username}?followedUsername=${followedUsername}&type=${type}`,
+      {},
+      {
+        withCredentials: true,
+      },
+    )
   ).data;
 }
