@@ -22,7 +22,7 @@ public class ProfileMapper {
                 .build();
     }
 
-    public static UserProfileDto toDto(@NotNull UserEntity user, @NotNull List<ImageDto> imageDto){
+    public static UserProfileDto toDto(@NotNull UserEntity user, @NotNull List<ImageDto> imageDto, Boolean isFriends, Boolean isFollowing){
         return UserProfileDto.builder()
                 .username(user.getUsername())
                 .profilePhoto(user.getProfilePhoto())
@@ -31,6 +31,8 @@ public class ProfileMapper {
                 .friendsCount(user.getFriendships().size())
                 .photosCount(user.getImages().size())
                 .mostPopularPhotos(imageDto)
+                .isFriends(isFriends)
+                .isFollowing(isFollowing)
                 .build();
     }
 }

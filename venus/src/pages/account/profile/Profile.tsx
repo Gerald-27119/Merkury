@@ -1,6 +1,5 @@
 import MostPopularImage from "./components/MostPopularImage";
 import ProfileStat from "./components/ProfileStat";
-import useSelectorTyped from "../../../hooks/useSelectorTyped";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   editUserFollowed,
@@ -16,16 +15,13 @@ import { AxiosError } from "axios";
 import { EditUserFriendsType } from "../../../model/enum/account/social/editUserFriendsType";
 
 export default function Profile() {
-  const username = useSelectorTyped((state) => state.account.username);
   const dispatch = useDispatchTyped();
   const queryClient = useQueryClient();
   const { id } = useParams();
 
-  let profileUsername = id ?? username;
-
   const { data, isLoading } = useQuery({
-    queryFn: () => getUserProfile(profileUsername),
-    queryKey: ["userProfile", profileUsername],
+    queryFn: getUserProfile,
+    queryKey: ["userProfile", id],
     throwOnError: (e: AxiosError) => {
       dispatch(notificationAction.setError({ message: e.response?.data }));
     },
@@ -38,7 +34,7 @@ export default function Profile() {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["userProfile", profileUsername],
+        queryKey: ["userProfile", id],
       });
     },
   });
@@ -50,14 +46,13 @@ export default function Profile() {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["userProfile", profileUsername],
+        queryKey: ["userProfile", id],
       });
     },
   });
 
   const handleAddToFriends = async () => {
     await mutateFriends({
-      username,
       friendUsername: id!,
       type: EditUserFriendsType.ADD,
     });
@@ -65,7 +60,6 @@ export default function Profile() {
 
   const handleAddToFollowed = async () => {
     await mutateFollowed({
-      username,
       followedUsername: id!,
       type: EditUserFriendsType.ADD,
     });
@@ -101,7 +95,9 @@ export default function Profile() {
               />
               <ProfileButton
                 onClick={handleAddToFriends}
-                text="add to friends"
+                text={
+                  data?.isFriends ? "remove from friends" : "add to friends"
+                }
               />
             </div>
           )}
