@@ -4,6 +4,10 @@ import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx"
 import { fetchPaginatedPosts } from "../../http/posts";
 import { useState } from "react";
 import Post from "./components/Post";
+import AddPostButton from "./components/AddPostButton";
+import PostSearchBar from "./components/PostSearchBar";
+import CategoriesTagsPanel from "./components/CategoriesTagsPanel";
+import RightPanel from "./components/RightPanel";
 
 export default function Forum() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -24,19 +28,31 @@ export default function Forum() {
   return (
     <>
       <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg min-h-screen w-full">
-        {data?.content?.length ? (
+        <div className="mx-auto mt-8 flex w-full max-w-6xl flex-row gap-4">
           <div>
-            <ul>
-              {data.content.map((post) => (
-                <li key={post.id}>
-                  <Post post={post} />
-                </li>
-              ))}
-            </ul>
+            <AddPostButton />
+            <CategoriesTagsPanel />
           </div>
-        ) : (
-          <span>No posts available</span>
-        )}
+
+          {data?.content?.length ? (
+            <div className="mt-10">
+              <ul>
+                {data.content.map((post) => (
+                  <li key={post.id}>
+                    <Post post={post} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <span>No posts available</span>
+          )}
+
+          <div>
+            <PostSearchBar />
+            <RightPanel />
+          </div>
+        </div>
       </div>
     </>
   );

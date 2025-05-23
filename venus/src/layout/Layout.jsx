@@ -19,7 +19,9 @@ export default function Layout() {
   }, [location]);
 
   return (
-    <div className={`${isMapPage ? "relative" : "flex"} ${isForumPage ? "min-h-screen" : "lg:h-screen"}`}>
+    <div
+      className={`${isMapPage ? "relative" : "flex"} ${isForumPage ? "min-h-screen" : "lg:h-screen"}`}
+    >
       <Sidebar isSidebarOpen={isSidebarOpen} onToggle={toggleSidebar} />
       <main className="relative flex w-full flex-col items-center justify-center">
         <MobileBar onToggle={toggleSidebar} />

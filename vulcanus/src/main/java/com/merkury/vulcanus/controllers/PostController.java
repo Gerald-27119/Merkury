@@ -58,7 +58,7 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/categories-tags")
+    @GetMapping("/public/categories-tags")
     public ResponseEntity<CategoriesAndTagsDto> getAllCategoriesAndTags(){
        return ResponseEntity.ok(postService.getAllCategoriesAndTags());
     }

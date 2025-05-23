@@ -6,5 +6,5 @@ import java.util.List;
 
 @Builder
 public record CategoriesAndTagsDto(List<CategoryDto> categories,
-                                   List<String> tags) {
+                                   List<TagDto> tags) {
 }

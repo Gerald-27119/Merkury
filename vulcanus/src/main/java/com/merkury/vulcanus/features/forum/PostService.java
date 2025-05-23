@@ -11,6 +11,7 @@ import com.merkury.vulcanus.model.entities.forum.PostCategory;
 import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.Tag;
 import com.merkury.vulcanus.model.mappers.forum.mappers.CategoryMapper;
+import com.merkury.vulcanus.model.mappers.forum.mappers.TagMapper;
 import com.merkury.vulcanus.model.mappers.forum.mappers.PostMapper;
 import com.merkury.vulcanus.model.repositories.PostCategoryRepository;
 import com.merkury.vulcanus.model.repositories.PostRepository;
@@ -102,7 +103,7 @@ public class PostService {
         var categories = postCategoryRepository.findAll();
         var tags = tagRepository.findAll();
 
-        return new CategoriesAndTagsDto(categories.stream().map(CategoryMapper::toDto).toList(), tags.stream().map(Tag::getName).toList());
+        return new CategoriesAndTagsDto(categories.stream().map(CategoryMapper::toDto).toList(), tags.stream().map(TagMapper::toDto).toList());
     }
 
     private PostCategory getCategoryByName(String name) throws CategoryNotFoundException {
