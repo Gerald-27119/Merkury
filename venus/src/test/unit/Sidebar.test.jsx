@@ -3,8 +3,8 @@ import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { configureStore } from "@reduxjs/toolkit";
 import { MemoryRouter } from "react-router-dom";
-import { accountSlice } from "../../redux/account.jsx";
-import Sidebar from "../../layout/sidebar/Sidebar.tsx";
+import { accountSlice } from "../../redux/account";
+import Sidebar from "../../layout/sidebar/Sidebar";
 
 const queryClient = new QueryClient();
 
