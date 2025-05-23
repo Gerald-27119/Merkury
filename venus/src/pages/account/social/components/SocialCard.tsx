@@ -65,7 +65,7 @@ export default function SocialCard({ friend, type }: SocialCardProps) {
   }
 
   return (
-    <div className="dark:bg-darkBgSoft bg-lightBgSoft space-y-2 rounded-md px-3 pt-3 pb-4">
+    <li className="dark:bg-darkBgSoft bg-lightBgSoft space-y-2 rounded-md px-3 pt-3 pb-4">
       <img
         src={friend.profilePhoto}
         alt="profileImage"
@@ -99,6 +99,6 @@ export default function SocialCard({ friend, type }: SocialCardProps) {
           {type === SocialListType.FRIENDS ? " a friend" : " a follower"}?
         </h2>
       </Modal>
-    </div>
+    </li>
   );
 }
