@@ -6,7 +6,6 @@ import {
   editUserFollowed,
   editUserFriends,
 } from "../../../../http/user-dashboard";
-import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import SocialButton from "./SocialButton";
 import { EditUserFriendsType } from "../../../../model/enum/account/social/editUserFriendsType";
 import { SocialListType } from "../../../../model/enum/account/social/socialListType";
@@ -19,7 +18,6 @@ interface SocialCardProps {
 }
 
 export default function SocialCard({ friend, type }: SocialCardProps) {
-  const username = useSelectorTyped((state) => state.account.username);
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
     useBoolean(false);
@@ -40,7 +38,6 @@ export default function SocialCard({ friend, type }: SocialCardProps) {
 
   const removeUserFriend = async (friendUsername: string) => {
     await mutateAsyncFriends({
-      username,
       friendUsername,
       type: EditUserFriendsType.REMOVE,
     });
@@ -48,7 +45,6 @@ export default function SocialCard({ friend, type }: SocialCardProps) {
 
   const removeUserFollowed = async (followedUsername: string) => {
     await mutateAsyncFollowed({
-      username,
       followedUsername,
       type: EditUserFriendsType.REMOVE,
     });

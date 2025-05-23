@@ -24,37 +24,41 @@ public class UserDashboardController {
     public ResponseEntity<UserProfileDto> getUserProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
         var user = userDashboardService.getUserProfile(request);
         return ResponseEntity.status(HttpStatus.OK).body(user);
-
-    @GetMapping("/friends/{username}")
-    public ResponseEntity<List<SocialDto>> getUserFriends(@PathVariable String username) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(userDashboardService.getUserFriends(username));
     }
+
+    @GetMapping("/friends")
+    public ResponseEntity<List<SocialDto>> getUserFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserFriends(request));
+    }
+
     /// TODO na frontendzie na razie obsłużone jest tylko usuwanie dodawanie będzie zrobione w innym zadaniu
-    @PatchMapping("/friends/{username}")
-    public ResponseEntity<Void> editUserFriends(@PathVariable String username, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
-        userDashboardService.editUserFriends(username, friendUsername, type);
+    @PatchMapping("/friends")
+    public ResponseEntity<Void> editUserFriends(HttpServletRequest request, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
+        userDashboardService.editUserFriends(request, friendUsername, type);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
     /// TODO na frontendzie na razie nie jest to obsłużone będzie to zrobione w innym zadaniu
-    @PatchMapping("/friends/change-status/{username}")
-    public ResponseEntity<Void> changeUserFriendsStatus(@PathVariable String username, @RequestParam String friendUsername, @RequestParam UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
-        userDashboardService.changeUserFriendsStatus(username, friendUsername, status);
+    @PatchMapping("/friends/change-status")
+    public ResponseEntity<Void> changeUserFriendsStatus(HttpServletRequest request, @RequestParam String friendUsername, @RequestParam UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
+        userDashboardService.changeUserFriendsStatus(request, friendUsername, status);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/followers/{username}")
-    public ResponseEntity<List<SocialDto>> getUserFollowers(@PathVariable String username) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(userDashboardService.getUserFollowers(username));
+    @GetMapping("/followers")
+    public ResponseEntity<List<SocialDto>> getUserFollowers(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserFollowers(request));
     }
 
-    @GetMapping("/followed/{username}")
-    public ResponseEntity<List<SocialDto>> getUserFollowed(@PathVariable String username) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(userDashboardService.getUserFollowed(username));
+    @GetMapping("/followed")
+    public ResponseEntity<List<SocialDto>> getUserFollowed(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserFollowed(request));
     }
+
     /// TODO na frontendzie na razie obsłużone jest tylko usuwanie dodawanie będzie zrobione w innym zadaniu
-    @PatchMapping("/followed/{username}")
-    public ResponseEntity<Void> editUserFollowed(@PathVariable String username, @RequestParam String followedUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
-        userDashboardService.editUserFollowed(username, followedUsername, type);
+    @PatchMapping("/followed")
+    public ResponseEntity<Void> editUserFollowed(HttpServletRequest request, @RequestParam String followedUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
+        userDashboardService.editUserFollowed(request, followedUsername, type);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

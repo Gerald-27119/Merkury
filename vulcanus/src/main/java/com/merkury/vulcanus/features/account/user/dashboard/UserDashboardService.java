@@ -22,31 +22,36 @@ public class UserDashboardService {
 
     public UserProfileDto getUserProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
         var username = jwtManager.getUsernameFromJwtCookie(request);
-
         return profileService.getUserProfile(username);
     }
 
-    public List<SocialDto> getUserFriends(String username) throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        var username = jwtManager.getUsernameFromJwtCookie(request);
         return friendsService.getUserFriends(username);
     }
 
-    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
+    public void editUserFriends(HttpServletRequest request, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
+        var username = jwtManager.getUsernameFromJwtCookie(request);
         friendsService.editUserFriends(username, friendUsername, type);
     }
 
-    public void changeUserFriendsStatus(String username, String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
+    public void changeUserFriendsStatus(HttpServletRequest request, String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
+        var username = jwtManager.getUsernameFromJwtCookie(request);
         friendsService.changeUserFriendsStatus(username, friendUsername, status);
     }
 
-    public List<SocialDto> getUserFollowers(String username) throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserFollowers(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        var username = jwtManager.getUsernameFromJwtCookie(request);
         return followersService.getUserFollowers(username);
     }
 
-    public List<SocialDto> getUserFollowed(String username) throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserFollowed(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        var username = jwtManager.getUsernameFromJwtCookie(request);
         return followersService.getUserFollowed(username);
     }
 
-    public void editUserFollowed(String username, String followedUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
+    public void editUserFollowed(HttpServletRequest request, String followedUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
+        var username = jwtManager.getUsernameFromJwtCookie(request);
         followersService.editUserFollowed(username, followedUsername, type);
     }
 }

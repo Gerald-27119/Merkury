@@ -12,28 +12,26 @@ export async function getUserProfile(): Promise<UserProfile> {
   ).data;
 }
 
-export async function getUserFriends(username: string): Promise<Social[]> {
+export async function getUserFriends(): Promise<Social[]> {
   return (
-    await axios.get(`${BASE_URL}/user-dashboard/friends/${username}`, {
+    await axios.get(`${BASE_URL}/user-dashboard/friends`, {
       withCredentials: true,
     })
   ).data;
 }
 
 interface EditUserFriendsProps {
-  username: string;
   friendUsername: string;
   type: EditUserFriendsType;
 }
 
 export async function editUserFriends({
-  username,
   friendUsername,
   type,
 }: EditUserFriendsProps): Promise<void> {
   return (
     await axios.patch(
-      `${BASE_URL}/user-dashboard/friends/${username}?friendUsername=${friendUsername}&type=${type}`,
+      `${BASE_URL}/user-dashboard/friends?friendUsername=${friendUsername}&type=${type}`,
       {},
       {
         withCredentials: true,
@@ -42,36 +40,34 @@ export async function editUserFriends({
   ).data;
 }
 
-export async function getUserFollowed(username: string): Promise<Social[]> {
+export async function getUserFollowed(): Promise<Social[]> {
   return (
-    await axios.get(`${BASE_URL}/user-dashboard/followed/${username}`, {
+    await axios.get(`${BASE_URL}/user-dashboard/followed`, {
       withCredentials: true,
     })
   ).data;
 }
 
-export async function getUserFollowers(username: string): Promise<Social[]> {
+export async function getUserFollowers(): Promise<Social[]> {
   return (
-    await axios.get(`${BASE_URL}/user-dashboard/followers/${username}`, {
+    await axios.get(`${BASE_URL}/user-dashboard/followers`, {
       withCredentials: true,
     })
   ).data;
 }
 
 interface EditUserFollowedProps {
-  username: string;
   followedUsername: string;
   type: EditUserFriendsType;
 }
 
 export async function editUserFollowed({
-  username,
   followedUsername,
   type,
 }: EditUserFollowedProps): Promise<void> {
   return (
     await axios.patch(
-      `${BASE_URL}/user-dashboard/followed/${username}?followedUsername=${followedUsername}&type=${type}`,
+      `${BASE_URL}/user-dashboard/followed?followedUsername=${followedUsername}&type=${type}`,
       {},
       {
         withCredentials: true,
