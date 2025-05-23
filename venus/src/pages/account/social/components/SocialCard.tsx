@@ -13,12 +13,12 @@ import { SocialListType } from "../../../../model/enum/account/social/socialList
 import { useBoolean } from "../../../../hooks/useBoolean";
 import Modal from "../../../../components/modal/Modal";
 
-interface FriendCardProps {
+interface SocialCardProps {
   friend: Social;
   type: SocialListType;
 }
 
-export default function SocialCard({ friend, type }: FriendCardProps) {
+export default function SocialCard({ friend, type }: SocialCardProps) {
   const username = useSelectorTyped((state) => state.account.username);
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
