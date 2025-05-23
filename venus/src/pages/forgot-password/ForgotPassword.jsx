@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
-import FormContainer from "../../components/form/FormContainer.jsx";
-import Input from "../../components/form/Input.jsx";
+import FormContainer from "../../components/form/FormContainer.tsx";
+import FormInput from "../../components/form/FormInput.tsx";
 import { sentEmailWithNewPasswordLink } from "../../http/account.js";
 
 export default function ForgotPassword() {
@@ -26,7 +26,7 @@ export default function ForgotPassword() {
       notificationMessage="Reminder email sent!"
     >
       <form onSubmit={handleSubmit}>
-        <Input
+        <FormInput
           id="email"
           value={enteredValue.email}
           onBlur={() => handleInputBlur("email")}

@@ -1,5 +1,5 @@
-import FormContainer from "../../components/form/FormContainer.jsx";
-import Input from "../../components/form/Input.jsx";
+import FormContainer from "../../components/form/FormContainer.tsx";
+import FormInput from "../../components/form/FormInput.tsx";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { editUserData, getUser } from "../../http/account.js";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
@@ -110,7 +110,7 @@ export default function EditUserData() {
           navigateOnSuccess="/edit-data"
         >
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-            <Input
+            <FormInput
               label="Username"
               type="text"
               id="username"
@@ -120,7 +120,7 @@ export default function EditUserData() {
               isValid={isValid.username}
             />
             {provider === "NONE" && (
-              <Input
+              <FormInput
                 label="E-mail"
                 type="email"
                 id="email"
@@ -134,7 +134,7 @@ export default function EditUserData() {
               <>
                 {isPasswordChange && (
                   <>
-                    <Input
+                    <FormInput
                       label="Old Password"
                       type="password"
                       id="old-password"
@@ -145,7 +145,7 @@ export default function EditUserData() {
                       onBlur={() => handleInputBlur("old-password")}
                       isValid={isValid["old-password"]}
                     />
-                    <Input
+                    <FormInput
                       label="Password"
                       type="password"
                       id="password"
@@ -154,7 +154,7 @@ export default function EditUserData() {
                       onBlur={() => handleInputBlur("password")}
                       isValid={isValid.password}
                     />
-                    <Input
+                    <FormInput
                       label="Confirm Password"
                       type="password"
                       id="confirm-password"

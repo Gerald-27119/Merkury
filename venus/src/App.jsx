@@ -1,6 +1,6 @@
 import { RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import router from "./router.jsx";
+import router from "./router.tsx";
 import axios from "axios";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 import { accountAction } from "./redux/account";

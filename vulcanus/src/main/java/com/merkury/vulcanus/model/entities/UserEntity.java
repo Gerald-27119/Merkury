@@ -20,8 +20,6 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "users")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(onlyExplicitlyIncluded = true)
 public class UserEntity implements UserDetails {
 
     @Id
@@ -43,6 +41,8 @@ public class UserEntity implements UserDetails {
      **/
     @Builder.Default
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Img> images = new ArrayList<>();
 
     /**
@@ -59,6 +59,8 @@ public class UserEntity implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "spot_id")
     )
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Spot> favoriteSpots = new ArrayList<>();
 
     @Builder.Default
@@ -86,6 +88,7 @@ public class UserEntity implements UserDetails {
      * loading of relationships.
      **/
     @Builder.Default
+    @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Friendship> friendships = new ArrayList<>();
 
@@ -94,6 +97,7 @@ public class UserEntity implements UserDetails {
     private List<Post> posts = new ArrayList<>();
 
     @ManyToMany
+    @EqualsAndHashCode.Exclude
     @JoinTable(
             name = "user_followers",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -106,11 +110,13 @@ public class UserEntity implements UserDetails {
     @ManyToMany(mappedBy = "followers")
     @ToString.Exclude
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     private Set<UserEntity> followed = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<SpotComment> spotComments = new ArrayList<>();
 
     @OneToMany(
@@ -119,6 +125,8 @@ public class UserEntity implements UserDetails {
             orphanRemoval = true
     )
     @Builder.Default
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<ChatInvitation> receivedInvitations = new ArrayList<>();
 
     @OneToMany(
@@ -127,6 +135,8 @@ public class UserEntity implements UserDetails {
             orphanRemoval = true
     )
     @Builder.Default
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<ChatInvitation> sentInvitations = new ArrayList<>();
 
 
@@ -136,6 +146,8 @@ public class UserEntity implements UserDetails {
             orphanRemoval = true
     )
     @Builder.Default
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<ChatParticipant> chatParticipations = new ArrayList<>();
 
     public List<Chat> getChats() {
@@ -148,6 +160,8 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "sender",
             cascade = CascadeType.REMOVE,
             orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<ChatMessage> sentMessages = new ArrayList<>();
 
     @Builder.Default

@@ -68,7 +68,7 @@ export const userLoggedLinks: SidebarItemType[] = [
       },
       {
         to: "/account/friends",
-        name: "friends",
+        name: "social",
         type: "link",
       },
       {
