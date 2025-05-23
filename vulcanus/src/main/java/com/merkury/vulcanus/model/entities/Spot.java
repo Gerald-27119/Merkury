@@ -23,7 +23,6 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Spot {
 
     @Id
@@ -52,11 +51,13 @@ public class Spot {
      * </p>
      */
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     @Column(columnDefinition = "TEXT")
     @Convert(converter = BorderPointListConverter.class)
     private List<BorderPoint> borderPoints = new ArrayList<>();
 
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @OrderBy("publishDate DESC")
@@ -69,11 +70,13 @@ public class Spot {
     private int ratingCount = 0;
 
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Img> images = new ArrayList<>();
 
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     @ManyToMany
     @JoinTable(name= "tags_od_spots",
     joinColumns = @JoinColumn(name = "spot_id"),
