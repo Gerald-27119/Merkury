@@ -4,7 +4,6 @@ import {
   getUserFollowers,
   getUserFriends,
 } from "../../../http/user-dashboard";
-import useSelectorTyped from "../../../hooks/useSelectorTyped";
 import SocialButton from "./components/SocialButton";
 import { useState } from "react";
 import SocialCardList from "./components/SocialCardList";
@@ -17,22 +16,21 @@ const menuTypes = [
 ];
 
 export default function Social() {
-  const username = useSelectorTyped((state) => state.account.username);
   const [type, setType] = useState(SocialListType.FRIENDS);
 
   const { data: friends } = useQuery({
-    queryFn: () => getUserFriends(username),
-    queryKey: ["friends", username],
+    queryFn: getUserFriends,
+    queryKey: ["friends"],
   });
 
   const { data: followed } = useQuery({
-    queryFn: () => getUserFollowed(username),
-    queryKey: ["followed", username],
+    queryFn: getUserFollowed,
+    queryKey: ["followed"],
   });
 
   const { data: followers } = useQuery({
-    queryFn: () => getUserFollowers(username),
-    queryKey: ["followers", username],
+    queryFn: getUserFollowers,
+    queryKey: ["followers"],
   });
 
   const dataMap = {

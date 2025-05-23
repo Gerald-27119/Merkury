@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import router from "./router.tsx";
 import axios from "axios";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
-import { accountAction } from "./redux/account.jsx";
+import { accountAction } from "./redux/account";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { logout } from "./http/account.js";
