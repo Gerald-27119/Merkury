@@ -11,8 +11,11 @@ import { AxiosError } from "axios";
 import { notificationAction } from "../../../redux/notification";
 import { EditUserFriendsType } from "../../../model/enum/account/social/editUserFriendsType";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProfileButton from "./components/ProfileButton";
+import Modal from "../../../components/modal/Modal";
+import { useBoolean } from "../../../hooks/useBoolean";
+import { SocialListType } from "../../../model/enum/account/social/socialListType";
 
 const getEditFriendType = (isFriend?: boolean) => {
   return isFriend ? EditUserFriendsType.REMOVE : EditUserFriendsType.ADD;
@@ -23,6 +26,8 @@ export default function PublicProfile() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { username } = useParams();
+  const [isModalOpen, openModal, closeModal] = useBoolean(false);
+  const [modalAction, setModalAction] = useState<SocialListType | null>(null);
 
   const { data, isLoading } = useQuery({
     queryFn: () => getUserPublicProfile(username!),
@@ -83,6 +88,25 @@ export default function PublicProfile() {
     });
   };
 
+  const confirmRemoveFromFriends = () => {
+    setModalAction(SocialListType.FRIENDS);
+    openModal();
+  };
+
+  const confirmRemoveFromFollow = () => {
+    setModalAction(SocialListType.FOLLOWED);
+    openModal();
+  };
+
+  const handleConfirm = async () => {
+    if (modalAction === SocialListType.FRIENDS) {
+      await handleEditToFriends();
+    } else if (modalAction === SocialListType.FOLLOWED) {
+      await handleEditToFollowed();
+    }
+    closeModal();
+  };
+
   useEffect(() => {
     if (data?.isOwnProfile) {
       navigate("/account/profile");
@@ -94,21 +118,38 @@ export default function PublicProfile() {
   }
 
   if (!data) {
-    return <div>No profile data available.</div>;
+    return (
+      <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg flex h-full w-full items-center justify-center text-2xl">
+        <p>No profile data available.</p>
+      </div>
+    );
   }
 
   return (
-    <Profile userData={data.profile}>
-      <div className="text-darkText flex w-full flex-wrap justify-center gap-5 xl:flex-nowrap">
-        <ProfileButton
-          onClick={handleEditToFollowed}
-          text={data.isFollowing ? "unfollow" : "follow"}
-        />
-        <ProfileButton
-          onClick={handleEditToFriends}
-          text={data.isFriends ? "remove from friends" : "add to friends"}
-        />
-      </div>
-    </Profile>
+    <>
+      <Profile userData={data.profile}>
+        <div className="text-darkText flex w-full flex-wrap justify-center gap-5 xl:flex-nowrap">
+          <ProfileButton
+            onClick={
+              data.isFollowing ? confirmRemoveFromFollow : handleEditToFollowed
+            }
+            text={data.isFollowing ? "unfollow" : "follow"}
+          />
+          <ProfileButton
+            onClick={
+              data.isFriends ? confirmRemoveFromFriends : handleEditToFriends
+            }
+            text={data.isFriends ? "remove from friends" : "add to friends"}
+          />
+        </div>
+      </Profile>
+      <Modal onClose={closeModal} onClick={handleConfirm} isOpen={isModalOpen}>
+        <h2 className="text-xl text-shadow-md">
+          {modalAction === SocialListType.FRIENDS
+            ? `Are you sure you want to remove ${username} as a friend?`
+            : `Are you sure you want to unfollow ${username}?`}
+        </h2>
+      </Modal>
+    </>
   );
 }
