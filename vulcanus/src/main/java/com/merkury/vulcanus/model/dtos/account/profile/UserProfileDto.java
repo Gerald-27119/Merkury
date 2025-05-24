@@ -11,7 +11,5 @@ public record UserProfileDto(String username,
                              Integer followedCount,
                              Integer friendsCount,
                              Integer photosCount,
-                             List<ImageDto> mostPopularPhotos,
-                             Boolean isFriends,
-                             Boolean isFollowing) {
+                             List<ImageDto> mostPopularPhotos) {
 }

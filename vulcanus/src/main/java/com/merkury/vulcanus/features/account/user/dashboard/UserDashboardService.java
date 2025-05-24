@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
+import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
@@ -20,8 +21,17 @@ public class UserDashboardService {
     private final FollowersService followersService;
     private final JwtManager jwtManager;
 
-    public UserProfileDto getUserProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return profileService.getUserProfile(getCurrentUsername(request));
+    public UserProfileDto getUserPrivateProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return profileService.getUserPrivateProfile(getCurrentUsername(request));
+    }
+
+    public ExtendedUserProfileDto getUserPublicProfile(HttpServletRequest request, String username) throws UserNotFoundByUsernameException {
+        String usernameFromCookie = null;
+        if (jwtManager.getJWTFromCookie(request) != null){
+            usernameFromCookie = getCurrentUsername(request);
+        }
+
+        return profileService.getUserPublicProfile(usernameFromCookie, username);
     }
 
     public List<SocialDto> getUserFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {
@@ -48,7 +58,7 @@ public class UserDashboardService {
         followersService.editUserFollowed(getCurrentUsername(request), followedUsername, type);
     }
 
-    private String getCurrentUsername(HttpServletRequest request){
+    private String getCurrentUsername(HttpServletRequest request) {
         return jwtManager.getUsernameFromJwtCookie(request);
     }
 }

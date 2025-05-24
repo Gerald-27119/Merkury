@@ -32,7 +32,7 @@ function Login() {
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(accountAction.setIsLogged({ username: enteredValue.username }));
+      dispatch(accountAction.setIsLogged());
     }
   }, [isSuccess, dispatch, enteredValue.username]);
 

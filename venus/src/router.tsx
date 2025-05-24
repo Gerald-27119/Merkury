@@ -10,9 +10,10 @@ import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
 import FavouriteSpots from "./pages/favourite-spots/FavouriteSpots.jsx";
 import MapPage from "./pages/map/MapPage";
-import Profile from "./pages/account/profile/Profile";
 import ChatsPage from "./pages/chats/ChatsPage";
 import Social from "./pages/account/social/Social";
+import PrivateProfile from "./pages/account/profile/PrivateProfile";
+import PublicProfile from "./pages/account/profile/PublicProfile";
 
 const router = createBrowserRouter([
   {
@@ -35,10 +36,13 @@ const router = createBrowserRouter([
             path: "profile",
             element: (
               <ProtectedRoute>
-                <Profile />
+                <PrivateProfile />
               </ProtectedRoute>
             ),
-            children: [{ path: ":id", element: <Profile /> }],
+          },
+          {
+            path: "profile/:username",
+            element: <PublicProfile />,
           },
           {
             path: "friends",
