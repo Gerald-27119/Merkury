@@ -87,22 +87,26 @@ export default function PublicProfile() {
     if (data?.isOwnProfile) {
       navigate("/account/profile");
     }
-  }, [data?.isOwnProfile]);
+  }, [data?.isOwnProfile, navigate]);
 
   if (isLoading) {
     return <LoadingSpinner />;
   }
 
+  if (!data) {
+    return <div>No profile data available.</div>;
+  }
+
   return (
-    <Profile userData={data!.profile}>
+    <Profile userData={data.profile}>
       <div className="text-darkText flex w-full flex-wrap justify-center gap-5 xl:flex-nowrap">
         <ProfileButton
           onClick={handleEditToFollowed}
-          text={data?.isFollowing ? "unfollow" : "follow"}
+          text={data.isFollowing ? "unfollow" : "follow"}
         />
         <ProfileButton
           onClick={handleEditToFriends}
-          text={data?.isFriends ? "remove from friends" : "add to friends"}
+          text={data.isFriends ? "remove from friends" : "add to friends"}
         />
       </div>
     </Profile>
