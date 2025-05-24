@@ -7,9 +7,9 @@ import {
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
-import Profile from "../../../../pages/account/profile/Profile";
 import { accountSlice } from "../../../../redux/account";
 import { describe } from "vitest";
+import PrivateProfile from "../../../../pages/account/profile/PrivateProfile";
 
 const queryClient = new QueryClient();
 
@@ -34,7 +34,7 @@ const renderProfile = () => {
     <Provider store={store}>
       <MemoryRouter>
         <QueryClientProvider client={queryClient}>
-          <Profile />
+          <PrivateProfile />
         </QueryClientProvider>
       </MemoryRouter>
     </Provider>,
