@@ -19,32 +19,29 @@ import java.util.List;
 public class ProfileService {
     private final UserEntityFetcher userEntityFetcher;
 
-    public UserProfileDto getUserPrivateProfile(String username) throws UserNotFoundByUsernameException {
+    public UserProfileDto getOwnProfile(String username) throws UserNotFoundByUsernameException {
         var user = userEntityFetcher.getByUsername(username);
         var images = get4MostPopularPhotosFromUser(user);
         return ProfileMapper.toDto(user, images);
     }
 
-    public ExtendedUserProfileDto getUserPublicProfile(String username, String anotherUsername) throws UserNotFoundByUsernameException {
-        if (username != null) {
-            var user = userEntityFetcher.getByUsername(username);
-            var isFriends = false;
-            var isFollowing = false;
-            var isOwnProfile = username.equals(anotherUsername);
+    public ExtendedUserProfileDto getUserProfileForViewer(String viewerUsername, String targetUsername) throws UserNotFoundByUsernameException {
+        var anotherUser = userEntityFetcher.getByUsername(targetUsername);
+        var images = get4MostPopularPhotosFromUser(anotherUser);
+        var userProfile = ProfileMapper.toDto(anotherUser, images);
 
-            var anotherUser = userEntityFetcher.getByUsername(anotherUsername);
+        var isFriends = false;
+        var isFollowing = false;
+        var isOwnProfile = false;
+
+        if (viewerUsername != null) {
+            var user = userEntityFetcher.getByUsername(viewerUsername);
             isFriends = getIsUsersFriends(user, anotherUser);
             isFollowing = getIsUsersFollowing(user, anotherUser);
-            user = anotherUser;
-
-            var images = get4MostPopularPhotosFromUser(user);
-            return ProfileMapper.toDto(ProfileMapper.toDto(user, images), isFriends, isFollowing, isOwnProfile);
-        } else {
-            var anotherUser = userEntityFetcher.getByUsername(anotherUsername);
-
-            var images = get4MostPopularPhotosFromUser(anotherUser);
-            return ProfileMapper.toDto(ProfileMapper.toDto(anotherUser, images), false, false, false);
+            isOwnProfile = viewerUsername.equals(targetUsername);
         }
+
+        return ProfileMapper.toDto(userProfile, isFriends, isFollowing, isOwnProfile);
     }
 
     private Boolean getIsUsersFriends(UserEntity user, UserEntity secondUser) {

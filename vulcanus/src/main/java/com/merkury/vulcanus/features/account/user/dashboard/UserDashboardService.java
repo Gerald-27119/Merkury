@@ -21,17 +21,16 @@ public class UserDashboardService {
     private final FollowersService followersService;
     private final JwtManager jwtManager;
 
-    public UserProfileDto getUserPrivateProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return profileService.getUserPrivateProfile(getCurrentUsername(request));
+    public UserProfileDto getOwnProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return profileService.getOwnProfile(getCurrentUsername(request));
     }
 
-    public ExtendedUserProfileDto getUserPublicProfile(HttpServletRequest request, String username) throws UserNotFoundByUsernameException {
+    public ExtendedUserProfileDto getUserProfileForViewer(HttpServletRequest request, String targetUsername) throws UserNotFoundByUsernameException {
         String usernameFromCookie = null;
         if (jwtManager.getJWTFromCookie(request) != null){
             usernameFromCookie = getCurrentUsername(request);
         }
-
-        return profileService.getUserPublicProfile(usernameFromCookie, username);
+        return profileService.getUserProfileForViewer(usernameFromCookie, targetUsername);
     }
 
     public List<SocialDto> getUserFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {

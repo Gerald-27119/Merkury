@@ -4,6 +4,7 @@ import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
+import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,11 +25,14 @@ class ProfileServiceTest {
     @Mock
     private UserEntityRepository userEntityRepository;
 
+    @Mock
+    private UserEntityFetcher userEntityFetcher;
+
     @InjectMocks
     private ProfileService profileService;
 
     @Test
-    void shouldReturnUserProfileWhenUserExists() throws UserNotFoundByUsernameException {
+    void shouldReturnOwnProfileWhenOwnerExists() throws UserNotFoundByUsernameException {
         var user = new UserEntity();
         user.setUsername("testUser");
         user.setProfilePhoto("testPhoto");
@@ -38,9 +41,9 @@ class ProfileServiceTest {
         user.setFriendships(new ArrayList<>());
         user.setImages(new ArrayList<>());
 
-        when(userEntityRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
+        when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
 
-        var result = profileService.getUserPrivateProfile("testUser");
+        var result = profileService.getOwnProfile("testUser");
 
         assertAll(() -> assertEquals("testUser", result.username()),
                 () -> assertEquals("testPhoto", result.profilePhoto()),
@@ -51,9 +54,9 @@ class ProfileServiceTest {
     }
 
     @Test
-    void shouldThrowWhenUserNotFound() {
-        when(userEntityRepository.findByUsername(anyString())).thenReturn(Optional.empty());
-        assertThrows(UserNotFoundByUsernameException.class, () -> profileService.getUserPrivateProfile(anyString()));
+    void shouldThrowUserNotFoundByUsernameExceptionWhenOwnerNotFound() throws UserNotFoundByUsernameException {
+        when(userEntityFetcher.getByUsername(anyString())).thenThrow(new UserNotFoundByUsernameException(""));
+        assertThrows(UserNotFoundByUsernameException.class, () -> profileService.getOwnProfile(anyString()));
     }
 
     @Test
@@ -70,9 +73,9 @@ class ProfileServiceTest {
 
         user.setImages(images);
 
-        when(userEntityRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
+        when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
 
-        var result = profileService.getUserPrivateProfile("testUser");
+        var result = profileService.getOwnProfile("testUser");
 
         assertAll(() -> assertEquals(4, result.mostPopularPhotos().size()),
                 () -> assertEquals(10, result.mostPopularPhotos().getFirst().heartsCount()));
@@ -92,10 +95,63 @@ class ProfileServiceTest {
 
         user.setImages(images);
 
-        when(userEntityRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
+        when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
 
-        var result = profileService.getUserPrivateProfile("testUser");
+        var result = profileService.getOwnProfile("testUser");
 
         assertEquals(3, result.mostPopularPhotos().size());
+    }
+
+    @Test
+    void shouldReturnTargetUserProfileWhenViewerIsAnotherUser() throws UserNotFoundByUsernameException {
+        var user = new UserEntity();
+        user.setUsername("testUser");
+
+        var anotherUser = new UserEntity();
+        anotherUser.setUsername("anotherUser");
+        anotherUser.setProfilePhoto("testPhoto");
+        anotherUser.setFollowers(new HashSet<>());
+        anotherUser.setFollowed(new HashSet<>());
+        anotherUser.setFriendships(new ArrayList<>());
+        anotherUser.setImages(new ArrayList<>());
+
+        when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
+        when(userEntityFetcher.getByUsername("anotherUser")).thenReturn(anotherUser);
+
+        var result = profileService.getUserProfileForViewer("testUser", "anotherUser");
+
+        assertAll(() -> assertEquals("anotherUser", result.profile().username()),
+                () -> assertEquals("testPhoto", result.profile().profilePhoto()),
+                () -> assertEquals(0, result.profile().followersCount()),
+                () -> assertEquals(0, result.profile().followedCount()),
+                () -> assertEquals(0, result.profile().friendsCount()),
+                () -> assertEquals(0, result.profile().photosCount()));
+    }
+
+    @Test
+    void shouldReturnOwnProfileWhenViewerIsOwnUser() throws UserNotFoundByUsernameException {
+        var user = new UserEntity();
+        user.setUsername("testUser");
+        user.setProfilePhoto("testPhoto");
+        user.setFollowers(new HashSet<>());
+        user.setFollowed(new HashSet<>());
+        user.setFriendships(new ArrayList<>());
+        user.setImages(new ArrayList<>());
+
+
+        when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
+
+        var result = profileService.getUserProfileForViewer("testUser", "testUser");
+
+        assertAll(() -> assertEquals("testUser", result.profile().username()),
+                () -> assertEquals("testPhoto", result.profile().profilePhoto()),
+                () -> assertEquals(0, result.profile().followersCount()),
+                () -> assertEquals(0, result.profile().followedCount()),
+                () -> assertEquals(0, result.profile().friendsCount()),
+                () -> assertEquals(0, result.profile().photosCount()),
+                () -> assertTrue(result.isOwnProfile()),
+                () -> assertFalse(result.isFriends()),
+                () -> assertFalse(result.isFollowing())
+        );
     }
 }

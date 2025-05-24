@@ -20,14 +20,14 @@ public class UserDashboardController {
     private final UserDashboardService userDashboardService;
 
     @GetMapping("/user-dashboard/profile")
-    public ResponseEntity<UserProfileDto> getUserPrivateProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        var user = userDashboardService.getUserPrivateProfile(request);
+    public ResponseEntity<UserProfileDto> getOwnProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        var user = userDashboardService.getOwnProfile(request);
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/public/user-dashboard/profile/{username}")
-    public ResponseEntity<ExtendedUserProfileDto> getUserPublicProfile(HttpServletRequest request, @PathVariable String username) throws UserNotFoundByUsernameException {
-        var user = userDashboardService.getUserPublicProfile(request, username);
+    @GetMapping("/public/user-dashboard/profile/{targetUsername}")
+    public ResponseEntity<ExtendedUserProfileDto> getUserProfileForViewer(HttpServletRequest request, @PathVariable String targetUsername) throws UserNotFoundByUsernameException {
+        var user = userDashboardService.getUserProfileForViewer(request, targetUsername);
         return ResponseEntity.ok(user);
     }
 
