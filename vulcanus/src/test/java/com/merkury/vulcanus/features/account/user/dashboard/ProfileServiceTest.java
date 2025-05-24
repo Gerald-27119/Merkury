@@ -40,7 +40,7 @@ class ProfileServiceTest {
 
         when(userEntityRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
 
-        var result = profileService.getUserProfile("testUser");
+        var result = profileService.getUserPrivateProfile("testUser");
 
         assertAll(() -> assertEquals("testUser", result.username()),
                 () -> assertEquals("testPhoto", result.profilePhoto()),
@@ -53,7 +53,7 @@ class ProfileServiceTest {
     @Test
     void shouldThrowWhenUserNotFound() {
         when(userEntityRepository.findByUsername(anyString())).thenReturn(Optional.empty());
-        assertThrows(UserNotFoundByUsernameException.class, () -> profileService.getUserProfile(anyString()));
+        assertThrows(UserNotFoundByUsernameException.class, () -> profileService.getUserPrivateProfile(anyString()));
     }
 
     @Test
@@ -72,7 +72,7 @@ class ProfileServiceTest {
 
         when(userEntityRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
 
-        var result = profileService.getUserProfile("testUser");
+        var result = profileService.getUserPrivateProfile("testUser");
 
         assertAll(() -> assertEquals(4, result.mostPopularPhotos().size()),
                 () -> assertEquals(10, result.mostPopularPhotos().getFirst().heartsCount()));
@@ -94,7 +94,7 @@ class ProfileServiceTest {
 
         when(userEntityRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
 
-        var result = profileService.getUserProfile("testUser");
+        var result = profileService.getUserPrivateProfile("testUser");
 
         assertEquals(3, result.mostPopularPhotos().size());
     }
