@@ -21,7 +21,7 @@ const getEditFriendType = (isFriend?: boolean) => {
   return isFriend ? EditUserFriendsType.REMOVE : EditUserFriendsType.ADD;
 };
 
-export default function PublicProfile() {
+export default function ProfileForViewer() {
   const dispatch = useDispatchTyped();
   const queryClient = useQueryClient();
   const navigate = useNavigate();

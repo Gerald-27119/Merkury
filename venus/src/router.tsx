@@ -12,8 +12,8 @@ import FavouriteSpots from "./pages/favourite-spots/FavouriteSpots.jsx";
 import MapPage from "./pages/map/MapPage";
 import ChatsPage from "./pages/chats/ChatsPage";
 import Social from "./pages/account/social/Social";
-import PrivateProfile from "./pages/account/profile/PrivateProfile";
-import PublicProfile from "./pages/account/profile/PublicProfile";
+import OwnProfile from "./pages/account/profile/OwnProfile";
+import ProfileForViewer from "./pages/account/profile/ProfileForViewer";
 
 const router = createBrowserRouter([
   {
@@ -36,13 +36,13 @@ const router = createBrowserRouter([
             path: "profile",
             element: (
               <ProtectedRoute>
-                <PrivateProfile />
+                <OwnProfile />
               </ProtectedRoute>
             ),
           },
           {
             path: "profile/:username",
-            element: <PublicProfile />,
+            element: <ProfileForViewer />,
           },
           {
             path: "friends",

@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserPrivateProfile } from "../../../http/user-dashboard";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 
-export default function PrivateProfile() {
+export default function OwnProfile() {
   const { data, isLoading } = useQuery({
     queryFn: getUserPrivateProfile,
     queryKey: ["userProfile"],
