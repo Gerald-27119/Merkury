@@ -41,7 +41,7 @@ const renderProfile = () => {
   );
 };
 
-const mockUserData = {
+const mockUserData = (isFriends, isFollowing) => ({
   profile: {
     username: "User",
     profilePhoto: "mock-photo.jpg",
@@ -64,16 +64,16 @@ const mockUserData = {
       },
     ],
   },
-  isFriends: false,
-  isFollowing: false,
+  isFriends,
+  isFollowing,
   isOwnProfile: false,
-};
+});
 
 describe("Profile component unit tests", () => {
   describe("Profile display user data correctly", () => {
     beforeEach(() => {
       useQuery.mockReturnValue({
-        data: mockUserData,
+        data: mockUserData(false, false),
         isLoading: false,
         error: null,
       });
@@ -123,11 +123,29 @@ describe("Profile component unit tests", () => {
       expect(screen.getByAltText("Statue A")).toBeInTheDocument();
     });
     describe("Should render buttons", () => {
-      test("To follow", () => {
-        expect(screen.getByText("follow")).toBeInTheDocument();
+      describe("When isNotFriends and isNotFollowing", () => {
+        test("To follow", () => {
+          expect(screen.getByText("follow")).toBeInTheDocument();
+        });
+        test("Add to friends", () => {
+          expect(screen.getByText("add to friends")).toBeInTheDocument();
+        });
       });
-      test("Add to friends", () => {
-        expect(screen.getByText("add to friends")).toBeInTheDocument();
+      describe("When isFriends and isFollowing", () => {
+        beforeEach(() => {
+          useQuery.mockReturnValue({
+            data: mockUserData(true, true),
+            isLoading: false,
+            error: null,
+          });
+          renderProfile();
+        });
+        test("Remove from friends", () => {
+          expect(screen.getByText("remove from friends")).toBeInTheDocument();
+        });
+        test("To unfollow", () => {
+          expect(screen.getByText("unfollow")).toBeInTheDocument();
+        });
       });
     });
   });
