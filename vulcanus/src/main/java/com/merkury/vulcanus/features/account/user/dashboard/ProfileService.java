@@ -4,20 +4,20 @@ import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ImageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
-import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.mappers.user.dashboard.ProfileMapper;
+import com.merkury.vulcanus.model.repositories.ImgRepository;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ProfileService {
     private final UserEntityFetcher userEntityFetcher;
+    private final ImgRepository imgRepository;
 
     public UserProfileDto getOwnProfile(String username) throws UserNotFoundByUsernameException {
         var user = userEntityFetcher.getByUsername(username);
@@ -53,9 +53,8 @@ public class ProfileService {
     }
 
     private List<ImageDto> get4MostPopularPhotosFromUser(UserEntity user) {
-        return user.getImages().stream()
-                .sorted(Comparator.comparingInt(Img::getLikes).reversed())
-                .limit(4)
+        return imgRepository.findTop4ByAuthorOrderByLikesDesc(user)
+                .stream()
                 .map(ProfileMapper::toDto)
                 .toList();
     }
