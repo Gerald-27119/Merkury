@@ -3,6 +3,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.repositories.ImgRepository;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,9 @@ class ProfileServiceTest {
 
     @Mock
     private UserEntityRepository userEntityRepository;
+
+    @Mock
+    private ImgRepository imgRepository;
 
     @Mock
     private UserEntityFetcher userEntityFetcher;
@@ -68,12 +72,17 @@ class ProfileServiceTest {
                 .mapToObj(i -> {
                     Img img = new Img();
                     img.setLikes(10 - i);
+                    img.setAuthor(user);
                     return img;
                 }).toList();
 
-        user.setImages(images);
+        var top4Images = images.stream()
+                .sorted((a, b) -> Integer.compare(b.getLikes(), a.getLikes()))
+                .limit(4)
+                .toList();
 
         when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
+        when(imgRepository.findTop4ByAuthorOrderByLikesDesc(user)).thenReturn(top4Images);
 
         var result = profileService.getOwnProfile("testUser");
 
@@ -90,12 +99,17 @@ class ProfileServiceTest {
                 .mapToObj(i -> {
                     Img img = new Img();
                     img.setLikes(i);
+                    img.setAuthor(user);
                     return img;
                 }).toList();
 
-        user.setImages(images);
+        var top4Images = images.stream()
+                .sorted((a, b) -> Integer.compare(b.getLikes(), a.getLikes()))
+                .limit(4)
+                .toList();
 
         when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
+        when(imgRepository.findTop4ByAuthorOrderByLikesDesc(user)).thenReturn(top4Images);
 
         var result = profileService.getOwnProfile("testUser");
 
