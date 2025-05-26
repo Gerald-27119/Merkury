@@ -4,18 +4,25 @@ import Sidebar from "./sidebar/Sidebar.tsx";
 import { useEffect } from "react";
 import MobileBar from "./mobile-bar/MobileBar";
 import { useToggleState } from "../hooks/useToggleState";
+import useDispatchTyped from "../hooks/useDispatchTyped";
+import { sidebarAction } from "../redux/sidebar";
 
 export default function Layout() {
   const location = useLocation();
   const isMapPage = location.pathname === "/map";
   const [isSidebarOpen, setIsSidebarOpen, toggleSidebar] =
     useToggleState(false);
+  const dispatch = useDispatchTyped();
 
   useEffect(() => {
     if (location.pathname.includes("account") && window.innerWidth >= 1280) {
       setIsSidebarOpen(true);
     }
   }, [location]);
+
+  useEffect(() => {
+    dispatch(sidebarAction.setIsSidebarOpen(isSidebarOpen));
+  }, [isSidebarOpen]);
 
   return (
     <div className={`${isMapPage ? "relative" : "flex"} min-h-screen`}>

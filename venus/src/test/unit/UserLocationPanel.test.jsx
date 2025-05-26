@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { screen } from "@testing-library/react";
-import UserLocationPanel from "../../pages/map/components/UserLocationPanel.tsx";
+import UserLocationPanel from "../../pages/map/components/locations/UserLocationPanel.tsx";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";

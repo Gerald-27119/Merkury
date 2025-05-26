@@ -33,6 +33,7 @@ public class PopulateDbsService {
     private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final SpotRepository spotRepository;
     private final ZoneRepository zoneRepository;
+    private final SpotTagRepository spotTagRepository;
 
     @Transactional
     public void initPostgresDb() {
@@ -78,82 +79,132 @@ public class PopulateDbsService {
 
         Spot spot1 = Spot.builder()
                 .name("Pomnik konny Jana III Sobieskiego")
+                .city("Gdańsk")
+                .country("Poland")
+                .street("Targ Drzewny 9")
                 .areaColor("#A8071A")
                 .description("Brązowy posąg XVII-wiecznego polskiego króla Jana III Sobieskiego na koniu usytuowany na małym placu.")
                 .rating(5.0)
-                .viewsCount(100)
+                .ratingCount(25)
+                .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot2 = Spot.builder()
                 .name("Skwer Czesława Niemena")
+                .city("Gdańsk")
+                .country("Poland")
+                .street("Hucisko")
                 .areaColor("#A8071A")
                 .description("Mały park z ławkami i pomnikiem Czesława Niemena.")
                 .rating(5.0)
-                .viewsCount(100)
+                .ratingCount(25)
+                .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot3 = Spot.builder()
                 .name("Park Wałowy")
+                .city("Gdańsk")
+                .country("Poland")
+                .street("Pod Zrębem 1")
                 .areaColor("#A8071A")
                 .description("Mały park z ławkami")
                 .rating(3.5)
-                .viewsCount(10)
+                .ratingCount(20)
+                .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot4 = Spot.builder()
-                .name("Park")
+                .name("Park księdza infułata Bogdanowicza")
+                .city("Gdańsk")
+                .country("Poland")
+                .street("Szeroka 8/10")
                 .areaColor("#A8071A")
                 .description("Mały park")
                 .rating(3.6)
-                .viewsCount(17)
+                .ratingCount(15)
+                .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot5 = Spot.builder()
                 .name("Jar Wilanowski")
+                .city("Gdańsk")
+                .country("Poland")
+                .street("Antoniego Madalińskiego")
                 .areaColor("#A8071A")
                 .description("Zielona strefa z jeziorem")
                 .rating(4.6)
-                .viewsCount(120)
+                .ratingCount(8)
+                .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot6 = Spot.builder()
                 .name("Plac imienia Dariusza Kobzdeja")
+                .city("Gdańsk")
+                .country("Poland")
+                .street("Podwale Staromiejskie 109/112b")
                 .areaColor("#A8071A")
                 .description("Mały, zadbany plac z ławeczkami i zielenią. Znajduje się on z jednej strony w pobliżu pomnika Jana III Sobieskiego, a z drugiej strony w pobliżu Hali Targowej.")
                 .rating(4.5)
-                .viewsCount(500)
+                .ratingCount(1)
+                .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot7 = Spot.builder()
                 .name("Plac Zabaw na Wroniej Górce")
+                .city("Gdańsk")
+                .country("Poland")
+                .street("Marszałka Ferdynanda Focha")
                 .areaColor("#A8071A")
                 .description("Plac zabaw")
                 .rating(4.8)
-                .viewsCount(100)
+                .ratingCount(99)
+                .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot8 = Spot.builder()
                 .name("Plaża stogi")
+                .city("Gdańsk")
+                .country("Poland")
+                .street("Wydmy 1")
                 .areaColor("#A8071A")
                 .description("Szeroka piaszczysta plaża.")
                 .rating(4.6)
-                .viewsCount(100)
+                .ratingCount(25)
+                .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot9 = Spot.builder()
                 .name("Park Oruński im. Emilii Hoene")
+                .city("Gdańsk")
+                .country("Poland")
+                .street("Raduńska 44A")
                 .areaColor("#A8071A")
                 .description("Park Oruński należy, obok Parku Oliwskiego, należy do najcenniejszych zachowanych dawnych gdańskich parków.")
                 .rating(5.0)
-                .viewsCount(100)
+                .ratingCount(25)
+                .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         Spot spot10 = Spot.builder()
                 .name("Park Street Workout")
+                .city("Gdańsk")
+                .country("Poland")
+                .street("Związkowa")
                 .areaColor("#A8071A")
                 .description("Park, który oryginalnie był cmentarzem protestanckim, należącym dawniej do kościoła przy placu Oruńskim.")
                 .rating(4.4)
-                .viewsCount(7)
+                .ratingCount(25)
+                .images(new ArrayList<>())
+                .tags(new HashSet<>())
                 .build();
 
         var contour1 = asList(
@@ -514,6 +565,32 @@ public class PopulateDbsService {
         List<List<SpotComment>> commentLists = List.of(spotCommentList1, spotCommentList2, spotCommentList3, spotCommentList4, spotCommentList5, spotCommentList6, spotCommentList7, spotCommentList8, spotCommentList9, spotCommentList10);
         List<List<Img>> galleries = List.of(gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8, gallery9, gallery10);
 
+        List<String> tagsNames = new ArrayList<>(List.of(
+                "city",
+                "countryside",
+                "mountains",
+                "forest",
+                "park",
+                "ruins",
+                "lake",
+                "river",
+                "monument",
+                "beach",
+                "old town",
+                "fpv",
+                "photography",
+                "grassland"
+        ));
+        List<SpotTag> tagList = new ArrayList<>();
+        for (String tagName : tagsNames) {
+            var tag = SpotTag.builder()
+                    .name(tagName)
+                    .spots(new HashSet<>())
+                    .build();
+            spotTagRepository.save(tag);
+            tagList.add(tag);
+        }
+
         for (int i = 0; i < spots.size(); i++) {
             Spot spot = spots.get(i);
             spot.getBorderPoints().addAll(contours.get(i));
@@ -528,6 +605,17 @@ public class PopulateDbsService {
                     .orElse(0.0);
             spot.setRating(BigDecimal.valueOf(rating).setScale(2, RoundingMode.HALF_UP).doubleValue());
         }
+
+        spot1.getTags().addAll((Set.of(tagList.getFirst(), tagList.get(8), tagList.get(12))));
+        spot2.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
+        spot3.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
+        spot4.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
+        spot5.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(3), tagList.get(4), tagList.get(11), tagList.get(12)));
+        spot6.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
+        spot7.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
+        spot8.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(9), tagList.get(12)));
+        spot9.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
+        spot10.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
 
         spotRepository.saveAll(spots);
 

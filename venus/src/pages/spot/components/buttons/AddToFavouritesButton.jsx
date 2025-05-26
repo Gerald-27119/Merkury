@@ -3,7 +3,7 @@ import {
   addSpotToFavourites,
   removeSpotFromFavourites,
   isSpotFavourite,
-} from "../../../../http/spots-data.js";
+} from "../../../../http/spots-data.ts";
 import { useDispatch } from "react-redux";
 import { notificationAction } from "../../../../redux/notification.jsx";
 import Error from "../../../../components/error/Error.jsx";
@@ -79,13 +79,13 @@ export default function AddToFavouritesButton({ spotId }) {
     <div className="mb-2">
       {!data ? (
         <FaRegHeart
-          className="text-red-600 cursor-pointer"
+          className="cursor-pointer text-red-600"
           onClick={handleClick}
           size={20}
         />
       ) : (
         <FaHeart
-          className="text-red-600 cursor-pointer"
+          className="cursor-pointer text-red-600"
           onClick={handleClick}
           size={20}
         />

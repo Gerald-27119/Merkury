@@ -6,11 +6,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a spot where people can go.
@@ -28,6 +31,9 @@ public class Spot {
 
     private String areaColor;
     private String name;
+    private String country;
+    private String city;
+    private String street;
     private String description;
     private Double area;
 
@@ -45,11 +51,13 @@ public class Spot {
      * </p>
      */
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     @Column(columnDefinition = "TEXT")
     @Convert(converter = BorderPointListConverter.class)
     private List<BorderPoint> borderPoints = new ArrayList<>();
 
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @OrderBy("publishDate DESC")
@@ -57,11 +65,21 @@ public class Spot {
 
     @Builder.Default
     private Double rating = 0.0;
-    @Builder.Default
-    private Integer viewsCount = 0;
 
     @Builder.Default
+    private int ratingCount = 0;
+
+    @Builder.Default
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<Img> images = new ArrayList<>();
+
+    @Builder.Default
+    @EqualsAndHashCode.Exclude
+    @ManyToMany
+    @JoinTable(name= "tags_od_spots",
+    joinColumns = @JoinColumn(name = "spot_id"),
+    inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<SpotTag> tags = new HashSet<>();
 }

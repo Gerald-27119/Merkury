@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { removeSpotFromFavourites } from "../../http/spots-data.js";
+import { removeSpotFromFavourites } from "../../http/spots-data.ts";
 import { notificationAction } from "../../redux/notification.jsx";
 import { useDispatch } from "react-redux";
 
@@ -33,23 +33,23 @@ export default function FavouriteSpot({ spot, currentPage, onRemove }) {
   };
 
   return (
-    <div className="flex items-center justify-between bg-white rounded-md p-4 mb-4 shadow-md">
+    <div className="mb-4 flex items-center justify-between rounded-md bg-white p-4 shadow-md">
       {spot.img ? (
         <img
           src={spot.img.img}
           alt={spot.img.title}
-          className="w-12 h-12 rounded-full object-cover"
+          className="h-12 w-12 rounded-full object-cover"
         />
       ) : (
-        <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-300">
           <span className="text-sm text-gray-500">No Image</span>
         </div>
       )}
 
-      <p className="flex-1 px-4 text-gray-800 font-medium">{spot.name}</p>
+      <p className="flex-1 px-4 font-medium text-gray-800">{spot.name}</p>
 
       <button
-        className="bg-red-500 text-white px-4 py-2 rounded-md text-sm hover:bg-red-600"
+        className="rounded-md bg-red-500 px-4 py-2 text-sm text-white hover:bg-red-600"
         onClick={handleRemove}
       >
         Remove
