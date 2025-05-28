@@ -3,16 +3,20 @@ import { FaBell, FaEdit } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 import { MdFlag } from "react-icons/md";
 import { useEffect, useRef } from "react";
-import PostGeneral from "../../../model/interface/forum/post/postGeneral";
 import MenuItem from "./MenuItem";
 import { useToggleState } from "../../../hooks/useToggleState";
 
 interface PostMenuProps {
-  post: PostGeneral;
+  postId: number;
+  isUserAuthor: boolean;
   onDelete: (id: number) => void;
 }
 
-export default function PostMenu({ post, onDelete }: PostMenuProps) {
+export default function PostMenu({
+  postId,
+  isUserAuthor,
+  onDelete,
+}: PostMenuProps) {
   const [isPostMenuOpen, setIsPostMenuOpen, togglePostMenu] =
     useToggleState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -24,7 +28,7 @@ export default function PostMenu({ post, onDelete }: PostMenuProps) {
   const handleEdit = () => {};
 
   const handleDelete = () => {
-    onDelete(post.id);
+    onDelete(postId);
   };
 
   useEffect(() => {
@@ -58,7 +62,7 @@ export default function PostMenu({ post, onDelete }: PostMenuProps) {
               Report
             </MenuItem>
 
-            {post.isAuthor && (
+            {isUserAuthor && (
               <>
                 <MenuItem onClick={handleEdit}>
                   <FaEdit />

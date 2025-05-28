@@ -13,6 +13,7 @@ import MapPage from "./pages/map/MapPage";
 import Profile from "./pages/account/profile/Profile";
 import ChatsPage from "./pages/chats/ChatsPage";
 import Social from "./pages/account/social/Social";
+import ForumThread from "./pages/forum/ForumThread";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "forum",
         element: <Forum />,
+      },
+      {
+        path: "forum/:postId",
+        element: <ForumThread />,
       },
       {
         path: "edit-data",
