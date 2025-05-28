@@ -5,6 +5,8 @@ import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
+import com.merkury.vulcanus.security.jwt.JwtManager;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,32 +18,37 @@ public class UserDashboardService {
     private final ProfileService profileService;
     private final FriendsService friendsService;
     private final FollowersService followersService;
+    private final JwtManager jwtManager;
 
-    public UserProfileDto getUserProfile(String username) throws UserNotFoundByUsernameException {
-        return profileService.getUserProfile(username);
+    public UserProfileDto getUserProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return profileService.getUserProfile(getCurrentUsername(request));
     }
 
-    public List<SocialDto> getUserFriends(String username) throws UserNotFoundByUsernameException {
-        return friendsService.getUserFriends(username);
+    public List<SocialDto> getUserFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return friendsService.getUserFriends(getCurrentUsername(request));
     }
 
-    public void editUserFriends(String username, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
-        friendsService.editUserFriends(username, friendUsername, type);
+    public void editUserFriends(HttpServletRequest request, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
+        friendsService.editUserFriends(getCurrentUsername(request), friendUsername, type);
     }
 
-    public void changeUserFriendsStatus(String username, String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
-        friendsService.changeUserFriendsStatus(username, friendUsername, status);
+    public void changeUserFriendsStatus(HttpServletRequest request, String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
+        friendsService.changeUserFriendsStatus(getCurrentUsername(request), friendUsername, status);
     }
 
-    public List<SocialDto> getUserFollowers(String username) throws UserNotFoundByUsernameException {
-        return followersService.getUserFollowers(username);
+    public List<SocialDto> getUserFollowers(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return followersService.getUserFollowers(getCurrentUsername(request));
     }
 
-    public List<SocialDto> getUserFollowed(String username) throws UserNotFoundByUsernameException {
-        return followersService.getUserFollowed(username);
+    public List<SocialDto> getUserFollowed(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return followersService.getUserFollowed(getCurrentUsername(request));
     }
 
-    public void editUserFollowed(String username, String followedUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
-        followersService.editUserFollowed(username, followedUsername, type);
+    public void editUserFollowed(HttpServletRequest request, String followedUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
+        followersService.editUserFollowed(getCurrentUsername(request), followedUsername, type);
+    }
+
+    private String getCurrentUsername(HttpServletRequest request){
+        return jwtManager.getUsernameFromJwtCookie(request);
     }
 }

@@ -40,7 +40,7 @@ public class SpotService {
     }
 
     public SpotDetailsDto getSpotById(Long id) throws SpotNotFoundException {
-        return spotRepository.findById(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
+        return spotRepository.findByIdWithTags(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
 
     @Cacheable(value = "filteredSpots", key = "{#name, #minRating, #maxRating}", unless = "#result == null")

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { spotFiltersAction } from "../../../../redux/spot-filters.jsx";
 import { useEffect, useState } from "react";
-import { fetchSpotsNames } from "../../../../http/spots-data.js";
+import { fetchSpotsNames } from "../../../../http/spots-data.ts";
 import useDebounce from "../../../../hooks/useDebounce.jsx";
 import { Rate } from "antd";
 

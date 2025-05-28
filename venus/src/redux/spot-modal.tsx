@@ -1,6 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+type spotModalInitialState = {
+  showModal: boolean;
+  spotId: number | null;
+};
+
+const initialState: spotModalInitialState = {
   showModal: false,
   spotId: null,
 };
@@ -15,7 +20,7 @@ export const spotDetailsModalSlice = createSlice({
     handleCloseModal(state) {
       state.showModal = false;
     },
-    setSpotId(state, action) {
+    setSpotId(state, action: PayloadAction<number>): void {
       state.spotId = action.payload;
     },
   },

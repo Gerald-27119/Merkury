@@ -28,6 +28,7 @@
   --color-violetLighter: #9b8cbd;
   --color-violetDarker: #2C2734;
   --color-violetBright: #835ACE;
+  --color-darbVioletBtnOutline: #816BA6;
   --color-first: #2C3E50;
   --color-second: #34495E;
   --color-third: #1ABC9C;
@@ -36,6 +37,7 @@
   --color-sixth: #E94560;
   --color-magenta: #A01BC1;
   --color-darkYellow: #C5A03C;
+  --color-ratingStarColor: #FADB14;
   --color-locationMarkerDarkerBlue: #A3DCFF;
   --color-locationMarkerLightBlue: #52BAFB;
   --color-userLocationDot: #4285f4;
@@ -66,4 +68,18 @@
     padding: 0;
     border-color: var(--color-gray-200, currentcolor);
   }
+}
+
+.custom-rate .ant-rate-star {
+  font-size: 25px;
+}
+
+@media (max-width: 768px) {
+  .custom-rate .ant-rate-star {
+    font-size: 20px;
+  }
+}
+
+.custom-rate .ant-rate-star:not(.ant-rate-star-full) .ant-rate-star-second {
+  color: #ffffff;
 }

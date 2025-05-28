@@ -2,7 +2,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { photoAction } from "../../../../redux/photo.jsx";
 import { RiArrowLeftWideLine, RiArrowRightWideLine } from "react-icons/ri";
-import Photo from "./Photo.jsx";
+import Photo from "./Photo.tsx";
 import { photoGalleryAction } from "../../../../redux/photo-gallery.jsx";
 import { useEffect } from "react";
 
@@ -41,27 +41,27 @@ export default function ExpandedPhotoGallery({ photos }) {
   };
 
   return (
-    <div className="bg-gray-950 bg-opacity-95 flex justify-center items-center h-full">
+    <div className="bg-opacity-95 flex h-full items-center justify-center bg-gray-950">
       <button
         onClick={handleClickMinimizePhoto}
         className="absolute top-2 right-2"
       >
         <IoCloseOutline
-          className="text-white bg-red-500 hover:bg-red-700 hover:text-gray-200 mr-6 rounded-xs mt-4"
+          className="mt-4 mr-6 rounded-xs bg-red-500 text-white hover:bg-red-700 hover:text-gray-200"
           size={20}
         />
       </button>
       <div className="flex-col">
-        <p className="text-2xl text-white text-center font-semibold mb-4">
+        <p className="mb-4 text-center text-2xl font-semibold text-white">
           {currentPhoto.title}
         </p>
-        <div className="flex justify-center items-stretch m-1">
+        <div className="m-1 flex items-stretch justify-center">
           <Photo
             className="h-[60rem] w-[90rem] md:h-[30rem] md:w-[60rem]"
             photo={currentPhoto}
           />
         </div>
-        <p className="text-lg text-white ml-2">
+        <p className="ml-2 text-lg text-white">
           Author:&nbsp;{currentPhoto.author}
         </p>
         <div className="flex justify-center space-x-24">

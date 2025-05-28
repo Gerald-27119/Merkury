@@ -1,8 +1,8 @@
 import { MdMyLocation } from "react-icons/md";
 import React, { useState } from "react";
 import { Marker, useMap } from "@vis.gl/react-maplibre";
-import { notificationAction } from "../../../redux/notification";
-import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { notificationAction } from "../../../../redux/notification";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 
 type Cords = {
   longitude: number;

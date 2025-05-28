@@ -1,12 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { accountSlice } from "./account.jsx";
+import { accountSlice } from "./account";
 import { notificationSlice } from "./notification.jsx";
 import { photoSlice } from "./photo.jsx";
-import { spotDetailsModalSlice } from "./spot-modal.jsx";
+import { spotDetailsModalSlice } from "./spot-modal";
 import { photoGallerySlice } from "./photo-gallery.jsx";
 import { spotFiltersSlice } from "./spot-filters.jsx";
 import { chatsSlice } from "./chats";
 import { mapSlice } from "./map";
+import { sidebarSlice } from "./sidebar";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     spotFilters: spotFiltersSlice.reducer,
     chats: chatsSlice.reducer,
     map: mapSlice.reducer,
+    sidebar: sidebarSlice.reducer,
   },
 });
 
