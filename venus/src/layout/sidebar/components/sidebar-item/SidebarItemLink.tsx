@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
 import SidebarItemContent from "./SidebarItemContent";
 import { SidebarLink } from "../../../../model/interface/sidebar/link";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import { sidebarAction } from "../../../../redux/sidebar";
 
 interface SidebarItemLinkProps {
   link: SidebarLink;
@@ -17,10 +19,15 @@ export default function SidebarItemLink({
   isSidebarOpen,
   isTooltipShown,
 }: SidebarItemLinkProps) {
+  const dispatch = useDispatchTyped();
+
+  const handleClose = () => dispatch(sidebarAction.closeSidebar());
+
   return (
     <NavLink
       to={link.to}
       end
+      onClick={handleClose}
       onMouseEnter={showTooltip}
       onMouseLeave={hideTooltip}
       className={({ isActive }) =>

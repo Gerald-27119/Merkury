@@ -15,6 +15,14 @@ export const sidebarSlice = createSlice({
     setIsSidebarOpen(state, action) {
       state.isOpen = action.payload;
     },
+    closeSidebar(state) {
+      if (window.innerWidth < 1280) {
+        state.isOpen = false;
+      }
+    },
+    toggleSidebar(state) {
+      state.isOpen = !state.isOpen;
+    },
   },
 });
 
