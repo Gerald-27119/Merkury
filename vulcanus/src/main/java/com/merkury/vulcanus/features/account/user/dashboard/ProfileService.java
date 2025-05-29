@@ -19,7 +19,7 @@ public class ProfileService {
     private final UserEntityFetcher userEntityFetcher;
     private final ImgRepository imgRepository;
 
-    public UserProfileDto getOwnProfile(String username) throws UserNotFoundByUsernameException {
+    public UserProfileDto getUserOwnProfile(String username) throws UserNotFoundByUsernameException {
         var user = userEntityFetcher.getByUsername(username);
         var images = get4MostPopularPhotosFromUser(user);
         return ProfileMapper.toDto(user, images);

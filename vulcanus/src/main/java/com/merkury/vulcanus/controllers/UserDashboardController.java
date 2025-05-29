@@ -5,7 +5,7 @@ import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
-import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +20,8 @@ public class UserDashboardController {
     private final UserDashboardService userDashboardService;
 
     @GetMapping("/user-dashboard/profile")
-    public ResponseEntity<UserProfileDto> getOwnProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        var user = userDashboardService.getOwnProfile(request);
+    public ResponseEntity<UserProfileDto> getUserOwnProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        var user = userDashboardService.getUserOwnProfile(request);
         return ResponseEntity.ok(user);
     }
 
@@ -37,7 +37,7 @@ public class UserDashboardController {
     }
 
     @PatchMapping("/user-dashboard/friends")
-    public ResponseEntity<Void> editUserFriends(HttpServletRequest request, @RequestParam String friendUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
+    public ResponseEntity<Void> editUserFriends(HttpServletRequest request, @RequestParam String friendUsername, @RequestParam UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
         userDashboardService.editUserFriends(request, friendUsername, type);
         return ResponseEntity.ok().build();
     }
@@ -60,7 +60,7 @@ public class UserDashboardController {
     }
 
     @PatchMapping("/user-dashboard/followed")
-    public ResponseEntity<Void> editUserFollowed(HttpServletRequest request, @RequestParam String followedUsername, @RequestParam EditUserFriendsType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
+    public ResponseEntity<Void> editUserFollowed(HttpServletRequest request, @RequestParam String followedUsername, @RequestParam UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
         userDashboardService.editUserFollowed(request, followedUsername, type);
         return ResponseEntity.ok().build();
     }

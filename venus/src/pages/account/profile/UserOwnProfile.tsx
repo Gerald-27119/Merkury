@@ -1,11 +1,11 @@
 import Profile from "./Profile";
 import { useQuery } from "@tanstack/react-query";
-import { getUserPrivateProfile } from "../../../http/user-dashboard";
+import { getUserOwnProfile } from "../../../http/user-dashboard";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 
-export default function OwnProfile() {
+export default function UserOwnProfile() {
   const { data, isLoading } = useQuery({
-    queryFn: getUserPrivateProfile,
+    queryFn: getUserOwnProfile,
     queryKey: ["userProfile"],
   });
 

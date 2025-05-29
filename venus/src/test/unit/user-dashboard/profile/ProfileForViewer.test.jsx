@@ -51,12 +51,14 @@ const mockUserData = (isFriends, isFollowing) => ({
     photosCount: 29,
     mostPopularPhotos: [
       {
+        id: 1,
         src: "photo1.jpg",
         heartsCount: 0,
         viewsCount: 0,
         title: "Statue A",
       },
       {
+        id: 2,
         src: "photo2.jpg",
         heartsCount: 0,
         viewsCount: 0,
@@ -69,8 +71,8 @@ const mockUserData = (isFriends, isFollowing) => ({
   isOwnProfile: false,
 });
 
-describe("Profile component unit tests", () => {
-  describe("Profile display user data correctly", () => {
+describe("Profile for viewer component unit tests", () => {
+  describe("Profile for viewer display user data correctly", () => {
     beforeEach(() => {
       useQuery.mockReturnValue({
         data: mockUserData(false, false),

@@ -7,7 +7,7 @@ import {
   editUserFriends,
 } from "../../../../http/user-dashboard";
 import SocialButton from "./SocialButton";
-import { EditUserFriendsType } from "../../../../model/enum/account/social/editUserFriendsType";
+import { UserRelationEditType } from "../../../../model/enum/account/social/userRelationEditType";
 import { SocialListType } from "../../../../model/enum/account/social/socialListType";
 import { useBoolean } from "../../../../hooks/useBoolean";
 import Modal from "../../../../components/modal/Modal";
@@ -41,14 +41,14 @@ export default function SocialCard({ friend, type }: SocialCardProps) {
   const removeUserFriend = async (friendUsername: string) => {
     await mutateAsyncFriends({
       friendUsername,
-      type: EditUserFriendsType.REMOVE,
+      type: UserRelationEditType.REMOVE,
     });
   };
 
   const removeUserFollowed = async (followedUsername: string) => {
     await mutateAsyncFollowed({
       followedUsername,
-      type: EditUserFriendsType.REMOVE,
+      type: UserRelationEditType.REMOVE,
     });
   };
 

@@ -5,21 +5,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   editUserFollowed,
   editUserFriends,
-  getUserPublicProfile,
+  getProfileForViewer,
 } from "../../../http/user-dashboard";
 import { AxiosError } from "axios";
 import { notificationAction } from "../../../redux/notification";
-import { EditUserFriendsType } from "../../../model/enum/account/social/editUserFriendsType";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import { useEffect, useState } from "react";
 import ProfileButton from "./components/ProfileButton";
 import Modal from "../../../components/modal/Modal";
 import { useBoolean } from "../../../hooks/useBoolean";
 import { SocialListType } from "../../../model/enum/account/social/socialListType";
-
-const getEditFriendType = (isFriend?: boolean) => {
-  return isFriend ? EditUserFriendsType.REMOVE : EditUserFriendsType.ADD;
-};
+import { resolveRelationEditType } from "../../../utils/account/profile";
 
 export default function ProfileForViewer() {
   const dispatch = useDispatchTyped();
@@ -30,7 +26,7 @@ export default function ProfileForViewer() {
   const [modalAction, setModalAction] = useState<SocialListType | null>(null);
 
   const { data, isLoading } = useQuery({
-    queryFn: () => getUserPublicProfile(username!),
+    queryFn: () => getProfileForViewer(username!),
     queryKey: ["userProfile", username],
   });
 
@@ -77,14 +73,14 @@ export default function ProfileForViewer() {
   const handleEditToFriends = async () => {
     await mutateFriends({
       friendUsername: username!,
-      type: getEditFriendType(data?.isFriends),
+      type: resolveRelationEditType(data?.isFriends),
     });
   };
 
   const handleEditToFollowed = async () => {
     await mutateFollowed({
       followedUsername: username!,
-      type: getEditFriendType(data?.isFollowing),
+      type: resolveRelationEditType(data?.isFollowing),
     });
   };
 

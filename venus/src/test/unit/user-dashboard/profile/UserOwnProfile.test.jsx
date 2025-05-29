@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-query";
 import { accountSlice } from "../../../../redux/account";
 import { describe } from "vitest";
-import OwnProfile from "../../../../pages/account/profile/OwnProfile";
+import UserOwnProfile from "../../../../pages/account/profile/UserOwnProfile";
 
 const queryClient = new QueryClient();
 
@@ -34,7 +34,7 @@ const renderProfile = () => {
     <Provider store={store}>
       <MemoryRouter>
         <QueryClientProvider client={queryClient}>
-          <OwnProfile />
+          <UserOwnProfile />
         </QueryClientProvider>
       </MemoryRouter>
     </Provider>,
@@ -50,12 +50,14 @@ const mockUserData = {
   photosCount: 29,
   mostPopularPhotos: [
     {
+      id: 1,
       src: "photo1.jpg",
       heartsCount: 0,
       viewsCount: 0,
       title: "Statue A",
     },
     {
+      id: 2,
       src: "photo2.jpg",
       heartsCount: 0,
       viewsCount: 0,
@@ -64,8 +66,8 @@ const mockUserData = {
   ],
 };
 
-describe("Profile component unit tests", () => {
-  describe("Profile display user data correctly", () => {
+describe("User own profile component unit tests", () => {
+  describe("User own profile display user data correctly", () => {
     beforeEach(() => {
       useQuery.mockReturnValue({
         data: mockUserData,

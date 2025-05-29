@@ -47,7 +47,7 @@ class ProfileServiceTest {
 
         when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
 
-        var result = profileService.getOwnProfile("testUser");
+        var result = profileService.getUserOwnProfile("testUser");
 
         assertAll(() -> assertEquals("testUser", result.username()),
                 () -> assertEquals("testPhoto", result.profilePhoto()),
@@ -60,7 +60,7 @@ class ProfileServiceTest {
     @Test
     void shouldThrowUserNotFoundByUsernameExceptionWhenOwnerNotFound() throws UserNotFoundByUsernameException {
         when(userEntityFetcher.getByUsername(anyString())).thenThrow(new UserNotFoundByUsernameException(""));
-        assertThrows(UserNotFoundByUsernameException.class, () -> profileService.getOwnProfile(anyString()));
+        assertThrows(UserNotFoundByUsernameException.class, () -> profileService.getUserOwnProfile(anyString()));
     }
 
     @Test
@@ -84,7 +84,7 @@ class ProfileServiceTest {
         when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
         when(imgRepository.findTop4ByAuthorOrderByLikesDesc(user)).thenReturn(top4Images);
 
-        var result = profileService.getOwnProfile("testUser");
+        var result = profileService.getUserOwnProfile("testUser");
 
         assertAll(() -> assertEquals(4, result.mostPopularPhotos().size()),
                 () -> assertEquals(10, result.mostPopularPhotos().getFirst().heartsCount()));
@@ -111,7 +111,7 @@ class ProfileServiceTest {
         when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
         when(imgRepository.findTop4ByAuthorOrderByLikesDesc(user)).thenReturn(top4Images);
 
-        var result = profileService.getOwnProfile("testUser");
+        var result = profileService.getUserOwnProfile("testUser");
 
         assertEquals(3, result.mostPopularPhotos().size());
     }
@@ -143,7 +143,7 @@ class ProfileServiceTest {
     }
 
     @Test
-    void shouldReturnOwnProfileWhenViewerIsOwnUser() throws UserNotFoundByUsernameException {
+    void shouldReturnUserOwnProfileWhenViewerIsOwnUser() throws UserNotFoundByUsernameException {
         var user = new UserEntity();
         user.setUsername("testUser");
         user.setProfilePhoto("testPhoto");
