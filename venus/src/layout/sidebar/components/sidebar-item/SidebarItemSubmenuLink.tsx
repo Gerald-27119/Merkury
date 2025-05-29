@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { SidebarSubmenuLink } from "../../../../model/interface/sidebar/link";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
-import { sidebarAction } from "../../../../redux/sidebar";
+import { closeSidebar } from "../../../../redux/sidebar";
 
 interface SidebarItemSubmenuProps {
   link: SidebarSubmenuLink;
@@ -12,7 +12,7 @@ export default function SidebarItemSubmenuLink({
 }: SidebarItemSubmenuProps) {
   const dispatch = useDispatchTyped();
 
-  const handleClose = () => dispatch(sidebarAction.closeSidebar());
+  const handleClose = () => dispatch(closeSidebar());
 
   return (
     <NavLink
