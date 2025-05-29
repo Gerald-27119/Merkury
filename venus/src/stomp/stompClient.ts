@@ -12,7 +12,9 @@ export interface WebSocketChatMessage {
     chatId: number;
     sender: {
         id: number;
-        username: string;
+        name: string;
+        imgUrl?: string; // Optional, can be undefined if not provided
     };
     content: string;
+    sentAt: string; // ISO date string
 }

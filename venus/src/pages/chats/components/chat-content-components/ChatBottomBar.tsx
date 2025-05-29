@@ -4,8 +4,8 @@ import { IoSendSharp } from "react-icons/io5";
 import { RiEmotionHappyFill } from "react-icons/ri";
 import { MdGifBox } from "react-icons/md";
 import { SetStateAction, useState } from "react";
-import { useStomp } from "../../../../stomp/useStomp";
 import { WebSocketChatMessage } from "../../../../stomp/stompClient";
+import { useStomp } from "../../../../stomp/useStomp";
 
 export default function ChatBottomBar() {
     const className = "text-violetLighter text-3xl";
@@ -13,8 +13,9 @@ export default function ChatBottomBar() {
     const [isSending, setIsSending] = useState(false);
     const { sendMessage: stompSendMessage } = useStomp(
         "ws://localhost:8080/connect",
+        1, //1 to id cahta na razie
     ); // Update broker URL as needed
-
+    // TODO:move it somewhere else (whole app  should be able to use the stomp connnection)
     function onInputChange(event: {
         target: { value: SetStateAction<string> };
     }) {
@@ -26,9 +27,11 @@ export default function ChatBottomBar() {
             chatId: 1,
             sender: {
                 id: 1,
-                username: "testUser",
+                name: "user1",
+                imgUrl: "user1.png",
             },
             content: messageToSend,
+            sentAt: new Date().toISOString(), // Add timestamp
         };
         console.log("Sending message:", JSON.stringify(formatedMessageToSend));
         setIsSending(true);
@@ -39,13 +42,11 @@ export default function ChatBottomBar() {
             JSON.stringify(formatedMessageToSend),
         );
 
-        // Simulate waiting for an ACK/confirmation from the server.
+        // ADD ACKNOWLEDGEMENT HANDLING HERE
         // In a real-world scenario, you'd subscribe to an ACK topic or use a callback.
-        setTimeout(() => {
-            setIsSending(false);
-            console.log("ACK received: Message sent."); //kłamstwo
-        }, 1500);
     }
+    // TODO: w chacie u suera musi wyswietlac sie wiadomosc ktora wyslal w wersji z frontu dodana a nie z backendu!
+    //TODO: potem potwierdzneiwwyslania, ponawienie, info o beldzie itd
 
     return (
         <div className="flex items-center justify-center gap-4 px-3 py-3">

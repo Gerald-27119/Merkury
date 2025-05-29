@@ -4,6 +4,7 @@ import {
     PayloadAction,
 } from "@reduxjs/toolkit";
 import {
+    ChatMessageDto,
     DetailedChatDto,
     SimpleChatDto,
 } from "../model/interface/chat/chatInterfaces";
@@ -52,6 +53,46 @@ export const chatsSlice = createSlice({
         },
         setSelectedChatId(state, action: PayloadAction<number>) {
             state.selectedChatId = action.payload;
+        },
+        // addMessage(
+        //     state,
+        //     action: PayloadAction<{ chatId: number; message: ChatMessageDto }>,
+        // ) {
+        //     const { chatId, message } = action.payload;
+        //     const chat = state.entities[chatId];
+        //     if (!chat) {
+        //         // jeśli chat nie istnieje, nic nie robimy
+        //         return;
+        //     }
+        //     // jeśli nie ma jeszcze tablicy messages, tworzymy ją
+        //     if (!chat.detailedChatDto.messages) {
+        //         chat.detailedChatDto.messages = [];
+        //     }
+        //     // dorzucamy nową wiadomość
+        //     chat.detailedChatDto.messages.push(message);
+        // },
+        //
+        addMessage(
+            state,
+            action: PayloadAction<{ chatId: number; message: ChatMessageDto }>,
+        ) {
+            const { chatId, message } = action.payload;
+            const chat = state.entities[chatId];
+            if (!chat) {
+                // jeśli chat nie istnieje, nic nie robimy
+                return;
+            }
+            // jeśli nie ma jeszcze tablicy messages, tworzymy ją
+            if (!chat.detailedChatDto.messages) {
+                chat.detailedChatDto.messages = [];
+            }
+            // dorzucamy nową wiadomość
+            chat.detailedChatDto.messages.push(message);
+            // sortujemy odwrotnie (najnowsze wiadomości na początku)
+            chat.detailedChatDto.messages.sort(
+                (a, b) =>
+                    new Date(b.sentAt).getTime() - new Date(a.sentAt).getTime(),
+            );
         },
     },
 });
