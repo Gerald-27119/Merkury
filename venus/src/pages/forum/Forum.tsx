@@ -8,9 +8,13 @@ import AddPostButton from "./components/AddPostButton";
 import PostSearchBar from "./components/PostSearchBar";
 import CategoriesTagsPanel from "./components/CategoriesTagsPanel";
 import RightPanel from "./components/RightPanel";
+import ForumFormModal from "./components/ForumFormModal";
+import { useBoolean } from "../../hooks/useBoolean";
 
 export default function Forum() {
   const [currentPage, setCurrentPage] = useState(0);
+  const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
+    useBoolean(false);
 
   const { data, error, isError, isLoading } = useQuery({
     queryKey: ["posts", currentPage],
@@ -18,7 +22,11 @@ export default function Forum() {
   });
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   if (isError) {
@@ -30,7 +38,7 @@ export default function Forum() {
       <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg min-h-screen w-full">
         <div className="mx-auto mt-8 flex w-full max-w-6xl flex-row gap-4">
           <div>
-            <AddPostButton />
+            <AddPostButton onClick={setIsModalOpenToTrue} />
             <CategoriesTagsPanel />
           </div>
 
@@ -52,6 +60,10 @@ export default function Forum() {
             <PostSearchBar />
             <RightPanel />
           </div>
+          <ForumFormModal
+            onClose={setIsModalOpenToFalse}
+            isOpen={isModalOpen}
+          />
         </div>
       </div>
     </>
