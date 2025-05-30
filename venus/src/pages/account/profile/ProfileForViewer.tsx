@@ -11,11 +11,11 @@ import { AxiosError } from "axios";
 import { notificationAction } from "../../../redux/notification";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import { useEffect, useState } from "react";
-import ProfileButton from "./components/ProfileButton";
 import Modal from "../../../components/modal/Modal";
 import { useBoolean } from "../../../hooks/useBoolean";
 import { SocialListType } from "../../../model/enum/account/social/socialListType";
 import { resolveRelationEditType } from "../../../utils/account/profile";
+import Button from "../../../components/buttons/Button";
 
 export default function ProfileForViewer() {
   const dispatch = useDispatchTyped();
@@ -125,13 +125,15 @@ export default function ProfileForViewer() {
     <>
       <Profile userData={data.profile}>
         <div className="text-darkText flex w-full flex-wrap justify-center gap-5 xl:flex-nowrap">
-          <ProfileButton
+          <Button
+            variant="profile"
             onClick={
               data.isFollowing ? confirmRemoveFromFollow : handleEditToFollowed
             }
             text={data.isFollowing ? "unfollow" : "follow"}
           />
-          <ProfileButton
+          <Button
+            variant="profile"
             onClick={
               data.isFriends ? confirmRemoveFromFriends : handleEditToFriends
             }
