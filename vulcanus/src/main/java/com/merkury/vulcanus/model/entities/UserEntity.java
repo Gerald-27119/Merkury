@@ -45,23 +45,11 @@ public class UserEntity implements UserDetails {
     @ToString.Exclude
     private List<Img> images = new ArrayList<>();
 
-    /**
-     * Default lazy loading: Favorite spots are loaded only when explicitly accessed.
-     * Implication: Improper use of this collection outside a transaction can result
-     * in LazyInitializationException.
-     * Reason: Avoids unnecessary fetching of potentially large collections
-     * unless required.
-     **/
     @Builder.Default
-    @ManyToMany
-    @JoinTable(
-            name = "user_favorite_spots",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "spot_id")
-    )
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private List<Spot> favoriteSpots = new ArrayList<>();
+    private List<FavoriteSpot> favoriteSpots = new ArrayList<>();
 
     @Builder.Default
     @ManyToMany

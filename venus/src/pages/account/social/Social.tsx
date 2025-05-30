@@ -8,6 +8,7 @@ import SocialButton from "./components/SocialButton";
 import { useState } from "react";
 import SocialCardList from "./components/SocialCardList";
 import { SocialListType } from "../../../model/enum/account/social/socialListType";
+import AccountTitle from "../components/AccountTitle";
 
 const menuTypes = [
   { label: "friends", type: SocialListType.FRIENDS },
@@ -41,9 +42,7 @@ export default function Social() {
 
   return (
     <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText flex h-full w-full flex-col space-y-8 p-10 pt-17 xl:pt-10">
-      <h1 className="text-4xl font-semibold capitalize lg:ml-27">
-        social list
-      </h1>
+      <AccountTitle text="social list" />
       <div className="flex gap-3 text-2xl lg:mx-27">
         {menuTypes.map(({ label, type: btnType }) => (
           <SocialButton

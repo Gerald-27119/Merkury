@@ -70,6 +70,9 @@ public class Spot {
     private int ratingCount = 0;
 
     @Builder.Default
+    private int viewsCount = 0;
+
+    @Builder.Default
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude

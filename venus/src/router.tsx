@@ -1,18 +1,18 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Error from "./components/error/Error.jsx";
-import Register from "./pages/register/Register.tsx";
-import Login from "./pages/login/Login.tsx";
+import Register from "./pages/register/Register";
+import Login from "./pages/login/Login";
 import ForgotPassword from "./pages/forgot-password/ForgotPassword.jsx";
 import NewPassword from "./pages/new-password/NewPassword.jsx";
 import Layout from "./layout/Layout.jsx";
 import Forum from "./pages/forum/Forum";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
-import FavouriteSpots from "./pages/favourite-spots/FavouriteSpots.jsx";
 import MapPage from "./pages/map/MapPage";
 import Profile from "./pages/account/profile/Profile";
 import ChatsPage from "./pages/chats/ChatsPage";
 import Social from "./pages/account/social/Social";
+import SpotLists from "./pages/account/spot-lists/SpotLists";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +36,14 @@ const router = createBrowserRouter([
             element: (
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "spots",
+            element: (
+              <ProtectedRoute>
+                <SpotLists />
               </ProtectedRoute>
             ),
           },
@@ -74,14 +82,6 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <EditUserData />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "favourite-spots",
-        element: (
-          <ProtectedRoute>
-            <FavouriteSpots />
           </ProtectedRoute>
         ),
       },
