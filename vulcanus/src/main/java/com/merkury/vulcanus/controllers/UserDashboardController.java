@@ -6,6 +6,7 @@ import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
+import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -62,8 +63,8 @@ public class UserDashboardController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/spots")
-    public ResponseEntity<List<FavoriteSpotDto>> getAllUserFavoritesSpots(HttpServletRequest request){
-        return ResponseEntity.ok(userDashboardService.getAllUserFavoritesSpots(request));
+    @GetMapping("/favorite-spots")
+    public ResponseEntity<List<FavoriteSpotDto>> getAllUserFavoritesSpots(HttpServletRequest request, @RequestParam FavoriteSpotsListType type){
+        return ResponseEntity.ok(userDashboardService.getUserFavoritesSpots(request, type));
     }
 }

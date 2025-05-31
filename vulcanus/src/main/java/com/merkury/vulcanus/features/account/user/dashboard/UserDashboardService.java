@@ -5,6 +5,7 @@ import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
+import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.security.jwt.JwtManager;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,8 +51,8 @@ public class UserDashboardService {
         followersService.editUserFollowed(getCurrentUsername(request), followedUsername, type);
     }
 
-    public List<FavoriteSpotDto> getAllUserFavoritesSpots(HttpServletRequest request){
-       return favoriteSpotService.getAllUserFavoritesSpots(getCurrentUsername(request));
+    public List<FavoriteSpotDto> getUserFavoritesSpots(HttpServletRequest request, FavoriteSpotsListType type){
+       return favoriteSpotService.getUserFavoritesSpots(getCurrentUsername(request), type);
     }
 
     private String getCurrentUsername(HttpServletRequest request){
