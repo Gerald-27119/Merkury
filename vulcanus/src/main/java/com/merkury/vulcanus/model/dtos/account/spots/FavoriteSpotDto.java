@@ -1,8 +1,7 @@
 package com.merkury.vulcanus.model.dtos.account.spots;
 
 import com.merkury.vulcanus.model.dtos.spot.SpotTagDto;
-import com.merkury.vulcanus.model.entities.Img;
-import com.merkury.vulcanus.model.enums.user.dashboard.SpotsListType;
+import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import lombok.Builder;
 
 import java.util.Set;
@@ -14,7 +13,7 @@ public record FavoriteSpotDto(Long id,
                               String description,
                               Double rating,
                               Integer viewsCount,
-                              Img image,
-                              SpotsListType type,
+                              String imageUrl,
+                              FavoriteSpotsListType type,
                               Set<SpotTagDto> tags) {
 }

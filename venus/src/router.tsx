@@ -12,7 +12,7 @@ import MapPage from "./pages/map/MapPage";
 import Profile from "./pages/account/profile/Profile";
 import ChatsPage from "./pages/chats/ChatsPage";
 import Social from "./pages/account/social/Social";
-import SpotLists from "./pages/account/spot-lists/SpotLists";
+import FavoriteSpots from "./pages/account/spot-lists/FavoriteSpots";
 
 const router = createBrowserRouter([
   {
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
             path: "spots",
             element: (
               <ProtectedRoute>
-                <SpotLists />
+                <FavoriteSpots />
               </ProtectedRoute>
             ),
           },

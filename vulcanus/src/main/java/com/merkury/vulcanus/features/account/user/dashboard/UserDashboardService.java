@@ -3,6 +3,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
+import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.security.jwt.JwtManager;
@@ -18,6 +19,7 @@ public class UserDashboardService {
     private final ProfileService profileService;
     private final FriendsService friendsService;
     private final FollowersService followersService;
+    private final FavoriteSpotService favoriteSpotService;
     private final JwtManager jwtManager;
 
     public UserProfileDto getUserProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
@@ -46,6 +48,10 @@ public class UserDashboardService {
 
     public void editUserFollowed(HttpServletRequest request, String followedUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
         followersService.editUserFollowed(getCurrentUsername(request), followedUsername, type);
+    }
+
+    public List<FavoriteSpotDto> getAllUserFavoritesSpots(HttpServletRequest request){
+       return favoriteSpotService.getAllUserFavoritesSpots(getCurrentUsername(request));
     }
 
     private String getCurrentUsername(HttpServletRequest request){

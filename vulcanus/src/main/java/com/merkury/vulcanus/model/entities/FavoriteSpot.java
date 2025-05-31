@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.model.entities;
 
-import com.merkury.vulcanus.model.enums.user.dashboard.SpotsListType;
+import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +15,7 @@ public class FavoriteSpot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private SpotsListType type;
+    private FavoriteSpotsListType type;
 
     @ManyToOne
     @JoinColumn(name = "spot_id")

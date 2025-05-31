@@ -1,0 +1,69 @@
+import { FavoriteSpot } from "../../../../model/interface/account/favorite-spots/favoriteSpot";
+import { FaEye, FaMapMarkedAlt } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
+import { ConfigProvider, Rate } from "antd";
+import { LuInfo } from "react-icons/lu";
+import FavoriteSpotTags from "./FavoriteSpotTags";
+
+interface FavoriteSpotTileProps {
+  spot: FavoriteSpot;
+}
+
+export default function FavoriteSpotTile({ spot }: FavoriteSpotTileProps) {
+  return (
+    <li className="dark:bg-darkBgSoft bg-lightBgSoft flex h-96 w-full rounded-md shadow-md">
+      <img
+        src={spot.imageUrl}
+        alt={spot.name}
+        className="aspect-square rounded-l-md"
+      />
+      <div className="flex w-full flex-col space-y-4 p-5">
+        <div className="flex justify-between">
+          <div className="flex items-center gap-2 text-lg">
+            <FaEye />
+            <p>{spot.viewsCount}</p>
+          </div>
+          <div className="flex items-center gap-2 text-lg">
+            <FaLocationDot className="text-red-500" />
+            <p>{spot.country}</p>
+          </div>
+        </div>
+        <div className="h-full space-y-4">
+          <ConfigProvider
+            theme={{
+              components: {
+                Rate: {
+                  starBg: "#aaaaab",
+                },
+              },
+            }}
+          >
+            <Rate
+              allowHalf
+              value={spot.rating}
+              disabled
+              className="text-red-500 accent-amber-800"
+            />
+          </ConfigProvider>
+          <div className="space-y-2">
+            <h1 className="text-2xl font-semibold">{spot.name}</h1>
+            <FavoriteSpotTags tags={spot.tags} />
+          </div>
+          <span>{spot.description}</span>
+        </div>
+        <div className="flex flex-col items-end justify-end space-y-3 text-xl">
+          {/*Todo pomyścleć co robić po wciśnięciu tego przycisku*/}
+          <button className="bg-violetDark flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 shadow-md">
+            <LuInfo className="text-2xl" />
+            <p>More details</p>
+          </button>
+          {/*Todo dodac obslugę przycisku*/}
+          <button className="bg-violetDark flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 shadow-md">
+            <FaMapMarkedAlt className="text-2xl" />
+            <p>See on map</p>
+          </button>
+        </div>
+      </div>
+    </li>
+  );
+}
