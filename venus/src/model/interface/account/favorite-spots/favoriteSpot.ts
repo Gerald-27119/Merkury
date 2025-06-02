@@ -5,6 +5,7 @@ export interface FavoriteSpot {
   id: number;
   name: string;
   country: string;
+  city: string;
   description: string;
   rating: number;
   viewsCount: number;

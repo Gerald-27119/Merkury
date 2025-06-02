@@ -16,6 +16,7 @@ public class FavoriteSpotMapper {
                 .id(favoriteSpot.getId())
                 .name(favoriteSpot.getSpot().getName())
                 .country(favoriteSpot.getSpot().getCountry())
+                .city(favoriteSpot.getSpot().getCity())
                 .description(favoriteSpot.getSpot().getDescription())
                 .rating(favoriteSpot.getSpot().getRating())
                 .viewsCount(favoriteSpot.getSpot().getViewsCount())

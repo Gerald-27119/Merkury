@@ -30,10 +30,6 @@ export default function FavoriteSpots() {
     setSelectedType(type);
   };
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
   return (
     <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText h-full w-full space-y-10 p-10 pt-17">
       <AccountTitle text="spots lists" />
@@ -48,6 +44,7 @@ export default function FavoriteSpots() {
           </button>
         ))}
       </div>
+      {isLoading && <LoadingSpinner />}
       <div className="space-y-5 lg:mx-27">
         {data?.map((spot) => (
           <FavoriteSpotTile

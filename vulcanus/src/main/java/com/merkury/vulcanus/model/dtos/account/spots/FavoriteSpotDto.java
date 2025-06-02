@@ -10,6 +10,7 @@ import java.util.Set;
 public record FavoriteSpotDto(Long id,
                               String name,
                               String country,
+                              String city,
                               String description,
                               Double rating,
                               Integer viewsCount,

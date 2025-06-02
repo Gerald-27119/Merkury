@@ -47,7 +47,9 @@ export default function FavoriteSpotTile({
           </div>
           <div className="flex items-center gap-2 text-lg">
             <FaLocationDot className="text-red-500" />
-            <p>{spot.country}</p>
+            <p>
+              {spot.city}, {spot.country}
+            </p>
           </div>
         </div>
         <div className="h-full space-y-4">
