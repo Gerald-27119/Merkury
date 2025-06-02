@@ -87,3 +87,23 @@ export async function getUserFavoriteSpots(
     })
   ).data;
 }
+
+interface RemoveFavoriteSpotProps {
+  type: FavoriteSpotsListType;
+  spotId: number;
+}
+
+export async function removeFavoriteSpot({
+  type,
+  spotId,
+}: RemoveFavoriteSpotProps): Promise<void> {
+  return (
+    await axios.patch(
+      `${BASE_URL}/user-dashboard/favorite-spots?type=${type}&spotId=${spotId}`,
+      {},
+      {
+        withCredentials: true,
+      },
+    )
+  ).data;
+}

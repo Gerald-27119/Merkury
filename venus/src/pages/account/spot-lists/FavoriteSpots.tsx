@@ -49,7 +49,13 @@ export default function FavoriteSpots() {
         ))}
       </div>
       <div className="space-y-5 lg:mx-27">
-        {data?.map((spot) => <FavoriteSpotTile spot={spot} key={spot.id} />)}
+        {data?.map((spot) => (
+          <FavoriteSpotTile
+            spot={spot}
+            key={spot.id}
+            selectedType={selectedType}
+          />
+        ))}
       </div>
     </div>
   );

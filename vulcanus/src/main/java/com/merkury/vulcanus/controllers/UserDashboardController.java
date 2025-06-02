@@ -67,4 +67,10 @@ public class UserDashboardController {
     public ResponseEntity<List<FavoriteSpotDto>> getAllUserFavoritesSpots(HttpServletRequest request, @RequestParam FavoriteSpotsListType type){
         return ResponseEntity.ok(userDashboardService.getUserFavoritesSpots(request, type));
     }
+
+    @PatchMapping("favorite-spots")
+    public ResponseEntity<Void> removeFavoriteSpot(HttpServletRequest request, @RequestParam FavoriteSpotsListType type, @RequestParam Long spotId){
+        userDashboardService.removeFavoriteSpot(request, type, spotId);
+       return ResponseEntity.ok().build();
+    }
 }

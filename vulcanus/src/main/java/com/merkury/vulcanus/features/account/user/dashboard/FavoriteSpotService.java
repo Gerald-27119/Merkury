@@ -32,4 +32,8 @@ public class FavoriteSpotService {
                 .map(FavoriteSpotMapper::toDto)
                 .toList();
     }
+
+    public void removeFavoriteSpot(String username, FavoriteSpotsListType type, Long spotId){
+        favoriteSpotRepository.removeFavoriteSpotByUserUsernameAndTypeAndSpotId(username, type, spotId);
+    }
 }

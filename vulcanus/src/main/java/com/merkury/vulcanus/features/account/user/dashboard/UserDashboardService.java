@@ -55,6 +55,10 @@ public class UserDashboardService {
        return favoriteSpotService.getUserFavoritesSpots(getCurrentUsername(request), type);
     }
 
+    public void removeFavoriteSpot(HttpServletRequest request, FavoriteSpotsListType type, Long spotId){
+        favoriteSpotService.removeFavoriteSpot(getCurrentUsername(request), type, spotId);
+    }
+
     private String getCurrentUsername(HttpServletRequest request){
         return jwtManager.getUsernameFromJwtCookie(request);
     }
