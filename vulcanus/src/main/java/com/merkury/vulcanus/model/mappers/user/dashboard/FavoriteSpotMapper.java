@@ -19,7 +19,8 @@ public class FavoriteSpotMapper {
                 .description(favoriteSpot.getSpot().getDescription())
                 .rating(favoriteSpot.getSpot().getRating())
                 .viewsCount(favoriteSpot.getSpot().getViewsCount())
-                .imageUrl(favoriteSpot.getSpot().getImages().getFirst().getUrl())
+                .imageUrl(favoriteSpot.getSpot().getImages().isEmpty() ? null :
+                        favoriteSpot.getSpot().getImages().getFirst().getUrl())
                 .type(favoriteSpot.getType())
                 .tags(favoriteSpot.getSpot().getTags().stream().map(SpotTagMapper::toDto).collect(Collectors.toSet()))
                 .build();
