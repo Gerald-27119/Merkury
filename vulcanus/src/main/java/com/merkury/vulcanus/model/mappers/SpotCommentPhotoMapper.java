@@ -9,6 +9,7 @@ public class SpotCommentPhotoMapper {
     public static SpotCommentPhotoDto toDto (SpotCommentPhoto photo) {
         return SpotCommentPhotoDto.builder()
                 .url(photo.getUrl())
+                .id(photo.getId())
                 .build();
     }
 }

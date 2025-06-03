@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_ADMIN;
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_USER;
@@ -35,6 +36,7 @@ public class PopulateDbsService {
     private final SpotRepository spotRepository;
     private final ZoneRepository zoneRepository;
     private final SpotTagRepository spotTagRepository;
+    private final SpotCommentRepository spotCommentRepository;
 
     @Transactional
     public void initPostgresDb() {
@@ -325,7 +327,7 @@ public class PopulateDbsService {
                         .text("Świetne miejsce, warto odwiedzić!")
                         .rating(5.0)
                         .spot(spot1)
-                        .publishDate(LocalDateTime.of(2024, 6, 1, 10, 15))
+                        .publishDate(LocalDateTime.of(2025, 6, 1, 10, 15))
                         .author(user)
                         .build(),
                 SpotComment.builder()
@@ -495,7 +497,7 @@ public class PopulateDbsService {
                     .text("Comment" + i + ": Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
                     .rating((i + 1.0) % 5.0)
                     .spot(spot1)
-                    .publishDate(LocalDateTime.now())
+                    .publishDate(LocalDateTime.now().minusMonths(1))
                     .author(user)
                     .build();
             spotCommentList1.add(spotComment);
@@ -626,14 +628,16 @@ public class PopulateDbsService {
         spot10.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
 
         for (Spot spot : spots) {
-            spot.getSpotComments().get(0).setPhotos(
-                    spot.getImages().stream()
-                            .map(img -> SpotCommentPhoto.builder()
-                                    .url(img.getUrl())
-                                    .build()
-                            )
-                            .toList()
-            );
+            SpotComment firstComment = spot.getSpotComments().get(0);
+            List<SpotCommentPhoto> photos = spot.getImages().stream()
+                    .map(img -> SpotCommentPhoto.builder()
+                            .url(img.getUrl())
+                            .spotComment(firstComment)
+                            .build()
+                    )
+                    .collect(Collectors.toCollection(ArrayList::new));
+            firstComment.setPhotos(photos);
+            spotCommentRepository.save(firstComment);
         }
 
         spotRepository.saveAll(spots);
