@@ -1,9 +1,10 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
+import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
-import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.security.jwt.JwtManager;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,15 +21,23 @@ public class UserDashboardService {
     private final FollowersService followersService;
     private final JwtManager jwtManager;
 
-    public UserProfileDto getUserProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return profileService.getUserProfile(getCurrentUsername(request));
+    public UserProfileDto getUserOwnProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return profileService.getUserOwnProfile(getCurrentUsername(request));
+    }
+
+    public ExtendedUserProfileDto getUserProfileForViewer(HttpServletRequest request, String targetUsername) throws UserNotFoundByUsernameException {
+        String usernameFromCookie = null;
+        if (jwtManager.getJWTFromCookie(request) != null){
+            usernameFromCookie = getCurrentUsername(request);
+        }
+        return profileService.getUserProfileForViewer(usernameFromCookie, targetUsername);
     }
 
     public List<SocialDto> getUserFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {
         return friendsService.getUserFriends(getCurrentUsername(request));
     }
 
-    public void editUserFriends(HttpServletRequest request, String friendUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
+    public void editUserFriends(HttpServletRequest request, String friendUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
         friendsService.editUserFriends(getCurrentUsername(request), friendUsername, type);
     }
 
@@ -44,11 +53,11 @@ public class UserDashboardService {
         return followersService.getUserFollowed(getCurrentUsername(request));
     }
 
-    public void editUserFollowed(HttpServletRequest request, String followedUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
+    public void editUserFollowed(HttpServletRequest request, String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
         followersService.editUserFollowed(getCurrentUsername(request), followedUsername, type);
     }
 
-    private String getCurrentUsername(HttpServletRequest request){
+    private String getCurrentUsername(HttpServletRequest request) {
         return jwtManager.getUsernameFromJwtCookie(request);
     }
 }

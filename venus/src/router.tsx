@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Error from "./components/error/Error.jsx";
-import Register from "./pages/register/Register.tsx";
-import Login from "./pages/login/Login.tsx";
+import Register from "./pages/register/Register";
+import Login from "./pages/login/Login";
 import ForgotPassword from "./pages/forgot-password/ForgotPassword.jsx";
 import NewPassword from "./pages/new-password/NewPassword.jsx";
 import Layout from "./layout/Layout.jsx";
@@ -10,9 +10,10 @@ import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
 import FavouriteSpots from "./pages/favourite-spots/FavouriteSpots.jsx";
 import MapPage from "./pages/map/MapPage";
-import Profile from "./pages/account/profile/Profile";
 import ChatsPage from "./pages/chats/ChatsPage";
 import Social from "./pages/account/social/Social";
+import UserOwnProfile from "./pages/account/profile/UserOwnProfile";
+import ProfileForViewer from "./pages/account/profile/ProfileForViewer";
 
 const router = createBrowserRouter([
   {
@@ -35,9 +36,13 @@ const router = createBrowserRouter([
             path: "profile",
             element: (
               <ProtectedRoute>
-                <Profile />
+                <UserOwnProfile />
               </ProtectedRoute>
             ),
+          },
+          {
+            path: "profile/:username",
+            element: <ProfileForViewer />,
           },
           {
             path: "friends",
