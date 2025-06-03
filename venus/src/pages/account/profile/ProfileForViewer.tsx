@@ -131,15 +131,17 @@ export default function ProfileForViewer() {
             onClick={
               data.isFollowing ? confirmRemoveFromFollow : handleEditToFollowed
             }
-            text={data.isFollowing ? "unfollow" : "follow"}
-          />
+          >
+            {data.isFollowing ? "unfollow" : "follow"}
+          </Button>
           <Button
             variant={ButtonVariantType.PROFILE}
             onClick={
               data.isFriends ? confirmRemoveFromFriends : handleEditToFriends
             }
-            text={data.isFriends ? "remove from friends" : "add to friends"}
-          />
+          >
+            {data.isFriends ? "remove from friends" : "add to friends"}
+          </Button>
         </div>
       </Profile>
       <Modal onClose={closeModal} onClick={handleConfirm} isOpen={isModalOpen}>

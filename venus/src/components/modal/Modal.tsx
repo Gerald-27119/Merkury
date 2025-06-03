@@ -47,14 +47,16 @@ export default function Modal({
                 variant={ButtonVariantType.MODAL}
                 onClick={onClose}
                 className="bg-red-600 hover:bg-red-700"
-                text="no"
-              />
+              >
+                no
+              </Button>
               <Button
                 variant={ButtonVariantType.MODAL}
                 onClick={onClick}
                 className="bg-green-600 hover:bg-green-700"
-                text="yes"
-              />
+              >
+                yes
+              </Button>
             </form>
           </motion.div>
         </>
