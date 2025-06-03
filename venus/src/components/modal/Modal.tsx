@@ -1,7 +1,8 @@
 import { createPortal } from "react-dom";
 import { ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import ModalButton from "./ModalButton";
+import Button from "../buttons/Button";
+import { ButtonVariantType } from "../../model/enum/buttonVariantType";
 
 interface ModalProps {
   onClose: () => void;
@@ -42,16 +43,20 @@ export default function Modal({
           >
             {children}
             <form method="dialog" className="mt-3 flex space-x-3">
-              <ModalButton
+              <Button
+                variant={ButtonVariantType.MODAL}
                 onClick={onClose}
                 className="bg-red-600 hover:bg-red-700"
-                text={"no"}
-              />
-              <ModalButton
+              >
+                no
+              </Button>
+              <Button
+                variant={ButtonVariantType.MODAL}
                 onClick={onClick}
                 className="bg-green-600 hover:bg-green-700"
-                text={"yes"}
-              />
+              >
+                yes
+              </Button>
             </form>
           </motion.div>
         </>

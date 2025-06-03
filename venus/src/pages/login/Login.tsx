@@ -4,7 +4,7 @@ import FormInput from "../../components/form/FormInput";
 import { loginUser } from "../../http/account.js";
 import FormContainer from "../../components/form/FormContainer";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
-import { accountAction } from "../../redux/account.jsx";
+import { accountAction } from "../../redux/account";
 import { FormEvent, useEffect } from "react";
 import { inputs } from "../../utils/account/inputsList";
 import SubmitFormButton from "../../components/form/SubmitFormButton";
@@ -34,7 +34,7 @@ function Login() {
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(accountAction.setIsLogged({ username: enteredValue.username }));
+      dispatch(accountAction.setIsLogged());
     }
   }, [isSuccess, dispatch, enteredValue.username]);
 

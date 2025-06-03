@@ -9,10 +9,11 @@ import Forum from "./pages/forum/Forum";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
 import MapPage from "./pages/map/MapPage";
-import Profile from "./pages/account/profile/Profile";
 import ChatsPage from "./pages/chats/ChatsPage";
 import Social from "./pages/account/social/Social";
 import FavoriteSpots from "./pages/account/spot-lists/FavoriteSpots";
+import UserOwnProfile from "./pages/account/profile/UserOwnProfile";
+import ProfileForViewer from "./pages/account/profile/ProfileForViewer";
 
 const router = createBrowserRouter([
   {
@@ -35,18 +36,22 @@ const router = createBrowserRouter([
             path: "profile",
             element: (
               <ProtectedRoute>
-                <Profile />
+                <UserOwnProfile />
               </ProtectedRoute>
             ),
           },
           {
-            path: "spots",
-            element: (
-              <ProtectedRoute>
-                <FavoriteSpots />
-              </ProtectedRoute>
-            ),
+            path: "profile/:username",
+            element: <ProfileForViewer />,
           },
+            {
+                path: "spots",
+                element: (
+                    <ProtectedRoute>
+                        <FavoriteSpots />
+                    </ProtectedRoute>
+                ),
+            },
           {
             path: "friends",
             element: (

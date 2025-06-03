@@ -2,7 +2,7 @@ import OauthButton from "./OauthButton";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { githubLoginUrl, googleLoginUrl } from "../../http/account.js";
-import { accountAction } from "../../redux/account.jsx";
+import { accountAction } from "../../redux/account";
 import useDispatchTyped from "../../hooks/useDispatchTyped";
 
 export default function OauthForm() {

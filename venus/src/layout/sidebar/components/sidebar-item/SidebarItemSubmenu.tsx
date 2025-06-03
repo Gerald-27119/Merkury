@@ -37,7 +37,8 @@ export default function SidebarItemSubmenu({
 
   useEffect(() => {
     const hasActiveChild =
-      link.children?.some((child) => child.to === location.pathname) ?? false;
+      link.children?.some((child) => location.pathname.startsWith(child.to)) ??
+      false;
 
     setIsActive(hasActiveChild);
 

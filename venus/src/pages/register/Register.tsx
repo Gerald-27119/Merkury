@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import FormContainer from "../../components/form/FormContainer";
 import useUserDataValidation from "../../hooks/useUserDataValidation.jsx";
 import { FormEvent, useEffect } from "react";
-import { accountAction } from "../../redux/account.jsx";
+import { accountAction } from "../../redux/account";
 import { inputs } from "../../utils/account/inputsList";
 import SubmitFormButton from "../../components/form/SubmitFormButton";
 import useDispatchTyped from "../../hooks/useDispatchTyped";

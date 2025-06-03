@@ -5,13 +5,15 @@ import { configureStore } from "@reduxjs/toolkit";
 import { MemoryRouter } from "react-router-dom";
 import { accountSlice } from "../../redux/account";
 import Sidebar from "../../layout/sidebar/Sidebar";
+import { sidebarSlice } from "../../redux/sidebar";
 
 const queryClient = new QueryClient();
 
-const renderSidebar = (preloadedState, pathname, isSidebarOpen = false) => {
+const renderSidebar = (preloadedState, pathname) => {
   const store = configureStore({
     reducer: {
       account: accountSlice.reducer,
+      sidebar: sidebarSlice.reducer,
     },
     preloadedState,
   });
@@ -20,7 +22,7 @@ const renderSidebar = (preloadedState, pathname, isSidebarOpen = false) => {
     <Provider store={store}>
       <MemoryRouter initialEntries={[pathname]}>
         <QueryClientProvider client={queryClient}>
-          <Sidebar isSidebarOpen={isSidebarOpen} onToggle={() => {}} />
+          <Sidebar />
         </QueryClientProvider>
       </MemoryRouter>
     </Provider>,
@@ -34,6 +36,9 @@ describe("Sidebar component unit tests", () => {
         {
           account: {
             isLogged: false,
+          },
+          sidebar: {
+            isOpen: false,
           },
         },
         "/",
@@ -154,9 +159,11 @@ describe("Sidebar component unit tests", () => {
           account: {
             isLogged: false,
           },
+          sidebar: {
+            isOpen: true,
+          },
         },
         "/",
-        true,
       );
     });
 
@@ -200,9 +207,11 @@ describe("Sidebar component unit tests", () => {
           account: {
             isLogged: true,
           },
+          sidebar: {
+            isOpen: true,
+          },
         },
         "/account/profile",
-        true,
       );
     });
 

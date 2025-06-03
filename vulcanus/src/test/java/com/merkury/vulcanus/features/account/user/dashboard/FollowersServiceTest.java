@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType.*;
+import static com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;

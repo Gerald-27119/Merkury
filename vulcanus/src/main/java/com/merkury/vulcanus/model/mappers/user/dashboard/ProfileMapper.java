@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.model.mappers.user.dashboard;
 
+import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ImageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.entities.Img;
@@ -31,6 +32,14 @@ public class ProfileMapper {
                 .friendsCount(user.getFriendships().size())
                 .photosCount(user.getImages().size())
                 .mostPopularPhotos(imageDto)
+                .build();
+    }
+
+    public static ExtendedUserProfileDto toDto(@NotNull UserProfileDto user, Boolean isFriends, Boolean isFollowing, Boolean isOwnProfile){
+        return ExtendedUserProfileDto.builder().profile(user)
+                .isFriends(isFriends)
+                .isFollowing(isFollowing)
+                .isOwnProfile(isOwnProfile)
                 .build();
     }
 }
