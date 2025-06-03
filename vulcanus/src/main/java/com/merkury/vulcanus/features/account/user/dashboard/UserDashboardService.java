@@ -6,7 +6,6 @@ import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
-import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.security.jwt.JwtManager;

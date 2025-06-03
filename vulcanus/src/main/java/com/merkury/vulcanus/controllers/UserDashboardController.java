@@ -5,11 +5,10 @@ import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
-import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
-import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
