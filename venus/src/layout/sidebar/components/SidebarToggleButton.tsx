@@ -1,18 +1,18 @@
 import { IoMenu } from "react-icons/io5";
+import { sidebarAction } from "../../../redux/sidebar";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
 
-interface SidebarToggleButtonProps {
-  onToggle: () => void;
-}
+export default function SidebarToggleButton() {
+  const dispatch = useDispatchTyped();
 
-export default function SidebarToggleButton({
-  onToggle,
-}: SidebarToggleButtonProps) {
+  const handleToggle = () => dispatch(sidebarAction.toggleSidebar());
+
   return (
     <div className="bg-violetDark mx-2 flex items-center justify-between">
       <button
         type="button"
         className="ml-2 w-fit cursor-pointer"
-        onClick={onToggle}
+        onClick={handleToggle}
       >
         <IoMenu size={40} />
       </button>
