@@ -75,7 +75,7 @@ class FavoriteSpotServiceTest {
         var spotId = 42L;
         var type = FavoriteSpotsListType.PLAN_TO_VISIT;
 
-        when(favoriteSpotRepository.removeFavoriteSpotByUserUsernameAndTypeAndSpotId(username, type, spotId)).thenReturn(1L);
+        when(favoriteSpotRepository.removeFavoriteSpotByUserUsernameAndTypeAndSpotId(username, type, spotId)).thenReturn(1);
 
         favoriteSpotService.removeFavoriteSpot(username, type, spotId);
 

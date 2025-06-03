@@ -16,5 +16,5 @@ public interface FavoriteSpotRepository extends JpaRepository<FavoriteSpot, Long
     @Transactional
     @Modifying
     @Query("DELETE FROM favorite_spots fs WHERE fs.user.username = :username AND fs.type = :type AND fs.spot.id = :spotId")
-    Long removeFavoriteSpotByUserUsernameAndTypeAndSpotId(String username, FavoriteSpotsListType type, Long spotId);
+    Integer removeFavoriteSpotByUserUsernameAndTypeAndSpotId(String username, FavoriteSpotsListType type, Long spotId);
 }
