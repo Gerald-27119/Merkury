@@ -1,7 +1,6 @@
 import axios from "axios";
 import UserProfile from "../model/interface/account/profile/userProfile";
 import { Social } from "../model/interface/account/social/social";
-import { EditUserFriendsType } from "../model/enum/account/social/editUserFriendsType";
 import { FavoriteSpot } from "../model/interface/account/favorite-spots/favoriteSpot";
 import { FavoriteSpotsListType } from "../model/enum/account/favorite-spots/favoriteSpotsListType";
 import { UserRelationEditType } from "../model/enum/account/social/userRelationEditType";
