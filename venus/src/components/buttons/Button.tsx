@@ -15,9 +15,9 @@ const variantClasses = {
   profile:
     "dark:bg-violetDark bg-violetLight dark:hover:bg-violetDark/80 hover:bg-violetLight/80 w-full",
   favorite_spot_menu:
-    "dark:bg-violetDark dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText w-full first:mr-15 transform-all duration-300",
+    "dark:bg-violetDark dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText w-full lg:first:mr-15 transform-all duration-300 md:w-96",
   favorite_spot_tile:
-    "dark:bg-violetDark bg-violetLight dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText flex items-center gap-2",
+    "dark:bg-violetDark bg-violetLight dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText flex items-center gap-2 w-full lg:w-fit",
 };
 
 export default function Button({

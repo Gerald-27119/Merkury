@@ -35,11 +35,11 @@ export default function FavoriteSpotTile({
   };
 
   return (
-    <li className="dark:bg-darkBgSoft bg-lightBgSoft flex h-96 w-full rounded-md shadow-md">
+    <li className="dark:bg-darkBgSoft bg-lightBgSoft flex h-fit w-full flex-col rounded-md shadow-md md:w-96 lg:h-96 lg:w-full lg:flex-row">
       <img
         src={spot.imageUrl}
         alt={spot.name}
-        className="aspect-square rounded-l-md"
+        className="aspect-square h-1/2 rounded-t-md lg:h-full xl:rounded-t-none xl:rounded-l-md"
       />
       <div className="flex w-full flex-col space-y-4 p-5">
         <div className="flex justify-between">
@@ -77,7 +77,7 @@ export default function FavoriteSpotTile({
           </div>
           <span>{spot.description}</span>
         </div>
-        <div className="flex items-end justify-end space-x-3 text-xl">
+        <div className="flex flex-wrap items-end justify-end gap-3 text-xl lg:flex-nowrap lg:space-x-3">
           {/*Todo pomyścleć co robić po wciśnięciu tego przycisku*/}
           <Button
             variant={ButtonVariantType.FAVORITE_SPOT_TILE}

@@ -35,7 +35,7 @@ export default function FavoriteSpots() {
   return (
     <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText h-full w-full space-y-10 p-10 pt-17">
       <AccountTitle text="spots lists" />
-      <div className="flex max-w-full gap-5 lg:mx-27">
+      <div className="flex max-w-full flex-col items-center gap-5 lg:flex-row xl:px-27">
         {menuTypes.map((m) => (
           <Button
             key={m.label}
@@ -52,7 +52,7 @@ export default function FavoriteSpots() {
         ))}
       </div>
       {isLoading && <LoadingSpinner />}
-      <div className="space-y-5 lg:mx-27">
+      <div className="mx-27 flex flex-col space-y-5">
         {data?.length ? (
           data?.map((spot) => (
             <FavoriteSpotTile
