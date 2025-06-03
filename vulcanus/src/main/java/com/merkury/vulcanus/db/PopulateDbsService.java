@@ -23,6 +23,7 @@ import java.util.*;
 
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_ADMIN;
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_USER;
+import static java.lang.System.in;
 import static java.util.Arrays.asList;
 
 @Service
@@ -336,7 +337,7 @@ public class PopulateDbsService {
                         .build()
         ));
 
-        List<SpotComment> spotCommentList2 = asList(
+        List<SpotComment> spotCommentList2 = new ArrayList<>(asList(
                 SpotComment.builder()
                         .text("Idealne miejsce na relaks.")
                         .rating(5.0)
@@ -351,9 +352,9 @@ public class PopulateDbsService {
                         .publishDate(LocalDateTime.of(2024, 6, 4, 16, 20))
                         .author(user)
                         .build()
-        );
+        ));
 
-        List<SpotComment> spotCommentList3 = asList(
+        List<SpotComment> spotCommentList3 = new ArrayList<>(asList(
                 SpotComment.builder()
                         .text("Czysto, spokojnie i klimatycznie.")
                         .rating(5.0)
@@ -368,9 +369,9 @@ public class PopulateDbsService {
                         .publishDate(LocalDateTime.of(2024, 6, 6, 18, 55))
                         .author(user)
                         .build()
-        );
+        ));
 
-        List<SpotComment> spotCommentList4 = asList(
+        List<SpotComment> spotCommentList4 = new ArrayList<>(asList(
                 SpotComment.builder()
                         .text("Miejsce warte odwiedzenia, polecam.")
                         .rating(4.5)
@@ -385,9 +386,9 @@ public class PopulateDbsService {
                         .publishDate(LocalDateTime.of(2024, 6, 8, 13, 25))
                         .author(user)
                         .build()
-        );
+        ));
 
-        List<SpotComment> spotCommentList5 = asList(
+        List<SpotComment> spotCommentList5 = new ArrayList<>(asList(
                 SpotComment.builder()
                         .text("Rewelacyjne miejsce na wycieczkę!")
                         .rating(5.0)
@@ -402,9 +403,9 @@ public class PopulateDbsService {
                         .publishDate(LocalDateTime.of(2024, 6, 10, 20, 15))
                         .author(user)
                         .build()
-        );
+        ));
 
-        List<SpotComment> spotCommentList6 = asList(
+        List<SpotComment> spotCommentList6 = new ArrayList<>(asList(
                 SpotComment.builder()
                         .text("Wspaniałe widoki, aż chce się wracać.")
                         .rating(5.0)
@@ -419,9 +420,9 @@ public class PopulateDbsService {
                         .publishDate(LocalDateTime.of(2024, 6, 12, 19, 5))
                         .author(user)
                         .build()
-        );
+        ));
 
-        List<SpotComment> spotCommentList7 = asList(
+        List<SpotComment> spotCommentList7 = new ArrayList<>(asList(
                 SpotComment.builder()
                         .text("Bardzo ciekawe miejsce z historią.")
                         .rating(5.0)
@@ -436,9 +437,9 @@ public class PopulateDbsService {
                         .publishDate(LocalDateTime.of(2024, 6, 14, 14, 50))
                         .author(user)
                         .build()
-        );
+        ));
 
-        List<SpotComment> spotCommentList8 = asList(
+        List<SpotComment> spotCommentList8 = new ArrayList<>(asList(
                 SpotComment.builder()
                         .text("Czyste i dobrze zorganizowane miejsce.")
                         .rating(4.5)
@@ -453,9 +454,9 @@ public class PopulateDbsService {
                         .publishDate(LocalDateTime.of(2024, 6, 16, 18, 45))
                         .author(user)
                         .build()
-        );
+        ));
 
-        List<SpotComment> spotCommentList9 = asList(
+        List<SpotComment> spotCommentList9 = new ArrayList<>(asList(
                 SpotComment.builder()
                         .text("Super miejsce na rodzinny wypad.")
                         .rating(5.0)
@@ -470,9 +471,9 @@ public class PopulateDbsService {
                         .publishDate(LocalDateTime.of(2024, 6, 18, 21, 10))
                         .author(user)
                         .build()
-        );
+        ));
 
-        List<SpotComment> spotCommentList10 = asList(
+        List<SpotComment> spotCommentList10 = new ArrayList<>(asList(
                 SpotComment.builder()
                         .text("Miejsce godne polecenia, świetna organizacja.")
                         .rating(5.0)
@@ -487,7 +488,7 @@ public class PopulateDbsService {
                         .publishDate(LocalDateTime.of(2024, 6, 20, 17, 35))
                         .author(user)
                         .build()
-        );
+        ));
 
         for (int i = 0; i < 100; i++) {
             SpotComment spotComment = SpotComment.builder()
@@ -498,6 +499,14 @@ public class PopulateDbsService {
                     .author(user)
                     .build();
             spotCommentList1.add(spotComment);
+            spotCommentList2.add(spotComment);
+            spotCommentList3.add(spotComment);
+            spotCommentList4.add(spotComment);
+            spotCommentList5.add(spotComment);
+            spotCommentList6.add(spotComment);
+            spotCommentList7.add(spotComment);
+            spotCommentList8.add(spotComment);
+            spotCommentList9.add(spotComment);
         }
 
         List<Img> gallery1 = Arrays.asList(
@@ -559,8 +568,7 @@ public class PopulateDbsService {
                 new Img(null, "https://ucarecdn.com/54bba112-783d-4b72-8b78-85a924a5aa51/spot10_2.jpg", "workout", "workout", 0, 0, user, spot10)
         );
 
-
-        List<Spot> spots = List.of(spot1, spot2, spot3, spot4, spot5, spot6, spot7, spot8, spot9, spot10);
+        List<Spot> spots = new ArrayList<>(List.of(spot1, spot2, spot3, spot4, spot5, spot6, spot7, spot8, spot9, spot10));
         var contours = List.of(contour1, contour2, contour3, contour4, contour5, contour6, contour7, contour8, contour9, contour10);
         List<List<SpotComment>> commentLists = List.of(spotCommentList1, spotCommentList2, spotCommentList3, spotCommentList4, spotCommentList5, spotCommentList6, spotCommentList7, spotCommentList8, spotCommentList9, spotCommentList10);
         List<List<Img>> galleries = List.of(gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8, gallery9, gallery10);
@@ -616,6 +624,17 @@ public class PopulateDbsService {
         spot8.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(9), tagList.get(12)));
         spot9.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
         spot10.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
+
+        for (Spot spot : spots) {
+            spot.getSpotComments().get(0).setPhotos(
+                    spot.getImages().stream()
+                            .map(img -> SpotCommentPhoto.builder()
+                                    .url(img.getUrl())
+                                    .build()
+                            )
+                            .toList()
+            );
+        }
 
         spotRepository.saveAll(spots);
 

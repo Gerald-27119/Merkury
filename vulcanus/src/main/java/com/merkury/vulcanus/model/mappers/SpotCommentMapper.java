@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.model.mappers;
 
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentAddDto;
+import com.merkury.vulcanus.model.dtos.comment.SpotCommentAuthorDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentDto;
 import com.merkury.vulcanus.model.entities.SpotComment;
 import com.merkury.vulcanus.model.entities.Spot;
@@ -8,6 +9,8 @@ import com.merkury.vulcanus.model.entities.UserEntity;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+
+import static java.util.stream.Collectors.toList;
 
 public class SpotCommentMapper {
     private SpotCommentMapper() {
@@ -17,14 +20,15 @@ public class SpotCommentMapper {
         return SpotCommentDto.builder()
                 .id(spotComment.getId())
                 .text(spotComment.getText())
+                .author(SpotCommentAuthorMapper.toDto(spotComment.getAuthor()))
                 .rating(spotComment.getRating())
                 .upvotes(spotComment.getUpVotes())
                 .downvotes(spotComment.getDownVotes())
                 .publishDate(spotComment.getPublishDate())
-                .author(spotComment.getAuthor().getUsername())
-                .isAuthor(currentUser != null && spotComment.getAuthor().getId().equals(currentUser.getId()))
                 .isUpVoted(spotComment.getUpVotedBy().contains(currentUser))
                 .isDownVoted(spotComment.getDownVotedBy().contains(currentUser))
+                .numberOfPhotos(spotComment.getPhotos().size())
+                .photoList(spotComment.getPhotos().stream().map(SpotCommentPhotoMapper::toDto).toList())
                 .build();
     }
 
