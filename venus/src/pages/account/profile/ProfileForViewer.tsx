@@ -16,6 +16,7 @@ import { useBoolean } from "../../../hooks/useBoolean";
 import { SocialListType } from "../../../model/enum/account/social/socialListType";
 import { resolveRelationEditType } from "../../../utils/account/profile";
 import Button from "../../../components/buttons/Button";
+import { ButtonVariantType } from "../../../model/enum/buttonVariantType";
 
 export default function ProfileForViewer() {
   const dispatch = useDispatchTyped();
@@ -126,14 +127,14 @@ export default function ProfileForViewer() {
       <Profile userData={data.profile}>
         <div className="text-darkText flex w-full flex-wrap justify-center gap-5 xl:flex-nowrap">
           <Button
-            variant="profile"
+            variant={ButtonVariantType.PROFILE}
             onClick={
               data.isFollowing ? confirmRemoveFromFollow : handleEditToFollowed
             }
             text={data.isFollowing ? "unfollow" : "follow"}
           />
           <Button
-            variant="profile"
+            variant={ButtonVariantType.PROFILE}
             onClick={
               data.isFriends ? confirmRemoveFromFriends : handleEditToFriends
             }

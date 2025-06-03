@@ -1,13 +1,11 @@
 import { ReactNode } from "react";
-
-type Variant = "modal" | "profile";
+import { ButtonVariantType } from "../../model/enum/buttonVariantType";
 
 interface ButtonProps {
   onClick: () => void;
-  text?: string;
-  variant: Variant;
+  variant: ButtonVariantType;
   className?: string;
-  children?: ReactNode;
+  children: ReactNode;
 }
 
 const baseClasses =
@@ -20,7 +18,6 @@ const variantClasses = {
 
 export default function Button({
   onClick,
-  text,
   variant,
   className,
   children,
@@ -30,7 +27,7 @@ export default function Button({
       onClick={onClick}
       className={`${baseClasses} ${variantClasses[variant]} ${className}`}
     >
-      {text ?? children}
+      {children}
     </button>
   );
 }
