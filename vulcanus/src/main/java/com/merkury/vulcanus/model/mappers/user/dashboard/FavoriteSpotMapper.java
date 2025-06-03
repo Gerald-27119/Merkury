@@ -13,7 +13,7 @@ public class FavoriteSpotMapper {
 
     public static FavoriteSpotDto toDto(@NotNull FavoriteSpot favoriteSpot) {
         return FavoriteSpotDto.builder()
-                .id(favoriteSpot.getId())
+                .id(favoriteSpot.getSpot().getId())
                 .name(favoriteSpot.getSpot().getName())
                 .country(favoriteSpot.getSpot().getCountry())
                 .city(favoriteSpot.getSpot().getCity())

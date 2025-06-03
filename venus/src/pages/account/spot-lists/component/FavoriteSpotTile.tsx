@@ -7,6 +7,8 @@ import FavoriteSpotTags from "./FavoriteSpotTags";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { removeFavoriteSpot } from "../../../../http/user-dashboard";
 import { FavoriteSpotsListType } from "../../../../model/enum/account/favorite-spots/favoriteSpotsListType";
+import Button from "../../../../components/buttons/Button";
+import { ButtonVariantType } from "../../../../model/enum/buttonVariantType";
 
 interface FavoriteSpotTileProps {
   spot: FavoriteSpot;
@@ -77,22 +79,28 @@ export default function FavoriteSpotTile({
         </div>
         <div className="flex items-end justify-end space-x-3 text-xl">
           {/*Todo pomyścleć co robić po wciśnięciu tego przycisku*/}
-          <button className="bg-violetDark flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 shadow-md">
+          <Button
+            variant={ButtonVariantType.FAVORITE_SPOT_TILE}
+            onClick={() => {}}
+          >
             <LuInfo className="text-2xl" />
             <p>More details</p>
-          </button>
+          </Button>
           {/*Todo dodac obslugę przycisku*/}
-          <button className="bg-violetDark flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 shadow-md">
+          <Button
+            variant={ButtonVariantType.FAVORITE_SPOT_TILE}
+            onClick={() => {}}
+          >
             <FaMapMarkedAlt className="text-2xl" />
             <p>See on map</p>
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleRemoveSpot}
-            className="bg-violetDark flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 shadow-md"
+            variant={ButtonVariantType.FAVORITE_SPOT_TILE}
           >
             <FaRegTrashAlt className="text-2xl" />
             <p>Remove</p>
-          </button>
+          </Button>
         </div>
       </div>
     </li>

@@ -5,6 +5,8 @@ import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import FavoriteSpotTile from "./component/FavoriteSpotTile";
 import { FavoriteSpotsListType } from "../../../model/enum/account/favorite-spots/favoriteSpotsListType";
 import { useState } from "react";
+import Button from "../../../components/buttons/Button";
+import { ButtonVariantType } from "../../../model/enum/buttonVariantType";
 
 const menuTypes = [
   { label: "All", type: FavoriteSpotsListType.ALL },
@@ -13,7 +15,7 @@ const menuTypes = [
   { label: "Visited liked it", type: FavoriteSpotsListType.VISITED_LIED_IT },
   {
     label: "Visited didn't like it",
-    type: FavoriteSpotsListType.VISITED_NOT_LIED_IT,
+    type: FavoriteSpotsListType.VISITED_NOT_LIKED_IT,
   },
   { label: "Commented by you", type: FavoriteSpotsListType.COMMENTED_BY_YOU },
 ];
@@ -35,24 +37,35 @@ export default function FavoriteSpots() {
       <AccountTitle text="spots lists" />
       <div className="flex max-w-full gap-5 lg:mx-27">
         {menuTypes.map((m) => (
-          <button
+          <Button
             key={m.label}
+            variant={ButtonVariantType.FAVORITE_SPOT_MENU}
             onClick={() => handleSetSelectedType(m.type)}
-            className={`bg-violetDark hover:bg-violetLight w-full cursor-pointer rounded-md px-1.5 py-2 shadow-md first:mr-15 ${selectedType === m.type ? "bg-violetLight" : ""}`}
+            className={
+              selectedType === m.type
+                ? "dark:bg-violetLight bg-violetDark/87"
+                : "dark:bg-violetDark bg-violetLight"
+            }
           >
             {m.label}
-          </button>
+          </Button>
         ))}
       </div>
       {isLoading && <LoadingSpinner />}
       <div className="space-y-5 lg:mx-27">
-        {data?.map((spot) => (
-          <FavoriteSpotTile
-            spot={spot}
-            key={spot.id}
-            selectedType={selectedType}
-          />
-        ))}
+        {data?.length ? (
+          data?.map((spot) => (
+            <FavoriteSpotTile
+              spot={spot}
+              key={spot.id}
+              selectedType={selectedType}
+            />
+          ))
+        ) : (
+          <p className="mt-10 text-center text-gray-500">
+            You are not have any spots at the list.
+          </p>
+        )}
       </div>
     </div>
   );

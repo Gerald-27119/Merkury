@@ -14,6 +14,10 @@ const variantClasses = {
   modal: "text-center",
   profile:
     "dark:bg-violetDark bg-violetLight dark:hover:bg-violetDark/80 hover:bg-violetLight/80 w-full",
+  favorite_spot_menu:
+    "dark:bg-violetDark dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText w-full first:mr-15 transform-all duration-300",
+  favorite_spot_tile:
+    "dark:bg-violetDark bg-violetLight dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText flex items-center gap-2",
 };
 
 export default function Button({
