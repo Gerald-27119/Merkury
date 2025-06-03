@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
+import com.merkury.vulcanus.exception.exceptions.FavoriteSpotNotExistException;
 import com.merkury.vulcanus.model.entities.FavoriteSpot;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.entities.UserEntity;
@@ -69,13 +70,21 @@ class FavoriteSpotServiceTest {
     }
 
     @Test
-    void shouldRemoveSpotFromUserList(){
+    void shouldRemoveSpotFromUserList() throws FavoriteSpotNotExistException {
         var username = "user1";
         var spotId = 42L;
         var type = FavoriteSpotsListType.PLAN_TO_VISIT;
 
+        when(favoriteSpotRepository.removeFavoriteSpotByUserUsernameAndTypeAndSpotId(username, type, spotId)).thenReturn(1L);
+
         favoriteSpotService.removeFavoriteSpot(username, type, spotId);
 
         verify(favoriteSpotRepository).removeFavoriteSpotByUserUsernameAndTypeAndSpotId(username, type, spotId);
+    }
+
+    @Test
+    void shouldThrowFavoriteSpotNotExistExceptionWhenSpotInNotExist() {
+        assertThrows(FavoriteSpotNotExistException.class,
+                () -> favoriteSpotService.removeFavoriteSpot("user1", FavoriteSpotsListType.FAVORITE, 43L));
     }
 }

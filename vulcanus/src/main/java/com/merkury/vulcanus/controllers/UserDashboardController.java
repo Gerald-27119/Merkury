@@ -69,7 +69,7 @@ public class UserDashboardController {
     }
 
     @PatchMapping("favorite-spots")
-    public ResponseEntity<Void> removeFavoriteSpot(HttpServletRequest request, @RequestParam FavoriteSpotsListType type, @RequestParam Long spotId){
+    public ResponseEntity<Void> removeFavoriteSpot(HttpServletRequest request, @RequestParam FavoriteSpotsListType type, @RequestParam Long spotId) throws FavoriteSpotNotExistException {
         userDashboardService.removeFavoriteSpot(request, type, spotId);
        return ResponseEntity.ok().build();
     }

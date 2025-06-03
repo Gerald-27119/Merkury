@@ -55,7 +55,7 @@ public class UserDashboardService {
        return favoriteSpotService.getUserFavoritesSpots(getCurrentUsername(request), type);
     }
 
-    public void removeFavoriteSpot(HttpServletRequest request, FavoriteSpotsListType type, Long spotId){
+    public void removeFavoriteSpot(HttpServletRequest request, FavoriteSpotsListType type, Long spotId) throws FavoriteSpotNotExistException {
         favoriteSpotService.removeFavoriteSpot(getCurrentUsername(request), type, spotId);
     }
 

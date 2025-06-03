@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
+import com.merkury.vulcanus.exception.exceptions.FavoriteSpotNotExistException;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.entities.FavoriteSpot;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
@@ -15,14 +16,14 @@ import java.util.List;
 public class FavoriteSpotService {
     private final FavoriteSpotRepository favoriteSpotRepository;
 
-    public List<FavoriteSpotDto> getUserFavoritesSpots(String username, FavoriteSpotsListType type){
+    public List<FavoriteSpotDto> getUserFavoritesSpots(String username, FavoriteSpotsListType type) {
         List<FavoriteSpot> favoriteSpots;
 
-        if (type == FavoriteSpotsListType.ALL){
+        if (type == FavoriteSpotsListType.ALL) {
             favoriteSpots = favoriteSpotRepository
                     .findAllByUserUsername(username)
                     .orElseGet(List::of);
-        }else {
+        } else {
             favoriteSpots = favoriteSpotRepository
                     .findAllByUserUsernameAndType(username, type)
                     .orElseGet(List::of);
@@ -33,7 +34,10 @@ public class FavoriteSpotService {
                 .toList();
     }
 
-    public void removeFavoriteSpot(String username, FavoriteSpotsListType type, Long spotId){
-        favoriteSpotRepository.removeFavoriteSpotByUserUsernameAndTypeAndSpotId(username, type, spotId);
+    public void removeFavoriteSpot(String username, FavoriteSpotsListType type, Long spotId) throws FavoriteSpotNotExistException {
+        var deleted = favoriteSpotRepository.removeFavoriteSpotByUserUsernameAndTypeAndSpotId(username, type, spotId);
+        if (deleted != 1){
+            throw new FavoriteSpotNotExistException();
+        }
     }
 }
