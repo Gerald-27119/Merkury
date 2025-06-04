@@ -1,43 +1,47 @@
-import { useQuery } from "@tanstack/react-query";
-import {
-  getUserFollowed,
-  getUserFollowers,
-  getUserFriends,
-} from "../../../http/user-dashboard";
 import SocialButton from "./components/SocialButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SocialCardList from "./components/SocialCardList";
 import { SocialListType } from "../../../model/enum/account/social/socialListType";
+import { SocialDto } from "../../../model/interface/account/social/socialDto";
 
-const menuTypes = [
+let menuTypes = [
   { label: "friends", type: SocialListType.FRIENDS },
   { label: "followed", type: SocialListType.FOLLOWED },
   { label: "followers", type: SocialListType.FOLLOWERS },
 ];
 
-export default function Social() {
+interface SocialProps {
+  friends: SocialDto[];
+  followed: SocialDto[];
+  followers: SocialDto[];
+  photos?: SocialDto[];
+  isSocialForViewer?: boolean;
+}
+
+export default function Social({
+  friends,
+  followed,
+  followers,
+  photos,
+  isSocialForViewer,
+}: SocialProps) {
   const [type, setType] = useState(SocialListType.FRIENDS);
 
-  const { data: friends } = useQuery({
-    queryFn: getUserFriends,
-    queryKey: ["friends"],
-  });
-
-  const { data: followed } = useQuery({
-    queryFn: getUserFollowed,
-    queryKey: ["followed"],
-  });
-
-  const { data: followers } = useQuery({
-    queryFn: getUserFollowers,
-    queryKey: ["followers"],
-  });
-
-  const dataMap = {
+  let dataMap = {
     [SocialListType.FRIENDS]: friends,
     [SocialListType.FOLLOWED]: followed,
     [SocialListType.FOLLOWERS]: followers,
+    [SocialListType.PHOTOS]: photos,
   };
+
+  useEffect(() => {
+    if (isSocialForViewer) {
+      menuTypes = [
+        ...menuTypes,
+        { label: "photos", type: SocialListType.PHOTOS },
+      ];
+    }
+  }, []);
 
   return (
     <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText flex h-full w-full flex-col space-y-8 p-10 pt-17 xl:pt-10">

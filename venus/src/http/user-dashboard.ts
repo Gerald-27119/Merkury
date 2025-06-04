@@ -1,6 +1,6 @@
 import axios from "axios";
 import UserProfile from "../model/interface/account/profile/userProfile";
-import { Social } from "../model/interface/account/social/social";
+import { SocialDto } from "../model/interface/account/social/socialDto";
 import { UserRelationEditType } from "../model/enum/account/social/userRelationEditType";
 import ExtendedUserProfile from "../model/interface/account/profile/extendedUserProfile";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
@@ -23,7 +23,7 @@ export async function getProfileForViewer(
   ).data;
 }
 
-export async function getUserFriends(): Promise<Social[]> {
+export async function getUserFriends(): Promise<SocialDto[]> {
   return (
     await axios.get(`${BASE_URL}/user-dashboard/friends`, {
       withCredentials: true,
@@ -51,7 +51,7 @@ export async function editUserFriends({
   ).data;
 }
 
-export async function getUserFollowed(): Promise<Social[]> {
+export async function getUserFollowed(): Promise<SocialDto[]> {
   return (
     await axios.get(`${BASE_URL}/user-dashboard/followed`, {
       withCredentials: true,
@@ -59,7 +59,7 @@ export async function getUserFollowed(): Promise<Social[]> {
   ).data;
 }
 
-export async function getUserFollowers(): Promise<Social[]> {
+export async function getUserFollowers(): Promise<SocialDto[]> {
   return (
     await axios.get(`${BASE_URL}/user-dashboard/followers`, {
       withCredentials: true,

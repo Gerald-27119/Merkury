@@ -1,9 +1,9 @@
 import SocialCard from "./SocialCard";
-import { Social } from "../../../../model/interface/account/social/social";
+import { SocialDto } from "../../../../model/interface/account/social/socialDto";
 import { SocialListType } from "../../../../model/enum/account/social/socialListType";
 
 interface SocialCardsProps {
-  list: Social[] | undefined;
+  list: SocialDto[] | undefined;
   type: SocialListType;
 }
 
@@ -19,6 +19,9 @@ export default function SocialCardList({ list, type }: SocialCardsProps) {
         break;
       case SocialListType.FRIENDS:
         message = "You have no friends yet.";
+        break;
+      case SocialListType.PHOTOS:
+        message = "This user don't add any photos yet.";
         break;
       default:
         message = "Your list is empty.";

@@ -1,4 +1,4 @@
-import { Social } from "../../../../model/interface/account/social/social";
+import { SocialDto } from "../../../../model/interface/account/social/socialDto";
 import { BiMessageRounded } from "react-icons/bi";
 import { FaUser, FaUserMinus } from "react-icons/fa";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -14,7 +14,7 @@ import Modal from "../../../../components/modal/Modal";
 import { useNavigate } from "react-router-dom";
 
 interface SocialCardProps {
-  friend: Social;
+  friend: SocialDto;
   type: SocialListType;
 }
 
@@ -78,10 +78,10 @@ export default function SocialCard({ friend, type }: SocialCardProps) {
       </h3>
       <h5 className="text-darkBorder text-center capitalize">available</h5>
       <div className="flex gap-2 text-3xl">
-        {/*TODO zrobić działające przyciski*/}
         <SocialButton onClick={handleNavigateToUserProfile}>
           <FaUser aria-label="userProfileFriendCardIcon" />
         </SocialButton>
+        {/*TODO zrobić działające przyciski*/}
         <SocialButton onClick={() => {}}>
           <BiMessageRounded aria-label="messageFriendCardIcon" />
         </SocialButton>
