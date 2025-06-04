@@ -6,7 +6,7 @@ import {
   deleteComment,
   editComment,
   voteComment,
-} from "../../../../http/comments.js";
+} from "../../../../http/comments.ts";
 import ReactPaginate from "react-paginate";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
@@ -132,7 +132,7 @@ export default function Comments({ spotId, isUserLoggedIn }) {
 
       <p className="text-lg">Comments:</p>
       {data && data.content.length >= 0 ? (
-        <div className="border-2 border-neutral-200 px-2.5 py-1 rounded-xs">
+        <div className="rounded-xs border-2 border-neutral-200 px-2.5 py-1">
           <ul>
             {data.content.map((comment) => (
               <li key={comment.id}>

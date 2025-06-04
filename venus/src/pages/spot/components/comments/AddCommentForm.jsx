@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addComment } from "../../../../http/comments.js";
+import { addComment } from "../../../../http/comments.ts";
 import { Rate } from "antd";
 import { notificationAction } from "../../../../redux/notification.jsx";
 import { useDispatch } from "react-redux";
@@ -74,12 +74,12 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
   };
 
   return (
-    <div className="p-2 mt-4 mb-8 rounded-lg bg-gray-100">
+    <div className="mt-4 mb-8 rounded-lg bg-gray-100 p-2">
       <div>
         {revealed && <Rate allowHalf value={rating} onChange={setRating} />}
       </div>
       <textarea
-        className="w-full p-2 border rounded-sm resize-none"
+        className="w-full resize-none rounded-sm border p-2"
         rows="2"
         placeholder={
           isUserLoggedIn ? "Write your opinion" : "Log in to comment"
@@ -91,9 +91,9 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
       />
 
       {revealed && (
-        <div className="flex justify-end space-x-2 mt-2">
+        <div className="mt-2 flex justify-end space-x-2">
           <button
-            className="px-3 py-1 bg-gray-300 text-gray-700 rounded-sm hover:bg-gray-400"
+            className="rounded-sm bg-gray-300 px-3 py-1 text-gray-700 hover:bg-gray-400"
             onClick={resetForm}
           >
             Cancel
@@ -101,7 +101,7 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
 
           {!isUserLoggedIn && (
             <button
-              className="px-3 py-1 bg-blue-500 text-white rounded-sm hover:bg-blue-600"
+              className="rounded-sm bg-blue-500 px-3 py-1 text-white hover:bg-blue-600"
               onClick={handleLogin}
             >
               Log In
@@ -110,7 +110,7 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
 
           {isUserLoggedIn && (
             <button
-              className="px-3 py-1 bg-blue-500 text-white rounded-sm hover:bg-blue-600"
+              className="rounded-sm bg-blue-500 px-3 py-1 text-white hover:bg-blue-600"
               onClick={handleAddComment}
             >
               Comment
