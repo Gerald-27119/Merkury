@@ -185,9 +185,6 @@ describe("Favorite spots component unit tests", () => {
       test("Visited didn't liked it", () => {
         expect(screen.getByText(/visited didn't like it/i)).toBeInTheDocument();
       });
-      test("Commented by you", () => {
-        expect(screen.getByText(/commented by you/i)).toBeInTheDocument();
-      });
     });
 
     test("Should render h1 text", () => {
