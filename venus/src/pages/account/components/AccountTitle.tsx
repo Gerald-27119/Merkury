@@ -3,5 +3,9 @@ interface AccountTileProps {
 }
 
 export default function AccountTitle({ text }: AccountTileProps) {
-  return <h1 className="text-4xl font-semibold capitalize lg:ml-27">{text}</h1>;
+  return (
+    <h1 className="text-center text-4xl font-semibold capitalize lg:ml-27 lg:text-start">
+      {text}
+    </h1>
+  );
 }

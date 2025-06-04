@@ -2,13 +2,13 @@ import { FavoriteSpot } from "../../../../model/interface/account/favorite-spots
 import { FaEye, FaMapMarkedAlt, FaRegTrashAlt } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { ConfigProvider, Rate } from "antd";
-import { LuInfo } from "react-icons/lu";
 import FavoriteSpotTags from "./FavoriteSpotTags";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { removeFavoriteSpot } from "../../../../http/user-dashboard";
 import { FavoriteSpotsListType } from "../../../../model/enum/account/favorite-spots/favoriteSpotsListType";
 import Button from "../../../../components/buttons/Button";
 import { ButtonVariantType } from "../../../../model/enum/buttonVariantType";
+import { useNavigate } from "react-router-dom";
 
 interface FavoriteSpotTileProps {
   spot: FavoriteSpot;
@@ -20,6 +20,7 @@ export default function FavoriteSpotTile({
   selectedType,
 }: FavoriteSpotTileProps) {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { mutateAsync } = useMutation({
     mutationFn: removeFavoriteSpot,
@@ -32,6 +33,14 @@ export default function FavoriteSpotTile({
 
   const handleRemoveSpot = async () => {
     await mutateAsync({ type: spot.type, spotId: spot.id });
+  };
+
+  const handleSeeOnMap = () => {
+    navigate("/map", {
+      state: {
+        spotCords: spot.cords,
+      },
+    });
   };
 
   return (
@@ -79,18 +88,9 @@ export default function FavoriteSpotTile({
           <span>{spot.description}</span>
         </div>
         <div className="flex flex-wrap items-end justify-end gap-3 text-xl lg:flex-nowrap lg:space-x-3">
-          {/*Todo pomyścleć co robić po wciśnięciu tego przycisku*/}
           <Button
             variant={ButtonVariantType.FAVORITE_SPOT_TILE}
-            onClick={() => {}}
-          >
-            <LuInfo className="text-2xl" />
-            <p>More details</p>
-          </Button>
-          {/*Todo dodac obslugę przycisku*/}
-          <Button
-            variant={ButtonVariantType.FAVORITE_SPOT_TILE}
-            onClick={() => {}}
+            onClick={handleSeeOnMap}
           >
             <FaMapMarkedAlt className="text-2xl" />
             <p>See on map</p>

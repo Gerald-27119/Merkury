@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.model.dtos.account.spots;
 
 import com.merkury.vulcanus.model.dtos.spot.SpotTagDto;
+import com.merkury.vulcanus.model.dtos.spot.weather.WeatherApiCallCordsDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import lombok.Builder;
 
@@ -16,5 +17,6 @@ public record FavoriteSpotDto(Long id,
                               Integer viewsCount,
                               String imageUrl,
                               FavoriteSpotsListType type,
+                              WeatherApiCallCordsDto cords,
                               Set<SpotTagDto> tags) {
 }

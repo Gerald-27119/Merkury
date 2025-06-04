@@ -13,6 +13,7 @@ import { AxiosError } from "axios";
 import { MdLocationPin } from "react-icons/md";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { spotDetailsModalAction } from "../../../../redux/spot-modal";
+import { useLocation } from "react-router-dom";
 
 const clickHandlers = new Map<number, () => void>();
 
@@ -23,6 +24,7 @@ export default function Spots() {
   const { zoomLevel } = useSelectorTyped((state) => state.map);
   const dispatch = useDispatchTyped();
   const { current: map } = useMap();
+  const location = useLocation();
 
   const { data, error } = useQuery({
     queryFn: () => fetchFilteredSpots(name, minRating, maxRating),
@@ -81,6 +83,20 @@ export default function Spots() {
       }
     };
   }, [map, data, zoomLevel]);
+
+  useEffect(() => {
+    if (!map || !location.state) return;
+
+    const spotCords = location.state.spotCords;
+
+    if (spotCords) {
+      map.flyTo({
+        center: [spotCords.y, spotCords.x],
+        zoom: 16,
+        speed: 1.5,
+      });
+    }
+  }, [map, location]);
 
   const handleSpotClick = (spotId: number): void => {
     dispatch(spotDetailsModalAction.setSpotId(spotId));
