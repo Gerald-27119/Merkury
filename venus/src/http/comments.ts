@@ -2,7 +2,8 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
-export async function getPaginatedComments(spotId: number, page: number) {
+//TODO: check if page must be type any
+export async function getPaginatedSpotComments(spotId: number, page: any) {
   return (
     await axios.get(`${BASE_URL}/public/spot/${spotId}/comments`, {
       params: { page },
