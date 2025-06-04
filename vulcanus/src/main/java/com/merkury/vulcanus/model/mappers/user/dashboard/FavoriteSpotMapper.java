@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.model.mappers.user.dashboard;
 
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.weather.WeatherApiCallCordsDto;
+import com.merkury.vulcanus.model.dtos.spot.coordinates.SpotCoordinatesDto;
 import com.merkury.vulcanus.model.entities.FavoriteSpot;
 import com.merkury.vulcanus.model.mappers.SpotTagMapper;
 import jakarta.validation.constraints.NotNull;
@@ -25,7 +25,7 @@ public class FavoriteSpotMapper {
                         favoriteSpot.getSpot().getImages().getFirst().getUrl())
                 .type(favoriteSpot.getType())
                 .cords(
-                        new WeatherApiCallCordsDto(
+                        new SpotCoordinatesDto(
                                 favoriteSpot.getSpot().getBorderPoints().getFirst().getX(),
                                 favoriteSpot.getSpot().getBorderPoints().getFirst().getY()))
                 .tags(favoriteSpot.getSpot().getTags().stream().map(SpotTagMapper::toDto).collect(Collectors.toSet()))

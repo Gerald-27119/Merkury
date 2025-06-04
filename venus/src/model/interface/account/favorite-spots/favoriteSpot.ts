@@ -1,6 +1,6 @@
 import SpotTagDto from "../../spot/tag/spotTagDto";
 import { FavoriteSpotsListType } from "../../../enum/account/favorite-spots/favoriteSpotsListType";
-import WeatherApiCallCoords from "../../spot/weather/weatherApiCallCoords";
+import SpotCoordinatesDto from "../../spot/coordinates/spotCoordinatesDto";
 
 export interface FavoriteSpot {
   id: number;
@@ -12,6 +12,6 @@ export interface FavoriteSpot {
   viewsCount: number;
   imageUrl: string;
   type: FavoriteSpotsListType;
-  cords: WeatherApiCallCoords;
+  cords: SpotCoordinatesDto;
   tags: SpotTagDto[];
 }
