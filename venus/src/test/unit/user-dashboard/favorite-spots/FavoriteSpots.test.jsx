@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { configureStore } from "@reduxjs/toolkit";
 import { accountSlice } from "../../../../redux/account";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { describe } from "vitest";
@@ -112,84 +112,86 @@ describe("Favorite spots component unit tests", () => {
           expect(images[0]?.getAttribute("src")).toBe("sunny_beach.jpg");
         });
         test("Render spot stars", () => {
-          const stars = screen.getAllByRole("img", { hidden: true });
-          const filledStars = stars.filter((star) =>
-            star.className.includes("ant-rate-star-full"),
+          const ratingWrapper = screen.getByTestId("spot-rating-1");
+
+          const fullStars = ratingWrapper.querySelectorAll(
+            ".ant-rate-star-full",
           );
-          const halfStars = stars.filter((star) =>
-            star.className.includes("ant-rate-star-half"),
+          const halfStars = ratingWrapper.querySelectorAll(
+            ".ant-rate-star-half",
           );
 
-          expect(filledStars.length).toBe(4);
+          expect(fullStars.length).toBe(4);
+          expect(halfStars.length).toBe(1);
+        });
+      });
+      describe("Second spot", () => {
+        test("Render spot name", () => {
+          expect(screen.getByText(/Mountain Peak/i)).toBeInTheDocument();
+        });
+        test("Render spot country", () => {
+          expect(screen.getByText(/Switzerland/i)).toBeInTheDocument();
+        });
+        test("Render spot city", () => {
+          expect(screen.getByText(/Zermatt/i)).toBeInTheDocument();
+        });
+        test("Render spot description", () => {
+          expect(
+            screen.getByText(/Breathtaking views from the top of the Alps./i),
+          ).toBeInTheDocument();
+        });
+        test("Render spot views count", () => {
+          expect(screen.getByText(/987/i)).toBeInTheDocument();
+        });
+        test("Render spot tag 1", () => {
+          expect(screen.getByText(/MountainTag/i)).toBeInTheDocument();
+        });
+        test("Render spot tag 2", () => {
+          expect(screen.getByText(/HikingTag/i)).toBeInTheDocument();
+        });
+        test("Render spot name", () => {
+          const images = screen.getAllByAltText("spotImage");
+          expect(images[1]?.getAttribute("src")).toBe("mountain_peak.jpg");
+        });
+        test("Render spot stars", () => {
+          const ratingWrapper = screen.getByTestId("spot-rating-2");
+
+          const fullStars = ratingWrapper.querySelectorAll(
+            ".ant-rate-star-full",
+          );
+          const halfStars = ratingWrapper.querySelectorAll(
+            ".ant-rate-star-half",
+          );
+
+          expect(fullStars.length).toBe(3);
           expect(halfStars.length).toBe(1);
         });
       });
     });
-    describe("Second spot", () => {
-      test("Render spot name", () => {
-        expect(screen.getByText(/Mountain Peak/i)).toBeInTheDocument();
-      });
-      test("Render spot country", () => {
-        expect(screen.getByText(/Switzerland/i)).toBeInTheDocument();
-      });
-      test("Render spot city", () => {
-        expect(screen.getByText(/Zermatt/i)).toBeInTheDocument();
-      });
-      test("Render spot description", () => {
-        expect(
-          screen.getByText(/Breathtaking views from the top of the Alps./i),
-        ).toBeInTheDocument();
-      });
-      test("Render spot views count", () => {
-        expect(screen.getByText(/987/i)).toBeInTheDocument();
-      });
-      test("Render spot tag 1", () => {
-        expect(screen.getByText(/MountainTag/i)).toBeInTheDocument();
-      });
-      test("Render spot tag 2", () => {
-        expect(screen.getByText(/HikingTag/i)).toBeInTheDocument();
-      });
-      test("Render spot name", () => {
-        const images = screen.getAllByAltText("spotImage");
-        expect(images[1]?.getAttribute("src")).toBe("mountain_peak.jpg");
-      });
-      test("Render spot stars", () => {
-        const stars = screen.getAllByRole("img", { hidden: true });
-        const filledStars = stars.filter((star) =>
-          star.className.includes("ant-rate-star-full"),
-        );
-        const halfStars = stars.filter((star) =>
-          star.className.includes("ant-rate-star-half"),
-        );
 
-        expect(filledStars.length).toBe(3);
-        expect(halfStars.length).toBe(1);
+    describe("Should render menu buttons text", () => {
+      test("All", () => {
+        expect(screen.getByText(/all/i)).toBeInTheDocument();
+      });
+      test("Favorites", () => {
+        expect(screen.getByText(/favorites/i)).toBeInTheDocument();
+      });
+      test("Plan to visit", () => {
+        expect(screen.getByText(/plan to visit/i)).toBeInTheDocument();
+      });
+      test("Visited liked it", () => {
+        expect(screen.getByText(/visited liked it/i)).toBeInTheDocument();
+      });
+      test("Visited didn't liked it", () => {
+        expect(screen.getByText(/visited didn't like it/i)).toBeInTheDocument();
+      });
+      test("Commented by you", () => {
+        expect(screen.getByText(/commented by you/i)).toBeInTheDocument();
       });
     });
-  });
 
-  describe("Should render menu buttons text", () => {
-    test("All", () => {
-      expect(screen.getByText(/all/i)).toBeInTheDocument();
+    test("Should render h1 text", () => {
+      expect(screen.getByText(/spots list/i)).toBeInTheDocument();
     });
-    test("Favorites", () => {
-      expect(screen.getByText(/favorites/i)).toBeInTheDocument();
-    });
-    test("Plan to visit", () => {
-      expect(screen.getByText(/plan to visit/i)).toBeInTheDocument();
-    });
-    test("Visited liked it", () => {
-      expect(screen.getByText(/visited liked it/i)).toBeInTheDocument();
-    });
-    test("Visited didn't liked it", () => {
-      expect(screen.getByText(/visited didn't like it/i)).toBeInTheDocument();
-    });
-    test("Commented by you", () => {
-      expect(screen.getByText(/commented by you/i)).toBeInTheDocument();
-    });
-  });
-
-  test("Should render h1 text", () => {
-    expect(screen.getByText(/spots list/i)).toBeInTheDocument();
   });
 });

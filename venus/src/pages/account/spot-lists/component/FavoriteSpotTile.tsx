@@ -68,6 +68,7 @@ export default function FavoriteSpotTile({
               allowHalf
               value={spot.rating}
               disabled
+              data-testid={`spot-rating-${spot.id}`}
               className="text-red-500 accent-amber-800"
             />
           </ConfigProvider>
