@@ -24,7 +24,7 @@ public class FavoriteSpotMapper {
                 .imageUrl(favoriteSpot.getSpot().getImages().isEmpty() ? null :
                         favoriteSpot.getSpot().getImages().getFirst().getUrl())
                 .type(favoriteSpot.getType())
-                .cords(
+                .coords(
                         new SpotCoordinatesDto(
                                 favoriteSpot.getSpot().getBorderPoints().getFirst().getX(),
                                 favoriteSpot.getSpot().getBorderPoints().getFirst().getY()))
