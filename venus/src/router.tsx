@@ -11,7 +11,7 @@ import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
 import MapPage from "./pages/map/MapPage";
 import ChatsPage from "./pages/chats/ChatsPage";
 import Social from "./pages/account/social/Social";
-import FavoriteSpots from "./pages/account/spot-lists/FavoriteSpots";
+import FavoriteSpots from "./pages/account/favorite-spots/FavoriteSpots";
 import UserOwnProfile from "./pages/account/profile/UserOwnProfile";
 import ProfileForViewer from "./pages/account/profile/ProfileForViewer";
 
@@ -44,14 +44,14 @@ const router = createBrowserRouter([
             path: "profile/:username",
             element: <ProfileForViewer />,
           },
-            {
-                path: "spots",
-                element: (
-                    <ProtectedRoute>
-                        <FavoriteSpots />
-                    </ProtectedRoute>
-                ),
-            },
+          {
+            path: "favorite-spots",
+            element: (
+              <ProtectedRoute>
+                <FavoriteSpots />
+              </ProtectedRoute>
+            ),
+          },
           {
             path: "friends",
             element: (

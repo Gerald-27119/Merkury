@@ -62,7 +62,7 @@ export default function FavoriteSpots() {
           ))
         ) : (
           <p className="mt-10 text-center text-gray-500">
-            You are not have any spots at the list.
+            You don't have any spots in your list.
           </p>
         )}
       </div>

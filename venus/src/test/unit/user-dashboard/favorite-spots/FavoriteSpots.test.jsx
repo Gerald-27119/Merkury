@@ -1,11 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { configureStore } from "@reduxjs/toolkit";
 import { accountSlice } from "../../../../redux/account";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { describe } from "vitest";
-import FavoriteSpots from "../../../../pages/account/spot-lists/FavoriteSpots";
+import FavoriteSpots from "../../../../pages/account/favorite-spots/FavoriteSpots.js";
 
 const queryClient = new QueryClient();
 
