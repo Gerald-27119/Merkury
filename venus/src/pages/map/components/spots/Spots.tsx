@@ -87,11 +87,11 @@ export default function Spots() {
   useEffect(() => {
     if (!map || !location.state) return;
 
-    const spotCords = location.state.spotCords;
+    const spotCoords = location.state.spotCoords;
 
-    if (spotCords) {
+    if (spotCoords) {
       map.flyTo({
-        center: [spotCords.y, spotCords.x],
+        center: [spotCoords.y, spotCoords.x],
         zoom: 16,
         speed: 1.5,
       });

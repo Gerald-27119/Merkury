@@ -17,6 +17,6 @@ public record FavoriteSpotDto(Long id,
                               Integer viewsCount,
                               String imageUrl,
                               FavoriteSpotsListType type,
-                              SpotCoordinatesDto cords,
+                              SpotCoordinatesDto coords,
                               Set<SpotTagDto> tags) {
 }

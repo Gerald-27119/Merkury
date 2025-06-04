@@ -12,6 +12,6 @@ export interface FavoriteSpot {
   viewsCount: number;
   imageUrl: string;
   type: FavoriteSpotsListType;
-  cords: SpotCoordinatesDto;
+  coords: SpotCoordinatesDto;
   tags: SpotTagDto[];
 }

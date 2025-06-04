@@ -38,7 +38,7 @@ export default function FavoriteSpotTile({
   const handleSeeOnMap = () => {
     navigate("/map", {
       state: {
-        spotCords: spot.cords,
+        spotCoords: spot.coords,
       },
     });
   };
