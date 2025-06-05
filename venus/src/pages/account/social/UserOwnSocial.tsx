@@ -1,24 +1,24 @@
 import Social from "./Social";
 import { useQuery } from "@tanstack/react-query";
 import {
-  getUserFollowed,
-  getUserFollowers,
-  getUserFriends,
+  getUserOwnFollowed,
+  getUserOwnFollowers,
+  getUserOwnFriends,
 } from "../../../http/user-dashboard";
 
 export default function UserOwnSocial() {
   const { data: friends } = useQuery({
-    queryFn: getUserFriends,
+    queryFn: getUserOwnFriends,
     queryKey: ["friends"],
   });
 
   const { data: followed } = useQuery({
-    queryFn: getUserFollowed,
+    queryFn: getUserOwnFollowed,
     queryKey: ["followed"],
   });
 
   const { data: followers } = useQuery({
-    queryFn: getUserFollowers,
+    queryFn: getUserOwnFollowers,
     queryKey: ["followers"],
   });
 

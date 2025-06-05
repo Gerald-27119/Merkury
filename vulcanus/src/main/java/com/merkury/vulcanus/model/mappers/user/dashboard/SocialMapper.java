@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.model.mappers.user.dashboard;
 
+import com.merkury.vulcanus.model.dtos.account.social.ExtendedSocialDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.entities.UserEntity;
@@ -20,6 +21,14 @@ public class SocialMapper {
         return SocialDto.builder()
                 .username(userEntity.getUsername())
                 .profilePhoto(userEntity.getProfilePhoto())
+                .build();
+    }
+
+    public static ExtendedSocialDto toDto(@NotNull SocialDto socialDto, @NotNull boolean isCurrentlyRelated, @NotNull boolean isOwnProfile){
+        return ExtendedSocialDto.builder()
+                .social(socialDto)
+                .isCurrentlyRelated(isCurrentlyRelated)
+                .isOwnProfile(isOwnProfile)
                 .build();
     }
 }

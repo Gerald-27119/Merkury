@@ -124,7 +124,7 @@ export default function ProfileForViewer() {
 
   return (
     <>
-      <Profile userData={data.profile}>
+      <Profile userData={data.profile} username={username}>
         <div className="text-darkText flex w-full flex-wrap justify-center gap-5 xl:flex-nowrap">
           <Button
             variant={ButtonVariantType.PROFILE}

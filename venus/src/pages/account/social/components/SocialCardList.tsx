@@ -1,9 +1,10 @@
 import SocialCard from "./SocialCard";
 import { SocialDto } from "../../../../model/interface/account/social/socialDto";
 import { SocialListType } from "../../../../model/enum/account/social/socialListType";
+import { ExtendedSocialDto } from "../../../../model/interface/account/social/extendedSocialDto";
 
 interface SocialCardsProps {
-  list: SocialDto[] | undefined;
+  list: SocialDto[] | ExtendedSocialDto[] | undefined;
   type: SocialListType;
 }
 
@@ -31,7 +32,13 @@ export default function SocialCardList({ list, type }: SocialCardsProps) {
 
   return (
     <ul className="flex flex-wrap items-center justify-center gap-5 lg:mx-27">
-      {list?.map((f) => <SocialCard friend={f} key={f.username} type={type} />)}
+      {list?.map((f) => (
+        <SocialCard
+          friend={"social" in f ? f.social : f}
+          key={"social" in f ? f.social.username : f.username}
+          type={type}
+        />
+      ))}
     </ul>
   );
 }

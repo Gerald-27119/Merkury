@@ -1,17 +1,19 @@
 import SocialButton from "./components/SocialButton";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SocialCardList from "./components/SocialCardList";
 import { SocialListType } from "../../../model/enum/account/social/socialListType";
 import { SocialDto } from "../../../model/interface/account/social/socialDto";
+import { ExtendedSocialDto } from "../../../model/interface/account/social/extendedSocialDto";
 
 let menuTypes = [
   { label: "friends", type: SocialListType.FRIENDS },
   { label: "followed", type: SocialListType.FOLLOWED },
   { label: "followers", type: SocialListType.FOLLOWERS },
+  { label: "photos", type: SocialListType.PHOTOS },
 ];
 
 interface SocialProps {
-  friends: SocialDto[];
+  friends: SocialDto[] | ExtendedSocialDto[];
   followed: SocialDto[];
   followers: SocialDto[];
   photos?: SocialDto[];
@@ -33,15 +35,6 @@ export default function Social({
     [SocialListType.FOLLOWERS]: followers,
     [SocialListType.PHOTOS]: photos,
   };
-
-  useEffect(() => {
-    if (isSocialForViewer) {
-      menuTypes = [
-        ...menuTypes,
-        { label: "photos", type: SocialListType.PHOTOS },
-      ];
-    }
-  }, []);
 
   return (
     <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText flex h-full w-full flex-col space-y-8 p-10 pt-17 xl:pt-10">

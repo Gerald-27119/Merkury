@@ -3,6 +3,7 @@ package com.merkury.vulcanus.controllers;
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
+import com.merkury.vulcanus.model.dtos.account.social.ExtendedSocialDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
@@ -32,8 +33,13 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/friends")
-    public ResponseEntity<List<SocialDto>> getUserFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(userDashboardService.getUserFriends(request));
+    public ResponseEntity<List<SocialDto>> getUserOwnFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserOwnFriends(request));
+    }
+
+    @GetMapping("/user-dashboard/friends/{targetUsername}")
+    public ResponseEntity<List<ExtendedSocialDto>> getUserOwnFriends(HttpServletRequest request, @PathVariable String targetUsername) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserFriendsForViewer(request, targetUsername));
     }
 
     @PatchMapping("/user-dashboard/friends")

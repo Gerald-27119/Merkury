@@ -2,6 +2,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
+import com.merkury.vulcanus.model.dtos.account.social.ExtendedSocialDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
@@ -33,8 +34,12 @@ public class UserDashboardService {
         return profileService.getUserProfileForViewer(usernameFromCookie, targetUsername);
     }
 
-    public List<SocialDto> getUserFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return friendsService.getUserFriends(getCurrentUsername(request));
+    public List<SocialDto> getUserOwnFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return friendsService.getUserOwnFriends(getCurrentUsername(request));
+    }
+
+    public List<ExtendedSocialDto> getUserFriendsForViewer(HttpServletRequest request, String targetUsername) throws UserNotFoundByUsernameException {
+        return friendsService.getUserFriendsForViewer(getCurrentUsername(request), targetUsername);
     }
 
     public void editUserFriends(HttpServletRequest request, String friendUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {

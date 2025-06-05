@@ -4,8 +4,10 @@ import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExistException
 import com.merkury.vulcanus.exception.exceptions.FriendshipNotExistException;
 import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
+import com.merkury.vulcanus.model.dtos.account.social.ExtendedSocialDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.entities.Friendship;
+import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.model.mappers.user.dashboard.SocialMapper;
@@ -24,12 +26,25 @@ public class FriendsService {
     private final UserEntityRepository userEntityRepository;
     private final UserEntityFetcher userEntityFetcher;
 
-    public List<SocialDto> getUserFriends(String username) throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserOwnFriends(String username) throws UserNotFoundByUsernameException {
         return userEntityFetcher.getByUsername(username)
                 .getFriendships()
                 .stream()
                 .map(SocialMapper::toDto)
                 .toList();
+    }
+
+    public List<ExtendedSocialDto> getUserFriendsForViewer(String viewerUsername, String targetUsername) throws UserNotFoundByUsernameException {
+        var anotherUser = userEntityFetcher.getByUsername(targetUsername);
+        var userFriends = anotherUser.getFriendships().stream().map(SocialMapper::toDto).toList();
+
+        if (viewerUsername != null){
+            var user = userEntityFetcher.getByUsername(viewerUsername);
+
+            return userFriends.stream().map(f -> SocialMapper.toDto(f, getIsUsersFriends(user, f), user.getUsername().equals(f.username()))).toList();
+        }
+
+        return userFriends.stream().map(f -> SocialMapper.toDto(f, false, false)).toList();
     }
 
     public void editUserFriends(String username, String friendUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
@@ -92,5 +107,13 @@ public class FriendsService {
         }else {
             throw new FriendshipNotExistException();
         }
+    }
+
+    private Boolean getIsUsersFriends(UserEntity user, SocialDto secondUser) {
+        return user.getFriendships().stream().anyMatch(f -> f.getFriend().getUsername().equals(secondUser.username()));
+    }
+
+    private Boolean getIsUsersFollowing(UserEntity user, UserEntity secondUser) {
+        return user.getFollowed().stream().anyMatch(f -> f.equals(secondUser));
     }
 }
