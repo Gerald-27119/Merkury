@@ -44,7 +44,7 @@ export default function FavoriteSpotTile({
   };
 
   return (
-    <li className="dark:bg-darkBgSoft bg-lightBgSoft flex h-fit w-full flex-col rounded-md shadow-md md:w-96 lg:h-96 lg:w-full lg:flex-row">
+    <li className="dark:bg-darkBgSoft bg-lightBgSoft flex h-fit w-full flex-col rounded-md shadow-md md:w-96 lg:h-96 lg:w-full lg:flex-row dark:shadow-black/50">
       <img
         src={spot.imageUrl}
         alt="spotImage"
