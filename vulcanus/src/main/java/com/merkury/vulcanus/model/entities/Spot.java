@@ -36,6 +36,7 @@ public class Spot {
     private String street;
     private String description;
     private Double area;
+    private BorderPoint centerPoint;
 
     /**
      * A list of {@link BorderPoint} objects that define the boundary points of the spot.

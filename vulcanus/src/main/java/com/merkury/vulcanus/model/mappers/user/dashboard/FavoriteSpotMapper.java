@@ -26,8 +26,8 @@ public class FavoriteSpotMapper {
                 .type(favoriteSpot.getType())
                 .coords(
                         new SpotCoordinatesDto(
-                                favoriteSpot.getSpot().getBorderPoints().getFirst().getX(),
-                                favoriteSpot.getSpot().getBorderPoints().getFirst().getY()))
+                                favoriteSpot.getSpot().getCenterPoint().getX(),
+                                favoriteSpot.getSpot().getCenterPoint().getY()))
                 .tags(favoriteSpot.getSpot().getTags().stream().map(SpotTagMapper::toDto).collect(Collectors.toSet()))
                 .build();
     }
