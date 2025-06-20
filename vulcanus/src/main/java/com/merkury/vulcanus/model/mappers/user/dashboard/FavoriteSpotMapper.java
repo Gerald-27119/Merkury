@@ -6,6 +6,7 @@ import com.merkury.vulcanus.model.entities.FavoriteSpot;
 import com.merkury.vulcanus.model.mappers.SpotTagMapper;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FavoriteSpotMapper {
@@ -25,9 +26,9 @@ public class FavoriteSpotMapper {
                         favoriteSpot.getSpot().getImages().getFirst().getUrl())
                 .type(favoriteSpot.getType())
                 .coords(
-                        new SpotCoordinatesDto(
-                                favoriteSpot.getSpot().getCenterPoint().getX(),
-                                favoriteSpot.getSpot().getCenterPoint().getY()))
+                Optional.ofNullable(favoriteSpot.getSpot().getCenterPoint())
+                        .map(cp -> new SpotCoordinatesDto(cp.getX(), cp.getY()))
+                        .orElse(null))
                 .tags(favoriteSpot.getSpot().getTags().stream().map(SpotTagMapper::toDto).collect(Collectors.toSet()))
                 .build();
     }

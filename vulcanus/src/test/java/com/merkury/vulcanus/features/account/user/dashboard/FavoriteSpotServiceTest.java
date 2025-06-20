@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.FavoriteSpotNotExistException;
-import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.entities.FavoriteSpot;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.entities.UserEntity;
@@ -32,8 +31,8 @@ class FavoriteSpotServiceTest {
     @Test
     void shouldReturnAllUserFavoritesSpots() {
         var user = UserEntity.builder().username("user1").build();
-        var spot1 = Spot.builder().name("testSpot1").borderPoints(List.of(new BorderPoint(1.0,2.0))).build();
-        var spot2 = Spot.builder().name("testSpot2").borderPoints(List.of(new BorderPoint(1.0,2.0))).build();
+        var spot1 = Spot.builder().name("testSpot1").build();
+        var spot2 = Spot.builder().name("testSpot2").build();
 
         var favoriteSpot = FavoriteSpot.builder().user(user).spot(spot1).type(FavoriteSpotsListType.FAVORITE).build();
         var favoriteSpot2 = FavoriteSpot.builder().user(user).spot(spot2).type(FavoriteSpotsListType.FAVORITE).build();
@@ -53,7 +52,7 @@ class FavoriteSpotServiceTest {
     @Test
     void shouldReturnAllUserFavoritesSpotsWithPlanToVisitType() {
         var user = UserEntity.builder().username("user1").build();
-        var spot1 = Spot.builder().name("testSpot1").borderPoints(List.of(new BorderPoint(1.0,2.0))).build();
+        var spot1 = Spot.builder().name("testSpot1").build();
 
         var favoriteSpot = FavoriteSpot.builder().user(user).spot(spot1).type(FavoriteSpotsListType.PLAN_TO_VISIT).build();
 
