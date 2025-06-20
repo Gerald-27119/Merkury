@@ -11,30 +11,32 @@ import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 export default function SocialForViewer() {
   const { username } = useParams();
 
-  const { data: friends, isLoading } = useQuery({
+  const { data: friends, isLoading: isLoadingFriends } = useQuery({
     queryFn: () => getUserFriendsForViewer(username!),
     queryKey: ["friends", username],
   });
 
-  // const { data: followed } = useQuery({
-  //   queryFn: () => getUserFollowedForViewer(username!),
-  //   queryKey: ["followed", username],
-  // });
-  //
-  // const { data: followers } = useQuery({
-  //   queryFn: () => getUserFollowersForViewer(username!),
-  //   queryKey: ["followers", username],
-  // });
+  const { data: followed, isLoading: isLoadingFollowed } = useQuery({
+    queryFn: () => getUserFollowedForViewer(username!),
+    queryKey: ["followed", username],
+  });
 
-  if (isLoading) {
+  const { data: followers, isLoading: isLoadingFollowers } = useQuery({
+    queryFn: () => getUserFollowersForViewer(username!),
+    queryKey: ["followers", username],
+  });
+
+  if (isLoadingFriends || isLoadingFollowed || isLoadingFollowers) {
     return <LoadingSpinner />;
   }
-  console.log(friends);
+
   return (
     <Social
       friends={friends ?? []}
-      followed={[]}
-      followers={[]}
+      followed={followed ?? []}
+      followers={followers ?? []}
+      // TODO Photos będzie robione w innym zadaniu
+      photos={[]}
       isSocialForViewer={true}
     />
   );

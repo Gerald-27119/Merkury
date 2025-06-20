@@ -16,9 +16,14 @@ import { useNavigate } from "react-router-dom";
 interface SocialCardProps {
   friend: SocialDto;
   type: SocialListType;
+  isSocialForViewer: boolean | undefined;
 }
 
-export default function SocialCard({ friend, type }: SocialCardProps) {
+export default function SocialCard({
+  friend,
+  type,
+  isSocialForViewer,
+}: SocialCardProps) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
@@ -85,7 +90,7 @@ export default function SocialCard({ friend, type }: SocialCardProps) {
         <SocialButton onClick={() => {}}>
           <BiMessageRounded aria-label="messageFriendCardIcon" />
         </SocialButton>
-        {type !== SocialListType.FOLLOWERS && (
+        {type !== SocialListType.FOLLOWERS && !isSocialForViewer && (
           <SocialButton onClick={setIsModalOpenToTrue}>
             <FaUserMinus aria-label="userRemoveFriendCardIcon" />
           </SocialButton>

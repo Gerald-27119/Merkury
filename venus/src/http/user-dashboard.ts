@@ -74,7 +74,7 @@ export async function getUserFollowedForViewer(
   username: string,
 ): Promise<ExtendedSocialDto[]> {
   return (
-    await axios.get(`${BASE_URL}/user-dashboard/followed${username}`, {
+    await axios.get(`${BASE_URL}/user-dashboard/followed/${username}`, {
       withCredentials: true,
     })
   ).data;

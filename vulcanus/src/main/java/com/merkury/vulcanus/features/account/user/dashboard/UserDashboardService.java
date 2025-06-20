@@ -50,12 +50,20 @@ public class UserDashboardService {
         friendsService.changeUserFriendsStatus(getCurrentUsername(request), friendUsername, status);
     }
 
-    public List<SocialDto> getUserFollowers(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return followersService.getUserFollowers(getCurrentUsername(request));
+    public List<SocialDto> getUserOwnFollowers(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return followersService.getUserOwnFollowers(getCurrentUsername(request));
     }
 
-    public List<SocialDto> getUserFollowed(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return followersService.getUserFollowed(getCurrentUsername(request));
+    public List<ExtendedSocialDto> getUserFollowersForViewer(HttpServletRequest request, String targetUsername) throws UserNotFoundByUsernameException {
+        return followersService.getUserFollowersForViewer(getCurrentUsername(request), targetUsername);
+    }
+
+    public List<SocialDto> getUserOwnFollowed(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return followersService.getUserOwnFollowed(getCurrentUsername(request));
+    }
+
+    public List<ExtendedSocialDto> getUserFollowedForViewer(HttpServletRequest request, String targetUsername) throws UserNotFoundByUsernameException {
+        return followersService.getUserFollowedForViewer(getCurrentUsername(request), targetUsername);
     }
 
     public void editUserFollowed(HttpServletRequest request, String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {

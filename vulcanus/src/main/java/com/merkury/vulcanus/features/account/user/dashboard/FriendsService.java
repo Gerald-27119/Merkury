@@ -112,8 +112,4 @@ public class FriendsService {
     private Boolean getIsUsersFriends(UserEntity user, SocialDto secondUser) {
         return user.getFriendships().stream().anyMatch(f -> f.getFriend().getUsername().equals(secondUser.username()));
     }
-
-    private Boolean getIsUsersFollowing(UserEntity user, UserEntity secondUser) {
-        return user.getFollowed().stream().anyMatch(f -> f.equals(secondUser));
-    }
 }

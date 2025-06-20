@@ -6,9 +6,14 @@ import { ExtendedSocialDto } from "../../../../model/interface/account/social/ex
 interface SocialCardsProps {
   list: SocialDto[] | ExtendedSocialDto[] | undefined;
   type: SocialListType;
+  isSocialForViewer: boolean | undefined;
 }
 
-export default function SocialCardList({ list, type }: SocialCardsProps) {
+export default function SocialCardList({
+  list,
+  type,
+  isSocialForViewer,
+}: SocialCardsProps) {
   if (!list || list.length === 0) {
     let message;
     switch (type) {
@@ -37,6 +42,7 @@ export default function SocialCardList({ list, type }: SocialCardsProps) {
           friend={"social" in f ? f.social : f}
           key={"social" in f ? f.social.username : f.username}
           type={type}
+          isSocialForViewer={isSocialForViewer}
         />
       ))}
     </ul>
