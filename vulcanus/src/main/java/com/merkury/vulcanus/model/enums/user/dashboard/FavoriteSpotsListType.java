@@ -4,6 +4,6 @@ public enum FavoriteSpotsListType {
     ALL,
     FAVORITE,
     PLAN_TO_VISIT,
-    VISITED_LIED_IT,
+    VISITED_LIKED_IT,
     VISITED_NOT_LIKED_IT
 }

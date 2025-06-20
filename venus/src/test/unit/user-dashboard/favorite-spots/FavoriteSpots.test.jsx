@@ -5,7 +5,7 @@ import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { describe } from "vitest";
-import FavoriteSpots from "../../../../pages/account/favorite-spots/FavoriteSpots.js";
+import FavoriteSpots from "../../../../pages/account/favorite-spots/FavoriteSpots";
 
 const queryClient = new QueryClient();
 

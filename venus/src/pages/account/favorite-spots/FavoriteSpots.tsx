@@ -12,7 +12,7 @@ const menuTypes = [
   { label: "All", type: FavoriteSpotsListType.ALL },
   { label: "Favorites", type: FavoriteSpotsListType.FAVORITE },
   { label: "Plan to visit", type: FavoriteSpotsListType.PLAN_TO_VISIT },
-  { label: "Visited liked it", type: FavoriteSpotsListType.VISITED_LIED_IT },
+  { label: "Visited liked it", type: FavoriteSpotsListType.VISITED_LIKED_IT },
   {
     label: "Visited didn't like it",
     type: FavoriteSpotsListType.VISITED_NOT_LIKED_IT,

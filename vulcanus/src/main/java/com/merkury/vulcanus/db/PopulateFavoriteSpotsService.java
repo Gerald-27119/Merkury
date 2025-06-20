@@ -51,7 +51,7 @@ public class PopulateFavoriteSpotsService {
                     .builder()
                     .spot(spot)
                     .user(user)
-                    .type(FavoriteSpotsListType.VISITED_LIED_IT)
+                    .type(FavoriteSpotsListType.VISITED_LIKED_IT)
                     .build();
 
             favoriteSpotRepository.save(favoriteSpot);
