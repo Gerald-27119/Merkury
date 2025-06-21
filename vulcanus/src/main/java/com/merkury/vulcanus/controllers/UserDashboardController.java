@@ -3,7 +3,6 @@ package com.merkury.vulcanus.controllers;
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
-import com.merkury.vulcanus.model.dtos.account.social.ExtendedSocialDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
@@ -37,9 +36,9 @@ public class UserDashboardController {
         return ResponseEntity.ok(userDashboardService.getUserOwnFriends(request));
     }
 
-    @GetMapping("/user-dashboard/friends/{targetUsername}")
-    public ResponseEntity<List<ExtendedSocialDto>> getUserFriendsForViewer(HttpServletRequest request, @PathVariable String targetUsername) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(userDashboardService.getUserFriendsForViewer(request, targetUsername));
+    @GetMapping("/public/user-dashboard/friends/{targetUsername}")
+    public ResponseEntity<List<SocialDto>> getUserFriendsForViewer(@PathVariable String targetUsername) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserFriendsForViewer(targetUsername));
     }
 
     @PatchMapping("/user-dashboard/friends")
@@ -60,9 +59,9 @@ public class UserDashboardController {
         return ResponseEntity.ok(userDashboardService.getUserOwnFollowers(request));
     }
 
-    @GetMapping("/user-dashboard/followers/{targetUsername}")
-    public ResponseEntity<List<ExtendedSocialDto>> getUserFollowersForViewer(HttpServletRequest request, @PathVariable String targetUsername) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(userDashboardService.getUserFollowersForViewer(request, targetUsername));
+    @GetMapping("/public/user-dashboard/followers/{targetUsername}")
+    public ResponseEntity<List<SocialDto>> getUserFollowersForViewer(@PathVariable String targetUsername) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserFollowersForViewer(targetUsername));
     }
 
     @GetMapping("/user-dashboard/followed")
@@ -70,9 +69,9 @@ public class UserDashboardController {
         return ResponseEntity.ok(userDashboardService.getUserOwnFollowed(request));
     }
 
-    @GetMapping("/user-dashboard/followed/{targetUsername}")
-    public ResponseEntity<List<ExtendedSocialDto>> getUserFollowedForViewer(HttpServletRequest request, @PathVariable String targetUsername) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(userDashboardService.getUserFollowedForViewer(request, targetUsername));
+    @GetMapping("/public/user-dashboard/followed/{targetUsername}")
+    public ResponseEntity<List<SocialDto>> getUserFollowedForViewer(@PathVariable String targetUsername) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserFollowedForViewer(targetUsername));
     }
 
     @PatchMapping("/user-dashboard/followed")

@@ -2,15 +2,14 @@ import SocialButton from "./components/SocialButton";
 import SocialCardList from "./components/SocialCardList";
 import { SocialListType } from "../../../model/enum/account/social/socialListType";
 import { SocialDto } from "../../../model/interface/account/social/socialDto";
-import { ExtendedSocialDto } from "../../../model/interface/account/social/extendedSocialDto";
 import useSelectorTyped from "../../../hooks/useSelectorTyped";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { socialAction } from "../../../redux/social";
 
 interface SocialProps {
-  friends: SocialDto[] | ExtendedSocialDto[];
-  followed: SocialDto[] | ExtendedSocialDto[];
-  followers: SocialDto[] | ExtendedSocialDto[];
+  friends: SocialDto[];
+  followed: SocialDto[];
+  followers: SocialDto[];
   photos?: SocialDto[];
   isSocialForViewer?: boolean;
 }

@@ -70,8 +70,8 @@ const renderProfile = () => {
   );
 };
 
-describe("Friends component unit tests", () => {
-  describe("Friends display friends data correctly", () => {
+describe("Social component unit tests", () => {
+  describe("Social display friends data correctly", () => {
     beforeEach(() => {
       renderProfile();
     });

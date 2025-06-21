@@ -3,7 +3,6 @@ import UserProfile from "../model/interface/account/profile/userProfile";
 import { SocialDto } from "../model/interface/account/social/socialDto";
 import { UserRelationEditType } from "../model/enum/account/social/userRelationEditType";
 import ExtendedUserProfile from "../model/interface/account/profile/extendedUserProfile";
-import { ExtendedSocialDto } from "../model/interface/account/social/extendedSocialDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -34,11 +33,9 @@ export async function getUserOwnFriends(): Promise<SocialDto[]> {
 
 export async function getUserFriendsForViewer(
   username: string,
-): Promise<ExtendedSocialDto[]> {
+): Promise<SocialDto[]> {
   return (
-    await axios.get(`${BASE_URL}/user-dashboard/friends/${username}`, {
-      withCredentials: true,
-    })
+    await axios.get(`${BASE_URL}/public/user-dashboard/friends/${username}`)
   ).data;
 }
 
@@ -72,11 +69,9 @@ export async function getUserOwnFollowed(): Promise<SocialDto[]> {
 
 export async function getUserFollowedForViewer(
   username: string,
-): Promise<ExtendedSocialDto[]> {
+): Promise<SocialDto[]> {
   return (
-    await axios.get(`${BASE_URL}/user-dashboard/followed/${username}`, {
-      withCredentials: true,
-    })
+    await axios.get(`${BASE_URL}/public/user-dashboard/followed/${username}`)
   ).data;
 }
 
@@ -90,11 +85,9 @@ export async function getUserOwnFollowers(): Promise<SocialDto[]> {
 
 export async function getUserFollowersForViewer(
   username: string,
-): Promise<ExtendedSocialDto[]> {
+): Promise<SocialDto[]> {
   return (
-    await axios.get(`${BASE_URL}/user-dashboard/followers/${username}`, {
-      withCredentials: true,
-    })
+    await axios.get(`${BASE_URL}/public/user-dashboard/followers/${username}`)
   ).data;
 }
 

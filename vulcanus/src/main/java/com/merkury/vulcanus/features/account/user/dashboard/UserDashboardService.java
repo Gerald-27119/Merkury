@@ -2,7 +2,6 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
-import com.merkury.vulcanus.model.dtos.account.social.ExtendedSocialDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
@@ -35,11 +34,11 @@ public class UserDashboardService {
     }
 
     public List<SocialDto> getUserOwnFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return friendsService.getUserOwnFriends(getCurrentUsername(request));
+        return friendsService.getUserFriends(getCurrentUsername(request));
     }
 
-    public List<ExtendedSocialDto> getUserFriendsForViewer(HttpServletRequest request, String targetUsername) throws UserNotFoundByUsernameException {
-        return friendsService.getUserFriendsForViewer(getCurrentUsername(request), targetUsername);
+    public List<SocialDto> getUserFriendsForViewer(String targetUsername) throws UserNotFoundByUsernameException {
+        return friendsService.getUserFriends(targetUsername);
     }
 
     public void editUserFriends(HttpServletRequest request, String friendUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
@@ -51,19 +50,19 @@ public class UserDashboardService {
     }
 
     public List<SocialDto> getUserOwnFollowers(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return followersService.getUserOwnFollowers(getCurrentUsername(request));
+        return followersService.getUserFollowers(getCurrentUsername(request));
     }
 
-    public List<ExtendedSocialDto> getUserFollowersForViewer(HttpServletRequest request, String targetUsername) throws UserNotFoundByUsernameException {
-        return followersService.getUserFollowersForViewer(getCurrentUsername(request), targetUsername);
+    public List<SocialDto> getUserFollowersForViewer(String targetUsername) throws UserNotFoundByUsernameException {
+        return followersService.getUserFollowers(targetUsername);
     }
 
     public List<SocialDto> getUserOwnFollowed(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return followersService.getUserOwnFollowed(getCurrentUsername(request));
+        return followersService.getUserFollowed(getCurrentUsername(request));
     }
 
-    public List<ExtendedSocialDto> getUserFollowedForViewer(HttpServletRequest request, String targetUsername) throws UserNotFoundByUsernameException {
-        return followersService.getUserFollowedForViewer(getCurrentUsername(request), targetUsername);
+    public List<SocialDto> getUserFollowedForViewer(String targetUsername) throws UserNotFoundByUsernameException {
+        return followersService.getUserFollowed(targetUsername);
     }
 
     public void editUserFollowed(HttpServletRequest request, String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
