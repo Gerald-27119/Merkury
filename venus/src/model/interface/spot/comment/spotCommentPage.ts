@@ -1,6 +1,6 @@
 import SpotComment from "./spotComment";
 
 export default interface SpotCommentPage {
-  items: SpotComment[];
+  content: SpotComment[];
   nextPage?: number;
 }

@@ -39,7 +39,7 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
       await queryClient.invalidateQueries(["spot", "comments", spotId]);
       dispatch(
         notificationAction.setSuccess({
-          message: "Comment added successfully!",
+          message: "SpotComment added successfully!",
         }),
       );
     },
@@ -64,7 +64,7 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
     if (!commentText.trim()) {
       dispatch(
         notificationAction.setError({
-          message: "Comment can't be empty!",
+          message: "SpotComment can't be empty!",
         }),
       );
       return;
