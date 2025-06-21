@@ -1,4 +1,4 @@
-export default interface SpotCommentAuthor {
+export default interface SpotCommentAuthorDto {
   username: string;
   profilePhotoUrl: string;
 }

@@ -1,14 +1,14 @@
 import SpotCommentPhoto from "./spotCommentPhoto";
-import SpotCommentAuthor from "./spotCommentAuthor";
+import SpotCommentAuthorDto from "./spotCommentAuthorDto";
 
-export default interface SpotComment {
+export default interface SpotCommentDto {
   id: number;
   text: string;
   rating: number;
-  upVotes: number;
-  downVotes: number;
+  upvotes: number;
+  downvotes: number;
   publishDate: string;
-  author: SpotCommentAuthor;
+  author: SpotCommentAuthorDto;
   isAuthor: boolean;
   isUpVoted: boolean;
   isDownVoted: boolean;

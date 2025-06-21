@@ -1,14 +1,18 @@
-import SpotCommentAuthor from "../../../../model/interface/spot/comment/spotCommentAuthor";
+import SpotCommentAuthorDto from "../../../../model/interface/spot/comment/spotCommentAuthorDto";
 
 type SpotCommentAuthorProps = {
-  author: SpotCommentAuthor;
+  author: SpotCommentAuthorDto;
 };
 
 export default function SpotCommentAuthor({ author }: SpotCommentAuthorProps) {
   return (
-    <div>
-      <img src={author.profilePhotoUrl} alt={author.username} />
-      <p>{author.username}</p>
+    <div className="flex items-center space-x-3">
+      <img
+        src={author.profilePhotoUrl}
+        alt={author.username}
+        className="h-8 rounded-full"
+      />
+      <p className="text-2xl">{author.username}</p>
     </div>
   );
 }

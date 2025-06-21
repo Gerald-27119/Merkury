@@ -4,15 +4,16 @@ import { FaRegThumbsUp, FaRegThumbsDown, FaRegTrashCan } from "react-icons/fa6";
 import { FaRegEdit } from "react-icons/fa";
 import EditCommentForm from "./EditCommentForm.jsx";
 import { useState } from "react";
-import SpotComment from "../../../../model/interface/spot/comment/spotComment";
+import SpotCommentDto from "../../../../model/interface/spot/comment/spotCommentDto";
 import { FaPlus } from "react-icons/fa6";
 import Button from "../../../../components/buttons/Button";
 import SpotCommentAuthor from "./SpotCommentAuthor";
 import SpotCommentHeader from "./SpotCommentHeader";
-import SpotCommentVotes from "./SpotCommentVotes";
+import SpotCommentVotesPanel from "./SpotCommentVotesPanel";
+import SpotCommentPhotos from "./SpotCommentPhotos";
 
 type SpotCommentProps = {
-  comment: SpotComment;
+  comment: SpotCommentDto;
 };
 
 export default function SpotComment({ comment }: SpotCommentProps) {
@@ -50,16 +51,16 @@ export default function SpotComment({ comment }: SpotCommentProps) {
   // }
 
   return (
-    <div>
-      <SpotCommentHeader />
-      <div>
+    <div className="bg-second flex flex-col items-center rounded-2xl px-4 py-2">
+      <div className="mt-3 mb-5 flex w-full items-center justify-between">
         <SpotCommentAuthor author={comment.author} />
-        <p>{comment.publishDate}</p>
+        <p className="text-lg">{formatPublishDate(comment.publishDate)}</p>
       </div>
-      <p>{comment.text}</p>
-      <SpotCommentVotes
-        upvotes={comment.upVotes}
-        downvotes={comment.downVotes}
+      <p className="mb-3 w-full text-left">{comment.text}</p>
+      {comment.photoList && <SpotCommentPhotos photos={comment.photoList} />}
+      <SpotCommentVotesPanel
+        upvotes={comment.upvotes}
+        downvotes={comment.downvotes}
       />
     </div>
   );

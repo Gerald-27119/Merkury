@@ -1,5 +1,5 @@
 import Img from "../img";
-import SpotComment from "./comment/spotComment";
+import SpotCommentDto from "./comment/spotCommentDto";
 
 export default interface FullSpot {
   id: number;
@@ -9,6 +9,6 @@ export default interface FullSpot {
   rating: number;
   viewsCount: number;
   contourCoordinates: number[][];
-  comments: SpotComment[];
+  comments: SpotCommentDto[];
   photos: Img[];
 }

@@ -10,6 +10,8 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import SpotCommentPage from "../../../../model/interface/spot/comment/spotCommentPage";
+import SpotComment from "./SpotComment";
+import SpotCommentHeader from "./SpotCommentHeader";
 
 type commentsListProps = {
   spotId: number;
@@ -50,11 +52,16 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
       {comments?.length === 0 ? (
         <p>There are no comments!</p>
       ) : (
-        <ul>
-          {comments.map((comment) => (
-            <li key={comment.id}>comment component</li>
-          ))}
-        </ul>
+        <div className="bg-violetDark mt-4 flex flex-col items-center rounded-xl">
+          <SpotCommentHeader />
+          <ul>
+            {comments.map((comment) => (
+              <li key={comment.id} className="mx-3 mt-2">
+                <SpotComment comment={comment} />
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </>
   );

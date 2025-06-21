@@ -3,11 +3,11 @@ import {
   createSlice,
   PayloadAction,
 } from "@reduxjs/toolkit";
-import SpotComment from "../model/interface/spot/comment/spotComment";
+import SpotCommentDto from "../model/interface/spot/comment/spotCommentDto";
 import { RootState } from "./store";
 
-export const spotCommentAdapter = createEntityAdapter<SpotComment>({
-  sortComparer: (a: SpotComment, b: SpotComment) =>
+export const spotCommentAdapter = createEntityAdapter<SpotCommentDto>({
+  sortComparer: (a: SpotCommentDto, b: SpotCommentDto) =>
     a.id.toString().localeCompare(b.id.toString()),
 });
 
@@ -17,7 +17,7 @@ export const spotCommentSlice = createSlice({
   name: "spotComments",
   initialState,
   reducers: {
-    upsertComments: (state, action: PayloadAction<SpotComment[]>) => {
+    upsertComments: (state, action: PayloadAction<SpotCommentDto[]>) => {
       spotCommentAdapter.upsertMany(state, action.payload);
     },
   },
