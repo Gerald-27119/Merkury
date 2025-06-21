@@ -5,6 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { configureStore } from "@reduxjs/toolkit";
 import { spotDetailsModalSlice } from "../../redux/spot-modal";
+import { spotCommentSlice } from "../../redux/spot-comments";
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
@@ -25,13 +26,20 @@ const renderSpotDetails = () => {
     reducer: {
       spotDetails: spotDetailsModalSlice.reducer,
       sidebar: sidebarSlice.reducer,
+      spotComments: spotCommentSlice.reducer,
     },
-    spotDetails: {
-      showModal: true,
-      spotId: 1,
-    },
-    sidebar: {
-      isOpen: false,
+    preloadedState: {
+      spotDetails: {
+        showModal: true,
+        spotId: 1,
+      },
+      sidebar: {
+        isOpen: false,
+      },
+      spotComments: {
+        ids: [],
+        entities: {},
+      },
     },
   });
 
