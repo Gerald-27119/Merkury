@@ -56,7 +56,7 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
           <SpotCommentHeader />
           <ul>
             {comments.map((comment) => (
-              <li key={comment.id} className="mx-3 mt-2">
+              <li key={comment.id} className="mx-3 mt-2 mb-6">
                 <SpotComment comment={comment} />
               </li>
             ))}
