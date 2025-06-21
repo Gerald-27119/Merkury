@@ -1,4 +1,6 @@
-export default interface Comment {
+import SpotCommentPhoto from "./spotCommentPhoto";
+
+export default interface SpotComment {
   id: number;
   text: string;
   rating: number;
@@ -9,4 +11,6 @@ export default interface Comment {
   isAuthor: boolean;
   isUpVoted: boolean;
   isDownVoted: boolean;
+  numberOfPhotos: number;
+  photos: SpotCommentPhoto[];
 }
