@@ -27,6 +27,7 @@ export default function UserOwnSocial() {
       friends={friends ?? []}
       followed={followed ?? []}
       followers={followers ?? []}
+      isSocialForViewer={false}
     />
   );
 }

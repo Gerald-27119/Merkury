@@ -5,7 +5,7 @@ import { SocialListType } from "../../../../model/enum/account/social/socialList
 interface SocialCardsProps {
   list: SocialDto[] | undefined;
   type: SocialListType;
-  isSocialForViewer: boolean | undefined;
+  isSocialForViewer: boolean;
 }
 
 export default function SocialCardList({

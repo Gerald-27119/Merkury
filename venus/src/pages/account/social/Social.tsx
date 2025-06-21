@@ -11,7 +11,7 @@ interface SocialProps {
   followed: SocialDto[];
   followers: SocialDto[];
   photos?: SocialDto[];
-  isSocialForViewer?: boolean;
+  isSocialForViewer: boolean;
 }
 
 export default function Social({

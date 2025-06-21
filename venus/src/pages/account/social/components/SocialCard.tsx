@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 interface SocialCardProps {
   friend: SocialDto;
   type: SocialListType;
-  isSocialForViewer: boolean | undefined;
+  isSocialForViewer: boolean;
 }
 
 export default function SocialCard({
