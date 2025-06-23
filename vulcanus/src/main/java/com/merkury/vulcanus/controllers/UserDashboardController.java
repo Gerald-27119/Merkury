@@ -2,6 +2,7 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
+import com.merkury.vulcanus.model.dtos.account.photos.PhotosWithDateDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
@@ -63,5 +64,10 @@ public class UserDashboardController {
     public ResponseEntity<Void> editUserFollowed(HttpServletRequest request, @RequestParam String followedUsername, @RequestParam UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
         userDashboardService.editUserFollowed(request, followedUsername, type);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/user-dashboard/photos")
+    public ResponseEntity<List<PhotosWithDateDto>> getAllUserPhotos(HttpServletRequest request){
+        return ResponseEntity.ok(userDashboardService.getAllUserPhotos(request));
     }
 }

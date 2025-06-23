@@ -14,6 +14,7 @@ import ChatsPage from "./pages/chats/ChatsPage";
 import Social from "./pages/account/social/Social";
 import UserOwnProfile from "./pages/account/profile/UserOwnProfile";
 import ProfileForViewer from "./pages/account/profile/ProfileForViewer";
+import Photos from "./pages/account/photos/Photos";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,14 @@ const router = createBrowserRouter([
             element: (
               <ProtectedRoute>
                 <Social />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "photos",
+            element: (
+              <ProtectedRoute>
+                <Photos />
               </ProtectedRoute>
             ),
           },

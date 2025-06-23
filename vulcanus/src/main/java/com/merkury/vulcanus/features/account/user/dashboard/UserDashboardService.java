@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
+import com.merkury.vulcanus.model.dtos.account.photos.PhotosWithDateDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
@@ -19,6 +20,7 @@ public class UserDashboardService {
     private final ProfileService profileService;
     private final FriendsService friendsService;
     private final FollowersService followersService;
+    private final PhotosService photosService;
     private final JwtManager jwtManager;
 
     public UserProfileDto getUserOwnProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
@@ -55,6 +57,10 @@ public class UserDashboardService {
 
     public void editUserFollowed(HttpServletRequest request, String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
         followersService.editUserFollowed(getCurrentUsername(request), followedUsername, type);
+    }
+
+    public List<PhotosWithDateDto> getAllUserPhotos(HttpServletRequest request){
+        return photosService.getAllUserPhotos(getCurrentUsername(request));
     }
 
     private String getCurrentUsername(HttpServletRequest request) {
