@@ -17,13 +17,13 @@ type commentsListProps = {
   spotId: number;
 };
 
-let shouldDisplayShowMoreButton: boolean = true;
-
 export default function SpotCommentsList({ spotId }: commentsListProps) {
   const dispatch = useDispatchTyped();
 
   const [showMoreComments, setShowMoreComments] = useState<boolean>(false);
   const [pageCount, setPageCount] = useState<number>(0);
+  const [shouldDisplayShowMoreButton, setShouldDisplayShowMoreButton] =
+    useState<boolean>(true);
 
   const handleClickShowMoreComments = (): void => {
     fetchNextPage();
@@ -53,15 +53,19 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
       getPaginatedSpotComments(spotId, pageParam as number),
     getNextPageParam: (lastPage) => {
       const { number, totalPages } = lastPage;
-      if (totalPages <= 1) {
-        shouldDisplayShowMoreButton = false;
-      } else {
-        shouldDisplayShowMoreButton = true;
-      }
       return number + 1 < totalPages ? number + 1 : undefined;
     },
     initialPageParam: 0,
   });
+
+  useEffect(() => {
+    console.log(data?.pages[data.pages.length - 1]?.totalPages);
+    if (isSuccess && data?.pages[data.pages.length - 1]?.totalPages <= 1) {
+      setShouldDisplayShowMoreButton(false);
+    } else {
+      setShouldDisplayShowMoreButton(true);
+    }
+  }, [isSuccess, data]);
 
   useEffect(() => {
     if (isSuccess && data) {
