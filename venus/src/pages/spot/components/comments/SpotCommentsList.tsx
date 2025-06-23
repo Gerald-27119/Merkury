@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getPaginatedSpotComments } from "../../../../http/comments";
 import React, { useEffect, useRef, useState } from "react";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
@@ -17,10 +17,13 @@ type commentsListProps = {
   spotId: number;
 };
 
+let shouldDisplayShowMoreButton: boolean = true;
+
 export default function SpotCommentsList({ spotId }: commentsListProps) {
   const dispatch = useDispatchTyped();
 
   const [showMoreComments, setShowMoreComments] = useState<boolean>(false);
+  const [pageCount, setPageCount] = useState<number>(0);
 
   const handleClickShowMoreComments = (): void => {
     fetchNextPage();
@@ -31,7 +34,10 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
     spotCommentSelectors.selectAll(state),
   );
 
+  const queryClient = useQueryClient();
+
   const loadMoreRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const {
     data,
@@ -47,6 +53,11 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
       getPaginatedSpotComments(spotId, pageParam as number),
     getNextPageParam: (lastPage) => {
       const { number, totalPages } = lastPage;
+      if (totalPages <= 1) {
+        shouldDisplayShowMoreButton = false;
+      } else {
+        shouldDisplayShowMoreButton = true;
+      }
       return number + 1 < totalPages ? number + 1 : undefined;
     },
     initialPageParam: 0,
@@ -56,57 +67,78 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
     if (isSuccess && data) {
       const allItems = data.pages.flatMap((p: SpotCommentPage) => p.content);
       dispatch(spotCommentSliceAction.upsertComments(allItems));
+      setPageCount(data.pages.length);
     }
   }, [data, dispatch]);
 
   useEffect(() => {
-    if (!loadMoreRef.current || !hasNextPage) return;
+    const container = containerRef.current;
+    const target = loadMoreRef.current;
+    if (!container || !target || !hasNextPage || !showMoreComments) return;
+
     const observer = new IntersectionObserver(
-      ([entry], obs) => {
+      ([entry]) => {
         if (entry.isIntersecting) {
-          obs.unobserve(entry.target);
+          observer.unobserve(target);
           fetchNextPage();
         }
       },
-      { rootMargin: "200px" },
+      {
+        root: container,
+        rootMargin: "50px",
+        threshold: 0,
+      },
     );
-    observer.observe(loadMoreRef.current);
+    observer.observe(target);
     return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, showMoreComments]);
+  }, [fetchNextPage, hasNextPage, showMoreComments, pageCount]);
+
+  useEffect(() => {
+    dispatch(spotCommentSliceAction.clearComments());
+    queryClient.removeQueries({ queryKey: ["spot-comments", spotId] });
+
+    fetchNextPage();
+  }, [spotId]);
+
   return (
-    <>
-      {(isFetchingNextPage || isLoading) && <LoadingSpinner />}
-      {comments?.length === 0 ? (
-        <p>There are no comments!</p>
-      ) : (
-        <>
-          <div
-            className={`bg-violetDark mt-4 ${showMoreComments ? "h-screen" : "h-full"} flex flex-col items-center rounded-xl`}
-          >
-            <SpotCommentHeader />
-            <ul
-              className={`scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 ${showMoreComments ? "h-full" : "h-[400px]"} overflow-y-auto`}
-            >
+    <div className="mt-3">
+      {isLoading && <LoadingSpinner />}
+      <SpotCommentHeader />
+      <div
+        ref={containerRef}
+        className="bg-violetDark scrollbar-track-violetDark hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex h-[30rem] flex-col items-center overflow-y-auto rounded-b-xl"
+      >
+        {comments?.length === 0 ? (
+          <p className="mt-20 text-center text-2xl font-semibold">
+            There are no comments!
+          </p>
+        ) : (
+          <>
+            <ul>
               {comments.map((comment) => (
                 <li key={comment.id} className="mx-3 mt-2 mb-6">
                   <SpotComment comment={comment} />
                 </li>
               ))}
             </ul>
-            {showMoreComments && <div ref={loadMoreRef} className="h-1" />}
-          </div>
-          {!showMoreComments && (
-            <div className="text-center">
-              <button
-                onClick={handleClickShowMoreComments}
-                className="mt-8 w-fit cursor-pointer font-semibold"
-              >
-                Show More
-              </button>
-            </div>
-          )}
-        </>
-      )}
-    </>
+            {!showMoreComments && shouldDisplayShowMoreButton && (
+              <div className="text-center">
+                <button
+                  onClick={handleClickShowMoreComments}
+                  className="mt-8 mb-10 w-fit cursor-pointer font-semibold"
+                >
+                  Show More
+                </button>
+              </div>
+            )}
+            {isFetchingNextPage && <LoadingSpinner />}
+          </>
+        )}
+        <div
+          ref={loadMoreRef}
+          className={`h-1 ${showMoreComments ? "" : "invisible"}`}
+        />
+      </div>
+    </div>
   );
 }

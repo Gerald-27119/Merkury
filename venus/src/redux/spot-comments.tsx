@@ -20,6 +20,9 @@ export const spotCommentSlice = createSlice({
     upsertComments: (state, action: PayloadAction<SpotCommentDto[]>) => {
       spotCommentAdapter.upsertMany(state, action.payload);
     },
+    clearComments: (state) => {
+      spotCommentAdapter.removeAll(state);
+    },
   },
 });
 
