@@ -59,7 +59,6 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
   });
 
   useEffect(() => {
-    console.log(data?.pages[data.pages.length - 1]?.totalPages);
     if (isSuccess && data?.pages[data.pages.length - 1]?.totalPages <= 1) {
       setShouldDisplayShowMoreButton(false);
     } else {
