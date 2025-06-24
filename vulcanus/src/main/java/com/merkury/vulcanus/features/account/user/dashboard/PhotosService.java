@@ -9,6 +9,7 @@ import com.merkury.vulcanus.model.repositories.ImgRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,8 +19,10 @@ import java.util.stream.Collectors;
 public class PhotosService {
     private final ImgRepository imgRepository;
 
-    public List<PhotosWithDateDto> getSortedUserPhotos(String username, PhotoSortType type) throws UnsupportedPhotoSortTypeException {
-        var photos = getAllUserPhotos(username).stream();
+    public List<PhotosWithDateDto> getSortedUserPhotos(String username, PhotoSortType type, LocalDate from, LocalDate to) throws UnsupportedPhotoSortTypeException {
+        var photos = getAllUserPhotos(username)
+                .stream()
+                .filter(p -> (p.date().isAfter(from) || p.date().isEqual(from)) && (p.date().isBefore(to) || p.date().isEqual(to)));
 
         switch (type) {
             case DATE_INCREASE -> {

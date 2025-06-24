@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -60,8 +61,8 @@ public class UserDashboardService {
         followersService.editUserFollowed(getCurrentUsername(request), followedUsername, type);
     }
 
-    public List<PhotosWithDateDto> getSortedUserPhotos(HttpServletRequest request, PhotoSortType type) throws UnsupportedPhotoSortTypeException {
-        return photosService.getSortedUserPhotos(getCurrentUsername(request), type);
+    public List<PhotosWithDateDto> getSortedUserPhotos(HttpServletRequest request, PhotoSortType type, LocalDate from, LocalDate to) throws UnsupportedPhotoSortTypeException {
+        return photosService.getSortedUserPhotos(getCurrentUsername(request), type, from, to);
     }
 
     private String getCurrentUsername(HttpServletRequest request) {

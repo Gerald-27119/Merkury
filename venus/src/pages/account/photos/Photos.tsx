@@ -1,11 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { getSortedUserPhotos } from "../../../http/user-dashboard";
 import DateBadge from "./components/DateBadge";
 import Photo from "./components/Photo";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import DateChooser from "./components/DateChooser";
 import { PhotosSortType } from "../../../model/enum/account/photos/photosSortType";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 const sortOptions = [
   { value: PhotosSortType.DATE_INCREASE, name: "Date increase" },
@@ -18,11 +18,22 @@ const sortOptions = [
 
 export default function Photos() {
   const [optionType, setOptionType] = useState(PhotosSortType.DATE_INCREASE);
+  const [from, setFrom] = useState("2024-01-01");
+  const [to, setTo] = useState(new Date().toISOString().split("T")[0]);
+  const [data, setData] = useState([]);
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["photos", optionType],
-    queryFn: () => getSortedUserPhotos(optionType),
+  const { mutateAsync, isLoading } = useMutation({
+    mutationKey: ["photos", optionType, from, to],
+    mutationFn: getSortedUserPhotos,
   });
+
+  const handleFiltrate = async () => {
+    return await mutateAsync({ type: optionType, from, to });
+  };
+
+  useEffect(() => {
+    handleFiltrate().then((s) => setData(s));
+  }, [optionType, from, to]);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -30,6 +41,14 @@ export default function Photos() {
 
   const handleSelectType = (event: ChangeEvent<HTMLSelectElement>) => {
     setOptionType(event.target.value);
+  };
+
+  const handleChangeFrom = (event: ChangeEvent<HTMLInputElement>) => {
+    setFrom(event.target.value);
+  };
+
+  const handleChangeTo = (event: ChangeEvent<HTMLInputElement>) => {
+    setTo(event.target.value);
   };
 
   return (
@@ -48,8 +67,18 @@ export default function Photos() {
             </select>
           </div>
           <div className="bg-violetDark flex items-center space-x-3 rounded-full px-2 py-1">
-            <DateChooser type={"from"} data={data} />
-            <DateChooser type={"to"} data={data} />
+            <DateChooser
+              type={"from"}
+              data={data}
+              onChange={handleChangeFrom}
+              value={from}
+            />
+            <DateChooser
+              type={"to"}
+              data={data}
+              onChange={handleChangeTo}
+              value={to}
+            />
           </div>
         </div>
       </div>

@@ -89,12 +89,23 @@ export async function editUserFollowed({
   ).data;
 }
 
-export async function getSortedUserPhotos(
-  type: PhotosSortType,
-): Promise<PhotosWithDate[]> {
+interface GetSortedUserPhotosProps {
+  type: PhotosSortType;
+  from: string;
+  to: string;
+}
+
+export async function getSortedUserPhotos({
+  type,
+  from,
+  to,
+}: GetSortedUserPhotosProps): Promise<PhotosWithDate[]> {
   return (
-    await axios.get(`${BASE_URL}/user-dashboard/photos?type=${type}`, {
-      withCredentials: true,
-    })
+    await axios.get(
+      `${BASE_URL}/user-dashboard/photos?type=${type}&from=${from}&to=${to}`,
+      {
+        withCredentials: true,
+      },
+    )
   ).data;
 }

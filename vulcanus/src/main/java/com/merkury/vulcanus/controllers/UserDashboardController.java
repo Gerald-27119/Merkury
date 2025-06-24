@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -68,7 +69,7 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/photos")
-    public ResponseEntity<List<PhotosWithDateDto>> getSortedUserPhotos(HttpServletRequest request, @RequestParam PhotoSortType type) throws UnsupportedPhotoSortTypeException {
-        return ResponseEntity.ok(userDashboardService.getSortedUserPhotos(request, type));
+    public ResponseEntity<List<PhotosWithDateDto>> getSortedUserPhotos(HttpServletRequest request, @RequestParam PhotoSortType type, @RequestParam LocalDate from, @RequestParam LocalDate to) throws UnsupportedPhotoSortTypeException {
+        return ResponseEntity.ok(userDashboardService.getSortedUserPhotos(request, type, from, to));
     }
 }
