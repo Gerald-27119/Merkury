@@ -1,30 +1,44 @@
-import { ChangeEvent } from "react";
+import { ConfigProvider, DatePicker } from "antd";
+import { Dayjs } from "dayjs";
 
 interface DateChooserProps {
   type: "from" | "to";
-  data: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  onChange: (value: Dayjs) => void;
 }
 
-export default function DateChooser({
-  type,
-  data,
-  onChange,
-  value,
-}: DateChooserProps) {
-  let text = "From:";
-  // let date = data?.[data?.length - 1].date ?? "";
-
-  if (type === "to") {
-    text = "To:";
-    // date = new Date().toISOString().split("T")[0];
-  }
-
+export default function DateChooser({ type, onChange }: DateChooserProps) {
   return (
-    <div className="flex space-x-2">
-      <p>{text}</p>
-      <input type="date" defaultValue={value} onBlur={onChange} />
+    <div className="flex items-center space-x-2">
+      <p>{type === "to" ? "To:" : "From:"}</p>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: "#363041",
+            colorBgContainer: "#363041",
+            colorText: "#e5e5e5",
+            borderRadius: 8,
+          },
+          components: {
+            DatePicker: {
+              colorBorder: "transparent",
+              colorBgContainer: "#363041",
+              colorTextPlaceholder: "#e5e5e5",
+              colorTextDisabled: "#939394",
+              colorBgElevated: "#363041",
+            },
+          },
+        }}
+      >
+        <DatePicker
+          onChange={onChange}
+          style={{
+            border: "none",
+            boxShadow: "none",
+            backgroundColor: "#363041",
+            color: "#e5e5e5",
+          }}
+        />
+      </ConfigProvider>
     </div>
   );
 }

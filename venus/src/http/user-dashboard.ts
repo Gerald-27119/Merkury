@@ -91,8 +91,8 @@ export async function editUserFollowed({
 
 interface GetSortedUserPhotosProps {
   type: PhotosSortType;
-  from: string;
-  to: string;
+  from: string | null;
+  to: string | null;
 }
 
 export async function getSortedUserPhotos({
@@ -100,12 +100,14 @@ export async function getSortedUserPhotos({
   from,
   to,
 }: GetSortedUserPhotosProps): Promise<PhotosWithDate[]> {
+  const params = new URLSearchParams({ type });
+
+  if (from) params.append("from", from);
+  if (to) params.append("to", to);
+
   return (
-    await axios.get(
-      `${BASE_URL}/user-dashboard/photos?type=${type}&from=${from}&to=${to}`,
-      {
-        withCredentials: true,
-      },
-    )
+    await axios.get(`${BASE_URL}/user-dashboard/photos?${params}`, {
+      withCredentials: true,
+    })
   ).data;
 }

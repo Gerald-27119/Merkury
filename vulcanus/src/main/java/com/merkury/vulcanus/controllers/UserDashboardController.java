@@ -69,7 +69,7 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/photos")
-    public ResponseEntity<List<PhotosWithDateDto>> getSortedUserPhotos(HttpServletRequest request, @RequestParam PhotoSortType type, @RequestParam LocalDate from, @RequestParam LocalDate to) throws UnsupportedPhotoSortTypeException {
+    public ResponseEntity<List<PhotosWithDateDto>> getSortedUserPhotos(HttpServletRequest request, @RequestParam PhotoSortType type, @RequestParam(required = false) LocalDate from, @RequestParam(required = false) LocalDate to) throws UnsupportedPhotoSortTypeException {
         return ResponseEntity.ok(userDashboardService.getSortedUserPhotos(request, type, from, to));
     }
 }

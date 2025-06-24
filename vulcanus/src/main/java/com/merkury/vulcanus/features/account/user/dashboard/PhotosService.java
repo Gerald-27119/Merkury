@@ -20,9 +20,14 @@ public class PhotosService {
     private final ImgRepository imgRepository;
 
     public List<PhotosWithDateDto> getSortedUserPhotos(String username, PhotoSortType type, LocalDate from, LocalDate to) throws UnsupportedPhotoSortTypeException {
-        var photos = getAllUserPhotos(username)
-                .stream()
-                .filter(p -> (p.date().isAfter(from) || p.date().isEqual(from)) && (p.date().isBefore(to) || p.date().isEqual(to)));
+        var photos = getAllUserPhotos(username).stream();
+
+        if (from != null) {
+            photos = photos.filter(p -> (p.date().isAfter(from) || p.date().isEqual(from)));
+        }
+        if (to != null) {
+            photos = photos.filter(p -> (p.date().isBefore(to) || p.date().isEqual(to)));
+        }
 
         switch (type) {
             case DATE_INCREASE -> {

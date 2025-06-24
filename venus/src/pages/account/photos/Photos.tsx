@@ -2,10 +2,11 @@ import { useMutation } from "@tanstack/react-query";
 import { getSortedUserPhotos } from "../../../http/user-dashboard";
 import DateBadge from "./components/DateBadge";
 import Photo from "./components/Photo";
-import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import DateChooser from "./components/DateChooser";
 import { PhotosSortType } from "../../../model/enum/account/photos/photosSortType";
 import { ChangeEvent, useEffect, useState } from "react";
+import PhotosWithDate from "../../../model/interface/account/photos/photosWithDate";
+import { Dayjs } from "dayjs";
 
 const sortOptions = [
   { value: PhotosSortType.DATE_INCREASE, name: "Date increase" },
@@ -18,37 +19,34 @@ const sortOptions = [
 
 export default function Photos() {
   const [optionType, setOptionType] = useState(PhotosSortType.DATE_INCREASE);
-  const [from, setFrom] = useState("2024-01-01");
-  const [to, setTo] = useState(new Date().toISOString().split("T")[0]);
-  const [data, setData] = useState([]);
+  const [from, setFrom] = useState<string | null>(null);
+  const [to, setTo] = useState<string | null>(null);
+  const [data, setData] = useState<PhotosWithDate[]>([]);
 
-  const { mutateAsync, isLoading } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationKey: ["photos", optionType, from, to],
     mutationFn: getSortedUserPhotos,
   });
 
-  const handleFiltrate = async () => {
-    return await mutateAsync({ type: optionType, from, to });
-  };
-
   useEffect(() => {
-    handleFiltrate().then((s) => setData(s));
-  }, [optionType, from, to]);
+    const test = async () => {
+      const result = await mutateAsync({ type: optionType, from, to });
+      setData(result);
+    };
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+    test();
+  }, [from, to, optionType]);
 
   const handleSelectType = (event: ChangeEvent<HTMLSelectElement>) => {
-    setOptionType(event.target.value);
+    setOptionType(event.target.value as PhotosSortType);
   };
 
-  const handleChangeFrom = (event: ChangeEvent<HTMLInputElement>) => {
-    setFrom(event.target.value);
+  const handleChangeFrom = (value: Dayjs) => {
+    setFrom(value.format("YYYY-MM-DD"));
   };
 
-  const handleChangeTo = (event: ChangeEvent<HTMLInputElement>) => {
-    setTo(event.target.value);
+  const handleChangeTo = (value: Dayjs) => {
+    setTo(value.format("YYYY-MM-DD"));
   };
 
   return (
@@ -56,29 +54,22 @@ export default function Photos() {
       <div className="flex items-center justify-between lg:mx-27">
         <h1 className="text-4xl font-semibold capitalize">Photos</h1>
         <div className="flex space-x-3">
-          <div className="bg-violetDark flex space-x-2 rounded-full px-2 py-1">
+          <div className="bg-violetDark flex items-center space-x-2 rounded-full px-2 py-1">
             <p>Sort:</p>
-            <select onChange={handleSelectType}>
+            <select
+              onChange={handleSelectType}
+              className="bg-violetDark rounded-md border-none px-3 py-1 text-white focus:border-none focus:ring-0 focus:outline-none"
+            >
               {sortOptions.map((o) => (
-                <option value={o.value} key={o.name}>
+                <option key={o.name} value={o.value} className="border-0">
                   {o.name}
                 </option>
               ))}
             </select>
           </div>
           <div className="bg-violetDark flex items-center space-x-3 rounded-full px-2 py-1">
-            <DateChooser
-              type={"from"}
-              data={data}
-              onChange={handleChangeFrom}
-              value={from}
-            />
-            <DateChooser
-              type={"to"}
-              data={data}
-              onChange={handleChangeTo}
-              value={to}
-            />
+            <DateChooser type={"from"} onChange={handleChangeFrom} />
+            <DateChooser type={"to"} onChange={handleChangeTo} />
           </div>
         </div>
       </div>
