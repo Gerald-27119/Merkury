@@ -114,7 +114,7 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
       <SpotCommentHeader />
       <div
         ref={containerRef}
-        className="bg-violetDark scrollbar-track-violetDark hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex h-[30rem] flex-col items-center overflow-y-auto rounded-b-xl"
+        className="dark:bg-violetDark dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex h-[30rem] flex-col items-center overflow-y-auto rounded-b-xl"
       >
         {comments?.length === 0 ? (
           <p className="mt-20 text-center text-2xl font-semibold">
