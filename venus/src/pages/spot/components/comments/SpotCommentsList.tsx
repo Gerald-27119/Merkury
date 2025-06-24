@@ -114,7 +114,7 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
       <SpotCommentHeader />
       <div
         ref={containerRef}
-        className="dark:bg-violetDark dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex h-[30rem] flex-col items-center overflow-y-auto rounded-b-xl"
+        className="dark:bg-violetDark dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex flex-col items-center overflow-y-auto rounded-b-xl lg:h-[30rem] [@media(max-height:1080px)]:h-[20rem]"
       >
         {comments?.length === 0 ? (
           <p className="mt-20 text-center text-2xl font-semibold">
@@ -124,7 +124,7 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
           <>
             <ul>
               {comments.map((comment) => (
-                <li key={comment.id} className="mx-3 mt-2 mb-6">
+                <li key={comment.id} className="mx-3 mt-2 lg:mb-6">
                   <SpotComment comment={comment} />
                 </li>
               ))}
@@ -133,7 +133,7 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
               <div className="text-center">
                 <button
                   onClick={handleClickShowMoreComments}
-                  className="mt-8 mb-10 w-fit cursor-pointer font-semibold"
+                  className="w-fit cursor-pointer font-semibold lg:mt-8 lg:mb-10 [@media(max-height:1080px)]:mt-4 [@media(max-height:1080px)]:mb-16"
                 >
                   Show More
                 </button>
