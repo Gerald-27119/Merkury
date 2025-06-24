@@ -106,6 +106,11 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
   return (
     <div className="mt-3">
       {isLoading && <LoadingSpinner />}
+      {isError && (
+        <p className="mt-20 text-center text-2xl font-semibold">
+          Failed to load comments.
+        </p>
+      )}
       <SpotCommentHeader />
       <div
         ref={containerRef}
