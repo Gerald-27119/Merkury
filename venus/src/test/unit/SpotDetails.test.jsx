@@ -1,6 +1,7 @@
 import {
   QueryClient,
   QueryClientProvider,
+  useInfiniteQuery,
   useQuery,
 } from "@tanstack/react-query";
 import { configureStore } from "@reduxjs/toolkit";
@@ -71,6 +72,7 @@ const mockSpotDetailsData = {
       likes: 10,
       views: 10,
       author: "Author",
+      id: 1,
     },
     {
       img: "photo2.jpg",
@@ -79,6 +81,7 @@ const mockSpotDetailsData = {
       likes: 20,
       views: 20,
       author: "Author",
+      id: 2,
     },
   ],
   weatherApiCallCoords: {
