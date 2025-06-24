@@ -4,6 +4,7 @@ import { Social } from "../model/interface/account/social/social";
 import { UserRelationEditType } from "../model/enum/account/social/userRelationEditType";
 import ExtendedUserProfile from "../model/interface/account/profile/extendedUserProfile";
 import PhotosWithDate from "../model/interface/account/photos/photosWithDate";
+import { PhotosSortType } from "../model/enum/account/photos/photosSortType";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -88,9 +89,11 @@ export async function editUserFollowed({
   ).data;
 }
 
-export async function getAllUserPhotos(): Promise<PhotosWithDate[]> {
+export async function getSortedUserPhotos(
+  type: PhotosSortType,
+): Promise<PhotosWithDate[]> {
   return (
-    await axios.get(`${BASE_URL}/user-dashboard/photos`, {
+    await axios.get(`${BASE_URL}/user-dashboard/photos?type=${type}`, {
       withCredentials: true,
     })
   ).data;

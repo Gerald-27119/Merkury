@@ -6,6 +6,7 @@ import com.merkury.vulcanus.model.dtos.account.photos.PhotosWithDateDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
+import com.merkury.vulcanus.model.enums.user.dashboard.PhotoSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import jakarta.servlet.http.HttpServletRequest;
@@ -67,7 +68,7 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/photos")
-    public ResponseEntity<List<PhotosWithDateDto>> getAllUserPhotos(HttpServletRequest request){
-        return ResponseEntity.ok(userDashboardService.getAllUserPhotos(request));
+    public ResponseEntity<List<PhotosWithDateDto>> getSortedUserPhotos(HttpServletRequest request, @RequestParam PhotoSortType type) throws UnsupportedPhotoSortTypeException {
+        return ResponseEntity.ok(userDashboardService.getSortedUserPhotos(request, type));
     }
 }
