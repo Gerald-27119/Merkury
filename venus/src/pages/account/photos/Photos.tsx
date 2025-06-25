@@ -4,18 +4,10 @@ import DateBadge from "./components/DateBadge";
 import Photo from "./components/Photo";
 import DateChooser from "./components/DateChooser";
 import { PhotosSortType } from "../../../model/enum/account/photos/photosSortType";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PhotosWithDate from "../../../model/interface/account/photos/photosWithDate";
 import { Dayjs } from "dayjs";
-
-const sortOptions = [
-  { value: PhotosSortType.DATE_INCREASE, name: "Date increase" },
-  { value: PhotosSortType.DATE_DECREASE, name: "Date decrease" },
-  { value: PhotosSortType.VIEWS_INCREASE, name: "Views increase" },
-  { value: PhotosSortType.VIEWS_DECREASE, name: "Views decrease" },
-  { value: PhotosSortType.HEARTS_INCREASE, name: "Hearts increase" },
-  { value: PhotosSortType.HEARTS_DECREASE, name: "Hearts decrease" },
-];
+import SortDropdown from "./components/SortDropdown";
 
 export default function Photos() {
   const [optionType, setOptionType] = useState(PhotosSortType.DATE_INCREASE);
@@ -37,8 +29,8 @@ export default function Photos() {
     test();
   }, [from, to, optionType]);
 
-  const handleSelectType = (event: ChangeEvent<HTMLSelectElement>) => {
-    setOptionType(event.target.value as PhotosSortType);
+  const handleSelectType = (type: PhotosSortType) => {
+    setOptionType(type);
   };
 
   const handleChangeFrom = (value: Dayjs) => {
@@ -53,20 +45,8 @@ export default function Photos() {
     <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText flex min-h-full w-full flex-col space-y-8 p-10 pt-17 xl:pt-10">
       <div className="flex items-center justify-between lg:mx-27">
         <h1 className="text-4xl font-semibold capitalize">Photos</h1>
-        <div className="flex space-x-3">
-          <div className="bg-violetDark flex items-center space-x-2 rounded-full px-2 py-1">
-            <p>Sort:</p>
-            <select
-              onChange={handleSelectType}
-              className="bg-violetDark rounded-md border-none px-3 py-1 text-white focus:border-none focus:ring-0 focus:outline-none"
-            >
-              {sortOptions.map((o) => (
-                <option key={o.name} value={o.value} className="border-0">
-                  {o.name}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div className="text-darkText flex space-x-3">
+          <SortDropdown onSelectType={handleSelectType} />
           <div className="bg-violetDark flex items-center space-x-3 rounded-full px-2 py-1">
             <DateChooser type={"from"} onChange={handleChangeFrom} />
             <DateChooser type={"to"} onChange={handleChangeTo} />

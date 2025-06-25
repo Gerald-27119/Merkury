@@ -8,7 +8,7 @@ interface DateChooserProps {
 
 export default function DateChooser({ type, onChange }: DateChooserProps) {
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center">
       <p>{type === "to" ? "To:" : "From:"}</p>
       <ConfigProvider
         theme={{
