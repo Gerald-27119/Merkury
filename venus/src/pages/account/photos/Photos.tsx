@@ -43,11 +43,11 @@ export default function Photos() {
 
   return (
     <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText flex min-h-full w-full flex-col space-y-8 p-10 pt-17 xl:pt-10">
-      <div className="flex items-center justify-between lg:mx-27">
+      <div className="flex flex-wrap items-center justify-between space-y-2 space-x-3 lg:mx-27">
         <h1 className="text-4xl font-semibold capitalize">Photos</h1>
-        <div className="text-darkText flex space-x-3">
+        <div className="text-darkText flex flex-wrap space-y-3 space-x-3 md:space-y-0">
           <SortDropdown onSelectType={handleSelectType} />
-          <div className="bg-violetDark flex items-center space-x-3 rounded-full px-2 py-1">
+          <div className="bg-violetDark flex h-15 items-center space-x-3 rounded-full px-2.5 py-1 md:h-12">
             <DateChooser type={"from"} onChange={handleChangeFrom} />
             <DateChooser type={"to"} onChange={handleChangeTo} />
           </div>
