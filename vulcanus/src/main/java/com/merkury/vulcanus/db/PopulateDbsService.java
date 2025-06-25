@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_ADMIN;
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_USER;
-import static java.lang.System.in;
 import static java.util.Arrays.asList;
 
 @Service

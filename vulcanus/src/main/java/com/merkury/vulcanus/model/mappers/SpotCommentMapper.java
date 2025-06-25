@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.model.mappers;
 
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentAddDto;
-import com.merkury.vulcanus.model.dtos.comment.SpotCommentAuthorDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentDto;
 import com.merkury.vulcanus.model.entities.SpotComment;
 import com.merkury.vulcanus.model.entities.Spot;
@@ -9,8 +8,6 @@ import com.merkury.vulcanus.model.entities.UserEntity;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
-
-import static java.util.stream.Collectors.toList;
 
 public class SpotCommentMapper {
     private SpotCommentMapper() {

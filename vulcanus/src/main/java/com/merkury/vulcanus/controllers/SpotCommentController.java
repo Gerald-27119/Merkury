@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class SpotCommentController {
 
+    private final static int SPOT_COMMENTS_PAGE_SIZE = 2;
     private final SpotCommentService spotCommentService;
 
     @GetMapping("/public/spot/{spotId}/comments")
     public ResponseEntity<Page<SpotCommentDto>> getCommentsBySpotId(HttpServletRequest request, @PathVariable Long spotId, @RequestParam(defaultValue = "0") int page) {
-        int defaultPageSize = 2;
-        Page<SpotCommentDto> comments = spotCommentService.getCommentsBySpotId(request, spotId, PageRequest.of(page, defaultPageSize));
+        Page<SpotCommentDto> comments = spotCommentService.getCommentsBySpotId(request, spotId, PageRequest.of(page, SPOT_COMMENTS_PAGE_SIZE));
 
         return ResponseEntity.ok(comments);
     }
