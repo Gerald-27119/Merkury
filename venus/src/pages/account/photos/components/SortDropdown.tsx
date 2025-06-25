@@ -4,13 +4,15 @@ import { useBoolean } from "../../../../hooks/useBoolean";
 import { AnimatePresence, motion } from "framer-motion";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
+///Todo Think whether to sort by date only
+
 const sortOptions = [
   { value: PhotosSortType.DATE_INCREASE, name: "Date increase" },
   { value: PhotosSortType.DATE_DECREASE, name: "Date decrease" },
-  { value: PhotosSortType.VIEWS_INCREASE, name: "Views increase" },
-  { value: PhotosSortType.VIEWS_DECREASE, name: "Views decrease" },
-  { value: PhotosSortType.HEARTS_INCREASE, name: "Hearts increase" },
-  { value: PhotosSortType.HEARTS_DECREASE, name: "Hearts decrease" },
+  // { value: PhotosSortType.VIEWS_INCREASE, name: "Views increase" },
+  // { value: PhotosSortType.VIEWS_DECREASE, name: "Views decrease" },
+  // { value: PhotosSortType.HEARTS_INCREASE, name: "Hearts increase" },
+  // { value: PhotosSortType.HEARTS_DECREASE, name: "Hearts decrease" },
 ];
 
 interface DropdownProps {
