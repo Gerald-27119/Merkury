@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.model.mappers.user.dashboard;
 
 import com.merkury.vulcanus.model.dtos.account.photos.PhotoDto;
-import com.merkury.vulcanus.model.dtos.account.photos.PhotosWithDateDto;
+import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
 import com.merkury.vulcanus.model.entities.Img;
 import jakarta.validation.constraints.NotNull;
 
@@ -21,8 +21,8 @@ public class PhotosMapper {
                 .build();
     }
 
-    public static PhotosWithDateDto toDto(@NotNull LocalDate date, List<PhotoDto> photos){
-        return PhotosWithDateDto.builder()
+    public static DatedPhotosGroupDto toDto(@NotNull LocalDate date, List<PhotoDto> photos){
+        return DatedPhotosGroupDto.builder()
                 .date(date)
                 .photos(photos)
                 .build();

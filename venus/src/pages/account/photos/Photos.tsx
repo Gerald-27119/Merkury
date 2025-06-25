@@ -5,40 +5,45 @@ import Photo from "./components/Photo";
 import DateChooser from "./components/DateChooser";
 import { PhotosSortType } from "../../../model/enum/account/photos/photosSortType";
 import { useEffect, useState } from "react";
-import PhotosWithDate from "../../../model/interface/account/photos/photosWithDate";
+import DatedPhotosGroup from "../../../model/interface/account/photos/datedPhotosGroup";
 import { Dayjs } from "dayjs";
 import SortDropdown from "./components/SortDropdown";
 
 export default function Photos() {
   const [optionType, setOptionType] = useState(PhotosSortType.DATE_INCREASE);
-  const [from, setFrom] = useState<string | null>(null);
-  const [to, setTo] = useState<string | null>(null);
-  const [data, setData] = useState<PhotosWithDate[]>([]);
+  const [searchDate, setSearchDate] = useState({
+    from: null,
+    to: null,
+  });
+  const [data, setData] = useState<DatedPhotosGroup[]>([]);
 
   const { mutateAsync } = useMutation({
-    mutationKey: ["photos", optionType, from, to],
+    mutationKey: ["photos", optionType, searchDate.from, searchDate.to],
     mutationFn: getSortedUserPhotos,
   });
 
   useEffect(() => {
     const test = async () => {
-      const result = await mutateAsync({ type: optionType, from, to });
+      const result = await mutateAsync({
+        type: optionType,
+        from: searchDate.from,
+        to: searchDate.to,
+      });
       setData(result);
     };
 
     test();
-  }, [from, to, optionType]);
+  }, [searchDate.from, searchDate.to, optionType]);
 
   const handleSelectType = (type: PhotosSortType) => {
     setOptionType(type);
   };
 
-  const handleChangeFrom = (value: Dayjs) => {
-    setFrom(value.format("YYYY-MM-DD"));
-  };
-
-  const handleChangeTo = (value: Dayjs) => {
-    setTo(value.format("YYYY-MM-DD"));
+  const handleChangeFrom = (value: Dayjs, id: string) => {
+    setSearchDate((prevState) => ({
+      ...prevState,
+      [id]: value.format("YYYY-MM-DD"),
+    }));
   };
 
   return (
@@ -48,8 +53,14 @@ export default function Photos() {
         <div className="text-darkText flex flex-wrap space-y-3 space-x-3 md:space-y-0">
           <SortDropdown onSelectType={handleSelectType} />
           <div className="bg-violetDark flex h-15 items-center space-x-3 rounded-full px-2.5 py-1 md:h-12">
-            <DateChooser type={"from"} onChange={handleChangeFrom} />
-            <DateChooser type={"to"} onChange={handleChangeTo} />
+            <DateChooser
+              type={"from"}
+              onChange={(value) => handleChangeFrom(value, "from")}
+            />
+            <DateChooser
+              type={"to"}
+              onChange={(value) => handleChangeFrom(value, "to")}
+            />
           </div>
         </div>
       </div>

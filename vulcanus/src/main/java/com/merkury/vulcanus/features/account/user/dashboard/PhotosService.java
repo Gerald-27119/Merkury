@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.UnsupportedPhotoSortTypeException;
-import com.merkury.vulcanus.model.dtos.account.photos.PhotosWithDateDto;
+import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.enums.user.dashboard.PhotoSortType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.PhotosMapper;
@@ -19,47 +19,33 @@ import java.util.stream.Collectors;
 public class PhotosService {
     private final ImgRepository imgRepository;
 
-    public List<PhotosWithDateDto> getSortedUserPhotos(String username, PhotoSortType type, LocalDate from, LocalDate to) throws UnsupportedPhotoSortTypeException {
-        var photos = getAllUserPhotos(username).stream();
-
-        if (from != null) {
-            photos = photos.filter(p -> (p.date().isAfter(from) || p.date().isEqual(from)));
-        }
-        if (to != null) {
-            photos = photos.filter(p -> (p.date().isBefore(to) || p.date().isEqual(to)));
-        }
-
-        switch (type) {
-            case DATE_INCREASE -> {
-                return photos.sorted((a, b) -> b.date().compareTo(a.date())).toList();
-            }
-            case DATE_DECREASE -> {
-                return photos.sorted(Comparator.comparing(PhotosWithDateDto::date)).toList();
-            }
-//            case VIEWS_INCREASE -> {
-//                return photos.sorted((a, b) -> b.date().compareTo(a.date())).toList();
-//            };
-//            case VIEWS_DECREASE -> {
-//                return photos.sorted(Comparator.comparing(PhotosWithDateDto::)).toList();
-//            };
-//            case HEARTS_INCREASE -> {
-//                return photos.sorted((a, b) -> b.date().compareTo(a.date())).toList();
-//            };
-//            case HEARTS_DECREASE -> {
-//                return photos.sorted(Comparator.comparing(PhotosWithDateDto::date)).toList();
-//            };
-            default -> throw new UnsupportedPhotoSortTypeException(type);
-        }
+    public List<DatedPhotosGroupDto> getSortedUserPhotos(String username, PhotoSortType type, LocalDate from, LocalDate to) throws UnsupportedPhotoSortTypeException {
+        return getAllUserPhotos(username, from, to).stream()
+                .sorted(getComparator(type))
+                .toList();
     }
 
-    private List<PhotosWithDateDto> getAllUserPhotos(String username) {
+    private List<DatedPhotosGroupDto> getAllUserPhotos(String username, LocalDate from, LocalDate to) {
         return imgRepository.findAllByAuthorUsername(username)
                 .stream()
+                .filter(i -> isInDateRange(i.getAddDate(), from, to))
                 .collect(Collectors.groupingBy(
                         Img::getAddDate,
                         Collectors.mapping(PhotosMapper::toDto, Collectors.toList())
                 )).entrySet().stream()
                 .map(e -> PhotosMapper.toDto(e.getKey(), e.getValue()))
                 .toList();
+    }
+
+    private boolean isInDateRange(LocalDate date, LocalDate from, LocalDate to) {
+        return (from == null || !date.isBefore(from)) && (to == null || !date.isAfter(to));
+    }
+
+    private Comparator<DatedPhotosGroupDto> getComparator(PhotoSortType type) throws UnsupportedPhotoSortTypeException {
+        return switch (type) {
+            case DATE_INCREASE -> Comparator.comparing(DatedPhotosGroupDto::date).reversed();
+            case DATE_DECREASE -> Comparator.comparing(DatedPhotosGroupDto::date);
+            default -> throw new UnsupportedPhotoSortTypeException(type);
+        };
     }
 }

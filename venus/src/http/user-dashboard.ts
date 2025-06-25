@@ -3,7 +3,7 @@ import UserProfile from "../model/interface/account/profile/userProfile";
 import { Social } from "../model/interface/account/social/social";
 import { UserRelationEditType } from "../model/enum/account/social/userRelationEditType";
 import ExtendedUserProfile from "../model/interface/account/profile/extendedUserProfile";
-import PhotosWithDate from "../model/interface/account/photos/photosWithDate";
+import DatedPhotosGroup from "../model/interface/account/photos/datedPhotosGroup";
 import { PhotosSortType } from "../model/enum/account/photos/photosSortType";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
@@ -99,7 +99,7 @@ export async function getSortedUserPhotos({
   type,
   from,
   to,
-}: GetSortedUserPhotosProps): Promise<PhotosWithDate[]> {
+}: GetSortedUserPhotosProps): Promise<DatedPhotosGroup[]> {
   const params = new URLSearchParams({ type });
 
   if (from) params.append("from", from);

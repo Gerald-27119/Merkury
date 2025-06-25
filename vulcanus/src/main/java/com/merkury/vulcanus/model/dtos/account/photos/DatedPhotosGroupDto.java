@@ -6,6 +6,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Builder
-public record PhotosWithDateDto(LocalDate date,
-                                List<PhotoDto> photos) {
+public record DatedPhotosGroupDto(LocalDate date,
+                                  List<PhotoDto> photos) {
 }

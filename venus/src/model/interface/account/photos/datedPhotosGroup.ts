@@ -1,6 +1,6 @@
 import Photo from "./photo";
 
-export default interface PhotosWithDate {
+export default interface DatedPhotosGroup {
   date: string;
   photos: Photo[];
 }

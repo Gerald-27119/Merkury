@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
-import com.merkury.vulcanus.model.dtos.account.photos.PhotosWithDateDto;
+import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
@@ -61,7 +61,7 @@ public class UserDashboardService {
         followersService.editUserFollowed(getCurrentUsername(request), followedUsername, type);
     }
 
-    public List<PhotosWithDateDto> getSortedUserPhotos(HttpServletRequest request, PhotoSortType type, LocalDate from, LocalDate to) throws UnsupportedPhotoSortTypeException {
+    public List<DatedPhotosGroupDto> getSortedUserPhotos(HttpServletRequest request, PhotoSortType type, LocalDate from, LocalDate to) throws UnsupportedPhotoSortTypeException {
         return photosService.getSortedUserPhotos(getCurrentUsername(request), type, from, to);
     }
 
