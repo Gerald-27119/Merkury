@@ -8,14 +8,21 @@ export async function fetchFilteredSpots(
   minRating: number,
   maxRating: number,
 ): Promise<GeneralSpot[]> {
-  return (
-    await axios.get(
-      `${BASE_URL}/public/spot/filter?name=${name}&minRating=${minRating}&maxRating=${maxRating}`,
-    )
-  ).data;
+  return (await axios.get(`${BASE_URL}/public/spot/search/map?name=${name}`))
+    .data;
 }
 
-export async function fetchSpotsNames(name) {
+export async function fetchSearchedSpotsPage(
+  name: string,
+  page: number,
+  sorting: string,
+) {
+  return await axios.get(
+    `${BASE_URL}/public/spot/search/list?name=${name}&page=${page}&sorting=${sorting}`,
+  );
+}
+
+export async function fetchSpotsNames(name: string) {
   return (await axios.get(`${BASE_URL}/public/spot/names?text=${name}`)).data;
 }
 
