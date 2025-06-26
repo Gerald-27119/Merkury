@@ -3,10 +3,9 @@ import SpotCommentPage from "../model/interface/spot/comment/spotCommentPage";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
-//TODO: check if page must be type any
 export async function getPaginatedSpotComments(
   spotId: number,
-  page: any,
+  page: number,
 ): Promise<SpotCommentPage> {
   return (
     await axios.get(`${BASE_URL}/public/spot/${spotId}/comments`, {
