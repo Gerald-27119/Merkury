@@ -41,9 +41,10 @@ public class SpotController {
 
     @GetMapping("/public/spot/search/list")
     public ResponseEntity<Page<SearchSpotDto>> getSearchedSpotsListPage(@RequestParam(defaultValue = "") String name,
+                                                                        @RequestParam(defaultValue = "none") String sorting,
                                                                         @RequestParam(defaultValue = "0") int page) {
         log.info("getting searched spots to list");
-        return ResponseEntity.ok(spotService.getSearchedSpotsListPage(name, PageRequest.of(page, DEFAULT_SEARCHED_SPOTS_PAGE_SIZE)));
+        return ResponseEntity.ok(spotService.getSearchedSpotsListPage(name, sorting, PageRequest.of(page, DEFAULT_SEARCHED_SPOTS_PAGE_SIZE)));
     }
 
     @GetMapping("/public/spot/names")

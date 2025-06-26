@@ -18,7 +18,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,8 +42,20 @@ public class SpotService {
         return allSpots;
     }
 
-    public Page<SearchSpotDto> getSearchedSpotsListPage(String name, Pageable pageable) {
-        Page<Spot> searchedSpotsPage = spotRepository.findAllByNameContainingIgnoreCase(name.trim(), pageable);
+    public Page<SearchSpotDto> getSearchedSpotsListPage(String name, String sorting, Pageable pageable) {
+        Sort customSort = switch (sorting) {
+            case "byRatingCountDesc" -> Sort.by("ratingCount").descending();
+            case "byRatingCountAsc" -> Sort.by("ratingCount").ascending();
+            case "byRatingDesc" -> Sort.by("rating").descending();
+            case "byRatingAsc" -> Sort.by("rating").ascending();
+            default -> pageable.getSort();
+        };
+        Pageable sortedPageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                customSort
+        );
+        Page<Spot> searchedSpotsPage = spotRepository.findAllByNameContainingIgnoreCase(name.trim(), sortedPageable);
         return searchedSpotsPage.map(SpotMapper::toSearchSpotDto);
     }
 
