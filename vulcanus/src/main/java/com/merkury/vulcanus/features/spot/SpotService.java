@@ -42,8 +42,8 @@ public class SpotService {
         return allSpots;
     }
 
-    public Page<SearchSpotDto> getSearchedSpotsListPage(String name, String sorting, Pageable pageable) {
-        Sort customSort = switch (sorting) {
+    public Page<SearchSpotDto> getSearchedSpotsListPage(String name, String sort, Pageable pageable) {
+        Sort customSort = switch (sort) {
             case "byRatingCountDesc" -> Sort.by("ratingCount").descending();
             case "byRatingCountAsc" -> Sort.by("ratingCount").ascending();
             case "byRatingDesc" -> Sort.by("rating").descending();
