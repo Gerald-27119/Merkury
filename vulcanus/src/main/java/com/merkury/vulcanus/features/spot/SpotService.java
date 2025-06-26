@@ -7,6 +7,7 @@ import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
 import com.merkury.vulcanus.model.dtos.spot.FavouriteSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.mappers.FavouriteSpotMapper;
@@ -39,17 +40,20 @@ public class SpotService {
         return allSpots;
     }
 
+    public Page<SearchSpotDto> getSearchedSpotsListPage(String name, Pageable pageable) {
+        Page<Spot> searchedSpotsPage = spotRepository.findAllByNameContainingIgnoreCase(name.trim(), pageable);
+        return searchedSpotsPage.map(SpotMapper::toSearchSpotDto);
+    }
+
     public SpotDetailsDto getSpotById(Long id) throws SpotNotFoundException {
         return spotRepository.findByIdWithTags(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
 
-    @Cacheable(value = "filteredSpots", key = "{#name, #minRating, #maxRating}", unless = "#result == null")
-    public List<GeneralSpotDto> getFilteredSpots(String name, Double minRating, Double maxRating) throws SpotsNotFoundException {
+    @Cacheable(value = "filteredSpots", key = "{#name}", unless = "#result == null")
+    public List<GeneralSpotDto> getSearchedSpotsOnMap(String name) throws SpotsNotFoundException {
         var allSpots = this.getAllSpots();
         var filteredSpots = allSpots.stream()
-                .filter(spot -> (name.isBlank() || spot.name().toLowerCase().contains(name.trim().toLowerCase())) &&
-                        (minRating == null || spot.rating() >= minRating) &&
-                        (maxRating == null || spot.rating() <= maxRating))
+                .filter(spot -> (name.isBlank() || spot.name().toLowerCase().contains(name.trim().toLowerCase())))
                 .toList();
         if (filteredSpots.isEmpty()) {
             throw new SpotsNotFoundException("No spots match filters!");

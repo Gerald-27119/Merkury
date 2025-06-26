@@ -91,14 +91,14 @@ class SpotControllerWithServerStartupTest {
     }
 
     @Test
-    @DisplayName("Filter spots should return all spots when no filters are set and spots are found.")
-    void filterSpotsWithNoFiltersReturnsAllSpotsWhenSpotsFound() {
+    @DisplayName("Search spots should return all spots when no filters are set and spots are found.")
+    void searchSpotsWithNoFiltersReturnsAllSpotsWhenSpotsFound() {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         var responseEntity = restTemplate.exchange(
-                "http://localhost:" + port + "/public/spot/filter",
+                "http://localhost:" + port + "/public/spot/search/map",
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<GeneralSpotDto>>() {
@@ -114,14 +114,14 @@ class SpotControllerWithServerStartupTest {
     }
 
     @Test
-    @DisplayName("Filter spot should return all spots that match filter name.")
-    void filterSpotShouldReturnAllSpotsThatMatchFilterName() {
+    @DisplayName("Search spot should return all spots that match filter name.")
+    void searchSpotShouldReturnAllSpotsThatMatchFilterName() {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         var responseEntity = restTemplate.exchange(
-                "http://localhost:" + port + "/public/spot/filter?name=p",
+                "http://localhost:" + port + "/public/spot/search/map?name=p",
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<GeneralSpotDto>>() {
@@ -137,14 +137,14 @@ class SpotControllerWithServerStartupTest {
     }
 
     @Test
-    @DisplayName("Filter spot should return all spots that match rating filters.")
-    void filterSpotShouldReturnAllSpotsThatMatchRatingFilters() {
+    @DisplayName("Search spot should return all spots when name filter is white characters.")
+    void searchSpotShouldReturnAllSpotsWhenNameFilterIsWhiteCharacters() {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         var responseEntity = restTemplate.exchange(
-                "http://localhost:" + port + "/public/spot/filter?minRating=2.0&maxRating=3.5",
+                "http://localhost:" + port + "/public/spot/search/map?name= ",
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<GeneralSpotDto>>() {
@@ -155,19 +155,18 @@ class SpotControllerWithServerStartupTest {
                 () -> assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "Status code should be OK"),
                 () -> assertNotNull(responseEntity.getBody(), "Response body should not be null"),
                 () -> assertFalse(responseEntity.getBody().isEmpty(), "Response body should not be empty"),
-                () -> assertThat(responseEntity.getBody()).hasSize(1)
+                () -> assertThat(responseEntity.getBody()).hasSize(3)
         );
     }
-
     @Test
-    @DisplayName("Filter spot should return all spots that match all filters.")
-    void filterSpotShouldReturnAllSpotsThatMatchAllFilters() {
+    @DisplayName("Search spot should return all spots when name filter is white characters.")
+    void searchSpotShouldReturnAllSpotsThatMatchFilterWhenNameFilterHasWhiteCharactersAtTheBeginning() {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         var responseEntity = restTemplate.exchange(
-                "http://localhost:" + port + "/public/spot/filter?name=p&minRating=2.0&maxRating=4.0",
+                "http://localhost:" + port + "/public/spot/search/map?name=  p",
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<GeneralSpotDto>>() {
@@ -183,34 +182,37 @@ class SpotControllerWithServerStartupTest {
     }
 
     @Test
-    @DisplayName("Filter spots should return 404 when no spots match name filter.")
-    void filterSpotsShouldReturn404WhenNoSpotsMatchNameFilter() {
+    @DisplayName("Search spot should return all spots when name filter is not provided.")
+    void searchSpotShouldReturnAllSpotsWhenNameFilterIsNotProvided() {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         var responseEntity = restTemplate.exchange(
-                "http://localhost:" + port + "/public/spot/filter?name=xxxxxxx&minRating=0.0&maxRating=5.0",
+                "http://localhost:" + port + "/public/spot/search/map",
                 HttpMethod.GET,
                 entity,
-                String.class
+                new ParameterizedTypeReference<List<GeneralSpotDto>>() {
+                }
         );
 
         assertAll("Response assertions",
-                () -> assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode(), "Status code should be 404"),
-                () -> assertThat(responseEntity.getBody().contains("No spots match filters!"))
+                () -> assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "Status code should be OK"),
+                () -> assertNotNull(responseEntity.getBody(), "Response body should not be null"),
+                () -> assertFalse(responseEntity.getBody().isEmpty(), "Response body should not be empty"),
+                () -> assertThat(responseEntity.getBody()).hasSize(3)
         );
     }
 
     @Test
-    @DisplayName("Filter spots should return 404 when no spots match rating filters.")
-    void filterSpotsShouldReturn404WhenNoSpotsMatchRatingFilters() {
+    @DisplayName("Search spots should return 404 when no spots match name filter.")
+    void searchSpotsShouldReturn404WhenNoSpotsMatchNameFilter() {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         var responseEntity = restTemplate.exchange(
-                "http://localhost:" + port + "/public/spot/filter?name=spot&minRating=0.0&maxRating=2.0",
+                "http://localhost:" + port + "/public/spot/search/map?name=xxxxxxx",
                 HttpMethod.GET,
                 entity,
                 String.class

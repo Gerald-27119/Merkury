@@ -2,6 +2,7 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.spot.SpotService;
+import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpotController {
 
+    private final static int DEFAULT_SEARCHED_SPOTS_PAGE_SIZE = 6;
+
     private final SpotService spotService;
 
     @GetMapping("/public/spot/{spotId}")
@@ -29,13 +32,18 @@ public class SpotController {
         return ResponseEntity.ok(spotService.getSpotById(spotId));
     }
 
-    @GetMapping("/public/spot/filter")
-    public ResponseEntity<List<GeneralSpotDto>> getFilteredSpots(
-            @RequestParam(defaultValue = "") String name,
-            @RequestParam(defaultValue = "0") Double minRating,
-            @RequestParam(defaultValue = "5") Double maxRating) throws SpotsNotFoundException {
-        log.info("getting filtered spots");
-        return ResponseEntity.ok(spotService.getFilteredSpots(name, minRating, maxRating));
+    @GetMapping("/public/spot/search/map")
+    public ResponseEntity<List<GeneralSpotDto>> getSearchedSpotsOnMap(
+            @RequestParam(defaultValue = "") String name) throws SpotsNotFoundException {
+        log.info("getting searched spots on map");
+        return ResponseEntity.ok(spotService.getSearchedSpotsOnMap(name));
+    }
+
+    @GetMapping("/public/spot/search/list")
+    public ResponseEntity<Page<SearchSpotDto>> getSearchedSpotsListPage(@RequestParam(defaultValue = "") String name,
+                                                                        @RequestParam(defaultValue = "0") int page) {
+        log.info("getting searched spots to list");
+        return ResponseEntity.ok(spotService.getSearchedSpotsListPage(name, PageRequest.of(page, DEFAULT_SEARCHED_SPOTS_PAGE_SIZE)));
     }
 
     @GetMapping("/public/spot/names")
@@ -43,6 +51,7 @@ public class SpotController {
         log.info("getting spots names");
         return ResponseEntity.ok(spotService.getFilteredSpotsNames(text));
     }
+
     @GetMapping("/spot/favourites")
     public ResponseEntity<Page<FavouriteSpotDto>> getUserFavouriteSpots(HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
         int defaultPageSize = 5;
