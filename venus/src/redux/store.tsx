@@ -4,7 +4,7 @@ import { notificationSlice } from "./notification.jsx";
 import { photoSlice } from "./photo.jsx";
 import { spotDetailsModalSlice } from "./spot-modal";
 import { photoGallerySlice } from "./photo-gallery.jsx";
-import { spotFiltersSlice } from "./spot-filters.jsx";
+import { spotFiltersSlice } from "./spot-filters";
 import { chatsSlice } from "./chats";
 import { mapSlice } from "./map";
 import { sidebarSlice } from "./sidebar";

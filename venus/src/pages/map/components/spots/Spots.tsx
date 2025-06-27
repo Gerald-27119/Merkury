@@ -17,16 +17,14 @@ import { spotDetailsModalAction } from "../../../../redux/spot-modal";
 const clickHandlers = new Map<number, () => void>();
 
 export default function Spots() {
-  const { name, minRating, maxRating } = useSelectorTyped(
-    (state) => state.spotFilters,
-  );
+  const { name } = useSelectorTyped((state) => state.spotFilters);
   const { zoomLevel } = useSelectorTyped((state) => state.map);
   const dispatch = useDispatchTyped();
   const { current: map } = useMap();
 
   const { data, error } = useQuery({
-    queryFn: () => fetchFilteredSpots(name, minRating, maxRating),
-    queryKey: ["spots", "filter", name, minRating, maxRating],
+    queryFn: () => fetchFilteredSpots(name),
+    queryKey: ["spots", "filter", name],
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
