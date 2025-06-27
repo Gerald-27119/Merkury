@@ -7,6 +7,8 @@ import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.PhotoSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
+import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
+import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.security.jwt.JwtManager;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +24,7 @@ public class UserDashboardService {
     private final ProfileService profileService;
     private final FriendsService friendsService;
     private final FollowersService followersService;
+    private final FavoriteSpotService favoriteSpotService;
     private final PhotosService photosService;
     private final JwtManager jwtManager;
 
@@ -59,6 +62,14 @@ public class UserDashboardService {
 
     public void editUserFollowed(HttpServletRequest request, String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
         followersService.editUserFollowed(getCurrentUsername(request), followedUsername, type);
+    }
+
+    public List<FavoriteSpotDto> getUserFavoritesSpots(HttpServletRequest request, FavoriteSpotsListType type){
+       return favoriteSpotService.getUserFavoritesSpots(getCurrentUsername(request), type);
+    }
+
+    public void removeFavoriteSpot(HttpServletRequest request, FavoriteSpotsListType type, Long spotId) throws FavoriteSpotNotExistException {
+        favoriteSpotService.removeFavoriteSpot(getCurrentUsername(request), type, spotId);
     }
 
     public List<DatedPhotosGroupDto> getSortedUserPhotos(HttpServletRequest request, PhotoSortType type, LocalDate from, LocalDate to) throws UnsupportedPhotoSortTypeException {

@@ -11,6 +11,7 @@ import com.merkury.vulcanus.model.entities.*;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.repositories.*;
 import com.merkury.vulcanus.utils.PolygonAreaCalculator;
+import com.merkury.vulcanus.utils.PolygonCenterPointCalculator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -598,6 +599,7 @@ public class PopulateDbsService {
             spot.getSpotComments().addAll(commentLists.get(i));
             spot.getImages().addAll(galleries.get(i));
             spot.setArea(PolygonAreaCalculator.calculateArea(spot.getBorderPoints().toArray(new BorderPoint[0])));
+            spot.setCenterPoint(PolygonCenterPointCalculator.calculateCenterPoint(spot.getBorderPoints()));
 
             var comments = commentLists.get(i);
             var rating = comments.stream()
