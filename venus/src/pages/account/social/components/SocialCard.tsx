@@ -21,8 +21,7 @@ interface SocialCardProps {
 export default function SocialCard({ friend, type }: SocialCardProps) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
-    useBoolean(false);
+  const [isModalOpen, openModal, closeModal] = useBoolean(false);
 
   const { mutateAsync: mutateAsyncFriends } = useMutation({
     mutationFn: editUserFriends,
@@ -86,16 +85,12 @@ export default function SocialCard({ friend, type }: SocialCardProps) {
           <BiMessageRounded aria-label="messageFriendCardIcon" />
         </SocialButton>
         {type !== SocialListType.FOLLOWERS && (
-          <SocialButton onClick={setIsModalOpenToTrue}>
+          <SocialButton onClick={openModal}>
             <FaUserMinus aria-label="userRemoveFriendCardIcon" />
           </SocialButton>
         )}
       </div>
-      <Modal
-        onClose={setIsModalOpenToFalse}
-        onClick={handleRemove}
-        isOpen={isModalOpen}
-      >
+      <Modal onClose={closeModal} onClick={handleRemove} isOpen={isModalOpen}>
         <h2 className="text-xl text-shadow-md">
           Are you sure you want to remove {friend.username} as
           {type === SocialListType.FRIENDS ? " a friend" : " a follower"}?

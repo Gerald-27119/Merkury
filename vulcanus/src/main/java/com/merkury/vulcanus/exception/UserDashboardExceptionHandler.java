@@ -46,4 +46,10 @@ public class UserDashboardExceptionHandler {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+
+    @ExceptionHandler(FavoriteSpotNotExistException.class)
+    public ResponseEntity<String> handleFavoriteSpotNotExistException(FavoriteSpotNotExistException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }

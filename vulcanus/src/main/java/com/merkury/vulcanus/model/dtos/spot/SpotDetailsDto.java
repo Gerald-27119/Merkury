@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.model.dtos.spot;
 
 import com.merkury.vulcanus.model.dtos.ImgDto;
-import com.merkury.vulcanus.model.dtos.spot.weather.WeatherApiCallCordsDto;
+import com.merkury.vulcanus.model.dtos.spot.coordinates.SpotCoordinatesDto;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 
@@ -29,6 +29,6 @@ public record SpotDetailsDto(@Positive(message = "ID must be a positive number."
                              @NotEmpty(message = "Photos list cannot be empty.")
                              List<ImgDto> photos,
                              @NotNull(message = "Coordinates cannot be empty.")
-                             WeatherApiCallCordsDto weatherApiCallCoords,
+                             SpotCoordinatesDto weatherApiCallCoords,
                              Set<SpotTagDto> tags) {
 }

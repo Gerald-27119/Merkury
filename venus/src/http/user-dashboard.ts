@@ -1,6 +1,8 @@
 import axios from "axios";
 import UserProfile from "../model/interface/account/profile/userProfile";
 import { Social } from "../model/interface/account/social/social";
+import { FavoriteSpot } from "../model/interface/account/favorite-spots/favoriteSpot";
+import { FavoriteSpotsListType } from "../model/enum/account/favorite-spots/favoriteSpotsListType";
 import { UserRelationEditType } from "../model/enum/account/social/userRelationEditType";
 import ExtendedUserProfile from "../model/interface/account/profile/extendedUserProfile";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
@@ -79,6 +81,36 @@ export async function editUserFollowed({
   return (
     await axios.patch(
       `${BASE_URL}/user-dashboard/followed?followedUsername=${followedUsername}&type=${type}`,
+      {},
+      {
+        withCredentials: true,
+      },
+    )
+  ).data;
+}
+
+export async function getUserFavoriteSpots(
+  type: FavoriteSpotsListType,
+): Promise<FavoriteSpot[]> {
+  return (
+    await axios.get(`${BASE_URL}/user-dashboard/favorite-spots?type=${type}`, {
+      withCredentials: true,
+    })
+  ).data;
+}
+
+interface RemoveFavoriteSpotProps {
+  type: FavoriteSpotsListType;
+  spotId: number;
+}
+
+export async function removeFavoriteSpot({
+  type,
+  spotId,
+}: RemoveFavoriteSpotProps): Promise<void> {
+  return (
+    await axios.patch(
+      `${BASE_URL}/user-dashboard/favorite-spots?type=${type}&spotId=${spotId}`,
       {},
       {
         withCredentials: true,
