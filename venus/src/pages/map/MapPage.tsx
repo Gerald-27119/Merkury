@@ -8,6 +8,7 @@ import useSelectorTyped from "../../hooks/useSelectorTyped";
 import SpotDetails from "../spot/SpotDetails";
 import { AnimatePresence } from "framer-motion";
 import SpotsNameSearchBar from "./components/spot-search/SpotsNameSearchBar";
+import SearchedSpots from "../spot/SearchedSpots";
 
 type Position = {
   longitude: number;
@@ -26,6 +27,10 @@ export default function MapPage() {
 
   const showSpotDetailsModal = useSelectorTyped(
     (state) => state.spotDetails.showModal,
+  );
+
+  const showSearchedSpotsList = useSelectorTyped(
+    (state) => state.searchedSpotsListModal.showList,
   );
 
   return (
@@ -48,6 +53,7 @@ export default function MapPage() {
       <SpotsNameSearchBar />
       <AnimatePresence>
         {showSpotDetailsModal && <SpotDetails />}
+        {showSearchedSpotsList && <SearchedSpots />}
       </AnimatePresence>
       <div className="absolute right-1 bottom-1 flex flex-col items-center space-y-2 sm:right-2 sm:bottom-2 xl:right-5 xl:bottom-5">
         <UserLocationPanel />

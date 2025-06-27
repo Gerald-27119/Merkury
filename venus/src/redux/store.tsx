@@ -8,6 +8,11 @@ import { spotFiltersSlice } from "./spot-filters";
 import { chatsSlice } from "./chats";
 import { mapSlice } from "./map";
 import { sidebarSlice } from "./sidebar";
+import { searchedSpotListModalSlice } from "./searched-spot-list-modal";
+import {
+  searchedSpotsSlice,
+  searchedSpotsSliceActions,
+} from "./searched-spots";
 
 const store = configureStore({
   reducer: {
@@ -15,11 +20,13 @@ const store = configureStore({
     notification: notificationSlice.reducer,
     photo: photoSlice.reducer,
     spotDetails: spotDetailsModalSlice.reducer,
+    searchedSpotsListModal: searchedSpotListModalSlice.reducer,
     photoGallery: photoGallerySlice.reducer,
     spotFilters: spotFiltersSlice.reducer,
     chats: chatsSlice.reducer,
     map: mapSlice.reducer,
     sidebar: sidebarSlice.reducer,
+    searchedSpots: searchedSpotsSlice.reducer,
   },
 });
 
