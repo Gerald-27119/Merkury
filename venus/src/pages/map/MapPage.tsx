@@ -7,6 +7,7 @@ import { mapAction } from "../../redux/map";
 import useSelectorTyped from "../../hooks/useSelectorTyped";
 import SpotDetails from "../spot/SpotDetails";
 import { AnimatePresence } from "framer-motion";
+import SpotsNameSearchBar from "./components/spot-search/SpotsNameSearchBar";
 
 type Position = {
   longitude: number;
@@ -44,6 +45,7 @@ export default function MapPage() {
       attributionControl={false}
       onZoomEnd={handleZoomEnd}
     >
+      <SpotsNameSearchBar />
       <AnimatePresence>
         {showSpotDetailsModal && <SpotDetails />}
       </AnimatePresence>

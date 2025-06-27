@@ -15,7 +15,7 @@ export const spotFiltersSlice = createSlice({
   reducers: {
     setFilters(state, action) {
       state.name = action.payload.name;
-      state.sorting = action.payload.sorting;
+      state.sorting = action.payload.sorting ?? "none";
     },
   },
 });
