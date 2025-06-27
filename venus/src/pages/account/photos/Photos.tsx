@@ -8,6 +8,9 @@ import { useEffect, useState } from "react";
 import DatedPhotosGroup from "../../../model/interface/account/photos/datedPhotosGroup";
 import { Dayjs } from "dayjs";
 import SortDropdown from "./components/SortDropdown";
+import AccountTitle from "../components/AccountTitle";
+import AccountWrapper from "../components/AccountWrapper";
+import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
 
 export default function Photos() {
   const [optionType, setOptionType] = useState(PhotosSortType.DATE_INCREASE);
@@ -47,9 +50,9 @@ export default function Photos() {
   };
 
   return (
-    <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText flex min-h-full w-full flex-col space-y-8 p-10 pt-17 xl:pt-10">
+    <AccountWrapper variant={AccountWrapperType.PHOTOS}>
       <div className="flex flex-wrap items-center justify-between space-y-2 space-x-3 lg:mx-27">
-        <h1 className="text-4xl font-semibold capitalize">Photos</h1>
+        <AccountTitle text="Photos" />
         <div className="text-darkText flex flex-wrap space-y-3 space-x-3 md:space-y-0">
           <SortDropdown onSelectType={handleSelectType} />
           <div className="bg-violetDark flex h-15 items-center space-x-3 rounded-full px-2.5 py-1 md:h-12">
@@ -76,6 +79,6 @@ export default function Photos() {
           </div>
         ))}
       </div>
-    </div>
+    </AccountWrapper>
   );
 }

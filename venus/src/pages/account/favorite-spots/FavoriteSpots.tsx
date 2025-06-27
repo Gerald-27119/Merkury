@@ -7,6 +7,8 @@ import { FavoriteSpotsListType } from "../../../model/enum/account/favorite-spot
 import { useState } from "react";
 import Button from "../../../components/buttons/Button";
 import { ButtonVariantType } from "../../../model/enum/buttonVariantType";
+import AccountWrapper from "../components/AccountWrapper";
+import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
 
 const menuTypes = [
   { label: "All", type: FavoriteSpotsListType.ALL },
@@ -32,7 +34,7 @@ export default function FavoriteSpots() {
   };
 
   return (
-    <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText h-full w-full space-y-10 p-10 pt-17">
+    <AccountWrapper variant={AccountWrapperType.FAVORITE_SPOTS}>
       <AccountTitle text="spots lists" />
       <div className="flex max-w-full flex-col items-center gap-5 lg:flex-row xl:mx-27">
         {menuTypes.map((m) => (
@@ -66,6 +68,6 @@ export default function FavoriteSpots() {
           </p>
         )}
       </div>
-    </div>
+    </AccountWrapper>
   );
 }
