@@ -52,7 +52,7 @@ export const userLoggedLinks: SidebarItemType[] = [
         type: "link",
       },
       {
-        to: "/spots",
+        to: "/account/favorite-spots",
         name: "spots",
         type: "link",
       },

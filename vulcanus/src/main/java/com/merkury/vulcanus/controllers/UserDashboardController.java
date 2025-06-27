@@ -5,8 +5,10 @@ import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
-import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
+import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
+import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -78,5 +80,16 @@ public class UserDashboardController {
     public ResponseEntity<Void> editUserFollowed(HttpServletRequest request, @RequestParam String followedUsername, @RequestParam UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
         userDashboardService.editUserFollowed(request, followedUsername, type);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/user-dashboard/favorite-spots")
+    public ResponseEntity<List<FavoriteSpotDto>> getAllUserFavoritesSpots(HttpServletRequest request, @RequestParam FavoriteSpotsListType type){
+        return ResponseEntity.ok(userDashboardService.getUserFavoritesSpots(request, type));
+    }
+
+    @PatchMapping("/user-dashboard/favorite-spots")
+    public ResponseEntity<Void> removeFavoriteSpot(HttpServletRequest request, @RequestParam FavoriteSpotsListType type, @RequestParam Long spotId) throws FavoriteSpotNotExistException {
+        userDashboardService.removeFavoriteSpot(request, type, spotId);
+       return ResponseEntity.ok().build();
     }
 }

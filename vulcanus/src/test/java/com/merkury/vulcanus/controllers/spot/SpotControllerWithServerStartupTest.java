@@ -3,6 +3,7 @@ package com.merkury.vulcanus.controllers.spot;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.entities.Spot;
+import com.merkury.vulcanus.model.repositories.FavoriteSpotRepository;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,6 +43,9 @@ class SpotControllerWithServerStartupTest {
 
     @Autowired
     private SpotRepository spotRepository;
+
+    @Autowired
+    private FavoriteSpotRepository favoriteSpotRepository;
 
     private static final int REDIS_PORT = 6379;
     private static final String REDIS_IMAGE_NAME = "redis:6-alpine";
@@ -84,6 +88,7 @@ class SpotControllerWithServerStartupTest {
                 .borderPoints(borderPoints)
                 .build();
 
+        favoriteSpotRepository.deleteAll();
         spotRepository.deleteAll();
         spotRepository.save(spot1);
         spotRepository.save(spot2);

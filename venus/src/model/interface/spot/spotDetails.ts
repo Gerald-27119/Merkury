@@ -1,5 +1,5 @@
 import Img from "../img";
-import WeatherApiCallCoords from "./weather/weatherApiCallCoords";
+import SpotCoordinatesDto from "./coordinates/spotCoordinatesDto";
 import SpotTagDto from "./tag/spotTagDto";
 
 export default interface SpotDetails {
@@ -12,6 +12,6 @@ export default interface SpotDetails {
   rating: number;
   ratingCount: number;
   photos: Img[];
-  weatherApiCallCoords: WeatherApiCallCoords;
+  weatherApiCallCoords: SpotCoordinatesDto;
   tags: SpotTagDto[];
 }

@@ -5,6 +5,7 @@ import { SocialDto } from "../../../model/interface/account/social/socialDto";
 import useSelectorTyped from "../../../hooks/useSelectorTyped";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { socialAction } from "../../../redux/social";
+import AccountTitle from "../components/AccountTitle";
 
 interface SocialProps {
   friends: SocialDto[];
@@ -46,9 +47,7 @@ export default function Social({
 
   return (
     <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText flex h-full w-full flex-col space-y-8 p-10 pt-17 xl:pt-10">
-      <h1 className="text-4xl font-semibold capitalize lg:ml-27">
-        social list
-      </h1>
+      <AccountTitle text="social list" />
       <div className="flex gap-3 text-2xl lg:mx-27">
         {menuTypes.map(({ label, type: btnType }) => (
           <SocialButton

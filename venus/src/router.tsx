@@ -8,9 +8,9 @@ import Layout from "./layout/Layout.jsx";
 import Forum from "./pages/forum/Forum";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
-import FavouriteSpots from "./pages/favourite-spots/FavouriteSpots.jsx";
 import MapPage from "./pages/map/MapPage";
 import ChatsPage from "./pages/chats/ChatsPage";
+import FavoriteSpots from "./pages/account/favorite-spots/FavoriteSpots";
 import UserOwnProfile from "./pages/account/profile/UserOwnProfile";
 import ProfileForViewer from "./pages/account/profile/ProfileForViewer";
 import UserOwnSocial from "./pages/account/social/UserOwnSocial";
@@ -44,6 +44,14 @@ const router = createBrowserRouter([
           {
             path: "profile/:username",
             element: <ProfileForViewer />,
+          },
+          {
+            path: "favorite-spots",
+            element: (
+              <ProtectedRoute>
+                <FavoriteSpots />
+              </ProtectedRoute>
+            ),
           },
           {
             path: "friends",
@@ -84,14 +92,6 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <EditUserData />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "favourite-spots",
-        element: (
-          <ProtectedRoute>
-            <FavouriteSpots />
           </ProtectedRoute>
         ),
       },

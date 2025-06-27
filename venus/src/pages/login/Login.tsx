@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import FormInput from "../../components/form/FormInput";
 import { loginUser } from "../../http/account.js";
@@ -14,6 +14,7 @@ const signInFields = ["username", "password"];
 
 function Login() {
   const dispatch = useDispatchTyped();
+  const navigate = useNavigate();
 
   const { mutateAsync, isSuccess, error } = useMutation({
     mutationFn: loginUser,
@@ -28,6 +29,7 @@ function Login() {
       username: enteredValue.username,
       password: enteredValue.password,
     });
+    navigate(-1);
   };
 
   useEffect(() => {

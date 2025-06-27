@@ -36,6 +36,7 @@ public class Spot {
     private String street;
     private String description;
     private Double area;
+    private BorderPoint centerPoint;
 
     /**
      * A list of {@link BorderPoint} objects that define the boundary points of the spot.
@@ -68,6 +69,9 @@ public class Spot {
 
     @Builder.Default
     private int ratingCount = 0;
+
+    @Builder.Default
+    private int viewsCount = 0;
 
     @Builder.Default
     @EqualsAndHashCode.Exclude
