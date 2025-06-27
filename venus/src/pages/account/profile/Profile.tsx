@@ -72,7 +72,11 @@ export default function Profile({
             <MostPopularImage image={image} key={image.id} />
           ))}
           {userData?.mostPopularPhotos?.length === 0 && (
-            <p className="text-center text-lg">You haven't added any photos.</p>
+            <p className="text-center text-lg">
+              {username
+                ? "This user hasn't added any photos."
+                : "You haven't added any photos."}
+            </p>
           )}
         </div>
       </div>
