@@ -43,8 +43,8 @@ public class PhotosService {
 
     private Comparator<DatedPhotosGroupDto> getComparator(PhotoSortType type) throws UnsupportedPhotoSortTypeException {
         return switch (type) {
-            case DATE_INCREASE -> Comparator.comparing(DatedPhotosGroupDto::date).reversed();
-            case DATE_DECREASE -> Comparator.comparing(DatedPhotosGroupDto::date);
+            case DATE_INCREASE -> Comparator.comparing(DatedPhotosGroupDto::date);
+            case DATE_DECREASE -> Comparator.comparing(DatedPhotosGroupDto::date).reversed();
             default -> throw new UnsupportedPhotoSortTypeException(type);
         };
     }
