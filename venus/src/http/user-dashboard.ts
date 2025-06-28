@@ -102,14 +102,10 @@ export async function getSortedUserPhotos({
   from,
   to,
 }: GetSortedUserPhotosProps): Promise<DatedPhotosGroup[]> {
-  const params = new URLSearchParams({ type });
-
-  if (from) params.append("from", from);
-  if (to) params.append("to", to);
-
   return (
-    await axios.get(`${BASE_URL}/user-dashboard/photos?${params}`, {
+    await axios.get(`${BASE_URL}/user-dashboard/photos`, {
       withCredentials: true,
+      params: { type, from, to },
     })
   ).data;
 }
