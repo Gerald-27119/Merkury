@@ -26,7 +26,7 @@ export default function Photos() {
   });
 
   useEffect(() => {
-    const test = async () => {
+    const fetchPhotos = async () => {
       const result = await mutateAsync({
         type: optionType,
         from: searchDate.from,
@@ -35,7 +35,7 @@ export default function Photos() {
       setData(result);
     };
 
-    test();
+    fetchPhotos();
   }, [searchDate.from, searchDate.to, optionType]);
 
   const handleSelectType = (type: PhotosSortType) => {
