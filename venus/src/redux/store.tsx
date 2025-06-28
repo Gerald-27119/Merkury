@@ -8,6 +8,7 @@ import { spotFiltersSlice } from "./spot-filters.jsx";
 import { chatsSlice } from "./chats";
 import { mapSlice } from "./map";
 import { sidebarSlice } from "./sidebar";
+import { spotCommentSlice } from "./spot-comments";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     chats: chatsSlice.reducer,
     map: mapSlice.reducer,
     sidebar: sidebarSlice.reducer,
+    spotComments: spotCommentSlice.reducer,
   },
 });
 
