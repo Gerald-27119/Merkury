@@ -1,10 +1,12 @@
 import {
   QueryClient,
   QueryClientProvider,
+  useInfiniteQuery,
   useQuery,
 } from "@tanstack/react-query";
 import { configureStore } from "@reduxjs/toolkit";
 import { spotDetailsModalSlice } from "../../redux/spot-modal";
+import { spotCommentSlice } from "../../redux/spot-comments";
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
@@ -25,13 +27,20 @@ const renderSpotDetails = () => {
     reducer: {
       spotDetails: spotDetailsModalSlice.reducer,
       sidebar: sidebarSlice.reducer,
+      spotComments: spotCommentSlice.reducer,
     },
-    spotDetails: {
-      showModal: true,
-      spotId: 1,
-    },
-    sidebar: {
-      isOpen: false,
+    preloadedState: {
+      spotDetails: {
+        showModal: true,
+        spotId: 1,
+      },
+      sidebar: {
+        isOpen: false,
+      },
+      spotComments: {
+        ids: [],
+        entities: {},
+      },
     },
   });
 
@@ -63,6 +72,7 @@ const mockSpotDetailsData = {
       likes: 10,
       views: 10,
       author: "Author",
+      id: 1,
     },
     {
       img: "photo2.jpg",
@@ -71,6 +81,7 @@ const mockSpotDetailsData = {
       likes: 20,
       views: 20,
       author: "Author",
+      id: 2,
     },
   ],
   weatherApiCallCoords: {

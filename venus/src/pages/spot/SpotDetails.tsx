@@ -14,6 +14,7 @@ import { MdLocationPin } from "react-icons/md";
 import SpotAddressInfo from "./components/spot-info/SpotAddressInfo";
 import SpotActionButtonsContainer from "./components/buttons/SpotActionButtonsContainer";
 import { motion } from "framer-motion";
+import SpotCommentsList from "./components/comments/SpotCommentsList";
 
 const slideVariants = {
   hidden: { x: "-100%", opacity: 0 },
@@ -86,6 +87,7 @@ export default function SpotDetails() {
             />
             <PhotoGallery photos={data.photos} />
             <SpotActionButtonsContainer spotId={spotId} />
+            <SpotCommentsList spotId={data.id} />
           </div>
         )}
       </motion.div>
