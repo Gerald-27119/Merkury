@@ -5,6 +5,7 @@ import { fetchSpotsNames } from "../../../../http/spots-data";
 import useDebounce from "../../../../hooks/useDebounce.jsx";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { FaSearch } from "react-icons/fa";
+import { searchedSpotListModalAction } from "../../../../redux/searched-spot-list-modal";
 
 export default function SpotsNameSearchBar() {
   const [searchSpotName, setSearchSpotName] = useState<string>("");
@@ -41,6 +42,7 @@ export default function SpotsNameSearchBar() {
     queryClient.invalidateQueries({
       queryKey: ["spots", "filter", debounceSpotNamesHints],
     });
+    dispatch(searchedSpotListModalAction.handleOpenList());
   };
 
   const handleHintClick = (hint: string) => {

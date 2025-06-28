@@ -14,9 +14,14 @@ export async function fetchSearchedSpotsPage(
   page: number,
   sorting: string,
 ): Promise<SearchSpotDtoPage> {
-  return await axios.get(
+  console.log(
     `${BASE_URL}/public/spot/search/list?name=${name}&page=${page}&sorting=${sorting}`,
   );
+  return (
+    await axios.get(
+      `${BASE_URL}/public/spot/search/list?name=${name}&page=${page}&sorting=${sorting}`,
+    )
+  ).data;
 }
 
 export async function fetchSpotsNames(name: string): Promise<string[]> {
