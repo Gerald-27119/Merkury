@@ -14,9 +14,6 @@ export async function fetchSearchedSpotsPage(
   page: number,
   sorting: string,
 ): Promise<SearchSpotDtoPage> {
-  console.log(
-    `${BASE_URL}/public/spot/search/list?name=${name}&page=${page}&sorting=${sorting}`,
-  );
   return (
     await axios.get(
       `${BASE_URL}/public/spot/search/list?name=${name}&page=${page}&sorting=${sorting}`,

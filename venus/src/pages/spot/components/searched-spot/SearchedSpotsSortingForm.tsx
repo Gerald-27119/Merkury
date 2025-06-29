@@ -1,25 +1,107 @@
 import { RiArrowDownSLine } from "react-icons/ri";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import { spotFiltersAction } from "../../../../redux/spot-filters";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  searchedSpotsSlice,
+  searchedSpotsSliceActions,
+} from "../../../../redux/searched-spots";
+
+type Option = {
+  value: string;
+  label: string;
+};
+
+const options: Option[] = [
+  { value: "none", label: "Default" },
+  { value: "byRatingAsc", label: "Rating ascending" },
+  { value: "byRatingDesc", label: "Rating descending" },
+  { value: "byRatingCountAsc", label: "Rating count ascending" },
+  { value: "byRatingCountDesc", label: "Rating count descending" },
+];
+
+const slideVariants = {
+  hidden: { y: "-100%", opacity: 0 },
+  visible: { y: 0, opacity: 1 },
+  exit: { y: "-100%", opacity: 0 },
+};
 
 export default function SearchedSpotsSortingForm() {
+  const [selectedSorting, setSelectedSorting] = useState<Option>(options[0]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+
+  const { name, sorting } = useSelectorTyped((state) => state.spotFilters);
+
+  const dispatch = useDispatchTyped();
+
+  const queryClient = useQueryClient();
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prevState) => !prevState);
+  };
+
+  const handleSelectSorting = async (opt: Option) => {
+    setSelectedSorting(opt);
+    setIsDropdownOpen(false);
+  };
+
+  useEffect(() => {
+    if (selectedSorting.value != sorting) {
+      dispatch(
+        spotFiltersAction.setFilters({
+          name: name,
+          sorting: selectedSorting.value,
+        }),
+      );
+      dispatch(searchedSpotsSliceActions.clearSearchedSpots());
+      queryClient.removeQueries({
+        queryKey: ["spots", name, sorting],
+      });
+    }
+  }, [selectedSorting, name, sorting, dispatch]);
+
   return (
-    <form className="bg-violetLight mb-5 w-80 rounded-2xl px-5 py-1 text-base font-semibold">
-      <div className="flex items-center">
-        <label htmlFor="searched-spots-sorting">Sort:</label>
-        <select
-          name="searched-spots-sorting"
-          id="searched-spots-sorting"
-          className="ml-auto flex cursor-pointer appearance-none items-center justify-between text-right text-base"
+    <div className="relative flex flex-col">
+      <div
+        className={`bg-violetLight flex w-86 justify-between ${isDropdownOpen ? "rounded-t-2xl rounded-l-2xl" : "rounded-2xl"} px-5 py-1 text-lg`}
+      >
+        <p className="font-semibold text-white">Sort</p>
+        <div
+          className="flex cursor-pointer items-center"
+          onClick={toggleDropdown}
         >
-          <option value="none" selected>
-            Default
-          </option>
-          <option value="byRatingAsc">Rating ascending</option>
-          <option value="byRatingDesc">Rating descending</option>
-          <option value="byRatingCountAsc">Rating count ascending</option>
-          <option value="byRatingCountDesc">Rating count descending</option>
-        </select>
-        <RiArrowDownSLine className="cursor-pointer text-center text-xl" />
+          <p className="mr-1">{selectedSorting.label}</p>
+          <RiArrowDownSLine
+            className={`text-xl transition-transform duration-200 ${
+              isDropdownOpen ? "rotate-180 transform" : ""
+            }`}
+          />
+        </div>
       </div>
-    </form>
+      {isDropdownOpen && (
+        <motion.ul
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={slideVariants}
+          transition={{ duration: 0.3 }}
+          className="bg-violetLight absolute top-[2.28rem] right-0 z-10 mb-auto ml-auto w-fit overflow-hidden rounded-b-2xl pt-2 text-lg"
+        >
+          {options.map((opt: Option) => (
+            <li
+              key={opt.value}
+              value={opt.value}
+              className="hover:bg-violetBright cursor-pointer px-3 last:pb-2"
+              onClick={() => handleSelectSorting(opt)}
+            >
+              {opt.label}
+            </li>
+          ))}
+        </motion.ul>
+      )}
+    </div>
   );
 }

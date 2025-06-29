@@ -6,10 +6,7 @@ import {
 import SearchSpotDto from "../model/interface/spot/searchSpotDto";
 import { RootState } from "./store";
 
-export const searchedSpotsAdapter = createEntityAdapter<SearchSpotDto>({
-  sortComparer: (a: SearchSpotDto, b: SearchSpotDto) =>
-    a.id.toString().localeCompare(b.id.toString()),
-});
+export const searchedSpotsAdapter = createEntityAdapter<SearchSpotDto>();
 
 const initialState = searchedSpotsAdapter.getInitialState();
 
