@@ -103,8 +103,11 @@ export default function SearchedSpotsList() {
         transition={{ duration: 0.3 }}
         className="dark:bg-violetDarker dark:text-darkText absolute top-10 left-0 z-1 flex h-full w-[20rem] flex-col items-center px-6 py-2 text-lg xl:top-0 xl:left-17 xl:w-[27rem] xl:text-xl"
       >
-        <HiX className="cursor-pointer" onClick={handleClickCloseList} />
-        <h1 className="mb-6 text-2xl font-semibold">Spots matching criteria</h1>
+        <HiX
+          className="ml-auto cursor-pointer text-2xl"
+          onClick={handleClickCloseList}
+        />
+        <h1 className="mb-6 text-xl font-semibold">Spots matching criteria</h1>
         <div
           ref={containerRef}
           className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex w-full flex-col items-center overflow-y-auto rounded-b-xl lg:h-[30rem] [@media(max-height:1080px)]:h-[20rem]"

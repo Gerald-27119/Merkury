@@ -74,6 +74,10 @@
   font-size: 25px;
 }
 
+.custom-rate-searched-spot .ant-rate-star {
+  font-size: 20px;
+}
+
 @media (max-width: 768px) {
   .custom-rate .ant-rate-star {
     font-size: 20px;
@@ -81,5 +85,9 @@
 }
 
 .custom-rate .ant-rate-star:not(.ant-rate-star-full) .ant-rate-star-second {
+  color: #ffffff;
+}
+
+.custom-rate-searched-spot .ant-rate-star:not(.ant-rate-star-full) .ant-rate-star-second {
   color: #ffffff;
 }
