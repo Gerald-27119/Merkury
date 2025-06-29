@@ -13,7 +13,8 @@ import {
   searchedSpotsSelectors,
   searchedSpotsSliceActions,
 } from "../../redux/searched-spots";
-import SearchedSpotInfo from "./components/SearchedSpotInfo";
+import SearchedSpotInfo from "./components/searched-spot/SearchedSpotInfo";
+import SearchedSpotsSortingForm from "./components/searched-spot/SearchedSpotsSortingForm";
 
 const slideVariants = {
   hidden: { x: "-100%", opacity: 0 },
@@ -108,14 +109,13 @@ export default function SearchedSpotsList() {
           onClick={handleClickCloseList}
         />
         <h1 className="mb-6 text-xl font-semibold">Spots matching criteria</h1>
+        <SearchedSpotsSortingForm />
         <div
           ref={containerRef}
-          className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex w-full flex-col items-center overflow-y-auto rounded-b-xl lg:h-[30rem] [@media(max-height:1080px)]:h-[20rem]"
+          className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex w-full flex-col items-center overflow-y-auto rounded-b-xl lg:h-[30rem] [@media(max-height:1080px)]:h-[50rem]"
         >
           {isLoading && <LoadingSpinner />}
           {isError && <p>Failed to load searched spots data.</p>}
-          {/*TODO: */}
-          {/*<SearchedSpotsSortingForm />*/}
           {searchedSpots?.length === 0 ? (
             <p className="mt-20 text-center text-2xl font-semibold">
               No spots match criteria!

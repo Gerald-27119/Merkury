@@ -1,6 +1,6 @@
-import SearchSpotDto from "../../../model/interface/spot/searchSpotDto";
+import SearchSpotDto from "../../../../model/interface/spot/searchSpotDto";
 import { ConfigProvider, Rate } from "antd";
-import SpotTag from "./tag/SpotTag";
+import SpotTag from "../tag/SpotTag";
 
 type SearchedSpotInfoProps = {
   spot: SearchSpotDto;
