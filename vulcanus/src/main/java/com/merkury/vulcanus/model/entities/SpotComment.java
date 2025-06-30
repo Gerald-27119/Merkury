@@ -23,7 +23,7 @@ public class SpotComment extends Comment {
     private Double rating = 0.0;
 
     @Builder.Default
-    private LocalDateTime addDate = LocalDateTime.now();
+    private LocalDateTime publishDate = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "spot_id")

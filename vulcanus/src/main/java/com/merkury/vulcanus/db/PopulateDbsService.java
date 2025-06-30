@@ -487,7 +487,7 @@ public class PopulateDbsService {
                         .text("Podobało mi się, choć były drobne niedociągnięcia.")
                         .rating(4.5)
                         .spot(spot10)
-                        .publishDate(LocalDateTime.of(2024, 6, 20, 17, 35))
+                        .publishDate(LocalDateTime.of(2024, 6, 19, 17, 35))
                         .author(user)
                         .build()
         ));
