@@ -70,6 +70,7 @@ export default function SpotsNameSearchBar() {
           <input
             className="dark:placeholder-darkText w-full focus:outline-none"
             id="name"
+            data-testid="search-input"
             autoComplete="off"
             type="text"
             placeholder="Search on map"
@@ -78,7 +79,7 @@ export default function SpotsNameSearchBar() {
             onChange={handleNameChange}
           />
           <button type="submit" className="cursor-pointer text-xl">
-            <FaSearch />
+            <FaSearch data-testid="search-icon" />
           </button>
         </div>
         {showHints && spotsNames.length > 0 && (
