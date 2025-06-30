@@ -4,10 +4,13 @@ import jakarta.validation.constraints.*;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 public record SpotCommentDto(@Positive(message = "ID must be a positive number.")
                              Long id,
+                             @NotBlank(message = "Author cannot be empty.")
+                             SpotCommentAuthorDto author,
                              @NotBlank(message = "Text cannot be empty.")
                              String text,
                              @Min(value = 0, message = "Rating count cannot be less than 0.")
@@ -20,12 +23,11 @@ public record SpotCommentDto(@Positive(message = "ID must be a positive number."
                              @PastOrPresent(message = "PublishDate must be in the past or present.")
                              @NotNull(message = "PublishDate cannot be null.")
                              LocalDateTime publishDate,
-                             @NotBlank(message = "Author cannot be empty.")
-                             String author,
-                             @NotNull(message = "isAuthor cannot be empty.")
-                             Boolean isAuthor,
                              @NotNull(message = "isUpVoted cannot be empty.")
                              Boolean isUpVoted,
                              @NotNull(message = "isDownVoted cannot be empty.")
-                             Boolean isDownVoted) {
+                             Boolean isDownVoted,
+                             @Min(value = 0, message = "Number of photos cannot be less than 0.")
+                             Integer numberOfPhotos,
+                             List<SpotCommentPhotoDto> photoList) {
 }

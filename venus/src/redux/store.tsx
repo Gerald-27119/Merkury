@@ -9,6 +9,7 @@ import { chatsSlice } from "./chats";
 import { mapSlice } from "./map";
 import { sidebarSlice } from "./sidebar";
 import { socialSlice } from "./social";
+import { spotCommentSlice } from "./spot-comments";
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     map: mapSlice.reducer,
     sidebar: sidebarSlice.reducer,
     social: socialSlice.reducer,
+    spotComments: spotCommentSlice.reducer,
   },
 });
 
