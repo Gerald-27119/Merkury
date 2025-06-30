@@ -13,7 +13,6 @@ export default function SearchedSpotInfo({ spot }: SearchedSpotInfoProps) {
   const { current: map } = useMap();
 
   const handleClickSpot = (coordinates: BorderPoint) => {
-    console.log(coordinates);
     map?.flyTo({
       center: [coordinates.y, coordinates.x],
       zoom: 15,
