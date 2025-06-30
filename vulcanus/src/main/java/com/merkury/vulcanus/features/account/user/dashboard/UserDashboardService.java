@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
+import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
@@ -22,6 +23,7 @@ public class UserDashboardService {
     private final FriendsService friendsService;
     private final FollowersService followersService;
     private final FavoriteSpotService favoriteSpotService;
+    private final CommentsService commentsService;
     private final JwtManager jwtManager;
 
     public UserProfileDto getUserOwnProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
@@ -30,7 +32,7 @@ public class UserDashboardService {
 
     public ExtendedUserProfileDto getUserProfileForViewer(HttpServletRequest request, String targetUsername) throws UserNotFoundByUsernameException {
         String usernameFromCookie = null;
-        if (jwtManager.getJWTFromCookie(request) != null){
+        if (jwtManager.getJWTFromCookie(request) != null) {
             usernameFromCookie = getCurrentUsername(request);
         }
         return profileService.getUserProfileForViewer(usernameFromCookie, targetUsername);
@@ -60,15 +62,19 @@ public class UserDashboardService {
         followersService.editUserFollowed(getCurrentUsername(request), followedUsername, type);
     }
 
-    public List<FavoriteSpotDto> getUserFavoritesSpots(HttpServletRequest request, FavoriteSpotsListType type){
-       return favoriteSpotService.getUserFavoritesSpots(getCurrentUsername(request), type);
+    public List<FavoriteSpotDto> getUserFavoritesSpots(HttpServletRequest request, FavoriteSpotsListType type) {
+        return favoriteSpotService.getUserFavoritesSpots(getCurrentUsername(request), type);
     }
 
     public void removeFavoriteSpot(HttpServletRequest request, FavoriteSpotsListType type, Long spotId) throws FavoriteSpotNotExistException {
         favoriteSpotService.removeFavoriteSpot(getCurrentUsername(request), type, spotId);
     }
 
-    private String getCurrentUsername(HttpServletRequest request){
+    public List<DatedCommentsGroupDto> getAllUserComments(HttpServletRequest request) {
+        return commentsService.getAllUserComments(getCurrentUsername(request));
+    }
+
+    private String getCurrentUsername(HttpServletRequest request) {
         return jwtManager.getUsernameFromJwtCookie(request);
     }
 }

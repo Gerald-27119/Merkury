@@ -5,6 +5,7 @@ import { FavoriteSpot } from "../model/interface/account/favorite-spots/favorite
 import { FavoriteSpotsListType } from "../model/enum/account/favorite-spots/favoriteSpotsListType";
 import { UserRelationEditType } from "../model/enum/account/social/userRelationEditType";
 import ExtendedUserProfile from "../model/interface/account/profile/extendedUserProfile";
+import DatedCommentsGroup from "../model/interface/account/comments/datedCommentsGroup";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -116,5 +117,13 @@ export async function removeFavoriteSpot({
         withCredentials: true,
       },
     )
+  ).data;
+}
+
+export async function getAllUserComments(): Promise<DatedCommentsGroup[]> {
+  return (
+    await axios.get(`${BASE_URL}/user-dashboard/comments`, {
+      withCredentials: true,
+    })
   ).data;
 }

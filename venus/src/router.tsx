@@ -14,6 +14,7 @@ import Social from "./pages/account/social/Social";
 import FavoriteSpots from "./pages/account/favorite-spots/FavoriteSpots";
 import UserOwnProfile from "./pages/account/profile/UserOwnProfile";
 import ProfileForViewer from "./pages/account/profile/ProfileForViewer";
+import Comments from "./pages/account/comments/Comments";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ const router = createBrowserRouter([
             element: (
               <ProtectedRoute>
                 <Social />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "comments",
+            element: (
+              <ProtectedRoute>
+                <Comments />
               </ProtectedRoute>
             ),
           },

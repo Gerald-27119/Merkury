@@ -2,6 +2,7 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
+import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
@@ -68,13 +69,18 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/favorite-spots")
-    public ResponseEntity<List<FavoriteSpotDto>> getAllUserFavoritesSpots(HttpServletRequest request, @RequestParam FavoriteSpotsListType type){
+    public ResponseEntity<List<FavoriteSpotDto>> getAllUserFavoritesSpots(HttpServletRequest request, @RequestParam FavoriteSpotsListType type) {
         return ResponseEntity.ok(userDashboardService.getUserFavoritesSpots(request, type));
     }
 
     @PatchMapping("/user-dashboard/favorite-spots")
     public ResponseEntity<Void> removeFavoriteSpot(HttpServletRequest request, @RequestParam FavoriteSpotsListType type, @RequestParam Long spotId) throws FavoriteSpotNotExistException {
         userDashboardService.removeFavoriteSpot(request, type, spotId);
-       return ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("user-dashboard/comments")
+    public ResponseEntity<List<DatedCommentsGroupDto>> getAllUserComments(HttpServletRequest request) {
+        return ResponseEntity.ok(userDashboardService.getAllUserComments(request));
     }
 }
