@@ -1,14 +1,32 @@
 import SearchSpotDto from "../../../../model/interface/spot/searchSpotDto";
 import { ConfigProvider, Rate } from "antd";
 import SpotTag from "../tag/SpotTag";
+import { current } from "@reduxjs/toolkit";
+import { useMap } from "@vis.gl/react-maplibre";
+import BorderPoint from "../../../../model/interface/spot/borderPoint";
 
 type SearchedSpotInfoProps = {
   spot: SearchSpotDto;
 };
 
 export default function SearchedSpotInfo({ spot }: SearchedSpotInfoProps) {
+  const { current: map } = useMap();
+
+  const handleClickSpot = (coordinates: BorderPoint) => {
+    console.log(coordinates);
+    map?.flyTo({
+      center: [coordinates.y, coordinates.x],
+      zoom: 15,
+      speed: 1.2,
+      curve: 1.42,
+      essential: true,
+    });
+  };
   return (
-    <div className="dark:bg-darkBgSoft flex rounded-2xl">
+    <div
+      className="dark:bg-darkBgSoft dark:hover:bg-darkBg flex cursor-pointer rounded-2xl"
+      onClick={() => handleClickSpot(spot.centerPoint)}
+    >
       <img
         src={spot.firstPhoto}
         alt={`${spot.name}Img`}

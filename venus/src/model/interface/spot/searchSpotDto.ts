@@ -1,4 +1,5 @@
 import SpotTagDto from "./tag/spotTagDto";
+import BorderPoint from "./borderPoint";
 
 export default interface SearchSpotDto {
   id: number;
@@ -6,6 +7,6 @@ export default interface SearchSpotDto {
   rating: number;
   ratingCount: number;
   firstPhoto: string;
-  centerPoint: number[][];
+  centerPoint: BorderPoint;
   tags: SpotTagDto[];
 }
