@@ -1,14 +1,11 @@
 import { RiArrowDownSLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { spotFiltersAction } from "../../../../redux/spot-filters";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  searchedSpotsSlice,
-  searchedSpotsSliceActions,
-} from "../../../../redux/searched-spots";
+import { searchedSpotsSliceActions } from "../../../../redux/searched-spots";
 
 type Option = {
   value: string;
@@ -24,9 +21,9 @@ const options: Option[] = [
 ];
 
 const slideVariants = {
-  hidden: { y: "-100%", opacity: 0 },
+  hidden: { y: "-10%", opacity: 0 },
   visible: { y: 0, opacity: 1 },
-  exit: { y: "-100%", opacity: 0 },
+  exit: { y: "-10%", opacity: 0 },
 };
 
 export default function SearchedSpotsSortingForm() {
@@ -64,44 +61,49 @@ export default function SearchedSpotsSortingForm() {
   }, [selectedSorting, name, sorting, dispatch]);
 
   return (
-    <div className="relative flex flex-col">
-      <div
-        className={`bg-violetLight flex w-86 justify-between ${isDropdownOpen ? "rounded-t-2xl rounded-l-2xl" : "rounded-2xl"} px-5 py-1 text-lg`}
-      >
-        <p className="font-semibold text-white">Sort</p>
+    <div className="relative mb-6 inline-block">
+      <div className="relative flex flex-col">
         <div
-          className="flex cursor-pointer items-center"
-          onClick={toggleDropdown}
+          className={`bg-violetLight flex w-86 justify-between ${isDropdownOpen ? "rounded-t-2xl rounded-l-2xl" : "rounded-2xl"} px-5 py-1 text-lg`}
         >
-          <p className="mr-1">{selectedSorting.label}</p>
-          <RiArrowDownSLine
-            className={`text-xl transition-transform duration-200 ${
-              isDropdownOpen ? "rotate-180 transform" : ""
-            }`}
-          />
+          <p className="font-semibold text-white">Sort</p>
+          <div
+            className="flex cursor-pointer items-center"
+            onClick={toggleDropdown}
+          >
+            <p className="mr-1">{selectedSorting.label}</p>
+            <RiArrowDownSLine
+              className={`text-xl transition-transform duration-200 ${
+                isDropdownOpen ? "rotate-180 transform" : ""
+              }`}
+            />
+          </div>
         </div>
-      </div>
-      {isDropdownOpen && (
-        <motion.ul
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          variants={slideVariants}
-          transition={{ duration: 0.3 }}
-          className="bg-violetLight absolute top-[2.28rem] right-0 z-10 mb-auto ml-auto w-fit overflow-hidden rounded-b-2xl pt-2 text-lg"
-        >
-          {options.map((opt: Option) => (
-            <li
-              key={opt.value}
-              value={opt.value}
-              className="hover:bg-violetBright cursor-pointer px-3 last:pb-2"
-              onClick={() => handleSelectSorting(opt)}
+        <AnimatePresence>
+          {isDropdownOpen && (
+            <motion.ul
+              key="sorting-dropdown"
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={slideVariants}
+              transition={{ duration: 0.2 }}
+              className="bg-violetLight absolute top-[2.28rem] right-0 z-10 mb-auto ml-auto w-fit overflow-hidden rounded-b-2xl pt-2 text-lg"
             >
-              {opt.label}
-            </li>
-          ))}
-        </motion.ul>
-      )}
+              {options.map((opt: Option) => (
+                <li
+                  key={opt.value}
+                  value={opt.value}
+                  className="hover:bg-violetBright cursor-pointer px-3 last:pb-2"
+                  onClick={() => handleSelectSorting(opt)}
+                >
+                  {opt.label}
+                </li>
+              ))}
+            </motion.ul>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

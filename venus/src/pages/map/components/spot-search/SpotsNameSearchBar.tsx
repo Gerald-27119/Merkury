@@ -6,11 +6,15 @@ import useDebounce from "../../../../hooks/useDebounce.jsx";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { FaSearch } from "react-icons/fa";
 import { searchedSpotListModalAction } from "../../../../redux/searched-spot-list-modal";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
+import { searchedSpotsSliceActions } from "../../../../redux/searched-spots";
 
 export default function SpotsNameSearchBar() {
   const [searchSpotName, setSearchSpotName] = useState<string>("");
   const debounceSpotNamesHints = useDebounce(searchSpotName, 500);
   const [showHints, setShowHints] = useState<boolean>(false);
+
+  const { name, sorting } = useSelectorTyped((state) => state.spotFilters);
 
   const { data: spotsNames = [] } = useQuery({
     queryKey: ["spotsNames", debounceSpotNamesHints],
@@ -42,7 +46,11 @@ export default function SpotsNameSearchBar() {
     queryClient.invalidateQueries({
       queryKey: ["spots", "filter", debounceSpotNamesHints],
     });
+    queryClient.removeQueries({
+      queryKey: ["spots", name, sorting],
+    });
     dispatch(searchedSpotListModalAction.handleOpenList());
+    dispatch(searchedSpotsSliceActions.clearSearchedSpots());
   };
 
   const handleHintClick = (hint: string) => {
