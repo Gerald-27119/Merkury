@@ -12,7 +12,7 @@ type Option = {
   label: string;
 };
 
-const options: Option[] = [
+export const options: Option[] = [
   { value: "none", label: "Default" },
   { value: "byRatingAsc", label: "Rating ascending" },
   { value: "byRatingDesc", label: "Rating descending" },
@@ -71,8 +71,11 @@ export default function SearchedSpotsSortingForm() {
             className="flex cursor-pointer items-center"
             onClick={toggleDropdown}
           >
-            <p className="mr-1">{selectedSorting.label}</p>
+            <p className="mr-1" data-testid="sorting-value">
+              {selectedSorting.label}
+            </p>
             <RiArrowDownSLine
+              data-testid="searched-spots-sorting-arrow"
               className={`text-xl transition-transform duration-200 ${
                 isDropdownOpen ? "rotate-180 transform" : ""
               }`}
@@ -82,6 +85,7 @@ export default function SearchedSpotsSortingForm() {
         <AnimatePresence>
           {isDropdownOpen && (
             <motion.ul
+              data-testid="sorting-dropdown"
               key="sorting-dropdown"
               initial="hidden"
               animate="visible"

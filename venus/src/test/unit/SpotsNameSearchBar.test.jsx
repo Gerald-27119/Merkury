@@ -68,8 +68,7 @@ describe("SpotsNameSearchBar component unit tests", () => {
     });
     describe("SpotsNameSearchBar hints list behavior", () => {
       test("Should NOT render hints when input is empty", () => {
-        const ul = screen.queryByRole("list");
-        expect(ul).not.toBeInTheDocument();
+        expect(screen.queryByRole("list")).not.toBeInTheDocument();
       });
 
       test("Should render hints when user types and data is available", async () => {
