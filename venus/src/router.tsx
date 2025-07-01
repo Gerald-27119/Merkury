@@ -10,10 +10,11 @@ import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
 import MapPage from "./pages/map/MapPage";
 import ChatsPage from "./pages/chats/ChatsPage";
-import Social from "./pages/account/social/Social";
 import FavoriteSpots from "./pages/account/favorite-spots/FavoriteSpots";
 import UserOwnProfile from "./pages/account/profile/UserOwnProfile";
 import ProfileForViewer from "./pages/account/profile/ProfileForViewer";
+import UserOwnSocial from "./pages/account/social/UserOwnSocial";
+import SocialForViewer from "./pages/account/social/SocialForViewer";
 import Photos from "./pages/account/photos/Photos";
 
 const router = createBrowserRouter([
@@ -57,9 +58,13 @@ const router = createBrowserRouter([
             path: "friends",
             element: (
               <ProtectedRoute>
-                <Social />
+                <UserOwnSocial />
               </ProtectedRoute>
             ),
+          },
+          {
+            path: "friends/:username",
+            element: <SocialForViewer />,
           },
           {
             path: "photos",

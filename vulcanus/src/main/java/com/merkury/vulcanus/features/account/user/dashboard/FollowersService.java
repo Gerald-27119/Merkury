@@ -37,7 +37,7 @@ public class FollowersService {
     }
 
     public void editUserFollowed(String username, String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
-        switch (type){
+        switch (type) {
             case ADD -> addUserFollowed(username, followedUsername);
             case REMOVE -> removeUserFollowed(username, followedUsername);
             default -> throw new UnsupportedEditUserFriendsTypeException(type);
