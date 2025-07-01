@@ -2,14 +2,14 @@ import { ConfigProvider, DatePicker } from "antd";
 import { Dayjs } from "dayjs";
 
 interface DateChooserProps {
-  type: "from" | "to";
+  text: string;
   onChange: (value: Dayjs) => void;
 }
 
-export default function DateChooser({ type, onChange }: DateChooserProps) {
+export default function DateChooser({ text, onChange }: DateChooserProps) {
   return (
     <div className="flex flex-col items-center sm:flex-row">
-      <p>{type === "to" ? "To:" : "From:"}</p>
+      <p>{text}</p>
       <ConfigProvider
         theme={{
           token: {

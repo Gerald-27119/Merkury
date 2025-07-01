@@ -47,11 +47,11 @@ export default function Photos() {
           <SortDropdown onSelectType={handleSelectType} />
           <div className="bg-violetDark flex h-15 items-center space-x-3 rounded-full px-2.5 py-1 md:h-12">
             <DateChooser
-              type={"from"}
+              text="From:"
               onChange={(value) => handleChangeDate(value, "from")}
             />
             <DateChooser
-              type={"to"}
+              text="To:"
               onChange={(value) => handleChangeDate(value, "to")}
             />
           </div>

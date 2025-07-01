@@ -1,7 +1,7 @@
 import {
   QueryClient,
   QueryClientProvider,
-  useMutation,
+  useQuery,
 } from "@tanstack/react-query";
 import { configureStore } from "@reduxjs/toolkit";
 import { accountSlice } from "../../../../redux/account";
@@ -17,7 +17,7 @@ const queryClient = new QueryClient();
 vi.mock("@tanstack/react-query", async () => {
   return {
     ...(await vi.importActual("@tanstack/react-query")),
-    useMutation: vi.fn(),
+    useQuery: vi.fn(),
   };
 });
 
@@ -79,8 +79,8 @@ const mockPhotosData = [
 describe("Photos component unit tests", () => {
   describe("Photos display photos data correctly", () => {
     beforeEach(async () => {
-      useMutation.mockReturnValue({
-        mutateAsync: vi.fn().mockResolvedValue(mockPhotosData),
+      useQuery.mockReturnValue({
+        data: mockPhotosData,
         isLoading: false,
         error: null,
       });
