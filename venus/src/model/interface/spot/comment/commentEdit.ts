@@ -1,4 +1,4 @@
 export default interface CommentEdit {
-  text: string;
-  rating: number;
+    text: string;
+    rating: number;
 }

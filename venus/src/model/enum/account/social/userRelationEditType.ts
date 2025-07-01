@@ -1,4 +1,4 @@
 export enum UserRelationEditType {
-  ADD = "ADD",
-  REMOVE = "REMOVE",
+    ADD = "ADD",
+    REMOVE = "REMOVE",
 }

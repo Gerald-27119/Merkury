@@ -9,9 +9,9 @@ import { UserRelationEditType } from "../../model/enum/account/social/userRelati
  * @returns {UserRelationEditType} - The action to perform: add or remove the relation.
  */
 export const resolveRelationEditType = (
-  isCurrentlyRelated?: boolean,
+    isCurrentlyRelated?: boolean,
 ): UserRelationEditType => {
-  return isCurrentlyRelated
-    ? UserRelationEditType.REMOVE
-    : UserRelationEditType.ADD;
+    return isCurrentlyRelated
+        ? UserRelationEditType.REMOVE
+        : UserRelationEditType.ADD;
 };

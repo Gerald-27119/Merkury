@@ -1,4 +1,4 @@
 export default interface SpotCommentAuthorDto {
-  username: string;
-  profilePhotoUrl: string;
+    username: string;
+    profilePhotoUrl: string;
 }
