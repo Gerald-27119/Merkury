@@ -97,7 +97,7 @@ public class ChatService {
                 .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
 
         var sender = userEntityRepository.findById(chatMessageDto.sender().id())
-                .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Sender not found"));
 
         var chatMessage = ChatMessage.builder()
                 .content(chatMessageDto.content())
