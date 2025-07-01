@@ -102,7 +102,7 @@ export default function SearchedSpotsList() {
         exit="exit"
         variants={slideVariants}
         transition={{ duration: 0.3 }}
-        className="dark:bg-violetDarker dark:text-darkText absolute top-10 left-0 z-1 flex h-full w-[20rem] flex-col items-center px-6 py-2 text-lg xl:top-0 xl:left-17 xl:w-[27rem] xl:text-xl"
+        className="dark:bg-violetDarker dark:text-darkText absolute top-10 left-0 z-1 flex h-full w-[20rem] flex-col items-center px-6 py-2 text-lg xl:top-0 xl:left-17 xl:w-[30rem] xl:text-xl"
       >
         <HiX
           className="mt-1 ml-auto cursor-pointer text-2xl"

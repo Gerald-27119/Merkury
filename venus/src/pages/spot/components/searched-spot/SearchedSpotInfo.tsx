@@ -29,7 +29,7 @@ export default function SearchedSpotInfo({ spot }: SearchedSpotInfoProps) {
       <img
         src={spot.firstPhoto}
         alt={`${spot.name}Img`}
-        className="aspect-square w-40 rounded-l-2xl"
+        className="aspect-square w-44 rounded-l-2xl"
       />
       <div className="ml-4 flex flex-col items-start space-y-2.5">
         <h3 className="mt-3 mr-1 text-xl font-semibold">{spot.name}</h3>
