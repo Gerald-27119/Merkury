@@ -1,11 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getSortedUserPhotos } from "../../../http/user-dashboard";
 import DateBadge from "./components/DateBadge";
 import Photo from "./components/Photo";
 import DateChooser from "./components/DateChooser";
 import { PhotosSortType } from "../../../model/enum/account/photos/photosSortType";
-import { useEffect, useState } from "react";
-import DatedPhotosGroup from "../../../model/interface/account/photos/datedPhotosGroup";
+import { useState } from "react";
 import { Dayjs } from "dayjs";
 import SortDropdown from "./components/SortDropdown";
 import AccountTitle from "../components/AccountTitle";
@@ -18,31 +17,22 @@ export default function Photos() {
     from: null,
     to: null,
   });
-  const [data, setData] = useState<DatedPhotosGroup[]>([]);
 
-  const { mutateAsync } = useMutation({
-    mutationKey: ["photos", optionType, searchDate.from, searchDate.to],
-    mutationFn: getSortedUserPhotos,
-  });
-
-  useEffect(() => {
-    const fetchPhotos = async () => {
-      const result = await mutateAsync({
-        type: optionType,
+  const { data } = useQuery({
+    queryKey: ["photos", optionType, searchDate.from, searchDate.to],
+    queryFn: () =>
+      getSortedUserPhotos({
         from: searchDate.from,
         to: searchDate.to,
-      });
-      setData(result);
-    };
-
-    fetchPhotos();
-  }, [searchDate.from, searchDate.to, optionType]);
+        type: optionType,
+      }),
+  });
 
   const handleSelectType = (type: PhotosSortType) => {
     setOptionType(type);
   };
 
-  const handleChangeFrom = (value: Dayjs, id: string) => {
+  const handleChangeDate = (value: Dayjs, id: string) => {
     setSearchDate((prevState) => ({
       ...prevState,
       [id]: value.format("YYYY-MM-DD"),
@@ -58,17 +48,17 @@ export default function Photos() {
           <div className="bg-violetDark flex h-15 items-center space-x-3 rounded-full px-2.5 py-1 md:h-12">
             <DateChooser
               type={"from"}
-              onChange={(value) => handleChangeFrom(value, "from")}
+              onChange={(value) => handleChangeDate(value, "from")}
             />
             <DateChooser
               type={"to"}
-              onChange={(value) => handleChangeFrom(value, "to")}
+              onChange={(value) => handleChangeDate(value, "to")}
             />
           </div>
         </div>
       </div>
       <div className="flex flex-col gap-3 lg:mx-27">
-        {data.length > 0 &&
+        {data?.length ? (
           data?.map(({ date, photos }) => (
             <div className="flex flex-col space-y-3" key={date}>
               <DateBadge date={date} />
@@ -78,8 +68,8 @@ export default function Photos() {
                 ))}
               </ul>
             </div>
-          ))}
-        {data.length === 0 && (
+          ))
+        ) : (
           <p className="text-center text-lg">You haven't added any photos.</p>
         )}
       </div>
