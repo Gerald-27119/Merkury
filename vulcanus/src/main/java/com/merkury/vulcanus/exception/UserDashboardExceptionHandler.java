@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.exception;
 
-import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
+import com.merkury.vulcanus.exception.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,43 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class UserDashboardExceptionHandler {
 
     @ExceptionHandler(UserNotFoundByUsernameException.class)
-    public ResponseEntity<String> handleUserNotFoundByUsernameException(Exception ex) {
+    public ResponseEntity<String> handleUserNotFoundByUsernameException(UserNotFoundByUsernameException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(FriendshipAlreadyExistException.class)
+    public ResponseEntity<String> handleFriendshipAlreadyExistException(FriendshipAlreadyExistException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UserAlreadyFollowedException.class)
+    public ResponseEntity<String> handleFollowedAlreadyExistException(UserAlreadyFollowedException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(FriendshipNotExistException.class)
+    public ResponseEntity<String> handleFriendshipNotExistException(FriendshipNotExistException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UserNotFollowedException.class)
+    public ResponseEntity<String> handleFollowedConnectionNotExistException(UserNotFollowedException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UnsupportedEditUserFriendsTypeException.class)
+    public ResponseEntity<String> handleUnsupportedEditUserFriendsTypeException(UnsupportedEditUserFriendsTypeException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(FavoriteSpotNotExistException.class)
+    public ResponseEntity<String> handleFavoriteSpotNotExistException(FavoriteSpotNotExistException ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }

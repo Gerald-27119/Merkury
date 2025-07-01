@@ -12,6 +12,7 @@ public class ImgMapper {
 
     public static ImgDto toDto(@NotNull Img img) {
         return ImgDto.builder()
+                .id(img.getId())
                 .img(img.getUrl())
                 .title(img.getAlt())
                 .description(img.getDescription())

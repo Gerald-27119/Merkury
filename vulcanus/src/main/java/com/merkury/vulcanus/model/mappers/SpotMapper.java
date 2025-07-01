@@ -4,13 +4,14 @@ import com.merkury.vulcanus.model.dtos.spot.FullSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
-import com.merkury.vulcanus.model.dtos.spot.weather.WeatherApiCallCordsDto;
+import com.merkury.vulcanus.model.dtos.spot.coordinates.SpotCoordinatesDto;
 import com.merkury.vulcanus.model.entities.SpotComment;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.Spot;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SpotMapper {
 
@@ -40,7 +41,6 @@ public class SpotMapper {
                 .name(dto.name())
                 .description(dto.description())
                 .rating(dto.rating())
-                .viewsCount(dto.viewsCount())
                 .borderPoints(points)
                 .spotComments(spotComments)
                 .images(images)
@@ -51,13 +51,19 @@ public class SpotMapper {
         return SpotDetailsDto.builder()
                 .id(spot.getId())
                 .name(spot.getName())
+                .country(spot.getCountry())
+                .city(spot.getCity())
+                .street(spot.getStreet())
                 .description(spot.getDescription())
                 .rating(spot.getRating())
-                .viewsCount(spot.getViewsCount())
+                .ratingCount(spot.getRatingCount())
                 .photos(spot.getImages().stream()
                         .map(ImgMapper::toDto)
                         .toList())
-                .weatherApiCallCoords(new WeatherApiCallCordsDto(
+                .tags(spot.getTags().stream()
+                        .map(SpotTagMapper::toDto)
+                        .collect(Collectors.toSet()))
+                .weatherApiCallCoords(new SpotCoordinatesDto(
                         spot.getBorderPoints().getFirst().getX(),
                         spot.getBorderPoints().getFirst().getY()))
                 .build();

@@ -52,6 +52,8 @@ class SpotServiceCachingWithServerStartupTest {
 
         var newSpot = Spot.builder()
                 .name("Plac 1")
+                .country("country")
+                .city("city")
                 .areaColor("green")
                 .description("text")
                 .spotComments(new ArrayList<>())
@@ -59,7 +61,6 @@ class SpotServiceCachingWithServerStartupTest {
                         new BorderPoint(54.34259835347914, 18.646824493647234),
                         new BorderPoint(54.34199917555038, 18.64785810853534)))
                 .rating(5.0)
-                .viewsCount(100)
                 .images(new ArrayList<>())
                 .build();
         spotRepository.save(newSpot);
@@ -75,6 +76,8 @@ class SpotServiceCachingWithServerStartupTest {
 
         Spot newSpot = Spot.builder()
                 .name("Plac test")
+                .country("country")
+                .city("city")
                 .areaColor("green")
                 .description("text")
                 .spotComments(new ArrayList<>())
@@ -82,7 +85,6 @@ class SpotServiceCachingWithServerStartupTest {
                         new BorderPoint(54.34259835347914, 18.646824493647234),
                         new BorderPoint(54.34199917555038, 18.64785810853534)))
                 .rating(5.0)
-                .viewsCount(100)
                 .images(new ArrayList<>())
                 .build();
         spotRepository.save(newSpot);

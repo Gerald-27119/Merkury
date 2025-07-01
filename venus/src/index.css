@@ -21,13 +21,15 @@
   --color-lightBg: #e4e3e3;
   --color-lightBgDarker: #cccaca;
   --color-lightBgSoft: #ffffff;
-  --color-lightBgButed: #f2f2f2;
+  --color-lightBgMuted: #f2f2f2;
   --color-lightBorder: #fbfdff;
   --color-violetDark: #363041;
   --color-violetLight: #6D6183;
-  --color-violetLighter: #8f6fbc;
+  --color-violetLighter: #9b8cbd;
   --color-violetDarker: #2C2734;
+  --color-violetBtnBorderDark: #625B6E;
   --color-violetBright: #835ACE;
+  --color-darbVioletBtnOutline: #816BA6;
   --color-first: #2C3E50;
   --color-second: #34495E;
   --color-third: #1ABC9C;
@@ -36,6 +38,7 @@
   --color-sixth: #E94560;
   --color-magenta: #A01BC1;
   --color-darkYellow: #C5A03C;
+  --color-ratingStarColor: #FADB14;
   --color-locationMarkerDarkerBlue: #A3DCFF;
   --color-locationMarkerLightBlue: #52BAFB;
   --color-userLocationDot: #4285f4;
@@ -66,4 +69,27 @@
     padding: 0;
     border-color: var(--color-gray-200, currentcolor);
   }
+}
+
+.custom-rate .ant-rate-star {
+  font-size: 25px;
+}
+
+.custom-rate-spot-comment .ant-rate-star {
+  font-size: 18px;
+  margin: 0 0.1px;
+}
+
+@media (max-width: 768px) {
+  .custom-rate .ant-rate-star {
+    font-size: 20px;
+  }
+}
+
+.custom-rate .ant-rate-star:not(.ant-rate-star-full) .ant-rate-star-second {
+  color: #ffffff;
+}
+
+.custom-rate-spot-comment .ant-rate-star:not(.ant-rate-star-full) .ant-rate-star-second {
+  color: #ffffff;
 }

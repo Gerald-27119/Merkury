@@ -3,26 +3,25 @@ import Notification from "../components/notification/Notification.jsx";
 import Sidebar from "./sidebar/Sidebar.tsx";
 import { useEffect } from "react";
 import MobileBar from "./mobile-bar/MobileBar";
-import { useToggleState } from "../hooks/useToggleState";
+import useDispatchTyped from "../hooks/useDispatchTyped";
+import { sidebarAction } from "../redux/sidebar";
 
 export default function Layout() {
   const location = useLocation();
   const isMapPage = location.pathname === "/map";
-  const isForumPage = location.pathname === "/forum";
-  const [isSidebarOpen, setIsSidebarOpen, toggleSidebar] =
-    useToggleState(false);
+  const dispatch = useDispatchTyped();
 
   useEffect(() => {
     if (location.pathname.includes("account") && window.innerWidth >= 1280) {
-      setIsSidebarOpen(true);
+      dispatch(sidebarAction.setIsSidebarOpen(true));
     }
   }, [location]);
 
   return (
-    <div className={`${isMapPage ? "relative" : "flex"} ${isForumPage ? "min-h-screen" : "lg:h-screen"}`}>
-      <Sidebar isSidebarOpen={isSidebarOpen} onToggle={toggleSidebar} />
+    <div className={`${isMapPage ? "relative" : "flex"} min-h-screen`}>
+      <Sidebar />
       <main className="relative flex w-full flex-col items-center justify-center">
-        <MobileBar onToggle={toggleSidebar} />
+        <MobileBar />
         <Notification title="test" message="message" />
         <Outlet />
       </main>
