@@ -6,24 +6,24 @@ import { accountAction } from "../../redux/account";
 import useDispatchTyped from "../../hooks/useDispatchTyped";
 
 export default function OauthForm() {
-  const dispatch = useDispatchTyped();
+    const dispatch = useDispatchTyped();
 
-  const handleAuth = (provider: string) => {
-    window.location.href =
-      provider === "GOOGLE" ? googleLoginUrl : githubLoginUrl;
-    dispatch(accountAction.setIsLogged());
-  };
+    const handleAuth = (provider: string) => {
+        window.location.href =
+            provider === "GOOGLE" ? googleLoginUrl : githubLoginUrl;
+        dispatch(accountAction.setIsLogged());
+    };
 
-  return (
-    <>
-      <OauthButton onClick={() => handleAuth("GOOGLE")}>
-        <FcGoogle className="mr-3" aria-label="googleIcon" size={25} />
-        Continue with Google account.
-      </OauthButton>
-      <OauthButton onClick={() => handleAuth("GITHUB")}>
-        <FaGithub className="mr-3" aria-label="githubIcon" size={25} />
-        Continue with Github account.
-      </OauthButton>
-    </>
-  );
+    return (
+        <>
+            <OauthButton onClick={() => handleAuth("GOOGLE")}>
+                <FcGoogle className="mr-3" aria-label="googleIcon" size={25} />
+                Continue with Google account.
+            </OauthButton>
+            <OauthButton onClick={() => handleAuth("GITHUB")}>
+                <FaGithub className="mr-3" aria-label="githubIcon" size={25} />
+                Continue with Github account.
+            </OauthButton>
+        </>
+    );
 }

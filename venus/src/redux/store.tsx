@@ -12,19 +12,19 @@ import { socialSlice } from "./social";
 import { spotCommentSlice } from "./spot-comments";
 
 const store = configureStore({
-  reducer: {
-    account: accountSlice.reducer,
-    notification: notificationSlice.reducer,
-    photo: photoSlice.reducer,
-    spotDetails: spotDetailsModalSlice.reducer,
-    photoGallery: photoGallerySlice.reducer,
-    spotFilters: spotFiltersSlice.reducer,
-    chats: chatsSlice.reducer,
-    map: mapSlice.reducer,
-    sidebar: sidebarSlice.reducer,
-    social: socialSlice.reducer,
-    spotComments: spotCommentSlice.reducer,
-  },
+    reducer: {
+        account: accountSlice.reducer,
+        notification: notificationSlice.reducer,
+        photo: photoSlice.reducer,
+        spotDetails: spotDetailsModalSlice.reducer,
+        photoGallery: photoGallerySlice.reducer,
+        spotFilters: spotFiltersSlice.reducer,
+        chats: chatsSlice.reducer,
+        map: mapSlice.reducer,
+        sidebar: sidebarSlice.reducer,
+        social: socialSlice.reducer,
+        spotComments: spotCommentSlice.reducer,
+    },
 });
 
 export default store;

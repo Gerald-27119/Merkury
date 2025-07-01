@@ -4,13 +4,12 @@ import {
     PayloadAction,
 } from "@reduxjs/toolkit";
 import {
-    ChatMessageDto,
     DetailedChatDto,
     SimpleChatDto,
 } from "../model/interface/chat/chatInterfaces";
 import { RootState } from "./store";
 
-export interface ChatDto {
+interface ChatDto {
     id: number;
     simpleChatDto: SimpleChatDto;
     detailedChatDto: DetailedChatDto;
@@ -18,14 +17,12 @@ export interface ChatDto {
 
 interface ChatsState {
     nextPage: number | null;
-    selectedChatId: number;
 }
 
 const chatsAdapter = createEntityAdapter<ChatDto>({});
 
 const initialState = chatsAdapter.getInitialState<ChatsState>({
     nextPage: 1,
-    selectedChatId: 1,
 });
 
 export const chatsSlice = createSlice({
@@ -50,27 +47,6 @@ export const chatsSlice = createSlice({
         },
         setNextPage(state, action: PayloadAction<number | null>) {
             state.nextPage = action.payload;
-        },
-        setSelectedChatId(state, action: PayloadAction<number>) {
-            state.selectedChatId = action.payload;
-        },
-        addMessage(
-            state,
-            action: PayloadAction<{ chatId: number; message: ChatMessageDto }>,
-        ) {
-            const { chatId, message } = action.payload;
-            const chat = state.entities[chatId];
-            if (!chat) {
-                return;
-            }
-            if (!chat.detailedChatDto.messages) {
-                chat.detailedChatDto.messages = [];
-            }
-            chat.detailedChatDto.messages.push(message);
-            chat.detailedChatDto.messages.sort(
-                (a, b) =>
-                    new Date(b.sentAt).getTime() - new Date(a.sentAt).getTime(),
-            );
         },
     },
 });
