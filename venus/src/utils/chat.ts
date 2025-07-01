@@ -62,8 +62,8 @@ export function formatSentAt(date: string): string {
 
 export function formatMessageLength(message: string): string {
     const messageLength = message.length;
-    if (messageLength > 12) {
-        return `${message.substring(0, 12)}...`;
+    if (messageLength > 10) {
+        return `${message.substring(0, 10)}...`;
     }
     return message;
 }
