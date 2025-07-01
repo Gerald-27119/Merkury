@@ -23,4 +23,4 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/connect")// <- tutaj user się łączy (separate from STOMP, it's to upgrade to WebSocket)
                 .setAllowedOrigins("*");
     }
-}//cachopwanie na froncie koneicznie, tez zbadaj rpzeladowywanie lementow tym smienszym pluginem
+}//TODO:cachopwanie na froncie koneicznie, tez zbadaj rpzeladowywanie lementow tym smienszym pluginem

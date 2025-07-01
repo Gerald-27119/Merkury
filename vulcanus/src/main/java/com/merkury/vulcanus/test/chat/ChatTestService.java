@@ -64,7 +64,7 @@ public class ChatTestService {
             Map<String, String> loginPayload = Map.of(
                     "username", "user",
                     "password", "password"
-            );//porpaw usera do logowania i do wiadomosci
+            );//TODO: porpaw usera do logowania i do wiadomosci
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);

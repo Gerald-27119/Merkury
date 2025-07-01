@@ -48,7 +48,7 @@ public class ChatService {
 //                    .findAllByChatId(chat.getId(), PageRequest.of(0, 20, Sort.by("sentAt").descending()))
 //                    .getContent();
 
-//            TODO: does this new repo method work???
+//            TODO:futher optimize it
             List<ChatMessage> last20Messages = chatMessageRepository
                     .findTop20ByChatIdOrderBySentAtDesc(chat.getId());
 
@@ -89,7 +89,7 @@ public class ChatService {
         }).toList();
     }
 
-    //TODO:why
+    //TODO: check deeply benefits of using transactional here
     @Transactional
     public ChatMessageDto saveChatMessage(ChatMessageDto chatMessageDto) {
 
@@ -107,18 +107,15 @@ public class ChatService {
 
         chat.getChatMessages().add(chatMessage);
         chat.setLastMessageAt(LocalDateTime.now());//TODO; optimise it better
-//        nie trzeba zapisywac chata, dlaczego? tylko wystarczyd odac do wyciagneitegoc ahta z abzy ta wiadomosc
-//        czy trzeba xd
-//        TODO:doedukuje sie jakd ziala persystancja w hibernate bo dlaej nei wiesz po 2 latach
+
         chatMessageRepository.save(chatMessage);
-        chatRepository.save(chat);//@OneToMany(mappedBy = "chat", cascade = CascadeType.PERSIST) - check more deeply
+        chatRepository.save(chat);//TODO:@OneToMany(mappedBy = "chat", cascade = CascadeType.PERSIST) - check more deeply
         var lastMessage = chat.getChatMessages().stream()
                 .max(Comparator.comparing(ChatMessage::getSentAt))
                 .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
         //TODO:diffrent Mapper to add ID to the message
         //ALso use diffrent DTO with chat Id?
         //TODO:ktorys z tych save caht lubc hatMEssage nie jest zbedny?
-        //how to update messages on front?
         return ChatMapper.toChatMessageDto(chatMessage, chatMessageDto.sender());
     }
 }

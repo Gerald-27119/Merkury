@@ -107,15 +107,13 @@ public class PopulateChatsService {
             for (ChatMessage m : msgs) {
                 m.setChat(chat);
 
-                // Wybór losowego nadawcy z listy participants
                 int randomIdx = random.nextInt(participants.size());
                 m.setSender(participants.get(randomIdx));
 
-                // Opcjonalnie: możesz też urozmaicić czas wysłania, np. losowo w ciągu dnia
                 m.setSentAt(
                         LocalDateTime.now()
-                                .minusDays(random.nextInt(5))      // do 5 dni wstecz
-                                .plusSeconds(random.nextInt(3600)) // do godziny pseudo-losowo
+                                .minusDays(random.nextInt(5))
+                                .plusSeconds(random.nextInt(3600))
                 );
             }
 

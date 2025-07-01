@@ -28,7 +28,6 @@ export default function ChatMessagingWindow({
         <div className="scrollbar-track-violetDark scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark/20 flex h-full flex-col-reverse gap-2 overflow-y-scroll py-1 pl-2">
             {messages.map((message: ChatMessageDto, idx: number) => {
                 const thisDate = new Date(message.sentAt).toDateString();
-                // poprzednia wiadomość w oryginalnej kolejności (nie reverse)
                 const prevMessage = messages[idx + 1];
                 const prevDate =
                     prevMessage && new Date(prevMessage.sentAt).toDateString();

@@ -4,7 +4,6 @@ import {
     DetailedChatDto,
     SimpleChatDto,
 } from "../model/interface/chat/chatInterfaces";
-import { sleep } from "../utils/universal";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
@@ -13,7 +12,6 @@ export async function getChatListByPage(
     pageParam = 0,
     numberOfChatsPerPage = 20,
 ): Promise<ChatPage> {
-    // await sleep(3000);
     const items = (
         await axios.get<SimpleChatDto[]>(`${BASE_URL}/public/chats`, {
             params: { userId, pageParam, numberOfChatsPerPage },
@@ -29,7 +27,6 @@ export async function getDetailedChat(
     chatId: number,
     userId: number,
 ): Promise<DetailedChatDto> {
-    // await sleep(3000);
     return (
         await axios.get<DetailedChatDto>(`${BASE_URL}/public/chats/${chatId}`, {
             params: { userId },
