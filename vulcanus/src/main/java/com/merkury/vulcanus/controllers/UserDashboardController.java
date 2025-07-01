@@ -34,8 +34,13 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/friends")
-    public ResponseEntity<List<SocialDto>> getUserFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(userDashboardService.getUserFriends(request));
+    public ResponseEntity<List<SocialDto>> getUserOwnFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserOwnFriends(request));
+    }
+
+    @GetMapping("/public/user-dashboard/friends/{targetUsername}")
+    public ResponseEntity<List<SocialDto>> getUserFriendsForViewer(@PathVariable String targetUsername) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserFriendsForViewer(targetUsername));
     }
 
     @PatchMapping("/user-dashboard/friends")
@@ -52,13 +57,23 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/followers")
-    public ResponseEntity<List<SocialDto>> getUserFollowers(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(userDashboardService.getUserFollowers(request));
+    public ResponseEntity<List<SocialDto>> getUserOwnFollowers(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserOwnFollowers(request));
+    }
+
+    @GetMapping("/public/user-dashboard/followers/{targetUsername}")
+    public ResponseEntity<List<SocialDto>> getUserFollowersForViewer(@PathVariable String targetUsername) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserFollowersForViewer(targetUsername));
     }
 
     @GetMapping("/user-dashboard/followed")
-    public ResponseEntity<List<SocialDto>> getUserFollowed(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(userDashboardService.getUserFollowed(request));
+    public ResponseEntity<List<SocialDto>> getUserOwnFollowed(HttpServletRequest request) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserOwnFollowed(request));
+    }
+
+    @GetMapping("/public/user-dashboard/followed/{targetUsername}")
+    public ResponseEntity<List<SocialDto>> getUserFollowedForViewer(@PathVariable String targetUsername) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserFollowedForViewer(targetUsername));
     }
 
     @PatchMapping("/user-dashboard/followed")

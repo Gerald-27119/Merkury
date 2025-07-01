@@ -1,6 +1,6 @@
 import axios from "axios";
 import UserProfile from "../model/interface/account/profile/userProfile";
-import { Social } from "../model/interface/account/social/social";
+import { SocialDto } from "../model/interface/account/social/socialDto";
 import { FavoriteSpot } from "../model/interface/account/favorite-spots/favoriteSpot";
 import { FavoriteSpotsListType } from "../model/enum/account/favorite-spots/favoriteSpotsListType";
 import { UserRelationEditType } from "../model/enum/account/social/userRelationEditType";
@@ -25,11 +25,19 @@ export async function getProfileForViewer(
   ).data;
 }
 
-export async function getUserFriends(): Promise<Social[]> {
+export async function getUserOwnFriends(): Promise<SocialDto[]> {
   return (
     await axios.get(`${BASE_URL}/user-dashboard/friends`, {
       withCredentials: true,
     })
+  ).data;
+}
+
+export async function getUserFriendsForViewer(
+  username: string,
+): Promise<SocialDto[]> {
+  return (
+    await axios.get(`${BASE_URL}/public/user-dashboard/friends/${username}`)
   ).data;
 }
 
@@ -53,7 +61,7 @@ export async function editUserFriends({
   ).data;
 }
 
-export async function getUserFollowed(): Promise<Social[]> {
+export async function getUserOwnFollowed(): Promise<SocialDto[]> {
   return (
     await axios.get(`${BASE_URL}/user-dashboard/followed`, {
       withCredentials: true,
@@ -61,11 +69,27 @@ export async function getUserFollowed(): Promise<Social[]> {
   ).data;
 }
 
-export async function getUserFollowers(): Promise<Social[]> {
+export async function getUserFollowedForViewer(
+  username: string,
+): Promise<SocialDto[]> {
+  return (
+    await axios.get(`${BASE_URL}/public/user-dashboard/followed/${username}`)
+  ).data;
+}
+
+export async function getUserOwnFollowers(): Promise<SocialDto[]> {
   return (
     await axios.get(`${BASE_URL}/user-dashboard/followers`, {
       withCredentials: true,
     })
+  ).data;
+}
+
+export async function getUserFollowersForViewer(
+  username: string,
+): Promise<SocialDto[]> {
+  return (
+    await axios.get(`${BASE_URL}/public/user-dashboard/followers/${username}`)
   ).data;
 }
 

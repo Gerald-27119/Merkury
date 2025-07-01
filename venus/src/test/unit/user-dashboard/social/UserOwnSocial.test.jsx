@@ -5,7 +5,9 @@ import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { describe } from "vitest";
-import Social from "../../../../pages/account/social/Social.tsx";
+import { SocialListType } from "../../../../model/enum/account/social/socialListType";
+import { socialSlice } from "../../../../redux/social";
+import UserOwnSocial from "../../../../pages/account/social/UserOwnSocial";
 
 const queryClient = new QueryClient();
 
@@ -47,9 +49,13 @@ const renderProfile = () => {
   const store = configureStore({
     reducer: {
       account: accountSlice.reducer,
+      social: socialSlice.reducer,
     },
     account: {
       isLogged: true,
+    },
+    social: {
+      type: SocialListType.FRIENDS,
     },
   });
 
@@ -57,15 +63,15 @@ const renderProfile = () => {
     <Provider store={store}>
       <MemoryRouter>
         <QueryClientProvider client={queryClient}>
-          <Social />
+          <UserOwnSocial />
         </QueryClientProvider>
       </MemoryRouter>
     </Provider>,
   );
 };
 
-describe("Friends component unit tests", () => {
-  describe("Friends display friends data correctly", () => {
+describe("Social component unit tests", () => {
+  describe("Social display friends data correctly", () => {
     beforeEach(() => {
       renderProfile();
     });

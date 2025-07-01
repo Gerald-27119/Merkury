@@ -1,4 +1,4 @@
-export interface Social {
+export interface SocialDto {
   username: string;
   profilePhoto: string;
 }
