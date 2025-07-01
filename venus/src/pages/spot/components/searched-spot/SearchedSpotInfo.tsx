@@ -1,7 +1,6 @@
 import SearchSpotDto from "../../../../model/interface/spot/searchSpotDto";
-import { ConfigProvider, Rate } from "antd";
+import { Rate } from "antd";
 import SpotTag from "../tag/SpotTag";
-import { current } from "@reduxjs/toolkit";
 import { useMap } from "@vis.gl/react-maplibre";
 import BorderPoint from "../../../../model/interface/spot/borderPoint";
 
