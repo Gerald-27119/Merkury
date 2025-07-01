@@ -1,9 +1,14 @@
 package com.merkury.vulcanus.controllers.spot;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
+import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.Spot;
+import com.merkury.vulcanus.model.entities.SpotTag;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
+import com.merkury.vulcanus.model.repositories.SpotTagRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,7 +30,16 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,6 +47,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Testcontainers
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Slf4j
 class SpotControllerWithServerStartupTest {
 
     @LocalServerPort
@@ -42,6 +58,9 @@ class SpotControllerWithServerStartupTest {
 
     @Autowired
     private SpotRepository spotRepository;
+
+    @Autowired
+    private SpotTagRepository spotTagRepository;
 
     private static final int REDIS_PORT = 6379;
     private static final String REDIS_IMAGE_NAME = "redis:6-alpine";
@@ -63,9 +82,26 @@ class SpotControllerWithServerStartupTest {
                 new BorderPoint(40.784091, -73.969285)
         );
 
+        List<String> tagsNames = new ArrayList<>(List.of(
+                "tag1",
+                "tag2",
+                "tag3"
+        ));
+        Set<SpotTag> tagSet = new HashSet<>();
+        for (String tagName : tagsNames) {
+            var tag = SpotTag.builder()
+                    .name(tagName)
+                    .spots(new HashSet<>())
+                    .build();
+            spotTagRepository.save(tag);
+            tagSet.add(tag);
+        }
+
         var spot1 = Spot.builder()
                 .name("Spot1")
                 .rating(3.0)
+                .ratingCount(2)
+                .tags(tagSet)
                 .areaColor("#000000")
                 .borderPoints(borderPoints)
                 .build();
@@ -73,6 +109,8 @@ class SpotControllerWithServerStartupTest {
         var spot2 = Spot.builder()
                 .name("Spot2")
                 .rating(4.0)
+                .ratingCount(2)
+                .tags(tagSet)
                 .areaColor("#000000")
                 .borderPoints(borderPoints)
                 .build();
@@ -80,9 +118,28 @@ class SpotControllerWithServerStartupTest {
         var spot3 = Spot.builder()
                 .name("Other")
                 .rating(5.0)
+                .ratingCount(2)
+                .tags(tagSet)
                 .areaColor("#000000")
                 .borderPoints(borderPoints)
                 .build();
+
+        List<Img> photos1 = Arrays.asList(
+                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, spot1),
+                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, spot1)
+        );
+        List<Img> photos2 = Arrays.asList(
+                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, spot2),
+                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, spot2)
+        );
+        List<Img> photos3 = Arrays.asList(
+                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, spot3),
+                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, spot3)
+        );
+
+        spot1.setImages(photos1);
+        spot2.setImages(photos2);
+        spot3.setImages(photos3);
 
         spotRepository.deleteAll();
         spotRepository.save(spot1);
@@ -158,6 +215,7 @@ class SpotControllerWithServerStartupTest {
                 () -> assertThat(responseEntity.getBody()).hasSize(3)
         );
     }
+
     @Test
     @DisplayName("Search spot should return all spots when name filter is white characters.")
     void searchSpotShouldReturnAllSpotsThatMatchFilterWhenNameFilterHasWhiteCharactersAtTheBeginning() {
@@ -221,6 +279,32 @@ class SpotControllerWithServerStartupTest {
         assertAll("Response assertions",
                 () -> assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode(), "Status code should be 404"),
                 () -> assertThat(responseEntity.getBody().contains("No spots match filters!"))
+        );
+    }
+
+    @Test
+    @DisplayName("getSearchedSpotsListPage should return all spots as page")
+    void getSearchedSpotsListPageShouldReturnAllSpotsAsPage() {
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        var responseEntity = restTemplate.exchange(
+                "http://localhost:" + port + "/public/spot/search/list",
+                HttpMethod.GET,
+                entity,
+                new ParameterizedTypeReference<CustomPageImpl<Spot>>() {
+                }
+        );
+
+        PageImpl<Spot> page = responseEntity.getBody();
+        var content = page.getContent();
+        assertAll("Response assertions",
+                () -> assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "Status code should be 200"),
+                () -> assertEquals(3, content.size(), "Content should have 3 elements"),
+                () -> assertEquals("Spot1", content.getFirst().getName(), "First spot name should be Spot1"),
+                () -> assertEquals("Spot2", content.get(1).getName(), "Second spot name should be Spot2"),
+                () -> assertEquals("Other", content.get(2).getName(), "Third spot name should be Other")
         );
     }
 }
