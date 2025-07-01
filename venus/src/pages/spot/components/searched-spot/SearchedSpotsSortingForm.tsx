@@ -61,7 +61,10 @@ export default function SearchedSpotsSortingForm() {
   }, [selectedSorting, name, sorting, dispatch]);
 
   return (
-    <div className="relative mb-6 inline-block">
+    <div
+      className="relative mb-6 inline-block"
+      data-testid="searched-spots-sorting-form"
+    >
       <div className="relative flex flex-col">
         <div
           className={`bg-violetLight flex w-86 justify-between ${isDropdownOpen ? "rounded-t-2xl rounded-l-2xl" : "rounded-2xl"} px-5 py-1 text-lg`}
