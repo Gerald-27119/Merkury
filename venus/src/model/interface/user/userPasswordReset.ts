@@ -1,4 +1,4 @@
 export default interface UserPasswordReset {
-  token: string;
-  password: string;
+    token: string;
+    password: string;
 }

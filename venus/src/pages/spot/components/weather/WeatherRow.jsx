@@ -1,3 +1,5 @@
 export default function WeatherRow({ children }) {
-  return <div className="flex justify-between flex-wrap gap-4">{children}</div>;
+    return (
+        <div className="flex flex-wrap justify-between gap-4">{children}</div>
+    );
 }
