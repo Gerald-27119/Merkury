@@ -48,7 +48,7 @@ public class ChatService {
 //                    .findAllByChatId(chat.getId(), PageRequest.of(0, 20, Sort.by("sentAt").descending()))
 //                    .getContent();
 
-//            TODO:futher optimize it
+//            TODO: does this new repo method work???
             List<ChatMessage> last20Messages = chatMessageRepository
                     .findTop20ByChatIdOrderBySentAtDesc(chat.getId());
 
@@ -89,7 +89,7 @@ public class ChatService {
         }).toList();
     }
 
-    //TODO: check deeply benefits of using transactional here
+    //TODO:why it works here correctly?
     @Transactional
     public ChatMessageDto saveChatMessage(ChatMessageDto chatMessageDto) {
 
@@ -108,14 +108,16 @@ public class ChatService {
         chat.getChatMessages().add(chatMessage);
         chat.setLastMessageAt(LocalDateTime.now());//TODO; optimise it better
 
+
         chatMessageRepository.save(chatMessage);
-        chatRepository.save(chat);//TODO:@OneToMany(mappedBy = "chat", cascade = CascadeType.PERSIST) - check more deeply
+        chatRepository.save(chat);//@OneToMany(mappedBy = "chat", cascade = CascadeType.PERSIST) - check more deeply
         var lastMessage = chat.getChatMessages().stream()
                 .max(Comparator.comparing(ChatMessage::getSentAt))
                 .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
         //TODO:diffrent Mapper to add ID to the message
         //ALso use diffrent DTO with chat Id?
         //TODO:ktorys z tych save caht lubc hatMEssage nie jest zbedny?
+        //TODO:how to update messages on front correclty?
         return ChatMapper.toChatMessageDto(chatMessage, chatMessageDto.sender());
     }
 }

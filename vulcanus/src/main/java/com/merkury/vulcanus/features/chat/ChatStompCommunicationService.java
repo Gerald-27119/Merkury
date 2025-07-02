@@ -14,5 +14,5 @@ public class ChatStompCommunicationService {
     private final UserEntityRepository userEntityRepository;
     private final ChatRepository chatRepository;
 
-    //TODO: move logic here
+    //TODO:move logic here
 }

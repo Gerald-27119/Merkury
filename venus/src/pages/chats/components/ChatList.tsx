@@ -13,6 +13,8 @@ import {
 } from "../../../model/interface/chat/chatInterfaces";
 import { selectAllChats, chatActions } from "../../../redux/chats";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import SkeletonListedChat from "./skeleton/SkeletonListedChat";
+import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 
 export default function ChatList() {
     const dispatch = useDispatchTyped();
@@ -70,17 +72,22 @@ export default function ChatList() {
         return () => observer.disconnect();
     }, [fetchNextPage, hasNextPage]);
 
-    if (isLoading) return <div>Loading chats…</div>; //TODO: add skeleton
+    if (isLoading)
+        return Array.from({ length: 15 }).map((_, index) => (
+            <SkeletonListedChat key={index} />
+        )); //TODO: add skeleton
     if (isError) return <div>Failed to load chats</div>; //TODO: add error handling, notification
 
     return (
         <>
             {allChats.map((chat) => (
-                <ListedChat key={chat.id} simpleChatDto={chat.simpleChatDto} />
+                <ListedChat key={chat?.id} simpleChatDto={chat.simpleChatDto} />
             ))}
             <div ref={loadMoreRef} className="h-1" />
             {/*TODO: add nicer spinner*/}
-            {isFetchingNextPage && <div>Loading more…</div>}
+            {isFetchingNextPage && (
+                <LoadingSpinner borderTopClass="border-t-violetLight" />
+            )}
         </>
     );
 }

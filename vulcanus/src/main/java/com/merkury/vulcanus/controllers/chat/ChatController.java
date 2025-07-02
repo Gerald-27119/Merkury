@@ -30,7 +30,7 @@ public class ChatController {
         return ResponseEntity.ok(chatService.getSimpleChatListForUserId(userId, pageParam, numberOfChatsPerPage));
     }
 
-//    TODO: delete
+//    TODO: delete?
     @GetMapping("/{chatId}")
     public ResponseEntity<DetailedChatDto> getDetailedChatDtos(
             @PathVariable Long chatId,
