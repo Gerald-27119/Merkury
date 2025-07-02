@@ -15,7 +15,6 @@ import UserOwnProfile from "./pages/account/profile/UserOwnProfile";
 import ProfileForViewer from "./pages/account/profile/ProfileForViewer";
 import UserOwnSocial from "./pages/account/social/UserOwnSocial";
 import SocialForViewer from "./pages/account/social/SocialForViewer";
-import ProtectedRouteWithLoginRedirect from "./components/protected-route/ProtectedChatRouteWithLoginSuggestion";
 
 const router = createBrowserRouter([
     {
@@ -103,9 +102,9 @@ const router = createBrowserRouter([
             {
                 path: "chat",
                 element: (
-                    <ProtectedRouteWithLoginRedirect>
+                    <ProtectedRoute>
                         <ChatsPage />
-                    </ProtectedRouteWithLoginRedirect>
+                    </ProtectedRoute>
                 ),
             },
         ],
