@@ -31,7 +31,7 @@ import java.util.concurrent.TimeoutException;
 @Component
 @RequiredArgsConstructor
 public class ChatTestService {
-
+//TODO: exclude that whole folder in production code
     private final RestTemplate restTemplate = new RestTemplate();
 
     //TODO: grupwoanie wiadomosci na froncie

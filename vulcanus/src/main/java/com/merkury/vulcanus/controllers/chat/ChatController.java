@@ -21,9 +21,6 @@ public class ChatController {
 
     private final ChatService chatService;
 
-    /*
-        * After consideration I decided to send bigger objects but in lesser quantity.
-     */
     @GetMapping
     public ResponseEntity<List<SimpleChatDto>> getSimpleChatDtos(
             @RequestParam Long userId,
@@ -33,7 +30,7 @@ public class ChatController {
         return ResponseEntity.ok(chatService.getSimpleChatListForUserId(userId, pageParam, numberOfChatsPerPage));
     }
 
-//    TODO: delete
+//    TODO: delete?
     @GetMapping("/{chatId}")
     public ResponseEntity<DetailedChatDto> getDetailedChatDtos(
             @PathVariable Long chatId,

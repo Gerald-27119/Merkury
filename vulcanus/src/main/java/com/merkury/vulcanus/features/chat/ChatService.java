@@ -89,7 +89,7 @@ public class ChatService {
         }).toList();
     }
 
-    //TODO:why
+    //TODO:why it works here correctly?
     @Transactional
     public ChatMessageDto saveChatMessage(ChatMessageDto chatMessageDto) {
 
@@ -107,9 +107,8 @@ public class ChatService {
 
         chat.getChatMessages().add(chatMessage);
         chat.setLastMessageAt(LocalDateTime.now());//TODO; optimise it better
-//        nie trzeba zapisywac chata, dlaczego? tylko wystarczyd odac do wyciagneitegoc ahta z abzy ta wiadomosc
-//        czy trzeba xd
-//        TODO:doedukuje sie jakd ziala persystancja w hibernate bo dlaej nei wiesz po 2 latach
+
+
         chatMessageRepository.save(chatMessage);
         chatRepository.save(chat);//@OneToMany(mappedBy = "chat", cascade = CascadeType.PERSIST) - check more deeply
         var lastMessage = chat.getChatMessages().stream()
@@ -118,7 +117,7 @@ public class ChatService {
         //TODO:diffrent Mapper to add ID to the message
         //ALso use diffrent DTO with chat Id?
         //TODO:ktorys z tych save caht lubc hatMEssage nie jest zbedny?
-        //how to update messages on front?
+        //TODO:how to update messages on front correclty?
         return ChatMapper.toChatMessageDto(chatMessage, chatMessageDto.sender());
     }
 }

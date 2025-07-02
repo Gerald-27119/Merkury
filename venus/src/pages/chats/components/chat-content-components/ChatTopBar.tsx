@@ -11,7 +11,6 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
     return (
         <div className="bg-violetDark flex items-center justify-between gap-4 px-4 py-5">
             <div className="flex items-center gap-3">
-                {/*TODO:make that src as component?*/}
                 <img
                     className="aspect-square w-9 rounded-full"
                     src={

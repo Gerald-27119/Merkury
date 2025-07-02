@@ -42,8 +42,4 @@ public class ChatStompCommunicationController {
 // 3. Save message to DB
 // 4. Broadcast message to all subscribers (via STOMP)
 
-// (* POST vs STOMP dilemma)
-/*
-    While creating the chat send message functionality I have faced a dilemma:
-    Should I use HTTP POST to send messages or STOMP (a Subprotocol that implements WebSocket and is used in Spring Boot) ?
- */
+//Decided to sent messages also via stomp, not POST
