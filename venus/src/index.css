@@ -95,7 +95,7 @@ body {
 }
 
 .custom-rate-spot-comment
-.ant-rate-star:not(.ant-rate-star-full)
-.ant-rate-star-second {
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
     color: #ffffff;
 }

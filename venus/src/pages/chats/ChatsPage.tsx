@@ -35,7 +35,7 @@ export default function ChatsPage() {
                     <LuMessageSquarePlus size={30} className="mr-5" />
                 </div>
 
-                <div className="scrollbar-track-violetDark hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark min-w-0 flex-col overflow-y-auto text-white">
+                <div className="scrollbar-track-violetDark/10 hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark/80 min-w-0 flex-col overflow-y-auto text-white">
                     <ChatList />
                 </div>
             </div>
