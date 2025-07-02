@@ -5,6 +5,7 @@ import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.Spot;
+import com.merkury.vulcanus.model.repositories.FavoriteSpotRepository;
 import com.merkury.vulcanus.model.entities.SpotTag;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import com.merkury.vulcanus.model.repositories.SpotTagRepository;
@@ -61,6 +62,9 @@ class SpotControllerWithServerStartupTest {
 
     @Autowired
     private SpotTagRepository spotTagRepository;
+
+    @Autowired
+    private FavoriteSpotRepository favoriteSpotRepository;
 
     private static final int REDIS_PORT = 6379;
     private static final String REDIS_IMAGE_NAME = "redis:6-alpine";
@@ -124,6 +128,7 @@ class SpotControllerWithServerStartupTest {
                 .borderPoints(borderPoints)
                 .build();
 
+        favoriteSpotRepository.deleteAll();
         List<Img> photos1 = Arrays.asList(
                 new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, spot1),
                 new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, spot1)

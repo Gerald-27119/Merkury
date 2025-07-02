@@ -11,23 +11,23 @@ import SpotsNameSearchBar from "./components/spot-search/SpotsNameSearchBar";
 import SearchedSpotsList from "../spot/SearchedSpotsList";
 
 type Position = {
-  longitude: number;
-  latitude: number;
+    longitude: number;
+    latitude: number;
 };
 
 const defaultPosition: Position = {
-  longitude: 18.64745,
-  latitude: 54.352553,
+    longitude: 18.64745,
+    latitude: 54.352553,
 };
 export default function MapPage() {
-  const dispatch = useDispatchTyped();
-  const handleZoomEnd = (event: any) => {
-    dispatch(mapAction.setZoomLevel(event.target.getZoom()));
-  };
+    const dispatch = useDispatchTyped();
+    const handleZoomEnd = (event: any) => {
+        dispatch(mapAction.setZoomLevel(event.target.getZoom()));
+    };
 
-  const showSpotDetailsModal = useSelectorTyped(
-    (state) => state.spotDetails.showModal,
-  );
+    const showSpotDetailsModal = useSelectorTyped(
+        (state) => state.spotDetails.showModal,
+    );
 
   const showSearchedSpotsList = useSelectorTyped(
     (state) => state.searchedSpotsListModal.showList,

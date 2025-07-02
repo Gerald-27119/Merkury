@@ -12,67 +12,72 @@ import useDispatchTyped from "../../hooks/useDispatchTyped";
 const signUpFields = ["username", "password", "email", "confirm-password"];
 
 export default function Register() {
-  const { mutateAsync, isSuccess, error } = useMutation({
-    mutationFn: registerUser,
-  });
-
-  const dispatch = useDispatchTyped();
-
-  const { enteredValue, didEdit, isValid, handleInputChange, handleInputBlur } =
-    useUserDataValidation({
-      password: "",
-      username: "",
-      email: "",
-      "confirm-password": "",
+    const { mutateAsync, isSuccess, error } = useMutation({
+        mutationFn: registerUser,
     });
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    await mutateAsync({
-      username: enteredValue.username,
-      email: enteredValue.email,
-      password: enteredValue.password,
+    const dispatch = useDispatchTyped();
+
+    const {
+        enteredValue,
+        didEdit,
+        isValid,
+        handleInputChange,
+        handleInputBlur,
+    } = useUserDataValidation({
+        password: "",
+        username: "",
+        email: "",
+        "confirm-password": "",
     });
-  };
 
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(accountAction.setIsLogged({ username: enteredValue.username }));
-    }
-  }, [isSuccess, dispatch, enteredValue.username]);
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        await mutateAsync({
+            username: enteredValue.username,
+            email: enteredValue.email,
+            password: enteredValue.password,
+        });
+    };
 
-  return (
-    <FormContainer
-      isSuccess={isSuccess}
-      error={error}
-      navigateTo="/login"
-      linkCaption="Already have an account?"
-      header="Create Account"
-      navigateOnSuccess="/"
-      showOauth={true}
-      showLink={true}
-      notificationMessage="Account created successfully!"
-    >
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        {inputs.map(({ name, type, id }) => (
-          <FormInput
-            key={id}
-            label={name}
-            type={type}
-            id={id}
-            onChange={(event) => handleInputChange(id, event)}
-            value={enteredValue[id]}
-            onBlur={() => handleInputBlur(id)}
-            isValid={isValid[id]}
-          />
-        ))}
-        <SubmitFormButton
-          label="Sign up"
-          fields={signUpFields}
-          didEdit={didEdit}
-          isValid={isValid}
-        />
-      </form>
-    </FormContainer>
-  );
+    useEffect(() => {
+        if (isSuccess) {
+            dispatch(accountAction.setIsLogged());
+        }
+    }, [isSuccess, dispatch, enteredValue.username]);
+
+    return (
+        <FormContainer
+            isSuccess={isSuccess}
+            error={error}
+            navigateTo="/login"
+            linkCaption="Already have an account?"
+            header="Create Account"
+            navigateOnSuccess="/"
+            showOauth={true}
+            showLink={true}
+            notificationMessage="Account created successfully!"
+        >
+            <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+                {inputs.map(({ name, type, id }) => (
+                    <FormInput
+                        key={id}
+                        label={name}
+                        type={type}
+                        id={id}
+                        onChange={(event) => handleInputChange(id, event)}
+                        value={enteredValue[id]}
+                        onBlur={() => handleInputBlur(id)}
+                        isValid={isValid[id]}
+                    />
+                ))}
+                <SubmitFormButton
+                    label="Sign up"
+                    fields={signUpFields}
+                    didEdit={didEdit}
+                    isValid={isValid}
+                />
+            </form>
+        </FormContainer>
+    );
 }

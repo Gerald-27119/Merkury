@@ -8,6 +8,8 @@ import { spotFiltersSlice } from "./spot-filters";
 import { chatsSlice } from "./chats";
 import { mapSlice } from "./map";
 import { sidebarSlice } from "./sidebar";
+import { socialSlice } from "./social";
+import { spotCommentSlice } from "./spot-comments";
 import { searchedSpotListModalSlice } from "./searched-spot-list-modal";
 import {
   searchedSpotsSlice,
@@ -27,6 +29,8 @@ const store = configureStore({
     map: mapSlice.reducer,
     sidebar: sidebarSlice.reducer,
     searchedSpots: searchedSpotsSlice.reducer,
+      social: socialSlice.reducer,
+      spotComments: spotCommentSlice.reducer,
   },
 });
 

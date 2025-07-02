@@ -3,29 +3,29 @@ import { HTMLAttributes, useState } from "react";
 import Img from "../../../../model/interface/img";
 
 type PhotoProps = {
-  photo: Img;
+    photo: Img;
 } & HTMLAttributes<HTMLDivElement>;
 
 export default function Photo({ photo, ...props }: PhotoProps) {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const handleImageLoad = () => {
-    setIsLoading(false);
-  };
+    const handleImageLoad = () => {
+        setIsLoading(false);
+    };
 
-  return (
-    <div className="max-h-60 overflow-hidden rounded-2xl">
-      {isLoading && <LoadingSpinner />}
-      {photo ? (
-        <img
-          {...props}
-          src={photo.img}
-          alt={photo.title}
-          onLoad={handleImageLoad}
-        />
-      ) : (
-        <p>No photo to display</p>
-      )}
-    </div>
-  );
+    return (
+        <div className="max-h-60 overflow-hidden rounded-2xl">
+            {isLoading && <LoadingSpinner />}
+            {photo ? (
+                <img
+                    {...props}
+                    src={photo.img}
+                    alt={photo.title}
+                    onLoad={handleImageLoad}
+                />
+            ) : (
+                <p>No photo to display</p>
+            )}
+        </div>
+    );
 }

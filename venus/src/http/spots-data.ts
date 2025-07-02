@@ -26,40 +26,44 @@ export async function fetchSpotsNames(name: string): Promise<string[]> {
 }
 
 export async function fetchSpotsDataById(
-  id: number | null,
+    id: number | null,
 ): Promise<SpotDetails> {
-  return (await axios.get(`${BASE_URL}/public/spot/${id}`)).data;
+    return (await axios.get(`${BASE_URL}/public/spot/${id}`)).data;
 }
 
 export async function fetchUserFavouriteSpots(page) {
-  return (
-    await axios.get(`${BASE_URL}/spot/favourites`, {
-      params: { page },
-      withCredentials: true,
-    })
-  ).data;
+    return (
+        await axios.get(`${BASE_URL}/spot/favourites`, {
+            params: { page },
+            withCredentials: true,
+        })
+    ).data;
 }
 
 export async function addSpotToFavourites(spotId) {
-  return await axios.patch(`${BASE_URL}/spot/favourites/add/${spotId}`, null, {
-    withCredentials: true,
-  });
+    return await axios.patch(
+        `${BASE_URL}/spot/favourites/add/${spotId}`,
+        null,
+        {
+            withCredentials: true,
+        },
+    );
 }
 
 export async function removeSpotFromFavourites(spotId) {
-  return await axios.patch(
-    `${BASE_URL}/spot/favourites/remove/${spotId}`,
-    null,
-    {
-      withCredentials: true,
-    },
-  );
+    return await axios.patch(
+        `${BASE_URL}/spot/favourites/remove/${spotId}`,
+        null,
+        {
+            withCredentials: true,
+        },
+    );
 }
 
 export async function isSpotFavourite(spotId) {
-  return (
-    await axios.get(`${BASE_URL}/spot/favourites/${spotId}`, {
-      withCredentials: true,
-    })
-  ).data;
+    return (
+        await axios.get(`${BASE_URL}/spot/favourites/${spotId}`, {
+            withCredentials: true,
+        })
+    ).data;
 }

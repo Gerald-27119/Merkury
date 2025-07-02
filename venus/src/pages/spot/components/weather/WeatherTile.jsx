@@ -1,7 +1,7 @@
 export default function WeatherTile({ children }) {
-  return (
-    <div className="flex justify-center items-center p-4 bg-white rounded-xl shadow-md text-3xl grow">
-      {children}
-    </div>
-  );
+    return (
+        <div className="flex grow items-center justify-center rounded-xl bg-white p-4 text-3xl shadow-md">
+            {children}
+        </div>
+    );
 }
