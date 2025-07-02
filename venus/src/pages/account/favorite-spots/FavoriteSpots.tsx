@@ -11,27 +11,27 @@ import AccountWrapper from "../components/AccountWrapper";
 import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
 
 const menuTypes = [
-  { label: "All", type: FavoriteSpotsListType.ALL },
-  { label: "Favorites", type: FavoriteSpotsListType.FAVORITE },
-  { label: "Plan to visit", type: FavoriteSpotsListType.PLAN_TO_VISIT },
-  { label: "Visited liked it", type: FavoriteSpotsListType.VISITED_LIKED_IT },
-  {
-    label: "Visited didn't like it",
-    type: FavoriteSpotsListType.VISITED_NOT_LIKED_IT,
-  },
+    { label: "All", type: FavoriteSpotsListType.ALL },
+    { label: "Favorites", type: FavoriteSpotsListType.FAVORITE },
+    { label: "Plan to visit", type: FavoriteSpotsListType.PLAN_TO_VISIT },
+    { label: "Visited liked it", type: FavoriteSpotsListType.VISITED_LIKED_IT },
+    {
+        label: "Visited didn't like it",
+        type: FavoriteSpotsListType.VISITED_NOT_LIKED_IT,
+    },
 ];
 
 export default function FavoriteSpots() {
-  const [selectedType, setSelectedType] = useState(FavoriteSpotsListType.ALL);
+    const [selectedType, setSelectedType] = useState(FavoriteSpotsListType.ALL);
 
-  const { data, isLoading } = useQuery({
-    queryFn: () => getUserFavoriteSpots(selectedType),
-    queryKey: ["favorite-spots", selectedType],
-  });
+    const { data, isLoading } = useQuery({
+        queryFn: () => getUserFavoriteSpots(selectedType),
+        queryKey: ["favorite-spots", selectedType],
+    });
 
-  const handleSetSelectedType = (type: FavoriteSpotsListType) => {
-    setSelectedType(type);
-  };
+    const handleSetSelectedType = (type: FavoriteSpotsListType) => {
+        setSelectedType(type);
+    };
 
   return (
     <AccountWrapper variant={AccountWrapperType.FAVORITE_SPOTS}>

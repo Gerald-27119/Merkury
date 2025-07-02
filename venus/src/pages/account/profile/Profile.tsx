@@ -10,27 +10,27 @@ import AccountWrapper from "../components/AccountWrapper";
 import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
 
 interface ProfileProps {
-  userData: UserProfile;
-  children?: ReactNode;
-  username?: string;
+    userData: UserProfile;
+    children?: ReactNode;
+    username?: string;
 }
 
 export default function Profile({
-  userData,
-  children,
-  username,
+    userData,
+    children,
+    username,
 }: ProfileProps) {
-  const navigate = useNavigate();
-  const dispatch = useDispatchTyped();
+    const navigate = useNavigate();
+    const dispatch = useDispatchTyped();
 
-  const handleNavigateToSocial = (type: SocialListType) => {
-    dispatch(socialAction.setType(type));
-    if (username == undefined) {
-      navigate("/account/friends");
-    } else {
-      navigate(`/account/friends/${username}`);
-    }
-  };
+    const handleNavigateToSocial = (type: SocialListType) => {
+        dispatch(socialAction.setType(type));
+        if (username == undefined) {
+            navigate("/account/friends");
+        } else {
+            navigate(`/account/friends/${username}`);
+        }
+    };
 
   return (
     <AccountWrapper variant={AccountWrapperType.PROFILE}>

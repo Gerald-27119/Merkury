@@ -18,107 +18,107 @@ import SocialForViewer from "./pages/account/social/SocialForViewer";
 import Photos from "./pages/account/photos/Photos";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    errorElement: <Error error={undefined} />,
-    children: [
-      {
-        index: true,
-        element: <h1>HOME PAGE</h1>,
-      },
-      {
-        path: "account",
+    {
+        path: "/",
+        element: <Layout />,
+        errorElement: <Error error={undefined} />,
         children: [
-          {
-            index: true,
-            element: <Navigate to="profile" replace />,
-          },
-          {
-            path: "profile",
-            element: (
-              <ProtectedRoute>
-                <UserOwnProfile />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: "profile/:username",
-            element: <ProfileForViewer />,
-          },
-          {
-            path: "favorite-spots",
-            element: (
-              <ProtectedRoute>
-                <FavoriteSpots />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: "friends",
-            element: (
-              <ProtectedRoute>
-                <UserOwnSocial />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: "friends/:username",
-            element: <SocialForViewer />,
-          },
-          {
-            path: "photos",
-            element: (
-              <ProtectedRoute>
-                <Photos />
-              </ProtectedRoute>
-            ),
-          },
+            {
+                index: true,
+                element: <h1>HOME PAGE</h1>,
+            },
+            {
+                path: "account",
+                children: [
+                    {
+                        index: true,
+                        element: <Navigate to="profile" replace />,
+                    },
+                    {
+                        path: "profile",
+                        element: (
+                            <ProtectedRoute>
+                                <UserOwnProfile />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "profile/:username",
+                        element: <ProfileForViewer />,
+                    },
+                    {
+                        path: "favorite-spots",
+                        element: (
+                            <ProtectedRoute>
+                                <FavoriteSpots />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "friends",
+                        element: (
+                            <ProtectedRoute>
+                                <UserOwnSocial />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "friends/:username",
+                        element: <SocialForViewer />,
+                    },
+                  {
+                    path: "photos",
+                    element: (
+                      <ProtectedRoute>
+                        <Photos />
+                      </ProtectedRoute>
+                    ),
+                  },
+                ],
+            },
+            {
+                path: "register",
+                element: <Register />,
+            },
+            {
+                path: "login",
+                element: <Login />,
+            },
+            {
+                path: "forgot-password",
+                element: <ForgotPassword />,
+            },
+            {
+                path: "new-password",
+                element: <NewPassword />,
+            },
+            {
+                path: "forum",
+                element: <Forum />,
+            },
+            {
+                path: "edit-data",
+                element: (
+                    <ProtectedRoute>
+                        <EditUserData />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "map",
+                element: <MapPage />,
+            },
+            {
+                path: "chat",
+                element: (
+                    // for demo purposes only
+                    // <ProtectedRoute>
+                    <ChatsPage />
+                    // </ProtectedRoute>
+                ),
+            },
         ],
-      },
-      {
-        path: "register",
-        element: <Register />,
-      },
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "forgot-password",
-        element: <ForgotPassword />,
-      },
-      {
-        path: "new-password",
-        element: <NewPassword />,
-      },
-      {
-        path: "forum",
-        element: <Forum />,
-      },
-      {
-        path: "edit-data",
-        element: (
-          <ProtectedRoute>
-            <EditUserData />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "map",
-        element: <MapPage />,
-      },
-      {
-        path: "chat",
-        element: (
-          // for demo purposes only
-          // <ProtectedRoute>
-          <ChatsPage />
-          // </ProtectedRoute>
-        ),
-      },
-    ],
-  },
+    },
 ]);
 
 export default router;

@@ -1,4 +1,4 @@
 export default interface SpotCommentPhoto {
-  id: number;
-  url: string;
+    id: number;
+    url: string;
 }

@@ -4,14 +4,14 @@ import { getUserOwnProfile } from "../../../http/user-dashboard";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 
 export default function UserOwnProfile() {
-  const { data, isLoading } = useQuery({
-    queryFn: getUserOwnProfile,
-    queryKey: ["userProfile"],
-  });
+    const { data, isLoading } = useQuery({
+        queryFn: getUserOwnProfile,
+        queryKey: ["userProfile"],
+    });
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
 
-  return <Profile userData={data!} />;
+    return <Profile userData={data!} />;
 }

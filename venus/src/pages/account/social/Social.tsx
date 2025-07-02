@@ -10,42 +10,42 @@ import AccountWrapper from "../components/AccountWrapper";
 import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
 
 interface SocialProps {
-  friends: SocialDto[];
-  followed: SocialDto[];
-  followers: SocialDto[];
-  photos?: SocialDto[];
-  isSocialForViewer: boolean;
+    friends: SocialDto[];
+    followed: SocialDto[];
+    followers: SocialDto[];
+    photos?: SocialDto[];
+    isSocialForViewer: boolean;
 }
 
 export default function Social({
-  friends,
-  followed,
-  followers,
-  photos,
-  isSocialForViewer,
+    friends,
+    followed,
+    followers,
+    photos,
+    isSocialForViewer,
 }: SocialProps) {
-  const type = useSelectorTyped((state) => state.social.type);
-  const dispatch = useDispatchTyped();
+    const type = useSelectorTyped((state) => state.social.type);
+    const dispatch = useDispatchTyped();
 
-  const setType = (type: SocialListType) => {
-    dispatch(socialAction.setType(type));
-  };
+    const setType = (type: SocialListType) => {
+        dispatch(socialAction.setType(type));
+    };
 
-  const dataMap = {
-    [SocialListType.FRIENDS]: friends,
-    [SocialListType.FOLLOWED]: followed,
-    [SocialListType.FOLLOWERS]: followers,
-    [SocialListType.PHOTOS]: photos,
-  };
+    const dataMap = {
+        [SocialListType.FRIENDS]: friends,
+        [SocialListType.FOLLOWED]: followed,
+        [SocialListType.FOLLOWERS]: followers,
+        [SocialListType.PHOTOS]: photos,
+    };
 
-  const menuTypes = [
-    { label: "friends", type: SocialListType.FRIENDS },
-    { label: "followed", type: SocialListType.FOLLOWED },
-    { label: "followers", type: SocialListType.FOLLOWERS },
-    ...(isSocialForViewer
-      ? [{ label: "photos", type: SocialListType.PHOTOS }]
-      : []),
-  ];
+    const menuTypes = [
+        { label: "friends", type: SocialListType.FRIENDS },
+        { label: "followed", type: SocialListType.FOLLOWED },
+        { label: "followers", type: SocialListType.FOLLOWERS },
+        ...(isSocialForViewer
+            ? [{ label: "photos", type: SocialListType.PHOTOS }]
+            : []),
+    ];
 
   return (
     <AccountWrapper variant={AccountWrapperType.SOCIAL}>

@@ -1,5 +1,5 @@
 export default interface CategoryDto {
-  name: string;
-  description: string;
-  colour: string;
+    name: string;
+    description: string;
+    colour: string;
 }
