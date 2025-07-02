@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.features.chat;
 
+import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.DetailedChatDto;
 import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
@@ -119,5 +120,12 @@ public class ChatService {
         //TODO:ktorys z tych save caht lubc hatMEssage nie jest zbedny?
         //TODO:how to update messages on front correclty?
         return ChatMapper.toChatMessageDto(chatMessage, chatMessageDto.sender());
+    }
+
+    public List<ChatDto> getChatsForUser(int pageParam, int numberOfChatsPerPage) {
+        //czy msuze ttuaj robic get chats for user z tym messageSentAt decending cyz moge tryzamc message w bazie malejaco i odswierzac
+        //tutaj skonczyles
+
+        return null;
     }
 }

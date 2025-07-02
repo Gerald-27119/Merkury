@@ -7,7 +7,13 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "chat_messages")
+@Table(
+        name = "chat_messages",
+//        https://www.baeldung.com/jpa-indexes
+        indexes = {//TODO: test if works,
+                @Index(name = "index_chat_message_sent_at", columnList = "chat_id, sent_at")
+        }
+)
 @Data
 @Builder
 @NoArgsConstructor
