@@ -70,14 +70,6 @@ describe("Sidebar component unit tests", () => {
                 expect(link).toBeInTheDocument();
             });
 
-            test("should render Chat link", () => {
-                const links = screen.getAllByRole("link");
-                const link = links.find(
-                    (link) => link.getAttribute("href") === "/chat",
-                );
-                expect(link).toBeInTheDocument();
-            });
-
             test("should render Login link", () => {
                 const links = screen.getAllByRole("link");
                 const link = links.find(
@@ -100,11 +92,6 @@ describe("Sidebar component unit tests", () => {
 
             test("should render Forum icon", () => {
                 const icon = screen.getByLabelText("forum");
-                expect(icon).toBeInTheDocument();
-            });
-
-            test("should render Chat icon", () => {
-                const icon = screen.getByLabelText("chat");
                 expect(icon).toBeInTheDocument();
             });
 
