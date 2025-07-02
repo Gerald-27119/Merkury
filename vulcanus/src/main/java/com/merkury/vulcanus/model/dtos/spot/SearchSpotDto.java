@@ -13,19 +13,19 @@ import java.util.Set;
 
 @Builder
 public record SearchSpotDto(@Positive(message = "ID must be a positive number.")
-                                  Long id,
+                            Long id,
                             @NotBlank(message = "Name cannot be empty.")
-                                  String name,
+                            String name,
+                            @Min(value = 0, message = "Rating cannot be less than 0.")
+                            @Max(value = 5, message = "Rating cannot be more than 5.")
+                            Double rating,
                             @Min(value = 0, message = "Rating count cannot be less than 0.")
-                                  @Max(value = 5, message = "Rating count cannot be more than 5.")
-                                  Double rating,
-                            @Min(value = 0, message = "Rating count cannot be less than 0.")
-                                  Integer ratingCount,
+                            Integer ratingCount,
                             @NotBlank(message = "First photo cannot be empty.")
-                                  String firstPhoto,
+                            String firstPhoto,
                             @NotEmpty(message = "Spot tags set cannot be empty.")
-                                  Set<SpotTagDto> tags,
+                            Set<SpotTagDto> tags,
                             @NotNull(message = "Center point cannot be null.")
-                                  BorderPoint centerPoint
-                                 ) {
+                            BorderPoint centerPoint
+) {
 }
