@@ -7,7 +7,7 @@ describe("SortDropdown renders correctly", () => {
         render(<SortDropdown onSelectType={vi.fn()} />);
 
         expect(screen.getByText("Sort:")).toBeInTheDocument();
-        expect(screen.getByText("Date decrease")).toBeInTheDocument();
+        expect(screen.getByText("Date descending")).toBeInTheDocument();
     });
 
     it("renders toggle button", () => {
