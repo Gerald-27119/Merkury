@@ -6,7 +6,7 @@ interface Props {
     children: ReactNode;
 }
 
-export default function ProtectedRouteWithLoginSuggestion({ children }: Props) {
+export default function ProtectedRouteWithLoginRedirect({ children }: Props) {
     const isLogged = useSelector((state: any) => state.account.isLogged);
 
     return isLogged ? children : <Navigate to={"/login"} />;
