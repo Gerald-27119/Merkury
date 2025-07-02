@@ -1,24 +1,30 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { accountSlice } from "./account.jsx";
+import { accountSlice } from "./account";
 import { notificationSlice } from "./notification.jsx";
 import { photoSlice } from "./photo.jsx";
-import { spotDetailsModalSlice } from "./spot-modal.jsx";
+import { spotDetailsModalSlice } from "./spot-modal";
 import { photoGallerySlice } from "./photo-gallery.jsx";
 import { spotFiltersSlice } from "./spot-filters.jsx";
 import { chatsSlice } from "./chats";
 import { mapSlice } from "./map";
+import { sidebarSlice } from "./sidebar";
+import { socialSlice } from "./social";
+import { spotCommentSlice } from "./spot-comments";
 
 const store = configureStore({
-  reducer: {
-    account: accountSlice.reducer,
-    notification: notificationSlice.reducer,
-    photo: photoSlice.reducer,
-    spotDetails: spotDetailsModalSlice.reducer,
-    photoGallery: photoGallerySlice.reducer,
-    spotFilters: spotFiltersSlice.reducer,
-    chats: chatsSlice.reducer,
-    map: mapSlice.reducer,
-  },
+    reducer: {
+        account: accountSlice.reducer,
+        notification: notificationSlice.reducer,
+        photo: photoSlice.reducer,
+        spotDetails: spotDetailsModalSlice.reducer,
+        photoGallery: photoGallerySlice.reducer,
+        spotFilters: spotFiltersSlice.reducer,
+        chats: chatsSlice.reducer,
+        map: mapSlice.reducer,
+        sidebar: sidebarSlice.reducer,
+        social: socialSlice.reducer,
+        spotComments: spotCommentSlice.reducer,
+    },
 });
 
 export default store;

@@ -16,6 +16,8 @@ public class PopulateDbs {
     private final PopulateDbsService populateDbsService;
     private final PopulateForumService populateForumService;
     private final PopulateChatsService populateChatsService;
+    private final PopulateFriendsService populateFriendsService;
+    private final PopulateFavoriteSpotsService populateFavoriteSpotsService;
 
     @Order(1)
     @Bean
@@ -34,4 +36,14 @@ public class PopulateDbs {
     CommandLineRunner initForumDb() {
         return args -> populateForumService.initForumDb();
     }
+
+    @Order(4)
+    @Bean
+    CommandLineRunner initFriends(){
+        return args -> populateFriendsService.initPostgresDb();
+    }
+
+    @Order(5)
+    @Bean
+    CommandLineRunner initFavoriteSpots(){return args -> populateFavoriteSpotsService.initFavoriteSpots();}
 }

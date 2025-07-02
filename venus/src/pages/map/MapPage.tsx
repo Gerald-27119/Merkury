@@ -1,47 +1,57 @@
 import { Map } from "@vis.gl/react-maplibre";
 import ZoomControlPanel from "./components/zoom-control/ZoomControlPanel";
-import UserLocationPanel from "./components/UserLocationPanel";
+import UserLocationPanel from "./components/locations/UserLocationPanel";
 import Spots from "./components/spots/Spots";
 import useDispatchTyped from "../../hooks/useDispatchTyped";
 import { mapAction } from "../../redux/map";
+import useSelectorTyped from "../../hooks/useSelectorTyped";
+import SpotDetails from "../spot/SpotDetails";
+import { AnimatePresence } from "framer-motion";
 
 type Position = {
-  longitude: number;
-  latitude: number;
+    longitude: number;
+    latitude: number;
 };
 
 const defaultPosition: Position = {
-  longitude: 18.64745,
-  latitude: 54.352553,
+    longitude: 18.64745,
+    latitude: 54.352553,
 };
 export default function MapPage() {
-  const dispatch = useDispatchTyped();
-  const handleZoomEnd = (event: any) => {
-    dispatch(mapAction.setZoomLevel(event.target.getZoom()));
-  };
+    const dispatch = useDispatchTyped();
+    const handleZoomEnd = (event: any) => {
+        dispatch(mapAction.setZoomLevel(event.target.getZoom()));
+    };
 
-  return (
-    <Map
-      initialViewState={{
-        ...defaultPosition,
-        zoom: 15,
-      }}
-      dragRotate={false}
-      style={{
-        position: "relative",
-        width: "100vw",
-        height: "100vh",
-        overflow: "hidden",
-      }}
-      mapStyle="/map_style1.json"
-      attributionControl={false}
-      onZoomEnd={handleZoomEnd}
-    >
-      <div className="absolute right-1 bottom-1 flex flex-col items-center space-y-2 sm:right-2 sm:bottom-2 xl:right-5 xl:bottom-5">
-        <UserLocationPanel />
-        <ZoomControlPanel />
-      </div>
-      <Spots />
-    </Map>
-  );
+    const showSpotDetailsModal = useSelectorTyped(
+        (state) => state.spotDetails.showModal,
+    );
+
+    return (
+        <Map
+            initialViewState={{
+                ...defaultPosition,
+                zoom: 15,
+            }}
+            dragRotate={false}
+            style={{
+                position: "relative",
+                width: "100vw",
+                height: "100vh",
+                overflow: "hidden",
+            }}
+            mapStyle="/map_style1.json"
+            attributionControl={false}
+            onZoomEnd={handleZoomEnd}
+        >
+            <AnimatePresence>
+                {showSpotDetailsModal && <SpotDetails />}
+            </AnimatePresence>
+            <div className="absolute right-1 bottom-1 flex flex-col items-center space-y-2 sm:right-2 sm:bottom-2 xl:right-5 xl:bottom-5">
+                <UserLocationPanel />
+                <ZoomControlPanel />
+            </div>
+            <Spots />
+        </Map>
+    );
 }

@@ -8,7 +8,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --height-1\/10: 10%;
+    --height-1\/10: 10%;
 
   --color-mainBlue: #4242f0;
   --color-mainBlueDarker: #0d0db5;
@@ -41,29 +41,54 @@
   --color-userLocationDot: #4285f4;
   --color-spotLocationMarker: #A8071A;
 
-  --animate-slide-in-from-left: slideInFromLeft 0.3s ease-out;
+    --animate-slide-in-from-left: slideInFromLeft 0.3s ease-out;
 
-  @keyframes slideInFromLeft {
-    0% {
-      transform: translateX(-100%);
-      opacity: 0;
+    @keyframes slideInFromLeft {
+        0% {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
     }
-    100% {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
 }
 
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    border-color: var(--color-gray-200, currentcolor);
-  }
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        border-color: var(--color-gray-200, currentcolor);
+    }
+}
+
+.custom-rate .ant-rate-star {
+    font-size: 25px;
+}
+
+.custom-rate-spot-comment .ant-rate-star {
+    font-size: 18px;
+    margin: 0 0.1px;
+}
+
+@media (max-width: 768px) {
+    .custom-rate .ant-rate-star {
+        font-size: 20px;
+    }
+}
+
+.custom-rate .ant-rate-star:not(.ant-rate-star-full) .ant-rate-star-second {
+    color: #ffffff;
+}
+
+.custom-rate-spot-comment
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
+    color: #ffffff;
 }
