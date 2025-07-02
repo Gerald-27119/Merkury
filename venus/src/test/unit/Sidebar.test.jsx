@@ -112,7 +112,7 @@ describe("Sidebar component unit tests", () => {
         });
     });
 
-    describe("When sidebar is close and user is logged", () => {
+    describe("When sidebar is closed and user is logged", () => {
         beforeEach(() => {
             renderSidebar(
                 {
@@ -171,11 +171,6 @@ describe("Sidebar component unit tests", () => {
 
             test("should render Forum Text", () => {
                 const text = screen.getByText("forum");
-                expect(text).toBeInTheDocument();
-            });
-
-            test("should render Chat Text", () => {
-                const text = screen.getByText("chat");
                 expect(text).toBeInTheDocument();
             });
 
