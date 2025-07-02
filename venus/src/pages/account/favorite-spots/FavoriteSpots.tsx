@@ -33,41 +33,41 @@ export default function FavoriteSpots() {
         setSelectedType(type);
     };
 
-  return (
-    <AccountWrapper variant={AccountWrapperType.FAVORITE_SPOTS}>
-      <AccountTitle text="spots lists" />
-      <div className="flex max-w-full flex-col items-center gap-5 lg:flex-row xl:mx-27">
-        {menuTypes.map((m) => (
-          <Button
-            key={m.label}
-            variant={ButtonVariantType.FAVORITE_SPOT_MENU}
-            onClick={() => handleSetSelectedType(m.type)}
-            className={
-              selectedType === m.type
-                ? "dark:bg-violetLight bg-violetDark/87"
-                : "dark:bg-violetDark bg-violetLight"
-            }
-          >
-            {m.label}
-          </Button>
-        ))}
-      </div>
-      {isLoading && <LoadingSpinner />}
-      <div className="flex flex-col items-center space-y-5 lg:mx-27">
-        {data?.length ? (
-          data?.map((spot) => (
-            <FavoriteSpotTile
-              spot={spot}
-              key={spot.id}
-              selectedType={selectedType}
-            />
-          ))
-        ) : (
-          <p className="mt-10 text-center text-gray-500">
-            You don't have any spots in your list.
-          </p>
-        )}
-      </div>
-    </AccountWrapper>
-  );
+    return (
+        <AccountWrapper variant={AccountWrapperType.FAVORITE_SPOTS}>
+            <AccountTitle text="spots lists" />
+            <div className="flex max-w-full flex-col items-center gap-5 lg:flex-row xl:mx-27">
+                {menuTypes.map((m) => (
+                    <Button
+                        key={m.label}
+                        variant={ButtonVariantType.FAVORITE_SPOT_MENU}
+                        onClick={() => handleSetSelectedType(m.type)}
+                        className={
+                            selectedType === m.type
+                                ? "dark:bg-violetLight bg-violetDark/87"
+                                : "dark:bg-violetDark bg-violetLight"
+                        }
+                    >
+                        {m.label}
+                    </Button>
+                ))}
+            </div>
+            {isLoading && <LoadingSpinner />}
+            <div className="flex flex-col items-center space-y-5 lg:mx-27">
+                {data?.length ? (
+                    data?.map((spot) => (
+                        <FavoriteSpotTile
+                            spot={spot}
+                            key={spot.id}
+                            selectedType={selectedType}
+                        />
+                    ))
+                ) : (
+                    <p className="mt-10 text-center text-gray-500">
+                        You don't have any spots in your list.
+                    </p>
+                )}
+            </div>
+        </AccountWrapper>
+    );
 }

@@ -66,14 +66,14 @@ const router = createBrowserRouter([
                         path: "friends/:username",
                         element: <SocialForViewer />,
                     },
-                  {
-                    path: "photos",
-                    element: (
-                      <ProtectedRoute>
-                        <Photos />
-                      </ProtectedRoute>
-                    ),
-                  },
+                    {
+                        path: "photos",
+                        element: (
+                            <ProtectedRoute>
+                                <Photos />
+                            </ProtectedRoute>
+                        ),
+                    },
                 ],
             },
             {

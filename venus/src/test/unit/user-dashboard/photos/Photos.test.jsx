@@ -1,7 +1,7 @@
 import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
+    QueryClient,
+    QueryClientProvider,
+    useQuery,
 } from "@tanstack/react-query";
 import { configureStore } from "@reduxjs/toolkit";
 import { accountSlice } from "../../../../redux/account";
@@ -15,110 +15,110 @@ import { act } from "react";
 const queryClient = new QueryClient();
 
 vi.mock("@tanstack/react-query", async () => {
-  return {
-    ...(await vi.importActual("@tanstack/react-query")),
-    useQuery: vi.fn(),
-  };
+    return {
+        ...(await vi.importActual("@tanstack/react-query")),
+        useQuery: vi.fn(),
+    };
 });
 
 const renderProfile = () => {
-  const store = configureStore({
-    reducer: {
-      account: accountSlice.reducer,
-    },
-    account: {
-      isLogged: true,
-    },
-  });
+    const store = configureStore({
+        reducer: {
+            account: accountSlice.reducer,
+        },
+        account: {
+            isLogged: true,
+        },
+    });
 
-  render(
-    <Provider store={store}>
-      <MemoryRouter>
-        <QueryClientProvider client={queryClient}>
-          <Photos />
-        </QueryClientProvider>
-      </MemoryRouter>
-    </Provider>,
-  );
+    render(
+        <Provider store={store}>
+            <MemoryRouter>
+                <QueryClientProvider client={queryClient}>
+                    <Photos />
+                </QueryClientProvider>
+            </MemoryRouter>
+        </Provider>,
+    );
 };
 
 const mockPhotosData = [
-  {
-    date: "2025-06-25",
-    photos: [
-      {
-        id: 1,
-        src: "https://example.com/photo1.jpg",
-        heartsCount: 10,
-        viewsCount: 100,
-        addDate: "2025-06-25",
-      },
-      {
-        id: 2,
-        src: "https://example.com/photo2.jpg",
-        heartsCount: 5,
-        viewsCount: 80,
-        addDate: "2025-06-25",
-      },
-    ],
-  },
-  {
-    date: "2025-06-24",
-    photos: [
-      {
-        id: 3,
-        src: "https://example.com/photo3.jpg",
-        heartsCount: 8,
-        viewsCount: 90,
-        addDate: "2025-06-24",
-      },
-    ],
-  },
+    {
+        date: "2025-06-25",
+        photos: [
+            {
+                id: 1,
+                src: "https://example.com/photo1.jpg",
+                heartsCount: 10,
+                viewsCount: 100,
+                addDate: "2025-06-25",
+            },
+            {
+                id: 2,
+                src: "https://example.com/photo2.jpg",
+                heartsCount: 5,
+                viewsCount: 80,
+                addDate: "2025-06-25",
+            },
+        ],
+    },
+    {
+        date: "2025-06-24",
+        photos: [
+            {
+                id: 3,
+                src: "https://example.com/photo3.jpg",
+                heartsCount: 8,
+                viewsCount: 90,
+                addDate: "2025-06-24",
+            },
+        ],
+    },
 ];
 
 describe("Photos component unit tests", () => {
-  describe("Photos display photos data correctly", () => {
-    beforeEach(async () => {
-      useQuery.mockReturnValue({
-        data: mockPhotosData,
-        isLoading: false,
-        error: null,
-      });
+    describe("Photos display photos data correctly", () => {
+        beforeEach(async () => {
+            useQuery.mockReturnValue({
+                data: mockPhotosData,
+                isLoading: false,
+                error: null,
+            });
 
-      await act(async () => {
-        renderProfile();
-      });
+            await act(async () => {
+                renderProfile();
+            });
+        });
+
+        test("Should render h1 text", () => {
+            expect(screen.getByText(/photos/i)).toBeInTheDocument();
+        });
+
+        describe("Should display two date", () => {
+            test("First date", () => {
+                expect(screen.getByText("25.06.2025")).toBeInTheDocument();
+            });
+            test("First date", () => {
+                expect(screen.getByText("24.06.2025")).toBeInTheDocument();
+            });
+        });
+
+        test("Should render all photos", () => {
+            const images = screen.getAllByAltText("user-photo");
+            expect(images).toHaveLength(3);
+
+            expect(images[0]).toHaveAttribute(
+                "src",
+                "https://example.com/photo1.jpg",
+            );
+            expect(images[1]).toHaveAttribute(
+                "src",
+                "https://example.com/photo2.jpg",
+            );
+            expect(images[2]).toHaveAttribute(
+                "src",
+                "https://example.com/photo3.jpg",
+            );
+        });
     });
-
-    test("Should render h1 text", () => {
-      expect(screen.getByText(/photos/i)).toBeInTheDocument();
-    });
-
-    describe("Should display two date", () => {
-      test("First date", () => {
-        expect(screen.getByText("25.06.2025")).toBeInTheDocument();
-      });
-      test("First date", () => {
-        expect(screen.getByText("24.06.2025")).toBeInTheDocument();
-      });
-    });
-
-    test("Should render all photos", () => {
-      const images = screen.getAllByAltText("user-photo");
-      expect(images).toHaveLength(3);
-
-      expect(images[0]).toHaveAttribute(
-        "src",
-        "https://example.com/photo1.jpg",
-      );
-      expect(images[1]).toHaveAttribute(
-        "src",
-        "https://example.com/photo2.jpg",
-      );
-      expect(images[2]).toHaveAttribute(
-        "src",
-        "https://example.com/photo3.jpg",
-      );
-    });
-  });
 });

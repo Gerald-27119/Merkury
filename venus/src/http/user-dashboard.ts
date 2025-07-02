@@ -123,22 +123,22 @@ export async function editUserFollowed({
 }
 
 interface GetSortedUserPhotosProps {
-  type: PhotosSortType;
-  from: string | null;
-  to: string | null;
+    type: PhotosSortType;
+    from: string | null;
+    to: string | null;
 }
 
 export async function getSortedUserPhotos({
-  type,
-  from,
-  to,
+    type,
+    from,
+    to,
 }: GetSortedUserPhotosProps): Promise<DatedPhotosGroup[]> {
-  return (
-    await axios.get(`${BASE_URL}/user-dashboard/photos`, {
-      withCredentials: true,
-      params: { type, from, to },
-    })
-  ).data;
+    return (
+        await axios.get(`${BASE_URL}/user-dashboard/photos`, {
+            withCredentials: true,
+            params: { type, from, to },
+        })
+    ).data;
 }
 
 export async function getUserFavoriteSpots(

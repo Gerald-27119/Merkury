@@ -47,25 +47,25 @@ export default function Social({
             : []),
     ];
 
-  return (
-    <AccountWrapper variant={AccountWrapperType.SOCIAL}>
-      <AccountTitle text="social list" />
-      <div className="flex gap-3 text-2xl lg:mx-27">
-        {menuTypes.map(({ label, type: btnType }) => (
-          <SocialButton
-            key={label}
-            onClick={() => setType(btnType)}
-            isActive={type === btnType}
-          >
-            <p className="font-semibold capitalize">{label}</p>
-          </SocialButton>
-        ))}
-      </div>
-      <SocialCardList
-        list={dataMap[type] ?? []}
-        type={type}
-        isSocialForViewer={isSocialForViewer}
-      />
-    </AccountWrapper>
-  );
+    return (
+        <AccountWrapper variant={AccountWrapperType.SOCIAL}>
+            <AccountTitle text="social list" />
+            <div className="flex gap-3 text-2xl lg:mx-27">
+                {menuTypes.map(({ label, type: btnType }) => (
+                    <SocialButton
+                        key={label}
+                        onClick={() => setType(btnType)}
+                        isActive={type === btnType}
+                    >
+                        <p className="font-semibold capitalize">{label}</p>
+                    </SocialButton>
+                ))}
+            </div>
+            <SocialCardList
+                list={dataMap[type] ?? []}
+                type={type}
+                isSocialForViewer={isSocialForViewer}
+            />
+        </AccountWrapper>
+    );
 }

@@ -90,10 +90,12 @@
     color: #ffffff;
 }
 
-.custom-rate-spot-comment .ant-rate-star:not(.ant-rate-star-full) .ant-rate-star-second {
+.custom-rate-spot-comment
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
     color: #ffffff;
 }
 
 .ant-picker-header button {
-  color: #e5e5e5 !important;
+    color: #e5e5e5 !important;
 }
