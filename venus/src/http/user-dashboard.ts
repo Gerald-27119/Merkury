@@ -134,7 +134,7 @@ export async function getSortedUserPhotos({
     to,
 }: GetSortedUserPhotosProps): Promise<DatedPhotosGroup[]> {
     return (
-        await axios.get(`${BASE_URL}/user-dashboard/photos`, {
+        await axios.get(`${BASE_URL}/user-dashboard/photoss`, {
             withCredentials: true,
             params: { type, from, to },
         })

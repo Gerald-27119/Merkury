@@ -2,7 +2,7 @@ import { PhotosSortType } from "../../../../model/enum/account/photos/photosSort
 import { useState } from "react";
 import { useBoolean } from "../../../../hooks/useBoolean";
 import { AnimatePresence, motion } from "framer-motion";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
 
 const sortOptions = [
     { value: PhotosSortType.DATE_DECREASE, name: "Date decrease" },
@@ -34,11 +34,13 @@ export default function SortDropdown({ onSelectType }: DropdownProps) {
                     className="flex w-full cursor-pointer items-center justify-between rounded-md px-4 py-2 text-left"
                 >
                     {selected.name}
-                    {isOpen ? (
-                        <IoIosArrowUp className="ml-2" />
-                    ) : (
-                        <IoIosArrowDown className="ml-2" />
-                    )}
+                    <motion.span
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="ml-2"
+                    >
+                        <IoIosArrowDown />
+                    </motion.span>
                 </button>
                 <AnimatePresence>
                     {isOpen && (

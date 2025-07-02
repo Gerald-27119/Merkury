@@ -4,12 +4,15 @@ import DateBadge from "./components/DateBadge";
 import Photo from "./components/Photo";
 import DateChooser from "./components/DateChooser";
 import { PhotosSortType } from "../../../model/enum/account/photos/photosSortType";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dayjs } from "dayjs";
 import SortDropdown from "./components/SortDropdown";
 import AccountTitle from "../components/AccountTitle";
 import AccountWrapper from "../components/AccountWrapper";
 import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
+import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { notificationAction } from "../../../redux/notification";
 
 export default function Photos() {
     const [optionType, setOptionType] = useState(PhotosSortType.DATE_DECREASE);
@@ -18,7 +21,9 @@ export default function Photos() {
         to: null,
     });
 
-    const { data } = useQuery({
+    const dispatch = useDispatchTyped();
+
+    const { data, isLoading, isError } = useQuery({
         queryKey: ["photos", optionType, searchDate.from, searchDate.to],
         queryFn: () =>
             getSortedUserPhotos({
@@ -28,6 +33,17 @@ export default function Photos() {
             }),
     });
 
+    useEffect(() => {
+        if (isError) {
+            dispatch(
+                notificationAction.setError({
+                    message:
+                        "An error occurred while trying to load your photos",
+                }),
+            );
+        }
+    }, [isError]);
+
     const handleSelectType = (type: PhotosSortType) => {
         setOptionType(type);
     };
@@ -35,7 +51,7 @@ export default function Photos() {
     const handleChangeDate = (value: Dayjs, id: string) => {
         setSearchDate((prevState) => ({
             ...prevState,
-            [id]: value.format("YYYY-MM-DD"),
+            [id]: value?.format("YYYY-MM-DD"),
         }));
     };
 
@@ -60,7 +76,8 @@ export default function Photos() {
                 </div>
             </div>
             <div className="flex flex-col gap-3 lg:mx-27">
-                {data?.length ? (
+                {isLoading && <LoadingSpinner />}
+                {data?.length &&
                     data?.map(({ date, photos }) => (
                         <div className="flex flex-col space-y-3" key={date}>
                             <DateBadge date={date} />
@@ -70,8 +87,8 @@ export default function Photos() {
                                 ))}
                             </ul>
                         </div>
-                    ))
-                ) : (
+                    ))}
+                {!data?.length && !isLoading && (
                     <p className="text-center text-lg">
                         You haven't added any photos.
                     </p>
