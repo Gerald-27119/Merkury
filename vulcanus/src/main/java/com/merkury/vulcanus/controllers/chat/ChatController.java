@@ -22,6 +22,7 @@ public class ChatController {
 
     private final ChatService chatService;
 
+    //TODO:delete
     @GetMapping
     public ResponseEntity<List<SimpleChatDto>> getSimpleChatDtos(
             @RequestParam Long userId,
@@ -31,6 +32,7 @@ public class ChatController {
         return ResponseEntity.ok(chatService.getSimpleChatListForUserId(userId, pageParam, numberOfChatsPerPage));
     }
 
+    //TODO:delete
     @GetMapping("/{chatId}")
     public ResponseEntity<DetailedChatDto> getDetailedChatDtos(
             @PathVariable Long chatId,
@@ -40,8 +42,9 @@ public class ChatController {
     }
 
 
+    //TODO: add javadoc
     @GetMapping("/{chatId}/messages")
-    public ResponseEntity<List<ChatMessageDto>> getMoreMessages(
+    public ResponseEntity<List<ChatMessageDto>> getMessagesForChatByChatId(
             @PathVariable Long chatId,
             @RequestParam(defaultValue = "0") int pageParam,
             @RequestParam(defaultValue = "20") int numberOfMessagesPerPage
