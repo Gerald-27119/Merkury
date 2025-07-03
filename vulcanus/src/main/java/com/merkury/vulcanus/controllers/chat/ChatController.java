@@ -3,8 +3,6 @@ package com.merkury.vulcanus.controllers.chat;
 import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
-import com.merkury.vulcanus.model.dtos.chat.DetailedChatDto;
-import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,31 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/public/chats")//TODO:make it private, verify if user has access to both chat and messages
+@RequestMapping("/chats")
 @RequiredArgsConstructor
 public class ChatController {
 
     private final ChatService chatService;
-
-    //TODO:delete
-    @GetMapping
-    public ResponseEntity<List<SimpleChatDto>> getSimpleChatDtos(
-            @RequestParam Long userId,
-            @RequestParam(defaultValue = "0") int pageParam,
-            @RequestParam(defaultValue = "13") int numberOfChatsPerPage
-    ) {
-        return ResponseEntity.ok(chatService.getSimpleChatListForUserId(userId, pageParam, numberOfChatsPerPage));
-    }
-
-    //TODO:delete
-    @GetMapping("/{chatId}")
-    public ResponseEntity<DetailedChatDto> getDetailedChatDtos(
-            @PathVariable Long chatId,
-            @RequestParam Long userId
-    ) {
-        return ResponseEntity.ok(chatService.getDetailedChatForUserId(userId, chatId));
-    }
-
 
     //TODO: add javadoc
     @GetMapping("/{chatId}/messages")
@@ -67,13 +45,15 @@ public class ChatController {
      * @return a paginated {@code List<ChatDto>} sorted by last message date (descending)
      * @author Adam Langmesser
      * @see ChatDto
+     * @info username: "user1" has the best data for testing
+     *
      */
     @GetMapping("/user-chats")
-    public ResponseEntity<List<ChatDto>> getChatsForUser(
+    public ResponseEntity<List<ChatDto>> getChatsForUserWithLast20Messages(
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "10") int numberOfChatsPerPage
     ) {
-        return ResponseEntity.ok(chatService.getChatsWithLast20MessagesForUser(pageNumber, numberOfChatsPerPage));
+        return ResponseEntity.ok(chatService.getChatsForUserWithLast20Messages(pageNumber, numberOfChatsPerPage));
     }
 
 }

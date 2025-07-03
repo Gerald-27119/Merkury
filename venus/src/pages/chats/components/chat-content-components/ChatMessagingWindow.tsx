@@ -24,6 +24,7 @@ export default function ChatMessagingWindow({
         );
     }
 
+    //TODO: add fetch more messages on scroll
     return (
         <div className="scrollbar-track-violetDark scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark/20 flex h-full flex-col-reverse gap-2 overflow-y-scroll py-1 pl-2">
             {messages.map((message: ChatMessageDto, idx: number) => {

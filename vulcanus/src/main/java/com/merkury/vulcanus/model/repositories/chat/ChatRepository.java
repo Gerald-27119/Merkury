@@ -13,6 +13,7 @@ import java.util.Optional;
 public interface ChatRepository extends JpaRepository<Chat, Long> {
 
     Page<Chat> findAllByParticipantsUserId(Long userId, Pageable pageable);
+    Page<Chat> findAllByParticipantsUserUsername(String username, Pageable pageable);
     Optional<Chat> findByIdAndParticipantsUserId(Long chatId, Long userId);
     Optional<Chat> findFirstByChatType(ChatType chatType);
 

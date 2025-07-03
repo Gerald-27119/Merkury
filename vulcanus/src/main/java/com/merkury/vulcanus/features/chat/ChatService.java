@@ -2,9 +2,6 @@ package com.merkury.vulcanus.features.chat;
 
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
-import com.merkury.vulcanus.model.dtos.chat.DetailedChatDto;
-import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
-import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.mappers.ChatMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
@@ -14,10 +11,10 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,52 +29,6 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserEntityRepository userEntityRepository;
-
-    public List<SimpleChatDto> getSimpleChatListForUserId(Long userId, int pageNumber, int numberOfChatsPerPage) {
-        Pageable pg = PageRequest.of(
-                pageNumber,
-                numberOfChatsPerPage,
-                Sort.by("lastMessageAt").descending()
-        );
-
-        Page<Chat> pageOfChats = chatRepository.findAllByParticipantsUserId(userId, pg);
-        //TODO:od razu zwracaj
-        var chatList = pageOfChats.stream()
-                .map(chat -> {
-//            TODO:check if correct
-//            List<ChatMessage> last20Messages = chatMessageRepository
-//                    .findAllByChatId(chat.getId(), PageRequest.of(0, 20, Sort.by("sentAt").descending()))
-//                    .getContent();
-
-//            TODO: does this new repo method work???
-                    List<ChatMessage> last20Messages = chatMessageRepository
-                            .findTop20ByChatIdOrderBySentAtDesc(chat.getId());
-
-//            TODO:get rid off
-                    ChatMessage lastMsg = chat.getChatMessages().stream()
-                            .max(Comparator.comparing(ChatMessage::getSentAt))//TODO:to vs pole lastMEssageSentAt na chat
-                            .orElse(null);
-
-                    return ChatMapper.toSimpleChatDto(chat, lastMsg, userId, last20Messages);
-                })
-                .toList();
-
-        return chatList;
-    }
-
-    public DetailedChatDto getDetailedChatForUserId(Long userId, Long chatId) {
-        Chat chat = chatRepository
-                .findByIdAndParticipantsUserId(chatId, userId)
-                .orElseThrow(() -> new EntityNotFoundException("Chat not found or access denied"));
-
-        //TODO: decide on the number of messages to fetch
-        Pageable firstPage = PageRequest.of(0, 15, Sort.by("sentAt").descending());
-        List<ChatMessage> messages = chatMessageRepository
-                .findAllByChatId(chatId, firstPage)
-                .getContent();
-
-        return ChatMapper.toDetailedChatDto(chat, messages);
-    }
 
     public List<ChatMessageDto> getChatMessages(Long chatId, int pageNumber, int numberOfMessagesPerPage) {
         Pageable pg = PageRequest.of(pageNumber,
@@ -136,16 +87,23 @@ public class ChatService {
      * @return {@code List<ChatDto>}
      * @author Adam Langmesser
      */
-    public List<ChatDto> getChatsWithLast20MessagesForUser(int pageNumber, int numberOfChatsPerPage) {
+    public List<ChatDto> getChatsForUserWithLast20Messages(int pageNumber, int numberOfChatsPerPage) {
         var pageRequest = PageRequest.of(pageNumber, numberOfChatsPerPage,
                 Sort.by("lastMessageAt").descending());
 
-        return chatRepository.findAll(pageRequest)
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        //TODO:refactor mapper to use username instead of userId
+        var userId = userEntityRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"))
+                .getId();
+
+        return chatRepository.findAllByParticipantsUserUsername(username, pageRequest)
                 .stream()
                 .map(chat -> {
                     var last20Messages = chatMessageRepository
                             .findTop20ByChatIdOrderBySentAtDesc(chat.getId());
-                    return ChatMapper.toChatDto(chat, last20Messages);
+                    return ChatMapper.toChatDto(chat, last20Messages, userId);
                 })
                 .toList();
     }

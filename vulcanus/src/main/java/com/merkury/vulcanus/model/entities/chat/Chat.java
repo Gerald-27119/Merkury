@@ -57,6 +57,7 @@ public class Chat {
         var p = ChatParticipant.builder()
                 .chat(this)
                 .user(user)
+//                .username(user.getUsername())
                 .joinedAt(LocalDateTime.now())
                 .build();
         participants.add(p);

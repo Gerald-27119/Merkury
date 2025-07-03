@@ -85,7 +85,7 @@ public class ChatMapper {
         else {
             switch (chat.getChatType()) {
                 case PRIVATE -> {
-                    return chat.getParticipants().stream()
+                    return chat.getParticipants().stream()//TODO:aaaaa, username
                             .filter(chatParticipant -> !Objects.equals(chatParticipant.getUser().getId(), userId))
                             .map(chatParticipant -> chatParticipant.getUser().getUsername()).findFirst().orElse(null);
                 }
@@ -124,7 +124,7 @@ public class ChatMapper {
         }
     }
 
-    public static ChatDto toChatDto(Chat chat, List<ChatMessage> messages) {
+    public static ChatDto toChatDto(Chat chat, List<ChatMessage> messages, Long userId) {
 
         //TODO: null check for chat and messages?
 
@@ -141,8 +141,8 @@ public class ChatMapper {
 
         return ChatDto.builder()
                 .id(chat.getId())
-                .name(chat.getName())
-                .imgUrl(chat.getImgUrl())
+                .name(getChatName(chat, userId))//TODO:reafactor
+                .imgUrl(getChatImgUrl(chat, userId))//TODO:refactor
                 .messages(messageDtos)
                 .lastMessage(lastMessage)
                 .build();

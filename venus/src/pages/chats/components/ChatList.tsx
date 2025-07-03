@@ -19,8 +19,7 @@ import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 export default function ChatList() {
     const dispatch = useDispatchTyped();
     const allChats = useSelector(selectAllChats);
-    // for development purposes
-    const userId = 1;
+
     const pageSize = 13;
 
     const {
@@ -31,17 +30,10 @@ export default function ChatList() {
         isError,
         isLoading,
         isSuccess,
-    } = useInfiniteQuery<
-        ChatPage,
-        Error,
-        InfiniteData<ChatPage>,
-        readonly ["user-chat-list", number]
-    >({
-        queryKey: ["user-chat-list", userId] as const,
-        queryFn: ({
-            pageParam = 0,
-        }: QueryFunctionContext<readonly ["user-chat-list", number]>) =>
-            getChatListByPage(userId, pageParam as number, pageSize),
+    } = useInfiniteQuery<ChatPage, Error, InfiniteData<ChatPage>>({
+        queryKey: ["user-chat-list"],
+        queryFn: ({ pageParam = 0 }) =>
+            getChatListByPage(pageParam as number, pageSize),
         getNextPageParam: (last) => last.nextPage,
         initialPageParam: 0,
     });
@@ -75,7 +67,8 @@ export default function ChatList() {
     if (isLoading)
         return Array.from({ length: 15 }).map((_, index) => (
             <SkeletonListedChat key={index} />
-        )); //TODO: add skeleton
+        ));
+
     if (isError) return <div>Failed to load chats</div>; //TODO: add error handling, notification
 
     return (

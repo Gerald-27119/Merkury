@@ -17,7 +17,7 @@ export interface ChatParticipantDto {
     imgUrl: string;
     isOnline: boolean;
 }
-
+// TODO:delete
 export interface SimpleChatDto {
     id: number;
     name: string;
@@ -25,6 +25,7 @@ export interface SimpleChatDto {
     lastMessage: ChatMessageDto;
 }
 
+// TODO:delete
 export interface DetailedChatDto {
     id: number;
     name: string;
@@ -34,6 +35,19 @@ export interface DetailedChatDto {
 }
 
 export interface ChatPage {
-    items: SimpleChatDto[];
+    items: ChatDto[];
     nextPage?: number;
+}
+
+/**
+ * This interface is used to represent a chat with all its details, including messages and participants.
+ * @author Adam Langmesser
+ */
+export interface ChatDto {
+    id: number;
+    name: string;
+    imgUrl: string;
+    messages: ChatMessageDto[];
+    participants: ChatParticipantDto[];
+    lastMessage: ChatMessageDto;
 }

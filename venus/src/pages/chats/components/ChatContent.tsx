@@ -2,8 +2,7 @@ import ChatTopBar from "./chat-content-components/ChatTopBar";
 import ChatMessagingWindow from "./chat-content-components/ChatMessagingWindow";
 import ChatBottomBar from "./chat-content-components/ChatBottomBar";
 import useSelectorTyped from "../../../hooks/useSelectorTyped";
-import { SimpleChatDto } from "../../../model/interface/chat/chatInterfaces";
-import { useSelector } from "react-redux";
+
 import { ChatDto, selectChatById } from "../../../redux/chats";
 
 export default function ChatContent() {
@@ -13,7 +12,7 @@ export default function ChatContent() {
     const chatDto: ChatDto = useSelectorTyped((state) =>
         selectChatById(state, selectedChatId),
     );
-
+    // TODO: skeleton tak dlugo jak nie poajwi sie chat w reduxie
     return (
         <div className="flex h-full flex-col">
             <ChatTopBar chatDto={chatDto} />
