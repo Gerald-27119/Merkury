@@ -29,37 +29,39 @@ export default function MapPage() {
         (state) => state.spotDetails.showModal,
     );
 
-  const showSearchedSpotsList = useSelectorTyped(
-    (state) => state.searchedSpotsListModal.showList,
-  );
+    const showSearchedSpotsList = useSelectorTyped(
+        (state) => state.searchedSpotsListModal.showList,
+    );
 
-  return (
-    <Map
-      initialViewState={{
-        ...defaultPosition,
-        zoom: 15,
-      }}
-      dragRotate={false}
-      style={{
-        position: "relative",
-        width: "100vw",
-        height: "100vh",
-        overflow: "hidden",
-      }}
-      mapStyle="/map_style1.json"
-      attributionControl={false}
-      onZoomEnd={handleZoomEnd}
-    >
-      <SpotsNameSearchBar />
-      <AnimatePresence>
-        {showSpotDetailsModal && <SpotDetails />}
-        {showSearchedSpotsList && <SearchedSpotsList />}
-      </AnimatePresence>
-      <div className="absolute right-1 bottom-1 flex flex-col items-center space-y-2 sm:right-2 sm:bottom-2 xl:right-5 xl:bottom-5">
-        <UserLocationPanel />
-        <ZoomControlPanel />
-      </div>
-      <Spots />
-    </Map>
-  );
+    return (
+        <Map
+            initialViewState={{
+                ...defaultPosition,
+                zoom: 15,
+            }}
+            dragRotate={false}
+            style={{
+                position: "relative",
+                width: "100vw",
+                height: "100vh",
+                overflow: "hidden",
+            }}
+            mapStyle="/map_style1.json"
+            attributionControl={false}
+            onZoomEnd={handleZoomEnd}
+        >
+            <SpotsNameSearchBar />
+            <AnimatePresence>
+                {showSpotDetailsModal && <SpotDetails key="spot-details" />}
+                {showSearchedSpotsList && (
+                    <SearchedSpotsList key="searched-spots-list" />
+                )}
+            </AnimatePresence>
+            <div className="absolute right-1 bottom-1 flex flex-col items-center space-y-2 sm:right-2 sm:bottom-2 xl:right-5 xl:bottom-5">
+                <UserLocationPanel />
+                <ZoomControlPanel />
+            </div>
+            <Spots />
+        </Map>
+    );
 }
