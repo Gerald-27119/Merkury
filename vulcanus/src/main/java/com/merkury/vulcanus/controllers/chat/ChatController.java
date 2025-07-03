@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.controllers;
+package com.merkury.vulcanus.controllers.chat;
 
 import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
@@ -30,6 +30,7 @@ public class ChatController {
         return ResponseEntity.ok(chatService.getSimpleChatListForUserId(userId, pageParam, numberOfChatsPerPage));
     }
 
+//    TODO: delete?
     @GetMapping("/{chatId}")
     public ResponseEntity<DetailedChatDto> getDetailedChatDtos(
             @PathVariable Long chatId,

@@ -15,12 +15,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Formula;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
 @Entity(name = "chats")
 @Data
 @NoArgsConstructor
@@ -65,14 +66,15 @@ public class Chat {
         participants.removeIf(p -> p.getUser().equals(user));
     }
 
-    @Formula(
-            "(SELECT MAX(m.sent_at) FROM chat_messages m WHERE m.chat_id = id)"
-    )
+//    @Formula(
+//            "(SELECT MAX(m.sent_at) FROM chat_messages m WHERE m.chat_id = id)"
+//    )
     @Builder.Default
     private LocalDateTime lastMessageAt = LocalDateTime.now();//TODO: figure out better default value
 
+    //TODO:how it works excatly, should i use it? the cascader persist
     @OneToMany(mappedBy = "chat")
-    @OrderBy("sentAt DESC")
+    @OrderBy("sentAt DESC")//TODO:does this DESC work?
     @Builder.Default
     private List<ChatMessage> chatMessages = new ArrayList<>();
 
