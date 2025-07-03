@@ -1,10 +1,13 @@
 type SpotTagProps = {
     name: string;
+    textSizeClass?: string;
 };
 
-export default function SpotTag({ name }: SpotTagProps) {
+export default function SpotTag({ name, textSizeClass }: SpotTagProps) {
     return (
-        <div className="border-darkText w-fit rounded-lg border px-3.5 py-1 text-center text-lg">
+        <div
+            className={`border-darkText w-fit rounded-lg border px-3.5 py-1 text-center ${textSizeClass || "text-lg"}`}
+        >
             {name}
         </div>
     );

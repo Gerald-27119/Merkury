@@ -2,6 +2,7 @@ package com.merkury.vulcanus.model.mappers;
 
 import com.merkury.vulcanus.model.dtos.spot.FullSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.dtos.spot.coordinates.SpotCoordinatesDto;
@@ -66,6 +67,20 @@ public class SpotMapper {
                 .weatherApiCallCoords(new SpotCoordinatesDto(
                         spot.getBorderPoints().getFirst().getX(),
                         spot.getBorderPoints().getFirst().getY()))
+                .build();
+    }
+
+    public static SearchSpotDto toSearchSpotDto(@NotNull Spot spot) {
+        return SearchSpotDto.builder()
+                .id(spot.getId())
+                .name(spot.getName())
+                .rating(spot.getRating())
+                .ratingCount(spot.getRatingCount())
+                .firstPhoto(spot.getImages().getFirst().getUrl())
+                .tags(spot.getTags().stream()
+                        .map(SpotTagMapper::toDto)
+                        .collect(Collectors.toSet()))
+                .centerPoint(spot.getCenterPoint())
                 .build();
     }
 }

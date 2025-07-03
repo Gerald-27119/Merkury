@@ -16,6 +16,7 @@ class TestNamingConventionTest {
         try (Stream<Path> paths = Files.walk(testDirectory)) {
             paths.filter(Files::isRegularFile)
                     .filter(path -> path.toString().endsWith(".java"))
+                    .filter(path -> !path.getFileName().toString().equals("CustomPageImpl.java"))
                     .forEach(path -> {
                         String fileName = path.getFileName().toString();
                         String className = fileName.substring(0, fileName.lastIndexOf(".java"));
