@@ -34,7 +34,7 @@ public class ProfileService {
         var isFollowing = false;
         var isOwnProfile = false;
 
-        if (viewerUsername != null && !viewerUsername.equalsIgnoreCase("anonymousUser")) {
+        if (viewerUsername != null) {
             var user = userEntityFetcher.getByUsername(viewerUsername);
             isFriends = getIsUsersFriends(user, anotherUser);
             isFollowing = getIsUsersFollowing(user, anotherUser);
@@ -43,6 +43,7 @@ public class ProfileService {
 
         return ProfileMapper.toDto(userProfile, isFriends, isFollowing, isOwnProfile);
     }
+
 
     private Boolean getIsUsersFriends(UserEntity user, UserEntity secondUser) {
         return user.getFriendships().stream().anyMatch(f -> f.getFriend().equals(secondUser));

@@ -9,6 +9,8 @@ import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,7 @@ public class UserDashboardService {
     }
 
     public ExtendedUserProfileDto getUserProfileForViewer(String targetUsername) throws UserNotFoundByUsernameException {
-        return profileService.getUserProfileForViewer(getCurrentUsername(), targetUsername);
+        return profileService.getUserProfileForViewer(getAuthenticatedUsernameOrNull(), targetUsername);
     }
 
     public List<SocialDto> getUserOwnFriends() throws UserNotFoundByUsernameException {
@@ -75,6 +77,18 @@ public class UserDashboardService {
     }
 
     private String getCurrentUsername() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+        var username = getAuthenticatedUsernameOrNull();
+        if (username != null) {
+            return username;
+        }
+        throw new IllegalStateException("No authenticated user in the security context");
+    }
+
+    private String getAuthenticatedUsernameOrNull() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+            return authentication.getName();
+        }
+        return null;
     }
 }
