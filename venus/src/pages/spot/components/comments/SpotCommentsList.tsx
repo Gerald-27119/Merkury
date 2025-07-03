@@ -51,15 +51,18 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
         queryKey: ["spot-comments", spotId],
         queryFn: ({ pageParam }) =>
             getPaginatedSpotComments(spotId, pageParam as number),
-        getNextPageParam: (lastPage) => {
-            const { number, totalPages } = lastPage;
+        getNextPageParam: (lastPage: SpotCommentPage) => {
+            const { number, totalPages } = lastPage.page;
             return number + 1 < totalPages ? number + 1 : undefined;
         },
         initialPageParam: 0,
     });
 
     useEffect(() => {
-        if (isSuccess && data?.pages[data.pages.length - 1]?.totalPages <= 1) {
+        if (
+            isSuccess &&
+            data?.pages[data.pages.length - 1]?.page.totalPages <= 1
+        ) {
             setShouldDisplayShowMoreButton(false);
         } else {
             setShouldDisplayShowMoreButton(true);

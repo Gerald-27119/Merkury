@@ -26,12 +26,12 @@ export default function Spots() {
     const { current: map } = useMap();
     const location = useLocation();
 
-    const { data, error } = useQuery({
-        queryFn: () => fetchFilteredSpots(name, minRating, maxRating),
-        queryKey: ["spots", "filter", name, minRating, maxRating],
-        refetchOnWindowFocus: false,
-        staleTime: 1000 * 60 * 5,
-    });
+  const { data, error } = useQuery({
+    queryFn: () => fetchFilteredSpots(name),
+    queryKey: ["spots", "filter", name],
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5,
+  });
 
     useEffect(() => {
         if ((error as AxiosError)?.response?.data) {

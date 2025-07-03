@@ -48,7 +48,7 @@ class SpotServiceCachingWithServerStartupTest {
     @DisplayName("After adding new spot, old, cached filtered spots should be returned")
     @Test
     public void shouldReturnCachedFilteredSpotsWhenNewSpotAdded() throws SpotsNotFoundException {
-        var initialCount = spotService.getFilteredSpots("Plac", 1.0, 5.0).size();
+        var initialCount = spotService.getSearchedSpotsOnMap("Plac").size();
 
         var newSpot = Spot.builder()
                 .name("Plac 1")
@@ -65,7 +65,7 @@ class SpotServiceCachingWithServerStartupTest {
                 .build();
         spotRepository.save(newSpot);
 
-        var cachedCount = spotService.getFilteredSpots("Plac", 1.0, 5.0).size();
+        var cachedCount = spotService.getSearchedSpotsOnMap("Plac").size();
         assertEquals(initialCount, cachedCount);
     }
 
