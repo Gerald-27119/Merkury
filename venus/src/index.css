@@ -95,3 +95,8 @@
     .ant-rate-star-second {
     color: #ffffff;
 }
+
+.carousel-rounded > .slick-list {
+    border-radius: 1rem;
+    overflow: hidden;
+}
