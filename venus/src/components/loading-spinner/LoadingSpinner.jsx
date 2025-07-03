@@ -1,5 +1,5 @@
 export default function LoadingSpinner({
-    borderTopClass = "border-t-red-500",
+    borderTopClass = "border-t-[#e30d5b]",
 }) {
     const delays = ["-0.45s", "-0.3s", "-0.15s", "0s"];
 

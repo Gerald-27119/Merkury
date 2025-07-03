@@ -1,4 +1,3 @@
-// useStomp.ts
 import { useEffect, useState, useCallback } from "react";
 import { Client, IMessage, StompSubscription } from "@stomp/stompjs";
 import { createStompClient } from "./stompClient";

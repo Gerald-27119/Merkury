@@ -75,7 +75,7 @@ export default function ChatList() {
     if (isLoading)
         return Array.from({ length: 15 }).map((_, index) => (
             <SkeletonListedChat key={index} />
-        )); //TODO: add skeleton
+        ));
     if (isError) return <div>Failed to load chats</div>; //TODO: add error handling, notification
 
     return (
