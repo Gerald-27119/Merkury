@@ -49,9 +49,33 @@ export default function Photos() {
     };
 
     const handleChangeDate = (value: Dayjs, id: string) => {
+        const formatted = value?.format("YYYY-MM-DD");
+
+        if (id === "from") {
+            if (searchDate.to && value.isAfter(searchDate.to)) {
+                dispatch(
+                    notificationAction.setError({
+                        message: '"From" date cannot be after "To" date',
+                    }),
+                );
+                return;
+            }
+        }
+
+        if (id === "to") {
+            if (searchDate.from && value.isBefore(searchDate.from)) {
+                dispatch(
+                    notificationAction.setError({
+                        message: '"To" date cannot be before "From" date',
+                    }),
+                );
+                return;
+            }
+        }
+
         setSearchDate((prevState) => ({
             ...prevState,
-            [id]: value?.format("YYYY-MM-DD"),
+            [id]: formatted,
         }));
     };
 
@@ -77,22 +101,23 @@ export default function Photos() {
             </div>
             <div className="flex flex-col gap-3 lg:mx-27">
                 {isLoading && <LoadingSpinner />}
-                {data?.length &&
-                    data?.map(({ date, photos }) => (
-                        <div className="flex flex-col space-y-3" key={date}>
-                            <DateBadge date={date} />
-                            <ul className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-                                {photos.map((photo) => (
-                                    <Photo photo={photo} key={photo.id} />
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
-                {!data?.length && !isLoading && (
+                {data?.length
+                    ? data?.map(({ date, photos }) => (
+                          <div className="flex flex-col space-y-3" key={date}>
+                              <DateBadge date={date} />
+                              <ul className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+                                  {photos.map((photo) => (
+                                      <Photo photo={photo} key={photo.id} />
+                                  ))}
+                              </ul>
+                          </div>
+                      ))
+                    : null}
+                {!data?.length && !isLoading ? (
                     <p className="text-center text-lg">
                         You haven't added any photos.
                     </p>
-                )}
+                ) : null}
             </div>
         </AccountWrapper>
     );
