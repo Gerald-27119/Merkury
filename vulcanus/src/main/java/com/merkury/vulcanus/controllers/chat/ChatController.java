@@ -59,18 +59,18 @@ public class ChatController {
      * all necessary data to render the chat both in a list and in the detailed
      * messages view.
      *
-     * @param pageParam            zero-based page index (starting at 0)
+     * @param pageNumber            zero-based page index (starting at 0)
      * @param numberOfChatsPerPage the maximum number of chats to return per page
      * @return a paginated {@code List<ChatDto>} sorted by last message date (descending)
      * @author Adam Langmesser
      * @see ChatDto
      */
-    @GetMapping
+    @GetMapping("/user-chats")
     public ResponseEntity<List<ChatDto>> getChatsForUser(
-            @RequestParam(defaultValue = "0") int pageParam,
+            @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "10") int numberOfChatsPerPage
     ) {
-        return ResponseEntity.ok(chatService.getChatsForUser(pageParam, numberOfChatsPerPage));
+        return ResponseEntity.ok(chatService.getChatsWithLast20MessagesForUser(pageNumber, numberOfChatsPerPage));
     }
 
 }

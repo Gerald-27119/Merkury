@@ -43,24 +43,24 @@ public class ChatService {
         Page<Chat> pageOfChats = chatRepository.findAllByParticipantsUserId(userId, pg);
         //TODO:od razu zwracaj
         var chatList = pageOfChats.stream()
-        .map(chat -> {
+                .map(chat -> {
 //            TODO:check if correct
 //            List<ChatMessage> last20Messages = chatMessageRepository
 //                    .findAllByChatId(chat.getId(), PageRequest.of(0, 20, Sort.by("sentAt").descending()))
 //                    .getContent();
 
 //            TODO: does this new repo method work???
-            List<ChatMessage> last20Messages = chatMessageRepository
-                    .findTop20ByChatIdOrderBySentAtDesc(chat.getId());
+                    List<ChatMessage> last20Messages = chatMessageRepository
+                            .findTop20ByChatIdOrderBySentAtDesc(chat.getId());
 
 //            TODO:get rid off
-            ChatMessage lastMsg = chat.getChatMessages().stream()
-                    .max(Comparator.comparing(ChatMessage::getSentAt))//TODO:to vs pole lastMEssageSentAt na chat
-                    .orElse(null);
+                    ChatMessage lastMsg = chat.getChatMessages().stream()
+                            .max(Comparator.comparing(ChatMessage::getSentAt))//TODO:to vs pole lastMEssageSentAt na chat
+                            .orElse(null);
 
-            return ChatMapper.toSimpleChatDto(chat, lastMsg, userId, last20Messages);
-        })
-        .toList();
+                    return ChatMapper.toSimpleChatDto(chat, lastMsg, userId, last20Messages);
+                })
+                .toList();
 
         return chatList;
     }
@@ -91,6 +91,7 @@ public class ChatService {
     }
 
     //TODO:why it works here correctly?
+//    Every time i save a messagge udpate the lastMessageAt field in Chat entity
     @Transactional
     public ChatMessageDto saveChatMessage(ChatMessageDto chatMessageDto) {
 
@@ -122,10 +123,31 @@ public class ChatService {
         return ChatMapper.toChatMessageDto(chatMessage, chatMessageDto.sender());
     }
 
-    public List<ChatDto> getChatsForUser(int pageParam, int numberOfChatsPerPage) {
-        //czy msuze ttuaj robic get chats for user z tym messageSentAt decending cyz moge tryzamc message w bazie malejaco i odswierzac
-        //tutaj skonczyles
+    /**
+     * Retrieves a <strong>PAGINATED</strong> list of recent chats with messages for a specific user.
+     * <p>
+     * <ol>
+     *     <li>Retrieve from DB a {@code numberOfChatsPerPage} amount of chats that have the newest message.</li>
+     *     <li>Retrieve last <strong>20 messages</strong> for each chat ordered by MessageSentAtDesc.</li>
+     * </ol>
+     *
+     * @param pageNumber
+     * @param numberOfChatsPerPage
+     * @return {@code List<ChatDto>}
+     * @author Adam Langmesser
+     */
+    public List<ChatDto> getChatsWithLast20MessagesForUser(int pageNumber, int numberOfChatsPerPage) {
+        var pageRequest = PageRequest.of(pageNumber, numberOfChatsPerPage,
+                Sort.by("lastMessageAt").descending());
 
-        return null;
+        return chatRepository.findAll(pageRequest)
+                .stream()
+                .map(chat -> {
+                    var last20Messages = chatMessageRepository
+                            .findTop20ByChatIdOrderBySentAtDesc(chat.getId());
+                    return ChatMapper.toChatDto(chat, last20Messages);
+                })
+                .toList();
     }
+
 }
