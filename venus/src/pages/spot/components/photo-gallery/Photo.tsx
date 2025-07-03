@@ -14,7 +14,7 @@ export default function Photo({ photo, ...props }: PhotoProps) {
     };
 
     return (
-        <div className="max-h-60 overflow-hidden rounded-2xl">
+        <div className="max-h-60">
             {isLoading && <LoadingSpinner />}
             {photo ? (
                 <img

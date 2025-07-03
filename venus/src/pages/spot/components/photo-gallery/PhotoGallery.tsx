@@ -22,7 +22,7 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
                 >
                     <Carousel
                         arrows={true}
-                        className="max-w-[15rem] xl:max-w-[30rem]"
+                        className="carousel-rounded max-w-[15rem] xl:max-w-[30rem]"
                     >
                         {photos.map((photo) => (
                             <Photo key={photo.id} photo={photo} />
