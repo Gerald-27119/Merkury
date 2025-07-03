@@ -1,11 +1,4 @@
 import SearchSpotDto from "./searchSpotDto";
+import Pageable from "../../pageable";
 
-export default interface SearchSpotDtoPage {
-  content: SearchSpotDto[];
-  page: {
-    size: number;
-    number: number;
-    totalElements: number;
-    totalPages: number;
-  };
-}
+export default interface SearchSpotDtoPage extends Pageable<SearchSpotDto> {}

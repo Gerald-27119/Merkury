@@ -80,8 +80,7 @@ public class SpotMapper {
                 .tags(spot.getTags().stream()
                         .map(SpotTagMapper::toDto)
                         .collect(Collectors.toSet()))
-                //TODO:po zmianach Mateusza zmienic na getCenterPoint
-                .centerPoint(spot.getBorderPoints().getFirst())
+                .centerPoint(spot.getCenterPoint())
                 .build();
     }
 }

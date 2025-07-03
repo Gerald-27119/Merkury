@@ -1,12 +1,12 @@
 import SpotTagDto from "./tag/spotTagDto";
-import BorderPoint from "./borderPoint";
+import SpotCoordinatesDto from "./coordinates/spotCoordinatesDto";
 
 export default interface SearchSpotDto {
-  id: number;
-  name: string;
-  rating: number;
-  ratingCount: number;
-  firstPhoto: string;
-  centerPoint: BorderPoint;
-  tags: SpotTagDto[];
+    id: number;
+    name: string;
+    rating: number;
+    ratingCount: number;
+    firstPhoto: string;
+    centerPoint: SpotCoordinatesDto;
+    tags: SpotTagDto[];
 }
