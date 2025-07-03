@@ -34,7 +34,7 @@ public class ProfileService {
         var isFollowing = false;
         var isOwnProfile = false;
 
-        if (viewerUsername != null) {
+        if (viewerUsername != null && !viewerUsername.equalsIgnoreCase("anonymousUser")) {
             var user = userEntityFetcher.getByUsername(viewerUsername);
             isFriends = getIsUsersFriends(user, anotherUser);
             isFollowing = getIsUsersFollowing(user, anotherUser);
