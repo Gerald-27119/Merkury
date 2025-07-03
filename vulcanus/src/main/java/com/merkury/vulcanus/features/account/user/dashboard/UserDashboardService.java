@@ -8,9 +8,10 @@ import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
-import com.merkury.vulcanus.security.jwt.JwtManager;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,65 +23,72 @@ public class UserDashboardService {
     private final FriendsService friendsService;
     private final FollowersService followersService;
     private final FavoriteSpotService favoriteSpotService;
-    private final JwtManager jwtManager;
 
-    public UserProfileDto getUserOwnProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return profileService.getUserOwnProfile(getCurrentUsername(request));
+    public UserProfileDto getUserOwnProfile() throws UserNotFoundByUsernameException {
+        return profileService.getUserOwnProfile(getCurrentUsername());
     }
 
-    public ExtendedUserProfileDto getUserProfileForViewer(HttpServletRequest request, String targetUsername) throws UserNotFoundByUsernameException {
-        String usernameFromCookie = null;
-        if (jwtManager.getJWTFromCookie(request) != null){
-            usernameFromCookie = getCurrentUsername(request);
-        }
-        return profileService.getUserProfileForViewer(usernameFromCookie, targetUsername);
+    public ExtendedUserProfileDto getUserProfileForViewer(String targetUsername) throws UserNotFoundByUsernameException {
+        return profileService.getUserProfileForViewer(getAuthenticatedUsernameOrNull(), targetUsername);
     }
 
-    public List<SocialDto> getUserOwnFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return friendsService.getUserFriends(getCurrentUsername(request));
+    public List<SocialDto> getUserOwnFriends() throws UserNotFoundByUsernameException {
+        return friendsService.getUserFriends(getCurrentUsername());
     }
 
     public List<SocialDto> getUserFriendsForViewer(String targetUsername) throws UserNotFoundByUsernameException {
         return friendsService.getUserFriends(targetUsername);
     }
 
-    public void editUserFriends(HttpServletRequest request, String friendUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
-        friendsService.editUserFriends(getCurrentUsername(request), friendUsername, type);
+    public void editUserFriends(String friendUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
+        friendsService.editUserFriends(getCurrentUsername(), friendUsername, type);
     }
 
-    public void changeUserFriendsStatus(HttpServletRequest request, String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
-        friendsService.changeUserFriendsStatus(getCurrentUsername(request), friendUsername, status);
+    public void changeUserFriendsStatus(String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
+        friendsService.changeUserFriendsStatus(getCurrentUsername(), friendUsername, status);
     }
 
-    public List<SocialDto> getUserOwnFollowers(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return followersService.getUserFollowers(getCurrentUsername(request));
+    public List<SocialDto> getUserOwnFollowers() throws UserNotFoundByUsernameException {
+        return followersService.getUserFollowers(getCurrentUsername());
     }
 
     public List<SocialDto> getUserFollowersForViewer(String targetUsername) throws UserNotFoundByUsernameException {
         return followersService.getUserFollowers(targetUsername);
     }
 
-    public List<SocialDto> getUserOwnFollowed(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return followersService.getUserFollowed(getCurrentUsername(request));
+    public List<SocialDto> getUserOwnFollowed() throws UserNotFoundByUsernameException {
+        return followersService.getUserFollowed(getCurrentUsername());
     }
 
     public List<SocialDto> getUserFollowedForViewer(String targetUsername) throws UserNotFoundByUsernameException {
         return followersService.getUserFollowed(targetUsername);
     }
 
-    public void editUserFollowed(HttpServletRequest request, String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
-        followersService.editUserFollowed(getCurrentUsername(request), followedUsername, type);
+    public void editUserFollowed(String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
+        followersService.editUserFollowed(getCurrentUsername(), followedUsername, type);
     }
 
-    public List<FavoriteSpotDto> getUserFavoritesSpots(HttpServletRequest request, FavoriteSpotsListType type){
-       return favoriteSpotService.getUserFavoritesSpots(getCurrentUsername(request), type);
+    public List<FavoriteSpotDto> getUserFavoritesSpots(FavoriteSpotsListType type) {
+        return favoriteSpotService.getUserFavoritesSpots(getCurrentUsername(), type);
     }
 
-    public void removeFavoriteSpot(HttpServletRequest request, FavoriteSpotsListType type, Long spotId) throws FavoriteSpotNotExistException {
-        favoriteSpotService.removeFavoriteSpot(getCurrentUsername(request), type, spotId);
+    public void removeFavoriteSpot(FavoriteSpotsListType type, Long spotId) throws FavoriteSpotNotExistException {
+        favoriteSpotService.removeFavoriteSpot(getCurrentUsername(), type, spotId);
     }
 
-    private String getCurrentUsername(HttpServletRequest request){
-        return jwtManager.getUsernameFromJwtCookie(request);
+    private String getCurrentUsername() {
+        var username = getAuthenticatedUsernameOrNull();
+        if (username != null) {
+            return username;
+        }
+        throw new IllegalStateException("No authenticated user in the security context");
+    }
+
+    private String getAuthenticatedUsernameOrNull() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+            return authentication.getName();
+        }
+        return null;
     }
 }
