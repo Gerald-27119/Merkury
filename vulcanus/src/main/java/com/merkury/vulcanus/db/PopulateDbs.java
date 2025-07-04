@@ -1,6 +1,10 @@
 package com.merkury.vulcanus.db;
 
-
+import com.merkury.vulcanus.db.services.PopulateChatsService;
+import com.merkury.vulcanus.db.services.PopulateDbsService;
+import com.merkury.vulcanus.db.services.PopulateFavoriteSpotsService;
+import com.merkury.vulcanus.db.services.PopulateForumService;
+import com.merkury.vulcanus.db.services.PopulateFriendsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

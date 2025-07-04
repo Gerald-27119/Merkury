@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.db;
+package com.merkury.vulcanus.db.services;
 
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.entities.SpotComment;
