@@ -6,7 +6,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
+
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_ADMIN;
 
 @Service
@@ -50,12 +52,5 @@ public class PopulateUsersService {
         }
 
         userEntityRepository.saveAll(userList);
-
-//        TODO: klasa testowa zrob testy
-//        TODO: łapanie tych wyjatkow i logowanie ich, zeby nie psuło aplikacji
-//        userEntityRepository.save(UserEntity.builder().build());
-        userEntityRepository.save(UserEntity.builder().username("user").build());
-        userEntityRepository.save(UserEntity.builder().username("asdasda").build());
-        userEntityRepository.save(UserEntity.builder().build());
     }
 }
