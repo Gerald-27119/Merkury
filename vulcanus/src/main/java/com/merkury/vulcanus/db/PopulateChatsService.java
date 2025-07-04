@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -101,24 +102,25 @@ public class PopulateChatsService {
 
         if (withMessages) {
             List<ChatMessage> msgs = getChatMessages().toList();
+            Random random = new Random();
 
-            int idx = 0, runLen = rndLen(), runCnt = 0;
-            for (int i = 0; i < msgs.size(); i++) {
-                ChatMessage m = msgs.get(i);
+            for (ChatMessage m : msgs) {
                 m.setChat(chat);
-                m.setSender(participants.get(idx));
-                m.setSentAt(LocalDateTime.now().plusSeconds(i));
 
-                if (++runCnt >= runLen) {
-                    idx = (idx + 1) % participants.size();
-                    runLen = rndLen();
-                    runCnt = 0;
-                }
+                int randomIdx = random.nextInt(participants.size());
+                m.setSender(participants.get(randomIdx));
+
+                m.setSentAt(
+                        LocalDateTime.now()
+                                .minusDays(random.nextInt(5))
+                                .plusSeconds(random.nextInt(3600))
+                );
             }
 
             chatMessageRepository.saveAll(msgs);
             chat.getChatMessages().addAll(msgs);
         }
+
 
         chatRepository.save(chat);
 

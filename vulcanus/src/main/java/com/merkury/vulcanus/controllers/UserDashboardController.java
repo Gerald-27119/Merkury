@@ -11,7 +11,7 @@ import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
-import jakarta.servlet.http.HttpServletRequest;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,20 +25,18 @@ public class UserDashboardController {
     private final UserDashboardService userDashboardService;
 
     @GetMapping("/user-dashboard/profile")
-    public ResponseEntity<UserProfileDto> getUserOwnProfile(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        var user = userDashboardService.getUserOwnProfile(request);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<UserProfileDto> getUserOwnProfile() throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserOwnProfile());
     }
 
     @GetMapping("/public/user-dashboard/profile/{targetUsername}")
-    public ResponseEntity<ExtendedUserProfileDto> getUserProfileForViewer(HttpServletRequest request, @PathVariable String targetUsername) throws UserNotFoundByUsernameException {
-        var user = userDashboardService.getUserProfileForViewer(request, targetUsername);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<ExtendedUserProfileDto> getUserProfileForViewer(@PathVariable String targetUsername) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserProfileForViewer(targetUsername));
     }
 
     @GetMapping("/user-dashboard/friends")
-    public ResponseEntity<List<SocialDto>> getUserOwnFriends(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(userDashboardService.getUserOwnFriends(request));
+    public ResponseEntity<List<SocialDto>> getUserOwnFriends() throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserOwnFriends());
     }
 
     @GetMapping("/public/user-dashboard/friends/{targetUsername}")
@@ -47,21 +45,21 @@ public class UserDashboardController {
     }
 
     @PatchMapping("/user-dashboard/friends")
-    public ResponseEntity<Void> editUserFriends(HttpServletRequest request, @RequestParam String friendUsername, @RequestParam UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
-        userDashboardService.editUserFriends(request, friendUsername, type);
+    public ResponseEntity<Void> editUserFriends(@RequestParam String friendUsername, @RequestParam UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
+        userDashboardService.editUserFriends(friendUsername, type);
         return ResponseEntity.ok().build();
     }
 
     /// TODO na frontendzie na razie nie jest to obsłużone będzie to zrobione w innym zadaniu
     @PatchMapping("/user-dashboard/friends/change-status")
-    public ResponseEntity<Void> changeUserFriendsStatus(HttpServletRequest request, @RequestParam String friendUsername, @RequestParam UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
-        userDashboardService.changeUserFriendsStatus(request, friendUsername, status);
+    public ResponseEntity<Void> changeUserFriendsStatus(@RequestParam String friendUsername, @RequestParam UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
+        userDashboardService.changeUserFriendsStatus(friendUsername, status);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/user-dashboard/followers")
-    public ResponseEntity<List<SocialDto>> getUserOwnFollowers(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(userDashboardService.getUserOwnFollowers(request));
+    public ResponseEntity<List<SocialDto>> getUserOwnFollowers() throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserOwnFollowers());
     }
 
     @GetMapping("/public/user-dashboard/followers/{targetUsername}")
@@ -70,8 +68,8 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/followed")
-    public ResponseEntity<List<SocialDto>> getUserOwnFollowed(HttpServletRequest request) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(userDashboardService.getUserOwnFollowed(request));
+    public ResponseEntity<List<SocialDto>> getUserOwnFollowed() throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserOwnFollowed());
     }
 
     @GetMapping("/public/user-dashboard/followed/{targetUsername}")
@@ -80,20 +78,20 @@ public class UserDashboardController {
     }
 
     @PatchMapping("/user-dashboard/followed")
-    public ResponseEntity<Void> editUserFollowed(HttpServletRequest request, @RequestParam String followedUsername, @RequestParam UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
-        userDashboardService.editUserFollowed(request, followedUsername, type);
+    public ResponseEntity<Void> editUserFollowed(@RequestParam String followedUsername, @RequestParam UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
+        userDashboardService.editUserFollowed(followedUsername, type);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/user-dashboard/favorite-spots")
-    public ResponseEntity<List<FavoriteSpotDto>> getAllUserFavoritesSpots(HttpServletRequest request, @RequestParam FavoriteSpotsListType type){
-        return ResponseEntity.ok(userDashboardService.getUserFavoritesSpots(request, type));
+    public ResponseEntity<List<FavoriteSpotDto>> getAllUserFavoritesSpots(@RequestParam FavoriteSpotsListType type) {
+        return ResponseEntity.ok(userDashboardService.getUserFavoritesSpots(type));
     }
 
     @PatchMapping("/user-dashboard/favorite-spots")
-    public ResponseEntity<Void> removeFavoriteSpot(HttpServletRequest request, @RequestParam FavoriteSpotsListType type, @RequestParam Long spotId) throws FavoriteSpotNotExistException {
-        userDashboardService.removeFavoriteSpot(request, type, spotId);
-       return ResponseEntity.ok().build();
+    public ResponseEntity<Void> removeFavoriteSpot(@RequestParam FavoriteSpotsListType type, @RequestParam Long spotId) throws FavoriteSpotNotExistException {
+        userDashboardService.removeFavoriteSpot(type, spotId);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/user-dashboard/photos")

@@ -1,10 +1,34 @@
-export default function ChatTopBar() {
-    // for development purposes
+import { FaPhotoVideo } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
+import { ChatDto } from "../../../../redux/chats";
+
+interface ChatTopBarProps {
+    chatDto: ChatDto;
+}
+
+export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
+    const className: string = "text-2xl";
     return (
-        <div className="bg-violetDark flex items-center justify-center gap-4 px-3 py-3">
-            <p>first option</p>
-            <p>second option</p>
-            <p>third option</p>
+        <div className="bg-violetDark flex items-center justify-between gap-4 px-4 py-5">
+            <div className="flex items-center gap-3">
+                <img
+                    className="aspect-square w-9 rounded-full"
+                    src={
+                        chatDto?.simpleChatDto?.imgUrl
+                            ? // for development purposes
+                              `/users/${chatDto?.simpleChatDto?.imgUrl}`
+                            : "/users/default.png"
+                    }
+                    alt={"Image that listed chat has"}
+                />
+                <p className="text-lg font-semibold">
+                    {chatDto?.simpleChatDto?.name}
+                </p>
+            </div>
+            <div className="mr-2 flex items-center justify-center gap-5">
+                <FaSearch className={className} />
+                <FaPhotoVideo className={className} />
+            </div>
         </div>
     );
 }

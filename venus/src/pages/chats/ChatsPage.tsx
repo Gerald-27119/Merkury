@@ -1,11 +1,33 @@
 import ChatList from "./components/ChatList";
 import ChatContent from "./components/ChatContent";
 import { LuMessageSquarePlus } from "react-icons/lu";
+import { useQuery } from "@tanstack/react-query";
+import { DetailedChatDto } from "../../model/interface/chat/chatInterfaces";
+import { getDetailedChat } from "../../http/chats";
+import { useEffect } from "react";
+import { chatActions, ChatDto, selectChatById } from "../../redux/chats";
+import useSelectorTyped from "../../hooks/useSelectorTyped";
+import useDispatchTyped from "../../hooks/useDispatchTyped";
 
 export default function ChatsPage() {
+    const dispatch = useDispatchTyped();
+    const selectedChatId: number = useSelectorTyped(
+        (state) => state?.chats?.selectedChatId,
+    ); //TODO:change chat to chatActions
+
+    const { data, isSuccess } = useQuery<DetailedChatDto, Error>({
+        queryFn: () => getDetailedChat(selectedChatId, 1),
+        queryKey: ["detailedChat", selectedChatId],
+    });
+
+    useEffect(() => {
+        if (isSuccess && data) {
+            dispatch(chatActions.addDetailedChatDtos([data]));
+        }
+    }, [isSuccess, data, dispatch]);
     return (
         <div className="flex h-screen w-full">
-            <div className="border-violetLight flex flex-col border-l">
+            <div className="border-violetLight flex w-1/6 flex-col border-l">
                 <div className="bg-violetDark border-violetLight flex items-center justify-end gap-20 border-b py-5 text-center font-medium text-white md:text-lg">
                     {/*  TODO: move both friends and new message to the sidebar, only leave text: Chats: ?*/}
                     {/*  TODO: work on responsiveness*/}
