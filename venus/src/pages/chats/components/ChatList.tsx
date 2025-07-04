@@ -64,7 +64,7 @@ export default function ChatList() {
                 if (entry.isIntersecting) {
                     obs.unobserve(entry.target);
                     fetchNextPage();
-                }
+                } //test
             },
             { rootMargin: "200px" },
         );
