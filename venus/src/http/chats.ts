@@ -20,9 +20,7 @@ export async function getChatListByPage(
     return { items, nextPage };
 }
 
-//TODO:change public to private when backend is ready
 //TODO: reafactor method names etc
-//TODO:there are two chatDtos, one in redux and one in model, refactor this
 //TODO: work on loading skeletons, spinners, optimize rerenders, etc.
 //TODO: add caching?
 //TODO: add caching on frontend, to not refetch every time?

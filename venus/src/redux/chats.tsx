@@ -6,11 +6,8 @@ import {
 import {
     ChatDto,
     ChatMessageDto,
-    DetailedChatDto,
-    SimpleChatDto,
 } from "../model/interface/chat/chatInterfaces";
 import { RootState } from "./store";
-import { ac } from "vitest/dist/chunks/reporters.D7Jzd9GS";
 
 interface ChatsState {
     nextPage: number | null;

@@ -29,8 +29,6 @@ public class ChatParticipant {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-//    private String username;
-
     @Column(nullable = false)
     private LocalDateTime joinedAt;
 

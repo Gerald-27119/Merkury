@@ -17,22 +17,6 @@ export interface ChatParticipantDto {
     imgUrl: string;
     isOnline: boolean;
 }
-// TODO:delete
-export interface SimpleChatDto {
-    id: number;
-    name: string;
-    imgUrl: string;
-    lastMessage: ChatMessageDto;
-}
-
-// TODO:delete
-export interface DetailedChatDto {
-    id: number;
-    name: string;
-    imgUrl: string;
-    messages: ChatMessageDto[];
-    participants: ChatParticipantDto[];
-}
 
 export interface ChatPage {
     items: ChatDto[];
