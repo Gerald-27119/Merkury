@@ -28,8 +28,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static java.util.Arrays.asList;
-
 @Service
 @RequiredArgsConstructor
 public class PopulateMapService {
