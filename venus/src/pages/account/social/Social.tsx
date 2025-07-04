@@ -6,6 +6,8 @@ import useSelectorTyped from "../../../hooks/useSelectorTyped";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { socialAction } from "../../../redux/social";
 import AccountTitle from "../components/AccountTitle";
+import AccountWrapper from "../components/AccountWrapper";
+import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
 
 interface SocialProps {
     friends: SocialDto[];
@@ -46,7 +48,7 @@ export default function Social({
     ];
 
     return (
-        <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText flex h-full w-full flex-col space-y-8 p-10 pt-17 xl:pt-10">
+        <AccountWrapper variant={AccountWrapperType.SOCIAL}>
             <AccountTitle text="social list" />
             <div className="flex gap-3 text-2xl lg:mx-27">
                 {menuTypes.map(({ label, type: btnType }) => (
@@ -64,6 +66,6 @@ export default function Social({
                 type={type}
                 isSocialForViewer={isSocialForViewer}
             />
-        </div>
+        </AccountWrapper>
     );
 }
