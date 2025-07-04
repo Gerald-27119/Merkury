@@ -32,7 +32,7 @@ export default function SpotComment({ comment, spotId }: SpotCommentProps) {
             <p className="mb-3 w-full text-left">{comment.text}</p>
             {comment.photoList && (
                 <SpotCommentPhotos
-                    photos={comment.photoList}
+                    initialPhotos={comment.photoList}
                     commentId={comment.id}
                     spotId={spotId}
                     numberOfPhotos={comment.numberOfPhotos}
