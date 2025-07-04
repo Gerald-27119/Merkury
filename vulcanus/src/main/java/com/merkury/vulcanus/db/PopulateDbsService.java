@@ -514,13 +514,22 @@ public class PopulateDbsService {
         List<Img> gallery1 = Arrays.asList(
                 new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/8d00d2e1-203e-4b90-bf0b-893f77f870ee.JPG", "pomnik", "pomnik", 0, 0, user, spot1),
                 new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/1299333c-ad54-4a2a-b6dc-4578ed4327dc.jpg", "pomnik", "pomnik", 0, 0, user, spot1),
-                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/299fd24d-2436-4b51-bfdf-cbe728890198.jpg", "pomnik", "pomnik", 0, 0, user, spot1)
+                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/299fd24d-2436-4b51-bfdf-cbe728890198.jpg", "pomnik", "pomnik", 0, 0, user, spot1),
+                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/98946961-ccce-4bbc-bd78-38df283297e3.jpg", "pomnik", "pomnik", 0, 0, user, spot1),
+                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/f87aa3e3-fbc4-4371-837d-d10a4b6878a1.jpg", "pomnik", "pomnik", 0, 0, user, spot1)
         );
 
         List<Img> gallery2 = Arrays.asList(
                 new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/b9744843-8cca-4e65-b677-bc89fbed9deb.jpg", "skwer", "skwer", 0, 0, user, spot2),
                 new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/562487b0-a975-4293-8c0f-aaa605f6cd77.JPG", "skwer", "skwer", 0, 0, user, spot2),
-                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/04bfa588-77c3-4e46-bdf8-f6bb677f845d.jpg", "skwer", "skwer", 0, 0, user, spot2)
+                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/04bfa588-77c3-4e46-bdf8-f6bb677f845d.jpg", "skwer", "skwer", 0, 0, user, spot2),
+                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/b6d1364b-97d8-4bf1-b279-12664ac274fb.jpg", "skwer", "skwer", 0, 0, user, spot2),
+                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/be341380-eb45-416e-bf60-0e80fed250bf.jpg", "skwer", "skwer", 0, 0, user, spot2),
+                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/f5e1a392-a768-4f9e-9b30-98f1a01c48ae.jpg", "skwer", "skwer", 0, 0, user, spot2),
+                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/9eeb8808-6165-4a9d-a864-9f11b5588b69.jpg", "skwer", "skwer", 0, 0, user, spot2),
+                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/5f1ff331-eb5f-49a9-b57d-0aeed0d42eb7.jpg", "skwer", "skwer", 0, 0, user, spot2),
+                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/f7b1009b-7762-4027-8b49-e789531e7cf4.jpg", "skwer", "skwer", 0, 0, user, spot2),
+                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/32628ec1-ecc2-473a-b41d-14a9ff3e5d3d.jpg", "skwer", "skwer", 0, 0, user, spot2)
         );
 
         List<Img> gallery3 = Arrays.asList(
@@ -556,7 +565,8 @@ public class PopulateDbsService {
         List<Img> gallery8 = Arrays.asList(
                 new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/faa462f9-4582-459e-8de1-6fa8d7df34ed.jpg", "plaża", "plaża", 0, 0, user, spot8),
                 new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/c9559f6d-7a03-432b-839b-7d0875db39ff.jpg", "plaża", "plaża", 0, 0, user, spot8),
-                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/dc0ca9b3-fecc-445f-b592-42b9ca13924c.jpg", "plaża", "plaża", 0, 0, user, spot8)
+                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/dc0ca9b3-fecc-445f-b592-42b9ca13924c.jpg", "plaża", "plaża", 0, 0, user, spot8),
+                new Img(null, "https://merkurystorage.blob.core.windows.net/mapa/a60e0d2a-4966-4bd5-a949-990a2babc261.jpg", "plaża", "plaża", 0, 0, user, spot8)
         );
 
         List<Img> gallery9 = Arrays.asList(
