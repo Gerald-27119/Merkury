@@ -22,11 +22,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static java.util.Arrays.asList;
 
 @Service
 @RequiredArgsConstructor
@@ -475,61 +476,61 @@ public class PopulateMapService {
             spotCommentList9.add(spotComment);
         }
 
-        List<Img> gallery1 = Arrays.asList(
+        List<Img> gallery1 = asList(
                 new Img(null, "https://ucarecdn.com/05b5602d-034c-48c8-858b-783d1e91f7a0/spot1_1.JPG", "pomnik", "pomnik", 0, 0, user, spot1),
                 new Img(null, "https://ucarecdn.com/596cde77-8a6e-4d26-bc97-7283b300de21/spot1_2.jpg", "pomnik", "pomnik", 0, 0, user, spot1),
                 new Img(null, "https://ucarecdn.com/01f7d077-feb5-44d0-8fd4-85b31d8f0599/spot1_3.jpg", "pomnik", "pomnik", 0, 0, user, spot1)
         );
 
-        List<Img> gallery2 = Arrays.asList(
+        List<Img> gallery2 = asList(
                 new Img(null, "https://ucarecdn.com/1feba18a-10f0-48e5-b696-e224dad5b029/spot2_1.jpg", "skwer", "skwer", 0, 0, user, spot2),
                 new Img(null, "https://ucarecdn.com/6763a034-4e45-408a-8774-b87cb7f56101/spot2_2.JPG", "skwer", "skwer", 0, 0, user, spot2),
                 new Img(null, "https://ucarecdn.com/2a3f57dc-efea-48db-8cf6-7c07c067183d/spot2_3.jpg", "skwer", "skwer", 0, 0, user, spot2)
         );
 
-        List<Img> gallery3 = Arrays.asList(
+        List<Img> gallery3 = asList(
                 new Img(null, "https://ucarecdn.com/a5ddecb9-0111-46ac-bc5f-1d4096a32516/spot3_1.jpg", "park wałowy", "park wałowy", 0, 0, user, spot3),
                 new Img(null, "https://ucarecdn.com/7e3a3cf1-828f-4273-88b9-5720e5bcf66b/spot3_2.jpg", "park wałowy", "park wałowy", 0, 0, user, spot3),
                 new Img(null, "https://ucarecdn.com/eb10811c-6008-472f-8fc4-d451ce94a24c/spot3_3.jpg", "park wałowy", "park wałowy", 0, 0, user, spot3)
         );
 
-        List<Img> gallery4 = Arrays.asList(
+        List<Img> gallery4 = asList(
                 new Img(null, "https://ucarecdn.com/c2e16106-bc39-4a21-8fa7-ba4698dce9d4/spo4_1.jpg", "park", "park", 0, 0, user, spot4),
                 new Img(null, "https://ucarecdn.com/26d21e8c-1245-40ea-8993-552d153ca848/spot4_2.jpg", "park", "park", 0, 0, user, spot4),
                 new Img(null, "https://ucarecdn.com/200a7973-a31b-4141-8555-9d22bc278844/spo4_3.JPG", "park", "park", 0, 0, user, spot4)
         );
 
-        List<Img> gallery5 = Arrays.asList(
+        List<Img> gallery5 = asList(
                 new Img(null, "https://ucarecdn.com/f4309644-b223-453e-8057-5f09e65d1696/spot5_1.jpg", "jar", "jar", 0, 0, user, spot5),
                 new Img(null, "https://ucarecdn.com/0d377a31-4f59-48db-9406-5882543aa3fe/spot5_2.jpg", "jar", "jar", 0, 0, user, spot5),
                 new Img(null, "https://ucarecdn.com/df82c57a-c094-4dfa-b576-70335e815445/spot5_3.JPG", "jar", "jar", 0, 0, user, spot5)
         );
 
-        List<Img> gallery6 = Arrays.asList(
+        List<Img> gallery6 = asList(
                 new Img(null, "https://ucarecdn.com/06be92dc-dedf-43f6-9113-7cfc71613b4f/spot6_1.jpg", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6),
                 new Img(null, "https://ucarecdn.com/39eb63bc-80bb-4e68-ab9e-d21287749059/spot6_2.jpg", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6),
                 new Img(null, "https://ucarecdn.com/13d2b277-43d2-4c1c-a574-681d604fc375/spot6_3.JPG", "plac kobzdeja", "plac kobzdeja", 0, 0, user, spot6)
         );
 
-        List<Img> gallery7 = Arrays.asList(
+        List<Img> gallery7 = asList(
                 new Img(null, "https://ucarecdn.com/102abcdc-83cc-42e0-a29b-d0d95eb5b217/spot7_1.jpg", "wrona", "wrona", 0, 0, user, spot7),
                 new Img(null, "https://ucarecdn.com/85800ed8-b23d-420a-8e95-7398ab05f50d/spot7_2.jpg", "wrona", "wrona", 0, 0, user, spot7),
                 new Img(null, "https://ucarecdn.com/4b2a92d2-a93e-475f-999f-fe623313b4ee/spot7_3.jpg", "wrona", "wrona", 0, 0, user, spot7)
         );
 
-        List<Img> gallery8 = Arrays.asList(
+        List<Img> gallery8 = asList(
                 new Img(null, "https://ucarecdn.com/c5cd7b37-8db6-4e07-a994-46498c0b2664/spot8_1.jpg", "plaża", "plaża", 0, 0, user, spot8),
                 new Img(null, "https://ucarecdn.com/8bc8452c-4c56-470c-a83d-479c2b875780/spot8_2.jpg", "plaża", "plaża", 0, 0, user, spot8),
                 new Img(null, "https://ucarecdn.com/eae9e067-5eaa-423f-9dc4-d05fd44c37c3/spot8_3.jpg", "plaża", "plaża", 0, 0, user, spot8)
         );
 
-        List<Img> gallery9 = Arrays.asList(
+        List<Img> gallery9 = asList(
                 new Img(null, "https://ucarecdn.com/64caf404-2027-4936-90bd-da23b21be9cb/spot9_1.jpg", "orunia", "orunia", 0, 0, user, spot9),
                 new Img(null, "https://ucarecdn.com/7bb00711-f613-4088-ad46-05529b4d163d/spot9_2.jpg", "orunia", "orunia", 0, 0, user, spot9),
                 new Img(null, "https://ucarecdn.com/6486d2d0-76db-4a05-9f55-a159cd4840d8/spot9_3.jpg", "orunia", "orunia", 0, 0, user, spot9)
         );
 
-        List<Img> gallery10 = Arrays.asList(
+        List<Img> gallery10 = asList(
                 new Img(null, "https://ucarecdn.com/8baa2ff0-edac-4f65-8895-ca07ec622c91/spot10_1.jpg", "workout", "workout", 0, 0, user, spot10),
                 new Img(null, "https://ucarecdn.com/54bba112-783d-4b72-8b78-85a924a5aa51/spot10_2.jpg", "workout", "workout", 0, 0, user, spot10)
         );
