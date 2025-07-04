@@ -85,10 +85,4 @@ public class JwtManager {
                 findFirst()
                 .orElse(null);
     }
-
-    public String getUsernameFromJwtCookie(HttpServletRequest request){
-        var token = getJWTFromCookie(request);
-        return getUsernameFromJWT(token);
-    }
-
 }

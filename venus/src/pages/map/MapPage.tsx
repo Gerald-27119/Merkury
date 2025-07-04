@@ -7,6 +7,8 @@ import { mapAction } from "../../redux/map";
 import useSelectorTyped from "../../hooks/useSelectorTyped";
 import SpotDetails from "../spot/SpotDetails";
 import { AnimatePresence } from "framer-motion";
+import SpotsNameSearchBar from "./components/spot-search/SpotsNameSearchBar";
+import SearchedSpotsList from "../spot/SearchedSpotsList";
 
 type Position = {
     longitude: number;
@@ -27,6 +29,10 @@ export default function MapPage() {
         (state) => state.spotDetails.showModal,
     );
 
+    const showSearchedSpotsList = useSelectorTyped(
+        (state) => state.searchedSpotsListModal.showList,
+    );
+
     return (
         <Map
             initialViewState={{
@@ -44,8 +50,12 @@ export default function MapPage() {
             attributionControl={false}
             onZoomEnd={handleZoomEnd}
         >
+            <SpotsNameSearchBar />
             <AnimatePresence>
-                {showSpotDetailsModal && <SpotDetails />}
+                {showSpotDetailsModal && <SpotDetails key="spot-details" />}
+                {showSearchedSpotsList && (
+                    <SearchedSpotsList key="searched-spots-list" />
+                )}
             </AnimatePresence>
             <div className="absolute right-1 bottom-1 flex flex-col items-center space-y-2 sm:right-2 sm:bottom-2 xl:right-5 xl:bottom-5">
                 <UserLocationPanel />

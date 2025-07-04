@@ -44,6 +44,7 @@ public class ProfileService {
         return ProfileMapper.toDto(userProfile, isFriends, isFollowing, isOwnProfile);
     }
 
+
     private Boolean getIsUsersFriends(UserEntity user, UserEntity secondUser) {
         return user.getFriendships().stream().anyMatch(f -> f.getFriend().equals(secondUser));
     }
