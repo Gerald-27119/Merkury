@@ -1,84 +1,49 @@
 package com.merkury.vulcanus.db.services;
 
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
-import com.merkury.vulcanus.model.entities.SpotComment;
 import com.merkury.vulcanus.model.entities.Img;
-import com.merkury.vulcanus.model.entities.PasswordResetToken;
 import com.merkury.vulcanus.model.entities.Spot;
-import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.entities.SpotComment;
+import com.merkury.vulcanus.model.entities.SpotCommentPhoto;
+import com.merkury.vulcanus.model.entities.SpotTag;
 import com.merkury.vulcanus.model.entities.Zone;
-import com.merkury.vulcanus.model.entities.*;
-import com.merkury.vulcanus.model.enums.Provider;
-import com.merkury.vulcanus.model.repositories.*;
+import com.merkury.vulcanus.model.repositories.SpotCommentRepository;
+import com.merkury.vulcanus.model.repositories.SpotRepository;
+import com.merkury.vulcanus.model.repositories.SpotTagRepository;
+import com.merkury.vulcanus.model.repositories.UserEntityRepository;
+import com.merkury.vulcanus.model.repositories.ZoneRepository;
 import com.merkury.vulcanus.utils.PolygonAreaCalculator;
 import com.merkury.vulcanus.utils.PolygonCenterPointCalculator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.merkury.vulcanus.model.enums.UserRole.ROLE_ADMIN;
-import static com.merkury.vulcanus.model.enums.UserRole.ROLE_USER;
 import static java.util.Arrays.asList;
 
 @Service
 @RequiredArgsConstructor
-public class PopulateDbsService {
-    private final PasswordEncoder passwordEncoder;
-    private final UserEntityRepository userEntityRepository;
-    private final PasswordResetTokenRepository passwordResetTokenRepository;
+public class PopulateMapService {
+
     private final SpotRepository spotRepository;
+    private final UserEntityRepository userEntityRepository;
     private final ZoneRepository zoneRepository;
     private final SpotTagRepository spotTagRepository;
     private final SpotCommentRepository spotCommentRepository;
 
     @Transactional
-    public void initPostgresDb() {
-        UserEntity admin = UserEntity.builder()
-                .email("admin@example.com")
-                .username("admin")
-                .password(passwordEncoder.encode("password"))
-                .userRole(ROLE_ADMIN)
-                .provider(Provider.NONE)
-                .build();
+    public void initMapData() {
 
-        UserEntity user = UserEntity.builder()
-                .email("user@example.com")
-                .username("user")
-                .password(passwordEncoder.encode("password"))
-                .userRole(ROLE_USER)
-                .provider(Provider.NONE)
-                .profilePhoto("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
-                .build();
-
-        for (int i = 0; i < 10; i++) {
-            UserEntity locustUser = UserEntity.builder()
-                    .email("user" + i + "@example.com")
-                    .username("user" + i)
-                    .password(passwordEncoder.encode("password"))
-                    .userRole(ROLE_USER)
-                    .provider(Provider.NONE)
-                    .build();
-
-            userEntityRepository.save(locustUser);
-        }
-
-        userEntityRepository.save(admin);
-        userEntityRepository.save(user);
-
-        var token = PasswordResetToken.builder()
-                .token(UUID.fromString("fff3a3f6-fbd8-4fc5-890c-626343f2f324"))
-                .expirationDate(LocalDateTime.now().plusMinutes(15))
-                .userEmail(user.getEmail())
-                .build();
-
-        passwordResetTokenRepository.save(token);
+        var user = userEntityRepository.findByUsername("user").orElseThrow();
 
         Spot spot1 = Spot.builder()
                 .name("Pomnik konny Jana III Sobieskiego")
@@ -493,13 +458,14 @@ public class PopulateDbsService {
         ));
 
         for (int i = 0; i < 100; i++) {
-            SpotComment spotComment = SpotComment.builder()
+            var spotComment = SpotComment.builder()
                     .text("Comment" + i + ": Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
                     .rating((i + 1.0) % 5.0)
                     .spot(spot1)
                     .publishDate(LocalDateTime.now().minusMonths(1))
                     .author(user)
                     .build();
+
             spotCommentList1.add(spotComment);
             spotCommentList2.add(spotComment);
             spotCommentList3.add(spotComment);
@@ -570,7 +536,7 @@ public class PopulateDbsService {
                 new Img(null, "https://ucarecdn.com/54bba112-783d-4b72-8b78-85a924a5aa51/spot10_2.jpg", "workout", "workout", 0, 0, user, spot10)
         );
 
-        List<Spot> spots = new ArrayList<>(List.of(spot1, spot2, spot3, spot4, spot5, spot6, spot7, spot8, spot9, spot10));
+        var spots = new ArrayList<>(List.of(spot1, spot2, spot3, spot4, spot5, spot6, spot7, spot8, spot9, spot10));
         var contours = List.of(contour1, contour2, contour3, contour4, contour5, contour6, contour7, contour8, contour9, contour10);
         List<List<SpotComment>> commentLists = List.of(spotCommentList1, spotCommentList2, spotCommentList3, spotCommentList4, spotCommentList5, spotCommentList6, spotCommentList7, spotCommentList8, spotCommentList9, spotCommentList10);
         List<List<Img>> galleries = List.of(gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8, gallery9, gallery10);
@@ -591,15 +557,18 @@ public class PopulateDbsService {
                 "photography",
                 "grassland"
         ));
+
         List<SpotTag> tagList = new ArrayList<>();
         for (String tagName : tagsNames) {
             var tag = SpotTag.builder()
                     .name(tagName)
                     .spots(new HashSet<>())
                     .build();
-            spotTagRepository.save(tag);
+
             tagList.add(tag);
         }
+
+        spotTagRepository.saveAll(tagList);
 
         for (int i = 0; i < spots.size(); i++) {
             Spot spot = spots.get(i);
@@ -629,8 +598,8 @@ public class PopulateDbsService {
         spot10.getTags().addAll(Set.of(tagList.getFirst(), tagList.get(4), tagList.get(11), tagList.get(12)));
 
         for (Spot spot : spots) {
-            SpotComment firstComment = spot.getSpotComments().get(0);
-            List<SpotCommentPhoto> photos = spot.getImages().stream()
+            var firstComment = spot.getSpotComments().getFirst();
+            var photos = spot.getImages().stream()
                     .map(img -> SpotCommentPhoto.builder()
                             .url(img.getUrl())
                             .spotComment(firstComment)
@@ -654,5 +623,4 @@ public class PopulateDbsService {
 
         zoneRepository.save(zone);
     }
-
 }

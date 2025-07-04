@@ -8,50 +8,26 @@ import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
 import static com.merkury.vulcanus.model.enums.chat.ChatType.GROUP;
 
 @Service
 @RequiredArgsConstructor
 public class PopulateChatsService {
 
-    private final PasswordEncoder passwordEncoder;
     private final UserEntityRepository userEntityRepository;
     private final ChatRepository chatRepository;
     private final ChatMessageRepository chatMessageRepository;
 
-    //TODO: move to separate populate service
-    @Transactional
-    public void initUsers() {
-        var users = generateUsers();
-        userEntityRepository.saveAll(users);
-    }
-
-    private List<UserEntity> generateUsers() {
-        return IntStream.rangeClosed(1, 30)
-                .mapToObj(i -> UserEntity.builder()
-                        .email(String.format("user%d@example.com", i))
-                        .username("user" + i)
-                        .password(passwordEncoder.encode("password"))
-                        .build()
-                )
-                .collect(Collectors.toList());
-    }
-
     //TODO: make more readable and customizable
     @Transactional
-    public void initChatData() {
-        initUsers();
+    public void initChatsData() {
 
         UserEntity user1 = userEntityRepository
                 .findByUsername("user1")
@@ -130,10 +106,6 @@ public class PopulateChatsService {
                 .peek(user -> user.setProfileImage(user.getUsername() + ".png"))
                 .toList();
         userEntityRepository.saveAll(users);
-    }
-
-    private int rndLen() {
-        return ThreadLocalRandom.current().nextInt(1, 4);
     }
 
     private Stream<ChatMessage> getChatMessages() {
