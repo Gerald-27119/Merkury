@@ -1,5 +1,4 @@
 {
     "tabWidth": 4,
-    "endOfLine": "crlf",
     "plugins": ["prettier-plugin-tailwindcss"]
 }
