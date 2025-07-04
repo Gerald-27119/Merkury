@@ -25,25 +25,25 @@ public class PopulateDbs {
         return args -> populateChatsService.initChatData();
     }
 
-//    @Order(2)
-//    @Bean
-//    CommandLineRunner initPostgresDb() {
-//        return args -> populateDbsService.initPostgresDb();
-//    }
+    @Order(2)
+    @Bean
+    CommandLineRunner initPostgresDb() {
+        return args -> populateDbsService.initPostgresDb();
+    }
 
-//    @Order(3)
-//    @Bean
-//    CommandLineRunner initForumDb() {
-//        return args -> populateForumService.initForumDb();
-//    }
-//
-//    @Order(4)
-//    @Bean
-//    CommandLineRunner initFriends(){
-//        return args -> populateFriendsService.initPostgresDb();
-//    }
-//
-//    @Order(5)
-//    @Bean
-//    CommandLineRunner initFavoriteSpots(){return args -> populateFavoriteSpotsService.initFavoriteSpots();}
+    @Order(3)
+    @Bean
+    CommandLineRunner initForumDb() {
+        return args -> populateForumService.initForumDb();
+    }
+
+    @Order(4)
+    @Bean
+    CommandLineRunner initFriends(){
+        return args -> populateFriendsService.initPostgresDb();
+    }
+
+    @Order(5)
+    @Bean
+    CommandLineRunner initFavoriteSpots(){return args -> populateFavoriteSpotsService.initFavoriteSpots();}
 }
