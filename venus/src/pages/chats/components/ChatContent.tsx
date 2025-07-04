@@ -3,7 +3,8 @@ import ChatMessagingWindow from "./chat-content-components/ChatMessagingWindow";
 import ChatBottomBar from "./chat-content-components/ChatBottomBar";
 import useSelectorTyped from "../../../hooks/useSelectorTyped";
 
-import { ChatDto, selectChatById } from "../../../redux/chats";
+import { selectChatById } from "../../../redux/chats";
+import { ChatDto } from "../../../model/interface/chat/chatInterfaces";
 
 export default function ChatContent() {
     const selectedChatId: number = useSelectorTyped(

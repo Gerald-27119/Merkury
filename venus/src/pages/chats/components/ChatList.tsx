@@ -1,15 +1,11 @@
 import React, { useRef, useEffect } from "react";
-import {
-    useInfiniteQuery,
-    QueryFunctionContext,
-    InfiniteData,
-} from "@tanstack/react-query";
+import { useInfiniteQuery, InfiniteData } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import ListedChat from "./ListedChat";
 import { getChatListByPage } from "../../../http/chats";
 import {
+    ChatDto,
     ChatPage,
-    SimpleChatDto,
 } from "../../../model/interface/chat/chatInterfaces";
 import { selectAllChats, chatActions } from "../../../redux/chats";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
@@ -40,10 +36,10 @@ export default function ChatList() {
 
     useEffect(() => {
         if (isSuccess && data) {
-            const newItems: SimpleChatDto[] = (
+            const newItems: ChatDto[] = (
                 data.pages[data.pages.length - 1] as ChatPage
             ).items;
-            dispatch(chatActions.addSimpleChatDtos(newItems));
+            dispatch(chatActions.addChatDtos(newItems));
         }
     }, [isSuccess, data, dispatch]);
 
@@ -74,7 +70,7 @@ export default function ChatList() {
     return (
         <>
             {allChats.map((chat) => (
-                <ListedChat key={chat?.id} simpleChatDto={chat.simpleChatDto} />
+                <ListedChat key={chat?.id} chat={chat} />
             ))}
             <div ref={loadMoreRef} className="h-1" />
             {/*TODO: add nicer spinner*/}
