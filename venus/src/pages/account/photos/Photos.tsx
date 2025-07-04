@@ -5,7 +5,6 @@ import Photo from "./components/Photo";
 import DateChooser from "./components/DateChooser";
 import { PhotosSortType } from "../../../model/enum/account/photos/photosSortType";
 import { useEffect, useState } from "react";
-import { Dayjs } from "dayjs";
 import SortDropdown from "./components/SortDropdown";
 import AccountTitle from "../components/AccountTitle";
 import AccountWrapper from "../components/AccountWrapper";
@@ -13,6 +12,7 @@ import { AccountWrapperType } from "../../../model/enum/account/accountWrapperTy
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { notificationAction } from "../../../redux/notification";
+import dayjs, { Dayjs } from "dayjs";
 
 export default function Photos() {
     const [optionType, setOptionType] = useState(PhotosSortType.DATE_DECREASE);
@@ -48,11 +48,11 @@ export default function Photos() {
         setOptionType(type);
     };
 
-    const handleChangeDate = (value: Dayjs, id: string) => {
+    const handleChangeDate = (value: Dayjs | null, id: string) => {
         const formatted = value?.format("YYYY-MM-DD");
 
         if (id === "from") {
-            if (searchDate.to && value.isAfter(searchDate.to)) {
+            if (searchDate.to && value?.isAfter(searchDate.to)) {
                 dispatch(
                     notificationAction.setError({
                         message: '"From" date cannot be after "To" date',
@@ -63,7 +63,7 @@ export default function Photos() {
         }
 
         if (id === "to") {
-            if (searchDate.from && value.isBefore(searchDate.from)) {
+            if (searchDate.from && value?.isBefore(searchDate.from)) {
                 dispatch(
                     notificationAction.setError({
                         message: '"To" date cannot be before "From" date',
@@ -91,10 +91,14 @@ export default function Photos() {
                             onChange={(value) =>
                                 handleChangeDate(value, "from")
                             }
+                            value={
+                                searchDate.from ? dayjs(searchDate.from) : null
+                            }
                         />
                         <DateChooser
                             text="To:"
                             onChange={(value) => handleChangeDate(value, "to")}
+                            value={searchDate.to ? dayjs(searchDate.to) : null}
                         />
                     </div>
                 </div>

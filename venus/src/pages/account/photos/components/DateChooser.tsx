@@ -3,10 +3,15 @@ import { Dayjs } from "dayjs";
 
 interface DateChooserProps {
     text: string;
-    onChange: (value: Dayjs) => void;
+    onChange: (value: Dayjs | null) => void;
+    value: Dayjs | null;
 }
 
-export default function DateChooser({ text, onChange }: DateChooserProps) {
+export default function DateChooser({
+    text,
+    onChange,
+    value,
+}: DateChooserProps) {
     return (
         <div className="flex flex-col items-center sm:flex-row">
             <p>{text}</p>
@@ -31,6 +36,7 @@ export default function DateChooser({ text, onChange }: DateChooserProps) {
             >
                 <DatePicker
                     onChange={onChange}
+                    value={value}
                     style={{
                         border: "none",
                         boxShadow: "none",
