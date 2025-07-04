@@ -51,5 +51,4 @@ public class PopulateUsersService {
 
         userEntityRepository.saveAll(userList);
     }
-
 }
