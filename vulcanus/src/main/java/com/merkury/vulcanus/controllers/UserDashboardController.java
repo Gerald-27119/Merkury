@@ -11,7 +11,6 @@ import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
-import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -95,7 +94,7 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/photos")
-    public ResponseEntity<List<DatedPhotosGroupDto>> getSortedUserPhotos(HttpServletRequest request, @RequestParam PhotoSortType type, @RequestParam(required = false) LocalDate from, @RequestParam(required = false) LocalDate to) throws UnsupportedPhotoSortTypeException {
-        return ResponseEntity.ok(userDashboardService.getSortedUserPhotos(request, type, from, to));
+    public ResponseEntity<List<DatedPhotosGroupDto>> getSortedUserPhotos(@RequestParam PhotoSortType type, @RequestParam(required = false) LocalDate from, @RequestParam(required = false) LocalDate to) throws UnsupportedPhotoSortTypeException {
+        return ResponseEntity.ok(userDashboardService.getSortedUserPhotos(type, from, to));
     }
 }
