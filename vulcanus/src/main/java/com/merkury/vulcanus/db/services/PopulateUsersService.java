@@ -50,5 +50,12 @@ public class PopulateUsersService {
         }
 
         userEntityRepository.saveAll(userList);
+
+//        TODO: klasa testowa zrob testy
+//        TODO: łapanie tych wyjatkow i logowanie ich, zeby nie psuło aplikacji
+//        userEntityRepository.save(UserEntity.builder().build());
+        userEntityRepository.save(UserEntity.builder().username("user").build());
+        userEntityRepository.save(UserEntity.builder().username("asdasda").build());
+        userEntityRepository.save(UserEntity.builder().build());
     }
 }
