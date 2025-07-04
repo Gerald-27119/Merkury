@@ -25,7 +25,7 @@ public class SpotCommentMapper {
                 .isUpVoted(spotComment.getUpVotedBy().contains(currentUser))
                 .isDownVoted(spotComment.getDownVotedBy().contains(currentUser))
                 .numberOfPhotos(spotComment.getPhotos().size())
-                .photoList(spotComment.getPhotos().stream().map(SpotCommentPhotoMapper::toDto).toList())
+                .photoList(spotComment.getPhotos().stream().limit(3).map(SpotCommentPhotoMapper::toDto).toList())
                 .build();
     }
 

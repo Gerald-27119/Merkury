@@ -7,9 +7,10 @@ import SpotCommentPhotos from "./SpotCommentPhotos";
 
 type SpotCommentProps = {
     comment: SpotCommentDto;
+    spotId: number;
 };
 
-export default function SpotComment({ comment }: SpotCommentProps) {
+export default function SpotComment({ comment, spotId }: SpotCommentProps) {
     return (
         <div className="dark:bg-second flex min-h-fit flex-col items-center rounded-2xl px-4 lg:py-2">
             <div className="my-3 flex w-full flex-col items-start">
@@ -30,7 +31,12 @@ export default function SpotComment({ comment }: SpotCommentProps) {
             </div>
             <p className="mb-3 w-full text-left">{comment.text}</p>
             {comment.photoList && (
-                <SpotCommentPhotos photos={comment.photoList} />
+                <SpotCommentPhotos
+                    photos={comment.photoList}
+                    commentId={comment.id}
+                    spotId={spotId}
+                    numberOfPhotos={comment.numberOfPhotos}
+                />
             )}
             <SpotCommentVotesPanel
                 upvotes={comment.upvotes}

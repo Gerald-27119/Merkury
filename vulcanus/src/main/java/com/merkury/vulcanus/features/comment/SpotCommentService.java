@@ -8,10 +8,12 @@ import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentAddDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentEditDto;
+import com.merkury.vulcanus.model.dtos.comment.SpotCommentPhotoDto;
 import com.merkury.vulcanus.model.entities.SpotComment;
 import com.merkury.vulcanus.model.entities.Spot;
-import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.mappers.SpotCommentMapper;
+import com.merkury.vulcanus.model.mappers.SpotCommentPhotoMapper;
+import com.merkury.vulcanus.model.repositories.SpotCommentPhotoRepository;
 import com.merkury.vulcanus.model.repositories.SpotCommentRepository;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,13 +24,14 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Set;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class SpotCommentService {
 
     private final SpotCommentRepository spotCommentRepository;
+    private final SpotCommentPhotoRepository spotCommentPhotoRepository;
     private final SpotRepository spotRepository;
     private final UserDataService userDataService;
     private final VoteService voteService;
@@ -38,6 +41,10 @@ public class SpotCommentService {
         var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
 
         return commentsPage.map(comment -> SpotCommentMapper.toDto(comment, user));
+    }
+
+    public List<SpotCommentPhotoDto> getRestOfSpotCommentPhotos(Long spotId, Long commentId) {
+        return spotCommentPhotoRepository.findBySpotIdAndCommentId(spotId,commentId).stream().map(SpotCommentPhotoMapper::toDto).toList();
     }
 
     public void addComment(HttpServletRequest request, SpotCommentAddDto dto, Long spotId) throws SpotNotFoundException {

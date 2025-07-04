@@ -6,6 +6,7 @@ import com.merkury.vulcanus.features.comment.SpotCommentService;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentAddDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentEditDto;
+import com.merkury.vulcanus.model.dtos.comment.SpotCommentPhotoDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -29,6 +32,11 @@ public class SpotCommentController {
         Page<SpotCommentDto> comments = spotCommentService.getCommentsBySpotId(request, spotId, PageRequest.of(page, SPOT_COMMENTS_PAGE_SIZE));
 
         return ResponseEntity.ok(comments);
+    }
+
+    @GetMapping("/public/spot/{spotId}/comments/{commentId}")
+    public ResponseEntity<List<SpotCommentPhotoDto>> getRestOfSpotCommentPhotos(@PathVariable Long spotId, @PathVariable Long commentId) {
+        return ResponseEntity.ok(spotCommentService.getRestOfSpotCommentPhotos(spotId, commentId));
     }
 
     @PostMapping("/spot/{spotId}/comments")
