@@ -34,6 +34,7 @@ jobs:
 
       - name: Check code formatting
         run: npm run format:check
+        working-directory: venus
 
       - name: Run tests
         working-directory: venus
