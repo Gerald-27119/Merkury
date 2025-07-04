@@ -85,7 +85,7 @@ body {
 }
 
 .custom-rate-searched-spot .ant-rate-star {
-  font-size: 20px;
+    font-size: 20px;
 }
 
 @media (max-width: 768px) {
@@ -104,8 +104,10 @@ body {
     color: #ffffff;
 }
 
-.custom-rate-searched-spot .ant-rate-star:not(.ant-rate-star-full) .ant-rate-star-second {
-  color: #ffffff;
+.custom-rate-searched-spot
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
+    color: #ffffff;
 }
 
 .carousel-rounded > .slick-list {
