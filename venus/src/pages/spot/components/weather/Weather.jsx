@@ -14,57 +14,60 @@ import { useDispatch } from "react-redux";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
 
 export default function Weather({ spot }) {
-  const { data, error, isLoading } = useQuery({
-    queryFn: () =>
-      fetchWeather(spot.weatherApiCallCoords.x, spot.weatherApiCallCoords.y),
-    queryKey: ["weather", spot.id],
-  });
+    const { data, error, isLoading } = useQuery({
+        queryFn: () =>
+            fetchWeather(
+                spot.weatherApiCallCoords.x,
+                spot.weatherApiCallCoords.y,
+            ),
+        queryKey: ["weather", spot.id],
+    });
 
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (error?.response?.data) {
-      dispatch(
-        notificationAction.setError({
-          message: error.response.data,
-        }),
-      );
+    useEffect(() => {
+        if (error?.response?.data) {
+            dispatch(
+                notificationAction.setError({
+                    message: error.response.data,
+                }),
+            );
+        }
+    }, [dispatch, error]);
+
+    if (isLoading) {
+        return <LoadingSpinner />;
     }
-  }, [dispatch, error]);
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+    const weatherData = getWeatherData(data);
 
-  const weatherData = getWeatherData(data);
-
-  return (
-    <div className="flex flex-col space-y-2 p-2 rounded-md shadow-md bg-white">
-      <h1 className="font-semibold text-xl text-center">Weather</h1>
-      <div className="flex flex-col space-y-2">
-        <WeatherRow>
-          <WeatherTile>
-            <FiSunrise className="mr-2" />
-            <p>{weatherData.sunrise}</p>
-          </WeatherTile>
-          <WeatherTile>
-            <FiSunset className="mr-2" />
-            <p>{weatherData.sunset}</p>
-          </WeatherTile>
-        </WeatherRow>
-        <WeatherRow>
-          <WeatherTile>
-            <WiThermometer className="text-4xl mt-1" />
-            <p className="flex items-center">
-              {weatherData.temperature} <TbTemperatureCelsius />
-            </p>
-          </WeatherTile>
-          <WeatherTile>
-            <WeatherIcon code={weatherData.weatherCode} />
-          </WeatherTile>
-        </WeatherRow>
-        <WindSpeed winds={weatherData.winds} />
-      </div>
-    </div>
-  );
+    return (
+        <div className="flex flex-col space-y-2 rounded-md bg-white p-2 shadow-md">
+            <h1 className="text-center text-xl font-semibold">Weather</h1>
+            <div className="flex flex-col space-y-2">
+                <WeatherRow>
+                    <WeatherTile>
+                        <FiSunrise className="mr-2" />
+                        <p>{weatherData.sunrise}</p>
+                    </WeatherTile>
+                    <WeatherTile>
+                        <FiSunset className="mr-2" />
+                        <p>{weatherData.sunset}</p>
+                    </WeatherTile>
+                </WeatherRow>
+                <WeatherRow>
+                    <WeatherTile>
+                        <WiThermometer className="mt-1 text-4xl" />
+                        <p className="flex items-center">
+                            {weatherData.temperature} <TbTemperatureCelsius />
+                        </p>
+                    </WeatherTile>
+                    <WeatherTile>
+                        <WeatherIcon code={weatherData.weatherCode} />
+                    </WeatherTile>
+                </WeatherRow>
+                <WindSpeed winds={weatherData.winds} />
+            </div>
+        </div>
+    );
 }

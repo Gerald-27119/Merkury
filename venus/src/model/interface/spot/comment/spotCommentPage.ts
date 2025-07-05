@@ -1,7 +1,4 @@
 import SpotCommentDto from "./spotCommentDto";
+import Pageable from "../../../pageable";
 
-export default interface SpotCommentPage {
-  content: SpotCommentDto[];
-  number: number;
-  totalPages: number;
-}
+export default interface SpotCommentPage extends Pageable<SpotCommentDto> {}

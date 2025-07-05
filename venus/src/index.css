@@ -1,95 +1,126 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 /* documentation of the plugin https://adoxography.github.io/tailwind-scrollbar/ */
 @plugin 'tailwind-scrollbar' {
-  nocompatible: true;
-  preferredStrategy: 'pseudoelements';
+    nocompatible: true;
+    preferredstrategy: "pseudoelements";
 }
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --height-1\/10: 10%;
+    --height-1\/10: 10%;
 
-  --color-mainBlue: #4242f0;
-  --color-mainBlueDarker: #0d0db5;
-  --color-darkText: #e5e5e5;
-  --color-darkBg: #0f0f10;
-  --color-darkBgSoft: #1b1c1d;
-  --color-darkBgMuted: #323539;
-  --color-darkBorder: #939394;
-  --color-lightText: #222222;
-  --color-lightBg: #e4e3e3;
-  --color-lightBgDarker: #cccaca;
-  --color-lightBgSoft: #ffffff;
-  --color-lightBgMuted: #f2f2f2;
-  --color-lightBorder: #fbfdff;
-  --color-violetDark: #363041;
-  --color-violetLight: #6D6183;
-  --color-violetLighter: #9b8cbd;
-  --color-violetDarker: #2C2734;
-  --color-violetBtnBorderDark: #625B6E;
-  --color-violetBright: #835ACE;
-  --color-darbVioletBtnOutline: #816BA6;
-  --color-first: #2C3E50;
-  --color-second: #34495E;
-  --color-third: #1ABC9C;
-  --color-fourth: #16A085;
-  --color-fifth: #ECF0F1;
-  --color-sixth: #E94560;
-  --color-magenta: #A01BC1;
-  --color-darkYellow: #C5A03C;
-  --color-ratingStarColor: #FADB14;
-  --color-locationMarkerDarkerBlue: #A3DCFF;
-  --color-locationMarkerLightBlue: #52BAFB;
-  --color-userLocationDot: #4285f4;
-  --color-spotLocationMarker: #A8071A;
+    --color-mainBlue: #4242f0;
+    --color-mainBlueDarker: #0d0db5;
+    --color-darkText: #e5e5e5;
+    --color-darkBg: #0f0f10;
+    --color-darkBgSoft: #1b1c1d;
+    --color-darkBgMuted: #323539;
+    --color-darkBorder: #939394;
+    --color-lightText: #222222;
+    --color-lightBg: #e4e3e3;
+    --color-lightBgDarker: #cccaca;
+    --color-lightBgSoft: #ffffff;
+    --color-lightBgMuted: #f2f2f2;
+    --color-lightBorder: #fbfdff;
+    --color-violetDark: #363041;
+    --color-violetLight: #6d6183;
+    --color-violetLighter: #9b8cbd;
+    --color-violetDarker: #2c2734;
+    --color-violetBtnBorderDark: #625b6e;
+    --color-violetBright: #835ace;
+    --color-darbVioletBtnOutline: #816ba6;
+    --color-first: #2c3e50;
+    --color-second: #34495e;
+    --color-third: #1abc9c;
+    --color-fourth: #16a085;
+    --color-fifth: #ecf0f1;
+    --color-sixth: #e94560;
+    --color-magenta: #a01bc1;
+    --color-darkYellow: #c5a03c;
+    --color-ratingStarColor: #fadb14;
+    --color-locationMarkerDarkerBlue: #a3dcff;
+    --color-locationMarkerLightBlue: #52bafb;
+    --color-userLocationDot: #4285f4;
+    --color-spotLocationMarker: #a8071a;
 
-  --animate-slide-in-from-left: slideInFromLeft 0.3s ease-out;
+    --animate-slide-in-from-left: slideInFromLeft 0.3s ease-out;
 
-  @keyframes slideInFromLeft {
-    0% {
-      transform: translateX(-100%);
-      opacity: 0;
+    @keyframes slideInFromLeft {
+        0% {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
     }
-    100% {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
 }
 
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    border-color: var(--color-gray-200, currentcolor);
-  }
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        border-color: var(--color-gray-200, currentcolor);
+    }
+}
+
+body {
+    background-color: var(--color-darkBg);
 }
 
 .custom-rate .ant-rate-star {
-  font-size: 25px;
+    font-size: 25px;
 }
 
 .custom-rate-spot-comment .ant-rate-star {
-  font-size: 18px;
-  margin: 0 0.1px;
+    font-size: 18px;
+    margin: 0 0.1px;
+}
+
+.custom-rate-searched-spot .ant-rate-star {
+    font-size: 20px;
 }
 
 @media (max-width: 768px) {
-  .custom-rate .ant-rate-star {
-    font-size: 20px;
-  }
+    .custom-rate .ant-rate-star {
+        font-size: 20px;
+    }
 }
 
 .custom-rate .ant-rate-star:not(.ant-rate-star-full) .ant-rate-star-second {
-  color: #ffffff;
+    color: #ffffff;
 }
 
-.custom-rate-spot-comment .ant-rate-star:not(.ant-rate-star-full) .ant-rate-star-second {
-  color: #ffffff;
+.custom-rate-spot-comment
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
+    color: #ffffff;
+}
+
+.custom-rate-searched-spot
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
+    color: #ffffff;
+}
+
+.ant-picker-header button {
+    color: #e5e5e5 !important;
+}
+
+.custom-rate-searched-spot
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
+    color: #ffffff;
+}
+
+.carousel-rounded > .slick-list {
+    border-radius: 1rem;
+    overflow: hidden;
 }

@@ -7,7 +7,12 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "chat_messages")
+@Table(
+        name = "chat_messages"
+//        indexes = {//TODO: test if works, should i use it?
+//                @Index(name = "index_chat_message_sent_at", columnList = "chat_id, sent_at")
+//        }
+)
 @Data
 @Builder
 @NoArgsConstructor

@@ -41,6 +41,8 @@ public class PopulateFriendsService {
             users.add(user);
         }
 
+        users.add(userEntityRepository.findByUsername("user").get());
+
         userEntityRepository.saveAll(users);
 
         for (var user : users) {

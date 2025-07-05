@@ -1,5 +1,6 @@
 export enum SocialListType {
-  FRIENDS = "friends",
-  FOLLOWED = "followed",
-  FOLLOWERS = "followers",
+    FRIENDS = "friends",
+    FOLLOWED = "followed",
+    FOLLOWERS = "followers",
+    PHOTOS = "photos",
 }

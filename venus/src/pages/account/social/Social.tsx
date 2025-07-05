@@ -1,60 +1,71 @@
-import { useQuery } from "@tanstack/react-query";
-import {
-  getUserFollowed,
-  getUserFollowers,
-  getUserFriends,
-} from "../../../http/user-dashboard";
 import SocialButton from "./components/SocialButton";
-import { useState } from "react";
 import SocialCardList from "./components/SocialCardList";
 import { SocialListType } from "../../../model/enum/account/social/socialListType";
+import { SocialDto } from "../../../model/interface/account/social/socialDto";
+import useSelectorTyped from "../../../hooks/useSelectorTyped";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { socialAction } from "../../../redux/social";
 import AccountTitle from "../components/AccountTitle";
+import AccountWrapper from "../components/AccountWrapper";
+import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
 
-const menuTypes = [
-  { label: "friends", type: SocialListType.FRIENDS },
-  { label: "followed", type: SocialListType.FOLLOWED },
-  { label: "followers", type: SocialListType.FOLLOWERS },
-];
+interface SocialProps {
+    friends: SocialDto[];
+    followed: SocialDto[];
+    followers: SocialDto[];
+    photos?: SocialDto[];
+    isSocialForViewer: boolean;
+}
 
-export default function Social() {
-  const [type, setType] = useState(SocialListType.FRIENDS);
+export default function Social({
+    friends,
+    followed,
+    followers,
+    photos,
+    isSocialForViewer,
+}: SocialProps) {
+    const type = useSelectorTyped((state) => state.social.type);
+    const dispatch = useDispatchTyped();
 
-  const { data: friends } = useQuery({
-    queryFn: getUserFriends,
-    queryKey: ["friends"],
-  });
+    const setType = (type: SocialListType) => {
+        dispatch(socialAction.setType(type));
+    };
 
-  const { data: followed } = useQuery({
-    queryFn: getUserFollowed,
-    queryKey: ["followed"],
-  });
+    const dataMap = {
+        [SocialListType.FRIENDS]: friends,
+        [SocialListType.FOLLOWED]: followed,
+        [SocialListType.FOLLOWERS]: followers,
+        [SocialListType.PHOTOS]: photos,
+    };
 
-  const { data: followers } = useQuery({
-    queryFn: getUserFollowers,
-    queryKey: ["followers"],
-  });
+    const menuTypes = [
+        { label: "friends", type: SocialListType.FRIENDS },
+        { label: "followed", type: SocialListType.FOLLOWED },
+        { label: "followers", type: SocialListType.FOLLOWERS },
+        ...(isSocialForViewer
+            ? [{ label: "photos", type: SocialListType.PHOTOS }]
+            : []),
+    ];
 
-  const dataMap = {
-    [SocialListType.FRIENDS]: friends,
-    [SocialListType.FOLLOWED]: followed,
-    [SocialListType.FOLLOWERS]: followers,
-  };
-
-  return (
-    <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText flex h-full w-full flex-col space-y-8 p-10 pt-17 xl:pt-10">
-      <AccountTitle text="social list" />
-      <div className="flex gap-3 text-2xl lg:mx-27">
-        {menuTypes.map(({ label, type: btnType }) => (
-          <SocialButton
-            key={label}
-            onClick={() => setType(btnType)}
-            isActive={type === btnType}
-          >
-            <p className="font-semibold capitalize">{label}</p>
-          </SocialButton>
-        ))}
-      </div>
-      <SocialCardList list={dataMap[type]} type={type} />
-    </div>
-  );
+    return (
+        <AccountWrapper variant={AccountWrapperType.SOCIAL}>
+            <AccountTitle text="social list" />
+            <div className="flex gap-3 text-2xl lg:mx-27">
+                {menuTypes.map(({ label, type: btnType }) => (
+                    <SocialButton
+                        key={label}
+                        onClick={() => setType(btnType)}
+                        isActive={type === btnType}
+                    >
+                        <p className="font-semibold capitalize">{label}</p>
+                    </SocialButton>
+                ))}
+            </div>
+            <SocialCardList
+                list={dataMap[type] ?? []}
+                type={type}
+                isSocialForViewer={isSocialForViewer}
+            />
+        </AccountWrapper>
+    );
 }
