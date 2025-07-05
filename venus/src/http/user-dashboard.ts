@@ -123,7 +123,7 @@ export async function editUserFollowed({
     ).data;
 }
 
-interface GetSortedUserPhotosProps {
+interface DateRangeSortProps {
     type: DateSortType;
     from: string | null;
     to: string | null;
@@ -133,7 +133,7 @@ export async function getSortedUserPhotos({
     type,
     from,
     to,
-}: GetSortedUserPhotosProps): Promise<DatedPhotosGroup[]> {
+}: DateRangeSortProps): Promise<DatedPhotosGroup[]> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/photos`, {
             withCredentials: true,
@@ -179,7 +179,7 @@ export async function getAllUserComments({
     type,
     from,
     to,
-}: GetSortedUserPhotosProps): Promise<DatedCommentsGroup[]> {
+}: DateRangeSortProps): Promise<DatedCommentsGroup[]> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/comments`, {
             withCredentials: true,

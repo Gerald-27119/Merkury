@@ -10,9 +10,11 @@ export default function CommentsList({ comments }: CommentsListProps) {
             {comments.map((c) => (
                 <li
                     key={c.id}
-                    className="bg-darkBgSoft flex flex-col rounded-md px-2 py-1.5"
+                    className="dark:bg-darkBgSoft bg-lightBgSoft flex flex-col rounded-md px-2 py-1.5"
                 >
-                    <p className="text-darkBorder">{c.addTime}</p>
+                    <p className="dark:text-darkBorder text-lightText/70">
+                        {c.addTime}
+                    </p>
                     <p className="text-lg">{c.text}</p>
                 </li>
             ))}
