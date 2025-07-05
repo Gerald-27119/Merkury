@@ -3,6 +3,7 @@ export interface ChatMessageDto {
     sender: ChatMessageSenderDto;
     sentAt: string;
     content: string;
+    chatId: number;
 }
 
 export interface ChatMessageSenderDto {

@@ -65,6 +65,7 @@ public class ChatMapper {
                 .content(chatMessage.getContent())
                 .sentAt(chatMessage.getSentAt())
                 .sender(chatMessageSenderDto)
+                .chatId(chatMessage.getChat().getId())
                 .build();
     }
 
