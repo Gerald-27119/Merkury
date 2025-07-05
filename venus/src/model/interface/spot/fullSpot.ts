@@ -1,14 +1,14 @@
 import Img from "../img";
-import Comment from "../comment/comment";
+import SpotCommentDto from "./comment/spotCommentDto";
 
 export default interface FullSpot {
-  id: number;
-  areaColor: string;
-  name: string;
-  description: string;
-  rating: number;
-  viewsCount: number;
-  contourCoordinates: number[][];
-  comments: Comment[];
-  photos: Img[];
+    id: number;
+    areaColor: string;
+    name: string;
+    description: string;
+    rating: number;
+    viewsCount: number;
+    contourCoordinates: number[][];
+    comments: SpotCommentDto[];
+    photos: Img[];
 }

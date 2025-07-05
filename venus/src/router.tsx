@@ -1,110 +1,128 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Error from "./components/error/Error.jsx";
-import Register from "./pages/register/Register.tsx";
-import Login from "./pages/login/Login.tsx";
+import Register from "./pages/register/Register";
+import Login from "./pages/login/Login";
 import ForgotPassword from "./pages/forgot-password/ForgotPassword.jsx";
 import NewPassword from "./pages/new-password/NewPassword.jsx";
 import Layout from "./layout/Layout.jsx";
 import Forum from "./pages/forum/Forum";
+import ForumThread from "./pages/forum/ForumThread";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
-import FavouriteSpots from "./pages/favourite-spots/FavouriteSpots.jsx";
 import MapPage from "./pages/map/MapPage";
-import Profile from "./pages/account/profile/Profile";
 import ChatsPage from "./pages/chats/ChatsPage";
-import Social from "./pages/account/social/Social";
-import ForumThread from "./pages/forum/ForumThread";
+import FavoriteSpots from "./pages/account/favorite-spots/FavoriteSpots";
+import UserOwnProfile from "./pages/account/profile/UserOwnProfile";
+import ProfileForViewer from "./pages/account/profile/ProfileForViewer";
+import UserOwnSocial from "./pages/account/social/UserOwnSocial";
+import SocialForViewer from "./pages/account/social/SocialForViewer";
+import Photos from "./pages/account/photos/Photos";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    errorElement: <Error error={undefined} />,
-    children: [
-      {
-        index: true,
-        element: <h1>HOME PAGE</h1>,
-      },
-      {
-        path: "account",
+    {
+        path: "/",
+        element: <Layout />,
+        errorElement: <Error error={undefined} />,
         children: [
-          {
-            index: true,
-            element: <Navigate to="profile" replace />,
-          },
-          {
-            path: "profile",
-            element: (
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: "friends",
-            element: (
-              <ProtectedRoute>
-                <Social />
-              </ProtectedRoute>
-            ),
-          },
+            {
+                index: true,
+                element: <h1 className="text-white">HOME PAGE</h1>,
+            },
+            {
+                path: "account",
+                children: [
+                    {
+                        index: true,
+                        element: <Navigate to="profile" replace />,
+                    },
+                    {
+                        path: "profile",
+                        element: (
+                            <ProtectedRoute>
+                                <UserOwnProfile />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "profile/:username",
+                        element: <ProfileForViewer />,
+                    },
+                    {
+                        path: "favorite-spots",
+                        element: (
+                            <ProtectedRoute>
+                                <FavoriteSpots />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "friends",
+                        element: (
+                            <ProtectedRoute>
+                                <UserOwnSocial />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "friends/:username",
+                        element: <SocialForViewer />,
+                    },
+                    {
+                        path: "photos",
+                        element: (
+                            <ProtectedRoute>
+                                <Photos />
+                            </ProtectedRoute>
+                        ),
+                    },
+                ],
+            },
+            {
+                path: "register",
+                element: <Register />,
+            },
+            {
+                path: "login",
+                element: <Login />,
+            },
+            {
+                path: "forgot-password",
+                element: <ForgotPassword />,
+            },
+            {
+                path: "new-password",
+                element: <NewPassword />,
+            },
+            {
+                path: "forum",
+                element: <Forum />,
+            },
+            {
+                path: "forum/:postId",
+                element: <ForumThread />,
+            },
+            {
+                path: "edit-data",
+                element: (
+                    <ProtectedRoute>
+                        <EditUserData />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "map",
+                element: <MapPage />,
+            },
+            {
+                path: "chat",
+                element: (
+                    <ProtectedRoute>
+                        <ChatsPage />
+                    </ProtectedRoute>
+                ),
+            },
         ],
-      },
-      {
-        path: "register",
-        element: <Register />,
-      },
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "forgot-password",
-        element: <ForgotPassword />,
-      },
-      {
-        path: "new-password",
-        element: <NewPassword />,
-      },
-      {
-        path: "forum",
-        element: <Forum />,
-      },
-      {
-        path: "forum/:postId",
-        element: <ForumThread />,
-      },
-      {
-        path: "edit-data",
-        element: (
-          <ProtectedRoute>
-            <EditUserData />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "favourite-spots",
-        element: (
-          <ProtectedRoute>
-            <FavouriteSpots />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "map",
-        element: <MapPage />,
-      },
-      {
-        path: "chat",
-        element: (
-          // for demo purposes only
-          // <ProtectedRoute>
-          <ChatsPage />
-          // </ProtectedRoute>
-        ),
-      },
-    ],
-  },
+    },
 ]);
 
 export default router;

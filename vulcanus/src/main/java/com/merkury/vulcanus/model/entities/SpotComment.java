@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(name = "spot_comments")
 @SuperBuilder
 @Data
@@ -22,4 +25,10 @@ public class SpotComment extends Comment {
     @JoinColumn(name = "spot_id")
     @ToString.Exclude
     private Spot spot;
+
+    @OneToMany(mappedBy = "spotComment", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<SpotCommentPhoto> photos = new ArrayList<>();
 }

@@ -12,9 +12,8 @@ import ForumFormModal from "./components/ForumFormModal";
 import { useBoolean } from "../../hooks/useBoolean";
 
 export default function Forum() {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
-    useBoolean(false);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] = useBoolean(false);
 
   const {
     data: posts,

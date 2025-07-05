@@ -3,36 +3,31 @@ import Notification from "../components/notification/Notification.jsx";
 import Sidebar from "./sidebar/Sidebar.tsx";
 import { useEffect } from "react";
 import MobileBar from "./mobile-bar/MobileBar";
-import { useToggleState } from "../hooks/useToggleState";
 import useDispatchTyped from "../hooks/useDispatchTyped";
 import { sidebarAction } from "../redux/sidebar";
 
 export default function Layout() {
-  const location = useLocation();
-  const isMapPage = location.pathname === "/map";
-  const isForumPage = location.pathname === "/forum";
-  const [isSidebarOpen, setIsSidebarOpen, toggleSidebar] =
-    useToggleState(false);
-  const dispatch = useDispatchTyped();
+    const location = useLocation();
+    const isMapPage = location.pathname === "/map";
+    const dispatch = useDispatchTyped();
 
-  useEffect(() => {
-    if (location.pathname.includes("account") && window.innerWidth >= 1280) {
-      setIsSidebarOpen(true);
-    }
-  }, [location]);
+    useEffect(() => {
+        if (
+            location.pathname.includes("account") &&
+            window.innerWidth >= 1280
+        ) {
+            dispatch(sidebarAction.setIsSidebarOpen(true));
+        }
+    }, [location]);
 
-  useEffect(() => {
-    dispatch(sidebarAction.setIsSidebarOpen(isSidebarOpen));
-  }, [isSidebarOpen]);
-
-  return (
-    <div className={`${isMapPage ? "relative" : "flex"} min-h-screen`}>
-      <Sidebar isSidebarOpen={isSidebarOpen} onToggle={toggleSidebar} />
-      <main className="relative flex w-full flex-col items-center justify-center">
-        <MobileBar onToggle={toggleSidebar} />
-        <Notification title="test" message="message" />
-        <Outlet />
-      </main>
-    </div>
-  );
+    return (
+        <div className={`${isMapPage ? "relative" : "flex"} min-h-screen`}>
+            <Sidebar />
+            <main className="relative flex w-full flex-col items-center justify-center">
+                <MobileBar />
+                <Notification title="test" message="message" />
+                <Outlet />
+            </main>
+        </div>
+    );
 }

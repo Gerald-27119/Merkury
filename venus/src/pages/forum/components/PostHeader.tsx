@@ -3,8 +3,8 @@ import PostGeneral from "../../../model/interface/forum/post/postGeneral";
 import { NavLink } from "react-router-dom";
 
 interface PostHeaderProps {
-  post: PostGeneral;
-  onDelete: (postId: number) => void;
+    post: PostGeneral;
+    onDelete: (postId: number) => void;
 }
 
 export default function PortHeader({ post, onDelete }: PostHeaderProps) {

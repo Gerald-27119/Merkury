@@ -5,7 +5,7 @@ import com.merkury.vulcanus.exception.exceptions.UserNotFollowedException;
 import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
-import com.merkury.vulcanus.model.enums.user.dashboard.EditUserFriendsType;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.SocialMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
@@ -36,8 +36,8 @@ public class FollowersService {
                 .toList();
     }
 
-    public void editUserFollowed(String username, String followedUsername, EditUserFriendsType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
-        switch (type){
+    public void editUserFollowed(String username, String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
+        switch (type) {
             case ADD -> addUserFollowed(username, followedUsername);
             case REMOVE -> removeUserFollowed(username, followedUsername);
             default -> throw new UnsupportedEditUserFriendsTypeException(type);
