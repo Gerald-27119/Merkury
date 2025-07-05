@@ -1,9 +1,10 @@
 import SortDropdown from "../components/SortDropdown";
 import DateChooser from "../components/DateChooser";
 import dayjs, { Dayjs } from "dayjs";
+import { DateSortType } from "../../../model/enum/account/photos/dateSortType";
 
 interface SortAndDateFiltersProps {
-    onSortChange: (type: any) => void;
+    onSortChange: (type: DateSortType) => void;
     onDateChange: (value: Dayjs | null, id: "from" | "to") => void;
     from: string | null;
     to: string | null;
