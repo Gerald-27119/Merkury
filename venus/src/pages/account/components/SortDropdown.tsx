@@ -1,6 +1,6 @@
-import { PhotosSortType } from "../../../../model/enum/account/photos/photosSortType";
+import { PhotosSortType } from "../../../model/enum/account/photos/photosSortType";
 import { useState } from "react";
-import { useBoolean } from "../../../../hooks/useBoolean";
+import { useBoolean } from "../../../hooks/useBoolean";
 import { AnimatePresence, motion } from "framer-motion";
 import { IoIosArrowDown } from "react-icons/io";
 

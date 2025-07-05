@@ -1,7 +1,7 @@
 import Comment from "./comment";
 
 export default interface DatedCommentsGroup {
-  addDate: string;
-  spotName: string;
-  comments: Comment[];
+    date: string;
+    spotName: string;
+    comments: Comment[];
 }

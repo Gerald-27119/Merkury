@@ -14,7 +14,7 @@ public class CommentsMapper {
 
     public static DatedCommentsGroupDto toDto(@NotNull List<CommentDto> comments, @NotNull LocalDate date, @NotNull String spotName){
         return DatedCommentsGroupDto.builder()
-                .addDate(date)
+                .date(date)
                 .spotName(spotName)
                 .comments(comments)
                 .build();

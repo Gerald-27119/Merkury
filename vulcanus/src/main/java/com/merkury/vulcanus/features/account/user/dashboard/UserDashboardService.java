@@ -11,7 +11,6 @@ import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -87,8 +86,8 @@ public class UserDashboardService {
         return photosService.getSortedUserPhotos(getCurrentUsername(), type, from, to);
     }
 
-    public List<DatedCommentsGroupDto> getAllUserComments() {
-        return commentsService.getAllUserComments(getCurrentUsername());
+    public List<DatedCommentsGroupDto> getSortedUserComments(PhotoSortType type, LocalDate from, LocalDate to) throws UnsupportedPhotoSortTypeException {
+        return commentsService.getSortedUserComments(getCurrentUsername(), type, from, to);
     }
 
     private String getCurrentUsername() {

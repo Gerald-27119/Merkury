@@ -1,43 +1,66 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllUserComments } from "../../../http/user-dashboard";
 import AccountTitle from "../components/AccountTitle";
+import AccountWrapper from "../components/AccountWrapper";
+import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
+import DateBadge from "../components/DateBadge";
+import CommentsList from "./components/CommentsList";
+import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
+import SortAndDateFilters from "../components/SortAndDateFilters";
+import { useDateSortFilter } from "../../../hooks/useDateSortFilter";
 
 export default function Comments() {
-  const { data } = useQuery({
-    queryKey: ["comments"],
-    queryFn: getAllUserComments,
-  });
+    const { sortType, searchDate, handleSelectType, handleChangeDate } =
+        useDateSortFilter();
 
-  console.log(data);
+    const { data, isLoading } = useQuery({
+        queryKey: ["comments", sortType, searchDate.from, searchDate.to],
+        queryFn: () =>
+            getAllUserComments({
+                from: searchDate.from,
+                to: searchDate.to,
+                type: sortType,
+            }),
+    });
 
-  return (
-    <div className="dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText flex h-full w-full flex-col space-y-8 p-10 pt-17 xl:pt-10">
-      <AccountTitle text="Comments" />
-      <ul className="mx-27 space-y-5">
-        {data?.map((d, index) => (
-          <li key={index} className="flex flex-col space-y-5">
-            <span className="bg-darkBgMuted flex w-full space-x-6 rounded-md px-2 py-1.5 text-xl">
-              <p className="font-semibold">{d.addDate}</p>
-              <span className="flex">
-                Comments to
-                <p className="text-violetLight mx-2">{d.spotName}</p>
-                spot
-              </span>
-            </span>
-            <ul className="ml-20 space-y-3">
-              {d.comments.map((c) => (
-                <li
-                  key={c.id}
-                  className="bg-darkBgSoft flex flex-col rounded-md px-2 py-1.5"
-                >
-                  <p className="text-darkBorder">{c.addTime}</p>
-                  <p className="text-lg">{c.text}</p>
-                </li>
-              ))}
+    return (
+        <AccountWrapper variant={AccountWrapperType.COMMENTS}>
+            <div className="flex flex-wrap items-center justify-between space-y-2 space-x-3">
+                <AccountTitle text="Comments" />
+                <SortAndDateFilters
+                    onSortChange={handleSelectType}
+                    onDateChange={handleChangeDate}
+                    from={searchDate.from}
+                    to={searchDate.to}
+                />
+            </div>
+            {isLoading && <LoadingSpinner />}
+            <ul className="mx-27 space-y-5">
+                {data?.length
+                    ? data?.map((d) => (
+                          <li
+                              key={`${d.spotName}-${d.date}`}
+                              className="flex flex-col space-y-5"
+                          >
+                              <DateBadge date={d.date}>
+                                  <span className="flex">
+                                      Comments to
+                                      <p className="text-violetLight mx-2">
+                                          {d.spotName}
+                                      </p>
+                                      spot
+                                  </span>
+                              </DateBadge>
+                              <CommentsList comments={d.comments} />
+                          </li>
+                      ))
+                    : null}
+                {!data?.length && !isLoading ? (
+                    <p className="text-center text-lg">
+                        You haven't added any comments.
+                    </p>
+                ) : null}
             </ul>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+        </AccountWrapper>
+    );
 }

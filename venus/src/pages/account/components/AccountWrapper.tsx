@@ -13,6 +13,7 @@ const variantClasses = {
     profile: "min-h-full items-center gap-20 p-6 lg:justify-center xl:p-0",
     favorite_spots: "h-full space-y-10 p-10 pt-17",
     social: "h-full space-y-8 p-10 pt-17 xl:pt-10",
+    comments: "h-full space-y-8 p-10 pt-17 xl:pt-10",
 };
 
 export default function AccountWrapper({

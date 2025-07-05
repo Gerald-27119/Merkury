@@ -175,10 +175,15 @@ export async function removeFavoriteSpot({
     ).data;
 }
 
-export async function getAllUserComments(): Promise<DatedCommentsGroup[]> {
+export async function getAllUserComments({
+    type,
+    from,
+    to,
+}: GetSortedUserPhotosProps): Promise<DatedCommentsGroup[]> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/comments`, {
             withCredentials: true,
+            params: { type, from, to },
         })
     ).data;
 }

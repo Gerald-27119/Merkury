@@ -100,7 +100,7 @@ public class UserDashboardController {
     }
 
     @GetMapping("user-dashboard/comments")
-    public ResponseEntity<List<DatedCommentsGroupDto>> getAllUserComments() {
-        return ResponseEntity.ok(userDashboardService.getAllUserComments());
+    public ResponseEntity<List<DatedCommentsGroupDto>> getSortedUserComments(@RequestParam PhotoSortType type, @RequestParam(required = false) LocalDate from, @RequestParam(required = false) LocalDate to) throws UnsupportedPhotoSortTypeException {
+        return ResponseEntity.ok(userDashboardService.getSortedUserComments(type, from, to));
     }
 }
