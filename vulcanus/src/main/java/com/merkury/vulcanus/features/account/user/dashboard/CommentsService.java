@@ -1,26 +1,25 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
-import com.merkury.vulcanus.exception.exceptions.UnsupportedPhotoSortTypeException;
+import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupDto;
-import com.merkury.vulcanus.model.enums.user.dashboard.PhotoSortType;
+import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.CommentsMapper;
 import com.merkury.vulcanus.model.repositories.SpotCommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CommentsService {
+public class CommentsService extends GroupedDataService{
     private final SpotCommentRepository spotCommentRepository;
 
-    public List<DatedCommentsGroupDto> getSortedUserComments(String username, PhotoSortType type, LocalDate from, LocalDate to) throws UnsupportedPhotoSortTypeException {
+    public List<DatedCommentsGroupDto> getSortedUserComments(String username, DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
         return getAllUserComments(username, from, to).stream()
-                .sorted(getComparator(type))
+                .sorted(comparingDate(DatedCommentsGroupDto::date, type))
                 .toList();
     }
 
@@ -35,18 +34,6 @@ public class CommentsService {
                 .stream()
                 .map(c -> CommentsMapper.toDto(c.getValue(), c.getKey().date, c.getKey().spotName))
                 .toList();
-    }
-
-    private boolean isInDateRange(LocalDate date, LocalDate from, LocalDate to) {
-        return (from == null || !date.isBefore(from)) && (to == null || !date.isAfter(to));
-    }
-
-    private Comparator<DatedCommentsGroupDto> getComparator(PhotoSortType type) throws UnsupportedPhotoSortTypeException {
-        return switch (type) {
-            case DATE_INCREASE -> Comparator.comparing(DatedCommentsGroupDto::date);
-            case DATE_DECREASE -> Comparator.comparing(DatedCommentsGroupDto::date).reversed();
-            default -> throw new UnsupportedPhotoSortTypeException(type);
-        };
     }
 
     private record GroupKey(LocalDate date, String spotName) {

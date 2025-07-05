@@ -1,16 +1,16 @@
-import { PhotosSortType } from "../../../model/enum/account/photos/photosSortType";
+import { DateSortType } from "../../../model/enum/account/photos/dateSortType";
 import { useState } from "react";
 import { useBoolean } from "../../../hooks/useBoolean";
 import { AnimatePresence, motion } from "framer-motion";
 import { IoIosArrowDown } from "react-icons/io";
 
 const sortOptions = [
-    { value: PhotosSortType.DATE_DECREASE, name: "Date descending" },
-    { value: PhotosSortType.DATE_INCREASE, name: "Date ascending" },
+    { value: DateSortType.DATE_DECREASE, name: "Date descending" },
+    { value: DateSortType.DATE_INCREASE, name: "Date ascending" },
 ];
 
 interface DropdownProps {
-    onSelectType: (type: PhotosSortType) => void;
+    onSelectType: (type: DateSortType) => void;
 }
 
 export default function SortDropdown({ onSelectType }: DropdownProps) {

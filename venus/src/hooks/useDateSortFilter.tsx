@@ -1,18 +1,18 @@
 import { useState } from "react";
-import { PhotosSortType } from "../model/enum/account/photos/photosSortType";
+import { DateSortType } from "../model/enum/account/photos/dateSortType";
 import { Dayjs } from "dayjs";
 import { notificationAction } from "../redux/notification";
 import useDispatchTyped from "./useDispatchTyped";
 
 export function useDateSortFilter() {
-    const [sortType, setSortType] = useState(PhotosSortType.DATE_DECREASE);
+    const [sortType, setSortType] = useState(DateSortType.DATE_DECREASE);
     const [searchDate, setSearchDate] = useState<{
         from: string | null;
         to: string | null;
     }>({ from: null, to: null });
     const dispatch = useDispatchTyped();
 
-    const handleSelectType = (type: PhotosSortType) => {
+    const handleSelectType = (type: DateSortType) => {
         setSortType(type);
     };
 

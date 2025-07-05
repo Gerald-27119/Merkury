@@ -6,7 +6,7 @@ import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
-import com.merkury.vulcanus.model.enums.user.dashboard.PhotoSortType;
+import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
@@ -82,11 +82,11 @@ public class UserDashboardService {
         favoriteSpotService.removeFavoriteSpot(getCurrentUsername(), type, spotId);
     }
 
-    public List<DatedPhotosGroupDto> getSortedUserPhotos(PhotoSortType type, LocalDate from, LocalDate to) throws UnsupportedPhotoSortTypeException {
+    public List<DatedPhotosGroupDto> getSortedUserPhotos(DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
         return photosService.getSortedUserPhotos(getCurrentUsername(), type, from, to);
     }
 
-    public List<DatedCommentsGroupDto> getSortedUserComments(PhotoSortType type, LocalDate from, LocalDate to) throws UnsupportedPhotoSortTypeException {
+    public List<DatedCommentsGroupDto> getSortedUserComments(DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
         return commentsService.getSortedUserComments(getCurrentUsername(), type, from, to);
     }
 

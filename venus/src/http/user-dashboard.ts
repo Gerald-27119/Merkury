@@ -6,7 +6,7 @@ import { FavoriteSpotsListType } from "../model/enum/account/favorite-spots/favo
 import { UserRelationEditType } from "../model/enum/account/social/userRelationEditType";
 import ExtendedUserProfile from "../model/interface/account/profile/extendedUserProfile";
 import DatedPhotosGroup from "../model/interface/account/photos/datedPhotosGroup";
-import { PhotosSortType } from "../model/enum/account/photos/photosSortType";
+import { DateSortType } from "../model/enum/account/photos/dateSortType";
 import DatedCommentsGroup from "../model/interface/account/comments/datedCommentsGroup";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
@@ -124,7 +124,7 @@ export async function editUserFollowed({
 }
 
 interface GetSortedUserPhotosProps {
-    type: PhotosSortType;
+    type: DateSortType;
     from: string | null;
     to: string | null;
 }
