@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Error from "../../components/error/Error.jsx";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
-import { fetchPaginatedPosts } from "../../http/posts";
+import { fetchPaginatedPosts, fetchCategoriesAndTags } from "../../http/posts";
 import { useState } from "react";
 import Post from "./components/Post";
 import AddPostButton from "./components/AddPostButton";
@@ -16,12 +16,27 @@ export default function Forum() {
   const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
     useBoolean(false);
 
-  const { data, error, isError, isLoading } = useQuery({
+  const {
+    data: posts,
+    error: postError,
+    isError: isPostError,
+    isLoading: isPostLoading,
+  } = useQuery({
     queryKey: ["posts", currentPage],
     queryFn: () => fetchPaginatedPosts(currentPage),
   });
 
-  if (isLoading) {
+  const {
+    data: categoriesAndTags,
+    isLoading: isCatTagsLoading,
+    isError: isCatTagsError,
+    error: catTagsError,
+  } = useQuery({
+    queryKey: ["categoriesAndTags"],
+    queryFn: () => fetchCategoriesAndTags(),
+  });
+
+  if (isPostLoading) {
     return (
       <div>
         <LoadingSpinner />
@@ -29,8 +44,8 @@ export default function Forum() {
     );
   }
 
-  if (isError) {
-    return <Error error={error} />;
+  if (isPostError) {
+    return <Error error={postError} />;
   }
 
   return (
@@ -39,13 +54,18 @@ export default function Forum() {
         <div className="mx-auto mt-8 flex w-full max-w-6xl flex-row gap-4">
           <div>
             <AddPostButton onClick={setIsModalOpenToTrue} />
-            <CategoriesTagsPanel />
+            <CategoriesTagsPanel
+              data={categoriesAndTags}
+              isLoading={isCatTagsLoading}
+              isError={isCatTagsError}
+              error={catTagsError}
+            />
           </div>
 
-          {data?.content?.length ? (
+          {posts?.content?.length ? (
             <div className="mt-10">
               <ul>
-                {data.content.map((post) => (
+                {posts.content.map((post) => (
                   <li key={post.id}>
                     <Post post={post} />
                   </li>
@@ -63,6 +83,8 @@ export default function Forum() {
           <ForumFormModal
             onClose={setIsModalOpenToFalse}
             isOpen={isModalOpen}
+            categories={categoriesAndTags?.categories ?? []}
+            tags={categoriesAndTags?.tags ?? []}
           />
         </div>
       </div>
