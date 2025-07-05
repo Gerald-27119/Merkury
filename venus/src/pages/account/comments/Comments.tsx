@@ -35,7 +35,7 @@ export default function Comments() {
                 />
             </div>
             {isLoading && <LoadingSpinner />}
-            <ul className="mx-27 space-y-5">
+            <ul className="space-y-5 md:mx-27">
                 {data?.length
                     ? data?.map((d) => (
                           <li
@@ -43,9 +43,9 @@ export default function Comments() {
                               className="flex flex-col space-y-5"
                           >
                               <DateBadge date={d.date}>
-                                  <span className="flex">
+                                  <span className="flex flex-wrap">
                                       Comments to
-                                      <p className="text-violetLight mx-2">
+                                      <p className="text-violetLight mx-2 font-semibold">
                                           {d.spotName}
                                       </p>
                                       spot

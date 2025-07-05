@@ -6,7 +6,7 @@ interface CommentsListProps {
 
 export default function CommentsList({ comments }: CommentsListProps) {
     return (
-        <ul className="ml-20 space-y-3">
+        <ul className="ml-5 space-y-3 md:ml-20">
             {comments.map((c) => (
                 <li
                     key={c.id}
