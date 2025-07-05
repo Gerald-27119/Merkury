@@ -87,8 +87,8 @@ public class UserDashboardService {
         return photosService.getSortedUserPhotos(getCurrentUsername(), type, from, to);
     }
 
-    public List<DatedCommentsGroupDto> getAllUserComments(HttpServletRequest request) {
-        return commentsService.getAllUserComments(getCurrentUsername(request));
+    public List<DatedCommentsGroupDto> getAllUserComments() {
+        return commentsService.getAllUserComments(getCurrentUsername());
     }
 
     private String getCurrentUsername() {

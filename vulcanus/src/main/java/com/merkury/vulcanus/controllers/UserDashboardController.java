@@ -100,7 +100,7 @@ public class UserDashboardController {
     }
 
     @GetMapping("user-dashboard/comments")
-    public ResponseEntity<List<DatedCommentsGroupDto>> getAllUserComments(HttpServletRequest request) {
-        return ResponseEntity.ok(userDashboardService.getAllUserComments(request));
+    public ResponseEntity<List<DatedCommentsGroupDto>> getAllUserComments() {
+        return ResponseEntity.ok(userDashboardService.getAllUserComments());
     }
 }
