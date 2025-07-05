@@ -41,7 +41,9 @@ export default function SpotCommentPhotos({
 
     return (
         <>
-            <ul className="grid grid-cols-3 gap-3">
+            <ul
+                className={`${numberOfPhotos < 3 ? "flex space-x-3" : "grid grid-cols-3 gap-3"}`}
+            >
                 {photos.map((photo: SpotCommentPhoto, idx: number) => (
                     <li key={photo.id} className="relative">
                         <img
