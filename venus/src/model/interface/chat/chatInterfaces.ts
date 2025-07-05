@@ -18,22 +18,20 @@ export interface ChatParticipantDto {
     isOnline: boolean;
 }
 
-export interface SimpleChatDto {
-    id: number;
-    name: string;
-    imgUrl: string;
-    lastMessage: ChatMessageDto;
+export interface ChatPage {
+    items: ChatDto[];
+    nextPage?: number;
 }
 
-export interface DetailedChatDto {
+/**
+ * This interface is used to represent a chat with all its details, including messages and participants.
+ * @author Adam Langmesser
+ */
+export interface ChatDto {
     id: number;
     name: string;
     imgUrl: string;
     messages: ChatMessageDto[];
     participants: ChatParticipantDto[];
-}
-
-export interface ChatPage {
-    items: SimpleChatDto[];
-    nextPage?: number;
+    lastMessage: ChatMessageDto;
 }

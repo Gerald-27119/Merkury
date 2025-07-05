@@ -62,9 +62,9 @@ public class ChatTestService {
         try {
             // 1. Login and retrieve session cookie
             Map<String, String> loginPayload = Map.of(
-                    "username", "user",
+                    "username", "user2",
                     "password", "password"
-            );//porpaw usera do logowania i do wiadomosci
+            );//TODO: porpaw usera do logowania i do wiadomosci
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);

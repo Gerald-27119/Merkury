@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.model.mappers;
 
+import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageSenderDto;
 import com.merkury.vulcanus.model.dtos.chat.DetailedChatDto;
@@ -7,6 +8,7 @@ import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -83,7 +85,7 @@ public class ChatMapper {
         else {
             switch (chat.getChatType()) {
                 case PRIVATE -> {
-                    return chat.getParticipants().stream()
+                    return chat.getParticipants().stream()//TODO:aaaaa, username
                             .filter(chatParticipant -> !Objects.equals(chatParticipant.getUser().getId(), userId))
                             .map(chatParticipant -> chatParticipant.getUser().getUsername()).findFirst().orElse(null);
                 }
@@ -120,5 +122,29 @@ public class ChatMapper {
                 }
             }
         }
+    }
+
+    public static ChatDto toChatDto(Chat chat, List<ChatMessage> messages, Long userId) {
+
+        //TODO: null check for chat and messages?
+
+        var messageDtos = messages.stream()
+                .map(message -> {
+                    var senderDto = toChatMessageSenderDto(message);
+                    return toChatMessageDto(message, senderDto);
+                })
+                .collect(Collectors.toList());
+
+        var lastMessage = messageDtos.stream()
+                .max(Comparator.comparing(ChatMessageDto::sentAt))
+                .orElse(null);
+
+        return ChatDto.builder()
+                .id(chat.getId())
+                .name(getChatName(chat, userId))//TODO:reafactor
+                .imgUrl(getChatImgUrl(chat, userId))//TODO:refactor
+                .messages(messageDtos)
+                .lastMessage(lastMessage)
+                .build();
     }
 }

@@ -25,15 +25,15 @@ export const staticLinks: SidebarItemType[] = [
         name: "forum",
         type: "link",
     },
+];
+
+export const userLoggedLinks: SidebarItemType[] = [
     {
         to: "/chat",
         icon: <BiMessageRounded aria-label="chat" />,
         name: "chat",
         type: "link",
     },
-];
-
-export const userLoggedLinks: SidebarItemType[] = [
     {
         to: "/spots-list",
         icon: <FaRegHeart aria-label="spotsList" />,

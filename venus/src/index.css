@@ -71,6 +71,10 @@
     }
 }
 
+body {
+    background-color: var(--color-darkBg);
+}
+
 .custom-rate .ant-rate-star {
     font-size: 25px;
 }
