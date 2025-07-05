@@ -61,6 +61,7 @@ public class SpotMapper {
                 .photos(spot.getImages().stream()
                         .map(ImgMapper::toDto)
                         .toList())
+                .media(spot.getMedia().stream().map(SpotMediaMapper::toDto).toList())
                 .tags(spot.getTags().stream()
                         .map(SpotTagMapper::toDto)
                         .collect(Collectors.toSet()))

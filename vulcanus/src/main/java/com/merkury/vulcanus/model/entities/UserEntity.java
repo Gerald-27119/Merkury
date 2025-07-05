@@ -46,6 +46,12 @@ public class UserEntity implements UserDetails {
     private List<Img> images = new ArrayList<>();
 
     @Builder.Default
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<SpotMedia> media = new ArrayList<>();
+
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
