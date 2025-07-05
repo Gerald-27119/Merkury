@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import DateChooser from "../../../../pages/account/components/DateChooser.js";
+import DateChooser from "../../../../pages/account/components/DateChooser";
 
 describe("DateChooser renders correctly", () => {
     it("renders 'From:' label when type is 'from'", () => {

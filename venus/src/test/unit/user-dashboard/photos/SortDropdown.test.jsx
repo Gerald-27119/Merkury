@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import SortDropdown from "../../../../pages/account/components/SortDropdown.js";
+import SortDropdown from "../../../../pages/account/components/SortDropdown";
 
 describe("SortDropdown renders correctly", () => {
     it("renders component with default selected option", () => {
