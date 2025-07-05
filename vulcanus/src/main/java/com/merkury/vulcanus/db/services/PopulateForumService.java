@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.db;
+package com.merkury.vulcanus.db.services;
 
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.forum.PostCategory;
@@ -22,12 +22,11 @@ public class PopulateForumService {
     private final PostRepository postRepository;
     private final PostCategoryRepository postCategoryRepository;
     private final TagRepository tagRepository;
-    private final PostCommentRepository postCommentRepository;
     private final UserEntityRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void initForumDb() {
+    public void initForumData() {
 
         UserEntity forumUser = UserEntity.builder()
                 .email("forumUser@gmail.com")
