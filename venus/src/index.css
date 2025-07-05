@@ -106,6 +106,16 @@
     color: #ffffff;
 }
 
+.ant-picker-header button {
+    color: #e5e5e5 !important;
+}
+
+.custom-rate-searched-spot
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
+    color: #ffffff;
+}
+
 .carousel-rounded > .slick-list {
     border-radius: 1rem;
     overflow: hidden;

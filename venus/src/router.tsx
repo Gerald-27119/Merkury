@@ -15,6 +15,7 @@ import UserOwnProfile from "./pages/account/profile/UserOwnProfile";
 import ProfileForViewer from "./pages/account/profile/ProfileForViewer";
 import UserOwnSocial from "./pages/account/social/UserOwnSocial";
 import SocialForViewer from "./pages/account/social/SocialForViewer";
+import Photos from "./pages/account/photos/Photos";
 
 const router = createBrowserRouter([
     {
@@ -64,6 +65,14 @@ const router = createBrowserRouter([
                     {
                         path: "friends/:username",
                         element: <SocialForViewer />,
+                    },
+                    {
+                        path: "photos",
+                        element: (
+                            <ProtectedRoute>
+                                <Photos />
+                            </ProtectedRoute>
+                        ),
                     },
                 ],
             },

@@ -11,10 +11,7 @@ import { sidebarSlice } from "./sidebar";
 import { socialSlice } from "./social";
 import { spotCommentSlice } from "./spot-comments";
 import { searchedSpotListModalSlice } from "./searched-spot-list-modal";
-import {
-    searchedSpotsSlice,
-    searchedSpotsSliceActions,
-} from "./searched-spots";
+import { searchedSpotsSlice } from "./searched-spots";
 
 const store = configureStore({
     reducer: {

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity(name = "imgs")
 @Data
 @Builder
@@ -24,6 +26,8 @@ public class Img {
     private Integer likes = 0;
     @Builder.Default
     private Integer views = 0;
+    @Builder.Default
+    private LocalDate addDate = LocalDate.now();
 
     @ManyToOne
     @JoinColumn(name = "author_id")
