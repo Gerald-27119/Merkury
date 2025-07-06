@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 
+//TODO:delete
 @Builder
 public record SpotCommentPhotoDto(
         @Positive(message = "ID must be a positive number.")
