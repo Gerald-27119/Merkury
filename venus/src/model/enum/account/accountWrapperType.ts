@@ -3,4 +3,5 @@ export enum AccountWrapperType {
     PHOTOS = "photos",
     SOCIAL = "social",
     PROFILE = "profile",
+    SETTINGS = "settings",
 }

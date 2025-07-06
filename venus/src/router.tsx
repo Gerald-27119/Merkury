@@ -16,6 +16,7 @@ import ProfileForViewer from "./pages/account/profile/ProfileForViewer";
 import UserOwnSocial from "./pages/account/social/UserOwnSocial";
 import SocialForViewer from "./pages/account/social/SocialForViewer";
 import Photos from "./pages/account/photos/Photos";
+import Settings from "./pages/account/settings/Settings";
 
 const router = createBrowserRouter([
     {
@@ -71,6 +72,14 @@ const router = createBrowserRouter([
                         element: (
                             <ProtectedRoute>
                                 <Photos />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "settings",
+                        element: (
+                            <ProtectedRoute>
+                                <Settings />
                             </ProtectedRoute>
                         ),
                     },
