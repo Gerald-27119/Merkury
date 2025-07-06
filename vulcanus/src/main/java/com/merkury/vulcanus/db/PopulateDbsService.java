@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.db;
 
+import com.merkury.vulcanus.model.dtos.comment.SpotCommentMediaDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.entities.SpotComment;
 import com.merkury.vulcanus.model.entities.Img;
@@ -713,6 +714,7 @@ public class PopulateDbsService {
 
         for (Spot spot : spots) {
             SpotComment firstComment = spot.getSpotComments().get(0);
+            //TODO:delete photos
             List<SpotCommentPhoto> photos = spot.getImages().stream()
                     .map(img -> SpotCommentPhoto.builder()
                             .url(img.getUrl())
@@ -720,7 +722,14 @@ public class PopulateDbsService {
                             .build()
                     )
                     .collect(Collectors.toCollection(ArrayList::new));
+            List<SpotCommentMedia> mediaList = spot.getMedia().stream()
+                    .map(img -> SpotCommentMedia.builder()
+                                    .url(img.getUrl())
+                                    .spotComment(firstComment)
+                                    .build())
+                    .collect(Collectors.toCollection(ArrayList::new));
             firstComment.setPhotos(photos);
+            firstComment.setMedia(mediaList);
             spotCommentRepository.save(firstComment);
         }
 
