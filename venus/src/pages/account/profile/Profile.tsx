@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { SocialListType } from "../../../model/enum/account/social/socialListType";
 import { socialAction } from "../../../redux/social";
+import AccountWrapper from "../components/AccountWrapper";
+import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
 
 interface ProfileProps {
     userData: UserProfile;
@@ -31,7 +33,7 @@ export default function Profile({
     };
 
     return (
-        <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg flex min-h-full w-full flex-col items-center gap-20 p-6 lg:justify-center xl:p-0">
+        <AccountWrapper variant={AccountWrapperType.PROFILE}>
             <div className="mt-17 flex flex-col items-center gap-7 lg:mt-0 lg:-ml-40 lg:flex-row xl:-ml-42 xl:gap-10 2xl:-ml-80">
                 <img
                     alt="profileImage"
@@ -89,6 +91,6 @@ export default function Profile({
                     )}
                 </div>
             </div>
-        </div>
+        </AccountWrapper>
     );
 }

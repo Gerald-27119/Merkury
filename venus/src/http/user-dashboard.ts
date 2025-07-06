@@ -5,6 +5,8 @@ import { FavoriteSpot } from "../model/interface/account/favorite-spots/favorite
 import { FavoriteSpotsListType } from "../model/enum/account/favorite-spots/favoriteSpotsListType";
 import { UserRelationEditType } from "../model/enum/account/social/userRelationEditType";
 import ExtendedUserProfile from "../model/interface/account/profile/extendedUserProfile";
+import DatedPhotosGroup from "../model/interface/account/photos/datedPhotosGroup";
+import { PhotosSortType } from "../model/enum/account/photos/photosSortType";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -117,6 +119,25 @@ export async function editUserFollowed({
                 withCredentials: true,
             },
         )
+    ).data;
+}
+
+interface GetSortedUserPhotosProps {
+    type: PhotosSortType;
+    from: string | null;
+    to: string | null;
+}
+
+export async function getSortedUserPhotos({
+    type,
+    from,
+    to,
+}: GetSortedUserPhotosProps): Promise<DatedPhotosGroup[]> {
+    return (
+        await axios.get(`${BASE_URL}/user-dashboard/photos`, {
+            withCredentials: true,
+            params: { type, from, to },
+        })
     ).data;
 }
 

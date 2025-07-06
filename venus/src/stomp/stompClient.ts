@@ -7,7 +7,7 @@ export const createStompClient = (brokerURL: string): Client => {
         debug: (msg: string) => console.log(msg),
     });
 };
-
+// TODO:zrob to tak aby dal calej apki bylo polaczenie na dzien dobry i tyko konkrety z hoockiem ustStomp?
 export interface WebSocketChatMessage {
     chatId: number;
     sender: {

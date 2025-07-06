@@ -15,6 +15,7 @@ import UserOwnProfile from "./pages/account/profile/UserOwnProfile";
 import ProfileForViewer from "./pages/account/profile/ProfileForViewer";
 import UserOwnSocial from "./pages/account/social/UserOwnSocial";
 import SocialForViewer from "./pages/account/social/SocialForViewer";
+import Photos from "./pages/account/photos/Photos";
 
 const router = createBrowserRouter([
     {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <h1>HOME PAGE</h1>,
+                element: <h1 className="text-white">HOME PAGE</h1>,
             },
             {
                 path: "account",
@@ -65,6 +66,14 @@ const router = createBrowserRouter([
                         path: "friends/:username",
                         element: <SocialForViewer />,
                     },
+                    {
+                        path: "photos",
+                        element: (
+                            <ProtectedRoute>
+                                <Photos />
+                            </ProtectedRoute>
+                        ),
+                    },
                 ],
             },
             {
@@ -102,10 +111,9 @@ const router = createBrowserRouter([
             {
                 path: "chat",
                 element: (
-                    // for demo purposes only
-                    // <ProtectedRoute>
-                    <ChatsPage />
-                    // </ProtectedRoute>
+                    <ProtectedRoute>
+                        <ChatsPage />
+                    </ProtectedRoute>
                 ),
             },
         ],

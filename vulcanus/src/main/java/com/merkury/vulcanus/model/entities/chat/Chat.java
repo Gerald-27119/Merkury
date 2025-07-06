@@ -74,7 +74,7 @@ public class Chat {
 
     //TODO:how it works excatly, should i use it? the cascader persist
     @OneToMany(mappedBy = "chat")
-    @OrderBy("sentAt DESC")//TODO:does this DESC work?
+    @OrderBy("sentAt DESC")//TODO:does this DESC work? should iwmove it to the ChatMessage entity?
     @Builder.Default
     private List<ChatMessage> chatMessages = new ArrayList<>();
 

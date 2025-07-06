@@ -1,6 +1,5 @@
 package com.merkury.vulcanus.controllers.spot;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.entities.Img;
@@ -31,15 +30,12 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -130,16 +126,16 @@ class SpotControllerWithServerStartupTest {
 
         favoriteSpotRepository.deleteAll();
         List<Img> photos1 = Arrays.asList(
-                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, spot1),
-                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, spot1)
+                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, null, spot1),
+                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, null, spot1)
         );
         List<Img> photos2 = Arrays.asList(
-                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, spot2),
-                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, spot2)
+                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, null, spot2),
+                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, null, spot2)
         );
         List<Img> photos3 = Arrays.asList(
-                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, spot3),
-                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, spot3)
+                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, null, spot3),
+                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, null, spot3)
         );
 
         spot1.setImages(photos1);

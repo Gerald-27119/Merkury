@@ -71,6 +71,10 @@
     }
 }
 
+body {
+    background-color: var(--color-darkBg);
+}
+
 .custom-rate .ant-rate-star {
     font-size: 25px;
 }
@@ -98,6 +102,16 @@
     .ant-rate-star:not(.ant-rate-star-full)
     .ant-rate-star-second {
     color: #ffffff;
+}
+
+.custom-rate-searched-spot
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
+    color: #ffffff;
+}
+
+.ant-picker-header button {
+    color: #e5e5e5 !important;
 }
 
 .custom-rate-searched-spot

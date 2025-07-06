@@ -1,30 +1,9 @@
 import ChatList from "./components/ChatList";
 import ChatContent from "./components/ChatContent";
 import { LuMessageSquarePlus } from "react-icons/lu";
-import { useQuery } from "@tanstack/react-query";
-import { DetailedChatDto } from "../../model/interface/chat/chatInterfaces";
-import { getDetailedChat } from "../../http/chats";
-import { useEffect } from "react";
-import { chatActions, ChatDto, selectChatById } from "../../redux/chats";
-import useSelectorTyped from "../../hooks/useSelectorTyped";
-import useDispatchTyped from "../../hooks/useDispatchTyped";
 
 export default function ChatsPage() {
-    const dispatch = useDispatchTyped();
-    const selectedChatId: number = useSelectorTyped(
-        (state) => state?.chats?.selectedChatId,
-    ); //TODO:change chat to chatActions
-
-    const { data, isSuccess } = useQuery<DetailedChatDto, Error>({
-        queryFn: () => getDetailedChat(selectedChatId, 1),
-        queryKey: ["detailedChat", selectedChatId],
-    });
-
-    useEffect(() => {
-        if (isSuccess && data) {
-            dispatch(chatActions.addDetailedChatDtos([data]));
-        }
-    }, [isSuccess, data, dispatch]);
+    // TODO: optimize renders using this tool
     return (
         <div className="flex h-screen w-full">
             <div className="border-violetLight flex w-1/6 flex-col border-l">
@@ -35,7 +14,7 @@ export default function ChatsPage() {
                     <LuMessageSquarePlus size={30} className="mr-5" />
                 </div>
 
-                <div className="scrollbar-track-violetDark hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark min-w-0 flex-col overflow-y-auto text-white">
+                <div className="scrollbar-track-violetDark/10 hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark/80 min-w-0 flex-col overflow-y-auto text-white">
                     <ChatList />
                 </div>
             </div>
