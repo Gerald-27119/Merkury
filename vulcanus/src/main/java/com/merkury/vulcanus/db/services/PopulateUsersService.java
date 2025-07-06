@@ -6,7 +6,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
+
 import static com.merkury.vulcanus.model.enums.UserRole.ROLE_ADMIN;
 
 @Service
@@ -48,6 +50,7 @@ public class PopulateUsersService {
 
             userList.add(userX);
         }
+
         userEntityRepository.saveAll(userList);
     }
 }
