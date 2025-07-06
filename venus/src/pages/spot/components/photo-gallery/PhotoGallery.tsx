@@ -1,15 +1,16 @@
 import Photo from "./Photo.js";
-import Img from "../../../../model/interface/img";
 import { Carousel, ConfigProvider } from "antd";
+import SpotMediaDto from "../../../../model/interface/spot/spotMediaDto";
+import { MediaType } from "../../../../model/enum/mediaType";
 
 type PhotoGalleryProps = {
-    photos: Img[];
+    media: SpotMediaDto[];
 };
 
-export default function PhotoGallery({ photos }: PhotoGalleryProps) {
+export default function PhotoGallery({ media }: PhotoGalleryProps) {
     return (
         <div className="my-10 flex h-full items-center justify-center">
-            {photos && photos.length > 0 ? (
+            {media && media.length > 0 ? (
                 <ConfigProvider
                     theme={{
                         components: {
@@ -24,15 +25,19 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
                         arrows={true}
                         className="carousel-rounded max-w-[15rem] xl:max-w-[30rem]"
                     >
-                        {photos.map((photo) => (
-                            <Photo key={photo.id} photo={photo} />
-                        ))}
+                        {media.map((media) =>
+                            media.mediaType === MediaType.VIDEO ? (
+                                <p>video</p>
+                            ) : (
+                                <Photo key={media.id} photo={media} />
+                            ),
+                        )}
                     </Carousel>
                 </ConfigProvider>
             ) : (
                 <div className="my-1 rounded-xs border border-orange-500">
                     <p className="text-center text-lg">
-                        There are no photos for this spot.
+                        There are no media for this spot.
                     </p>
                 </div>
             )}

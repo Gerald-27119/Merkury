@@ -24,6 +24,7 @@ public class SpotMedia {
     private Integer likes = 0;
     @Builder.Default
     private Integer views = 0;
+    @Enumerated(value = EnumType.STRING)
     private MediaType mediaType;
 
     @ManyToOne

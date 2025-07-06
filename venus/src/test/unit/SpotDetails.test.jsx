@@ -64,7 +64,7 @@ const mockSpotDetailsData = {
     description: "Description",
     rating: 5.0,
     ratingCount: 20,
-    photos: [
+    media: [
         {
             img: "photo1.jpg",
             title: "PhotoTitle1",
@@ -73,6 +73,7 @@ const mockSpotDetailsData = {
             views: 10,
             author: "Author",
             id: 1,
+            mediaType: "PHOTO",
         },
         {
             img: "photo2.jpg",
@@ -82,6 +83,7 @@ const mockSpotDetailsData = {
             views: 20,
             author: "Author",
             id: 2,
+            mediaType: "PHOTO",
         },
     ],
     weatherApiCallCoords: {

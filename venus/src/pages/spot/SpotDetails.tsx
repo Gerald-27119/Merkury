@@ -90,7 +90,7 @@ export default function SpotDetails() {
                             ratingCount={data.ratingCount}
                             tags={data.tags}
                         />
-                        <PhotoGallery photos={data.photos} />
+                        <PhotoGallery media={data.media} />
                         <SpotActionButtonsContainer spotId={spotId} />
                         <SpotCommentsList spotId={data.id} />
                     </div>
