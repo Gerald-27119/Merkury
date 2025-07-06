@@ -44,13 +44,13 @@ public class PopulateChatsService {
      */
     @Transactional
     public void initChatsData() {
-        // główny użytkownik
+        // główny użytkownik, mający najwięcej czatów
         UserEntity mainUser = userEntityRepository
                 .findByUsername("user")
                 .orElseThrow();
 
         // Inni użytkownicy
-        List<UserEntity> others = IntStream.rangeClosed(2, 50)  // pobieramy więcej, żeby spokojnie wziąć 4 uczestników
+        List<UserEntity> others = IntStream.rangeClosed(2, 50)
                 .mapToObj(i -> userEntityRepository
                         .findByUsername("user" + i)
                         .orElseThrow()
@@ -88,11 +88,11 @@ public class PopulateChatsService {
         chat = chatRepository.save(chat); // aby chat miał ID
 
         if (withMessages) {
-            List<ChatMessage> msgs = getRandomChatMessages(sampleChatMessages.length, participants, chat)
+            var messages = getRandomChatMessages(sampleChatMessages.length, participants, chat)
                     .toList();
 
-            chatMessageRepository.saveAll(msgs);
-            chat.getChatMessages().addAll(msgs);
+            chatMessageRepository.saveAll(messages);
+            chat.getChatMessages().addAll(messages);
             chat.setLastMessageAt(LocalDateTime.now());
             chatRepository.save(chat);
         }
