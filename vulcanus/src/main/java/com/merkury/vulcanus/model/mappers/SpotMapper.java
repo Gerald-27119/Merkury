@@ -9,6 +9,8 @@ import com.merkury.vulcanus.model.dtos.spot.coordinates.SpotCoordinatesDto;
 import com.merkury.vulcanus.model.entities.SpotComment;
 import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.Spot;
+import com.merkury.vulcanus.model.entities.SpotMedia;
+import com.merkury.vulcanus.model.enums.MediaType;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
@@ -58,10 +60,13 @@ public class SpotMapper {
                 .description(spot.getDescription())
                 .rating(spot.getRating())
                 .ratingCount(spot.getRatingCount())
+                //TODO: delete photos
                 .photos(spot.getImages().stream()
                         .map(ImgMapper::toDto)
                         .toList())
-                .media(spot.getMedia().stream().map(SpotMediaMapper::toDto).toList())
+                .media(spot.getMedia().stream()
+                        .map(SpotMediaMapper::toDto)
+                        .toList())
                 .tags(spot.getTags().stream()
                         .map(SpotTagMapper::toDto)
                         .collect(Collectors.toSet()))
@@ -77,7 +82,11 @@ public class SpotMapper {
                 .name(spot.getName())
                 .rating(spot.getRating())
                 .ratingCount(spot.getRatingCount())
-                .firstPhoto(spot.getImages().getFirst().getUrl())
+                .firstPhoto(spot.getMedia().stream()
+                        .filter(spotMedia -> spotMedia.getMediaType().equals(MediaType.PHOTO))
+                        .findFirst()
+                        .map(SpotMedia::getUrl)
+                        .orElse("photoNotFound"))
                 .tags(spot.getTags().stream()
                         .map(SpotTagMapper::toDto)
                         .collect(Collectors.toSet()))

@@ -723,8 +723,8 @@ public class PopulateDbsService {
                     )
                     .collect(Collectors.toCollection(ArrayList::new));
             List<SpotCommentMedia> mediaList = spot.getMedia().stream()
-                    .map(img -> SpotCommentMedia.builder()
-                                    .url(img.getUrl())
+                    .map(media -> SpotCommentMedia.builder()
+                                    .url(media.getUrl())
                                     .spotComment(firstComment)
                                     .build())
                     .collect(Collectors.toCollection(ArrayList::new));
