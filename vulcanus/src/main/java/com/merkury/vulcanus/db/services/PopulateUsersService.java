@@ -50,6 +50,7 @@ public class PopulateUsersService {
 
             userList.add(userX);
         }
+
         userEntityRepository.saveAll(userList);
     }
 }
