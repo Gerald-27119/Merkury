@@ -27,6 +27,7 @@ public class UserDashboardService {
     private final FollowersService followersService;
     private final FavoriteSpotService favoriteSpotService;
     private final PhotosService photosService;
+    private final SettingsService settingsService;
 
     public UserProfileDto getUserOwnProfile() throws UserNotFoundByUsernameException {
         return profileService.getUserOwnProfile(getCurrentUsername());
@@ -82,6 +83,10 @@ public class UserDashboardService {
 
     public List<DatedPhotosGroupDto> getSortedUserPhotos(PhotoSortType type, LocalDate from, LocalDate to) throws UnsupportedPhotoSortTypeException {
         return photosService.getSortedUserPhotos(getCurrentUsername(), type, from, to);
+    }
+
+    public void editUserSettings(String newUsername) throws UserNotFoundByUsernameException {
+        settingsService.editUserSettings();
     }
 
     private String getCurrentUsername() {

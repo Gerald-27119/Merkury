@@ -97,4 +97,10 @@ public class UserDashboardController {
     public ResponseEntity<List<DatedPhotosGroupDto>> getSortedUserPhotos(@RequestParam PhotoSortType type, @RequestParam(required = false) LocalDate from, @RequestParam(required = false) LocalDate to) throws UnsupportedPhotoSortTypeException {
         return ResponseEntity.ok(userDashboardService.getSortedUserPhotos(type, from, to));
     }
+
+    @PatchMapping("/user-dashboard/settings")
+    public ResponseEntity<Void> editUserSettings(@RequestParam String newUsername) throws UserNotFoundByUsernameException {
+        userDashboardService.editUserSettings(newUsername);
+        return ResponseEntity.ok().build();
+    }
 }
