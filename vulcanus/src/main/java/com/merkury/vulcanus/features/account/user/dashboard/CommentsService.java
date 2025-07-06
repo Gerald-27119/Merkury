@@ -26,13 +26,16 @@ public class CommentsService extends GroupedDataService{
     private List<DatedCommentsGroupDto> getAllUserComments(String username, LocalDate from, LocalDate to) {
         return spotCommentRepository.findAllByAuthorUsername(username)
                 .stream()
-                .filter(c -> isInDateRange(c.getPublishDate().toLocalDate(), from, to))
+                .filter(comment -> isInDateRange(comment.getPublishDate().toLocalDate(), from, to))
                 .collect(Collectors.groupingBy(
-                        c -> new GroupKey(c.getPublishDate().toLocalDate(), c.getSpot().getName()),
+                        comment ->
+                                new GroupKey(comment.getPublishDate().toLocalDate(), comment.getSpot().getName()),
                         Collectors.mapping(CommentsMapper::toDto, Collectors.toList())
                 )).entrySet()
                 .stream()
-                .map(c -> CommentsMapper.toDto(c.getValue(), c.getKey().date, c.getKey().spotName))
+                .map(listEntry ->
+                        CommentsMapper
+                                .toDto(listEntry.getValue(), listEntry.getKey().date, listEntry.getKey().spotName))
                 .toList();
     }
 

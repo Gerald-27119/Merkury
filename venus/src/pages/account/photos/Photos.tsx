@@ -8,12 +8,16 @@ import { AccountWrapperType } from "../../../model/enum/account/accountWrapperTy
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import { useDateSortFilter } from "../../../hooks/useDateSortFilter";
 import SortAndDateFilters from "../components/SortAndDateFilters";
+import { useEffect } from "react";
+import { notificationAction } from "../../../redux/notification";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
 
 export default function Photos() {
+    const dispatch = useDispatchTyped();
     const { sortType, searchDate, handleSelectType, handleChangeDate } =
         useDateSortFilter();
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, isError } = useQuery({
         queryKey: ["photos", sortType, searchDate.from, searchDate.to],
         queryFn: () =>
             getSortedUserPhotos({
@@ -22,6 +26,14 @@ export default function Photos() {
                 type: sortType,
             }),
     });
+
+    useEffect(() => {
+        dispatch(
+            notificationAction.setError({
+                message: "An error occurred while trying to load your photos",
+            }),
+        );
+    }, [isError]);
 
     return (
         <AccountWrapper variant={AccountWrapperType.PHOTOS}>

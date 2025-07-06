@@ -8,12 +8,16 @@ import CommentsList from "./components/CommentsList";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import SortAndDateFilters from "../components/SortAndDateFilters";
 import { useDateSortFilter } from "../../../hooks/useDateSortFilter";
+import { useEffect } from "react";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { notificationAction } from "../../../redux/notification";
 
 export default function Comments() {
+    const dispatch = useDispatchTyped();
     const { sortType, searchDate, handleSelectType, handleChangeDate } =
         useDateSortFilter();
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, isError } = useQuery({
         queryKey: ["comments", sortType, searchDate.from, searchDate.to],
         queryFn: () =>
             getAllUserComments({
@@ -22,6 +26,14 @@ export default function Comments() {
                 type: sortType,
             }),
     });
+
+    useEffect(() => {
+        dispatch(
+            notificationAction.setError({
+                message: "An error occurred while trying to load your comments",
+            }),
+        );
+    }, [isError]);
 
     return (
         <AccountWrapper variant={AccountWrapperType.COMMENTS}>
