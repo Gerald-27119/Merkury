@@ -4,6 +4,7 @@ import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
 import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
+import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
@@ -104,5 +105,10 @@ public class UserDashboardController {
     public ResponseEntity<Void> editUserSettings(HttpServletResponse response, @RequestBody UserEditDataDto userEdit) throws UserNotFoundByUsernameException, UserNotFoundException, ExternalProviderAccountException, UnsupportedUserSettingsType, EmailTakenException, SamePasswordException, SameEmailException, InvalidPasswordException, UsernameTakenException, SameUsernameException {
         userDashboardService.editUserSettings(response, userEdit);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/user-dashboard/settings")
+    public ResponseEntity<UserDataDto> getUserData() throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getUserData());
     }
 }

@@ -3,13 +3,23 @@ import { AccountWrapperType } from "../../../model/enum/account/accountWrapperTy
 import AccountTitle from "../components/AccountTitle";
 import Button from "../../../components/buttons/Button";
 import { ButtonVariantType } from "../../../model/enum/buttonVariantType";
-import { useMutation } from "@tanstack/react-query";
-import { editUserSettings } from "../../../http/user-dashboard";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { editUserSettings, getUserData } from "../../../http/user-dashboard";
+import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 
 export default function Settings() {
     const { mutateAsync } = useMutation({
         mutationFn: editUserSettings,
     });
+
+    const { data, isLoading } = useQuery({
+        queryKey: ["settings"],
+        queryFn: getUserData,
+    });
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <AccountWrapper variant={AccountWrapperType.SETTINGS}>
@@ -23,7 +33,7 @@ export default function Settings() {
                                 Your information
                             </h3>
                             <div className="bg-darkBgSoft flex w-96 items-center justify-between rounded-md px-2.5 py-2 shadow-md dark:shadow-black/50">
-                                <p>Username</p>
+                                <p>{data?.username}</p>
                                 <button className="text-violetLight cursor-pointer">
                                     Edit
                                 </button>
@@ -32,7 +42,7 @@ export default function Settings() {
                         <div className="flex flex-col space-y-1.5">
                             <h3 className="text-xl font-semibold">E-mail</h3>
                             <div className="bg-darkBgSoft flex w-96 items-center justify-between rounded-md px-2.5 py-2 shadow-md dark:shadow-black/50">
-                                <p>username@gamil.com</p>
+                                <p>{data?.email}</p>
                                 <button className="text-violetLight cursor-pointer">
                                     Edit
                                 </button>
@@ -81,6 +91,7 @@ export default function Settings() {
                             </div>
                         </div>
                         <Button
+                            onClick={() => {}}
                             className="mt-10"
                             variant={ButtonVariantType.FAVORITE_SPOT_MENU}
                         >

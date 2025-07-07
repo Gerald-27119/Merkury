@@ -8,6 +8,7 @@ import ExtendedUserProfile from "../model/interface/account/profile/extendedUser
 import DatedPhotosGroup from "../model/interface/account/photos/datedPhotosGroup";
 import { PhotosSortType } from "../model/enum/account/photos/photosSortType";
 import UserEditData from "../model/interface/account/settings/userEditData";
+import UserData from "../model/interface/account/settings/userData";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -181,7 +182,7 @@ export async function editUserSettings(userEdit: UserEditData): Promise<void> {
     });
 }
 
-export async function getUserData(): Promise<void> {
+export async function getUserData(): Promise<UserData> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/settings`, {
             withCredentials: true,

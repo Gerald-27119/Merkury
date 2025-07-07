@@ -1,9 +1,11 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
+import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.Provider;
+import com.merkury.vulcanus.model.mappers.user.dashboard.SettingsMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.security.jwt.JwtService;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
@@ -21,6 +23,10 @@ public class SettingsService {
     private final UserEntityFetcher userEntityFetcher;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+
+    public UserDataDto getUserData(String username) throws UserNotFoundByUsernameException {
+        return SettingsMapper.toDto(userEntityFetcher.getByUsername(username));
+    }
 
     public void editUserSettings(HttpServletResponse response, UserEditDataDto userEdit) throws UserNotFoundByUsernameException, UserNotFoundException, ExternalProviderAccountException, UnsupportedUserSettingsType, UsernameTakenException, SameUsernameException, EmailTakenException, SameEmailException, SamePasswordException, InvalidPasswordException {
         var username = userEdit.username();

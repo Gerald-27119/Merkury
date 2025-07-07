@@ -3,6 +3,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
+import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
@@ -89,6 +90,10 @@ public class UserDashboardService {
 
     public void editUserSettings(HttpServletResponse response, UserEditDataDto userEdit) throws UserNotFoundByUsernameException, UserNotFoundException, ExternalProviderAccountException, UnsupportedUserSettingsType, EmailTakenException, SamePasswordException, SameEmailException, InvalidPasswordException, UsernameTakenException, SameUsernameException {
         settingsService.editUserSettings(response, userEdit);
+    }
+
+    public UserDataDto getUserData() throws UserNotFoundByUsernameException {
+        return settingsService.getUserData(getCurrentUsername());
     }
 
     private String getCurrentUsername() {
