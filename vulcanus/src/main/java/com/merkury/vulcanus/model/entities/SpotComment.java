@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,9 @@ public class SpotComment extends Comment {
 
     @Builder.Default
     private Double rating = 0.0;
+
+    @Builder.Default
+    private LocalDateTime publishDate = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "spot_id")

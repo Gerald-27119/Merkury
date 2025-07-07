@@ -53,8 +53,8 @@ public class UserDashboardExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
-    @ExceptionHandler(UnsupportedPhotoSortTypeException.class)
-    public ResponseEntity<String> handleUnsupportedPhotoSortTypeException(UnsupportedPhotoSortTypeException ex) {
+    @ExceptionHandler(UnsupportedDateSortTypeException.class)
+    public ResponseEntity<String> handleUnsupportedPhotoSortTypeException(UnsupportedDateSortTypeException ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }

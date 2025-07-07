@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.model.enums.user.dashboard;
 
-public enum PhotoSortType {
-    DATE_INCREASE,
-    DATE_DECREASE,
+public enum DateSortType {
+    DATE_ASCENDING,
+    DATE_DESCENDING,
     UNKNOWN
 }

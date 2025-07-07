@@ -1,9 +1,9 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
-import com.merkury.vulcanus.exception.exceptions.UnsupportedPhotoSortTypeException;
+import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
 import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
 import com.merkury.vulcanus.model.entities.Img;
-import com.merkury.vulcanus.model.enums.user.dashboard.PhotoSortType;
+import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.PhotosMapper;
 import com.merkury.vulcanus.model.repositories.ImgRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class PhotosService {
     private final ImgRepository imgRepository;
 
-    public List<DatedPhotosGroupDto> getSortedUserPhotos(String username, PhotoSortType type, LocalDate from, LocalDate to) throws UnsupportedPhotoSortTypeException {
+    public List<DatedPhotosGroupDto> getSortedUserPhotos(String username, DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
         return getAllUserPhotos(username, from, to).stream()
                 .sorted(getComparator(type))
                 .toList();
@@ -41,11 +41,11 @@ public class PhotosService {
         return (from == null || !date.isBefore(from)) && (to == null || !date.isAfter(to));
     }
 
-    private Comparator<DatedPhotosGroupDto> getComparator(PhotoSortType type) throws UnsupportedPhotoSortTypeException {
+    private Comparator<DatedPhotosGroupDto> getComparator(DateSortType type) throws UnsupportedDateSortTypeException {
         return switch (type) {
-            case DATE_INCREASE -> Comparator.comparing(DatedPhotosGroupDto::date);
-            case DATE_DECREASE -> Comparator.comparing(DatedPhotosGroupDto::date).reversed();
-            default -> throw new UnsupportedPhotoSortTypeException(type);
+            case DATE_ASCENDING -> Comparator.comparing(DatedPhotosGroupDto::date);
+            case DATE_DESCENDING -> Comparator.comparing(DatedPhotosGroupDto::date).reversed();
+            default -> throw new UnsupportedDateSortTypeException(type);
         };
     }
 }
