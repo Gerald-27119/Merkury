@@ -553,7 +553,9 @@ public class PopulateDbsService {
                 new SpotMedia(null, "https://merkurystorage.blob.core.windows.net/mapa/9eeb8808-6165-4a9d-a864-9f11b5588b69.jpg", "skwer", "skwer", 0, 0, MediaType.PHOTO, user, spot2),
                 new SpotMedia(null, "https://merkurystorage.blob.core.windows.net/mapa/5f1ff331-eb5f-49a9-b57d-0aeed0d42eb7.jpg", "skwer", "skwer", 0, 0, MediaType.PHOTO, user, spot2),
                 new SpotMedia(null, "https://merkurystorage.blob.core.windows.net/mapa/f7b1009b-7762-4027-8b49-e789531e7cf4.jpg", "skwer", "skwer", 0, 0, MediaType.PHOTO, user, spot2),
-                new SpotMedia(null, "https://merkurystorage.blob.core.windows.net/mapa/32628ec1-ecc2-473a-b41d-14a9ff3e5d3d.jpg", "skwer", "skwer", 0, 0, MediaType.PHOTO, user, spot2)
+                new SpotMedia(null, "https://merkurystorage.blob.core.windows.net/mapa/32628ec1-ecc2-473a-b41d-14a9ff3e5d3d.jpg", "skwer", "skwer", 0, 0, MediaType.PHOTO, user, spot2),
+                new SpotMedia(null, "https://merkurystorage.blob.core.windows.net/mapa/9c32943b-5e06-4beb-a978-dc7c835f26db.mp4", "skwer_video", "skwer", 0, 0, MediaType.VIDEO, user, spot2),
+                new SpotMedia(null, "https://merkurystorage.blob.core.windows.net/mapa/0206d58b-6b7a-419a-8f3e-1974463e7829.mp4", "skwer_video", "skwer", 0, 0, MediaType.VIDEO, user, spot2)
         );
 
         List<Img> gallery3 = Arrays.asList(

@@ -1,6 +1,6 @@
 export default interface SpotMediaDto {
     id: number;
-    img: string;
+    url: string;
     title: string;
     description: string;
     likes: number;

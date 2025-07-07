@@ -10,7 +10,7 @@ public class SpotMediaMapper {
     public static SpotMediaDto toDto(@NotNull SpotMedia spotMedia) {
         return SpotMediaDto.builder()
                 .id(spotMedia.getId())
-                .img(spotMedia.getUrl())
+                .url(spotMedia.getUrl())
                 .title(spotMedia.getAlt())
                 .description(spotMedia.getDescription())
                 .likes(spotMedia.getLikes())

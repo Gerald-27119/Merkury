@@ -108,3 +108,11 @@
     border-radius: 1rem;
     overflow: hidden;
 }
+
+.media-controller:fullscreen .media-control-bar {
+    margin-bottom: 0;
+}
+
+.media-control-bar {
+    margin-bottom: 1.5rem;
+}

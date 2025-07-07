@@ -10,7 +10,7 @@ import lombok.Builder;
 public record SpotMediaDto(@Positive(message = "ID must be a positive number.")
                            Long id,
                            @NotBlank(message = "Img url cannot be empty.")
-                           String img,
+                           String url,
                            @NotBlank(message = "Title cannot be empty.")
                            String title,
                            @NotBlank(message = "Media type cannot be empty")

@@ -2,12 +2,18 @@ import Photo from "./Photo.js";
 import { Carousel, ConfigProvider } from "antd";
 import SpotMediaDto from "../../../../model/interface/spot/spotMediaDto";
 import { MediaType } from "../../../../model/enum/mediaType";
+import Video from "./Video";
+import { useBoolean } from "../../../../hooks/useBoolean";
+import { useState } from "react";
 
 type PhotoGalleryProps = {
     media: SpotMediaDto[];
 };
 
-export default function PhotoGallery({ media }: PhotoGalleryProps) {
+export default function SpotDetailsGallery({ media }: PhotoGalleryProps) {
+    const [shouldPlayVideo, __, stopVideo, ___] = useBoolean(true);
+    const [current, setCurrent] = useState<number>(0);
+
     return (
         <div className="my-10 flex h-full items-center justify-center">
             {media && media.length > 0 ? (
@@ -24,10 +30,17 @@ export default function PhotoGallery({ media }: PhotoGalleryProps) {
                     <Carousel
                         arrows={true}
                         className="carousel-rounded max-w-[15rem] xl:max-w-[30rem]"
+                        afterChange={(idx: number) => {
+                            setCurrent(idx);
+                        }}
                     >
-                        {media.map((media) =>
+                        {media.map((media: SpotMediaDto, idx: number) =>
                             media.mediaType === MediaType.VIDEO ? (
-                                <p>video</p>
+                                <Video
+                                    key={media.id}
+                                    video={media}
+                                    shouldPlayVideo={idx === current}
+                                />
                             ) : (
                                 <Photo key={media.id} photo={media} />
                             ),
@@ -35,7 +48,7 @@ export default function PhotoGallery({ media }: PhotoGalleryProps) {
                     </Carousel>
                 </ConfigProvider>
             ) : (
-                <div className="my-1 rounded-xs border border-orange-500">
+                <div className="my-1">
                     <p className="text-center text-lg">
                         There are no media for this spot.
                     </p>

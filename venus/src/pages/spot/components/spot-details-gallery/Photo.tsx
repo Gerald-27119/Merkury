@@ -19,7 +19,7 @@ export default function Photo({ photo, ...props }: PhotoProps) {
             {photo ? (
                 <img
                     {...props}
-                    src={photo.img}
+                    src={photo.url}
                     alt={photo.title}
                     onLoad={handleImageLoad}
                 />
