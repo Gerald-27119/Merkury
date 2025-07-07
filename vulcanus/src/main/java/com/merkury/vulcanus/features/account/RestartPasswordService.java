@@ -20,7 +20,7 @@ public class RestartPasswordService {
     private final PasswordEncoder passwordEncoder;
     private final PasswordResetTokenService passwordResetTokenService;
 
-    public UserEntity getUserByEmail(String email) {
+    public UserEntity getUserByEmail(String email) throws UserNotFoundException {
         Optional<UserEntity> userFromDb = userEntityRepository.findByEmail(email);
         if (userFromDb.isEmpty()) {
             throw new UserNotFoundException("User with provided email doesn't exist!");
@@ -34,7 +34,7 @@ public class RestartPasswordService {
         }
     }
 
-    public void restartUserPassword(UserPasswordResetDto userPasswordResetDto) throws PasswordResetTokenIsInvalidException, PasswordResetTokenNotFoundException {
+    public void restartUserPassword(UserPasswordResetDto userPasswordResetDto) throws PasswordResetTokenIsInvalidException, PasswordResetTokenNotFoundException, UserNotFoundException {
         UUID token = UUID.fromString(userPasswordResetDto.token());
         String email = passwordResetTokenService.getEmailByToken(token);
 
