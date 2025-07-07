@@ -9,17 +9,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CommentsService extends GroupedDataService{
+public class CommentsService {
     private final SpotCommentRepository spotCommentRepository;
 
     public List<DatedCommentsGroupDto> getSortedUserComments(String username, DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
         return getAllUserComments(username, from, to).stream()
-                .sorted(comparingDate(DatedCommentsGroupDto::date, type))
+                .sorted(getComparator(type))
                 .toList();
     }
 
@@ -42,4 +43,15 @@ public class CommentsService extends GroupedDataService{
     private record GroupKey(LocalDate date, String spotName) {
     }
 
+    private boolean isInDateRange(LocalDate date, LocalDate from, LocalDate to) {
+        return (from == null || !date.isBefore(from)) && (to == null || !date.isAfter(to));
+    }
+
+    private Comparator<DatedCommentsGroupDto> getComparator(DateSortType type) throws UnsupportedDateSortTypeException {
+        return switch (type) {
+            case DATE_INCREASE -> Comparator.comparing(DatedCommentsGroupDto::date);
+            case DATE_DECREASE -> Comparator.comparing(DatedCommentsGroupDto::date).reversed();
+            default -> throw new UnsupportedDateSortTypeException(type);
+        };
+    }
 }

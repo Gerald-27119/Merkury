@@ -10,17 +10,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PhotosService extends GroupedDataService{
+public class PhotosService {
     private final ImgRepository imgRepository;
 
     public List<DatedPhotosGroupDto> getSortedUserPhotos(String username, DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
         return getAllUserPhotos(username, from, to).stream()
-                .sorted(comparingDate(DatedPhotosGroupDto::date, type))
+                .sorted(getComparator(type))
                 .toList();
     }
 
@@ -34,5 +35,17 @@ public class PhotosService extends GroupedDataService{
                 )).entrySet().stream()
                 .map(e -> PhotosMapper.toDto(e.getKey(), e.getValue()))
                 .toList();
+    }
+
+    private boolean isInDateRange(LocalDate date, LocalDate from, LocalDate to) {
+        return (from == null || !date.isBefore(from)) && (to == null || !date.isAfter(to));
+    }
+
+    private Comparator<DatedPhotosGroupDto> getComparator(DateSortType type) throws UnsupportedDateSortTypeException {
+        return switch (type) {
+            case DATE_INCREASE -> Comparator.comparing(DatedPhotosGroupDto::date);
+            case DATE_DECREASE -> Comparator.comparing(DatedPhotosGroupDto::date).reversed();
+            default -> throw new UnsupportedDateSortTypeException(type);
+        };
     }
 }

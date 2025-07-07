@@ -16,10 +16,10 @@ export function useDateSortFilter() {
         setSortType(type);
     };
 
-    const handleChangeDate = (value: Dayjs | null, id: "from" | "to") => {
+    const handleChangeDate = (value: Dayjs | null, key: "from" | "to") => {
         const formatted = value?.format("YYYY-MM-DD");
 
-        if (id === "from" && searchDate.to && value?.isAfter(searchDate.to)) {
+        if (key === "from" && searchDate.to && value?.isAfter(searchDate.to)) {
             dispatch(
                 notificationAction.setError({
                     message: '"From" date cannot be after "To" date',
@@ -29,7 +29,7 @@ export function useDateSortFilter() {
         }
 
         if (
-            id === "to" &&
+            key === "to" &&
             searchDate.from &&
             value?.isBefore(searchDate.from)
         ) {
@@ -41,7 +41,7 @@ export function useDateSortFilter() {
             return;
         }
 
-        setSearchDate((prev) => ({ ...prev, [id]: formatted }));
+        setSearchDate((prev) => ({ ...prev, [key]: formatted }));
     };
 
     return {
