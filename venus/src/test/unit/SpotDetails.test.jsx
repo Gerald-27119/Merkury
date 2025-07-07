@@ -66,7 +66,7 @@ const mockSpotDetailsData = {
     ratingCount: 20,
     media: [
         {
-            img: "photo1.jpg",
+            url: "photo1.jpg",
             title: "PhotoTitle1",
             description: "PhotoDescription1",
             likes: 10,
@@ -76,7 +76,7 @@ const mockSpotDetailsData = {
             mediaType: "PHOTO",
         },
         {
-            img: "photo2.jpg",
+            url: "photo2.jpg",
             title: "PhotoTitle2",
             description: "PhotoDescription2",
             likes: 20,

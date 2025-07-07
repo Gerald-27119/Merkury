@@ -83,7 +83,7 @@ public class SpotMapper {
                 .rating(spot.getRating())
                 .ratingCount(spot.getRatingCount())
                 .firstPhoto(spot.getMedia().stream()
-                        .filter(spotMedia -> spotMedia.getMediaType().equals(MediaType.PHOTO))
+                        .filter(spotMedia -> spotMedia.getMediaType() == MediaType.PHOTO)
                         .findFirst()
                         .map(SpotMedia::getUrl)
                         .orElse("photoNotFound"))
