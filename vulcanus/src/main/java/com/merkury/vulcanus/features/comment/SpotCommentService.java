@@ -8,12 +8,12 @@ import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentAddDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentEditDto;
-import com.merkury.vulcanus.model.dtos.comment.SpotCommentPhotoDto;
+import com.merkury.vulcanus.model.dtos.comment.SpotCommentMediaDto;
 import com.merkury.vulcanus.model.entities.SpotComment;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.mappers.SpotCommentMapper;
-import com.merkury.vulcanus.model.mappers.SpotCommentPhotoMapper;
-import com.merkury.vulcanus.model.repositories.SpotCommentPhotoRepository;
+import com.merkury.vulcanus.model.mappers.SpotCommentMediaMapper;
+import com.merkury.vulcanus.model.repositories.SpotCommentMediaRepository;
 import com.merkury.vulcanus.model.repositories.SpotCommentRepository;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,10 +31,10 @@ import java.util.List;
 public class SpotCommentService {
 
     private final SpotCommentRepository spotCommentRepository;
-    private final SpotCommentPhotoRepository spotCommentPhotoRepository;
     private final SpotRepository spotRepository;
     private final UserDataService userDataService;
     private final VoteService voteService;
+    private final SpotCommentMediaRepository spotCommentMediaRepository;
 
     public Page<SpotCommentDto> getCommentsBySpotId(HttpServletRequest request, Long spotId, Pageable pageable) {
         Page<SpotComment> commentsPage = spotCommentRepository.findBySpotIdOrderByPublishDateDescIdAsc(spotId, pageable);
@@ -43,8 +43,8 @@ public class SpotCommentService {
         return commentsPage.map(comment -> SpotCommentMapper.toDto(comment, user));
     }
 
-    public List<SpotCommentPhotoDto> getRestOfSpotCommentPhotos(Long spotId, Long commentId) {
-        return spotCommentPhotoRepository.findBySpotIdAndCommentId(spotId,commentId).stream().map(SpotCommentPhotoMapper::toDto).toList();
+    public List<SpotCommentMediaDto> getRestOfSpotCommentMedia(Long spotId, Long commentId) {
+        return spotCommentMediaRepository.findBySpotIdAndCommentId(spotId,commentId).stream().map(SpotCommentMediaMapper::toDto).toList();
     }
 
     public void addComment(HttpServletRequest request, SpotCommentAddDto dto, Long spotId) throws SpotNotFoundException {

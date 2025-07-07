@@ -6,6 +6,7 @@ import com.merkury.vulcanus.features.comment.SpotCommentService;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentAddDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentEditDto;
+import com.merkury.vulcanus.model.dtos.comment.SpotCommentMediaDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentPhotoDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -35,8 +36,8 @@ public class SpotCommentController {
     }
 
     @GetMapping("/public/spot/{spotId}/comments/{commentId}")
-    public ResponseEntity<List<SpotCommentPhotoDto>> getRestOfSpotCommentPhotos(@PathVariable Long spotId, @PathVariable Long commentId) {
-        return ResponseEntity.ok(spotCommentService.getRestOfSpotCommentPhotos(spotId, commentId));
+    public ResponseEntity<List<SpotCommentMediaDto>> getRestOfSpotCommentMedia(@PathVariable Long spotId, @PathVariable Long commentId) {
+        return ResponseEntity.ok(spotCommentService.getRestOfSpotCommentMedia(spotId, commentId));
     }
 
     @PostMapping("/spot/{spotId}/comments")

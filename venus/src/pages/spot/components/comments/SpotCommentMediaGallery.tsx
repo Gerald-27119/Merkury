@@ -4,6 +4,8 @@ import { getSpotCommentsMedia } from "../../../../http/comments";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
 import SpotCommentMediaDto from "../../../../model/interface/spot/comment/spotCommentMediaDto";
 import { MediaType } from "../../../../model/enum/mediaType";
+import { FaRegCirclePlay } from "react-icons/fa6";
+import ReactPlayer from "react-player";
 
 type SpotCommentMediaGalleryProps = {
     initialMedia: SpotCommentMediaDto[];
@@ -48,7 +50,24 @@ export default function SpotCommentMediaGallery({
                 {mediaList.map((media: SpotCommentMediaDto, idx: number) => (
                     <li key={media.id} className="relative">
                         {media.mediaType === MediaType.VIDEO ? (
-                            <p>video</p>
+                            <>
+                                <div className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-4xl">
+                                    <FaRegCirclePlay />
+                                </div>
+                                <div className="absolute inset-0 z-0 flex items-center justify-center">
+                                    <ReactPlayer
+                                        playing={false}
+                                        src={media.url}
+                                        controls={false}
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            aspectRatio: "16/9",
+                                            "--controls": "none",
+                                        }}
+                                    />
+                                </div>
+                            </>
                         ) : (
                             <img
                                 src={media.url}
