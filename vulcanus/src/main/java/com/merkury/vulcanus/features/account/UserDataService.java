@@ -42,7 +42,7 @@ public class UserDataService {
     private final JwtManager jwtManager;
     private final JwtService jwtService;
 
-    public UserEntity getUserFromRequest(HttpServletRequest request) {
+    public UserEntity getUserFromRequest(HttpServletRequest request) throws UserNotFoundException {
         String token = jwtManager.getJWTFromCookie(request);
         String username = jwtManager.getUsernameFromJWT(token);
 
@@ -55,7 +55,7 @@ public class UserDataService {
         return token != null && !token.isEmpty();
     }
 
-    public GetUserBasicInfoDto getUserData(HttpServletRequest request) {
+    public GetUserBasicInfoDto getUserData(HttpServletRequest request) throws UserNotFoundException {
         String token = jwtManager.getJWTFromCookie(request);
         String username = jwtManager.getUsernameFromJWT(token);
         var userFromDb = userEntityRepository.findByUsername(username);
@@ -68,7 +68,7 @@ public class UserDataService {
     }
 
     public GetUserBasicInfoDto editUserData(Long userId, UserEditDataDto userEditDataDto, HttpServletRequest request, HttpServletResponse response)
-            throws InvalidPasswordException, EmailTakenException, UsernameTakenException {
+            throws InvalidPasswordException, EmailTakenException, UsernameTakenException, UserNotFoundException {
 
         String token = jwtManager.getJWTFromCookie(request);
         String username = jwtManager.getUsernameFromJWT(token);

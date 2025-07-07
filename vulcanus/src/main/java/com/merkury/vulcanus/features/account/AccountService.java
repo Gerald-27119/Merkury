@@ -54,7 +54,7 @@ public class AccountService {
         registerService.registerOauth2User(email, username, provider);
     }
 
-    private void loginOauth2User(String email, HttpServletResponse response) {
+    private void loginOauth2User(String email, HttpServletResponse response) throws UserNotFoundException {
         Optional<UserEntity> user = userEntityRepository.findByEmail(email);
         if (user.isEmpty()) {
             throw new UserNotFoundException(String.format("User with %s not found.", email));
@@ -64,7 +64,7 @@ public class AccountService {
     }
 
     public OAuth2LoginResponseDto handleOAuth2User(OAuth2AuthenticationToken oAuth2Token, HttpServletResponse response)
-            throws EmailTakenException, UsernameTakenException, EmailNotFoundException, UsernameNotFoundException, InvalidProviderException {
+            throws EmailTakenException, UsernameTakenException, EmailNotFoundException, UsernameNotFoundException, InvalidProviderException, UserNotFoundException {
 
         Boolean shouldSendRegisterEmail = false;
         OAuth2User oAuth2User = oAuth2Token.getPrincipal();
@@ -99,11 +99,11 @@ public class AccountService {
     }
 
     public GetUserBasicInfoDto editUserData(Long userId, UserEditDataDto userEditDataDto, HttpServletRequest request, HttpServletResponse response)
-            throws InvalidPasswordException, EmailTakenException, UsernameTakenException {
+            throws InvalidPasswordException, EmailTakenException, UsernameTakenException, UserNotFoundException {
         return userDataService.editUserData(userId, userEditDataDto, request, response);
     }
 
-    public GetUserBasicInfoDto getUser(HttpServletRequest request) {
+    public GetUserBasicInfoDto getUser(HttpServletRequest request) throws UserNotFoundException {
         return userDataService.getUserData(request);
     }
 }
