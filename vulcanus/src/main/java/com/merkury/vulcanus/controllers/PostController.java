@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.controllers;
 
-import com.merkury.vulcanus.exception.exceptions.CategoryNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.TagNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.UnauthorizedPostAccessException;
-import com.merkury.vulcanus.exception.exceptions.PostNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.forum.PostService;
 import com.merkury.vulcanus.model.dtos.forum.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,12 +19,12 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/public/post/{postId}")
-    public ResponseEntity<PostDetailsDto> getDetailedPost(HttpServletRequest request, @PathVariable Long postId) throws PostNotFoundException {
+    public ResponseEntity<PostDetailsDto> getDetailedPost(HttpServletRequest request, @PathVariable Long postId) throws PostNotFoundException, UserNotFoundException {
         return ResponseEntity.ok(postService.getDetailedPost(request, postId));
     }
 
     @GetMapping("/public/post")
-    public ResponseEntity<Page<PostGeneralDto>> getPostsPage(HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<Page<PostGeneralDto>> getPostsPage(HttpServletRequest request, @RequestParam(defaultValue = "0") int page) throws UserNotFoundException {
         int defaultPageSize = 5;
         Page<PostGeneralDto> posts = postService.getPostsPage(request, PageRequest.of(page, defaultPageSize));
 
@@ -35,25 +32,25 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    public ResponseEntity<Void> addPost(HttpServletRequest request, @Valid @RequestBody PostDto post) throws CategoryNotFoundException, TagNotFoundException {
+    public ResponseEntity<Void> addPost(HttpServletRequest request, @Valid @RequestBody PostDto post) throws CategoryNotFoundException, TagNotFoundException, UserNotFoundException {
         postService.addPost(request, post);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("post/{postId}")
-    public ResponseEntity<Void> deletePost(HttpServletRequest request, @PathVariable Long postId) throws UnauthorizedPostAccessException {
+    public ResponseEntity<Void> deletePost(HttpServletRequest request, @PathVariable Long postId) throws UnauthorizedPostAccessException, UserNotFoundException {
         postService.deletePost(request, postId);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("post/{postId}")
-    public ResponseEntity<Void> editPost(HttpServletRequest request, @PathVariable Long postId, @Valid @RequestBody PostDto post) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException {
+    public ResponseEntity<Void> editPost(HttpServletRequest request, @PathVariable Long postId, @Valid @RequestBody PostDto post) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, UserNotFoundException {
         postService.editPost(request, postId, post);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/post/{postId}/vote")
-    public ResponseEntity<Void> votePost(HttpServletRequest request, @PathVariable Long postId, @RequestParam boolean isUpvote) throws PostNotFoundException {
+    public ResponseEntity<Void> votePost(HttpServletRequest request, @PathVariable Long postId, @RequestParam boolean isUpvote) throws PostNotFoundException, UserNotFoundException {
         postService.votePost(request, postId, isUpvote);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
