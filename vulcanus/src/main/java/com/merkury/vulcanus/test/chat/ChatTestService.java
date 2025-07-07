@@ -2,6 +2,7 @@ package com.merkury.vulcanus.test.chat;
 
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageSenderDto;
+import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -33,15 +34,18 @@ import java.util.concurrent.TimeoutException;
 public class ChatTestService {
 //TODO: exclude that whole folder in production code
     private final RestTemplate restTemplate = new RestTemplate();
+    private final UserEntityRepository userEntityRepository;
 
     //TODO: grupwoanie wiadomosci na froncie
 //TODO: naliza messagea w websokcet na froncie, nazwa usera to kłąmstwo
     //probaa logowania rped wczytaniem userow do bazy - napraw, tez trzeba uzycie credentialy przneiesc gdzies
     @Scheduled(fixedRate = 20000)
     public void scheduledSendTestMessage() {
+        var user = userEntityRepository.findByUsername("user").orElseThrow();
+
         var sender = ChatMessageSenderDto.builder()
-                .id(2L)
-                .name("user2")
+                .id(user.getId())
+                .name(user.getUsername())
                 .build();
 
         var message = ChatMessageDto.builder()
@@ -51,10 +55,11 @@ public class ChatTestService {
 //                .sentAt(LocalDateTime.now())
                 .build();
 
-        sendTestMessage(message.chatId().toString(), message);
+        sendTestMessage(message.chatId(), message);
     }
 
-    public void sendTestMessage(String chatId, ChatMessageDto message) {
+    public void sendTestMessage(Long chatId, ChatMessageDto message) {
+        log.info(message.toString());
         String loginUrl = "http://localhost:8080/public/account/login";
         String websocketUrl = "ws://localhost:8080/connect";
 
@@ -62,7 +67,7 @@ public class ChatTestService {
         try {
             // 1. Login and retrieve session cookie
             Map<String, String> loginPayload = Map.of(
-                    "username", "user2",
+                    "username", "user",
                     "password", "password"
             );//TODO: porpaw usera do logowania i do wiadomosci
 

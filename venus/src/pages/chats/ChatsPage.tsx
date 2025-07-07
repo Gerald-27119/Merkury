@@ -4,6 +4,7 @@ import { LuMessageSquarePlus } from "react-icons/lu";
 
 export default function ChatsPage() {
     // TODO: optimize renders using this tool
+    // TODO: widok jak ktos nie ma zadnychc chatow
     return (
         <div className="flex h-screen w-full">
             <div className="border-violetLight flex w-1/6 flex-col border-l">

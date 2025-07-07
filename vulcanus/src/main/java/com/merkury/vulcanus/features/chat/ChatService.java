@@ -45,7 +45,6 @@ public class ChatService {
 //    Every time i save a messagge udpate the lastMessageAt field in Chat entity
     @Transactional
     public ChatMessageDto saveChatMessage(ChatMessageDto chatMessageDto) {
-
         var chat = chatRepository.findById(chatMessageDto.chatId())
                 .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
 
