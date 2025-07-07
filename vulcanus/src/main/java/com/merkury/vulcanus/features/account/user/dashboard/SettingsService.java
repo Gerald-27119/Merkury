@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
-import com.merkury.vulcanus.model.dtos.user.UserEditDataDto;
+import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;

@@ -3,8 +3,14 @@ import { AccountWrapperType } from "../../../model/enum/account/accountWrapperTy
 import AccountTitle from "../components/AccountTitle";
 import Button from "../../../components/buttons/Button";
 import { ButtonVariantType } from "../../../model/enum/buttonVariantType";
+import { useMutation } from "@tanstack/react-query";
+import { editUserSettings } from "../../../http/user-dashboard";
 
 export default function Settings() {
+    const { mutateAsync } = useMutation({
+        mutationFn: editUserSettings,
+    });
+
     return (
         <AccountWrapper variant={AccountWrapperType.SETTINGS}>
             <AccountTitle text="Settings" />

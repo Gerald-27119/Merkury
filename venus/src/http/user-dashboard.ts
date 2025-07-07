@@ -7,6 +7,7 @@ import { UserRelationEditType } from "../model/enum/account/social/userRelationE
 import ExtendedUserProfile from "../model/interface/account/profile/extendedUserProfile";
 import DatedPhotosGroup from "../model/interface/account/photos/datedPhotosGroup";
 import { PhotosSortType } from "../model/enum/account/photos/photosSortType";
+import UserEditData from "../model/interface/account/settings/userEditData";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -171,5 +172,19 @@ export async function removeFavoriteSpot({
                 withCredentials: true,
             },
         )
+    ).data;
+}
+
+export async function editUserSettings(userEdit: UserEditData): Promise<void> {
+    return await axios.patch(`${BASE_URL}/user-dashboard/settings`, userEdit, {
+        withCredentials: true,
+    });
+}
+
+export async function getUserData(): Promise<void> {
+    return (
+        await axios.get(`${BASE_URL}/user-dashboard/settings`, {
+            withCredentials: true,
+        })
     ).data;
 }

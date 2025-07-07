@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.dtos.user;
+package com.merkury.vulcanus.model.dtos.account.settings;
 
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserSettingsType;
