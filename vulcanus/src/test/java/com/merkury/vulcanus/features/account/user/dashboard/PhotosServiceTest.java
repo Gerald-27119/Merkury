@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.merkury.vulcanus.model.enums.user.dashboard.DateSortType.DATE_INCREASE;
+import static com.merkury.vulcanus.model.enums.user.dashboard.DateSortType.DATE_ASCENDING;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -37,7 +37,7 @@ class PhotosServiceTest {
 
         when(imgRepository.findAllByAuthorUsername("user1")).thenReturn(photosList);
 
-        var result = photosService.getSortedUserPhotos("user1", DATE_INCREASE, null, null);
+        var result = photosService.getSortedUserPhotos("user1", DATE_ASCENDING, null, null);
 
         assertAll(() -> assertFalse(result.isEmpty()),
                 () -> assertEquals(1, result.size()),
@@ -64,7 +64,7 @@ class PhotosServiceTest {
         when(imgRepository.findAllByAuthorUsername("user1")).thenReturn(photosList);
 
         var result = photosService
-                .getSortedUserPhotos("user1", DATE_INCREASE,
+                .getSortedUserPhotos("user1", DATE_ASCENDING,
                         LocalDate.of(2025, 6, 15),
                         LocalDate.of(2025, 6, 16));
 

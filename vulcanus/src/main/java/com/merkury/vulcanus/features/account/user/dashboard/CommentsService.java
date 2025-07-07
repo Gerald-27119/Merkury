@@ -49,8 +49,8 @@ public class CommentsService {
 
     private Comparator<DatedCommentsGroupDto> getComparator(DateSortType type) throws UnsupportedDateSortTypeException {
         return switch (type) {
-            case DATE_INCREASE -> Comparator.comparing(DatedCommentsGroupDto::date);
-            case DATE_DECREASE -> Comparator.comparing(DatedCommentsGroupDto::date).reversed();
+            case DATE_ASCENDING -> Comparator.comparing(DatedCommentsGroupDto::date);
+            case DATE_DESCENDING -> Comparator.comparing(DatedCommentsGroupDto::date).reversed();
             default -> throw new UnsupportedDateSortTypeException(type);
         };
     }

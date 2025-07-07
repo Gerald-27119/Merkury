@@ -5,8 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IoIosArrowDown } from "react-icons/io";
 
 const sortOptions = [
-    { value: DateSortType.DATE_DECREASE, name: "Date descending" },
-    { value: DateSortType.DATE_INCREASE, name: "Date ascending" },
+    { value: DateSortType.DATE_DESCENDING, name: "Date descending" },
+    { value: DateSortType.DATE_ASCENDING, name: "Date ascending" },
 ];
 
 interface DropdownProps {

@@ -5,7 +5,7 @@ import { notificationAction } from "../redux/notification";
 import useDispatchTyped from "./useDispatchTyped";
 
 export function useDateSortFilter() {
-    const [sortType, setSortType] = useState(DateSortType.DATE_DECREASE);
+    const [sortType, setSortType] = useState(DateSortType.DATE_DESCENDING);
     const [searchDate, setSearchDate] = useState<{
         from: string | null;
         to: string | null;
