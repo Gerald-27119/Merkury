@@ -28,11 +28,14 @@ export default function Photos() {
     });
 
     useEffect(() => {
-        dispatch(
-            notificationAction.setError({
-                message: "An error occurred while trying to load your photos",
-            }),
-        );
+        if (isError) {
+            dispatch(
+                notificationAction.setError({
+                    message:
+                        "An error occurred while trying to load your photos",
+                }),
+            );
+        }
     }, [isError]);
 
     return (

@@ -28,11 +28,14 @@ export default function Comments() {
     });
 
     useEffect(() => {
-        dispatch(
-            notificationAction.setError({
-                message: "An error occurred while trying to load your comments",
-            }),
-        );
+        if (isError) {
+            dispatch(
+                notificationAction.setError({
+                    message:
+                        "An error occurred while trying to load your comments",
+                }),
+            );
+        }
     }, [isError]);
 
     return (
