@@ -170,23 +170,6 @@ public class AccountController {
                 .body("Password set successfully!");
     }
 
-    @PatchMapping("/account/edit-data/{userId}")
-    public ResponseEntity<GetUserBasicInfoDto>editUser(@PathVariable Long userId, HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody UserEditDataDto userEditDataDto) throws InvalidPasswordException, EmailTakenException, UsernameTakenException, InvalidCredentialsException {
-        log.info("Start editing user...");
-        var updatedUser = accountService.editUserData(userId, userEditDataDto, request, response);
-        log.info("User edited successfully!");
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(updatedUser);
-    }
-
-    @GetMapping("/account/get-user")
-    public ResponseEntity<GetUserBasicInfoDto> getUserData(HttpServletRequest request) {
-        log.info("Start getting user...");
-        var user = accountService.getUser(request);
-        log.info("User found successfully!");
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(user);
-    }
 
     @GetMapping("/account/check")
     public ResponseEntity<Void> checkIsAuthenticated() {
