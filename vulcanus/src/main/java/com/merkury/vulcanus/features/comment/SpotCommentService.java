@@ -44,7 +44,7 @@ public class SpotCommentService {
     }
 
     public List<SpotCommentMediaDto> getRestOfSpotCommentMedia(Long spotId, Long commentId) {
-        return spotCommentMediaRepository.findBySpotIdAndCommentId(spotId,commentId).stream().map(SpotCommentMediaMapper::toDto).toList();
+        return spotCommentMediaRepository.findBySpotCommentIdAndSpotCommentSpotId(spotId,commentId).stream().map(SpotCommentMediaMapper::toDto).toList();
     }
 
     public void addComment(HttpServletRequest request, SpotCommentAddDto dto, Long spotId) throws SpotNotFoundException {
