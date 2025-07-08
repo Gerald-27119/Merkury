@@ -19,4 +19,5 @@ public interface SpotCommentRepository extends JpaRepository<SpotComment, Long> 
     Page<SpotComment> findBySpotIdOrderByPublishDateDescIdAsc(Long spotId, Pageable pageable);
     Optional<SpotComment> findCommentByIdAndAuthor(Long commentId, UserEntity author);
     List<SpotComment> findBySpotId(Long spotId);
+    List<SpotComment> findAllByAuthorUsername(String username);
 }

@@ -1,9 +1,12 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
+import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupDto;
+import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
+import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
@@ -14,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -23,6 +27,8 @@ public class UserDashboardService {
     private final FriendsService friendsService;
     private final FollowersService followersService;
     private final FavoriteSpotService favoriteSpotService;
+    private final PhotosService photosService;
+    private final CommentsService commentsService;
 
     public UserProfileDto getUserOwnProfile() throws UserNotFoundByUsernameException {
         return profileService.getUserOwnProfile(getCurrentUsername());
@@ -74,6 +80,14 @@ public class UserDashboardService {
 
     public void removeFavoriteSpot(FavoriteSpotsListType type, Long spotId) throws FavoriteSpotNotExistException {
         favoriteSpotService.removeFavoriteSpot(getCurrentUsername(), type, spotId);
+    }
+
+    public List<DatedPhotosGroupDto> getSortedUserPhotos(DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
+        return photosService.getSortedUserPhotos(getCurrentUsername(), type, from, to);
+    }
+
+    public List<DatedCommentsGroupDto> getSortedUserComments(DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
+        return commentsService.getSortedUserComments(getCurrentUsername(), type, from, to);
     }
 
     private String getCurrentUsername() {

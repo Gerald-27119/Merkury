@@ -108,7 +108,7 @@ public class AccountController {
     }
 
     @GetMapping("/account/login-success")
-    public RedirectView loginSuccess(HttpServletResponse response, OAuth2AuthenticationToken oAuth2Token) throws EmailTakenException, UsernameTakenException, EmailNotFoundException, UsernameNotFoundException, InvalidProviderException {
+    public RedirectView loginSuccess(HttpServletResponse response, OAuth2AuthenticationToken oAuth2Token) throws EmailTakenException, UsernameTakenException, EmailNotFoundException, UsernameNotFoundException, InvalidProviderException, UserNotFoundException {
         log.info("Start handling oAuth2 user...");
         var loginResponseDto = accountService.handleOAuth2User(oAuth2Token, response);
         log.info("Successfully handled oAuth2 user!");
@@ -135,7 +135,7 @@ public class AccountController {
     }
 
     @PostMapping("/public/account/forgot-password")
-    public ResponseEntity<String> forgotPasswordSendEmail(@RequestBody String email) throws InvalidProviderException {
+    public ResponseEntity<String> forgotPasswordSendEmail(@RequestBody String email) throws InvalidProviderException, UserNotFoundException {
         log.info("Start handling forgot password procedure...");
         UserEntity user = restartPasswordService.getUserByEmail(email);
         restartPasswordService.abortIfOauthUser(user);
@@ -160,7 +160,7 @@ public class AccountController {
     }
 
     @PostMapping("/public/account/set-new-password")
-    public ResponseEntity<String> setNewPassword(@Valid @RequestBody UserPasswordResetDto userPasswordResetDto) throws PasswordResetTokenIsInvalidException, PasswordResetTokenNotFoundException {
+    public ResponseEntity<String> setNewPassword(@Valid @RequestBody UserPasswordResetDto userPasswordResetDto) throws PasswordResetTokenIsInvalidException, PasswordResetTokenNotFoundException, UserNotFoundException {
         log.info("Start restarting password...");
         accountService.restartUserPassword(userPasswordResetDto);
         log.info("Password restarted successfully!");
@@ -171,7 +171,7 @@ public class AccountController {
     }
 
     @PatchMapping("/account/edit-data/{userId}")
-    public ResponseEntity<GetUserBasicInfoDto>editUser(@PathVariable Long userId, HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody UserEditDataDto userEditDataDto) throws InvalidPasswordException, EmailTakenException, UsernameTakenException, InvalidCredentialsException {
+    public ResponseEntity<GetUserBasicInfoDto>editUser(@PathVariable Long userId, HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody UserEditDataDto userEditDataDto) throws InvalidPasswordException, EmailTakenException, UsernameTakenException, InvalidCredentialsException, UserNotFoundException {
         log.info("Start editing user...");
         var updatedUser = accountService.editUserData(userId, userEditDataDto, request, response);
         log.info("User edited successfully!");
@@ -180,7 +180,7 @@ public class AccountController {
     }
 
     @GetMapping("/account/get-user")
-    public ResponseEntity<GetUserBasicInfoDto> getUserData(HttpServletRequest request) {
+    public ResponseEntity<GetUserBasicInfoDto> getUserData(HttpServletRequest request) throws UserNotFoundException {
         log.info("Start getting user...");
         var user = accountService.getUser(request);
         log.info("User found successfully!");

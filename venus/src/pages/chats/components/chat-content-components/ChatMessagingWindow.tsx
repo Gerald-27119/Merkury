@@ -1,5 +1,7 @@
-import { ChatDto } from "../../../../redux/chats";
-import { ChatMessageDto } from "../../../../model/interface/chat/chatInterfaces";
+import {
+    ChatDto,
+    ChatMessageDto,
+} from "../../../../model/interface/chat/chatInterfaces";
 import ChatMessage from "./ChatMessage";
 import { format } from "date-fns";
 
@@ -10,20 +12,18 @@ interface ChatMessagingWindowProps {
 export default function ChatMessagingWindow({
     chatDto,
 }: ChatMessagingWindowProps) {
-    const messages = chatDto?.detailedChatDto?.messages ?? [];
+    const messages = chatDto?.messages ?? [];
 
     if (messages.length === 0) {
         return (
             <p className="mt-auto px-4 py-1 font-light">
                 It's the beginning of the conversation with{" "}
-                <span className="font-semibold">
-                    {chatDto?.simpleChatDto?.name}
-                </span>
-                .
+                <span className="font-semibold">{chatDto?.name}</span>.
             </p>
         );
     }
 
+    //TODO: add fetch more messages on scroll
     return (
         <div className="scrollbar-track-violetDark scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark/20 flex h-full flex-col-reverse gap-2 overflow-y-scroll py-1 pl-2">
             {messages.map((message: ChatMessageDto, idx: number) => {

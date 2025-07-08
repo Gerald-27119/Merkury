@@ -4,17 +4,10 @@ import {
     PayloadAction,
 } from "@reduxjs/toolkit";
 import {
+    ChatDto,
     ChatMessageDto,
-    DetailedChatDto,
-    SimpleChatDto,
 } from "../model/interface/chat/chatInterfaces";
 import { RootState } from "./store";
-
-export interface ChatDto {
-    id: number;
-    simpleChatDto: SimpleChatDto;
-    detailedChatDto: DetailedChatDto;
-}
 
 interface ChatsState {
     nextPage: number | null;
@@ -32,21 +25,8 @@ export const chatsSlice = createSlice({
     name: "chats",
     initialState,
     reducers: {
-        addSimpleChatDtos(state, action: PayloadAction<SimpleChatDto[]>) {
-            const toUpsert: ChatDto[] = action.payload.map((simple) => ({
-                id: simple.id,
-                simpleChatDto: simple,
-                detailedChatDto: {} as DetailedChatDto,
-            }));
-            chatsAdapter.upsertMany(state, toUpsert);
-        },
-        addDetailedChatDtos(state, action: PayloadAction<DetailedChatDto[]>) {
-            const toUpsert: ChatDto[] = action.payload.map((detail) => ({
-                id: detail.id,
-                simpleChatDto: state.entities[detail.id]?.simpleChatDto!,
-                detailedChatDto: detail,
-            }));
-            chatsAdapter.upsertMany(state, toUpsert);
+        addChatDtos(state, action: PayloadAction<ChatDto[]>) {
+            chatsAdapter.upsertMany(state, action.payload);
         },
         setNextPage(state, action: PayloadAction<number | null>) {
             state.nextPage = action.payload;
@@ -63,11 +43,11 @@ export const chatsSlice = createSlice({
             if (!chat) {
                 return;
             }
-            if (!chat.detailedChatDto.messages) {
-                chat.detailedChatDto.messages = [];
+            if (!chat.messages) {
+                chat.messages = [];
             }
-            chat.detailedChatDto.messages.push(message);
-            chat.detailedChatDto.messages.sort(
+            chat.messages.push(message);
+            chat.messages.sort(
                 (a, b) =>
                     new Date(b.sentAt).getTime() - new Date(a.sentAt).getTime(),
             );

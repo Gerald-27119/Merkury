@@ -70,14 +70,6 @@ describe("Sidebar component unit tests", () => {
                 expect(link).toBeInTheDocument();
             });
 
-            test("should render Chat link", () => {
-                const links = screen.getAllByRole("link");
-                const link = links.find(
-                    (link) => link.getAttribute("href") === "/chat",
-                );
-                expect(link).toBeInTheDocument();
-            });
-
             test("should render Login link", () => {
                 const links = screen.getAllByRole("link");
                 const link = links.find(
@@ -103,11 +95,6 @@ describe("Sidebar component unit tests", () => {
                 expect(icon).toBeInTheDocument();
             });
 
-            test("should render Chat icon", () => {
-                const icon = screen.getByLabelText("chat");
-                expect(icon).toBeInTheDocument();
-            });
-
             test("should render Notification icon", () => {
                 const icon = screen.getByLabelText("notification");
                 expect(icon).toBeInTheDocument();
@@ -125,7 +112,7 @@ describe("Sidebar component unit tests", () => {
         });
     });
 
-    describe("When sidebar is close and user is logged", () => {
+    describe("When sidebar is closed and user is logged", () => {
         beforeEach(() => {
             renderSidebar(
                 {
@@ -184,11 +171,6 @@ describe("Sidebar component unit tests", () => {
 
             test("should render Forum Text", () => {
                 const text = screen.getByText("forum");
-                expect(text).toBeInTheDocument();
-            });
-
-            test("should render Chat Text", () => {
-                const text = screen.getByText("chat");
                 expect(text).toBeInTheDocument();
             });
 

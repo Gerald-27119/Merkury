@@ -27,9 +27,16 @@ public class UserEntity implements UserDetails {
     private Long id;
 
     private String profileImage;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
     @Builder.Default
     private String profilePhoto = "https://ucarecdn.com/ac4ffacd-8416-4d90-9613-35fb472a932d/defaultProfilePhoto.jpg";
 

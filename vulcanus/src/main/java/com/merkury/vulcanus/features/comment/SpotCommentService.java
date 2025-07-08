@@ -3,6 +3,7 @@ package com.merkury.vulcanus.features.comment;
 import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentAddDto;
@@ -36,7 +37,7 @@ public class SpotCommentService {
     private final VoteService voteService;
     private final SpotCommentMediaRepository spotCommentMediaRepository;
 
-    public Page<SpotCommentDto> getCommentsBySpotId(HttpServletRequest request, Long spotId, Pageable pageable) {
+    public Page<SpotCommentDto> getCommentsBySpotId(HttpServletRequest request, Long spotId, Pageable pageable) throws UserNotFoundException {
         Page<SpotComment> commentsPage = spotCommentRepository.findBySpotIdOrderByPublishDateDescIdAsc(spotId, pageable);
         var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
 
@@ -47,7 +48,7 @@ public class SpotCommentService {
         return spotCommentMediaRepository.findBySpotCommentIdAndSpotCommentSpotId(spotId,commentId).stream().map(SpotCommentMediaMapper::toDto).toList();
     }
 
-    public void addComment(HttpServletRequest request, SpotCommentAddDto dto, Long spotId) throws SpotNotFoundException {
+    public void addComment(HttpServletRequest request, SpotCommentAddDto dto, Long spotId) throws SpotNotFoundException, UserNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var spot = spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
 
@@ -55,7 +56,7 @@ public class SpotCommentService {
         updateSpotRating(spot);
     }
 
-    public void deleteComment(HttpServletRequest request, Long commentId) throws CommentAccessException {
+    public void deleteComment(HttpServletRequest request, Long commentId) throws CommentAccessException, UserNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var comment = spotCommentRepository.findCommentByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("delete"));
 
@@ -63,7 +64,7 @@ public class SpotCommentService {
         updateSpotRating(comment.getSpot());
     }
 
-    public void editComment(HttpServletRequest request, Long commentId, SpotCommentEditDto dto) throws CommentAccessException {
+    public void editComment(HttpServletRequest request, Long commentId, SpotCommentEditDto dto) throws CommentAccessException, UserNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var comment = spotCommentRepository.findCommentByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("edit"));
 
@@ -94,7 +95,7 @@ public class SpotCommentService {
         spotRepository.save(spot);
     }
 
-    public void voteComment(HttpServletRequest request, Long commentId, boolean isUpvote) {
+    public void voteComment(HttpServletRequest request, Long commentId, boolean isUpvote) throws UserNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var comment = spotCommentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
 

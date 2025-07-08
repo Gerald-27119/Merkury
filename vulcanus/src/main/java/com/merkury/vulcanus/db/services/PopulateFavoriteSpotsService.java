@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.db;
+package com.merkury.vulcanus.db.services;
 
 import com.merkury.vulcanus.model.entities.FavoriteSpot;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
@@ -17,12 +17,14 @@ public class PopulateFavoriteSpotsService {
     private final FavoriteSpotRepository favoriteSpotRepository;
 
     @Transactional
-    public void initFavoriteSpots() {
-        var user = userEntityRepository.findByUsername("user").get();
-        var spots1 = spotRepository.findAll().subList(0, 2);
-        var spots2 = spotRepository.findAll().subList(2, 4);
-        var spots3 = spotRepository.findAll().subList(4, 6);
-        var spots4 = spotRepository.findAll().subList(8, 10);
+    public void initFavoriteSpotsData() {
+        var user = userEntityRepository.findByUsername("user").orElseThrow();
+        var allSpots = spotRepository.findAll();
+
+        var spots1 = allSpots.subList(0, 2);
+        var spots2 = allSpots.subList(2, 4);
+        var spots3 = allSpots.subList(4, 6);
+        var spots4 = allSpots.subList(8, 10);
 
         for (var spot : spots1) {
             var favoriteSpot = FavoriteSpot
