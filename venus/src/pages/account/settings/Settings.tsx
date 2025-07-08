@@ -1,13 +1,35 @@
 import AccountWrapper from "../components/AccountWrapper";
 import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
 import AccountTitle from "../components/AccountTitle";
-import Button from "../../../components/buttons/Button";
-import { ButtonVariantType } from "../../../model/enum/buttonVariantType";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { editUserSettings, getUserData } from "../../../http/user-dashboard";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
+import DisableInput from "./components/DisableInput";
+import { FormEvent, useState } from "react";
+import { UserSettingsType } from "../../../model/enum/account/settings/userSettingsType";
+import UserEditData from "../../../model/interface/account/settings/userEditData";
+import FormInput from "../../../components/form/FormInput";
+import useUserDataValidation from "../../../hooks/useUserDataValidation";
 
 export default function Settings() {
+    const [editType, setEditType] = useState(UserSettingsType.NONE);
+    const [inputs, setInputs] = useState<
+        { name: string; type: string; id: string }[]
+    >([]);
+
+    const {
+        enteredValue,
+        didEdit,
+        isValid,
+        handleInputChange,
+        handleInputBlur,
+    } = useUserDataValidation({
+        password: "",
+        username: "",
+        email: "",
+        "confirm-password": "",
+    });
+
     const { mutateAsync } = useMutation({
         mutationFn: editUserSettings,
     });
@@ -16,6 +38,85 @@ export default function Settings() {
         queryKey: ["settings"],
         queryFn: getUserData,
     });
+
+    const handleEdit = async (e: FormEvent) => {
+        e.preventDefault();
+
+        const userEdit: UserEditData = {
+            username: enteredValue.username,
+            email: enteredValue.email,
+            oldPassword: enteredValue.oldPassword,
+            newPassword: enteredValue.newPassword,
+            confirmPassword: enteredValue.confirmPassword,
+            type: editType,
+            provider: data?.provider!,
+        };
+
+        if (editType === UserSettingsType.PASSWORD) {
+            userEdit.username = "";
+            userEdit.email = "";
+        }
+
+        if (editType === UserSettingsType.EMAIL) {
+            userEdit.username = "";
+            userEdit.oldPassword = "";
+            userEdit.confirmPassword = "";
+            userEdit.newPassword = "";
+        }
+
+        if (editType === UserSettingsType.USERNAME) {
+            userEdit.email = "";
+            userEdit.oldPassword = "";
+            userEdit.confirmPassword = "";
+            userEdit.newPassword = "";
+        }
+
+        await mutateAsync(userEdit);
+    };
+
+    const handleEditType = (type: UserSettingsType) => {
+        setEditType(type);
+
+        if (type === UserSettingsType.USERNAME) {
+            setInputs([{ name: "username", type: "text", id: "username" }]);
+        } else if (type === UserSettingsType.EMAIL) {
+            setInputs([{ name: "e-mail", type: "email", id: "email" }]);
+        } else {
+            setInputs([
+                { name: "old password", type: "password", id: "oldPassword" },
+                { name: "new password", type: "password", id: "newPassword" },
+                {
+                    name: "confirm password",
+                    type: "password",
+                    id: "confirmPassword",
+                },
+            ]);
+        }
+    };
+
+    const inputFields = [
+        {
+            label: "Your information",
+            value: data?.username,
+            type: "text",
+            id: "disabled-your-information",
+            editType: UserSettingsType.USERNAME,
+        },
+        {
+            label: "E-mail",
+            value: data?.email,
+            type: "email",
+            id: "disabled-email",
+            editType: UserSettingsType.EMAIL,
+        },
+        {
+            label: "Password",
+            value: "********",
+            type: "password",
+            id: "disabled-password",
+            editType: UserSettingsType.PASSWORD,
+        },
+    ];
 
     if (isLoading) {
         return <LoadingSpinner />;
@@ -28,77 +129,52 @@ export default function Settings() {
                 <div className="mt-5 flex w-1/3 flex-col space-y-4 lg:ml-27">
                     <h1 className="text-3xl font-semibold">Account details</h1>
                     <div className="flex flex-col space-y-3">
-                        <div className="flex flex-col space-y-1.5">
-                            <h3 className="text-xl font-semibold">
-                                Your information
-                            </h3>
-                            <div className="bg-darkBgSoft flex w-96 items-center justify-between rounded-md px-2.5 py-2 shadow-md dark:shadow-black/50">
-                                <p>{data?.username}</p>
-                                <button className="text-violetLight cursor-pointer">
-                                    Edit
-                                </button>
-                            </div>
-                        </div>
-                        <div className="flex flex-col space-y-1.5">
-                            <h3 className="text-xl font-semibold">E-mail</h3>
-                            <div className="bg-darkBgSoft flex w-96 items-center justify-between rounded-md px-2.5 py-2 shadow-md dark:shadow-black/50">
-                                <p>{data?.email}</p>
-                                <button className="text-violetLight cursor-pointer">
-                                    Edit
-                                </button>
-                            </div>
-                        </div>
-                        <div className="flex flex-col space-y-1.5">
-                            <h3 className="text-xl font-semibold">Password</h3>
-                            <div className="bg-darkBgSoft flex w-96 items-center justify-between rounded-md px-2.5 py-2 shadow-md dark:shadow-black/50">
-                                <input
-                                    type="password"
-                                    disabled
-                                    value="********"
-                                />
-                                <button className="text-violetLight cursor-pointer">
-                                    Edit
-                                </button>
-                            </div>
-                        </div>
+                        {inputFields.map((field) => (
+                            <DisableInput
+                                key={field.id}
+                                label={field.label}
+                                value={field.value}
+                                type={field.type}
+                                id={field.id}
+                                onEdit={() => handleEditType(field.editType)}
+                            />
+                        ))}
                     </div>
                 </div>
-                <div className="mt-5 flex w-1/2 flex-col space-y-4 lg:ml-27">
-                    <h1 className="text-3xl font-semibold">Change password</h1>
-                    <div className="flex w-1/2 flex-col space-y-3">
-                        <div className="flex flex-col space-y-1.5">
-                            <h3 className="text-xl font-semibold">
-                                Old Password
-                            </h3>
-                            <div className="bg-darkBgSoft flex items-center justify-between rounded-md px-2.5 py-2 shadow-md dark:shadow-black/50">
-                                <input type="password" value="********" />
-                            </div>
+                {editType !== UserSettingsType.NONE && (
+                    <div className="mt-5 flex w-1/2 flex-col space-y-4 lg:ml-27">
+                        <h1 className="text-3xl font-semibold">
+                            {editType === UserSettingsType.PASSWORD
+                                ? "Change password"
+                                : editType === UserSettingsType.EMAIL
+                                  ? "Change e-mail"
+                                  : "Change username"}
+                        </h1>
+
+                        <div className="flex w-1/2 flex-col space-y-3">
+                            <form
+                                className="flex flex-col gap-4"
+                                onSubmit={handleEdit}
+                            >
+                                {inputs.map(({ name, type, id }) => (
+                                    <FormInput
+                                        key={id}
+                                        label={name}
+                                        type={type}
+                                        id={id}
+                                        onChange={(event) =>
+                                            handleInputChange(id, event)
+                                        }
+                                        value={enteredValue[id]}
+                                        onBlur={() => handleInputBlur(id)}
+                                        isValid={isValid[id]}
+                                    />
+                                ))}
+                                <button type={"submit"}>Save</button>
+                            </form>
                         </div>
-                        <div className="flex flex-col space-y-1.5">
-                            <h3 className="text-xl font-semibold">
-                                New Password
-                            </h3>
-                            <div className="bg-darkBgSoft flex items-center justify-between rounded-md px-2.5 py-2 shadow-md dark:shadow-black/50">
-                                <input type="password" value="********" />
-                            </div>
-                        </div>
-                        <div className="flex flex-col space-y-1.5">
-                            <h3 className="text-xl font-semibold">
-                                Confirm Password
-                            </h3>
-                            <div className="bg-darkBgSoft flex items-center justify-between rounded-md px-2.5 py-2 shadow-md dark:shadow-black/50">
-                                <input type="password" value="********" />
-                            </div>
-                        </div>
-                        <Button
-                            onClick={() => {}}
-                            className="mt-10"
-                            variant={ButtonVariantType.FAVORITE_SPOT_MENU}
-                        >
-                            Save
-                        </Button>
                     </div>
-                </div>
+                )}
             </div>
         </AccountWrapper>
     );

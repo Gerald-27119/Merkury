@@ -6,6 +6,7 @@ export default interface UserEditData {
     email: string;
     provider: Provider;
     oldPassword: string;
+    newPassword: string;
     confirmPassword: string;
     type: UserSettingsType;
 }

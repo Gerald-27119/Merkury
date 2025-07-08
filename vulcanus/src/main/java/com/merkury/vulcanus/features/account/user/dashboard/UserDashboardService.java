@@ -89,7 +89,7 @@ public class UserDashboardService {
     }
 
     public void editUserSettings(HttpServletResponse response, UserEditDataDto userEdit) throws UserNotFoundByUsernameException, UserNotFoundException, ExternalProviderAccountException, UnsupportedUserSettingsType, EmailTakenException, SamePasswordException, SameEmailException, InvalidPasswordException, UsernameTakenException, SameUsernameException {
-        settingsService.editUserSettings(response, userEdit);
+        settingsService.editUserSettings(response, userEdit, getCurrentUsername());
     }
 
     public UserDataDto getUserData() throws UserNotFoundByUsernameException {

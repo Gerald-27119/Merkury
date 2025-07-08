@@ -28,9 +28,7 @@ public class SettingsService {
         return SettingsMapper.toDto(userEntityFetcher.getByUsername(username));
     }
 
-    public void editUserSettings(HttpServletResponse response, UserEditDataDto userEdit) throws UserNotFoundByUsernameException, UserNotFoundException, ExternalProviderAccountException, UnsupportedUserSettingsType, UsernameTakenException, SameUsernameException, EmailTakenException, SameEmailException, SamePasswordException, InvalidPasswordException {
-        var username = userEdit.username();
-
+    public void editUserSettings(HttpServletResponse response, UserEditDataDto userEdit, String username) throws UserNotFoundByUsernameException, UserNotFoundException, ExternalProviderAccountException, UnsupportedUserSettingsType, UsernameTakenException, SameUsernameException, EmailTakenException, SameEmailException, SamePasswordException, InvalidPasswordException {
         var user = userEntityFetcher.getByUsername(username);
         var userId = user.getId();
 
@@ -39,7 +37,7 @@ public class SettingsService {
         }
 
         switch (userEdit.type()) {
-            case USERNAME -> changeUserUsername(user, username);
+            case USERNAME -> changeUserUsername(user, userEdit.username());
             case EMAIL -> changeUserEmail(user, userEdit.email());
             case PASSWORD -> changeUserPassword(user, userEdit.oldPassword(), userEdit.newPassword(), userEdit.confirmPassword());
             default -> throw new UnsupportedUserSettingsType(userEdit.type());
@@ -69,12 +67,12 @@ public class SettingsService {
     }
 
     private void changeUserEmail(UserEntity user, String email) throws EmailTakenException, SameEmailException {
-        if (!userEntityRepository.findAllByEmail(email).isEmpty()) {
-            throw new EmailTakenException();
-        }
-
         if (user.getEmail().equals(email)) {
             throw new SameEmailException();
+        }
+
+        if (!userEntityRepository.findAllByEmail(email).isEmpty()) {
+            throw new EmailTakenException();
         }
 
         user.setEmail(email);
@@ -82,12 +80,12 @@ public class SettingsService {
     }
 
     private void changeUserUsername(UserEntity user, String newUsername) throws UsernameTakenException, SameUsernameException {
-        if (!userEntityRepository.findAllByUsername(newUsername).isEmpty()) {
-            throw new UsernameTakenException();
-        }
-
         if (user.getUsername().equals(newUsername)) {
             throw new SameUsernameException();
+        }
+
+        if (!userEntityRepository.findAllByUsername(newUsername).isEmpty()) {
+            throw new UsernameTakenException();
         }
 
         user.setUsername(newUsername);
