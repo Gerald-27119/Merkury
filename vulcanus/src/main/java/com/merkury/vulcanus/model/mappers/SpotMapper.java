@@ -7,7 +7,6 @@ import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.dtos.spot.coordinates.SpotCoordinatesDto;
 import com.merkury.vulcanus.model.entities.SpotComment;
-import com.merkury.vulcanus.model.entities.Img;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.entities.SpotMedia;
 import com.merkury.vulcanus.model.enums.MediaType;
@@ -38,7 +37,7 @@ public class SpotMapper {
     public static Spot toEntity(@NotNull FullSpotDto dto,
                                 @NotNull List<BorderPoint> points,
                                 @NotNull List<SpotComment> spotComments,
-                                @NotNull List<Img> images) {
+                                @NotNull List<SpotMedia> spotMediaList) {
         return Spot.builder()
                 .areaColor(dto.areaColor())
                 .name(dto.name())
@@ -46,7 +45,7 @@ public class SpotMapper {
                 .rating(dto.rating())
                 .borderPoints(points)
                 .spotComments(spotComments)
-                .images(images)
+                .media(spotMediaList)
                 .build();
     }
 
@@ -60,10 +59,6 @@ public class SpotMapper {
                 .description(spot.getDescription())
                 .rating(spot.getRating())
                 .ratingCount(spot.getRatingCount())
-                //TODO: delete photos
-                .photos(spot.getImages().stream()
-                        .map(ImgMapper::toDto)
-                        .toList())
                 .media(spot.getMedia().stream()
                         .map(SpotMediaMapper::toDto)
                         .toList())

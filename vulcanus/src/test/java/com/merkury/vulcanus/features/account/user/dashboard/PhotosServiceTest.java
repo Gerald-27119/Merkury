@@ -1,10 +1,11 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
-import com.merkury.vulcanus.model.entities.Img;
+import com.merkury.vulcanus.model.entities.SpotMedia;
 import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.enums.MediaType;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
-import com.merkury.vulcanus.model.repositories.ImgRepository;
+import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class PhotosServiceTest {
     @Mock
-    private ImgRepository imgRepository;
+    private SpotMediaRepository spotMediaRepository;
 
     @InjectMocks
     private PhotosService photosService;
@@ -31,11 +32,11 @@ class PhotosServiceTest {
     @Test
     void shouldReturnAllPhotosWhenExist() throws UnsupportedDateSortTypeException {
         var user = UserEntity.builder().username("user1").build();
-        var photo1 = Img.builder().author(user).addDate(LocalDate.now()).likes(10).views(12).build();
-        var photo2 = Img.builder().author(user).addDate(LocalDate.now()).likes(10).views(12).build();
+        var photo1 = SpotMedia.builder().author(user).addDate(LocalDate.now()).likes(10).views(12).mediaType(MediaType.PHOTO).build();
+        var photo2 = SpotMedia.builder().author(user).addDate(LocalDate.now()).likes(10).views(12).mediaType(MediaType.PHOTO).build();
         var photosList = List.of(photo1, photo2);
 
-        when(imgRepository.findAllByAuthorUsername("user1")).thenReturn(photosList);
+        when(spotMediaRepository.findAllByAuthorUsername("user1")).thenReturn(photosList);
 
         var result = photosService.getSortedUserPhotos("user1", DATE_ASCENDING, null, null);
 
@@ -57,11 +58,11 @@ class PhotosServiceTest {
     @Test
     void shouldReturnFilteredAndSortedPhotosForUserWithinGivenDateRange() throws UnsupportedDateSortTypeException {
         var user = UserEntity.builder().username("user1").build();
-        var photo1 = Img.builder().author(user).addDate(LocalDate.of(2025, 6, 14)).likes(10).views(12).build();
-        var photo2 = Img.builder().author(user).addDate(LocalDate.of(2025, 6, 15)).likes(12).views(15).build();
+        var photo1 = SpotMedia.builder().author(user).addDate(LocalDate.of(2025, 6, 14)).likes(10).views(12).mediaType(MediaType.PHOTO).build();
+        var photo2 = SpotMedia.builder().author(user).addDate(LocalDate.of(2025, 6, 15)).likes(12).views(15).mediaType(MediaType.PHOTO).build();
         var photosList = List.of(photo1, photo2);
 
-        when(imgRepository.findAllByAuthorUsername("user1")).thenReturn(photosList);
+        when(spotMediaRepository.findAllByAuthorUsername("user1")).thenReturn(photosList);
 
         var result = photosService
                 .getSortedUserPhotos("user1", DATE_ASCENDING,

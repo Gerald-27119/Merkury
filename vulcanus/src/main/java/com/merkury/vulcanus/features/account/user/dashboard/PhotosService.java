@@ -2,10 +2,11 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
 import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
-import com.merkury.vulcanus.model.entities.Img;
+import com.merkury.vulcanus.model.entities.SpotMedia;
+import com.merkury.vulcanus.model.enums.MediaType;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.PhotosMapper;
-import com.merkury.vulcanus.model.repositories.ImgRepository;
+import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PhotosService {
-    private final ImgRepository imgRepository;
+    private final SpotMediaRepository spotMediaRepository;
 
     public List<DatedPhotosGroupDto> getSortedUserPhotos(String username, DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
         return getAllUserPhotos(username, from, to).stream()
@@ -26,11 +27,12 @@ public class PhotosService {
     }
 
     private List<DatedPhotosGroupDto> getAllUserPhotos(String username, LocalDate from, LocalDate to) {
-        return imgRepository.findAllByAuthorUsername(username)
+        return spotMediaRepository.findAllByAuthorUsername(username)
                 .stream()
+                .filter(spotMedia -> spotMedia.getMediaType() == MediaType.PHOTO)
                 .filter(i -> isInDateRange(i.getAddDate(), from, to))
                 .collect(Collectors.groupingBy(
-                        Img::getAddDate,
+                        SpotMedia::getAddDate,
                         Collectors.mapping(PhotosMapper::toDto, Collectors.toList())
                 )).entrySet().stream()
                 .map(e -> PhotosMapper.toDto(e.getKey(), e.getValue()))

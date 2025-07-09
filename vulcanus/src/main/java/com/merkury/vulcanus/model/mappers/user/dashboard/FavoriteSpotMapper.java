@@ -3,6 +3,8 @@ package com.merkury.vulcanus.model.mappers.user.dashboard;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.coordinates.SpotCoordinatesDto;
 import com.merkury.vulcanus.model.entities.FavoriteSpot;
+import com.merkury.vulcanus.model.entities.SpotMedia;
+import com.merkury.vulcanus.model.enums.MediaType;
 import com.merkury.vulcanus.model.mappers.SpotTagMapper;
 import jakarta.validation.constraints.NotNull;
 
@@ -22,13 +24,16 @@ public class FavoriteSpotMapper {
                 .description(favoriteSpot.getSpot().getDescription())
                 .rating(favoriteSpot.getSpot().getRating())
                 .viewsCount(favoriteSpot.getSpot().getViewsCount())
-                .imageUrl(favoriteSpot.getSpot().getImages().isEmpty() ? null :
-                        favoriteSpot.getSpot().getImages().getFirst().getUrl())
+                .imageUrl(favoriteSpot.getSpot().getMedia().isEmpty() ? null :
+                        favoriteSpot.getSpot().getMedia()
+                                .stream()
+                                .filter(spotMedia -> spotMedia.getMediaType() == MediaType.PHOTO)
+                                .findFirst().map(SpotMedia::getUrl).orElse(null))
                 .type(favoriteSpot.getType())
                 .coords(
-                Optional.ofNullable(favoriteSpot.getSpot().getCenterPoint())
-                        .map(cp -> new SpotCoordinatesDto(cp.getX(), cp.getY()))
-                        .orElse(null))
+                        Optional.ofNullable(favoriteSpot.getSpot().getCenterPoint())
+                                .map(cp -> new SpotCoordinatesDto(cp.getX(), cp.getY()))
+                                .orElse(null))
                 .tags(favoriteSpot.getSpot().getTags().stream().map(SpotTagMapper::toDto).collect(Collectors.toSet()))
                 .build();
     }
