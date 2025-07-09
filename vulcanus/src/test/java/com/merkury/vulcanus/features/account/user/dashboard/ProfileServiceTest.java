@@ -3,7 +3,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.entities.SpotMedia;
 import com.merkury.vulcanus.model.entities.UserEntity;
-import com.merkury.vulcanus.model.enums.MediaType;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
@@ -74,7 +74,7 @@ class ProfileServiceTest {
                     SpotMedia spotMedia = new SpotMedia();
                     spotMedia.setLikes(10 - i);
                     spotMedia.setAuthor(user);
-                    spotMedia.setMediaType(MediaType.PHOTO);
+                    spotMedia.setGenericMediaType(GenericMediaType.PHOTO);
                     return spotMedia;
                 }).toList();
 
@@ -84,7 +84,7 @@ class ProfileServiceTest {
                 .toList();
 
         when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
-        when(spotMediaRepository.findTop4ByAuthorAndMediaTypeOrderByLikesDesc(user, MediaType.PHOTO)).thenReturn(top4Images);
+        when(spotMediaRepository.findTop4ByAuthorAndGenericMediaTypeOrderByLikesDesc(user, GenericMediaType.PHOTO)).thenReturn(top4Images);
 
         var result = profileService.getUserOwnProfile("testUser");
 
@@ -102,7 +102,7 @@ class ProfileServiceTest {
                     SpotMedia spotMedia = new SpotMedia();
                     spotMedia.setLikes(i);
                     spotMedia.setAuthor(user);
-                    spotMedia.setMediaType(MediaType.PHOTO);
+                    spotMedia.setGenericMediaType(GenericMediaType.PHOTO);
                     return spotMedia;
                 }).toList();
 
@@ -112,7 +112,7 @@ class ProfileServiceTest {
                 .toList();
 
         when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
-        when(spotMediaRepository.findTop4ByAuthorAndMediaTypeOrderByLikesDesc(user, MediaType.PHOTO)).thenReturn(top4Images);
+        when(spotMediaRepository.findTop4ByAuthorAndGenericMediaTypeOrderByLikesDesc(user, GenericMediaType.PHOTO)).thenReturn(top4Images);
 
         var result = profileService.getUserOwnProfile("testUser");
 

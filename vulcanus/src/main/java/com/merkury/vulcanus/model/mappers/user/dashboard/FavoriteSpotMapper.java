@@ -4,7 +4,7 @@ import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.coordinates.SpotCoordinatesDto;
 import com.merkury.vulcanus.model.entities.FavoriteSpot;
 import com.merkury.vulcanus.model.entities.SpotMedia;
-import com.merkury.vulcanus.model.enums.MediaType;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.mappers.SpotTagMapper;
 import jakarta.validation.constraints.NotNull;
 
@@ -27,7 +27,7 @@ public class FavoriteSpotMapper {
                 .imageUrl(favoriteSpot.getSpot().getMedia().isEmpty() ? null :
                         favoriteSpot.getSpot().getMedia()
                                 .stream()
-                                .filter(spotMedia -> spotMedia.getMediaType() == MediaType.PHOTO)
+                                .filter(spotMedia -> spotMedia.getGenericMediaType() == GenericMediaType.PHOTO)
                                 .findFirst().map(SpotMedia::getUrl).orElse(null))
                 .type(favoriteSpot.getType())
                 .coords(

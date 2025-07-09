@@ -10,7 +10,7 @@ public class SpotCommentMediaMapper {
     public static SpotCommentMediaDto toDto(@NotNull SpotCommentMedia spotCommentMedia) {
         return SpotCommentMediaDto.builder()
                 .id(spotCommentMedia.getId())
-                .mediaType(spotCommentMedia.getMediaType())
+                .genericMediaType(spotCommentMedia.getGenericMediaType())
                 .url(spotCommentMedia.getUrl())
                 .build();
     }

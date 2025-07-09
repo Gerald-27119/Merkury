@@ -3,7 +3,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
 import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
 import com.merkury.vulcanus.model.entities.SpotMedia;
-import com.merkury.vulcanus.model.enums.MediaType;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.PhotosMapper;
 import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
@@ -27,9 +27,8 @@ public class PhotosService {
     }
 
     private List<DatedPhotosGroupDto> getAllUserPhotos(String username, LocalDate from, LocalDate to) {
-        return spotMediaRepository.findAllByAuthorUsername(username)
+        return spotMediaRepository.findAllByAuthorUsernameAndGenericMediaTypeAndAddDateBetween(username, GenericMediaType.PHOTO, from, to)
                 .stream()
-                .filter(spotMedia -> spotMedia.getMediaType() == MediaType.PHOTO)
                 .filter(i -> isInDateRange(i.getAddDate(), from, to))
                 .collect(Collectors.groupingBy(
                         SpotMedia::getAddDate,

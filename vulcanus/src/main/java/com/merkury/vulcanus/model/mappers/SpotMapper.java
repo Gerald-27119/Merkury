@@ -9,7 +9,7 @@ import com.merkury.vulcanus.model.dtos.spot.coordinates.SpotCoordinatesDto;
 import com.merkury.vulcanus.model.entities.SpotComment;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.entities.SpotMedia;
-import com.merkury.vulcanus.model.enums.MediaType;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
@@ -78,7 +78,7 @@ public class SpotMapper {
                 .rating(spot.getRating())
                 .ratingCount(spot.getRatingCount())
                 .firstPhoto(spot.getMedia().stream()
-                        .filter(spotMedia -> spotMedia.getMediaType() == MediaType.PHOTO)
+                        .filter(spotMedia -> spotMedia.getGenericMediaType() == GenericMediaType.PHOTO)
                         .findFirst()
                         .map(SpotMedia::getUrl)
                         .orElse("photoNotFound"))

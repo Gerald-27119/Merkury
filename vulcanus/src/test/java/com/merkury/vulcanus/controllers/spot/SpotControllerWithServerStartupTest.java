@@ -4,6 +4,7 @@ import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.entities.SpotMedia;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.repositories.FavoriteSpotRepository;
 import com.merkury.vulcanus.model.entities.SpotTag;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
@@ -126,16 +127,16 @@ class SpotControllerWithServerStartupTest {
 
         favoriteSpotRepository.deleteAll();
         List<SpotMedia> spotMedia1 = Arrays.asList(
-                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0,  com.merkury.vulcanus.model.enums.MediaType.PHOTO, null, null, spot1),
-                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0, com.merkury.vulcanus.model.enums.MediaType.PHOTO, null, null, spot1)
+                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0,  GenericMediaType.PHOTO, null, null, spot1),
+                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot1)
         );
         List<SpotMedia> spotMedia2 = Arrays.asList(
-                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0,  com.merkury.vulcanus.model.enums.MediaType.PHOTO,null, null, spot2),
-                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0,  com.merkury.vulcanus.model.enums.MediaType.PHOTO,null, null, spot2)
+                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0,  GenericMediaType.PHOTO,null, null, spot2),
+                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0,  GenericMediaType.PHOTO,null, null, spot2)
         );
         List<SpotMedia> spotMedia3 = Arrays.asList(
-                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0, com.merkury.vulcanus.model.enums.MediaType.PHOTO, null, null, spot3),
-                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0,  com.merkury.vulcanus.model.enums.MediaType.PHOTO,null, null, spot3)
+                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot3),
+                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0,  GenericMediaType.PHOTO,null, null, spot3)
         );
 
         spot1.setMedia(spotMedia1);

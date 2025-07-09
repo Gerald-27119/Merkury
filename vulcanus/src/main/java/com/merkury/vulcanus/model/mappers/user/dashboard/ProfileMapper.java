@@ -5,7 +5,7 @@ import com.merkury.vulcanus.model.dtos.account.profile.ImageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.entities.SpotMedia;
 import com.merkury.vulcanus.model.entities.UserEntity;
-import com.merkury.vulcanus.model.enums.MediaType;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class ProfileMapper {
                 .friendsCount(user.getFriendships().size())
                 .photosCount(user.getMedia()
                         .stream()
-                        .filter(spotMedia -> spotMedia.getMediaType() == MediaType.PHOTO)
+                        .filter(spotMedia -> spotMedia.getGenericMediaType() == GenericMediaType.PHOTO)
                         .toList()
                         .size())
                 .mostPopularPhotos(imageDto)
