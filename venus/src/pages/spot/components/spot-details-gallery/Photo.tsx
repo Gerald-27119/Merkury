@@ -1,9 +1,9 @@
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
 import { HTMLAttributes, useState } from "react";
-import Img from "../../../../model/interface/img";
+import SpotMediaDto from "../../../../model/interface/spot/spotMediaDto";
 
 type PhotoProps = {
-    photo: Img;
+    photo: SpotMediaDto;
 } & HTMLAttributes<HTMLDivElement>;
 
 export default function Photo({ photo, ...props }: PhotoProps) {
@@ -19,7 +19,7 @@ export default function Photo({ photo, ...props }: PhotoProps) {
             {photo ? (
                 <img
                     {...props}
-                    src={photo.img}
+                    src={photo.url}
                     alt={photo.title}
                     onLoad={handleImageLoad}
                 />

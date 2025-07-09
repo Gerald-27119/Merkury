@@ -1,4 +1,4 @@
-import PhotoGallery from "./components/photo-gallery/PhotoGallery.js";
+import SpotDetailsGallery from "./components/spot-details-gallery/SpotDetailsGallery.js";
 import SpotGeneralInfo from "./components/spot-info/SpotGeneralInfo.js";
 import { spotDetailsModalAction } from "../../redux/spot-modal";
 import { fetchSpotsDataById } from "../../http/spots-data.js";
@@ -90,7 +90,7 @@ export default function SpotDetails() {
                             ratingCount={data.ratingCount}
                             tags={data.tags}
                         />
-                        <PhotoGallery photos={data.photos} />
+                        <SpotDetailsGallery media={data.media} />
                         <SpotActionButtonsContainer spotId={spotId} />
                         <SpotCommentsList spotId={data.id} />
                     </div>

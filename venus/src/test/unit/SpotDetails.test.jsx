@@ -64,24 +64,26 @@ const mockSpotDetailsData = {
     description: "Description",
     rating: 5.0,
     ratingCount: 20,
-    photos: [
+    media: [
         {
-            img: "photo1.jpg",
+            url: "photo1.jpg",
             title: "PhotoTitle1",
             description: "PhotoDescription1",
             likes: 10,
             views: 10,
             author: "Author",
             id: 1,
+            mediaType: "PHOTO",
         },
         {
-            img: "photo2.jpg",
+            url: "photo2.jpg",
             title: "PhotoTitle2",
             description: "PhotoDescription2",
             likes: 20,
             views: 20,
             author: "Author",
             id: 2,
+            mediaType: "PHOTO",
         },
     ],
     weatherApiCallCoords: {

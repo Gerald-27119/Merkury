@@ -9,9 +9,12 @@ import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentAddDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentEditDto;
+import com.merkury.vulcanus.model.dtos.comment.SpotCommentMediaDto;
 import com.merkury.vulcanus.model.entities.SpotComment;
 import com.merkury.vulcanus.model.entities.Spot;
 import com.merkury.vulcanus.model.mappers.SpotCommentMapper;
+import com.merkury.vulcanus.model.mappers.SpotCommentMediaMapper;
+import com.merkury.vulcanus.model.repositories.SpotCommentMediaRepository;
 import com.merkury.vulcanus.model.repositories.SpotCommentRepository;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,12 +35,17 @@ public class SpotCommentService {
     private final SpotRepository spotRepository;
     private final UserDataService userDataService;
     private final VoteService voteService;
+    private final SpotCommentMediaRepository spotCommentMediaRepository;
 
     public Page<SpotCommentDto> getCommentsBySpotId(HttpServletRequest request, Long spotId, Pageable pageable) throws UserNotFoundException {
         Page<SpotComment> commentsPage = spotCommentRepository.findBySpotIdOrderByPublishDateDescIdAsc(spotId, pageable);
         var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
 
         return commentsPage.map(comment -> SpotCommentMapper.toDto(comment, user));
+    }
+
+    public List<SpotCommentMediaDto> getRestOfSpotCommentMedia(Long spotId, Long commentId) {
+        return spotCommentMediaRepository.findBySpotCommentIdAndSpotCommentSpotId(spotId,commentId).stream().map(SpotCommentMediaMapper::toDto).toList();
     }
 
     public void addComment(HttpServletRequest request, SpotCommentAddDto dto, Long spotId) throws SpotNotFoundException, UserNotFoundException {

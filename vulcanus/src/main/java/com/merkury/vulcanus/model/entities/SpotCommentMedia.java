@@ -1,19 +1,23 @@
 package com.merkury.vulcanus.model.entities;
 
 import com.merkury.vulcanus.model.enums.MediaType;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//TODO: delete because of SpotCommentMedia
-@Entity(name = "spot_comment_photo")
+@Entity(name = "spot_comment_media")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class SpotCommentPhoto {
+public class SpotCommentMedia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

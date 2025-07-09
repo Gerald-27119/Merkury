@@ -26,8 +26,11 @@ public record SpotDetailsDto(@Positive(message = "ID must be a positive number."
                              Double rating,
                              @Min(value = 0, message = "Rating count cannot be less than 0.")
                              Integer ratingCount,
+                             //TODO:delete photos
                              @NotEmpty(message = "Photos list cannot be empty.")
                              List<ImgDto> photos,
+                             @NotEmpty(message = "Media list cannot be empty.")
+                             List<SpotMediaDto> media,
                              @NotNull(message = "Coordinates cannot be empty.")
                              SpotCoordinatesDto weatherApiCallCoords,
                              Set<SpotTagDto> tags) {

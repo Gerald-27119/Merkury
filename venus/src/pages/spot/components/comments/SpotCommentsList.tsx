@@ -133,7 +133,10 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
                                     key={comment.id}
                                     className="mx-3 mt-2 lg:mb-6"
                                 >
-                                    <SpotComment comment={comment} />
+                                    <SpotComment
+                                        comment={comment}
+                                        spotId={spotId}
+                                    />
                                 </li>
                             ))}
                         </ul>
