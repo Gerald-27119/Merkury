@@ -1,5 +1,5 @@
 import SpotMediaDto from "../../../../model/interface/spot/spotMediaDto";
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, useEffect } from "react";
 import ReactPlayer from "react-player";
 import {
     MediaControlBar,
@@ -27,7 +27,15 @@ export default function Video({
     ...props
 }: VideoProps) {
     const [isError, setErrorHappened, _, __] = useBoolean();
-    const [isVideoPlaying, ___, ____, togglePlayingVideo] = useBoolean();
+    const [isVideoPlaying, ___, stopPlayingVideo, togglePlayingVideo] =
+        useBoolean();
+
+    useEffect(() => {
+        if (!shouldPlayVideo) {
+            stopPlayingVideo();
+        }
+    }, [shouldPlayVideo]);
+
     return (
         <div {...props} className="max-h-60 overflow-hidden rounded-2xl">
             <MediaController
