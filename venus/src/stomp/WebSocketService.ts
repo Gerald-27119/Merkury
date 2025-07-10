@@ -10,6 +10,7 @@ import SockJS from "sockjs-client";
 export class WebSocketService {
     private client: Client;
     private subscriptions = new Map<string, StompSubscription>();
+    /** Przechowuje subskrypcje oczekujące na moment, kiedy połączenie WebSocket/STOMP stanie się aktywne. Prosty mechanizm buforowania*/
     private pendingSubs = new Map<string, (msg: IMessage) => void>();
     private isConnected = false;
 
@@ -18,7 +19,6 @@ export class WebSocketService {
      */
     constructor(private brokerURL: string) {
         this.client = new Client({
-            // SockJS jako transport z fallbackiem
             webSocketFactory: () => new SockJS(this.brokerURL),
             reconnectDelay: 5000,
             debug: (msg: string) => console.debug("[STOMP]", msg),
@@ -29,7 +29,11 @@ export class WebSocketService {
         this.client.onConnect = this.onConnect.bind(this);
     }
 
-    /** Rozpoczyna połączenie (idempotentnie). */
+    /**
+     Jeśli połączenie jeszcze nie zostało nawiązane, to wywołanie connect() je utworzy.
+     <p>
+     Jeśli połączenie już istnieje (czyli metoda została już wcześniej wywołana i klient jest „aktywny”), to kolejne wywołanie connect() nie spowoduje błędu ani podwójnego połączenia — po prostu nic się nie zmieni.
+     */
     connect(): void {
         if (!this.client.active) {
             this.client.activate();
@@ -57,7 +61,7 @@ export class WebSocketService {
     private onClose(evt: CloseEvent): void {
         console.warn("WebSocket closed:", evt.reason);
         this.isConnected = false;
-        // pozostaw subscriptions – stomp.js sam spróbuje reconnect
+        // stomp.js sam spróbuje reconnect
     }
 
     /** @internal Obsługa błędów STOMP frame z brokera. */

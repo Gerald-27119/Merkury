@@ -21,10 +21,11 @@ export interface UseWebSocketOptions {
 }
 
 /**
- * Rozbudowany hook do obsługi WebSocketów z STOMP:
- * - bierzesz opcjonalnie listę subskrypcji
- * - hook automatycznie je zakłada i czyści
- * - zwraca `publish()` do wysyłania i `connected` do sprawdzenia statusu
+ * Hook do obsługi WebSocketów z protokołem STOMP:
+ * - umożliwia przekazanie opcjonalnej listy subskrypcji - można za pomocą tego hooka zasubskrybować się do różnych kanałów
+ * ale sugeruję subskrybowanie się do kanałów w komponencie  <strong>WebSocketContext.tsx </strong> tak jak robię to dla chatów
+ * - automatycznie zakłada i usuwa subskrypcje podczas montowania/odmontowywania komponentu
+ * - zwraca funkcję `publish()` do wysyłania wiadomości oraz flagę `connected` informującą o statusie połączenia
  *
  * @param options konfiguracja hooka
  */

@@ -13,7 +13,7 @@ export default function ChatBottomBar() {
     const [messageToSend, setMessageToSend] = useState("");
     const [isSending, setIsSending] = useState(false);
 
-    // Tu używamy hooka useWebSocket — możesz też przekazać opcjonalne subskrypcje!
+    // Tu używam globalnego hooka useWebSocket, który zarządza połączeniem WebSocket
     const { publish, connected } = useWebSocket();
 
     const { selectedChatId } = useSelectorTyped((state) => state.chats);
@@ -25,7 +25,7 @@ export default function ChatBottomBar() {
     async function sendMessage() {
         if (!messageToSend.trim() || !connected) return;
 
-        const formatted: ChatMessageToSendDto = {
+        const formattedChatMessageDto: ChatMessageToSendDto = {
             chatId: selectedChatId,
             content: messageToSend,
             sentAt: new Date().toISOString(),
@@ -33,7 +33,10 @@ export default function ChatBottomBar() {
 
         setIsSending(true);
         try {
-            publish(`/app/send/${selectedChatId}/message`, formatted);
+            publish(
+                `/app/send/${selectedChatId}/message`,
+                formattedChatMessageDto,
+            );
             setMessageToSend("");
             //TODO:add ACK confirmation
         } finally {

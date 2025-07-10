@@ -33,7 +33,7 @@ public class ChatStompCommunicationController {
 //        TODO:aktualnie w cahtDto jest pole id ale przychdozce rpzeciez nie maja id, zmien nazwe, usun pole
         var chatMessageDtoToBroadCast = chatService.saveChatMessage(message);
         // 3. Wysyłam wiadomość na customowe kanały, które tworze dynamicznie dla członków chatu, na który wiadomość dostałem
-        chatStompCommunicationService.broadcastChatMessageToAllChatParticipants( chatMessageDtoToBroadCast);
+        chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(chatMessageDtoToBroadCast);
 
 //        TODO:remove: messagingTemplate.convertAndSend("/subscribe/" + chatId + "/chat", convertedToDtoMessageFromDb);
 //        TODO:user recieves a message for a chat that he hasn't yet scrolled to on forntned so he doesn't have yet details of that chat.

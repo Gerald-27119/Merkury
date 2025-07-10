@@ -22,7 +22,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
         (state: RootState) => state.account.username,
     );
     const dispatch = useDispatchTyped();
-    // 1) Connect whenever `isLogged` becomes true; disconnect on false
+
     useEffect(() => {
         if (isLogged) {
             wsService.connect();
@@ -35,10 +35,9 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
     useEffect(() => {
         if (!isLogged || !username) return;
 
-        // define whatever per-user subscriptions you need
         const allSubs: SubscriptionDef[] = [
             createChatSubscription(username, dispatch),
-            //TODO: ADD MORE SUBSCRIPTIONS HERE
+            //TODO: Place for other subscriptions here
         ];
 
         // subscribe now
