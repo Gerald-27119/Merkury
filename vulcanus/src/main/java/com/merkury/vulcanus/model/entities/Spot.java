@@ -73,13 +73,6 @@ public class Spot {
     @Builder.Default
     private int viewsCount = 0;
 
-    //TODO: can images be deleted?
-    @Builder.Default
-    @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)
-    @ToString.Exclude
-    private List<Img> images = new ArrayList<>();
-
     @Builder.Default
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL, orphanRemoval = true)

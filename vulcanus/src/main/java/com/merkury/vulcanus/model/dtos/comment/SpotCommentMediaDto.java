@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.model.dtos.comment;
 
-import com.merkury.vulcanus.model.enums.MediaType;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.Builder;
@@ -11,6 +11,6 @@ public record SpotCommentMediaDto(@Positive(message = "ID must be a positive num
                                   @NotBlank(message = "Url cannot be empty.")
                                   String url,
                                   @NotBlank(message = "Media type cannot be empty.")
-                                  MediaType mediaType
+                                  GenericMediaType genericMediaType
 ) {
 }

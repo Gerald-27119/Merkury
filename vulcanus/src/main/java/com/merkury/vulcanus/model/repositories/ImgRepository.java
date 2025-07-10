@@ -9,6 +9,4 @@ import java.util.List;
 
 @Repository
 public interface ImgRepository extends JpaRepository<Img, Long> {
-    List<Img> findTop4ByAuthorOrderByLikesDesc(UserEntity author);
-    List<Img> findAllByAuthorUsername(String username);
 }

@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.model.entities;
 
-import com.merkury.vulcanus.model.enums.MediaType;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +22,7 @@ public class SpotCommentMedia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String url;
-    private MediaType mediaType;
+    private GenericMediaType genericMediaType;
 
     @ManyToOne
     @JoinColumn(name = "spot_comment_id")

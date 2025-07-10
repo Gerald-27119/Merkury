@@ -29,8 +29,6 @@ public record SpotCommentDto(@Positive(message = "ID must be a positive number."
                              Boolean isDownVoted,
                              @Min(value = 0, message = "Number of media cannot be less than 0.")
                              Integer numberOfMedia,
-                             //TODO: delete photoList
-                             List<SpotCommentPhotoDto> photoList,
                              List<SpotCommentMediaDto> mediaList
 ) {
 }

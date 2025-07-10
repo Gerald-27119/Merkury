@@ -5,8 +5,9 @@ import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ImageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.ProfileMapper;
-import com.merkury.vulcanus.model.repositories.ImgRepository;
+import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProfileService {
     private final UserEntityFetcher userEntityFetcher;
-    private final ImgRepository imgRepository;
+    private final SpotMediaRepository spotMediaRepository;
 
     public UserProfileDto getUserOwnProfile(String username) throws UserNotFoundByUsernameException {
         var user = userEntityFetcher.getByUsername(username);
@@ -54,7 +55,7 @@ public class ProfileService {
     }
 
     private List<ImageDto> get4MostPopularPhotosFromUser(UserEntity user) {
-        return imgRepository.findTop4ByAuthorOrderByLikesDesc(user)
+        return spotMediaRepository.findTop4ByAuthorAndGenericMediaTypeOrderByLikesDesc(user, GenericMediaType.PHOTO)
                 .stream()
                 .map(ProfileMapper::toDto)
                 .toList();
