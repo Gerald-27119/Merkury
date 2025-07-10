@@ -27,19 +27,23 @@ public class PhotosService {
     }
 
     private List<DatedPhotosGroupDto> getAllUserPhotos(String username, LocalDate from, LocalDate to) {
-        return spotMediaRepository.findAllByAuthorUsernameAndGenericMediaTypeAndAddDateBetween(username, GenericMediaType.PHOTO, from, to)
-                .stream()
-                .filter(i -> isInDateRange(i.getAddDate(), from, to))
+        List<SpotMedia> photos;
+        if (from == null && to == null) {
+            photos = spotMediaRepository.findAllByAuthorUsernameAndGenericMediaType(username, GenericMediaType.PHOTO);
+        } else if (from != null && to == null) {
+            photos = spotMediaRepository.findByAuthorUsernameAndGenericMediaTypeAndAddDateGreaterThanEqual(username, GenericMediaType.PHOTO, from);
+        } else if (from == null) {
+            photos = spotMediaRepository.findByAuthorUsernameAndGenericMediaTypeAndAddDateLessThanEqual(username, GenericMediaType.PHOTO, to);
+        } else {
+            photos = spotMediaRepository.findAllByAuthorUsernameAndGenericMediaTypeAndAddDateBetween(username, GenericMediaType.PHOTO, from, to);
+        }
+        return photos.stream()
                 .collect(Collectors.groupingBy(
                         SpotMedia::getAddDate,
                         Collectors.mapping(PhotosMapper::toDto, Collectors.toList())
                 )).entrySet().stream()
                 .map(e -> PhotosMapper.toDto(e.getKey(), e.getValue()))
                 .toList();
-    }
-
-    private boolean isInDateRange(LocalDate date, LocalDate from, LocalDate to) {
-        return (from == null || !date.isBefore(from)) && (to == null || !date.isAfter(to));
     }
 
     private Comparator<DatedPhotosGroupDto> getComparator(DateSortType type) throws UnsupportedDateSortTypeException {
