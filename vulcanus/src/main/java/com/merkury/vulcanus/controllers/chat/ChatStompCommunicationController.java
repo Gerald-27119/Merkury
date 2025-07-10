@@ -28,12 +28,15 @@ public class ChatStompCommunicationController {
     public void sendChatMessage(@DestinationVariable String chatId, @Payload ChatMessageDto message) {
         // 1. Dostaję wiadomość od użytkownika na ten endpoint
         log.info("Received message for chat: {}, message: {}", chatId, message);
-        // 2. Zapisuję wiadomość
+//        TODO: check if user can send message to this chat
+        // 2. Zapisuję wiadomość w DB
         var chatParticipants = chatService.saveChatMessage(message);
         // 3. Wysyłam wiadomość na customowe kanały, które tworze dynamicznie dla członków chatu, na który wiadomość dostałem
         chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(chatParticipants, message);
 
 //        TODO:remove: messagingTemplate.convertAndSend("/subscribe/" + chatId + "/chat", convertedToDtoMessageFromDb);
+//        TODO:user recieves a message for a chat that he hasn't yet scrolled to on forntned so he doesn't have yet details of that chat.
+//         SO then frontend should do an autoamtic Get of that CHat
     }
 
 // https://docs.spring.io/spring-security/reference/servlet/integrations/websocket.html
@@ -42,7 +45,7 @@ public class ChatStompCommunicationController {
 
 }
 
-// USER SENDS MESSAGE FLOW:
+//TODO: USER SENDS MESSAGE FLOW:
 // 1. User sends message to the server (* POST vs STOMP dilemma)
 // 2. Validate if User can send message to this chat (TODO)
 // 2.1 Validate message fields (TODO)
