@@ -8,6 +8,8 @@ export const createStompClient = (brokerURL: string): Client => {
     });
 };
 // TODO:zrob to tak aby dal calej apki bylo polaczenie na dzien dobry i tyko konkrety z hoockiem ustStomp?
+
+// TODO: delete
 export interface WebSocketChatMessage {
     chatId: number;
     sender: {
