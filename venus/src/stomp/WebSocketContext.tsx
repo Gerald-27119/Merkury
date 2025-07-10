@@ -2,9 +2,9 @@ import React, { createContext, useContext, useEffect } from "react";
 import { SubscriptionDef } from "./useWebSocket";
 import { createChatSubscription } from "./subscriptions/ChatSubscription";
 import { WebSocketService } from "./WebSocketService";
-import { RootState } from "../../redux/store";
-import useSelectorTyped from "../../hooks/useSelectorTyped";
-import useDispatchTyped from "../../hooks/useDispatchTyped";
+import { RootState } from "../redux/store";
+import useSelectorTyped from "../hooks/useSelectorTyped";
+import useDispatchTyped from "../hooks/useDispatchTyped";
 
 const WS_URL = process.env.REACT_APP_WS_URL || "http://localhost:8080/connect";
 /** Singleton serwisu zarządzającego połączeniem */

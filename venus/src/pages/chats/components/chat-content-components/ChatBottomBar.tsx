@@ -3,7 +3,7 @@ import { FaCirclePlus } from "react-icons/fa6";
 import { IoSendSharp } from "react-icons/io5";
 import { RiEmotionHappyFill } from "react-icons/ri";
 import { MdGifBox } from "react-icons/md";
-import { useWebSocket } from "../../../../stomp/new/useWebSocket";
+import { useWebSocket } from "../../../../stomp/useWebSocket";
 import { ChatMessageToSendDto } from "../../../../model/interface/chat/chatInterfaces";
 
 export default function ChatBottomBar() {

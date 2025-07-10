@@ -1,8 +1,8 @@
 import { SubscriptionDef } from "../useWebSocket";
 import { IMessage } from "@stomp/stompjs";
-import { chatActions } from "../../../redux/chats";
-import { ChatMessageDto } from "../../../model/interface/chat/chatInterfaces";
-import { AppDispatch } from "../../../redux/store";
+import { chatActions } from "../../redux/chats";
+import { ChatMessageDto } from "../../model/interface/chat/chatInterfaces";
+import { AppDispatch } from "../../redux/store";
 
 export function createChatSubscription(
     username: string,

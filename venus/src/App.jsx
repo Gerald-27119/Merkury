@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { logout } from "./http/account.js";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { WebSocketProvider } from "./stomp/new/WebSocketContext.js";
+import { WebSocketProvider } from "./stomp/WebSocketContext.tsx";
 
 const queryClient = new QueryClient();
 
