@@ -38,7 +38,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
         // define whatever per-user subscriptions you need
         const allSubs: SubscriptionDef[] = [
             createChatSubscription(username, dispatch),
-            // ...other login-protected subscriptions
+            //TODO: ADD MORE SUBSCRIPTIONS HERE
         ];
 
         // subscribe now
