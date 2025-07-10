@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.features.chat;
+package com.merkury.vulcanus.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -20,6 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/connect")// <- tutaj user się łączy (separate from STOMP, it's to upgrade to WebSocket)
-                .setAllowedOrigins("*");
+                .setAllowedOriginPatterns("http://localhost:*")
+                .withSockJS();
     }
 }

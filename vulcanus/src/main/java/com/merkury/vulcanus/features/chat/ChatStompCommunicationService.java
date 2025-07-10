@@ -1,13 +1,12 @@
 package com.merkury.vulcanus.features.chat;
 
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
-import com.merkury.vulcanus.model.entities.chat.ChatParticipant;
+import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -15,6 +14,7 @@ import java.util.List;
 public class ChatStompCommunicationService {
 
     private final SimpMessagingTemplate messagingTemplate;
+    private final ChatRepository chatRepository;
 
     /**
      * Broadcasts a chat message to all participants of the chat.
@@ -26,12 +26,16 @@ public class ChatStompCommunicationService {
      * <p>
      * Each User has one universal channel to receive new messages in real time for all chats they are part of.
      *
-     * @param chatParticipants the list of chat participants to whom the message will be sent
      * @param chatMessageDto   the chat message to be broadcasted
      */
-    public void broadcastChatMessageToAllChatParticipants(List<ChatParticipant> chatParticipants, ChatMessageDto chatMessageDto) {
+    @Transactional
+    public void broadcastChatMessageToAllChatParticipants( ChatMessageDto chatMessageDto) {
+        var chatParticipants = chatRepository.findById(chatMessageDto.chatId())
+                .orElseThrow(() -> new IllegalArgumentException("Chat not found"))
+                .getParticipants();
+
         log.info("Broadcasting chat message to {} participants: {}", (long) chatParticipants.size(), chatMessageDto);
-        chatParticipants.forEach(participant -> messagingTemplate.convertAndSend("/subscribe/chats" + participant.getUser().getUsername(), chatMessageDto));
+        chatParticipants.forEach(participant -> messagingTemplate.convertAndSend("/subscribe/chats/" + participant.getUser().getUsername(), chatMessageDto));
     }
 
 }

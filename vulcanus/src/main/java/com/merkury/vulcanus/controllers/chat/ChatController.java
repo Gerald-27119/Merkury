@@ -21,6 +21,7 @@ public class ChatController {
     private final ChatService chatService;
 
     //TODO: add javadoc
+    //delete?
     @GetMapping("/{chatId}/messages")
     public ResponseEntity<List<ChatMessageDto>> getMessagesForChatByChatId(
             @PathVariable Long chatId,
@@ -56,4 +57,6 @@ public class ChatController {
         return ResponseEntity.ok(chatService.getChatsForUserWithLast20Messages(pageNumber, numberOfChatsPerPage));
     }
 
+    //get more messages
+    //get single chat by id
 }

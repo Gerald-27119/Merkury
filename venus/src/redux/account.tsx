@@ -1,11 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AccountSliceProps {
     isLogged: boolean;
+    username: string;
 }
 
 const initialState: AccountSliceProps = {
     isLogged: localStorage.getItem("is_logged_in") === "true",
+    username: localStorage.getItem("username") || "",
 };
 
 export const accountSlice = createSlice({
@@ -19,6 +21,10 @@ export const accountSlice = createSlice({
         signOut(state) {
             localStorage.removeItem("is_logged_in");
             state.isLogged = false;
+        },
+        setUsername(state, action: PayloadAction<string>) {
+            localStorage.setItem("username", action.payload);
+            state.username = action.payload;
         },
     },
 });
