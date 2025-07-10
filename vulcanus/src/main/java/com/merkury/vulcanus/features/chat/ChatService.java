@@ -3,6 +3,7 @@ package com.merkury.vulcanus.features.chat;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
+import com.merkury.vulcanus.model.entities.chat.ChatParticipant;
 import com.merkury.vulcanus.model.mappers.ChatMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
@@ -44,7 +45,7 @@ public class ChatService {
     //TODO:why it works here correctly?
 //    Every time i save a messagge udpate the lastMessageAt field in Chat entity
     @Transactional
-    public ChatMessageDto saveChatMessage(ChatMessageDto chatMessageDto) {
+    public List<ChatParticipant> saveChatMessage(ChatMessageDto chatMessageDto) {//TODO:check if user can send message to this chat
         var chat = chatRepository.findById(chatMessageDto.chatId())
                 .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
 
@@ -63,6 +64,7 @@ public class ChatService {
 
         chatMessageRepository.save(chatMessage);
         chatRepository.save(chat);//@OneToMany(mappedBy = "chat", cascade = CascadeType.PERSIST) - check more deeply
+
         var lastMessage = chat.getChatMessages().stream()
                 .max(Comparator.comparing(ChatMessage::getSentAt))
                 .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
@@ -70,7 +72,9 @@ public class ChatService {
         //ALso use diffrent DTO with chat Id?
         //TODO:ktorys z tych save caht lubc hatMEssage nie jest zbedny?
         //TODO:how to update messages on front correclty?
-        return ChatMapper.toChatMessageDto(chatMessage, chatMessageDto.sender());
+
+
+        return chat.getParticipants();
     }
 
     /**

@@ -25,13 +25,21 @@ public class ChatStompCommunicationController {
      * Przykład: /app/send/123/message (dla chatu o id = 123)
      */
     @MessageMapping("/send/{chatId}/message")
-    public void sendMessage(@DestinationVariable String chatId, @Payload ChatMessageDto message) {
+    public void sendChatMessage(@DestinationVariable String chatId, @Payload ChatMessageDto message) {
+        // 1. Dostaję wiadomość od użytkownika na ten endpoint
         log.info("Received message for chat: {}, message: {}", chatId, message);
+        // 2. Zapisuję wiadomość
+        var chatParticipants = chatService.saveChatMessage(message);
+        // 3. Wysyłam wiadomość na customowe kanały, które tworze dynamicznie dla członków chatu, na który wiadomość dostałem
+        chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(chatParticipants, message);
 
-        var convertedToDtoMessageFromDb = chatService.saveChatMessage(message);
-
-        messagingTemplate.convertAndSend("/subscribe/" + chatId + "/chat", convertedToDtoMessageFromDb);
+//        TODO:remove: messagingTemplate.convertAndSend("/subscribe/" + chatId + "/chat", convertedToDtoMessageFromDb);
     }
+
+// https://docs.spring.io/spring-security/reference/servlet/integrations/websocket.html
+// https://docs.spring.io/spring-framework/reference/web/websocket/server.html
+
+
 }
 
 // USER SENDS MESSAGE FLOW:
@@ -41,5 +49,3 @@ public class ChatStompCommunicationController {
 // 2.2 Validate message content length (TODO)
 // 3. Save message to DB
 // 4. Broadcast message to all subscribers (via STOMP)
-
-//Decided to sent messages also via stomp, not POST

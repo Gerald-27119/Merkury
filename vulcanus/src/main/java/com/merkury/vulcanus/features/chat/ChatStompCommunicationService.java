@@ -1,18 +1,24 @@
 package com.merkury.vulcanus.features.chat;
 
-import com.merkury.vulcanus.model.repositories.UserEntityRepository;
-import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
-import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
+import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
+import com.merkury.vulcanus.model.entities.chat.ChatParticipant;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ChatStompCommunicationService {
 
-    private final ChatMessageRepository chatMessageRepository;
-    private final UserEntityRepository userEntityRepository;
-    private final ChatRepository chatRepository;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    //TODO:move logic here
+    public void broadcastChatMessageToAllChatParticipants(List<ChatParticipant> chatParticipants, ChatMessageDto chatMessageDto) {
+        log.info("Broadcasting chat message to {} participants: {}", (long) chatParticipants.size(), chatMessageDto);
+        chatParticipants.forEach(participant -> messagingTemplate.convertAndSend("/subscribe/chats" + participant.getUser().getUsername(), chatMessageDto));
+    }
+
 }
