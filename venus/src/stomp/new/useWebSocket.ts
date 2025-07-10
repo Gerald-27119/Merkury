@@ -14,17 +14,17 @@ export interface SubscriptionDef {
 
 /**
  * Opcje inicjalizacji hooka.
- * - subscriptions: tablica channelów do założenia od razu
+ * - subscriptions: tablica kanałów do założenia od razu
  */
 export interface UseWebSocketOptions {
     subscriptions?: SubscriptionDef[];
 }
 
 /**
- * Rozbudowany hook do obsługi WebSocketów z STOMP.
+ * Rozbudowany hook do obsługi WebSocketów z STOMP:
  * - bierzesz opcjonalnie listę subskrypcji
  * - hook automatycznie je zakłada i czyści
- * - zwraca `publish()` do wysyłania
+ * - zwraca `publish()` do wysyłania i `connected` do sprawdzenia statusu
  *
  * @param options konfiguracja hooka
  */
@@ -32,7 +32,7 @@ export function useWebSocket(options: UseWebSocketOptions = {}) {
     const { subscriptions = [] } = options;
     const ws = useWebSocketService();
 
-    // Lifecycle subskrypcji
+    // Lifecycle subskrypcji: mount → subscribe, unmount → unsubscribe
     useEffect(() => {
         const cleanups = subscriptions.map(({ destination, callback }) => {
             ws.subscribe(destination, callback);

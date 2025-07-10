@@ -18,7 +18,7 @@ export class WebSocketService {
      */
     constructor(private brokerURL: string) {
         this.client = new Client({
-            // bezpośredni brokerURL ignoruje SockJS – trzeba użyć webSocketFactory
+            // SockJS jako transport z fallbackiem
             webSocketFactory: () => new SockJS(this.brokerURL),
             reconnectDelay: 5000,
             debug: (msg: string) => console.debug("[STOMP]", msg),
@@ -53,21 +53,21 @@ export class WebSocketService {
         this.pendingSubs.clear();
     }
 
-    /** @internal Gdy socket zamyka się niespodziewanie. */
+    /** @internal Obsługa niespodziewanego zamknięcia socketu. */
     private onClose(evt: CloseEvent): void {
         console.warn("WebSocket closed:", evt.reason);
         this.isConnected = false;
         // pozostaw subscriptions – stomp.js sam spróbuje reconnect
     }
 
-    /** @internal Gdy broker zwróci błąd STOMP frame. */
+    /** @internal Obsługa błędów STOMP frame z brokera. */
     private onError(frame: Frame): void {
         console.error("STOMP error:", frame.headers["message"], frame.body);
     }
 
     /**
      * Subskrybuje dany topic.
-     * @param destination np. "/topic/chat/123"
+     * @param destination np. "/topic/chat"
      * @param callback wywoływany na każdy komunikat
      */
     subscribe(destination: string, callback: (msg: IMessage) => void): void {
@@ -80,7 +80,7 @@ export class WebSocketService {
             const sub = this.client.subscribe(destination, callback);
             this.subscriptions.set(destination, sub);
         } else {
-            // zapisz na wznowienie po connect
+            // zapisz do wznowienia po connect
             this.pendingSubs.set(destination, callback);
         }
     }
@@ -126,7 +126,7 @@ export class WebSocketService {
         return this.isConnected;
     }
 
-    /** @internal full cleanup on disconnect */
+    /** @internal Pełne sprzątanie przy disconnect. */
     private cleanupAll() {
         this.subscriptions.forEach((sub) => sub.unsubscribe());
         this.subscriptions.clear();
