@@ -16,7 +16,7 @@ public class SpotMediaMapper {
                 .likes(spotMedia.getLikes())
                 .views(spotMedia.getViews())
                 .author(spotMedia.getAuthor().getUsername())
-                .mediaType(spotMedia.getMediaType())
+                .genericMediaType(spotMedia.getGenericMediaType())
                 .build();
     }
 }

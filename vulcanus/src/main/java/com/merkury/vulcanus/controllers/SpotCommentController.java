@@ -8,7 +8,6 @@ import com.merkury.vulcanus.model.dtos.comment.SpotCommentAddDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentEditDto;
 import com.merkury.vulcanus.model.dtos.comment.SpotCommentMediaDto;
-import com.merkury.vulcanus.model.dtos.comment.SpotCommentPhotoDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

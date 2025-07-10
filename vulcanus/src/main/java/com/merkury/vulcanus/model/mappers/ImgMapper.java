@@ -29,7 +29,6 @@ public class ImgMapper {
                 .description(dto.description())
                 .likes(dto.likes())
                 .views(dto.views())
-                .spot(spot)
                 .author(author)
                 .build();
     }

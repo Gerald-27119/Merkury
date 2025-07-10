@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.model.entities;
 
-import com.merkury.vulcanus.model.enums.MediaType;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +27,7 @@ public class SpotMedia {
     @Builder.Default
     private Integer views = 0;
     @Enumerated(value = EnumType.STRING)
-    private MediaType mediaType;
+    private GenericMediaType genericMediaType;
     @Builder.Default
     private LocalDate addDate = LocalDate.now();
 

@@ -30,13 +30,6 @@ public class SpotComment extends Comment {
     @ToString.Exclude
     private Spot spot;
 
-    //TODO:delete photos
-    @OneToMany(mappedBy = "spotComment", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<SpotCommentPhoto> photos = new ArrayList<>();
-
     @OneToMany(mappedBy = "spotComment", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     @EqualsAndHashCode.Exclude

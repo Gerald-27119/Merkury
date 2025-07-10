@@ -1,9 +1,10 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
-import com.merkury.vulcanus.model.entities.Img;
+import com.merkury.vulcanus.model.entities.SpotMedia;
 import com.merkury.vulcanus.model.entities.UserEntity;
-import com.merkury.vulcanus.model.repositories.ImgRepository;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
+import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ class ProfileServiceTest {
     private UserEntityRepository userEntityRepository;
 
     @Mock
-    private ImgRepository imgRepository;
+    private SpotMediaRepository spotMediaRepository;
 
     @Mock
     private UserEntityFetcher userEntityFetcher;
@@ -43,7 +44,7 @@ class ProfileServiceTest {
         user.setFollowers(new HashSet<>());
         user.setFollowed(new HashSet<>());
         user.setFriendships(new ArrayList<>());
-        user.setImages(new ArrayList<>());
+        user.setMedia(new ArrayList<>());
 
         when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
 
@@ -70,10 +71,11 @@ class ProfileServiceTest {
 
         var images = IntStream.range(0, 10)
                 .mapToObj(i -> {
-                    Img img = new Img();
-                    img.setLikes(10 - i);
-                    img.setAuthor(user);
-                    return img;
+                    SpotMedia spotMedia = new SpotMedia();
+                    spotMedia.setLikes(10 - i);
+                    spotMedia.setAuthor(user);
+                    spotMedia.setGenericMediaType(GenericMediaType.PHOTO);
+                    return spotMedia;
                 }).toList();
 
         var top4Images = images.stream()
@@ -82,7 +84,7 @@ class ProfileServiceTest {
                 .toList();
 
         when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
-        when(imgRepository.findTop4ByAuthorOrderByLikesDesc(user)).thenReturn(top4Images);
+        when(spotMediaRepository.findTop4ByAuthorAndGenericMediaTypeOrderByLikesDesc(user, GenericMediaType.PHOTO)).thenReturn(top4Images);
 
         var result = profileService.getUserOwnProfile("testUser");
 
@@ -97,10 +99,11 @@ class ProfileServiceTest {
 
         var images = IntStream.range(0, 3)
                 .mapToObj(i -> {
-                    Img img = new Img();
-                    img.setLikes(i);
-                    img.setAuthor(user);
-                    return img;
+                    SpotMedia spotMedia = new SpotMedia();
+                    spotMedia.setLikes(i);
+                    spotMedia.setAuthor(user);
+                    spotMedia.setGenericMediaType(GenericMediaType.PHOTO);
+                    return spotMedia;
                 }).toList();
 
         var top4Images = images.stream()
@@ -109,7 +112,7 @@ class ProfileServiceTest {
                 .toList();
 
         when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
-        when(imgRepository.findTop4ByAuthorOrderByLikesDesc(user)).thenReturn(top4Images);
+        when(spotMediaRepository.findTop4ByAuthorAndGenericMediaTypeOrderByLikesDesc(user, GenericMediaType.PHOTO)).thenReturn(top4Images);
 
         var result = profileService.getUserOwnProfile("testUser");
 
@@ -127,7 +130,7 @@ class ProfileServiceTest {
         anotherUser.setFollowers(new HashSet<>());
         anotherUser.setFollowed(new HashSet<>());
         anotherUser.setFriendships(new ArrayList<>());
-        anotherUser.setImages(new ArrayList<>());
+        anotherUser.setMedia(new ArrayList<>());
 
         when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);
         when(userEntityFetcher.getByUsername("anotherUser")).thenReturn(anotherUser);
@@ -150,7 +153,7 @@ class ProfileServiceTest {
         user.setFollowers(new HashSet<>());
         user.setFollowed(new HashSet<>());
         user.setFriendships(new ArrayList<>());
-        user.setImages(new ArrayList<>());
+        user.setMedia(new ArrayList<>());
 
 
         when(userEntityFetcher.getByUsername("testUser")).thenReturn(user);

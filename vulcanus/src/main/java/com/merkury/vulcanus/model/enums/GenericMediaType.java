@@ -1,5 +1,5 @@
 package com.merkury.vulcanus.model.enums;
 
-public enum MediaType {
+public enum GenericMediaType {
     PHOTO, VIDEO
 }
