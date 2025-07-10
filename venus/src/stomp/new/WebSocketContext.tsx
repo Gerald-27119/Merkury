@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect } from "react";
 import { SubscriptionDef } from "./useWebSocket";
 import { chatSubscription } from "./subscriptions/ChatSubscription";
 import { WebSocketService } from "./WebSocketService";
+import { RootState } from "../../redux/store";
+import useSelectorTyped from "../../hooks/useSelectorTyped";
 
 const WS_URL = process.env.REACT_APP_WS_URL || "http://localhost:8080/ws";
 /** Singleton serwisu zarządzającego połączeniem */
@@ -18,24 +20,34 @@ const WebSocketContext = createContext<WebSocketService>(wsService);
 export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    // 1) Uruchom połączenie raz
+    // 0) Stan zalogowania
+    const isLogged = useSelectorTyped(
+        (state: RootState) => state.account.isLogged,
+    );
+
+    // 1) Connect raz przy mount
     useEffect(() => {
         wsService.connect();
         return () => void wsService.disconnect();
     }, []);
 
-    // 2) Załóż wszystkie globalne subskrypcje
+    // 2) Globalne subskrypcje tylko gdy zalogowany
     useEffect(() => {
-        /**
-         * Add more global subscriptions here.
-         */
-        const allSubs: SubscriptionDef[] = [chatSubscription];
+        if (!isLogged) {
+            wsService.unsubscribe(chatSubscription.destination);
+            return;
+        }
+
+        const allSubs: SubscriptionDef[] = [
+            chatSubscription,
+            // …tu inne globalne subskrypcje wymagające zalogowania
+        ];
         const cleanups = allSubs.map((sub) => {
             wsService.subscribe(sub.destination, sub.callback);
             return () => wsService.unsubscribe(sub.destination);
         });
         return () => cleanups.forEach((fn) => fn());
-    }, []);
+    }, [isLogged]);
 
     return (
         <WebSocketContext.Provider value={wsService}>
