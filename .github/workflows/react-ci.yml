@@ -2,9 +2,6 @@ name: React CI
 
 on:
   push:
-    branches:
-      - 'feature/**'
-      - 'fix/**'
     paths:
       - 'venus/**'
   pull_request:
