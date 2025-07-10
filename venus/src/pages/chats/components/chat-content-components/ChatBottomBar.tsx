@@ -1,10 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoSendSharp } from "react-icons/io5";
 import { RiEmotionHappyFill } from "react-icons/ri";
 import { MdGifBox } from "react-icons/md";
 import { useWebSocket } from "../../../../stomp/useWebSocket";
 import { ChatMessageToSendDto } from "../../../../model/interface/chat/chatInterfaces";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 
 export default function ChatBottomBar() {
     const className = "text-violetLighter text-3xl";
@@ -15,6 +16,8 @@ export default function ChatBottomBar() {
     // Tu używamy hooka useWebSocket — możesz też przekazać opcjonalne subskrypcje!
     const { publish, connected } = useWebSocket();
 
+    const { selectedChatId } = useSelectorTyped((state) => state.chats);
+
     function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         setMessageToSend(e.target.value);
     }
@@ -23,19 +26,14 @@ export default function ChatBottomBar() {
         if (!messageToSend.trim() || !connected) return;
 
         const formatted: ChatMessageToSendDto = {
-            chatId: 1,
-            sender: {
-                id: 1,
-                name: "user1",
-                imgUrl: "user1.png",
-            },
+            chatId: selectedChatId,
             content: messageToSend,
             sentAt: new Date().toISOString(),
         };
 
         setIsSending(true);
         try {
-            publish("/app/send/1/message", formatted);
+            publish(`/app/send/${selectedChatId}/message`, formatted);
             setMessageToSend("");
             //TODO:add ACK confirmation
         } finally {

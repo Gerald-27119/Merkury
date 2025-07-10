@@ -2,7 +2,7 @@ package com.merkury.vulcanus.controllers.chat;
 
 import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.features.chat.ChatStompCommunicationService;
-import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
+import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -25,7 +25,7 @@ public class ChatStompCommunicationController {
      * Przykład: /app/send/123/message (dla chatu o id = 123)
      */
     @MessageMapping("/send/{chatId}/message")
-    public void sendChatMessage(@DestinationVariable String chatId, @Payload ChatMessageDto message) {
+    public void sendChatMessage(@DestinationVariable String chatId, @Payload IncomingChatMessageDto message) {
         // 1. Dostaję wiadomość od użytkownika na ten endpoint
         log.info("Received message for chat: {}, message: {}", chatId, message);
 //        TODO: check if user can send message to this chat

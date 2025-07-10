@@ -2,11 +2,13 @@ package com.merkury.vulcanus.features.chat;
 
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
+import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.mappers.ChatMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
+import com.merkury.vulcanus.security.CustomUserDetailsService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserEntityRepository userEntityRepository;
+    private final CustomUserDetailsService customUserDetailsService;
 
     public List<ChatMessageDto> getChatMessages(Long chatId, int pageNumber, int numberOfMessagesPerPage) {
         Pageable pg = PageRequest.of(pageNumber,
@@ -41,15 +44,15 @@ public class ChatService {
         }).toList();
     }
 
-    //TODO:why it works here correctly?
-//    Every time i save a messagge udpate the lastMessageAt field in Chat entity
     @Transactional
-    public ChatMessageDto saveChatMessage(ChatMessageDto chatMessageDto) {//TODO:check if user can send message to this chat
+    public ChatMessageDto saveChatMessage(IncomingChatMessageDto chatMessageDto) {//TODO:check if user can send message to this chat
         var chat = chatRepository.findById(chatMessageDto.chatId())
                 .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
 
-        var sender = userEntityRepository.findById(chatMessageDto.sender().id())
-                .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+
+        var sender = userEntityRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         var chatMessage = ChatMessage.builder()
                 .content(chatMessageDto.content())
@@ -64,13 +67,12 @@ public class ChatService {
         var chatMessageFromDb = chatMessageRepository.save(chatMessage);
         chatRepository.save(chat);//@OneToMany(mappedBy = "chat", cascade = CascadeType.PERSIST) - check more deeply
 
+//        TODO:WHY
         var lastMessage = chat.getChatMessages().stream()
                 .max(Comparator.comparing(ChatMessage::getSentAt))
                 .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
-        //TODO:diffrent Mapper to add ID to the message
-        //ALso use diffrent DTO with chat Id?
-        //TODO:ktorys z tych save caht lubc hatMEssage nie jest zbedny?
-        //TODO:how to update messages on front correclty?
+
+        //TODO:use diffrent mapper and DTO for this
         return ChatMapper.toChatMessageDto(chatMessageFromDb, ChatMapper.toChatMessageSenderDto(chatMessageFromDb));
 
     }
