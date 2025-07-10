@@ -20,7 +20,9 @@ export const accountSlice = createSlice({
         },
         signOut(state) {
             localStorage.removeItem("is_logged_in");
+            localStorage.removeItem("username");
             state.isLogged = false;
+            state.username = "";
         },
         setUsername(state, action: PayloadAction<string>) {
             localStorage.setItem("username", action.payload);
