@@ -27,6 +27,7 @@ export default function Video({
     ...props
 }: VideoProps) {
     const [isError, setErrorHappened, _, __] = useBoolean();
+    const [isVideoPlaying, ___, ____, togglePlayingVideo] = useBoolean();
     return (
         <div {...props} className="max-h-60 overflow-hidden rounded-2xl">
             <MediaController
@@ -36,7 +37,7 @@ export default function Video({
                 className="media-controller h-full w-full"
             >
                 <ReactPlayer
-                    playing={shouldPlayVideo}
+                    playing={shouldPlayVideo && isVideoPlaying}
                     slot="media"
                     src={video.url}
                     controls={false}
@@ -49,16 +50,16 @@ export default function Video({
                     onError={() => setErrorHappened()}
                 />
                 {isError && <p>Failed to play this video.</p>}
-                <MediaControlBar className="media-control-bar w-full">
-                    <MediaPlayButton className="px-2" />
-                    <MediaTimeRange className="px-2" />
-                    <MediaTimeDisplay showDuration className="px-2" />
-                    <MediaSeekBackwardButton seekOffset={2} className="px-2" />
-                    <MediaSeekForwardButton seekOffset={2} className="px-2" />
-                    <MediaMuteButton className="px-2" />
-                    <MediaVolumeRange className="px-2" />
-                    <MediaPlaybackRateButton className="px-2" />
-                    <MediaFullscreenButton className="px-2" />
+                <MediaControlBar className="media-control-bar w-full [&>*]:px-2">
+                    <MediaPlayButton onClick={() => togglePlayingVideo()} />
+                    <MediaTimeRange />
+                    <MediaTimeDisplay showDuration />
+                    <MediaSeekBackwardButton seekOffset={2} />
+                    <MediaSeekForwardButton seekOffset={2} />
+                    <MediaMuteButton />
+                    <MediaVolumeRange />
+                    <MediaPlaybackRateButton />
+                    <MediaFullscreenButton />
                 </MediaControlBar>
             </MediaController>
         </div>
