@@ -1,18 +1,14 @@
 package com.merkury.vulcanus.model.mappers.spot;
 
-import com.merkury.vulcanus.model.dtos.spot.FullSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
-import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.dtos.spot.coordinates.SpotCoordinatesDto;
-import com.merkury.vulcanus.model.entities.spot.SpotComment;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class SpotMapper {
@@ -31,21 +27,6 @@ public class SpotMapper {
                         .map(point -> new Double[]{point.getX(), point.getY()})
                         .toList())
                 .area(spot.getArea())
-                .build();
-    }
-
-    public static Spot toEntity(@NotNull FullSpotDto dto,
-                                @NotNull List<BorderPoint> points,
-                                @NotNull List<SpotComment> spotComments,
-                                @NotNull List<SpotMedia> spotMediaList) {
-        return Spot.builder()
-                .areaColor(dto.areaColor())
-                .name(dto.name())
-                .description(dto.description())
-                .rating(dto.rating())
-                .borderPoints(points)
-                .spotComments(spotComments)
-                .media(spotMediaList)
                 .build();
     }
 

@@ -6,7 +6,6 @@ import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.entities.spot.SpotCommentMedia;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.entities.spot.SpotTag;
-import com.merkury.vulcanus.model.entities.Zone;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.repositories.*;
 import com.merkury.vulcanus.utils.PolygonAreaCalculator;
@@ -34,7 +33,6 @@ public class PopulateMapService {
 
     private final SpotRepository spotRepository;
     private final UserEntityRepository userEntityRepository;
-    private final ZoneRepository zoneRepository;
     private final SpotTagRepository spotTagRepository;
     private final SpotCommentRepository spotCommentRepository;
 
@@ -601,16 +599,5 @@ public class PopulateMapService {
         }
 
         spotRepository.saveAll(spots);
-
-        var zone = Zone.builder()
-                .name("Test Zone")
-                .borderPoints(List.of(
-                        new BorderPoint(54.362207, 18.626871),
-                        new BorderPoint(54.357756, 18.629189),
-                        new BorderPoint(54.359757, 18.642449)
-                ))
-                .build();
-
-        zoneRepository.save(zone);
     }
 }
