@@ -21,7 +21,7 @@ export interface UseWebSocketOptions {
 }
 
 /**
- * Hook podobny do useGSAP:
+ * Rozbudowany hook do obsługi WebSocketów z STOMP.
  * - bierzesz opcjonalnie listę subskrypcji
  * - hook automatycznie je zakłada i czyści
  * - zwraca `publish()` do wysyłania
