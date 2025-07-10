@@ -8,5 +8,5 @@ export default interface SpotMediaDto {
     likes: number;
     views: number;
     author: string;
-    mediaType: MediaType;
+    genericMediaType: MediaType;
 }

@@ -49,7 +49,7 @@ export default function SpotCommentMediaGallery({
             >
                 {mediaList.map((media: SpotCommentMediaDto, idx: number) => (
                     <li key={media.id} className="relative">
-                        {media.mediaType === MediaType.VIDEO ? (
+                        {media.genericMediaType === MediaType.VIDEO ? (
                             <>
                                 <div className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-4xl">
                                     <FaRegCirclePlay />
