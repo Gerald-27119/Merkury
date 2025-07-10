@@ -1,7 +1,7 @@
-package com.merkury.vulcanus.model.mappers;
+package com.merkury.vulcanus.model.mappers.spot;
 
-import com.merkury.vulcanus.model.dtos.comment.SpotCommentMediaDto;
-import com.merkury.vulcanus.model.entities.SpotCommentMedia;
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentMediaDto;
+import com.merkury.vulcanus.model.entities.spot.SpotCommentMedia;
 import jakarta.validation.constraints.NotNull;
 
 public class SpotCommentMediaMapper {

@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.dtos.comment;
+package com.merkury.vulcanus.model.dtos.spot.comment;
 
 import jakarta.validation.constraints.*;
 import lombok.Builder;

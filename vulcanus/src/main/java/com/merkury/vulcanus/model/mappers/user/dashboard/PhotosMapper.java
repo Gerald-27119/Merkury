@@ -2,8 +2,7 @@ package com.merkury.vulcanus.model.mappers.user.dashboard;
 
 import com.merkury.vulcanus.model.dtos.account.photos.PhotoDto;
 import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
-import com.merkury.vulcanus.model.entities.Img;
-import com.merkury.vulcanus.model.entities.SpotMedia;
+import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;

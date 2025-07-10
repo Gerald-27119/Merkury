@@ -3,7 +3,7 @@ package com.merkury.vulcanus.model.mappers.user.dashboard;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ImageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
-import com.merkury.vulcanus.model.entities.SpotMedia;
+import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import jakarta.validation.constraints.NotNull;

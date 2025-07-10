@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.features.comment;
+package com.merkury.vulcanus.features.spot;
 
 import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
@@ -6,14 +6,14 @@ import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
 import com.merkury.vulcanus.features.vote.VoteService;
-import com.merkury.vulcanus.model.dtos.comment.SpotCommentAddDto;
-import com.merkury.vulcanus.model.dtos.comment.SpotCommentDto;
-import com.merkury.vulcanus.model.dtos.comment.SpotCommentEditDto;
-import com.merkury.vulcanus.model.dtos.comment.SpotCommentMediaDto;
-import com.merkury.vulcanus.model.entities.SpotComment;
-import com.merkury.vulcanus.model.entities.Spot;
-import com.merkury.vulcanus.model.mappers.SpotCommentMapper;
-import com.merkury.vulcanus.model.mappers.SpotCommentMediaMapper;
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentAddDto;
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentDto;
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentEditDto;
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentMediaDto;
+import com.merkury.vulcanus.model.entities.spot.SpotComment;
+import com.merkury.vulcanus.model.entities.spot.Spot;
+import com.merkury.vulcanus.model.mappers.spot.SpotCommentMapper;
+import com.merkury.vulcanus.model.mappers.spot.SpotCommentMediaMapper;
 import com.merkury.vulcanus.model.repositories.SpotCommentMediaRepository;
 import com.merkury.vulcanus.model.repositories.SpotCommentRepository;
 import com.merkury.vulcanus.model.repositories.SpotRepository;

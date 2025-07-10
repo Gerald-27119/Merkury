@@ -7,7 +7,7 @@ import { searchedSpotListModalAction } from "../../redux/searched-spot-list-moda
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { fetchSearchedSpotsPage } from "../../http/spots-data";
-import SearchSpotDtoPage from "../../model/interface/spot/searchSpotDtoPage";
+import SearchSpotDtoPage from "../../model/interface/spot/search-spot/searchSpotDtoPage";
 import { RootState } from "../../redux/store";
 import {
     searchedSpotsSelectors,

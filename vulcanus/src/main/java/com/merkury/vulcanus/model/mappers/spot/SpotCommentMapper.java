@@ -1,9 +1,9 @@
-package com.merkury.vulcanus.model.mappers;
+package com.merkury.vulcanus.model.mappers.spot;
 
-import com.merkury.vulcanus.model.dtos.comment.SpotCommentAddDto;
-import com.merkury.vulcanus.model.dtos.comment.SpotCommentDto;
-import com.merkury.vulcanus.model.entities.SpotComment;
-import com.merkury.vulcanus.model.entities.Spot;
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentAddDto;
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentDto;
+import com.merkury.vulcanus.model.entities.spot.SpotComment;
+import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import jakarta.validation.constraints.NotNull;
 

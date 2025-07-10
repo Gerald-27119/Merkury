@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
-import com.merkury.vulcanus.model.entities.SpotMedia;
+import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.repositories.SpotMediaRepository;

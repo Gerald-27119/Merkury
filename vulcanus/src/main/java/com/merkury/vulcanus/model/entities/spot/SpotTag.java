@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.entities;
+package com.merkury.vulcanus.model.entities.spot;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

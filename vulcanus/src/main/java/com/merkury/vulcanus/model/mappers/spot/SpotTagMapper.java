@@ -1,7 +1,7 @@
-package com.merkury.vulcanus.model.mappers;
+package com.merkury.vulcanus.model.mappers.spot;
 
 import com.merkury.vulcanus.model.dtos.spot.SpotTagDto;
-import com.merkury.vulcanus.model.entities.SpotTag;
+import com.merkury.vulcanus.model.entities.spot.SpotTag;
 import jakarta.validation.constraints.NotNull;
 
 public class SpotTagMapper {

@@ -1,11 +1,12 @@
 package com.merkury.vulcanus.db.services;
 
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
-import com.merkury.vulcanus.model.entities.SpotComment;
-import com.merkury.vulcanus.model.entities.Spot;
-import com.merkury.vulcanus.model.entities.SpotTag;
+import com.merkury.vulcanus.model.entities.spot.SpotComment;
+import com.merkury.vulcanus.model.entities.spot.Spot;
+import com.merkury.vulcanus.model.entities.spot.SpotCommentMedia;
+import com.merkury.vulcanus.model.entities.spot.SpotMedia;
+import com.merkury.vulcanus.model.entities.spot.SpotTag;
 import com.merkury.vulcanus.model.entities.Zone;
-import com.merkury.vulcanus.model.entities.*;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.repositories.*;
 import com.merkury.vulcanus.utils.PolygonAreaCalculator;

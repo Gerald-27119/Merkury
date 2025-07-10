@@ -1,7 +1,7 @@
-package com.merkury.vulcanus.model.mappers;
+package com.merkury.vulcanus.model.mappers.spot;
 
 import com.merkury.vulcanus.model.dtos.spot.SpotMediaDto;
-import com.merkury.vulcanus.model.entities.SpotMedia;
+import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import jakarta.validation.constraints.NotNull;
 
 public class SpotMediaMapper {

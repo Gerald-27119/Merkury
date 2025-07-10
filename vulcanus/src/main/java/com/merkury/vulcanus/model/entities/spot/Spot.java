@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.entities;
+package com.merkury.vulcanus.model.entities.spot;
 
 import com.merkury.vulcanus.model.converters.BorderPointListConverter;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
