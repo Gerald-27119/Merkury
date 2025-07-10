@@ -1,29 +1,28 @@
-import MessageInput from "./bottom-bar-components/MessageInput";
+import { useState } from "react";
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoSendSharp } from "react-icons/io5";
 import { RiEmotionHappyFill } from "react-icons/ri";
 import { MdGifBox } from "react-icons/md";
-import { SetStateAction, useState } from "react";
-import { WebSocketChatMessage } from "../../../../stomp/stompClient";
-import { useStomp } from "../../../../stomp/useStomp";
+import { useWebSocket } from "../../../../stomp/new/useWebSocket";
+import { ChatMessageToSendDto } from "../../../../model/interface/chat/chatInterfaces";
 
 export default function ChatBottomBar() {
     const className = "text-violetLighter text-3xl";
+
     const [messageToSend, setMessageToSend] = useState("");
     const [isSending, setIsSending] = useState(false);
-    const { sendMessage: stompSendMessage } = useStomp(
-        "ws://localhost:8080/connect",
-        1, //1 to id cahta na razie
-    ); // Update broker URL as needed
-    // TODO:move it somewhere else (whole app  should be able to use the stomp connnection)
-    function onInputChange(event: {
-        target: { value: SetStateAction<string> };
-    }) {
-        setMessageToSend(event.target.value);
+
+    // Tu używamy hooka useWebSocket — możesz też przekazać opcjonalne subskrypcje!
+    const { publish, connected } = useWebSocket();
+
+    function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setMessageToSend(e.target.value);
     }
 
-    function sendMessage() {
-        const formatedMessageToSend: WebSocketChatMessage = {
+    async function sendMessage() {
+        if (!messageToSend.trim() || !connected) return;
+
+        const formatted: ChatMessageToSendDto = {
             chatId: 1,
             sender: {
                 id: 1,
@@ -31,22 +30,18 @@ export default function ChatBottomBar() {
                 imgUrl: "user1.png",
             },
             content: messageToSend,
-            sentAt: new Date().toISOString(), // Add timestamp
+            sentAt: new Date().toISOString(),
         };
-        console.log("Sending message:", JSON.stringify(formatedMessageToSend));
+
         setIsSending(true);
-
-        // Send the message via the STOMP client
-        stompSendMessage(
-            "/app/send/1/message",
-            JSON.stringify(formatedMessageToSend),
-        );
-
-        // ADD ACKNOWLEDGEMENT HANDLING HERE
-        // In a real-world scenario, you'd subscribe to an ACK topic or use a callback.
+        try {
+            publish("/app/send/1/message", formatted);
+            setMessageToSend("");
+            //TODO:add ACK confirmation
+        } finally {
+            setIsSending(false);
+        }
     }
-    // TODO: w chacie u suera musi wyswietlac sie wiadomosc ktora wyslal w wersji z frontu dodana a nie z backendu!
-    //TODO: potem potwierdzneiwwyslania, ponawienie, info o beldzie itd
 
     return (
         <div className="flex items-center justify-center gap-4 px-3 py-3">
@@ -65,7 +60,11 @@ export default function ChatBottomBar() {
                 <RiEmotionHappyFill className={className} />
             </div>
 
-            <button onClick={sendMessage} className="hover:cursor-pointer">
+            <button
+                onClick={sendMessage}
+                disabled={!connected || isSending}
+                className="hover:cursor-pointer disabled:opacity-50"
+            >
                 <IoSendSharp className="mr-4 h-7 w-7 shadow-md" />
             </button>
         </div>

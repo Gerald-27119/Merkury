@@ -16,7 +16,6 @@ export interface ChatMessageToReceiveDto {
 }
 
 export interface ChatMessageToSendDto {
-    id: number;
     sender: ChatMessageSenderDto;
     sentAt: string;
     content: string;

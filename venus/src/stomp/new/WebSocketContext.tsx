@@ -4,6 +4,7 @@ import { createChatSubscription } from "./subscriptions/ChatSubscription";
 import { WebSocketService } from "./WebSocketService";
 import { RootState } from "../../redux/store";
 import useSelectorTyped from "../../hooks/useSelectorTyped";
+import useDispatchTyped from "../../hooks/useDispatchTyped";
 
 const WS_URL = process.env.REACT_APP_WS_URL || "http://localhost:8080/connect";
 /** Singleton serwisu zarządzającego połączeniem */
@@ -20,7 +21,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
     const username = useSelectorTyped(
         (state: RootState) => state.account.username,
     );
-
+    const dispatch = useDispatchTyped();
     // 1) Connect whenever `isLogged` becomes true; disconnect on false
     useEffect(() => {
         if (isLogged) {
@@ -36,7 +37,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
 
         // define whatever per-user subscriptions you need
         const allSubs: SubscriptionDef[] = [
-            createChatSubscription(username),
+            createChatSubscription(username, dispatch),
             // ...other login-protected subscriptions
         ];
 
