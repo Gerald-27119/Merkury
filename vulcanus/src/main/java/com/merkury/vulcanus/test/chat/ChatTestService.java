@@ -19,6 +19,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
+import org.springframework.web.socket.sockjs.client.SockJsClient;
+import org.springframework.web.socket.sockjs.client.Transport;
+import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import java.net.HttpCookie;
 import java.time.LocalDateTime;
@@ -32,16 +35,17 @@ import java.util.concurrent.TimeoutException;
 @Component
 @RequiredArgsConstructor
 public class ChatTestService {
-//TODO: exclude that whole folder in production code
+
     private final RestTemplate restTemplate = new RestTemplate();
     private final UserEntityRepository userEntityRepository;
 
-    //TODO: grupwoanie wiadomosci na froncie
-//TODO: naliza messagea w websokcet na froncie, nazwa usera to kłąmstwo
-    //probaa logowania rped wczytaniem userow do bazy - napraw, tez trzeba uzycie credentialy przneiesc gdzies
-    @Scheduled(fixedRate = 20000)
+    /**
+     * First run 10s after startup, then every 20s.
+     */
+    @Scheduled(fixedRate = 20_000, initialDelay = 10_000)
     public void scheduledSendTestMessage() {
-        var user = userEntityRepository.findByUsername("user").orElseThrow();
+        var user = userEntityRepository.findByUsername("user")
+                .orElseThrow();
 
         var sender = ChatMessageSenderDto.builder()
                 .id(user.getId())
@@ -49,45 +53,41 @@ public class ChatTestService {
                 .build();
 
         var message = ChatMessageDto.builder()
-                .content("Test message from ChatTestService " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute() + ":" + LocalDateTime.now().getSecond())
+                .content("Test message from ChatTestService " +
+                        LocalDateTime.now().getHour() + ":" +
+                        LocalDateTime.now().getMinute() + ":" +
+                        LocalDateTime.now().getSecond())
                 .chatId(1L)
                 .sender(sender)
-//                .sentAt(LocalDateTime.now())
                 .build();
 
         sendTestMessage(message.chatId(), message);
     }
 
     public void sendTestMessage(Long chatId, ChatMessageDto message) {
-        log.info(message.toString());
-        String loginUrl = "http://localhost:8080/public/account/login";
-        String websocketUrl = "ws://localhost:8080/connect";
+        log.info("Wysyłam wiadomość: {}", message);
+        String loginUrl     = "http://localhost:8080/public/account/login";
+        String websocketUrl = "http://localhost:8080/connect"; // SockJS endpoint is still HTTP
 
-//nie powinienem wystawic ws info?
         try {
-            // 1. Login and retrieve session cookie
+            // 1. Login and grab JWT_token cookie
             Map<String, String> loginPayload = Map.of(
                     "username", "user",
                     "password", "password"
-            );//TODO: porpaw usera do logowania i do wiadomosci
-
+            );
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<Map<String, String>> loginRequest = new HttpEntity<>(loginPayload, headers);
 
             ResponseEntity<String> loginResponse = restTemplate.exchange(
-                    loginUrl,
-                    HttpMethod.POST,
-                    loginRequest,
-                    String.class
+                    loginUrl, HttpMethod.POST, loginRequest, String.class
             );
 
-            List<String> cookies = loginResponse.getHeaders().get(HttpHeaders.SET_COOKIE);
+            var cookies = loginResponse.getHeaders().get(HttpHeaders.SET_COOKIE);
             if (cookies == null || cookies.isEmpty()) {
-                log.error("No session cookie received!");
+                log.error("Brak ciasteczka sesyjnego!");
                 return;
             }
-
             String sessionCookie = cookies.stream()
                     .map(HttpCookie::parse)
                     .flatMap(List::stream)
@@ -95,32 +95,34 @@ public class ChatTestService {
                     .findFirst()
                     .map(HttpCookie::toString)
                     .orElse(null);
-
             if (sessionCookie == null) {
-                log.error("JWT_token cookie not found!");
+                log.error("Nie znaleziono ciasteczka JWT_token!");
                 return;
             }
 
-            // 2. Prepare WebSocket client with cookie
+            // 2. Prepare SockJS-backed STOMP client
             WebSocketHttpHeaders wsHeaders = new WebSocketHttpHeaders();
             wsHeaders.add(HttpHeaders.COOKIE, sessionCookie);
 
-            WebSocketStompClient stompClient = new WebSocketStompClient(new StandardWebSocketClient());
-
+            // under-the-hood SockJS transport
+            List<Transport> transports = List.of(
+                    new WebSocketTransport(new StandardWebSocketClient())
+            );
+            SockJsClient sockJsClient = new SockJsClient(transports);
+            WebSocketStompClient stompClient = new WebSocketStompClient(sockJsClient);
             stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
+            // 3. Connect and send
             StompSession session = stompClient
-                    .connect(websocketUrl, wsHeaders, new StompSessionHandlerAdapter() {
-                    })
+                    .connect(websocketUrl, wsHeaders, new StompSessionHandlerAdapter() {})
                     .get(1, TimeUnit.SECONDS);
 
             session.send("/app/send/" + chatId + "/message", message);
 
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            log.error("WebSocket connection error", e);
+            log.error("Błąd połączenia WebSocket/SockJS", e);
         } catch (Exception e) {
-            log.error("Unexpected error during login or connection", e);
+            log.error("Nieoczekiwany błąd podczas logowania lub łączenia", e);
         }
     }
 }
-

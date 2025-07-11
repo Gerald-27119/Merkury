@@ -2,12 +2,14 @@ import { RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import router from "./router.tsx";
 import axios from "axios";
+
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 import { accountAction } from "./redux/account";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { logout } from "./http/account.js";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { WebSocketProvider } from "./stomp/WebSocketContext.tsx";
 
 const queryClient = new QueryClient();
 
@@ -41,7 +43,9 @@ function App() {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
+            <WebSocketProvider>
+                <RouterProvider router={router} />
+            </WebSocketProvider>
         </QueryClientProvider>
     );
 }

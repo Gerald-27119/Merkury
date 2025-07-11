@@ -13,6 +13,7 @@ import { spotCommentSlice } from "./spot-comments";
 import { searchedSpotListModalSlice } from "./searched-spot-list-modal";
 import { searchedSpotsSlice } from "./searched-spots";
 
+// TODO: Add persisting state to localStorage
 const store = configureStore({
     reducer: {
         account: accountSlice.reducer,
