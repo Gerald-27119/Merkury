@@ -3,7 +3,6 @@ import { Carousel, ConfigProvider } from "antd";
 import SpotMediaDto from "../../../../model/interface/spot/spotMediaDto";
 import { MediaType } from "../../../../model/enum/mediaType";
 import Video from "./Video";
-import { useBoolean } from "../../../../hooks/useBoolean";
 import { useState } from "react";
 
 type PhotoGalleryProps = {
@@ -11,7 +10,6 @@ type PhotoGalleryProps = {
 };
 
 export default function SpotDetailsGallery({ media }: PhotoGalleryProps) {
-    const [shouldPlayVideo, __, stopVideo, ___] = useBoolean(true);
     const [current, setCurrent] = useState<number>(0);
 
     return (
@@ -35,7 +33,7 @@ export default function SpotDetailsGallery({ media }: PhotoGalleryProps) {
                         }}
                     >
                         {media.map((media: SpotMediaDto, idx: number) =>
-                            media.mediaType === MediaType.VIDEO ? (
+                            media.genericMediaType === MediaType.VIDEO ? (
                                 <Video
                                     key={media.id}
                                     video={media}

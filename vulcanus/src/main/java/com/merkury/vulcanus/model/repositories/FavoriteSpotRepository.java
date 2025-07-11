@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.model.repositories;
 
-import com.merkury.vulcanus.model.entities.FavoriteSpot;
+import com.merkury.vulcanus.model.entities.spot.FavoriteSpot;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;

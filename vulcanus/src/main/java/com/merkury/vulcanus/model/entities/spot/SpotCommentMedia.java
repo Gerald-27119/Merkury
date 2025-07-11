@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.entities;
+package com.merkury.vulcanus.model.entities.spot;
 
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import jakarta.persistence.Entity;

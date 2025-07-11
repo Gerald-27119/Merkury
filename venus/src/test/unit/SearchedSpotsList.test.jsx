@@ -11,7 +11,7 @@ import { spotFiltersSlice } from "../../redux/spot-filters";
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
-import SearchedSpotsList from "../../pages/spot/SearchedSpotsList";
+import SearchedSpotsList from "../../pages/spot/components/searched-spot/SearchedSpotsList";
 
 const queryClient = new QueryClient();
 

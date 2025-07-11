@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.model.repositories;
 
-import com.merkury.vulcanus.model.entities.SpotMedia;
+import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
 import axios from "axios";
 import SpotDetails from "../model/interface/spot/spotDetails";
 import GeneralSpot from "../model/interface/spot/generalSpot";
-import SearchSpotDtoPage from "../model/interface/spot/searchSpotDtoPage";
+import SearchSpotDtoPage from "../model/interface/spot/search-spot/searchSpotDtoPage";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function fetchFilteredSpots(name: string): Promise<GeneralSpot[]> {

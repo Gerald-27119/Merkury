@@ -1,5 +1,5 @@
-import SpotTagDto from "./tag/spotTagDto";
-import SpotCoordinatesDto from "./coordinates/spotCoordinatesDto";
+import SpotTagDto from "../tag/spotTagDto";
+import SpotCoordinatesDto from "../coordinates/spotCoordinatesDto";
 
 export default interface SearchSpotDto {
     id: number;

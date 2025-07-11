@@ -2,7 +2,7 @@ package com.merkury.vulcanus.model.mappers;
 
 import com.merkury.vulcanus.model.dtos.ImgDto;
 import com.merkury.vulcanus.model.entities.Img;
-import com.merkury.vulcanus.model.entities.Spot;
+import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import jakarta.validation.constraints.NotNull;
 

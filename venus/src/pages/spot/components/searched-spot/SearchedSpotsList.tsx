@@ -1,20 +1,20 @@
-import useSelectorTyped from "../../hooks/useSelectorTyped";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { motion } from "framer-motion";
-import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
+import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
 import { HiX } from "react-icons/hi";
-import useDispatchTyped from "../../hooks/useDispatchTyped";
-import { searchedSpotListModalAction } from "../../redux/searched-spot-list-modal";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import { searchedSpotListModalAction } from "../../../../redux/searched-spot-list-modal";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { fetchSearchedSpotsPage } from "../../http/spots-data";
-import SearchSpotDtoPage from "../../model/interface/spot/searchSpotDtoPage";
-import { RootState } from "../../redux/store";
+import { fetchSearchedSpotsPage } from "../../../../http/spots-data";
+import SearchSpotDtoPage from "../../../../model/interface/spot/search-spot/searchSpotDtoPage";
+import { RootState } from "../../../../redux/store";
 import {
     searchedSpotsSelectors,
     searchedSpotsSliceActions,
-} from "../../redux/searched-spots";
-import SearchedSpotInfo from "./components/searched-spot/SearchedSpotInfo";
-import SearchedSpotsSortingForm from "./components/searched-spot/SearchedSpotsSortingForm";
+} from "../../../../redux/searched-spots";
+import SearchedSpotInfo from "./SearchedSpotInfo";
+import SearchedSpotsSortingForm from "./SearchedSpotsSortingForm";
 
 const slideVariants = {
     hidden: { x: "-100%", opacity: 0 },

@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.dtos.comment;
+package com.merkury.vulcanus.model.dtos.spot.comment;
 
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import jakarta.validation.constraints.NotBlank;

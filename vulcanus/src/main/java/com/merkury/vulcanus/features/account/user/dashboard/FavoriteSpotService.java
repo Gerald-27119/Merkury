@@ -2,7 +2,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.FavoriteSpotNotExistException;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
-import com.merkury.vulcanus.model.entities.FavoriteSpot;
+import com.merkury.vulcanus.model.entities.spot.FavoriteSpot;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.FavoriteSpotMapper;
 import com.merkury.vulcanus.model.repositories.FavoriteSpotRepository;

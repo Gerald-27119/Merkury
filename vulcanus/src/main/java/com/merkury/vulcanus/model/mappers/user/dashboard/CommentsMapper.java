@@ -2,7 +2,7 @@ package com.merkury.vulcanus.model.mappers.user.dashboard;
 
 import com.merkury.vulcanus.model.dtos.account.comments.CommentDto;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupDto;
-import com.merkury.vulcanus.model.entities.SpotComment;
+import com.merkury.vulcanus.model.entities.spot.SpotComment;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;

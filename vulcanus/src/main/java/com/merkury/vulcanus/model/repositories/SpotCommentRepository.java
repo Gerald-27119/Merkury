@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.model.repositories;
 
-import com.merkury.vulcanus.model.entities.SpotComment;
+import com.merkury.vulcanus.model.entities.spot.SpotComment;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

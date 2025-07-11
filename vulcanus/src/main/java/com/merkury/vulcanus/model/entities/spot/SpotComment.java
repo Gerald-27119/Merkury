@@ -1,5 +1,6 @@
-package com.merkury.vulcanus.model.entities;
+package com.merkury.vulcanus.model.entities.spot;
 
+import com.merkury.vulcanus.model.entities.Comment;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
