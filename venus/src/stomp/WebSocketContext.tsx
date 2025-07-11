@@ -15,11 +15,8 @@ const WebSocketContext = createContext<WebSocketService>(wsService);
 export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    const isLogged = useSelectorTyped(
-        (state: RootState) => state.account.isLogged,
-    );
-    const username = useSelectorTyped(
-        (state: RootState) => state.account.username,
+    const { isLogged, username } = useSelectorTyped(
+        (state: RootState) => state.account,
     );
     const dispatch = useDispatchTyped();
 
