@@ -2,14 +2,12 @@ package com.merkury.vulcanus.features.spot;
 
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
-import com.merkury.vulcanus.features.account.UserDataService;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
-import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -25,8 +23,6 @@ import java.util.List;
 public class SpotService {
 
     private final SpotRepository spotRepository;
-    private final UserEntityRepository userEntityRepository;
-    private final UserDataService userDataService;
 
     private List<GeneralSpotDto> getAllSpots() throws SpotsNotFoundException {
         var allSpots = spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
