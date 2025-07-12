@@ -1,7 +1,7 @@
 import PostGeneral from "../../../model/interface/forum/post/postGeneral";
-import PostHeader from "./PostHeader";
-import PostMetaData from "./PostMetaData";
-import PostContent from "./PostContent";
+import PostHeader from "./components/PostHeader";
+import PostMetaData from "./components/PostMetaData";
+import PostContent from "./components/PostContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notificationAction } from "../../../redux/notification";
 import { deletePost } from "../../../http/posts";

@@ -3,8 +3,8 @@ import { FaBell, FaEdit } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 import { MdFlag } from "react-icons/md";
 import { useEffect, useRef } from "react";
-import MenuItem from "./MenuItem";
-import { useToggleState } from "../../../hooks/useToggleState";
+import MenuItem from "../../components/MenuItem";
+import { useToggleState } from "../../../../hooks/useToggleState";
 
 interface PostMenuProps {
     postId: number;
@@ -13,13 +13,13 @@ interface PostMenuProps {
 }
 
 export default function PostMenu({
-  postId,
-  isUserAuthor,
-  onDelete,
+    postId,
+    isUserAuthor,
+    onDelete,
 }: PostMenuProps) {
-  const [isPostMenuOpen, setIsPostMenuOpen, togglePostMenu] =
-    useToggleState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+    const [isPostMenuOpen, setIsPostMenuOpen, togglePostMenu] =
+        useToggleState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
 
     const handleFollow = () => {};
 
