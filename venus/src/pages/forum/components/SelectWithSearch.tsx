@@ -1,71 +1,87 @@
-import Select from "react-select";
-
-interface Option {
-  value: string;
-  label: string;
-}
+import Select, { MultiValue, SingleValue } from "react-select";
+import Option from "../../../model/interface/forum/selectOption";
+import { useRef } from "react";
+import { useBoolean } from "../../../hooks/useBoolean";
+import selectClassNames from "../../../model/styles/selectClassNames";
 
 interface SelectWithSearchProps {
-  placeholder: string;
-  isMultiChoice: boolean;
-  options: Option[];
-  isValid: { value: boolean; message: string };
-  value: string | string[];
-  onChange: (value: string | string[]) => void;
-  onBlur: () => void;
+    placeholder: string;
+    isMultiChoice: boolean;
+    options: Option[];
+    value?: Option | Option[] | null;
+    onChange?: (val: any) => void;
+    onBlur?: () => void;
+    error?: string;
 }
 
 export default function SelectWithSearch({
-  placeholder,
-  isMultiChoice,
-  options,
-  value,
-  onChange,
-  onBlur,
-  isValid,
+    placeholder,
+    isMultiChoice,
+    options,
+    value,
+    onChange,
+    onBlur,
+    error,
 }: SelectWithSearchProps) {
-  const isLoading = !options || options.length === 0;
+    const maxTags = 3;
+    const selectRef = useRef<any>(null);
+    const [isLimitWarningVisible, showLimitWarning, hideLimitWarning] =
+        useBoolean(false);
 
-  return (
-    <div className="w-full max-w-[600px]">
-      <Select
-        isMulti={isMultiChoice}
-        closeMenuOnSelect={!isMultiChoice}
-        options={options}
-        isClearable
-        placeholder={placeholder}
-        isLoading={isLoading}
-        unstyled
-        menuPortalTarget={document.body}
-        styles={{
-          menuPortal: (provided) => ({ ...provided, zIndex: 100 }),
-          control: (provided) => ({ ...provided, cursor: "pointer" }),
-          input: (provided) => ({ ...provided, cursor: "text" }),
-          option: (provided) => ({ ...provided, cursor: "pointer" }),
-        }}
-        classNames={{
-          control: () =>
-            "rounded-lg dark:bg-darkBg bg-lightBgSoft p-2 shadow-lg",
-          menu: () =>
-            "dark:bg-darkBg bg-lightBgSoft border mt-1 rounded-lg shadow-lg dark:text-darkText text-lightText",
-          option: ({ isSelected, isFocused }) =>
-            `px-2 py-1 rounded-lg ${
-              isSelected
-                ? "dark:bg-darkBgMuted dark:text-darkText"
-                : isFocused
-                  ? "bg-darkBgMuted"
-                  : "dark:bg-darkBg"
-            }`,
-          singleValue: () => "dark:text-darkText text-lightText",
-          placeholder: () => "dark:text-darkText/50 text-lightText/60",
-          multiValue: () =>
-            "dark:bg-darkBgSoft dark:text-darkText text-lightText rounded px-2 py-1 mr-1 mt-1 flex items-center",
-          multiValueLabel: () => "text-sm mr-1",
-          multiValueRemove: () =>
-            "dark:text-darkText text-lightText dark:hover:text-red-500 hover:text-red-500 cursor-pointer",
-          clearIndicator: () => "hover:text-red-500",
-        }}
-      />
-    </div>
-  );
+    const handleChange = (
+        selected: MultiValue<Option> | SingleValue<Option>,
+    ) => {
+        if (
+            isMultiChoice &&
+            Array.isArray(selected) &&
+            selected.length > maxTags
+        ) {
+            showLimitWarning();
+            setTimeout(() => hideLimitWarning(), 2000);
+            selectRef.current?.blur();
+            return;
+        }
+
+        onChange?.(selected);
+
+        if (!isMultiChoice) {
+            selectRef.current?.blur();
+        }
+    };
+
+    return (
+        <div className="w-full max-w-[600px]">
+            <Select
+                ref={selectRef}
+                isMulti={isMultiChoice}
+                closeMenuOnSelect={!isMultiChoice}
+                options={options}
+                isClearable
+                placeholder={placeholder}
+                isLoading={!options || options.length === 0}
+                unstyled
+                value={value}
+                onChange={handleChange}
+                onBlur={onBlur}
+                menuPortalTarget={document.body}
+                styles={{
+                    menuPortal: (provided) => ({ ...provided, zIndex: 100 }),
+                    control: (provided) => ({ ...provided, cursor: "pointer" }),
+                    input: (provided) => ({ ...provided, cursor: "text" }),
+                    option: (provided) => ({ ...provided, cursor: "pointer" }),
+                }}
+                classNames={selectClassNames}
+            />
+            {error && (
+                <p className="text-xs font-bold break-words text-red-500">
+                    {error}
+                </p>
+            )}
+            {isLimitWarningVisible && !error && (
+                <p className="text-xs font-bold break-words text-yellow-500">
+                    You can't select more than 3 tags
+                </p>
+            )}
+        </div>
+    );
 }

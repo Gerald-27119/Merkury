@@ -1,7 +1,7 @@
 import CategoryDto from "../categoryDto";
 import TagDto from "../tagDto";
 import PostCommentDto from "../postComment/postCommentDto";
-import postAuthorDto from "../postAuthorDto";
+import PostAuthorDto from "../postAuthorDto";
 
 export default interface PostDetails {
     id: number;
@@ -9,7 +9,7 @@ export default interface PostDetails {
     content: string;
     category: CategoryDto;
     tags: TagDto[];
-    author: postAuthorDto;
+    author: PostAuthorDto;
     isAuthor: boolean;
     publishDate: string;
     views: number;

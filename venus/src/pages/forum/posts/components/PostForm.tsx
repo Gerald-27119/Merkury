@@ -1,0 +1,106 @@
+import { useForm, SubmitHandler } from "react-hook-form";
+import Option from "../../../../model/interface/forum/selectOption";
+import { zodResolver } from "@hookform/resolvers/zod";
+import PostFormInput from "./PostFormInput";
+import PostFormEditor from "./PostFormEditor";
+import {
+    ForumPostFormSchema,
+    ForumPostFormFields,
+} from "../../../../model/schema/forumPostFormSchema";
+import ControlledSelect from "../../components/ControlledSelect";
+
+interface FormProps {
+    handlePost: () => void;
+    onClose: () => void;
+    categories: Option[];
+    tags: Option[];
+}
+
+export default function PostForm({
+    handlePost,
+    onClose,
+    categories,
+    tags,
+}: FormProps) {
+    const {
+        register,
+        handleSubmit,
+        control,
+        formState: { errors },
+    } = useForm<ForumPostFormFields>({
+        resolver: zodResolver(ForumPostFormSchema),
+        mode: "onBlur",
+        defaultValues: {
+            title: "",
+            category: null,
+            tags: [],
+            content: "",
+        },
+    });
+
+    const onSubmit: SubmitHandler<ForumPostFormFields> = (data) => {
+        console.log(data);
+    };
+
+    return (
+        <div className="dark:bg-darkBgSoft dark:text-darkText bg-lightBgSoft text-lightText fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 rounded-md p-8 shadow-md">
+            <button
+                className="absolute top-0 right-3 text-4xl font-bold text-gray-500 hover:text-red-500"
+                onClick={onClose}
+            >
+                x
+            </button>
+
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-col gap-4"
+            >
+                <PostFormInput<ForumPostFormFields>
+                    name="title"
+                    placeholder="Title"
+                    type="text"
+                    register={register}
+                    error={errors.title?.message}
+                />
+
+                <ControlledSelect<ForumPostFormFields>
+                    name="category"
+                    placeholder="category"
+                    control={control}
+                    isMultiChoice={false}
+                    options={categories}
+                    error={errors.category?.message}
+                />
+                <ControlledSelect<ForumPostFormFields>
+                    name="tags"
+                    placeholder="tags"
+                    control={control}
+                    isMultiChoice={true}
+                    options={tags}
+                    error={errors.tags?.message}
+                />
+
+                <PostFormEditor<ForumPostFormFields>
+                    name="content"
+                    control={control}
+                    error={errors.content?.message}
+                />
+
+                <div className="mt-4 flex justify-end gap-2">
+                    <button
+                        type="submit"
+                        className="dark:bg-violetDark bg-violetLight/80 dark:hover:bg-violetDarker hover:bg-violetLight rounded px-4 py-2 text-white"
+                    >
+                        Post
+                    </button>
+                    <button
+                        onClick={onClose}
+                        className="rounded bg-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-400"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    );
+}

@@ -1,4 +1,4 @@
-export default interface postAuthorDto {
-  username: string;
-  profilePhoto: string;
+export default interface PostAuthorDto {
+    username: string;
+    profilePhoto: string;
 }
