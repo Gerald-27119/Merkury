@@ -54,7 +54,7 @@ public class SpotService {
         Page<Spot> nearbySpots = spotRepository.findAllByNameContainingIgnoreCaseAndRatingBetween(name, ratingFrom, ratingTo, sortedPageable);
         var nearbySpotsInDistance = nearbySpots
                 .map(spot -> SpotMapper.toNearbySpotDto(spot, MapDistanceCalculator.calculateDistance(userLatitude, userLongitude, spot.getCenterPoint().getX(), spot.getCenterPoint().getY())))
-                .filter(nearbySpotDto -> nearbySpotDto.distance() * DISTANCE_MARGIN_ACCEPTANCE_PERCENTAGE <= requiredMinDistance )
+                .filter(nearbySpotDto -> nearbySpotDto.distance() * DISTANCE_MARGIN_ACCEPTANCE_PERCENTAGE <= requiredMinDistance)
                 .toList();
         return new PageImpl<>(nearbySpotsInDistance, sortedPageable, nearbySpotsInDistance.size());
     }
