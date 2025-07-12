@@ -15,4 +15,5 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
     @Query("SELECT s FROM spots s LEFT JOIN FETCH s.tags WHERE s.id = :id")
     Optional<Spot> findByIdWithTags(@Param("id") Long id);
     Page<Spot> findAllByNameContainingIgnoreCase(@Param("name") String name, Pageable pageable);
+    Page<Spot> findAllByNameContainingIgnoreCaseAndRatingBetween(@Param("name") String name, double startRating, double endRating, Pageable pageable);
 }

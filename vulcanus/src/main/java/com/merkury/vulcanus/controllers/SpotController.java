@@ -2,6 +2,7 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.spot.SpotService;
+import com.merkury.vulcanus.model.dtos.spot.NearbySpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
@@ -22,6 +23,20 @@ public class SpotController {
     private final static int DEFAULT_SEARCHED_SPOTS_PAGE_SIZE = 6;
 
     private final SpotService spotService;
+
+    @GetMapping("/public/spot/nearby-spots")
+    public ResponseEntity<Page<NearbySpotDto>> getNearbySpots(@RequestParam(defaultValue = "") String name,
+                                                              @RequestParam(defaultValue = "none") String sort,
+                                                              @RequestParam(defaultValue = "0.0") double ratingFrom,
+                                                              @RequestParam(defaultValue = "5.0") double ratingTo,
+                                                              @RequestParam double userLongitude,
+                                                              @RequestParam double userLatitude,
+                                                              @RequestParam(defaultValue = "10.0") double requiredMinDistance,
+                                                              @RequestParam(defaultValue = "0") int page) {
+        log.info("Getting NearbySpots");
+        return ResponseEntity.ok(spotService.getNearbySpots(name, sort, ratingFrom, ratingTo, userLongitude, userLatitude, requiredMinDistance, PageRequest.of(page, DEFAULT_SEARCHED_SPOTS_PAGE_SIZE)));
+
+    }
 
     @GetMapping("/public/spot/{spotId}")
     public ResponseEntity<SpotDetailsDto> getSpotById(@PathVariable Long spotId) throws SpotNotFoundException {
