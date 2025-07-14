@@ -9,6 +9,21 @@ export async function fetchFilteredSpots(name: string): Promise<GeneralSpot[]> {
         .data;
 }
 
+export async function getCurrentViewSpots(
+    swLng: number,
+    swLat: number,
+    neLng: number,
+    neLat: number,
+    name: string,
+    ratingFrom: number,
+    sorting: string,
+    page: number,
+): Promise<SearchSpotDtoPage> {
+    return await axios.get(
+        `${BASE_URL}/public/spot/current-view?swLng=${swLng}&swLat=${swLat}&neLng=${neLng}&neLat=${neLat}&name=${name}&page=${page}&sorting=${sorting}&ratingFrom=${ratingFrom}`,
+    );
+}
+
 export async function fetchSearchedSpotsPage(
     name: string,
     page: number,
