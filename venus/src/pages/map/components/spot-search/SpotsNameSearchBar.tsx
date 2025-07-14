@@ -9,6 +9,7 @@ import { searchedSpotListModalAction } from "../../../../redux/searched-spot-lis
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { searchedSpotsSliceActions } from "../../../../redux/searched-spots";
 import { useBoolean } from "../../../../hooks/useBoolean";
+import { useMap } from "@vis.gl/react-maplibre";
 
 export default function SpotsNameSearchBar() {
     const [searchSpotName, setSearchSpotName] = useState<string>("");

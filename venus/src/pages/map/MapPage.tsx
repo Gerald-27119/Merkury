@@ -9,6 +9,7 @@ import SpotDetails from "../spot/SpotDetails";
 import { AnimatePresence } from "framer-motion";
 import SpotsNameSearchBar from "./components/spot-search/SpotsNameSearchBar";
 import SearchedSpotsList from "../spot/components/searched-spot/SearchedSpotsList";
+import SearchCurrentViewButton from "./components/current-view/SearchCurrentViewButton";
 
 type Position = {
     longitude: number;
@@ -61,6 +62,7 @@ export default function MapPage() {
                 <UserLocationPanel />
                 <ZoomControlPanel />
             </div>
+            <SearchCurrentViewButton />
             <Spots />
         </Map>
     );
