@@ -18,10 +18,10 @@ export default function DisableInput({
             <label htmlFor="password" className="text-xl font-semibold">
                 {label}
             </label>
-            <div className="bg-darkBgSoft flex w-96 items-center justify-between rounded-md px-2.5 py-2 shadow-md dark:shadow-black/50">
+            <div className="dark:bg-darkBgMuted bg-lightBgMuted flex w-96 items-center justify-between rounded-md px-2.5 py-2 shadow-md dark:shadow-black/50">
                 <input id={id} type={type} disabled value={value} />
                 <button
-                    className="text-violetLight cursor-pointer"
+                    className="text-violetLight cursor-pointer font-semibold"
                     onClick={onEdit}
                 >
                     Edit

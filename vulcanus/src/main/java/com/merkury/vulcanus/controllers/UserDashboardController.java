@@ -9,7 +9,6 @@ import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
-import com.merkury.vulcanus.model.enums.user.dashboard.PhotoSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;

@@ -18,6 +18,8 @@ const variantClasses = {
         "dark:bg-violetDark dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText w-full md:w-96 lg:w-full lg:first:mr-15 transform-all duration-300",
     favorite_spot_tile:
         "dark:bg-violetDark bg-violetLight dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText flex items-center gap-2 w-full lg:w-fit",
+    settings:
+        "dark:bg-violetDark bg-violetLight dark:hover:bg-violetDark/80 hover:bg-violetLight/80 w-full",
 };
 
 export default function Button({

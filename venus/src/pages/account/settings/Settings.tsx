@@ -1,37 +1,82 @@
 import AccountWrapper from "../components/AccountWrapper";
 import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
 import AccountTitle from "../components/AccountTitle";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { editUserSettings, getUserData } from "../../../http/user-dashboard";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import DisableInput from "./components/DisableInput";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { UserSettingsType } from "../../../model/enum/account/settings/userSettingsType";
 import UserEditData from "../../../model/interface/account/settings/userEditData";
 import FormInput from "../../../components/form/FormInput";
-import useUserDataValidation from "../../../hooks/useUserDataValidation";
+import Button from "../../../components/buttons/Button";
+import { ButtonVariantType } from "../../../model/enum/buttonVariantType";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { notificationAction } from "../../../redux/notification";
+import { baseSchemas } from "./validation-schema/validationSchema";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
+
+const inputConfig: Record<
+    UserSettingsType,
+    { name: string; type: string; id: string }[]
+> = {
+    [UserSettingsType.USERNAME]: [
+        { name: "username", type: "text", id: "username" },
+    ],
+    [UserSettingsType.EMAIL]: [{ name: "e-mail", type: "email", id: "email" }],
+    [UserSettingsType.PASSWORD]: [
+        { name: "old password", type: "password", id: "oldPassword" },
+        { name: "new password", type: "password", id: "newPassword" },
+        { name: "confirm password", type: "password", id: "confirmPassword" },
+    ],
+    [UserSettingsType.NONE]: [],
+};
+
+const getHeaderForEditType = (type: UserSettingsType): string => {
+    switch (type) {
+        case UserSettingsType.USERNAME:
+            return "Change username";
+        case UserSettingsType.EMAIL:
+            return "Change e-mail";
+        case UserSettingsType.PASSWORD:
+            return "Change password";
+        default:
+            return "";
+    }
+};
 
 export default function Settings() {
     const [editType, setEditType] = useState(UserSettingsType.NONE);
-    const [inputs, setInputs] = useState<
-        { name: string; type: string; id: string }[]
-    >([]);
+
+    const dispatch = useDispatchTyped();
+    const queryClient = useQueryClient();
+
+    const currentSchema = baseSchemas[editType] || z.object({});
+    type FormSchemaType = z.infer<typeof currentSchema>;
 
     const {
-        enteredValue,
-        didEdit,
-        isValid,
-        handleInputChange,
-        handleInputBlur,
-    } = useUserDataValidation({
-        password: "",
-        username: "",
-        email: "",
-        "confirm-password": "",
+        register,
+        handleSubmit,
+        formState: { errors },
+        watch,
+        setValue,
+        trigger,
+    } = useForm<FormSchemaType>({
+        resolver: zodResolver(currentSchema),
     });
 
     const { mutateAsync } = useMutation({
         mutationFn: editUserSettings,
+        onSuccess: () => {
+            dispatch(
+                notificationAction.setSuccess({
+                    message: `Successfully change your ${editType.toLowerCase()}`,
+                }),
+                queryClient.invalidateQueries({ queryKey: ["settings"] }),
+            );
+        },
     });
 
     const { data, isLoading } = useQuery({
@@ -39,59 +84,17 @@ export default function Settings() {
         queryFn: getUserData,
     });
 
-    const handleEdit = async (e: FormEvent) => {
-        e.preventDefault();
-
-        const userEdit: UserEditData = {
-            username: enteredValue.username,
-            email: enteredValue.email,
-            oldPassword: enteredValue.oldPassword,
-            newPassword: enteredValue.newPassword,
-            confirmPassword: enteredValue.confirmPassword,
+    const onSubmit: SubmitHandler<FormSchemaType> = async (formValues) => {
+        const payload: UserEditData = {
             type: editType,
             provider: data?.provider!,
+            ...formValues,
         };
-
-        if (editType === UserSettingsType.PASSWORD) {
-            userEdit.username = "";
-            userEdit.email = "";
-        }
-
-        if (editType === UserSettingsType.EMAIL) {
-            userEdit.username = "";
-            userEdit.oldPassword = "";
-            userEdit.confirmPassword = "";
-            userEdit.newPassword = "";
-        }
-
-        if (editType === UserSettingsType.USERNAME) {
-            userEdit.email = "";
-            userEdit.oldPassword = "";
-            userEdit.confirmPassword = "";
-            userEdit.newPassword = "";
-        }
-
-        await mutateAsync(userEdit);
+        await mutateAsync(payload);
     };
 
     const handleEditType = (type: UserSettingsType) => {
         setEditType(type);
-
-        if (type === UserSettingsType.USERNAME) {
-            setInputs([{ name: "username", type: "text", id: "username" }]);
-        } else if (type === UserSettingsType.EMAIL) {
-            setInputs([{ name: "e-mail", type: "email", id: "email" }]);
-        } else {
-            setInputs([
-                { name: "old password", type: "password", id: "oldPassword" },
-                { name: "new password", type: "password", id: "newPassword" },
-                {
-                    name: "confirm password",
-                    type: "password",
-                    id: "confirmPassword",
-                },
-            ]);
-        }
     };
 
     const inputFields = [
@@ -144,33 +147,40 @@ export default function Settings() {
                 {editType !== UserSettingsType.NONE && (
                     <div className="mt-5 flex w-1/2 flex-col space-y-4 lg:ml-27">
                         <h1 className="text-3xl font-semibold">
-                            {editType === UserSettingsType.PASSWORD
-                                ? "Change password"
-                                : editType === UserSettingsType.EMAIL
-                                  ? "Change e-mail"
-                                  : "Change username"}
+                            {getHeaderForEditType(editType)}
                         </h1>
-
                         <div className="flex w-1/2 flex-col space-y-3">
                             <form
                                 className="flex flex-col gap-4"
-                                onSubmit={handleEdit}
+                                onSubmit={handleSubmit(onSubmit)}
                             >
-                                {inputs.map(({ name, type, id }) => (
-                                    <FormInput
-                                        key={id}
-                                        label={name}
-                                        type={type}
-                                        id={id}
-                                        onChange={(event) =>
-                                            handleInputChange(id, event)
-                                        }
-                                        value={enteredValue[id]}
-                                        onBlur={() => handleInputBlur(id)}
-                                        isValid={isValid[id]}
-                                    />
-                                ))}
-                                <button type={"submit"}>Save</button>
+                                {inputConfig[editType].map(
+                                    ({ name, type, id }) => (
+                                        <FormInput
+                                            key={id}
+                                            label={name}
+                                            type={type}
+                                            id={id}
+                                            {...register(id)}
+                                            value={watch(id) ?? ""}
+                                            onChange={(e) =>
+                                                setValue(id, e.target.value)
+                                            }
+                                            onBlur={() => trigger(id)}
+                                            isValid={{
+                                                value: !errors[id],
+                                                message:
+                                                    errors[id]?.message ?? "",
+                                            }}
+                                        />
+                                    ),
+                                )}
+                                <Button
+                                    variant={ButtonVariantType.SETTINGS}
+                                    onClick={() => {}}
+                                >
+                                    Save
+                                </Button>
                             </form>
                         </div>
                     </div>
