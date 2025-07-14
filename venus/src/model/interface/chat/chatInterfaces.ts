@@ -1,8 +1,24 @@
+// TODO: delete
 export interface ChatMessageDto {
     id: number;
     sender: ChatMessageSenderDto;
     sentAt: string;
     content: string;
+    chatId: number;
+}
+
+export interface ChatMessageToReceiveDto {
+    id: number;
+    senderId: number;
+    sentAt: string;
+    content: string;
+    chatId: number;
+}
+
+export interface ChatMessageToSendDto {
+    sentAt: string;
+    content: string;
+    chatId: number;
 }
 
 export interface ChatMessageSenderDto {

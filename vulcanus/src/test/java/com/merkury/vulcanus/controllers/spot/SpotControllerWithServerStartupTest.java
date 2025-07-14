@@ -2,10 +2,11 @@ package com.merkury.vulcanus.controllers.spot;
 
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
-import com.merkury.vulcanus.model.entities.Img;
-import com.merkury.vulcanus.model.entities.Spot;
+import com.merkury.vulcanus.model.entities.spot.Spot;
+import com.merkury.vulcanus.model.entities.spot.SpotMedia;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.repositories.FavoriteSpotRepository;
-import com.merkury.vulcanus.model.entities.SpotTag;
+import com.merkury.vulcanus.model.entities.spot.SpotTag;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import com.merkury.vulcanus.model.repositories.SpotTagRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -125,22 +126,22 @@ class SpotControllerWithServerStartupTest {
                 .build();
 
         favoriteSpotRepository.deleteAll();
-        List<Img> photos1 = Arrays.asList(
-                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, null, spot1),
-                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, null, spot1)
+        List<SpotMedia> spotMedia1 = Arrays.asList(
+                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0,  GenericMediaType.PHOTO, null, null, spot1),
+                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot1)
         );
-        List<Img> photos2 = Arrays.asList(
-                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, null, spot2),
-                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, null, spot2)
+        List<SpotMedia> spotMedia2 = Arrays.asList(
+                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0,  GenericMediaType.PHOTO,null, null, spot2),
+                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0,  GenericMediaType.PHOTO,null, null, spot2)
         );
-        List<Img> photos3 = Arrays.asList(
-                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, null, spot3),
-                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, null, spot3)
+        List<SpotMedia> spotMedia3 = Arrays.asList(
+                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot3),
+                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0,  GenericMediaType.PHOTO,null, null, spot3)
         );
 
-        spot1.setImages(photos1);
-        spot2.setImages(photos2);
-        spot3.setImages(photos3);
+        spot1.setMedia(spotMedia1);
+        spot2.setMedia(spotMedia2);
+        spot3.setMedia(spotMedia3);
 
         spotRepository.deleteAll();
         spotRepository.save(spot1);

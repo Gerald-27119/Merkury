@@ -2,6 +2,7 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
+import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupDto;
 import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
@@ -9,6 +10,7 @@ import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.PhotoSortType;
+import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
@@ -97,8 +99,13 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/photos")
-    public ResponseEntity<List<DatedPhotosGroupDto>> getSortedUserPhotos(@RequestParam PhotoSortType type, @RequestParam(required = false) LocalDate from, @RequestParam(required = false) LocalDate to) throws UnsupportedPhotoSortTypeException {
+    public ResponseEntity<List<DatedPhotosGroupDto>> getSortedUserPhotos(@RequestParam DateSortType type, @RequestParam(required = false) LocalDate from, @RequestParam(required = false) LocalDate to) throws UnsupportedDateSortTypeException {
         return ResponseEntity.ok(userDashboardService.getSortedUserPhotos(type, from, to));
+    }
+
+    @GetMapping("user-dashboard/comments")
+    public ResponseEntity<List<DatedCommentsGroupDto>> getSortedUserComments(@RequestParam DateSortType type, @RequestParam(required = false) LocalDate from, @RequestParam(required = false) LocalDate to) throws UnsupportedDateSortTypeException {
+        return ResponseEntity.ok(userDashboardService.getSortedUserComments(type, from, to));
     }
 
     @PatchMapping("/user-dashboard/settings")

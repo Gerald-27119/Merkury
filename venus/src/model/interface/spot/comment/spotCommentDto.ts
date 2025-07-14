@@ -1,5 +1,5 @@
-import SpotCommentPhoto from "./spotCommentPhoto";
 import SpotCommentAuthorDto from "./spotCommentAuthorDto";
+import SpotCommentMediaDto from "./spotCommentMediaDto";
 
 export default interface SpotCommentDto {
     id: number;
@@ -12,6 +12,6 @@ export default interface SpotCommentDto {
     isAuthor: boolean;
     isUpVoted: boolean;
     isDownVoted: boolean;
-    numberOfPhotos: number;
-    photoList: SpotCommentPhoto[];
+    numberOfMedia: number;
+    mediaList: SpotCommentMediaDto[];
 }

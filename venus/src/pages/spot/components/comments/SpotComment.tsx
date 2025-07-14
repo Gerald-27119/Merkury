@@ -3,13 +3,14 @@ import { Rate } from "antd";
 import SpotCommentDto from "../../../../model/interface/spot/comment/spotCommentDto";
 import SpotCommentAuthor from "./SpotCommentAuthor";
 import SpotCommentVotesPanel from "./SpotCommentVotesPanel";
-import SpotCommentPhotos from "./SpotCommentPhotos";
+import SpotCommentMediaGallery from "./SpotCommentMediaGallery";
 
 type SpotCommentProps = {
     comment: SpotCommentDto;
+    spotId: number;
 };
 
-export default function SpotComment({ comment }: SpotCommentProps) {
+export default function SpotComment({ comment, spotId }: SpotCommentProps) {
     return (
         <div className="dark:bg-second flex min-h-fit flex-col items-center rounded-2xl px-4 lg:py-2">
             <div className="my-3 flex w-full flex-col items-start">
@@ -29,8 +30,13 @@ export default function SpotComment({ comment }: SpotCommentProps) {
                 </div>
             </div>
             <p className="mb-3 w-full text-left">{comment.text}</p>
-            {comment.photoList && (
-                <SpotCommentPhotos photos={comment.photoList} />
+            {comment.mediaList && (
+                <SpotCommentMediaGallery
+                    initialMedia={comment.mediaList}
+                    commentId={comment.id}
+                    spotId={spotId}
+                    numberOfMedia={comment.numberOfMedia}
+                />
             )}
             <SpotCommentVotesPanel
                 upvotes={comment.upvotes}

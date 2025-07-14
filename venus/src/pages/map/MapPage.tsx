@@ -8,7 +8,7 @@ import useSelectorTyped from "../../hooks/useSelectorTyped";
 import SpotDetails from "../spot/SpotDetails";
 import { AnimatePresence } from "framer-motion";
 import SpotsNameSearchBar from "./components/spot-search/SpotsNameSearchBar";
-import SearchedSpotsList from "../spot/SearchedSpotsList";
+import SearchedSpotsList from "../spot/components/searched-spot/SearchedSpotsList";
 
 type Position = {
     longitude: number;

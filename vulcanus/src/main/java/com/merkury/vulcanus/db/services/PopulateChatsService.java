@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
 import static com.merkury.vulcanus.model.enums.chat.ChatType.GROUP;
 
 @Service
@@ -25,157 +26,144 @@ public class PopulateChatsService {
     private final ChatRepository chatRepository;
     private final ChatMessageRepository chatMessageRepository;
 
-    //TODO: make more readable and customizable
+    /**
+     * Initializes chat data for development purposes.
+     * The primary user that has chats data populated has username "user".
+     * <p>
+     * The user has:
+     * <ul>
+     *     <li>30 one-on-one chats (100 messages)</li>
+     *     <li>1 three person chat (100 messages)</li>
+     *     <li>1 four person chat (100 messages)</li>
+     *     <li>1 one-on-one chat (0 messages)</li>
+     * </ul>
+     * <p>
+     * One of the chats will be getting (live) random messages for separate test (dev) service
+     * @author Adam Langmesser
+     * @Date: 05-07-2025
+     */
     @Transactional
     public void initChatsData() {
-
-        UserEntity user1 = userEntityRepository
-                .findByUsername("user1")
+        // główny użytkownik, mający najwięcej czatów
+        UserEntity mainUser = userEntityRepository
+                .findByUsername("user")
                 .orElseThrow();
 
-        List<UserEntity> others = IntStream.rangeClosed(2, 30)
+        // Inni użytkownicy
+        List<UserEntity> others = IntStream.rangeClosed(2, 50)
                 .mapToObj(i -> userEntityRepository
                         .findByUsername("user" + i)
                         .orElseThrow()
                 )
                 .toList();
 
-        List<Chat> chats = createChats();
-        chatRepository.saveAll(chats);
-
-        for (int i = 0; i < chats.size(); i++) {
-            Chat chat = chats.get(i);
-
-            if (i < 3) {
-                initChat(chat,
-                        List.of(user1, others.get(i)),
-                        false);
-
-            } else if (i < 6) {
-                List<UserEntity> three =
-                        List.of(user1,
-                                others.get(i),
-                                others.get(i + 1));
-                initChat(chat, three, true);
-
-            } else {
-                initChat(chat,
-                        List.of(user1, others.get(i)),
-                        true);
-            }
+        // 1) 30 czatów 1‑na‑1 z wiadomościami
+        for (int i = 0; i < 30; i++) {
+            Chat chat = createChat(List.of(mainUser, others.get(i)), true);
+            chatRepository.save(chat);
         }
+
+        // 2) 1 czat 3‑osobowy z wiadomościami
+        Chat chat3 = createChat(List.of(mainUser, others.get(30), others.get(31)), true);
+        chatRepository.save(chat3);
+
+        // 3) 1 czat 4‑osobowy z wiadomościami
+        Chat chat4 = createChat(List.of(mainUser, others.get(32), others.get(33), others.get(34)), true);
+        chatRepository.save(chat4);
+
+        // 4) 1 czat 1‑na‑1 bez wiadomości
+        Chat chatEmpty = createChat(List.of(mainUser, others.get(35)), false);
+        chatRepository.save(chatEmpty);
+
     }
 
-    private void initChat(
-            Chat chat,
-            List<UserEntity> participants,
-            boolean withMessages
-    ) {
+    private Chat createChat(List<UserEntity> participants, boolean withMessages) {
+        Chat chat = Chat.builder().build();
+
         for (UserEntity u : participants) {
             chat.addParticipant(u);
-            if (chat.getParticipants().size() > 2) chat.setChatType(GROUP);
         }
+        if (participants.size() > 2) chat.setChatType(GROUP);
+
+        chat = chatRepository.save(chat); // aby chat miał ID
 
         if (withMessages) {
-            List<ChatMessage> msgs = getChatMessages().toList();
-            Random random = new Random();
+            var messages = getRandomChatMessages(sampleChatMessages.length, participants, chat)
+                    .toList();
 
-            for (ChatMessage m : msgs) {
-                m.setChat(chat);
-
-                int randomIdx = random.nextInt(participants.size());
-                m.setSender(participants.get(randomIdx));
-
-                m.setSentAt(
-                        LocalDateTime.now()
-                                .minusDays(random.nextInt(5))
-                                .plusSeconds(random.nextInt(3600))
-                );
-            }
-
-            chatMessageRepository.saveAll(msgs);
-            chat.getChatMessages().addAll(msgs);
+            chatMessageRepository.saveAll(messages);
+            chat.getChatMessages().addAll(messages);
+            chat.setLastMessageAt(LocalDateTime.now());
+            chatRepository.save(chat);
         }
 
-
-        chatRepository.save(chat);
-
-        var users = IntStream.rangeClosed(1, 10)
-                .mapToObj(i -> userEntityRepository.findByUsername("user" + i)
-                        .orElseThrow(() -> new IllegalArgumentException("User not found: user" + i)))
-                .peek(user -> user.setProfileImage(user.getUsername() + ".png"))
-                .toList();
-        userEntityRepository.saveAll(users);
+        return chat;
     }
 
-    private Stream<ChatMessage> getChatMessages() {
-        String[] samples = {
-                "Hi!",
-                "How are you doing today?",
-                "This is a slightly longer message to show variability.",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                "Short.",
-                "Here’s a medium-length one to mix things up.",
-                "A very, very, very, very, very, very long message that just keeps going and going to simulate a verbose user.",
-                "Ok.",
-                "What’s the plan for the weekend?",
-                "😂👍",
-                "Did you catch the game last night? It was incredible from start to finish!",
-                "Ping!",
-                "Yes.",
-                "No.",
-                "Maybe later.",
-                "I’ll get back to you on that.",
-                "Sure thing.",
-                "Thanks!",
-                "You’re welcome.",
-                "See you soon.",
-                "Goodbye!",
-                "That sounds great.",
-                "Can you elaborate on that point a bit more?",
-                "Absolutely—here are the details you asked for: 1) First item; 2) Second item; 3) Third item.",
-                "🤔",
-                "Let me think about it.",
-                "I'll send the document over in a moment.",
-                "Check this out!",
-                "🚀🎉",
-                "Remember to submit your timesheet by EOD.",
-                "Happy birthday!!! 🎂🥳",
-                "Reminder: team sync at 3pm.",
-                "Sure, what time works for you?",
-                "I’m free all afternoon.",
-                "Let’s do lunch tomorrow.",
-                "Sounds good.",
-                "👍",
-                "👀",
-                "🔔",
-                "Here’s the link: https://example.com",
-                "This one’s just long enough to be interesting without being overwhelming.",
-                "Tiny.",
-                "Mid-sized message, right?",
-                "This is another example of a longer piece of text meant to simulate a user typing several sentences in one go for testing.",
-                "End.",
-                "🐱‍🏍",
-                "🎶🎵",
-                "ChatMessage number fifty—mission accomplished!"};
-        return IntStream.rangeClosed(1, 50)
+    private Stream<ChatMessage> getRandomChatMessages(int count, List<UserEntity> participants, Chat chat) {
+        return IntStream.range(0, count)
                 .mapToObj(i -> ChatMessage.builder()
-                        .content(samples[(i - 1) % samples.length])
-                        .build()
-                );
+                        .chat(chat)
+                        .sender(participants.get(generateRandomNumber(participants.size() - 1)))
+                        .content(sampleChatMessages[generateRandomNumber(sampleChatMessages.length - 1)])
+                        .sentAt(LocalDateTime.now())
+                        .build());
     }
 
-    private List<Chat> createChats() {
-        var chats = IntStream.range(0, 20)
-                .mapToObj(i -> createChat())
-                .toList();
 
-        return chatRepository.saveAll(chats);
+    private int generateRandomNumber(int max) {
+        return ThreadLocalRandom.current().nextInt(0, max + 1);
     }
 
-    private Chat createChat() {
-        return Chat.builder()
-                .build();
-    }
+    private final String[] sampleChatMessages = {
+            "Hi!",
+            "How are you doing today?",
+            "This is a slightly longer message to show variability.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "Short.",
+            "Here’s a medium-length one to mix things up.",
+            "A very, very, very, very, very, very long message that just keeps going and going to simulate a verbose user.",
+            "Ok.",
+            "What’s the plan for the weekend?",
+            "😂👍",
+            "Did you catch the game last night? It was incredible from start to finish!",
+            "Ping!",
+            "Yes.",
+            "No.",
+            "Maybe later.",
+            "I’ll get back to you on that.",
+            "Sure thing.",
+            "Thanks!",
+            "You’re welcome.",
+            "See you soon.",
+            "Goodbye!",
+            "That sounds great.",
+            "Can you elaborate on that point a bit more?",
+            "Absolutely—here are the details you asked for: 1) First item; 2) Second item; 3) Third item.",
+            "🤔",
+            "Let me think about it.",
+            "I'll send the document over in a moment.",
+            "Check this out!",
+            "🚀🎉",
+            "Remember to submit your timesheet by EOD.",
+            "Happy birthday!!! 🎂🥳",
+            "Reminder: team sync at 3pm.",
+            "Sure, what time works for you?",
+            "I’m free all afternoon.",
+            "Let’s do lunch tomorrow.",
+            "Sounds good.",
+            "👍",
+            "👀",
+            "🔔",
+            "Here’s the link: https://example.com",
+            "This one’s just long enough to be interesting without being overwhelming.",
+            "Tiny.",
+            "Mid-sized message, right?",
+            "This is another example of a longer piece of text meant to simulate a user typing several sentences in one go for testing.",
+            "End.",
+            "🐱‍🏍",
+            "🎶🎵",
+            "ChatMessage number fifty—mission accomplished!"
+    };
 
 }

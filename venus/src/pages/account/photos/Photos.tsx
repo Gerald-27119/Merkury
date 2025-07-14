@@ -1,35 +1,29 @@
 import { useQuery } from "@tanstack/react-query";
 import { getSortedUserPhotos } from "../../../http/user-dashboard";
-import DateBadge from "./components/DateBadge";
+import DateBadge from "../components/DateBadge";
 import Photo from "./components/Photo";
-import DateChooser from "./components/DateChooser";
-import { PhotosSortType } from "../../../model/enum/account/photos/photosSortType";
-import { useEffect, useState } from "react";
-import SortDropdown from "./components/SortDropdown";
 import AccountTitle from "../components/AccountTitle";
 import AccountWrapper from "../components/AccountWrapper";
 import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
-import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { useDateSortFilter } from "../../../hooks/useDateSortFilter";
+import SortAndDateFilters from "../components/SortAndDateFilters";
+import { useEffect } from "react";
 import { notificationAction } from "../../../redux/notification";
-import dayjs, { Dayjs } from "dayjs";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
 
 export default function Photos() {
-    const [optionType, setOptionType] = useState(PhotosSortType.DATE_DECREASE);
-    const [searchDate, setSearchDate] = useState({
-        from: null,
-        to: null,
-    });
-
     const dispatch = useDispatchTyped();
+    const { sortType, searchDate, handleSelectType, handleChangeDate } =
+        useDateSortFilter();
 
     const { data, isLoading, isError } = useQuery({
-        queryKey: ["photos", optionType, searchDate.from, searchDate.to],
+        queryKey: ["photos", sortType, searchDate.from, searchDate.to],
         queryFn: () =>
             getSortedUserPhotos({
                 from: searchDate.from,
                 to: searchDate.to,
-                type: optionType,
+                type: sortType,
             }),
     });
 
@@ -44,64 +38,16 @@ export default function Photos() {
         }
     }, [isError]);
 
-    const handleSelectType = (type: PhotosSortType) => {
-        setOptionType(type);
-    };
-
-    const handleChangeDate = (value: Dayjs | null, id: string) => {
-        const formatted = value?.format("YYYY-MM-DD");
-
-        if (id === "from") {
-            if (searchDate.to && value?.isAfter(searchDate.to)) {
-                dispatch(
-                    notificationAction.setError({
-                        message: '"From" date cannot be after "To" date',
-                    }),
-                );
-                return;
-            }
-        }
-
-        if (id === "to") {
-            if (searchDate.from && value?.isBefore(searchDate.from)) {
-                dispatch(
-                    notificationAction.setError({
-                        message: '"To" date cannot be before "From" date',
-                    }),
-                );
-                return;
-            }
-        }
-
-        setSearchDate((prevState) => ({
-            ...prevState,
-            [id]: formatted,
-        }));
-    };
-
     return (
         <AccountWrapper variant={AccountWrapperType.PHOTOS}>
             <div className="flex flex-wrap items-center justify-between space-y-2 space-x-3">
                 <AccountTitle text="Photos" />
-                <div className="text-darkText flex flex-wrap space-y-3 space-x-3 md:space-y-0 lg:mx-27">
-                    <SortDropdown onSelectType={handleSelectType} />
-                    <div className="bg-violetDark flex h-15 items-center space-x-3 rounded-full px-2.5 py-1 md:h-12">
-                        <DateChooser
-                            text="From:"
-                            onChange={(value) =>
-                                handleChangeDate(value, "from")
-                            }
-                            value={
-                                searchDate.from ? dayjs(searchDate.from) : null
-                            }
-                        />
-                        <DateChooser
-                            text="To:"
-                            onChange={(value) => handleChangeDate(value, "to")}
-                            value={searchDate.to ? dayjs(searchDate.to) : null}
-                        />
-                    </div>
-                </div>
+                <SortAndDateFilters
+                    onSortChange={handleSelectType}
+                    onDateChange={handleChangeDate}
+                    from={searchDate.from}
+                    to={searchDate.to}
+                />
             </div>
             <div className="flex flex-col gap-3 lg:mx-27">
                 {isLoading && <LoadingSpinner />}

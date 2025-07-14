@@ -1,4 +1,4 @@
-import SearchSpotDto from "../../../../model/interface/spot/searchSpotDto";
+import SearchSpotDto from "../../../../model/interface/spot/search-spot/searchSpotDto";
 import { Rate } from "antd";
 import SpotTag from "../tag/SpotTag";
 import { useMap } from "@vis.gl/react-maplibre";

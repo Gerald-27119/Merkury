@@ -1,8 +1,8 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.FavoriteSpotNotExistException;
-import com.merkury.vulcanus.model.entities.FavoriteSpot;
-import com.merkury.vulcanus.model.entities.Spot;
+import com.merkury.vulcanus.model.entities.spot.FavoriteSpot;
+import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.repositories.FavoriteSpotRepository;

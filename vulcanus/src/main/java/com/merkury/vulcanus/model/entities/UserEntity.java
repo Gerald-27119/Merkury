@@ -5,6 +5,9 @@ import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatInvitation;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.entities.chat.ChatParticipant;
+import com.merkury.vulcanus.model.entities.spot.FavoriteSpot;
+import com.merkury.vulcanus.model.entities.spot.SpotComment;
+import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.enums.UserRole;
 import jakarta.persistence.*;
@@ -51,6 +54,12 @@ public class UserEntity implements UserDetails {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Img> images = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<SpotMedia> media = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
