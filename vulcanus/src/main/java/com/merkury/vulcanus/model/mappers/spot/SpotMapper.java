@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.model.mappers.spot;
 
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.NearbySpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.dtos.spot.coordinates.SpotCoordinatesDto;
@@ -68,13 +67,6 @@ public class SpotMapper {
                         .map(SpotTagMapper::toDto)
                         .collect(Collectors.toSet()))
                 .centerPoint(spot.getCenterPoint())
-                .build();
-    }
-
-    public static NearbySpotDto toNearbySpotDto(@NotNull Spot spot, double distance) {
-        return NearbySpotDto.builder()
-                .searchSpotDto(toSearchSpotDto(spot))
-                .distance(distance)
                 .build();
     }
 }

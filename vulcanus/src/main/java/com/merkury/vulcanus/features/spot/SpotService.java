@@ -3,17 +3,14 @@ package com.merkury.vulcanus.features.spot;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.NearbySpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
-import com.merkury.vulcanus.utils.MapDistanceCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,7 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpotService {
 
-    private final static double DISTANCE_MARGIN_ACCEPTANCE_PERCENTAGE = 1.02;
     private final SpotRepository spotRepository;
 
     private List<GeneralSpotDto> getAllSpots() throws SpotsNotFoundException {
@@ -49,14 +45,10 @@ public class SpotService {
         return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), customSort);
     }
 
-    public Page<NearbySpotDto> getNearbySpots(String name, String sort, double ratingFrom, double ratingTo, double userLongitude, double userLatitude, double requiredMinDistance, Pageable pageable) {
+    public Page<SearchSpotDto> getSpotsInCurrentView(double swLng, double swLat, double neLng, double neLat, String name, String sort, double ratingFrom, Pageable pageable) {
         var sortedPageable = configurePageableSorting(pageable, sort);
-        Page<Spot> nearbySpots = spotRepository.findAllByNameContainingIgnoreCaseAndRatingBetween(name, ratingFrom, ratingTo, sortedPageable);
-        var nearbySpotsInDistance = nearbySpots
-                .map(spot -> SpotMapper.toNearbySpotDto(spot, MapDistanceCalculator.calculateDistance(userLatitude, userLongitude, spot.getCenterPoint().getX(), spot.getCenterPoint().getY())))
-                .filter(nearbySpotDto -> nearbySpotDto.distance() * DISTANCE_MARGIN_ACCEPTANCE_PERCENTAGE <= requiredMinDistance)
-                .toList();
-        return new PageImpl<>(nearbySpotsInDistance, sortedPageable, nearbySpotsInDistance.size());
+        return spotRepository.findSpotsInCurrentViewByCriteria(swLat, neLat, swLng, neLng, name, ratingFrom, sortedPageable)
+                .map(SpotMapper::toSearchSpotDto);
     }
 
     public Page<SearchSpotDto> getSearchedSpotsListPage(String name, String sort, Pageable pageable) {

@@ -2,12 +2,9 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.spot.SpotService;
-import com.merkury.vulcanus.model.dtos.spot.NearbySpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,18 +23,17 @@ public class SpotController {
 
     private final SpotService spotService;
 
-    @GetMapping("/public/spot/nearby-spots")
-    public ResponseEntity<Page<NearbySpotDto>> getNearbySpots(@RequestParam(defaultValue = "") String name,
+    @GetMapping("/public/spot/current-view")
+    public ResponseEntity<Page<SearchSpotDto>> getCurrentView(@RequestParam double swLng,
+                                                              @RequestParam double swLat,
+                                                              @RequestParam double neLng,
+                                                              @RequestParam double neLat,
+                                                              @RequestParam(defaultValue = "") String name,
                                                               @RequestParam(defaultValue = "none") String sort,
-                                                              @RequestParam(defaultValue = "0.0") @DecimalMin("0.0") @DecimalMax("5.0") double ratingFrom,
-                                                              @RequestParam(defaultValue = "5.0") @DecimalMin("0.0") @DecimalMax("5.0") double ratingTo,
-                                                              @RequestParam @DecimalMin(value = "-180.0") @DecimalMax(value = "180.0") double userLongitude,
-                                                              @RequestParam @DecimalMin(value = "-90.0") @DecimalMax(value = "90.0") double userLatitude,
-                                                              @RequestParam(defaultValue = "10.0") @DecimalMin(value = "0.0") double requiredMinDistance,
+                                                              @RequestParam(defaultValue = "0.0") double ratingFrom,
                                                               @RequestParam(defaultValue = "0") int page) {
-        log.info("Getting NearbySpots");
-        return ResponseEntity.ok(spotService.getNearbySpots(name, sort, ratingFrom, ratingTo, userLongitude, userLatitude, requiredMinDistance, PageRequest.of(page, DEFAULT_SEARCHED_SPOTS_PAGE_SIZE)));
-
+        log.info("getting spots in current view");
+        return ResponseEntity.ok(spotService.getSpotsInCurrentView(swLng, swLat, neLng, neLat, name, sort, ratingFrom, PageRequest.of(page, DEFAULT_SEARCHED_SPOTS_PAGE_SIZE)));
     }
 
     @GetMapping("/public/spot/{spotId}")
