@@ -17,7 +17,7 @@ const variantClasses = {
     favorite_spots: "h-full space-y-10 p-10 pt-17",
     social: socialCommentsSettings,
     comments: socialCommentsSettings,
-    settings: socialCommentsSettings
+    settings: socialCommentsSettings,
 };
 
 export default function AccountWrapper({
