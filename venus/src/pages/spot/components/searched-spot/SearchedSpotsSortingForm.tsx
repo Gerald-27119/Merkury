@@ -1,19 +1,11 @@
 import { RiArrowDownSLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import useSelectorTyped from "../../../../hooks/useSelectorTyped";
-import useDispatchTyped from "../../../../hooks/useDispatchTyped";
-import { spotFiltersAction } from "../../../../redux/spot-filters";
 import { useQueryClient } from "@tanstack/react-query";
-import { searchedSpotsSliceActions } from "../../../../redux/searched-spots";
 import { useBoolean } from "../../../../hooks/useBoolean";
+import SpotSortingOption from "../../../../model/spotSortingOption";
 
-type Option = {
-    value: string;
-    label: string;
-};
-
-export const options: Option[] = [
+export const options: SpotSortingOption[] = [
     { value: "none", label: "Default" },
     { value: "byRatingAsc", label: "Rating ascending" },
     { value: "byRatingDesc", label: "Rating descending" },
@@ -27,35 +19,40 @@ const slideVariants = {
     exit: { y: "-10%", opacity: 0 },
 };
 
-export default function SearchedSpotsSortingForm() {
-    const [selectedSorting, setSelectedSorting] = useState<Option>(options[0]);
+type SearchedSpotsSortingFormProps = {
+    queryKeyToRemoveQueries: string[];
+    onClear: () => void;
+    onSelectSorting: (opt: SpotSortingOption) => void;
+    sorting: string;
+};
+
+export default function SearchedSpotsSortingForm({
+    queryKeyToRemoveQueries,
+    onClear,
+    onSelectSorting,
+    sorting,
+}: SearchedSpotsSortingFormProps) {
+    const [selectedSorting, setSelectedSorting] = useState<SpotSortingOption>(
+        options[0],
+    );
     const [isDropdownOpen, _, closeDropdown, toggleDropdown] = useBoolean();
-
-    const { name, sorting } = useSelectorTyped((state) => state.spotFilters);
-
-    const dispatch = useDispatchTyped();
 
     const queryClient = useQueryClient();
 
-    const handleSelectSorting = async (opt: Option) => {
+    const handleSelectSorting = (opt: SpotSortingOption) => {
         setSelectedSorting(opt);
         closeDropdown();
     };
 
     useEffect(() => {
         if (selectedSorting.value != sorting) {
-            dispatch(
-                spotFiltersAction.setFilters({
-                    name: name,
-                    sorting: selectedSorting.value,
-                }),
-            );
-            dispatch(searchedSpotsSliceActions.clearSearchedSpots());
+            onSelectSorting(selectedSorting);
+            onClear();
             queryClient.removeQueries({
-                queryKey: ["spots", name, sorting],
+                queryKey: queryKeyToRemoveQueries,
             });
         }
-    }, [selectedSorting, name, sorting, dispatch]);
+    }, [selectedSorting, sorting, ...queryKeyToRemoveQueries]);
 
     return (
         <div
@@ -94,7 +91,7 @@ export default function SearchedSpotsSortingForm() {
                             transition={{ duration: 0.2 }}
                             className="bg-violetLight absolute top-[2.28rem] right-0 z-10 mb-auto ml-auto w-fit overflow-hidden rounded-b-2xl pt-2 text-lg"
                         >
-                            {options.map((opt: Option) => (
+                            {options.map((opt: SpotSortingOption) => (
                                 <li
                                     key={opt.value}
                                     value={opt.value}

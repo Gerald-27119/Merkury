@@ -24,7 +24,12 @@ export const renderSearchedSpotsSortingForm = () => {
         <Provider store={store}>
             <MemoryRouter>
                 <QueryClientProvider client={queryClient}>
-                    <SearchedSpotsSortingForm />
+                    <SearchedSpotsSortingForm
+                        queryKeyToRemoveQueries={[]}
+                        sorting={"none"}
+                        onSelectSorting={() => {}}
+                        onClear={() => {}}
+                    />
                 </QueryClientProvider>
             </MemoryRouter>
         </Provider>,

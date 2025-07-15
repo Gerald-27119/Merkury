@@ -134,14 +134,14 @@ export default function CurrentViewSpotsList() {
                     onClick={handleClickCloseList}
                 />
                 <h1 className="mb-6 text-xl font-semibold text-white">
-                    Spots nearby you
+                    Nearby Spots
                 </h1>
                 <div
                     ref={containerRef}
                     className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex w-full flex-col items-center overflow-y-auto rounded-b-xl lg:h-[80rem] [@media(max-height:1080px)]:h-[50rem]"
                 >
                     {isLoading && <LoadingSpinner />}
-                    {isError && <p>Failed to load searched spots data.</p>}
+                    {isError && <p>Failed to load spots data.</p>}
                     {currentViewSpots?.length === 0 ? (
                         <p className="mt-20 text-center text-2xl font-semibold">
                             No spots match criteria!
