@@ -7,7 +7,6 @@ import NewPassword from "./pages/new-password/NewPassword.jsx";
 import Layout from "./layout/Layout.jsx";
 import Forum from "./pages/forum/Forum";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
-import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
 import MapPage from "./pages/map/MapPage";
 import ChatsPage from "./pages/chats/ChatsPage";
 import FavoriteSpots from "./pages/account/favorite-spots/FavoriteSpots";
@@ -113,14 +112,6 @@ const router = createBrowserRouter([
             {
                 path: "forum",
                 element: <Forum />,
-            },
-            {
-                path: "edit-data",
-                element: (
-                    <ProtectedRoute>
-                        <EditUserData />
-                    </ProtectedRoute>
-                ),
             },
             {
                 path: "map",

@@ -56,16 +56,20 @@ public class SettingsService {
             throw new InvalidPasswordException("Password must be 8-16 characters long, contain at least one digit, one uppercase letter, one lowercase letter, and one special character.");
         }
 
-        if (passwordEncoder.matches(user.getPassword(), newPassword)) {
+        if (passwordEncoder.matches(newPassword, user.getPassword())) {
             throw new SamePasswordException();
         }
 
-        if (passwordEncoder.matches(oldPassword, user.getPassword()) && newPassword.equals(confirmPassword)) {
-            user.setPassword(passwordEncoder.encode(newPassword));
-            userEntityRepository.save(user);
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new InvalidPasswordException("Wrong old password, try again.");
         }
 
-        throw new InvalidPasswordException("Wrong old password, try again.");
+        if (!newPassword.equals(confirmPassword)) {
+            throw new InvalidPasswordException("New password and confirmation password do not match.");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userEntityRepository.save(user);
     }
 
     private void changeUserEmail(UserEntity user, String email) throws EmailTakenException, SameEmailException {

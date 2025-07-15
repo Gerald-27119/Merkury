@@ -14,10 +14,10 @@ export const baseSchemas = {
         .object({
             oldPassword: z
                 .string("Old password can't be empty")
-                .min(6, "Old password is required"),
+                .min(8, "Old password is required"),
             newPassword: z
                 .string("New Password can't be empty")
-                .min(6, "New password must be at least 6 characters")
+                .min(8, "New password must be at least 8 characters")
                 .regex(
                     /[A-Z]/,
                     "Password must contain at least one uppercase letter",
@@ -26,7 +26,11 @@ export const baseSchemas = {
                     /[a-z]/,
                     "Password must contain at least one lowercase letter",
                 )
-                .regex(/\d/, "Password must contain at least one number"),
+                .regex(/\d/, "Password must contain at least one number")
+                .regex(
+                    /[!@#$%^&*(),.?":{}|<>]/,
+                    "Password must contain at least one special character",
+                ),
             confirmPassword: z.string("Confirm password can't be empty"),
         })
         .refine((data) => data.newPassword === data.confirmPassword, {

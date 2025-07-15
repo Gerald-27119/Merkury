@@ -15,7 +15,7 @@ export default function DisableInput({
 }: DisableInputProps) {
     return (
         <div className="flex flex-col space-y-1.5">
-            <label htmlFor="password" className="text-xl font-semibold">
+            <label htmlFor={id} className="text-xl font-semibold">
                 {label}
             </label>
             <div className="dark:bg-darkBgMuted bg-lightBgMuted flex items-center justify-between rounded-md px-2.5 py-2 shadow-md lg:w-96 dark:shadow-black/50">
