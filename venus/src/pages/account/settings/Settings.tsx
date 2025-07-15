@@ -17,10 +17,18 @@ import { baseSchemas } from "./validation-schema/validationSchema";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
+import { AxiosError } from "axios";
+
+type InputFieldId =
+    | "username"
+    | "email"
+    | "oldPassword"
+    | "newPassword"
+    | "confirmPassword";
 
 const inputConfig: Record<
     UserSettingsType,
-    { name: string; type: string; id: string }[]
+    { name: string; type: string; id: InputFieldId }[]
 > = {
     [UserSettingsType.USERNAME]: [
         { name: "username", type: "text", id: "username" },
@@ -77,6 +85,12 @@ export default function Settings() {
                 queryClient.invalidateQueries({ queryKey: ["settings"] }),
             );
         },
+        onError: (error: AxiosError) => {
+            console.log(error);
+            dispatch(
+                notificationAction.setError({ message: error?.response?.data }),
+            );
+        },
     });
 
     const { data, isLoading } = useQuery({
@@ -128,10 +142,10 @@ export default function Settings() {
     return (
         <AccountWrapper variant={AccountWrapperType.SETTINGS}>
             <AccountTitle text="Settings" />
-            <div className="flex">
-                <div className="mt-5 flex w-1/3 flex-col space-y-4 lg:ml-27">
+            <div className="flex flex-col space-y-6 lg:flex-row lg:space-y-0">
+                <div className="mt-5 flex w-full flex-col space-y-4 lg:ml-27 lg:w-1/3">
                     <h1 className="text-3xl font-semibold">Account details</h1>
-                    <div className="flex flex-col space-y-3">
+                    <div className="flex w-full flex-col space-y-3">
                         {inputFields.map((field) => (
                             <DisableInput
                                 key={field.id}
@@ -145,13 +159,13 @@ export default function Settings() {
                     </div>
                 </div>
                 {editType !== UserSettingsType.NONE && (
-                    <div className="mt-5 flex w-1/2 flex-col space-y-4 lg:ml-27">
+                    <div className="mt-5 flex w-full flex-col space-y-4 lg:mx-27 xl:mr-0 xl:w-1/2">
                         <h1 className="text-3xl font-semibold">
                             {getHeaderForEditType(editType)}
                         </h1>
-                        <div className="flex w-1/2 flex-col space-y-3">
+                        <div className="flex w-full flex-col space-y-3 xl:w-1/2">
                             <form
-                                className="flex flex-col gap-4"
+                                className="flex w-full flex-col gap-4"
                                 onSubmit={handleSubmit(onSubmit)}
                             >
                                 {inputConfig[editType].map(
@@ -168,17 +182,24 @@ export default function Settings() {
                                             }
                                             onBlur={() => trigger(id)}
                                             isValid={{
-                                                value: !errors[id],
+                                                value: !(
+                                                    errors as Record<
+                                                        InputFieldId,
+                                                        any
+                                                    >
+                                                )[id],
                                                 message:
-                                                    errors[id]?.message ?? "",
+                                                    (
+                                                        errors as unknown as Record<
+                                                            InputFieldId,
+                                                            { message?: string }
+                                                        >
+                                                    )[id]?.message ?? "",
                                             }}
                                         />
                                     ),
                                 )}
-                                <Button
-                                    variant={ButtonVariantType.SETTINGS}
-                                    onClick={() => {}}
-                                >
+                                <Button variant={ButtonVariantType.SETTINGS}>
                                     Save
                                 </Button>
                             </form>

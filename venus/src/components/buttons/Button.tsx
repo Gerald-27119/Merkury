@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { ButtonVariantType } from "../../model/enum/buttonVariantType";
 
 interface ButtonProps {
-    onClick: () => void;
+    onClick?: () => void;
     variant: ButtonVariantType;
     className?: string;
     children: ReactNode;
@@ -23,7 +23,7 @@ const variantClasses = {
 };
 
 export default function Button({
-    onClick,
+    onClick = () => {},
     variant,
     className,
     children,

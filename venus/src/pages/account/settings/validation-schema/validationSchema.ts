@@ -33,4 +33,5 @@ export const baseSchemas = {
             message: "Passwords do not match",
             path: ["confirmPassword"],
         }),
+    [UserSettingsType.NONE]: z.object({}),
 };

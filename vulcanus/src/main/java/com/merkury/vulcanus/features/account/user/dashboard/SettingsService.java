@@ -64,6 +64,8 @@ public class SettingsService {
             user.setPassword(passwordEncoder.encode(newPassword));
             userEntityRepository.save(user);
         }
+
+        throw new InvalidPasswordException("Wrong old password, try again.");
     }
 
     private void changeUserEmail(UserEntity user, String email) throws EmailTakenException, SameEmailException {
