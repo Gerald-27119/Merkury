@@ -2,8 +2,8 @@ import { RiArrowDownSLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useQueryClient } from "@tanstack/react-query";
-import { useBoolean } from "../../../../hooks/useBoolean";
-import SpotSortingOption from "../../../../model/spotSortingOption";
+import { useBoolean } from "../../../hooks/useBoolean";
+import SpotSortingOption from "../../../model/spotSortingOption";
 
 export const options: SpotSortingOption[] = [
     { value: "none", label: "Default" },
@@ -26,7 +26,7 @@ type SearchedSpotsSortingFormProps = {
     sorting: string;
 };
 
-export default function SearchedSpotsSortingForm({
+export default function SpotsSortingForm({
     queryKeyToRemoveQueries,
     onClear,
     onSelectSorting,

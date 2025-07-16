@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { HiX } from "react-icons/hi";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
-import SearchedSpotInfo from "../searched-spot/SearchedSpotInfo";
+import ListedSpotInfo from "../spot-info/ListedSpotInfo";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { currentViewSpotsListModalActions } from "../../../../redux/current-view-spots-list-modal";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
@@ -14,6 +14,7 @@ import {
     currentViewSpotsActions,
     currentViewSpotsSelectors,
 } from "../../../../redux/current-view-spots";
+import CurrentViewSpotsFormsContainer from "./CurrentViewSpotsFormsContainer";
 
 const slideVariants = {
     hidden: { x: "-100%", opacity: 0 },
@@ -136,6 +137,7 @@ export default function CurrentViewSpotsList() {
                 <h1 className="mb-6 text-xl font-semibold text-white">
                     Nearby Spots
                 </h1>
+                <CurrentViewSpotsFormsContainer />
                 <div
                     ref={containerRef}
                     className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex w-full flex-col items-center overflow-y-auto rounded-b-xl lg:h-[80rem] [@media(max-height:1080px)]:h-[50rem]"
@@ -150,7 +152,7 @@ export default function CurrentViewSpotsList() {
                         <ul className="w-full">
                             {currentViewSpots.map((currentViewSpot) => (
                                 <li key={currentViewSpot.id} className="my-4">
-                                    <SearchedSpotInfo spot={currentViewSpot} />
+                                    <ListedSpotInfo spot={currentViewSpot} />
                                 </li>
                             ))}
                         </ul>

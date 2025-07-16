@@ -13,8 +13,8 @@ import {
     searchedSpotsSelectors,
     searchedSpotsSliceActions,
 } from "../../../../redux/searched-spots";
-import SearchedSpotInfo from "./SearchedSpotInfo";
-import SearchedSpotsSortingForm from "./SearchedSpotsSortingForm";
+import ListedSpotInfo from "../spot-info/ListedSpotInfo";
+import SpotsSortingForm from "../SpotsSortingForm";
 import { spotFiltersAction } from "../../../../redux/spot-filters";
 
 const slideVariants = {
@@ -117,7 +117,7 @@ export default function SearchedSpotsList() {
                 <h1 className="mb-6 text-xl font-semibold text-white">
                     Spots matching criteria
                 </h1>
-                <SearchedSpotsSortingForm
+                <SpotsSortingForm
                     onSelectSorting={(opt) =>
                         dispatch(
                             spotFiltersAction.setFilters({
@@ -145,7 +145,7 @@ export default function SearchedSpotsList() {
                         <ul className="w-full">
                             {searchedSpots.map((searchedSpot) => (
                                 <li key={searchedSpot.id} className="my-4">
-                                    <SearchedSpotInfo spot={searchedSpot} />
+                                    <ListedSpotInfo spot={searchedSpot} />
                                 </li>
                             ))}
                         </ul>
