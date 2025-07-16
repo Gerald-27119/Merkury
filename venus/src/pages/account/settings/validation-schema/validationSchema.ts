@@ -5,7 +5,8 @@ export const baseSchemas = {
     [UserSettingsType.USERNAME]: z.object({
         username: z
             .string("Username can't be empty")
-            .min(3, "Username must be at least 3 characters"),
+            .min(3, "Username must be at least 3 characters")
+            .max(16, "Username can't be longer that 16 characters"),
     }),
     [UserSettingsType.EMAIL]: z.object({
         email: z.email("Invalid email address"),

@@ -18,6 +18,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { AxiosError } from "axios";
+import { Provider } from "../../../model/enum/provider";
+import { getOauth2ProviderIcon } from "../../../utils/account";
 
 type InputFieldId =
     | "username"
@@ -65,14 +67,14 @@ export default function Settings() {
     type FormSchemaType = z.infer<typeof currentSchema>;
 
     const {
-        register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isValid },
         watch,
         setValue,
         trigger,
     } = useForm<FormSchemaType>({
         resolver: zodResolver(currentSchema),
+        mode: "onChange",
     });
 
     const { mutateAsync } = useMutation({
@@ -86,9 +88,10 @@ export default function Settings() {
             );
         },
         onError: (error: AxiosError) => {
-            console.log(error);
             dispatch(
-                notificationAction.setError({ message: error?.response?.data }),
+                notificationAction.setError({
+                    message: error?.response?.data,
+                }),
             );
         },
     });
@@ -142,71 +145,98 @@ export default function Settings() {
     return (
         <AccountWrapper variant={AccountWrapperType.SETTINGS}>
             <AccountTitle text="Settings" />
-            <div className="flex flex-col space-y-6 lg:flex-row lg:space-y-0">
-                <div className="mt-5 flex w-full flex-col space-y-4 lg:ml-27 lg:w-1/3">
-                    <h1 className="text-3xl font-semibold">Account details</h1>
-                    <div className="flex w-full flex-col space-y-3">
-                        {inputFields.map((field) => (
-                            <DisableInput
-                                key={field.id}
-                                label={field.label}
-                                value={field.value}
-                                type={field.type}
-                                id={field.id}
-                                onEdit={() => handleEditType(field.editType)}
-                            />
-                        ))}
-                    </div>
-                </div>
-                {editType !== UserSettingsType.NONE && (
-                    <div className="mt-5 flex w-full flex-col space-y-4 lg:mx-27 xl:mr-0 xl:w-1/2">
+            {data?.provider === Provider.NONE && (
+                <div className="flex flex-col space-y-6 lg:flex-row lg:space-y-0">
+                    <div className="mt-5 flex w-full flex-col space-y-4 lg:ml-27 lg:w-1/3">
                         <h1 className="text-3xl font-semibold">
-                            {getHeaderForEditType(editType)}
+                            Account details
                         </h1>
-                        <div className="flex w-full flex-col space-y-3 xl:w-1/2">
-                            <form
-                                className="flex w-full flex-col gap-4"
-                                onSubmit={handleSubmit(onSubmit)}
-                            >
-                                {inputConfig[editType].map(
-                                    ({ name, type, id }) => (
-                                        <FormInput
-                                            key={id}
-                                            label={name}
-                                            type={type}
-                                            id={id}
-                                            {...register(id)}
-                                            value={watch(id) ?? ""}
-                                            onChange={(e) =>
-                                                setValue(id, e.target.value)
-                                            }
-                                            onBlur={() => trigger(id)}
-                                            isValid={{
-                                                value: !(
-                                                    errors as Record<
-                                                        InputFieldId,
-                                                        any
-                                                    >
-                                                )[id],
-                                                message:
-                                                    (
-                                                        errors as unknown as Record<
-                                                            InputFieldId,
-                                                            { message?: string }
-                                                        >
-                                                    )[id]?.message ?? "",
-                                            }}
-                                        />
-                                    ),
-                                )}
-                                <Button variant={ButtonVariantType.SETTINGS}>
-                                    Save
-                                </Button>
-                            </form>
+                        <div className="flex w-full flex-col space-y-3">
+                            {inputFields.map((field) => (
+                                <DisableInput
+                                    key={field.id}
+                                    label={field.label}
+                                    value={field.value}
+                                    type={field.type}
+                                    id={field.id}
+                                    onEdit={() =>
+                                        handleEditType(field.editType)
+                                    }
+                                />
+                            ))}
                         </div>
                     </div>
-                )}
-            </div>
+                    {editType !== UserSettingsType.NONE && (
+                        <div className="mt-5 flex w-full flex-col space-y-4 lg:mx-27 xl:mr-0 xl:w-1/2">
+                            <h1 className="text-3xl font-semibold">
+                                {getHeaderForEditType(editType)}
+                            </h1>
+                            <div className="flex w-full flex-col space-y-3 xl:w-1/2">
+                                <form
+                                    className="flex w-full flex-col gap-4"
+                                    onSubmit={handleSubmit(onSubmit)}
+                                >
+                                    {inputConfig[editType].map(
+                                        ({ name, type, id }) => (
+                                            <FormInput
+                                                key={id}
+                                                id={id}
+                                                label={name}
+                                                type={type}
+                                                value={watch(id) ?? ""}
+                                                onChange={(e) =>
+                                                    setValue(id, e.target.value)
+                                                }
+                                                onBlur={() => trigger(id)}
+                                                isValid={{
+                                                    value: !(
+                                                        errors as Record<
+                                                            InputFieldId,
+                                                            any
+                                                        >
+                                                    )[id],
+                                                    message:
+                                                        (
+                                                            errors as unknown as Record<
+                                                                InputFieldId,
+                                                                {
+                                                                    message?: string;
+                                                                }
+                                                            >
+                                                        )[id]?.message ?? "",
+                                                }}
+                                            />
+                                        ),
+                                    )}
+                                    <Button
+                                        variant={ButtonVariantType.SETTINGS}
+                                        className={
+                                            isValid
+                                                ? "dark:hover:bg-violetDark/80 hover:bg-violetLight/80 cursor-pointer"
+                                                : "cursor-default"
+                                        }
+                                    >
+                                        Save
+                                    </Button>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {data?.provider !== Provider.NONE && (
+                <div className="flex flex-col items-center rounded-md p-3 text-center text-lg">
+                    <div className="mb-2 flex space-x-3">
+                        <p>Your account was created via {data?.provider}</p>
+                        {getOauth2ProviderIcon(data?.provider)}
+                    </div>
+                    <p>
+                        Your email address is {data?.email} <br /> and cannot be
+                        changed.
+                    </p>
+                </div>
+            )}
         </AccountWrapper>
     );
 }

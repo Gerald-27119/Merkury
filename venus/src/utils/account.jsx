@@ -1,6 +1,5 @@
 import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
-import { FaRegQuestionCircle } from "react-icons/fa";
+import { FaGithub, FaRegQuestionCircle } from "react-icons/fa";
 
 export function getOauth2ProviderIcon(provider) {
     switch (provider) {
