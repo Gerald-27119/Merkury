@@ -26,7 +26,9 @@ export default function ChatMessage({ message }: MessageProps) {
                         {formatSentAt(message.sentAt)}
                     </p>
                 </div>
-                <p className="font-light text-white/95">{message.content}</p>
+                <p className="font-light whitespace-pre-line text-white/95">
+                    {message.content}
+                </p>
             </div>
         </div>
     );

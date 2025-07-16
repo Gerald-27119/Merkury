@@ -7,6 +7,8 @@ import { useWebSocket } from "../../../../stomp/useWebSocket";
 import { ChatMessageToSendDto } from "../../../../model/interface/chat/chatInterfaces";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 
+// TODO: use https://www.npmjs.com/package/react-textarea-autosize
+
 export default function ChatBottomBar() {
     const iconClass = "text-violetLighter text-3xl";
 
