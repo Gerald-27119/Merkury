@@ -11,6 +11,9 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
+/**
+ * As of 16.07.2025 we are using Tenor as the GIF provider.
+ */
 @Component
 @RequiredArgsConstructor
 public class GifProviderClient {
