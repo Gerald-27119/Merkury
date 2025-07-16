@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoSendSharp } from "react-icons/io5";
 import { RiEmotionHappyFill } from "react-icons/ri";
@@ -8,24 +8,19 @@ import { ChatMessageToSendDto } from "../../../../model/interface/chat/chatInter
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 
 export default function ChatBottomBar() {
-    const className = "text-violetLighter text-3xl";
+    const iconClass = "text-violetLighter text-3xl";
 
     const [messageToSend, setMessageToSend] = useState("");
     const [isSending, setIsSending] = useState(false);
 
     // Tu używam globalnego hooka useWebSocket, który zarządza połączeniem WebSocket
     const { publish, connected } = useWebSocket();
-
     const { selectedChatId } = useSelectorTyped((state) => state.chats);
 
-    function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setMessageToSend(e.target.value);
-    }
-
-    async function sendMessage() {
+    const sendMessage = useCallback(async () => {
         if (!messageToSend.trim() || !connected) return;
 
-        const formattedChatMessageDto: ChatMessageToSendDto = {
+        const formatted: ChatMessageToSendDto = {
             chatId: selectedChatId,
             content: messageToSend,
             sentAt: new Date().toISOString(),
@@ -33,32 +28,42 @@ export default function ChatBottomBar() {
 
         setIsSending(true);
         try {
-            publish(
-                `/app/send/${selectedChatId}/message`,
-                formattedChatMessageDto,
-            );
+            publish(`/app/send/${selectedChatId}/message`, formatted);
             setMessageToSend("");
-            //TODO:add ACK confirmation
+            // TODO: uzyskać potwierdzenie ACK
         } finally {
             setIsSending(false);
+        }
+    }, [messageToSend, selectedChatId, connected, publish]);
+
+    function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+        if (e.key === "Enter") {
+            if (e.shiftKey) {
+                // Shift+Enter → pozwól na nową linię
+                return;
+            }
+            // Tylko Enter → wyślij
+            e.preventDefault();
+            sendMessage();
         }
     }
 
     return (
         <div className="flex items-center justify-center gap-4 px-3 py-3">
             <div className="bg-violetLight/25 mr-1 flex w-full gap-3 rounded-xl px-3 py-3 shadow-md">
-                <FaCirclePlus className={className} />
+                <FaCirclePlus className={iconClass} />
 
-                <input
-                    className="w-full focus:border-none focus:outline-none"
+                <textarea
+                    className="scrollbar-track-violetDark/10 hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin w-full resize-none bg-transparent focus:border-none focus:outline-none"
                     placeholder="Message..."
-                    type="text"
-                    onChange={onInputChange}
                     value={messageToSend}
-                ></input>
+                    onChange={(e) => setMessageToSend(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    rows={1}
+                />
 
-                <MdGifBox className={className} />
-                <RiEmotionHappyFill className={className} />
+                <MdGifBox className={iconClass} />
+                <RiEmotionHappyFill className={iconClass} />
             </div>
 
             <button
