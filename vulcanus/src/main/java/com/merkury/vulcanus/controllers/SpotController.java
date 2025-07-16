@@ -29,11 +29,11 @@ public class SpotController {
                                                               @RequestParam double neLng,
                                                               @RequestParam double neLat,
                                                               @RequestParam(defaultValue = "") String name,
-                                                              @RequestParam(defaultValue = "none") String sort,
+                                                              @RequestParam(defaultValue = "none") String sorting,
                                                               @RequestParam(defaultValue = "0.0") double ratingFrom,
                                                               @RequestParam(defaultValue = "0") int page) {
         log.info("getting spots in current view");
-        return ResponseEntity.ok(spotService.getSpotsInCurrentView(swLng, swLat, neLng, neLat, name, sort, ratingFrom, PageRequest.of(page, DEFAULT_SEARCHED_SPOTS_PAGE_SIZE)));
+        return ResponseEntity.ok(spotService.getSpotsInCurrentView(swLng, swLat, neLng, neLat, name, sorting, ratingFrom, PageRequest.of(page, DEFAULT_SEARCHED_SPOTS_PAGE_SIZE)));
     }
 
     @GetMapping("/public/spot/{spotId}")
