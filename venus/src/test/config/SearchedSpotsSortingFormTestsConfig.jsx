@@ -6,6 +6,7 @@ import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import SpotsSortingForm from "../../pages/spot/components/SpotsSortingForm";
+import { SpotSortingFormVariantType } from "../../model/enum/spot/spotSortingFormVariantType";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ export const renderSearchedSpotsSortingForm = () => {
                         sorting={"none"}
                         onSelectSorting={() => {}}
                         onClear={() => {}}
+                        variant={SpotSortingFormVariantType.SEARCH}
                     />
                 </QueryClientProvider>
             </MemoryRouter>

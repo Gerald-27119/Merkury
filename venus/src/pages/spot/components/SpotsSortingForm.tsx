@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useQueryClient } from "@tanstack/react-query";
 import { useBoolean } from "../../../hooks/useBoolean";
 import SpotSortingOption from "../../../model/spotSortingOption";
+import { SpotSortingFormVariantType } from "../../../model/enum/spot/spotSortingFormVariantType";
 
 export const options: SpotSortingOption[] = [
     { value: "none", label: "Default" },
@@ -20,10 +21,11 @@ const slideVariants = {
 };
 
 type SearchedSpotsSortingFormProps = {
-    queryKeyToRemoveQueries: string[];
+    queryKeyToRemoveQueries: any[];
     onClear: () => void;
     onSelectSorting: (opt: SpotSortingOption) => void;
     sorting: string;
+    variant: SpotSortingFormVariantType;
 };
 
 export default function SpotsSortingForm({
@@ -31,6 +33,7 @@ export default function SpotsSortingForm({
     onClear,
     onSelectSorting,
     sorting,
+    variant,
 }: SearchedSpotsSortingFormProps) {
     const [selectedSorting, setSelectedSorting] = useState<SpotSortingOption>(
         options[0],
@@ -56,19 +59,26 @@ export default function SpotsSortingForm({
 
     return (
         <div
-            className="relative mb-6 inline-block"
+            className={`relative ${variant === SpotSortingFormVariantType.SEARCH ? "mb-6" : ""} inline-block`}
             data-testid="searched-spots-sorting-form"
         >
             <div className="relative flex flex-col">
                 <div
-                    className={`bg-violetLight flex w-86 justify-between ${isDropdownOpen ? "rounded-t-2xl rounded-l-2xl" : "rounded-2xl"} px-5 py-1 text-lg`}
+                    className={`bg-violetLight flex ${variant === SpotSortingFormVariantType.SEARCH ? "w-86" : "w-36"} justify-between ${isDropdownOpen ? "rounded-t-2xl rounded-l-2xl" : "rounded-2xl"} px-5 py-1 text-lg`}
                 >
-                    <p className="font-semibold text-white">Sort</p>
+                    <p
+                        className={`font-semibold text-white ${variant === SpotSortingFormVariantType.CURRENT_VIEW ? "ml-0" : ""}`}
+                    >
+                        Sort:
+                    </p>
                     <div
                         className="flex cursor-pointer items-center"
                         onClick={toggleDropdown}
                     >
-                        <p className="mr-1" data-testid="sorting-value">
+                        <p
+                            className={`mr-1 ${variant === SpotSortingFormVariantType.CURRENT_VIEW ? "w-full" : ""}`}
+                            data-testid="sorting-value"
+                        >
                             {selectedSorting.label}
                         </p>
                         <RiArrowDownSLine
@@ -89,7 +99,7 @@ export default function SpotsSortingForm({
                             exit="exit"
                             variants={slideVariants}
                             transition={{ duration: 0.2 }}
-                            className="bg-violetLight absolute top-[2.28rem] right-0 z-10 mb-auto ml-auto w-fit overflow-hidden rounded-b-2xl pt-2 text-lg"
+                            className="bg-violetLight absolute top-[2.25rem] right-0 z-10 mb-auto ml-auto w-fit overflow-hidden rounded-b-2xl pt-2 text-lg"
                         >
                             {options.map((opt: SpotSortingOption) => (
                                 <li

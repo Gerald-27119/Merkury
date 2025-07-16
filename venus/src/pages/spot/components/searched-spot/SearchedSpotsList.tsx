@@ -16,6 +16,7 @@ import {
 import ListedSpotInfo from "../spot-info/ListedSpotInfo";
 import SpotsSortingForm from "../SpotsSortingForm";
 import { spotFiltersAction } from "../../../../redux/spot-filters";
+import { SpotSortingFormVariantType } from "../../../../model/enum/spot/spotSortingFormVariantType";
 
 const slideVariants = {
     hidden: { x: "-100%", opacity: 0 },
@@ -130,6 +131,7 @@ export default function SearchedSpotsList() {
                     }
                     queryKeyToRemoveQueries={["spots", name, sorting]}
                     sorting={sorting}
+                    variant={SpotSortingFormVariantType.SEARCH}
                 />
                 <div
                     ref={containerRef}
