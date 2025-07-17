@@ -59,32 +59,32 @@ export default function SpotsSortingForm({
 
     return (
         <div
-            className={`relative ${variant === SpotSortingFormVariantType.SEARCH ? "mb-6" : ""} inline-block`}
+            className={`relative ${variant === SpotSortingFormVariantType.SEARCH && "mb-6"} inline-block`}
             data-testid="searched-spots-sorting-form"
         >
             <div className="relative flex flex-col">
                 <div
-                    className={`bg-violetLight flex ${variant === SpotSortingFormVariantType.SEARCH ? "w-86" : "w-36"} justify-between ${isDropdownOpen ? "rounded-t-2xl rounded-l-2xl" : "rounded-2xl"} px-5 py-1 text-lg`}
+                    className={`bg-violetLight flex ${variant === SpotSortingFormVariantType.SEARCH ? "w-86 px-5" : "w-36 pl-2.5"} justify-between ${isDropdownOpen ? (variant === SpotSortingFormVariantType.CURRENT_VIEW ? "rounded-t-2xl" : "rounded-t-2xl rounded-l-2xl") : "rounded-2xl"} py-1 text-lg`}
                 >
                     <p
-                        className={`font-semibold text-white ${variant === SpotSortingFormVariantType.CURRENT_VIEW ? "ml-0" : ""}`}
+                        className={`mr-2 font-semibold text-white ${variant === SpotSortingFormVariantType.CURRENT_VIEW && "ml-0"}`}
                     >
                         Sort:
                     </p>
                     <div
-                        className="flex cursor-pointer items-center"
+                        className={`flex ${variant === SpotSortingFormVariantType.CURRENT_VIEW && "overflow-hidden"} cursor-pointer items-center`}
                         onClick={toggleDropdown}
                     >
                         <p
-                            className={`mr-1 ${variant === SpotSortingFormVariantType.CURRENT_VIEW ? "w-full" : ""}`}
+                            className={`${variant === SpotSortingFormVariantType.CURRENT_VIEW ? "mr-2.5 h-7 w-1/2" : "mr-1"}`}
                             data-testid="sorting-value"
                         >
                             {selectedSorting.label}
                         </p>
                         <RiArrowDownSLine
                             data-testid="searched-spots-sorting-arrow"
-                            className={`text-xl transition-transform duration-200 ${
-                                isDropdownOpen ? "rotate-180 transform" : ""
+                            className={`mx-auto text-xl transition-transform duration-200 ${
+                                isDropdownOpen && "rotate-180 transform"
                             }`}
                         />
                     </div>
