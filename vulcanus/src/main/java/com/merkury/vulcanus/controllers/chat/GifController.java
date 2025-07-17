@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.controllers.chat;
 
 import com.merkury.vulcanus.features.chat.gif.GifService;
-import com.merkury.vulcanus.model.dtos.chat.gif.GifDto;
+import com.merkury.vulcanus.model.dtos.chat.gif.TenorRequestResultDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +25,9 @@ public class GifController {
 
 
     @GetMapping("/search")
-    public Mono<ResponseEntity<List<GifDto>>> search(@RequestParam("q") String query) {
-        return gifService.search(query)
+    public Mono<ResponseEntity<List<TenorRequestResultDto>>> search(@RequestParam("q") String query,
+                                                                    @RequestParam(value = "pos", defaultValue = "0") String pos) {
+        return gifService.search(query, pos)
                 .map(list ->
                         list.isEmpty()
                                 ? ResponseEntity.noContent().build()
