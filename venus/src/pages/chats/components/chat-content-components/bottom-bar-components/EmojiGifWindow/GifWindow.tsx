@@ -5,10 +5,10 @@ export default function GifWindow() {
                 <input
                     type="text"
                     placeholder="Search GIFs..."
-                    className="bg-violetLight/60 w-full rounded-xl p-2"
+                    className="bg-violetLight w-full rounded-xl p-2"
                 />
             </div>
-            <div className="bg-violetDark scrollbar-track-violetDark hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-w-1 scrollbar mt-2 grid min-h-0 flex-1 grid-cols-2 gap-3 overflow-auto rounded-b-xl p-3">
+            <div className="bg-violetLightDarker scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-w-1 scrollbar mt-2 grid min-h-0 flex-1 grid-cols-2 gap-3 overflow-auto rounded-b-xl p-3">
                 {Array.from({ length: 12 }).map((_, i) => (
                     <div
                         key={i}
