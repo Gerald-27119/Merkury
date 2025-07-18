@@ -24,6 +24,7 @@ export default function ChatMessagingWindow({
     }
 
     //TODO: add fetch more messages on scroll
+    // TODO: poalczc na wpsolnej godzinie
     return (
         <div className="scrollbar-track-violetDark scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark/20 flex h-full flex-col-reverse gap-2 overflow-y-scroll py-1 pl-2">
             {messages.map((message: ChatMessageDto, idx: number) => {
@@ -32,6 +33,9 @@ export default function ChatMessagingWindow({
                 const prevMessage = messages[idx + 1];
                 const prevDate =
                     prevMessage && new Date(prevMessage.sentAt).toDateString();
+
+                const shouldGroupMessagesByTime =
+                    checkIfShouldGroupMessagesByTime(message, prevMessage);
 
                 return (
                     <div key={message.id}>
@@ -44,10 +48,34 @@ export default function ChatMessagingWindow({
                                 <hr className="flex-grow border-gray-500" />
                             </div>
                         )}
-                        <ChatMessage message={message} />
+                        <ChatMessage
+                            message={message}
+                            shouldGroupMessagesByTime={
+                                shouldGroupMessagesByTime
+                            }
+                        />
                     </div>
                 );
             })}
         </div>
     );
+}
+
+function checkIfShouldGroupMessagesByTime(
+    message: ChatMessageDto,
+    prevMessage?: ChatMessageDto,
+): boolean {
+    if (!prevMessage) return false;
+
+    const current = new Date(message.sentAt);
+    const previous = new Date(prevMessage.sentAt);
+
+    if (current.toDateString() !== previous.toDateString()) {
+        return false;
+    }
+
+    const diffMs = Math.abs(current.getTime() - previous.getTime());
+    const diffMinutes = diffMs / 1000 / 60;
+
+    return diffMinutes < 2;
 }
