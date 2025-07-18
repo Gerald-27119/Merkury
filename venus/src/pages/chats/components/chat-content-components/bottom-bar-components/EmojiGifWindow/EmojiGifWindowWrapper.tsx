@@ -6,9 +6,20 @@ export default function EmojiGifWindowWrapper({
 }: {
     windowName: "emoji" | "gif";
 }) {
+    const commonButtonStyle = "px-2 py-2";
     return (
-        <div className="absolute right-6 bottom-18 z-20 h-72 w-80 rounded-xl bg-amber-600">
-            {windowName === "emoji" ? <EmojiWindow /> : <GifWindow />}
+        <div className="bg-violetLightDarker absolute right-6 bottom-18 z-50 flex h-[26rem] w-[32rem] flex-col rounded-xl">
+            <div className="flex w-full items-center justify-center">
+                <button className={`${commonButtonStyle} grow text-center`}>
+                    GiF
+                </button>
+                <button className={`${commonButtonStyle} grow text-center`}>
+                    Emoji
+                </button>
+            </div>
+            <div className="flex-1 overflow-hidden">
+                {windowName === "emoji" ? <EmojiWindow /> : <GifWindow />}
+            </div>
         </div>
     );
 }
