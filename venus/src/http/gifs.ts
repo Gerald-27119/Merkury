@@ -1,21 +1,12 @@
 import axios from "axios";
+import { TrendingGifCategory } from "../model/interface/chat/gifs/gifInterfaces";
 
-// export function trendingTenorGifs({
-//     q,
-//     limit = 10,
-// }: {
-//     q: string;
-//     limit?: number;
-// }) {
-//     return axios.get(`${TENOR_BASE_URL}/trending`, {
-//         params: {
-//             key: TENOR_API_KEY,
-//             q,
-//             limit,
-//         },
-//     });
-// }
-//
+const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
+
+export async function trendingTenorGifs(): Promise<TrendingGifCategory[]> {
+    return (await axios.get(`${BASE_URL}/trending`)).data;
+}
+
 // export function searchTenorGifs() {
 //     return axios.get(`${TENOR_BASE_URL}/search`, {
 //         params: {
