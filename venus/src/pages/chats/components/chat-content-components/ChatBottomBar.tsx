@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoSendSharp } from "react-icons/io5";
 import { RiEmotionHappyFill } from "react-icons/ri";
@@ -6,11 +6,14 @@ import { MdGifBox } from "react-icons/md";
 import { useWebSocket } from "../../../../stomp/useWebSocket";
 import { ChatMessageToSendDto } from "../../../../model/interface/chat/chatInterfaces";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
+import EmojiGifWindowWrapper from "./bottom-bar-components/EmojiGifWindow/EmojiGifWindowWrapper";
+import { useClickOutside } from "../../../../hooks/useClickOutside";
 
 // TODO: use https://www.npmjs.com/package/react-textarea-autosize
 
 export default function ChatBottomBar() {
-    const iconClass = "text-violetLighter text-3xl";
+    const iconClass =
+        "text-violetLighter text-2xl hover:cursor-pointer hover:text-white/80";
 
     const [messageToSend, setMessageToSend] = useState("");
     const [isSending, setIsSending] = useState(false);
@@ -18,6 +21,12 @@ export default function ChatBottomBar() {
     // Tu używam globalnego hooka useWebSocket, który zarządza połączeniem WebSocket
     const { publish, connected } = useWebSocket();
     const { selectedChatId } = useSelectorTyped((state) => state.chats);
+
+    const [activeGifEmojiWindow, setActiveGifEmojiWindow] = useState<
+        "emoji" | "gif" | null
+    >(null);
+    const gifEmojiWindowRef = useRef<HTMLDivElement>(null);
+    useClickOutside(gifEmojiWindowRef, () => setActiveGifEmojiWindow(null));
 
     const sendMessage = useCallback(async () => {
         if (!messageToSend.trim() || !connected) return;
@@ -62,8 +71,32 @@ export default function ChatBottomBar() {
                     rows={1}
                 />
 
-                <MdGifBox className={iconClass} />
-                <RiEmotionHappyFill className={iconClass} />
+                <div
+                    ref={gifEmojiWindowRef}
+                    className="flex items-center gap-2"
+                >
+                    <MdGifBox
+                        className={iconClass}
+                        onClick={() =>
+                            setActiveGifEmojiWindow((prev) =>
+                                prev === "gif" ? null : "gif",
+                            )
+                        }
+                    />
+                    <RiEmotionHappyFill
+                        className={iconClass}
+                        onClick={() =>
+                            setActiveGifEmojiWindow((prev) =>
+                                prev === "emoji" ? null : "emoji",
+                            )
+                        }
+                    />
+                    {activeGifEmojiWindow && (
+                        <EmojiGifWindowWrapper
+                            windowName={activeGifEmojiWindow}
+                        />
+                    )}
+                </div>
             </div>
 
             <button
