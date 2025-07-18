@@ -25,7 +25,7 @@ public class TenorGifProviderClient {
     //next doslownie moze byc stringiem z literami, to wcale nie musi byc lcizba!
     public Mono<List<TenorRequestResultDto>> searchGifs(String query, String pos) {
         return webClient.get()
-                .uri(uri -> uri
+                .uri(uri -> uri//ej, skad to uri? config webclienta? ale juz mam? inna opcja na robienie requesta? czy ta ok?
                         .path("/search")
                         .queryParam("q", query)
                         .queryParam("key", props.getApiKey())
@@ -37,6 +37,21 @@ public class TenorGifProviderClient {
                 .bodyToMono(JsonNode.class)
                 .map(this::parseResponse);
     }
+//https://developers.google.com/tenor/guides/endpoints
+
+    public Mono<List<TenorRequestResultDto>> featuredGifs(String pos) {
+        return webClient.get()
+                .uri(uri -> uri
+                        .path("/featured")
+                        .queryParam("key", props.getApiKey())
+                        .queryParam("limit", 10)
+                        .queryParam("pos", pos)
+                        .build())
+                .retrieve()
+                .bodyToMono(JsonNode.class)
+                .map(this::parseResponse);
+    }
+
 
 
     private List<TenorRequestResultDto> parseResponse(JsonNode root) {
