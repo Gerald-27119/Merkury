@@ -43,29 +43,5 @@ export async function logout() {
     );
 }
 
-export async function test() {
-    return (
-        await axios.get(`${BASE_URL}/private/test`, {
-            withCredentials: true,
-        })
-    ).data;
-}
-
-export async function getUser() {
-    return (
-        await axios.get(`${BASE_URL}/account/get-user`, {
-            withCredentials: true,
-        })
-    ).data;
-}
-
-export async function editUserData({ id, user }) {
-    return (
-        await axios.patch(`${BASE_URL}/account/edit-data/${id}`, user, {
-            withCredentials: true,
-        })
-    ).data;
-}
-
 export const googleLoginUrl = `${BASE_URL}/oauth2/authorization/google`;
 export const githubLoginUrl = `${BASE_URL}/oauth2/authorization/github`;

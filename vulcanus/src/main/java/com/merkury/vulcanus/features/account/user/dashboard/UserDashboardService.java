@@ -4,13 +4,16 @@ import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupDto;
 import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
+import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
+import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,6 +32,7 @@ public class UserDashboardService {
     private final FavoriteSpotService favoriteSpotService;
     private final PhotosService photosService;
     private final CommentsService commentsService;
+    private final SettingsService settingsService;
 
     public UserProfileDto getUserOwnProfile() throws UserNotFoundByUsernameException {
         return profileService.getUserOwnProfile(getCurrentUsername());
@@ -88,6 +92,14 @@ public class UserDashboardService {
 
     public List<DatedCommentsGroupDto> getSortedUserComments(DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
         return commentsService.getSortedUserComments(getCurrentUsername(), type, from, to);
+    }
+
+    public void editUserSettings(HttpServletResponse response, UserEditDataDto userEdit) throws UserNotFoundByUsernameException, UserNotFoundException, ExternalProviderAccountException, UnsupportedUserSettingsType, EmailTakenException, SamePasswordException, SameEmailException, InvalidPasswordException, UsernameTakenException, SameUsernameException {
+        settingsService.editUserSettings(response, userEdit, getCurrentUsername());
+    }
+
+    public UserDataDto getUserData() throws UserNotFoundByUsernameException {
+        return settingsService.getUserData(getCurrentUsername());
     }
 
     private String getCurrentUsername() {

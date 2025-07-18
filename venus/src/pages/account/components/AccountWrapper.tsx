@@ -9,14 +9,15 @@ interface AccountWrapperProps {
 const baseClasses =
     "dark:bg-darkBg bg-lightBg dark:text-darkText text-lightText w-full flex flex-col";
 
-const socialComments = "h-full space-y-8 p-10 pt-17 xl:pt-10";
+const socialCommentsSettings = "h-full space-y-8 p-10 pt-17 xl:pt-10";
 
 const variantClasses = {
     photos: "min-h-full space-y-8 p-2 pt-20 md:p-10 md:pt-20 xl:pt-10",
     profile: "min-h-full items-center gap-20 p-6 lg:justify-center xl:p-0",
     favorite_spots: "h-full space-y-10 p-10 pt-17",
-    social: socialComments,
-    comments: socialComments,
+    social: socialCommentsSettings,
+    comments: socialCommentsSettings,
+    settings: socialCommentsSettings,
 };
 
 export default function AccountWrapper({

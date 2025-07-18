@@ -8,6 +8,8 @@ import ExtendedUserProfile from "../model/interface/account/profile/extendedUser
 import DatedPhotosGroup from "../model/interface/account/photos/datedPhotosGroup";
 import { DateSortType } from "../model/enum/account/photos/dateSortType";
 import DatedCommentsGroup from "../model/interface/account/comments/datedCommentsGroup";
+import UserEditData from "../model/interface/account/settings/userEditData";
+import UserData from "../model/interface/account/settings/userData";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -184,6 +186,20 @@ export async function getAllUserComments({
         await axios.get(`${BASE_URL}/user-dashboard/comments`, {
             withCredentials: true,
             params: { type, from, to },
+        })
+    ).data;
+}
+
+export async function editUserSettings(userEdit: UserEditData): Promise<void> {
+    return await axios.patch(`${BASE_URL}/user-dashboard/settings`, userEdit, {
+        withCredentials: true,
+    });
+}
+
+export async function getUserData(): Promise<UserData> {
+    return (
+        await axios.get(`${BASE_URL}/user-dashboard/settings`, {
+            withCredentials: true,
         })
     ).data;
 }
