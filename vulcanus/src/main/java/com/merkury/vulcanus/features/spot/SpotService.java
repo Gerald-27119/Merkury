@@ -51,6 +51,10 @@ public class SpotService {
                 .map(SpotMapper::toSearchSpotDto);
     }
 
+    public List<String> getSpotsNamesInCurrentView(double swLng, double swLat, double neLng, double neLat, String name) {
+        return spotRepository.findAllByNameContainingIgnoreCaseInCurrentView(swLat, neLat, swLng, neLng, name);
+    }
+
     public Page<SearchSpotDto> getSearchedSpotsListPage(String name, String sort, Pageable pageable) {
         Page<Spot> searchedSpotsPage = spotRepository.findAllByNameContainingIgnoreCase(name.trim(), configurePageableSorting(pageable, sort));
         return searchedSpotsPage.map(SpotMapper::toSearchSpotDto);

@@ -36,6 +36,16 @@ public class SpotController {
         return ResponseEntity.ok(spotService.getSpotsInCurrentView(swLng, swLat, neLng, neLat, name, sorting, ratingFrom, PageRequest.of(page, DEFAULT_SEARCHED_SPOTS_PAGE_SIZE)));
     }
 
+    @GetMapping("/public/spot/current-view/spot-names")
+    public ResponseEntity<List<String>> getSpotNamesInCurrentView(@RequestParam double swLng,
+                                                                  @RequestParam double swLat,
+                                                                  @RequestParam double neLng,
+                                                                  @RequestParam double neLat,
+                                                                  @RequestParam(defaultValue = "") String name) {
+        log.info("getting spots names in current view");
+        return ResponseEntity.ok(spotService.getSpotsNamesInCurrentView(swLng, swLat, neLng, neLat, name));
+    }
+
     @GetMapping("/public/spot/{spotId}")
     public ResponseEntity<SpotDetailsDto> getSpotById(@PathVariable Long spotId) throws SpotNotFoundException {
         log.info("getting spot with id: {}", spotId);

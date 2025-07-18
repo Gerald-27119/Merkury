@@ -26,6 +26,20 @@ export async function getCurrentViewSpots(
     ).data;
 }
 
+export async function getSpotsNamesInCurrentView(
+    swLng: number,
+    swLat: number,
+    neLng: number,
+    neLat: number,
+    name: string,
+): Promise<string[]> {
+    return (
+        await axios.get(
+            `${BASE_URL}/public/spot/current-view/spot-names?swLng=${swLng}&swLat=${swLat}&neLng=${neLng}&neLat=${neLat}&name=${name}`,
+        )
+    ).data;
+}
+
 export async function fetchSearchedSpotsPage(
     name: string,
     page: number,
