@@ -41,10 +41,8 @@ export default function ChatBottomBar() {
     function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
         if (e.key === "Enter") {
             if (e.shiftKey) {
-                // Shift+Enter → pozwól na nową linię
                 return;
             }
-            // Tylko Enter → wyślij
             e.preventDefault();
             sendMessage();
         }

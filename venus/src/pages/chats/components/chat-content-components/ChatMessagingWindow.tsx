@@ -24,7 +24,6 @@ export default function ChatMessagingWindow({
     }
 
     //TODO: add fetch more messages on scroll
-    // TODO: poalczc na wpsolnej godzinie
     return (
         <div className="scrollbar-track-violetDark scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark/20 flex h-full flex-col-reverse overflow-y-scroll py-1">
             {messages.map((message: ChatMessageDto, idx: number) => {
