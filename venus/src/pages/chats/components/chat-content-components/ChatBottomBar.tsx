@@ -10,7 +10,7 @@ import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 // TODO: use https://www.npmjs.com/package/react-textarea-autosize
 
 export default function ChatBottomBar() {
-    const iconClass = "text-violetLighter text-3xl";
+    const commonIconClasses = "text-violetLighter text-3xl";
 
     const [messageToSend, setMessageToSend] = useState("");
     const [isSending, setIsSending] = useState(false);
@@ -22,7 +22,7 @@ export default function ChatBottomBar() {
     const sendMessage = useCallback(async () => {
         if (!messageToSend.trim() || !connected) return;
 
-        const formatted: ChatMessageToSendDto = {
+        const formattedChatMessageToSend: ChatMessageToSendDto = {
             chatId: selectedChatId,
             content: messageToSend,
             sentAt: new Date().toISOString(),
@@ -30,7 +30,10 @@ export default function ChatBottomBar() {
 
         setIsSending(true);
         try {
-            publish(`/app/send/${selectedChatId}/message`, formatted);
+            publish(
+                `/app/send/${selectedChatId}/message`,
+                formattedChatMessageToSend,
+            );
             setMessageToSend("");
             // TODO: uzyskać potwierdzenie ACK
         } finally {
@@ -51,7 +54,7 @@ export default function ChatBottomBar() {
     return (
         <div className="flex items-center justify-center gap-4 px-3 py-3">
             <div className="bg-violetLight/25 mr-1 flex w-full gap-3 rounded-xl px-3 py-3 shadow-md">
-                <FaCirclePlus className={iconClass} />
+                <FaCirclePlus className={commonIconClasses} />
 
                 <textarea
                     className="scrollbar-track-violetDark/10 hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin w-full resize-none bg-transparent focus:border-none focus:outline-none"
@@ -62,8 +65,8 @@ export default function ChatBottomBar() {
                     rows={1}
                 />
 
-                <MdGifBox className={iconClass} />
-                <RiEmotionHappyFill className={iconClass} />
+                <MdGifBox className={commonIconClasses} />
+                <RiEmotionHappyFill className={commonIconClasses} />
             </div>
 
             <button
