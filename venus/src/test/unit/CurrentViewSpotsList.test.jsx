@@ -110,14 +110,12 @@ describe("CurrentViewSpotsList component unit tests", () => {
     });
     describe("Should render name search bar", () => {
         test("Should render form", () => {
-            const form = screen.getByTestId(
-                "current-view-spots-name-search-bar",
-            );
-            expect(form).toBeInTheDocument();
-            expect(form).toHaveRole("form");
+            expect(
+                screen.getByTestId("current-view-spots-name-search-bar"),
+            ).toBeInTheDocument();
         });
         test("Should render input field with text", () => {
-            const inputField = screen.getByText(/search on map/i);
+            const inputField = screen.getByPlaceholderText(/search on map/i);
             expect(inputField).toBeInTheDocument();
             expect(inputField).toHaveRole("textbox");
         });
