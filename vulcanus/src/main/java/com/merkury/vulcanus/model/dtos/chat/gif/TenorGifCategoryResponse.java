@@ -11,7 +11,7 @@ public class TenorGifCategoryResponse {
 
     @Data
     public static class TenorGifTag {
-        private String searchTerm;
+        private String searchterm;
         private String path;
         private String image;
         private String name;
