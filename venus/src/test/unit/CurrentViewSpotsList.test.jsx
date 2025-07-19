@@ -167,4 +167,48 @@ describe("CurrentViewSpotsList component unit tests", () => {
             expect(emptyStars.length).toBe(5);
         });
     });
+    describe("Should render spots list", () => {
+        test("Should render first photo", () => {
+            const firstPhoto = screen.getByAltText(
+                `${mockData.content[0].name}Img`,
+            );
+            expect(firstPhoto).toBeInTheDocument();
+            expect(firstPhoto).toHaveRole("img");
+        });
+        test("Should render spot name", () => {
+            expect(
+                screen.getByText(mockData.content[0].name),
+            ).toBeInTheDocument();
+        });
+        test("Should render spot rating", () => {
+            const ratingWrapper = screen.getByTestId("searched-spot-rating");
+
+            const fullStars = ratingWrapper.querySelectorAll(
+                ".ant-rate-star-full",
+            );
+            const halfStars = ratingWrapper.querySelectorAll(
+                ".ant-rate-star-half",
+            );
+            const emptyStars = ratingWrapper.querySelectorAll(
+                ".ant-rate-star.ant-rate-star-zero",
+            );
+
+            expect(fullStars.length).toBe(3);
+            expect(halfStars.length).toBe(1);
+            expect(emptyStars.length).toBe(1);
+        });
+        test("Should render spot rating count", () => {
+            expect(
+                screen.getByText(`(${mockData.content[0].ratingCount})`),
+            ).toBeInTheDocument();
+        });
+        test("Should render tags", () => {
+            expect(
+                screen.getByText(mockData.content[0].tags[0].name),
+            ).toBeInTheDocument();
+            expect(
+                screen.getByText(mockData.content[0].tags[1].name),
+            ).toBeInTheDocument();
+        });
+    });
 });
