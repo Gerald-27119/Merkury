@@ -1,11 +1,12 @@
 import { FaEye, FaHeart } from "react-icons/fa";
-import PhotoDto from "../../../../model/interface/account/photos/photo";
+import Media from "../../../../model/interface/account/media/media";
 
 interface PhotoProps {
-    photo: PhotoDto;
+    photo: Media;
 }
 
 export default function Photo({ photo }: PhotoProps) {
+    console.log(photo);
     return (
         <li className="group relative">
             <img
