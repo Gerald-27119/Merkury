@@ -45,7 +45,7 @@ const renderProfile = () => {
 const mockPhotosData = [
     {
         date: "2025-06-25",
-        photos: [
+        media: [
             {
                 id: 1,
                 src: "https://example.com/photo1.jpg",
@@ -64,7 +64,7 @@ const mockPhotosData = [
     },
     {
         date: "2025-06-24",
-        photos: [
+        media: [
             {
                 id: 3,
                 src: "https://example.com/photo3.jpg",
