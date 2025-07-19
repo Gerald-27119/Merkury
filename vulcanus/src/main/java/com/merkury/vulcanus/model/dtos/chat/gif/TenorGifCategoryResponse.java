@@ -1,0 +1,19 @@
+package com.merkury.vulcanus.model.dtos.chat.gif;
+
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+public class TenorGifCategoryResponse {
+    private String locale;
+    private List<TenorGifTag> tags;
+
+    @Data
+    public static class TenorGifTag {
+        private String searchTerm;
+        private String path;
+        private String image;
+        private String name;
+    }
+}

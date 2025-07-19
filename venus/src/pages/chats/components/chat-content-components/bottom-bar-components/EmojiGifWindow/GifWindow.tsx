@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { trendingTenorGifs } from "../../../../../../http/gifs";
+import { TrendingGifCategory } from "../../../../../../model/interface/chat/gifs/gifInterfaces";
 
 export default function GifWindow() {
     const { data: trendingGifCategoriesData, isSuccess } = useQuery({
@@ -24,12 +25,29 @@ export default function GifWindow() {
                     Most Popular
                 </div>
 
-                {Array.from({ length: 12 }).map((_, i) => (
-                    <div
-                        key={i}
-                        className="h-32 w-full rounded-xl bg-green-700"
-                    />
-                ))}
+                {isSuccess &&
+                    trendingGifCategoriesData.map(
+                        (category: TrendingGifCategory) => (
+                            <div
+                                key={category.searchTerm}
+                                className="bg-violetDark h-32 w-full overflow-hidden rounded-xl"
+                            >
+                                <img
+                                    src={category.gifUrl}
+                                    alt={category.searchTerm}
+                                    loading="lazy"
+                                    className="h-full w-full object-contain"
+                                />
+                            </div>
+                        ),
+                    )}
+
+                {/*{Array.from({ length: 12 }).map((_, i) => (*/}
+                {/*    <div*/}
+                {/*        key={i}*/}
+                {/*        className="h-32 w-full rounded-xl bg-green-700"*/}
+                {/*    />*/}
+                {/*))}*/}
             </div>
         </div>
     );
