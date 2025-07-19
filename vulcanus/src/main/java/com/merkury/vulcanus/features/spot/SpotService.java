@@ -6,6 +6,7 @@ import com.merkury.vulcanus.features.account.UserDataService;
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
+import com.merkury.vulcanus.model.dtos.spot.TopRatedSpotDto;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
@@ -86,4 +87,13 @@ public class SpotService {
 
         return spotsNames;
     }
+
+    public List<TopRatedSpotDto> get18MostPopularSpots() {
+        return spotRepository
+                .findTop18ByOrderByRatingAndViewsCount(PageRequest.of(0, 18))
+                .stream()
+                .map(SpotMapper::toTopRated)
+                .toList();
+    }
+
 }

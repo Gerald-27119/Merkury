@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,4 +16,6 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
     @Query("SELECT s FROM spots s LEFT JOIN FETCH s.tags WHERE s.id = :id")
     Optional<Spot> findByIdWithTags(@Param("id") Long id);
     Page<Spot> findAllByNameContainingIgnoreCase(@Param("name") String name, Pageable pageable);
+    @Query("SELECT s FROM spots s ORDER BY s.rating DESC, s.viewsCount DESC")
+    List<Spot> findTop18ByOrderByRatingAndViewsCount(Pageable pageable);
 }
