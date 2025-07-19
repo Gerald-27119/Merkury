@@ -38,10 +38,10 @@ public class SpotController {
 
     @GetMapping("/public/spot/current-view/spot-names")
     public ResponseEntity<List<String>> getSpotNamesInCurrentView(@RequestParam double swLng,
-                                                                  @RequestParam double swLat,
-                                                                  @RequestParam double neLng,
-                                                                  @RequestParam double neLat,
-                                                                  @RequestParam(defaultValue = "") String name) {
+                                                                         @RequestParam double swLat,
+                                                                         @RequestParam double neLng,
+                                                                         @RequestParam double neLat,
+                                                                         @RequestParam(defaultValue = "") String name) {
         log.info("getting spots names in current view");
         return ResponseEntity.ok(spotService.getSpotsNamesInCurrentView(swLng, swLat, neLng, neLat, name));
     }

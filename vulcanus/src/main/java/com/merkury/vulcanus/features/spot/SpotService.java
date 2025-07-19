@@ -7,6 +7,7 @@ import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
+import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -47,12 +48,14 @@ public class SpotService {
 
     public Page<SearchSpotDto> getSpotsInCurrentView(double swLng, double swLat, double neLng, double neLat, String name, String sort, double ratingFrom, Pageable pageable) {
         var sortedPageable = configurePageableSorting(pageable, sort);
-        return spotRepository.findSpotsInCurrentViewByCriteria(swLat, neLat, swLng, neLng, name, ratingFrom, sortedPageable)
+        return spotRepository.findByNameContainingIgnoreCaseAndRatingGreaterThanEqualAndCenterPointXBetweenAndCenterPointYBetween(name, ratingFrom, swLat, neLat, swLng, neLng, sortedPageable)
                 .map(SpotMapper::toSearchSpotDto);
     }
 
     public List<String> getSpotsNamesInCurrentView(double swLng, double swLat, double neLng, double neLat, String name) {
-        return spotRepository.findAllByNameContainingIgnoreCaseInCurrentView(swLat, neLat, swLng, neLng, name);
+        return spotRepository.findByNameContainingIgnoreCaseAndCenterPointXBetweenAndCenterPointYBetween(name, swLat, neLat, swLng, neLng).stream()
+                .map(ISpotNameOnly::getName)
+                .toList();
     }
 
     public Page<SearchSpotDto> getSearchedSpotsListPage(String name, String sort, Pageable pageable) {

@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.model.repositories;
 
 import com.merkury.vulcanus.model.entities.spot.Spot;
+import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,19 +19,18 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
 
     Page<Spot> findAllByNameContainingIgnoreCase(@Param("name") String name, Pageable pageable);
 
-    @Query("SELECT s FROM spots s WHERE s.name LIKE %:name% AND s.rating >= :startRating AND s.centerPoint.x BETWEEN :swLat AND :neLat AND s.centerPoint.y BETWEEN :swLng AND :neLng")
-    Page<Spot> findSpotsInCurrentViewByCriteria(@Param("swLat") double swLat,
-                                                @Param("neLat") double neLat,
-                                                @Param("swLng") double swLng,
-                                                @Param("neLng") double neLng,
-                                                @Param("name") String name,
-                                                @Param("startRating") double startRating,
-                                                Pageable pageable);
+    Page<Spot> findByNameContainingIgnoreCaseAndRatingGreaterThanEqualAndCenterPointXBetweenAndCenterPointYBetween(
+            String name,
+            double startRating,
+            double swLat,
+            double neLat,
+            double swLng,
+            double neLng,
+            Pageable pageable
+    );
 
-    @Query("SELECT s.name FROM spots s WHERE s.name LIKE %:name% AND s.centerPoint.x BETWEEN :swLat AND :neLat AND s.centerPoint.y BETWEEN :swLng AND :neLng")
-    List<String> findAllByNameContainingIgnoreCaseInCurrentView(@Param("swLat") double swLat,
-                                                                @Param("neLat") double neLat,
-                                                                @Param("swLng") double swLng,
-                                                                @Param("neLng") double neLng,
-                                                                @Param("name") String name);
+    List<ISpotNameOnly> findByNameContainingIgnoreCaseAndCenterPointXBetweenAndCenterPointYBetween(
+            String name, double swLat, double neLat, double swLng, double neLng
+    );
+
 }
