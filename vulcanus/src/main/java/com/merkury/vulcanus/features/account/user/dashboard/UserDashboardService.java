@@ -13,11 +13,11 @@ import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
+import com.merkury.vulcanus.security.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -33,17 +33,31 @@ public class UserDashboardService {
     private final MediaService mediaService;
     private final CommentsService commentsService;
     private final SettingsService settingsService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     public UserProfileDto getUserOwnProfile() throws UserNotFoundByUsernameException {
-        return profileService.getUserOwnProfile(getCurrentUsername());
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        return profileService.getUserOwnProfile(username);
     }
 
     public ExtendedUserProfileDto getUserProfileForViewer(String targetUsername) throws UserNotFoundByUsernameException {
-        return profileService.getUserProfileForViewer(getAuthenticatedUsernameOrNull(), targetUsername);
+        String viewerUsername = null;
+
+        try {
+            viewerUsername = customUserDetailsService
+                    .loadUserDetailsFromSecurityContext()
+                    .getUsername();
+        } catch (AuthenticationCredentialsNotFoundException | InsufficientAuthenticationException ignored) {
+            // User is not authenticated — viewerUsername remains null
+        }
+
+        return profileService.getUserProfileForViewer(viewerUsername, targetUsername);
     }
 
+
     public List<SocialDto> getUserOwnFriends() throws UserNotFoundByUsernameException {
-        return friendsService.getUserFriends(getCurrentUsername());
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        return friendsService.getUserFriends(username);
     }
 
     public List<SocialDto> getUserFriendsForViewer(String targetUsername) throws UserNotFoundByUsernameException {
@@ -51,15 +65,18 @@ public class UserDashboardService {
     }
 
     public void editUserFriends(String friendUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
-        friendsService.editUserFriends(getCurrentUsername(), friendUsername, type);
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        friendsService.editUserFriends(username, friendUsername, type);
     }
 
     public void changeUserFriendsStatus(String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
-        friendsService.changeUserFriendsStatus(getCurrentUsername(), friendUsername, status);
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        friendsService.changeUserFriendsStatus(username, friendUsername, status);
     }
 
     public List<SocialDto> getUserOwnFollowers() throws UserNotFoundByUsernameException {
-        return followersService.getUserFollowers(getCurrentUsername());
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        return followersService.getUserFollowers(username);
     }
 
     public List<SocialDto> getUserFollowersForViewer(String targetUsername) throws UserNotFoundByUsernameException {
@@ -67,7 +84,8 @@ public class UserDashboardService {
     }
 
     public List<SocialDto> getUserOwnFollowed() throws UserNotFoundByUsernameException {
-        return followersService.getUserFollowed(getCurrentUsername());
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        return followersService.getUserFollowed(username);
     }
 
     public List<SocialDto> getUserFollowedForViewer(String targetUsername) throws UserNotFoundByUsernameException {
@@ -75,50 +93,42 @@ public class UserDashboardService {
     }
 
     public void editUserFollowed(String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
-        followersService.editUserFollowed(getCurrentUsername(), followedUsername, type);
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        followersService.editUserFollowed(username, followedUsername, type);
     }
 
     public List<FavoriteSpotDto> getUserFavoritesSpots(FavoriteSpotsListType type) {
-        return favoriteSpotService.getUserFavoritesSpots(getCurrentUsername(), type);
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        return favoriteSpotService.getUserFavoritesSpots(username, type);
     }
 
     public void removeFavoriteSpot(FavoriteSpotsListType type, Long spotId) throws FavoriteSpotNotExistException {
-        favoriteSpotService.removeFavoriteSpot(getCurrentUsername(), type, spotId);
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        favoriteSpotService.removeFavoriteSpot(username, type, spotId);
     }
 
     public List<DatedMediaGroupDto> getSortedUserPhotos(DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
-        return mediaService.getSortedUserPhotos(getCurrentUsername(), type, from, to);
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        return mediaService.getSortedUserPhotos(username, type, from, to);
     }
 
     public List<DatedCommentsGroupDto> getSortedUserComments(DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
-        return commentsService.getSortedUserComments(getCurrentUsername(), type, from, to);
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        return commentsService.getSortedUserComments(username, type, from, to);
     }
 
     public void editUserSettings(HttpServletResponse response, UserEditDataDto userEdit) throws UserNotFoundByUsernameException, UserNotFoundException, ExternalProviderAccountException, UnsupportedUserSettingsType, EmailTakenException, SamePasswordException, SameEmailException, InvalidPasswordException, UsernameTakenException, SameUsernameException {
-        settingsService.editUserSettings(response, userEdit, getCurrentUsername());
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        settingsService.editUserSettings(response, userEdit, username);
     }
 
     public UserDataDto getUserData() throws UserNotFoundByUsernameException {
-        return settingsService.getUserData(getCurrentUsername());
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        return settingsService.getUserData(username);
     }
 
     public List<DatedMediaGroupDto> getSortedUserMovies(DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
-        return mediaService.getSortedUserMovies(getCurrentUsername(), type, from, to);
-    }
-
-    private String getCurrentUsername() {
-        var username = getAuthenticatedUsernameOrNull();
-        if (username != null) {
-            return username;
-        }
-        throw new IllegalStateException("No authenticated user in the security context");
-    }
-
-    private String getAuthenticatedUsernameOrNull() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
-            return authentication.getName();
-        }
-        return null;
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        return mediaService.getSortedUserMovies(username, type, from, to);
     }
 }
