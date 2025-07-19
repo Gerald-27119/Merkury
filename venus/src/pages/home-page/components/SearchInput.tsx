@@ -7,7 +7,6 @@ interface SearchInputProps {
     id: string;
     value: string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    onBlur: () => void;
 }
 
 export default function SearchInput({
@@ -15,7 +14,6 @@ export default function SearchInput({
     label,
     value,
     onChange,
-    onBlur,
 }: SearchInputProps) {
     const [isFocused, setFocusedToTrue, setFocusedToFalse] = useBoolean(false);
 
@@ -23,7 +21,6 @@ export default function SearchInput({
 
     const handleOnBlur = () => {
         setFocusedToFalse();
-        onBlur();
     };
 
     return (

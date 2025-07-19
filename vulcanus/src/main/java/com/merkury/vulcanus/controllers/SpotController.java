@@ -55,4 +55,11 @@ public class SpotController {
     public ResponseEntity<List<TopRatedSpotDto>> get18MostPopularSpots() {
         return ResponseEntity.ok(spotService.get18MostPopularSpots());
     }
+
+    @GetMapping("/public/spot/search/home-page")
+    public ResponseEntity<List<SearchSpotDto>> getSearchedSpotsOnHomePage(@RequestParam String country,
+                                                                          @RequestParam String region,
+                                                                          @RequestParam String city) {
+        return ResponseEntity.ok(spotService.getAllSpotsByLocation(country, region, city));
+    }
 }

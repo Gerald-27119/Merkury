@@ -96,4 +96,11 @@ public class SpotService {
                 .toList();
     }
 
+    public List<SearchSpotDto> getAllSpotsByLocation(String country, String region, String city) {
+        return spotRepository
+                .findAllByCountryAndRegionAndCity(country, region, city)
+                .stream()
+                .map(SpotMapper::toSearchSpotDto)
+                .toList();
+    }
 }

@@ -3,6 +3,7 @@ import SpotDetails from "../model/interface/spot/spotDetails";
 import GeneralSpot from "../model/interface/spot/generalSpot";
 import SearchSpotDtoPage from "../model/interface/spot/search-spot/searchSpotDtoPage";
 import { TopRatedSpot } from "../model/interface/spot/topRatedSpot";
+import SearchSpotDto from "../model/interface/spot/search-spot/searchSpotDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function fetchFilteredSpots(name: string): Promise<GeneralSpot[]> {
@@ -71,4 +72,24 @@ export async function isSpotFavourite(spotId) {
 
 export async function get18MostPopularSpots(): Promise<TopRatedSpot[]> {
     return (await axios.get(`${BASE_URL}/public/spot/most-popular`)).data;
+}
+
+interface SearchLocation {
+    country: string;
+    region: string;
+    city: string;
+}
+
+export async function getSearchedSpotsOnHomePage(
+    searchLocation: SearchLocation,
+): Promise<SearchSpotDto[]> {
+    return (
+        await axios.get(`${BASE_URL}/public/spot/search/home-page`, {
+            params: {
+                country: searchLocation.country,
+                region: searchLocation.region,
+                city: searchLocation.city,
+            },
+        })
+    ).data;
 }
