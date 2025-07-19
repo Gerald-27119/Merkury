@@ -36,7 +36,7 @@ export default function GifWindow() {
                                     src={category.gifUrl}
                                     alt={category.searchTerm}
                                     loading="lazy"
-                                    className="h-full w-full object-contain"
+                                    className="h-full w-full object-fill"
                                 />
                             </div>
                         ),

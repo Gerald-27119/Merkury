@@ -34,7 +34,7 @@ public class TenorGifProviderClient {
     public Mono<List<TenorGifCategoryDto>> getTrendingCategories() {
         return webClient.get()
                 .uri(uri -> uri
-                        .path("/trending")
+                        .path("/categories")
                         .queryParam("key", props.getApiKey())
                         .queryParam("locale", TenorGifProviderClient.locale)
                         .build())
