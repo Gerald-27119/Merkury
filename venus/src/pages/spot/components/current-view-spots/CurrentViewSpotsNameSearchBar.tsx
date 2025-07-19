@@ -62,9 +62,6 @@ export default function CurrentViewSpotsNameSearchBar() {
         dispatch(
             currentViewSpotParamsActions.setParams({ name: searchSpotName }),
         );
-        // queryClient.invalidateQueries({
-        //     queryKey: ["spots", "filter", debounceSpotNamesHints],
-        // });
         queryClient.removeQueries({
             queryKey: [
                 "current-view-spots",
@@ -89,6 +86,7 @@ export default function CurrentViewSpotsNameSearchBar() {
         <form
             onSubmit={handleSubmit}
             className="dark:text-darkText mt-2 flex w-full items-end justify-center space-x-3"
+            data-testid="current-view-spots-name-search-bar"
         >
             <div className="relative flex w-full items-center">
                 <div

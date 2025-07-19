@@ -48,6 +48,7 @@ export default function RatingFromForm() {
                 }}
             >
                 <Rate
+                    data-testid="current-view-spots-rating-from-form"
                     allowHalf
                     value={ratingFromValue}
                     onChange={handleOnRateSelect}
