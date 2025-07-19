@@ -6,7 +6,6 @@ interface PhotoProps {
 }
 
 export default function Photo({ photo }: PhotoProps) {
-    console.log(photo);
     return (
         <li className="group relative">
             <img
