@@ -1,7 +1,17 @@
 import ReactPlayer from "react-player";
-import { MediaController } from "media-chrome/dist/react";
+import {
+    MediaControlBar,
+    MediaController,
+    MediaFullscreenButton,
+    MediaMuteButton,
+    MediaPlaybackRateButton,
+    MediaPlayButton,
+    MediaTimeDisplay,
+    MediaTimeRange,
+    MediaVolumeRange,
+} from "media-chrome/dist/react";
 import { useBoolean } from "../../../../hooks/useBoolean";
-import { FaEye, FaHeart, FaPause, FaPlay } from "react-icons/fa";
+import { FaEye, FaHeart } from "react-icons/fa";
 import Media from "../../../../model/interface/account/media/media";
 
 type MovieProps = {
@@ -36,21 +46,25 @@ export default function Movie({ movie }: MovieProps) {
                     onEnded={() => stopPlayingVideo()}
                     onError={() => setErrorHappened()}
                 />
-                <button
-                    onClick={() => togglePlayingVideo()}
-                    className="absolute inset-0 z-20 flex items-center justify-center text-white transition hover:scale-110 focus:outline-none"
+                <MediaControlBar
+                    className="media-control-bar w-full [&>*]:px-2"
+                    style={{ margin: 0 }}
                 >
-                    <div className="hidden rounded-full bg-black/60 p-4 text-4xl group-hover:block">
-                        {isVideoPlaying ? <FaPause /> : <FaPlay />}
-                    </div>
-                </button>
+                    <MediaPlayButton onClick={() => togglePlayingVideo()} />
+                    <MediaTimeRange />
+                    <MediaTimeDisplay showDuration />
+                    <MediaMuteButton />
+                    <MediaVolumeRange />
+                    <MediaPlaybackRateButton />
+                    <MediaFullscreenButton />
+                </MediaControlBar>
                 {isError && (
                     <p className="absolute inset-0 z-30 flex items-center justify-center bg-black/60 p-4 text-center text-sm text-red-400">
                         Failed to load the video. Please try again later.
                     </p>
                 )}
             </MediaController>
-            <div className="group-hover:bg-lightBg/70 dark:group-hover:bg-darkBg/60 absolute bottom-0 left-0 flex w-full justify-center gap-4 rounded-b-md py-2 text-xl transition duration-300">
+            <div className="group-hover:bg-lightBg/70 dark:group-hover:bg-darkBg/60 absolute top-0 left-0 flex w-full justify-center gap-4 rounded-b-md py-2 text-xl transition duration-300">
                 <span className="flex items-center gap-2">
                     <FaHeart />
                     {movie.heartsCount}

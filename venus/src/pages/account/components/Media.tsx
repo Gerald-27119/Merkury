@@ -50,7 +50,7 @@ export default function Media({
                     ? mediaList?.map(({ date, media }) => (
                           <div className="flex flex-col space-y-3" key={date}>
                               <DateBadge date={date} />
-                              <ul className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+                              <ul className="3xl:grid-cols-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
                                   {media?.map((m) => {
                                       return variant ===
                                           AccountWrapperType.PHOTOS ? (
