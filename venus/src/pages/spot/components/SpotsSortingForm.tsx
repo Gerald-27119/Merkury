@@ -1,5 +1,5 @@
 import { RiArrowDownSLine } from "react-icons/ri";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useQueryClient } from "@tanstack/react-query";
 import { useBoolean } from "../../../hooks/useBoolean";
@@ -47,7 +47,14 @@ export default function SpotsSortingForm({
         closeDropdown();
     };
 
+    const stableQKey = useMemo(
+        () => queryKeyToRemoveQueries,
+        [queryKeyToRemoveQueries],
+    );
+
     useEffect(() => {
+        console.log("useEffect call");
+        console.log(stableQKey);
         if (selectedSorting.value != sorting) {
             onSelectSorting(selectedSorting);
             onClear();
@@ -55,7 +62,7 @@ export default function SpotsSortingForm({
                 queryKey: queryKeyToRemoveQueries,
             });
         }
-    }, [selectedSorting, sorting, ...queryKeyToRemoveQueries]);
+    }, [selectedSorting, sorting, stableQKey]);
 
     return (
         <div

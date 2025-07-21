@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type CurrentViewSpotParamsProps = {
     name: string;
@@ -24,7 +24,10 @@ export const currentViewSpotParamsSlice = createSlice({
     name: "currentViewSpotParams",
     initialState,
     reducers: {
-        setParams(state, action) {
+        setParams(
+            state,
+            action: PayloadAction<Partial<CurrentViewSpotParamsProps>>,
+        ) {
             state.name = action.payload.name ?? state.name;
             state.sorting = action.payload.sorting ?? state.sorting;
             state.ratingFrom = action.payload.ratingFrom ?? state.ratingFrom;
