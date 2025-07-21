@@ -1,10 +1,10 @@
-package com.merkury.vulcanus.model.dtos.account.photos;
+package com.merkury.vulcanus.model.dtos.account.media;
 
 import lombok.Builder;
 
 
 @Builder
-public record PhotoDto(String src,
+public record MediaDto(String src,
                        Integer heartsCount,
                        Integer viewsCount,
                        Long id) {

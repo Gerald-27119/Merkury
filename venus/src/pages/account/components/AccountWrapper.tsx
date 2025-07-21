@@ -18,6 +18,7 @@ const variantClasses = {
     social: socialCommentsSettings,
     comments: socialCommentsSettings,
     settings: socialCommentsSettings,
+    movies: "min-h-full space-y-8 p-2 pt-20 md:p-10 md:pt-20 xl:pt-10",
 };
 
 export default function AccountWrapper({
