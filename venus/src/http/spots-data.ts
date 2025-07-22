@@ -9,15 +9,55 @@ export async function fetchFilteredSpots(name: string): Promise<GeneralSpot[]> {
         .data;
 }
 
+export async function getCurrentViewSpots(
+    swLng: number,
+    swLat: number,
+    neLng: number,
+    neLat: number,
+    name: string,
+    ratingFrom: number,
+    sorting: string,
+    page: number,
+): Promise<SearchSpotDtoPage> {
+    return (
+        await axios.get(`${BASE_URL}/public/spot/current-view`, {
+            params: {
+                swLng,
+                swLat,
+                neLng,
+                neLat,
+                name,
+                ratingFrom,
+                sorting,
+                page,
+            },
+        })
+    ).data;
+}
+
+export async function getSpotsNamesInCurrentView(
+    swLng: number,
+    swLat: number,
+    neLng: number,
+    neLat: number,
+    name: string,
+): Promise<string[]> {
+    return (
+        await axios.get(`${BASE_URL}/public/spot/current-view/spot-names`, {
+            params: { swLng, swLat, neLng, neLat, name },
+        })
+    ).data;
+}
+
 export async function fetchSearchedSpotsPage(
     name: string,
     page: number,
     sorting: string,
 ): Promise<SearchSpotDtoPage> {
     return (
-        await axios.get(
-            `${BASE_URL}/public/spot/search/list?name=${name}&page=${page}&sorting=${sorting}`,
-        )
+        await axios.get(`${BASE_URL}/public/spot/search/list`, {
+            params: { name, page, sorting },
+        })
     ).data;
 }
 

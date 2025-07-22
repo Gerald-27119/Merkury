@@ -12,6 +12,9 @@ import { socialSlice } from "./social";
 import { spotCommentSlice } from "./spot-comments";
 import { searchedSpotListModalSlice } from "./searched-spot-list-modal";
 import { searchedSpotsSlice } from "./searched-spots";
+import { currentViewSpotsSlice } from "./current-view-spots";
+import { currentViewSpotsListModalSlice } from "./current-view-spots-list-modal";
+import { currentViewSpotParamsSlice } from "./current-view-spot-params";
 
 // TODO: Add persisting state to localStorage
 const store = configureStore({
@@ -29,6 +32,9 @@ const store = configureStore({
         searchedSpots: searchedSpotsSlice.reducer,
         social: socialSlice.reducer,
         spotComments: spotCommentSlice.reducer,
+        currentViewSpots: currentViewSpotsSlice.reducer,
+        currentViewSpotsListModal: currentViewSpotsListModalSlice.reducer,
+        currentViewSpotsParams: currentViewSpotParamsSlice.reducer,
     },
 });
 

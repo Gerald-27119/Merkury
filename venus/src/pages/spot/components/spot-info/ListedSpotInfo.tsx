@@ -8,7 +8,7 @@ type SearchedSpotInfoProps = {
     spot: SearchSpotDto;
 };
 
-export default function SearchedSpotInfo({ spot }: SearchedSpotInfoProps) {
+export default function ListedSpotInfo({ spot }: SearchedSpotInfoProps) {
     const { current: map } = useMap();
 
     const handleClickSpot = (coordinates: SpotCoordinatesDto) => {

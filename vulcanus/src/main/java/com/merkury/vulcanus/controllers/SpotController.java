@@ -23,6 +23,29 @@ public class SpotController {
 
     private final SpotService spotService;
 
+    @GetMapping("/public/spot/current-view")
+    public ResponseEntity<Page<SearchSpotDto>> getCurrentView(@RequestParam double swLng,
+                                                              @RequestParam double swLat,
+                                                              @RequestParam double neLng,
+                                                              @RequestParam double neLat,
+                                                              @RequestParam(defaultValue = "") String name,
+                                                              @RequestParam(defaultValue = "none") String sorting,
+                                                              @RequestParam(defaultValue = "0.0") double ratingFrom,
+                                                              @RequestParam(defaultValue = "0") int page) {
+        log.info("getting spots in current view");
+        return ResponseEntity.ok(spotService.getSpotsInCurrentView(swLng, swLat, neLng, neLat, name, sorting, ratingFrom, PageRequest.of(page, DEFAULT_SEARCHED_SPOTS_PAGE_SIZE)));
+    }
+
+    @GetMapping("/public/spot/current-view/spot-names")
+    public ResponseEntity<List<String>> getSpotNamesInCurrentView(@RequestParam double swLng,
+                                                                         @RequestParam double swLat,
+                                                                         @RequestParam double neLng,
+                                                                         @RequestParam double neLat,
+                                                                         @RequestParam(defaultValue = "") String name) {
+        log.info("getting spots names in current view");
+        return ResponseEntity.ok(spotService.getSpotsNamesInCurrentView(swLng, swLat, neLng, neLat, name));
+    }
+
     @GetMapping("/public/spot/{spotId}")
     public ResponseEntity<SpotDetailsDto> getSpotById(@PathVariable Long spotId) throws SpotNotFoundException {
         log.info("getting spot with id: {}", spotId);
