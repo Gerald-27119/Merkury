@@ -1,6 +1,6 @@
 import { formatSentAt } from "../../../../utils/chat";
 import { ChatMessageDto } from "../../../../model/interface/chat/chatInterfaces";
-import { useState } from "react";
+import { useBoolean } from "../../../../hooks/useBoolean";
 
 interface MessageProps {
     message: ChatMessageDto;
@@ -11,14 +11,17 @@ export default function ChatMessage({
     message,
     shouldGroupMessagesByTime,
 }: MessageProps) {
-    const [shouldShowTooltipWithTime, setShouldShowTooltipWithTime] =
-        useState(false);
+    const [
+        shouldShowTooltipWithTime,
+        showTooltipWithTime,
+        hideTooltipWithTime,
+    ] = useBoolean(false);
 
     return (
         <div
-            className={`flex px-2 py-[0.1rem]`}
-            onMouseEnter={() => setShouldShowTooltipWithTime(true)}
-            onMouseLeave={() => setShouldShowTooltipWithTime(false)}
+            className="flex px-2 py-[0.1rem]"
+            onMouseEnter={showTooltipWithTime}
+            onMouseLeave={hideTooltipWithTime}
         >
             {shouldGroupMessagesByTime ? (
                 <>
