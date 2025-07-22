@@ -35,6 +35,15 @@ export default function SpotsSortingForm({
     sorting,
     variant,
 }: SearchedSpotsSortingFormProps) {
+    const isSearchVariant: boolean =
+        variant === SpotSortingFormVariantType.SEARCH;
+    const mainWrapperClasses: string = `relative ${isSearchVariant && "mb-6"} inline-block`;
+    const bgContainerClasses: string = `bg-violetLight flex ${isSearchVariant ? "w-86 px-5" : "w-36 pl-2.5"} justify-between py-1 text-lg`;
+    const openedDropdownClasses: string = `${isSearchVariant ? "rounded-t-2xl rounded-l-2xl" : "rounded-t-2xl"}`;
+    const paragraphLabelClasses: string = `mr-2 font-semibold text-white ${!isSearchVariant && "ml-0"}`;
+    const wrapperContainerClasses: string = `flex ${!isSearchVariant && "overflow-hidden"} cursor-pointer items-center`;
+    const valueClasses: string = `${isSearchVariant ? "mr-1" : "mr-2.5 h-7 w-1/2"}`;
+
     const [selectedSorting, setSelectedSorting] = useState<SpotSortingOption>(
         options[0],
     );
@@ -53,8 +62,6 @@ export default function SpotsSortingForm({
     );
 
     useEffect(() => {
-        console.log("useEffect call");
-        console.log(stableQKey);
         if (selectedSorting.value != sorting) {
             onSelectSorting(selectedSorting);
             onClear();
@@ -66,26 +73,19 @@ export default function SpotsSortingForm({
 
     return (
         <div
-            className={`relative ${variant === SpotSortingFormVariantType.SEARCH && "mb-6"} inline-block`}
+            className={mainWrapperClasses}
             data-testid="searched-spots-sorting-form"
         >
             <div className="relative flex flex-col">
                 <div
-                    className={`bg-violetLight flex ${variant === SpotSortingFormVariantType.SEARCH ? "w-86 px-5" : "w-36 pl-2.5"} justify-between ${isDropdownOpen ? (variant === SpotSortingFormVariantType.CURRENT_VIEW ? "rounded-t-2xl" : "rounded-t-2xl rounded-l-2xl") : "rounded-2xl"} py-1 text-lg`}
+                    className={`${bgContainerClasses} ${isDropdownOpen ? openedDropdownClasses : "rounded-2xl"}`}
                 >
-                    <p
-                        className={`mr-2 font-semibold text-white ${variant === SpotSortingFormVariantType.CURRENT_VIEW && "ml-0"}`}
-                    >
-                        Sort:
-                    </p>
+                    <p className={paragraphLabelClasses}>Sort:</p>
                     <div
-                        className={`flex ${variant === SpotSortingFormVariantType.CURRENT_VIEW && "overflow-hidden"} cursor-pointer items-center`}
+                        className={wrapperContainerClasses}
                         onClick={toggleDropdown}
                     >
-                        <p
-                            className={`${variant === SpotSortingFormVariantType.CURRENT_VIEW ? "mr-2.5 h-7 w-1/2" : "mr-1"}`}
-                            data-testid="sorting-value"
-                        >
+                        <p className={valueClasses} data-testid="sorting-value">
                             {selectedSorting.label}
                         </p>
                         <RiArrowDownSLine

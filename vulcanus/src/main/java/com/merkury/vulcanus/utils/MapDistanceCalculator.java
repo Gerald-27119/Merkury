@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.utils;
 
 public class MapDistanceCalculator {
-    private static final int EARTHS_RADIUS = 6371000; //in meters
+    private static final int EARTHS_RADIUS_IN_METERS = 6371000;
 
     /**
      * @param latitude1   the first point's latitude, in decimal degrees
@@ -26,6 +26,6 @@ public class MapDistanceCalculator {
 
         double angularDistance = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        return (EARTHS_RADIUS * angularDistance) / 1000;
+        return (EARTHS_RADIUS_IN_METERS * angularDistance) / 1000;
     }
 }

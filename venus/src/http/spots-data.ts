@@ -20,9 +20,18 @@ export async function getCurrentViewSpots(
     page: number,
 ): Promise<SearchSpotDtoPage> {
     return (
-        await axios.get(
-            `${BASE_URL}/public/spot/current-view?swLng=${swLng}&swLat=${swLat}&neLng=${neLng}&neLat=${neLat}&name=${name}&page=${page}&sorting=${sorting}&ratingFrom=${ratingFrom}`,
-        )
+        await axios.get(`${BASE_URL}/public/spot/current-view`, {
+            params: {
+                swLng,
+                swLat,
+                neLng,
+                neLat,
+                name,
+                ratingFrom,
+                sorting,
+                page,
+            },
+        })
     ).data;
 }
 
@@ -34,9 +43,9 @@ export async function getSpotsNamesInCurrentView(
     name: string,
 ): Promise<string[]> {
     return (
-        await axios.get(
-            `${BASE_URL}/public/spot/current-view/spot-names?swLng=${swLng}&swLat=${swLat}&neLng=${neLng}&neLat=${neLat}&name=${name}`,
-        )
+        await axios.get(`${BASE_URL}/public/spot/current-view/spot-names`, {
+            params: { swLng, swLat, neLng, neLat, name },
+        })
     ).data;
 }
 
@@ -46,9 +55,9 @@ export async function fetchSearchedSpotsPage(
     sorting: string,
 ): Promise<SearchSpotDtoPage> {
     return (
-        await axios.get(
-            `${BASE_URL}/public/spot/search/list?name=${name}&page=${page}&sorting=${sorting}`,
-        )
+        await axios.get(`${BASE_URL}/public/spot/search/list`, {
+            params: { name, page, sorting },
+        })
     ).data;
 }
 
