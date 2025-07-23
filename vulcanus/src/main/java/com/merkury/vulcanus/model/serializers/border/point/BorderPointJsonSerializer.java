@@ -16,5 +16,10 @@ public class BorderPointJsonSerializer extends JsonSerializer<BorderPoint> {
         gen.writeNumberField("y", value.getY());
         gen.writeEndObject();
     }
+
+    @Override
+    public Class<BorderPoint> handledType() {
+        return BorderPoint.class;
+    }
 }
 

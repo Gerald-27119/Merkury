@@ -1,5 +1,10 @@
 package com.merkury.vulcanus.model.dtos.spot;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.merkury.vulcanus.model.embeddable.BorderPoint;
+import com.merkury.vulcanus.model.serializers.border.point.BorderPointJsonDeserializer;
+import com.merkury.vulcanus.model.serializers.border.point.BorderPointJsonSerializer;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 
@@ -16,6 +21,10 @@ public record GeneralSpotDto(@Positive(message = "ID must be a positive number."
                              Double rating,
                              @NotEmpty(message = "Contour coordinates list cannot be empty.")
                              List<Double[]> contourCoordinates,
+                             @JsonSerialize(using = BorderPointJsonSerializer.class)
+                             @JsonDeserialize(using = BorderPointJsonDeserializer.class)
+                             @NotNull(message = "Center point cannot be null.")
+                             BorderPoint centerPoint,
                              @Positive(message = "Area must be greater than 0.")
                              Double area) {
 }

@@ -107,8 +107,8 @@ export default function Spots() {
                 shouldRenderMarker(spot.area, zoomLevel) ? (
                     <Marker
                         key={spot.id}
-                        longitude={spot.contourCoordinates[0][1]}
-                        latitude={spot.contourCoordinates[0][0]}
+                        longitude={spot.centerPoint.x}
+                        latitude={spot.centerPoint.y}
                         onClick={() => handleSpotClick(spot.id)}
                     >
                         <MdLocationPin
