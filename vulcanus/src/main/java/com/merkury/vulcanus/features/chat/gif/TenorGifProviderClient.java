@@ -1,8 +1,9 @@
 package com.merkury.vulcanus.features.chat.gif;
 
 import com.merkury.vulcanus.config.properties.GifProviderProperties;
-import com.merkury.vulcanus.model.dtos.chat.gif.TenorGifCategoryDto;
-import com.merkury.vulcanus.model.dtos.chat.gif.TenorGifCategoryResponse;
+import com.merkury.vulcanus.model.dtos.chat.gif.category.TenorGifCategoryDto;
+import com.merkury.vulcanus.model.dtos.chat.gif.category.TenorGifCategoryResponse;
+import com.merkury.vulcanus.model.dtos.chat.gif.search.TenorGifSearchResponse;
 import com.merkury.vulcanus.model.mappers.chat.TenorMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -42,9 +43,31 @@ public class TenorGifProviderClient {
                 .bodyToMono(TenorGifCategoryResponse.class)
                 .map(TenorMapper::mapToGifCategoryDtos);
     }
+
+    public Mono<TenorGifSearchResponse> searchGifsBySearchPhrase(String searchPhrase, String next) {
+        var res = webClient.get()
+                .uri(uriBuilder -> {
+                    var builder = uriBuilder
+                            .path("/search")
+                            .queryParam("key", props.getApiKey())
+                            .queryParam("locale", TenorGifProviderClient.locale)
+                            .queryParam("q", searchPhrase)
+                            .queryParam("media_filter", "gif")
+                            .queryParam("limit", limit);
+
+                    if (next != null && !next.isBlank()) {
+                        builder = builder.queryParam("pos", next);
+                    }
+
+                    return builder.build();
+                })
+                .retrieve()
+                .bodyToMono(TenorGifSearchResponse.class);
+
+        return res;
+    }
+
 }
-
-
 //TODO: włączyć filtrowanie gifow
 //next doslownie moze byc stringiem z literami, to wcale nie musi byc lcizba!
 //    public Mono<List<TenorRequestResultDto>> searchGifs(String query, String pos) {

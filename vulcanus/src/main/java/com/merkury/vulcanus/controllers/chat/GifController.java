@@ -1,11 +1,15 @@
 package com.merkury.vulcanus.controllers.chat;
 
+import com.azure.core.annotation.Get;
+import com.azure.core.annotation.QueryParam;
 import com.merkury.vulcanus.features.chat.gif.GifService;
-import com.merkury.vulcanus.model.dtos.chat.gif.TenorGifCategoryDto;
+import com.merkury.vulcanus.model.dtos.chat.gif.category.TenorGifCategoryDto;
+import com.merkury.vulcanus.model.dtos.chat.gif.search.TenorGifSearchWrapperDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -28,6 +32,12 @@ public class GifController {
         return gifService.getTrendingCategories()
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.ok(Collections.emptyList()));
+    }
+
+    @GetMapping("search")
+    public Mono<ResponseEntity<TenorGifSearchWrapperDto>> getTrendingGifs(@RequestParam String searchPhrase, @RequestParam String next) {
+        return gifService.searchGifsBySearchPhrase(searchPhrase, next)
+                .map(ResponseEntity::ok);
     }
 
 }

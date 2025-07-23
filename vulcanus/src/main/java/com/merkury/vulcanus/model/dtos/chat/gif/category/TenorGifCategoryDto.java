@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.dtos.chat.gif;
+package com.merkury.vulcanus.model.dtos.chat.gif.category;
 
 import lombok.Builder;
 
