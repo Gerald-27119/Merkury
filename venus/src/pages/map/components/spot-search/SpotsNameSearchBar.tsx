@@ -88,7 +88,7 @@ export default function SpotsNameSearchBar() {
                         {spotsNames.map((name) => (
                             <li
                                 key={name}
-                                className="dark:hover:bg-violetDark ml-3 cursor-pointer p-2"
+                                className="dark:hover:bg-violetDark cursor-pointer p-2 pl-4"
                                 onMouseDown={() => handleHintClick(name)}
                             >
                                 {name}

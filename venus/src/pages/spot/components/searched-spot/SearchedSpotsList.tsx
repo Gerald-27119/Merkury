@@ -13,8 +13,10 @@ import {
     searchedSpotsSelectors,
     searchedSpotsSliceActions,
 } from "../../../../redux/searched-spots";
-import SearchedSpotInfo from "./SearchedSpotInfo";
-import SearchedSpotsSortingForm from "./SearchedSpotsSortingForm";
+import ListedSpotInfo from "../spot-info/ListedSpotInfo";
+import SpotsSortingForm from "../SpotsSortingForm";
+import { spotFiltersAction } from "../../../../redux/spot-filters";
+import { SpotSortingFormVariantType } from "../../../../model/enum/spot/spotSortingFormVariantType";
 
 const slideVariants = {
     hidden: { x: "-100%", opacity: 0 },
@@ -116,7 +118,21 @@ export default function SearchedSpotsList() {
                 <h1 className="mb-6 text-xl font-semibold text-white">
                     Spots matching criteria
                 </h1>
-                <SearchedSpotsSortingForm />
+                <SpotsSortingForm
+                    onSelectSorting={(opt) =>
+                        dispatch(
+                            spotFiltersAction.setFilters({
+                                sorting: opt.value,
+                            }),
+                        )
+                    }
+                    onClear={() =>
+                        dispatch(searchedSpotsSliceActions.clearSearchedSpots())
+                    }
+                    queryKeyToRemoveQueries={["spots", name, sorting]}
+                    sorting={sorting}
+                    variant={SpotSortingFormVariantType.SEARCH}
+                />
                 <div
                     ref={containerRef}
                     className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex w-full flex-col items-center overflow-y-auto rounded-b-xl lg:h-[80rem] [@media(max-height:1080px)]:h-[50rem]"
@@ -131,7 +147,7 @@ export default function SearchedSpotsList() {
                         <ul className="w-full">
                             {searchedSpots.map((searchedSpot) => (
                                 <li key={searchedSpot.id} className="my-4">
-                                    <SearchedSpotInfo spot={searchedSpot} />
+                                    <ListedSpotInfo spot={searchedSpot} />
                                 </li>
                             ))}
                         </ul>

@@ -17,17 +17,16 @@ import java.util.List;
 
 import static com.merkury.vulcanus.model.enums.user.dashboard.DateSortType.DATE_ASCENDING;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-class PhotosServiceTest {
+class MediaServiceTest {
     @Mock
     private SpotMediaRepository spotMediaRepository;
 
     @InjectMocks
-    private PhotosService photosService;
+    private MediaService mediaService;
 
     @Test
     void shouldReturnAllPhotosWhenExist() throws UnsupportedDateSortTypeException {
@@ -38,14 +37,14 @@ class PhotosServiceTest {
 
         when(spotMediaRepository.findAllByAuthorUsernameAndGenericMediaType("user1", GenericMediaType.PHOTO )).thenReturn(photosList);
 
-        var result = photosService.getSortedUserPhotos("user1", DATE_ASCENDING, null, null);
+        var result = mediaService.getSortedUserPhotos("user1", DATE_ASCENDING, null, null);
 
         assertAll(() -> assertFalse(result.isEmpty()),
                 () -> assertEquals(1, result.size()),
                 () -> assertEquals(2, result.stream()
                         .filter(p -> p.date().equals(LocalDate.now()))
                         .findFirst()
-                        .map(p -> p.photos().size()).orElse(0)),
+                        .map(p -> p.media().size()).orElse(0)),
                 () -> assertTrue(result.stream().anyMatch(p -> p.date().equals(LocalDate.now()))));
     }
 
@@ -53,7 +52,7 @@ class PhotosServiceTest {
     void shouldThrowUnsupportedPhotoSortTypeExceptionWhenEntryWrongType() {
         when(spotMediaRepository.findAllByAuthorUsernameAndGenericMediaType("testUser", GenericMediaType.PHOTO)).thenReturn(List.of());
         assertThrows(UnsupportedDateSortTypeException.class,
-                () -> photosService.getSortedUserPhotos("testUser", DateSortType.UNKNOWN, null, null));
+                () -> mediaService.getSortedUserPhotos("testUser", DateSortType.UNKNOWN, null, null));
     }
 
     @Test
@@ -63,7 +62,7 @@ class PhotosServiceTest {
 
         when(spotMediaRepository.findAllByAuthorUsernameAndGenericMediaTypeAndAddDateBetween("user1", GenericMediaType.PHOTO, LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 16))).thenReturn(List.of(photo));
 
-        var result = photosService
+        var result = mediaService
                 .getSortedUserPhotos("user1", DATE_ASCENDING,
                         LocalDate.of(2025, 6, 15),
                         LocalDate.of(2025, 6, 16));
@@ -73,8 +72,8 @@ class PhotosServiceTest {
                 () -> assertEquals(1, result.stream()
                         .filter(p -> p.date().equals(LocalDate.of(2025, 6, 15)))
                         .findFirst()
-                        .map(p -> p.photos().size()).orElse(0)),
-                () -> assertTrue(result.stream().allMatch(g -> g.photos().stream().allMatch(p -> p.heartsCount().equals(12)))),
-                () -> assertTrue(result.stream().allMatch(g -> g.photos().stream().allMatch(p -> p.viewsCount().equals(15)))));
+                        .map(p -> p.media().size()).orElse(0)),
+                () -> assertTrue(result.stream().allMatch(g -> g.media().stream().allMatch(p -> p.heartsCount().equals(12)))),
+                () -> assertTrue(result.stream().allMatch(g -> g.media().stream().allMatch(p -> p.viewsCount().equals(15)))));
     }
 }

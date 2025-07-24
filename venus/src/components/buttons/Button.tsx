@@ -2,26 +2,26 @@ import { ReactNode } from "react";
 import { ButtonVariantType } from "../../model/enum/buttonVariantType";
 
 interface ButtonProps {
-    onClick: () => void;
+    onClick?: () => void;
     variant: ButtonVariantType;
     className?: string;
     children: ReactNode;
 }
 
-const baseClasses =
-    "cursor-pointer rounded-md px-2 py-1.5 capitalize shadow-md";
+const baseClasses = "rounded-md px-2 py-1.5 capitalize shadow-md";
 const variantClasses = {
-    modal: "text-center",
+    modal: "text-center cursor-pointer",
     profile:
-        "dark:bg-violetDark bg-violetLight dark:hover:bg-violetDark/80 hover:bg-violetLight/80 w-full",
+        "dark:bg-violetDark bg-violetLight dark:hover:bg-violetDark/80 hover:bg-violetLight/80 w-full cursor-pointer",
     favorite_spot_menu:
-        "dark:bg-violetDark dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText w-full md:w-96 lg:w-full lg:first:mr-15 transform-all duration-300",
+        "dark:bg-violetDark dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText w-full md:w-96 lg:w-full lg:first:mr-15 transform-all duration-300 cursor-pointer",
     favorite_spot_tile:
-        "dark:bg-violetDark bg-violetLight dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText flex items-center gap-2 w-full lg:w-fit",
+        "dark:bg-violetDark bg-violetLight dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText flex items-center gap-2 w-full lg:w-fit cursor-pointer",
+    settings: "dark:bg-violetDark bg-violetLight  w-full",
 };
 
 export default function Button({
-    onClick,
+    onClick = () => {},
     variant,
     className,
     children,

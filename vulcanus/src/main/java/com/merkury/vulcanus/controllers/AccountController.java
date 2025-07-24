@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
-import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
-import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
-import com.merkury.vulcanus.model.dtos.user.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.user.UserLoginDto;
 import com.merkury.vulcanus.model.dtos.user.UserPasswordResetDto;
 import com.merkury.vulcanus.model.dtos.user.UserRegisterDto;
@@ -18,7 +15,6 @@ import com.merkury.vulcanus.model.enums.EmailTitle;
 import com.merkury.vulcanus.model.enums.EmailVariable;
 import com.merkury.vulcanus.model.dtos.EmailDto;
 import com.merkury.vulcanus.observability.counter.invocations.InvocationsCounter;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.merkury.vulcanus.config.properties.UrlsProperties;
 import jakarta.validation.Valid;
@@ -170,23 +166,6 @@ public class AccountController {
                 .body("Password set successfully!");
     }
 
-    @PatchMapping("/account/edit-data/{userId}")
-    public ResponseEntity<GetUserBasicInfoDto>editUser(@PathVariable Long userId, HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody UserEditDataDto userEditDataDto) throws InvalidPasswordException, EmailTakenException, UsernameTakenException, InvalidCredentialsException, UserNotFoundException {
-        log.info("Start editing user...");
-        var updatedUser = accountService.editUserData(userId, userEditDataDto, request, response);
-        log.info("User edited successfully!");
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(updatedUser);
-    }
-
-    @GetMapping("/account/get-user")
-    public ResponseEntity<GetUserBasicInfoDto> getUserData(HttpServletRequest request) throws UserNotFoundException {
-        log.info("Start getting user...");
-        var user = accountService.getUser(request);
-        log.info("User found successfully!");
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(user);
-    }
 
     @GetMapping("/account/check")
     public ResponseEntity<Void> checkIsAuthenticated() {

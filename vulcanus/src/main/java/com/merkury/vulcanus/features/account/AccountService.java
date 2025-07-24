@@ -1,12 +1,9 @@
 package com.merkury.vulcanus.features.account;
 
 import com.merkury.vulcanus.exception.exceptions.EmailNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.InvalidPasswordException;
 import com.merkury.vulcanus.exception.exceptions.InvalidProviderException;
 import com.merkury.vulcanus.exception.exceptions.UsernameNotFoundException;
-import com.merkury.vulcanus.model.dtos.GetUserBasicInfoDto;
 import com.merkury.vulcanus.model.dtos.OAuth2LoginResponseDto;
-import com.merkury.vulcanus.model.dtos.user.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.user.UserLoginDto;
 import com.merkury.vulcanus.model.dtos.user.UserPasswordResetDto;
 import com.merkury.vulcanus.model.dtos.user.UserRegisterDto;
@@ -16,7 +13,6 @@ import com.merkury.vulcanus.exception.exceptions.EmailTakenException;
 import com.merkury.vulcanus.exception.exceptions.InvalidCredentialsException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UsernameTakenException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenIsInvalidException;
 import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenNotFoundException;
@@ -96,14 +92,5 @@ public class AccountService {
         this.loginOauth2User(userEmail, response);
 
         return new OAuth2LoginResponseDto(userEmail, shouldSendRegisterEmail);
-    }
-
-    public GetUserBasicInfoDto editUserData(Long userId, UserEditDataDto userEditDataDto, HttpServletRequest request, HttpServletResponse response)
-            throws InvalidPasswordException, EmailTakenException, UsernameTakenException, UserNotFoundException {
-        return userDataService.editUserData(userId, userEditDataDto, request, response);
-    }
-
-    public GetUserBasicInfoDto getUser(HttpServletRequest request) throws UserNotFoundException {
-        return userDataService.getUserData(request);
     }
 }

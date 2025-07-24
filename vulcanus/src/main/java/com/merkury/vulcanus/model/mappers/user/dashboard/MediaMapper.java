@@ -1,19 +1,19 @@
 package com.merkury.vulcanus.model.mappers.user.dashboard;
 
-import com.merkury.vulcanus.model.dtos.account.photos.PhotoDto;
-import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
+import com.merkury.vulcanus.model.dtos.account.media.MediaDto;
+import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupDto;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class PhotosMapper {
-    private PhotosMapper() {
+public class MediaMapper {
+    private MediaMapper() {
     }
 
-    public static PhotoDto toDto(@NotNull SpotMedia spotMedia){
-        return PhotoDto.builder()
+    public static MediaDto toDto(@NotNull SpotMedia spotMedia){
+        return MediaDto.builder()
                 .id(spotMedia.getId())
                 .heartsCount(spotMedia.getLikes())
                 .viewsCount(spotMedia.getViews())
@@ -21,10 +21,10 @@ public class PhotosMapper {
                 .build();
     }
 
-    public static DatedPhotosGroupDto toDto(@NotNull LocalDate date, List<PhotoDto> photos){
-        return DatedPhotosGroupDto.builder()
+    public static DatedMediaGroupDto toDto(@NotNull LocalDate date, List<MediaDto> media){
+        return DatedMediaGroupDto.builder()
                 .date(date)
-                .photos(photos)
+                .media(media)
                 .build();
     }
 }

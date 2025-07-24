@@ -31,7 +31,7 @@ export default function ChatBottomBar() {
     const sendMessage = useCallback(async () => {
         if (!messageToSend.trim() || !connected) return;
 
-        const formattedChatMessageDto: ChatMessageToSendDto = {
+        const formattedChatMessageToSend: ChatMessageToSendDto = {
             chatId: selectedChatId,
             content: messageToSend,
             sentAt: new Date().toISOString(),
@@ -41,7 +41,7 @@ export default function ChatBottomBar() {
         try {
             publish(
                 `/app/send/${selectedChatId}/message`,
-                formattedChatMessageDto,
+                formattedChatMessageToSend,
             );
             setMessageToSend("");
             //TODO:add ACK confirmation

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { screen, waitFor } from "@testing-library/react";
-import { options } from "../../../pages/spot/components/searched-spot/SearchedSpotsSortingForm";
+import { options } from "../../../pages/spot/components/SpotsSortingForm";
 import userEvent from "@testing-library/user-event";
 import { renderSearchedSpotsSortingForm } from "../../config/SearchedSpotsSortingFormTestsConfig";
 
