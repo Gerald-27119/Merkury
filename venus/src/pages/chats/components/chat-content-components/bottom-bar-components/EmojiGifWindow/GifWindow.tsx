@@ -1,4 +1,11 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, {
+    useRef,
+    useEffect,
+    useState,
+    useCallback,
+    Dispatch,
+    SetStateAction,
+} from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
     searchTenorGifs,
@@ -9,14 +16,42 @@ import {
     SearchedGifs,
     TrendingGifCategory,
 } from "../../../../../../model/interface/chat/gifs/gifInterfaces";
+import { ChatMessageToSendDto } from "../../../../../../model/interface/chat/chatInterfaces";
+import { useWebSocket } from "../../../../../../stomp/useWebSocket";
+import useSelectorTyped from "../../../../../../hooks/useSelectorTyped";
 
-// Prosty skeleton – możesz podmienić na swój komponent
+const scrollbarClasses =
+    "scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar scrollbar-w-1";
+
 function GifSkeleton() {
     return <div className="h-32 w-full animate-pulse rounded-xl bg-gray-300" />;
 }
 
-export default function GifWindow() {
+export default function GifWindow({
+    setActiveGifEmojiWindow,
+}: {
+    setActiveGifEmojiWindow: Dispatch<SetStateAction<"emoji" | "gif" | null>>;
+}) {
     const [searchedInputPhrase, setSearchedInputPhrase] = useState("");
+    const { selectedChatId } = useSelectorTyped((state) => state.chats);
+
+    const { publish, connected } = useWebSocket();
+
+    function sendMessage(gifUrl: string) {
+        const formatted: ChatMessageToSendDto = {
+            chatId: selectedChatId,
+            content: gifUrl,
+            sentAt: new Date().toISOString(),
+        };
+
+        try {
+            publish(`/app/send/${selectedChatId}/message`, formatted);
+            // TODO: uzyskać potwierdzenie ACK
+        } finally {
+            console.log("GIF sent successfully:", gifUrl);
+            setActiveGifEmojiWindow(null);
+        }
+    }
 
     // 1) Pobranie trendujących kategorii
     const {
@@ -86,7 +121,9 @@ export default function GifWindow() {
             </div>
 
             {/* --- Kontener GIF-ów --- */}
-            <div className="bg-violetLightDarker scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-w-1 mt-2 grid flex-1 grid-cols-2 gap-3 overflow-auto rounded-b-xl p-3">
+            <div
+                className={` ${scrollbarClasses} bg-violetLightDarker mt-2 grid flex-1 grid-cols-2 gap-3 overflow-y-auto rounded-b-xl p-3`}
+            >
                 {/* W pierwszym ładowaniu trendujące skeletony */}
 
                 {isTrendingCategoriesLoading &&
@@ -143,6 +180,7 @@ export default function GifWindow() {
                         <button
                             key={gif.url}
                             className="group bg-violetDark hover:border-violetLighter relative h-32 w-full cursor-pointer overflow-hidden rounded-xl border border-transparent transition-colors duration-300 ease-in-out"
+                            onClick={() => sendMessage(gif.url)}
                         >
                             <img
                                 src={gif.url}

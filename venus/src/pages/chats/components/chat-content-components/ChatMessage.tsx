@@ -30,7 +30,9 @@ export default function ChatMessage({
                         )}
                     </div>
                     <p className="pl-3 whitespace-pre-line text-white">
-                        {message.content}
+                        {shouldShowGif(message.content)
+                            ? showGif(message.content)
+                            : message.content}
                     </p>
                 </>
             ) : (
@@ -56,11 +58,27 @@ export default function ChatMessage({
                             </p>
                         </div>
                         <p className="whitespace-pre-line text-white">
-                            {message.content}
+                            {shouldShowGif(message.content)
+                                ? showGif(message.content)
+                                : message.content}
                         </p>
                     </div>
                 </div>
             )}
         </div>
     );
+}
+
+function showGif(gifUrl: string) {
+    return (
+        <img
+            src={gifUrl}
+            alt="GIF"
+            className="h-32 w-48 rounded-lg object-cover"
+        />
+    );
+}
+
+function shouldShowGif(messageContent: string): boolean {
+    return messageContent.startsWith("https://media.tenor.com/");
 }

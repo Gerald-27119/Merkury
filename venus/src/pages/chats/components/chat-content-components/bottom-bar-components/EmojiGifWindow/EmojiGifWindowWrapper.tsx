@@ -1,10 +1,13 @@
 import EmojiWindow from "./EmojiWindow";
 import GifWindow from "./GifWindow";
+import { Dispatch, SetStateAction } from "react";
 
 export default function EmojiGifWindowWrapper({
     windowName,
+    setActiveGifEmojiWindow,
 }: {
     windowName: "emoji" | "gif";
+    setActiveGifEmojiWindow: Dispatch<SetStateAction<"emoji" | "gif" | null>>;
 }) {
     const commonButtonStyle = "px-2 py-2";
     return (
@@ -18,7 +21,13 @@ export default function EmojiGifWindowWrapper({
                 </button>
             </div>
             <div className="flex-1 overflow-hidden">
-                {windowName === "emoji" ? <EmojiWindow /> : <GifWindow />}
+                {windowName === "emoji" ? (
+                    <EmojiWindow />
+                ) : (
+                    <GifWindow
+                        setActiveGifEmojiWindow={setActiveGifEmojiWindow}
+                    />
+                )}
             </div>
         </div>
     );
