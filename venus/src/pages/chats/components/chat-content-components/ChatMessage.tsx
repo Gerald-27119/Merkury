@@ -20,8 +20,8 @@ export default function ChatMessage({
     return (
         <div
             className={`flex px-2 py-[0.1rem]`}
-            onMouseEnter={() => setShouldShowTooltipWithTime(true)}
-            onMouseLeave={() => setShouldShowTooltipWithTime(false)}
+            onMouseEnter={() => showTooltipWithTime()}
+            onMouseLeave={() => hideTooltipWithTime()}
         >
             {shouldGroupMessagesByTime ? (
                 <>
