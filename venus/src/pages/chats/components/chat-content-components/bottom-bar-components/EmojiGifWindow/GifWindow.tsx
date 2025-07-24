@@ -116,6 +116,7 @@ export default function GifWindow({
     const allSearchGifs: SearchedGif[] =
         searchPages?.pages.flatMap((p: SearchedGifs) => p.gifs) ?? [];
 
+    // TODO: usprawnic jsx bo jest powielanie iebdzie go ejszcze wiecej (dla zapsianych gifow itd)
     return (
         <div className="flex h-full min-h-0 flex-col">
             <div className="px-3 py-2">
