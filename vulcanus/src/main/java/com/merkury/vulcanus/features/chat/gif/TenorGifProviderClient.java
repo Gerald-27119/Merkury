@@ -11,7 +11,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-
+//TODO:
+//1. właczyc filtrowanie po przeznaczeniu wiekowym tresci
+//2. zbierac loakzliacje od usera
+//3. unikalne id usera do wyszukiwania
+//4. raportowanie do tenor o wyszukiwanych frazach
 /**
  * As of 16.07.2025 we are using Tenor as the GIF provider.
  */
@@ -28,7 +32,7 @@ public class TenorGifProviderClient {
     private final GifProviderProperties props;
 
     private static final String locale = "pl_PL";
-    private static final String country = "PL";
+//    private static final String country = "PL"; dev purpose only
     private static final int limit = 10;
 
 
@@ -45,7 +49,8 @@ public class TenorGifProviderClient {
     }
 
     public Mono<TenorGifSearchResponse> searchGifsBySearchPhrase(String searchPhrase, String next) {
-        var res = webClient.get()
+
+        return webClient.get()
                 .uri(uriBuilder -> {
                     var builder = uriBuilder
                             .path("/search")
@@ -63,39 +68,6 @@ public class TenorGifProviderClient {
                 })
                 .retrieve()
                 .bodyToMono(TenorGifSearchResponse.class);
-
-        return res;
     }
 
 }
-//TODO: włączyć filtrowanie gifow
-//next doslownie moze byc stringiem z literami, to wcale nie musi byc lcizba!
-//    public Mono<List<TenorRequestResultDto>> searchGifs(String query, String pos) {
-//        return webClient.get()
-//                .uri(uri -> uri//ej, skad to uri? config webclienta? ale juz mam? inna opcja na robienie requesta? czy ta ok?
-//                        .path("/search")
-//                        .queryParam("q", query)
-//                        .queryParam("key", props.getApiKey())
-
-/// /                        .queryParam("locale", languageAndCountry)
-//                        .queryParam("limit", 10)
-//                        .queryParam("pos", pos)
-//                        .build())
-//                .retrieve()
-//                .bodyToMono(JsonNode.class)
-//                .map(this::parseResponse);
-//    }
-//https://developers.google.com/tenor/guides/endpoints
-
-//    public Mono<List<TenorRequestResultDto>> featuredGifs(String pos) {
-//        return webClient.get()
-//                .uri(uri -> uri
-//                        .path("/featured")
-//                        .queryParam("key", props.getApiKey())
-//                        .queryParam("limit", 10)
-//                        .queryParam("pos", pos)
-//                        .build())
-//                .retrieve()
-//                .bodyToMono(JsonNode.class)
-//                .map(this::parseResponse);
-//    }

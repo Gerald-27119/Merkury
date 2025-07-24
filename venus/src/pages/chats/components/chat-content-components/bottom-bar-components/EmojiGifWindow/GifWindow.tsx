@@ -2,7 +2,6 @@ import React, {
     useRef,
     useEffect,
     useState,
-    useCallback,
     Dispatch,
     SetStateAction,
 } from "react";
@@ -19,6 +18,8 @@ import {
 import { ChatMessageToSendDto } from "../../../../../../model/interface/chat/chatInterfaces";
 import { useWebSocket } from "../../../../../../stomp/useWebSocket";
 import useSelectorTyped from "../../../../../../hooks/useSelectorTyped";
+import { notificationAction } from "../../../../../../redux/notification";
+import { useDispatch } from "react-redux";
 
 const scrollbarClasses =
     "scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar scrollbar-w-1";
@@ -32,18 +33,21 @@ export default function GifWindow({
 }: {
     setActiveGifEmojiWindow: Dispatch<SetStateAction<"emoji" | "gif" | null>>;
 }) {
+    const loadMoreRef = useRef<HTMLDivElement>(null);
     const [searchedInputPhrase, setSearchedInputPhrase] = useState("");
+    const dispatch = useDispatch();
     const { selectedChatId } = useSelectorTyped((state) => state.chats);
 
     const { publish, connected } = useWebSocket();
 
     function sendMessage(gifUrl: string) {
+        if (!connected) return;
+
         const formatted: ChatMessageToSendDto = {
             chatId: selectedChatId,
             content: gifUrl,
             sentAt: new Date().toISOString(),
         };
-
         try {
             publish(`/app/send/${selectedChatId}/message`, formatted);
             // TODO: uzyskać potwierdzenie ACK
@@ -53,7 +57,6 @@ export default function GifWindow({
         }
     }
 
-    // 1) Pobranie trendujących kategorii
     const {
         data: trendingGifCategoriesData,
         isSuccess: isTrendingCategoriesSuccess,
@@ -63,7 +66,6 @@ export default function GifWindow({
         queryFn: () => trendingTenorGifs(),
     });
 
-    // 2) Paginowany fetch GIF-ów po frazie
     const {
         data: searchPages,
         fetchNextPage,
@@ -82,8 +84,16 @@ export default function GifWindow({
         enabled: searchedInputPhrase.length > 0,
     });
 
-    // 3) Ref do elementu doklejającego
-    const loadMoreRef = useRef<HTMLDivElement>(null);
+    if (isSearchError) {
+        dispatch(
+            notificationAction.setError({
+                message:
+                    "Failed to search gifs by phrase. The error is: " +
+                    searchError,
+            }),
+        );
+    }
+
     useEffect(() => {
         if (!loadMoreRef.current || !hasNextPage) return;
         const obs = new IntersectionObserver(
@@ -103,13 +113,11 @@ export default function GifWindow({
         return () => obs.disconnect();
     }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
-    // 4) Spłaszczamy wszystkie strony do jednej listy GIF-ów
     const allSearchGifs: SearchedGif[] =
         searchPages?.pages.flatMap((p: SearchedGifs) => p.gifs) ?? [];
 
     return (
         <div className="flex h-full min-h-0 flex-col">
-            {/* --- Pasek wyszukiwania --- */}
             <div className="px-3 py-2">
                 <input
                     type="text"
@@ -120,12 +128,9 @@ export default function GifWindow({
                 />
             </div>
 
-            {/* --- Kontener GIF-ów --- */}
             <div
                 className={` ${scrollbarClasses} bg-violetLightDarker mt-2 grid flex-1 grid-cols-2 gap-3 overflow-y-auto rounded-b-xl p-3`}
             >
-                {/* W pierwszym ładowaniu trendujące skeletony */}
-
                 {isTrendingCategoriesLoading &&
                     !searchedInputPhrase &&
                     Array.from({ length: 4 }).map((_, i) => (
@@ -138,7 +143,6 @@ export default function GifWindow({
                     Most Popular
                 </div>
 
-                {/* Trendujące kategorie */}
                 {isTrendingCategoriesSuccess &&
                     !searchedInputPhrase &&
                     trendingGifCategoriesData.map(
@@ -164,16 +168,12 @@ export default function GifWindow({
                         ),
                     )}
 
-                {/* --- Wyniki wyszukiwania --- */}
-
-                {/* Skeleton podczas pierwszego ładowania wyników */}
                 {isSearchLoading &&
                     searchedInputPhrase &&
                     Array.from({ length: 8 }).map((_, i) => (
                         <GifSkeleton key={i} />
                     ))}
 
-                {/* Gify po frazie */}
                 {isSearchSuccess &&
                     searchedInputPhrase &&
                     allSearchGifs.map((gif: SearchedGif) => (
@@ -198,13 +198,6 @@ export default function GifWindow({
                 {isFetchingNextPage && (
                     <div className="col-span-2 flex justify-center py-2">
                         <p>Loading more gifs</p>
-                    </div>
-                )}
-
-                {isSearchError && (
-                    <div className="col-span-2 text-center text-red-500">
-                        Something went wrong while searching GIFs. Error:
-                        {searchError?.message}
                     </div>
                 )}
             </div>

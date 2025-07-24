@@ -12,7 +12,7 @@ import { useClickOutside } from "../../../../hooks/useClickOutside";
 // TODO: use https://www.npmjs.com/package/react-textarea-autosize
 
 export default function ChatBottomBar() {
-    const iconClass =
+    const iconClasses =
         "text-violetLighter text-2xl hover:cursor-pointer hover:text-white/80";
 
     const [messageToSend, setMessageToSend] = useState("");
@@ -31,7 +31,7 @@ export default function ChatBottomBar() {
     const sendMessage = useCallback(async () => {
         if (!messageToSend.trim() || !connected) return;
 
-        const formatted: ChatMessageToSendDto = {
+        const formattedChatMessageDto: ChatMessageToSendDto = {
             chatId: selectedChatId,
             content: messageToSend,
             sentAt: new Date().toISOString(),
@@ -39,9 +39,12 @@ export default function ChatBottomBar() {
 
         setIsSending(true);
         try {
-            publish(`/app/send/${selectedChatId}/message`, formatted);
+            publish(
+                `/app/send/${selectedChatId}/message`,
+                formattedChatMessageDto,
+            );
             setMessageToSend("");
-            // TODO: uzyskać potwierdzenie ACK
+            //TODO:add ACK confirmation
         } finally {
             setIsSending(false);
         }
@@ -60,7 +63,7 @@ export default function ChatBottomBar() {
     return (
         <div className="flex items-center justify-center gap-4 px-3 py-3">
             <div className="bg-violetLight/25 mr-1 flex w-full gap-3 rounded-xl px-3 py-3 shadow-md">
-                <FaCirclePlus className={iconClass} />
+                <FaCirclePlus className={iconClasses} />
 
                 <textarea
                     className="scrollbar-track-violetDark/10 hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin w-full resize-none bg-transparent focus:border-none focus:outline-none"
@@ -76,7 +79,7 @@ export default function ChatBottomBar() {
                     className="flex items-center gap-2"
                 >
                     <MdGifBox
-                        className={iconClass}
+                        className={iconClasses}
                         onClick={() =>
                             setActiveGifEmojiWindow((prev) =>
                                 prev === "gif" ? null : "gif",
@@ -84,7 +87,7 @@ export default function ChatBottomBar() {
                         }
                     />
                     <RiEmotionHappyFill
-                        className={iconClass}
+                        className={iconClasses}
                         onClick={() =>
                             setActiveGifEmojiWindow((prev) =>
                                 prev === "emoji" ? null : "emoji",
