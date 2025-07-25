@@ -5,6 +5,7 @@ import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
 import SearchBar from "./components/SearchBar";
 import { useState } from "react";
 import SearchSpotDto from "../../model/interface/spot/search-spot/searchSpotDto";
+import SearchSpotList from "./components/SearchSpotList";
 
 export default function HomePage() {
     const { data, isLoading } = useQuery({
@@ -29,7 +30,10 @@ export default function HomePage() {
             <SearchBar onSetSpots={handleSetSearchedSpots} />
             <div className="flex w-full flex-col items-center space-y-4">
                 <h1 className="text-center text-3xl">The Most Popular Spots</h1>
-                <Carousel spots={data!} spotsPerPage={6} />
+                <div className="flex flex-col items-center space-y-10">
+                    <Carousel spots={data!} spotsPerPage={6} />
+                    <SearchSpotList spots={searchedSpots} />
+                </div>
             </div>
         </div>
     );
