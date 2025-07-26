@@ -6,9 +6,11 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class BorderPointJsonDeserializer extends JsonDeserializer<BorderPoint> {
 
