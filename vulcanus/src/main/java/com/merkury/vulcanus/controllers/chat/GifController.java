@@ -1,7 +1,5 @@
 package com.merkury.vulcanus.controllers.chat;
 
-import com.azure.core.annotation.Get;
-import com.azure.core.annotation.QueryParam;
 import com.merkury.vulcanus.features.chat.gif.GifService;
 import com.merkury.vulcanus.model.dtos.chat.gif.category.TenorGifCategoryDto;
 import com.merkury.vulcanus.model.dtos.chat.gif.search.TenorGifSearchWrapperDto;
