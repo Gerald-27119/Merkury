@@ -7,6 +7,7 @@ interface SearchInputProps {
     id: string;
     value: string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    onFocus: () => void;
 }
 
 export default function SearchInput({
@@ -14,6 +15,7 @@ export default function SearchInput({
     label,
     value,
     onChange,
+    onFocus,
 }: SearchInputProps) {
     const [isFocused, setFocusedToTrue, setFocusedToFalse] = useBoolean(false);
 
@@ -21,6 +23,11 @@ export default function SearchInput({
 
     const handleOnBlur = () => {
         setFocusedToFalse();
+    };
+
+    const handleOnFocus = () => {
+        setFocusedToTrue();
+        onFocus();
     };
 
     return (
@@ -44,9 +51,10 @@ export default function SearchInput({
                 value={value}
                 type="text"
                 onChange={onChange}
-                onFocus={setFocusedToTrue}
+                onFocus={handleOnFocus}
                 onBlur={handleOnBlur}
-                className="dark:border-l-darkBorder w-full border-l p-2 px-4 py-1 focus:outline-none"
+                autoComplete="off"
+                className="border-l-darkBorder w-full border-l p-2 px-4 py-1 focus:outline-none"
             />
         </div>
     );

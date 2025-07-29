@@ -41,13 +41,13 @@ export default function SpotTile({ spot, userCoords }: SpotTileProps) {
                 alt="spotPhoto"
                 className="aspect-video rounded-t-md"
             />
-            <div className="bg-darkBgMuted flex flex-col space-y-2 rounded-b-md px-4 py-3">
+            <div className="dark:bg-darkBgMuted bg-lightBgMuted flex flex-col space-y-2 rounded-b-md px-4 py-3">
                 <div className="flex justify-between">
                     <span className="flex items-center justify-end space-x-1">
                         <FaLocationDot className="text-spotLocationMarker text-lg" />
                         <p className="text-xl">{spot.city}</p>
                     </span>
-                    <div className="bg-violetLight flex items-center space-x-2 rounded-full px-3 py-1 shadow-md shadow-black/30">
+                    <div className="dark:bg-violetLight bg-violetLighter flex items-center space-x-2 rounded-full px-3 py-1 shadow-md shadow-black/30">
                         <MdOutlineWbSunny />
                         <p>10 *C</p>{" "}
                         {/*todo dać tu prawdziwą temp z miejsca jak Stachu zrobi pogodę*/}
@@ -77,22 +77,22 @@ export default function SpotTile({ spot, userCoords }: SpotTileProps) {
                     {spot.tags.map((tag) => (
                         <li
                             key={tag.id}
-                            className="bg-darkBgSoft shadow-darkBgSoft/60 rounded-md px-3.5 py-1 text-center capitalize shadow-md"
+                            className="dark:bg-darkBgSoft bg-lightBgSoft dark:shadow-darkBgSoft/60 rounded-md px-3.5 py-1 text-center capitalize shadow-md"
                         >
                             {tag.name}
                         </li>
                     ))}
                 </ul>
                 <div className="flex justify-end space-x-2">
-                    <button className="bg-violetDark hover:bg-violetDarker flex cursor-pointer items-center space-x-2 rounded-md px-3 py-2 text-lg shadow-md shadow-black/30">
+                    <button className="dark:bg-violetDark dark:hover:bg-violetDarker bg-violetLight hover:bg-violetLight/80 flex cursor-pointer items-center space-x-2 rounded-md px-3 py-2 text-lg shadow-md shadow-black/30">
                         <FiInfo className="text-2xl" />
                         <p>Details</p>
                     </button>
-                    <button className="bg-violetLight hover:bg-violetLight/80 flex cursor-pointer items-center space-x-2 rounded-md px-3 py-2 shadow-md shadow-black/30">
+                    <button className="dark:bg-violetLight dark:hover:bg-violetLight/80 bg-violetLighter hover:bg-violetLighter/80 flex cursor-pointer items-center space-x-2 rounded-md px-3 py-2 shadow-md shadow-black/30">
                         <FaMapLocationDot className="text-xl" />
                         <span className="flex flex-col items-start">
                             <p>See on map</p>
-                            <p className="text-sm text-violet-300">
+                            <p className="text-sm dark:text-violet-300">
                                 {formattedDistance}
                             </p>
                         </span>

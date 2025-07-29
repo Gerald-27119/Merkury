@@ -85,4 +85,11 @@ public class SpotController {
                                                                           @RequestParam String city) {
         return ResponseEntity.ok(spotService.getAllSpotsByLocation(country, region, city));
     }
+
+    @GetMapping("/public/spot/search/home-page/locations")
+    public ResponseEntity<List<String>> getLocations(
+            @RequestParam String q,
+            @RequestParam String type) {
+        return ResponseEntity.ok(spotService.getLocations(q, type));
+    }
 }

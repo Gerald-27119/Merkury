@@ -13,7 +13,7 @@ export default function MostPopularSpot({ spot }: MostPopularSpotProps) {
                 alt={spot.name}
                 className="aspect-video h-full w-full rounded-md"
             />
-            <div className="bg-darkBgMuted/60 absolute right-3 bottom-3 flex flex-col rounded-md px-1.5 py-1">
+            <div className="dark:bg-darkBgMuted/60 bg-lightBgMuted/60 absolute right-3 bottom-3 flex flex-col rounded-md px-1.5 py-1">
                 <span className="flex items-center justify-end space-x-1">
                     <FaLocationDot className="text-red-500" />
                     <p>{spot.city}</p>

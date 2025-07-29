@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -111,5 +112,17 @@ public class SpotService {
                 .stream()
                 .map(SpotMapper::toSearchSpotDto)
                 .toList();
+    }
+
+    public List<String> getLocations(String q, String type) {
+        if (q == null || q.length() < 2) {
+            return Collections.emptyList();
+        }
+
+        return switch (type.toLowerCase()) {
+            case "country" -> spotRepository.findDistinctCountriesStartingWith(q);
+            case "region" -> spotRepository.findDistinctRegionsStartingWith(q);
+            default -> spotRepository.findDistinctCitiesStartingWith(q);
+        };
     }
 }

@@ -38,4 +38,13 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
             String name, double swLat, double neLat, double swLng, double neLng
     );
 
+    @Query("SELECT DISTINCT s.country FROM spots s WHERE LOWER(s.country) LIKE LOWER(CONCAT(:query, '%'))")
+    List<String> findDistinctCountriesStartingWith(@Param("query") String query);
+
+    @Query("SELECT DISTINCT s.region FROM spots s WHERE LOWER(s.region) LIKE LOWER(CONCAT(:query, '%'))")
+    List<String> findDistinctRegionsStartingWith(@Param("query") String query);
+
+    @Query("SELECT DISTINCT s.city FROM spots s WHERE LOWER(s.city) LIKE LOWER(CONCAT(:query, '%'))")
+    List<String> findDistinctCitiesStartingWith(@Param("query") String query);
+
 }

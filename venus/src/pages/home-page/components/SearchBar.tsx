@@ -1,9 +1,13 @@
 import SearchInput from "./SearchInput";
 import { FaSearch } from "react-icons/fa";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { getSearchedSpotsOnHomePage } from "../../../http/spots-data";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+    getLocations,
+    getSearchedSpotsOnHomePage,
+} from "../../../http/spots-data";
 import SearchSpotDto from "../../../model/interface/spot/search-spot/searchSpotDto";
+import SearchSuggestions from "./SearchSuggestions";
 
 const inputList = [
     {
@@ -20,7 +24,7 @@ const inputList = [
     },
 ] as const;
 
-type LocationKey = (typeof inputList)[number]["id"];
+export type LocationKey = (typeof inputList)[number]["id"];
 
 interface SearchLocation {
     country: string;
@@ -39,45 +43,87 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({ onSetSpots }: SearchBarProps) {
+    const [searchLocation, setSearchLocation] =
+        useState<SearchLocation>(initialValue);
+    const [activeInput, setActiveInput] = useState<LocationKey | null>(null);
+
     const { mutateAsync } = useMutation({
         mutationFn: getSearchedSpotsOnHomePage,
     });
 
-    const [searchLocation, setSearchLocation] =
-        useState<SearchLocation>(initialValue);
+    const { data: suggestions = [] } = useQuery({
+        queryKey: [
+            "locations",
+            activeInput,
+            searchLocation[activeInput ?? "country"],
+        ],
+        queryFn: () =>
+            getLocations(
+                searchLocation[activeInput ?? "country"],
+                activeInput ?? "country",
+            ),
+        enabled: !!activeInput && searchLocation[activeInput].length >= 2,
+        staleTime: 5 * 60 * 1000,
+    });
 
     const handleSetLocation = (key: LocationKey, value: string) => {
-        setSearchLocation((prevState) => ({
-            ...prevState,
-            [key]: value,
-        }));
+        setSearchLocation((prev) => {
+            let updated = { ...prev, [key]: value };
+
+            if (key === "country") {
+                updated.region = "";
+                updated.city = "";
+            } else if (key === "region") {
+                updated.city = "";
+            }
+
+            return updated;
+        });
+
+        setActiveInput(key);
+    };
+
+    const handleSuggestionClick = (key: LocationKey, value: string) => {
+        setSearchLocation((prev) => ({ ...prev, [key]: value }));
+        setActiveInput(null);
     };
 
     const handleSearchSpots = async () => {
-        onSetSpots(await mutateAsync(searchLocation));
+        const spots = await mutateAsync(searchLocation);
+        onSetSpots(spots);
         setSearchLocation(initialValue);
+        setActiveInput(null);
     };
 
     return (
-        <div className="dark:bg-darkBgSoft flex w-1/2 items-center justify-between space-x-3 rounded-md px-3 py-2 shadow-md dark:shadow-black">
+        <div className="dark:bg-darkBgSoft bg-lightBgSoft flex w-1/2 items-center justify-between space-x-3 rounded-md px-3 py-2 shadow-md dark:shadow-black">
             <div className="flex w-full flex-col space-y-2">
                 <h1>Location</h1>
                 <div className="flex w-full space-x-2">
-                    {inputList.map((i) => (
-                        <SearchInput
-                            key={i.id}
-                            label={i.label}
-                            id={i.id}
-                            value={searchLocation[i.id]}
-                            onChange={(event) =>
-                                handleSetLocation(i.id, event.target.value)
-                            }
-                        />
+                    {inputList.map(({ id, label }) => (
+                        <div key={id} className="relative w-full">
+                            <SearchInput
+                                label={label}
+                                id={id}
+                                value={searchLocation[id]}
+                                onChange={(e) =>
+                                    handleSetLocation(id, e.target.value)
+                                }
+                                onFocus={() => setActiveInput(id)}
+                            />
+                            {activeInput === id && suggestions.length > 0 && (
+                                <SearchSuggestions
+                                    suggestions={suggestions}
+                                    onClick={handleSuggestionClick}
+                                    id={id}
+                                />
+                            )}
+                        </div>
                     ))}
                 </div>
             </div>
             <button
-                className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 cursor-pointer rounded-md p-2"
+                className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 cursor-pointer rounded-md p-2"
                 onClick={handleSearchSpots}
             >
                 <FaSearch />
