@@ -3,7 +3,7 @@ package com.merkury.vulcanus.controllers;
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupDto;
-import com.merkury.vulcanus.model.dtos.account.photos.DatedPhotosGroupDto;
+import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
@@ -99,7 +99,7 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/photos")
-    public ResponseEntity<List<DatedPhotosGroupDto>> getSortedUserPhotos(@RequestParam DateSortType type, @RequestParam(required = false) LocalDate from, @RequestParam(required = false) LocalDate to) throws UnsupportedDateSortTypeException {
+    public ResponseEntity<List<DatedMediaGroupDto>> getSortedUserPhotos(@RequestParam DateSortType type, @RequestParam(required = false) LocalDate from, @RequestParam(required = false) LocalDate to) throws UnsupportedDateSortTypeException {
         return ResponseEntity.ok(userDashboardService.getSortedUserPhotos(type, from, to));
     }
 
@@ -117,5 +117,10 @@ public class UserDashboardController {
     @GetMapping("/user-dashboard/settings")
     public ResponseEntity<UserDataDto> getUserData() throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.getUserData());
+    }
+
+    @GetMapping("/user-dashboard/movies")
+    public ResponseEntity<List<DatedMediaGroupDto>> getSortedUserMovies(@RequestParam DateSortType type, @RequestParam(required = false) LocalDate from, @RequestParam(required = false) LocalDate to) throws UnsupportedDateSortTypeException {
+        return ResponseEntity.ok(userDashboardService.getSortedUserMovies(type, from, to));
     }
 }

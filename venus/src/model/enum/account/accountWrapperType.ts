@@ -5,4 +5,5 @@ export enum AccountWrapperType {
     PROFILE = "profile",
     COMMENTS = "comments",
     SETTINGS = "settings",
+    MOVIES = "movies",
 }

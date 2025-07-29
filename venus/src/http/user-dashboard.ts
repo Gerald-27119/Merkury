@@ -5,7 +5,7 @@ import { FavoriteSpot } from "../model/interface/account/favorite-spots/favorite
 import { FavoriteSpotsListType } from "../model/enum/account/favorite-spots/favoriteSpotsListType";
 import { UserRelationEditType } from "../model/enum/account/social/userRelationEditType";
 import ExtendedUserProfile from "../model/interface/account/profile/extendedUserProfile";
-import DatedPhotosGroup from "../model/interface/account/photos/datedPhotosGroup";
+import DatedMediaGroup from "../model/interface/account/media/datedMediaGroup";
 import { DateSortType } from "../model/enum/account/photos/dateSortType";
 import DatedCommentsGroup from "../model/interface/account/comments/datedCommentsGroup";
 import UserEditData from "../model/interface/account/settings/userEditData";
@@ -135,7 +135,7 @@ export async function getSortedUserPhotos({
     type,
     from,
     to,
-}: DateRangeSortProps): Promise<DatedPhotosGroup[]> {
+}: DateRangeSortProps): Promise<DatedMediaGroup[]> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/photos`, {
             withCredentials: true,
@@ -200,6 +200,19 @@ export async function getUserData(): Promise<UserData> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/settings`, {
             withCredentials: true,
+        })
+    ).data;
+}
+
+export async function getSortedUserMovies({
+    type,
+    from,
+    to,
+}: DateRangeSortProps): Promise<DatedMediaGroup[]> {
+    return (
+        await axios.get(`${BASE_URL}/user-dashboard/movies`, {
+            withCredentials: true,
+            params: { type, from, to },
         })
     ).data;
 }

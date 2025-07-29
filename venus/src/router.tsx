@@ -18,6 +18,7 @@ import SocialForViewer from "./pages/account/social/SocialForViewer";
 import Photos from "./pages/account/photos/Photos";
 import Settings from "./pages/account/settings/Settings";
 import HomePage from "./pages/home-page/HomePage";
+import Movies from "./pages/account/movies/Movies";
 
 const router = createBrowserRouter([
     {
@@ -89,6 +90,14 @@ const router = createBrowserRouter([
                         element: (
                             <ProtectedRoute>
                                 <Settings />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "movies",
+                        element: (
+                            <ProtectedRoute>
+                                <Movies />
                             </ProtectedRoute>
                         ),
                     },

@@ -1,22 +1,20 @@
-import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { motion } from "framer-motion";
-import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
 import { HiX } from "react-icons/hi";
+import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
+import ListedSpotInfo from "../spot-info/ListedSpotInfo";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
-import { searchedSpotListModalAction } from "../../../../redux/searched-spot-list-modal";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { currentViewSpotsListModalActions } from "../../../../redux/current-view-spots-list-modal";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { useEffect, useRef, useState } from "react";
-import { fetchSearchedSpotsPage } from "../../../../http/spots-data";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getCurrentViewSpots } from "../../../../http/spots-data";
 import SearchSpotDtoPage from "../../../../model/interface/spot/search-spot/searchSpotDtoPage";
 import { RootState } from "../../../../redux/store";
 import {
-    searchedSpotsSelectors,
-    searchedSpotsSliceActions,
-} from "../../../../redux/searched-spots";
-import ListedSpotInfo from "../spot-info/ListedSpotInfo";
-import SpotsSortingForm from "../SpotsSortingForm";
-import { spotFiltersAction } from "../../../../redux/spot-filters";
-import { SpotSortingFormVariantType } from "../../../../model/enum/spot/spotSortingFormVariantType";
+    currentViewSpotsActions,
+    currentViewSpotsSelectors,
+} from "../../../../redux/current-view-spots";
+import CurrentViewSpotsFormsContainer from "./CurrentViewSpotsFormsContainer";
 
 const slideVariants = {
     hidden: { x: "-100%", opacity: 0 },
@@ -24,20 +22,22 @@ const slideVariants = {
     exit: { x: "-100%", opacity: 0 },
 };
 
-export default function SearchedSpotsList() {
+export default function CurrentViewSpotsList() {
+    const [pageCount, setPageCount] = useState<number>(0);
     const isSidebarOpen = useSelectorTyped((state) => state.sidebar.isOpen);
     const dispatch = useDispatchTyped();
 
-    const [pageCount, setPageCount] = useState<number>(0);
-
     const handleClickCloseList = () => {
-        dispatch(searchedSpotListModalAction.handleCloseList());
+        dispatch(
+            currentViewSpotsListModalActions.closeCurrentViewSpotsListModal(),
+        );
     };
 
-    const { name, sorting } = useSelectorTyped((state) => state.spotFilters);
+    const { swLng, swLat, neLng, neLat, name, sorting, ratingFrom } =
+        useSelectorTyped((state) => state.currentViewSpotsParams);
 
-    const searchedSpots = useSelectorTyped((state: RootState) =>
-        searchedSpotsSelectors.selectAll(state),
+    const currentViewSpots = useSelectorTyped((state: RootState) =>
+        currentViewSpotsSelectors.selectAll(state),
     );
 
     const {
@@ -49,15 +49,34 @@ export default function SearchedSpotsList() {
         hasNextPage,
         isFetchingNextPage,
     } = useInfiniteQuery({
-        queryKey: ["spots", name, sorting],
+        queryKey: [
+            "current-view-spots",
+            swLng,
+            swLat,
+            neLng,
+            neLat,
+            name,
+            sorting,
+            ratingFrom,
+        ],
         queryFn: ({ pageParam }) =>
-            fetchSearchedSpotsPage(name, pageParam as number, sorting),
+            getCurrentViewSpots(
+                swLng,
+                swLat,
+                neLng,
+                neLat,
+                name,
+                ratingFrom,
+                sorting,
+                pageParam,
+            ),
         getNextPageParam: (lastPage: SearchSpotDtoPage) => {
             const { number, totalPages } = lastPage.page;
             return number + 1 < totalPages ? number + 1 : undefined;
         },
         initialPageParam: 0,
     });
+
     const loadMoreRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -66,7 +85,7 @@ export default function SearchedSpotsList() {
             const allItems = data.pages.flatMap(
                 (s: SearchSpotDtoPage) => s.content,
             );
-            dispatch(searchedSpotsSliceActions.upsertSearchedSpots(allItems));
+            dispatch(currentViewSpotsActions.upsertCurrentViewSpots(allItems));
             setPageCount(data.pages.length);
         }
     }, [data, dispatch]);
@@ -111,43 +130,29 @@ export default function SearchedSpotsList() {
                 className="dark:bg-violetDarker dark:text-darkText absolute top-10 left-0 z-1 flex h-full w-[20rem] flex-col items-center px-6 py-2 text-lg xl:top-0 xl:left-17 xl:w-[30rem] xl:text-xl"
             >
                 <HiX
-                    data-testid="search-spots-modal-close-btn"
+                    data-testid="current-view-spots-modal-close-btn"
                     className="mt-1 ml-auto cursor-pointer text-2xl"
                     onClick={handleClickCloseList}
                 />
                 <h1 className="mb-6 text-xl font-semibold text-white">
-                    Spots matching criteria
+                    Nearby Spots
                 </h1>
-                <SpotsSortingForm
-                    onSelectSorting={(opt) =>
-                        dispatch(
-                            spotFiltersAction.setFilters({
-                                sorting: opt.value,
-                            }),
-                        )
-                    }
-                    onClear={() =>
-                        dispatch(searchedSpotsSliceActions.clearSearchedSpots())
-                    }
-                    queryKeyToRemoveQueries={["spots", name, sorting]}
-                    sorting={sorting}
-                    variant={SpotSortingFormVariantType.SEARCH}
-                />
+                <CurrentViewSpotsFormsContainer />
                 <div
                     ref={containerRef}
                     className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex w-full flex-col items-center overflow-y-auto rounded-b-xl lg:h-[80rem] [@media(max-height:1080px)]:h-[50rem]"
                 >
                     {isLoading && <LoadingSpinner />}
-                    {isError && <p>Failed to load searched spots data.</p>}
-                    {searchedSpots?.length === 0 ? (
+                    {isError && <p>Failed to load spots data.</p>}
+                    {currentViewSpots?.length === 0 ? (
                         <p className="mt-20 text-center text-2xl font-semibold">
                             No spots match criteria!
                         </p>
                     ) : (
                         <ul className="w-full">
-                            {searchedSpots.map((searchedSpot) => (
-                                <li key={searchedSpot.id} className="my-4">
-                                    <ListedSpotInfo spot={searchedSpot} />
+                            {currentViewSpots.map((currentViewSpot) => (
+                                <li key={currentViewSpot.id} className="my-4">
+                                    <ListedSpotInfo spot={currentViewSpot} />
                                 </li>
                             ))}
                         </ul>
