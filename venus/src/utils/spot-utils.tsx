@@ -54,3 +54,49 @@ export function shouldRenderMarker(area: number, zoomLevel: number): boolean {
             zoomLevel < condition.maxZoom && area < condition.maxArea,
     );
 }
+
+export function calculateDistanceInMeters(
+    userLocation: { longitude: number; latitude: number },
+    spotLocation: { longitude: number; latitude: number },
+): number {
+    const toRadians = (degrees: number) => (degrees * Math.PI) / 180;
+
+    const earthRadius = 6371000;
+
+    const lat1 = toRadians(userLocation.latitude);
+    const lat2 = toRadians(spotLocation.latitude);
+    const deltaLat = toRadians(spotLocation.latitude - userLocation.latitude);
+    const deltaLng = toRadians(spotLocation.longitude - userLocation.longitude);
+
+    const a =
+        Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+        Math.cos(lat1) *
+            Math.cos(lat2) *
+            Math.sin(deltaLng / 2) *
+            Math.sin(deltaLng / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return Math.round(earthRadius * c);
+}
+
+export function getUserLocation(): Promise<{
+    latitude: number;
+    longitude: number;
+}> {
+    return new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+            reject(new Error("Geolocation is not supported by your browser"));
+        } else {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    resolve({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                    });
+                },
+                (error) => reject(error),
+            );
+        }
+    });
+}

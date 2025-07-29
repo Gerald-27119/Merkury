@@ -3,12 +3,37 @@ import { ConfigProvider, Rate } from "antd";
 import { FaLocationDot, FaMapLocationDot } from "react-icons/fa6";
 import { MdOutlineWbSunny } from "react-icons/md";
 import { FiInfo } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { calculateDistanceInMeters } from "../../../utils/spot-utils";
 
 interface SpotTileProps {
     spot: SearchSpotDto;
+    userCoords: { latitude: number; longitude: number } | null;
 }
 
-export default function SpotTile({ spot }: SpotTileProps) {
+export default function SpotTile({ spot, userCoords }: SpotTileProps) {
+    const [distance, setDistance] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (userCoords) {
+            const dist = calculateDistanceInMeters(userCoords, {
+                latitude: spot.centerPoint.x,
+                longitude: spot.centerPoint.y,
+            });
+            setDistance(dist);
+        }
+    }, [userCoords, spot.centerPoint]);
+
+    let formattedDistance: string;
+
+    if (distance === null) {
+        formattedDistance = "Distance unavailable";
+    } else if (distance < 1000) {
+        formattedDistance = `${distance} m from you`;
+    } else {
+        formattedDistance = `${(distance / 1000).toFixed(1)} km from you`;
+    }
+
     return (
         <li className="flex w-[670px] flex-col">
             <img
@@ -20,11 +45,12 @@ export default function SpotTile({ spot }: SpotTileProps) {
                 <div className="flex justify-between">
                     <span className="flex items-center justify-end space-x-1">
                         <FaLocationDot className="text-spotLocationMarker text-lg" />
-                        <p className="text-xl">Gdańsk</p>
+                        <p className="text-xl">{spot.city}</p>
                     </span>
                     <div className="bg-violetLight flex items-center space-x-2 rounded-full px-3 py-1 shadow-md shadow-black/30">
                         <MdOutlineWbSunny />
-                        <p>10 *C</p>
+                        <p>10 *C</p>{" "}
+                        {/*todo dać tu prawdziwą temp z miejsca jak Stachu zrobi pogodę*/}
                     </div>
                 </div>
                 <h1 className="text-2xl font-semibold">{spot.name}</h1>
@@ -67,7 +93,7 @@ export default function SpotTile({ spot }: SpotTileProps) {
                         <span className="flex flex-col items-start">
                             <p>See on map</p>
                             <p className="text-sm text-violet-300">
-                                500m from you
+                                {formattedDistance}
                             </p>
                         </span>
                     </button>

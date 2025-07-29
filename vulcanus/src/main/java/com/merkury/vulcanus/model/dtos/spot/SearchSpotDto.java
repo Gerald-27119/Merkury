@@ -26,6 +26,7 @@ public record SearchSpotDto(@Positive(message = "ID must be a positive number.")
                             @NotEmpty(message = "Spot tags set cannot be empty.")
                             Set<SpotTagDto> tags,
                             @NotNull(message = "Center point cannot be null.")
-                            BorderPoint centerPoint
-) {
+                            BorderPoint centerPoint,
+                            @NotBlank(message = "City cannot be empty.")
+                            String city) {
 }

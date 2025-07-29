@@ -46,7 +46,7 @@ export default function SearchInput({
                 onChange={onChange}
                 onFocus={setFocusedToTrue}
                 onBlur={handleOnBlur}
-                className="dark:border-l-darkBorder w-full border-l p-2 px-1 py-1 focus:outline-none"
+                className="dark:border-l-darkBorder w-full border-l p-2 px-4 py-1 focus:outline-none"
             />
         </div>
     );

@@ -19,8 +19,6 @@ export default function HomePage() {
         setSearchedSpots(spots);
     };
 
-    console.log(searchedSpots);
-
     if (isLoading) {
         return <LoadingSpinner />;
     }
