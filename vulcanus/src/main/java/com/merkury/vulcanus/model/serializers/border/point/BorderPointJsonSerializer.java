@@ -8,9 +8,11 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
+import org.springframework.boot.jackson.JsonComponent;
 
 import java.io.IOException;
 
+@JsonComponent
 public class BorderPointJsonSerializer extends JsonSerializer<BorderPoint> {
     @Override
     public void serialize(BorderPoint value, JsonGenerator gen, SerializerProvider serializers) throws IOException {

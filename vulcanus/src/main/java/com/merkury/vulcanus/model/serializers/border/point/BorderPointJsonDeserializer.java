@@ -4,20 +4,40 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.InvalidTypeIdException;
+import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.jackson.JsonComponent;
 
 import java.io.IOException;
 
-@NoArgsConstructor(force = true)
-@AllArgsConstructor
+@JsonComponent
+//@NoArgsConstructor(force = true)
+//@AllArgsConstructor
 public class BorderPointJsonDeserializer extends JsonDeserializer<BorderPoint> {
 
-    private final ObjectMapper mapper;
+//    private final ObjectMapper mapper;
 
     @Override
     public BorderPoint deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+        ObjectMapper mapper = (ObjectMapper) p.getCodec();
         return mapper.readValue(p, BorderPoint.class);
+    }
+
+//    @Override
+//    public BorderPoint deserializeWithType(JsonParser p, DeserializationContext ctxt, TypeDeserializer typeDeserializer) throws IOException {
+//        return (BorderPoint) typeDeserializer.deserializeTypedFromAny(p, ctxt);
+//    }
+
+    @Override
+    public BorderPoint deserializeWithType(JsonParser p, DeserializationContext ctxt, TypeDeserializer typeDeserializer) throws IOException {
+        try {
+            return (BorderPoint) typeDeserializer.deserializeTypedFromAny(p, ctxt);
+        } catch (InvalidTypeIdException e) {
+            ObjectMapper mapper = (ObjectMapper) p.getCodec();
+            return mapper.readValue(p, BorderPoint.class);
+        }
     }
 }

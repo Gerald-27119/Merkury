@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.model.converters;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
@@ -37,6 +38,11 @@ public class BorderPointListConverter implements AttributeConverter<List<BorderP
 
     public BorderPointListConverter() {
         this.mapper = new ObjectMapper();
+        this.mapper.activateDefaultTyping(
+                this.mapper.getPolymorphicTypeValidator(),
+                ObjectMapper.DefaultTyping.NON_FINAL,
+                JsonTypeInfo.As.PROPERTY
+        );
     }
 
     @Override
