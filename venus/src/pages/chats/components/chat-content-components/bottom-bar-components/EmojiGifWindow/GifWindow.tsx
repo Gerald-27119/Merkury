@@ -24,6 +24,7 @@ import { useDispatch } from "react-redux";
 const scrollbarClasses =
     "scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar scrollbar-w-1";
 
+// TODO: create better, gloabl, customizable skeleton
 function GifSkeleton() {
     return <div className="h-32 w-full animate-pulse rounded-xl bg-gray-300" />;
 }
@@ -183,9 +184,10 @@ export default function GifWindow({
                             className="group bg-violetDark hover:border-violetLighter relative h-32 w-full cursor-pointer overflow-hidden rounded-xl border border-transparent transition-colors duration-300 ease-in-out"
                             onClick={() => sendMessage(gif.url)}
                         >
+                            {/*TODO:take care of alt*/}
                             <img
                                 src={gif.url}
-                                alt=""
+                                alt={gif.url}
                                 loading="lazy"
                                 className="h-full w-full object-cover"
                             />
