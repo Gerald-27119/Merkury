@@ -78,7 +78,9 @@ public class SpotService {
         unless = "#result == null || #result.isEmpty()"
 )
     public List<GeneralSpotDto> getSearchedSpotsOnMap(String name) throws SpotsNotFoundException {
-        var allSpots = this.getAllSpots();
+    System.out.println("Running instance: " + this.getClass());
+
+    var allSpots = this.getAllSpots();
         log.info("got all spots");
         var filteredSpots = allSpots.stream()
                 .filter(spot -> (name.isBlank() || spot.name().toLowerCase().contains(name.trim().toLowerCase())))

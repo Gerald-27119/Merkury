@@ -7,6 +7,8 @@ import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.serializers.border.point.BorderPointJsonDeserializer;
 import com.merkury.vulcanus.model.serializers.border.point.BorderPointJsonSerializer;
 import com.merkury.vulcanus.model.serializers.border.point.BorderPointTypeResolverBuilder;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -82,6 +84,7 @@ import java.util.Map;
  * </p>
  */
 @Configuration
+@EnableCaching(mode = AdviceMode.ASPECTJ)
 public class RedisConfig {
 
     @Bean
