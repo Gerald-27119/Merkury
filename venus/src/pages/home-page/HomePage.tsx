@@ -6,6 +6,7 @@ import SearchBar from "./components/SearchBar";
 import { useEffect, useState } from "react";
 import SearchSpotDto from "../../model/interface/spot/search-spot/searchSpotDto";
 import SearchSpotList from "./components/SearchSpotList";
+import Switch from "./components/Switch";
 
 export default function HomePage() {
     const { data, isLoading } = useQuery({
@@ -45,6 +46,7 @@ export default function HomePage() {
 
     return (
         <div className="dark:bg-darkBg dark:text-darkText bg-lightBg text-lightText mt-10 flex min-h-screen w-full flex-col items-center space-y-4 overflow-hidden p-8">
+            <Switch />
             <SearchBar onSetSpots={handleSetSearchedSpots} />
             <div className="flex w-full flex-col items-center space-y-4">
                 <h1 className="text-center text-3xl">The Most Popular Spots</h1>
