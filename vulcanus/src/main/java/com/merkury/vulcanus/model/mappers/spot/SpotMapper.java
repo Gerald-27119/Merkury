@@ -80,9 +80,9 @@ public class SpotMapper {
                 .imageUrl(spot.getMedia()
                         .stream()
                         .filter(spotMedia -> spotMedia.getGenericMediaType().equals(GenericMediaType.PHOTO))
-                        .toList()
-                        .getFirst()
-                        .getUrl())
+                        .findFirst()
+                        .map(SpotMedia::getUrl)
+                        .orElse("photoNotFound"))
                 .build();
     }
 }

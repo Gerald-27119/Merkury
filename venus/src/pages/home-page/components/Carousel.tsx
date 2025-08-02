@@ -26,38 +26,33 @@ export default function Carousel({ spots, spotsPerPage = 6 }: CarouselProps) {
         });
     };
 
+    const baseVariant = {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+    };
+
     const sliderVariants = {
         incoming: (direction: number) => ({
+            ...baseVariant,
             x: direction > 0 ? "100%" : "-100%",
             scale: 1.05,
             opacity: 1,
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
         }),
         active: {
+            ...baseVariant,
             x: 0,
             scale: 1,
             opacity: 1,
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
             zIndex: 1,
         },
         exit: (direction: number) => ({
+            ...baseVariant,
             x: direction > 0 ? "-100%" : "100%",
             scale: 0.95,
             opacity: 0.5,
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            zIndex: 0,
         }),
     };
 

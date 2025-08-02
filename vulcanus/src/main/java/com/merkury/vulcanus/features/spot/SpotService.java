@@ -115,7 +115,7 @@ public class SpotService {
     }
 
     public List<String> getLocations(String q, String type) {
-        if (q == null || q.length() < 2) {
+        if (q == null || q.length() < 2 || type == null) {
             return Collections.emptyList();
         }
 
