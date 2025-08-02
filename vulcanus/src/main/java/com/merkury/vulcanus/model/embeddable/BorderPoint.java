@@ -16,8 +16,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 public class BorderPoint implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 4868207685462237247L;
+//    @Serial
+//    private static final long serialVersionUID = 4868207685462237247L;
     private Double x;
     private Double y;
 }

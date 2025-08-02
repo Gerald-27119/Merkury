@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.model.serializers.border.point;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -13,16 +14,27 @@ import org.springframework.boot.jackson.JsonComponent;
 
 import java.io.IOException;
 
-@JsonComponent
 //@NoArgsConstructor(force = true)
-//@AllArgsConstructor
+@AllArgsConstructor
 public class BorderPointJsonDeserializer extends JsonDeserializer<BorderPoint> {
 
-//    private final ObjectMapper mapper;
+    private final ObjectMapper mapper;
+
+    public BorderPointJsonDeserializer() {
+        var objectMapper = new ObjectMapper();
+        objectMapper.activateDefaultTyping(
+                objectMapper.getPolymorphicTypeValidator(),
+                ObjectMapper.DefaultTyping.NON_FINAL,
+                JsonTypeInfo.As.PROPERTY
+        );
+        var tpBuilder = new BorderPointTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL);
+        objectMapper.setDefaultTyping(tpBuilder);
+        this.mapper = objectMapper;
+    }
 
     @Override
     public BorderPoint deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-        ObjectMapper mapper = (ObjectMapper) p.getCodec();
+//        ObjectMapper mapper = (ObjectMapper) p.getCodec();
         return mapper.readValue(p, BorderPoint.class);
     }
 
@@ -33,10 +45,14 @@ public class BorderPointJsonDeserializer extends JsonDeserializer<BorderPoint> {
 
     @Override
     public BorderPoint deserializeWithType(JsonParser p, DeserializationContext ctxt, TypeDeserializer typeDeserializer) throws IOException {
+//        BorderPoint borderPoint = (BorderPoint) typeDeserializer.deserializeTypedFromAny(p, ctxt);
+//        System.out.println("Deserialized BorderPoint: " + borderPoint);
         try {
             return (BorderPoint) typeDeserializer.deserializeTypedFromAny(p, ctxt);
         } catch (InvalidTypeIdException e) {
-            ObjectMapper mapper = (ObjectMapper) p.getCodec();
+//            ObjectMapper mapper = (ObjectMapper) p.getCodec();
+//            var jsonNode = p.getCodec().readTree(p);
+            System.out.println("Deserializing BorderPoint");
             return mapper.readValue(p, BorderPoint.class);
         }
     }

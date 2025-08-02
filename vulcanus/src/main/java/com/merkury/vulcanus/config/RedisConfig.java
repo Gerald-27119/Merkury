@@ -87,18 +87,18 @@ public class RedisConfig {
     @Bean
     public GenericJackson2JsonRedisSerializer redisSerializer() {
         var objectMapper = new ObjectMapper();
-        objectMapper.activateDefaultTyping(
-                objectMapper.getPolymorphicTypeValidator(),
-                ObjectMapper.DefaultTyping.NON_FINAL,
-                JsonTypeInfo.As.PROPERTY
-        );
-        var tpBuilder = new BorderPointTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL);
-        objectMapper.setDefaultTyping(tpBuilder);
+//        objectMapper.activateDefaultTyping(
+//                objectMapper.getPolymorphicTypeValidator(),
+//                ObjectMapper.DefaultTyping.NON_FINAL,
+//                JsonTypeInfo.As.PROPERTY
+//        );
+//        var tpBuilder = new BorderPointTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL);
+//        objectMapper.setDefaultTyping(tpBuilder);
 
         var module = new SimpleModule();
         module.addSerializer(BorderPoint.class, new BorderPointJsonSerializer());
-//        module.addDeserializer(BorderPoint.class, new BorderPointJsonDeserializer(objectMapper));
-        module.addDeserializer(BorderPoint.class, new BorderPointJsonDeserializer());
+        module.addDeserializer(BorderPoint.class, new BorderPointJsonDeserializer(objectMapper));
+//        module.addDeserializer(BorderPoint.class, new BorderPointJsonDeserializer());
         objectMapper.registerModule(module);
 
         return new GenericJackson2JsonRedisSerializer(objectMapper);
