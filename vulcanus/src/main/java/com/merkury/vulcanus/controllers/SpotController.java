@@ -2,10 +2,7 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.spot.SpotService;
-import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
-import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.TopRatedSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -39,10 +36,10 @@ public class SpotController {
 
     @GetMapping("/public/spot/current-view/spot-names")
     public ResponseEntity<List<String>> getSpotNamesInCurrentView(@RequestParam double swLng,
-                                                                         @RequestParam double swLat,
-                                                                         @RequestParam double neLng,
-                                                                         @RequestParam double neLat,
-                                                                         @RequestParam(defaultValue = "") String name) {
+                                                                  @RequestParam double swLat,
+                                                                  @RequestParam double neLng,
+                                                                  @RequestParam double neLat,
+                                                                  @RequestParam(defaultValue = "") String name) {
         log.info("getting spots names in current view");
         return ResponseEntity.ok(spotService.getSpotsNamesInCurrentView(swLng, swLat, neLng, neLat, name));
     }
@@ -91,5 +88,10 @@ public class SpotController {
             @RequestParam String q,
             @RequestParam String type) {
         return ResponseEntity.ok(spotService.getLocations(q, type));
+    }
+
+    @PostMapping("/public/spot/search/home-page/advance")
+    public ResponseEntity<List<SearchSpotDto>> getSearchedSpotsOnHomePage(@RequestBody SpotSearchRequestDto request) {
+        return ResponseEntity.ok(spotService.getAllSpotsByLocationAndTags(request.city(), request.tags()));
     }
 }

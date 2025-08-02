@@ -47,4 +47,10 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
     @Query("SELECT DISTINCT s.city FROM spots s WHERE LOWER(s.city) LIKE LOWER(CONCAT(:query, '%'))")
     List<String> findDistinctCitiesStartingWith(@Param("query") String query);
 
+    @Query("SELECT s FROM spots s JOIN s.tags t WHERE s.city = :city  AND LOWER(t.name) IN :tagNames GROUP BY s HAVING COUNT(DISTINCT LOWER(t.name)) = :tagCount")
+    List<Spot> findSpotsByCityAndAllTagNames(
+            @Param("city") String city,
+            @Param("tagNames") List<String> tagNames,
+            @Param("tagCount") long tagCount
+    );
 }

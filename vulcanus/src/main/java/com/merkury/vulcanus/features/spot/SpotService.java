@@ -2,14 +2,13 @@ package com.merkury.vulcanus.features.spot;
 
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
-import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
-import com.merkury.vulcanus.model.dtos.spot.TopRatedSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.entities.spot.Spot;
-import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
+import com.merkury.vulcanus.model.entities.spot.SpotTag;
 import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
+import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
+import com.merkury.vulcanus.model.repositories.SpotTagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -26,6 +25,7 @@ import java.util.List;
 public class SpotService {
 
     private final SpotRepository spotRepository;
+    private final SpotTagRepository spotTagRepository;
 
     private List<GeneralSpotDto> getAllSpots() throws SpotsNotFoundException {
         var allSpots = spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
@@ -115,6 +115,10 @@ public class SpotService {
     }
 
     public List<String> getLocations(String q, String type) {
+        if ("tags".equalsIgnoreCase(type) && (q == null || q.isBlank())) {
+            return spotTagRepository.findAll().stream().map(SpotTag::getName).toList();
+        }
+
         if (q == null || q.length() < 2 || type == null) {
             return Collections.emptyList();
         }
@@ -124,5 +128,13 @@ public class SpotService {
             case "region" -> spotRepository.findDistinctRegionsStartingWith(q);
             default -> spotRepository.findDistinctCitiesStartingWith(q);
         };
+    }
+
+    public List<SearchSpotDto> getAllSpotsByLocationAndTags(String city, List<SpotTagDto> tags) {
+        var tagsName = tags.stream().map(SpotTagDto::name).toList();
+        return spotRepository.findSpotsByCityAndAllTagNames(city, tagsName, tagsName.size())
+                .stream()
+                .map(SpotMapper::toSearchSpotDto)
+                .toList();
     }
 }
