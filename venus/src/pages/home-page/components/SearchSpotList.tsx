@@ -30,7 +30,7 @@ export default function SearchSpotList({ spots }: SearchSpotListProps) {
                     );
                 });
         }
-    }, [spots]);
+    }, [spots, dispatch]);
 
     return (
         <ul className="grid w-full grid-cols-1 place-items-center gap-8 xl:grid-cols-2 2xl:grid-cols-3">
