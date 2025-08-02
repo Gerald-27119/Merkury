@@ -24,7 +24,7 @@ export default function HomePage() {
     }
 
     return (
-        <div className="dark:bg-darkBg dark:text-darkText bg-lightBg text-lightText flex min-h-screen w-full flex-col items-center space-y-4 overflow-hidden p-8">
+        <div className="dark:bg-darkBg dark:text-darkText bg-lightBg text-lightText mt-10 flex min-h-screen w-full flex-col items-center space-y-4 overflow-hidden p-8">
             <SearchBar onSetSpots={handleSetSearchedSpots} />
             <div className="flex w-full flex-col items-center space-y-4">
                 <h1 className="text-center text-3xl">The Most Popular Spots</h1>

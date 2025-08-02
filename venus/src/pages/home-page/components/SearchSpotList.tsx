@@ -18,20 +18,22 @@ export default function SearchSpotList({ spots }: SearchSpotListProps) {
     } | null>(null);
 
     useEffect(() => {
-        getUserLocation()
-            .then(setUserCoords)
-            .catch((err) => {
-                dispatch(
-                    notificationAction.setError({
-                        message:
-                            "You must turn on location to display how far spots are.",
-                    }),
-                );
-            });
-    }, []);
+        if (spots.length > 0) {
+            getUserLocation()
+                .then(setUserCoords)
+                .catch((err) => {
+                    dispatch(
+                        notificationAction.setInfo({
+                            message:
+                                "You must turn on location to display how far spots are.",
+                        }),
+                    );
+                });
+        }
+    }, [spots]);
 
     return (
-        <ul className="grid w-full grid-cols-2 place-content-center justify-items-center gap-5">
+        <ul className="grid w-full grid-cols-1 place-items-center gap-8 xl:grid-cols-2 2xl:grid-cols-3">
             {spots.map((spot) => (
                 <SpotTile key={spot.id} spot={spot} userCoords={userCoords} />
             ))}

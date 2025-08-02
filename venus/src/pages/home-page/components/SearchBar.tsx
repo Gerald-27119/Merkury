@@ -96,10 +96,10 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
     };
 
     return (
-        <div className="dark:bg-darkBgSoft bg-lightBgSoft flex w-1/2 items-center justify-between space-x-3 rounded-md px-3 py-2 shadow-md dark:shadow-black">
+        <div className="dark:bg-darkBgSoft bg-lightBgSoft flex w-full flex-col items-center justify-between space-y-3 rounded-md px-3 py-2 shadow-md md:flex-row md:space-y-0 lg:w-3/4 lg:space-x-3 xl:w-1/2 dark:shadow-black">
             <div className="flex w-full flex-col space-y-2">
                 <h1>Location</h1>
-                <div className="flex w-full space-x-2">
+                <div className="flex w-full flex-col space-y-3 md:flex-row md:space-y-0 md:space-x-2">
                     {inputList.map(({ id, label }) => (
                         <div key={id} className="relative w-full">
                             <SearchInput
@@ -123,8 +123,13 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
                 </div>
             </div>
             <button
-                className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 cursor-pointer rounded-md p-2"
+                className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 flex w-full cursor-pointer justify-center rounded-md p-2 md:w-fit"
                 onClick={handleSearchSpots}
+                disabled={
+                    !searchLocation.city ||
+                    !searchLocation.region ||
+                    !searchLocation.country
+                }
             >
                 <FaSearch />
             </button>

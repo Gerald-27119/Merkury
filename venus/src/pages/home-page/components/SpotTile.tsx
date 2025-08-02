@@ -35,21 +35,21 @@ export default function SpotTile({ spot, userCoords }: SpotTileProps) {
     }
 
     return (
-        <li className="flex w-[670px] flex-col">
+        <li className="flex w-70 flex-col overflow-hidden rounded-md shadow-lg sm:w-96 md:w-1/2 xl:w-full">
             <img
                 src={spot.firstPhoto}
                 alt="spotPhoto"
-                className="aspect-video rounded-t-md"
+                className="aspect-video rounded-t-md object-cover"
             />
             <div className="dark:bg-darkBgMuted bg-lightBgMuted flex flex-col space-y-2 rounded-b-md px-4 py-3">
-                <div className="flex justify-between">
+                <div className="flex items-center justify-between">
                     <span className="flex items-center justify-end space-x-1">
                         <FaLocationDot className="text-spotLocationMarker text-lg" />
                         <p className="text-xl">{spot.city}</p>
                     </span>
                     <div className="dark:bg-violetLight bg-violetLighter flex items-center space-x-2 rounded-full px-3 py-1 shadow-md shadow-black/30">
                         <MdOutlineWbSunny />
-                        <p>10 *C</p>{" "}
+                        <p>10 *C</p>
                         {/*todo dać tu prawdziwą temp z miejsca jak Stachu zrobi pogodę*/}
                     </div>
                 </div>
@@ -73,7 +73,7 @@ export default function SpotTile({ spot, userCoords }: SpotTileProps) {
                     </ConfigProvider>
                     <p>({spot.ratingCount})</p>
                 </div>
-                <ul className="flex space-x-2">
+                <ul className="flex flex-wrap gap-2">
                     {spot.tags.map((tag) => (
                         <li
                             key={tag.id}
