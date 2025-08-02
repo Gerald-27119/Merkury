@@ -7,7 +7,7 @@ interface MostPopularSpotProps {
 
 export default function MostPopularSpot({ spot }: MostPopularSpotProps) {
     return (
-        <div className="relative w-96">
+        <div className="relative h-50 w-full sm:h-fit sm:w-96">
             <img
                 src={spot.imageUrl}
                 alt={spot.name}

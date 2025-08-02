@@ -75,10 +75,7 @@ export default function Carousel({ spots, spotsPerPage = 6 }: CarouselProps) {
                 <RiArrowLeftWideFill className="text-5xl sm:text-6xl" />
             </button>
 
-            <div
-                className="relative w-[1200px] overflow-hidden"
-                style={{ height: 440 }}
-            >
+            <div className="relative h-[440px] w-full max-w-[1200px] overflow-hidden">
                 <AnimatePresence custom={direction} initial={false} mode="sync">
                     <motion.div
                         key={page}
@@ -96,7 +93,7 @@ export default function Carousel({ spots, spotsPerPage = 6 }: CarouselProps) {
                                 damping: 40,
                             },
                         }}
-                        className="grid w-full grid-cols-3 grid-rows-2 gap-4"
+                        className="grid w-full grid-cols-1 grid-rows-1 justify-items-center gap-4 lg:grid-cols-2 lg:grid-rows-2 2xl:grid-cols-3 2xl:grid-rows-2"
                     >
                         {currentSpots.map((spot) => (
                             <MostPopularSpot
