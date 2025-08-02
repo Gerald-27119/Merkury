@@ -84,7 +84,6 @@ import java.util.Map;
  * </p>
  */
 @Configuration
-@EnableCaching(mode = AdviceMode.ASPECTJ)
 public class RedisConfig {
 
     @Bean

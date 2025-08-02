@@ -28,7 +28,7 @@ public class SpotService {
 
     private final SpotRepository spotRepository;
 
-    private List<GeneralSpotDto> getAllSpots() throws SpotsNotFoundException {
+    public List<GeneralSpotDto> getAllSpots() throws SpotsNotFoundException {
         var allSpots = spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
         if (allSpots.isEmpty()) {
             throw new SpotsNotFoundException("Spots not found!");
@@ -80,7 +80,7 @@ public class SpotService {
     public List<GeneralSpotDto> getSearchedSpotsOnMap(String name) throws SpotsNotFoundException {
     System.out.println("Running instance: " + this.getClass());
 
-    var allSpots = this.getAllSpots();
+    var allSpots = getAllSpots();
         log.info("got all spots");
         var filteredSpots = allSpots.stream()
                 .filter(spot -> (name.isBlank() || spot.name().toLowerCase().contains(name.trim().toLowerCase())))
@@ -95,7 +95,7 @@ public class SpotService {
 
     @Cacheable(value = "filteredSpotsNames", key = "#text", unless = "#result == null")
     public List<String> getFilteredSpotsNames(String text) throws SpotsNotFoundException {
-        var allSpots = this.getAllSpots();
+        var allSpots = getAllSpots();
 
         var spotsNames = allSpots.stream()
                 .map(GeneralSpotDto::name)
