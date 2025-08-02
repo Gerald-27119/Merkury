@@ -21,15 +21,14 @@ public class BorderPointJsonDeserializer extends JsonDeserializer<BorderPoint> {
     private final ObjectMapper mapper;
 
     public BorderPointJsonDeserializer() {
-        var objectMapper = new ObjectMapper();
-        objectMapper.activateDefaultTyping(
-                objectMapper.getPolymorphicTypeValidator(),
-                ObjectMapper.DefaultTyping.NON_FINAL,
-                JsonTypeInfo.As.PROPERTY
-        );
-        var tpBuilder = new BorderPointTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL);
-        objectMapper.setDefaultTyping(tpBuilder);
-        this.mapper = objectMapper;
+        //        objectMapper.activateDefaultTyping(
+//                objectMapper.getPolymorphicTypeValidator(),
+//                ObjectMapper.DefaultTyping.NON_FINAL,
+//                JsonTypeInfo.As.PROPERTY
+//        );
+//        var tpBuilder = new BorderPointTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL);
+//        objectMapper.setDefaultTyping(tpBuilder);
+        this.mapper = new ObjectMapper();
     }
 
     @Override

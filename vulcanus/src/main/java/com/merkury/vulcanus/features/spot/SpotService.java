@@ -9,7 +9,9 @@ import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
 import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SpotService {
@@ -67,16 +70,24 @@ public class SpotService {
         return spotRepository.findByIdWithTags(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
 
-    @Cacheable(value = "filteredSpots", key = "{#name}", unless = "#result == null")
+//    @Cacheable(value = "filteredSpots", key = "{#name}", unless = "#result == null")
+@Cacheable(
+        value = "filteredSpots",
+        key = "{#name}",
+        condition = "#name != null && #name.trim().length() > 0",
+        unless = "#result == null || #result.isEmpty()"
+)
     public List<GeneralSpotDto> getSearchedSpotsOnMap(String name) throws SpotsNotFoundException {
         var allSpots = this.getAllSpots();
+        log.info("got all spots");
         var filteredSpots = allSpots.stream()
                 .filter(spot -> (name.isBlank() || spot.name().toLowerCase().contains(name.trim().toLowerCase())))
                 .toList();
+        log.info("got filtered spots");
         if (filteredSpots.isEmpty()) {
             throw new SpotsNotFoundException("No spots match filters!");
         }
-
+        log.info("About to return spots on map");
         return filteredSpots;
     }
 
