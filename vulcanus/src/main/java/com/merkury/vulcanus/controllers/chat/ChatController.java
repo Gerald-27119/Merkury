@@ -21,11 +21,10 @@ public class ChatController {
     private final ChatService chatService;
 
     //TODO: add javadoc
-    //delete?
     @GetMapping("/{chatId}/messages")
     public ResponseEntity<List<ChatMessageDto>> getMessagesForChatByChatId(
             @PathVariable Long chatId,
-            @RequestParam(defaultValue = "0") int pageParam,
+            @RequestParam(defaultValue = "1") int pageParam, // 1 because first page of 20 is returned in first request to "/user-chats"
             @RequestParam(defaultValue = "20") int numberOfMessagesPerPage
     ) {
         return ResponseEntity.ok(chatService.getChatMessages(chatId, pageParam, numberOfMessagesPerPage));
@@ -57,6 +56,6 @@ public class ChatController {
         return ResponseEntity.ok(chatService.getChatsForUserWithLast20Messages(pageNumber, numberOfChatsPerPage));
     }
 
-    //get more messages
-    //get single chat by id
+
+// TODO: przy edycji chatu sprawdzenie czy user ma odmina an tym czacie
 }
