@@ -91,7 +91,6 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
     const handleSearchSpots = async () => {
         const spots = await mutateAsync(searchLocation);
         onSetSpots(spots);
-        setSearchLocation(initialValue);
         setActiveInput(null);
     };
 

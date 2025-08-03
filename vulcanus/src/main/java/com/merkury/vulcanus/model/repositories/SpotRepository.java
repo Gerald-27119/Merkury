@@ -19,8 +19,7 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
 
     Page<Spot> findAllByNameContainingIgnoreCase(@Param("name") String name, Pageable pageable);
 
-    @Query("SELECT s FROM spots s ORDER BY s.rating DESC, s.viewsCount DESC")
-    List<Spot> findTop18ByOrderByRatingAndViewsCount(Pageable pageable);
+    List<Spot> findTop18ByOrderByRatingDescViewsCountDesc();
 
     List<Spot> findAllByCountryAndRegionAndCity(String country, String region, String city);
 
@@ -38,13 +37,9 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
             String name, double swLat, double neLat, double swLng, double neLng
     );
 
-    @Query("SELECT DISTINCT s.country FROM spots s WHERE LOWER(s.country) LIKE LOWER(CONCAT(:query, '%'))")
-    List<String> findDistinctCountriesStartingWith(@Param("query") String query);
+    List<Spot> findCountryByCountryStartingWithIgnoreCase(String query);
 
-    @Query("SELECT DISTINCT s.region FROM spots s WHERE LOWER(s.region) LIKE LOWER(CONCAT(:query, '%'))")
-    List<String> findDistinctRegionsStartingWith(@Param("query") String query);
+    List<Spot> findRegionByRegionStartingWithIgnoreCase(String query);
 
-    @Query("SELECT DISTINCT s.city FROM spots s WHERE LOWER(s.city) LIKE LOWER(CONCAT(:query, '%'))")
-    List<String> findDistinctCitiesStartingWith(@Param("query") String query);
-
+    List<Spot> findCityByCityStartingWithIgnoreCase(String query);
 }

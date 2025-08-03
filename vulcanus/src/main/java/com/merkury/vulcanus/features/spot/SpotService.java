@@ -100,7 +100,7 @@ public class SpotService {
 
     public List<TopRatedSpotDto> get18MostPopularSpots() {
         return spotRepository
-                .findTop18ByOrderByRatingAndViewsCount(PageRequest.of(0, 18))
+                .findTop18ByOrderByRatingDescViewsCountDesc()
                 .stream()
                 .map(SpotMapper::toTopRated)
                 .toList();
@@ -120,9 +120,21 @@ public class SpotService {
         }
 
         return switch (type.toLowerCase()) {
-            case "country" -> spotRepository.findDistinctCountriesStartingWith(q);
-            case "region" -> spotRepository.findDistinctRegionsStartingWith(q);
-            default -> spotRepository.findDistinctCitiesStartingWith(q);
+            case "country" -> spotRepository.findCountryByCountryStartingWithIgnoreCase(q)
+                    .stream()
+                    .map(Spot::getCountry)
+                    .distinct()
+                    .toList();
+            case "region" -> spotRepository.findRegionByRegionStartingWithIgnoreCase(q)
+                    .stream()
+                    .map(Spot::getRegion)
+                    .distinct()
+                    .toList();
+            default -> spotRepository.findCityByCityStartingWithIgnoreCase(q)
+                    .stream()
+                    .map(Spot::getCity)
+                    .distinct()
+                    .toList();
         };
     }
 }
