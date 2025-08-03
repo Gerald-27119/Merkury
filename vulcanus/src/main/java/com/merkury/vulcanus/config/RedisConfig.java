@@ -120,6 +120,11 @@ public class RedisConfig {
                 .disableCachingNullValues()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer)));
 
+        cacheConfigurations.put("gifsTrendingTerms", RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofHours(1))
+                .disableCachingNullValues()
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer)));
+
         return RedisCacheManager.builder(redisConnectionFactory)
                 .withInitialCacheConfigurations(cacheConfigurations)
                 .build();
