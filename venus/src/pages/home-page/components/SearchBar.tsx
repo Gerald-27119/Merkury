@@ -96,17 +96,15 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
     const handleSearchSpots = async () => {
         let coords;
 
-        if (!coords) {
-            try {
-                coords = await getUserLocation();
-            } catch (err) {
-                dispatch(
-                    notificationAction.setInfo({
-                        message:
-                            "You must turn on location to display how far spots are.",
-                    }),
-                );
-            }
+        try {
+            coords = await getUserLocation();
+        } catch (err) {
+            dispatch(
+                notificationAction.setInfo({
+                    message:
+                        "You must turn on location to display how far spots are.",
+                }),
+            );
         }
 
         const spots = await mutateAsync({
