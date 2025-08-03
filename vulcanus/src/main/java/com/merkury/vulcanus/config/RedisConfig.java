@@ -101,7 +101,7 @@ public class RedisConfig {
         objectMapper.activateDefaultTyping(ptv,
                 ObjectMapper.DefaultTyping.NON_FINAL_AND_ENUMS,
                 JsonTypeInfo.As.PROPERTY);
-        var tpBuilder = new BorderPointTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL);
+        var tpBuilder = new BorderPointTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL_AND_ENUMS);
         objectMapper.setDefaultTyping(tpBuilder);
 
         var module = new SimpleModule();
