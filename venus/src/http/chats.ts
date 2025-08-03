@@ -1,10 +1,14 @@
 import axios from "axios";
-import { ChatDto, ChatPage } from "../model/interface/chat/chatInterfaces";
+import {
+    ChatDto,
+    ChatMessagesPageDto,
+    ChatPage,
+} from "../model/interface/chat/chatInterfaces";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getChatListByPage(
-    pageParam: number = 0,
+    pageParam = 0,
     numberOfChatsPerPage = 20,
 ): Promise<ChatPage> {
     const items = (
@@ -24,3 +28,21 @@ export async function getChatListByPage(
 //TODO: work on loading skeletons, spinners, optimize rerenders, etc.
 //TODO: add caching?
 //TODO: add caching on frontend, to not refetch every time?
+
+export async function getMessagesForChat(
+    chatId: number,
+    pageParam = 1,
+): Promise<ChatMessagesPageDto> {
+    return (
+        await axios.get<ChatMessagesPageDto>(
+            `${BASE_URL}/chats/${chatId}/messages`,
+            {
+                withCredentials: true,
+                params: {
+                    pageParam,
+                    numberOfMessagesPerPage: 20,
+                },
+            },
+        )
+    ).data;
+}

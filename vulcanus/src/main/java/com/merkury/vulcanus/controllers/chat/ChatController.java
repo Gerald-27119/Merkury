@@ -2,7 +2,7 @@ package com.merkury.vulcanus.controllers.chat;
 
 import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
-import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
+import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ public class ChatController {
 
     //TODO: add javadoc
     @GetMapping("/{chatId}/messages")
-    public ResponseEntity<List<ChatMessageDto>> getMessagesForChatByChatId(
+    public ResponseEntity<ChatMessageDtoSlice> getMessagesForChatByChatId(
             @PathVariable Long chatId,
             @RequestParam(defaultValue = "1") int pageParam, // 1 because first page of 20 is returned in first request to "/user-chats"
             @RequestParam(defaultValue = "20") int numberOfMessagesPerPage
@@ -40,13 +40,12 @@ public class ChatController {
      * all necessary data to render the chat both in a list and in the detailed
      * messages view.
      *
-     * @param pageNumber            zero-based page index (starting at 0)
+     * @param pageNumber           zero-based page index (starting at 0)
      * @param numberOfChatsPerPage the maximum number of chats to return per page
      * @return a paginated {@code List<ChatDto>} sorted by last message date (descending)
      * @author Adam Langmesser
-     * @see ChatDto
      * @info username: "user1" has the best data for testing
-     *
+     * @see ChatDto
      */
     @GetMapping("/user-chats")
     public ResponseEntity<List<ChatDto>> getChatsForUserWithLast20Messages(

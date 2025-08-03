@@ -52,6 +52,27 @@ export const chatsSlice = createSlice({
                     new Date(b.sentAt).getTime() - new Date(a.sentAt).getTime(),
             );
         },
+        addMessages(
+            state,
+            action: PayloadAction<{
+                chatId: number;
+                messages: ChatMessageDto[];
+            }>,
+        ) {
+            const { chatId, messages } = action.payload;
+            const chat = state.entities[chatId];
+            if (!chat) {
+                return;
+            }
+            if (!chat.messages) {
+                chat.messages = [];
+            }
+            chat.messages.push(...messages);
+            chat.messages.sort(
+                (a, b) =>
+                    new Date(b.sentAt).getTime() - new Date(a.sentAt).getTime(),
+            );
+        },
     },
 });
 

@@ -2,6 +2,7 @@ package com.merkury.vulcanus.features.chat;
 
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
+import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.mappers.chat.ChatMapper;
@@ -70,15 +71,12 @@ public class ChatService {
     }
 
     @PreAuthorize("@chatSecurityService.isUserAChatMember(#chatId)")
-    public List<ChatMessageDto> getChatMessages(Long chatId, int pageNumber, int numberOfMessagesPerPage) {
+    public ChatMessageDtoSlice getChatMessages(Long chatId, int pageNumber, int numberOfMessagesPerPage) {
         Pageable pg = PageRequest.of(pageNumber,
                 numberOfMessagesPerPage,
                 Sort.by("sentAt").descending());
 
-        return chatMessageRepository.findAllByChatId(chatId, pg).stream().map(message -> {
-            var mappedSender = ChatMapper.toChatMessageSenderDto(message);
-            return ChatMapper.toChatMessageDto(message, mappedSender);
-        }).toList();
+        return ChatMapper.toChatMessageDtoSlice(chatMessageRepository.findAllByChatId(chatId, pg));
     }
 
     @Transactional

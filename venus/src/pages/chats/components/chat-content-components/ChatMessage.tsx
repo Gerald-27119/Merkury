@@ -1,13 +1,14 @@
 import { formatSentAt } from "../../../../utils/chat";
 import { ChatMessageDto } from "../../../../model/interface/chat/chatInterfaces";
 import { useBoolean } from "../../../../hooks/useBoolean";
+import React from "react";
 
 interface MessageProps {
     message: ChatMessageDto;
     shouldGroupMessagesByTime: boolean;
 }
 
-export default function ChatMessage({
+export default React.memo(function ChatMessage({
     message,
     shouldGroupMessagesByTime,
 }: MessageProps) {
@@ -70,7 +71,7 @@ export default function ChatMessage({
             )}
         </div>
     );
-}
+});
 
 function showGif(gifUrl: string) {
     return (

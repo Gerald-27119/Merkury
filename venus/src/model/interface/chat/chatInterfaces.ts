@@ -1,4 +1,3 @@
-// TODO: delete
 export interface ChatMessageDto {
     id: number;
     sender: ChatMessageSenderDto;
@@ -36,7 +35,7 @@ export interface ChatParticipantDto {
 
 export interface ChatPage {
     items: ChatDto[];
-    nextPage?: number;
+    nextPage?: number; //TODO:moze byc null?
 }
 
 /**
@@ -50,4 +49,11 @@ export interface ChatDto {
     messages: ChatMessageDto[];
     participants: ChatParticipantDto[];
     lastMessage: ChatMessageDto;
+}
+
+export interface ChatMessagesPageDto {
+    messages: ChatMessageDto[];
+    hasNextSlice: boolean;
+    numberOfMessages: number;
+    sliceNumber: number;
 }

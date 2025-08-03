@@ -2,11 +2,13 @@ package com.merkury.vulcanus.model.mappers.chat;
 
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
+import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageSenderDto;
 import com.merkury.vulcanus.model.dtos.chat.DetailedChatDto;
 import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
+import org.springframework.data.domain.Slice;
 
 import java.util.Comparator;
 import java.util.List;
@@ -37,7 +39,7 @@ public class ChatMapper {
                 .build();
     }
 
-//    TODO:delete
+    //    TODO:delete
     public static DetailedChatDto toDetailedChatDto(Chat chat, List<ChatMessage> chatMessageList) {
         var chatMessageDtoList = chatMessageList.stream()
                 .map(chatMessage -> {
@@ -65,6 +67,22 @@ public class ChatMapper {
                 .content(chatMessage.getContent())
                 .sentAt(chatMessage.getSentAt())
                 .sender(chatMessageSenderDto)
+                .chatId(chatMessage.getChat().getId())
+                .build();
+    }
+
+    public static ChatMessageDto toChatMessageDto(ChatMessage chatMessage) {
+        var senderDto = ChatMessageSenderDto.builder()
+                .id(chatMessage.getSender().getId())
+                .name(chatMessage.getSender().getUsername())
+                .imgUrl(chatMessage.getSender().getProfileImage())
+                .build();
+
+        return ChatMessageDto.builder()
+                .id(chatMessage.getId())
+                .content(chatMessage.getContent())
+                .sentAt(chatMessage.getSentAt())
+                .sender(senderDto)
                 .chatId(chatMessage.getChat().getId())
                 .build();
     }
@@ -146,6 +164,15 @@ public class ChatMapper {
                 .imgUrl(getChatImgUrl(chat, userId))//TODO:refactor
                 .messages(messageDtos)
                 .lastMessage(lastMessage)
+                .build();
+    }
+
+    public static ChatMessageDtoSlice toChatMessageDtoSlice(Slice<ChatMessage> messageSlice) {
+        return ChatMessageDtoSlice.builder()
+                .messages(messageSlice.getContent().stream().map(ChatMapper::toChatMessageDto).toList())
+                .hasNextSlice(messageSlice.hasNext())
+                .numberOfMessages(messageSlice.getNumberOfElements())
+                .sliceNumber(messageSlice.getNumber())
                 .build();
     }
 }
