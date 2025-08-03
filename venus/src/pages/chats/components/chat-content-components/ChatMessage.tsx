@@ -86,3 +86,17 @@ function showGif(gifUrl: string) {
 function shouldShowGif(messageContent: string): boolean {
     return messageContent.startsWith("https://media.tenor.com/");
 }
+
+function showGif(gifUrl: string) {
+    return (
+        <img
+            src={gifUrl}
+            alt="GIF"
+            className="h-32 w-48 rounded-lg object-cover"
+        />
+    );
+}
+
+function shouldShowGif(messageContent: string): boolean {
+    return messageContent.startsWith("https://media.tenor.com/");
+}

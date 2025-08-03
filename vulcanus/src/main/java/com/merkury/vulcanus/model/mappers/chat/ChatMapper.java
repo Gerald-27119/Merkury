@@ -39,7 +39,6 @@ public class ChatMapper {
                 .build();
     }
 
-    //    TODO:delete
     public static DetailedChatDto toDetailedChatDto(Chat chat, List<ChatMessage> chatMessageList) {
         var chatMessageDtoList = chatMessageList.stream()
                 .map(chatMessage -> {
@@ -167,6 +166,7 @@ public class ChatMapper {
                 .build();
     }
 
+
     public static ChatMessageDtoSlice toChatMessageDtoSlice(Slice<ChatMessage> messageSlice) {
         return ChatMessageDtoSlice.builder()
                 .messages(messageSlice.getContent().stream().map(ChatMapper::toChatMessageDto).toList())
@@ -175,4 +175,5 @@ public class ChatMapper {
                 .sliceNumber(messageSlice.getNumber())
                 .build();
     }
+
 }
