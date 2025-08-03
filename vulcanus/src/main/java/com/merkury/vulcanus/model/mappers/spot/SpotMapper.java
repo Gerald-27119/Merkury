@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.model.mappers.spot;
 
-import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
-import com.merkury.vulcanus.model.dtos.spot.TopRatedSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.dtos.spot.coordinates.SpotCoordinatesDto;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
@@ -68,7 +65,6 @@ public class SpotMapper {
                         .map(SpotTagMapper::toDto)
                         .collect(Collectors.toSet()))
                 .centerPoint(spot.getCenterPoint())
-                .city(spot.getCity())
                 .build();
     }
 
@@ -83,6 +79,25 @@ public class SpotMapper {
                         .findFirst()
                         .map(SpotMedia::getUrl)
                         .orElse("photoNotFound"))
+                .build();
+    }
+
+    public static HomePageSpotDto toHomePageSearchSpotDto(@NotNull Spot spot, Double distanceToUser) {
+        return HomePageSpotDto.builder()
+                .id(spot.getId())
+                .name(spot.getName())
+                .rating(spot.getRating())
+                .ratingCount(spot.getRatingCount())
+                .firstPhoto(spot.getMedia().stream()
+                        .filter(spotMedia -> spotMedia.getGenericMediaType() == GenericMediaType.PHOTO)
+                        .findFirst()
+                        .map(SpotMedia::getUrl)
+                        .orElse("photoNotFound"))
+                .tags(spot.getTags().stream()
+                        .map(SpotTagMapper::toDto)
+                        .collect(Collectors.toSet()))
+                .centerPoint(spot.getCenterPoint())
+                .distanceToUser(distanceToUser)
                 .build();
     }
 }

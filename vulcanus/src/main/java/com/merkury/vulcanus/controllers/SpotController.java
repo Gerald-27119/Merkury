@@ -2,10 +2,7 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.spot.SpotService;
-import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
-import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.TopRatedSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -80,10 +77,12 @@ public class SpotController {
     }
 
     @GetMapping("/public/spot/search/home-page")
-    public ResponseEntity<List<SearchSpotDto>> getSearchedSpotsOnHomePage(@RequestParam String country,
-                                                                          @RequestParam String region,
-                                                                          @RequestParam String city) {
-        return ResponseEntity.ok(spotService.getAllSpotsByLocation(country, region, city));
+    public ResponseEntity<List<HomePageSpotDto>> getSearchedSpotsOnHomePage(@RequestParam String country,
+                                                                            @RequestParam String region,
+                                                                            @RequestParam String city,
+                                                                            @RequestParam(required = false) Double userLongitude,
+                                                                            @RequestParam(required = false) Double userLatitude) {
+        return ResponseEntity.ok(spotService.getAllSpotsByLocation(country, region, city, userLongitude, userLatitude));
     }
 
     @GetMapping("/public/spot/search/home-page/locations")

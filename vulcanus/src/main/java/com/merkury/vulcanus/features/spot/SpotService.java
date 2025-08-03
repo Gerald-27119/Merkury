@@ -2,14 +2,12 @@ package com.merkury.vulcanus.features.spot;
 
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
-import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
-import com.merkury.vulcanus.model.dtos.spot.TopRatedSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
 import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
+import com.merkury.vulcanus.utils.MapDistanceCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -106,11 +104,24 @@ public class SpotService {
                 .toList();
     }
 
-    public List<SearchSpotDto> getAllSpotsByLocation(String country, String region, String city) {
+    public List<HomePageSpotDto> getAllSpotsByLocation(String country, String region, String city, Double userLongitude, Double userLatitude) {
         return spotRepository
                 .findAllByCountryAndRegionAndCity(country, region, city)
                 .stream()
-                .map(SpotMapper::toSearchSpotDto)
+                .map(spot -> {
+                    Double userDistanceToSpot = null;
+
+                    if (userLatitude != null && userLongitude != null) {
+                        userDistanceToSpot = MapDistanceCalculator.calculateDistance(
+                                userLatitude,
+                                userLongitude,
+                                spot.getCenterPoint().getX(),
+                                spot.getCenterPoint().getY()
+                        );
+                    }
+
+                    return SpotMapper.toHomePageSearchSpotDto(spot, userDistanceToSpot);
+                })
                 .toList();
     }
 

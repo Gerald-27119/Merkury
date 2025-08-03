@@ -6,8 +6,11 @@ import {
     getLocations,
     getSearchedSpotsOnHomePage,
 } from "../../../http/spots-data";
-import SearchSpotDto from "../../../model/interface/spot/search-spot/searchSpotDto";
 import SearchSuggestions from "./SearchSuggestions";
+import HomePageSpotDto from "../../../model/interface/spot/search-spot/homePageSpotDto";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { getUserLocation } from "../../../utils/spot-utils";
+import { notificationAction } from "../../../redux/notification";
 
 const inputList = [
     {
@@ -39,10 +42,12 @@ const initialValue = {
 };
 
 interface SearchBarProps {
-    onSetSpots: (spots: SearchSpotDto[]) => void;
+    onSetSpots: (spots: HomePageSpotDto[]) => void;
 }
 
 export default function SearchBar({ onSetSpots }: SearchBarProps) {
+    const dispatch = useDispatchTyped();
+
     const [searchLocation, setSearchLocation] =
         useState<SearchLocation>(initialValue);
     const [activeInput, setActiveInput] = useState<LocationKey | null>(null);
@@ -89,7 +94,26 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
     };
 
     const handleSearchSpots = async () => {
-        const spots = await mutateAsync(searchLocation);
+        let coords;
+
+        if (!coords) {
+            try {
+                coords = await getUserLocation();
+            } catch (err) {
+                dispatch(
+                    notificationAction.setInfo({
+                        message:
+                            "You must turn on location to display how far spots are.",
+                    }),
+                );
+            }
+        }
+
+        const spots = await mutateAsync({
+            ...searchLocation,
+            userLongitude: coords?.longitude,
+            userLatitude: coords?.latitude,
+        });
         onSetSpots(spots);
         setActiveInput(null);
     };

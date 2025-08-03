@@ -4,8 +4,8 @@ import Carousel from "./components/Carousel";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
 import SearchBar from "./components/SearchBar";
 import { useEffect, useState } from "react";
-import SearchSpotDto from "../../model/interface/spot/search-spot/searchSpotDto";
 import SearchSpotList from "./components/SearchSpotList";
+import HomePageSpotDto from "../../model/interface/spot/search-spot/homePageSpotDto";
 
 export default function HomePage() {
     const { data, isLoading } = useQuery({
@@ -13,7 +13,7 @@ export default function HomePage() {
         queryFn: get18MostPopularSpots,
     });
 
-    const [searchedSpots, setSearchedSpots] = useState<SearchSpotDto[]>([]);
+    const [searchedSpots, setSearchedSpots] = useState<HomePageSpotDto[]>([]);
     const [spotsPerPage, setSpotsPerPage] = useState(6);
 
     useEffect(() => {
@@ -35,7 +35,7 @@ export default function HomePage() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    const handleSetSearchedSpots = (spots: SearchSpotDto[]) => {
+    const handleSetSearchedSpots = (spots: HomePageSpotDto[]) => {
         setSearchedSpots(spots);
     };
 
