@@ -19,6 +19,8 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
 
     Page<Spot> findAllByNameContainingIgnoreCase(@Param("name") String name, Pageable pageable);
 
+    List<Spot> findAllByNameContainingIgnoreCase(@Param("name") String name);
+
     Page<Spot> findByNameContainingIgnoreCaseAndRatingGreaterThanEqualAndCenterPointXBetweenAndCenterPointYBetween(
             String name,
             double startRating,
@@ -32,5 +34,7 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
     List<ISpotNameOnly> findByNameContainingIgnoreCaseAndCenterPointXBetweenAndCenterPointYBetween(
             String name, double swLat, double neLat, double swLng, double neLng
     );
+
+    List<ISpotNameOnly> findByNameContainingIgnoreCase(@Param("name") String name);
 
 }

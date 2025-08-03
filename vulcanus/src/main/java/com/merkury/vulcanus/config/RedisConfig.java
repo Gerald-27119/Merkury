@@ -2,6 +2,7 @@ package com.merkury.vulcanus.config;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.serializers.border.point.BorderPointJsonDeserializer;
@@ -88,14 +89,20 @@ public class RedisConfig {
 
     @Bean
     public GenericJackson2JsonRedisSerializer redisSerializer() {
+        var ptv = BasicPolymorphicTypeValidator.builder()
+                .allowIfBaseType(Object.class)
+                .build();
         var objectMapper = new ObjectMapper();
 //        objectMapper.activateDefaultTyping(
 //                objectMapper.getPolymorphicTypeValidator(),
 //                ObjectMapper.DefaultTyping.NON_FINAL,
 //                JsonTypeInfo.As.PROPERTY
 //        );
-//        var tpBuilder = new BorderPointTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL);
-//        objectMapper.setDefaultTyping(tpBuilder);
+        objectMapper.activateDefaultTyping(ptv,
+                ObjectMapper.DefaultTyping.NON_FINAL_AND_ENUMS,
+                JsonTypeInfo.As.PROPERTY);
+        var tpBuilder = new BorderPointTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL);
+        objectMapper.setDefaultTyping(tpBuilder);
 
         var module = new SimpleModule();
         module.addSerializer(BorderPoint.class, new BorderPointJsonSerializer());

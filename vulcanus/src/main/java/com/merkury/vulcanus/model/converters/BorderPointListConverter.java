@@ -38,11 +38,11 @@ public class BorderPointListConverter implements AttributeConverter<List<BorderP
 
     public BorderPointListConverter() {
         this.mapper = new ObjectMapper();
-        this.mapper.activateDefaultTyping(
-                this.mapper.getPolymorphicTypeValidator(),
-                ObjectMapper.DefaultTyping.NON_FINAL,
-                JsonTypeInfo.As.PROPERTY
-        );
+//        this.mapper.activateDefaultTyping(
+//                this.mapper.getPolymorphicTypeValidator(),
+//                ObjectMapper.DefaultTyping.NON_FINAL,
+//                JsonTypeInfo.As.PROPERTY
+//        );
     }
 
     @Override

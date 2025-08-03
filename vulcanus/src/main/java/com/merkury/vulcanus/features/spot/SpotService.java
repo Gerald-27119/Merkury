@@ -12,6 +12,7 @@ import com.merkury.vulcanus.model.repositories.SpotRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,14 +29,14 @@ public class SpotService {
 
     private final SpotRepository spotRepository;
 
-    public List<GeneralSpotDto> getAllSpots() throws SpotsNotFoundException {
-        var allSpots = spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
-        if (allSpots.isEmpty()) {
-            throw new SpotsNotFoundException("Spots not found!");
-        }
-
-        return allSpots;
-    }
+//    public List<GeneralSpotDto> getAllSpots() throws SpotsNotFoundException {
+//        var allSpots = spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
+//        if (allSpots.isEmpty()) {
+//            throw new SpotsNotFoundException("Spots not found!");
+//        }
+//
+//        return allSpots;
+//    }
 
     private Pageable configurePageableSorting(Pageable pageable, String sorting) {
         Sort customSort = switch (sorting) {
@@ -70,21 +71,24 @@ public class SpotService {
         return spotRepository.findByIdWithTags(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
 
-//    @Cacheable(value = "filteredSpots", key = "{#name}", unless = "#result == null")
-@Cacheable(
-        value = "filteredSpots",
-        key = "{#name}",
-        condition = "#name != null && #name.trim().length() > 0",
-        unless = "#result == null || #result.isEmpty()"
-)
+    @Cacheable(value = "filteredSpots", key = "#name", unless = "#result == null")
+//@Cacheable(
+//        value = "filteredSpots",
+//        key = "#name",
+//        condition = "#name != null && #name.trim().length() > 0",
+//        unless = "#result == null || #result.isEmpty()"
+//)
     public List<GeneralSpotDto> getSearchedSpotsOnMap(String name) throws SpotsNotFoundException {
-    System.out.println("Running instance: " + this.getClass());
+    System.out.println("Running instance:" + this.getClass());
+        System.out.println("Is proxy? " + AopUtils.isAopProxy(this));
 
-    var allSpots = getAllSpots();
+//    var allSpots = getAllSpots();
         log.info("got all spots");
-        var filteredSpots = allSpots.stream()
-                .filter(spot -> (name.isBlank() || spot.name().toLowerCase().contains(name.trim().toLowerCase())))
-                .toList();
+//        var filteredSpots = allSpots.stream()
+//                .filter(spot -> (name.isBlank() || spot.name().toLowerCase().contains(name.trim().toLowerCase())))
+//                .toList();
+        var filteredSpots = spotRepository.findAllByNameContainingIgnoreCase(name).stream()
+                .map(SpotMapper::toDto).toList();
         log.info("got filtered spots");
         if (filteredSpots.isEmpty()) {
             throw new SpotsNotFoundException("No spots match filters!");
@@ -95,11 +99,15 @@ public class SpotService {
 
     @Cacheable(value = "filteredSpotsNames", key = "#text", unless = "#result == null")
     public List<String> getFilteredSpotsNames(String text) throws SpotsNotFoundException {
-        var allSpots = getAllSpots();
+//        var allSpots = getAllSpots();
 
-        var spotsNames = allSpots.stream()
-                .map(GeneralSpotDto::name)
-                .filter(spotName -> spotName.toLowerCase().contains(text.trim().toLowerCase()))
+//        var spotsNames = allSpots.stream()
+//                .map(GeneralSpotDto::name)
+//                .filter(spotName -> spotName.toLowerCase().contains(text.trim().toLowerCase()))
+//                .toList();
+
+        var spotsNames = spotRepository.findByNameContainingIgnoreCase(text).stream()
+                .map(ISpotNameOnly::getName)
                 .toList();
 
         if (spotsNames.isEmpty()) {

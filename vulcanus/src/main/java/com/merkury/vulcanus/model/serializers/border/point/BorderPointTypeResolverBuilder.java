@@ -50,5 +50,6 @@ public class BorderPointTypeResolverBuilder extends StdTypeResolverBuilder {
             return contentType != null && BorderPoint.class.isAssignableFrom(contentType.getRawClass());
         }
         return false;
+//        return t.getRawClass().equals(BorderPoint.class);
     }
 }

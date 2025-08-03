@@ -17,21 +17,19 @@ import java.io.IOException;
 public class BorderPointJsonSerializer extends JsonSerializer<BorderPoint> {
     @Override
     public void serialize(BorderPoint value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        log.info("Serializing BorderPoint {}", value);
         gen.writeStartObject();
         gen.writeNumberField("x", value.getX());
         gen.writeNumberField("y", value.getY());
         gen.writeEndObject();
     }
 
-    @Override
-    public Class<BorderPoint> handledType() {
-        return BorderPoint.class;
-    }
+//    @Override
+//    public Class<BorderPoint> handledType() {
+//        return BorderPoint.class;
+//    }
 
     @Override
     public void serializeWithType(BorderPoint value, JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
-        log.info("Serializing BorderPoint with type {}", value);
         WritableTypeId typeId = typeSer.typeId(value, JsonToken.START_OBJECT);
         typeSer.writeTypePrefix(gen, typeId);
         gen.writeNumberField("x", value.getX());
