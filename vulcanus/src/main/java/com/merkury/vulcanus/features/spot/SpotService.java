@@ -6,6 +6,9 @@ import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
 import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
+import com.merkury.vulcanus.model.interfaces.CityView;
+import com.merkury.vulcanus.model.interfaces.CountryView;
+import com.merkury.vulcanus.model.interfaces.RegionView;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import com.merkury.vulcanus.utils.MapDistanceCalculator;
 import lombok.RequiredArgsConstructor;
@@ -131,21 +134,12 @@ public class SpotService {
         }
 
         return switch (type.toLowerCase()) {
-            case "country" -> spotRepository.findCountryByCountryStartingWithIgnoreCase(q)
-                    .stream()
-                    .map(Spot::getCountry)
-                    .distinct()
-                    .toList();
-            case "region" -> spotRepository.findRegionByRegionStartingWithIgnoreCase(q)
-                    .stream()
-                    .map(Spot::getRegion)
-                    .distinct()
-                    .toList();
-            default -> spotRepository.findCityByCityStartingWithIgnoreCase(q)
-                    .stream()
-                    .map(Spot::getCity)
-                    .distinct()
-                    .toList();
+            case "country" -> spotRepository.findDistinctByCountryStartingWithIgnoreCase(q)
+                    .stream().map(CountryView::getCountry).toList();
+            case "region" -> spotRepository.findDistinctByRegionStartingWithIgnoreCase(q)
+                    .stream().map(RegionView::getRegion).toList();
+            default -> spotRepository.findDistinctByCityStartingWithIgnoreCase(q)
+                    .stream().map(CityView::getCity).toList();
         };
     }
 }

@@ -1,7 +1,10 @@
 package com.merkury.vulcanus.model.repositories;
 
 import com.merkury.vulcanus.model.entities.spot.Spot;
+import com.merkury.vulcanus.model.interfaces.CityView;
+import com.merkury.vulcanus.model.interfaces.CountryView;
 import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
+import com.merkury.vulcanus.model.interfaces.RegionView;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,9 +40,10 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
             String name, double swLat, double neLat, double swLng, double neLng
     );
 
-    List<Spot> findCountryByCountryStartingWithIgnoreCase(String query);
+    List<RegionView> findDistinctByRegionStartingWithIgnoreCase(String query);
 
-    List<Spot> findRegionByRegionStartingWithIgnoreCase(String query);
+    List<CountryView> findDistinctByCountryStartingWithIgnoreCase(String query);
 
-    List<Spot> findCityByCityStartingWithIgnoreCase(String query);
+    List<CityView> findDistinctByCityStartingWithIgnoreCase(String query);
 }
+
