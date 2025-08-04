@@ -1,13 +1,16 @@
 package com.merkury.vulcanus.model.dtos.spot;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
-import com.merkury.vulcanus.model.serializers.border.point.BorderPointJsonDeserializer;
-import com.merkury.vulcanus.model.serializers.border.point.BorderPointJsonSerializer;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 @Builder
 public record GeneralSpotDto(@Positive(message = "ID must be a positive number.")
@@ -21,10 +24,10 @@ public record GeneralSpotDto(@Positive(message = "ID must be a positive number."
                              Double rating,
                              @NotEmpty(message = "Contour coordinates list cannot be empty.")
                              List<Double[]> contourCoordinates,
-                             @JsonSerialize(using = BorderPointJsonSerializer.class)
-                             @JsonDeserialize(using = BorderPointJsonDeserializer.class)
                              @NotNull(message = "Center point cannot be null.")
                              BorderPoint centerPoint,
                              @Positive(message = "Area must be greater than 0.")
-                             Double area) {
+                             Double area) implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -834173824086631493L;
 }
