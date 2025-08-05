@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoSendSharp } from "react-icons/io5";
 import { RiEmotionHappyFill } from "react-icons/ri";
@@ -6,11 +6,14 @@ import { MdGifBox } from "react-icons/md";
 import { useWebSocket } from "../../../../stomp/useWebSocket";
 import { ChatMessageToSendDto } from "../../../../model/interface/chat/chatInterfaces";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
+import EmojiGifWindowWrapper from "./bottom-bar-components/EmojiGifWindow/EmojiGifWindowWrapper";
+import { useClickOutside } from "../../../../hooks/useClickOutside";
 
 // TODO: use https://www.npmjs.com/package/react-textarea-autosize
 
 export default function ChatBottomBar() {
-    const commonIconClasses = "text-violetLighter text-3xl";
+    const iconClasses =
+        "text-violetLighter text-2xl hover:cursor-pointer hover:text-white/80";
 
     const [messageToSend, setMessageToSend] = useState("");
     const [isSending, setIsSending] = useState(false);
@@ -18,6 +21,12 @@ export default function ChatBottomBar() {
     // Tu używam globalnego hooka useWebSocket, który zarządza połączeniem WebSocket
     const { publish, connected } = useWebSocket();
     const { selectedChatId } = useSelectorTyped((state) => state.chats);
+
+    const [activeGifEmojiWindow, setActiveGifEmojiWindow] = useState<
+        "emoji" | "gif" | null
+    >(null);
+    const gifEmojiWindowRef = useRef<HTMLDivElement>(null);
+    useClickOutside(gifEmojiWindowRef, () => setActiveGifEmojiWindow(null));
 
     const sendMessage = useCallback(async () => {
         if (!messageToSend.trim() || !connected) return;
@@ -35,7 +44,7 @@ export default function ChatBottomBar() {
                 formattedChatMessageToSend,
             );
             setMessageToSend("");
-            // TODO: uzyskać potwierdzenie ACK
+            //TODO:add ACK confirmation
         } finally {
             setIsSending(false);
         }
@@ -54,7 +63,7 @@ export default function ChatBottomBar() {
     return (
         <div className="flex items-center justify-center gap-4 px-3 py-3">
             <div className="bg-violetLight/25 mr-1 flex w-full gap-3 rounded-xl px-3 py-3 shadow-md">
-                <FaCirclePlus className={commonIconClasses} />
+                <FaCirclePlus className={iconClasses} />
 
                 <textarea
                     className="scrollbar-track-violetDark/10 hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin w-full resize-none bg-transparent focus:border-none focus:outline-none"
@@ -65,8 +74,33 @@ export default function ChatBottomBar() {
                     rows={1}
                 />
 
-                <MdGifBox className={commonIconClasses} />
-                <RiEmotionHappyFill className={commonIconClasses} />
+                <div
+                    ref={gifEmojiWindowRef}
+                    className="flex items-center gap-2"
+                >
+                    <MdGifBox
+                        className={iconClasses}
+                        onClick={() =>
+                            setActiveGifEmojiWindow((prev) =>
+                                prev === "gif" ? null : "gif",
+                            )
+                        }
+                    />
+                    <RiEmotionHappyFill
+                        className={iconClasses}
+                        onClick={() =>
+                            setActiveGifEmojiWindow((prev) =>
+                                prev === "emoji" ? null : "emoji",
+                            )
+                        }
+                    />
+                    {activeGifEmojiWindow && (
+                        <EmojiGifWindowWrapper
+                            windowName={activeGifEmojiWindow}
+                            setActiveGifEmojiWindow={setActiveGifEmojiWindow}
+                        />
+                    )}
+                </div>
             </div>
 
             <button
