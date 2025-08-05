@@ -27,15 +27,6 @@ public class SpotService {
 
     private final SpotRepository spotRepository;
 
-//    public List<GeneralSpotDto> getAllSpots() throws SpotsNotFoundException {
-//        var allSpots = spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
-//        if (allSpots.isEmpty()) {
-//            throw new SpotsNotFoundException("Spots not found!");
-//        }
-//
-//        return allSpots;
-//    }
-
     private Pageable configurePageableSorting(Pageable pageable, String sorting) {
         Sort customSort = switch (sorting) {
             case "byRatingCountDesc" -> Sort.by("ratingCount").descending();
@@ -98,12 +89,6 @@ public class SpotService {
 
     @Cacheable(value = "filteredSpotsNames", key = "#text", unless = "#result == null")
     public List<String> getFilteredSpotsNames(String text) throws SpotsNotFoundException {
-//        var allSpots = getAllSpots();
-
-//        var spotsNames = allSpots.stream()
-//                .map(GeneralSpotDto::name)
-//                .filter(spotName -> spotName.toLowerCase().contains(text.trim().toLowerCase()))
-//                .toList();
 
         var spotsNames = spotRepository.findByNameContainingIgnoreCase(text).stream()
                 .map(ISpotNameOnly::getName)
