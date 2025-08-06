@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @ConfigurationPropertiesScan("com.merkury.vulcanus.config.properties")
 @EnableAsync
-@EnableCaching(proxyTargetClass = true)
+@EnableCaching
 @EnableRetry
 @EnableScheduling
 public class VulcanusApplication {

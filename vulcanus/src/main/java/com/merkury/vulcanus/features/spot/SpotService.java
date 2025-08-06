@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class SpotService {
             unless = "#result == null || #result.isEmpty()"
     )
     public List<GeneralSpotDto> getSearchedSpotsOnMap(String name) throws SpotsNotFoundException {
-        String trimmed = (name == null) ? "" : name.trim();
+        String trimmed = !StringUtils.hasText(name) ? "" : name.trim();
 
         List<Spot> spots;
         if (trimmed.isEmpty()) {
