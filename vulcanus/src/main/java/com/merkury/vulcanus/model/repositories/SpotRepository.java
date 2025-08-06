@@ -17,7 +17,9 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
     @Query("SELECT s FROM spots s LEFT JOIN FETCH s.tags WHERE s.id = :id")
     Optional<Spot> findByIdWithTags(@Param("id") Long id);
 
-    Page<Spot> findAllByNameContainingIgnoreCase(@Param("name") String name, Pageable pageable);
+    Page<Spot> findAllByNameContainingIgnoreCase(String name, Pageable pageable);
+
+    List<Spot> findAllByNameContainingIgnoreCase(String name);
 
     Page<Spot> findByNameContainingIgnoreCaseAndRatingGreaterThanEqualAndCenterPointXBetweenAndCenterPointYBetween(
             String name,
@@ -32,5 +34,7 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
     List<ISpotNameOnly> findByNameContainingIgnoreCaseAndCenterPointXBetweenAndCenterPointYBetween(
             String name, double swLat, double neLat, double swLng, double neLng
     );
+
+    List<ISpotNameOnly> findByNameContainingIgnoreCase(String name);
 
 }

@@ -6,8 +6,8 @@ import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
 import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
 import com.merkury.vulcanus.model.entities.spot.Spot;
-import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
 import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
+import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -24,15 +25,6 @@ import java.util.List;
 public class SpotService {
 
     private final SpotRepository spotRepository;
-
-    private List<GeneralSpotDto> getAllSpots() throws SpotsNotFoundException {
-        var allSpots = spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
-        if (allSpots.isEmpty()) {
-            throw new SpotsNotFoundException("Spots not found!");
-        }
-
-        return allSpots;
-    }
 
     private Pageable configurePageableSorting(Pageable pageable, String sorting) {
         Sort customSort = switch (sorting) {
@@ -67,12 +59,26 @@ public class SpotService {
         return spotRepository.findByIdWithTags(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
 
-    @Cacheable(value = "filteredSpots", key = "{#name}", unless = "#result == null")
+    @Cacheable(
+            value = "filteredSpots",
+            key = "#name",
+            condition = "#name != null && #name.trim().length() > 0",
+            unless = "#result == null || #result.isEmpty()"
+    )
     public List<GeneralSpotDto> getSearchedSpotsOnMap(String name) throws SpotsNotFoundException {
-        var allSpots = this.getAllSpots();
-        var filteredSpots = allSpots.stream()
-                .filter(spot -> (name.isBlank() || spot.name().toLowerCase().contains(name.trim().toLowerCase())))
+        String trimmed = !StringUtils.hasText(name) ? "" : name.trim();
+
+        List<Spot> spots;
+        if (trimmed.isEmpty()) {
+            spots = spotRepository.findAll();
+        } else {
+            spots = spotRepository.findAllByNameContainingIgnoreCase(trimmed);
+        }
+
+        List<GeneralSpotDto> filteredSpots = spots.stream()
+                .map(SpotMapper::toDto)
                 .toList();
+
         if (filteredSpots.isEmpty()) {
             throw new SpotsNotFoundException("No spots match filters!");
         }
@@ -82,11 +88,9 @@ public class SpotService {
 
     @Cacheable(value = "filteredSpotsNames", key = "#text", unless = "#result == null")
     public List<String> getFilteredSpotsNames(String text) throws SpotsNotFoundException {
-        var allSpots = this.getAllSpots();
 
-        var spotsNames = allSpots.stream()
-                .map(GeneralSpotDto::name)
-                .filter(spotName -> spotName.toLowerCase().contains(text.trim().toLowerCase()))
+        var spotsNames = spotRepository.findByNameContainingIgnoreCase(text).stream()
+                .map(ISpotNameOnly::getName)
                 .toList();
 
         if (spotsNames.isEmpty()) {
