@@ -10,6 +10,7 @@ import com.merkury.vulcanus.model.interfaces.CityView;
 import com.merkury.vulcanus.model.interfaces.CountryView;
 import com.merkury.vulcanus.model.interfaces.RegionView;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
+import com.merkury.vulcanus.model.specification.SpotSpecification;
 import com.merkury.vulcanus.utils.MapDistanceCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -108,9 +110,14 @@ public class SpotService {
     }
 
     public List<HomePageSpotDto> getAllSpotsByLocation(String country, String region, String city, Double userLongitude, Double userLatitude) {
-        return spotRepository
-                .findAllByCountryAndRegionAndCity(country, region, city)
-                .stream()
+        var spec = Specification
+                .where(SpotSpecification.hasCountry(country))
+                .and(SpotSpecification.hasRegion(region))
+                .and(SpotSpecification.hasCity(city));
+
+        var spots = spotRepository.findAll(spec);
+
+        return spots.stream()
                 .map(spot -> {
                     Double userDistanceToSpot = null;
 

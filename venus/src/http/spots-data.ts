@@ -116,9 +116,9 @@ export async function get18MostPopularSpots(): Promise<TopRatedSpot[]> {
 }
 
 interface SearchLocation {
-    country: string;
-    region: string;
-    city: string;
+    country?: string;
+    region?: string;
+    city?: string;
     userLongitude?: number;
     userLatitude?: number;
 }

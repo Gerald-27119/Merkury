@@ -30,15 +30,15 @@ const inputList = [
 export type LocationKey = (typeof inputList)[number]["id"];
 
 interface SearchLocation {
-    country: string;
-    region: string;
-    city: string;
+    country?: string;
+    region?: string;
+    city?: string;
 }
 
 const initialValue = {
-    country: "",
-    region: "",
-    city: "",
+    country: undefined,
+    region: undefined,
+    city: undefined,
 };
 
 interface SearchBarProps {
@@ -64,10 +64,11 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
         ],
         queryFn: () =>
             getLocations(
-                searchLocation[activeInput ?? "country"],
+                searchLocation[activeInput ?? "country"] ?? "",
                 activeInput ?? "country",
             ),
-        enabled: !!activeInput && searchLocation[activeInput].length >= 2,
+        enabled:
+            !!activeInput && (searchLocation[activeInput] ?? "").length >= 2,
         staleTime: 5 * 60 * 1000,
     });
 
@@ -76,10 +77,10 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
             let updated = { ...prev, [key]: value };
 
             if (key === "country") {
-                updated.region = "";
-                updated.city = "";
+                updated.region = undefined;
+                updated.city = undefined;
             } else if (key === "region") {
-                updated.city = "";
+                updated.city = undefined;
             }
 
             return updated;
@@ -126,7 +127,7 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
                             <SearchInput
                                 label={label}
                                 id={id}
-                                value={searchLocation[id]}
+                                value={searchLocation[id] ?? ""}
                                 onChange={(e) =>
                                     handleSetLocation(id, e.target.value)
                                 }
@@ -146,11 +147,6 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
             <button
                 className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 flex w-full cursor-pointer justify-center rounded-md p-2 md:w-fit"
                 onClick={handleSearchSpots}
-                disabled={
-                    !searchLocation.city ||
-                    !searchLocation.region ||
-                    !searchLocation.country
-                }
             >
                 <FaSearch />
             </button>

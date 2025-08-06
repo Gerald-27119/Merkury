@@ -5,6 +5,7 @@ import com.merkury.vulcanus.model.interfaces.CityView;
 import com.merkury.vulcanus.model.interfaces.CountryView;
 import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
 import com.merkury.vulcanus.model.interfaces.RegionView;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface SpotRepository extends JpaRepository<Spot, Long> {
+public interface SpotRepository extends JpaRepository<Spot, Long>, JpaSpecificationExecutor<Spot> {
     @Query("SELECT s FROM spots s LEFT JOIN FETCH s.tags WHERE s.id = :id")
     Optional<Spot> findByIdWithTags(@Param("id") Long id);
 
@@ -24,7 +25,6 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
 
     List<Spot> findTop18ByOrderByRatingDescViewsCountDesc();
 
-    List<Spot> findAllByCountryAndRegionAndCity(String country, String region, String city);
 
     Page<Spot> findByNameContainingIgnoreCaseAndRatingGreaterThanEqualAndCenterPointXBetweenAndCenterPointYBetween(
             String name,

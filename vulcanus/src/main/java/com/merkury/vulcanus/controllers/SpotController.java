@@ -77,9 +77,9 @@ public class SpotController {
     }
 
     @GetMapping("/public/spot/search/home-page")
-    public ResponseEntity<List<HomePageSpotDto>> getSearchedSpotsOnHomePage(@RequestParam String country,
-                                                                            @RequestParam String region,
-                                                                            @RequestParam String city,
+    public ResponseEntity<List<HomePageSpotDto>> getSearchedSpotsOnHomePage(@RequestParam(required = false) String country,
+                                                                            @RequestParam(required = false) String region,
+                                                                            @RequestParam(required = false) String city,
                                                                             @RequestParam(required = false) Double userLongitude,
                                                                             @RequestParam(required = false) Double userLatitude) {
         return ResponseEntity.ok(spotService.getAllSpotsByLocation(country, region, city, userLongitude, userLatitude));
