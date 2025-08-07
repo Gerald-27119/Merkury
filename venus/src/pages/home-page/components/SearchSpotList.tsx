@@ -33,10 +33,21 @@ export default function SearchSpotList({ spots }: SearchSpotListProps) {
     }, [spots, dispatch]);
 
     return (
-        <ul className="grid w-full grid-cols-1 place-items-center gap-8 xl:grid-cols-2 2xl:grid-cols-3">
-            {spots.map((spot) => (
-                <SpotTile key={spot.id} spot={spot} userCoords={userCoords} />
-            ))}
-        </ul>
+        <>
+            <ul className="grid w-full grid-cols-1 place-items-center gap-8 xl:grid-cols-2 2xl:grid-cols-3">
+                {spots.map((spot) => (
+                    <SpotTile
+                        key={spot.id}
+                        spot={spot}
+                        userCoords={userCoords}
+                    />
+                ))}
+            </ul>
+            {spots.length === 0 && (
+                <p className="text-center text-2xl">
+                    Search for spots to see results.
+                </p>
+            )}
+        </>
     );
 }

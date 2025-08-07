@@ -67,14 +67,19 @@ export default function AdvanceSearchBar({ onSetSpots }: SearchBarProps) {
         setActiveInput(null);
     };
 
+    const handleRemoveTag = (value: string) => {
+        setSearchLocation((prevState) => ({
+            ...prevState,
+            tags: [...prevState.tags.filter((t) => t.name !== value)],
+        }));
+    };
+
     const handleSearchSpots = async () => {
         const spots = await mutateAsync(searchLocation);
         onSetSpots(spots);
         setSearchLocation(initialValue);
         setActiveInput(null);
     };
-
-    console.log(searchLocation);
 
     return (
         <div className="dark:bg-darkBgSoft bg-lightBgSoft flex w-full flex-col items-center justify-between space-y-3 rounded-md px-3 py-2 shadow-md md:flex-row md:space-y-0 lg:w-3/4 lg:space-x-3 xl:w-1/2 dark:shadow-black">
@@ -100,8 +105,8 @@ export default function AdvanceSearchBar({ onSetSpots }: SearchBarProps) {
                 </div>
                 <div className="flex w-full flex-col">
                     <h1 className="pointer-events-none capitalize">Tags</h1>
-                    <div className="border-l-darkBorder my-2 flex h-full w-full space-x-2 border-l pl-4">
-                        <div className="relative w-full">
+                    <div className="border-l-darkBorder my-2 flex h-full w-full justify-start space-x-2 border-l pl-4">
+                        <div className="relative">
                             <button
                                 className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 flex w-full cursor-pointer justify-center rounded-md p-2 md:w-fit"
                                 onClick={() =>
@@ -121,16 +126,15 @@ export default function AdvanceSearchBar({ onSetSpots }: SearchBarProps) {
                                     />
                                 )}
                         </div>
-                        <div className="flex flex-wrap gap-2">
-                            {searchLocation.tags.map((tag) => (
-                                <span
-                                    key={tag.id}
-                                    className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 flex w-fit cursor-pointer justify-center rounded-md px-2 py-1 capitalize"
-                                >
-                                    {tag.name}
-                                </span>
-                            ))}
-                        </div>
+                        {searchLocation.tags.map((tag) => (
+                            <button
+                                key={tag.id}
+                                onClick={() => handleRemoveTag(tag.name)}
+                                className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 flex w-fit cursor-pointer justify-center rounded-md px-2 py-1 capitalize"
+                            >
+                                {tag.name}
+                            </button>
+                        ))}
                     </div>
                 </div>
             </div>

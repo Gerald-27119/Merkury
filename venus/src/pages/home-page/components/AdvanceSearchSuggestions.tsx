@@ -10,7 +10,7 @@ export default function AdvanceSearchSuggestions({
     id,
 }: AdvanceSearchSuggestionsProps) {
     return (
-        <ul className="dark:bg-darkBgSoft bg-lightBgSoft absolute z-10 mt-2 h-fit w-full overflow-auto rounded-md shadow-md">
+        <ul className="dark:bg-darkBgSoft bg-lightBgSoft absolute z-10 mt-2 h-fit w-[200px] overflow-auto rounded-md shadow-md sm:w-[250px] md:w-[300px]">
             {suggestions?.map((suggestion) => (
                 <li key={suggestion}>
                     <button
