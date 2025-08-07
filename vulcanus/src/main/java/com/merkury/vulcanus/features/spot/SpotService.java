@@ -4,6 +4,7 @@ import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.entities.spot.Spot;
+import com.merkury.vulcanus.model.entities.spot.SpotTag;
 import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
 import com.merkury.vulcanus.model.interfaces.CityView;
 import com.merkury.vulcanus.model.interfaces.CountryView;
@@ -142,6 +143,10 @@ public class SpotService {
     }
 
     public List<String> getLocations(String q, String type) {
+        if ("tags".equalsIgnoreCase(type) && (q == null || q.isBlank())) {
+            return spotTagRepository.findAll().stream().map(SpotTag::getName).toList();
+        }
+
         if (q == null || q.length() < 2 || type == null) {
             return Collections.emptyList();
         }
@@ -156,11 +161,28 @@ public class SpotService {
         };
     }
 
-    public List<SearchSpotDto> getAllSpotsByLocationAndTags(String city, List<SpotTagDto> tags) {
-        var tagsName = tags.stream().map(SpotTagDto::name).toList();
-        return spotRepository.findSpotsByCityAndAllTagNames(city, tagsName, tagsName.size())
-                .stream()
-                .map(SpotMapper::toSearchSpotDto)
+    public List<HomePageSpotDto> getAllSpotsByLocationAndTags(String city, List<String> tags, Double userLongitude, Double userLatitude) {
+        var spec = Specification.<Spot>where(null)
+                .and(SpotSpecification.hasCity(city))
+                .and(SpotSpecification.hasAnyTag(tags));
+
+        var spots = spotRepository.findAll(spec);
+
+        return spots.stream()
+                .map(spot -> {
+                    Double userDistanceToSpot = null;
+
+                    if (userLatitude != null && userLongitude != null) {
+                        userDistanceToSpot = MapDistanceCalculator.calculateDistance(
+                                userLatitude,
+                                userLongitude,
+                                spot.getCenterPoint().getX(),
+                                spot.getCenterPoint().getY()
+                        );
+                    }
+
+                    return SpotMapper.toHomePageSearchSpotDto(spot, userDistanceToSpot);
+                })
                 .toList();
     }
 }

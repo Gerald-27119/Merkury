@@ -72,9 +72,12 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
         staleTime: 5 * 60 * 1000,
     });
 
-    const handleSetLocation = (key: LocationKey, value: string) => {
+    const handleSetLocation = (key: LocationKey, value: string | undefined) => {
         setSearchLocation((prev) => {
-            let updated = { ...prev, [key]: value };
+            let updated = {
+                ...prev,
+                [key]: value && value.trim() !== "" ? value : undefined,
+            };
 
             if (key === "country") {
                 updated.region = undefined;

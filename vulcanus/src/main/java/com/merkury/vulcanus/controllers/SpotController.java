@@ -92,8 +92,11 @@ public class SpotController {
         return ResponseEntity.ok(spotService.getLocations(q, type));
     }
 
-    @PostMapping("/public/spot/search/home-page/advance")
-    public ResponseEntity<List<SearchSpotDto>> getSearchedSpotsOnHomePage(@RequestBody SpotSearchRequestDto request) {
-        return ResponseEntity.ok(spotService.getAllSpotsByLocationAndTags(request.city(), request.tags()));
+    @GetMapping("/public/spot/search/home-page/advance")
+    public ResponseEntity<List<HomePageSpotDto>> getSearchedSpotsOnHomePage(@RequestParam(required = false) String city,
+                                                                            @RequestParam(required = false) List<String> tags,
+                                                                            @RequestParam(required = false) Double userLongitude,
+                                                                            @RequestParam(required = false) Double userLatitude) {
+        return ResponseEntity.ok(spotService.getAllSpotsByLocationAndTags(city, tags, userLatitude, userLatitude));
     }
 }

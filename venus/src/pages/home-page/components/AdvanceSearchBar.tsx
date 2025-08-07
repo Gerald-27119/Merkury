@@ -6,22 +6,21 @@ import {
     getLocations,
     getSearchedSpotsOnAdvanceHomePage,
 } from "../../../http/spots-data";
-import SearchSpotDto from "../../../model/interface/spot/search-spot/searchSpotDto";
-import SpotTagDto from "../../../model/interface/spot/tag/spotTagDto";
 import AdvanceSearchSuggestions from "./AdvanceSearchSuggestions";
+import HomePageSpotDto from "../../../model/interface/spot/search-spot/homePageSpotDto";
 
 interface SearchLocation {
-    city: string;
-    tags: SpotTagDto[];
+    city?: string;
+    tags?: string[];
 }
 
 const initialValue = {
-    city: "",
+    city: undefined,
     tags: [],
 };
 
 interface SearchBarProps {
-    onSetSpots: (spots: SearchSpotDto[]) => void;
+    onSetSpots: (spots: HomePageSpotDto[]) => void;
 }
 
 export default function AdvanceSearchBar({ onSetSpots }: SearchBarProps) {
@@ -34,31 +33,41 @@ export default function AdvanceSearchBar({ onSetSpots }: SearchBarProps) {
     });
 
     const { data: suggestions = [] } = useQuery({
-        queryKey: ["locations", "advance", activeInput],
+        queryKey: [
+            "locations",
+            "advance",
+            activeInput,
+            searchLocation[activeInput ?? "city"],
+        ],
         queryFn: () =>
             getLocations(
-                activeInput === "tags" ? "" : searchLocation.city,
+                activeInput === "tags" ? "" : (searchLocation.city ?? ""),
                 activeInput ?? "city",
             ),
         enabled:
             !!activeInput &&
-            (activeInput === "tags" || searchLocation.city.length >= 2),
+            (activeInput === "tags" || (searchLocation.city ?? "").length >= 2),
         staleTime: 5 * 60 * 1000,
     });
 
-    const handleSetCity = (value: string) => {
-        setSearchLocation((prev) => ({ ...prev, city: value }));
+    const handleSetCity = (value: string | undefined) => {
+        setSearchLocation((prev) => ({
+            ...prev,
+            city: value && value.trim() !== "" ? value : undefined,
+        }));
         setActiveInput("city");
     };
 
     const handleSuggestionClick = (key: "city" | "tags", value: string) => {
         if (key === "tags") {
             setSearchLocation((prev) => {
-                const tagExists = prev.tags.find((tag) => tag.name === value);
+                const tagExists = (prev.tags ?? []).find(
+                    (tag) => tag === value,
+                );
                 if (tagExists) return prev;
                 return {
                     ...prev,
-                    tags: [...prev.tags, { name: value }],
+                    tags: [...(prev.tags ?? []), value],
                 };
             });
         } else {
@@ -70,14 +79,13 @@ export default function AdvanceSearchBar({ onSetSpots }: SearchBarProps) {
     const handleRemoveTag = (value: string) => {
         setSearchLocation((prevState) => ({
             ...prevState,
-            tags: [...prevState.tags.filter((t) => t.name !== value)],
+            tags: [...(prevState.tags ?? []).filter((t) => t !== value)],
         }));
     };
 
     const handleSearchSpots = async () => {
         const spots = await mutateAsync(searchLocation);
         onSetSpots(spots);
-        setSearchLocation(initialValue);
         setActiveInput(null);
     };
 
@@ -90,7 +98,7 @@ export default function AdvanceSearchBar({ onSetSpots }: SearchBarProps) {
                         <SearchInput
                             label="Your city"
                             id="city"
-                            value={searchLocation["city"]}
+                            value={searchLocation["city"] ?? ""}
                             onChange={(e) => handleSetCity(e.target.value)}
                             onFocus={() => setActiveInput("city")}
                         />
@@ -126,13 +134,13 @@ export default function AdvanceSearchBar({ onSetSpots }: SearchBarProps) {
                                     />
                                 )}
                         </div>
-                        {searchLocation.tags.map((tag) => (
+                        {searchLocation.tags?.map((tag) => (
                             <button
-                                key={tag.id}
-                                onClick={() => handleRemoveTag(tag.name)}
+                                key={tag}
+                                onClick={() => handleRemoveTag(tag)}
                                 className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 flex w-fit cursor-pointer justify-center rounded-md px-2 py-1 capitalize"
                             >
-                                {tag.name}
+                                {tag}
                             </button>
                         ))}
                     </div>
@@ -141,7 +149,6 @@ export default function AdvanceSearchBar({ onSetSpots }: SearchBarProps) {
             <button
                 className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 flex w-full cursor-pointer justify-center rounded-md p-2 md:w-fit"
                 onClick={handleSearchSpots}
-                disabled={!searchLocation.city || !searchLocation.tags}
             >
                 <FaSearch />
             </button>

@@ -1,6 +1,6 @@
-import SpotTagDto from "./tag/spotTagDto";
-
 export interface SpotSearchRequestDto {
-    city: string;
-    tags: SpotTagDto[];
+    city?: string;
+    tags?: string[];
+    userLongitude?: number;
+    userLatitude?: number;
 }

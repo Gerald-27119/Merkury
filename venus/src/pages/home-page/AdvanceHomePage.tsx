@@ -1,13 +1,13 @@
 import { useState } from "react";
-import SearchSpotDto from "../../model/interface/spot/search-spot/searchSpotDto";
 import SearchSpotList from "./components/SearchSpotList";
 import Switch from "./components/Switch";
 import AdvanceSearchBar from "./components/AdvanceSearchBar";
+import HomePageSpotDto from "../../model/interface/spot/search-spot/homePageSpotDto";
 
 export default function AdvanceHomePage() {
-    const [searchedSpots, setSearchedSpots] = useState<SearchSpotDto[]>([]);
+    const [searchedSpots, setSearchedSpots] = useState<HomePageSpotDto[]>([]);
 
-    const handleSetSearchedSpots = (spots: SearchSpotDto[]) => {
+    const handleSetSearchedSpots = (spots: HomePageSpotDto[]) => {
         setSearchedSpots(spots);
     };
 
