@@ -32,7 +32,7 @@ const router = createBrowserRouter([
                 element: <HomePage />,
             },
             {
-                path: "advance",
+                path: "advanced",
                 element: <AdvanceHomePage />,
             },
             {

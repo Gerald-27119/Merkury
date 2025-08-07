@@ -12,12 +12,12 @@ export default function Switch() {
                 Simple filters
             </NavLink>
             <NavLink
-                to="/advance"
+                to="/advanced"
                 className={({ isActive }) =>
                     `hover:dark:bg-violetDark hover:bg-violetLight rounded-r-full px-2.5 py-1.5 transition-all duration-300 ${isActive ? "dark:bg-violetDark bg-violetLight" : ""}`
                 }
             >
-                Advance filters
+                Advanced filters
             </NavLink>
         </div>
     );

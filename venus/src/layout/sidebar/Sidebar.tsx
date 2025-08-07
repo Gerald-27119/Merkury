@@ -18,7 +18,7 @@ export default function Sidebar() {
     const isAccountPage = location.pathname.includes("/account");
     const isChatPage = location.pathname.includes("/chat");
     const isHomePage =
-        location.pathname === "/" || location.pathname === "/advance";
+        location.pathname === "/" || location.pathname === "/advanced";
     const isStickyLayoutPage = isAccountPage || isChatPage || isHomePage;
 
     const allLinks = isLogged

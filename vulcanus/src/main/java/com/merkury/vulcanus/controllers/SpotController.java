@@ -97,6 +97,6 @@ public class SpotController {
                                                                             @RequestParam(required = false) List<String> tags,
                                                                             @RequestParam(required = false) Double userLongitude,
                                                                             @RequestParam(required = false) Double userLatitude) {
-        return ResponseEntity.ok(spotService.getAllSpotsByLocationAndTags(city, tags, userLatitude, userLatitude));
+        return ResponseEntity.ok(spotService.getAllSpotsByLocationAndTags(city, tags, userLongitude, userLatitude));
     }
 }
