@@ -6,8 +6,11 @@ import {
     getLocations,
     getSearchedSpotsOnHomePage,
 } from "../../../http/spots-data";
-import SearchSpotDto from "../../../model/interface/spot/search-spot/searchSpotDto";
 import SearchSuggestions from "./SearchSuggestions";
+import HomePageSpotDto from "../../../model/interface/spot/search-spot/homePageSpotDto";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { getUserLocation } from "../../../utils/spot-utils";
+import { notificationAction } from "../../../redux/notification";
 
 const inputList = [
     {
@@ -27,22 +30,24 @@ const inputList = [
 export type LocationKey = (typeof inputList)[number]["id"];
 
 interface SearchLocation {
-    country: string;
-    region: string;
-    city: string;
+    country?: string;
+    region?: string;
+    city?: string;
 }
 
 const initialValue = {
-    country: "",
-    region: "",
-    city: "",
+    country: undefined,
+    region: undefined,
+    city: undefined,
 };
 
 interface SearchBarProps {
-    onSetSpots: (spots: SearchSpotDto[]) => void;
+    onSetSpots: (spots: HomePageSpotDto[]) => void;
 }
 
 export default function SearchBar({ onSetSpots }: SearchBarProps) {
+    const dispatch = useDispatchTyped();
+
     const [searchLocation, setSearchLocation] =
         useState<SearchLocation>(initialValue);
     const [activeInput, setActiveInput] = useState<LocationKey | null>(null);
@@ -59,10 +64,11 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
         ],
         queryFn: () =>
             getLocations(
-                searchLocation[activeInput ?? "country"],
+                searchLocation[activeInput ?? "country"] ?? "",
                 activeInput ?? "country",
             ),
-        enabled: !!activeInput && searchLocation[activeInput].length >= 2,
+        enabled:
+            !!activeInput && (searchLocation[activeInput] ?? "").length >= 2,
         staleTime: 5 * 60 * 1000,
     });
 
@@ -71,10 +77,10 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
             let updated = { ...prev, [key]: value };
 
             if (key === "country") {
-                updated.region = "";
-                updated.city = "";
+                updated.region = undefined;
+                updated.city = undefined;
             } else if (key === "region") {
-                updated.city = "";
+                updated.city = undefined;
             }
 
             return updated;
@@ -89,9 +95,25 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
     };
 
     const handleSearchSpots = async () => {
-        const spots = await mutateAsync(searchLocation);
+        let coords;
+
+        try {
+            coords = await getUserLocation();
+        } catch (err) {
+            dispatch(
+                notificationAction.setInfo({
+                    message:
+                        "You must turn on location to display how far spots are.",
+                }),
+            );
+        }
+
+        const spots = await mutateAsync({
+            ...searchLocation,
+            userLongitude: coords?.longitude,
+            userLatitude: coords?.latitude,
+        });
         onSetSpots(spots);
-        setSearchLocation(initialValue);
         setActiveInput(null);
     };
 
@@ -105,7 +127,7 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
                             <SearchInput
                                 label={label}
                                 id={id}
-                                value={searchLocation[id]}
+                                value={searchLocation[id] ?? ""}
                                 onChange={(e) =>
                                     handleSetLocation(id, e.target.value)
                                 }
@@ -125,11 +147,6 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
             <button
                 className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 flex w-full cursor-pointer justify-center rounded-md p-2 md:w-fit"
                 onClick={handleSearchSpots}
-                disabled={
-                    !searchLocation.city ||
-                    !searchLocation.region ||
-                    !searchLocation.country
-                }
             >
                 <FaSearch />
             </button>

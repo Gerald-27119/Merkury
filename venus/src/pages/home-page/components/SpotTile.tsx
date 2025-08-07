@@ -1,43 +1,28 @@
-import SearchSpotDto from "../../../model/interface/spot/search-spot/searchSpotDto";
 import { ConfigProvider, Rate } from "antd";
 import { FaLocationDot, FaMapLocationDot } from "react-icons/fa6";
 import { MdOutlineWbSunny } from "react-icons/md";
 import { FiInfo } from "react-icons/fi";
-import { useEffect, useState } from "react";
-import { calculateDistanceInMeters } from "../../../utils/spot-utils";
 import { useNavigate } from "react-router-dom";
 import { spotDetailsModalAction } from "../../../redux/spot-modal";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import HomePageSpotDto from "../../../model/interface/spot/search-spot/homePageSpotDto";
 
 interface SpotTileProps {
-    spot: SearchSpotDto;
-    userCoords: { latitude: number; longitude: number } | null;
+    spot: HomePageSpotDto;
 }
 
-export default function SpotTile({ spot, userCoords }: SpotTileProps) {
+export default function SpotTile({ spot }: SpotTileProps) {
     const navigate = useNavigate();
     const dispatch = useDispatchTyped();
 
-    const [distance, setDistance] = useState<number | null>(null);
-
-    useEffect(() => {
-        if (userCoords) {
-            const dist = calculateDistanceInMeters(userCoords, {
-                latitude: spot.centerPoint.x,
-                longitude: spot.centerPoint.y,
-            });
-            setDistance(dist);
-        }
-    }, [userCoords, spot.centerPoint]);
-
     let formattedDistance: string;
 
-    if (distance === null) {
+    if (spot.distanceToUser === null) {
         formattedDistance = "Distance unavailable";
-    } else if (distance < 1000) {
-        formattedDistance = `${distance} m from you`;
+    } else if (spot.distanceToUser < 1) {
+        formattedDistance = `${(spot.distanceToUser * 1000).toFixed(1)} m from you`;
     } else {
-        formattedDistance = `${(distance / 1000).toFixed(1)} km from you`;
+        formattedDistance = `${spot.distanceToUser.toFixed(1)} km from you`;
     }
 
     const handleSeeOnMap = () => {

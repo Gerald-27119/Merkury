@@ -1,3 +1,5 @@
+import SpotCoordinatesDto from "./coordinates/spotCoordinatesDto";
+
 export default interface GeneralSpot {
     id: number;
     areaColor: string;
@@ -5,4 +7,5 @@ export default interface GeneralSpot {
     rating: number;
     contourCoordinates: number[][];
     area: number;
+    centerPoint: SpotCoordinatesDto;
 }
