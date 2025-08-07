@@ -32,4 +32,5 @@ public record SearchSpotDto(@Positive(message = "ID must be a positive number.")
 ) implements Serializable {
     @Serial
     private static final long serialVersionUID = -2773207588819065352L;
+
 }

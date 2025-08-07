@@ -2,22 +2,27 @@ package com.merkury.vulcanus.features.spot;
 
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
-import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
+import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
+import com.merkury.vulcanus.model.interfaces.CityView;
+import com.merkury.vulcanus.model.interfaces.CountryView;
+import com.merkury.vulcanus.model.interfaces.RegionView;
 import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
+import com.merkury.vulcanus.model.specification.SpotSpecification;
+import com.merkury.vulcanus.utils.MapDistanceCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -98,5 +103,54 @@ public class SpotService {
         }
 
         return spotsNames;
+    }
+
+    public List<TopRatedSpotDto> get18MostPopularSpots() {
+        return spotRepository
+                .findTop18ByOrderByRatingDescViewsCountDesc()
+                .stream()
+                .map(SpotMapper::toTopRated)
+                .toList();
+    }
+
+    public List<HomePageSpotDto> getAllSpotsByLocation(String country, String region, String city, Double userLongitude, Double userLatitude) {
+        var spec = Specification
+                .where(SpotSpecification.hasCountry(country))
+                .and(SpotSpecification.hasRegion(region))
+                .and(SpotSpecification.hasCity(city));
+
+        var spots = spotRepository.findAll(spec);
+
+        return spots.stream()
+                .map(spot -> {
+                    Double userDistanceToSpot = null;
+
+                    if (userLatitude != null && userLongitude != null) {
+                        userDistanceToSpot = MapDistanceCalculator.calculateDistance(
+                                userLatitude,
+                                userLongitude,
+                                spot.getCenterPoint().getX(),
+                                spot.getCenterPoint().getY()
+                        );
+                    }
+
+                    return SpotMapper.toHomePageSearchSpotDto(spot, userDistanceToSpot);
+                })
+                .toList();
+    }
+
+    public List<String> getLocations(String q, String type) {
+        if (q == null || q.length() < 2 || type == null) {
+            return Collections.emptyList();
+        }
+
+        return switch (type.toLowerCase()) {
+            case "country" -> spotRepository.findDistinctByCountryStartingWithIgnoreCase(q)
+                    .stream().map(CountryView::getCountry).toList();
+            case "region" -> spotRepository.findDistinctByRegionStartingWithIgnoreCase(q)
+                    .stream().map(RegionView::getRegion).toList();
+            default -> spotRepository.findDistinctByCityStartingWithIgnoreCase(q)
+                    .stream().map(CityView::getCity).toList();
+        };
     }
 }

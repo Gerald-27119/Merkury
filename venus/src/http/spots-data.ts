@@ -2,6 +2,9 @@ import axios from "axios";
 import SpotDetails from "../model/interface/spot/spotDetails";
 import GeneralSpot from "../model/interface/spot/generalSpot";
 import SearchSpotDtoPage from "../model/interface/spot/search-spot/searchSpotDtoPage";
+import { TopRatedSpot } from "../model/interface/spot/topRatedSpot";
+import { LocationKey } from "../pages/home-page/components/SearchBar";
+import HomePageSpotDto from "../model/interface/spot/search-spot/homePageSpotDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function fetchFilteredSpots(name: string): Promise<GeneralSpot[]> {
@@ -104,6 +107,48 @@ export async function isSpotFavourite(spotId) {
     return (
         await axios.get(`${BASE_URL}/spot/favourites/${spotId}`, {
             withCredentials: true,
+        })
+    ).data;
+}
+
+export async function get18MostPopularSpots(): Promise<TopRatedSpot[]> {
+    return (await axios.get(`${BASE_URL}/public/spot/most-popular`)).data;
+}
+
+interface SearchLocation {
+    country?: string;
+    region?: string;
+    city?: string;
+    userLongitude?: number;
+    userLatitude?: number;
+}
+
+export async function getSearchedSpotsOnHomePage(
+    searchLocation: SearchLocation,
+): Promise<HomePageSpotDto[]> {
+    return (
+        await axios.get(`${BASE_URL}/public/spot/search/home-page`, {
+            params: {
+                country: searchLocation.country,
+                region: searchLocation.region,
+                city: searchLocation.city,
+                userLongitude: searchLocation.userLongitude,
+                userLatitude: searchLocation.userLatitude,
+            },
+        })
+    ).data;
+}
+
+export async function getLocations(
+    query: string,
+    type: LocationKey,
+): Promise<string[]> {
+    return (
+        await axios.get(`${BASE_URL}/public/spot/search/home-page/locations`, {
+            params: {
+                q: query,
+                type,
+            },
         })
     ).data;
 }

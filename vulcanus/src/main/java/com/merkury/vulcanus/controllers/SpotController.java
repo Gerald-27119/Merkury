@@ -2,9 +2,7 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.spot.SpotService;
-import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
-import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
+import com.merkury.vulcanus.model.dtos.spot.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -19,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SpotController {
 
-    private final static int DEFAULT_SEARCHED_SPOTS_PAGE_SIZE = 6;
+    private static final int DEFAULT_SEARCHED_SPOTS_PAGE_SIZE = 6;
 
     private final SpotService spotService;
 
@@ -71,5 +69,26 @@ public class SpotController {
     public ResponseEntity<List<String>> getFilteredSpotsNames(@RequestParam(defaultValue = "") String text) throws SpotsNotFoundException {
         log.info("getting spots names");
         return ResponseEntity.ok(spotService.getFilteredSpotsNames(text));
+    }
+
+    @GetMapping("/public/spot/most-popular")
+    public ResponseEntity<List<TopRatedSpotDto>> get18MostPopularSpots() {
+        return ResponseEntity.ok(spotService.get18MostPopularSpots());
+    }
+
+    @GetMapping("/public/spot/search/home-page")
+    public ResponseEntity<List<HomePageSpotDto>> getSearchedSpotsOnHomePage(@RequestParam(required = false) String country,
+                                                                            @RequestParam(required = false) String region,
+                                                                            @RequestParam(required = false) String city,
+                                                                            @RequestParam(required = false) Double userLongitude,
+                                                                            @RequestParam(required = false) Double userLatitude) {
+        return ResponseEntity.ok(spotService.getAllSpotsByLocation(country, region, city, userLongitude, userLatitude));
+    }
+
+    @GetMapping("/public/spot/search/home-page/locations")
+    public ResponseEntity<List<String>> getLocations(
+            @RequestParam String q,
+            @RequestParam String type) {
+        return ResponseEntity.ok(spotService.getLocations(q, type));
     }
 }

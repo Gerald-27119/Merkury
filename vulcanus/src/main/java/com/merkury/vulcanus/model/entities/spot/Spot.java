@@ -43,6 +43,7 @@ public class Spot {
     private String areaColor;
     private String name;
     private String country;
+    private String region;
     private String city;
     private String street;
     private String description;
