@@ -9,6 +9,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Set;
 
 @Builder
@@ -26,5 +28,9 @@ public record SearchSpotDto(@Positive(message = "ID must be a positive number.")
                             @NotEmpty(message = "Spot tags set cannot be empty.")
                             Set<SpotTagDto> tags,
                             @NotNull(message = "Center point cannot be null.")
-                            BorderPoint centerPoint) {
+                            BorderPoint centerPoint
+) implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -2773207588819065352L;
+
 }

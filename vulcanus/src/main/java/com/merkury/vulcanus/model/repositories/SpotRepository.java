@@ -21,7 +21,9 @@ public interface SpotRepository extends JpaRepository<Spot, Long>, JpaSpecificat
     @Query("SELECT s FROM spots s LEFT JOIN FETCH s.tags WHERE s.id = :id")
     Optional<Spot> findByIdWithTags(@Param("id") Long id);
 
-    Page<Spot> findAllByNameContainingIgnoreCase(@Param("name") String name, Pageable pageable);
+    Page<Spot> findAllByNameContainingIgnoreCase(String name, Pageable pageable);
+
+    List<Spot> findAllByNameContainingIgnoreCase(String name);
 
     List<Spot> findTop18ByOrderByRatingDescViewsCountDesc();
 
@@ -40,10 +42,13 @@ public interface SpotRepository extends JpaRepository<Spot, Long>, JpaSpecificat
             String name, double swLat, double neLat, double swLng, double neLng
     );
 
+
     List<RegionView> findDistinctByRegionStartingWithIgnoreCase(String query);
 
     List<CountryView> findDistinctByCountryStartingWithIgnoreCase(String query);
 
     List<CityView> findDistinctByCityStartingWithIgnoreCase(String query);
+
+    List<ISpotNameOnly> findByNameContainingIgnoreCase(String name);
 }
 

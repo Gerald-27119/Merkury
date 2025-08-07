@@ -4,7 +4,7 @@ import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
-import com.merkury.vulcanus.model.mappers.ChatMapper;
+import com.merkury.vulcanus.model.mappers.chat.ChatMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;

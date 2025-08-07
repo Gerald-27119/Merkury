@@ -24,6 +24,7 @@ public class SpotMapper {
                         .stream()
                         .map(point -> new Double[]{point.getX(), point.getY()})
                         .toList())
+                .centerPoint(spot.getCenterPoint())
                 .area(spot.getArea())
                 .build();
     }
