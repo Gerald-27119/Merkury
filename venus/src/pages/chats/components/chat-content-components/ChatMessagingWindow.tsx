@@ -3,8 +3,6 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { format } from "date-fns";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getMessagesForChat } from "../../../../http/chats";
-import useDispatchTyped from "../../../../hooks/useDispatchTyped";
-import { chatActions } from "../../../../redux/chats";
 import ChatMessage from "./ChatMessage";
 import {
     ChatDto,
@@ -15,128 +13,175 @@ interface ChatMessagingWindowProps {
     chatDto: ChatDto;
 }
 
+const bySentAtAsc = (a: ChatMessageDto, b: ChatMessageDto) =>
+    +new Date(a.sentAt) - +new Date(b.sentAt);
+
+function dedupeById(list: ChatMessageDto[]): ChatMessageDto[] {
+    const map = new Map<string, ChatMessageDto>();
+    for (const m of list) map.set(m.id, m);
+    return Array.from(map.values());
+}
+
+function checkIfShouldGroupMessagesByTime(
+    message: ChatMessageDto,
+    prev?: ChatMessageDto,
+) {
+    if (!prev) return false;
+    const a = new Date(message.sentAt),
+        b = new Date(prev.sentAt);
+    if (a.toDateString() !== b.toDateString()) return false;
+    if (message.sender.id !== prev.sender.id) return false;
+    return Math.abs(+a - +b) / 60000 < 2;
+}
+
 export default function ChatMessagingWindow({
     chatDto,
 }: ChatMessagingWindowProps) {
-    const dispatch = useDispatchTyped();
     const parentRef = useRef<HTMLDivElement>(null);
-    const [didInitialScroll, setDidInitialScroll] = useState(false);
+    const didInitialScrollRef = useRef(false);
+    const loadingPrevRef = useRef(false);
 
-    // Źródło prawdy: kolejność rosnąca (oldest -> newest)
-    const messages: ChatMessageDto[] = useMemo(
-        () =>
-            (chatDto?.messages ?? [])
-                .slice()
-                .sort((a, b) => +new Date(a.sentAt) - +new Date(b.sentAt)),
-        [chatDto?.messages],
+    // 100% wysokości rodzica — ale odejmujemy padding kontenera
+    const [contentViewportH, setContentViewportH] = useState(0);
+    useLayoutEffect(() => {
+        const el = parentRef.current;
+        if (!el) return;
+
+        const compute = () => {
+            const cs = getComputedStyle(el);
+            const paddingY =
+                parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+            // clientHeight zawiera padding, więc odejmujemy go, by dostać faktyczny obszar na treść
+            setContentViewportH(el.clientHeight - paddingY);
+        };
+
+        compute();
+        const ro = new ResizeObserver(compute);
+        ro.observe(el);
+        window.addEventListener("resize", compute);
+        return () => {
+            ro.disconnect();
+            window.removeEventListener("resize", compute);
+        };
+    }, []);
+
+    // lokalny stan wiadomości
+    const [messages, setMessages] = useState<ChatMessageDto[]>(() =>
+        dedupeById((chatDto?.messages ?? []).slice()).sort(bySentAtAsc),
     );
 
-    const {
-        data: chatMessagesPageDto,
-        fetchNextPage,
-        isFetchingNextPage,
-        isSuccess,
-        hasNextPage,
-    } = useInfiniteQuery({
-        queryKey: ["messages", chatDto?.id],
-        queryFn: ({ pageParam = 1 }) =>
-            getMessagesForChat(chatDto?.id, pageParam),
-        initialPageParam: 1,
-        getNextPageParam: (lastPage) =>
-            lastPage.hasNextSlice ? lastPage.sliceNumber + 1 : undefined,
-    });
-
-    // Po każdym sukcesie – zepchnij do store (zadbaj o deduplikację po id w reducerze)
     useEffect(() => {
-        if (isSuccess && chatMessagesPageDto) {
-            const newMessages = chatMessagesPageDto.pages.flatMap(
-                (p) => p.messages,
-            );
-            dispatch(
-                chatActions.addMessages({
-                    chatId: chatDto?.id,
-                    messages: newMessages,
-                }),
-            );
-        }
-    }, [isSuccess, chatMessagesPageDto, dispatch, chatDto?.id]);
+        setMessages(
+            dedupeById((chatDto?.messages ?? []).slice()).sort(bySentAtAsc),
+        );
+        didInitialScrollRef.current = false;
+    }, [chatDto?.id]);
 
-    // Wirtualizator
+    // pobieranie starszych
+    const { data, fetchNextPage, isFetchingNextPage, isSuccess, hasNextPage } =
+        useInfiniteQuery({
+            queryKey: ["messages", chatDto?.id],
+            queryFn: ({ pageParam = 1 }) =>
+                getMessagesForChat(chatDto?.id, pageParam),
+            initialPageParam: 1,
+            getNextPageParam: (lastPage) =>
+                lastPage.hasNextSlice ? lastPage.sliceNumber + 1 : undefined,
+        });
+
+    useEffect(() => {
+        if (!isSuccess || !data) return;
+        const fetched = data.pages.flatMap((p) => p.messages);
+        if (fetched.length === 0) return;
+        setMessages((prev) =>
+            dedupeById([...prev, ...fetched]).sort(bySentAtAsc),
+        );
+    }, [isSuccess, data]);
+
+    // virtualizer
     const virtualizer = useVirtualizer({
         count: messages.length,
         getScrollElement: () => parentRef.current,
-        estimateSize: () => 72, // przybliżenie; i tak mierzymy dynamicznie
+        estimateSize: () => 72,
         overscan: 8,
-        getItemKey: (index) => messages[index]?.id ?? index, // stabilne klucze!
+        getItemKey: (i) => messages[i]?.id ?? i,
     });
 
     const items = virtualizer.getVirtualItems();
+    const totalSize = virtualizer.getTotalSize();
 
-    // 1) Pierwsze wejście: przewiń na dół
+    // „doklejenie do dołu” z uwzględnieniem paddingu
+    const bottomOffset = Math.max(0, contentViewportH - totalSize);
+    const contentHeight = totalSize + bottomOffset; // realny layout
+
+    // start: przewiń na dół tylko jeśli jest co przewijać
     useLayoutEffect(() => {
-        if (!didInitialScroll && messages.length > 0) {
-            virtualizer.scrollToIndex(messages.length - 1, { align: "end" });
-            setDidInitialScroll(true);
+        if (!didInitialScrollRef.current && messages.length > 0) {
+            requestAnimationFrame(() => {
+                if (totalSize > contentViewportH) {
+                    virtualizer.scrollToIndex(messages.length - 1, {
+                        align: "end",
+                    });
+                }
+                didInitialScrollRef.current = true;
+            });
         }
-    }, [didInitialScroll, messages.length, virtualizer]);
+    }, [messages.length, virtualizer, totalSize, contentViewportH]);
 
-    // 2) Dociąganie starszych wiadomości: trigger gdy jesteśmy blisko góry
+    // dociąganie starszych u góry z zachowaniem pozycji
     useEffect(() => {
-        if (!parentRef.current) return;
+        const el = parentRef.current;
+        if (!el) return;
         const first = items[0];
         if (!first) return;
 
-        // “blisko góry”: pierwszy item to index 0 i jego start ~ 0
+        const hasScrollbar = el.scrollHeight > el.clientHeight;
         if (
+            hasScrollbar &&
             first.index === 0 &&
-            first.start < 64 &&
+            first.start <= 0 &&
             hasNextPage &&
-            !isFetchingNextPage
+            !isFetchingNextPage &&
+            !loadingPrevRef.current
         ) {
-            const el = parentRef.current;
+            loadingPrevRef.current = true;
             const prevScrollBottom = el.scrollHeight - el.scrollTop;
 
-            // pobierz następną stronę (prepend)
-            fetchNextPage().then(() => {
-                // Po renderze przywróć pozycję (bez “skoku” widoku)
+            fetchNextPage().finally(() => {
                 requestAnimationFrame(() => {
-                    const newScrollTop = el.scrollHeight - prevScrollBottom;
-                    el.scrollTop = newScrollTop;
-                    virtualizer.scrollToOffset(newScrollTop);
+                    el.scrollTop = el.scrollHeight - prevScrollBottom;
+                    loadingPrevRef.current = false;
                 });
             });
         }
-    }, [items, hasNextPage, isFetchingNextPage, fetchNextPage, virtualizer]);
-
-    // 3) Auto-scroll na dół przy nowych (najnowszych) wiadomościach, jeśli user jest “blisko dołu”
-    const nearBottom = useNearBottom(parentRef, 80);
-    useEffect(() => {
-        if (nearBottom && messages.length > 0) {
-            // np. po przyjściu nowej wiadomości z WebSocketu
-            virtualizer.scrollToIndex(messages.length - 1, { align: "end" });
-        }
-    }, [messages.length, nearBottom, virtualizer]);
+    }, [items, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
         <div
-            className="bg-violetDark/20 scrollbar-thin scrollbar-thumb-violetLight scrollbar-track-violetDark h-full overflow-y-auto py-1"
             ref={parentRef}
-            style={{ contain: "strict" }}
+            className="bg-violetDark/20 scrollbar-thin scrollbar-thumb-violetLight scrollbar-track-violetDark"
+            style={{
+                contain: "strict",
+                height: "100%",
+                minHeight: 0,
+                overflowY: "auto",
+                paddingTop: 4, // zamiast tailwind, żeby było jasne co odejmujemy
+                paddingBottom: 4,
+            }}
         >
             <div
                 style={{
-                    height: virtualizer.getTotalSize(),
+                    height: contentHeight,
                     position: "relative",
                     width: "100%",
                 }}
             >
                 <div
                     style={{
-                        transform: `translateY(${items[0]?.start ?? 0}px)`,
                         position: "absolute",
-                        top: 0,
+                        top: bottomOffset, // offset w layout
                         left: 0,
                         right: 0,
+                        transform: `translateY(${items[0]?.start ?? 0}px)`, // tylko wirtualny start
                     }}
                 >
                     {items.map((v) => {
@@ -155,11 +200,18 @@ export default function ChatMessagingWindow({
                         return (
                             <div
                                 key={msg.id}
-                                ref={virtualizer.measureElement} // dynamiczna wysokość
-                                className="hover:bg-violetLight/40 pl-2"
+                                ref={virtualizer.measureElement}
+                                className="pl-2"
+                                style={{ paddingTop: 4, paddingBottom: 4 }} // używamy paddingu, NIE marginów
                             >
                                 {thisDate !== prevDate && (
-                                    <div className="my-2 flex w-full items-center">
+                                    <div
+                                        className="flex w-full items-center"
+                                        style={{
+                                            paddingTop: 8,
+                                            paddingBottom: 8,
+                                        }}
+                                    >
                                         <hr className="flex-grow border-gray-500" />
                                         <span className="px-2 text-xs text-gray-300">
                                             {format(
@@ -181,49 +233,4 @@ export default function ChatMessagingWindow({
             </div>
         </div>
     );
-}
-
-function useNearBottom(ref: React.RefObject<HTMLElement>, px = 80) {
-    const [near, setNear] = useState(true);
-    useEffect(() => {
-        const el = ref.current;
-        if (!el) return;
-        const onScroll = () => {
-            const dist = el.scrollHeight - el.scrollTop - el.clientHeight;
-            setNear(dist < px);
-        };
-        onScroll();
-        el.addEventListener("scroll", onScroll);
-        return () => el.removeEventListener("scroll", onScroll);
-    }, [ref, px]);
-    return near;
-}
-
-function checkIfShouldGroupMessagesByTime(
-    message: ChatMessageDto,
-    prevMessage?: ChatMessageDto,
-): boolean {
-    if (!prevMessage) return false;
-
-    const currentMessageSentAtDate = new Date(message.sentAt);
-    const previousMessageSentAtDate = new Date(prevMessage.sentAt);
-
-    if (
-        currentMessageSentAtDate.toDateString() !==
-        previousMessageSentAtDate.toDateString()
-    ) {
-        return false;
-    }
-
-    if (message.sender.id !== prevMessage.sender.id) {
-        return false;
-    }
-
-    const diffMs = Math.abs(
-        currentMessageSentAtDate.getTime() -
-            previousMessageSentAtDate.getTime(),
-    );
-    const diffMinutes = diffMs / 1000 / 60;
-
-    return diffMinutes < 2;
 }
