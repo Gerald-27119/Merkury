@@ -17,6 +17,7 @@ interface ChatMessagingWindowProps {
     chatDto: ChatDto;
 }
 
+// TODO: scroll spowrotem na sam dol jak za abrdzo przesrolluejsz wiadomosci stare
 export default function ChatMessagingWindow({
     chatDto,
 }: ChatMessagingWindowProps) {
