@@ -55,13 +55,13 @@ public class UserDashboardService {
     }
 
 
-    public List<SocialDto> getUserOwnFriends() throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserOwnFriends(int page, int size) throws UserNotFoundByUsernameException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        return friendsService.getUserFriends(username);
+        return friendsService.getUserFriends(username, page, size);
     }
 
-    public List<SocialDto> getUserFriendsForViewer(String targetUsername) throws UserNotFoundByUsernameException {
-        return friendsService.getUserFriends(targetUsername);
+    public List<SocialDto> getUserFriendsForViewer(String targetUsername, int page, int size) throws UserNotFoundByUsernameException {
+        return friendsService.getUserFriends(targetUsername, page, size);
     }
 
     public void editUserFriends(String friendUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
@@ -74,22 +74,22 @@ public class UserDashboardService {
         friendsService.changeUserFriendsStatus(username, friendUsername, status);
     }
 
-    public List<SocialDto> getUserOwnFollowers() throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserOwnFollowers(int page, int size) throws UserNotFoundByUsernameException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        return followersService.getUserFollowers(username);
+        return followersService.getUserFollowers(username, page, size);
     }
 
-    public List<SocialDto> getUserFollowersForViewer(String targetUsername) throws UserNotFoundByUsernameException {
-        return followersService.getUserFollowers(targetUsername);
+    public List<SocialDto> getUserFollowersForViewer(String targetUsername, int page, int size) throws UserNotFoundByUsernameException {
+        return followersService.getUserFollowers(targetUsername, page, size);
     }
 
-    public List<SocialDto> getUserOwnFollowed() throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserOwnFollowed(int page, int size) throws UserNotFoundByUsernameException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        return followersService.getUserFollowed(username);
+        return followersService.getUserFollowed(username, page, size);
     }
 
-    public List<SocialDto> getUserFollowedForViewer(String targetUsername) throws UserNotFoundByUsernameException {
-        return followersService.getUserFollowed(targetUsername);
+    public List<SocialDto> getUserFollowedForViewer(String targetUsername, int page, int size) throws UserNotFoundByUsernameException {
+        return followersService.getUserFollowed(targetUsername, page, size);
     }
 
     public void editUserFollowed(String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
@@ -97,9 +97,9 @@ public class UserDashboardService {
         followersService.editUserFollowed(username, followedUsername, type);
     }
 
-    public List<FavoriteSpotDto> getUserFavoritesSpots(FavoriteSpotsListType type) {
+    public List<FavoriteSpotDto> getUserFavoritesSpots(FavoriteSpotsListType type, int page, int size) {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        return favoriteSpotService.getUserFavoritesSpots(username, type);
+        return favoriteSpotService.getUserFavoritesSpots(username, type, page, size);
     }
 
     public void removeFavoriteSpot(FavoriteSpotsListType type, Long spotId) throws FavoriteSpotNotExistException {
@@ -107,14 +107,14 @@ public class UserDashboardService {
         favoriteSpotService.removeFavoriteSpot(username, type, spotId);
     }
 
-    public List<DatedMediaGroupDto> getSortedUserPhotos(DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
+    public List<DatedMediaGroupDto> getSortedUserPhotos(DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        return mediaService.getSortedUserPhotos(username, type, from, to);
+        return mediaService.getSortedUserPhotos(username, type, from, to, page, size);
     }
 
-    public List<DatedCommentsGroupDto> getSortedUserComments(DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
+    public List<DatedCommentsGroupDto> getSortedUserComments(DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        return commentsService.getSortedUserComments(username, type, from, to);
+        return commentsService.getSortedUserComments(username, type, from, to, page, size);
     }
 
     public void editUserSettings(HttpServletResponse response, UserEditDataDto userEdit) throws UserNotFoundByUsernameException, UserNotFoundException, ExternalProviderAccountException, UnsupportedUserSettingsType, EmailTakenException, SamePasswordException, SameEmailException, InvalidPasswordException, UsernameTakenException, SameUsernameException {
@@ -127,8 +127,8 @@ public class UserDashboardService {
         return settingsService.getUserData(username);
     }
 
-    public List<DatedMediaGroupDto> getSortedUserMovies(DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
+    public List<DatedMediaGroupDto> getSortedUserMovies(DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        return mediaService.getSortedUserMovies(username, type, from, to);
+        return mediaService.getSortedUserMovies(username, type, from, to, page, size);
     }
 }

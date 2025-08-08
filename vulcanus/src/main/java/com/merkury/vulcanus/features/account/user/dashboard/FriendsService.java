@@ -24,16 +24,18 @@ public class FriendsService {
     private final UserEntityRepository userEntityRepository;
     private final UserEntityFetcher userEntityFetcher;
 
-    public List<SocialDto> getUserFriends(String username) throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserFriends(String username, int page, int size) throws UserNotFoundByUsernameException {
         return userEntityFetcher.getByUsername(username)
                 .getFriendships()
                 .stream()
+                .skip((long) page * size)
+                .limit(size)
                 .map(SocialMapper::toDto)
                 .toList();
     }
 
     public void editUserFriends(String username, String friendUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
-        switch (type){
+        switch (type) {
             case ADD -> addUserFriends(username, friendUsername);
             case REMOVE -> removeUserFriends(username, friendUsername);
             default -> throw new UnsupportedEditUserFriendsTypeException(type);
@@ -47,13 +49,13 @@ public class FriendsService {
                 .stream()
                 .anyMatch(f -> f.getFriend().equals(friendUser));
 
-        if (!isFriends){
+        if (!isFriends) {
             user.getFriendships().add(new Friendship(null, user, friendUser, PENDING, null));
             friendUser.getFriendships().add(new Friendship(null, friendUser, user, PENDING, null));
 
             userEntityRepository.save(user);
             userEntityRepository.save(friendUser);
-        }else {
+        } else {
             throw new FriendshipAlreadyExistException();
         }
     }
@@ -65,13 +67,13 @@ public class FriendsService {
                 .stream()
                 .anyMatch(f -> f.getFriend().equals(userFriend));
 
-        if(isFriends) {
+        if (isFriends) {
             user.getFriendships().removeIf(f -> f.getFriend().equals(userFriend));
             userFriend.getFriendships().removeIf(f -> f.getFriend().equals(user));
 
             userEntityRepository.save(user);
             userEntityRepository.save(userFriend);
-        }else {
+        } else {
             throw new FriendshipNotExistException();
         }
     }
@@ -83,13 +85,13 @@ public class FriendsService {
                 .stream()
                 .anyMatch(f -> f.getFriend().equals(friendUser));
 
-        if (isFriends){
-           user.getFriendships().forEach(f -> f.setStatus(status));
-           friendUser.getFriendships().forEach(f -> f.setStatus(status));
+        if (isFriends) {
+            user.getFriendships().forEach(f -> f.setStatus(status));
+            friendUser.getFriendships().forEach(f -> f.setStatus(status));
 
             userEntityRepository.save(user);
             userEntityRepository.save(friendUser);
-        }else {
+        } else {
             throw new FriendshipNotExistException();
         }
     }

@@ -60,10 +60,14 @@ export async function editUserFriends({
 }: EditUserFriendsProps): Promise<void> {
     return (
         await axios.patch(
-            `${BASE_URL}/user-dashboard/friends?friendUsername=${friendUsername}&type=${type}`,
+            `${BASE_URL}/user-dashboard/friends`,
             {},
             {
                 withCredentials: true,
+                params: {
+                    friendUsername,
+                    type,
+                },
             },
         )
     ).data;
@@ -116,10 +120,14 @@ export async function editUserFollowed({
 }: EditUserFollowedProps): Promise<void> {
     return (
         await axios.patch(
-            `${BASE_URL}/user-dashboard/followed?followedUsername=${followedUsername}&type=${type}`,
+            `${BASE_URL}/user-dashboard/followed`,
             {},
             {
                 withCredentials: true,
+                params: {
+                    followedUsername,
+                    type,
+                },
             },
         )
     ).data;
@@ -148,12 +156,10 @@ export async function getUserFavoriteSpots(
     type: FavoriteSpotsListType,
 ): Promise<FavoriteSpot[]> {
     return (
-        await axios.get(
-            `${BASE_URL}/user-dashboard/favorite-spots?type=${type}`,
-            {
-                withCredentials: true,
-            },
-        )
+        await axios.get(`${BASE_URL}/user-dashboard/favorite-spots`, {
+            withCredentials: true,
+            params: type,
+        })
     ).data;
 }
 
@@ -168,10 +174,14 @@ export async function removeFavoriteSpot({
 }: RemoveFavoriteSpotProps): Promise<void> {
     return (
         await axios.patch(
-            `${BASE_URL}/user-dashboard/favorite-spots?type=${type}&spotId=${spotId}`,
+            `${BASE_URL}/user-dashboard/favorite-spots`,
             {},
             {
                 withCredentials: true,
+                params: {
+                    type,
+                    spotId,
+                },
             },
         )
     ).data;

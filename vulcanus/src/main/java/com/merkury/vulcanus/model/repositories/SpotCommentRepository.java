@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +18,16 @@ public interface SpotCommentRepository extends JpaRepository<SpotComment, Long> 
 
     @EntityGraph(attributePaths = {"media", "upVotedBy", "downVotedBy"})
     Page<SpotComment> findBySpotIdOrderByPublishDateDescIdAsc(Long spotId, Pageable pageable);
+
     Optional<SpotComment> findCommentByIdAndAuthor(Long commentId, UserEntity author);
+
     List<SpotComment> findBySpotId(Long spotId);
-    List<SpotComment> findAllByAuthorUsername(String username);
+
+    Page<SpotComment> findAllByAuthorUsername(String username, Pageable pageable);
+
+    Page<SpotComment> findAllByAuthorUsernameAndPublishDateBetween(String username, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+
+    Page<SpotComment> findAllByAuthorUsernameAndPublishDateGreaterThanEqual(String username, LocalDateTime startDate, Pageable pageable);
+
+    Page<SpotComment> findAllByAuthorUsernameAndPublishDateLessThanEqual(String username, LocalDateTime endDate, Pageable pageable);
 }

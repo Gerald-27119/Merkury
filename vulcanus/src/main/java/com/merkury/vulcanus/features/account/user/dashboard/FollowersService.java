@@ -20,18 +20,22 @@ public class FollowersService {
     private final UserEntityRepository userEntityRepository;
     private final UserEntityFetcher userEntityFetcher;
 
-    public List<SocialDto> getUserFollowers(String username) throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserFollowers(String username, int page, int size) throws UserNotFoundByUsernameException {
         return userEntityFetcher.getByUsername(username)
                 .getFollowers()
                 .stream()
+                .skip((long) page * size)
+                .limit(size)
                 .map(SocialMapper::toDto)
                 .toList();
     }
 
-    public List<SocialDto> getUserFollowed(String username) throws UserNotFoundByUsernameException {
+    public List<SocialDto> getUserFollowed(String username, int page, int size) throws UserNotFoundByUsernameException {
         return userEntityFetcher.getByUsername(username)
                 .getFollowed()
                 .stream()
+                .skip((long) page * size)
+                .limit(size)
                 .map(SocialMapper::toDto)
                 .toList();
     }

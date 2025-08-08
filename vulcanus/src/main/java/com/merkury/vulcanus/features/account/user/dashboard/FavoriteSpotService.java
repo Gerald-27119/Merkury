@@ -7,6 +7,9 @@ import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.FavoriteSpotMapper;
 import com.merkury.vulcanus.model.repositories.FavoriteSpotRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,17 +19,14 @@ import java.util.List;
 public class FavoriteSpotService {
     private final FavoriteSpotRepository favoriteSpotRepository;
 
-    public List<FavoriteSpotDto> getUserFavoritesSpots(String username, FavoriteSpotsListType type) {
-        List<FavoriteSpot> favoriteSpots;
+    public List<FavoriteSpotDto> getUserFavoritesSpots(String username, FavoriteSpotsListType type, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<FavoriteSpot> favoriteSpots;
 
         if (type == FavoriteSpotsListType.ALL) {
-            favoriteSpots = favoriteSpotRepository
-                    .findAllByUserUsername(username)
-                    .orElseGet(List::of);
+            favoriteSpots = favoriteSpotRepository.findAllByUserUsername(username, pageable);
         } else {
-            favoriteSpots = favoriteSpotRepository
-                    .findAllByUserUsernameAndType(username, type)
-                    .orElseGet(List::of);
+            favoriteSpots = favoriteSpotRepository.findAllByUserUsernameAndType(username, type, pageable);
         }
 
         return favoriteSpots.stream()
@@ -36,7 +36,7 @@ public class FavoriteSpotService {
 
     public void removeFavoriteSpot(String username, FavoriteSpotsListType type, Long spotId) throws FavoriteSpotNotExistException {
         var deleted = favoriteSpotRepository.removeFavoriteSpotByUserUsernameAndTypeAndSpotId(username, type, spotId);
-        if (deleted != 1){
+        if (deleted != 1) {
             throw new FavoriteSpotNotExistException();
         }
     }
