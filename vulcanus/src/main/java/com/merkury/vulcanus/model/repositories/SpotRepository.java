@@ -51,4 +51,3 @@ public interface SpotRepository extends JpaRepository<Spot, Long>, JpaSpecificat
 
     List<ISpotNameOnly> findByNameContainingIgnoreCase(String name);
 }
-

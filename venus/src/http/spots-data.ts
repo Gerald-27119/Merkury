@@ -1,10 +1,11 @@
 import axios from "axios";
+import queryString from "query-string";
 import SpotDetails from "../model/interface/spot/spotDetails";
 import GeneralSpot from "../model/interface/spot/generalSpot";
 import SearchSpotDtoPage from "../model/interface/spot/search-spot/searchSpotDtoPage";
 import { TopRatedSpot } from "../model/interface/spot/topRatedSpot";
-import { LocationKey } from "../pages/home-page/components/SearchBar";
 import HomePageSpotDto from "../model/interface/spot/search-spot/homePageSpotDto";
+import { SpotSearchRequestDto } from "../model/interface/spot/spotSearchRequestDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function fetchFilteredSpots(name: string): Promise<GeneralSpot[]> {
@@ -140,15 +141,26 @@ export async function getSearchedSpotsOnHomePage(
 }
 
 export async function getLocations(
-    query: string,
-    type: LocationKey,
+    query: string | undefined,
+    type: "city" | "region" | "country" | "tags",
 ): Promise<string[]> {
     return (
         await axios.get(`${BASE_URL}/public/spot/search/home-page/locations`, {
             params: {
-                q: query,
+                query,
                 type,
             },
+        })
+    ).data;
+}
+
+export async function getSearchedSpotsOnAdvanceHomePage(
+    spotSearchRequestDto: SpotSearchRequestDto,
+): Promise<HomePageSpotDto[]> {
+    return (
+        await axios.get(`${BASE_URL}/public/spot/search/home-page/advance`, {
+            params: spotSearchRequestDto,
+            paramsSerializer: (params) => queryString.stringify(params),
         })
     ).data;
 }
