@@ -41,12 +41,11 @@ export default function AdvanceSearchBar({ onSetSpots }: SearchBarProps) {
         ],
         queryFn: () =>
             getLocations(
-                activeInput === "tags" ? "" : (searchLocation.city ?? ""),
+                activeInput === "tags" ? "" : searchLocation.city,
                 activeInput ?? "city",
             ),
         enabled:
-            !!activeInput &&
-            (activeInput === "tags" || (searchLocation.city ?? "").length >= 2),
+            activeInput === "tags" || (searchLocation.city?.length ?? 0) >= 2,
         staleTime: 5 * 60 * 1000,
     });
 

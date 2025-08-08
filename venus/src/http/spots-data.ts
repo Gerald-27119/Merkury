@@ -147,7 +147,7 @@ export async function getLocations(
     return (
         await axios.get(`${BASE_URL}/public/spot/search/home-page/locations`, {
             params: {
-                q: query,
+                query,
                 type,
             },
         })

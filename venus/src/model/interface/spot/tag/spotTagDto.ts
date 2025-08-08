@@ -1,4 +1,4 @@
 export default interface SpotTagDto {
-    id?: number;
+    id: number;
     name: string;
 }

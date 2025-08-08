@@ -142,21 +142,21 @@ public class SpotService {
                 .toList();
     }
 
-    public List<String> getLocations(String q, String type) {
-        if ("tags".equalsIgnoreCase(type) && (q == null || q.isBlank())) {
+    public List<String> getLocations(String query, String type) {
+        if ("tags".equalsIgnoreCase(type) && (query == null || query.isBlank())) {
             return spotTagRepository.findAll().stream().map(SpotTag::getName).toList();
         }
 
-        if (q == null || q.length() < 2 || type == null) {
+        if (query == null || query.length() < 2 || type == null) {
             return Collections.emptyList();
         }
 
         return switch (type.toLowerCase()) {
-            case "country" -> spotRepository.findDistinctByCountryStartingWithIgnoreCase(q)
+            case "country" -> spotRepository.findDistinctByCountryStartingWithIgnoreCase(query)
                     .stream().map(CountryView::getCountry).toList();
-            case "region" -> spotRepository.findDistinctByRegionStartingWithIgnoreCase(q)
+            case "region" -> spotRepository.findDistinctByRegionStartingWithIgnoreCase(query)
                     .stream().map(RegionView::getRegion).toList();
-            default -> spotRepository.findDistinctByCityStartingWithIgnoreCase(q)
+            default -> spotRepository.findDistinctByCityStartingWithIgnoreCase(query)
                     .stream().map(CityView::getCity).toList();
         };
     }

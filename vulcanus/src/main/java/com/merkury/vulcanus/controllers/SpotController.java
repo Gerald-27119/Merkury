@@ -87,9 +87,9 @@ public class SpotController {
 
     @GetMapping("/public/spot/search/home-page/locations")
     public ResponseEntity<List<String>> getLocations(
-            @RequestParam String q,
+            @RequestParam String query,
             @RequestParam String type) {
-        return ResponseEntity.ok(spotService.getLocations(q, type));
+        return ResponseEntity.ok(spotService.getLocations(query, type));
     }
 
     @GetMapping("/public/spot/search/home-page/advance")
