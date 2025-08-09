@@ -36,10 +36,10 @@ public class SpotController {
 
     @GetMapping("/public/spot/current-view/spot-names")
     public ResponseEntity<List<String>> getSpotNamesInCurrentView(@RequestParam double swLng,
-                                                                         @RequestParam double swLat,
-                                                                         @RequestParam double neLng,
-                                                                         @RequestParam double neLat,
-                                                                         @RequestParam(defaultValue = "") String name) {
+                                                                  @RequestParam double swLat,
+                                                                  @RequestParam double neLng,
+                                                                  @RequestParam double neLat,
+                                                                  @RequestParam(defaultValue = "") String name) {
         log.info("getting spots names in current view");
         return ResponseEntity.ok(spotService.getSpotsNamesInCurrentView(swLng, swLat, neLng, neLat, name));
     }
@@ -87,8 +87,16 @@ public class SpotController {
 
     @GetMapping("/public/spot/search/home-page/locations")
     public ResponseEntity<List<String>> getLocations(
-            @RequestParam String q,
+            @RequestParam String query,
             @RequestParam String type) {
-        return ResponseEntity.ok(spotService.getLocations(q, type));
+        return ResponseEntity.ok(spotService.getLocations(query, type));
+    }
+
+    @GetMapping("/public/spot/search/home-page/advance")
+    public ResponseEntity<List<HomePageSpotDto>> getSearchedSpotsOnHomePage(@RequestParam(required = false) String city,
+                                                                            @RequestParam(required = false) List<String> tags,
+                                                                            @RequestParam(required = false) Double userLongitude,
+                                                                            @RequestParam(required = false) Double userLatitude) {
+        return ResponseEntity.ok(spotService.getAllSpotsByLocationAndTags(city, tags, userLongitude, userLatitude));
     }
 }

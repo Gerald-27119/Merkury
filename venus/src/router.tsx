@@ -19,6 +19,7 @@ import Photos from "./pages/account/photos/Photos";
 import Settings from "./pages/account/settings/Settings";
 import HomePage from "./pages/home-page/HomePage";
 import Movies from "./pages/account/movies/Movies";
+import AdvanceHomePage from "./pages/home-page/AdvanceHomePage";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <HomePage />,
+            },
+            {
+                path: "advanced",
+                element: <AdvanceHomePage />,
             },
             {
                 path: "account",

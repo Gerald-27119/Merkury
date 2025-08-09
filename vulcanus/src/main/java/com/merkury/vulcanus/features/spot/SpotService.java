@@ -4,6 +4,7 @@ import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.entities.spot.Spot;
+import com.merkury.vulcanus.model.entities.spot.SpotTag;
 import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
 import com.merkury.vulcanus.model.interfaces.CityView;
 import com.merkury.vulcanus.model.interfaces.CountryView;
@@ -12,6 +13,7 @@ import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import com.merkury.vulcanus.model.specification.SpotSpecification;
 import com.merkury.vulcanus.utils.MapDistanceCalculator;
+import com.merkury.vulcanus.model.repositories.SpotTagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -30,6 +32,7 @@ import java.util.List;
 public class SpotService {
 
     private final SpotRepository spotRepository;
+    private final SpotTagRepository spotTagRepository;
 
     private Pageable configurePageableSorting(Pageable pageable, String sorting) {
         Sort customSort = switch (sorting) {
@@ -139,18 +142,47 @@ public class SpotService {
                 .toList();
     }
 
-    public List<String> getLocations(String q, String type) {
-        if (q == null || q.length() < 2 || type == null) {
+    public List<String> getLocations(String query, String type) {
+        if ("tags".equalsIgnoreCase(type) && (query == null || query.isBlank())) {
+            return spotTagRepository.findAll().stream().map(SpotTag::getName).toList();
+        }
+
+        if (query == null || query.length() < 2 || type == null) {
             return Collections.emptyList();
         }
 
         return switch (type.toLowerCase()) {
-            case "country" -> spotRepository.findDistinctByCountryStartingWithIgnoreCase(q)
+            case "country" -> spotRepository.findDistinctByCountryStartingWithIgnoreCase(query)
                     .stream().map(CountryView::getCountry).toList();
-            case "region" -> spotRepository.findDistinctByRegionStartingWithIgnoreCase(q)
+            case "region" -> spotRepository.findDistinctByRegionStartingWithIgnoreCase(query)
                     .stream().map(RegionView::getRegion).toList();
-            default -> spotRepository.findDistinctByCityStartingWithIgnoreCase(q)
+            default -> spotRepository.findDistinctByCityStartingWithIgnoreCase(query)
                     .stream().map(CityView::getCity).toList();
         };
+    }
+
+    public List<HomePageSpotDto> getAllSpotsByLocationAndTags(String city, List<String> tags, Double userLongitude, Double userLatitude) {
+        var spec = Specification.<Spot>where(null)
+                .and(SpotSpecification.hasCity(city))
+                .and(SpotSpecification.hasAnyTag(tags));
+
+        var spots = spotRepository.findAll(spec);
+
+        return spots.stream()
+                .map(spot -> {
+                    Double userDistanceToSpot = null;
+
+                    if (userLatitude != null && userLongitude != null) {
+                        userDistanceToSpot = MapDistanceCalculator.calculateDistance(
+                                userLatitude,
+                                userLongitude,
+                                spot.getCenterPoint().getX(),
+                                spot.getCenterPoint().getY()
+                        );
+                    }
+
+                    return SpotMapper.toHomePageSearchSpotDto(spot, userDistanceToSpot);
+                })
+                .toList();
     }
 }
