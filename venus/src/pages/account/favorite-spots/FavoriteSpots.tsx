@@ -29,13 +29,13 @@ export default function FavoriteSpots() {
         useInfiniteQuery({
             queryKey: ["favorite-spots", selectedType],
             queryFn: ({ pageParam = 0 }) =>
-                getUserFavoriteSpots(selectedType, pageParam, 2),
+                getUserFavoriteSpots(selectedType, pageParam, 10),
             getNextPageParam: (lastPage, allPages) =>
                 lastPage.hasNext ? allPages.length : undefined,
             initialPageParam: 0,
         });
 
-    const favoriteSpots = data?.pages.flatMap((page) => page.items);
+    const allItems = data?.pages.flatMap((page) => page.items);
 
     const handleSetSelectedType = (type: FavoriteSpotsListType) => {
         setSelectedType(type);
@@ -82,8 +82,8 @@ export default function FavoriteSpots() {
             </div>
             {isLoading && <LoadingSpinner />}
             <div className="flex flex-col items-center space-y-5 lg:mx-27">
-                {favoriteSpots?.length
-                    ? favoriteSpots?.map((spot) => (
+                {allItems?.length
+                    ? allItems?.map((spot) => (
                           <FavoriteSpotTile
                               spot={spot}
                               key={spot.id}
