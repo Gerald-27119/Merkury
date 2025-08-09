@@ -1,8 +1,8 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
+import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserAlreadyFollowedException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFollowedException;
-import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
@@ -12,11 +12,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 import static com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,13 +41,16 @@ class FollowersServiceTest {
         var user = UserEntity.builder().username("user1").build();
         var userFollower1 = UserEntity.builder().username("user2").build();
         var userFollower2 = UserEntity.builder().username("user3").build();
+        var pageable = PageRequest.of(0, 10);
 
         user.getFollowers().add(userFollower1);
         user.getFollowers().add(userFollower2);
 
-        when(userEntityFetcher.getByUsername("user1")).thenReturn(user);
+        var followedPage = new PageImpl<>(List.of(userFollower1, userFollower2), pageable, 2);
 
-        var result = followersService.getUserFollowers("user1", 0, 10);
+        when(userEntityRepository.findFollowersByFollowedUsername(eq("user1"), any(Pageable.class))).thenReturn(followedPage);
+
+        var result = followersService.getUserFollowers("user1", 0, 10).items();
 
         assertAll(() -> assertNotNull(result),
                 () -> assertTrue(result.stream().anyMatch(f -> f.username().equals("user2"))),
@@ -54,13 +62,16 @@ class FollowersServiceTest {
         var user = UserEntity.builder().username("user1").build();
         var userFollower1 = UserEntity.builder().username("user2").build();
         var userFollower2 = UserEntity.builder().username("user3").build();
+        var pageable = PageRequest.of(0, 10);
 
         user.getFollowed().add(userFollower1);
         user.getFollowed().add(userFollower2);
 
-        when(userEntityFetcher.getByUsername("user1")).thenReturn(user);
+        var followersPage = new PageImpl<>(List.of(userFollower1, userFollower2), pageable, 2);
 
-        var result = followersService.getUserFollowed("user1", 0, 10);
+        when(userEntityRepository.findFollowedByFollowersUsername(eq("user1"), any(Pageable.class))).thenReturn(followersPage);
+
+        var result = followersService.getUserFollowed("user1", 0, 10).items();
 
         assertAll(() -> assertNotNull(result),
                 () -> assertTrue(result.stream().anyMatch(f -> f.username().equals("user2"))),
@@ -68,9 +79,10 @@ class FollowersServiceTest {
     }
 
     @Test
-    void shouldThrowUserNotFoundByUsernameExceptionWhenUserNotFound() throws UserNotFoundByUsernameException {
-        when(userEntityFetcher.getByUsername(anyString())).thenThrow(new UserNotFoundByUsernameException(""));
-        assertThrows(UserNotFoundByUsernameException.class, () -> followersService.getUserFollowers(anyString(), 0, 10));
+    void shouldThrowUserNotFoundByUsernameExceptionWhenUserNotFound() {
+        when(userEntityRepository.findFollowersByFollowedUsername(anyString(), any(Pageable.class))).thenReturn(Page.empty());
+
+        assertThrows(UserNotFoundByUsernameException.class, () -> followersService.getUserFollowers("user1", 0, 10));
     }
 
     @Test

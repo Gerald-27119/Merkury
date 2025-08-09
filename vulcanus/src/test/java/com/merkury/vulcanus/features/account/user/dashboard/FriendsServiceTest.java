@@ -45,7 +45,7 @@ class FriendsServiceTest {
 
         when(userEntityFetcher.getByUsername("user1")).thenReturn(user);
 
-        var result = friendsService.getUserFriends("user1", 0, 10);
+        var result = friendsService.getUserFriends("user1", 0, 10).items();
 
         assertAll(() -> assertNotNull(result),
                 () -> assertTrue(result.stream().anyMatch(f -> f.username().equals("user2"))),
