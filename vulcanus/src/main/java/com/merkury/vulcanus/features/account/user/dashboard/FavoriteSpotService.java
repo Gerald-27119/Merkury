@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.FavoriteSpotNotExistException;
-import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotPageDto;
 import com.merkury.vulcanus.model.entities.spot.FavoriteSpot;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
@@ -12,8 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

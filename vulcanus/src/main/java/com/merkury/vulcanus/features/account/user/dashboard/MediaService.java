@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
-import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
@@ -16,8 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service

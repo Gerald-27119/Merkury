@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
-import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupDto;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
 import com.merkury.vulcanus.model.entities.spot.SpotComment;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
@@ -15,8 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service

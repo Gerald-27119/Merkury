@@ -1,16 +1,16 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
-import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupDto;
-import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupDto;
+import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
+import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
+import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotPageDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
-import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
@@ -97,7 +97,7 @@ public class UserDashboardService {
         followersService.editUserFollowed(username, followedUsername, type);
     }
 
-    public List<FavoriteSpotDto> getUserFavoritesSpots(FavoriteSpotsListType type, int page, int size) {
+    public FavoriteSpotPageDto getUserFavoritesSpots(FavoriteSpotsListType type, int page, int size) {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         return favoriteSpotService.getUserFavoritesSpots(username, type, page, size);
     }
@@ -107,12 +107,12 @@ public class UserDashboardService {
         favoriteSpotService.removeFavoriteSpot(username, type, spotId);
     }
 
-    public List<DatedMediaGroupDto> getSortedUserPhotos(DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
+    public DatedMediaGroupPageDto getSortedUserPhotos(DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         return mediaService.getSortedUserPhotos(username, type, from, to, page, size);
     }
 
-    public List<DatedCommentsGroupDto> getSortedUserComments(DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
+    public DatedCommentsGroupPageDto getSortedUserComments(DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         return commentsService.getSortedUserComments(username, type, from, to, page, size);
     }
@@ -127,7 +127,7 @@ public class UserDashboardService {
         return settingsService.getUserData(username);
     }
 
-    public List<DatedMediaGroupDto> getSortedUserMovies(DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
+    public DatedMediaGroupPageDto getSortedUserMovies(DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         return mediaService.getSortedUserMovies(username, type, from, to, page, size);
     }

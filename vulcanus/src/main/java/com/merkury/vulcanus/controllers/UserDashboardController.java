@@ -2,16 +2,16 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
-import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupDto;
-import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupDto;
+import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
+import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
+import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotPageDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
-import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import jakarta.servlet.http.HttpServletResponse;
@@ -97,9 +97,9 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/favorite-spots")
-    public ResponseEntity<List<FavoriteSpotDto>> getAllUserFavoritesSpots(@RequestParam FavoriteSpotsListType type,
-                                                                          @RequestParam(defaultValue = "0") int page,
-                                                                          @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<FavoriteSpotPageDto> getAllUserFavoritesSpots(@RequestParam FavoriteSpotsListType type,
+                                                                        @RequestParam(defaultValue = "0") int page,
+                                                                        @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok(userDashboardService.getUserFavoritesSpots(type, page, size));
     }
 
@@ -110,20 +110,20 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/photos")
-    public ResponseEntity<List<DatedMediaGroupDto>> getSortedUserPhotos(@RequestParam DateSortType type,
-                                                                        @RequestParam(required = false) LocalDate from,
-                                                                        @RequestParam(required = false) LocalDate to,
-                                                                        @RequestParam(defaultValue = "0") int page,
-                                                                        @RequestParam(defaultValue = "20") int size) throws UnsupportedDateSortTypeException {
+    public ResponseEntity<DatedMediaGroupPageDto> getSortedUserPhotos(@RequestParam DateSortType type,
+                                                                      @RequestParam(required = false) LocalDate from,
+                                                                      @RequestParam(required = false) LocalDate to,
+                                                                      @RequestParam(defaultValue = "0") int page,
+                                                                      @RequestParam(defaultValue = "20") int size) throws UnsupportedDateSortTypeException {
         return ResponseEntity.ok(userDashboardService.getSortedUserPhotos(type, from, to, page, size));
     }
 
     @GetMapping("user-dashboard/comments")
-    public ResponseEntity<List<DatedCommentsGroupDto>> getSortedUserComments(@RequestParam DateSortType type,
-                                                                             @RequestParam(required = false) LocalDate from,
-                                                                             @RequestParam(required = false) LocalDate to,
-                                                                             @RequestParam(defaultValue = "0") int page,
-                                                                             @RequestParam(defaultValue = "20") int size) throws UnsupportedDateSortTypeException {
+    public ResponseEntity<DatedCommentsGroupPageDto> getSortedUserComments(@RequestParam DateSortType type,
+                                                                           @RequestParam(required = false) LocalDate from,
+                                                                           @RequestParam(required = false) LocalDate to,
+                                                                           @RequestParam(defaultValue = "0") int page,
+                                                                           @RequestParam(defaultValue = "20") int size) throws UnsupportedDateSortTypeException {
         return ResponseEntity.ok(userDashboardService.getSortedUserComments(type, from, to, page, size));
     }
 
@@ -139,7 +139,7 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/movies")
-    public ResponseEntity<List<DatedMediaGroupDto>> getSortedUserMovies(@RequestParam DateSortType type,
+    public ResponseEntity<DatedMediaGroupPageDto> getSortedUserMovies(@RequestParam DateSortType type,
                                                                         @RequestParam(required = false) LocalDate from,
                                                                         @RequestParam(required = false) LocalDate to,
                                                                         @RequestParam(defaultValue = "0") int page,
