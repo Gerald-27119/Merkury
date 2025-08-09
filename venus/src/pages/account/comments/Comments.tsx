@@ -20,11 +20,7 @@ export default function Comments() {
     const { data, isLoading, isError } = useQuery({
         queryKey: ["comments", sortType, searchDate.from, searchDate.to],
         queryFn: () =>
-            getAllUserComments({
-                from: searchDate.from,
-                to: searchDate.to,
-                type: sortType,
-            }),
+            getAllUserComments(searchDate.from, searchDate.to, sortType),
     });
 
     useEffect(() => {

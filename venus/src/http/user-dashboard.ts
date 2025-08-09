@@ -33,19 +33,36 @@ export async function getProfileForViewer(
     ).data;
 }
 
-export async function getUserOwnFriends(): Promise<SocialDto[]> {
+export async function getUserOwnFriends(
+    page: number,
+    size: number,
+): Promise<SocialDto[]> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/friends`, {
             withCredentials: true,
+            params: {
+                page,
+                size,
+            },
         })
     ).data;
 }
 
 export async function getUserFriendsForViewer(
     username: string,
+    page: number,
+    size: number,
 ): Promise<SocialDto[]> {
     return (
-        await axios.get(`${BASE_URL}/public/user-dashboard/friends/${username}`)
+        await axios.get(
+            `${BASE_URL}/public/user-dashboard/friends/${username}`,
+            {
+                params: {
+                    page,
+                    size,
+                },
+            },
+        )
     ).data;
 }
 
@@ -73,38 +90,68 @@ export async function editUserFriends({
     ).data;
 }
 
-export async function getUserOwnFollowed(): Promise<SocialDto[]> {
+export async function getUserOwnFollowed(
+    page: number,
+    size: number,
+): Promise<SocialDto[]> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/followed`, {
             withCredentials: true,
+            params: {
+                page,
+                size,
+            },
         })
     ).data;
 }
 
 export async function getUserFollowedForViewer(
     username: string,
+    page: number,
+    size: number,
 ): Promise<SocialDto[]> {
     return (
         await axios.get(
             `${BASE_URL}/public/user-dashboard/followed/${username}`,
+            {
+                params: {
+                    page,
+                    size,
+                },
+            },
         )
     ).data;
 }
 
-export async function getUserOwnFollowers(): Promise<SocialDto[]> {
+export async function getUserOwnFollowers(
+    page: number,
+    size: number,
+): Promise<SocialDto[]> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/followers`, {
             withCredentials: true,
+            params: {
+                page,
+                size,
+            },
         })
     ).data;
 }
 
 export async function getUserFollowersForViewer(
     username: string,
+    page: number,
+    size: number,
 ): Promise<SocialDto[]> {
     return (
         await axios.get(
             `${BASE_URL}/public/user-dashboard/followers/${username}`,
+            {
+                params: {
+                    page,
+                    size,
+                },
+            },
         )
     ).data;
 }
@@ -133,32 +180,30 @@ export async function editUserFollowed({
     ).data;
 }
 
-interface DateRangeSortProps {
-    type: DateSortType;
-    from: string | null;
-    to: string | null;
-}
-
-export async function getSortedUserPhotos({
-    type,
-    from,
-    to,
-}: DateRangeSortProps): Promise<DatedMediaGroup[]> {
+export async function getSortedUserPhotos(
+    type: DateSortType,
+    from: string | null,
+    to: string | null,
+    page: number,
+    size: number,
+): Promise<DatedMediaGroup[]> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/photos`, {
             withCredentials: true,
-            params: { type, from, to },
+            params: { type, from, to, page, size },
         })
     ).data;
 }
 
 export async function getUserFavoriteSpots(
     type: FavoriteSpotsListType,
+    page: number,
+    size: number,
 ): Promise<FavoriteSpot[]> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/favorite-spots`, {
             withCredentials: true,
-            params: type,
+            params: { type, page, size },
         })
     ).data;
 }
@@ -187,15 +232,17 @@ export async function removeFavoriteSpot({
     ).data;
 }
 
-export async function getAllUserComments({
-    type,
-    from,
-    to,
-}: DateRangeSortProps): Promise<DatedCommentsGroup[]> {
+export async function getAllUserComments(
+    type: DateSortType,
+    from: string | null,
+    to: string | null,
+    page: number,
+    size: number,
+): Promise<DatedCommentsGroup[]> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/comments`, {
             withCredentials: true,
-            params: { type, from, to },
+            params: { type, from, to, page, size },
         })
     ).data;
 }
@@ -214,15 +261,17 @@ export async function getUserData(): Promise<UserData> {
     ).data;
 }
 
-export async function getSortedUserMovies({
-    type,
-    from,
-    to,
-}: DateRangeSortProps): Promise<DatedMediaGroup[]> {
+export async function getSortedUserMovies(
+    type: DateSortType,
+    from: string | null,
+    to: string | null,
+    page: number,
+    size: number,
+): Promise<DatedMediaGroup[]> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/movies`, {
             withCredentials: true,
-            params: { type, from, to },
+            params: { type, from, to, page, size },
         })
     ).data;
 }

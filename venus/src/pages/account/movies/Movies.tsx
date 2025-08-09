@@ -15,11 +15,7 @@ export default function Movies() {
     const { data, isLoading, isError } = useQuery({
         queryKey: ["movies", sortType, searchDate.from, searchDate.to],
         queryFn: () =>
-            getSortedUserMovies({
-                from: searchDate.from,
-                to: searchDate.to,
-                type: sortType,
-            }),
+            getSortedUserMovies(searchDate.from, searchDate.to, sortType),
     });
 
     useEffect(() => {

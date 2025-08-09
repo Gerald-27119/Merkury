@@ -15,11 +15,7 @@ export default function Photos() {
     const { data, isLoading, isError } = useQuery({
         queryKey: ["photos", sortType, searchDate.from, searchDate.to],
         queryFn: () =>
-            getSortedUserPhotos({
-                from: searchDate.from,
-                to: searchDate.to,
-                type: sortType,
-            }),
+            getSortedUserPhotos(searchDate.from, searchDate.to, sortType),
     });
 
     useEffect(() => {
