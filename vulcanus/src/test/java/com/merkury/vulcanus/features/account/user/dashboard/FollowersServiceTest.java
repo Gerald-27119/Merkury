@@ -42,7 +42,7 @@ class FollowersServiceTest {
 
         when(userEntityFetcher.getByUsername("user1")).thenReturn(user);
 
-        var result = followersService.getUserFollowers("user1");
+        var result = followersService.getUserFollowers("user1", 0, 10);
 
         assertAll(() -> assertNotNull(result),
                 () -> assertTrue(result.stream().anyMatch(f -> f.username().equals("user2"))),
@@ -60,7 +60,7 @@ class FollowersServiceTest {
 
         when(userEntityFetcher.getByUsername("user1")).thenReturn(user);
 
-        var result = followersService.getUserFollowed("user1");
+        var result = followersService.getUserFollowed("user1", 0, 10);
 
         assertAll(() -> assertNotNull(result),
                 () -> assertTrue(result.stream().anyMatch(f -> f.username().equals("user2"))),
@@ -70,7 +70,7 @@ class FollowersServiceTest {
     @Test
     void shouldThrowUserNotFoundByUsernameExceptionWhenUserNotFound() throws UserNotFoundByUsernameException {
         when(userEntityFetcher.getByUsername(anyString())).thenThrow(new UserNotFoundByUsernameException(""));
-        assertThrows(UserNotFoundByUsernameException.class, () -> followersService.getUserFollowers(anyString()));
+        assertThrows(UserNotFoundByUsernameException.class, () -> followersService.getUserFollowers(anyString(), 0, 10));
     }
 
     @Test

@@ -45,7 +45,7 @@ class FriendsServiceTest {
 
         when(userEntityFetcher.getByUsername("user1")).thenReturn(user);
 
-        var result = friendsService.getUserFriends("user1");
+        var result = friendsService.getUserFriends("user1", 0, 10);
 
         assertAll(() -> assertNotNull(result),
                 () -> assertTrue(result.stream().anyMatch(f -> f.username().equals("user2"))),
@@ -55,7 +55,7 @@ class FriendsServiceTest {
     @Test
     void shouldThrowUserNotFoundByUsernameExceptionWhenUserNotFound() throws UserNotFoundByUsernameException {
         when(userEntityFetcher.getByUsername(anyString())).thenThrow(new UserNotFoundByUsernameException(""));
-        assertThrows(UserNotFoundByUsernameException.class, () -> friendsService.getUserFriends(anyString()));
+        assertThrows(UserNotFoundByUsernameException.class, () -> friendsService.getUserFriends(anyString(), 0, 10));
     }
 
     @Test
