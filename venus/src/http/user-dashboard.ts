@@ -10,6 +10,9 @@ import { DateSortType } from "../model/enum/account/photos/dateSortType";
 import DatedCommentsGroup from "../model/interface/account/comments/datedCommentsGroup";
 import UserEditData from "../model/interface/account/settings/userEditData";
 import UserData from "../model/interface/account/settings/userData";
+import { DatedMediaGroupPageDto } from "../model/interface/account/media/datedMediaGroupPageDto";
+import { FavoriteSpotPageDto } from "../model/interface/account/favorite-spots/favoriteSpotPageDto";
+import { DatedCommentsGroupPageDto } from "../model/interface/account/comments/datedCommentsGroupPageDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -186,7 +189,7 @@ export async function getSortedUserPhotos(
     to: string | null,
     page: number,
     size: number,
-): Promise<DatedMediaGroup[]> {
+): Promise<DatedMediaGroupPageDto> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/photos`, {
             withCredentials: true,
@@ -199,7 +202,7 @@ export async function getUserFavoriteSpots(
     type: FavoriteSpotsListType,
     page: number,
     size: number,
-): Promise<FavoriteSpot[]> {
+): Promise<FavoriteSpotPageDto> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/favorite-spots`, {
             withCredentials: true,
@@ -238,7 +241,7 @@ export async function getAllUserComments(
     to: string | null,
     page: number,
     size: number,
-): Promise<DatedCommentsGroup[]> {
+): Promise<DatedCommentsGroupPageDto> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/comments`, {
             withCredentials: true,
@@ -267,7 +270,7 @@ export async function getSortedUserMovies(
     to: string | null,
     page: number,
     size: number,
-): Promise<DatedMediaGroup[]> {
+): Promise<DatedMediaGroupPageDto> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/movies`, {
             withCredentials: true,

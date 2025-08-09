@@ -2,6 +2,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.FavoriteSpotNotExistException;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
+import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotPageDto;
 import com.merkury.vulcanus.model.entities.spot.FavoriteSpot;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.FavoriteSpotMapper;
@@ -19,7 +20,7 @@ import java.util.List;
 public class FavoriteSpotService {
     private final FavoriteSpotRepository favoriteSpotRepository;
 
-    public List<FavoriteSpotDto> getUserFavoritesSpots(String username, FavoriteSpotsListType type, int page, int size) {
+    public FavoriteSpotPageDto getUserFavoritesSpots(String username, FavoriteSpotsListType type, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<FavoriteSpot> favoriteSpots;
 
@@ -29,9 +30,11 @@ public class FavoriteSpotService {
             favoriteSpots = favoriteSpotRepository.findAllByUserUsernameAndType(username, type, pageable);
         }
 
-        return favoriteSpots.stream()
+        var mappedFavoriteSpots = favoriteSpots.stream()
                 .map(FavoriteSpotMapper::toDto)
                 .toList();
+
+        return new FavoriteSpotPageDto(mappedFavoriteSpots, favoriteSpots.hasNext());
     }
 
     public void removeFavoriteSpot(String username, FavoriteSpotsListType type, Long spotId) throws FavoriteSpotNotExistException {

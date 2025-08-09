@@ -2,6 +2,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupDto;
+import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
@@ -24,15 +25,15 @@ import java.util.stream.Collectors;
 public class MediaService {
     private final SpotMediaRepository spotMediaRepository;
 
-    public List<DatedMediaGroupDto> getSortedUserPhotos(String username, DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
+    public DatedMediaGroupPageDto getSortedUserPhotos(String username, DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         return getAllUserMedia(username, from, to, GenericMediaType.PHOTO, type, page, size);
     }
 
-    public List<DatedMediaGroupDto> getSortedUserMovies(String username, DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
+    public DatedMediaGroupPageDto getSortedUserMovies(String username, DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         return getAllUserMedia(username, from, to, GenericMediaType.VIDEO, type, page, size);
     }
 
-    private List<DatedMediaGroupDto> getAllUserMedia(String username, LocalDate from, LocalDate to, GenericMediaType type, DateSortType sortType, int page, int size) throws UnsupportedDateSortTypeException {
+    private DatedMediaGroupPageDto getAllUserMedia(String username, LocalDate from, LocalDate to, GenericMediaType type, DateSortType sortType, int page, int size) throws UnsupportedDateSortTypeException {
         Pageable pageable = PageRequest.of(page, size, getSpringSort(sortType));
         Page<SpotMedia> media;
 
@@ -46,13 +47,15 @@ public class MediaService {
             media = spotMediaRepository.findAllByAuthorUsernameAndGenericMediaTypeAndAddDateBetween(username, type, from, to, pageable);
         }
 
-        return media.stream()
+        var mappedMedia = media.stream()
                 .collect(Collectors.groupingBy(
                         SpotMedia::getAddDate,
                         Collectors.mapping(MediaMapper::toDto, Collectors.toList())
                 )).entrySet().stream()
                 .map(e -> MediaMapper.toDto(e.getKey(), e.getValue()))
                 .toList();
+
+        return new DatedMediaGroupPageDto(mappedMedia, media.hasNext());
     }
 
     private Sort getSpringSort(DateSortType type) throws UnsupportedDateSortTypeException {

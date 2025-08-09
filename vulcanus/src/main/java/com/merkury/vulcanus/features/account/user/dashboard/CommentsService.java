@@ -2,6 +2,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupDto;
+import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
 import com.merkury.vulcanus.model.entities.spot.SpotComment;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.CommentsMapper;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 public class CommentsService {
     private final SpotCommentRepository spotCommentRepository;
 
-    public List<DatedCommentsGroupDto> getSortedUserComments(String username, DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
+    public DatedCommentsGroupPageDto getSortedUserComments(String username, DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         return getAllUserComments(username, from, to, type, page, size);
     }
 
@@ -32,7 +33,7 @@ public class CommentsService {
      * Here we convert 'from' to the end of the day (23:59:59) to ensure we include
      * all comments published during that day and after.
      */
-    private List<DatedCommentsGroupDto> getAllUserComments(String username, LocalDate from, LocalDate to, DateSortType sortType, int page, int size) throws UnsupportedDateSortTypeException {
+    private DatedCommentsGroupPageDto getAllUserComments(String username, LocalDate from, LocalDate to, DateSortType sortType, int page, int size) throws UnsupportedDateSortTypeException {
         Pageable pageable = PageRequest.of(page, size, getSpringSort(sortType));
         Page<SpotComment> comments;
 
@@ -46,7 +47,7 @@ public class CommentsService {
             comments = spotCommentRepository.findAllByAuthorUsernameAndPublishDateBetween(username, from.atTime(23, 59, 59), to.atTime(23, 59, 59), pageable);
         }
 
-        return comments.stream()
+        var mappedComments = comments.stream()
                 .collect(Collectors.groupingBy(
                         comment ->
                                 new GroupKey(comment.getPublishDate().toLocalDate(), comment.getSpot().getName()),
@@ -57,6 +58,8 @@ public class CommentsService {
                         CommentsMapper
                                 .toDto(listEntry.getValue(), listEntry.getKey().date, listEntry.getKey().spotName))
                 .toList();
+
+        return new DatedCommentsGroupPageDto(mappedComments, comments.hasNext());
     }
 
     private Sort getSpringSort(DateSortType type) throws UnsupportedDateSortTypeException {
