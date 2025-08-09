@@ -1,10 +1,10 @@
 import AccountTitle from "../components/AccountTitle";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getUserFavoriteSpots } from "../../../http/user-dashboard";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import FavoriteSpotTile from "./component/FavoriteSpotTile";
 import { FavoriteSpotsListType } from "../../../model/enum/account/favorite-spots/favoriteSpotsListType";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../../../components/buttons/Button";
 import { ButtonVariantType } from "../../../model/enum/buttonVariantType";
 import AccountWrapper from "../components/AccountWrapper";
@@ -23,15 +23,43 @@ const menuTypes = [
 
 export default function FavoriteSpots() {
     const [selectedType, setSelectedType] = useState(FavoriteSpotsListType.ALL);
+    const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-    const { data, isLoading } = useQuery({
-        queryFn: () => getUserFavoriteSpots(selectedType),
-        queryKey: ["favorite-spots", selectedType],
-    });
+    const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+        useInfiniteQuery({
+            queryKey: ["favorite-spots", selectedType],
+            queryFn: ({ pageParam = 0 }) =>
+                getUserFavoriteSpots(selectedType, pageParam, 2),
+            getNextPageParam: (lastPage, allPages) =>
+                lastPage.hasNext ? allPages.length : undefined,
+            initialPageParam: 0,
+        });
+
+    const favoriteSpots = data?.pages.flatMap((page) => page.items);
 
     const handleSetSelectedType = (type: FavoriteSpotsListType) => {
         setSelectedType(type);
     };
+
+    useEffect(() => {
+        if (!loadMoreRef.current) return;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (
+                    entries[0].isIntersecting &&
+                    hasNextPage &&
+                    !isFetchingNextPage
+                ) {
+                    fetchNextPage();
+                }
+            },
+            { threshold: 1.0 },
+        );
+        observer.observe(loadMoreRef.current);
+        return () => {
+            observer.disconnect();
+        };
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
         <AccountWrapper variant={AccountWrapperType.FAVORITE_SPOTS}>
@@ -54,19 +82,21 @@ export default function FavoriteSpots() {
             </div>
             {isLoading && <LoadingSpinner />}
             <div className="flex flex-col items-center space-y-5 lg:mx-27">
-                {data?.length ? (
-                    data?.map((spot) => (
-                        <FavoriteSpotTile
-                            spot={spot}
-                            key={spot.id}
-                            selectedType={selectedType}
-                        />
-                    ))
-                ) : (
-                    <p className="mt-10 text-center text-gray-500">
-                        You don't have any spots in your list.
-                    </p>
-                )}
+                {favoriteSpots?.length
+                    ? favoriteSpots?.map((spot) => (
+                          <FavoriteSpotTile
+                              spot={spot}
+                              key={spot.id}
+                              selectedType={selectedType}
+                          />
+                      ))
+                    : !isLoading && (
+                          <p className="mt-10 text-center text-gray-500">
+                              You don't have any spots in your list.
+                          </p>
+                      )}
+                <div ref={loadMoreRef} className="h-10" />
+                {isFetchingNextPage && <LoadingSpinner />}
             </div>
         </AccountWrapper>
     );
