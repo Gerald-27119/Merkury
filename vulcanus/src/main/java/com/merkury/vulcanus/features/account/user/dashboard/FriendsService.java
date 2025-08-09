@@ -25,8 +25,12 @@ public class FriendsService {
     private final UserEntityFetcher userEntityFetcher;
     private final FriendshipRepository friendshipRepository;
 
-    public SocialPageDto getUserFriends(String username, int page, int size) {
+    public SocialPageDto getUserFriends(String username, int page, int size) throws UserNotFoundByUsernameException {
         var friendsPage = friendshipRepository.findAllByUserUsername(username, PageRequest.of(page, size));
+
+        if (friendsPage.isEmpty()) {
+            throw new UserNotFoundByUsernameException(username);
+        }
 
         var mappedFriends = friendsPage.stream().map(SocialMapper::toDto).toList();
 

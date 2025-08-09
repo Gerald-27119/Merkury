@@ -6,6 +6,8 @@ import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeE
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.interfaces.FriendView;
+import com.merkury.vulcanus.model.repositories.FriendshipRepository;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import org.junit.jupiter.api.Test;
@@ -13,12 +15,20 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
-import static com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType.*;
+import java.util.List;
+
 import static com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus.ACCEPTED;
 import static com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus.PENDING;
+import static com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,33 +39,45 @@ class FriendsServiceTest {
     @Mock
     private UserEntityFetcher userEntityFetcher;
 
+    @Mock
+    private FriendshipRepository friendshipRepository;
+
     @InjectMocks
     private FriendsService friendsService;
 
     @Test
     void shouldReturnFriendsWhenExist() throws UserNotFoundByUsernameException {
-        var user = UserEntity.builder().username("user1").build();
-        var userFriend1 = UserEntity.builder().username("user2").build();
-        var userFriend2 = UserEntity.builder().username("user3").build();
+        FriendView friend1 = mock(FriendView.class);
+        FriendView.UserInfo userInfo1 = mock(FriendView.UserInfo.class);
+        when(userInfo1.getUsername()).thenReturn("user2");
+        when(friend1.getFriend()).thenReturn(userInfo1);
 
-        user.getFriendships().add(new Friendship(null, user, userFriend1, null, null));
-        user.getFriendships().add(new Friendship(null, user, userFriend2, null, null));
-        userFriend1.getFriendships().add(new Friendship(null, userFriend1, user, null, null));
-        userFriend2.getFriendships().add(new Friendship(null, userFriend2, user, null, null));
+        FriendView friend2 = mock(FriendView.class);
+        FriendView.UserInfo userInfo2 = mock(FriendView.UserInfo.class);
+        when(userInfo2.getUsername()).thenReturn("user3");
+        when(friend2.getFriend()).thenReturn(userInfo2);
 
-        when(userEntityFetcher.getByUsername("user1")).thenReturn(user);
+        var friends = List.of(friend1, friend2);
+        var friendPage = new PageImpl<>(friends, PageRequest.of(0, 10), friends.size());
+
+        when(friendshipRepository.findAllByUserUsername(anyString(), any(Pageable.class))).thenReturn(friendPage);
 
         var result = friendsService.getUserFriends("user1", 0, 10).items();
 
-        assertAll(() -> assertNotNull(result),
+        assertAll(
+                () -> assertNotNull(result),
+                () -> assertEquals(2, result.size()),
                 () -> assertTrue(result.stream().anyMatch(f -> f.username().equals("user2"))),
-                () -> assertTrue(result.stream().anyMatch(f -> f.username().equals("user3"))));
+                () -> assertTrue(result.stream().anyMatch(f -> f.username().equals("user3")))
+        );
     }
 
+
     @Test
-    void shouldThrowUserNotFoundByUsernameExceptionWhenUserNotFound() throws UserNotFoundByUsernameException {
-        when(userEntityFetcher.getByUsername(anyString())).thenThrow(new UserNotFoundByUsernameException(""));
-        assertThrows(UserNotFoundByUsernameException.class, () -> friendsService.getUserFriends(anyString(), 0, 10));
+    void shouldThrowUserNotFoundByUsernameExceptionWhenUserNotFound() {
+        when(friendshipRepository.findAllByUserUsername(anyString(), any(Pageable.class))).thenReturn(Page.empty());
+
+        assertThrows(UserNotFoundByUsernameException.class, () -> friendsService.getUserFriends("nonexistentUser", 0, 10));
     }
 
     @Test

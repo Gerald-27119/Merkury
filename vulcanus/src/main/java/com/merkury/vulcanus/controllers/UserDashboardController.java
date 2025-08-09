@@ -39,14 +39,14 @@ public class UserDashboardController {
 
     @GetMapping("/user-dashboard/friends")
     public ResponseEntity<SocialPageDto> getUserOwnFriends(@RequestParam(defaultValue = "0") int page,
-                                                           @RequestParam(defaultValue = "20") int size) {
+                                                           @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.getUserOwnFriends(page, size));
     }
 
     @GetMapping("/public/user-dashboard/friends/{targetUsername}")
     public ResponseEntity<SocialPageDto> getUserFriendsForViewer(@PathVariable String targetUsername,
                                                                  @RequestParam(defaultValue = "0") int page,
-                                                                 @RequestParam(defaultValue = "20") int size) {
+                                                                 @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.getUserFriendsForViewer(targetUsername, page, size));
     }
 

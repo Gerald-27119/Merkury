@@ -54,12 +54,12 @@ public class UserDashboardService {
     }
 
 
-    public SocialPageDto getUserOwnFriends(int page, int size) {
+    public SocialPageDto getUserOwnFriends(int page, int size) throws UserNotFoundByUsernameException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         return friendsService.getUserFriends(username, page, size);
     }
 
-    public SocialPageDto getUserFriendsForViewer(String targetUsername, int page, int size) {
+    public SocialPageDto getUserFriendsForViewer(String targetUsername, int page, int size) throws UserNotFoundByUsernameException {
         return friendsService.getUserFriends(targetUsername, page, size);
     }
 
