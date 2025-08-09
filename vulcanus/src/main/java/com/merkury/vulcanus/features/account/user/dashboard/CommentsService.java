@@ -37,7 +37,7 @@ public class CommentsService {
         if (from == null && to == null) {
             comments = spotCommentRepository.findAllByAuthorUsername(username, pageable);
         } else if (from != null && to == null) {
-            comments = spotCommentRepository.findAllByAuthorUsernameAndPublishDateGreaterThanEqual(username, from.atTime(23, 59, 59), pageable);
+            comments = spotCommentRepository.findAllByAuthorUsernameAndPublishDateGreaterThanEqual(username, from.atStartOfDay(), pageable);
         } else if (from == null) {
             comments = spotCommentRepository.findAllByAuthorUsernameAndPublishDateLessThanEqual(username, to.atTime(23, 59, 59), pageable);
         } else {
