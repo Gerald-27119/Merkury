@@ -5,15 +5,15 @@ import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
-import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
-import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
+import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
+import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotPageDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
-import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,15 +38,15 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/friends")
-    public ResponseEntity<List<SocialDto>> getUserOwnFriends(@RequestParam(defaultValue = "0") int page,
-                                                             @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
+    public ResponseEntity<SocialPageDto> getUserOwnFriends(@RequestParam(defaultValue = "0") int page,
+                                                           @RequestParam(defaultValue = "20") int size) {
         return ResponseEntity.ok(userDashboardService.getUserOwnFriends(page, size));
     }
 
     @GetMapping("/public/user-dashboard/friends/{targetUsername}")
-    public ResponseEntity<List<SocialDto>> getUserFriendsForViewer(@PathVariable String targetUsername,
-                                                                   @RequestParam(defaultValue = "0") int page,
-                                                                   @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
+    public ResponseEntity<SocialPageDto> getUserFriendsForViewer(@PathVariable String targetUsername,
+                                                                 @RequestParam(defaultValue = "0") int page,
+                                                                 @RequestParam(defaultValue = "20") int size) {
         return ResponseEntity.ok(userDashboardService.getUserFriendsForViewer(targetUsername, page, size));
     }
 
@@ -65,28 +64,28 @@ public class UserDashboardController {
     }
 
     @GetMapping("/user-dashboard/followers")
-    public ResponseEntity<List<SocialDto>> getUserOwnFollowers(@RequestParam(defaultValue = "0") int page,
-                                                               @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
+    public ResponseEntity<SocialPageDto> getUserOwnFollowers(@RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.getUserOwnFollowers(page, size));
     }
 
     @GetMapping("/public/user-dashboard/followers/{targetUsername}")
-    public ResponseEntity<List<SocialDto>> getUserFollowersForViewer(@PathVariable String targetUsername,
-                                                                     @RequestParam(defaultValue = "0") int page,
-                                                                     @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
+    public ResponseEntity<SocialPageDto> getUserFollowersForViewer(@PathVariable String targetUsername,
+                                                                   @RequestParam(defaultValue = "0") int page,
+                                                                   @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.getUserFollowersForViewer(targetUsername, page, size));
     }
 
     @GetMapping("/user-dashboard/followed")
-    public ResponseEntity<List<SocialDto>> getUserOwnFollowed(@RequestParam(defaultValue = "0") int page,
-                                                              @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
+    public ResponseEntity<SocialPageDto> getUserOwnFollowed(@RequestParam(defaultValue = "0") int page,
+                                                            @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.getUserOwnFollowed(page, size));
     }
 
     @GetMapping("/public/user-dashboard/followed/{targetUsername}")
-    public ResponseEntity<List<SocialDto>> getUserFollowedForViewer(@PathVariable String targetUsername,
-                                                                    @RequestParam(defaultValue = "0") int page,
-                                                                    @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
+    public ResponseEntity<SocialPageDto> getUserFollowedForViewer(@PathVariable String targetUsername,
+                                                                  @RequestParam(defaultValue = "0") int page,
+                                                                  @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.getUserFollowedForViewer(targetUsername, page, size));
     }
 
@@ -140,10 +139,10 @@ public class UserDashboardController {
 
     @GetMapping("/user-dashboard/movies")
     public ResponseEntity<DatedMediaGroupPageDto> getSortedUserMovies(@RequestParam DateSortType type,
-                                                                        @RequestParam(required = false) LocalDate from,
-                                                                        @RequestParam(required = false) LocalDate to,
-                                                                        @RequestParam(defaultValue = "0") int page,
-                                                                        @RequestParam(defaultValue = "20") int size) throws UnsupportedDateSortTypeException {
+                                                                      @RequestParam(required = false) LocalDate from,
+                                                                      @RequestParam(required = false) LocalDate to,
+                                                                      @RequestParam(defaultValue = "0") int page,
+                                                                      @RequestParam(defaultValue = "20") int size) throws UnsupportedDateSortTypeException {
         return ResponseEntity.ok(userDashboardService.getSortedUserMovies(type, from, to, page, size));
     }
 }

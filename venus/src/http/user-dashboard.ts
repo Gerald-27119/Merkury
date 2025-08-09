@@ -1,18 +1,15 @@
 import axios from "axios";
 import UserProfile from "../model/interface/account/profile/userProfile";
-import { SocialDto } from "../model/interface/account/social/socialDto";
-import { FavoriteSpot } from "../model/interface/account/favorite-spots/favoriteSpot";
 import { FavoriteSpotsListType } from "../model/enum/account/favorite-spots/favoriteSpotsListType";
 import { UserRelationEditType } from "../model/enum/account/social/userRelationEditType";
 import ExtendedUserProfile from "../model/interface/account/profile/extendedUserProfile";
-import DatedMediaGroup from "../model/interface/account/media/datedMediaGroup";
 import { DateSortType } from "../model/enum/account/photos/dateSortType";
-import DatedCommentsGroup from "../model/interface/account/comments/datedCommentsGroup";
 import UserEditData from "../model/interface/account/settings/userEditData";
 import UserData from "../model/interface/account/settings/userData";
 import { DatedMediaGroupPageDto } from "../model/interface/account/media/datedMediaGroupPageDto";
 import { FavoriteSpotPageDto } from "../model/interface/account/favorite-spots/favoriteSpotPageDto";
 import { DatedCommentsGroupPageDto } from "../model/interface/account/comments/datedCommentsGroupPageDto";
+import { SocialPageDto } from "../model/interface/account/social/socialPageDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -39,7 +36,7 @@ export async function getProfileForViewer(
 export async function getUserOwnFriends(
     page: number,
     size: number,
-): Promise<SocialDto[]> {
+): Promise<SocialPageDto> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/friends`, {
             withCredentials: true,
@@ -55,7 +52,7 @@ export async function getUserFriendsForViewer(
     username: string,
     page: number,
     size: number,
-): Promise<SocialDto[]> {
+): Promise<SocialPageDto> {
     return (
         await axios.get(
             `${BASE_URL}/public/user-dashboard/friends/${username}`,
@@ -96,7 +93,7 @@ export async function editUserFriends({
 export async function getUserOwnFollowed(
     page: number,
     size: number,
-): Promise<SocialDto[]> {
+): Promise<SocialPageDto> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/followed`, {
             withCredentials: true,
@@ -112,7 +109,7 @@ export async function getUserFollowedForViewer(
     username: string,
     page: number,
     size: number,
-): Promise<SocialDto[]> {
+): Promise<SocialPageDto> {
     return (
         await axios.get(
             `${BASE_URL}/public/user-dashboard/followed/${username}`,
@@ -129,7 +126,7 @@ export async function getUserFollowedForViewer(
 export async function getUserOwnFollowers(
     page: number,
     size: number,
-): Promise<SocialDto[]> {
+): Promise<SocialPageDto> {
     return (
         await axios.get(`${BASE_URL}/user-dashboard/followers`, {
             withCredentials: true,
@@ -145,7 +142,7 @@ export async function getUserFollowersForViewer(
     username: string,
     page: number,
     size: number,
-): Promise<SocialDto[]> {
+): Promise<SocialPageDto> {
     return (
         await axios.get(
             `${BASE_URL}/public/user-dashboard/followers/${username}`,

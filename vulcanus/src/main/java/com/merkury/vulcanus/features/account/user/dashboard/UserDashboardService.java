@@ -4,15 +4,15 @@ import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
-import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
-import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
+import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
+import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotPageDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
-import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,6 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -55,12 +54,12 @@ public class UserDashboardService {
     }
 
 
-    public List<SocialDto> getUserOwnFriends(int page, int size) throws UserNotFoundByUsernameException {
+    public SocialPageDto getUserOwnFriends(int page, int size) {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         return friendsService.getUserFriends(username, page, size);
     }
 
-    public List<SocialDto> getUserFriendsForViewer(String targetUsername, int page, int size) throws UserNotFoundByUsernameException {
+    public SocialPageDto getUserFriendsForViewer(String targetUsername, int page, int size) {
         return friendsService.getUserFriends(targetUsername, page, size);
     }
 
@@ -74,21 +73,21 @@ public class UserDashboardService {
         friendsService.changeUserFriendsStatus(username, friendUsername, status);
     }
 
-    public List<SocialDto> getUserOwnFollowers(int page, int size) throws UserNotFoundByUsernameException {
+    public SocialPageDto getUserOwnFollowers(int page, int size) throws UserNotFoundByUsernameException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         return followersService.getUserFollowers(username, page, size);
     }
 
-    public List<SocialDto> getUserFollowersForViewer(String targetUsername, int page, int size) throws UserNotFoundByUsernameException {
+    public SocialPageDto getUserFollowersForViewer(String targetUsername, int page, int size) throws UserNotFoundByUsernameException {
         return followersService.getUserFollowers(targetUsername, page, size);
     }
 
-    public List<SocialDto> getUserOwnFollowed(int page, int size) throws UserNotFoundByUsernameException {
+    public SocialPageDto getUserOwnFollowed(int page, int size) throws UserNotFoundByUsernameException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         return followersService.getUserFollowed(username, page, size);
     }
 
-    public List<SocialDto> getUserFollowedForViewer(String targetUsername, int page, int size) throws UserNotFoundByUsernameException {
+    public SocialPageDto getUserFollowedForViewer(String targetUsername, int page, int size) throws UserNotFoundByUsernameException {
         return followersService.getUserFollowed(targetUsername, page, size);
     }
 

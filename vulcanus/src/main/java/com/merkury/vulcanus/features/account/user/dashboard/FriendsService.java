@@ -4,17 +4,17 @@ import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExistException
 import com.merkury.vulcanus.exception.exceptions.FriendshipNotExistException;
 import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
-import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
+import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
 import com.merkury.vulcanus.model.entities.Friendship;
-import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.SocialMapper;
+import com.merkury.vulcanus.model.repositories.FriendshipRepository;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus.PENDING;
 
@@ -23,16 +23,16 @@ import static com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus.P
 public class FriendsService {
     private final UserEntityRepository userEntityRepository;
     private final UserEntityFetcher userEntityFetcher;
+    private final FriendshipRepository friendshipRepository;
 
-    public List<SocialDto> getUserFriends(String username, int page, int size) throws UserNotFoundByUsernameException {
-        return userEntityFetcher.getByUsername(username)
-                .getFriendships()
-                .stream()
-                .skip((long) page * size)
-                .limit(size)
-                .map(SocialMapper::toDto)
-                .toList();
+    public SocialPageDto getUserFriends(String username, int page, int size) {
+        var friendsPage = friendshipRepository.findAllByUserUsername(username, PageRequest.of(page, size));
+
+        var mappedFriends = friendsPage.stream().map(SocialMapper::toDto).toList();
+
+        return new SocialPageDto(mappedFriends, friendsPage.hasNext());
     }
+
 
     public void editUserFriends(String username, String friendUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
         switch (type) {
