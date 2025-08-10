@@ -39,7 +39,7 @@ export default function ChatList() {
             const newItems: ChatDto[] = (
                 data.pages[data.pages.length - 1] as ChatPage
             ).items;
-            dispatch(chatActions.addChatDtos(newItems));
+            dispatch(chatActions.upsertChats(newItems));
         }
     }, [isSuccess, data, dispatch]);
 

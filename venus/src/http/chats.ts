@@ -31,7 +31,7 @@ export async function getChatListByPage(
 
 export async function getMessagesForChat(
     chatId: number,
-    pageParam = 1,
+    pageParam = 0,
 ): Promise<ChatMessagesPageDto> {
     return (
         await axios.get<ChatMessagesPageDto>(

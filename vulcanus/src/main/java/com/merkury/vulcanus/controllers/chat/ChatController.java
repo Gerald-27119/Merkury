@@ -24,7 +24,7 @@ public class ChatController {
     @GetMapping("/{chatId}/messages")
     public ResponseEntity<ChatMessageDtoSlice> getMessagesForChatByChatId(
             @PathVariable Long chatId,
-            @RequestParam(defaultValue = "1") int pageParam, // 1 because first page of 20 is returned in first request to "/user-chats"
+            @RequestParam(defaultValue = "0") int pageParam, // 1 because first page of 20 is returned in first request to "/user-chats"
             @RequestParam(defaultValue = "20") int numberOfMessagesPerPage
     ) {
         return ResponseEntity.ok(chatService.getChatMessages(chatId, pageParam, numberOfMessagesPerPage));
@@ -53,7 +53,7 @@ public class ChatController {
             @RequestParam(defaultValue = "10") int numberOfChatsPerPage
     ) {
         return ResponseEntity.ok(chatService.getChatsForUserWithLast20Messages(pageNumber, numberOfChatsPerPage));
-    }
+    }//wywalic pobieranie ostatnich x wiadomsocis tad, jakos ianczej toz robic
 
 
 // TODO: przy edycji chatu sprawdzenie czy user ma odmina an tym czacie

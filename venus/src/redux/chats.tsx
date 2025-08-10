@@ -1,6 +1,8 @@
+// redux/chats.ts
 import {
     createEntityAdapter,
     createSlice,
+    createSelector,
     PayloadAction,
 } from "@reduxjs/toolkit";
 import {
@@ -9,74 +11,42 @@ import {
 } from "../model/interface/chat/chatInterfaces";
 import { RootState } from "./store";
 
-interface ChatsState {
-    nextPage: number | null;
-    selectedChatId: number;
-}
-
 const chatsAdapter = createEntityAdapter<ChatDto>({});
 
-const initialState = chatsAdapter.getInitialState<ChatsState>({
-    nextPage: 1,
-    selectedChatId: 1,
+type ChatsExtra = { selectedChatId: number | null };
+const initialState = chatsAdapter.getInitialState<ChatsExtra>({
+    selectedChatId: null,
 });
 
 export const chatsSlice = createSlice({
     name: "chats",
     initialState,
     reducers: {
-        addChatDtos(state, action: PayloadAction<ChatDto[]>) {
+        upsertChats: (state, action: PayloadAction<ChatDto[]>) => {
             chatsAdapter.upsertMany(state, action.payload);
         },
-        setNextPage(state, action: PayloadAction<number | null>) {
-            state.nextPage = action.payload;
-        },
-        setSelectedChatId(state, action: PayloadAction<number>) {
+        setSelectedChatId: (state, action: PayloadAction<number | null>) => {
             state.selectedChatId = action.payload;
         },
-        addMessage(
+        setLastMessage: (
             state,
             action: PayloadAction<{ chatId: number; message: ChatMessageDto }>,
-        ) {
+        ) => {
             const { chatId, message } = action.payload;
-            const chat = state.entities[chatId];
-            if (!chat) {
-                return;
-            }
-            if (!chat.messages) {
-                chat.messages = [];
-            }
-            chat.messages.push(message);
-            chat.messages.sort(
-                (a, b) =>
-                    new Date(b.sentAt).getTime() - new Date(a.sentAt).getTime(),
-            );
+            const chat = state.entities[chatId] as any;
+            if (chat) chat.lastMessage = message;
         },
-        addMessages(
-            state,
-            action: PayloadAction<{
-                chatId: number;
-                messages: ChatMessageDto[];
-            }>,
-        ) {
-            const { chatId, messages } = action.payload;
-            const chat = state.entities[chatId];
-            if (!chat) {
-                return;
-            }
-            if (!chat.messages) {
-                chat.messages = [];
-            }
-            chat.messages.push(...messages);
-            chat.messages.sort(
-                (a, b) =>
-                    new Date(b.sentAt).getTime() - new Date(a.sentAt).getTime(),
-            );
+        incrementUnread: (state, action: PayloadAction<number>) => {
+            const chat = state.entities[action.payload] as any;
+            if (chat) chat.unreadCount = (chat.unreadCount ?? 0) + 1;
+        },
+        markRead: (state, action: PayloadAction<number>) => {
+            const chat = state.entities[action.payload] as any;
+            if (chat) chat.unreadCount = 0;
         },
     },
 });
 
-//TODO: need to figure out a better way to handle current page for ChatList, same for Messages inside Chat
 export const chatActions = chatsSlice.actions;
 
 export const {
@@ -84,7 +54,18 @@ export const {
     selectById: selectChatById,
     selectIds: selectChatIds,
     selectEntities: selectChatEntities,
-    selectTotal: selectChatTotal,
-} = chatsAdapter.getSelectors<RootState>((state) => state.chats);
+} = chatsAdapter.getSelectors<RootState>((s) => s.chats);
+
+// 🔧 poprawka Twojego selektora: zwraca bezpośrednio lastMessage (nie tablicę!)
+export const selectLastMessageForChat = (chatId: number) =>
+    createSelector(
+        [
+            (state: RootState) =>
+                (state.chats.entities[chatId] as any)?.lastMessage as
+                    | ChatMessageDto
+                    | undefined,
+        ],
+        (m) => m,
+    );
 
 export default chatsSlice.reducer;
