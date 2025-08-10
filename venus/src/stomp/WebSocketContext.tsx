@@ -5,7 +5,7 @@ import { createChatSubscription } from "./subscriptions/ChatSubscription";
 import { WebSocketService } from "./WebSocketService";
 import useDispatchTyped from "../hooks/useDispatchTyped";
 import useSelectorTyped from "../hooks/useSelectorTyped";
-import { RootState } from "../redux/store";
+import store, { RootState } from "../redux/store";
 import { createAckSubscription } from "./subscriptions/ChatAckSubscription";
 
 const WS_URL = process.env.REACT_APP_WS_URL || "http://localhost:8080/connect";
@@ -37,23 +37,18 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
     useEffect(() => {
         if (!isLogged || !username) return;
 
+        const getSelectedChatId = () => store.getState().chats.selectedChatId;
+
         const allSubs: SubscriptionDef[] = [
-            createChatSubscription(
-                username,
-                dispatch,
-                () => selectedRef.current,
-            ),
-            createAckSubscription(username, dispatch, queryClient), // ⬅️ NOWE
-            // tutaj dokładamy kolejne suby
+            createChatSubscription(username, dispatch, getSelectedChatId),
         ];
 
         const cleanups = allSubs.map((sub) => {
             wsService.subscribe(sub.destination, sub.callback);
             return () => wsService.unsubscribe(sub.destination);
         });
-
         return () => cleanups.forEach((fn) => fn());
-    }, [isLogged, username, dispatch, queryClient]); // selectedChatId niepotrzebny – używamy refa
+    }, [isLogged, username, dispatch]);
 
     return (
         <WebSocketContext.Provider value={wsService}>

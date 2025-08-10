@@ -1,20 +1,21 @@
+// stomp/subscriptions/ChatSubscription.ts
 import { SubscriptionDef } from "../useWebSocket";
 import { IMessage } from "@stomp/stompjs";
 import { ChatMessageDto } from "../../model/interface/chat/chatInterfaces";
 import { chatActions } from "../../redux/chats";
-import { AppDispatch } from "../../redux/store";
+import type { AppDispatch } from "../../redux/store";
 
 export function createChatSubscription(
     username: string,
     dispatch: AppDispatch,
-    getSelectedChatId: () => number | null,
+    getSelectedChatId: () => number | null, // ⬅️ ważne!
 ): SubscriptionDef {
     return {
         destination: `/subscribe/chats/${username}`,
         callback: (msg: IMessage) => {
             const payload = JSON.parse(msg.body) as ChatMessageDto;
 
-            // update lastMessage
+            // aktualizuj lastMessage
             dispatch(
                 chatActions.setLastMessage({
                     chatId: payload.chatId,
@@ -22,10 +23,12 @@ export function createChatSubscription(
                 }),
             );
 
-            // badge „unread”, jeżeli to nie jest otwarty czat
+            // ustaw „has new” tylko jeśli ten czat nie jest aktualnie otwarty
             const selected = getSelectedChatId();
             if (selected !== payload.chatId) {
-                dispatch(chatActions.incrementUnread(payload.chatId));
+                dispatch(chatActions.markNew(payload.chatId));
+            } else {
+                dispatch(chatActions.clearNew(payload.chatId));
             }
         },
     };

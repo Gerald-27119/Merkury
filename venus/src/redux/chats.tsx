@@ -1,3 +1,4 @@
+// redux/chats.ts
 import {
     createEntityAdapter,
     createSlice,
@@ -9,10 +10,10 @@ import {
     ChatMessageDto,
 } from "../model/interface/chat/chatInterfaces";
 import { RootState } from "./store";
-
-const chatsAdapter = createEntityAdapter<ChatDto>({});
-
 type ChatsExtra = { selectedChatId: number | null };
+// rozszerzamy encję o *wymagane* pole
+type ChatEntity = ChatDto & { hasNew: boolean };
+const chatsAdapter = createEntityAdapter<ChatEntity>({});
 const initialState = chatsAdapter.getInitialState<ChatsExtra>({
     selectedChatId: null,
 });
@@ -22,7 +23,11 @@ export const chatsSlice = createSlice({
     initialState,
     reducers: {
         upsertChats: (state, action: PayloadAction<ChatDto[]>) => {
-            chatsAdapter.upsertMany(state, action.payload);
+            const items: ChatEntity[] = action.payload.map((c) => {
+                const prev = state.entities[c.id] as ChatEntity | undefined;
+                return { ...c, hasNew: prev?.hasNew ?? false };
+            });
+            chatsAdapter.upsertMany(state, items);
         },
         setSelectedChatId: (state, action: PayloadAction<number | null>) => {
             state.selectedChatId = action.payload;
@@ -32,16 +37,16 @@ export const chatsSlice = createSlice({
             action: PayloadAction<{ chatId: number; message: ChatMessageDto }>,
         ) => {
             const { chatId, message } = action.payload;
-            const chat = state.entities[chatId] as any;
+            const chat = state.entities[chatId];
             if (chat) chat.lastMessage = message;
         },
-        incrementUnread: (state, action: PayloadAction<number>) => {
-            const chat = state.entities[action.payload] as any;
-            if (chat) chat.unreadCount = (chat.unreadCount ?? 0) + 1;
+        markNew: (state, action: PayloadAction<number>) => {
+            const chat = state.entities[action.payload];
+            if (chat) chat.hasNew = true;
         },
-        markRead: (state, action: PayloadAction<number>) => {
-            const chat = state.entities[action.payload] as any;
-            if (chat) chat.unreadCount = 0;
+        clearNew: (state, action: PayloadAction<number>) => {
+            const chat = state.entities[action.payload];
+            if (chat) chat.hasNew = false;
         },
     },
 });
@@ -59,11 +64,22 @@ export const selectLastMessageForChat = (chatId: number) =>
     createSelector(
         [
             (state: RootState) =>
-                (state.chats.entities[chatId] as any)?.lastMessage as
-                    | ChatMessageDto
-                    | undefined,
+                (state.chats.entities[chatId] as ChatEntity | undefined)
+                    ?.lastMessage,
         ],
         (m) => m,
     );
+
+export const selectHasNewMap = createSelector(
+    selectChatEntities,
+    (entities) => {
+        const map: Record<number, boolean> = {};
+        for (const [k, v] of Object.entries(entities)) {
+            if (!v) continue;
+            map[Number(k)] = v.hasNew; // już 100% boolean
+        }
+        return map;
+    },
+);
 
 export default chatsSlice.reducer;

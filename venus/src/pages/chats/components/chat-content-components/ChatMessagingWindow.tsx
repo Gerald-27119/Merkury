@@ -13,7 +13,8 @@ import { getMessagesForChat } from "../../../../http/chats";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
-import { selectLastMessageForChat } from "../../../../redux/chats";
+import { chatActions, selectLastMessageForChat } from "../../../../redux/chats";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 
 type MessagesSlice = {
     messages: ChatMessageDto[];
@@ -31,6 +32,7 @@ export default function ChatMessagingWindow({
     const containerRef = useRef<HTMLDivElement>(null);
     const queryClient = useQueryClient();
     const lastAppliedIdRef = useRef<number | null>(null);
+    const dispatch = useDispatchTyped();
 
     // reset „ostatnio zastosowanego” ID po zmianie czatu
     useEffect(() => {
@@ -81,6 +83,12 @@ export default function ChatMessagingWindow({
             [chatDto?.id],
         ),
     );
+
+    useEffect(() => {
+        if (chatDto?.id) {
+            dispatch(chatActions.clearNew(chatDto.id));
+        }
+    }, [chatDto?.id, dispatch]);
 
     useEffect(() => {
         if (!chatDto?.id || !lastIncoming) return;
