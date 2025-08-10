@@ -43,7 +43,7 @@ export default function PostForm({
     };
 
     return (
-        <div className="dark:bg-darkBgSoft dark:text-darkText bg-lightBgSoft text-lightText fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 rounded-md p-8 shadow-md">
+        <div className="dark:bg-darkBgSoft dark:text-darkText bg-lightBgSoft text-lightText fixed top-35 left-1/2 z-50 w-full max-w-xl min-w-sm -translate-x-1/2 rounded-md p-8 shadow-md">
             <button
                 className="absolute top-0 right-3 text-4xl font-bold text-gray-500 hover:text-red-500"
                 onClick={onClose}
@@ -65,7 +65,7 @@ export default function PostForm({
 
                 <ControlledSelect<ForumPostFormFields>
                     name="category"
-                    placeholder="category"
+                    placeholder="Category"
                     control={control}
                     isMultiChoice={false}
                     options={categories}
@@ -73,7 +73,7 @@ export default function PostForm({
                 />
                 <ControlledSelect<ForumPostFormFields>
                     name="tags"
-                    placeholder="tags"
+                    placeholder="Tags"
                     control={control}
                     isMultiChoice={true}
                     options={tags}

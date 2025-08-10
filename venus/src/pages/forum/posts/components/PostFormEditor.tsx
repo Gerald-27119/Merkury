@@ -1,8 +1,5 @@
-import { Editor } from "@tinymce/tinymce-react";
-import { tinymceForumConfig } from "../../../../utils/tinymce/tinymceForumConfig";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
-import { useRef } from "react";
-import { Editor as TinyMCEEditor } from "tinymce";
+import Tiptap from "../../rich-text-editor/Tiptap";
 
 interface PostFormProps<T extends FieldValues> {
     name: Path<T>;
@@ -15,26 +12,20 @@ export default function PostFormEditor<T extends FieldValues>({
     control,
     error,
 }: PostFormProps<T>) {
-    const editorRef = useRef<TinyMCEEditor | null>(null);
     return (
-        <div>
+        <div className="w-full">
             <Controller
                 name={name}
                 control={control}
                 render={({ field }) => (
                     <>
-                        <Editor
-                            apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
-                            onInit={(_, editor) => {
-                                editorRef.current = editor;
-                            }}
-                            value={field.value}
-                            onEditorChange={(newContent) => {
-                                field.onChange(newContent);
-                            }}
-                            onBlur={field.onBlur}
-                            init={tinymceForumConfig}
-                        />
+                        <div className="dark:bg-darkBg mx-auto h-60 rounded-lg p-4 shadow-lg">
+                            <Tiptap
+                                placeholder="Type here..."
+                                value={field.value}
+                                onChange={field.onChange}
+                            />
+                        </div>
                         {error && (
                             <p className="text-xs font-bold text-red-500">
                                 {error}
