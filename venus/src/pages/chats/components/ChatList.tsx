@@ -1,20 +1,20 @@
-import React, { useRef, useEffect } from "react";
-import { useInfiniteQuery, InfiniteData } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+import React, { useRef, useEffect, useMemo } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import ListedChat from "./ListedChat";
 import { getChatListByPage } from "../../../http/chats";
 import {
     ChatDto,
     ChatPage,
 } from "../../../model/interface/chat/chatInterfaces";
-import { selectAllChats, chatActions } from "../../../redux/chats";
-import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import SkeletonListedChat from "./skeleton/SkeletonListedChat";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import useSelectorTyped from "../../../hooks/useSelectorTyped";
+import { chatActions } from "../../../redux/chats";
 
 export default function ChatList() {
     const dispatch = useDispatchTyped();
-    const allChats = useSelector(selectAllChats);
+    const selectedChatId = useSelectorTyped((s) => s.chats.selectedChatId);
 
     const numberOfChatsPerPage = 13;
 
@@ -26,7 +26,7 @@ export default function ChatList() {
         isError,
         isLoading,
         isSuccess,
-    } = useInfiniteQuery<ChatPage, Error, InfiniteData<ChatPage>>({
+    } = useInfiniteQuery<ChatPage>({
         queryKey: ["user-chat-list"],
         queryFn: ({ pageParam = 0 }) =>
             getChatListByPage(pageParam as number, numberOfChatsPerPage),
@@ -34,17 +34,57 @@ export default function ChatList() {
         initialPageParam: 0,
     });
 
-    useEffect(() => {
-        if (isSuccess && data) {
-            const newItems: ChatDto[] = (
-                data.pages[data.pages.length - 1] as ChatPage
-            ).items;
-            dispatch(chatActions.upsertChats(newItems));
+    // 🔻 lokalny merge + dedupe po id (render)
+    const chats: ChatDto[] = useMemo(() => {
+        if (!isSuccess || !data) return [];
+        const map = new Map<number, ChatDto>();
+        for (const page of data.pages) {
+            for (const item of page.items) {
+                map.set(item.id, item);
+            }
         }
-    }, [isSuccess, data, dispatch]);
+        return Array.from(map.values());
+    }, [data, isSuccess]);
 
+    // --- efekt 1: upsert do Reduxa TYLKO gdy przybyła nowa strona ---
+    const pagesLen = data?.pages.length ?? 0;
+
+    useEffect(() => {
+        if (!pagesLen) return;
+        const lastPage = data!.pages[pagesLen - 1];
+        if (!lastPage?.items?.length) return;
+
+        // odchudź rekordy do Reduxa: messages []
+        const toRedux = lastPage.items.map<ChatDto>((c) => ({
+            id: c.id,
+            name: c.name,
+            imgUrl: c.imgUrl,
+            participants: c.participants, // jeśli niepotrzebne, możesz podać []
+            lastMessage: c.lastMessage,
+            messages: [], // 👈 brak historii w Reduxie
+        }));
+
+        dispatch(chatActions.upsertChats(toRedux));
+    }, [pagesLen, dispatch, data]);
+
+    // --- efekt 2: ustaw pierwszy czat jako selected (tylko raz) ---
+    const didSelectRef = useRef(false);
+    const firstChatId = data?.pages?.[0]?.items?.[0]?.id;
+
+    useEffect(() => {
+        if (didSelectRef.current) return;
+        if (selectedChatId != null) {
+            didSelectRef.current = true;
+            return;
+        }
+        if (typeof firstChatId === "number") {
+            dispatch(chatActions.setSelectedChatId(firstChatId));
+            didSelectRef.current = true; // zabezpiecza też przed podwójnym wywołaniem w StrictMode
+        }
+    }, [firstChatId, selectedChatId, dispatch]);
+
+    // sentinel do ładowania kolejnej strony
     const loadMoreRef = useRef<HTMLDivElement>(null);
-
     useEffect(() => {
         if (!loadMoreRef.current || !hasNextPage) return;
 
@@ -67,19 +107,22 @@ export default function ChatList() {
     }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
     if (isLoading)
-        return Array.from({ length: 15 }).map((_, index) => (
-            <SkeletonListedChat key={index} />
-        ));
+        return (
+            <>
+                {Array.from({ length: 15 }).map((_, index) => (
+                    <SkeletonListedChat key={index} />
+                ))}
+            </>
+        );
 
-    if (isError) return <div>Failed to load chats</div>; //TODO: add error handling, notification
+    if (isError) return <div>Failed to load chats</div>;
 
     return (
         <>
-            {allChats.map((chat) => (
-                <ListedChat key={chat?.id} chat={chat} />
+            {chats.map((chat) => (
+                <ListedChat key={chat.id} chat={chat} />
             ))}
             <div ref={loadMoreRef} className="h-1" />
-            {/*TODO: add nicer spinner*/}
             {isFetchingNextPage && (
                 <LoadingSpinner borderTopClass="border-t-violetLight" />
             )}

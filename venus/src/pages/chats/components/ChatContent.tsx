@@ -28,7 +28,7 @@ export default function ChatContent() {
     return (
         <div className="flex h-full flex-col">
             <ChatTopBar chatDto={chatDto} />
-            <ChatMessagingWindow chatDto={chatDto} />
+            <ChatMessagingWindow key={chatDto.id} chatDto={chatDto} />
             <ChatBottomBar />
         </div>
     );

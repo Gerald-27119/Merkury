@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 @Slf4j
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 public class ChatStompCommunicationController {
 
-    private final SimpMessagingTemplate messagingTemplate;
     private final ChatStompCommunicationService chatStompCommunicationService;
     private final ChatService chatService;
 
@@ -34,6 +32,8 @@ public class ChatStompCommunicationController {
         var chatMessageDtoToBroadCast = chatService.saveChatMessage(message);
         // 3. Wysyłam wiadomość na customowe kanały, które tworze dynamicznie dla członków chatu, na który wiadomość dostałem
         chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(chatMessageDtoToBroadCast);
+
+        chatStompCommunicationService.broadcastWithMessageToSender(chatMessageDtoToBroadCast, message.optimisticMessageUUID());
 
 //        TODO:remove: messagingTemplate.convertAndSend("/subscribe/" + chatId + "/chat", convertedToDtoMessageFromDb);
 //        TODO:user recieves a message for a chat that he hasn't yet scrolled to on forntned so he doesn't have yet details of that chat.
@@ -53,3 +53,5 @@ public class ChatStompCommunicationController {
 // 2.2 Validate message content length (TODO)
 // 3. Save message to DB
 // 4. Broadcast message to all subscribers (via STOMP)
+
+//TODO: poownienie forntu i ponownienie abckendu

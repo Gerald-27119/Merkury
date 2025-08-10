@@ -1,4 +1,3 @@
-// redux/chats.ts
 import {
     createEntityAdapter,
     createSlice,
@@ -56,7 +55,6 @@ export const {
     selectEntities: selectChatEntities,
 } = chatsAdapter.getSelectors<RootState>((s) => s.chats);
 
-// 🔧 poprawka Twojego selektora: zwraca bezpośrednio lastMessage (nie tablicę!)
 export const selectLastMessageForChat = (chatId: number) =>
     createSelector(
         [

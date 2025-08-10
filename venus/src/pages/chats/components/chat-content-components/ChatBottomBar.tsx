@@ -7,7 +7,8 @@ import { useWebSocket } from "../../../../stomp/useWebSocket";
 import {
     ChatMessageToSendDto,
     ChatMessageDto,
-    ChatMessagesPageDto, // ⬅️ użyjemy dokładnego typu strony
+    ChatMessagesPageDto,
+    ChatPage,
 } from "../../../../model/interface/chat/chatInterfaces";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
@@ -15,6 +16,8 @@ import { chatActions } from "../../../../redux/chats";
 import EmojiGifWindowWrapper from "./bottom-bar-components/EmojiGifWindow/EmojiGifWindowWrapper";
 import { useClickOutside } from "../../../../hooks/useClickOutside";
 import { useQueryClient, InfiniteData } from "@tanstack/react-query";
+
+type LocalMsg = ChatMessageDto & { optimistic?: true; optimisticUUID?: string };
 
 export default function ChatBottomBar() {
     const iconClasses =
@@ -25,7 +28,7 @@ export default function ChatBottomBar() {
 
     const { publish, connected } = useWebSocket();
     const { selectedChatId } = useSelectorTyped((s) => s.chats);
-    const username = useSelectorTyped((s) => s.account.username); // tylko do lokalnego renderu
+    const username = useSelectorTyped((s) => s.account.username); // tylko dla UI
 
     const dispatch = useDispatchTyped();
     const queryClient = useQueryClient();
@@ -42,20 +45,27 @@ export default function ChatBottomBar() {
 
         const chatId = selectedChatId;
 
-        // ujemne ID => tymczasowe (zgodnie z ChatMessageDto.id: number)
-        const tempId = -Date.now();
+        // UUID do korelacji ACK <-> optymista
+        const optimisticUUID =
+            typeof crypto !== "undefined" && "randomUUID" in crypto
+                ? crypto.randomUUID()
+                : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
-        const optimistic: ChatMessageDto & { optimistic?: true } = {
-            id: tempId,
+        // ujemne ID = optymistyczne
+        const optimistic: LocalMsg = {
+            id: -Date.now(),
             chatId,
             content: text,
             sentAt: new Date().toISOString(),
-            // lokalny sender do UI (backend i tak uzupełni z JWT)
             sender: { id: -1, name: username || "You", imgUrl: "" },
             optimistic: true,
+            optimisticUUID,
         };
 
-        // dopnij optymistycznie do pierwszej strony Infinite Query
+        // A) natychmiast podbij lastMessage w Reduxie (lista czatów)
+        dispatch(chatActions.setLastMessage({ chatId, message: optimistic }));
+
+        // B) dopnij optymistę do pierwszej strony historii (flex-col-reverse)
         queryClient.setQueryData<InfiniteData<ChatMessagesPageDto>>(
             ["messages", chatId],
             (old) => {
@@ -68,20 +78,38 @@ export default function ChatBottomBar() {
                 };
                 const newFirst = {
                     ...first,
-                    messages: [optimistic, ...(first.messages ?? [])],
+                    messages: [
+                        optimistic as ChatMessageDto,
+                        ...(first.messages ?? []),
+                    ],
                 };
                 return { ...old, pages: [newFirst, ...old.pages.slice(1)] };
             },
         );
 
-        // zaktualizuj lastMessage (lista czatów)
-        dispatch(chatActions.setLastMessage({ chatId, message: optimistic }));
+        // C) jeśli masz w pamięci listę czatów z React Query — podmień jej lastMessage
+        queryClient.setQueriesData<InfiniteData<ChatPage>>(
+            { queryKey: ["user-chat-list"] },
+            (old) => {
+                if (!old) return old;
+                const pages = old.pages.map((p) => ({
+                    ...p,
+                    items: p.items.map((c) =>
+                        c.id === chatId ? { ...c, lastMessage: optimistic } : c,
+                    ),
+                }));
+                return { ...old, pages };
+            },
+        );
 
-        // payload zgodnie z Twoim ChatMessageToSendDto (BEZ username)
-        const payload: ChatMessageToSendDto = {
+        // D) wyślij do backendu (BE bierze username z JWT; dodajemy tylko optimisticMessageUUID)
+        const payload: ChatMessageToSendDto & {
+            optimisticMessageUUID: string;
+        } = {
             chatId,
             content: text,
             sentAt: optimistic.sentAt,
+            optimisticMessageUUID: optimisticUUID,
         };
 
         setIsSending(true);

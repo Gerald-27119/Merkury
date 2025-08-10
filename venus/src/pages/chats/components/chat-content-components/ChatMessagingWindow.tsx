@@ -10,7 +10,7 @@ import {
     useQueryClient,
 } from "@tanstack/react-query";
 import { getMessagesForChat } from "../../../../http/chats";
-import { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { selectLastMessageForChat } from "../../../../redux/chats";
@@ -30,7 +30,12 @@ export default function ChatMessagingWindow({
 }: ChatMessagingWindowProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const queryClient = useQueryClient();
-    const lastAppliedIdRef = useRef<number | null>(null); // ⬅️ liczba lub null
+    const lastAppliedIdRef = useRef<number | null>(null);
+
+    // reset „ostatnio zastosowanego” ID po zmianie czatu
+    useEffect(() => {
+        lastAppliedIdRef.current = null;
+    }, [chatDto?.id]);
 
     // Historia wiadomości (paginacja)
     const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
@@ -44,9 +49,15 @@ export default function ChatMessagingWindow({
                 lastPage.hasNextSlice ? lastPage.sliceNumber + 1 : undefined,
         });
 
-    // sentinel do ładowania starszych
+    // Bezpieczny root dla IntersectionObserver (wiążemy po mountcie)
+    const [scrollRoot, setScrollRoot] = useState<Element | null>(null);
+    useEffect(() => {
+        setScrollRoot(containerRef.current);
+    }, []);
+
+    // sentinel do ładowania starszych (przy flex-col-reverse – sentinel na końcu drzewa = wizualnie "góra")
     const { ref: topSentinelRef, inView: topInView } = useInView({
-        root: containerRef.current ?? undefined,
+        root: scrollRoot ?? undefined,
         rootMargin: "100px 0px 0px 0px",
         threshold: 0,
     });
@@ -73,14 +84,20 @@ export default function ChatMessagingWindow({
 
     useEffect(() => {
         if (!chatDto?.id || !lastIncoming) return;
+
+        // 1) twardy guard po ID (string vs number-safe)
+        if (String(lastIncoming.chatId) !== String(chatDto.id)) return;
+
+        // 2) uniknij podwójnego zastosowania
         if (lastIncoming.id === lastAppliedIdRef.current) return;
 
+        // 3) aktualizuj cache PO chatId z wiadomości
         queryClient.setQueryData<InfiniteData<MessagesSlice>>(
-            ["messages", chatDto.id],
+            ["messages", lastIncoming.chatId],
             (old) => {
                 if (!old) return old;
 
-                // 1) jeśli już mamy tę wiadomość po ID -> nic nie rób
+                // dedupe po id
                 const hasSameId = old.pages.some((p) =>
                     (p.messages ?? []).some((m) => m.id === lastIncoming.id),
                 );
@@ -89,7 +106,7 @@ export default function ChatMessagingWindow({
                     return old;
                 }
 
-                // 2) podmiana optymistycznej (id<0 lub flaga optimistic)
+                // spróbuj podmienić temp → real
                 let replaced = false;
                 const pagesReplaced = old.pages.map((p) => {
                     if (replaced) return p;
@@ -98,16 +115,12 @@ export default function ChatMessagingWindow({
                             (m as any).optimistic === true ||
                             (typeof m.id === "number" && m.id < 0);
 
-                        // porównujemy autora po NAME (opt. ma sender.id = -1)
                         const sameAuthorName =
                             (m as any).sender?.name ===
                             (lastIncoming as any).sender?.name;
-
                         const sameContent =
                             (m as any).content ===
                             (lastIncoming as any).content;
-
-                        // tolerancja czasu 5s
                         const timeClose =
                             Math.abs(
                                 new Date(m.sentAt).getTime() -
@@ -122,7 +135,7 @@ export default function ChatMessagingWindow({
                             timeClose
                         ) {
                             replaced = true;
-                            return lastIncoming; // temp -> real
+                            return lastIncoming;
                         }
                         return m;
                     });
@@ -134,7 +147,7 @@ export default function ChatMessagingWindow({
                     return { ...old, pages: pagesReplaced };
                 }
 
-                // 3) brak temp -> dopnij na początek pierwszej strony (flex-col-reverse)
+                // brak temp → wstaw na początek pierwszej strony
                 const first = old.pages[0] ?? {
                     messages: [],
                     hasNextSlice: true,
@@ -176,7 +189,7 @@ export default function ChatMessagingWindow({
 
                 return (
                     <div
-                        key={message.id}
+                        key={`${chatDto.id}:${message.id}`}
                         className="hover:bg-violetLight/40 pl-2"
                     >
                         {thisDate !== prevDate && (
@@ -220,7 +233,7 @@ function checkIfShouldGroupMessagesByTime(
 
     if (current.toDateString() !== previous.toDateString()) return false;
 
-    // ⬇️ porównuj po name, żeby optymistyczne (sender.id = -1) grupowały się z realnymi
+    // grupuj po 'name' – optymistyczne (sender.id = -1) zlepiają się z realnymi
     if ((message as any).sender?.name !== (prevMessage as any).sender?.name)
         return false;
 

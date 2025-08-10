@@ -18,6 +18,7 @@ export interface ChatMessageToSendDto {
     sentAt: string;
     content: string;
     chatId: number;
+    optimisticMessageUUID: string; // NOWE
 }
 
 export interface ChatMessageSenderDto {
@@ -56,4 +57,14 @@ export interface ChatMessagesPageDto {
     hasNextSlice: boolean;
     numberOfMessages: number;
     sliceNumber: number;
+}
+
+export type ChatMessageLocal = ChatMessageDto & {
+    optimistic?: true;
+    optimisticUUID?: string; // korelacja z ACK
+};
+
+export interface ChatMessageAckDto {
+    chatMessageDto: ChatMessageDto; // finalny obiekt z DB
+    optimisticMessageUUID: string; // to co wysłałeś w payloadzie
 }
