@@ -11,18 +11,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static com.merkury.vulcanus.model.enums.user.dashboard.DateSortType.DATE_ASCENDING;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 
@@ -41,9 +35,7 @@ class MediaServiceTest {
         var photo2 = SpotMedia.builder().author(user).addDate(LocalDate.now()).likes(10).views(12).genericMediaType(GenericMediaType.PHOTO).build();
         var photosList = List.of(photo1, photo2);
 
-        Page<SpotMedia> page = new PageImpl<>(photosList);
-
-        when(spotMediaRepository.findAllByAuthorUsernameAndGenericMediaType(eq("user1"), eq(GenericMediaType.PHOTO), any(PageRequest.class))).thenReturn(page);
+        when(spotMediaRepository.findAllByAuthorUsernameAndGenericMediaType("user1", GenericMediaType.PHOTO)).thenReturn(photosList);
 
         var result = mediaService.getSortedUserPhotos("user1", DATE_ASCENDING, null, null, 0, 10).items();
 
@@ -67,14 +59,12 @@ class MediaServiceTest {
         var user = UserEntity.builder().username("user1").build();
         var photo = SpotMedia.builder().author(user).addDate(LocalDate.of(2025, 6, 15)).likes(12).views(15).genericMediaType(GenericMediaType.PHOTO).build();
 
-        Page<SpotMedia> page = new PageImpl<>(List.of(photo));
 
         when(spotMediaRepository.findAllByAuthorUsernameAndGenericMediaTypeAndAddDateBetween(
                 "user1",
                 GenericMediaType.PHOTO,
                 LocalDate.of(2025, 6, 15),
-                LocalDate.of(2025, 6, 16),
-                PageRequest.of(0, 10, Sort.by("addDate").ascending()))).thenReturn(page);
+                LocalDate.of(2025, 6, 16))).thenReturn(List.of(photo));
 
         var result = mediaService
                 .getSortedUserPhotos("user1", DATE_ASCENDING,
