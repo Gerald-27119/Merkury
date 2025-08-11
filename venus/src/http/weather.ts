@@ -1,4 +1,18 @@
 import axios from "axios";
+import SpotCoordinatesDto from "../model/interface/spot/coordinates/spotCoordinatesDto";
+
+export async function getBasicSpotWeather(spotCoordinates: SpotCoordinatesDto) {
+    return (
+        await axios.get("https://api.open-meteo.com/v1/forecast", {
+            params: {
+                latitude: spotCoordinates.x,
+                longitude: spotCoordinates.y,
+                hourly: ["temperature_2m", "wind_speed_10m"],
+                wind_speed_unit: "ms",
+            },
+        })
+    ).data;
+}
 
 export async function fetchWeather(latitude, longitude) {
     return (
