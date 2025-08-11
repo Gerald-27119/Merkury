@@ -7,9 +7,9 @@ import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.FavoriteSpotMapper;
 import com.merkury.vulcanus.model.repositories.FavoriteSpotRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +19,7 @@ public class FavoriteSpotService {
 
     public FavoriteSpotPageDto getUserFavoritesSpots(String username, FavoriteSpotsListType type, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<FavoriteSpot> favoriteSpots;
+        Slice<FavoriteSpot> favoriteSpots;
 
         if (type == FavoriteSpotsListType.ALL) {
             favoriteSpots = favoriteSpotRepository.findAllByUserUsername(username, pageable);

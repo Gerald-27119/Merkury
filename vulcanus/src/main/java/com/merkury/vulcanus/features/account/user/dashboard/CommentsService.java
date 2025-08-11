@@ -7,10 +7,7 @@ import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.CommentsMapper;
 import com.merkury.vulcanus.model.repositories.SpotCommentRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -32,7 +29,7 @@ public class CommentsService {
      */
     private DatedCommentsGroupPageDto getAllUserComments(String username, LocalDate from, LocalDate to, DateSortType sortType, int page, int size) throws UnsupportedDateSortTypeException {
         Pageable pageable = PageRequest.of(page, size, getSpringSort(sortType));
-        Page<SpotComment> comments;
+        Slice<SpotComment> comments;
 
         if (from == null && to == null) {
             comments = spotCommentRepository.findAllByAuthorUsername(username, pageable);

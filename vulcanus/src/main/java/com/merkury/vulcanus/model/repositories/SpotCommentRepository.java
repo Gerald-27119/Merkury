@@ -4,6 +4,7 @@ import com.merkury.vulcanus.model.entities.spot.SpotComment;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -23,11 +24,11 @@ public interface SpotCommentRepository extends JpaRepository<SpotComment, Long> 
 
     List<SpotComment> findBySpotId(Long spotId);
 
-    Page<SpotComment> findAllByAuthorUsername(String username, Pageable pageable);
+    Slice<SpotComment> findAllByAuthorUsername(String username, Pageable pageable);
 
-    Page<SpotComment> findAllByAuthorUsernameAndPublishDateBetween(String username, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+    Slice<SpotComment> findAllByAuthorUsernameAndPublishDateBetween(String username, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
 
-    Page<SpotComment> findAllByAuthorUsernameAndPublishDateGreaterThanEqual(String username, LocalDateTime startDate, Pageable pageable);
+    Slice<SpotComment> findAllByAuthorUsernameAndPublishDateGreaterThanEqual(String username, LocalDateTime startDate, Pageable pageable);
 
-    Page<SpotComment> findAllByAuthorUsernameAndPublishDateLessThanEqual(String username, LocalDateTime endDate, Pageable pageable);
+    Slice<SpotComment> findAllByAuthorUsernameAndPublishDateLessThanEqual(String username, LocalDateTime endDate, Pageable pageable);
 }
