@@ -28,7 +28,7 @@ export default function Photos() {
                 searchDate.from,
                 searchDate.to,
                 pageParam,
-                12,
+                2,
             ),
         getNextPageParam: (lastPage, allPages) =>
             lastPage.hasNext ? allPages.length : undefined,

@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
+import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
@@ -8,13 +9,12 @@ import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.MediaMapper;
 import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,34 +31,42 @@ public class MediaService {
     }
 
     private DatedMediaGroupPageDto getAllUserMedia(String username, LocalDate from, LocalDate to, GenericMediaType type, DateSortType sortType, int page, int size) throws UnsupportedDateSortTypeException {
-        Pageable pageable = PageRequest.of(page, size, getSpringSort(sortType));
-        Page<SpotMedia> media;
+        List<SpotMedia> media;
 
         if (from == null && to == null) {
-            media = spotMediaRepository.findAllByAuthorUsernameAndGenericMediaType(username, type, pageable);
+            media = spotMediaRepository.findAllByAuthorUsernameAndGenericMediaType(username, type);
         } else if (from != null && to == null) {
-            media = spotMediaRepository.findByAuthorUsernameAndGenericMediaTypeAndAddDateGreaterThanEqual(username, type, from, pageable);
+            media = spotMediaRepository.findByAuthorUsernameAndGenericMediaTypeAndAddDateGreaterThanEqual(username, type, from);
         } else if (from == null) {
-            media = spotMediaRepository.findByAuthorUsernameAndGenericMediaTypeAndAddDateLessThanEqual(username, type, to, pageable);
+            media = spotMediaRepository.findByAuthorUsernameAndGenericMediaTypeAndAddDateLessThanEqual(username, type, to);
         } else {
-            media = spotMediaRepository.findAllByAuthorUsernameAndGenericMediaTypeAndAddDateBetween(username, type, from, to, pageable);
+            media = spotMediaRepository.findAllByAuthorUsernameAndGenericMediaTypeAndAddDateBetween(username, type, from, to);
         }
+
+        var dateComparator = getLocalDateComparator(sortType);
 
         var mappedMedia = media.stream()
                 .collect(Collectors.groupingBy(
                         SpotMedia::getAddDate,
                         Collectors.mapping(MediaMapper::toDto, Collectors.toList())
                 )).entrySet().stream()
+                .sorted(Map.Entry.comparingByKey(dateComparator))
                 .map(e -> MediaMapper.toDto(e.getKey(), e.getValue()))
                 .toList();
 
-        return new DatedMediaGroupPageDto(mappedMedia, media.hasNext());
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, mappedMedia.size());
+        List<DatedMediaGroupDto> paged = fromIndex < mappedMedia.size() ? mappedMedia.subList(fromIndex, toIndex) : List.of();
+
+        boolean hasNext = toIndex < mappedMedia.size();
+
+        return new DatedMediaGroupPageDto(paged, hasNext);
     }
 
-    private Sort getSpringSort(DateSortType type) throws UnsupportedDateSortTypeException {
+    private Comparator<LocalDate> getLocalDateComparator(DateSortType type) throws UnsupportedDateSortTypeException {
         return switch (type) {
-            case DATE_ASCENDING -> Sort.by("addDate").ascending();
-            case DATE_DESCENDING -> Sort.by("addDate").descending();
+            case DATE_ASCENDING -> Comparator.naturalOrder();
+            case DATE_DESCENDING -> Comparator.reverseOrder();
             default -> throw new UnsupportedDateSortTypeException(type);
         };
     }
