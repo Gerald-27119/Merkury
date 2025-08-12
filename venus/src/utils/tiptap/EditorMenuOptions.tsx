@@ -1,16 +1,10 @@
 import { Editor } from "@tiptap/react";
 import {
-    MdFormatBold,
-    MdFormatItalic,
-    MdFormatUnderlined,
-} from "react-icons/md";
-import {
-    LuHeading,
-    LuHeading1,
-    LuHeading2,
-    LuHeading3,
     LuUndo2,
     LuRedo2,
+    LuBold,
+    LuItalic,
+    LuUnderline,
     LuAlignLeft,
     LuAlignRight,
     LuAlignCenter,
@@ -18,7 +12,6 @@ import {
     LuImage,
     LuUpload,
     LuLink,
-    LuHighlighter,
 } from "react-icons/lu";
 import { ReactNode } from "react";
 
@@ -39,47 +32,41 @@ interface EditorState {
     isRight: boolean;
     isCenter: boolean;
     isJustify: boolean;
-    isHighlighted: boolean;
 }
 
 export function EditorMenuOptions(
     editor: Editor,
     state: EditorState,
+    size: number,
 ): EditorOptionProps[] {
     return [
         {
-            icon: <LuUndo2 />,
+            icon: <LuUndo2 size={size} />,
             onClick: () => editor.chain().focus().undo().run(),
             pressed: false,
         },
         {
-            icon: <LuRedo2 />,
+            icon: <LuRedo2 size={size} />,
             onClick: () => editor.chain().focus().redo().run(),
             pressed: false,
         },
         {
-            icon: <LuHeading1 />,
-            onClick: () =>
-                editor.chain().focus().toggleHeading({ level: 1 }).run(),
-            pressed: state.isHeading1,
-        },
-        {
-            icon: <MdFormatBold />,
+            icon: <LuBold size={size} />,
             onClick: () => editor.chain().focus().toggleBold().run(),
             pressed: state.isBold,
         },
         {
-            icon: <MdFormatItalic />,
+            icon: <LuItalic size={size} />,
             onClick: () => editor.chain().focus().toggleItalic().run(),
             pressed: state.isItalic,
         },
         {
-            icon: <MdFormatUnderlined />,
+            icon: <LuUnderline size={size} />,
             onClick: () => editor.chain().focus().toggleUnderline().run(),
             pressed: state.isUnderlined,
         },
         {
-            icon: <LuLink />,
+            icon: <LuLink size={size} />,
             onClick: () => {
                 const url = window.prompt("Podaj URL:");
                 if (url) {
@@ -94,7 +81,7 @@ export function EditorMenuOptions(
             pressed: false,
         },
         {
-            icon: <LuImage />,
+            icon: <LuImage size={size} />,
             onClick: () => {
                 const url = window.prompt("Podaj URL obrazka:");
                 if (url) {
@@ -108,39 +95,29 @@ export function EditorMenuOptions(
             pressed: false,
         },
         {
-            icon: <LuUpload />,
+            icon: <LuUpload size={size} />,
             onClick: () => editor.chain().focus(),
             pressed: false,
         },
         {
-            icon: <LuAlignLeft />,
+            icon: <LuAlignLeft size={size} />,
             onClick: () => editor.chain().focus().setTextAlign("left").run(),
             pressed: state.isLeft,
         },
         {
-            icon: <LuAlignCenter />,
+            icon: <LuAlignCenter size={size} />,
             onClick: () => editor.chain().focus().setTextAlign("center").run(),
             pressed: state.isCenter,
         },
         {
-            icon: <LuAlignRight />,
+            icon: <LuAlignRight size={size} />,
             onClick: () => editor.chain().focus().setTextAlign("right").run(),
             pressed: state.isRight,
         },
         {
-            icon: <LuAlignJustify />,
+            icon: <LuAlignJustify size={size} />,
             onClick: () => editor.chain().focus().setTextAlign("justify").run(),
             pressed: state.isJustify,
-        },
-        {
-            icon: <LuHighlighter />,
-            onClick: () =>
-                editor
-                    .chain()
-                    .focus()
-                    .toggleHighlight({ color: "#835ace" })
-                    .run(),
-            pressed: state.isHighlighted,
         },
     ];
 }

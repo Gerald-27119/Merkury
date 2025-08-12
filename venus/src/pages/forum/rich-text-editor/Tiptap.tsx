@@ -5,7 +5,6 @@ import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import FileHandler from "@tiptap/extension-file-handler";
 import Placeholder from "@tiptap/extension-placeholder";
-import Highlight from "@tiptap/extension-highlight";
 import MenuBar from "./MenuBar";
 
 interface TiptapProps {
@@ -18,14 +17,16 @@ export default function Tiptap({ placeholder, value, onChange }: TiptapProps) {
     const editor = useEditor({
         extensions: [
             StarterKit,
-            Link,
+            Link.configure({
+                linkOnPaste: false,
+                shouldAutoLink: (url) => url.startsWith("https://"),
+            }),
             Placeholder.configure({
                 placeholder: placeholder,
             }),
             TextAlign.configure({
                 types: ["heading", "paragraph"],
             }),
-            Highlight.configure({ multicolor: true }),
             Image.configure({
                 inline: false,
                 allowBase64: true,
@@ -46,7 +47,7 @@ export default function Tiptap({ placeholder, value, onChange }: TiptapProps) {
                 <EditorContent
                     editor={editor}
                     className={
-                        "tiptap-editor-content [&_.is-empty:first-child::before]:text-lightText/60 dark:[&_.is-empty:first-child::before]:text-darkText/50 flex-1 overflow-y-auto outline-none [&_.is-empty:first-child::before]:content-[attr(data-placeholder)]"
+                        "tiptap-editor-content [&_.is-empty:first-child::before]:text-lightText/60 dark:[&_.is-empty:first-child::before]:text-darkText/50 h-full flex-1 overflow-y-auto [&_.is-empty:first-child::before]:content-[attr(data-placeholder)]"
                     }
                 />
             </div>

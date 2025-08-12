@@ -50,7 +50,7 @@ export default function SelectWithSearch({
     };
 
     return (
-        <div className="w-full max-w-[600px]">
+        <div className="w-full">
             <Select
                 ref={selectRef}
                 isMulti={isMultiChoice}

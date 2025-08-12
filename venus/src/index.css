@@ -125,6 +125,10 @@ body {
     overflow: hidden;
 }
 
+.tiptap{
+    height: 100%;
+}
+
 .tiptap-editor-content h1 {
     @apply text-4xl font-bold mb-4;
 }

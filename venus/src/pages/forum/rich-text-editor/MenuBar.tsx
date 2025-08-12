@@ -1,5 +1,6 @@
 import { Editor, useEditorState } from "@tiptap/react";
 import { EditorMenuOptions } from "../../../utils/tiptap/EditorMenuOptions";
+import HeadingDropdown from "./HeadingDropdown";
 
 interface MenuBarProps {
     editor: Editor | null;
@@ -23,19 +24,19 @@ export default function MenuBar({ editor }: MenuBarProps) {
             isCenter: snapshot.editor.isActive({ textAlign: "center" }),
             isRight: snapshot.editor.isActive({ textAlign: "right" }),
             isJustify: snapshot.editor.isActive({ textAlign: "justify" }),
-            isHighlighted: snapshot.editor.isActive("highlight"),
         }),
     });
 
-    const options = EditorMenuOptions(editor, state);
+    const options = EditorMenuOptions(editor, state, 18);
 
     return (
-        <div className="mb-1 w-full space-x-2 text-lg">
+        <div className="mb-1 flex w-full flex-wrap space-x-2">
+            <HeadingDropdown editor={editor} size={18} />
             {options.map((option, index) => (
                 <button
                     key={index}
                     onClick={option.onClick}
-                    className={`rounded p-1 hover:cursor-pointer ${
+                    className={`cursor-pointer rounded p-1 ${
                         option.pressed ? "bg-violet-500" : "bg-inherit"
                     }`}
                     type="button"
