@@ -35,8 +35,8 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 <button
                     key={index}
                     onClick={option.onClick}
-                    className={`cursor-pointer rounded p-1 ${
-                        option.pressed ? "bg-violet-500" : "bg-inherit"
+                    className={`dark:hover:bg-darkBgMuted hover:bg-lightBgDarker cursor-pointer rounded p-1 ${
+                        option.pressed ? "bg-violet-600" : ""
                     }`}
                     type="button"
                 >

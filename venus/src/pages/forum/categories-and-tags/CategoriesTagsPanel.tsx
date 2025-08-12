@@ -26,7 +26,7 @@ export default function CategoriesTagsPanel({
     }
 
     return (
-        <div className="dark:bg-darkBgSoft mt-4 w-52 rounded-2xl">
+        <div className="dark:bg-darkBgSoft mt-4 w-52 rounded-2xl shadow-lg">
             <div className="p-4">
                 <span>Categories</span>
                 {data?.categories?.length ? (

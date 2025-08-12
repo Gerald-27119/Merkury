@@ -41,6 +41,7 @@ export default function HeadingDropdown({
         } else {
             editor?.chain().focus().toggleHeading({ level: level }).run();
         }
+        const isActive = editor?.isActive("heading", { level });
         closeDropdown();
     };
 
@@ -49,7 +50,7 @@ export default function HeadingDropdown({
             <button
                 onClick={isDropdownOpen ? closeDropdown : openDropdown}
                 type="button"
-                className="cursor-pointer p-1 hover:bg-gray-200 dark:hover:bg-gray-700"
+                className="dark:hover:bg-darkBgMuted hover:bg-lightBgDarker cursor-pointer rounded p-1"
             >
                 <LuHeading size={size} />
             </button>
@@ -59,7 +60,7 @@ export default function HeadingDropdown({
                         <li
                             key={level}
                             onClick={() => selectHeading(level)}
-                            className="mt-1 flex cursor-pointer items-center px-1 hover:bg-red-500"
+                            className={`dark:hover:bg-darkBgMuted hover:bg-lightBgDarker mt-1 flex cursor-pointer items-center rounded px-1 ${editor?.isActive("heading", { level }) ? "bg-violet-600" : ""} `}
                         >
                             {icon}
                         </li>
