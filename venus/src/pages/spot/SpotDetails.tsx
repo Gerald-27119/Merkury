@@ -15,6 +15,7 @@ import SpotAddressInfo from "./components/spot-info/SpotAddressInfo";
 import SpotActionButtonsContainer from "./components/buttons/SpotActionButtonsContainer";
 import { motion } from "framer-motion";
 import SpotCommentsList from "./components/comments/SpotCommentsList";
+import { spotWeatherActions } from "../../redux/spot-weather";
 
 const slideVariants = {
     hidden: { x: "-100%", opacity: 0 },
@@ -46,6 +47,7 @@ export default function SpotDetails() {
 
     const handleClickCloseModal = () => {
         dispatch(spotDetailsModalAction.handleCloseModal());
+        dispatch(spotWeatherActions.closeAllWeatherModals());
     };
 
     return (

@@ -11,6 +11,7 @@ import SpotsNameSearchBar from "./components/spot-search/SpotsNameSearchBar";
 import SearchedSpotsList from "../spot/components/searched-spot/SearchedSpotsList";
 import SearchCurrentViewButton from "./components/current-view/SearchCurrentViewButton";
 import CurrentViewSpotsList from "../spot/components/current-view-spots/CurrentViewSpotsList";
+import BasicSpotWeather from "./components/weather/BasicSpotWeather";
 
 type Position = {
     longitude: number;
@@ -29,6 +30,10 @@ export default function MapPage() {
 
     const showSpotDetailsModal = useSelectorTyped(
         (state) => state.spotDetails.showModal,
+    );
+
+    const showBasicSpotWeatherModal = useSelectorTyped(
+        (state) => state.spotWeather.showBasicWeather,
     );
 
     const showSearchedSpotsList = useSelectorTyped(
@@ -56,7 +61,10 @@ export default function MapPage() {
             attributionControl={false}
             onZoomEnd={handleZoomEnd}
         >
+            {/*<div className="absolute right-1/2 flex items-center">*/}
             <SpotsNameSearchBar />
+            {showBasicSpotWeatherModal && <BasicSpotWeather />}
+            {/*</div>*/}
             <AnimatePresence>
                 {showSpotDetailsModal && <SpotDetails key="spot-details" />}
                 {showSearchedSpotsList && (
