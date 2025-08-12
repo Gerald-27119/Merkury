@@ -14,9 +14,8 @@ export default function MenuBar({ editor }: MenuBarProps) {
     const state = useEditorState({
         editor,
         selector: (snapshot) => ({
-            isHeading1: snapshot.editor.isActive("heading", { level: 1 }),
-            isHeading2: snapshot.editor.isActive("heading", { level: 2 }),
-            isHeading3: snapshot.editor.isActive("heading", { level: 3 }),
+            isBulletList: snapshot.editor.isActive("bulletList"),
+            isOrderedList: snapshot.editor.isActive("orderedList"),
             isBold: snapshot.editor.isActive("bold"),
             isItalic: snapshot.editor.isActive("italic"),
             isUnderlined: snapshot.editor.isActive("underline"),

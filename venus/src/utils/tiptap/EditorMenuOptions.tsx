@@ -2,6 +2,8 @@ import { Editor } from "@tiptap/react";
 import {
     LuUndo2,
     LuRedo2,
+    LuList,
+    LuListOrdered,
     LuBold,
     LuItalic,
     LuUnderline,
@@ -22,9 +24,8 @@ interface EditorOptionProps {
 }
 
 interface EditorState {
-    isHeading1: boolean;
-    isHeading2: boolean;
-    isHeading3: boolean;
+    isBulletList: boolean;
+    isOrderedList: boolean;
     isBold: boolean;
     isItalic: boolean;
     isUnderlined: boolean;
@@ -49,6 +50,16 @@ export function EditorMenuOptions(
             icon: <LuRedo2 size={size} />,
             onClick: () => editor.chain().focus().redo().run(),
             pressed: false,
+        },
+        {
+            icon: <LuList size={size} />,
+            onClick: () => editor.chain().focus().toggleBulletList().run(),
+            pressed: state.isBulletList,
+        },
+        {
+            icon: <LuListOrdered size={size} />,
+            onClick: () => editor.chain().focus().toggleOrderedList().run(),
+            pressed: state.isOrderedList,
         },
         {
             icon: <LuBold size={size} />,

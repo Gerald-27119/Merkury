@@ -140,3 +140,15 @@ body {
 .tiptap-editor-content h3 {
     @apply text-2xl font-semibold mb-2;
 }
+
+.tiptap-editor-content h4 {
+    @apply text-xl font-medium mb-2;
+}
+
+.tiptap-editor-content h5 {
+    @apply text-lg font-medium mb-1;
+}
+
+.tiptap-editor-content h6 {
+    @apply text-sm font-semibold mb-1;
+}

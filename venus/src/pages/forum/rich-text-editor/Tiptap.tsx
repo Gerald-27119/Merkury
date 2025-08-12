@@ -16,7 +16,18 @@ interface TiptapProps {
 export default function Tiptap({ placeholder, value, onChange }: TiptapProps) {
     const editor = useEditor({
         extensions: [
-            StarterKit,
+            StarterKit.configure({
+                bulletList: {
+                    HTMLAttributes: {
+                        class: "list-disc ml-4",
+                    },
+                },
+                orderedList: {
+                    HTMLAttributes: {
+                        class: "list-decimal ml-4",
+                    },
+                },
+            }),
             Link.configure({
                 linkOnPaste: false,
                 shouldAutoLink: (url) => url.startsWith("https://"),

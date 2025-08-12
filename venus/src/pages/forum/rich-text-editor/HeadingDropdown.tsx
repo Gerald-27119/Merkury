@@ -1,5 +1,13 @@
 import { Editor } from "@tiptap/react";
-import { LuHeading, LuHeading1, LuHeading2, LuHeading3 } from "react-icons/lu";
+import {
+    LuHeading,
+    LuHeading1,
+    LuHeading2,
+    LuHeading3,
+    LuHeading4,
+    LuHeading5,
+    LuHeading6,
+} from "react-icons/lu";
 import { useBoolean } from "../../../hooks/useBoolean";
 import { useRef } from "react";
 import { useClickOutside } from "../../../hooks/useClickOutside";
@@ -22,6 +30,9 @@ export default function HeadingDropdown({
         { level: 1, icon: <LuHeading1 size={size} /> },
         { level: 2, icon: <LuHeading2 size={size} /> },
         { level: 3, icon: <LuHeading3 size={size} /> },
+        { level: 4, icon: <LuHeading4 size={size} /> },
+        { level: 5, icon: <LuHeading5 size={size} /> },
+        { level: 6, icon: <LuHeading6 size={size} /> },
     ];
 
     const selectHeading = (level: any) => {
@@ -43,7 +54,7 @@ export default function HeadingDropdown({
                 <LuHeading size={size} />
             </button>
             {isDropdownOpen && (
-                <ul className="bg-darkBgSoft absolute z-[60] mt-1 rounded ring">
+                <ul className="dark:bg-darkBgSoft bg-lightBgSoft absolute z-[60] mt-1 rounded ring">
                     {levels.map(({ level, icon }) => (
                         <li
                             key={level}
