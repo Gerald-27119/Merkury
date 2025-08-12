@@ -75,15 +75,6 @@ export async function fetchSpotsDataById(
     return (await axios.get(`${BASE_URL}/public/spot/${id}`)).data;
 }
 
-export async function fetchUserFavouriteSpots(page) {
-    return (
-        await axios.get(`${BASE_URL}/spot/favourites`, {
-            params: { page },
-            withCredentials: true,
-        })
-    ).data;
-}
-
 export async function addSpotToFavourites(spotId) {
     return await axios.patch(
         `${BASE_URL}/spot/favourites/add/${spotId}`,

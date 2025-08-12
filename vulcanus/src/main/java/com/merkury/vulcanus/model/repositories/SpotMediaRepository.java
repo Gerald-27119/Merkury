@@ -10,8 +10,12 @@ import java.util.List;
 
 public interface SpotMediaRepository extends JpaRepository<SpotMedia, Long> {
     List<SpotMedia> findAllByAuthorUsernameAndGenericMediaTypeAndAddDateBetween(String username, GenericMediaType genericMediaType, LocalDate startDate, LocalDate endDate);
-    List<SpotMedia>findByAuthorUsernameAndGenericMediaTypeAndAddDateGreaterThanEqual(String username, GenericMediaType genericMediaType, LocalDate startDate);
-    List<SpotMedia>findByAuthorUsernameAndGenericMediaTypeAndAddDateLessThanEqual(String username, GenericMediaType genericMediaType, LocalDate endDate);
+
+    List<SpotMedia> findByAuthorUsernameAndGenericMediaTypeAndAddDateGreaterThanEqual(String username, GenericMediaType genericMediaType, LocalDate startDate);
+
+    List<SpotMedia> findByAuthorUsernameAndGenericMediaTypeAndAddDateLessThanEqual(String username, GenericMediaType genericMediaType, LocalDate endDate);
+
     List<SpotMedia> findAllByAuthorUsernameAndGenericMediaType(String username, GenericMediaType genericMediaType);
+
     List<SpotMedia> findTop4ByAuthorAndGenericMediaTypeOrderByLikesDesc(UserEntity author, GenericMediaType genericMediaType);
 }

@@ -8,6 +8,8 @@ import { socialAction } from "../../../redux/social";
 import AccountTitle from "../components/AccountTitle";
 import AccountWrapper from "../components/AccountWrapper";
 import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
+import { MutableRefObject } from "react";
+import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 
 interface SocialProps {
     friends: SocialDto[];
@@ -15,6 +17,8 @@ interface SocialProps {
     followers: SocialDto[];
     photos?: SocialDto[];
     isSocialForViewer: boolean;
+    loadMoreRef: MutableRefObject<HTMLDivElement | null>;
+    isFetchingNextPage: boolean;
 }
 
 export default function Social({
@@ -23,6 +27,8 @@ export default function Social({
     followers,
     photos,
     isSocialForViewer,
+    loadMoreRef,
+    isFetchingNextPage,
 }: SocialProps) {
     const type = useSelectorTyped((state) => state.social.type);
     const dispatch = useDispatchTyped();
@@ -66,6 +72,8 @@ export default function Social({
                 type={type}
                 isSocialForViewer={isSocialForViewer}
             />
+            <div ref={loadMoreRef} className="h-10" />
+            {isFetchingNextPage && <LoadingSpinner />}
         </AccountWrapper>
     );
 }
