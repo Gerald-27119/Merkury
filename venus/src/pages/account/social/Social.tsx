@@ -2,7 +2,6 @@ import SocialButton from "./components/SocialButton";
 import SocialCardList from "./components/SocialCardList";
 import { SocialListType } from "../../../model/enum/account/social/socialListType";
 import { SocialDto } from "../../../model/interface/account/social/socialDto";
-import useSelectorTyped from "../../../hooks/useSelectorTyped";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { socialAction } from "../../../redux/social";
 import AccountTitle from "../components/AccountTitle";
@@ -12,36 +11,24 @@ import { MutableRefObject } from "react";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 
 interface SocialProps {
-    friends: SocialDto[];
-    followed: SocialDto[];
-    followers: SocialDto[];
-    photos?: SocialDto[];
+    list: SocialDto[];
     isSocialForViewer: boolean;
     loadMoreRef: MutableRefObject<HTMLDivElement | null>;
     isFetchingNextPage: boolean;
+    type: SocialListType;
 }
 
 export default function Social({
-    friends,
-    followed,
-    followers,
-    photos,
+    list,
     isSocialForViewer,
     loadMoreRef,
     isFetchingNextPage,
+    type,
 }: SocialProps) {
-    const type = useSelectorTyped((state) => state.social.type);
     const dispatch = useDispatchTyped();
 
     const setType = (type: SocialListType) => {
         dispatch(socialAction.setType(type));
-    };
-
-    const dataMap = {
-        [SocialListType.FRIENDS]: friends,
-        [SocialListType.FOLLOWED]: followed,
-        [SocialListType.FOLLOWERS]: followers,
-        [SocialListType.PHOTOS]: photos,
     };
 
     const menuTypes = [
@@ -68,7 +55,7 @@ export default function Social({
                 ))}
             </div>
             <SocialCardList
-                list={dataMap[type] ?? []}
+                list={list ?? []}
                 type={type}
                 isSocialForViewer={isSocialForViewer}
             />
