@@ -1,5 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import {
+    getAllUserPhotos,
     getUserFollowedForViewer,
     getUserFollowersForViewer,
     getUserFriendsForViewer,
@@ -11,6 +12,9 @@ import useSelectorTyped from "../../../hooks/useSelectorTyped";
 import { SocialListType } from "../../../model/enum/account/social/socialListType";
 import { useEffect, useRef } from "react";
 import { SocialPageDto } from "../../../model/interface/account/social/socialPageDto";
+import { DatedMediaGroupPageDto } from "../../../model/interface/account/media/datedMediaGroupPageDto";
+import { SocialDto } from "../../../model/interface/account/social/socialDto";
+import DatedMediaGroup from "../../../model/interface/account/media/datedMediaGroup";
 
 const queryConfigMap: Record<
     SocialListType,
@@ -20,7 +24,7 @@ const queryConfigMap: Record<
             username: string,
             page: number,
             size: number,
-        ) => Promise<SocialPageDto>;
+        ) => Promise<SocialPageDto | DatedMediaGroupPageDto>;
     }
 > = {
     [SocialListType.FRIENDS]: {
@@ -37,7 +41,7 @@ const queryConfigMap: Record<
     },
     [SocialListType.PHOTOS]: {
         key: "photos",
-        fn: getUserFollowersForViewer,
+        fn: getAllUserPhotos,
     },
 };
 
@@ -46,17 +50,22 @@ export default function SocialForViewer() {
     const type = useSelectorTyped((state) => state.social.type);
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
     const { key, fn } = queryConfigMap[type];
+    const pageSize = type === SocialListType.PHOTOS ? 2 : 12;
 
     const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteQuery({
-            queryFn: ({ pageParam = 0 }) => fn(username!, pageParam, 12),
+            queryFn: ({ pageParam = 0 }) => fn(username!, pageParam, pageSize),
             queryKey: [key, username],
             getNextPageParam: (lastPage, allPages) =>
                 lastPage.hasNext ? allPages.length : undefined,
             initialPageParam: 0,
         });
 
-    const allItems = data?.pages.flatMap((page) => page.items);
+    const allItems =
+        type === SocialListType.PHOTOS
+            ? (data?.pages.flatMap((page) => page.items as DatedMediaGroup[]) ??
+              [])
+            : (data?.pages.flatMap((page) => page.items as SocialDto[]) ?? []);
 
     useEffect(() => {
         if (!loadMoreRef.current) return;

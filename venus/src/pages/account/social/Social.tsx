@@ -9,9 +9,11 @@ import AccountWrapper from "../components/AccountWrapper";
 import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
 import { MutableRefObject } from "react";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
+import PhotosList from "./components/PhotosList";
+import DatedMediaGroup from "../../../model/interface/account/media/datedMediaGroup";
 
 interface SocialProps {
-    list: SocialDto[];
+    list: SocialDto[] | DatedMediaGroup[];
     isSocialForViewer: boolean;
     loadMoreRef: MutableRefObject<HTMLDivElement | null>;
     isFetchingNextPage: boolean;
@@ -54,11 +56,15 @@ export default function Social({
                     </SocialButton>
                 ))}
             </div>
-            <SocialCardList
-                list={list ?? []}
-                type={type}
-                isSocialForViewer={isSocialForViewer}
-            />
+            {type === SocialListType.PHOTOS ? (
+                <PhotosList photos={list as DatedMediaGroup[]} />
+            ) : (
+                <SocialCardList
+                    list={list as SocialDto[]}
+                    type={type}
+                    isSocialForViewer={isSocialForViewer}
+                />
+            )}
             <div ref={loadMoreRef} className="h-10" />
             {isFetchingNextPage && <LoadingSpinner />}
         </AccountWrapper>
