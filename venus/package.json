@@ -33,7 +33,6 @@
         "axios": "^1.7.3",
         "date-fns": "^4.1.0",
         "dotenv": "^16.4.7",
-        "html-to-text": "^9.0.5",
         "maplibre-gl": "^5.4.0",
         "motion": "^12.10.4",
         "openmeteo": "^1.1.4",
