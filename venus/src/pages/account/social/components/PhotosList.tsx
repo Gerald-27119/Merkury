@@ -23,7 +23,7 @@ export default function PhotosList({ photos }: PhotosListProps) {
                 : null}
             {!photos?.length ? (
                 <p className="text-center text-lg">
-                    This user haven't added any photos .
+                    This user hasn't added any photos .
                 </p>
             ) : null}
         </div>
