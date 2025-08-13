@@ -129,6 +129,18 @@ body {
     height: 100%;
 }
 
+.tiptap-editor-content .ProseMirror:focus {
+    outline: none;
+}
+
+.tiptap-editor-content a {
+    @apply text-blue-500 underline cursor-pointer;
+}
+
+.tiptap-editor-content a:hover {
+    @apply text-blue-600;
+}
+
 .tiptap-editor-content h1 {
     @apply text-4xl font-bold mb-4;
 }

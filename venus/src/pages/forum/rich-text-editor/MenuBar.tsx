@@ -48,9 +48,9 @@ export default function MenuBar({ editor }: MenuBarProps) {
 
     return (
         <div className="mb-1 flex w-full flex-wrap space-x-2">
-            {options.slice(0, 2).map((option, index) => (
+            {options.slice(0, 2).map((option) => (
                 <EditorIconButton
-                    key={index}
+                    key={option.id}
                     icon={option.icon}
                     onClick={option.onClick}
                     pressed={option.pressed}
@@ -60,7 +60,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
 
             {options.slice(2).map((option, index) => (
                 <EditorIconButton
-                    key={index}
+                    key={option.id}
                     icon={option.icon}
                     onClick={option.onClick}
                     pressed={option.pressed}

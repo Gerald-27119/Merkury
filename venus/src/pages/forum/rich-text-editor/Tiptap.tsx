@@ -11,9 +11,15 @@ interface TiptapProps {
     placeholder: string;
     value: string;
     onChange: (value: string) => void;
+    onBlur: () => void;
 }
 
-export default function Tiptap({ placeholder, value, onChange }: TiptapProps) {
+export default function Tiptap({
+    placeholder,
+    value,
+    onChange,
+    onBlur,
+}: TiptapProps) {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -30,6 +36,7 @@ export default function Tiptap({ placeholder, value, onChange }: TiptapProps) {
             }),
             Link.configure({
                 linkOnPaste: true,
+                autolink: false,
             }),
             Placeholder.configure({
                 placeholder: placeholder,
@@ -56,6 +63,7 @@ export default function Tiptap({ placeholder, value, onChange }: TiptapProps) {
                 <MenuBar editor={editor} />
                 <EditorContent
                     editor={editor}
+                    onBlur={onBlur}
                     className={
                         "tiptap-editor-content [&_.is-empty:first-child::before]:text-lightText/60 dark:[&_.is-empty:first-child::before]:text-darkText/50 h-full flex-1 overflow-y-auto [&_.is-empty:first-child::before]:content-[attr(data-placeholder)]"
                     }

@@ -24,6 +24,7 @@ export default function PostFormEditor<T extends FieldValues>({
                                 placeholder="Type here..."
                                 value={field.value}
                                 onChange={field.onChange}
+                                onBlur={field.onBlur}
                             />
                         </div>
                         {error && (
