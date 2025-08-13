@@ -1,6 +1,9 @@
 import { Editor, useEditorState } from "@tiptap/react";
 import { EditorMenuOptions } from "../../../utils/tiptap/EditorMenuOptions";
 import HeadingDropdown from "./HeadingDropdown";
+import LinkFormButton from "./LinkFormButton";
+import { LuLink, LuImage } from "react-icons/lu";
+import EditorIconButton from "./EditorIconButton";
 
 interface MenuBarProps {
     editor: Editor | null;
@@ -27,22 +30,56 @@ export default function MenuBar({ editor }: MenuBarProps) {
     });
 
     const options = EditorMenuOptions(editor, state, 18);
+    const handleLinkSubmission = (href: string) => {
+        if (href) {
+            editor
+                .chain()
+                .focus()
+                .extendMarkRange("link")
+                .setLink({ href })
+                .run();
+        }
+    };
+    const handleImageLinkSubmission = (href: string) => {
+        if (href) {
+            editor.chain().focus().setImage({ src: href, alt: "image" }).run();
+        }
+    };
 
     return (
         <div className="mb-1 flex w-full flex-wrap space-x-2">
-            <HeadingDropdown editor={editor} size={18} />
-            {options.map((option, index) => (
-                <button
+            {options.slice(0, 2).map((option, index) => (
+                <EditorIconButton
                     key={index}
+                    icon={option.icon}
                     onClick={option.onClick}
-                    className={`dark:hover:bg-darkBgMuted hover:bg-lightBgDarker cursor-pointer rounded p-1 ${
-                        option.pressed ? "bg-violet-600" : ""
-                    }`}
-                    type="button"
-                >
-                    {option.icon}
-                </button>
+                    pressed={option.pressed}
+                />
             ))}
+            <HeadingDropdown editor={editor} size={18} />
+
+            {options.slice(2).map((option, index) => (
+                <EditorIconButton
+                    key={index}
+                    icon={option.icon}
+                    onClick={option.onClick}
+                    pressed={option.pressed}
+                />
+            ))}
+
+            <LinkFormButton
+                placeholder="https://url.com"
+                icon={LuLink}
+                size={18}
+                onSubmit={handleLinkSubmission}
+            />
+
+            <LinkFormButton
+                placeholder="image.jpg"
+                icon={LuImage}
+                size={18}
+                onSubmit={handleImageLinkSubmission}
+            />
         </div>
     );
 }

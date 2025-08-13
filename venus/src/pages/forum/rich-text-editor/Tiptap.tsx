@@ -29,8 +29,7 @@ export default function Tiptap({ placeholder, value, onChange }: TiptapProps) {
                 },
             }),
             Link.configure({
-                linkOnPaste: false,
-                shouldAutoLink: (url) => url.startsWith("https://"),
+                linkOnPaste: true,
             }),
             Placeholder.configure({
                 placeholder: placeholder,

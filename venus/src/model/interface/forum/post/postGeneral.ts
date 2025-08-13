@@ -1,12 +1,12 @@
-import CategoryDto from "../categoryDto";
-import TagDto from "../tagDto";
+import ForumCategoryDto from "../forumCategoryDto";
+import ForumTagDto from "../forumTagDto";
 
 export default interface PostGeneral {
     id: number;
     title: string;
     content: string;
-    category: CategoryDto;
-    tags: TagDto[];
+    category: ForumCategoryDto;
+    tags: ForumTagDto[];
     views: number;
     numberOfComments: number;
     isAuthor: boolean;

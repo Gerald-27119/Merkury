@@ -1,9 +1,9 @@
-import CategoryDto from "../categoryDto";
-import TagDto from "../tagDto";
+import ForumCategoryDto from "../forumCategoryDto";
+import ForumTagDto from "../forumTagDto";
 
 export default interface PostDto {
     title: string;
     content: string;
-    category: CategoryDto;
-    tags: TagDto[];
+    category: ForumCategoryDto;
+    tags: ForumTagDto[];
 }

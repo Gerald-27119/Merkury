@@ -12,8 +12,8 @@ public record PostGeneralDto(@Positive(message = "ID must be a positive number."
                              @NotBlank(message = "Content cannot be empty.")
                              String content,
                              @NotNull(message = "Category cannot be empty")
-                             CategoryDto category,
-                             List<TagDto> tags,
+                             ForumCategoryDto category,
+                             List<ForumTagDto> tags,
                              @Min(value = 0, message = "Views cannot be less than 0.")
                              Integer views,
                              @Min(value = 0, message = "Comments cannot be less than 0")

@@ -12,7 +12,6 @@ export function useClickOutside<T extends HTMLElement>(
                 return;
             }
             handler(event);
-            console.log("Kliknołeś poza!!!");
         }
         document.addEventListener("mousedown", listener);
 

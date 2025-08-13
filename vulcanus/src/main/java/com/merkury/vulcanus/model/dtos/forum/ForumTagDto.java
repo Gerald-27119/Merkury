@@ -5,8 +5,8 @@ import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 
 @Builder
-public record TagDto(@Positive(message = "ID must be a positive number.")
+public record ForumTagDto(@Positive(message = "ID must be a positive number.")
                      Long id,
-                     @NotBlank(message = "Name cannot be empty.")
+                          @NotBlank(message = "Name cannot be empty.")
                      String name) {
 }

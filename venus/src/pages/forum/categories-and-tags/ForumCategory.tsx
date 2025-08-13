@@ -1,10 +1,10 @@
-import CategoryDto from "../../../model/interface/forum/categoryDto";
+import ForumCategoryDto from "../../../model/interface/forum/forumCategoryDto";
 
-interface CategoryProps {
-    category: CategoryDto;
+interface ForumCategoryProps {
+    category: ForumCategoryDto;
 }
 
-export default function Category({ category }: CategoryProps) {
+export default function ForumCategory({ category }: ForumCategoryProps) {
     return (
         <span className="dark:hover:text-lightBgSoft inline-flex cursor-pointer items-center space-x-2 leading-none">
             <span

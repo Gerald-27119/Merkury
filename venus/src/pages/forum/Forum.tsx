@@ -6,7 +6,7 @@ import { useState } from "react";
 import Post from "./posts/Post";
 import AddPostButton from "./components/AddPostButton";
 import ForumSearchBar from "./components/ForumSearchBar";
-import CategoriesTagsPanel from "./categories-and-tags/CategoriesTagsPanel";
+import ForumCategoriesTagsPanel from "./categories-and-tags/ForumCategoriesTagsPanel";
 import RightPanel from "./components/RightPanel";
 import ForumFormModal from "./components/ForumFormModal";
 import { useBoolean } from "../../hooks/useBoolean";
@@ -54,7 +54,7 @@ export default function Forum() {
                 <div className="mx-auto mt-8 flex w-full max-w-6xl flex-row gap-4">
                     <div>
                         <AddPostButton onClick={setIsModalOpenToTrue} />
-                        <CategoriesTagsPanel
+                        <ForumCategoriesTagsPanel
                             data={categoriesAndTags}
                             isLoading={isCatTagsLoading}
                             isError={isCatTagsError}

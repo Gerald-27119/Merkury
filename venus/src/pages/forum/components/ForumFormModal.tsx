@@ -1,13 +1,13 @@
 import { createPortal } from "react-dom";
-import CategoryDto from "../../../model/interface/forum/categoryDto";
-import TagDto from "../../../model/interface/forum/tagDto";
+import ForumCategoryDto from "../../../model/interface/forum/forumCategoryDto";
+import ForumTagDto from "../../../model/interface/forum/forumTagDto";
 import PostForm from "../posts/components/PostForm";
 
 interface ModalProps {
     onClose: () => void;
     isOpen: boolean;
-    categories: CategoryDto[];
-    tags: TagDto[];
+    categories: ForumCategoryDto[];
+    tags: ForumTagDto[];
 }
 
 export default function ForumFormModal({

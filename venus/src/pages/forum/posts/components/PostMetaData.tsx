@@ -1,11 +1,11 @@
-import Category from "../../categories-and-tags/Category";
-import Tag from "../../categories-and-tags/Tag";
-import TagDto from "../../../../model/interface/forum/tagDto";
-import CategoryDto from "../../../../model/interface/forum/categoryDto";
+import ForumCategory from "../../categories-and-tags/ForumCategory";
+import ForumTag from "../../categories-and-tags/ForumTag";
+import ForumTagDto from "../../../../model/interface/forum/forumTagDto";
+import ForumCategoryDto from "../../../../model/interface/forum/forumCategoryDto";
 
 interface PostMetaDataProps {
-    category?: CategoryDto;
-    tags?: TagDto[];
+    category?: ForumCategoryDto;
+    tags?: ForumTagDto[];
 }
 
 export default function PostMetaData({ category, tags }: PostMetaDataProps) {
@@ -13,13 +13,13 @@ export default function PostMetaData({ category, tags }: PostMetaDataProps) {
         <div>
             {category && (
                 <div className="mt-2 flex flex-wrap gap-2">
-                    <Category category={category} />
+                    <ForumCategory category={category} />
                 </div>
             )}
             {tags && tags.length > 0 && (
                 <div className="mt-2 flex flex-wrap gap-2">
                     {tags.map((tag) => (
-                        <Tag key={tag.id} tag={tag} />
+                        <ForumTag key={tag.id} tag={tag} />
                     ))}
                 </div>
             )}

@@ -1,22 +1,22 @@
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import Error from "../../../components/error/Error";
-import CategoryAndTagsDto from "../../../model/interface/forum/categoryAndTagsDto";
-import Category from "./Category";
-import Tag from "./Tag";
+import ForumCategoryAndTagsDto from "../../../model/interface/forum/forumCategoryAndTagsDto";
+import ForumCategory from "./ForumCategory";
+import ForumTag from "./ForumTag";
 
-interface CategoriesTagsPanelProps {
-    data?: CategoryAndTagsDto;
+interface ForumCategoriesTagsPanelProps {
+    data?: ForumCategoryAndTagsDto;
     isLoading: boolean;
     isError: boolean;
     error?: unknown;
 }
 
-export default function CategoriesTagsPanel({
+export default function ForumCategoriesTagsPanel({
     data,
     isLoading,
     isError,
     error,
-}: CategoriesTagsPanelProps) {
+}: ForumCategoriesTagsPanelProps) {
     if (isLoading) {
         return <LoadingSpinner />;
     }
@@ -34,7 +34,7 @@ export default function CategoriesTagsPanel({
                         <ul>
                             {data.categories.map((category) => (
                                 <li key={category.id}>
-                                    <Category category={category} />
+                                    <ForumCategory category={category} />
                                 </li>
                             ))}
                         </ul>
@@ -51,7 +51,7 @@ export default function CategoriesTagsPanel({
                         <ul className="mt-4 flex flex-wrap gap-2 gap-y-3">
                             {data.tags.map((tag) => (
                                 <li key={tag.id}>
-                                    <Tag tag={tag} />
+                                    <ForumTag tag={tag} />
                                 </li>
                             ))}
                         </ul>

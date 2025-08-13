@@ -10,6 +10,6 @@ public record PostDto(@NotBlank(message = "Title cannot be empty.")
                       @NotBlank(message = "Content cannot be empty.")
                       String content,
                       @NotNull(message = "Category cannot be empty")
-                      CategoryDto category,
+                      ForumCategoryDto category,
                       List<String> tags) {
 }

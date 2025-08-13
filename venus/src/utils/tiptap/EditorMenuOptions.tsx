@@ -11,9 +11,6 @@ import {
     LuAlignRight,
     LuAlignCenter,
     LuAlignJustify,
-    LuImage,
-    LuUpload,
-    LuLink,
 } from "react-icons/lu";
 import { ReactNode } from "react";
 
@@ -52,16 +49,6 @@ export function EditorMenuOptions(
             pressed: false,
         },
         {
-            icon: <LuList size={size} />,
-            onClick: () => editor.chain().focus().toggleBulletList().run(),
-            pressed: state.isBulletList,
-        },
-        {
-            icon: <LuListOrdered size={size} />,
-            onClick: () => editor.chain().focus().toggleOrderedList().run(),
-            pressed: state.isOrderedList,
-        },
-        {
             icon: <LuBold size={size} />,
             onClick: () => editor.chain().focus().toggleBold().run(),
             pressed: state.isBold,
@@ -75,40 +62,6 @@ export function EditorMenuOptions(
             icon: <LuUnderline size={size} />,
             onClick: () => editor.chain().focus().toggleUnderline().run(),
             pressed: state.isUnderlined,
-        },
-        {
-            icon: <LuLink size={size} />,
-            onClick: () => {
-                const url = window.prompt("Podaj URL:");
-                if (url) {
-                    editor
-                        .chain()
-                        .focus()
-                        .extendMarkRange("link")
-                        .setLink({ href: url })
-                        .run();
-                }
-            },
-            pressed: false,
-        },
-        {
-            icon: <LuImage size={size} />,
-            onClick: () => {
-                const url = window.prompt("Podaj URL obrazka:");
-                if (url) {
-                    editor
-                        .chain()
-                        .focus()
-                        .setImage({ src: url, alt: "obrazek" })
-                        .run();
-                }
-            },
-            pressed: false,
-        },
-        {
-            icon: <LuUpload size={size} />,
-            onClick: () => editor.chain().focus(),
-            pressed: false,
         },
         {
             icon: <LuAlignLeft size={size} />,
@@ -129,6 +82,16 @@ export function EditorMenuOptions(
             icon: <LuAlignJustify size={size} />,
             onClick: () => editor.chain().focus().setTextAlign("justify").run(),
             pressed: state.isJustify,
+        },
+        {
+            icon: <LuList size={size} />,
+            onClick: () => editor.chain().focus().toggleBulletList().run(),
+            pressed: state.isBulletList,
+        },
+        {
+            icon: <LuListOrdered size={size} />,
+            onClick: () => editor.chain().focus().toggleOrderedList().run(),
+            pressed: state.isOrderedList,
         },
     ];
 }

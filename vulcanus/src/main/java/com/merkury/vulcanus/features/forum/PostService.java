@@ -99,11 +99,11 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public CategoriesAndTagsDto getAllCategoriesAndTags() {
+    public ForumCategoriesAndTagsDto getAllCategoriesAndTags() {
         var categories = postCategoryRepository.findAll();
         var tags = tagRepository.findAll();
 
-        return new CategoriesAndTagsDto(categories.stream().map(CategoryMapper::toDto).toList(), tags.stream().map(TagMapper::toDto).toList());
+        return new ForumCategoriesAndTagsDto(categories.stream().map(CategoryMapper::toDto).toList(), tags.stream().map(TagMapper::toDto).toList());
     }
 
     private PostCategory getCategoryByName(String name) throws CategoryNotFoundException {

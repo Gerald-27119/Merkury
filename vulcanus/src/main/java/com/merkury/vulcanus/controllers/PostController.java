@@ -59,7 +59,7 @@ public class PostController {
     }
 
     @GetMapping("/public/categories-tags")
-    public ResponseEntity<CategoriesAndTagsDto> getAllCategoriesAndTags(){
+    public ResponseEntity<ForumCategoriesAndTagsDto> getAllCategoriesAndTags(){
        return ResponseEntity.ok(postService.getAllCategoriesAndTags());
     }
 }
