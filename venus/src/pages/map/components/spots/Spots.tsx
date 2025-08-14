@@ -57,7 +57,7 @@ export default function Spots() {
             data?.forEach((spot: GeneralSpot) => {
                 if (!shouldRenderMarker(spot.area, zoomLevel)) {
                     const handler = () =>
-                        handleSpotClick(spot.id, spot.centerPoint);
+                        handleSpotClick(spot.id, spot.centerPoint, spot.region);
                     const layerId = spot.id.toString();
                     clickHandlers.set(spot.id, handler);
                     map?.on("click", layerId, handler);
@@ -102,9 +102,16 @@ export default function Spots() {
     const handleSpotClick = (
         spotId: number,
         centerPoint: SpotCoordinatesDto,
+        region: string,
     ): void => {
         dispatch(spotDetailsModalAction.setSpotId(spotId));
-        dispatch(spotWeatherActions.setSpotCoordinates(centerPoint));
+        dispatch(
+            spotWeatherActions.setSpotCoordinates({
+                latitude: centerPoint.y,
+                longitude: centerPoint.x,
+                region,
+            }),
+        );
         dispatch(spotDetailsModalAction.handleShowModal());
         dispatch(spotWeatherActions.openBasicWeatherModal());
     };
@@ -118,7 +125,11 @@ export default function Spots() {
                         longitude={spot.centerPoint.y}
                         latitude={spot.centerPoint.x}
                         onClick={() =>
-                            handleSpotClick(spot.id, spot.centerPoint)
+                            handleSpotClick(
+                                spot.id,
+                                spot.centerPoint,
+                                spot.region,
+                            )
                         }
                     >
                         <MdLocationPin

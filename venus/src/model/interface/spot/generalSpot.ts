@@ -8,4 +8,5 @@ export default interface GeneralSpot {
     contourCoordinates: number[][];
     area: number;
     centerPoint: SpotCoordinatesDto;
+    region: string;
 }

@@ -1,16 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import SpotCoordinatesDto from "../model/interface/spot/coordinates/spotCoordinatesDto";
 
 type SpotWeatherSliceProps = {
     latitude: number;
     longitude: number;
+    region: string;
     showBasicWeather: boolean;
     showDetailedWeather: boolean;
+};
+
+type SpotCoordinatesPayloadProps = {
+    latitude: number;
+    longitude: number;
+    region: string;
 };
 
 const initialState: SpotWeatherSliceProps = {
     latitude: 0,
     longitude: 0,
+    region: "",
     showBasicWeather: false,
     showDetailedWeather: false,
 };
@@ -37,9 +44,13 @@ export const spotWeatherSLice = createSlice({
             state.showBasicWeather = false;
             state.showDetailedWeather = false;
         },
-        setSpotCoordinates(state, action: PayloadAction<SpotCoordinatesDto>) {
-            state.longitude = action.payload.x;
-            state.latitude = action.payload.y;
+        setSpotCoordinates(
+            state,
+            action: PayloadAction<SpotCoordinatesPayloadProps>,
+        ) {
+            state.longitude = action.payload.longitude;
+            state.latitude = action.payload.latitude;
+            state.region = action.payload.region;
         },
     },
 });

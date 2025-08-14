@@ -19,6 +19,7 @@ public class SpotMapper {
                 .id(spot.getId())
                 .areaColor(spot.getAreaColor())
                 .name(spot.getName())
+                .region(spot.getRegion())
                 .rating(spot.getRating())
                 .contourCoordinates(spot.getBorderPoints()
                         .stream()
