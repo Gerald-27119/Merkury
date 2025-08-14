@@ -17,7 +17,9 @@ const variantClasses = {
         "dark:bg-violetDark dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText w-full md:w-96 lg:w-full lg:first:mr-15 transform-all duration-300 cursor-pointer",
     favorite_spot_tile:
         "dark:bg-violetDark bg-violetLight dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText flex items-center gap-2 w-full lg:w-fit cursor-pointer",
-    settings: "dark:bg-violetDark bg-violetLight  w-full",
+    settings: "dark:bg-violetDark bg-violetLight w-full",
+    add_spot:
+        "dark:bg-violetDark bg-violetLight dark:hover:bg-violetLight hover:bg-violetDark/87 text-darkText flex justify-center items-center gap-2 w-60 cursor-pointer",
 };
 
 export default function Button({

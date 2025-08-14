@@ -4,4 +4,5 @@ export enum ButtonVariantType {
     FAVORITE_SPOT_MENU = "favorite_spot_menu",
     FAVORITE_SPOT_TILE = "favorite_spot_tile",
     SETTINGS = "settings",
+    ADD_SPOT = "add_spot",
 }

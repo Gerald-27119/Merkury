@@ -2,6 +2,7 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
+import com.merkury.vulcanus.model.dtos.account.add.spot.AddSpotPageDto;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
@@ -144,5 +145,11 @@ public class UserDashboardController {
                                                                       @RequestParam(defaultValue = "0") int page,
                                                                       @RequestParam(defaultValue = "20") int size) throws UnsupportedDateSortTypeException {
         return ResponseEntity.ok(userDashboardService.getSortedUserMovies(type, from, to, page, size));
+    }
+
+    @GetMapping("/user-dashboard/add-spot")
+    public ResponseEntity<AddSpotPageDto> getAllSpotsAddedByUser(@RequestParam(defaultValue = "0") int page,
+                                                                 @RequestParam(defaultValue = "20") int size) {
+        return ResponseEntity.ok(userDashboardService.getAllSpotsAddedByUser(page, size));
     }
 }

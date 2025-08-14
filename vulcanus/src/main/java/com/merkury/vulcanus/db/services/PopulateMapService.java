@@ -51,6 +51,7 @@ public class PopulateMapService {
                 .description("Brązowy posąg XVII-wiecznego polskiego króla Jana III Sobieskiego na koniu usytuowany na małym placu.")
                 .rating(5.0)
                 .ratingCount(25)
+                .author(user)
                 .build();
 
         Spot spot2 = Spot.builder()
@@ -63,6 +64,7 @@ public class PopulateMapService {
                 .description("Mały park z ławkami i pomnikiem Czesława Niemena.")
                 .rating(5.0)
                 .ratingCount(25)
+                .author(user)
                 .build();
 
         Spot spot3 = Spot.builder()
@@ -75,6 +77,7 @@ public class PopulateMapService {
                 .description("Mały park z ławkami")
                 .rating(3.5)
                 .ratingCount(20)
+                .author(user)
                 .build();
 
         Spot spot4 = Spot.builder()
@@ -87,6 +90,7 @@ public class PopulateMapService {
                 .description("Mały park")
                 .rating(3.6)
                 .ratingCount(15)
+                .author(user)
                 .build();
 
         Spot spot5 = Spot.builder()
@@ -99,6 +103,7 @@ public class PopulateMapService {
                 .description("Zielona strefa z jeziorem")
                 .rating(4.6)
                 .ratingCount(8)
+                .author(user)
                 .build();
 
         Spot spot6 = Spot.builder()
@@ -111,6 +116,7 @@ public class PopulateMapService {
                 .description("Mały, zadbany plac z ławeczkami i zielenią. Znajduje się on z jednej strony w pobliżu pomnika Jana III Sobieskiego, a z drugiej strony w pobliżu Hali Targowej.")
                 .rating(4.5)
                 .ratingCount(1)
+                .author(user)
                 .build();
 
         Spot spot7 = Spot.builder()
@@ -123,6 +129,7 @@ public class PopulateMapService {
                 .description("Plac zabaw")
                 .rating(4.8)
                 .ratingCount(99)
+                .author(user)
                 .build();
 
         Spot spot8 = Spot.builder()
@@ -135,6 +142,7 @@ public class PopulateMapService {
                 .description("Szeroka piaszczysta plaża.")
                 .rating(4.6)
                 .ratingCount(25)
+                .author(user)
                 .build();
 
         Spot spot9 = Spot.builder()
@@ -147,6 +155,7 @@ public class PopulateMapService {
                 .description("Park Oruński należy, obok Parku Oliwskiego, należy do najcenniejszych zachowanych dawnych gdańskich parków.")
                 .rating(5.0)
                 .ratingCount(25)
+                .author(user)
                 .build();
 
         Spot spot10 = Spot.builder()
@@ -159,6 +168,7 @@ public class PopulateMapService {
                 .description("Park, który oryginalnie był cmentarzem protestanckim, należącym dawniej do kościoła przy placu Oruńskim.")
                 .rating(4.4)
                 .ratingCount(25)
+                .author(user)
                 .build();
 
         var contour1 = asList(

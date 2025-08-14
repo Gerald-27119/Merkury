@@ -10,6 +10,7 @@ import { DatedMediaGroupPageDto } from "../model/interface/account/media/datedMe
 import { FavoriteSpotPageDto } from "../model/interface/account/favorite-spots/favoriteSpotPageDto";
 import { DatedCommentsGroupPageDto } from "../model/interface/account/comments/datedCommentsGroupPageDto";
 import { SocialPageDto } from "../model/interface/account/social/socialPageDto";
+import { AddSpotPageDto } from "../model/interface/account/add-spot/addSpotPageDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -272,6 +273,18 @@ export async function getSortedUserMovies(
         await axios.get(`${BASE_URL}/user-dashboard/movies`, {
             withCredentials: true,
             params: { type, from, to, page, size },
+        })
+    ).data;
+}
+
+export async function getAllSpotsAddedByUser(
+    page: number,
+    size: number,
+): Promise<AddSpotPageDto> {
+    return (
+        await axios.get(`${BASE_URL}/user-dashboard/add-spot`, {
+            withCredentials: true,
+            params: { page, size },
         })
     ).data;
 }

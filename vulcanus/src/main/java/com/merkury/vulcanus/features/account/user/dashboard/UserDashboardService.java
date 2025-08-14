@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
+import com.merkury.vulcanus.model.dtos.account.add.spot.AddSpotPageDto;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
@@ -32,6 +33,7 @@ public class UserDashboardService {
     private final MediaService mediaService;
     private final CommentsService commentsService;
     private final SettingsService settingsService;
+    private final AddSpotService addSpotService;
     private final CustomUserDetailsService customUserDetailsService;
 
     public UserProfileDto getUserOwnProfile() throws UserNotFoundByUsernameException {
@@ -129,5 +131,10 @@ public class UserDashboardService {
     public DatedMediaGroupPageDto getSortedUserMovies(DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         return mediaService.getSortedUserMovies(username, type, from, to, page, size);
+    }
+
+    public AddSpotPageDto getAllSpotsAddedByUser(int page, int size){
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        return addSpotService.getAllSpotsAddedByUser(username, page, size);
     }
 }

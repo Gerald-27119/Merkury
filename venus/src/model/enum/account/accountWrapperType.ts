@@ -6,4 +6,5 @@ export enum AccountWrapperType {
     COMMENTS = "comments",
     SETTINGS = "settings",
     MOVIES = "movies",
+    ADD_SPOT = "add_spot",
 }
