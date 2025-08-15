@@ -1,8 +1,8 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
-import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
@@ -35,9 +35,9 @@ class MediaServiceTest {
         var photo2 = SpotMedia.builder().author(user).addDate(LocalDate.now()).likes(10).views(12).genericMediaType(GenericMediaType.PHOTO).build();
         var photosList = List.of(photo1, photo2);
 
-        when(spotMediaRepository.findAllByAuthorUsernameAndGenericMediaType("user1", GenericMediaType.PHOTO )).thenReturn(photosList);
+        when(spotMediaRepository.findAllByAuthorUsernameAndGenericMediaType("user1", GenericMediaType.PHOTO)).thenReturn(photosList);
 
-        var result = mediaService.getSortedUserPhotos("user1", DATE_ASCENDING, null, null);
+        var result = mediaService.getSortedUserPhotos("user1", DATE_ASCENDING, null, null, 0, 10).items();
 
         assertAll(() -> assertFalse(result.isEmpty()),
                 () -> assertEquals(1, result.size()),
@@ -50,9 +50,8 @@ class MediaServiceTest {
 
     @Test
     void shouldThrowUnsupportedPhotoSortTypeExceptionWhenEntryWrongType() {
-        when(spotMediaRepository.findAllByAuthorUsernameAndGenericMediaType("testUser", GenericMediaType.PHOTO)).thenReturn(List.of());
         assertThrows(UnsupportedDateSortTypeException.class,
-                () -> mediaService.getSortedUserPhotos("testUser", DateSortType.UNKNOWN, null, null));
+                () -> mediaService.getSortedUserPhotos("testUser", DateSortType.UNKNOWN, null, null, 0, 10));
     }
 
     @Test
@@ -60,12 +59,17 @@ class MediaServiceTest {
         var user = UserEntity.builder().username("user1").build();
         var photo = SpotMedia.builder().author(user).addDate(LocalDate.of(2025, 6, 15)).likes(12).views(15).genericMediaType(GenericMediaType.PHOTO).build();
 
-        when(spotMediaRepository.findAllByAuthorUsernameAndGenericMediaTypeAndAddDateBetween("user1", GenericMediaType.PHOTO, LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 16))).thenReturn(List.of(photo));
+
+        when(spotMediaRepository.findAllByAuthorUsernameAndGenericMediaTypeAndAddDateBetween(
+                "user1",
+                GenericMediaType.PHOTO,
+                LocalDate.of(2025, 6, 15),
+                LocalDate.of(2025, 6, 16))).thenReturn(List.of(photo));
 
         var result = mediaService
                 .getSortedUserPhotos("user1", DATE_ASCENDING,
                         LocalDate.of(2025, 6, 15),
-                        LocalDate.of(2025, 6, 16));
+                        LocalDate.of(2025, 6, 16), 0, 10).items();
 
         assertAll(() -> assertFalse(result.isEmpty()),
                 () -> assertEquals(1, result.size()),

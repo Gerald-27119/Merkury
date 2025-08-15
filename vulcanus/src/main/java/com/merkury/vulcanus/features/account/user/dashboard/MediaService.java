@@ -2,6 +2,7 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupDto;
+import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,20 +22,17 @@ import java.util.stream.Collectors;
 public class MediaService {
     private final SpotMediaRepository spotMediaRepository;
 
-    public List<DatedMediaGroupDto> getSortedUserPhotos(String username, DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
-        return getAllUserMedia(username, from, to, GenericMediaType.PHOTO).stream()
-                .sorted(getComparator(type))
-                .toList();
+    public DatedMediaGroupPageDto getSortedUserPhotos(String username, DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
+        return getAllUserMedia(username, from, to, GenericMediaType.PHOTO, type, page, size);
     }
 
-    public List<DatedMediaGroupDto> getSortedUserMovies(String username, DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
-        return getAllUserMedia(username, from, to, GenericMediaType.VIDEO).stream()
-                .sorted(getComparator(type))
-                .toList();
+    public DatedMediaGroupPageDto getSortedUserMovies(String username, DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
+        return getAllUserMedia(username, from, to, GenericMediaType.VIDEO, type, page, size);
     }
 
-    private List<DatedMediaGroupDto> getAllUserMedia(String username, LocalDate from, LocalDate to, GenericMediaType type) {
+    private DatedMediaGroupPageDto getAllUserMedia(String username, LocalDate from, LocalDate to, GenericMediaType type, DateSortType sortType, int page, int size) throws UnsupportedDateSortTypeException {
         List<SpotMedia> media;
+
         if (from == null && to == null) {
             media = spotMediaRepository.findAllByAuthorUsernameAndGenericMediaType(username, type);
         } else if (from != null && to == null) {
@@ -43,19 +42,31 @@ public class MediaService {
         } else {
             media = spotMediaRepository.findAllByAuthorUsernameAndGenericMediaTypeAndAddDateBetween(username, type, from, to);
         }
-        return media.stream()
+
+        var dateComparator = getLocalDateComparator(sortType);
+
+        var mappedMedia = media.stream()
                 .collect(Collectors.groupingBy(
                         SpotMedia::getAddDate,
                         Collectors.mapping(MediaMapper::toDto, Collectors.toList())
                 )).entrySet().stream()
+                .sorted(Map.Entry.comparingByKey(dateComparator))
                 .map(e -> MediaMapper.toDto(e.getKey(), e.getValue()))
                 .toList();
+
+        int fromIndex = page * size;
+        int toIndex = Math.min(fromIndex + size, mappedMedia.size());
+        List<DatedMediaGroupDto> paged = fromIndex < mappedMedia.size() ? mappedMedia.subList(fromIndex, toIndex) : List.of();
+
+        boolean hasNext = toIndex < mappedMedia.size();
+
+        return new DatedMediaGroupPageDto(paged, hasNext);
     }
 
-    private Comparator<DatedMediaGroupDto> getComparator(DateSortType type) throws UnsupportedDateSortTypeException {
+    private Comparator<LocalDate> getLocalDateComparator(DateSortType type) throws UnsupportedDateSortTypeException {
         return switch (type) {
-            case DATE_ASCENDING -> Comparator.comparing(DatedMediaGroupDto::date);
-            case DATE_DESCENDING -> Comparator.comparing(DatedMediaGroupDto::date).reversed();
+            case DATE_ASCENDING -> Comparator.naturalOrder();
+            case DATE_DESCENDING -> Comparator.reverseOrder();
             default -> throw new UnsupportedDateSortTypeException(type);
         };
     }

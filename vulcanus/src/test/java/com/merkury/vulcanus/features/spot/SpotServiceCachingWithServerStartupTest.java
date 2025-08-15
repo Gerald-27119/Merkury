@@ -4,6 +4,7 @@ import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
+import com.merkury.vulcanus.utils.PolygonCenterPointCalculator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,9 @@ class SpotServiceCachingWithServerStartupTest {
                         new BorderPoint(54.34199917555038, 18.64785810853534)))
                 .rating(5.0)
                 .media(new ArrayList<>())
+                .centerPoint(PolygonCenterPointCalculator.calculateCenterPoint(List.of(
+                        new BorderPoint(54.34259835347914, 18.646824493647234),
+                        new BorderPoint(54.34199917555038, 18.64785810853534))))
                 .build();
         spotRepository.save(newSpot);
 
@@ -86,6 +90,9 @@ class SpotServiceCachingWithServerStartupTest {
                         new BorderPoint(54.34199917555038, 18.64785810853534)))
                 .rating(5.0)
                 .media(new ArrayList<>())
+                .centerPoint(PolygonCenterPointCalculator.calculateCenterPoint(List.of(
+                        new BorderPoint(54.34259835347914, 18.646824493647234),
+                        new BorderPoint(54.34199917555038, 18.64785810853534))))
                 .build();
         spotRepository.save(newSpot);
 

@@ -9,4 +9,5 @@ export default interface SearchSpotDto {
     firstPhoto: string;
     centerPoint: SpotCoordinatesDto;
     tags: SpotTagDto[];
+    city: string;
 }

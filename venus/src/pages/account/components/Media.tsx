@@ -9,6 +9,7 @@ import { DateSortType } from "../../../model/enum/account/photos/dateSortType";
 import { Dayjs } from "dayjs";
 import Photo from "../photos/components/Photo";
 import Movie from "../movies/components/Movie";
+import { MutableRefObject } from "react";
 
 interface MediaProps {
     variant: AccountWrapperType;
@@ -17,6 +18,8 @@ interface MediaProps {
     onDateChange: (value: Dayjs | null, key: "from" | "to") => void;
     isLoading: boolean;
     mediaList: DatedMediaGroup[] | undefined;
+    loadMoreRef: MutableRefObject<HTMLDivElement | null>;
+    isFetchingNextPage: boolean;
 }
 
 export default function Media({
@@ -26,6 +29,8 @@ export default function Media({
     onDateChange,
     searchDate,
     onSortChange,
+    loadMoreRef,
+    isFetchingNextPage,
 }: MediaProps) {
     return (
         <AccountWrapper variant={variant}>
@@ -72,6 +77,8 @@ export default function Media({
                         .
                     </p>
                 ) : null}
+                <div ref={loadMoreRef} className="h-10" />
+                {isFetchingNextPage && <LoadingSpinner />}
             </div>
         </AccountWrapper>
     );
