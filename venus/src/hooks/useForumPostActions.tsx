@@ -5,7 +5,6 @@ import { notificationAction } from "../redux/notification";
 import useDispatchTyped from "./useDispatchTyped";
 
 export default function useForumPostActions({ redirectOnDelete = false } = {}) {
-    const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
     const queryClient = useQueryClient();
     const dispatch = useDispatchTyped();
     const navigate = useNavigate();

@@ -13,9 +13,12 @@ import com.merkury.vulcanus.model.mappers.forum.mappers.PostMapper;
 import com.merkury.vulcanus.model.repositories.PostCategoryRepository;
 import com.merkury.vulcanus.model.repositories.PostRepository;
 import com.merkury.vulcanus.model.repositories.TagRepository;
+import com.merkury.vulcanus.utils.JsoupSanitizerConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +38,7 @@ public class PostService {
     private final TagRepository tagRepository;
     private final UserDataService userDataService;
     private final VoteService voteService;
+    private final JsoupSanitizerConfig jsoupSanitizerConfig;
 
     public PostDetailsDto getDetailedPost(HttpServletRequest request, Long postId) throws PostNotFoundException, UserNotFoundException {
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
@@ -62,7 +66,10 @@ public class PostService {
         var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
 
-        postRepository.save(PostMapper.toEntity(dto, user, category, tags));
+        var postEntity = PostMapper.toEntity(dto, user, category, tags);
+        postEntity.setContent(Jsoup.clean(dto.content(), jsoupSanitizerConfig.forumPostSafeList()));
+
+        postRepository.save(postEntity);
     }
 
     @Transactional
@@ -107,6 +114,7 @@ public class PostService {
         return postCategoryRepository.findByName(name)
                 .orElseThrow(() -> new CategoryNotFoundException(name));
     }
+
     private Set<Tag> getTagsByNames(List<String> tagNames) throws TagNotFoundException {
         Set<Tag> tags = new HashSet<>();
         for (String tagName : tagNames) {

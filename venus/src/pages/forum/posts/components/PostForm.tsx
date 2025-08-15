@@ -46,8 +46,8 @@ export default function PostForm({
             category: data.category!.value,
             tags: data.tags ? data.tags.map((tag) => tag.value) : [],
         };
-        console.log(newPost);
         handlePost(newPost);
+        onClose();
     };
 
     return (

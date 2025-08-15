@@ -26,7 +26,7 @@ export default function ForumCategoriesTagsPanel({
     }
 
     return (
-        <div className="dark:bg-darkBgSoft mt-4 w-52 rounded-2xl shadow-lg">
+        <div className="dark:bg-darkBgSoft w-52 rounded-2xl shadow-lg">
             <ForumCategoriesList categories={data?.categories} />
             <ForumTagsList tags={data?.tags} />
         </div>

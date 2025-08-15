@@ -10,11 +10,16 @@ import ForumCategoriesTagsPanel from "./categories-and-tags/ForumCategoriesTagsP
 import RightPanel from "./components/RightPanel";
 import ForumFormModal from "./components/ForumFormModal";
 import { useBoolean } from "../../hooks/useBoolean";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { useNavigate } from "react-router-dom";
 
 export default function Forum() {
     const [currentPage, setCurrentPage] = useState(0);
     const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
         useBoolean(false);
+    const isLogged = useSelector((state: RootState) => state.account.isLogged);
+    const navigate = useNavigate();
 
     const {
         data: posts,
@@ -48,12 +53,21 @@ export default function Forum() {
         return <Error error={postError} />;
     }
 
+    const handleAddPostClick = () => {
+        if (isLogged) {
+            setIsModalOpenToTrue();
+        } else {
+            navigate("/login");
+        }
+    };
+
     return (
         <>
             <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg min-h-screen w-full">
                 <div className="mx-auto mt-8 flex w-full max-w-6xl flex-row gap-4">
                     <div>
-                        <AddPostButton onClick={setIsModalOpenToTrue} />
+                        <AddPostButton onClick={handleAddPostClick} />
+
                         <ForumCategoriesTagsPanel
                             data={categoriesAndTags}
                             isLoading={isCatTagsLoading}
