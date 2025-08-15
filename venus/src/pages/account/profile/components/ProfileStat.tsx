@@ -1,7 +1,7 @@
 interface ProfileStatsProps {
     value: number | undefined;
     label: string;
-    onClick?: () => void;
+    onClick: () => void;
 }
 
 export default function ProfileStat({

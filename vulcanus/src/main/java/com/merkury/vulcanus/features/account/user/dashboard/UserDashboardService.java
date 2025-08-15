@@ -130,4 +130,8 @@ public class UserDashboardService {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         return mediaService.getSortedUserMovies(username, type, from, to, page, size);
     }
+
+    public DatedMediaGroupPageDto getAllUserPhotos(String username, int page, int size) throws UnsupportedDateSortTypeException {
+        return mediaService.getAllUserPhotos(username, page, size);
+    }
 }

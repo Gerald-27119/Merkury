@@ -21,7 +21,7 @@ public class FollowersService {
 
     public SocialPageDto getUserFollowers(String username, int page, int size) throws UserNotFoundByUsernameException {
         var followersPage = userEntityRepository.findFollowersByFollowedUsername(username, PageRequest.of(page, size));
-        if (followersPage.isEmpty()) {
+        if (followersPage.getContent().isEmpty()) {
             throw new UserNotFoundByUsernameException(username);
         }
 
@@ -32,7 +32,7 @@ public class FollowersService {
 
     public SocialPageDto getUserFollowed(String username, int page, int size) throws UserNotFoundByUsernameException {
         var followedPage = userEntityRepository.findFollowedByFollowersUsername(username, PageRequest.of(page, size));
-        if (followedPage.isEmpty()) {
+        if (followedPage.getContent().isEmpty()) {
             throw new UserNotFoundByUsernameException(username);
         }
 
