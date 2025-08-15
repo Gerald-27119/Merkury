@@ -34,12 +34,10 @@ export default function ChatMessagingWindow({
     const lastAppliedIdRef = useRef<number | null>(null);
     const dispatch = useDispatchTyped();
 
-    // reset „ostatnio zastosowanego” ID po zmianie czatu
     useEffect(() => {
         lastAppliedIdRef.current = null;
     }, [chatDto?.id]);
 
-    // Historia wiadomości (paginacja)
     const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
         useInfiniteQuery({
             queryKey: ["messages", chatDto?.id],
@@ -51,13 +49,11 @@ export default function ChatMessagingWindow({
                 lastPage.hasNextSlice ? lastPage.sliceNumber + 1 : undefined,
         });
 
-    // Bezpieczny root dla IntersectionObserver (wiążemy po mountcie)
     const [scrollRoot, setScrollRoot] = useState<Element | null>(null);
     useEffect(() => {
         setScrollRoot(containerRef.current);
     }, []);
 
-    // sentinel do ładowania starszych (przy flex-col-reverse – sentinel na końcu drzewa = wizualnie "góra")
     const { ref: topSentinelRef, inView: topInView } = useInView({
         root: scrollRoot ?? undefined,
         rootMargin: "100px 0px 0px 0px",
@@ -70,13 +66,11 @@ export default function ChatMessagingWindow({
         }
     }, [topInView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-    // spłaszczone wiadomości do renderu
     const messages = useMemo<ChatMessageDto[]>(() => {
         if (!data) return [];
         return data.pages.flatMap((p) => p.messages ?? []);
     }, [data]);
 
-    // ostatnia wiadomość z Reduxa -> dopięcie/podmiana w cache
     const lastIncoming = useSelectorTyped<ChatMessageDto | undefined>(
         useMemo(
             () => selectLastMessageForChat(chatDto?.id ?? -1),
@@ -93,19 +87,15 @@ export default function ChatMessagingWindow({
     useEffect(() => {
         if (!chatDto?.id || !lastIncoming) return;
 
-        // 1) twardy guard po ID (string vs number-safe)
         if (String(lastIncoming.chatId) !== String(chatDto.id)) return;
 
-        // 2) uniknij podwójnego zastosowania
         if (lastIncoming.id === lastAppliedIdRef.current) return;
 
-        // 3) aktualizuj cache PO chatId z wiadomości
         queryClient.setQueryData<InfiniteData<MessagesSlice>>(
             ["messages", lastIncoming.chatId],
             (old) => {
                 if (!old) return old;
 
-                // dedupe po id
                 const hasSameId = old.pages.some((p) =>
                     (p.messages ?? []).some((m) => m.id === lastIncoming.id),
                 );
@@ -114,7 +104,6 @@ export default function ChatMessagingWindow({
                     return old;
                 }
 
-                // spróbuj podmienić temp → real
                 let replaced = false;
                 const pagesReplaced = old.pages.map((p) => {
                     if (replaced) return p;
@@ -155,7 +144,6 @@ export default function ChatMessagingWindow({
                     return { ...old, pages: pagesReplaced };
                 }
 
-                // brak temp → wstaw na początek pierwszej strony
                 const first = old.pages[0] ?? {
                     messages: [],
                     hasNextSlice: true,
@@ -171,7 +159,6 @@ export default function ChatMessagingWindow({
         );
     }, [chatDto?.id, lastIncoming, queryClient]);
 
-    // UI
     if (messages.length === 0) {
         return (
             <p className="mt-auto px-4 py-1 font-light">
@@ -241,7 +228,6 @@ function checkIfShouldGroupMessagesByTime(
 
     if (current.toDateString() !== previous.toDateString()) return false;
 
-    // grupuj po 'name' – optymistyczne (sender.id = -1) zlepiają się z realnymi
     if ((message as any).sender?.name !== (prevMessage as any).sender?.name)
         return false;
 

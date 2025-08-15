@@ -1,12 +1,10 @@
 import React, { createContext, useContext, useEffect, useRef } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { SubscriptionDef } from "./useWebSocket";
 import { createChatSubscription } from "./subscriptions/ChatSubscription";
 import { WebSocketService } from "./WebSocketService";
 import useDispatchTyped from "../hooks/useDispatchTyped";
 import useSelectorTyped from "../hooks/useSelectorTyped";
 import store, { RootState } from "../redux/store";
-import { createAckSubscription } from "./subscriptions/ChatAckSubscription";
 
 const WS_URL = process.env.REACT_APP_WS_URL || "http://localhost:8080/connect";
 const wsService = new WebSocketService(WS_URL);
@@ -20,9 +18,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
     );
     const selectedChatId = useSelectorTyped((s) => s.chats.selectedChatId);
     const dispatch = useDispatchTyped();
-    const queryClient = useQueryClient();
 
-    // żywy getter na selectedChatId (bez importu store)
     const selectedRef = useRef<number | null>(null);
     useEffect(() => {
         selectedRef.current = selectedChatId;
@@ -33,7 +29,6 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
         else wsService.disconnect();
     }, [isLogged]);
 
-    // manage subscriptions
     useEffect(() => {
         if (!isLogged || !username) return;
 

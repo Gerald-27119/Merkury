@@ -3,7 +3,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface AccountSliceProps {
     isLogged: boolean;
     username: string;
-    // profileImageUrl: string;
 }
 
 const initialState: AccountSliceProps = {

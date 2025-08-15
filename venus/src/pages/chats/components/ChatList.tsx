@@ -18,8 +18,6 @@ export default function ChatList() {
     const selectedChatId = useSelectorTyped((s) => s.chats.selectedChatId);
     const hasNewMap = useSelectorTyped(selectHasNewMap);
 
-    const numberOfChatsPerPage = 13;
-
     const {
         data,
         fetchNextPage,
@@ -31,12 +29,11 @@ export default function ChatList() {
     } = useInfiniteQuery<ChatPage>({
         queryKey: ["user-chat-list"],
         queryFn: ({ pageParam = 0 }) =>
-            getChatListByPage(pageParam as number, numberOfChatsPerPage),
+            getChatListByPage(pageParam as number, 13),
         getNextPageParam: (last) => last.nextPage,
         initialPageParam: 0,
     });
 
-    // merge + dedupe tylko do renderu
     const chats: ChatDto[] = useMemo(() => {
         if (!isSuccess || !data) return [];
         const map = new Map<number, ChatDto>();
@@ -46,25 +43,23 @@ export default function ChatList() {
         return Array.from(map.values());
     }, [data, isSuccess]);
 
-    // upsert do Reduxa tylko nowej strony (żeby mieć lastMessage + hasNew)
     const pagesLen = data?.pages.length ?? 0;
     useEffect(() => {
         if (!pagesLen) return;
         const lastPage = data!.pages[pagesLen - 1];
         if (!lastPage?.items?.length) return;
 
-        const toRedux = lastPage.items.map<ChatDto>((c) => ({
-            id: c.id,
-            name: c.name,
-            imgUrl: c.imgUrl,
-            participants: c.participants,
-            lastMessage: c.lastMessage,
+        const toRedux = lastPage.items.map<ChatDto>((chatDto) => ({
+            id: chatDto.id,
+            name: chatDto.name,
+            imgUrl: chatDto.imgUrl,
+            participants: chatDto.participants,
+            lastMessage: chatDto.lastMessage,
             messages: [],
         }));
         dispatch(chatActions.upsertChats(toRedux));
     }, [pagesLen, dispatch, data]);
 
-    // ustaw pierwszy czat jako selected (raz)
     const didSelectRef = useRef(false);
     const firstChatId = data?.pages?.[0]?.items?.[0]?.id;
     useEffect(() => {
@@ -79,7 +74,6 @@ export default function ChatList() {
         }
     }, [firstChatId, selectedChatId, dispatch]);
 
-    // sentinel do paginacji
     const loadMoreRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         if (!loadMoreRef.current || !hasNextPage) return;

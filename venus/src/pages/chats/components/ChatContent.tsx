@@ -16,7 +16,6 @@ export default function ChatContent() {
             : undefined,
     );
 
-    // ⬇️ bezpieczny fallback gdy nie wybrano czatu / brak danych
     if (selectedChatId == null || !chatDto) {
         return (
             <div className="flex h-full items-center justify-center text-sm text-gray-400">

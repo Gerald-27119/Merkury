@@ -43,7 +43,7 @@ public class ChatStompCommunicationService {
 
 
     @Transactional
-    public void broadcastWithMessageToSender(ChatMessageDto chatMessageDto, String optimisticMessageUUID) {
+    public void broadcastACKVersionToSender(ChatMessageDto chatMessageDto, String optimisticMessageUUID) {
         var currentUserUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
 
         log.info("Broadcasting ack for message with id: {} for chat id: {} to {} ", chatMessageDto.id(), chatMessageDto.chatId(), currentUserUsername);

@@ -1,4 +1,3 @@
-// redux/chats.ts
 import {
     createEntityAdapter,
     createSlice,
@@ -11,7 +10,6 @@ import {
 } from "../model/interface/chat/chatInterfaces";
 import { RootState } from "./store";
 type ChatsExtra = { selectedChatId: number | null };
-// rozszerzamy encję o *wymagane* pole
 type ChatEntity = ChatDto & { hasNew: boolean };
 const chatsAdapter = createEntityAdapter<ChatEntity>({});
 const initialState = chatsAdapter.getInitialState<ChatsExtra>({
@@ -76,7 +74,7 @@ export const selectHasNewMap = createSelector(
         const map: Record<number, boolean> = {};
         for (const [k, v] of Object.entries(entities)) {
             if (!v) continue;
-            map[Number(k)] = v.hasNew; // już 100% boolean
+            map[Number(k)] = v.hasNew;
         }
         return map;
     },

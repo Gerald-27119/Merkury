@@ -1,4 +1,3 @@
-// ListedChat.tsx
 import { formatMessageLength, formatSentAt } from "../../../utils/chat";
 import { ChatDto } from "../../../model/interface/chat/chatInterfaces";
 import { memo } from "react";
@@ -8,7 +7,7 @@ import { chatActions } from "../../../redux/chats";
 
 interface ListedChatProps {
     chat: ChatDto;
-    hasNew?: boolean; // ⬅️ NEW
+    hasNew?: boolean;
 }
 
 function ListedChat({ chat, hasNew }: ListedChatProps) {
@@ -29,7 +28,7 @@ function ListedChat({ chat, hasNew }: ListedChatProps) {
             }`}
             onClick={() => {
                 dispatch(chatActions.setSelectedChatId(chat.id));
-                dispatch(chatActions.clearNew(chat.id)); // klik = przeczytane
+                dispatch(chatActions.clearNew(chat.id));
             }}
         >
             <img
@@ -39,7 +38,7 @@ function ListedChat({ chat, hasNew }: ListedChatProps) {
                         ? `/users/${chat.imgUrl}`
                         : "/users/default.png"
                 }
-                alt=""
+                alt={chat.imgUrl}
             />
             <div className="flex w-full flex-col">
                 <p className="text-lg font-medium">{chat?.name}</p>

@@ -6,19 +6,11 @@ export interface ChatMessageDto {
     chatId: number;
 }
 
-export interface ChatMessageToReceiveDto {
-    id: number;
-    senderId: number;
-    sentAt: string;
-    content: string;
-    chatId: number;
-}
-
 export interface ChatMessageToSendDto {
     sentAt: string;
     content: string;
     chatId: number;
-    optimisticMessageUUID: string; // NOWE
+    optimisticMessageUUID: string;
 }
 
 export interface ChatMessageSenderDto {
@@ -36,13 +28,9 @@ export interface ChatParticipantDto {
 
 export interface ChatPage {
     items: ChatDto[];
-    nextPage?: number; //TODO:moze byc null?
+    nextPage?: number;
 }
 
-/**
- * This interface is used to represent a chat with all its details, including messages and participants.
- * @author Adam Langmesser
- */
 export interface ChatDto {
     id: number;
     name: string;
@@ -57,14 +45,4 @@ export interface ChatMessagesPageDto {
     hasNextSlice: boolean;
     numberOfMessages: number;
     sliceNumber: number;
-}
-
-export type ChatMessageLocal = ChatMessageDto & {
-    optimistic?: true;
-    optimisticUUID?: string; // korelacja z ACK
-};
-
-export interface ChatMessageAckDto {
-    chatMessageDto: ChatMessageDto; // finalny obiekt z DB
-    optimisticMessageUUID: string; // to co wysłałeś w payloadzie
 }

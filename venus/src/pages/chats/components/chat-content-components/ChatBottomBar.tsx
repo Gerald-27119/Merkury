@@ -28,7 +28,7 @@ export default function ChatBottomBar() {
 
     const { publish, connected } = useWebSocket();
     const { selectedChatId } = useSelectorTyped((s) => s.chats);
-    const username = useSelectorTyped((s) => s.account.username); // tylko dla UI
+    const username = useSelectorTyped((s) => s.account.username);
 
     const dispatch = useDispatchTyped();
     const queryClient = useQueryClient();
@@ -45,7 +45,6 @@ export default function ChatBottomBar() {
 
         const chatId = selectedChatId;
 
-        // UUID do korelacji ACK <-> optymista
         const optimisticUUID =
             typeof crypto !== "undefined" && "randomUUID" in crypto
                 ? crypto.randomUUID()
@@ -62,10 +61,8 @@ export default function ChatBottomBar() {
             optimisticUUID,
         };
 
-        // A) natychmiast podbij lastMessage w Reduxie (lista czatów)
         dispatch(chatActions.setLastMessage({ chatId, message: optimistic }));
 
-        // B) dopnij optymistę do pierwszej strony historii (flex-col-reverse)
         queryClient.setQueryData<InfiniteData<ChatMessagesPageDto>>(
             ["messages", chatId],
             (old) => {
@@ -87,7 +84,6 @@ export default function ChatBottomBar() {
             },
         );
 
-        // C) jeśli masz w pamięci listę czatów z React Query — podmień jej lastMessage
         queryClient.setQueriesData<InfiniteData<ChatPage>>(
             { queryKey: ["user-chat-list"] },
             (old) => {
@@ -102,7 +98,6 @@ export default function ChatBottomBar() {
             },
         );
 
-        // D) wyślij do backendu (BE bierze username z JWT; dodajemy tylko optimisticMessageUUID)
         const payload: ChatMessageToSendDto & {
             optimisticMessageUUID: string;
         } = {
