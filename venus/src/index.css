@@ -138,13 +138,13 @@ body {
     outline: none;
 }
 
-.tiptap{
+.tiptap {
     height: 100%;
     white-space: pre-wrap;
 }
 
 .tiptap a {
-    @apply text-blue-500 underline cursor-pointer;
+    @apply cursor-pointer text-blue-500 underline;
 }
 
 .tiptap a:hover {
@@ -152,25 +152,25 @@ body {
 }
 
 .tiptap h1 {
-    @apply text-4xl font-bold mb-4;
+    @apply mb-4 text-4xl font-bold;
 }
 
 .tiptap h2 {
-    @apply text-3xl font-semibold mb-3;
+    @apply mb-3 text-3xl font-semibold;
 }
 
 .tiptap h3 {
-    @apply text-2xl font-semibold mb-2;
+    @apply mb-2 text-2xl font-semibold;
 }
 
 .tiptap h4 {
-    @apply text-xl font-medium mb-2;
+    @apply mb-2 text-xl font-medium;
 }
 
 .tiptap h5 {
-    @apply text-lg font-medium mb-1;
+    @apply mb-1 text-lg font-medium;
 }
 
 .tiptap h6 {
-    @apply text-sm font-semibold mb-1;
+    @apply mb-1 text-sm font-semibold;
 }
