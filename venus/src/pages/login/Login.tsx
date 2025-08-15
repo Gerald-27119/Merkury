@@ -40,6 +40,7 @@ function Login() {
     useEffect(() => {
         if (isSuccess) {
             dispatch(accountAction.setIsLogged());
+            dispatch(accountAction.setUsername(enteredValue.username));
         }
     }, [isSuccess, dispatch, enteredValue.username]);
 

@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.db.services;
 
-import com.merkury.vulcanus.model.entities.FavoriteSpot;
+import com.merkury.vulcanus.model.entities.spot.FavoriteSpot;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.repositories.FavoriteSpotRepository;
 import com.merkury.vulcanus.model.repositories.SpotRepository;

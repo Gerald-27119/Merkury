@@ -55,7 +55,7 @@ public class PopulateForumService {
                 .build();
 
         PostCategory postCategory4 = PostCategory.builder()
-                .name("Best place for photos")
+                .name("Best place for media")
                 .description("Top photo-worthy locations.")
                 .colour("#ef4444")
                 .build();

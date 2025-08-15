@@ -25,7 +25,7 @@ export default function ChatMessagingWindow({
 
     //TODO: add fetch more messages on scroll
     return (
-        <div className="scrollbar-track-violetDark scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark/20 flex h-full flex-col-reverse gap-2 overflow-y-scroll py-1 pl-2">
+        <div className="scrollbar-track-violetDark scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark/20 flex h-full flex-col-reverse overflow-y-scroll py-1">
             {messages.map((message: ChatMessageDto, idx: number) => {
                 const thisDate = new Date(message.sentAt).toDateString();
                 // poprzednia wiadomość w oryginalnej kolejności (nie reverse)
@@ -33,8 +33,14 @@ export default function ChatMessagingWindow({
                 const prevDate =
                     prevMessage && new Date(prevMessage.sentAt).toDateString();
 
+                const shouldGroupMessagesByTime =
+                    checkIfShouldGroupMessagesByTime(message, prevMessage);
+
                 return (
-                    <div key={message.id}>
+                    <div
+                        key={message.id}
+                        className="hover:bg-violetLight/40 pl-2"
+                    >
                         {thisDate !== prevDate && (
                             <div className="my-2 flex w-full items-center">
                                 <hr className="flex-grow border-gray-500" />
@@ -44,10 +50,38 @@ export default function ChatMessagingWindow({
                                 <hr className="flex-grow border-gray-500" />
                             </div>
                         )}
-                        <ChatMessage message={message} />
+                        <ChatMessage
+                            message={message}
+                            shouldGroupMessagesByTime={
+                                shouldGroupMessagesByTime
+                            }
+                        />
                     </div>
                 );
             })}
         </div>
     );
+}
+
+function checkIfShouldGroupMessagesByTime(
+    message: ChatMessageDto,
+    prevMessage?: ChatMessageDto,
+): boolean {
+    if (!prevMessage) return false;
+
+    const current = new Date(message.sentAt);
+    const previous = new Date(prevMessage.sentAt);
+
+    if (current.toDateString() !== previous.toDateString()) {
+        return false;
+    }
+
+    if (message.sender.id !== prevMessage.sender.id) {
+        return false;
+    }
+
+    const diffMs = Math.abs(current.getTime() - previous.getTime());
+    const diffMinutes = diffMs / 1000 / 60;
+
+    return diffMinutes < 2;
 }

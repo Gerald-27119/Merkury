@@ -2,22 +2,29 @@ package com.merkury.vulcanus.features.spot;
 
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
-import com.merkury.vulcanus.features.account.UserDataService;
-import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.SearchSpotDto;
-import com.merkury.vulcanus.model.dtos.spot.SpotDetailsDto;
-import com.merkury.vulcanus.model.entities.Spot;
-import com.merkury.vulcanus.model.mappers.SpotMapper;
+import com.merkury.vulcanus.model.dtos.spot.*;
+import com.merkury.vulcanus.model.entities.spot.Spot;
+import com.merkury.vulcanus.model.entities.spot.SpotTag;
+import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
+import com.merkury.vulcanus.model.interfaces.CityView;
+import com.merkury.vulcanus.model.interfaces.CountryView;
+import com.merkury.vulcanus.model.interfaces.RegionView;
+import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
-import com.merkury.vulcanus.model.repositories.UserEntityRepository;
+import com.merkury.vulcanus.model.specification.SpotSpecification;
+import com.merkury.vulcanus.utils.MapDistanceCalculator;
+import com.merkury.vulcanus.model.repositories.SpotTagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -25,32 +32,34 @@ import java.util.List;
 public class SpotService {
 
     private final SpotRepository spotRepository;
-    private final UserEntityRepository userEntityRepository;
-    private final UserDataService userDataService;
+    private final SpotTagRepository spotTagRepository;
 
-    private List<GeneralSpotDto> getAllSpots() throws SpotsNotFoundException {
-        var allSpots = spotRepository.findAll().stream().map(SpotMapper::toDto).toList();
-        if (allSpots.isEmpty()) {
-            throw new SpotsNotFoundException("Spots not found!");
-        }
-
-        return allSpots;
-    }
-
-    public Page<SearchSpotDto> getSearchedSpotsListPage(String name, String sort, Pageable pageable) {
-        Sort customSort = switch (sort) {
+    private Pageable configurePageableSorting(Pageable pageable, String sorting) {
+        Sort customSort = switch (sorting) {
             case "byRatingCountDesc" -> Sort.by("ratingCount").descending();
             case "byRatingCountAsc" -> Sort.by("ratingCount").ascending();
             case "byRatingDesc" -> Sort.by("rating").descending();
             case "byRatingAsc" -> Sort.by("rating").ascending();
             default -> pageable.getSort();
         };
-        Pageable sortedPageable = PageRequest.of(
-                pageable.getPageNumber(),
-                pageable.getPageSize(),
-                customSort
-        );
-        Page<Spot> searchedSpotsPage = spotRepository.findAllByNameContainingIgnoreCase(name.trim(), sortedPageable);
+
+        return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), customSort);
+    }
+
+    public Page<SearchSpotDto> getSpotsInCurrentView(double swLng, double swLat, double neLng, double neLat, String name, String sort, double ratingFrom, Pageable pageable) {
+        var sortedPageable = configurePageableSorting(pageable, sort);
+        return spotRepository.findByNameContainingIgnoreCaseAndRatingGreaterThanEqualAndCenterPointXBetweenAndCenterPointYBetween(name, ratingFrom, swLat, neLat, swLng, neLng, sortedPageable)
+                .map(SpotMapper::toSearchSpotDto);
+    }
+
+    public List<String> getSpotsNamesInCurrentView(double swLng, double swLat, double neLng, double neLat, String name) {
+        return spotRepository.findByNameContainingIgnoreCaseAndCenterPointXBetweenAndCenterPointYBetween(name, swLat, neLat, swLng, neLng).stream()
+                .map(ISpotNameOnly::getName)
+                .toList();
+    }
+
+    public Page<SearchSpotDto> getSearchedSpotsListPage(String name, String sort, Pageable pageable) {
+        Page<Spot> searchedSpotsPage = spotRepository.findAllByNameContainingIgnoreCase(name.trim(), configurePageableSorting(pageable, sort));
         return searchedSpotsPage.map(SpotMapper::toSearchSpotDto);
     }
 
@@ -58,12 +67,26 @@ public class SpotService {
         return spotRepository.findByIdWithTags(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
 
-    @Cacheable(value = "filteredSpots", key = "{#name}", unless = "#result == null")
+    @Cacheable(
+            value = "filteredSpots",
+            key = "#name",
+            condition = "#name != null && #name.trim().length() > 0",
+            unless = "#result == null || #result.isEmpty()"
+    )
     public List<GeneralSpotDto> getSearchedSpotsOnMap(String name) throws SpotsNotFoundException {
-        var allSpots = this.getAllSpots();
-        var filteredSpots = allSpots.stream()
-                .filter(spot -> (name.isBlank() || spot.name().toLowerCase().contains(name.trim().toLowerCase())))
+        String trimmed = !StringUtils.hasText(name) ? "" : name.trim();
+
+        List<Spot> spots;
+        if (trimmed.isEmpty()) {
+            spots = spotRepository.findAll();
+        } else {
+            spots = spotRepository.findAllByNameContainingIgnoreCase(trimmed);
+        }
+
+        List<GeneralSpotDto> filteredSpots = spots.stream()
+                .map(SpotMapper::toDto)
                 .toList();
+
         if (filteredSpots.isEmpty()) {
             throw new SpotsNotFoundException("No spots match filters!");
         }
@@ -73,11 +96,9 @@ public class SpotService {
 
     @Cacheable(value = "filteredSpotsNames", key = "#text", unless = "#result == null")
     public List<String> getFilteredSpotsNames(String text) throws SpotsNotFoundException {
-        var allSpots = this.getAllSpots();
 
-        var spotsNames = allSpots.stream()
-                .map(GeneralSpotDto::name)
-                .filter(spotName -> spotName.toLowerCase().contains(text.trim().toLowerCase()))
+        var spotsNames = spotRepository.findByNameContainingIgnoreCase(text).stream()
+                .map(ISpotNameOnly::getName)
                 .toList();
 
         if (spotsNames.isEmpty()) {
@@ -85,5 +106,83 @@ public class SpotService {
         }
 
         return spotsNames;
+    }
+
+    public List<TopRatedSpotDto> get18MostPopularSpots() {
+        return spotRepository
+                .findTop18ByOrderByRatingDescViewsCountDesc()
+                .stream()
+                .map(SpotMapper::toTopRated)
+                .toList();
+    }
+
+    public List<HomePageSpotDto> getAllSpotsByLocation(String country, String region, String city, Double userLongitude, Double userLatitude) {
+        var spec = Specification
+                .where(SpotSpecification.hasCountry(country))
+                .and(SpotSpecification.hasRegion(region))
+                .and(SpotSpecification.hasCity(city));
+
+        var spots = spotRepository.findAll(spec);
+
+        return spots.stream()
+                .map(spot -> {
+                    Double userDistanceToSpot = null;
+
+                    if (userLatitude != null && userLongitude != null) {
+                        userDistanceToSpot = MapDistanceCalculator.calculateDistance(
+                                userLatitude,
+                                userLongitude,
+                                spot.getCenterPoint().getX(),
+                                spot.getCenterPoint().getY()
+                        );
+                    }
+
+                    return SpotMapper.toHomePageSearchSpotDto(spot, userDistanceToSpot);
+                })
+                .toList();
+    }
+
+    public List<String> getLocations(String query, String type) {
+        if ("tags".equalsIgnoreCase(type) && (query == null || query.isBlank())) {
+            return spotTagRepository.findAll().stream().map(SpotTag::getName).toList();
+        }
+
+        if (query == null || query.length() < 2 || type == null) {
+            return Collections.emptyList();
+        }
+
+        return switch (type.toLowerCase()) {
+            case "country" -> spotRepository.findDistinctByCountryStartingWithIgnoreCase(query)
+                    .stream().map(CountryView::getCountry).toList();
+            case "region" -> spotRepository.findDistinctByRegionStartingWithIgnoreCase(query)
+                    .stream().map(RegionView::getRegion).toList();
+            default -> spotRepository.findDistinctByCityStartingWithIgnoreCase(query)
+                    .stream().map(CityView::getCity).toList();
+        };
+    }
+
+    public List<HomePageSpotDto> getAllSpotsByLocationAndTags(String city, List<String> tags, Double userLongitude, Double userLatitude) {
+        var spec = Specification.<Spot>where(null)
+                .and(SpotSpecification.hasCity(city))
+                .and(SpotSpecification.hasAnyTag(tags));
+
+        var spots = spotRepository.findAll(spec);
+
+        return spots.stream()
+                .map(spot -> {
+                    Double userDistanceToSpot = null;
+
+                    if (userLatitude != null && userLongitude != null) {
+                        userDistanceToSpot = MapDistanceCalculator.calculateDistance(
+                                userLatitude,
+                                userLongitude,
+                                spot.getCenterPoint().getX(),
+                                spot.getCenterPoint().getY()
+                        );
+                    }
+
+                    return SpotMapper.toHomePageSearchSpotDto(spot, userDistanceToSpot);
+                })
+                .toList();
     }
 }

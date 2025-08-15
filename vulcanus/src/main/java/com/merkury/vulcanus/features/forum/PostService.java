@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.features.forum;
 
-import com.merkury.vulcanus.exception.exceptions.CategoryNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.UnauthorizedPostAccessException;
-import com.merkury.vulcanus.exception.exceptions.PostNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.TagNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.UserDataService;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.forum.*;
@@ -39,14 +36,14 @@ public class PostService {
     private final UserDataService userDataService;
     private final VoteService voteService;
 
-    public PostDetailsDto getDetailedPost(HttpServletRequest request, Long postId) throws PostNotFoundException {
+    public PostDetailsDto getDetailedPost(HttpServletRequest request, Long postId) throws PostNotFoundException, UserNotFoundException {
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
         var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
 
         return PostMapper.toDetailsDto(post, user);
     }
 
-    public Page<PostGeneralDto> getPostsPage(HttpServletRequest request, Pageable pageable) {
+    public Page<PostGeneralDto> getPostsPage(HttpServletRequest request, Pageable pageable) throws UserNotFoundException {
         Page<Post> postsPage = postRepository.findAll(
                 PageRequest.of(
                         pageable.getPageNumber(),
@@ -60,7 +57,7 @@ public class PostService {
     }
 
     //TODO: use jsoup library for content filter
-    public void addPost(HttpServletRequest request, PostDto dto) throws CategoryNotFoundException, TagNotFoundException {
+    public void addPost(HttpServletRequest request, PostDto dto) throws CategoryNotFoundException, TagNotFoundException, UserNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
@@ -69,7 +66,7 @@ public class PostService {
     }
 
     @Transactional
-    public void deletePost(HttpServletRequest request, Long postId) throws UnauthorizedPostAccessException {
+    public void deletePost(HttpServletRequest request, Long postId) throws UnauthorizedPostAccessException, UserNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("delete"));
 
@@ -77,7 +74,7 @@ public class PostService {
     }
 
     //TODO: use jsoup library for content filter
-    public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException {
+    public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, UserNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("edit"));
         var category = getCategoryByName(dto.category());
@@ -91,7 +88,7 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public void votePost(HttpServletRequest request, Long postId, boolean isUpvote) throws PostNotFoundException {
+    public void votePost(HttpServletRequest request, Long postId, boolean isUpvote) throws PostNotFoundException, UserNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
 

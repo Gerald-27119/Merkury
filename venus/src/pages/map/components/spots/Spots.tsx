@@ -18,9 +18,7 @@ import { useLocation } from "react-router-dom";
 const clickHandlers = new Map<number, () => void>();
 
 export default function Spots() {
-    const { name, minRating, maxRating } = useSelectorTyped(
-        (state) => state.spotFilters,
-    );
+    const { name } = useSelectorTyped((state) => state.spotFilters);
     const { zoomLevel } = useSelectorTyped((state) => state.map);
     const dispatch = useDispatchTyped();
     const { current: map } = useMap();
@@ -109,8 +107,8 @@ export default function Spots() {
                 shouldRenderMarker(spot.area, zoomLevel) ? (
                     <Marker
                         key={spot.id}
-                        longitude={spot.contourCoordinates[0][1]}
-                        latitude={spot.contourCoordinates[0][0]}
+                        longitude={spot.centerPoint.y}
+                        latitude={spot.centerPoint.x}
                         onClick={() => handleSpotClick(spot.id)}
                     >
                         <MdLocationPin

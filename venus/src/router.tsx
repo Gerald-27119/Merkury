@@ -8,15 +8,19 @@ import Layout from "./layout/Layout.jsx";
 import Forum from "./pages/forum/Forum";
 import ForumThread from "./pages/forum/ForumThread";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
-import EditUserData from "./pages/edit-user-data/EditUserData.jsx";
 import MapPage from "./pages/map/MapPage";
 import ChatsPage from "./pages/chats/ChatsPage";
 import FavoriteSpots from "./pages/account/favorite-spots/FavoriteSpots";
 import UserOwnProfile from "./pages/account/profile/UserOwnProfile";
 import ProfileForViewer from "./pages/account/profile/ProfileForViewer";
+import Comments from "./pages/account/comments/Comments";
 import UserOwnSocial from "./pages/account/social/UserOwnSocial";
 import SocialForViewer from "./pages/account/social/SocialForViewer";
 import Photos from "./pages/account/photos/Photos";
+import Settings from "./pages/account/settings/Settings";
+import HomePage from "./pages/home-page/HomePage";
+import Movies from "./pages/account/movies/Movies";
+import AdvanceHomePage from "./pages/home-page/AdvanceHomePage";
 
 const router = createBrowserRouter([
     {
@@ -26,7 +30,11 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <h1 className="text-white">HOME PAGE</h1>,
+                element: <HomePage />,
+            },
+            {
+                path: "advanced",
+                element: <AdvanceHomePage />,
             },
             {
                 path: "account",
@@ -75,6 +83,30 @@ const router = createBrowserRouter([
                             </ProtectedRoute>
                         ),
                     },
+                    {
+                        path: "comments",
+                        element: (
+                            <ProtectedRoute>
+                                <Comments />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "settings",
+                        element: (
+                            <ProtectedRoute>
+                                <Settings />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "movies",
+                        element: (
+                            <ProtectedRoute>
+                                <Movies />
+                            </ProtectedRoute>
+                        ),
+                    },
                 ],
             },
             {
@@ -100,14 +132,6 @@ const router = createBrowserRouter([
             {
                 path: "forum/:postId",
                 element: <ForumThread />,
-            },
-            {
-                path: "edit-data",
-                element: (
-                    <ProtectedRoute>
-                        <EditUserData />
-                    </ProtectedRoute>
-                ),
             },
             {
                 path: "map",

@@ -2,12 +2,14 @@ package com.merkury.vulcanus.controllers.spot;
 
 import com.merkury.vulcanus.model.dtos.spot.GeneralSpotDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
-import com.merkury.vulcanus.model.entities.Img;
-import com.merkury.vulcanus.model.entities.Spot;
+import com.merkury.vulcanus.model.entities.spot.Spot;
+import com.merkury.vulcanus.model.entities.spot.SpotMedia;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.repositories.FavoriteSpotRepository;
-import com.merkury.vulcanus.model.entities.SpotTag;
+import com.merkury.vulcanus.model.entities.spot.SpotTag;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import com.merkury.vulcanus.model.repositories.SpotTagRepository;
+import com.merkury.vulcanus.utils.PolygonCenterPointCalculator;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -82,6 +84,11 @@ class SpotControllerWithServerStartupTest {
                 new BorderPoint(40.784091, -73.969285)
         );
 
+        var spot3BorderPoints = List.of(
+                new BorderPoint(40.783000, -73.970000),
+                new BorderPoint(40.786000, -73.970500)
+        );
+
         List<String> tagsNames = new ArrayList<>(List.of(
                 "tag1",
                 "tag2",
@@ -104,6 +111,7 @@ class SpotControllerWithServerStartupTest {
                 .tags(tagSet)
                 .areaColor("#000000")
                 .borderPoints(borderPoints)
+                .centerPoint(PolygonCenterPointCalculator.calculateCenterPoint(borderPoints))
                 .build();
 
         var spot2 = Spot.builder()
@@ -113,6 +121,7 @@ class SpotControllerWithServerStartupTest {
                 .tags(tagSet)
                 .areaColor("#000000")
                 .borderPoints(borderPoints)
+                .centerPoint(PolygonCenterPointCalculator.calculateCenterPoint(borderPoints))
                 .build();
 
         var spot3 = Spot.builder()
@@ -121,26 +130,27 @@ class SpotControllerWithServerStartupTest {
                 .ratingCount(2)
                 .tags(tagSet)
                 .areaColor("#000000")
-                .borderPoints(borderPoints)
+                .borderPoints(spot3BorderPoints)
+                .centerPoint(PolygonCenterPointCalculator.calculateCenterPoint(spot3BorderPoints))
                 .build();
 
         favoriteSpotRepository.deleteAll();
-        List<Img> photos1 = Arrays.asList(
-                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, null, spot1),
-                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, null, spot1)
+        List<SpotMedia> spotMedia1 = Arrays.asList(
+                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot1),
+                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot1)
         );
-        List<Img> photos2 = Arrays.asList(
-                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, null, spot2),
-                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, null, spot2)
+        List<SpotMedia> spotMedia2 = Arrays.asList(
+                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot2),
+                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot2)
         );
-        List<Img> photos3 = Arrays.asList(
-                new Img(null, "photo1.jpg", "alt", "description", 0, 0, null, null, spot3),
-                new Img(null, "photo2.jpg", "alt", "description", 0, 0, null, null, spot3)
+        List<SpotMedia> spotMedia3 = Arrays.asList(
+                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot3),
+                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot3)
         );
 
-        spot1.setImages(photos1);
-        spot2.setImages(photos2);
-        spot3.setImages(photos3);
+        spot1.setMedia(spotMedia1);
+        spot2.setMedia(spotMedia2);
+        spot3.setMedia(spotMedia3);
 
         spotRepository.deleteAll();
         spotRepository.save(spot1);
@@ -306,6 +316,34 @@ class SpotControllerWithServerStartupTest {
                 () -> assertEquals("Spot1", content.getFirst().getName(), "First spot name should be Spot1"),
                 () -> assertEquals("Spot2", content.get(1).getName(), "Second spot name should be Spot2"),
                 () -> assertEquals("Other", content.get(2).getName(), "Third spot name should be Other")
+        );
+    }
+
+    @Test
+    @DisplayName("getSpotNamesInCurrentView should return all spots in current view as page")
+    void getSpotNamesInCurrentViewShouldReturnAllSpotsInCurrentViewAsPage() {
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        var responseEntity = restTemplate.exchange(
+                "http://localhost:" + port + "/public/spot/current-view?swLng=-73.969285&" +
+                        "swLat=40.784091&" +
+                        "neLng=-73.968285&" +
+                        "neLat=40.785091&name=&sorting=none&ratingFrom=0",
+                HttpMethod.GET,
+                entity,
+                new ParameterizedTypeReference<CustomPageImpl<Spot>>() {
+                }
+        );
+
+        PageImpl<Spot> page = responseEntity.getBody();
+        var content = page.getContent();
+        assertAll("Response assertions",
+                () -> assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "Status code should be 200"),
+                () -> assertEquals(2, content.size(), "Content should have 2 elements"),
+                () -> assertEquals("Spot1", content.getFirst().getName(), "First spot name should be Spot1"),
+                () -> assertEquals("Spot2", content.get(1).getName(), "Second spot name should be Spot2")
         );
     }
 }

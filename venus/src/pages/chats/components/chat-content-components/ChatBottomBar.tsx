@@ -1,71 +1,113 @@
-import MessageInput from "./bottom-bar-components/MessageInput";
+import React, { useState, useCallback, useRef } from "react";
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoSendSharp } from "react-icons/io5";
 import { RiEmotionHappyFill } from "react-icons/ri";
 import { MdGifBox } from "react-icons/md";
-import { SetStateAction, useState } from "react";
-import { WebSocketChatMessage } from "../../../../stomp/stompClient";
-import { useStomp } from "../../../../stomp/useStomp";
+import { useWebSocket } from "../../../../stomp/useWebSocket";
+import { ChatMessageToSendDto } from "../../../../model/interface/chat/chatInterfaces";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
+import EmojiGifWindowWrapper from "./bottom-bar-components/EmojiGifWindow/EmojiGifWindowWrapper";
+import { useClickOutside } from "../../../../hooks/useClickOutside";
+
+// TODO: use https://www.npmjs.com/package/react-textarea-autosize
 
 export default function ChatBottomBar() {
-    const className = "text-violetLighter text-3xl";
+    const iconClasses =
+        "text-violetLighter text-2xl hover:cursor-pointer hover:text-white/80";
+
     const [messageToSend, setMessageToSend] = useState("");
     const [isSending, setIsSending] = useState(false);
-    const { sendMessage: stompSendMessage } = useStomp(
-        "ws://localhost:8080/connect",
-        1, //1 to id cahta na razie
-    ); // Update broker URL as needed
-    // TODO:move it somewhere else (whole app  should be able to use the stomp connnection)
-    function onInputChange(event: {
-        target: { value: SetStateAction<string> };
-    }) {
-        setMessageToSend(event.target.value);
-    }
 
-    function sendMessage() {
-        const formatedMessageToSend: WebSocketChatMessage = {
-            chatId: 1,
-            sender: {
-                id: 1,
-                name: "user1",
-                imgUrl: "user1.png",
-            },
+    // Tu używam globalnego hooka useWebSocket, który zarządza połączeniem WebSocket
+    const { publish, connected } = useWebSocket();
+    const { selectedChatId } = useSelectorTyped((state) => state.chats);
+
+    const [activeGifEmojiWindow, setActiveGifEmojiWindow] = useState<
+        "emoji" | "gif" | null
+    >(null);
+    const gifEmojiWindowRef = useRef<HTMLDivElement>(null);
+    useClickOutside(gifEmojiWindowRef, () => setActiveGifEmojiWindow(null));
+
+    const sendMessage = useCallback(async () => {
+        if (!messageToSend.trim() || !connected) return;
+
+        const formattedChatMessageToSend: ChatMessageToSendDto = {
+            chatId: selectedChatId,
             content: messageToSend,
-            sentAt: new Date().toISOString(), // Add timestamp
+            sentAt: new Date().toISOString(),
         };
-        console.log("Sending message:", JSON.stringify(formatedMessageToSend));
+
         setIsSending(true);
+        try {
+            publish(
+                `/app/send/${selectedChatId}/message`,
+                formattedChatMessageToSend,
+            );
+            setMessageToSend("");
+            //TODO:add ACK confirmation
+        } finally {
+            setIsSending(false);
+        }
+    }, [messageToSend, selectedChatId, connected, publish]);
 
-        // Send the message via the STOMP client
-        stompSendMessage(
-            "/app/send/1/message",
-            JSON.stringify(formatedMessageToSend),
-        );
-
-        // ADD ACKNOWLEDGEMENT HANDLING HERE
-        // In a real-world scenario, you'd subscribe to an ACK topic or use a callback.
+    function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+        if (e.key === "Enter") {
+            if (e.shiftKey) {
+                return;
+            }
+            e.preventDefault();
+            sendMessage();
+        }
     }
-    // TODO: w chacie u suera musi wyswietlac sie wiadomosc ktora wyslal w wersji z frontu dodana a nie z backendu!
-    //TODO: potem potwierdzneiwwyslania, ponawienie, info o beldzie itd
 
     return (
         <div className="flex items-center justify-center gap-4 px-3 py-3">
             <div className="bg-violetLight/25 mr-1 flex w-full gap-3 rounded-xl px-3 py-3 shadow-md">
-                <FaCirclePlus className={className} />
+                <FaCirclePlus className={iconClasses} />
 
-                <input
-                    className="w-full focus:border-none focus:outline-none"
+                <textarea
+                    className="scrollbar-track-violetDark/10 hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin w-full resize-none bg-transparent focus:border-none focus:outline-none"
                     placeholder="Message..."
-                    type="text"
-                    onChange={onInputChange}
                     value={messageToSend}
-                ></input>
+                    onChange={(e) => setMessageToSend(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    rows={1}
+                />
 
-                <MdGifBox className={className} />
-                <RiEmotionHappyFill className={className} />
+                <div
+                    ref={gifEmojiWindowRef}
+                    className="flex items-center gap-2"
+                >
+                    <MdGifBox
+                        className={iconClasses}
+                        onClick={() =>
+                            setActiveGifEmojiWindow((prev) =>
+                                prev === "gif" ? null : "gif",
+                            )
+                        }
+                    />
+                    <RiEmotionHappyFill
+                        className={iconClasses}
+                        onClick={() =>
+                            setActiveGifEmojiWindow((prev) =>
+                                prev === "emoji" ? null : "emoji",
+                            )
+                        }
+                    />
+                    {activeGifEmojiWindow && (
+                        <EmojiGifWindowWrapper
+                            windowName={activeGifEmojiWindow}
+                            setActiveGifEmojiWindow={setActiveGifEmojiWindow}
+                        />
+                    )}
+                </div>
             </div>
 
-            <button onClick={sendMessage} className="hover:cursor-pointer">
+            <button
+                onClick={sendMessage}
+                disabled={!connected || isSending}
+                className="hover:cursor-pointer disabled:opacity-50"
+            >
                 <IoSendSharp className="mr-4 h-7 w-7 shadow-md" />
             </button>
         </div>

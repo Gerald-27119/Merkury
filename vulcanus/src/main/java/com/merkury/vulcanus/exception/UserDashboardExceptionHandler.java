@@ -53,8 +53,38 @@ public class UserDashboardExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
-    @ExceptionHandler(UnsupportedPhotoSortTypeException.class)
-    public ResponseEntity<String> handleUnsupportedPhotoSortTypeException(UnsupportedPhotoSortTypeException ex) {
+    @ExceptionHandler(UnsupportedDateSortTypeException.class)
+    public ResponseEntity<String> handleUnsupportedPhotoSortTypeException(UnsupportedDateSortTypeException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(SameUsernameException.class)
+    public ResponseEntity<String> handleSameUsernameException(SameUsernameException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(SameEmailException.class)
+    public ResponseEntity<String> handleSameEmailException(SameEmailException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(SamePasswordException.class)
+    public ResponseEntity<String> handleSamePasswordException(SamePasswordException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ExternalProviderAccountException.class)
+    public ResponseEntity<String> handleExternalProviderAccountException(ExternalProviderAccountException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UnsupportedUserSettingsType.class)
+    public ResponseEntity<String> handleUnsupportedUserSettingsType(UnsupportedUserSettingsType ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }

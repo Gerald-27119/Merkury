@@ -16,7 +16,7 @@ export default function ChatList() {
     const dispatch = useDispatchTyped();
     const allChats = useSelector(selectAllChats);
 
-    const pageSize = 13;
+    const numberOfChatsPerPage = 13;
 
     const {
         data,
@@ -29,7 +29,7 @@ export default function ChatList() {
     } = useInfiniteQuery<ChatPage, Error, InfiniteData<ChatPage>>({
         queryKey: ["user-chat-list"],
         queryFn: ({ pageParam = 0 }) =>
-            getChatListByPage(pageParam as number, pageSize),
+            getChatListByPage(pageParam as number, numberOfChatsPerPage),
         getNextPageParam: (last) => last.nextPage,
         initialPageParam: 0,
     });
@@ -47,18 +47,24 @@ export default function ChatList() {
 
     useEffect(() => {
         if (!loadMoreRef.current || !hasNextPage) return;
+
         const observer = new IntersectionObserver(
             ([entry], obs) => {
-                if (entry.isIntersecting) {
+                if (
+                    entry.isIntersecting &&
+                    hasNextPage &&
+                    !isFetchingNextPage
+                ) {
                     obs.unobserve(entry.target);
                     fetchNextPage();
-                } //test
+                }
             },
             { rootMargin: "200px" },
         );
+
         observer.observe(loadMoreRef.current);
         return () => observer.disconnect();
-    }, [fetchNextPage, hasNextPage]);
+    }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
     if (isLoading)
         return Array.from({ length: 15 }).map((_, index) => (

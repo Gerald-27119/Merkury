@@ -2,10 +2,12 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
-import com.merkury.vulcanus.features.comment.SpotCommentService;
-import com.merkury.vulcanus.model.dtos.comment.SpotCommentAddDto;
-import com.merkury.vulcanus.model.dtos.comment.SpotCommentDto;
-import com.merkury.vulcanus.model.dtos.comment.SpotCommentEditDto;
+import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
+import com.merkury.vulcanus.features.spot.SpotCommentService;
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentAddDto;
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentDto;
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentEditDto;
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentMediaDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,41 +18,48 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 public class SpotCommentController {
 
-    private final static int SPOT_COMMENTS_PAGE_SIZE = 2;
+    private static final int SPOT_COMMENTS_PAGE_SIZE = 2;
     private final SpotCommentService spotCommentService;
 
     @GetMapping("/public/spot/{spotId}/comments")
-    public ResponseEntity<Page<SpotCommentDto>> getCommentsBySpotId(HttpServletRequest request, @PathVariable Long spotId, @RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity<Page<SpotCommentDto>> getCommentsBySpotId(HttpServletRequest request, @PathVariable Long spotId, @RequestParam(defaultValue = "0") int page) throws UserNotFoundException {
         Page<SpotCommentDto> comments = spotCommentService.getCommentsBySpotId(request, spotId, PageRequest.of(page, SPOT_COMMENTS_PAGE_SIZE));
 
         return ResponseEntity.ok(comments);
     }
 
+    @GetMapping("/public/spot/{spotId}/comments/{commentId}")
+    public ResponseEntity<List<SpotCommentMediaDto>> getRestOfSpotCommentMedia(@PathVariable Long spotId, @PathVariable Long commentId) {
+        return ResponseEntity.ok(spotCommentService.getRestOfSpotCommentMedia(spotId, commentId));
+    }
+
     @PostMapping("/spot/{spotId}/comments")
-    public ResponseEntity<Void> addComment(HttpServletRequest request, @PathVariable Long spotId, @Valid @RequestBody SpotCommentAddDto spotCommentAddDto) throws SpotNotFoundException {
+    public ResponseEntity<Void> addComment(HttpServletRequest request, @PathVariable Long spotId, @Valid @RequestBody SpotCommentAddDto spotCommentAddDto) throws SpotNotFoundException, UserNotFoundException {
         spotCommentService.addComment(request, spotCommentAddDto, spotId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/spot/comments/{commentId}")
-    public ResponseEntity<Void> deleteComment(HttpServletRequest request, @PathVariable Long commentId) throws CommentAccessException {
+    public ResponseEntity<Void> deleteComment(HttpServletRequest request, @PathVariable Long commentId) throws CommentAccessException, UserNotFoundException {
         spotCommentService.deleteComment(request, commentId);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/spot/comments/{commentId}")
-    public ResponseEntity<SpotCommentDto> editComment(HttpServletRequest request, @PathVariable Long commentId, @Valid @RequestBody SpotCommentEditDto spotCommentEditDto) throws CommentAccessException {
+    public ResponseEntity<SpotCommentDto> editComment(HttpServletRequest request, @PathVariable Long commentId, @Valid @RequestBody SpotCommentEditDto spotCommentEditDto) throws CommentAccessException, UserNotFoundException {
         spotCommentService.editComment(request, commentId, spotCommentEditDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/spot/comments/{commentId}/vote")
-    public ResponseEntity<Void> voteComment(HttpServletRequest request, @PathVariable Long commentId, @RequestParam boolean isUpvote) {
+    public ResponseEntity<Void> voteComment(HttpServletRequest request, @PathVariable Long commentId, @RequestParam boolean isUpvote) throws UserNotFoundException {
         spotCommentService.voteComment(request, commentId, isUpvote);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

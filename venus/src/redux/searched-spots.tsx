@@ -3,7 +3,7 @@ import {
     createSlice,
     PayloadAction,
 } from "@reduxjs/toolkit";
-import SearchSpotDto from "../model/interface/spot/searchSpotDto";
+import SearchSpotDto from "../model/interface/spot/search-spot/searchSpotDto";
 import { RootState } from "./store";
 
 export const searchedSpotsAdapter = createEntityAdapter<SearchSpotDto>();

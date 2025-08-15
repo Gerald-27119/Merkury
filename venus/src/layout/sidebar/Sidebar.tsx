@@ -17,6 +17,9 @@ export default function Sidebar() {
     const location = useLocation();
     const isAccountPage = location.pathname.includes("/account");
     const isChatPage = location.pathname.includes("/chat");
+    const isHomePage =
+        location.pathname === "/" || location.pathname === "/advanced";
+    const isStickyLayoutPage = isAccountPage || isChatPage || isHomePage;
 
     const allLinks = isLogged
         ? [...staticLinks, ...userLoggedLinks]
@@ -26,7 +29,7 @@ export default function Sidebar() {
 
     return (
         <aside
-            className={`bg-violetDark text-darkText fixed top-0 left-0 z-50 flex h-screen shrink-0 flex-col justify-between py-2 transition-all duration-300 ${isAccountPage || isChatPage ? "xl:sticky" : "absolute"} ${isSidebarOpen ? "w-full translate-x-0 xl:w-[220px]" : "w-[220px] -translate-x-full p-0 xl:w-[70px] xl:translate-x-0"}`}
+            className={`bg-violetDark text-darkText fixed top-0 left-0 z-50 flex h-screen shrink-0 flex-col justify-between py-2 transition-all duration-300 ${isStickyLayoutPage ? "xl:sticky" : "absolute"} ${isSidebarOpen ? "w-full translate-x-0 xl:w-[220px]" : "w-[220px] -translate-x-full p-0 xl:w-[70px] xl:translate-x-0"}`}
         >
             <div className="flex flex-col space-y-10">
                 <SidebarToggleButton />

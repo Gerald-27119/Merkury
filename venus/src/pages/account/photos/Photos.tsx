@@ -1,37 +1,61 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getSortedUserPhotos } from "../../../http/user-dashboard";
-import DateBadge from "./components/DateBadge";
-import Photo from "./components/Photo";
-import DateChooser from "./components/DateChooser";
-import { PhotosSortType } from "../../../model/enum/account/photos/photosSortType";
-import { useEffect, useState } from "react";
-import SortDropdown from "./components/SortDropdown";
-import AccountTitle from "../components/AccountTitle";
-import AccountWrapper from "../components/AccountWrapper";
 import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
-import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
-import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { useDateSortFilter } from "../../../hooks/useDateSortFilter";
+import { useEffect, useRef } from "react";
 import { notificationAction } from "../../../redux/notification";
-import dayjs, { Dayjs } from "dayjs";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import Media from "../components/Media";
 
 export default function Photos() {
-    const [optionType, setOptionType] = useState(PhotosSortType.DATE_DECREASE);
-    const [searchDate, setSearchDate] = useState({
-        from: null,
-        to: null,
-    });
-
     const dispatch = useDispatchTyped();
+    const { sortType, searchDate, handleSelectType, handleChangeDate } =
+        useDateSortFilter();
+    const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ["photos", optionType, searchDate.from, searchDate.to],
-        queryFn: () =>
-            getSortedUserPhotos({
-                from: searchDate.from,
-                to: searchDate.to,
-                type: optionType,
-            }),
+    const {
+        data,
+        isLoading,
+        isError,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+    } = useInfiniteQuery({
+        queryKey: ["photos", sortType, searchDate.from, searchDate.to],
+        queryFn: ({ pageParam = 0 }) =>
+            getSortedUserPhotos(
+                sortType,
+                searchDate.from,
+                searchDate.to,
+                pageParam,
+                2,
+            ),
+        getNextPageParam: (lastPage, allPages) =>
+            lastPage.hasNext ? allPages.length : undefined,
+        initialPageParam: 0,
     });
+
+    const allItems = data?.pages.flatMap((page) => page.items);
+
+    useEffect(() => {
+        if (!loadMoreRef.current) return;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (
+                    entries[0].isIntersecting &&
+                    hasNextPage &&
+                    !isFetchingNextPage
+                ) {
+                    fetchNextPage();
+                }
+            },
+            { threshold: 1.0 },
+        );
+        observer.observe(loadMoreRef.current);
+        return () => {
+            observer.disconnect();
+        };
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     useEffect(() => {
         if (isError) {
@@ -44,85 +68,16 @@ export default function Photos() {
         }
     }, [isError]);
 
-    const handleSelectType = (type: PhotosSortType) => {
-        setOptionType(type);
-    };
-
-    const handleChangeDate = (value: Dayjs | null, id: string) => {
-        const formatted = value?.format("YYYY-MM-DD");
-
-        if (id === "from") {
-            if (searchDate.to && value?.isAfter(searchDate.to)) {
-                dispatch(
-                    notificationAction.setError({
-                        message: '"From" date cannot be after "To" date',
-                    }),
-                );
-                return;
-            }
-        }
-
-        if (id === "to") {
-            if (searchDate.from && value?.isBefore(searchDate.from)) {
-                dispatch(
-                    notificationAction.setError({
-                        message: '"To" date cannot be before "From" date',
-                    }),
-                );
-                return;
-            }
-        }
-
-        setSearchDate((prevState) => ({
-            ...prevState,
-            [id]: formatted,
-        }));
-    };
-
     return (
-        <AccountWrapper variant={AccountWrapperType.PHOTOS}>
-            <div className="flex flex-wrap items-center justify-between space-y-2 space-x-3">
-                <AccountTitle text="Photos" />
-                <div className="text-darkText flex flex-wrap space-y-3 space-x-3 md:space-y-0 lg:mx-27">
-                    <SortDropdown onSelectType={handleSelectType} />
-                    <div className="bg-violetDark flex h-15 items-center space-x-3 rounded-full px-2.5 py-1 md:h-12">
-                        <DateChooser
-                            text="From:"
-                            onChange={(value) =>
-                                handleChangeDate(value, "from")
-                            }
-                            value={
-                                searchDate.from ? dayjs(searchDate.from) : null
-                            }
-                        />
-                        <DateChooser
-                            text="To:"
-                            onChange={(value) => handleChangeDate(value, "to")}
-                            value={searchDate.to ? dayjs(searchDate.to) : null}
-                        />
-                    </div>
-                </div>
-            </div>
-            <div className="flex flex-col gap-3 lg:mx-27">
-                {isLoading && <LoadingSpinner />}
-                {data?.length
-                    ? data?.map(({ date, photos }) => (
-                          <div className="flex flex-col space-y-3" key={date}>
-                              <DateBadge date={date} />
-                              <ul className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-                                  {photos.map((photo) => (
-                                      <Photo photo={photo} key={photo.id} />
-                                  ))}
-                              </ul>
-                          </div>
-                      ))
-                    : null}
-                {!data?.length && !isLoading ? (
-                    <p className="text-center text-lg">
-                        You haven't added any photos.
-                    </p>
-                ) : null}
-            </div>
-        </AccountWrapper>
+        <Media
+            variant={AccountWrapperType.PHOTOS}
+            searchDate={searchDate}
+            onSortChange={handleSelectType}
+            onDateChange={handleChangeDate}
+            isLoading={isLoading}
+            mediaList={allItems}
+            loadMoreRef={loadMoreRef}
+            isFetchingNextPage={isFetchingNextPage}
+        />
     );
 }

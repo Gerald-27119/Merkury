@@ -4,52 +4,63 @@ import { accountSlice } from "../../../../redux/account";
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
-import { describe } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 import FavoriteSpots from "../../../../pages/account/favorite-spots/FavoriteSpots";
 
 const queryClient = new QueryClient();
 
 vi.mock("@tanstack/react-query", async () => {
-    const mockFavoriteSpotsData = [
-        {
-            id: 1,
-            name: "Sunny Beach",
-            country: "Spain",
-            city: "Barcelona",
-            description: "Beautiful beach with golden sand and clear water.",
-            rating: 4.8,
-            viewsCount: 1234,
-            imageUrl: "sunny_beach.jpg",
-            type: "PUBLIC",
-            tags: [
-                { id: 1, name: "BeachTag" },
-                { id: 2, name: "SunnyTag" },
+    const actual = await vi.importActual("@tanstack/react-query");
+    const mockData = {
+        data: {
+            pages: [
+                {
+                    items: [
+                        {
+                            id: 1,
+                            name: "Sunny Beach",
+                            country: "Spain",
+                            city: "Barcelona",
+                            description:
+                                "Beautiful beach with golden sand and clear water.",
+                            viewsCount: 1234,
+                            rating: 4.5,
+                            tags: [
+                                { id: 1, name: "BeachTag" },
+                                { id: 2, name: "SunnyTag" },
+                            ],
+                            imageUrl: "sunny_beach.jpg",
+                        },
+                        {
+                            id: 2,
+                            name: "Mountain Peak",
+                            country: "Switzerland",
+                            city: "Zermatt",
+                            description:
+                                "Breathtaking views from the top of the Alps.",
+                            viewsCount: 987,
+                            rating: 3.5,
+                            tags: [
+                                { id: 3, name: "MountainTag" },
+                                { id: 4, name: "HikingTag" },
+                            ],
+                            imageUrl: "mountain_peak.jpg",
+                        },
+                    ],
+                    hasNext: false,
+                },
             ],
+            pageParams: [0],
         },
-        {
-            id: 2,
-            name: "Mountain Peak",
-            country: "Switzerland",
-            city: "Zermatt",
-            description: "Breathtaking views from the top of the Alps.",
-            rating: 3.9,
-            viewsCount: 987,
-            imageUrl: "mountain_peak.jpg",
-            type: "FRIENDS_ONLY",
-            tags: [
-                { id: 3, name: "MountainTag" },
-                { id: 4, name: "HikingTag" },
-            ],
-        },
-    ];
+        isLoading: false,
+        hasNextPage: false,
+        fetchNextPage: vi.fn(),
+        isFetchingNextPage: false,
+    };
 
     return {
-        ...(await vi.importActual("@tanstack/react-query")),
-        useQuery: vi.fn().mockReturnValue({
-            data: mockFavoriteSpotsData,
-            isLoading: false,
-            error: null,
-        }),
+        ...actual,
+        useInfiniteQuery: vi.fn().mockReturnValue(mockData),
     };
 });
 
@@ -77,6 +88,16 @@ const renderFavoriteSpots = () => {
 describe("Favorite spots component unit tests", () => {
     describe("Spots display data correctly", () => {
         beforeEach(() => {
+            global.IntersectionObserver = class {
+                constructor(callback) {
+                    this.callback = callback;
+                }
+                observe() {
+                    this.callback([{ isIntersecting: true }]);
+                }
+                unobserve() {}
+                disconnect() {}
+            };
             renderFavoriteSpots();
         });
 
@@ -161,7 +182,7 @@ describe("Favorite spots component unit tests", () => {
                 test("Render spot tag 2", () => {
                     expect(screen.getByText(/HikingTag/i)).toBeInTheDocument();
                 });
-                test("Render spot name", () => {
+                test("Render spot image", () => {
                     const images = screen.getAllByAltText("spotImage");
                     expect(images[1]?.getAttribute("src")).toBe(
                         "mountain_peak.jpg",
