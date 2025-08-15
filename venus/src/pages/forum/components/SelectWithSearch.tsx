@@ -8,9 +8,9 @@ interface SelectWithSearchProps {
     placeholder: string;
     isMultiChoice: boolean;
     options: Option[];
-    value?: Option | Option[] | null;
-    onChange?: (val: any) => void;
-    onBlur?: () => void;
+    value: Option | Option[];
+    onChange: (val: any) => void;
+    onBlur: () => void;
     error?: string;
 }
 
@@ -23,7 +23,7 @@ export default function SelectWithSearch({
     onBlur,
     error,
 }: SelectWithSearchProps) {
-    const maxTags = 3;
+    const maxOptions = 3;
     const selectRef = useRef<any>(null);
     const [isLimitWarningVisible, showLimitWarning, hideLimitWarning] =
         useBoolean(false);
@@ -34,7 +34,7 @@ export default function SelectWithSearch({
         if (
             isMultiChoice &&
             Array.isArray(selected) &&
-            selected.length > maxTags
+            selected.length > maxOptions
         ) {
             showLimitWarning();
             setTimeout(() => hideLimitWarning(), 2000);

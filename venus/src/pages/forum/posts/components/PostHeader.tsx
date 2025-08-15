@@ -5,9 +5,18 @@ import { NavLink } from "react-router-dom";
 interface PostHeaderProps {
     post: PostGeneral;
     onDelete: (postId: number) => void;
+    onEdit: (postId: number) => void;
+    onFollow: (postId: number) => void;
+    onReport: (postId: number) => void;
 }
 
-export default function PortHeader({ post, onDelete }: PostHeaderProps) {
+export default function PortHeader({
+    post,
+    onDelete,
+    onEdit,
+    onFollow,
+    onReport,
+}: PostHeaderProps) {
     return (
         <div className="flex items-start justify-between">
             <NavLink to={`/forum/${post.id}`}>
@@ -19,6 +28,9 @@ export default function PortHeader({ post, onDelete }: PostHeaderProps) {
                 postId={post.id}
                 isUserAuthor={post.isAuthor}
                 onDelete={onDelete}
+                onEdit={onEdit}
+                onFollow={onFollow}
+                onReport={onReport}
             />
         </div>
     );

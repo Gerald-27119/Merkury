@@ -125,42 +125,43 @@ body {
     overflow: hidden;
 }
 
-.tiptap{
-    height: 100%;
-}
-
 .tiptap-editor-content .ProseMirror:focus {
     outline: none;
 }
 
-.tiptap-editor-content a {
+.tiptap{
+    height: 100%;
+    white-space: pre-wrap;
+}
+
+.tiptap a {
     @apply text-blue-500 underline cursor-pointer;
 }
 
-.tiptap-editor-content a:hover {
+.tiptap a:hover {
     @apply text-blue-600;
 }
 
-.tiptap-editor-content h1 {
+.tiptap h1 {
     @apply text-4xl font-bold mb-4;
 }
 
-.tiptap-editor-content h2 {
+.tiptap h2 {
     @apply text-3xl font-semibold mb-3;
 }
 
-.tiptap-editor-content h3 {
+.tiptap h3 {
     @apply text-2xl font-semibold mb-2;
 }
 
-.tiptap-editor-content h4 {
+.tiptap h4 {
     @apply text-xl font-medium mb-2;
 }
 
-.tiptap-editor-content h5 {
+.tiptap h5 {
     @apply text-lg font-medium mb-1;
 }
 
-.tiptap-editor-content h6 {
+.tiptap h6 {
     @apply text-sm font-semibold mb-1;
 }

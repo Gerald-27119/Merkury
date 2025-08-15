@@ -2,46 +2,26 @@ import PostGeneral from "../../../model/interface/forum/post/postGeneral";
 import PostHeader from "./components/PostHeader";
 import PostMetaData from "./components/PostMetaData";
 import PostContent from "./components/PostContent";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { notificationAction } from "../../../redux/notification";
-import { deletePost } from "../../../http/posts";
-import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import usePostActions from "../../../hooks/usePostActions";
 
 interface PostProps {
     post: PostGeneral;
 }
 
 export default function Post({ post }: PostProps) {
-    const queryClient = useQueryClient();
-    const dispatch = useDispatchTyped();
-
-    const { mutateAsync: mutateDelete } = useMutation({
-        mutationFn: deletePost,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ["posts"] });
-            dispatch(
-                notificationAction.setSuccess({
-                    message: "Post deleted successfully!",
-                }),
-            );
-        },
-        onError: () => {
-            dispatch(
-                notificationAction.setError({
-                    message: "Failed to delete post. Please try again later.",
-                }),
-            );
-        },
-    });
-
-    const handleDelete = async (postId: number) => {
-        await mutateDelete(postId);
-    };
+    const { handleDelete, handleEdit, handleFollow, handleReport } =
+        usePostActions();
 
     return (
         <div className="dark:bg-darkBgSoft mx-auto my-4 max-w-md rounded-xl shadow-md md:max-w-2xl">
             <div className="p-6">
-                <PostHeader post={post} onDelete={handleDelete} />
+                <PostHeader
+                    post={post}
+                    onDelete={handleDelete}
+                    onEdit={handleEdit}
+                    onFollow={handleFollow}
+                    onReport={handleReport}
+                />
                 <PostMetaData category={post.category} tags={post.tags} />
                 <PostContent
                     content={post.content}

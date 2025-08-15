@@ -1,7 +1,6 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
-import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import FileHandler from "@tiptap/extension-file-handler";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -33,10 +32,10 @@ export default function Tiptap({
                         class: "list-decimal ml-4",
                     },
                 },
-            }),
-            Link.configure({
-                linkOnPaste: true,
-                autolink: false,
+                link: {
+                    linkOnPaste: true,
+                    autolink: false,
+                },
             }),
             Placeholder.configure({
                 placeholder: placeholder,
@@ -65,7 +64,7 @@ export default function Tiptap({
                     editor={editor}
                     onBlur={onBlur}
                     className={
-                        "tiptap-editor-content [&_.is-empty:first-child::before]:text-lightText/60 dark:[&_.is-empty:first-child::before]:text-darkText/50 h-full flex-1 overflow-y-auto [&_.is-empty:first-child::before]:content-[attr(data-placeholder)]"
+                        "tiptap-editor-content [&_.is-empty:first-child::before]:text-lightText/60 dark:[&_.is-empty:first-child::before]:text-darkText/50 h-full flex-1 overflow-y-auto wrap-break-word [&_.is-empty:first-child::before]:content-[attr(data-placeholder)]"
                     }
                 />
             </div>

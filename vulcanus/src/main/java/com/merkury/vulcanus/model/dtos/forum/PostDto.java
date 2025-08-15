@@ -9,7 +9,7 @@ public record PostDto(@NotBlank(message = "Title cannot be empty.")
                       String title,
                       @NotBlank(message = "Content cannot be empty.")
                       String content,
-                      @NotNull(message = "Category cannot be empty")
-                      ForumCategoryDto category,
+                      @NotBlank(message = "Category cannot be empty")
+                      String category,
                       List<String> tags) {
 }

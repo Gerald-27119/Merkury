@@ -8,9 +8,10 @@ import {
     ForumPostFormFields,
 } from "../../../../model/schema/forumPostFormSchema";
 import ControlledSelect from "../../components/ControlledSelect";
+import PostDto from "../../../../model/interface/forum/post/postDto";
 
 interface FormProps {
-    handlePost: () => void;
+    handlePost: (data: PostDto) => void;
     onClose: () => void;
     categories: Option[];
     tags: Option[];
@@ -39,7 +40,14 @@ export default function PostForm({
     });
 
     const onSubmit: SubmitHandler<ForumPostFormFields> = (data) => {
-        console.log(data);
+        let newPost = {
+            title: data.title,
+            content: data.content,
+            category: data.category!.value,
+            tags: data.tags ? data.tags.map((tag) => tag.value) : [],
+        };
+        console.log(newPost);
+        handlePost(newPost);
     };
 
     return (

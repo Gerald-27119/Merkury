@@ -62,7 +62,7 @@ public class PostService {
     //TODO: use jsoup library for content filter
     public void addPost(HttpServletRequest request, PostDto dto) throws CategoryNotFoundException, TagNotFoundException {
         var user = userDataService.getUserFromRequest(request);
-        var category = getCategoryByName(dto.category().name());
+        var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
 
         postRepository.save(PostMapper.toEntity(dto, user, category, tags));
@@ -80,7 +80,7 @@ public class PostService {
     public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("edit"));
-        var category = getCategoryByName(dto.category().name());
+        var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
 
         post.setTitle(dto.title());
