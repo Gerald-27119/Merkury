@@ -1,11 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { deletePost } from "../http/posts";
 import { notificationAction } from "../redux/notification";
 import useDispatchTyped from "./useDispatchTyped";
 
-export default function usePostActions() {
+export default function useForumPostActions({ redirectOnDelete = false } = {}) {
+    const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
     const queryClient = useQueryClient();
     const dispatch = useDispatchTyped();
+    const navigate = useNavigate();
 
     const { mutateAsync: mutateDelete } = useMutation({
         mutationFn: deletePost,
@@ -16,6 +19,9 @@ export default function usePostActions() {
                     message: "Post deleted successfully!",
                 }),
             );
+            if (redirectOnDelete) {
+                navigate(`/forum`);
+            }
         },
         onError: () => {
             dispatch(

@@ -3,7 +3,7 @@ import PostMetaData from "./components/PostMetaData";
 import DetailedPostHeader from "./components/DetailedPostHeader";
 import DetailedPostContent from "./components/DetailedPostContent";
 import DetailedPostActions from "./components/DetailedPostActions";
-import usePostActions from "../../../hooks/usePostActions";
+import useForumPostActions from "../../../hooks/useForumPostActions";
 
 interface DetailedPostProps {
     post: PostDetails;
@@ -11,7 +11,7 @@ interface DetailedPostProps {
 
 export default function DetailedPost({ post }: DetailedPostProps) {
     const { handleDelete, handleEdit, handleFollow, handleReport } =
-        usePostActions();
+        useForumPostActions({ redirectOnDelete: true });
 
     return (
         <div className="dark:bg-darkBgSoft mx-auto mt-8 mb-4 max-w-3xl rounded-xl p-6 shadow-lg">

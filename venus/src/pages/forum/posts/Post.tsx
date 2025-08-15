@@ -2,7 +2,7 @@ import PostGeneral from "../../../model/interface/forum/post/postGeneral";
 import PostHeader from "./components/PostHeader";
 import PostMetaData from "./components/PostMetaData";
 import PostContent from "./components/PostContent";
-import usePostActions from "../../../hooks/usePostActions";
+import useForumPostActions from "../../../hooks/useForumPostActions";
 
 interface PostProps {
     post: PostGeneral;
@@ -10,7 +10,7 @@ interface PostProps {
 
 export default function Post({ post }: PostProps) {
     const { handleDelete, handleEdit, handleFollow, handleReport } =
-        usePostActions();
+        useForumPostActions();
 
     return (
         <div className="dark:bg-darkBgSoft mx-auto my-4 max-w-md rounded-xl shadow-md md:max-w-2xl">
