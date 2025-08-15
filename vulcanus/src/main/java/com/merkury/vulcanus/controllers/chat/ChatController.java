@@ -30,23 +30,6 @@ public class ChatController {
         return ResponseEntity.ok(chatService.getChatMessages(chatId, pageParam, numberOfMessagesPerPage));
     }
 
-    /**
-     * Retrieves a <strong> PAGINATED </strong> list of recent chats for a specific user.
-     * <p>
-     * It's the most important endpoint for retrieving necessary data for the <strong>chat module</strong> on frontend.
-     * <p>
-     * Chats are ordered by the timestamp of the last message in each chat,
-     * with the most recent appearing first. Each {@link ChatDto} includes
-     * all necessary data to render the chat both in a list and in the detailed
-     * messages view.
-     *
-     * @param pageNumber           zero-based page index (starting at 0)
-     * @param numberOfChatsPerPage the maximum number of chats to return per page
-     * @return a paginated {@code List<ChatDto>} sorted by last message date (descending)
-     * @author Adam Langmesser
-     * @info username: "user1" has the best data for testing
-     * @see ChatDto
-     */
     @GetMapping("/user-chats")
     public ResponseEntity<List<ChatDto>> getChatsForUserWithLast20Messages(
             @RequestParam(defaultValue = "0") int pageNumber,
