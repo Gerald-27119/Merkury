@@ -7,7 +7,7 @@ interface AddedSpotTileProps {
 
 export function AddedSpotTile({ spot }: AddedSpotTileProps) {
     return (
-        <div className="dark:bg-darkBgSoft flex h-80 w-full space-x-2 rounded-md shadow-lg shadow-black">
+        <div className="dark:bg-darkBgSoft bg-lightBgMuted flex h-80 w-full space-x-2 rounded-md shadow-lg dark:shadow-black">
             <img
                 alt="spot-image"
                 src={spot.firstPhotoUrl}

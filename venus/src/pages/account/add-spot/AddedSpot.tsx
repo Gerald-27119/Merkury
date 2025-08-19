@@ -16,7 +16,7 @@ export default function AddedSpot() {
         useInfiniteQuery({
             queryKey: ["add-spot"],
             queryFn: ({ pageParam = 0 }) =>
-                getAllSpotsAddedByUser(pageParam, 10),
+                getAllSpotsAddedByUser(pageParam, 4),
             getNextPageParam: (lastPage, allPages) =>
                 lastPage.hasNext ? allPages.length : undefined,
             initialPageParam: 0,
