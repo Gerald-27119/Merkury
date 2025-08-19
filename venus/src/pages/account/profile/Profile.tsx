@@ -25,11 +25,15 @@ export default function Profile({
 
     const handleNavigateToSocial = (type: SocialListType) => {
         dispatch(socialAction.setType(type));
-        if (username == undefined) {
-            navigate("/account/friends");
-        } else {
-            navigate(`/account/friends/${username}`);
+
+        let path = "/account/friends";
+        if (!username && type === SocialListType.PHOTOS) {
+            path = "/account/photos";
+        } else if (username) {
+            path = `/account/friends/${username}`;
         }
+
+        navigate(path);
     };
 
     return (
@@ -69,6 +73,9 @@ export default function Profile({
                         <ProfileStat
                             label="Photos"
                             value={userData?.photosCount}
+                            onClick={() =>
+                                handleNavigateToSocial(SocialListType.PHOTOS)
+                            }
                         />
                     </div>
                     {children}

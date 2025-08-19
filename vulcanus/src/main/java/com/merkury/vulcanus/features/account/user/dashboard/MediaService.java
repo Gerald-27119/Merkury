@@ -22,6 +22,10 @@ import java.util.stream.Collectors;
 public class MediaService {
     private final SpotMediaRepository spotMediaRepository;
 
+    public DatedMediaGroupPageDto getAllUserPhotos(String username, int page, int size) throws UnsupportedDateSortTypeException {
+        return getAllUserMedia(username, null, null, GenericMediaType.PHOTO, DateSortType.DATE_ASCENDING, page, size);
+    }
+
     public DatedMediaGroupPageDto getSortedUserPhotos(String username, DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         return getAllUserMedia(username, from, to, GenericMediaType.PHOTO, type, page, size);
     }

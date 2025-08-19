@@ -277,6 +277,19 @@ export async function getSortedUserMovies(
     ).data;
 }
 
+export async function getAllUserPhotos(
+    username: string,
+    page: number,
+    size: number,
+): Promise<DatedMediaGroupPageDto> {
+    return (
+        await axios.get(`${BASE_URL}/user-dashboard/photos/${username}`, {
+            withCredentials: true,
+            params: { page, size },
+        })
+    ).data;
+}
+
 export async function getAllSpotsAddedByUser(
     page: number,
     size: number,

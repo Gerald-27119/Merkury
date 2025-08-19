@@ -147,6 +147,13 @@ public class UserDashboardController {
         return ResponseEntity.ok(userDashboardService.getSortedUserMovies(type, from, to, page, size));
     }
 
+    @GetMapping("/user-dashboard/photos/{targetUsername}")
+    public ResponseEntity<DatedMediaGroupPageDto> getAllUserPhotos(@PathVariable String targetUsername,
+                                                                   @RequestParam(defaultValue = "0") int page,
+                                                                   @RequestParam(defaultValue = "20") int size) throws UnsupportedDateSortTypeException {
+        return ResponseEntity.ok(userDashboardService.getAllUserPhotos(targetUsername, page, size));
+    }
+
     @GetMapping("/user-dashboard/add-spot")
     public ResponseEntity<AddSpotPageDto> getAllSpotsAddedByUser(@RequestParam(defaultValue = "0") int page,
                                                                  @RequestParam(defaultValue = "20") int size) {
