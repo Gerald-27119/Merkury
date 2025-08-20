@@ -1,4 +1,3 @@
-// ChatList.tsx
 import React, { useRef, useEffect, useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import ListedChat from "./ListedChat";
@@ -35,13 +34,13 @@ export default function ChatList() {
     });
 
     const chats: ChatDto[] = useMemo(() => {
-        if (!isSuccess || !data) return [];
+        if (!data) return [];
         const map = new Map<number, ChatDto>();
         for (const page of data.pages) {
             for (const item of page.items) map.set(item.id, item);
         }
         return Array.from(map.values());
-    }, [data, isSuccess]);
+    }, [data]);
 
     const pagesLen = data?.pages.length ?? 0;
     useEffect(() => {

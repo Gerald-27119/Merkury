@@ -17,6 +17,11 @@ function ListedChat({ chat, hasNew }: ListedChatProps) {
 
     if (!chat) return <div>Loading...</div>;
 
+    function handleSelectedChatChange() {
+        dispatch(chatActions.setSelectedChatId(chat.id));
+        dispatch(chatActions.clearNew(chat.id));
+    }
+
     return (
         <button
             className={`flex w-full items-center gap-4 px-3 py-3 text-left hover:cursor-pointer ${
@@ -26,10 +31,7 @@ function ListedChat({ chat, hasNew }: ListedChatProps) {
                       ? "bg-blue-600/20"
                       : "hover:bg-violetLight/40"
             }`}
-            onClick={() => {
-                dispatch(chatActions.setSelectedChatId(chat.id));
-                dispatch(chatActions.clearNew(chat.id));
-            }}
+            onClick={handleSelectedChatChange}
         >
             <img
                 className="aspect-square w-12 rounded-full"
