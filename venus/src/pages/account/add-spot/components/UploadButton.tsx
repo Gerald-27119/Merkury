@@ -1,7 +1,11 @@
 import { ChangeEvent, useRef } from "react";
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 
-export default function UploadButton() {
+interface UploadButtonProps {
+    onFileSelect: (files: File[]) => void;
+}
+
+export default function UploadButton({ onFileSelect }: UploadButtonProps) {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleButtonClick = () => {
@@ -9,24 +13,12 @@ export default function UploadButton() {
     };
 
     const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
-        const files = event.target.files;
-        if (!files || files.length === 0) return;
-
-        const allowedTypes = [
-            "image/jpeg",
-            "image/png",
-            "image/gif",
-            "video/mp4",
-        ];
-        const validFiles = Array.from(files).filter((file) =>
-            allowedTypes.includes(file.type),
+        if (!event.target.files) return;
+        const allowed = ["image/jpeg", "image/png", "image/gif", "video/mp4"];
+        const valid = Array.from(event.target.files).filter((f) =>
+            allowed.includes(f.type),
         );
-
-        if (validFiles.length === 0) return;
-
-        const formData = new FormData();
-        validFiles.forEach((file) => formData.append("files", file));
-        console.log(validFiles);
+        onFileSelect(valid);
     };
 
     return (

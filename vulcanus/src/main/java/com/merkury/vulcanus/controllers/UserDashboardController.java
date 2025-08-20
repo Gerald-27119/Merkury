@@ -1,8 +1,10 @@
 package com.merkury.vulcanus.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
 import com.merkury.vulcanus.model.dtos.account.add.spot.AddSpotPageDto;
+import com.merkury.vulcanus.model.dtos.account.add.spot.SpotToAddDto;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
@@ -20,8 +22,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -158,5 +163,12 @@ public class UserDashboardController {
     public ResponseEntity<AddSpotPageDto> getAllSpotsAddedByUser(@RequestParam(defaultValue = "0") int page,
                                                                  @RequestParam(defaultValue = "20") int size) {
         return ResponseEntity.ok(userDashboardService.getAllSpotsAddedByUser(page, size));
+    }
+
+    @PostMapping("/user-dashboard/add-spot")
+    public ResponseEntity<Void> addSpot(@RequestPart("spot") String spotJson,
+                                        @RequestPart("media") List<MultipartFile> mediaFiles) throws Exception {
+        userDashboardService.addSpot(spotJson, mediaFiles);
+        return ResponseEntity.ok().build();
     }
 }

@@ -4,28 +4,16 @@ import AccountWrapper from "../components/AccountWrapper";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getAllSpotsAddedByUser } from "../../../http/user-dashboard";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { AddedSpotTile } from "./components/AddedSpotTile";
 import Button from "../../../components/buttons/Button";
 import { ButtonVariantType } from "../../../model/enum/buttonVariantType";
 import { useBoolean } from "../../../hooks/useBoolean";
 import AddSpotModal from "./components/AddSpotModal";
-import { AddSpotDto } from "../../../model/interface/account/add-spot/addSpotDto";
 
 export default function AddedSpot() {
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
     const [isOpen, open, close, _] = useBoolean(false);
-    const [spot, setSpot] = useState<AddSpotDto>({
-        id: 0,
-        name: "",
-        description: "",
-        country: "",
-        region: "",
-        city: "",
-        street: "",
-        borderPoints: [],
-        firstPhotoUrl: "",
-    });
 
     const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteQuery({
@@ -38,17 +26,6 @@ export default function AddedSpot() {
         });
 
     const allItems = data?.pages.flatMap((page) => page.items);
-
-    const handleSetSpot = <K extends keyof AddSpotDto>(
-        key: K,
-        value: AddSpotDto[K],
-    ) => {
-        setSpot((prevState) => ({
-            ...prevState,
-            [key]: value,
-        }));
-    };
-    console.log(spot);
 
     useEffect(() => {
         if (!loadMoreRef.current) return;
@@ -100,13 +77,7 @@ export default function AddedSpot() {
                 <div ref={loadMoreRef} className="h-10" />
                 {isFetchingNextPage && <LoadingSpinner />}
             </AccountWrapper>
-            <AddSpotModal
-                onClose={close}
-                onClick={() => {}}
-                onSetSpot={handleSetSpot}
-                spot={spot}
-                isOpen={isOpen}
-            />
+            <AddSpotModal onClose={close} isOpen={isOpen} />
         </>
     );
 }

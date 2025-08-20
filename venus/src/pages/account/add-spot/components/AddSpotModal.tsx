@@ -6,8 +6,11 @@ import { FaX } from "react-icons/fa6";
 import PolygonDrawer from "./PolygonDrawer";
 import FormInput from "../../../../components/form/FormInput";
 import UploadButton from "./UploadButton";
-import { AddSpotDto } from "../../../../model/interface/account/add-spot/addSpotDto";
 import SpotCoordinatesDto from "../../../../model/interface/spot/coordinates/spotCoordinatesDto";
+import { SpotToAddDto } from "../../../../model/interface/account/add-spot/spotToAddDto";
+import { useMutation } from "@tanstack/react-query";
+import { addSpot } from "../../../../http/user-dashboard";
+import { useState } from "react";
 
 const basicInfoInputConfig = [
     { name: "name", type: "text", id: "name" },
@@ -23,23 +26,44 @@ const addressInputConfig = [
 
 interface AddSpotModalProps {
     onClose: () => void;
-    onClick: () => void;
-    onSetSpot: <K extends keyof AddSpotDto>(
-        key: K,
-        value: AddSpotDto[K],
-    ) => void;
-    spot: AddSpotDto;
     isOpen: boolean;
 }
 
-export default function AddSpotModal({
-    onClose,
-    onClick,
-    isOpen,
-    onSetSpot,
-    spot,
-}: AddSpotModalProps) {
+export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
+    const [spot, setSpot] = useState<SpotToAddDto>({
+        id: 0,
+        name: "",
+        description: "",
+        country: "",
+        region: "",
+        city: "",
+        street: "",
+        borderPoints: [],
+        media: [],
+    });
+
+    const { mutateAsync } = useMutation({
+        mutationFn: addSpot,
+        onSuccess: () => {
+            close();
+        },
+    });
+
     const modalRoot = document.getElementById("modal");
+
+    const handleSetSpot = <K extends keyof SpotToAddDto>(
+        key: K,
+        value: SpotToAddDto[K],
+    ) => {
+        setSpot((prevState) => ({
+            ...prevState,
+            [key]: value,
+        }));
+    };
+
+    const handleAddSpot = async () => {
+        await mutateAsync(spot);
+    };
 
     if (!modalRoot) {
         return null;
@@ -92,12 +116,12 @@ export default function AddSpotModal({
                                                         type={type}
                                                         value={
                                                             spot[
-                                                                name as keyof AddSpotDto
+                                                                name as keyof SpotToAddDto
                                                             ]
                                                         }
                                                         onChange={(e) =>
-                                                            onSetSpot(
-                                                                name as keyof AddSpotDto,
+                                                            handleSetSpot(
+                                                                name as keyof SpotToAddDto,
                                                                 e.target.value,
                                                             )
                                                         }
@@ -125,12 +149,12 @@ export default function AddSpotModal({
                                                         type={type}
                                                         value={
                                                             spot[
-                                                                name as keyof AddSpotDto
+                                                                name as keyof SpotToAddDto
                                                             ]
                                                         }
                                                         onChange={(e) =>
-                                                            onSetSpot(
-                                                                name as keyof AddSpotDto,
+                                                            handleSetSpot(
+                                                                name as keyof SpotToAddDto,
                                                                 e.target.value,
                                                             )
                                                         }
@@ -144,16 +168,23 @@ export default function AddSpotModal({
                                             )}
                                         </div>
                                     </div>
-                                    <UploadButton />
+                                    <UploadButton
+                                        onFileSelect={(files) =>
+                                            handleSetSpot("media", files)
+                                        }
+                                    />
                                 </div>
                                 <PolygonDrawer
                                     onPolygonComplete={(coords) => {
                                         const mappedCoords: SpotCoordinatesDto[] =
                                             coords[0].map(([lng, lat]) => ({
-                                                x: lng,
-                                                y: lat,
+                                                x: lat,
+                                                y: lng,
                                             }));
-                                        onSetSpot("borderPoints", mappedCoords);
+                                        handleSetSpot(
+                                            "borderPoints",
+                                            mappedCoords,
+                                        );
                                     }}
                                 />
                             </div>
@@ -168,7 +199,7 @@ export default function AddSpotModal({
                             </Button>
                             <Button
                                 variant={ButtonVariantType.MODAL}
-                                onClick={onClick}
+                                onClick={handleAddSpot}
                                 className="bg-violetDark text-darkText hover:bg-violetDark/80"
                             >
                                 add spot

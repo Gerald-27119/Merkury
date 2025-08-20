@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.model.mappers.user.dashboard;
 
 import com.merkury.vulcanus.model.dtos.account.add.spot.AddSpotDto;
+import com.merkury.vulcanus.model.dtos.account.add.spot.SpotToAddDto;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 
@@ -24,6 +25,19 @@ public class AddSpotMapper {
                         .findFirst()
                         .orElseThrow()
                         .getUrl())
+                .build();
+    }
+
+    public static Spot toEntity(SpotToAddDto spot){
+        return Spot.builder()
+                .name(spot.name())
+                .description(spot.description())
+                .country(spot.country())
+                .region(spot.region())
+                .city(spot.city())
+                .street(spot.street())
+                .borderPoints(spot.borderPoints())
+                .areaColor("#A8071A")
                 .build();
     }
 }
