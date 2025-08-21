@@ -183,13 +183,35 @@ body {
     @apply list-decimal ml-4
 }
 
+.tiptap br {
+    display: block;
+}
+
 .tiptap li p {
     display: inline;
     margin: 0;
 }
 
 .tiptap li {
-    list-style-position: outside;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    line-height: 0.5;
+}
+
+.tiptap ul li::before {
+    content: "•";
+    display: inline-block;
+}
+
+.tiptap ol {
+    counter-reset: list-item;
+}
+
+.tiptap ol li::before {
+    content: counter(list-item) ".";
+    counter-increment: list-item;
+    display: inline-block;
 }
 
 
