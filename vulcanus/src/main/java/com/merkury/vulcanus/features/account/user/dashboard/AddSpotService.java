@@ -1,7 +1,10 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
+import com.merkury.vulcanus.features.azure.AzureBlobService;
 import com.merkury.vulcanus.model.dtos.account.add.spot.AddSpotPageDto;
 import com.merkury.vulcanus.model.dtos.account.add.spot.SpotToAddDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
@@ -22,19 +25,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AddSpotService {
     private final SpotRepository spotRepository;
     private final UserEntityFetcher userEntityFetcher;
+    private final AzureBlobService azureBlobService;
 
     public AddSpotPageDto getAllSpotsAddedByUser(String username, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
@@ -44,7 +44,7 @@ public class AddSpotService {
         return new AddSpotPageDto(mappedSpots, spots.hasNext());
     }
 
-    public void addSpot(String username, String spotJson, List<MultipartFile> mediaFiles) throws UserNotFoundByUsernameException, IOException {
+    public void addSpot(String username, String spotJson, List<MultipartFile> mediaFiles) throws UserNotFoundByUsernameException, IOException, InvalidFileTypeException, BlobContainerNotFoundException {
         var mapper = new ObjectMapper();
         var spot = mapper.readValue(spotJson, SpotToAddDto.class);
 
@@ -60,9 +60,10 @@ public class AddSpotService {
         List<SpotMedia> mediaEntities = new ArrayList<>();
         if (mediaFiles != null) {
             for (MultipartFile file : mediaFiles) {
-                String filename = saveFile(file);
+                String blobUrl = azureBlobService.upload("mapa", file);
+
                 SpotMedia mediaEntity = SpotMedia.builder()
-                        .url(filename)
+                        .url(blobUrl)
                         .alt(file.getOriginalFilename())
                         .description("")
                         .genericMediaType(getMediaType(file))
@@ -76,14 +77,6 @@ public class AddSpotService {
         mappedSpot.setMedia(mediaEntities);
 
         spotRepository.save(mappedSpot);
-    }
-
-    private String saveFile(MultipartFile file) throws IOException {
-        Path folder = Paths.get("uploads");
-        Files.createDirectories(folder);
-        Path filePath = folder.resolve(UUID.randomUUID() + "_" + file.getOriginalFilename());
-        file.transferTo(filePath);
-        return filePath.toString();
     }
 
     private GenericMediaType getMediaType(MultipartFile file) {

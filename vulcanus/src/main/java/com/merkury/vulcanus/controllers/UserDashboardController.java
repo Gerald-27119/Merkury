@@ -1,10 +1,8 @@
 package com.merkury.vulcanus.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService;
 import com.merkury.vulcanus.model.dtos.account.add.spot.AddSpotPageDto;
-import com.merkury.vulcanus.model.dtos.account.add.spot.SpotToAddDto;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
@@ -167,7 +165,7 @@ public class UserDashboardController {
 
     @PostMapping("/user-dashboard/add-spot")
     public ResponseEntity<Void> addSpot(@RequestPart("spot") String spotJson,
-                                        @RequestPart("media") List<MultipartFile> mediaFiles) throws Exception {
+                                        @RequestPart("media") List<MultipartFile> mediaFiles) throws InvalidFileTypeException, UserNotFoundByUsernameException, BlobContainerNotFoundException, IOException {
         userDashboardService.addSpot(spotJson, mediaFiles);
         return ResponseEntity.ok().build();
     }

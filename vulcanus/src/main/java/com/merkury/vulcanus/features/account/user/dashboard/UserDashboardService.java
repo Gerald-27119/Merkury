@@ -2,7 +2,6 @@ package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.model.dtos.account.add.spot.AddSpotPageDto;
-import com.merkury.vulcanus.model.dtos.account.add.spot.SpotToAddDto;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
@@ -21,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -147,7 +145,7 @@ public class UserDashboardService {
         return addSpotService.getAllSpotsAddedByUser(username, page, size);
     }
 
-    public void addSpot(String spotJson, List<MultipartFile> mediaFiles) throws UserNotFoundByUsernameException, IOException {
+    public void addSpot(String spotJson, List<MultipartFile> mediaFiles) throws UserNotFoundByUsernameException, IOException, InvalidFileTypeException, BlobContainerNotFoundException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         addSpotService.addSpot(username, spotJson, mediaFiles);
     }
