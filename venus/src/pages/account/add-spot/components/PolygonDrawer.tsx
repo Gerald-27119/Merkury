@@ -1,18 +1,28 @@
-import { useState } from "react";
-import { Map, Source, Layer } from "@vis.gl/react-maplibre";
+import { useEffect, useRef, useState } from "react";
+import { Map, Source, Layer, MapRef } from "@vis.gl/react-maplibre";
 import { ButtonVariantType } from "../../../../model/enum/buttonVariantType";
 import Button from "../../../../components/buttons/Button";
 
 interface PolygonDrawerProps {
     onPolygonComplete: (coords: number[][][]) => void;
-    initialPosition?: { longitude: number; latitude: number };
+    initialPosition: { longitude: number; latitude: number };
 }
 
 export default function PolygonDrawer({
     onPolygonComplete,
     initialPosition,
 }: PolygonDrawerProps) {
+    const mapRef = useRef<MapRef>(null);
     const [polygonCoords, setPolygonCoords] = useState<number[][]>([]);
+
+    useEffect(() => {
+        if (mapRef.current && initialPosition) {
+            mapRef.current.flyTo({
+                center: [initialPosition.longitude, initialPosition.latitude],
+                zoom: 15,
+            });
+        }
+    }, [initialPosition]);
 
     const handleClick = (event: any) => {
         const { lng, lat } = event.lngLat;
@@ -41,9 +51,10 @@ export default function PolygonDrawer({
     return (
         <div className="h-170 w-full">
             <Map
+                ref={mapRef}
                 initialViewState={{
-                    longitude: initialPosition?.longitude ?? 18.64745,
-                    latitude: initialPosition?.latitude ?? 54.352553,
+                    longitude: initialPosition.longitude,
+                    latitude: initialPosition.latitude,
                     zoom: 15,
                 }}
                 style={{ width: "100%", height: "100%", borderRadius: "16px" }}

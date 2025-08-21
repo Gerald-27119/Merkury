@@ -331,3 +331,20 @@ export async function addSpot(spot: SpotToAddDto): Promise<void> {
         })
     ).data;
 }
+
+export async function fetchCoordinates(address: string) {
+    const response = await axios.get(
+        "https://nominatim.openstreetmap.org/search",
+        {
+            params: {
+                q: address,
+                format: "json",
+            },
+        },
+    );
+
+    if (!response.data || response.data.length === 0) return null;
+
+    const { lat, lon } = response.data[0];
+    return { latitude: parseFloat(lat), longitude: parseFloat(lon) };
+}

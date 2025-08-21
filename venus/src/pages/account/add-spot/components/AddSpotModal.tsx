@@ -4,13 +4,15 @@ import Button from "../../../../components/buttons/Button";
 import { ButtonVariantType } from "../../../../model/enum/buttonVariantType";
 import { FaX } from "react-icons/fa6";
 import PolygonDrawer from "./PolygonDrawer";
-import FormInput from "../../../../components/form/FormInput";
 import UploadButton from "./UploadButton";
 import SpotCoordinatesDto from "../../../../model/interface/spot/coordinates/spotCoordinatesDto";
 import { SpotToAddDto } from "../../../../model/interface/account/add-spot/spotToAddDto";
-import { useMutation } from "@tanstack/react-query";
-import { addSpot } from "../../../../http/user-dashboard";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { addSpot, fetchCoordinates } from "../../../../http/user-dashboard";
 import { useState } from "react";
+import AddSpotInput from "./AddSpotInput";
+import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
+import useDebounce from "../../../../hooks/useDebounce";
 
 const basicInfoInputConfig = [
     { name: "name", type: "text", id: "name" },
@@ -42,6 +44,17 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
         media: [],
     });
 
+    const fullAddress = `${spot.street}, ${spot.city}, ${spot.region}, ${spot.country}`;
+
+    const [debouncedAddress] = useDebounce(fullAddress, 500);
+
+    const { data, isLoading } = useQuery({
+        queryKey: ["geocode", debouncedAddress],
+        queryFn: () => fetchCoordinates(debouncedAddress),
+        enabled: !!spot.street && !!spot.city,
+        staleTime: 5 * 60 * 1000,
+    });
+
     const { mutateAsync } = useMutation({
         mutationFn: addSpot,
         onSuccess: () => {
@@ -67,6 +80,10 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
 
     if (!modalRoot) {
         return null;
+    }
+
+    if (isLoading) {
+        return <LoadingSpinner />;
     }
 
     return createPortal(
@@ -106,67 +123,21 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
                                         <h1 className="text-center text-xl">
                                             Basic Information
                                         </h1>
-                                        <div className="w-full space-y-3">
-                                            {basicInfoInputConfig.map(
-                                                ({ name, type, id }) => (
-                                                    <FormInput
-                                                        key={id}
-                                                        id={id}
-                                                        label={name}
-                                                        type={type}
-                                                        value={
-                                                            spot[
-                                                                name as keyof SpotToAddDto
-                                                            ]
-                                                        }
-                                                        onChange={(e) =>
-                                                            handleSetSpot(
-                                                                name as keyof SpotToAddDto,
-                                                                e.target.value,
-                                                            )
-                                                        }
-                                                        onBlur={() => {}}
-                                                        isValid={{
-                                                            value: true,
-                                                            message: "",
-                                                        }}
-                                                    />
-                                                ),
-                                            )}
-                                        </div>
+                                        <AddSpotInput
+                                            config={basicInfoInputConfig}
+                                            spot={spot}
+                                            onChange={handleSetSpot}
+                                        />
                                     </div>
                                     <div className="w-full space-y-2">
                                         <h1 className="text-start text-lg">
                                             Address
                                         </h1>
-                                        <div className="w-full space-y-3">
-                                            {addressInputConfig.map(
-                                                ({ name, type, id }) => (
-                                                    <FormInput
-                                                        key={id}
-                                                        id={id}
-                                                        label={name}
-                                                        type={type}
-                                                        value={
-                                                            spot[
-                                                                name as keyof SpotToAddDto
-                                                            ]
-                                                        }
-                                                        onChange={(e) =>
-                                                            handleSetSpot(
-                                                                name as keyof SpotToAddDto,
-                                                                e.target.value,
-                                                            )
-                                                        }
-                                                        onBlur={() => {}}
-                                                        isValid={{
-                                                            value: true,
-                                                            message: "",
-                                                        }}
-                                                    />
-                                                ),
-                                            )}
-                                        </div>
+                                        <AddSpotInput
+                                            config={addressInputConfig}
+                                            spot={spot}
+                                            onChange={handleSetSpot}
+                                        />
                                     </div>
                                     <UploadButton
                                         onFileSelect={(files) =>
@@ -175,6 +146,12 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
                                     />
                                 </div>
                                 <PolygonDrawer
+                                    initialPosition={
+                                        data ?? {
+                                            latitude: 54.352553,
+                                            longitude: 18.64745,
+                                        }
+                                    }
                                     onPolygonComplete={(coords) => {
                                         const mappedCoords: SpotCoordinatesDto[] =
                                             coords[0].map(([lng, lat]) => ({
