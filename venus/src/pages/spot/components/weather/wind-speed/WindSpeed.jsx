@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import WindSpeedRadioButton from "./WindSpeedRadioButton.jsx";
 import WindSpeedColumn from "./WindSpeedColumn.jsx";
-import { calculateWindSpeed } from "../../../../../utils/weather.jsx";
+import { calculateWindSpeed } from "../../../../../utils/weather.tsx";
 
 const availableHeights = [0, 100, 200, 500, 1000];
 

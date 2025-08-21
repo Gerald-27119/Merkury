@@ -9,4 +9,5 @@ export default interface GeneralSpot {
     area: number;
     centerPoint: SpotCoordinatesDto;
     region: string;
+    city: string;
 }

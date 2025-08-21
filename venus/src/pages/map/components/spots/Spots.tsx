@@ -57,7 +57,12 @@ export default function Spots() {
             data?.forEach((spot: GeneralSpot) => {
                 if (!shouldRenderMarker(spot.area, zoomLevel)) {
                     const handler = () =>
-                        handleSpotClick(spot.id, spot.centerPoint, spot.region);
+                        handleSpotClick(
+                            spot.id,
+                            spot.centerPoint,
+                            spot.region,
+                            spot.city,
+                        );
                     const layerId = spot.id.toString();
                     clickHandlers.set(spot.id, handler);
                     map?.on("click", layerId, handler);
@@ -103,6 +108,7 @@ export default function Spots() {
         spotId: number,
         centerPoint: SpotCoordinatesDto,
         region: string,
+        city: string,
     ): void => {
         dispatch(spotDetailsModalAction.setSpotId(spotId));
         dispatch(
@@ -110,6 +116,7 @@ export default function Spots() {
                 latitude: centerPoint.y,
                 longitude: centerPoint.x,
                 region,
+                city,
             }),
         );
         dispatch(spotDetailsModalAction.handleShowModal());
@@ -129,6 +136,7 @@ export default function Spots() {
                                 spot.id,
                                 spot.centerPoint,
                                 spot.region,
+                                spot.city,
                             )
                         }
                     >

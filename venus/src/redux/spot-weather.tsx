@@ -4,6 +4,7 @@ type SpotWeatherSliceProps = {
     latitude: number;
     longitude: number;
     region: string;
+    city: string;
     showBasicWeather: boolean;
     showDetailedWeather: boolean;
 };
@@ -12,12 +13,14 @@ type SpotCoordinatesPayloadProps = {
     latitude: number;
     longitude: number;
     region: string;
+    city: string;
 };
 
 const initialState: SpotWeatherSliceProps = {
     latitude: 0,
     longitude: 0,
     region: "",
+    city: "",
     showBasicWeather: false,
     showDetailedWeather: false,
 };
@@ -51,6 +54,7 @@ export const spotWeatherSLice = createSlice({
             state.longitude = action.payload.longitude;
             state.latitude = action.payload.latitude;
             state.region = action.payload.region;
+            state.city = action.payload.city;
         },
     },
 });

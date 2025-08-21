@@ -21,6 +21,8 @@ public record GeneralSpotDto(@Positive(message = "ID must be a positive number."
                              String name,
                              @NotBlank(message = "Region cannot be empty.")
                              String region,
+                             @NotBlank(message = "City cannot be empty.")
+                             String city,
                              @Min(value = 0, message = "Rating count cannot be less than 0.")
                              @Max(value = 5, message = "Rating count cannot be more than 5.")
                              Double rating,

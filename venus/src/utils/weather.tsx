@@ -62,3 +62,48 @@ export function calculateWindSpeed(winds, windHeight) {
         return 0;
     }
 }
+
+export function getCurrentTime(): string {
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+    });
+    return formatter.format(now);
+}
+
+const weatherAdjectives: Record<number, string> = {
+    0: "Sunny",
+    1: "Cloudy",
+    2: "Cloudy",
+    3: "Cloudy",
+    45: "Foggy",
+    48: "Foggy",
+    51: "Drizzly",
+    53: "Drizzly",
+    55: "Drizzly",
+    56: "Freezing",
+    57: "Freezing",
+    61: "Rainy",
+    63: "Rainy",
+    65: "Rainy",
+    66: "Freezing",
+    67: "Freezing",
+    71: "Snowy",
+    73: "Snowy",
+    75: "Snowy",
+    77: "Snowy",
+    80: "Showery",
+    81: "Showery",
+    82: "Showery",
+    85: "Showery",
+    86: "Showery",
+    95: "Thundery",
+    96: "Thundery",
+    99: "Thundery",
+};
+
+export function getWeatherAdjective(code: number): string {
+    return weatherAdjectives[code] || "weather";
+}

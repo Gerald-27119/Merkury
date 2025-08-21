@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchWeather } from "../../../../http/weather";
 import { FiSunrise, FiSunset } from "react-icons/fi";
 import { TbTemperatureCelsius } from "react-icons/tb";
-import { getWeatherData } from "../../../../utils/weather";
+import { getWeatherData } from "../../../../utils/weather.js";
 import { WiThermometer } from "react-icons/wi";
 import WeatherIcon from "../../../map/components/weather/components/WeatherIcon";
 import WindSpeed from "./wind-speed/WindSpeed";
