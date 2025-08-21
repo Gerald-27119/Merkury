@@ -41,7 +41,6 @@ export default function HeadingDropdown({
         } else {
             editor?.chain().focus().toggleHeading({ level: level }).run();
         }
-        const isActive = editor?.isActive("heading", { level });
         closeDropdown();
     };
 

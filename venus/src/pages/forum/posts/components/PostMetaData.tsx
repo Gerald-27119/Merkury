@@ -1,11 +1,11 @@
 import ForumCategory from "../../categories-and-tags/ForumCategory";
 import ForumTag from "../../categories-and-tags/ForumTag";
-import ForumTagDto from "../../../../model/interface/forum/forumTagDto";
 import ForumCategoryDto from "../../../../model/interface/forum/forumCategoryDto";
+import TagDto from "../../../../model/interface/tagDto";
 
 interface PostMetaDataProps {
     category?: ForumCategoryDto;
-    tags?: ForumTagDto[];
+    tags?: TagDto[];
 }
 
 export default function PostMetaData({ category, tags }: PostMetaDataProps) {

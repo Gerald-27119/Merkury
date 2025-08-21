@@ -10,10 +10,10 @@ export default function DetailedPostContent({
     return (
         <div className="tiptap mt-4 text-lg">
             <span className="text-3xl font-semibold">{title}</span>
-            <p
+            <div
                 dangerouslySetInnerHTML={{ __html: content }}
                 className="mt-2 break-words whitespace-pre-line"
-            ></p>
+            ></div>
         </div>
     );
 }

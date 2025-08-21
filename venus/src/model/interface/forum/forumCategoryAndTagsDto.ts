@@ -1,7 +1,7 @@
 import ForumCategoryDto from "./forumCategoryDto";
-import ForumTagDto from "./forumTagDto";
+import TagDto from "../tagDto";
 
 export default interface ForumCategoryAndTagsDto {
     categories: ForumCategoryDto[];
-    tags: ForumTagDto[];
+    tags: TagDto[];
 }

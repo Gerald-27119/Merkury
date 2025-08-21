@@ -10,16 +10,16 @@ import ForumCategoriesTagsPanel from "./categories-and-tags/ForumCategoriesTagsP
 import RightPanel from "./components/RightPanel";
 import ForumFormModal from "./components/ForumFormModal";
 import { useBoolean } from "../../hooks/useBoolean";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { useNavigate } from "react-router-dom";
+import { notificationAction } from "../../redux/notification";
 
 export default function Forum() {
     const [currentPage, setCurrentPage] = useState(0);
     const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
         useBoolean(false);
     const isLogged = useSelector((state: RootState) => state.account.isLogged);
-    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const {
         data: posts,
@@ -57,7 +57,11 @@ export default function Forum() {
         if (isLogged) {
             setIsModalOpenToTrue();
         } else {
-            navigate("/login");
+            dispatch(
+                notificationAction.setInfo({
+                    message: "Login to create posts.",
+                }),
+            );
         }
     };
 

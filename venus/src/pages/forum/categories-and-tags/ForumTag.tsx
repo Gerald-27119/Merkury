@@ -1,7 +1,7 @@
-import ForumTagDto from "../../../model/interface/forum/forumTagDto";
+import TagDto from "../../../model/interface/tagDto";
 
 interface ForumTagProps {
-    tag: ForumTagDto;
+    tag: TagDto;
 }
 
 export default function ForumTag({ tag }: ForumTagProps) {

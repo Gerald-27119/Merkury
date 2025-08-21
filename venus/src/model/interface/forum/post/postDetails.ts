@@ -1,14 +1,14 @@
 import ForumCategoryDto from "../forumCategoryDto";
-import ForumTagDto from "../forumTagDto";
 import PostCommentDto from "../postComment/postCommentDto";
 import PostAuthorDto from "../postAuthorDto";
+import TagDto from "../../tagDto";
 
 export default interface PostDetails {
     id: number;
     title: string;
     content: string;
     category: ForumCategoryDto;
-    tags: ForumTagDto[];
+    tags: TagDto[];
     author: PostAuthorDto;
     isAuthor: boolean;
     publishDate: string;

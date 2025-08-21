@@ -1,10 +1,10 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import TextAlign from "@tiptap/extension-text-align";
 import Image from "@tiptap/extension-image";
 import FileHandler from "@tiptap/extension-file-handler";
 import Placeholder from "@tiptap/extension-placeholder";
 import MenuBar from "./MenuBar";
+import TextAlign from "@tiptap/extension-text-align";
 
 interface TiptapProps {
     placeholder: string;
@@ -51,7 +51,7 @@ export default function Tiptap({
         ],
         content: value,
         onUpdate: ({ editor }) => {
-            const html = editor.getHTML();
+            let html = editor.getHTML();
             onChange(html);
         },
     });

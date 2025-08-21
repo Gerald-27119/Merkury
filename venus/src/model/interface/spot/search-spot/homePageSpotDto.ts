@@ -1,5 +1,5 @@
 import SpotCoordinatesDto from "../coordinates/spotCoordinatesDto";
-import SpotTagDto from "../tag/spotTagDto";
+import TagDto from "../../tagDto";
 
 export default interface HomePageSpotDto {
     id: number;
@@ -8,7 +8,7 @@ export default interface HomePageSpotDto {
     ratingCount: number;
     firstPhoto: string;
     centerPoint: SpotCoordinatesDto;
-    tags: SpotTagDto[];
+    tags: TagDto[];
     city: string;
     distanceToUser: number;
 }

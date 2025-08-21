@@ -2,6 +2,7 @@ package com.merkury.vulcanus.features.forum;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.UserDataService;
+import com.merkury.vulcanus.features.jsoup.JsoupSanitizer;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.forum.*;
 import com.merkury.vulcanus.model.entities.forum.PostCategory;
@@ -38,7 +39,8 @@ public class PostService {
     private final TagRepository tagRepository;
     private final UserDataService userDataService;
     private final VoteService voteService;
-    private final JsoupSanitizerConfig jsoupSanitizerConfig;
+    private final JsoupSanitizerConfig jsoupSafeLists;
+    private final JsoupSanitizer sanitizer;
 
     public PostDetailsDto getDetailedPost(HttpServletRequest request, Long postId) throws PostNotFoundException, UserNotFoundException {
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
@@ -60,14 +62,13 @@ public class PostService {
         return postsPage.map(post -> PostMapper.toGeneralDto(post, user));
     }
 
-    //TODO: use jsoup library for content filter
     public void addPost(HttpServletRequest request, PostDto dto) throws CategoryNotFoundException, TagNotFoundException, UserNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
 
         var postEntity = PostMapper.toEntity(dto, user, category, tags);
-        postEntity.setContent(Jsoup.clean(dto.content(), jsoupSanitizerConfig.forumPostSafeList()));
+        postEntity.setContent(sanitizer.clean(dto.content(), jsoupSafeLists.forumPostSafeList()));
 
         postRepository.save(postEntity);
     }
@@ -80,15 +81,15 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    //TODO: use jsoup library for content filter
     public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, UserNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("edit"));
         var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
+        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumPostSafeList());
 
         post.setTitle(dto.title());
-        post.setContent(dto.content());
+        post.setContent(cleanContent);
         post.setPostCategory(category);
         post.setTags(tags);
 

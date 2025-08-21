@@ -53,7 +53,7 @@ export default function PostForm({
     return (
         <div className="dark:bg-darkBgSoft dark:text-darkText bg-lightBgSoft text-lightText fixed top-35 left-1/2 z-50 w-full max-w-xl min-w-sm -translate-x-1/2 rounded-md p-8 shadow-md">
             <button
-                className="absolute top-0 right-3 text-4xl font-bold text-gray-500 hover:text-red-500"
+                className="absolute top-0 right-3 cursor-pointer text-4xl font-bold text-gray-500 hover:text-red-500"
                 onClick={onClose}
             >
                 x
@@ -96,16 +96,16 @@ export default function PostForm({
 
                 <div className="mt-4 flex justify-end gap-2">
                     <button
-                        type="submit"
-                        className="dark:bg-violetDark bg-violetLight/80 dark:hover:bg-violetDarker hover:bg-violetLight rounded px-4 py-2 text-white"
-                    >
-                        Post
-                    </button>
-                    <button
                         onClick={onClose}
-                        className="rounded bg-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-400"
+                        className="cursor-pointer rounded bg-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-400"
                     >
                         Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        className="dark:bg-violetDark bg-violetLight/80 dark:hover:bg-violetDarker hover:bg-violetLight cursor-pointer rounded px-4 py-2 text-white"
+                    >
+                        Post
                     </button>
                 </div>
             </form>

@@ -100,14 +100,14 @@ body {
 }
 
 .custom-rate-spot-comment
-    .ant-rate-star:not(.ant-rate-star-full)
-    .ant-rate-star-second {
+.ant-rate-star:not(.ant-rate-star-full)
+.ant-rate-star-second {
     color: #ffffff;
 }
 
 .custom-rate-searched-spot
-    .ant-rate-star:not(.ant-rate-star-full)
-    .ant-rate-star-second {
+.ant-rate-star:not(.ant-rate-star-full)
+.ant-rate-star-second {
     color: #ffffff;
 }
 
@@ -116,8 +116,8 @@ body {
 }
 
 .custom-rate-searched-spot
-    .ant-rate-star:not(.ant-rate-star-full)
-    .ant-rate-star-second {
+.ant-rate-star:not(.ant-rate-star-full)
+.ant-rate-star-second {
     color: #ffffff;
 }
 
@@ -174,3 +174,22 @@ body {
 .tiptap h6 {
     @apply mb-1 text-sm font-semibold;
 }
+
+.tiptap ul {
+    @apply list-disc ml-4
+}
+
+.tiptap ol {
+    @apply list-decimal ml-4
+}
+
+.tiptap li p {
+    display: inline;
+    margin: 0;
+}
+
+.tiptap li {
+    list-style-position: outside;
+}
+
+

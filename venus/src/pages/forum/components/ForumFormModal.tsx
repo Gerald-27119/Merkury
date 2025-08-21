@@ -1,6 +1,5 @@
 import { createPortal } from "react-dom";
 import ForumCategoryDto from "../../../model/interface/forum/forumCategoryDto";
-import ForumTagDto from "../../../model/interface/forum/forumTagDto";
 import PostForm from "../posts/components/PostForm";
 import PostDto from "../../../model/interface/forum/post/postDto";
 import { addPost } from "../../../http/posts";
@@ -8,12 +7,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { notificationAction } from "../../../redux/notification";
 import { AxiosError } from "axios";
+import TagDto from "../../../model/interface/tagDto";
 
 interface ModalProps {
     onClose: () => void;
     isOpen: boolean;
     categories: ForumCategoryDto[];
-    tags: ForumTagDto[];
+    tags: TagDto[];
 }
 
 export default function ForumFormModal({
@@ -68,6 +68,7 @@ export default function ForumFormModal({
     });
 
     const handlePost = async (forumPostData: PostDto) => {
+        console.log(forumPostData);
         await mutateNewPost(forumPostData);
     };
 

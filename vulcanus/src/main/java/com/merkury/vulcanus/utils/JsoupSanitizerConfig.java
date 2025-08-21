@@ -3,15 +3,27 @@ package com.merkury.vulcanus.utils;
 import org.jsoup.safety.Safelist;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
+
 @Component
 public class JsoupSanitizerConfig {
 
+    private static final Set<String> TAGS_WITH_ALLOWED_STYLE = Set.of(
+            "p", "h1", "h2", "h3", "h4", "h5", "h6", "li"
+    );
+
     public Safelist forumPostSafeList() {
-        return Safelist.basic()
-                .addTags("u", "a", "h1", "h2", "h3", "h4", "h5", "h6", "img", "video")
+        Safelist safelist = Safelist.basic()
+                .addTags("u", "a", "img")
                 .addAttributes("img", "src", "alt")
-                .addAttributes(":all", "style")
                 .addEnforcedAttribute("a", "target", "_blank")
                 .addEnforcedAttribute("a", "rel", "noopener noreferrer nofollow");
+
+        for (String tag : TAGS_WITH_ALLOWED_STYLE) {
+            safelist.addAttributes(tag, "style");
+        }
+
+        return safelist;
     }
 }

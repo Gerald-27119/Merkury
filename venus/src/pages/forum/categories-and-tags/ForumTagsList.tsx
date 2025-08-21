@@ -1,8 +1,8 @@
 import ForumTag from "./ForumTag";
-import ForumTagDto from "../../../model/interface/forum/forumTagDto";
+import TagDto from "../../../model/interface/tagDto";
 
 type ForumTagsListProps = {
-    tags?: ForumTagDto[];
+    tags?: TagDto[];
 };
 
 export default function ForumTagsList({ tags }: ForumTagsListProps) {
