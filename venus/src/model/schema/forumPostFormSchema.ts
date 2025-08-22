@@ -6,7 +6,10 @@ function stripHtml(html: string): string {
     return doc.body.textContent?.trim() || "";
 }
 export const ForumPostFormSchema = z.object({
-    title: z.string().min(3, "Title must be at least 3 characters long."),
+    title: z
+        .string()
+        .min(3, "Title must be at least 3 characters long.")
+        .max(100, "Title must be less than 100 characters long"),
     category: z
         .object({
             value: z.string(),
