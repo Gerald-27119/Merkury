@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.exception;
 
-import com.merkury.vulcanus.exception.exceptions.CategoryNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.PostNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.TagNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.UnauthorizedPostAccessException;
+import com.merkury.vulcanus.exception.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,5 +27,10 @@ public class ForumExceptionHandler {
     @ExceptionHandler(TagNotFoundException.class)
     public ResponseEntity<String> tagNotFoundException(TagNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidPostContentException.class)
+    public ResponseEntity<String> handleInvalidPostContentException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

@@ -19,7 +19,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
-import org.jsoup.safety.Safelist;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +41,9 @@ public class PostService {
     private final JsoupSanitizerConfig jsoupSafeLists;
     private final JsoupSanitizer sanitizer;
 
+    private static final int MIN_CONTENT_LENGTH = 3;
+    private static final int MAX_CONTENT_LENGTH = 1000;
+
     public PostDetailsDto getDetailedPost(HttpServletRequest request, Long postId) throws PostNotFoundException, UserNotFoundException {
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
         var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
@@ -62,13 +64,16 @@ public class PostService {
         return postsPage.map(post -> PostMapper.toGeneralDto(post, user));
     }
 
-    public void addPost(HttpServletRequest request, PostDto dto) throws CategoryNotFoundException, TagNotFoundException, UserNotFoundException {
+    public void addPost(HttpServletRequest request, PostDto dto) throws CategoryNotFoundException, TagNotFoundException, UserNotFoundException, InvalidPostContentException {
         var user = userDataService.getUserFromRequest(request);
         var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
 
+        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumPostSafeList());
+        validateContentLength(cleanContent);
+
         var postEntity = PostMapper.toEntity(dto, user, category, tags);
-        postEntity.setContent(sanitizer.clean(dto.content(), jsoupSafeLists.forumPostSafeList()));
+        postEntity.setContent(cleanContent);
 
         postRepository.save(postEntity);
     }
@@ -81,12 +86,14 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, UserNotFoundException {
+    public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, UserNotFoundException, InvalidPostContentException {
         var user = userDataService.getUserFromRequest(request);
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("edit"));
         var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
         var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumPostSafeList());
+
+        validateContentLength(cleanContent);
 
         post.setTitle(dto.title());
         post.setContent(cleanContent);
@@ -124,6 +131,18 @@ public class PostService {
             tags.add(tag);
         }
         return tags;
+    }
+
+    private void validateContentLength(String content) throws InvalidPostContentException {
+        var doc = Jsoup.parse(content);
+        doc.select("img, video, iframe, object, embed, svg").remove();
+        String plainText = doc.text().trim();
+
+        if (plainText.length() < MIN_CONTENT_LENGTH || plainText.length() > MAX_CONTENT_LENGTH) {
+            throw new InvalidPostContentException(
+                    "Content must be between " + MIN_CONTENT_LENGTH + " and " + MAX_CONTENT_LENGTH + " characters."
+            );
+        }
     }
 
 }

@@ -15,8 +15,9 @@ public class JsoupSanitizerConfig {
 
     public Safelist forumPostSafeList() {
         Safelist safelist = Safelist.basic()
-                .addTags("u", "a", "img")
+                .addTags("u", "a", "img", "video")
                 .addAttributes("img", "src", "alt")
+                .addAttributes("video", "src", "controls")
                 .addEnforcedAttribute("a", "target", "_blank")
                 .addEnforcedAttribute("a", "rel", "noopener noreferrer nofollow");
 

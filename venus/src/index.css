@@ -183,13 +183,14 @@ body {
     @apply list-decimal ml-4
 }
 
-.tiptap br {
-    display: block;
-}
-
 .tiptap li p {
     display: inline;
     margin: 0;
+}
+
+.tiptap p:empty::before {
+    content: '';
+    display: inline-block;
 }
 
 .tiptap li {
