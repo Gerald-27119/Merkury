@@ -1,15 +1,36 @@
 import useSelectorTyped from "../../../../../hooks/useSelectorTyped";
-import { getCurrentTime } from "../../../../../utils/weather";
+import {
+    getCurrentTime,
+    getWeatherAdjective,
+} from "../../../../../utils/weather";
+import WeatherIcon from "../../../../map/components/weather/components/WeatherIcon";
 
-export default function WeatherOverview() {
+type WeatherOverviewProps = {
+    temperature: number;
+    weatherCode: number;
+};
+
+export default function WeatherOverview({
+    temperature,
+    weatherCode,
+}: WeatherOverviewProps) {
     const { city, region } = useSelectorTyped((state) => state.spotWeather);
     return (
-        <div className="text-darkText flex justify-between rounded-lg bg-gradient-to-r from-gray-700 via-cyan-950 to-indigo-800 px-3 py-2.5">
-            <div>
-                <h2>{city}</h2>
-                <h3 className="text-grayText text-xs">{region}</h3>
+        <div className="text-darkText mt-2 flex flex-col rounded-lg bg-gradient-to-r from-gray-700 via-cyan-950 to-indigo-800 px-3 py-2.5">
+            <div className="flex">
+                <div>
+                    <h2>{city}</h2>
+                    <h3 className="text-grayText text-xs">{region}</h3>
+                </div>
+                <p className="ml-10 text-4xl">{getCurrentTime()}</p>
             </div>
-            <p className="text-4xl">{getCurrentTime()}</p>
+            <div className="mt-3 flex text-xl">
+                <span className="text-2xl">{temperature}&deg;C</span>
+                <div className="ml-10 flex items-center">
+                    <WeatherIcon code={weatherCode} textSize="text-4xl" />
+                    {getWeatherAdjective(weatherCode)}
+                </div>
+            </div>
         </div>
     );
 }

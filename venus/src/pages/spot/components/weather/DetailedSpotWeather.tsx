@@ -4,6 +4,9 @@ import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { spotWeatherActions } from "../../../../redux/spot-weather";
 import { HiX } from "react-icons/hi";
 import WeatherOverview from "./components/WeatherOverview";
+import { useQuery } from "@tanstack/react-query";
+import { getDetailedSpotWeather } from "../../../../http/weather";
+import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
 
 const slideVariants = {
     hidden: { x: "100%", opacity: 0 },
@@ -19,6 +22,15 @@ export default function DetailedSpotWeather() {
     const handleCloseModal = () => {
         dispatch(spotWeatherActions.closeDetailedWeatherModal());
     };
+
+    const { latitude, longitude } = useSelectorTyped(
+        (state) => state.spotWeather,
+    );
+
+    const { data, isError, isLoading, isSuccess } = useQuery({
+        queryKey: ["spot-detailed-weather", latitude, longitude, spotId],
+        queryFn: () => getDetailedSpotWeather(latitude, longitude),
+    });
 
     return (
         <motion.div
@@ -37,7 +49,14 @@ export default function DetailedSpotWeather() {
                 />
                 <h1 className="mx-auto">Weather</h1>
             </div>
-            <WeatherOverview />
+            {isLoading && <LoadingSpinner />}
+            {isError && <p>Failed to load weather.</p>}
+            {isSuccess && (
+                <WeatherOverview
+                    temperature={data.current.temperature_2m}
+                    weatherCode={data.current.weather_code}
+                />
+            )}
         </motion.div>
     );
 }

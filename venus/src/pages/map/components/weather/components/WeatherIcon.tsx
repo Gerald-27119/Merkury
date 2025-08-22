@@ -41,7 +41,13 @@ const weatherIcons: Record<number, IconType> = {
     99: WiThunderstorm,
 };
 
-export default function WeatherIcon({ code }: { code: number }) {
+export default function WeatherIcon({
+    code,
+    textSize,
+}: {
+    code: number;
+    textSize?: string;
+}) {
     const Icon = weatherIcons[code] || FaQuestion;
-    return <Icon className="text-3xl" />;
+    return <Icon className={`${textSize ?? "text-3xl"}`} />;
 }

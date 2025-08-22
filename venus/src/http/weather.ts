@@ -13,6 +13,25 @@ export async function getBasicSpotWeather(latitude: number, longitude: number) {
     ).data;
 }
 
+export async function getDetailedSpotWeather(
+    latitude: number,
+    longitude: number,
+) {
+    return (
+        await axios.get("https://api.open-meteo.com/v1/forecast", {
+            params: {
+                latitude,
+                longitude,
+                current: [
+                    "temperature_2m",
+                    "weather_code",
+                    "precipitation_probability",
+                ],
+            },
+        })
+    ).data;
+}
+
 export async function fetchWeather(latitude, longitude) {
     return (
         await axios.get("https://api.open-meteo.com/v1/forecast", {

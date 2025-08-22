@@ -113,8 +113,8 @@ export default function Spots() {
         dispatch(spotDetailsModalAction.setSpotId(spotId));
         dispatch(
             spotWeatherActions.setSpotCoordinates({
-                latitude: centerPoint.y,
-                longitude: centerPoint.x,
+                latitude: centerPoint.x,
+                longitude: centerPoint.y,
                 region,
                 city,
             }),
