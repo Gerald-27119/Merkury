@@ -107,3 +107,14 @@ const weatherAdjectives: Record<number, string> = {
 export function getWeatherAdjective(code: number): string {
     return weatherAdjectives[code] || "weather";
 }
+
+export function getUvIndexTextLevel(uvIndex: number): string {
+    const thresholds = [
+        { limit: 3, label: "Low" },
+        { limit: 6, label: "Moderate" },
+        { limit: 8, label: "High" },
+        { limit: 11, label: "Very High" },
+    ];
+    const found = thresholds.find((t) => uvIndex < t.limit);
+    return found ? found.label : "Extreme";
+}

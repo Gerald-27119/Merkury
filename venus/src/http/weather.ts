@@ -26,7 +26,10 @@ export async function getDetailedSpotWeather(
                     "temperature_2m",
                     "weather_code",
                     "precipitation_probability",
+                    "dew_point_2m",
+                    "relative_humidity_2m",
                 ],
+                daily: ["uv_index_max"],
             },
         })
     ).data;

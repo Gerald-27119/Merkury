@@ -7,6 +7,7 @@ import WeatherOverview from "./components/WeatherOverview";
 import { useQuery } from "@tanstack/react-query";
 import { getDetailedSpotWeather } from "../../../../http/weather";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
+import WeatherDetails from "./components/WeatherDetails";
 
 const slideVariants = {
     hidden: { x: "100%", opacity: 0 },
@@ -52,10 +53,18 @@ export default function DetailedSpotWeather() {
             {isLoading && <LoadingSpinner />}
             {isError && <p>Failed to load weather.</p>}
             {isSuccess && (
-                <WeatherOverview
-                    temperature={data.current.temperature_2m}
-                    weatherCode={data.current.weather_code}
-                />
+                <div className="flex flex-col">
+                    <WeatherOverview
+                        temperature={data.current.temperature_2m}
+                        weatherCode={data.current.weather_code}
+                    />
+                    <WeatherDetails
+                        rainChance={data.current.precipitation_probability}
+                        dewPoint={data.current.dew_point_2m}
+                        uvIndex={data.daily.uv_index_max[0]}
+                        humidity={data.current.relative_humidity_2m}
+                    />
+                </div>
             )}
         </motion.div>
     );

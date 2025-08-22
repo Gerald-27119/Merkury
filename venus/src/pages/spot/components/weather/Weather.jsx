@@ -6,7 +6,7 @@ import { getWeatherData } from "../../../../utils/weather.js";
 import { WiThermometer } from "react-icons/wi";
 import WeatherIcon from "../../../map/components/weather/components/WeatherIcon";
 import WindSpeed from "./wind-speed/WindSpeed";
-import WeatherTile from "./WeatherTile";
+import WeatherTile from "./components/WeatherTile";
 import WeatherRow from "./WeatherRow";
 import { useEffect } from "react";
 import { notificationAction } from "../../../../redux/notification";
