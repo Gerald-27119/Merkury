@@ -68,7 +68,6 @@ export default function ForumFormModal({
     });
 
     const handlePost = async (forumPostData: PostDto) => {
-        console.log(forumPostData);
         await mutateNewPost(forumPostData);
     };
 
