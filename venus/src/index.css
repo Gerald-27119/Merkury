@@ -100,14 +100,14 @@ body {
 }
 
 .custom-rate-spot-comment
-.ant-rate-star:not(.ant-rate-star-full)
-.ant-rate-star-second {
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
     color: #ffffff;
 }
 
 .custom-rate-searched-spot
-.ant-rate-star:not(.ant-rate-star-full)
-.ant-rate-star-second {
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
     color: #ffffff;
 }
 
@@ -116,8 +116,8 @@ body {
 }
 
 .custom-rate-searched-spot
-.ant-rate-star:not(.ant-rate-star-full)
-.ant-rate-star-second {
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
     color: #ffffff;
 }
 
@@ -176,11 +176,11 @@ body {
 }
 
 .tiptap ul {
-    @apply list-disc ml-4
+    @apply ml-4 list-disc;
 }
 
 .tiptap ol {
-    @apply list-decimal ml-4
+    @apply ml-4 list-decimal;
 }
 
 .tiptap li p {
@@ -189,7 +189,7 @@ body {
 }
 
 .tiptap p:empty::before {
-    content: '';
+    content: "";
     display: inline-block;
 }
 
@@ -214,5 +214,3 @@ body {
     counter-increment: list-item;
     display: inline-block;
 }
-
-
