@@ -15,6 +15,9 @@ public class JsoupSanitizer {
     private static final Set<String> ALLOWED_STYLES = Set.of(
             "text-align", "color"
     );
+    private static final Set<String> ALLOWED_TEXT_ALIGN_VALUES = Set.of("left", "center", "right", "justify");
+    private static final Set<String> ALLOWED_COLOR_VALUES = Set.of("#dc2626", "#2563eb", "#7c3aed");
+
 
     public String clean(String content, Safelist safelist) {
         Cleaner cleaner = new Cleaner(safelist);
@@ -35,8 +38,10 @@ public class JsoupSanitizer {
                 String property = parts[0].trim();
                 String value = parts[1].trim();
 
-                if (ALLOWED_STYLES.contains(property)) {
-                    newStyle.append(property).append(":").append(value).append("; ");
+                if (!ALLOWED_STYLES.contains(property)) continue;
+                String validatedValue = validateStyleValue(property, value);
+                if (validatedValue != null) {
+                    newStyle.append(property).append(":").append(validatedValue).append("; ");
                 }
             }
 
@@ -48,6 +53,14 @@ public class JsoupSanitizer {
         }
 
         return clean.body().html();
+    }
+
+    private String validateStyleValue(String property, String value) {
+        return switch (property) {
+            case "text-align" -> ALLOWED_TEXT_ALIGN_VALUES.contains(value) ? value : null;
+            case "color" -> ALLOWED_COLOR_VALUES.contains(value) ? value : null;
+            default -> null;
+        };
     }
 
 }
