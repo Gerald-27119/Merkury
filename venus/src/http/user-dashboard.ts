@@ -13,6 +13,7 @@ import { SocialPageDto } from "../model/interface/account/social/socialPageDto";
 import { AddSpotPageDto } from "../model/interface/account/add-spot/addSpotPageDto";
 import { SpotToAddDto } from "../model/interface/account/add-spot/spotToAddDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
+const LOCATIONIQ_API_KEY = import.meta.env.VITE_LOCATIONIQ_API_KEY;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
     return (
@@ -337,7 +338,7 @@ export async function fetchCoordinates(address: string) {
         "https://us1.locationiq.com/v1/search.php",
         {
             params: {
-                key: "pk.0187a0e8d784a740b9795e9911e5dbe5",
+                key: LOCATIONIQ_API_KEY,
                 q: address,
                 format: "json",
                 limit: 1,

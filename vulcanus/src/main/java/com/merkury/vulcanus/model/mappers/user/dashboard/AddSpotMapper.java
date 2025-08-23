@@ -3,6 +3,7 @@ package com.merkury.vulcanus.model.mappers.user.dashboard;
 import com.merkury.vulcanus.model.dtos.account.add.spot.AddSpotDto;
 import com.merkury.vulcanus.model.dtos.account.add.spot.SpotToAddDto;
 import com.merkury.vulcanus.model.entities.spot.Spot;
+import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 
 public class AddSpotMapper {
@@ -23,8 +24,8 @@ public class AddSpotMapper {
                         .stream()
                         .filter(spotMedia -> spotMedia.getGenericMediaType().equals(GenericMediaType.PHOTO))
                         .findFirst()
-                        .orElseThrow()
-                        .getUrl())
+                        .map(SpotMedia::getUrl)
+                        .orElse(null))
                 .build();
     }
 
