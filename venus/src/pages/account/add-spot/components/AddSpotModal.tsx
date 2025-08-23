@@ -9,17 +9,21 @@ import SpotCoordinatesDto from "../../../../model/interface/spot/coordinates/spo
 import { SpotToAddDto } from "../../../../model/interface/account/add-spot/spotToAddDto";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { addSpot, fetchCoordinates } from "../../../../http/user-dashboard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddSpotInput from "./AddSpotInput";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import { notificationAction } from "../../../../redux/notification";
 import useDebounce from "../../../../hooks/useDebounce";
 
-const basicInfoInputConfig = [
+type ConfigTyp = { name: keyof SpotToAddDto; type: string; id: string }[];
+
+const basicInfoInputConfig: ConfigTyp = [
     { name: "name", type: "text", id: "name" },
     { name: "description", type: "text", id: "description" },
 ];
 
-const addressInputConfig = [
+const addressInputConfig: ConfigTyp = [
     { name: "country", type: "text", id: "country" },
     { name: "region", type: "text", id: "region" },
     { name: "city", type: "text", id: "city" },
@@ -32,6 +36,8 @@ interface AddSpotModalProps {
 }
 
 export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
+    const dispatch = useDispatchTyped();
+
     const [spot, setSpot] = useState<SpotToAddDto>({
         id: 0,
         name: "",
@@ -44,21 +50,35 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
         media: [],
     });
 
-    const fullAddress = `${spot.street}, ${spot.city}, ${spot.region}, ${spot.country}`;
+    const debouncedStreet = useDebounce(spot.street, 500);
+    const debouncedCity = useDebounce(spot.city, 500);
+    const debouncedRegion = useDebounce(spot.region, 500);
+    const debouncedCountry = useDebounce(spot.country, 500);
 
-    const [debouncedAddress] = useDebounce(fullAddress, 500);
+    const fullAddress = `${debouncedStreet}, ${debouncedCity}, ${debouncedRegion}, ${debouncedCountry}`;
 
     const { data, isLoading } = useQuery({
-        queryKey: ["geocode", debouncedAddress],
-        queryFn: () => fetchCoordinates(debouncedAddress),
-        enabled: !!spot.street && !!spot.city,
+        queryKey: ["geocode", fullAddress],
+        queryFn: () => fetchCoordinates(fullAddress),
+        enabled:
+            debouncedStreet.length >= 2 &&
+            debouncedCity.length >= 2 &&
+            debouncedRegion.length >= 2 &&
+            debouncedCountry.length >= 2,
         staleTime: 5 * 60 * 1000,
     });
 
     const { mutateAsync } = useMutation({
         mutationFn: addSpot,
         onSuccess: () => {
-            close();
+            onClose();
+        },
+        onError: () => {
+            dispatch(
+                notificationAction.setError({
+                    message: "Error when trying to add spot",
+                }),
+            );
         },
     });
 
@@ -78,12 +98,19 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
         await mutateAsync(spot);
     };
 
+    const [mapPosition, setMapPosition] = useState({
+        latitude: 54.352553,
+        longitude: 18.64745,
+    });
+
+    useEffect(() => {
+        if (data) {
+            setMapPosition(data);
+        }
+    }, [data]);
+
     if (!modalRoot) {
         return null;
-    }
-
-    if (isLoading) {
-        return <LoadingSpinner />;
     }
 
     return createPortal(
@@ -145,25 +172,27 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
                                         }
                                     />
                                 </div>
-                                <PolygonDrawer
-                                    initialPosition={
-                                        data ?? {
-                                            latitude: 54.352553,
-                                            longitude: 18.64745,
-                                        }
-                                    }
-                                    onPolygonComplete={(coords) => {
-                                        const mappedCoords: SpotCoordinatesDto[] =
-                                            coords[0].map(([lng, lat]) => ({
-                                                x: lat,
-                                                y: lng,
-                                            }));
-                                        handleSetSpot(
-                                            "borderPoints",
-                                            mappedCoords,
-                                        );
-                                    }}
-                                />
+                                <div className="relative flex w-full">
+                                    <PolygonDrawer
+                                        initialPosition={mapPosition}
+                                        onPolygonComplete={(coords) => {
+                                            const mappedCoords: SpotCoordinatesDto[] =
+                                                coords[0].map(([lng, lat]) => ({
+                                                    x: lat,
+                                                    y: lng,
+                                                }));
+                                            handleSetSpot(
+                                                "borderPoints",
+                                                mappedCoords,
+                                            );
+                                        }}
+                                    />
+                                    {isLoading && (
+                                        <div className="absolute inset-0 z-70 flex items-center justify-center rounded-md bg-black/40">
+                                            <LoadingSpinner />
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                         <form method="dialog" className="mt-3 flex space-x-3">

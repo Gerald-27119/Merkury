@@ -334,16 +334,20 @@ export async function addSpot(spot: SpotToAddDto): Promise<void> {
 
 export async function fetchCoordinates(address: string) {
     const response = await axios.get(
-        "https://nominatim.openstreetmap.org/search",
+        "https://us1.locationiq.com/v1/search.php",
         {
             params: {
+                key: "pk.0187a0e8d784a740b9795e9911e5dbe5",
                 q: address,
                 format: "json",
+                limit: 1,
             },
         },
     );
 
-    if (!response.data || response.data.length === 0) return null;
+    if (!response.data || response.data.length === 0) {
+        return null;
+    }
 
     const { lat, lon } = response.data[0];
     return { latitude: parseFloat(lat), longitude: parseFloat(lon) };

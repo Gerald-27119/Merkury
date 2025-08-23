@@ -11,6 +11,7 @@ import { ButtonVariantType } from "../../../model/enum/buttonVariantType";
 import { useBoolean } from "../../../hooks/useBoolean";
 import AddSpotModal from "./components/AddSpotModal";
 
+//todo dodać responsywność
 export default function AddedSpot() {
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
     const [isOpen, open, close, _] = useBoolean(false);
