@@ -2,22 +2,32 @@ import ChatTopBar from "./chat-content-components/ChatTopBar";
 import ChatMessagingWindow from "./chat-content-components/ChatMessagingWindow";
 import ChatBottomBar from "./chat-content-components/ChatBottomBar";
 import useSelectorTyped from "../../../hooks/useSelectorTyped";
-
 import { selectChatById } from "../../../redux/chats";
-import { ChatDto } from "../../../model/interface/chat/chatInterfaces";
+import type { ChatDto } from "../../../model/interface/chat/chatInterfaces";
 
 export default function ChatContent() {
-    const selectedChatId: number = useSelectorTyped(
+    const selectedChatId = useSelectorTyped<number | null>(
         (state) => state.chats.selectedChatId,
-    ); //TODO:change chat to chatActions
-    const chatDto: ChatDto = useSelectorTyped((state) =>
-        selectChatById(state, selectedChatId),
     );
-    // TODO: skeleton tak dlugo jak nie poajwi sie chat w reduxie
+
+    const chatDto = useSelectorTyped<ChatDto | undefined>((state) =>
+        selectedChatId != null
+            ? selectChatById(state, selectedChatId)
+            : undefined,
+    );
+
+    if (selectedChatId == null || !chatDto) {
+        return (
+            <div className="flex h-full items-center justify-center text-sm text-gray-400">
+                Select a chat to start messaging…
+            </div>
+        );
+    }
+
     return (
         <div className="flex h-full flex-col">
             <ChatTopBar chatDto={chatDto} />
-            <ChatMessagingWindow chatDto={chatDto} />
+            <ChatMessagingWindow key={chatDto.id} chatDto={chatDto} />
             <ChatBottomBar />
         </div>
     );

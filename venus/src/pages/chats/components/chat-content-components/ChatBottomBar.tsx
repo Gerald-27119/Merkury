@@ -4,12 +4,20 @@ import { IoSendSharp } from "react-icons/io5";
 import { RiEmotionHappyFill } from "react-icons/ri";
 import { MdGifBox } from "react-icons/md";
 import { useWebSocket } from "../../../../stomp/useWebSocket";
-import { ChatMessageToSendDto } from "../../../../model/interface/chat/chatInterfaces";
+import {
+    ChatMessageToSendDto,
+    ChatMessageDto,
+    ChatMessagesPageDto,
+    ChatPage,
+} from "../../../../model/interface/chat/chatInterfaces";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import { chatActions } from "../../../../redux/chats";
 import EmojiGifWindowWrapper from "./bottom-bar-components/EmojiGifWindow/EmojiGifWindowWrapper";
 import { useClickOutside } from "../../../../hooks/useClickOutside";
+import { useQueryClient, InfiniteData } from "@tanstack/react-query";
 
-// TODO: use https://www.npmjs.com/package/react-textarea-autosize
+type LocalMsg = ChatMessageDto & { optimistic?: true; optimisticUUID?: string };
 
 export default function ChatBottomBar() {
     const iconClasses =
@@ -18,9 +26,12 @@ export default function ChatBottomBar() {
     const [messageToSend, setMessageToSend] = useState("");
     const [isSending, setIsSending] = useState(false);
 
-    // Tu używam globalnego hooka useWebSocket, który zarządza połączeniem WebSocket
     const { publish, connected } = useWebSocket();
-    const { selectedChatId } = useSelectorTyped((state) => state.chats);
+    const { selectedChatId } = useSelectorTyped((s) => s.chats);
+    const username = useSelectorTyped((s) => s.account.username);
+
+    const dispatch = useDispatchTyped();
+    const queryClient = useQueryClient();
 
     const [activeGifEmojiWindow, setActiveGifEmojiWindow] = useState<
         "emoji" | "gif" | null
@@ -29,32 +40,92 @@ export default function ChatBottomBar() {
     useClickOutside(gifEmojiWindowRef, () => setActiveGifEmojiWindow(null));
 
     const sendMessage = useCallback(async () => {
-        if (!messageToSend.trim() || !connected) return;
+        const text = messageToSend.trim();
+        if (!text || !connected || !selectedChatId) return;
 
-        const formattedChatMessageToSend: ChatMessageToSendDto = {
-            chatId: selectedChatId,
-            content: messageToSend,
+        const chatId = selectedChatId;
+
+        const optimisticUUID =
+            typeof crypto !== "undefined" && "randomUUID" in crypto
+                ? crypto.randomUUID()
+                : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+        // ujemne ID = optymistyczne
+        const optimistic: LocalMsg = {
+            id: -Date.now(),
+            chatId,
+            content: text,
             sentAt: new Date().toISOString(),
+            sender: { id: -1, name: username || "You", imgUrl: "" },
+            optimistic: true,
+            optimisticUUID,
+        };
+
+        dispatch(chatActions.setLastMessage({ chatId, message: optimistic }));
+
+        queryClient.setQueryData<InfiniteData<ChatMessagesPageDto>>(
+            ["messages", chatId],
+            (old) => {
+                if (!old) return old;
+                const first = old.pages[0] ?? {
+                    messages: [],
+                    hasNextSlice: true,
+                    numberOfMessages: 0,
+                    sliceNumber: 0,
+                };
+                const newFirst = {
+                    ...first,
+                    messages: [
+                        optimistic as ChatMessageDto,
+                        ...(first.messages ?? []),
+                    ],
+                };
+                return { ...old, pages: [newFirst, ...old.pages.slice(1)] };
+            },
+        );
+
+        queryClient.setQueriesData<InfiniteData<ChatPage>>(
+            { queryKey: ["user-chat-list"] },
+            (old) => {
+                if (!old) return old;
+                const pages = old.pages.map((p) => ({
+                    ...p,
+                    items: p.items.map((c) =>
+                        c.id === chatId ? { ...c, lastMessage: optimistic } : c,
+                    ),
+                }));
+                return { ...old, pages };
+            },
+        );
+
+        const payload: ChatMessageToSendDto & {
+            optimisticMessageUUID: string;
+        } = {
+            chatId,
+            content: text,
+            sentAt: optimistic.sentAt,
+            optimisticMessageUUID: optimisticUUID,
         };
 
         setIsSending(true);
         try {
-            publish(
-                `/app/send/${selectedChatId}/message`,
-                formattedChatMessageToSend,
-            );
+            publish(`/app/send/${chatId}/message`, payload);
             setMessageToSend("");
-            //TODO:add ACK confirmation
         } finally {
             setIsSending(false);
         }
-    }, [messageToSend, selectedChatId, connected, publish]);
+    }, [
+        messageToSend,
+        connected,
+        selectedChatId,
+        publish,
+        dispatch,
+        queryClient,
+        username,
+    ]);
 
     function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-        if (e.key === "Enter") {
-            if (e.shiftKey) {
-                return;
-            }
+        if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
             sendMessage();
         }
@@ -105,8 +176,9 @@ export default function ChatBottomBar() {
 
             <button
                 onClick={sendMessage}
-                disabled={!connected || isSending}
+                disabled={!connected || isSending || !messageToSend.trim()}
                 className="hover:cursor-pointer disabled:opacity-50"
+                title={!connected ? "Connecting..." : "Send"}
             >
                 <IoSendSharp className="mr-4 h-7 w-7 shadow-md" />
             </button>
