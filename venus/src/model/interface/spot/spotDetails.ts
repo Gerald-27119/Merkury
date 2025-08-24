@@ -1,6 +1,6 @@
 import SpotCoordinatesDto from "./coordinates/spotCoordinatesDto";
-import SpotTagDto from "./tag/spotTagDto";
 import SpotMediaDto from "./spotMediaDto";
+import TagDto from "../tagDto";
 
 export default interface SpotDetails {
     id: number;
@@ -13,5 +13,5 @@ export default interface SpotDetails {
     ratingCount: number;
     media: SpotMediaDto[];
     weatherApiCallCoords: SpotCoordinatesDto;
-    tags: SpotTagDto[];
+    tags: TagDto[];
 }

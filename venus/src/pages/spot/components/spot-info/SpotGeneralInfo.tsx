@@ -1,13 +1,13 @@
 import { Rate } from "antd";
-import SpotTagDto from "../../../../model/interface/spot/tag/spotTagDto";
 import SpotTag from "../tag/SpotTag";
+import TagDto from "../../../../model/interface/tagDto";
 
 type SpotGeneralInfoProps = {
     name: string;
     description: string;
     rating: number;
     ratingCount: number;
-    tags: SpotTagDto[];
+    tags: TagDto[];
 };
 
 export default function SpotGeneralInfo({

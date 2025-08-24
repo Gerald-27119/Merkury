@@ -2,19 +2,23 @@ package com.merkury.vulcanus.features.forum;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.UserDataService;
+import com.merkury.vulcanus.features.jsoup.JsoupSanitizer;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.forum.*;
 import com.merkury.vulcanus.model.entities.forum.PostCategory;
 import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.Tag;
 import com.merkury.vulcanus.model.mappers.forum.mappers.CategoryMapper;
+import com.merkury.vulcanus.model.mappers.forum.mappers.TagMapper;
 import com.merkury.vulcanus.model.mappers.forum.mappers.PostMapper;
 import com.merkury.vulcanus.model.repositories.PostCategoryRepository;
 import com.merkury.vulcanus.model.repositories.PostRepository;
 import com.merkury.vulcanus.model.repositories.TagRepository;
+import com.merkury.vulcanus.utils.JsoupSanitizerConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +38,11 @@ public class PostService {
     private final TagRepository tagRepository;
     private final UserDataService userDataService;
     private final VoteService voteService;
+    private final JsoupSanitizerConfig jsoupSafeLists;
+    private final JsoupSanitizer sanitizer;
+
+    private static final int MIN_CONTENT_LENGTH = 3;
+    private static final int MAX_CONTENT_LENGTH = 1000;
 
     public PostDetailsDto getDetailedPost(HttpServletRequest request, Long postId) throws PostNotFoundException, UserNotFoundException {
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
@@ -55,13 +64,18 @@ public class PostService {
         return postsPage.map(post -> PostMapper.toGeneralDto(post, user));
     }
 
-    //TODO: use jsoup library for content filter
-    public void addPost(HttpServletRequest request, PostDto dto) throws CategoryNotFoundException, TagNotFoundException, UserNotFoundException {
+    public void addPost(HttpServletRequest request, PostDto dto) throws CategoryNotFoundException, TagNotFoundException, UserNotFoundException, InvalidPostContentException {
         var user = userDataService.getUserFromRequest(request);
-        var category = getCategoryByName(dto.category().name());
+        var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
 
-        postRepository.save(PostMapper.toEntity(dto, user, category, tags));
+        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumPostSafeList());
+        validateContentLength(cleanContent);
+
+        var postEntity = PostMapper.toEntity(dto, user, category, tags);
+        postEntity.setContent(cleanContent);
+
+        postRepository.save(postEntity);
     }
 
     @Transactional
@@ -72,15 +86,17 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    //TODO: use jsoup library for content filter
-    public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, UserNotFoundException {
+    public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, UserNotFoundException, InvalidPostContentException {
         var user = userDataService.getUserFromRequest(request);
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("edit"));
-        var category = getCategoryByName(dto.category().name());
+        var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
+        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumPostSafeList());
+
+        validateContentLength(cleanContent);
 
         post.setTitle(dto.title());
-        post.setContent(dto.content());
+        post.setContent(cleanContent);
         post.setPostCategory(category);
         post.setTags(tags);
 
@@ -95,17 +111,18 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public CategoriesAndTagsDto getAllCategoriesAndTags() {
+    public ForumCategoriesAndTagsDto getAllCategoriesAndTags() {
         var categories = postCategoryRepository.findAll();
         var tags = tagRepository.findAll();
 
-        return new CategoriesAndTagsDto(categories.stream().map(CategoryMapper::toDto).toList(), tags.stream().map(Tag::getName).toList());
+        return new ForumCategoriesAndTagsDto(categories.stream().map(CategoryMapper::toDto).toList(), tags.stream().map(TagMapper::toDto).toList());
     }
 
     private PostCategory getCategoryByName(String name) throws CategoryNotFoundException {
         return postCategoryRepository.findByName(name)
                 .orElseThrow(() -> new CategoryNotFoundException(name));
     }
+
     private Set<Tag> getTagsByNames(List<String> tagNames) throws TagNotFoundException {
         Set<Tag> tags = new HashSet<>();
         for (String tagName : tagNames) {
@@ -114,6 +131,18 @@ public class PostService {
             tags.add(tag);
         }
         return tags;
+    }
+
+    private void validateContentLength(String content) throws InvalidPostContentException {
+        var doc = Jsoup.parse(content);
+        doc.select("img, video, iframe, object, embed, svg").remove();
+        String plainText = doc.text().trim();
+
+        if (plainText.length() < MIN_CONTENT_LENGTH || plainText.length() > MAX_CONTENT_LENGTH) {
+            throw new InvalidPostContentException(
+                    "Content must be between " + MIN_CONTENT_LENGTH + " and " + MAX_CONTENT_LENGTH + " characters."
+            );
+        }
     }
 
 }

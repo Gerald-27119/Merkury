@@ -37,7 +37,11 @@ export default function ChatBottomBar() {
         "emoji" | "gif" | null
     >(null);
     const gifEmojiWindowRef = useRef<HTMLDivElement>(null);
-    useClickOutside(gifEmojiWindowRef, () => setActiveGifEmojiWindow(null));
+    useClickOutside(
+        gifEmojiWindowRef,
+        () => setActiveGifEmojiWindow(null),
+        activeGifEmojiWindow !== null,
+    );
 
     const sendMessage = useCallback(async () => {
         const text = messageToSend.trim();

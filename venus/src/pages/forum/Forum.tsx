@@ -1,42 +1,110 @@
 import { useQuery } from "@tanstack/react-query";
 import Error from "../../components/error/Error.jsx";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
-import { fetchPaginatedPosts } from "../../http/posts";
+import { fetchPaginatedPosts, fetchCategoriesAndTags } from "../../http/posts";
 import { useState } from "react";
-import Post from "./components/Post";
+import Post from "./posts/Post";
+import AddPostButton from "./components/AddPostButton";
+import ForumSearchBar from "./components/ForumSearchBar";
+import ForumCategoriesTagsPanel from "./categories-and-tags/ForumCategoriesTagsPanel";
+import RightPanel from "./components/RightPanel";
+import ForumFormModal from "./components/ForumFormModal";
+import { useBoolean } from "../../hooks/useBoolean";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { notificationAction } from "../../redux/notification";
 
 export default function Forum() {
     const [currentPage, setCurrentPage] = useState(0);
+    const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
+        useBoolean(false);
+    const isLogged = useSelector((state: RootState) => state.account.isLogged);
+    const dispatch = useDispatch();
 
-    const { data, error, isError, isLoading } = useQuery({
+    const {
+        data: posts,
+        error: postError,
+        isError: isPostError,
+        isLoading: isPostLoading,
+    } = useQuery({
         queryKey: ["posts", currentPage],
         queryFn: () => fetchPaginatedPosts(currentPage),
     });
 
-    if (isLoading) {
-        return <LoadingSpinner />;
+    const {
+        data: categoriesAndTags,
+        isLoading: isCatTagsLoading,
+        isError: isCatTagsError,
+        error: catTagsError,
+    } = useQuery({
+        queryKey: ["categoriesAndTags"],
+        queryFn: () => fetchCategoriesAndTags(),
+    });
+
+    if (isPostLoading) {
+        return (
+            <div>
+                <LoadingSpinner />
+            </div>
+        );
     }
 
-    if (isError) {
-        return <Error error={error} />;
+    if (isPostError) {
+        return <Error error={postError} />;
     }
+
+    const handleAddPostClick = () => {
+        if (isLogged) {
+            setIsModalOpenToTrue();
+        } else {
+            dispatch(
+                notificationAction.setInfo({
+                    message: "Login to create posts.",
+                }),
+            );
+        }
+    };
 
     return (
         <>
             <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg min-h-screen w-full">
-                {data?.content?.length ? (
+                <div className="mx-auto mt-8 flex w-full max-w-6xl flex-row gap-4">
                     <div>
-                        <ul>
-                            {data.content.map((post) => (
-                                <li key={post.id}>
-                                    <Post post={post} />
-                                </li>
-                            ))}
-                        </ul>
+                        <AddPostButton onClick={handleAddPostClick} />
+
+                        <ForumCategoriesTagsPanel
+                            data={categoriesAndTags}
+                            isLoading={isCatTagsLoading}
+                            isError={isCatTagsError}
+                            error={catTagsError}
+                        />
                     </div>
-                ) : (
-                    <span>No posts available</span>
-                )}
+
+                    {posts?.content?.length ? (
+                        <div className="mt-10">
+                            <ul>
+                                {posts.content.map((post) => (
+                                    <li key={post.id}>
+                                        <Post post={post} />
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ) : (
+                        <span>No posts available</span>
+                    )}
+
+                    <div>
+                        <ForumSearchBar />
+                        <RightPanel />
+                    </div>
+                    <ForumFormModal
+                        onClose={setIsModalOpenToFalse}
+                        isOpen={isModalOpen}
+                        categories={categoriesAndTags?.categories ?? []}
+                        tags={categoriesAndTags?.tags ?? []}
+                    />
+                </div>
             </div>
         </>
     );

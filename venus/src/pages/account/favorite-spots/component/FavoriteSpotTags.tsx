@@ -1,7 +1,7 @@
-import SpotTagDto from "../../../../model/interface/spot/tag/spotTagDto";
+import TagDto from "../../../../model/interface/tagDto";
 
 interface FavoriteSpotTagsProps {
-    tags: SpotTagDto[];
+    tags: TagDto[];
 }
 
 export default function FavoriteSpotTags({ tags }: FavoriteSpotTagsProps) {

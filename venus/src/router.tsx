@@ -6,6 +6,7 @@ import ForgotPassword from "./pages/forgot-password/ForgotPassword.jsx";
 import NewPassword from "./pages/new-password/NewPassword.jsx";
 import Layout from "./layout/Layout.jsx";
 import Forum from "./pages/forum/Forum";
+import ForumThread from "./pages/forum/ForumThread";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import MapPage from "./pages/map/MapPage";
 import ChatsPage from "./pages/chats/ChatsPage";
@@ -127,6 +128,10 @@ const router = createBrowserRouter([
             {
                 path: "forum",
                 element: <Forum />,
+            },
+            {
+                path: "forum/:postId",
+                element: <ForumThread />,
             },
             {
                 path: "map",

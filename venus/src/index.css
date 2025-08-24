@@ -133,3 +133,84 @@ body {
 .media-control-bar {
     margin-bottom: 1.5rem;
 }
+
+.tiptap-editor-content .ProseMirror:focus {
+    outline: none;
+}
+
+.tiptap {
+    height: 100%;
+    white-space: pre-wrap;
+}
+
+.tiptap a {
+    @apply cursor-pointer text-blue-500 underline;
+}
+
+.tiptap a:hover {
+    @apply text-blue-600;
+}
+
+.tiptap h1 {
+    @apply mb-4 text-4xl font-bold;
+}
+
+.tiptap h2 {
+    @apply mb-3 text-3xl font-semibold;
+}
+
+.tiptap h3 {
+    @apply mb-2 text-2xl font-semibold;
+}
+
+.tiptap h4 {
+    @apply mb-2 text-xl font-medium;
+}
+
+.tiptap h5 {
+    @apply mb-1 text-lg font-medium;
+}
+
+.tiptap h6 {
+    @apply mb-1 text-sm font-semibold;
+}
+
+.tiptap ul {
+    @apply ml-4 list-disc;
+}
+
+.tiptap ol {
+    @apply ml-4 list-decimal;
+}
+
+.tiptap li p {
+    display: inline;
+    margin: 0;
+}
+
+.tiptap p:empty::before {
+    content: "";
+    display: inline-block;
+}
+
+.tiptap li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    line-height: 0.5;
+}
+
+.tiptap ul li::before {
+    content: "•";
+    display: inline-block;
+}
+
+.tiptap ol {
+    counter-reset: list-item;
+}
+
+.tiptap ol li::before {
+    content: counter(list-item) ".";
+    counter-increment: list-item;
+    display: inline-block;
+}
