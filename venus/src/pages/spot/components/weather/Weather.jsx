@@ -5,7 +5,7 @@ import { TbTemperatureCelsius } from "react-icons/tb";
 import { getWeatherData } from "../../../../utils/weather.js";
 import { WiThermometer } from "react-icons/wi";
 import WeatherIcon from "../../../map/components/weather/components/WeatherIcon";
-import WindSpeed from "./wind-speed/WindSpeed";
+import WindSpeed2 from "./wind-speed/WindSpeed2.jsx";
 import WeatherTile from "./components/WeatherTile";
 import WeatherRow from "./WeatherRow";
 import { useEffect } from "react";
@@ -66,7 +66,7 @@ export default function Weather({ spot }) {
                         <WeatherIcon code={weatherData.weatherCode} />
                     </WeatherTile>
                 </WeatherRow>
-                <WindSpeed winds={weatherData.winds} />
+                <WindSpeed2 winds={weatherData.winds} />
             </div>
         </div>
     );

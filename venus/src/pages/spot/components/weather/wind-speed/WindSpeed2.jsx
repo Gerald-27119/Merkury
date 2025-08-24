@@ -5,7 +5,7 @@ import { calculateWindSpeed } from "../../../../../utils/weather.tsx";
 
 const availableHeights = [0, 100, 200, 500, 1000];
 
-export default function WindSpeed({ winds }) {
+export default function WindSpeed2({ winds }) {
     const [windSpeed, setWindSpeed] = useState(0);
     const [windHeight, setWindHeight] = useState({
         numberValue: 0,
