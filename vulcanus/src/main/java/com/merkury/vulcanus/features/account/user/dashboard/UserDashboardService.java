@@ -10,6 +10,7 @@ import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotPageDto;
+import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
@@ -21,6 +22,7 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -140,7 +142,7 @@ public class UserDashboardService {
         return mediaService.getAllUserPhotos(username, page, size);
     }
 
-    public AddSpotPageDto getAllSpotsAddedByUser(int page, int size){
+    public AddSpotPageDto getAllSpotsAddedByUser(int page, int size) {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         return addSpotService.getAllSpotsAddedByUser(username, page, size);
     }
@@ -148,5 +150,9 @@ public class UserDashboardService {
     public void addSpot(String spotJson, List<MultipartFile> mediaFiles) throws UserNotFoundByUsernameException, IOException, InvalidFileTypeException, BlobContainerNotFoundException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         addSpotService.addSpot(username, spotJson, mediaFiles);
+    }
+
+    public Mono<BorderPoint> getCoordinates(String query) {
+        return addSpotService.getCoordinates(query);
     }
 }

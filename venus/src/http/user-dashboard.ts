@@ -12,6 +12,7 @@ import { DatedCommentsGroupPageDto } from "../model/interface/account/comments/d
 import { SocialPageDto } from "../model/interface/account/social/socialPageDto";
 import { AddSpotPageDto } from "../model/interface/account/add-spot/addSpotPageDto";
 import { SpotToAddDto } from "../model/interface/account/add-spot/spotToAddDto";
+import SpotCoordinatesDto from "../model/interface/spot/coordinates/spotCoordinatesDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 const LOCATIONIQ_API_KEY = import.meta.env.VITE_LOCATIONIQ_API_KEY;
 
@@ -333,23 +334,15 @@ export async function addSpot(spot: SpotToAddDto): Promise<void> {
     ).data;
 }
 
-export async function fetchCoordinates(address: string) {
-    const response = await axios.get(
-        "https://us1.locationiq.com/v1/search.php",
-        {
+export async function fetchCoordinates(
+    address: string,
+): Promise<SpotCoordinatesDto> {
+    return (
+        await axios.get(`${BASE_URL}/user-dashboard/add-spot/coordinates`, {
             params: {
-                key: LOCATIONIQ_API_KEY,
-                q: address,
-                format: "json",
-                limit: 1,
+                query: address,
             },
-        },
-    );
-
-    if (!response.data || response.data.length === 0) {
-        return null;
-    }
-
-    const { lat, lon } = response.data[0];
-    return { latitude: parseFloat(lat), longitude: parseFloat(lon) };
+            withCredentials: true,
+        })
+    ).data;
 }

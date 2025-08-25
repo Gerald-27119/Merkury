@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.merkury.vulcanus.config.properties.LocationqProviderProperties;
 import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
@@ -17,16 +18,20 @@ import com.merkury.vulcanus.utils.PolygonAreaCalculator;
 import com.merkury.vulcanus.utils.PolygonCenterPointCalculator;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +39,9 @@ public class AddSpotService {
     private final SpotRepository spotRepository;
     private final UserEntityFetcher userEntityFetcher;
     private final AzureBlobService azureBlobService;
+    @Qualifier("locationq")
+    private final WebClient locationqWebClient;
+    private final LocationqProviderProperties props;
 
     public AddSpotPageDto getAllSpotsAddedByUser(String username, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
@@ -77,6 +85,28 @@ public class AddSpotService {
 
         spotRepository.save(mappedSpot);
     }
+
+    public Mono<BorderPoint> getCoordinates(String query) {
+        return locationqWebClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/search.php")
+                        .queryParam("key", props.getApiKey())
+                        .queryParam("q", query)
+                        .queryParam("format", "json")
+                        .queryParam("limit", 1)
+                        .build())
+                .retrieve()
+                .bodyToMono(List.class)
+                .mapNotNull(list -> {
+                    if (list == null || list.isEmpty()) return null;
+                    Map<String, Object> first = (Map<String, Object>) list.get(0);
+                    double lat = Double.parseDouble(first.get("lat").toString());
+                    double lon = Double.parseDouble(first.get("lon").toString());
+                    return new BorderPoint(lon, lat);
+                })
+                .onErrorResume(e -> Mono.empty());
+    }
+
 
     private GenericMediaType getMediaType(MultipartFile file) {
         var contentType = file.getContentType();

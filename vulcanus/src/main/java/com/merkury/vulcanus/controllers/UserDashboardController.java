@@ -11,6 +11,7 @@ import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotPageDto;
+import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -168,5 +170,10 @@ public class UserDashboardController {
                                         @RequestPart("media") List<MultipartFile> mediaFiles) throws InvalidFileTypeException, UserNotFoundByUsernameException, BlobContainerNotFoundException, IOException {
         userDashboardService.addSpot(spotJson, mediaFiles);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/user-dashboard/add-spot/coordinates")
+    public ResponseEntity<Mono<BorderPoint>> getCoordinates(@RequestParam String query) {
+        return ResponseEntity.ok(userDashboardService.getCoordinates(query));
     }
 }
