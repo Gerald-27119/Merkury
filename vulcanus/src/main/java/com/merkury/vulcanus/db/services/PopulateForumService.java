@@ -1,11 +1,11 @@
 package com.merkury.vulcanus.db.services;
 
+import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.forum.PostCategory;
 import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.Tag;
-import com.merkury.vulcanus.model.enums.Provider;
-import com.merkury.vulcanus.model.enums.UserRole;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.model.repositories.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +32,26 @@ public class PopulateForumService {
                 .email("forumUser@gmail.com")
                 .username("forumUser")
                 .password(passwordEncoder.encode("password"))
-                .provider(Provider.NONE)
-                .userRole(UserRole.ROLE_USER)
+                .build();
+
+        UserEntity forumUserFriend = UserEntity.builder()
+                .email("forumUserFriend@gmail.com")
+                .username("forumUserFriend")
+                .password(passwordEncoder.encode("password"))
+                .build();
+
+        Friendship friendship = Friendship.builder()
+                .user(forumUser)
+                .friend(forumUserFriend)
+                .status(UserFriendStatus.ACCEPTED)
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        Friendship reverseFriendship = Friendship.builder()
+                .user(forumUserFriend)
+                .friend(forumUser)
+                .status(UserFriendStatus.ACCEPTED)
+                .createdAt(LocalDateTime.now())
                 .build();
 
         PostCategory postCategory1 = PostCategory.builder()
@@ -177,7 +195,10 @@ public class PopulateForumService {
                 .comments(new ArrayList<>())
                 .build();
 
-        userRepository.save(forumUser);
+        userRepository.saveAll(List.of(forumUser, forumUserFriend));
+        forumUser.getFriendships().add(friendship);
+        forumUserFriend.getFriendships().add(reverseFriendship);
+        userRepository.saveAll(List.of(forumUser, forumUserFriend));
         postCategoryRepository.saveAll(List.of(postCategory1, postCategory2, postCategory3, postCategory4, postCategory5, postCategory6));
         tagRepository.saveAll(List.of(tag1, tag2, tag3, tag4, tag5));
         postRepository.saveAll(List.of(post1, post2, post3, post4, post5));
