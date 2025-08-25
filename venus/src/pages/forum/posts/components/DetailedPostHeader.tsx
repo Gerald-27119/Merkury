@@ -1,14 +1,19 @@
 interface DetailedPostHeaderProps {
     author: { username: string; profilePhoto: string };
     publishDate: string | Date;
+    onAuthorClick: () => void;
 }
 
 export default function DetailedPostHeader({
     author,
     publishDate,
+    onAuthorClick,
 }: DetailedPostHeaderProps) {
     return (
-        <div className="flex items-center justify-between text-lg">
+        <div
+            onClick={onAuthorClick}
+            className="flex items-center justify-between text-lg"
+        >
             <div className="flex items-center gap-3">
                 <img
                     src={author.profilePhoto}
