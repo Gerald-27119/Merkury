@@ -8,8 +8,13 @@ function stripHtml(html: string): string {
 export const ForumPostFormSchema = z.object({
     title: z
         .string()
+        .trim()
         .min(3, "Title must be at least 3 characters long.")
-        .max(100, "Title must be less than 100 characters long"),
+        .max(100, "Title must be less than 100 characters long")
+        .regex(
+            /^[a-zA-Z0-9?!():',.\s]+$/,
+            "Allowed special characters: ?!():',.",
+        ),
     category: z
         .object({
             value: z.string(),

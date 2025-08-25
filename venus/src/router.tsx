@@ -130,7 +130,7 @@ const router = createBrowserRouter([
                 element: <Forum />,
             },
             {
-                path: "forum/:postId",
+                path: "forum/:postId/:slugTitle?",
                 element: <ForumThread />,
             },
             {
