@@ -42,12 +42,12 @@ export async function getWindSpeeds(latitude: number, longitude: number) {
                 latitude,
                 longitude,
                 hourly: [
-                    "wind_speed_10m",
                     "wind_speed_1000hPa",
                     "wind_speed_180m",
                     "wind_speed_975hPa",
                     "wind_speed_950hPa",
                     "wind_speed_925hPa",
+                    "wind_speed_900hPa",
                 ],
                 wind_speed_unit: "ms",
             },

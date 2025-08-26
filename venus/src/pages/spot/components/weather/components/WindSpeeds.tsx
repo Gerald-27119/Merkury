@@ -11,12 +11,12 @@ type windSpeedsSelectionType = {
 };
 
 const windSpeedsSelection: windSpeedsSelectionType[] = [
-    { label: "10m", value: "wind_speed_10m" },
-    { label: "110m", value: "wind_speed_1000hPa" },
-    { label: "180m", value: "wind_speed_180m" },
-    { label: "320m", value: "wind_speed_975hPa" },
+    { label: "100m", value: "wind_speed_1000hPa" },
+    { label: "200m", value: "wind_speed_180m" },
+    { label: "300m", value: "wind_speed_975hPa" },
     { label: "500m", value: "wind_speed_950hPa" },
-    { label: "800m", value: "wind_speed_925hPa" },
+    { label: "750m", value: "wind_speed_925hPa" },
+    { label: ">1000m", value: "wind_speed_900hPa" },
 ];
 
 export default function WindSpeeds() {
@@ -38,7 +38,7 @@ export default function WindSpeeds() {
     }
 
     return (
-        <div>
+        <div className="bg-whiteSmoke mt-4 flex items-center rounded-lg shadow-md">
             <WindSpeedDisplay value={100} />
             <ul>
                 {windSpeedsSelection.map((ws) => (

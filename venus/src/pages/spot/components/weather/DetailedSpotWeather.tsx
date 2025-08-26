@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getDetailedSpotWeather } from "../../../../http/weather";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
 import WeatherDetails from "./components/WeatherDetails";
+import WindSpeeds from "./components/WindSpeeds";
 
 const slideVariants = {
     hidden: { x: "100%", opacity: 0 },
@@ -41,7 +42,7 @@ export default function DetailedSpotWeather() {
             animate="visible"
             exit="exit"
             transition={{ duration: 0.3 }}
-            className="dark:bg-lightGrayishViolet absolute top-0 right-0 z-[2] flex h-full w-[20rem] flex-col p-2 text-lg"
+            className="dark:bg-lightGrayishViolet absolute top-0 right-0 z-[2] flex h-full w-[24rem] flex-col p-2 text-lg"
         >
             <div className="flex">
                 <HiX
@@ -64,6 +65,7 @@ export default function DetailedSpotWeather() {
                         uvIndex={data.daily.uv_index_max[0]}
                         humidity={data.current.relative_humidity_2m}
                     />
+                    <WindSpeeds />
                 </div>
             )}
         </motion.div>
