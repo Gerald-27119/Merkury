@@ -9,6 +9,8 @@ public record PostGeneralDto(@Positive(message = "ID must be a positive number."
                              Long id,
                              @NotBlank(message = "Title cannot be empty.")
                              String title,
+                             @NotBlank(message = "SlugTitle cannot be empty.")
+                             String slugTitle,
                              @NotBlank(message = "Content cannot be empty.")
                              String content,
                              @NotNull(message = "Category cannot be empty")

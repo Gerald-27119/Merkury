@@ -19,7 +19,7 @@ export default function PortHeader({
 }: PostHeaderProps) {
     return (
         <div className="flex items-start justify-between">
-            <NavLink to={`/forum/${post.id}`}>
+            <NavLink to={`/forum/${post.id}/${post.slugTitle}`}>
                 <h2 className="dark:hover:text-lightBgSoft cursor-pointer text-xl font-bold">
                     {post.title}
                 </h2>

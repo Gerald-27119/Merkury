@@ -39,10 +39,12 @@ public class PostMapper {
 
     public static PostGeneralDto toGeneralDto(@NotNull Post post, UserEntity currentUser) {
         var summary = summarizeContent(post.getContent());
+        var slug = generateSlugTitle(post.getTitle());
 
         return PostGeneralDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
+                .slugTitle(slug)
                 .content(summary)
                 .category(CategoryMapper.toDto(post.getPostCategory()))
                 .tags(post.getTags().stream().map(TagMapper::toDto).toList())
@@ -63,7 +65,7 @@ public class PostMapper {
                 .build();
     }
 
-    private static String summarizeContent(String content){
+    private static String summarizeContent(String content) {
         var doc = Jsoup.parse(content);
         doc.select("img, video, iframe, object, embed, svg").remove();
         String plainText = doc.text();
@@ -71,6 +73,12 @@ public class PostMapper {
         return plainText.length() > 200
                 ? plainText.substring(0, plainText.lastIndexOf(" ", 200)) + "..."
                 : plainText;
+    }
+
+    private static String generateSlugTitle(String title) {
+        return title.toLowerCase()
+                .replaceAll("[^a-z0-9\\s]", "")
+                .replaceAll("\\s+", "-");
     }
 
 }
