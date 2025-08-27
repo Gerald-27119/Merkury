@@ -24,7 +24,7 @@ export default function WeatherDetails({
                 <WeatherTile className="col-start-1 row-start-1">
                     <div className="flex w-full flex-col">
                         <div className="flex items-center text-xs">
-                            <WiRain className="text-sm" />
+                            <WiRain className="text-lg" />
                             <h6>Rain Chance</h6>
                         </div>
                         <span className="mx-auto">{rainChance}%</span>
@@ -50,7 +50,7 @@ export default function WeatherDetails({
                 <WeatherTile className="col-start-2 row-start-2">
                     <div className="realtive flex w-full flex-col">
                         <div className="flex items-center text-xs">
-                            <WiHumidity className="text-sm" />
+                            <WiHumidity className="text-lg" />
                             <h6>Humidity</h6>
                         </div>
                         <span className="mx-auto">{humidity}%</span>

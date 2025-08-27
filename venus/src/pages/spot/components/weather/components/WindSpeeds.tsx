@@ -38,15 +38,18 @@ export default function WindSpeeds() {
     }
 
     return (
-        <div className="bg-whiteSmoke mt-4 flex items-center rounded-lg shadow-md">
+        <div className="bg-whiteSmoke mt-4 flex items-center rounded-lg py-3 shadow-md">
             <WindSpeedDisplay value={100} />
-            <ul>
-                {windSpeedsSelection.map((ws) => (
-                    <li key={ws.label}>
-                        <SelectHeightButton name={ws.label} />
-                    </li>
-                ))}
-            </ul>
+            <div className="ml-1">
+                <h3 className="mb-1.5">Height</h3>
+                <ul className="grid grid-cols-2 gap-2">
+                    {windSpeedsSelection.map((ws) => (
+                        <li key={ws.label}>
+                            <SelectHeightButton name={ws.label} />
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 }
