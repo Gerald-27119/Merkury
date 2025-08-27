@@ -112,4 +112,9 @@ public class ChatService {
 
     }
 
+    public Long getCommonChatId(String currentUserUsername, String targetUserUsername){
+//        var commonChatId = chatRepository.
+        return null;
+    }
+
 }

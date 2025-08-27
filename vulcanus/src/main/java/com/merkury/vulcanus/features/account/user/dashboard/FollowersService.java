@@ -30,6 +30,25 @@ public class FollowersService {
         return new SocialPageDto(mappedFollowers, followersPage.hasNext());
     }
 
+
+//    @Transactional
+//    public SocialPageDto getUserFollowers(String username, int page, int size) throws UserNotFoundByUsernameException {
+//        var followersPage = userEntityRepository.findFollowersByFollowedUsername(username, PageRequest.of(page, size));
+//        if (followersPage.getContent().isEmpty()) {
+//            throw new UserNotFoundByUsernameException(username);//TODO: @Mateusz, to tak powinno być? A co jak ktoś nie ma followersów?
+//        }
+//
+//        var
+//
+//        var mappedFollowers = followersPage.stream().map(follower -> {
+//            var commonPrivateChat = chatRepository.findPrivateBetween(username, follower.getUsername());
+//            var commonPrivateChatId = commonPrivateChat.isPresent() ? commonPrivateChat.get().getId() : null;
+//            return SocialMapper.toDto(follower, commonPrivateChatId);
+//        }).toList();
+//
+//        return new SocialPageDto(mappedFollowers, followersPage.hasNext());
+//    }
+
     public SocialPageDto getUserFollowed(String username, int page, int size) throws UserNotFoundByUsernameException {
         var followedPage = userEntityRepository.findFollowedByFollowersUsername(username, PageRequest.of(page, size));
         if (followedPage.getContent().isEmpty()) {

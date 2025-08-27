@@ -12,6 +12,8 @@ import { SocialListType } from "../../../../model/enum/account/social/socialList
 import { useBoolean } from "../../../../hooks/useBoolean";
 import Modal from "../../../../components/modal/Modal";
 import { useNavigate } from "react-router-dom";
+import { chatActions } from "../../../../redux/chats";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 
 interface SocialCardProps {
     friend: SocialDto;
@@ -27,6 +29,7 @@ export default function SocialCard({
     const queryClient = useQueryClient();
     const navigate = useNavigate();
     const [isModalOpen, openModal, closeModal] = useBoolean(false);
+    const dispatch = useDispatchTyped();
 
     const { mutateAsync: mutateAsyncFriends } = useMutation({
         mutationFn: editUserFriends,
@@ -70,6 +73,12 @@ export default function SocialCard({
             handleRemove = () => removeUserFriend(friend.username);
     }
 
+    function handleNavigateToChat() {
+        // dispatch(chatActions.setSelectedChatId(chat.id));
+        // dispatch(chatActions.clearNew(chat.id));
+        navigate("/chat");
+    }
+
     return (
         <li className="dark:bg-darkBgSoft bg-lightBgSoft space-y-2 rounded-md px-3 pt-3 pb-4">
             <img
@@ -88,7 +97,7 @@ export default function SocialCard({
                     <FaUser aria-label="userProfileFriendCardIcon" />
                 </SocialButton>
                 {/*TODO zrobić działające przyciski*/}
-                <SocialButton onClick={() => {}}>
+                <SocialButton onClick={handleNavigateToChat}>
                     <BiMessageRounded aria-label="messageFriendCardIcon" />
                 </SocialButton>
                 {type !== SocialListType.FOLLOWERS && !isSocialForViewer && (
