@@ -36,7 +36,6 @@ export function AddedSpotTile({ spot }: AddedSpotTileProps) {
                     </p>
                 </div>
             </div>
-            <div></div>
         </div>
     );
 }

@@ -67,7 +67,7 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
             debouncedCountry.length >= 2,
         staleTime: 5 * 60 * 1000,
     });
-    console.log(data);
+
     const { mutateAsync } = useMutation({
         mutationFn: addSpot,
         onSuccess: () => {

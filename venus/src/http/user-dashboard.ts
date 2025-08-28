@@ -14,7 +14,6 @@ import { AddSpotPageDto } from "../model/interface/account/add-spot/addSpotPageD
 import { SpotToAddDto } from "../model/interface/account/add-spot/spotToAddDto";
 import SpotCoordinatesDto from "../model/interface/spot/coordinates/spotCoordinatesDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
-const LOCATIONIQ_API_KEY = import.meta.env.VITE_LOCATIONIQ_API_KEY;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
     return (
