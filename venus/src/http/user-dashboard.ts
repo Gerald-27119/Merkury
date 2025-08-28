@@ -10,6 +10,9 @@ import { DatedMediaGroupPageDto } from "../model/interface/account/media/datedMe
 import { FavoriteSpotPageDto } from "../model/interface/account/favorite-spots/favoriteSpotPageDto";
 import { DatedCommentsGroupPageDto } from "../model/interface/account/comments/datedCommentsGroupPageDto";
 import { SocialPageDto } from "../model/interface/account/social/socialPageDto";
+import { AddSpotPageDto } from "../model/interface/account/add-spot/addSpotPageDto";
+import { SpotToAddDto } from "../model/interface/account/add-spot/spotToAddDto";
+import SpotCoordinatesDto from "../model/interface/spot/coordinates/spotCoordinatesDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -285,6 +288,60 @@ export async function getAllUserPhotos(
         await axios.get(`${BASE_URL}/user-dashboard/photos/${username}`, {
             withCredentials: true,
             params: { page, size },
+        })
+    ).data;
+}
+
+export async function getAllSpotsAddedByUser(
+    page: number,
+    size: number,
+): Promise<AddSpotPageDto> {
+    return (
+        await axios.get(`${BASE_URL}/user-dashboard/add-spot`, {
+            withCredentials: true,
+            params: { page, size },
+        })
+    ).data;
+}
+
+export async function addSpot(spot: SpotToAddDto): Promise<void> {
+    const formData = new FormData();
+
+    formData.append(
+        "spot",
+        JSON.stringify({
+            id: spot.id,
+            name: spot.name,
+            description: spot.description,
+            country: spot.country,
+            region: spot.region,
+            city: spot.city,
+            street: spot.street,
+            borderPoints: spot.borderPoints,
+        }),
+    );
+
+    spot.media.forEach((file) => {
+        formData.append("media", file);
+    });
+
+    return (
+        await axios.post(`${BASE_URL}/user-dashboard/add-spot`, formData, {
+            withCredentials: true,
+            headers: { "Content-Type": "multipart/form-data" },
+        })
+    ).data;
+}
+
+export async function fetchCoordinates(
+    address: string,
+): Promise<SpotCoordinatesDto> {
+    return (
+        await axios.get(`${BASE_URL}/user-dashboard/add-spot/coordinates`, {
+            params: {
+                query: address,
+            },
+            withCredentials: true,
         })
     ).data;
 }

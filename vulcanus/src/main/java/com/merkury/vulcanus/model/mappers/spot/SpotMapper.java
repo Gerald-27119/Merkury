@@ -98,6 +98,7 @@ public class SpotMapper {
                         .map(SpotTagMapper::toDto)
                         .collect(Collectors.toSet()))
                 .centerPoint(spot.getCenterPoint())
+                .city(spot.getCity())
                 .distanceToUser(distanceToUser)
                 .build();
     }

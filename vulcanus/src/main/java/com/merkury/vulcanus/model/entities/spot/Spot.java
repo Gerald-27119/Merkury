@@ -2,18 +2,8 @@ package com.merkury.vulcanus.model.entities.spot;
 
 import com.merkury.vulcanus.model.converters.BorderPointListConverter;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
+import com.merkury.vulcanus.model.entities.UserEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -98,4 +88,7 @@ public class Spot {
     joinColumns = @JoinColumn(name = "spot_id"),
     inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<SpotTag> tags = new HashSet<>();
+
+    @ManyToOne
+    private UserEntity author;
 }

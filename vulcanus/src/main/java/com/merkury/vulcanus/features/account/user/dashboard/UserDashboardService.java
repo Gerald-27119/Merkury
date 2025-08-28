@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
+import com.merkury.vulcanus.model.dtos.account.add.spot.AddSpotPageDto;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
@@ -9,6 +10,7 @@ import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotPageDto;
+import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
@@ -19,8 +21,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +38,7 @@ public class UserDashboardService {
     private final MediaService mediaService;
     private final CommentsService commentsService;
     private final SettingsService settingsService;
+    private final AddSpotService addSpotService;
     private final CustomUserDetailsService customUserDetailsService;
 
     public UserProfileDto getUserOwnProfile() throws UserNotFoundByUsernameException {
@@ -133,5 +140,19 @@ public class UserDashboardService {
 
     public DatedMediaGroupPageDto getAllUserPhotos(String username, int page, int size) throws UnsupportedDateSortTypeException {
         return mediaService.getAllUserPhotos(username, page, size);
+    }
+
+    public AddSpotPageDto getAllSpotsAddedByUser(int page, int size) {
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        return addSpotService.getAllSpotsAddedByUser(username, page, size);
+    }
+
+    public void addSpot(String spotJson, List<MultipartFile> mediaFiles) throws UserNotFoundByUsernameException, IOException, InvalidFileTypeException, BlobContainerNotFoundException {
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        addSpotService.addSpot(username, spotJson, mediaFiles);
+    }
+
+    public Mono<BorderPoint> getCoordinates(String query) {
+        return addSpotService.getCoordinates(query);
     }
 }

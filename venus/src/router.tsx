@@ -21,6 +21,7 @@ import Settings from "./pages/account/settings/Settings";
 import HomePage from "./pages/home-page/HomePage";
 import Movies from "./pages/account/movies/Movies";
 import AdvanceHomePage from "./pages/home-page/AdvanceHomePage";
+import AddedSpot from "./pages/account/add-spot/AddedSpot";
 
 const router = createBrowserRouter([
     {
@@ -104,6 +105,14 @@ const router = createBrowserRouter([
                         element: (
                             <ProtectedRoute>
                                 <Movies />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "add-spot",
+                        element: (
+                            <ProtectedRoute>
+                                <AddedSpot />
                             </ProtectedRoute>
                         ),
                     },
