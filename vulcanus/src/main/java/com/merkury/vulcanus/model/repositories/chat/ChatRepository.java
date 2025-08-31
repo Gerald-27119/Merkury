@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.model.repositories.chat;
 
 import com.merkury.vulcanus.model.entities.chat.Chat;
+import com.merkury.vulcanus.model.projections.UsernameChatId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,15 +35,17 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
     Optional<Chat> findPrivateBetween(String username1, String username2);
 
     @Query("""
-            select distinct c.id
+            select u.username as username, c.id as chatId
             from chats c
             join c.participants pOwner
             join c.participants pOther
+            join pOther.user u
             where c.chatType = com.merkury.vulcanus.model.enums.chat.ChatType.PRIVATE
               and pOwner.user.username = :owner
-              and pOther.user.username in :others
+              and u.username in :others
               and pOwner <> pOther
-              and (select count(pp) from ChatParticipant pp where pp.chat = c) = 2
+              and size(c.participants) = 2
             """)
-    List<Long> findPrivateChatIdsBetweenOwnerAndOthers(String owner, Collection<String> others);
+    List<UsernameChatId> findPrivateChatsWithOthers(String owner, Collection<String> others);
+
 }

@@ -22,8 +22,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -115,6 +118,18 @@ public class ChatService {
     public Long getCommonChatId(String currentUserUsername, String targetUserUsername){
 //        var commonChatId = chatRepository.
         return null;
+    }
+
+    @Transactional
+    public Map<String, Long> getDmIdsMap(String owner, Collection<String> others) {
+        if (others == null || others.isEmpty()) return Map.of();
+
+        Map<String, Long> result = new LinkedHashMap<>();
+        others.stream().distinct().forEach(u -> result.put(u, null));
+
+        chatRepository.findPrivateChatsWithOthers(owner, others)
+                .forEach(r -> result.put(r.getUsername(), r.getChatId()));
+        return result;
     }
 
 }
