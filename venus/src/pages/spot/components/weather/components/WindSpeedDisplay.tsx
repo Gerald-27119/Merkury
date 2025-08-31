@@ -15,7 +15,7 @@ export default function WindSpeedDisplay({ value }: { value: number }) {
                 <p>Wind Speed</p>
             </h3>
             <div className="flex items-baseline">
-                <span className="text-6xl">{speedValue}</span>
+                <span className="text-6xl">{speedValue.toFixed(1)}</span>
                 <span className="text-3xl">{speedUnit}</span>
             </div>
             <div className="mt-4 flex w-full items-center justify-center">

@@ -118,3 +118,13 @@ export function getUvIndexTextLevel(uvIndex: number): string {
     const found = thresholds.find((t) => uvIndex < t.limit);
     return found ? found.label : "Extreme";
 }
+
+export function getTimeIndex(times: string[]): number {
+    console.log(times[22]);
+    const now = new Date();
+    now.setUTCMinutes(0, 0, 0);
+    const formattedDate = now.toISOString().slice(0, 16);
+    console.log(formattedDate);
+    console.log(times.findIndex((t) => t === formattedDate));
+    return times.findIndex((t) => t === formattedDate);
+}
