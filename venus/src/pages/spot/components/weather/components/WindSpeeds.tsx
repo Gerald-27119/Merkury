@@ -31,23 +31,17 @@ export default function WindSpeeds() {
         queryFn: () => getWindSpeeds(latitude, longitude),
     });
 
-    const [selectedWind, setSelectedWind] = useState({
-        height: windSpeedsSelection[0].label,
-        windSpeed:
-            data?.hourly[windSpeedsSelection[0].label][
-                getTimeIndex(data?.hourly.time)
-            ] ?? 0,
-    });
+    const [selectedHeight, setSelectedHeight] = useState(
+        windSpeedsSelection[0].label,
+    );
 
-    const handleSelectHeight = (height: string): void => {
-        const selected = windSpeedsSelection.find((ws) => ws.label === height);
+    console.log(data);
 
-        setSelectedWind((prevState) => ({
-            ...prevState,
-            windSpeed:
-                data?.hourly[selected!.value][getTimeIndex(data.hourly.time)],
-        }));
-    };
+    const selected = windSpeedsSelection.find(
+        (ws) => ws.label === selectedHeight,
+    )!;
+    const windSpeed =
+        data?.hourly[selected.value][getTimeIndex(data.hourly.time)] ?? 0;
 
     if (isLoading) {
         return <LoadingSpinner />;
@@ -59,7 +53,7 @@ export default function WindSpeeds() {
 
     return (
         <div className="bg-whiteSmoke mt-4 flex items-center rounded-lg py-3 shadow-md">
-            <WindSpeedDisplay value={selectedWind.windSpeed} />
+            <WindSpeedDisplay value={windSpeed} />
             <div className="ml-1">
                 <h3 className="mb-1.5">Height</h3>
                 <ul className="grid grid-cols-2 gap-2">
@@ -67,8 +61,8 @@ export default function WindSpeeds() {
                         <li key={ws.label}>
                             <SelectHeightButton
                                 name={ws.label}
-                                onClick={() => handleSelectHeight(ws.label)}
-                                selected={ws.label === selectedWind.height}
+                                onClick={() => setSelectedHeight(ws.label)}
+                                selected={ws.label === selectedHeight}
                             />
                         </li>
                     ))}
