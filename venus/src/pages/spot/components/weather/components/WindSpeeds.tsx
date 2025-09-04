@@ -35,8 +35,6 @@ export default function WindSpeeds() {
         windSpeedsSelection[0].label,
     );
 
-    console.log(data);
-
     const selected = windSpeedsSelection.find(
         (ws) => ws.label === selectedHeight,
     )!;
