@@ -1,3 +1,5 @@
+import SpotWeatherTimelinePlotData from "../model/interface/spot/weather/spotWeatherTimelinePlotData";
+
 export function getWeatherData(data) {
     const date = new Date();
     const currentDay = date.getUTCDay();
@@ -63,6 +65,7 @@ export function calculateWindSpeed(winds, windHeight) {
     }
 }
 
+//TODO: delete and replace with function formatISOToAmPmIntl
 export function getCurrentTime(): string {
     const now = new Date();
     const formatter = new Intl.DateTimeFormat("en-US", {
@@ -71,6 +74,17 @@ export function getCurrentTime(): string {
         hour12: true,
     });
     return formatter.format(now);
+}
+
+function formatISOToAmPm(isoTimestamp: string): string {
+    const date = new Date(isoTimestamp);
+    const formatter = new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+    });
+
+    return formatter.format(date);
 }
 
 const weatherAdjectives: Record<number, string> = {
@@ -120,11 +134,30 @@ export function getUvIndexTextLevel(uvIndex: number): string {
 }
 
 export function getTimeIndex(times: string[]): number {
-    console.log(times[22]);
     const now = new Date();
     now.setUTCMinutes(0, 0, 0);
     const formattedDate = now.toISOString().slice(0, 16);
-    console.log(formattedDate);
-    console.log(times.findIndex((t) => t === formattedDate));
     return times.findIndex((t) => t === formattedDate);
+}
+
+export function getISO8601Time(daysToAdd: number = 0): string {
+    const now = new Date();
+    if (daysToAdd !== 0) {
+        now.setDate(now.getDate() + daysToAdd);
+    }
+    return now.toISOString().slice(0, 16);
+}
+
+export function parseWeatherData(data: {
+    time: string[];
+    temperature_2m: number[];
+    weather_code: number[];
+    precipitation_probability: number[];
+}): SpotWeatherTimelinePlotData[] {
+    return data.time.map((time, index) => ({
+        time: formatISOToAmPm(time),
+        temperature: data.temperature_2m[index],
+        weatherCode: data.weather_code[index],
+        precipitationProbability: data.precipitation_probability[index],
+    }));
 }

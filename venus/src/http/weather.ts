@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCurrentISO8601Time, getISO8601Time } from "../utils/weather";
 
 export async function getBasicSpotWeather(latitude: number, longitude: number) {
     return (
@@ -35,6 +36,7 @@ export async function getDetailedSpotWeather(
     ).data;
 }
 
+//TODO:set start_hour and end_hour to avoid fetching unused data
 export async function getWindSpeeds(latitude: number, longitude: number) {
     return (
         await axios.get("https://api.open-meteo.com/v1/forecast", {
@@ -50,6 +52,27 @@ export async function getWindSpeeds(latitude: number, longitude: number) {
                     "wind_speed_900hPa",
                 ],
                 wind_speed_unit: "ms",
+            },
+        })
+    ).data;
+}
+
+export async function getWeatherDataForTimelinePlot(
+    latitude: number,
+    longitude: number,
+) {
+    return (
+        await axios.get("https://api.open-meteo.com/v1/forecast", {
+            params: {
+                latitude,
+                longitude,
+                hourly: [
+                    "temperature_2m",
+                    "weather_code",
+                    "precipitation_probability",
+                ],
+                start_hour: getISO8601Time(),
+                end_hour: getISO8601Time(3),
             },
         })
     ).data;
