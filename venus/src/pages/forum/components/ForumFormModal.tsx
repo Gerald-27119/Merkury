@@ -59,9 +59,10 @@ export default function ForumFormModal({
                 );
             } else {
                 dispatch(
-                    notificationAction.addError(
-                        "Failed to create post. Please try again later.",
-                    ),
+                    notificationAction.addError({
+                        message:
+                            "Failed to create post. Please try again later.",
+                    }),
                 );
             }
         },

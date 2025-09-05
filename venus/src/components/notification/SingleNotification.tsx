@@ -49,11 +49,11 @@ export default function SingleNotification({
     let classesDiv = "";
     let classesProgress = "";
 
-    if (type == "error") {
+    if (type === "error") {
         classesH1 += " text-red-600";
         classesDiv += " border-red-600";
         classesProgress += " bg-red-600";
-    } else if (type == "success") {
+    } else if (type === "success") {
         classesH1 += " text-green-600";
         classesDiv += " border-green-600";
         classesProgress += " bg-green-600";
