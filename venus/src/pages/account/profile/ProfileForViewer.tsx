@@ -36,13 +36,13 @@ export default function ProfileForViewer() {
         onError: (e: AxiosError) => {
             if (e.status === 401) {
                 dispatch(
-                    notificationAction.setInfo({
+                    notificationAction.addInfo({
                         message: "Please login to add to friends this user.",
                     }),
                 );
             } else {
                 dispatch(
-                    notificationAction.setError({ message: e.response?.data }),
+                    notificationAction.addError({ message: e.response?.data }),
                 );
             }
         },
@@ -58,13 +58,13 @@ export default function ProfileForViewer() {
         onError: (e: AxiosError) => {
             if (e.status === 401) {
                 dispatch(
-                    notificationAction.setInfo({
+                    notificationAction.addInfo({
                         message: "Please login to follow this user.",
                     }),
                 );
             } else {
                 dispatch(
-                    notificationAction.setError({ message: e.response?.data }),
+                    notificationAction.addError({ message: e.response?.data }),
                 );
             }
         },

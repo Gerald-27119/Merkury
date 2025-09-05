@@ -29,7 +29,7 @@ export default function UserLocationPanel() {
             },
             (error) => {
                 dispatch(
-                    notificationAction.setError({
+                    notificationAction.addError({
                         message: "Failed to get user localization!",
                     }),
                 );

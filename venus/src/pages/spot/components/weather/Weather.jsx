@@ -9,7 +9,7 @@ import WindSpeed from "./wind-speed/WindSpeed.jsx";
 import WeatherTile from "./WeatherTile.jsx";
 import WeatherRow from "./WeatherRow.jsx";
 import { useEffect } from "react";
-import { notificationAction } from "../../../../redux/notification.jsx";
+import { notificationAction } from "../../../../redux/notification";
 import { useDispatch } from "react-redux";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
 
@@ -28,7 +28,7 @@ export default function Weather({ spot }) {
     useEffect(() => {
         if (error?.response?.data) {
             dispatch(
-                notificationAction.setError({
+                notificationAction.addError({
                     message: error.response.data,
                 }),
             );

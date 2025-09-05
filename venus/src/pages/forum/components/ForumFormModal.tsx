@@ -45,7 +45,7 @@ export default function ForumFormModal({
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["posts"] });
             dispatch(
-                notificationAction.setSuccess({
+                notificationAction.addSuccess({
                     message: "Post created successfully!",
                 }),
             );
@@ -53,13 +53,13 @@ export default function ForumFormModal({
         onError: (e: AxiosError) => {
             if (e.status === 401) {
                 dispatch(
-                    notificationAction.setInfo({
+                    notificationAction.addInfo({
                         message: "Login to create posts.",
                     }),
                 );
             } else {
                 dispatch(
-                    notificationAction.setError(
+                    notificationAction.addError(
                         "Failed to create post. Please try again later.",
                     ),
                 );

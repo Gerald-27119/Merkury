@@ -75,7 +75,7 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
         },
         onError: () => {
             dispatch(
-                notificationAction.setError({
+                notificationAction.addError({
                     message: "Error when trying to add spot",
                 }),
             );

@@ -30,14 +30,14 @@ export default function SidebarItemAction({
         try {
             await logout();
             dispatch(
-                notificationAction.setSuccess({
+                notificationAction.addSuccess({
                     message: "You have been successfully logged out",
                 }),
             );
             dispatch(accountAction.signOut());
         } catch (error: any) {
             dispatch(
-                notificationAction.setError({
+                notificationAction.addError({
                     message: error?.message || "Logout failed!",
                 }),
             );

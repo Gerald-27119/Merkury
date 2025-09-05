@@ -1,7 +1,7 @@
 import OauthForm from "../oauth/OauthForm";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactNode, useEffect } from "react";
-import { notificationAction } from "../../redux/notification.jsx";
+import { notificationAction } from "../../redux/notification.js";
 import useDispatchTyped from "../../hooks/useDispatchTyped";
 
 interface FormContainerProps {
@@ -41,7 +41,7 @@ export default function FormContainer({
     useEffect(() => {
         if (error) {
             dispatch(
-                notificationAction.setError({
+                notificationAction.addError({
                     message: error?.response?.data,
                 }),
             );
@@ -51,7 +51,7 @@ export default function FormContainer({
     useEffect(() => {
         if (isSuccess) {
             dispatch(
-                notificationAction.setSuccess({
+                notificationAction.addSuccess({
                     message: notificationMessage,
                 }),
             );
