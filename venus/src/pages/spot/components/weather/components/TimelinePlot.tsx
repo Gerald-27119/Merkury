@@ -2,15 +2,10 @@ import useSelectorTyped from "../../../../../hooks/useSelectorTyped";
 import { useQuery } from "@tanstack/react-query";
 import { getWeatherDataForTimelinePlot } from "../../../../../http/weather";
 import LoadingSpinner from "../../../../../components/loading-spinner/LoadingSpinner";
-import {
-    formatISOToAmPm,
-    parseWeatherData,
-} from "../../../../../utils/weather";
+import { parseWeatherData } from "../../../../../utils/weather";
 import {
     VictoryAxis,
     VictoryChart,
-    VictoryContainer,
-    VictoryLabel,
     VictoryLine,
     VictoryScatter,
     VictoryTheme,
@@ -18,7 +13,6 @@ import {
 } from "victory";
 import { useEffect, useState } from "react";
 import SpotWeatherTimelinePlotData from "../../../../../model/interface/spot/weather/spotWeatherTimelinePlotData";
-import WeatherIcon from "../../../../map/components/weather/components/WeatherIcon";
 
 export default function TimelinePlot() {
     const { latitude, longitude } = useSelectorTyped(
@@ -47,16 +41,25 @@ export default function TimelinePlot() {
     }
 
     return (
-        isSuccess && (
-            <div className="bg-mediumDarkBlue">
+        isSuccess &&
+        plotData && (
+            <div className="bg-mediumDarkBlue cursor-grab">
                 <VictoryChart
-                    width={1000}
-                    height={400}
-                    scale={{ x: "time" }}
                     theme={VictoryTheme.clean}
                     padding={{ top: 80, bottom: 80, left: 50, right: 50 }}
                     containerComponent={
                         <VictoryZoomContainer
+                            zoomDomain={{
+                                x: [0, 5],
+                                y: [
+                                    Math.min(
+                                        ...plotData?.map((d) => d.temperature),
+                                    ),
+                                    Math.max(
+                                        ...plotData?.map((d) => d.temperature),
+                                    ),
+                                ],
+                            }}
                             responsive={false}
                             allowZoom={false}
                             allowPan={true}
@@ -67,7 +70,20 @@ export default function TimelinePlot() {
                         orientation="top"
                         tickValues={plotData?.map((d) => d.time)}
                         tickFormat={(t) => t}
-                        style={{ tickLabels: { fontSize: 12 } }}
+                        style={{
+                            tickLabels: { fontSize: 12 },
+                            axis: { strokeWidth: 0 },
+                        }}
+                    />
+                    <VictoryAxis
+                        orientation="bottom"
+                        tickValues={plotData?.map((d) => d.temperature)}
+                        tickFormat={(t) => `${t}°`}
+                        style={{
+                            tickLabels: { fontSize: 15 },
+                            axis: { strokeWidth: 0, margin: 100 },
+                        }}
+                        offsetY={40}
                     />
 
                     <VictoryLine
@@ -79,7 +95,7 @@ export default function TimelinePlot() {
                     />
 
                     <VictoryScatter
-                        data={plotData?.map((d) => d.temperature)}
+                        data={plotData}
                         x="time"
                         y="temperature"
                         style={{ data: { fill: "white" } }}
