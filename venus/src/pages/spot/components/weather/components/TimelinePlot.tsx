@@ -48,7 +48,7 @@ export default function TimelinePlot() {
 
     return (
         isSuccess && (
-            <div>
+            <div className="bg-mediumDarkBlue">
                 <VictoryChart
                     width={1000}
                     height={400}
@@ -74,12 +74,12 @@ export default function TimelinePlot() {
                         data={plotData}
                         x="time"
                         y="temperature"
-                        style={{ data: { stroke: "#0d0db5" } }}
+                        style={{ data: { stroke: "#ece9e9" } }}
                         interpolation={"natural"}
                     />
 
                     <VictoryScatter
-                        data={plotData}
+                        data={plotData?.map((d) => d.temperature)}
                         x="time"
                         y="temperature"
                         style={{ data: { fill: "white" } }}
