@@ -76,7 +76,7 @@ export function getCurrentTime(): string {
     return formatter.format(now);
 }
 
-function formatISOToAmPm(isoTimestamp: string): string {
+export function formatISOToAmPm(isoTimestamp: string): string {
     const date = new Date(isoTimestamp);
     const formatter = new Intl.DateTimeFormat("en-US", {
         hour: "numeric",
