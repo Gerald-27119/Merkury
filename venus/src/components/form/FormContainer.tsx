@@ -1,8 +1,9 @@
 import OauthForm from "../oauth/OauthForm";
 import { Link, useNavigate } from "react-router-dom";
 import { ReactNode, useEffect } from "react";
-import { notificationAction } from "../../redux/notification.js";
+import { notificationAction } from "../../redux/notification";
 import useDispatchTyped from "../../hooks/useDispatchTyped";
+import { AxiosError } from "axios";
 
 interface FormContainerProps {
     isSuccess: boolean;
@@ -39,10 +40,13 @@ export default function FormContainer({
     }, [isSuccess, navigate, navigateOnSuccess]);
 
     useEffect(() => {
-        if (error) {
+        const axiosError = error as AxiosError<any>;
+        if (axiosError?.response?.data) {
+            const message =
+                axiosError.response?.data?.message || axiosError.response?.data;
             dispatch(
                 notificationAction.addError({
-                    message: error?.response?.data,
+                    message,
                 }),
             );
         }

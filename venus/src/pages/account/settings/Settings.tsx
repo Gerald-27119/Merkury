@@ -88,11 +88,17 @@ export default function Settings() {
             );
         },
         onError: (error: AxiosError) => {
-            dispatch(
-                notificationAction.addError({
-                    message: error?.response?.data,
-                }),
-            );
+            const axiosError = error as AxiosError<any>;
+            if (axiosError?.response?.data) {
+                const message =
+                    axiosError.response?.data?.message ||
+                    axiosError.response?.data;
+                dispatch(
+                    notificationAction.addError({
+                        message,
+                    }),
+                );
+            }
         },
     });
 

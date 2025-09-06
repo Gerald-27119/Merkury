@@ -41,9 +41,17 @@ export default function ProfileForViewer() {
                     }),
                 );
             } else {
-                dispatch(
-                    notificationAction.addError({ message: e.response?.data }),
-                );
+                const axiosError = e as AxiosError<any>;
+                if (axiosError?.response?.data) {
+                    const message =
+                        axiosError.response?.data?.message ||
+                        axiosError.response?.data;
+                    dispatch(
+                        notificationAction.addError({
+                            message,
+                        }),
+                    );
+                }
             }
         },
         onSuccess: async () => {
@@ -63,9 +71,17 @@ export default function ProfileForViewer() {
                     }),
                 );
             } else {
-                dispatch(
-                    notificationAction.addError({ message: e.response?.data }),
-                );
+                const axiosError = e as AxiosError<any>;
+                if (axiosError?.response?.data) {
+                    const message =
+                        axiosError.response?.data?.message ||
+                        axiosError.response?.data;
+                    dispatch(
+                        notificationAction.addError({
+                            message,
+                        }),
+                    );
+                }
             }
         },
         onSuccess: async () => {

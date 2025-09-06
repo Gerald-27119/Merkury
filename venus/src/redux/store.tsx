@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { accountSlice } from "./account";
-import { notificationSlice } from "./notification.js";
+import { notificationSlice } from "./notification";
 import { photoSlice } from "./photo.jsx";
 import { spotDetailsModalSlice } from "./spot-modal";
 import { photoGallerySlice } from "./photo-gallery.jsx";

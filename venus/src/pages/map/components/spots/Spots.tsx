@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchFilteredSpots } from "../../../../http/spots-data.js";
 import { useEffect } from "react";
-import { notificationAction } from "../../../../redux/notification.js";
+import { notificationAction } from "../../../../redux/notification";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { Layer, Marker, Source, useMap } from "@vis.gl/react-maplibre";
 import {
@@ -24,6 +24,7 @@ export default function Spots() {
     const { current: map } = useMap();
     const location = useLocation();
 
+    //Todo stachu dodaj tu to retry: false,
     const { data, error } = useQuery({
         queryFn: () => fetchFilteredSpots(name),
         queryKey: ["spots", "filter", name],
@@ -32,10 +33,13 @@ export default function Spots() {
     });
 
     useEffect(() => {
-        if ((error as AxiosError)?.response?.data) {
+        const axiosError = error as AxiosError<any>;
+        if (axiosError?.response?.data) {
+            const message =
+                axiosError.response?.data?.message || axiosError.response?.data;
             dispatch(
                 notificationAction.addError({
-                    message: (error as AxiosError).response?.data,
+                    message,
                 }),
             );
         }
