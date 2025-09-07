@@ -1,6 +1,6 @@
 export default interface SpotWeatherTimelinePlotData {
     weatherCode: number;
     temperature: number;
-    time: string;
+    time: any;
     precipitationProbability: number;
 }

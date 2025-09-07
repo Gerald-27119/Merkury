@@ -155,7 +155,7 @@ export function parseWeatherData(data: {
     precipitation_probability: number[];
 }): SpotWeatherTimelinePlotData[] {
     return data.time.map((time, index) => ({
-        time: formatISOToAmPm(time),
+        time: new Date(time),
         temperature: data.temperature_2m[index],
         weatherCode: data.weather_code[index],
         precipitationProbability: data.precipitation_probability[index],

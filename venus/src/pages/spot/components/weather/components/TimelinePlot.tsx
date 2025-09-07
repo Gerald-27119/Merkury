@@ -2,7 +2,10 @@ import useSelectorTyped from "../../../../../hooks/useSelectorTyped";
 import { useQuery } from "@tanstack/react-query";
 import { getWeatherDataForTimelinePlot } from "../../../../../http/weather";
 import LoadingSpinner from "../../../../../components/loading-spinner/LoadingSpinner";
-import { parseWeatherData } from "../../../../../utils/weather";
+import {
+    formatISOToAmPm,
+    parseWeatherData,
+} from "../../../../../utils/weather";
 import {
     VictoryAxis,
     VictoryChart,
@@ -45,6 +48,7 @@ export default function TimelinePlot() {
         plotData && (
             <div className="bg-mediumDarkBlue cursor-grab">
                 <VictoryChart
+                    scale={{ x: "time" }}
                     theme={VictoryTheme.clean}
                     padding={{ top: 80, bottom: 80, left: 50, right: 50 }}
                     containerComponent={
@@ -68,37 +72,38 @@ export default function TimelinePlot() {
                 >
                     <VictoryAxis
                         orientation="top"
-                        tickValues={plotData?.map((d) => d.time)}
-                        tickFormat={(t) => t}
+                        // tickValues={plotData?.map((d) => d.time)}
+                        tickFormat={(t) => formatISOToAmPm(t)}
                         style={{
                             tickLabels: { fontSize: 12 },
                             axis: { strokeWidth: 0 },
                         }}
                     />
-                    <VictoryAxis
-                        orientation="bottom"
-                        tickValues={plotData?.map((d) => d.temperature)}
-                        tickFormat={(t) => `${t}°`}
-                        style={{
-                            tickLabels: { fontSize: 15 },
-                            axis: { strokeWidth: 0, margin: 100 },
-                        }}
-                        offsetY={40}
-                    />
+                    <VictoryAxis dependentAxis={true} />
+                    {/*<VictoryAxis*/}
+                    {/*    orientation="bottom"*/}
+                    {/*    tickValues={plotData?.map((d) => d.temperature)}*/}
+                    {/*    tickFormat={(t) => `${t}°`}*/}
+                    {/*    style={{*/}
+                    {/*        tickLabels: { fontSize: 15 },*/}
+                    {/*        axis: { strokeWidth: 0, margin: 100 },*/}
+                    {/*    }}*/}
+                    {/*    offsetY={40}*/}
+                    {/*/>*/}
 
                     <VictoryLine
                         data={plotData}
-                        x="time"
-                        y="temperature"
                         style={{ data: { stroke: "#ece9e9" } }}
                         interpolation={"natural"}
+                        x="time"
+                        y="temperature"
                     />
 
                     <VictoryScatter
                         data={plotData}
+                        style={{ data: { fill: "white" } }}
                         x="time"
                         y="temperature"
-                        style={{ data: { fill: "white" } }}
                     />
                 </VictoryChart>
             </div>
