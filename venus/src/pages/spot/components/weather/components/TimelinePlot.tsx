@@ -40,7 +40,7 @@ export default function TimelinePlot() {
     if (isError) {
         return <p>Failed to load data for timeline plot.</p>;
     }
-
+    console.log(plotData);
     return (
         isSuccess &&
         plotData && (
@@ -52,7 +52,12 @@ export default function TimelinePlot() {
                     containerComponent={
                         <VictoryZoomContainer
                             zoomDomain={{
-                                x: [0, 5],
+                                x: [
+                                    new Date(plotData[0].time),
+                                    new Date(
+                                        plotData[plotData.length - 67].time,
+                                    ),
+                                ],
                                 y: [
                                     Math.min(
                                         ...plotData?.map((d) => d.temperature),
@@ -70,8 +75,7 @@ export default function TimelinePlot() {
                 >
                     <VictoryAxis
                         orientation="top"
-                        tickValues={plotData?.map((d) => d.time)}
-                        tickFormat={() => ""}
+                        tickValues={plotData.map((d) => new Date(d.time))}
                         tickLabelComponent={<CustomTickLabel data={plotData} />}
                         style={{
                             tickLabels: { fontSize: 12 },
@@ -79,30 +83,30 @@ export default function TimelinePlot() {
                         }}
                     />
                     <VictoryAxis dependentAxis={true} />
-                    {/*<VictoryAxis*/}
-                    {/*    orientation="bottom"*/}
-                    {/*    tickValues={plotData?.map((d) => d.temperature)}*/}
-                    {/*    tickFormat={(t) => `${t}°`}*/}
-                    {/*    style={{*/}
-                    {/*        tickLabels: { fontSize: 15 },*/}
-                    {/*        axis: { strokeWidth: 0, margin: 100 },*/}
-                    {/*    }}*/}
-                    {/*    offsetY={40}*/}
-                    {/*/>*/}
 
                     <VictoryLine
-                        data={plotData}
+                        data={plotData.map((d) => {
+                            return {
+                                x: new Date(d.time.toString()),
+                                y: d.temperature,
+                            };
+                        })}
                         style={{ data: { stroke: "#ece9e9" } }}
                         interpolation={"natural"}
-                        x="time"
-                        y="temperature"
+                        // x="time"
+                        // y="temperature"
                     />
 
                     <VictoryScatter
-                        data={plotData}
+                        data={plotData.map((d) => {
+                            return {
+                                x: new Date(d.time.toString()),
+                                y: d.temperature,
+                            };
+                        })}
                         style={{ data: { fill: "white" } }}
-                        x="time"
-                        y="temperature"
+                        // x="time"
+                        // y="temperature"
                     />
                 </VictoryChart>
             </div>
