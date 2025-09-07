@@ -2,10 +2,7 @@ import useSelectorTyped from "../../../../../hooks/useSelectorTyped";
 import { useQuery } from "@tanstack/react-query";
 import { getWeatherDataForTimelinePlot } from "../../../../../http/weather";
 import LoadingSpinner from "../../../../../components/loading-spinner/LoadingSpinner";
-import {
-    formatISOToAmPm,
-    parseWeatherData,
-} from "../../../../../utils/weather";
+import { parseWeatherData } from "../../../../../utils/weather";
 import {
     VictoryAxis,
     VictoryChart,
@@ -16,6 +13,7 @@ import {
 } from "victory";
 import { useEffect, useState } from "react";
 import SpotWeatherTimelinePlotData from "../../../../../model/interface/spot/weather/spotWeatherTimelinePlotData";
+import CustomTickLabel from "./CustomTickLabel";
 
 export default function TimelinePlot() {
     const { latitude, longitude } = useSelectorTyped(
@@ -46,7 +44,7 @@ export default function TimelinePlot() {
     return (
         isSuccess &&
         plotData && (
-            <div className="bg-mediumDarkBlue cursor-grab">
+            <div className="bg-mediumDarkBlue text-darkText cursor-grab">
                 <VictoryChart
                     scale={{ x: "time" }}
                     theme={VictoryTheme.clean}
@@ -72,8 +70,9 @@ export default function TimelinePlot() {
                 >
                     <VictoryAxis
                         orientation="top"
-                        // tickValues={plotData?.map((d) => d.time)}
-                        tickFormat={(t) => formatISOToAmPm(t)}
+                        tickValues={plotData?.map((d) => d.time)}
+                        tickFormat={() => ""}
+                        tickLabelComponent={<CustomTickLabel data={plotData} />}
                         style={{
                             tickLabels: { fontSize: 12 },
                             axis: { strokeWidth: 0 },
