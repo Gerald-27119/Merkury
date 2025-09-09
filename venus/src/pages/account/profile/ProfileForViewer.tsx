@@ -36,14 +36,22 @@ export default function ProfileForViewer() {
         onError: (e: AxiosError) => {
             if (e.status === 401) {
                 dispatch(
-                    notificationAction.setInfo({
+                    notificationAction.addInfo({
                         message: "Please login to add to friends this user.",
                     }),
                 );
             } else {
-                dispatch(
-                    notificationAction.setError({ message: e.response?.data }),
-                );
+                const axiosError = e as AxiosError<any>;
+                if (axiosError?.response?.data) {
+                    const message =
+                        axiosError.response?.data?.message ||
+                        axiosError.response?.data;
+                    dispatch(
+                        notificationAction.addError({
+                            message,
+                        }),
+                    );
+                }
             }
         },
         onSuccess: async () => {
@@ -58,14 +66,22 @@ export default function ProfileForViewer() {
         onError: (e: AxiosError) => {
             if (e.status === 401) {
                 dispatch(
-                    notificationAction.setInfo({
+                    notificationAction.addInfo({
                         message: "Please login to follow this user.",
                     }),
                 );
             } else {
-                dispatch(
-                    notificationAction.setError({ message: e.response?.data }),
-                );
+                const axiosError = e as AxiosError<any>;
+                if (axiosError?.response?.data) {
+                    const message =
+                        axiosError.response?.data?.message ||
+                        axiosError.response?.data;
+                    dispatch(
+                        notificationAction.addError({
+                            message,
+                        }),
+                    );
+                }
             }
         },
         onSuccess: async () => {

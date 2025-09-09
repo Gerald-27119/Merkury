@@ -65,7 +65,7 @@ export default function Comments() {
     useEffect(() => {
         if (isError) {
             dispatch(
-                notificationAction.setError({
+                notificationAction.addError({
                     message:
                         "An error occurred while trying to load your comments",
                 }),

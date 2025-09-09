@@ -104,7 +104,7 @@ export default function SearchBar({ onSetSpots }: SearchBarProps) {
             coords = await getUserLocation();
         } catch (err) {
             dispatch(
-                notificationAction.setInfo({
+                notificationAction.addInfo({
                     message:
                         "You must turn on location to display how far spots are.",
                 }),

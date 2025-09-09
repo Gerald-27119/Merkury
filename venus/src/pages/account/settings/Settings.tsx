@@ -81,18 +81,24 @@ export default function Settings() {
         mutationFn: editUserSettings,
         onSuccess: () => {
             dispatch(
-                notificationAction.setSuccess({
+                notificationAction.addSuccess({
                     message: `Successfully change your ${editType.toLowerCase()}`,
                 }),
                 queryClient.invalidateQueries({ queryKey: ["settings"] }),
             );
         },
         onError: (error: AxiosError) => {
-            dispatch(
-                notificationAction.setError({
-                    message: error?.response?.data,
-                }),
-            );
+            const axiosError = error as AxiosError<any>;
+            if (axiosError?.response?.data) {
+                const message =
+                    axiosError.response?.data?.message ||
+                    axiosError.response?.data;
+                dispatch(
+                    notificationAction.addError({
+                        message,
+                    }),
+                );
+            }
         },
     });
 

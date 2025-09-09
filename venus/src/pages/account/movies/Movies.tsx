@@ -60,7 +60,7 @@ export default function Movies() {
     useEffect(() => {
         if (isError) {
             dispatch(
-                notificationAction.setError({
+                notificationAction.addError({
                     message:
                         "An error occurred while trying to load your movies",
                 }),

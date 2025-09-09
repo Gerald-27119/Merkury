@@ -14,7 +14,7 @@ export default function useForumPostActions({ redirectOnDelete = false } = {}) {
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["posts"] });
             dispatch(
-                notificationAction.setSuccess({
+                notificationAction.addSuccess({
                     message: "Post deleted successfully!",
                 }),
             );
@@ -24,7 +24,7 @@ export default function useForumPostActions({ redirectOnDelete = false } = {}) {
         },
         onError: () => {
             dispatch(
-                notificationAction.setError({
+                notificationAction.addError({
                     message: "Failed to delete post. Please try again later.",
                 }),
             );

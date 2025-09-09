@@ -4,7 +4,7 @@ import UserLocationPanel from "../../pages/map/components/locations/UserLocation
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
-import { notificationSlice } from "../../redux/notification.jsx";
+import { notificationSlice } from "../../redux/notification";
 
 const renderUserLocationPanel = () => {
     const store = configureStore({

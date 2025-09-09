@@ -58,7 +58,7 @@ export default function Forum() {
             setIsModalOpenToTrue();
         } else {
             dispatch(
-                notificationAction.setInfo({
+                notificationAction.addInfo({
                     message: "Login to create posts.",
                 }),
             );

@@ -3,7 +3,7 @@ import SpotGeneralInfo from "./components/spot-info/SpotGeneralInfo.js";
 import { spotDetailsModalAction } from "../../redux/spot-modal";
 import { fetchSpotsDataById } from "../../http/spots-data.js";
 import { useEffect } from "react";
-import { notificationAction } from "../../redux/notification.jsx";
+import { notificationAction } from "../../redux/notification";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
 import useDispatchTyped from "../../hooks/useDispatchTyped";
@@ -35,10 +35,13 @@ export default function SpotDetails() {
     });
 
     useEffect(() => {
-        if ((error as AxiosError)?.response?.data) {
+        const axiosError = error as AxiosError<any>;
+        if (axiosError?.response?.data) {
+            const message =
+                axiosError.response?.data?.message || axiosError.response?.data;
             dispatch(
-                notificationAction.setError({
-                    message: (error as AxiosError)?.response?.data,
+                notificationAction.addError({
+                    message,
                 }),
             );
         }
