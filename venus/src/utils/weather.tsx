@@ -78,6 +78,7 @@ export function getCurrentTime(): string {
 
 export function formatISOToAmPm(isoTimestamp: string): string {
     const date = new Date(isoTimestamp);
+    date.setHours(date.getHours() + 2);
     const formatter = new Intl.DateTimeFormat("en-US", {
         hour: "numeric",
         minute: "2-digit",
@@ -155,7 +156,7 @@ export function parseWeatherData(data: {
     precipitation_probability: number[];
 }): SpotWeatherTimelinePlotData[] {
     return data.time.map((time, index) => ({
-        time: new Date(time),
+        time: time,
         temperature: data.temperature_2m[index],
         weatherCode: data.weather_code[index],
         precipitationProbability: data.precipitation_probability[index],
