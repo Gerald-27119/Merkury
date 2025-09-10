@@ -12,8 +12,9 @@ import { SocialListType } from "../../../../model/enum/account/social/socialList
 import { useBoolean } from "../../../../hooks/useBoolean";
 import Modal from "../../../../components/modal/Modal";
 import { useNavigate } from "react-router-dom";
-import { chatActions } from "../../../../redux/chats";
+import { chatActions, selectIsChatPresent } from "../../../../redux/chats";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 
 interface SocialCardProps {
     friend: SocialDto;
@@ -30,6 +31,12 @@ export default function SocialCard({
     const navigate = useNavigate();
     const [isModalOpen, openModal, closeModal] = useBoolean(false);
     const dispatch = useDispatchTyped();
+    const isPrivateChatWithThatUserPresent = useSelectorTyped(
+        (state) =>
+            !!(
+                friend.commonChatId && state.chats.entities[friend.commonChatId]
+            ),
+    );
 
     const { mutateAsync: mutateAsyncFriends } = useMutation({
         mutationFn: editUserFriends,
