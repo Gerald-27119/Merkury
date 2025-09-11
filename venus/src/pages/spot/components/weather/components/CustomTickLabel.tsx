@@ -14,23 +14,26 @@ export default function CustomTickLabel(props) {
             <VictoryLabel
                 x={0}
                 y={0}
-                dy={-20}
+                dy={-40}
                 textAnchor="middle"
                 text={time}
-                style={{ fontSize: 10, fill: "white" }}
+                style={{ fontSize: 13, fill: "white" }}
             />
-            <g transform="translate(-15, -13)">
-                <WeatherIcon code={data.at(index).weatherCode} />
+            <g transform="translate(-18, -30)">
+                <WeatherIcon
+                    code={data.at(index).weatherCode}
+                    textSize={"text-4xl"}
+                />
             </g>
             <VictoryLabel
                 x={0}
                 y={0}
                 textAnchor="middle"
                 text={temp}
-                style={{ fontSize: 10, fill: "white" }}
-                dy={20}
+                style={{ fontSize: 13, fill: "white" }}
+                dy={15}
             />
-            <g transform="translate(-17, 180)">
+            <g transform="translate(-17, 245)">
                 <WiRaindrop size={25} className="text-slate-400" />
                 <text
                     x="20"

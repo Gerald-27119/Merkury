@@ -10,7 +10,6 @@ import {
     VictoryLine,
     VictoryScatter,
     VictoryTheme,
-    VictoryZoomContainer,
 } from "victory";
 import { useEffect, useState } from "react";
 import SpotWeatherTimelinePlotData from "../../../../../model/interface/spot/weather/spotWeatherTimelinePlotData";
@@ -64,15 +63,15 @@ export default function WeatherTimelinePlot() {
                             ),
                         ],
                         y: [
-                            Math.min(...plotData.map((d) => d.temperature)),
-                            Math.max(...plotData.map((d) => d.temperature)),
+                            Math.min(...plotData.map((d) => d.temperature)) - 2,
+                            Math.max(...plotData.map((d) => d.temperature)) + 2,
                         ],
                     }}
                     scale={{ x: "time" }}
                     theme={VictoryTheme.clean}
                     padding={{ top: 80, bottom: 80, left: 50, right: 50 }}
-                    width={1500}
-                    height={500}
+                    width={5000}
+                    height={400}
                     containerComponent={<VictoryContainer responsive={false} />}
                 >
                     <VictoryAxis
