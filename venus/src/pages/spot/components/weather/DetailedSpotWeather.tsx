@@ -9,7 +9,7 @@ import { getDetailedSpotWeather } from "../../../../http/weather";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
 import WeatherDetails from "./components/WeatherDetails";
 import WindSpeeds from "./components/WindSpeeds";
-import TimelinePlot from "./components/TimelinePlot";
+import WeatherTimelinePlot from "./components/WeatherTimelinePlot";
 
 const slideVariants = {
     hidden: { x: "100%", opacity: 0 },
@@ -67,7 +67,7 @@ export default function DetailedSpotWeather() {
                         humidity={data.current.relative_humidity_2m}
                     />
                     <WindSpeeds />
-                    <TimelinePlot />
+                    <WeatherTimelinePlot />
                 </div>
             )}
         </motion.div>
