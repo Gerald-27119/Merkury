@@ -15,6 +15,7 @@ import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinne
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { notificationAction } from "../../../../redux/notification";
 import useDebounce from "../../../../hooks/useDebounce";
+import { spotSchema } from "../validation-schema/spotSchema";
 
 type ConfigTyp = { name: keyof SpotToAddDto; type: string; id: string }[];
 
@@ -37,6 +38,11 @@ interface AddSpotModalProps {
 
 export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
     const dispatch = useDispatchTyped();
+
+    const [errors, setErrors] = useState<{
+        media?: string | null;
+        borderPoints?: string | null;
+    }>({});
 
     const [spot, setSpot] = useState<SpotToAddDto>({
         id: 0,
@@ -95,6 +101,28 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
     };
 
     const handleAddSpot = async () => {
+        const result = spotSchema.safeParse(spot);
+
+        const newErrors: { [key: string]: string | null } = {};
+
+        if (!result.success) {
+            result.error.issues.forEach((issue) => {
+                const field = issue.path[0] as string;
+                newErrors[field] = issue.message;
+            });
+        }
+
+        setErrors(newErrors);
+
+        if (!result.success) {
+            dispatch(
+                notificationAction.addError({
+                    message: "Please fill in all fields correctly",
+                }),
+            );
+            return;
+        }
+
         await mutateAsync(spot);
     };
 
@@ -171,9 +199,15 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
                                             handleSetSpot("media", files)
                                         }
                                     />
+                                    {errors && (
+                                        <p className="mt-1 text-sm text-red-600">
+                                            {errors.media}
+                                        </p>
+                                    )}
                                 </div>
                                 <div className="relative flex w-full">
                                     <PolygonDrawer
+                                        errors={errors}
                                         initialPosition={mapPosition}
                                         onPolygonComplete={(coords) => {
                                             const mappedCoords: SpotCoordinatesDto[] =
