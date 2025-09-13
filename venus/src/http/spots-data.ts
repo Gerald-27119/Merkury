@@ -4,8 +4,8 @@ import SpotDetails from "../model/interface/spot/spotDetails";
 import GeneralSpot from "../model/interface/spot/generalSpot";
 import SearchSpotDtoPage from "../model/interface/spot/search-spot/searchSpotDtoPage";
 import { TopRatedSpot } from "../model/interface/spot/topRatedSpot";
-import HomePageSpotDto from "../model/interface/spot/search-spot/homePageSpotDto";
 import { SpotSearchRequestDto } from "../model/interface/spot/spotSearchRequestDto";
+import { HomePageSpotPageDto } from "../model/interface/spot/search-spot/homePageSpotPageDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function fetchFilteredSpots(name: string): Promise<GeneralSpot[]> {
@@ -117,7 +117,9 @@ interface SearchLocation {
 
 export async function getSearchedSpotsOnHomePage(
     searchLocation: SearchLocation,
-): Promise<HomePageSpotDto[]> {
+    page: number,
+    size: number,
+): Promise<HomePageSpotPageDto> {
     return (
         await axios.get(`${BASE_URL}/public/spot/search/home-page`, {
             params: {
@@ -126,6 +128,8 @@ export async function getSearchedSpotsOnHomePage(
                 city: searchLocation.city,
                 userLongitude: searchLocation.userLongitude,
                 userLatitude: searchLocation.userLatitude,
+                page,
+                size,
             },
         })
     ).data;
@@ -147,10 +151,12 @@ export async function getLocations(
 
 export async function getSearchedSpotsOnAdvanceHomePage(
     spotSearchRequestDto: SpotSearchRequestDto,
-): Promise<HomePageSpotDto[]> {
+    page: number,
+    size: number,
+): Promise<HomePageSpotPageDto> {
     return (
         await axios.get(`${BASE_URL}/public/spot/search/home-page/advance`, {
-            params: spotSearchRequestDto,
+            params: { spotSearchRequestDto, page, size },
             paramsSerializer: (params) => queryString.stringify(params),
         })
     ).data;
