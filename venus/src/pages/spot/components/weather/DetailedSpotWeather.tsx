@@ -45,17 +45,17 @@ export default function DetailedSpotWeather() {
             transition={{ duration: 0.3 }}
             className="dark:bg-lightGrayishViolet absolute top-0 right-0 z-[2] flex h-full w-[29rem] flex-col p-2 text-lg"
         >
-            <div className="flex">
+            <div className="mt-2 flex">
                 <HiX
                     className="cursor-pointer text-2xl"
                     onClick={handleCloseModal}
                 />
-                <h1 className="mx-auto">Weather</h1>
+                <h1 className="mx-auto text-2xl">Weather</h1>
             </div>
             {isLoading && <LoadingSpinner />}
             {isError && <p>Failed to load weather.</p>}
             {isSuccess && (
-                <div className="flex flex-col">
+                <div className="mt-2 flex flex-col space-y-4">
                     <WeatherOverview
                         temperature={data.current.temperature_2m}
                         weatherCode={data.current.weather_code}

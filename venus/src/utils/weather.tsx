@@ -72,19 +72,19 @@ export function getCurrentTime(): string {
         hour: "2-digit",
         minute: "2-digit",
         hour12: true,
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     });
     return formatter.format(now);
 }
 
 export function formatISOToAmPm(isoTimestamp: string): string {
-    const date = new Date(isoTimestamp);
-    date.setHours(date.getHours() + 2);
+    const date = new Date(isoTimestamp + "Z");
     const formatter = new Intl.DateTimeFormat("en-US", {
         hour: "numeric",
         minute: "2-digit",
         hour12: true,
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     });
-
     return formatter.format(date);
 }
 
@@ -143,6 +143,7 @@ export function getTimeIndex(times: string[]): number {
 
 export function getISO8601Time(daysToAdd: number = 0): string {
     const now = new Date();
+    now.setMinutes(0);
     if (daysToAdd !== 0) {
         now.setDate(now.getDate() + daysToAdd);
     }

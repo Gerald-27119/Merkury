@@ -43,7 +43,7 @@ export default function WeatherTimelinePlot() {
     return (
         isSuccess &&
         plotData && (
-            <div className="mt-20">
+            <div className="mt-8">
                 <h2 className="text-2xl">Timeline</h2>
                 <div className="bg-mediumDarkBlue text-darkText scrollbar-thin scrollbar-track-rounded-lg scrollbar-track-sky-950 hover:scrollbar-thumb-sky-800 scrollbar-thumb-rounded-full mx-auto mt-4 w-[27.5rem] overflow-x-auto rounded-lg">
                     <VictoryChart
