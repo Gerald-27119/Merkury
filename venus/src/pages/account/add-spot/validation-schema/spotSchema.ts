@@ -38,6 +38,6 @@ export const spotSchema = z.object({
                 y: z.number(),
             }),
         )
-        .min(3, "At least three border point is required"),
+        .min(3, "At least three border points are required"),
     media: z.array(z.any()).min(1, "At least one media file is required"),
 });

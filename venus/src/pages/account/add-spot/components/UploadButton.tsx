@@ -7,7 +7,8 @@ interface UploadButtonProps {
 
 export default function UploadButton({ onFileSelect }: UploadButtonProps) {
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [previewFiles, setPreviewFiles] = useState<File[]>([]);
+    const [files, setFiles] = useState<File[]>([]);
+    const [previews, setPreviews] = useState<string[]>([]);
 
     const handleButtonClick = () => {
         fileInputRef.current?.click();
@@ -21,15 +22,18 @@ export default function UploadButton({ onFileSelect }: UploadButtonProps) {
             allowed.includes(f.type),
         );
 
-        setPreviewFiles(valid);
+        setFiles(valid);
+        const newPreviews = valid.map((file) => URL.createObjectURL(file));
+        setPreviews(newPreviews);
+
         onFileSelect(valid);
     };
 
     useEffect(() => {
         return () => {
-            previewFiles.forEach((file) => URL.revokeObjectURL(file as any));
+            previews.forEach((url) => URL.revokeObjectURL(url));
         };
-    }, [previewFiles]);
+    }, [previews]);
 
     return (
         <div className="w-full">
@@ -49,21 +53,24 @@ export default function UploadButton({ onFileSelect }: UploadButtonProps) {
                 accept="image/*, video/mp4"
             />
             <div className="mt-2 flex flex-wrap gap-2">
-                {previewFiles.map((file, index) => {
+                {files.map((file, index) => {
+                    const previewUrl = previews[index];
+
                     if (file.type.startsWith("image/")) {
                         return (
                             <img
                                 key={index}
-                                src={URL.createObjectURL(file)}
+                                src={previewUrl}
                                 alt={file.name}
                                 className="h-12 w-12 rounded-md object-cover"
                             />
                         );
                     }
+
                     return (
                         <video
                             key={index}
-                            src={URL.createObjectURL(file)}
+                            src={previewUrl}
                             className="h-12 w-12 rounded-md bg-gray-200 object-cover"
                         />
                     );

@@ -6,16 +6,13 @@ import Button from "../../../../components/buttons/Button";
 interface PolygonDrawerProps {
     onPolygonComplete: (coords: number[][][]) => void;
     initialPosition: { longitude: number; latitude: number };
-    errors: {
-        media?: string | null;
-        borderPoints?: string | null;
-    };
+    borderPointsError?: string | null;
 }
 
 export default function PolygonDrawer({
     onPolygonComplete,
     initialPosition,
-    errors,
+    borderPointsError,
 }: PolygonDrawerProps) {
     const mapRef = useRef<MapRef>(null);
     const [polygonCoords, setPolygonCoords] = useState<number[][]>([]);
@@ -112,10 +109,8 @@ export default function PolygonDrawer({
                 >
                     Finish Polygon
                 </Button>
-                {errors && (
-                    <p className="text-sm text-red-600">
-                        {errors.borderPoints}
-                    </p>
+                {borderPointsError && (
+                    <p className="text-sm text-red-600">{borderPointsError}</p>
                 )}
             </div>
         </div>

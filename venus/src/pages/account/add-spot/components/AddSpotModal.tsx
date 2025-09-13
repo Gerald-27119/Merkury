@@ -199,7 +199,7 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
                                             handleSetSpot("media", files)
                                         }
                                     />
-                                    {errors && (
+                                    {errors.media && (
                                         <p className="mt-1 text-sm text-red-600">
                                             {errors.media}
                                         </p>
@@ -207,7 +207,7 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
                                 </div>
                                 <div className="relative flex w-full">
                                     <PolygonDrawer
-                                        errors={errors}
+                                        borderPointsError={errors.borderPoints}
                                         initialPosition={mapPosition}
                                         onPolygonComplete={(coords) => {
                                             const mappedCoords: SpotCoordinatesDto[] =
