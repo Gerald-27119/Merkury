@@ -157,9 +157,12 @@ export default function SearchBar({
         );
 
         observer.observe(loadMoreRef.current);
-        onSetFetchingNextPage(isFetchingNextPage);
         return () => observer.disconnect();
     }, [hasNextPage, isFetchingNextPage, fetchNextPage, onSetSpots]);
+
+    useEffect(() => {
+        onSetFetchingNextPage(isFetchingNextPage);
+    }, [isFetchingNextPage, onSetFetchingNextPage]);
 
     return (
         <div className="dark:bg-darkBgSoft bg-lightBgSoft flex w-full flex-col items-center justify-between space-y-3 rounded-md px-3 py-2 shadow-md md:flex-row md:space-y-0 lg:w-3/4 lg:space-x-3 xl:w-1/2 dark:shadow-black">

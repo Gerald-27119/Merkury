@@ -156,7 +156,7 @@ export async function getSearchedSpotsOnAdvanceHomePage(
 ): Promise<HomePageSpotPageDto> {
     return (
         await axios.get(`${BASE_URL}/public/spot/search/home-page/advance`, {
-            params: { spotSearchRequestDto, page, size },
+            params: { ...spotSearchRequestDto, page, size },
             paramsSerializer: (params) => queryString.stringify(params),
         })
     ).data;
