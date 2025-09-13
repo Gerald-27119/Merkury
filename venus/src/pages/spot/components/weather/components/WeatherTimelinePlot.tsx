@@ -43,74 +43,81 @@ export default function WeatherTimelinePlot() {
     return (
         isSuccess &&
         plotData && (
-            <div className="bg-mediumDarkBlue text-darkText w-[29rem] overflow-x-auto">
-                <VictoryChart
-                    domain={{
-                        x: [
-                            new Date(
+            <div className="mt-20">
+                <h2 className="text-2xl">Timeline</h2>
+                <div className="bg-mediumDarkBlue text-darkText scrollbar-thin scrollbar-track-rounded-lg scrollbar-track-sky-950 hover:scrollbar-thumb-sky-800 scrollbar-thumb-rounded-full mx-auto mt-4 w-[27.5rem] overflow-x-auto rounded-lg">
+                    <VictoryChart
+                        domain={{
+                            x: [
+                                new Date(
+                                    Math.min(
+                                        ...plotData.map((d) =>
+                                            new Date(d.time).getTime(),
+                                        ),
+                                    ),
+                                ),
+                                new Date(
+                                    Math.max(
+                                        ...plotData.map((d) =>
+                                            new Date(d.time).getTime(),
+                                        ),
+                                    ),
+                                ),
+                            ],
+                            y: [
                                 Math.min(
-                                    ...plotData.map((d) =>
-                                        new Date(d.time).getTime(),
-                                    ),
-                                ),
-                            ),
-                            new Date(
+                                    ...plotData.map((d) => d.temperature),
+                                ) - 2,
                                 Math.max(
-                                    ...plotData.map((d) =>
-                                        new Date(d.time).getTime(),
-                                    ),
-                                ),
-                            ),
-                        ],
-                        y: [
-                            Math.min(...plotData.map((d) => d.temperature)) - 2,
-                            Math.max(...plotData.map((d) => d.temperature)) + 2,
-                        ],
-                    }}
-                    scale={{ x: "time" }}
-                    theme={VictoryTheme.clean}
-                    padding={{ top: 80, bottom: 80, left: 50, right: 50 }}
-                    width={5000}
-                    height={400}
-                    containerComponent={<VictoryContainer responsive={false} />}
-                >
-                    <VictoryAxis
-                        orientation="top"
-                        tickValues={plotData.map((d) => new Date(d.time))}
-                        tickFormat={() => ""}
-                        tickLabelComponent={<CustomTickLabel data={plotData} />}
-                        style={{
-                            tickLabels: { fontSize: 12 },
-                            axis: { strokeWidth: 0 },
+                                    ...plotData.map((d) => d.temperature),
+                                ) + 2,
+                            ],
                         }}
-                    />
-                    <VictoryAxis dependentAxis={true} />
+                        scale={{ x: "time" }}
+                        theme={VictoryTheme.clean}
+                        padding={{ top: 80, bottom: 60, left: 50, right: 50 }}
+                        width={5000}
+                        height={400}
+                        containerComponent={
+                            <VictoryContainer responsive={false} />
+                        }
+                    >
+                        <VictoryAxis
+                            orientation="top"
+                            tickValues={plotData.map((d) => new Date(d.time))}
+                            tickFormat={() => ""}
+                            tickLabelComponent={
+                                <CustomTickLabel data={plotData} />
+                            }
+                            style={{
+                                tickLabels: { fontSize: 12 },
+                                axis: { strokeWidth: 0 },
+                            }}
+                        />
+                        <VictoryAxis dependentAxis={true} />
 
-                    <VictoryLine
-                        data={plotData.map((d) => {
-                            return {
-                                x: new Date(d.time),
-                                y: d.temperature,
-                            };
-                        })}
-                        style={{ data: { stroke: "#ece9e9" } }}
-                        interpolation={"natural"}
-                        // x="time"
-                        // y="temperature"
-                    />
+                        <VictoryLine
+                            data={plotData.map((d) => {
+                                return {
+                                    x: new Date(d.time),
+                                    y: d.temperature,
+                                };
+                            })}
+                            style={{ data: { stroke: "#ece9e9" } }}
+                            interpolation={"natural"}
+                        />
 
-                    <VictoryScatter
-                        data={plotData.map((d) => {
-                            return {
-                                x: new Date(d.time),
-                                y: d.temperature,
-                            };
-                        })}
-                        style={{ data: { fill: "white" } }}
-                        // x="time"
-                        // y="temperature"
-                    />
-                </VictoryChart>
+                        <VictoryScatter
+                            data={plotData.map((d) => {
+                                return {
+                                    x: new Date(d.time),
+                                    y: d.temperature,
+                                };
+                            })}
+                            style={{ data: { fill: "white" } }}
+                        />
+                    </VictoryChart>
+                </div>
             </div>
         )
     );

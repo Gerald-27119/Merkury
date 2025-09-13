@@ -33,7 +33,7 @@ export default function CustomTickLabel(props) {
                 style={{ fontSize: 13, fill: "white" }}
                 dy={15}
             />
-            <g transform="translate(-17, 245)">
+            <g transform="translate(-17, 260)">
                 <WiRaindrop size={25} className="text-slate-400" />
                 <text
                     x="20"
