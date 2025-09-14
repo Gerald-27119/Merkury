@@ -8,6 +8,8 @@ import SidebarItemSubmenu from "./SidebarItemSubmenu";
 import SidebarItemAction from "./SidebarItemAction";
 import SidebarItemLink from "./SidebarItemLink";
 import { useBoolean } from "../../../../hooks/useBoolean";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 interface SidebarItemProps {
     link: BaseLink;
@@ -23,6 +25,11 @@ export default function SidebarItem({
     index,
 }: SidebarItemProps) {
     const [isTooltipShown, showTooltip, hideTooltip] = useBoolean(false);
+    const location = useLocation();
+
+    useEffect(() => {
+        hideTooltip();
+    }, [location.pathname]);
 
     switch (link.type) {
         case "submenu":
