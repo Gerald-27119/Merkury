@@ -88,39 +88,48 @@ export function formatISOToAmPm(isoTimestamp: string): string {
     return formatter.format(date);
 }
 
-const weatherAdjectives: Record<number, string> = {
-    0: "Sunny",
-    1: "Cloudy",
-    2: "Cloudy",
-    3: "Cloudy",
-    45: "Foggy",
-    48: "Foggy",
-    51: "Drizzly",
-    53: "Drizzly",
-    55: "Drizzly",
-    56: "Freezing",
-    57: "Freezing",
-    61: "Rainy",
-    63: "Rainy",
-    65: "Rainy",
-    66: "Freezing",
-    67: "Freezing",
-    71: "Snowy",
-    73: "Snowy",
-    75: "Snowy",
-    77: "Snowy",
-    80: "Showery",
-    81: "Showery",
-    82: "Showery",
-    85: "Showery",
-    86: "Showery",
-    95: "Thundery",
-    96: "Thundery",
-    99: "Thundery",
+const weatherAdjectives: Record<number, string[]> = {
+    0: ["Sunny", "Starry Night"],
+    1: ["Partly  Cloudy"],
+    2: ["Partly Cloudy"],
+    3: ["Cloudy"],
+    45: ["Foggy"],
+    48: ["Foggy"],
+    51: ["Drizzly"],
+    53: ["Drizzly"],
+    55: ["Drizzly"],
+    56: ["Freezing"],
+    57: ["Freezing"],
+    61: ["Rainy"],
+    63: ["Rainy"],
+    65: ["Rainy"],
+    66: ["Freezing"],
+    67: ["Freezing"],
+    71: ["Snowy"],
+    73: ["Snowy"],
+    75: ["Snowy"],
+    77: ["Snowy"],
+    80: ["Showery"],
+    81: ["Showery"],
+    82: ["Showery"],
+    85: ["Showery"],
+    86: ["Showery"],
+    95: ["Thundery"],
+    96: ["Thundery"],
+    99: ["Thundery"],
 };
 
-export function getWeatherAdjective(code: number): string {
-    return weatherAdjectives[code] || "weather";
+export function getWeatherAdjective(
+    code: number,
+    sunriseIso: string,
+    sunsetIso: string,
+    timeIso: string,
+): string {
+    return (
+        weatherAdjectives[code][
+            isDay(sunriseIso, sunsetIso, timeIso) ? 0 : 1
+        ] || "weather"
+    );
 }
 
 export function getUvIndexTextLevel(uvIndex: number): string {
@@ -162,4 +171,21 @@ export function parseWeatherData(data: {
         weatherCode: data.weather_code[index],
         precipitationProbability: data.precipitation_probability[index],
     }));
+}
+
+function formatISOToDate(isoTimestamp: string): Date {
+    return new Date(
+        isoTimestamp.endsWith("Z") ? isoTimestamp : isoTimestamp + "Z",
+    );
+}
+
+export function isDay(
+    sunriseIso: string,
+    sunsetIso: string,
+    timeIso: string,
+): boolean {
+    const sunrise = formatISOToDate(sunriseIso);
+    const sunset = formatISOToDate(sunsetIso);
+    const time = formatISOToDate(timeIso);
+    return time >= sunrise && time <= sunset;
 }

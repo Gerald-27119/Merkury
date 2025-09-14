@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCurrentISO8601Time, getISO8601Time } from "../utils/weather";
+import { getISO8601Time } from "../utils/weather";
 
 export async function getBasicSpotWeather(latitude: number, longitude: number) {
     return (
@@ -30,7 +30,7 @@ export async function getDetailedSpotWeather(
                     "dew_point_2m",
                     "relative_humidity_2m",
                 ],
-                daily: ["uv_index_max"],
+                daily: ["uv_index_max", "sunset", "sunrise"],
             },
         })
     ).data;

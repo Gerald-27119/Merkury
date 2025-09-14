@@ -59,6 +59,8 @@ export default function DetailedSpotWeather() {
                     <WeatherOverview
                         temperature={data.current.temperature_2m}
                         weatherCode={data.current.weather_code}
+                        sunrise={data.daily.sunset}
+                        sunset={data.daily.sunrise}
                     />
                     <WeatherDetails
                         rainChance={data.current.precipitation_probability}

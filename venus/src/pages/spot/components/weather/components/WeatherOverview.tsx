@@ -8,11 +8,15 @@ import WeatherIcon from "../../../../map/components/weather/components/WeatherIc
 type WeatherOverviewProps = {
     temperature: number;
     weatherCode: number;
+    sunrise: string;
+    sunset: string;
 };
 
 export default function WeatherOverview({
     temperature,
     weatherCode,
+    sunset,
+    sunrise,
 }: WeatherOverviewProps) {
     const { city, region } = useSelectorTyped((state) => state.spotWeather);
     return (
@@ -27,8 +31,19 @@ export default function WeatherOverview({
             <div className="mt-3 ml-12 flex text-xl">
                 <span className="text-2xl">{temperature}&deg;C</span>
                 <div className="ml-22 flex items-center">
-                    <WeatherIcon code={weatherCode} textSize="text-4xl" />
-                    {getWeatherAdjective(weatherCode)}
+                    <WeatherIcon
+                        sunriseIso={sunrise}
+                        sunsetIso={sunset}
+                        timeIso={new Date().toISOString()}
+                        code={weatherCode}
+                        textSize="text-4xl"
+                    />
+                    {getWeatherAdjective(
+                        weatherCode,
+                        sunrise,
+                        sunset,
+                        new Date().toISOString(),
+                    )}
                 </div>
             </div>
         </div>
