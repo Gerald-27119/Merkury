@@ -42,7 +42,6 @@ export async function getDetailedSpotWeather(
     ).data;
 }
 
-//TODO:set start_hour and end_hour to avoid fetching unused data
 export async function getWindSpeeds(latitude: number, longitude: number) {
     return (
         await axios.get("https://api.open-meteo.com/v1/forecast", {
@@ -57,6 +56,8 @@ export async function getWindSpeeds(latitude: number, longitude: number) {
                     "wind_speed_925hPa",
                     "wind_speed_900hPa",
                 ],
+                start_hour: getISO8601Time(),
+                end_hour: getISO8601Time(),
                 wind_speed_unit: "ms",
             },
         })

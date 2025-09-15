@@ -136,13 +136,6 @@ export function getUvIndexTextLevel(uvIndex: number): string {
     return found ? found.label : "Extreme";
 }
 
-export function getTimeIndex(times: string[]): number {
-    const now = new Date();
-    now.setUTCMinutes(0, 0, 0);
-    const formattedDate = now.toISOString().slice(0, 16);
-    return times.findIndex((t) => t === formattedDate);
-}
-
 export function getISO8601Time(daysToAdd: number = 0): string {
     const now = new Date();
     now.setMinutes(0);

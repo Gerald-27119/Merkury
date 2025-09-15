@@ -5,7 +5,6 @@ import LoadingSpinner from "../../../../../components/loading-spinner/LoadingSpi
 import SelectHeightButton from "./SelectHeightButton";
 import WindSpeedDisplay from "./WindSpeedDisplay";
 import { useState } from "react";
-import { getTimeIndex } from "../../../../../utils/weather";
 
 type windSpeedsSelectionType = {
     label: string;
@@ -38,8 +37,7 @@ export default function WindSpeeds() {
     const selected = windSpeedsSelection.find(
         (ws) => ws.label === selectedHeight,
     )!;
-    const windSpeed =
-        data?.hourly[selected.value][getTimeIndex(data.hourly.time)] ?? 0;
+    const windSpeed = data?.hourly[selected.value][0] ?? 0;
 
     if (isLoading) {
         return <LoadingSpinner />;
