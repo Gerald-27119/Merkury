@@ -65,18 +65,6 @@ export function calculateWindSpeed(winds, windHeight) {
     }
 }
 
-//TODO: delete and replace with function formatISOToAmPmIntl
-export function getCurrentTime(): string {
-    const now = new Date();
-    const formatter = new Intl.DateTimeFormat("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    });
-    return formatter.format(now);
-}
-
 export function formatISOToAmPm(isoTimestamp: string): string {
     const date = new Date(
         isoTimestamp.endsWith("Z") ? isoTimestamp : isoTimestamp + "Z",

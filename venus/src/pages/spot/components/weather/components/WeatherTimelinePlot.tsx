@@ -94,7 +94,6 @@ export default function WeatherTimelinePlot() {
                                 axis: { strokeWidth: 0 },
                             }}
                         />
-                        <VictoryAxis dependentAxis={true} />
 
                         <VictoryLine
                             data={plotData.map((d) => {
