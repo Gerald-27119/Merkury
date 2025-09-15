@@ -7,7 +7,12 @@ export async function getBasicSpotWeather(latitude: number, longitude: number) {
             params: {
                 latitude,
                 longitude,
-                current: ["temperature_2m", "weather_code", "wind_speed_10m"],
+                current: [
+                    "temperature_2m",
+                    "weather_code",
+                    "wind_speed_10m",
+                    "is_day",
+                ],
                 wind_speed_unit: "ms",
             },
         })
@@ -29,8 +34,9 @@ export async function getDetailedSpotWeather(
                     "precipitation_probability",
                     "dew_point_2m",
                     "relative_humidity_2m",
+                    "is_day",
                 ],
-                daily: ["uv_index_max", "sunset", "sunrise"],
+                daily: ["uv_index_max"],
             },
         })
     ).data;
@@ -70,6 +76,7 @@ export async function getWeatherDataForTimelinePlot(
                     "temperature_2m",
                     "weather_code",
                     "precipitation_probability",
+                    "is_day",
                 ],
                 start_hour: getISO8601Time(),
                 end_hour: getISO8601Time(3),

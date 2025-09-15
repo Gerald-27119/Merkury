@@ -7,7 +7,7 @@ import { WiRaindrop } from "react-icons/wi";
 export default function CustomTickLabel(props) {
     const { index, x, y, data } = props;
     const time = formatISOToAmPm(data.at(index).time);
-    const temp = `${data.at(index).temperature}°C`;
+    const temperature = `${data.at(index).temperature}°C`;
     const precipitationProbability = `${data.at(index).precipitationProbability}%`;
     return (
         <g transform={`translate(${x}, ${y})`}>
@@ -23,13 +23,14 @@ export default function CustomTickLabel(props) {
                 <WeatherIcon
                     code={data.at(index).weatherCode}
                     textSize={"text-4xl"}
+                    isDay={data.at(index).isDay}
                 />
             </g>
             <VictoryLabel
                 x={0}
                 y={0}
                 textAnchor="middle"
-                text={temp}
+                text={temperature}
                 style={{ fontSize: 13, fill: "white" }}
                 dy={15}
             />

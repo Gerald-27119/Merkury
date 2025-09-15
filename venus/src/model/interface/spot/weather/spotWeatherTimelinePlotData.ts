@@ -3,4 +3,5 @@ export default interface SpotWeatherTimelinePlotData {
     temperature: number;
     time: string;
     precipitationProbability: number;
+    isDay: number;
 }

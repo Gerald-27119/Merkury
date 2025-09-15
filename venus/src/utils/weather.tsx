@@ -78,7 +78,9 @@ export function getCurrentTime(): string {
 }
 
 export function formatISOToAmPm(isoTimestamp: string): string {
-    const date = new Date(isoTimestamp + "Z");
+    const date = new Date(
+        isoTimestamp.endsWith("Z") ? isoTimestamp : isoTimestamp + "Z",
+    );
     const formatter = new Intl.DateTimeFormat("en-US", {
         hour: "numeric",
         minute: "2-digit",
@@ -89,47 +91,38 @@ export function formatISOToAmPm(isoTimestamp: string): string {
 }
 
 const weatherAdjectives: Record<number, string[]> = {
-    0: ["Sunny", "Starry Night"],
-    1: ["Partly  Cloudy"],
-    2: ["Partly Cloudy"],
-    3: ["Cloudy"],
-    45: ["Foggy"],
-    48: ["Foggy"],
-    51: ["Drizzly"],
-    53: ["Drizzly"],
-    55: ["Drizzly"],
-    56: ["Freezing"],
-    57: ["Freezing"],
-    61: ["Rainy"],
-    63: ["Rainy"],
-    65: ["Rainy"],
-    66: ["Freezing"],
-    67: ["Freezing"],
-    71: ["Snowy"],
-    73: ["Snowy"],
-    75: ["Snowy"],
-    77: ["Snowy"],
-    80: ["Showery"],
-    81: ["Showery"],
-    82: ["Showery"],
-    85: ["Showery"],
-    86: ["Showery"],
-    95: ["Thundery"],
-    96: ["Thundery"],
-    99: ["Thundery"],
+    0: ["Starry Night", "Sunny"],
+    1: ["Partly Cloudy", "Partly Cloudy"],
+    2: ["Partly Cloudy", "Partly Cloudy"],
+    3: ["Cloudy", "Cloudy"],
+    45: ["Foggy", "Foggy"],
+    48: ["Foggy", "Foggy"],
+    51: ["Drizzly", "Drizzly"],
+    53: ["Drizzly", "Drizzly"],
+    55: ["Drizzly", "Drizzly"],
+    56: ["Freezing", "Freezing"],
+    57: ["Freezing", "Freezing"],
+    61: ["Rainy", "Rainy"],
+    63: ["Rainy", "Rainy"],
+    65: ["Rainy", "Rainy"],
+    66: ["Freezing", "Freezing"],
+    67: ["Freezing", "Freezing"],
+    71: ["Snowy", "Snowy"],
+    73: ["Snowy", "Snowy"],
+    75: ["Snowy", "Snowy"],
+    77: ["Snowy", "Snowy"],
+    80: ["Showery", "Showery"],
+    81: ["Showery", "Showery"],
+    82: ["Showery", "Showery"],
+    85: ["Showery", "Showery"],
+    86: ["Showery", "Showery"],
+    95: ["Thundery", "Thundery"],
+    96: ["Thundery", "Thundery"],
+    99: ["Thundery", "Thundery"],
 };
 
-export function getWeatherAdjective(
-    code: number,
-    sunriseIso: string,
-    sunsetIso: string,
-    timeIso: string,
-): string {
-    return (
-        weatherAdjectives[code][
-            isDay(sunriseIso, sunsetIso, timeIso) ? 0 : 1
-        ] || "weather"
-    );
+export function getWeatherAdjective(code: number, isDay: number): string {
+    return weatherAdjectives[code][isDay] || "weather";
 }
 
 export function getUvIndexTextLevel(uvIndex: number): string {
@@ -164,28 +157,13 @@ export function parseWeatherData(data: {
     temperature_2m: number[];
     weather_code: number[];
     precipitation_probability: number[];
+    is_day: number[];
 }): SpotWeatherTimelinePlotData[] {
     return data.time.map((time, index) => ({
         time: time,
         temperature: data.temperature_2m[index],
         weatherCode: data.weather_code[index],
         precipitationProbability: data.precipitation_probability[index],
+        isDay: data.is_day[index],
     }));
-}
-
-function formatISOToDate(isoTimestamp: string): Date {
-    return new Date(
-        isoTimestamp.endsWith("Z") ? isoTimestamp : isoTimestamp + "Z",
-    );
-}
-
-export function isDay(
-    sunriseIso: string,
-    sunsetIso: string,
-    timeIso: string,
-): boolean {
-    const sunrise = formatISOToDate(sunriseIso);
-    const sunset = formatISOToDate(sunsetIso);
-    const time = formatISOToDate(timeIso);
-    return time >= sunrise && time <= sunset;
 }

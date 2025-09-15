@@ -10,57 +10,49 @@ import {
 } from "react-icons/wi";
 import { FaQuestion } from "react-icons/fa";
 import { IconType } from "react-icons";
-import { LuMoon } from "react-icons/lu";
 import { CiCloudMoon } from "react-icons/ci";
-import { isDay } from "../../../../../utils/weather";
+import { PiMoonLight } from "react-icons/pi";
 
 const weatherIcons: Record<number, IconType[]> = {
-    0: [WiDaySunny, LuMoon],
-    1: [WiDayCloudy, CiCloudMoon],
-    2: [WiDayCloudy, CiCloudMoon],
-    3: [WiCloud],
-    45: [WiFog],
-    48: [WiFog],
-    51: [WiRaindrops],
-    53: [WiRaindrops],
-    55: [WiRaindrops],
-    56: [WiRainMix],
-    57: [WiRainMix],
-    61: [WiRaindrops],
-    63: [WiRaindrops],
-    65: [WiRaindrops],
-    66: [WiRainMix],
-    67: [WiRainMix],
-    71: [WiSnow],
-    73: [WiSnow],
-    75: [WiSnow],
-    77: [WiSnow],
-    80: [WiRaindrops],
-    81: [WiRaindrops],
-    82: [WiRaindrops],
-    85: [WiSnow],
-    86: [WiSnow],
-    95: [WiThunderstorm],
-    96: [WiThunderstorm],
-    99: [WiThunderstorm],
+    0: [PiMoonLight, WiDaySunny],
+    1: [CiCloudMoon, WiDayCloudy],
+    2: [CiCloudMoon, WiDayCloudy],
+    3: [WiCloud, WiCloud],
+    45: [WiFog, WiFog],
+    48: [WiFog, WiFog],
+    51: [WiRaindrops, WiRaindrops],
+    53: [WiRaindrops, WiRaindrops],
+    55: [WiRaindrops, WiRaindrops],
+    56: [WiRainMix, WiRainMix],
+    57: [WiRainMix, WiRainMix],
+    61: [WiRaindrops, WiRaindrops],
+    63: [WiRaindrops, WiRaindrops],
+    65: [WiRaindrops, WiRaindrops],
+    66: [WiRainMix, WiRainMix],
+    67: [WiRainMix, WiRainMix],
+    71: [WiSnow, WiSnow],
+    73: [WiSnow, WiSnow],
+    75: [WiSnow, WiSnow],
+    77: [WiSnow, WiSnow],
+    80: [WiRaindrops, WiRaindrops],
+    81: [WiRaindrops, WiRaindrops],
+    82: [WiRaindrops, WiRaindrops],
+    85: [WiSnow, WiSnow],
+    86: [WiSnow, WiSnow],
+    95: [WiThunderstorm, WiThunderstorm],
+    96: [WiThunderstorm, WiThunderstorm],
+    99: [WiThunderstorm, WiThunderstorm],
 };
 
-//TODO: refactor function usage in all places
 export default function WeatherIcon({
     code,
     textSize,
-    timeIso,
-    sunriseIso,
-    sunsetIso,
+    isDay,
 }: {
     code: number;
     textSize?: string;
-    timeIso: string;
-    sunriseIso: string;
-    sunsetIso: string;
+    isDay: number;
 }) {
-    const Icon =
-        weatherIcons[code][isDay(sunriseIso, sunsetIso, timeIso) ? 0 : 1] ||
-        FaQuestion;
+    const Icon = weatherIcons[code][isDay] || FaQuestion;
     return <Icon className={`${textSize ?? "text-3xl"}`} />;
 }
