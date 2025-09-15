@@ -66,10 +66,8 @@ export default function MapPage() {
             attributionControl={false}
             onZoomEnd={handleZoomEnd}
         >
-            {/*<div className="absolute right-1/2 flex items-center">*/}
             <SpotsNameSearchBar />
             {showBasicSpotWeatherModal && <BasicSpotWeather />}
-            {/*</div>*/}
             <AnimatePresence>
                 {showSpotDetailsModal && <SpotDetails key="spot-details" />}
                 {showSearchedSpotsList && (
