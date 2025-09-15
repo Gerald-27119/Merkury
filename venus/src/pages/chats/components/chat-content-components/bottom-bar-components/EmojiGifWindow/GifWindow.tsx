@@ -87,7 +87,7 @@ export default function GifWindow({
 
     if (isSearchError) {
         dispatch(
-            notificationAction.setError({
+            notificationAction.addError({
                 message:
                     "Failed to search gifs by phrase. The error is: " +
                     searchError,

@@ -1,7 +1,7 @@
 import {
     QueryClient,
     QueryClientProvider,
-    useQuery,
+    useInfiniteQuery,
 } from "@tanstack/react-query";
 import { configureStore } from "@reduxjs/toolkit";
 import { accountSlice } from "../../../../redux/account";
@@ -17,11 +17,11 @@ const queryClient = new QueryClient();
 vi.mock("@tanstack/react-query", async () => {
     return {
         ...(await vi.importActual("@tanstack/react-query")),
-        useQuery: vi.fn(),
+        useInfiniteQuery: vi.fn(),
     };
 });
 
-const renderProfile = () => {
+const renderPhotos = () => {
     const store = configureStore({
         reducer: {
             account: accountSlice.reducer,
@@ -79,14 +79,34 @@ const mockPhotosData = [
 describe("Photos component unit tests", () => {
     describe("Photos display photos data correctly", () => {
         beforeEach(async () => {
-            useQuery.mockReturnValue({
-                data: mockPhotosData,
+            global.IntersectionObserver = class {
+                constructor(callback) {
+                    this.callback = callback;
+                }
+                observe() {
+                    this.callback([{ isIntersecting: true }]);
+                }
+                unobserve() {}
+                disconnect() {}
+            };
+            useInfiniteQuery.mockReturnValue({
+                data: {
+                    pages: [
+                        {
+                            items: mockPhotosData,
+                            hasNext: false,
+                        },
+                    ],
+                    pageParams: [0],
+                },
                 isLoading: false,
-                error: null,
+                hasNextPage: false,
+                fetchNextPage: vi.fn(),
+                isFetchingNextPage: false,
             });
 
             await act(async () => {
-                renderProfile();
+                renderPhotos();
             });
         });
 

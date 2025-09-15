@@ -16,10 +16,7 @@ import com.merkury.vulcanus.utils.MapDistanceCalculator;
 import com.merkury.vulcanus.model.repositories.SpotTagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -116,15 +113,17 @@ public class SpotService {
                 .toList();
     }
 
-    public List<HomePageSpotDto> getAllSpotsByLocation(String country, String region, String city, Double userLongitude, Double userLatitude) {
+    public HomePageSpotPageDto getAllSpotsByLocation(String country, String region, String city, Double userLongitude, Double userLatitude, int page, int size) {
         var spec = Specification
                 .where(SpotSpecification.hasCountry(country))
                 .and(SpotSpecification.hasRegion(region))
                 .and(SpotSpecification.hasCity(city));
 
-        var spots = spotRepository.findAll(spec);
+        Pageable pageable = PageRequest.of(page, size);
 
-        return spots.stream()
+        Slice<Spot> spotPages = spotRepository.findAll(spec, pageable);
+
+        var spotDtos = spotPages.stream()
                 .map(spot -> {
                     Double userDistanceToSpot = null;
 
@@ -140,6 +139,8 @@ public class SpotService {
                     return SpotMapper.toHomePageSearchSpotDto(spot, userDistanceToSpot);
                 })
                 .toList();
+
+        return new HomePageSpotPageDto(spotDtos, spotPages.hasNext());
     }
 
     public List<String> getLocations(String query, String type) {
@@ -161,14 +162,16 @@ public class SpotService {
         };
     }
 
-    public List<HomePageSpotDto> getAllSpotsByLocationAndTags(String city, List<String> tags, Double userLongitude, Double userLatitude) {
+    public HomePageSpotPageDto getAllSpotsByLocationAndTags(String city, List<String> tags, Double userLongitude, Double userLatitude, int page, int size) {
         var spec = Specification.<Spot>where(null)
                 .and(SpotSpecification.hasCity(city))
                 .and(SpotSpecification.hasAnyTag(tags));
 
-        var spots = spotRepository.findAll(spec);
+        Pageable pageable = PageRequest.of(page, size);
 
-        return spots.stream()
+        Slice<Spot> spotPages = spotRepository.findAll(spec, pageable);
+
+        var spotDtos = spotPages.stream()
                 .map(spot -> {
                     Double userDistanceToSpot = null;
 
@@ -184,5 +187,7 @@ public class SpotService {
                     return SpotMapper.toHomePageSearchSpotDto(spot, userDistanceToSpot);
                 })
                 .toList();
+
+        return new HomePageSpotPageDto(spotDtos, spotPages.hasNext());
     }
 }

@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
-import Notification from "../components/notification/Notification.jsx";
+import NotificationList from "../components/notification/NotificationList";
 import Sidebar from "./sidebar/Sidebar.tsx";
 import { useEffect } from "react";
 import MobileBar from "./mobile-bar/MobileBar";
@@ -25,7 +25,7 @@ export default function Layout() {
             <Sidebar />
             <main className="relative flex w-full flex-col items-center justify-center">
                 <MobileBar />
-                <Notification title="test" message="message" />
+                <NotificationList title="test" message="message" />
                 <Outlet />
             </main>
         </div>

@@ -6,6 +6,7 @@ import ForgotPassword from "./pages/forgot-password/ForgotPassword.jsx";
 import NewPassword from "./pages/new-password/NewPassword.jsx";
 import Layout from "./layout/Layout.jsx";
 import Forum from "./pages/forum/Forum";
+import ForumThread from "./pages/forum/ForumThread";
 import ProtectedRoute from "./components/protected-route/ProtectedRoute.jsx";
 import MapPage from "./pages/map/MapPage";
 import ChatsPage from "./pages/chats/ChatsPage";
@@ -20,6 +21,7 @@ import Settings from "./pages/account/settings/Settings";
 import HomePage from "./pages/home-page/HomePage";
 import Movies from "./pages/account/movies/Movies";
 import AdvanceHomePage from "./pages/home-page/AdvanceHomePage";
+import AddedSpot from "./pages/account/add-spot/AddedSpot";
 
 const router = createBrowserRouter([
     {
@@ -106,6 +108,14 @@ const router = createBrowserRouter([
                             </ProtectedRoute>
                         ),
                     },
+                    {
+                        path: "add-spot",
+                        element: (
+                            <ProtectedRoute>
+                                <AddedSpot />
+                            </ProtectedRoute>
+                        ),
+                    },
                 ],
             },
             {
@@ -127,6 +137,10 @@ const router = createBrowserRouter([
             {
                 path: "forum",
                 element: <Forum />,
+            },
+            {
+                path: "forum/:postId/:slugTitle?",
+                element: <ForumThread />,
             },
             {
                 path: "map",

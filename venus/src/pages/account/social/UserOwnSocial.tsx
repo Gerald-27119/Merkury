@@ -1,5 +1,5 @@
 import Social from "./Social";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import {
     getUserOwnFollowed,
     getUserOwnFollowers,
@@ -8,38 +8,81 @@ import {
 import useSelectorTyped from "../../../hooks/useSelectorTyped";
 import { SocialListType } from "../../../model/enum/account/social/socialListType";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
+import { useEffect, useRef } from "react";
+import { SocialPageDto } from "../../../model/interface/account/social/socialPageDto";
+
+type SupportedSocialType =
+    | SocialListType.FRIENDS
+    | SocialListType.FOLLOWED
+    | SocialListType.FOLLOWERS;
+
+const queryConfigMap: Record<
+    SupportedSocialType,
+    { key: string; fn: (page: number, size: number) => Promise<SocialPageDto> }
+> = {
+    [SocialListType.FRIENDS]: {
+        key: "friends",
+        fn: getUserOwnFriends,
+    },
+    [SocialListType.FOLLOWED]: {
+        key: "followed",
+        fn: getUserOwnFollowed,
+    },
+    [SocialListType.FOLLOWERS]: {
+        key: "followers",
+        fn: getUserOwnFollowers,
+    },
+};
 
 export default function UserOwnSocial() {
-    const type = useSelectorTyped((state) => state.social.type);
+    const type = useSelectorTyped(
+        (state) => state.social.type,
+    ) as SupportedSocialType;
+    const loadMoreRef = useRef<HTMLDivElement | null>(null);
+    const { key, fn } = queryConfigMap[type];
 
-    const { data: friends, isLoading: isLoadingFriends } = useQuery({
-        queryFn: getUserOwnFriends,
-        queryKey: ["friends"],
-        enabled: type === SocialListType.FRIENDS,
-    });
+    const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+        useInfiniteQuery({
+            queryKey: [key],
+            queryFn: ({ pageParam = 0 }) => fn(pageParam, 12),
+            getNextPageParam: (lastPage, allPages) =>
+                lastPage.hasNext ? allPages.length : undefined,
+            initialPageParam: 0,
+        });
 
-    const { data: followed, isLoading: isLoadingFollowed } = useQuery({
-        queryFn: getUserOwnFollowed,
-        queryKey: ["followed"],
-        enabled: type === SocialListType.FOLLOWED,
-    });
+    const allItems = data?.pages.flatMap((page) => page.items);
 
-    const { data: followers, isLoading: isLoadingFollowers } = useQuery({
-        queryFn: getUserOwnFollowers,
-        queryKey: ["followers"],
-        enabled: type === SocialListType.FOLLOWERS,
-    });
+    useEffect(() => {
+        if (!loadMoreRef.current) return;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (
+                    entries[0].isIntersecting &&
+                    hasNextPage &&
+                    !isFetchingNextPage
+                ) {
+                    fetchNextPage();
+                }
+            },
+            { threshold: 1.0 },
+        );
+        observer.observe(loadMoreRef.current);
+        return () => {
+            observer.disconnect();
+        };
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-    if (isLoadingFriends || isLoadingFollowed || isLoadingFollowers) {
+    if (isLoading) {
         return <LoadingSpinner />;
     }
 
     return (
         <Social
-            friends={friends ?? []}
-            followed={followed ?? []}
-            followers={followers ?? []}
+            list={allItems ?? []}
             isSocialForViewer={false}
+            loadMoreRef={loadMoreRef}
+            isFetchingNextPage={isFetchingNextPage}
+            type={type}
         />
     );
 }

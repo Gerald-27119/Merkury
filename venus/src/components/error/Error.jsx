@@ -1,7 +1,7 @@
 import { Link, Navigate, useRouteError } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { notificationAction } from "../../redux/notification.jsx";
+import { notificationAction } from "../../redux/notification";
 
 export default function Error({ error }) {
     const dispatch = useDispatch();
@@ -11,7 +11,7 @@ export default function Error({ error }) {
     useEffect(() => {
         if (error?.response?.status !== 404) {
             dispatch(
-                notificationAction.setError({
+                notificationAction.addError({
                     message: error?.response?.data,
                 }),
             );

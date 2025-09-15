@@ -7,31 +7,40 @@ import { chatActions } from "../../../redux/chats";
 
 interface ListedChatProps {
     chat: ChatDto;
+    hasNew?: boolean;
 }
 
-function ListedChat({ chat }: ListedChatProps) {
+function ListedChat({ chat, hasNew }: ListedChatProps) {
     const dispatch = useDispatchTyped();
-    const isSelected =
-        chat?.id === useSelectorTyped((state) => state.chats.selectedChatId);
+    const selectedId = useSelectorTyped((s) => s.chats.selectedChatId);
+    const isSelected = chat?.id === selectedId;
 
-    if (!chat) {
-        return <div>Loading... </div>;
+    if (!chat) return <div>Loading...</div>;
+
+    function handleSelectedChatChange() {
+        dispatch(chatActions.setSelectedChatId(chat.id));
+        dispatch(chatActions.clearNew(chat.id));
     }
 
     return (
         <button
-            className={`hover:bg-violetLight/40 flex w-full items-center gap-4 px-3 py-3 text-left hover:cursor-pointer ${isSelected && "bg-violetLight/80"}`}
-            onClick={() => dispatch(chatActions.setSelectedChatId(chat?.id))}
+            className={`flex w-full items-center gap-4 px-3 py-3 text-left hover:cursor-pointer ${
+                isSelected
+                    ? "bg-violetLight/80"
+                    : hasNew
+                      ? "bg-blue-600/20"
+                      : "hover:bg-violetLight/40"
+            }`}
+            onClick={handleSelectedChatChange}
         >
             <img
                 className="aspect-square w-12 rounded-full"
                 src={
                     chat?.imgUrl
-                        ? // for development purposes
-                          `/users/${chat.imgUrl}`
+                        ? `/users/${chat.imgUrl}`
                         : "/users/default.png"
                 }
-                alt={"Image that listed chat has"}
+                alt={chat.imgUrl}
             />
             <div className="flex w-full flex-col">
                 <p className="text-lg font-medium">{chat?.name}</p>
@@ -59,5 +68,4 @@ function ListedChat({ chat }: ListedChatProps) {
     );
 }
 
-//TODO: need to check if it's necessary to use memo here
 export default memo(ListedChat);

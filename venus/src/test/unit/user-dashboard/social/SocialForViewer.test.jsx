@@ -14,15 +14,26 @@ const queryClient = new QueryClient();
 vi.mock("@tanstack/react-query", async () => {
     return {
         ...(await vi.importActual("@tanstack/react-query")),
-        useQuery: vi.fn().mockReturnValue({
-            data: [],
+        useInfiniteQuery: vi.fn().mockReturnValue({
+            data: {
+                pages: [
+                    {
+                        items: [],
+                        hasNext: false,
+                    },
+                ],
+                pageParams: [0],
+            },
             isLoading: false,
             error: null,
+            hasNextPage: false,
+            fetchNextPage: vi.fn(),
+            isFetchingNextPage: false,
         }),
     };
 });
 
-const renderProfile = () => {
+const renderSocial = () => {
     const store = configureStore({
         reducer: {
             account: accountSlice.reducer,
@@ -49,7 +60,17 @@ const renderProfile = () => {
 
 describe("Social component unit tests", () => {
     beforeEach(() => {
-        renderProfile();
+        global.IntersectionObserver = class {
+            constructor(callback) {
+                this.callback = callback;
+            }
+            observe() {
+                this.callback([{ isIntersecting: true }]);
+            }
+            unobserve() {}
+            disconnect() {}
+        };
+        renderSocial();
     });
 
     describe("Should render menu buttons text", () => {

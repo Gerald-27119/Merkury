@@ -21,7 +21,7 @@ export function useDateSortFilter() {
 
         if (key === "from" && searchDate.to && value?.isAfter(searchDate.to)) {
             dispatch(
-                notificationAction.setError({
+                notificationAction.addError({
                     message: '"From" date cannot be after "To" date',
                 }),
             );
@@ -34,7 +34,7 @@ export function useDateSortFilter() {
             value?.isBefore(searchDate.from)
         ) {
             dispatch(
-                notificationAction.setError({
+                notificationAction.addError({
                     message: '"To" date cannot be before "From" date',
                 }),
             );

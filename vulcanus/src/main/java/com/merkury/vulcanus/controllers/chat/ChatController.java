@@ -2,7 +2,7 @@ package com.merkury.vulcanus.controllers.chat;
 
 import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
-import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
+import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,42 +21,23 @@ public class ChatController {
     private final ChatService chatService;
 
     //TODO: add javadoc
-    //delete?
     @GetMapping("/{chatId}/messages")
-    public ResponseEntity<List<ChatMessageDto>> getMessagesForChatByChatId(
+    public ResponseEntity<ChatMessageDtoSlice> getMessagesForChatByChatId(
             @PathVariable Long chatId,
-            @RequestParam(defaultValue = "0") int pageParam,
+            @RequestParam(defaultValue = "0") int pageParam, // 1 because first page of 20 is returned in first request to "/user-chats"
             @RequestParam(defaultValue = "20") int numberOfMessagesPerPage
     ) {
         return ResponseEntity.ok(chatService.getChatMessages(chatId, pageParam, numberOfMessagesPerPage));
     }
 
-    /**
-     * Retrieves a <strong> PAGINATED </strong> list of recent chats for a specific user.
-     * <p>
-     * It's the most important endpoint for retrieving necessary data for the <strong>chat module</strong> on frontend.
-     * <p>
-     * Chats are ordered by the timestamp of the last message in each chat,
-     * with the most recent appearing first. Each {@link ChatDto} includes
-     * all necessary data to render the chat both in a list and in the detailed
-     * messages view.
-     *
-     * @param pageNumber            zero-based page index (starting at 0)
-     * @param numberOfChatsPerPage the maximum number of chats to return per page
-     * @return a paginated {@code List<ChatDto>} sorted by last message date (descending)
-     * @author Adam Langmesser
-     * @see ChatDto
-     * @info username: "user1" has the best data for testing
-     *
-     */
     @GetMapping("/user-chats")
     public ResponseEntity<List<ChatDto>> getChatsForUserWithLast20Messages(
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "10") int numberOfChatsPerPage
     ) {
         return ResponseEntity.ok(chatService.getChatsForUserWithLast20Messages(pageNumber, numberOfChatsPerPage));
-    }
+    }//wywalic pobieranie ostatnich x wiadomsocis tad, jakos ianczej toz robic
 
-    //get more messages
-    //get single chat by id
+
+// TODO: przy edycji chatu sprawdzenie czy user ma odmina an tym czacie
 }

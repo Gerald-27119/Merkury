@@ -1,15 +1,13 @@
-import React, { createContext, useContext, useEffect } from "react";
+import React, { createContext, useContext, useEffect, useRef } from "react";
 import { SubscriptionDef } from "./useWebSocket";
 import { createChatSubscription } from "./subscriptions/ChatSubscription";
 import { WebSocketService } from "./WebSocketService";
-import { RootState } from "../redux/store";
-import useSelectorTyped from "../hooks/useSelectorTyped";
 import useDispatchTyped from "../hooks/useDispatchTyped";
+import useSelectorTyped from "../hooks/useSelectorTyped";
+import store, { RootState } from "../redux/store";
 
 const WS_URL = process.env.REACT_APP_WS_URL || "http://localhost:8080/connect";
-/** Singleton serwisu zarządzającego połączeniem */
 const wsService = new WebSocketService(WS_URL);
-
 const WebSocketContext = createContext<WebSocketService>(wsService);
 
 export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -18,34 +16,34 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
     const { isLogged, username } = useSelectorTyped(
         (state: RootState) => state.account,
     );
+    const selectedChatId = useSelectorTyped((s) => s.chats.selectedChatId);
     const dispatch = useDispatchTyped();
 
+    const selectedRef = useRef<number | null>(null);
     useEffect(() => {
-        if (isLogged) {
-            wsService.connect();
-        } else {
-            wsService.disconnect();
-        }
+        selectedRef.current = selectedChatId;
+    }, [selectedChatId]);
+
+    useEffect(() => {
+        if (isLogged) wsService.connect();
+        else wsService.disconnect();
     }, [isLogged]);
 
-    // manage subscriptions
     useEffect(() => {
         if (!isLogged || !username) return;
 
+        const getSelectedChatId = () => store.getState().chats.selectedChatId;
+
         const allSubs: SubscriptionDef[] = [
-            createChatSubscription(username, dispatch),
-            //TODO: Place for other subscriptions here
+            createChatSubscription(username, dispatch, getSelectedChatId),
         ];
 
-        // subscribe now
         const cleanups = allSubs.map((sub) => {
             wsService.subscribe(sub.destination, sub.callback);
             return () => wsService.unsubscribe(sub.destination);
         });
-
-        // on user/logout/change, unsubscribe
         return () => cleanups.forEach((fn) => fn());
-    }, [isLogged, username]);
+    }, [isLogged, username, dispatch]);
 
     return (
         <WebSocketContext.Provider value={wsService}>

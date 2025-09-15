@@ -5,6 +5,7 @@ import com.merkury.vulcanus.model.interfaces.CityView;
 import com.merkury.vulcanus.model.interfaces.CountryView;
 import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
 import com.merkury.vulcanus.model.interfaces.RegionView;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.Pageable;
@@ -50,4 +51,6 @@ public interface SpotRepository extends JpaRepository<Spot, Long>, JpaSpecificat
     List<CityView> findDistinctByCityStartingWithIgnoreCase(String query);
 
     List<ISpotNameOnly> findByNameContainingIgnoreCase(String name);
+
+    Slice<Spot> findByAuthorUsername(String name, Pageable pageable);
 }

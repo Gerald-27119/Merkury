@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.config;
 
 import com.merkury.vulcanus.config.properties.GifProviderProperties;
+import com.merkury.vulcanus.config.properties.LocationqProviderProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,14 @@ public class WebClientConfig {
         return builder
                 .baseUrl(props.getUrl())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+    }
+
+    @Bean
+    @Qualifier("locationq")
+    public WebClient locationqWebClient(LocationqProviderProperties props) {
+        return WebClient.builder()
+                .baseUrl(props.getUrl())
                 .build();
     }
 }

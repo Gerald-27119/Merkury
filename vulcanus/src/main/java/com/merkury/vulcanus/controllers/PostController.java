@@ -25,14 +25,14 @@ public class PostController {
 
     @GetMapping("/public/post")
     public ResponseEntity<Page<PostGeneralDto>> getPostsPage(HttpServletRequest request, @RequestParam(defaultValue = "0") int page) throws UserNotFoundException {
-        int defaultPageSize = 5;
+        int defaultPageSize = 10;
         Page<PostGeneralDto> posts = postService.getPostsPage(request, PageRequest.of(page, defaultPageSize));
 
         return ResponseEntity.ok(posts);
     }
 
     @PostMapping("/post")
-    public ResponseEntity<Void> addPost(HttpServletRequest request, @Valid @RequestBody PostDto post) throws CategoryNotFoundException, TagNotFoundException, UserNotFoundException {
+    public ResponseEntity<Void> addPost(HttpServletRequest request, @Valid @RequestBody PostDto post) throws CategoryNotFoundException, TagNotFoundException, UserNotFoundException, InvalidPostContentException {
         postService.addPost(request, post);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -44,7 +44,7 @@ public class PostController {
     }
 
     @PatchMapping("post/{postId}")
-    public ResponseEntity<Void> editPost(HttpServletRequest request, @PathVariable Long postId, @Valid @RequestBody PostDto post) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, UserNotFoundException {
+    public ResponseEntity<Void> editPost(HttpServletRequest request, @PathVariable Long postId, @Valid @RequestBody PostDto post) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, UserNotFoundException, InvalidPostContentException {
         postService.editPost(request, postId, post);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -55,8 +55,8 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/categories-tags")
-    public ResponseEntity<CategoriesAndTagsDto> getAllCategoriesAndTags(){
+    @GetMapping("/public/categories-tags")
+    public ResponseEntity<ForumCategoriesAndTagsDto> getAllCategoriesAndTags(){
        return ResponseEntity.ok(postService.getAllCategoriesAndTags());
     }
 }

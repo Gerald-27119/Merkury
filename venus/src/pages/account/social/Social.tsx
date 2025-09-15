@@ -2,40 +2,35 @@ import SocialButton from "./components/SocialButton";
 import SocialCardList from "./components/SocialCardList";
 import { SocialListType } from "../../../model/enum/account/social/socialListType";
 import { SocialDto } from "../../../model/interface/account/social/socialDto";
-import useSelectorTyped from "../../../hooks/useSelectorTyped";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { socialAction } from "../../../redux/social";
 import AccountTitle from "../components/AccountTitle";
 import AccountWrapper from "../components/AccountWrapper";
 import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
+import { MutableRefObject } from "react";
+import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
+import PhotosList from "./components/PhotosList";
+import DatedMediaGroup from "../../../model/interface/account/media/datedMediaGroup";
 
 interface SocialProps {
-    friends: SocialDto[];
-    followed: SocialDto[];
-    followers: SocialDto[];
-    photos?: SocialDto[];
+    list: SocialDto[] | DatedMediaGroup[];
     isSocialForViewer: boolean;
+    loadMoreRef: MutableRefObject<HTMLDivElement | null>;
+    isFetchingNextPage: boolean;
+    type: SocialListType;
 }
 
 export default function Social({
-    friends,
-    followed,
-    followers,
-    photos,
+    list,
     isSocialForViewer,
+    loadMoreRef,
+    isFetchingNextPage,
+    type,
 }: SocialProps) {
-    const type = useSelectorTyped((state) => state.social.type);
     const dispatch = useDispatchTyped();
 
     const setType = (type: SocialListType) => {
         dispatch(socialAction.setType(type));
-    };
-
-    const dataMap = {
-        [SocialListType.FRIENDS]: friends,
-        [SocialListType.FOLLOWED]: followed,
-        [SocialListType.FOLLOWERS]: followers,
-        [SocialListType.PHOTOS]: photos,
     };
 
     const menuTypes = [
@@ -61,11 +56,17 @@ export default function Social({
                     </SocialButton>
                 ))}
             </div>
-            <SocialCardList
-                list={dataMap[type] ?? []}
-                type={type}
-                isSocialForViewer={isSocialForViewer}
-            />
+            {type === SocialListType.PHOTOS ? (
+                <PhotosList photos={list as DatedMediaGroup[]} />
+            ) : (
+                <SocialCardList
+                    list={list as SocialDto[]}
+                    type={type}
+                    isSocialForViewer={isSocialForViewer}
+                />
+            )}
+            <div ref={loadMoreRef} className="h-10" />
+            {isFetchingNextPage && <LoadingSpinner />}
         </AccountWrapper>
     );
 }

@@ -1,25 +1,30 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
-import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupDto;
-import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupDto;
+import com.merkury.vulcanus.model.dtos.account.add.spot.AddSpotPageDto;
+import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
+import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
-import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
-import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
+import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
+import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
+import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotPageDto;
+import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
-import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
-import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -33,6 +38,7 @@ public class UserDashboardService {
     private final MediaService mediaService;
     private final CommentsService commentsService;
     private final SettingsService settingsService;
+    private final AddSpotService addSpotService;
     private final CustomUserDetailsService customUserDetailsService;
 
     public UserProfileDto getUserOwnProfile() throws UserNotFoundByUsernameException {
@@ -55,13 +61,13 @@ public class UserDashboardService {
     }
 
 
-    public List<SocialDto> getUserOwnFriends() throws UserNotFoundByUsernameException {
+    public SocialPageDto getUserOwnFriends(int page, int size) throws UserNotFoundByUsernameException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        return friendsService.getUserFriends(username);
+        return friendsService.getUserFriends(username, page, size);
     }
 
-    public List<SocialDto> getUserFriendsForViewer(String targetUsername) throws UserNotFoundByUsernameException {
-        return friendsService.getUserFriends(targetUsername);
+    public SocialPageDto getUserFriendsForViewer(String targetUsername, int page, int size) throws UserNotFoundByUsernameException {
+        return friendsService.getUserFriends(targetUsername, page, size);
     }
 
     public void editUserFriends(String friendUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
@@ -74,22 +80,22 @@ public class UserDashboardService {
         friendsService.changeUserFriendsStatus(username, friendUsername, status);
     }
 
-    public List<SocialDto> getUserOwnFollowers() throws UserNotFoundByUsernameException {
+    public SocialPageDto getUserOwnFollowers(int page, int size) throws UserNotFoundByUsernameException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        return followersService.getUserFollowers(username);
+        return followersService.getUserFollowers(username, page, size);
     }
 
-    public List<SocialDto> getUserFollowersForViewer(String targetUsername) throws UserNotFoundByUsernameException {
-        return followersService.getUserFollowers(targetUsername);
+    public SocialPageDto getUserFollowersForViewer(String targetUsername, int page, int size) throws UserNotFoundByUsernameException {
+        return followersService.getUserFollowers(targetUsername, page, size);
     }
 
-    public List<SocialDto> getUserOwnFollowed() throws UserNotFoundByUsernameException {
+    public SocialPageDto getUserOwnFollowed(int page, int size) throws UserNotFoundByUsernameException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        return followersService.getUserFollowed(username);
+        return followersService.getUserFollowed(username, page, size);
     }
 
-    public List<SocialDto> getUserFollowedForViewer(String targetUsername) throws UserNotFoundByUsernameException {
-        return followersService.getUserFollowed(targetUsername);
+    public SocialPageDto getUserFollowedForViewer(String targetUsername, int page, int size) throws UserNotFoundByUsernameException {
+        return followersService.getUserFollowed(targetUsername, page, size);
     }
 
     public void editUserFollowed(String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
@@ -97,9 +103,9 @@ public class UserDashboardService {
         followersService.editUserFollowed(username, followedUsername, type);
     }
 
-    public List<FavoriteSpotDto> getUserFavoritesSpots(FavoriteSpotsListType type) {
+    public FavoriteSpotPageDto getUserFavoritesSpots(FavoriteSpotsListType type, int page, int size) {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        return favoriteSpotService.getUserFavoritesSpots(username, type);
+        return favoriteSpotService.getUserFavoritesSpots(username, type, page, size);
     }
 
     public void removeFavoriteSpot(FavoriteSpotsListType type, Long spotId) throws FavoriteSpotNotExistException {
@@ -107,14 +113,14 @@ public class UserDashboardService {
         favoriteSpotService.removeFavoriteSpot(username, type, spotId);
     }
 
-    public List<DatedMediaGroupDto> getSortedUserPhotos(DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
+    public DatedMediaGroupPageDto getSortedUserPhotos(DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        return mediaService.getSortedUserPhotos(username, type, from, to);
+        return mediaService.getSortedUserPhotos(username, type, from, to, page, size);
     }
 
-    public List<DatedCommentsGroupDto> getSortedUserComments(DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
+    public DatedCommentsGroupPageDto getSortedUserComments(DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        return commentsService.getSortedUserComments(username, type, from, to);
+        return commentsService.getSortedUserComments(username, type, from, to, page, size);
     }
 
     public void editUserSettings(HttpServletResponse response, UserEditDataDto userEdit) throws UserNotFoundByUsernameException, UserNotFoundException, ExternalProviderAccountException, UnsupportedUserSettingsType, EmailTakenException, SamePasswordException, SameEmailException, InvalidPasswordException, UsernameTakenException, SameUsernameException {
@@ -127,8 +133,26 @@ public class UserDashboardService {
         return settingsService.getUserData(username);
     }
 
-    public List<DatedMediaGroupDto> getSortedUserMovies(DateSortType type, LocalDate from, LocalDate to) throws UnsupportedDateSortTypeException {
+    public DatedMediaGroupPageDto getSortedUserMovies(DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        return mediaService.getSortedUserMovies(username, type, from, to);
+        return mediaService.getSortedUserMovies(username, type, from, to, page, size);
+    }
+
+    public DatedMediaGroupPageDto getAllUserPhotos(String username, int page, int size) throws UnsupportedDateSortTypeException {
+        return mediaService.getAllUserPhotos(username, page, size);
+    }
+
+    public AddSpotPageDto getAllSpotsAddedByUser(int page, int size) {
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        return addSpotService.getAllSpotsAddedByUser(username, page, size);
+    }
+
+    public void addSpot(String spotJson, List<MultipartFile> mediaFiles) throws UserNotFoundByUsernameException, IOException, InvalidFileTypeException, BlobContainerNotFoundException {
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        addSpotService.addSpot(username, spotJson, mediaFiles);
+    }
+
+    public Mono<BorderPoint> getCoordinates(String query) {
+        return addSpotService.getCoordinates(query);
     }
 }

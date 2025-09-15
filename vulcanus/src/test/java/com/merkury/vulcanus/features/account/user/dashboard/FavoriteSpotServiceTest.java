@@ -1,9 +1,9 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.FavoriteSpotNotExistException;
+import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.spot.FavoriteSpot;
 import com.merkury.vulcanus.model.entities.spot.Spot;
-import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.repositories.FavoriteSpotRepository;
 import org.junit.jupiter.api.Test;
@@ -11,9 +11,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -38,10 +40,11 @@ class FavoriteSpotServiceTest {
         var favoriteSpot2 = FavoriteSpot.builder().user(user).spot(spot2).type(FavoriteSpotsListType.FAVORITE).build();
 
         var favoriteSpotList = List.of(favoriteSpot, favoriteSpot2);
+        Page<FavoriteSpot> page = new PageImpl<>(favoriteSpotList);
 
-        when(favoriteSpotRepository.findAllByUserUsername(user.getUsername())).thenReturn(Optional.of(favoriteSpotList));
+        when(favoriteSpotRepository.findAllByUserUsername(user.getUsername(), PageRequest.of(0, 10))).thenReturn(page);
 
-        var result = favoriteSpotService.getUserFavoritesSpots(user.getUsername(), FavoriteSpotsListType.ALL);
+        var result = favoriteSpotService.getUserFavoritesSpots(user.getUsername(), FavoriteSpotsListType.ALL, 0, 10).items();
 
         assertAll(() -> assertEquals(2, result.size()),
                 () -> assertFalse(result.isEmpty()),
@@ -55,14 +58,13 @@ class FavoriteSpotServiceTest {
         var spot1 = Spot.builder().name("testSpot1").build();
 
         var favoriteSpot = FavoriteSpot.builder().user(user).spot(spot1).type(FavoriteSpotsListType.PLAN_TO_VISIT).build();
-
-        var favoriteSpotList = List.of(favoriteSpot);
+        Page<FavoriteSpot> page = new PageImpl<>(List.of(favoriteSpot));
 
         when(favoriteSpotRepository
-                .findAllByUserUsernameAndType(user.getUsername(), FavoriteSpotsListType.PLAN_TO_VISIT))
-                .thenReturn(Optional.of(favoriteSpotList));
+                .findAllByUserUsernameAndType(user.getUsername(), FavoriteSpotsListType.PLAN_TO_VISIT, PageRequest.of(0, 10)))
+                .thenReturn(page);
 
-        var result = favoriteSpotService.getUserFavoritesSpots(user.getUsername(), FavoriteSpotsListType.PLAN_TO_VISIT);
+        var result = favoriteSpotService.getUserFavoritesSpots(user.getUsername(), FavoriteSpotsListType.PLAN_TO_VISIT, 0, 10).items();
 
         assertAll(() -> assertEquals(1, result.size()),
                 () -> assertFalse(result.isEmpty()),

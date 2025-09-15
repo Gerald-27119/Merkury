@@ -1,18 +1,17 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
+import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserAlreadyFollowedException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFollowedException;
-import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
-import com.merkury.vulcanus.model.dtos.account.social.SocialDto;
+import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.SocialMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,21 +19,28 @@ public class FollowersService {
     private final UserEntityRepository userEntityRepository;
     private final UserEntityFetcher userEntityFetcher;
 
-    public List<SocialDto> getUserFollowers(String username) throws UserNotFoundByUsernameException {
-        return userEntityFetcher.getByUsername(username)
-                .getFollowers()
-                .stream()
-                .map(SocialMapper::toDto)
-                .toList();
+    public SocialPageDto getUserFollowers(String username, int page, int size) throws UserNotFoundByUsernameException {
+        var followersPage = userEntityRepository.findFollowersByFollowedUsername(username, PageRequest.of(page, size));
+        if (followersPage.getContent().isEmpty()) {
+            throw new UserNotFoundByUsernameException(username);
+        }
+
+        var mappedFollowers = followersPage.stream().map(SocialMapper::toDto).toList();
+
+        return new SocialPageDto(mappedFollowers, followersPage.hasNext());
     }
 
-    public List<SocialDto> getUserFollowed(String username) throws UserNotFoundByUsernameException {
-        return userEntityFetcher.getByUsername(username)
-                .getFollowed()
-                .stream()
-                .map(SocialMapper::toDto)
-                .toList();
+    public SocialPageDto getUserFollowed(String username, int page, int size) throws UserNotFoundByUsernameException {
+        var followedPage = userEntityRepository.findFollowedByFollowersUsername(username, PageRequest.of(page, size));
+        if (followedPage.getContent().isEmpty()) {
+            throw new UserNotFoundByUsernameException(username);
+        }
+
+        var mappedFollowed = followedPage.stream().map(SocialMapper::toDto).toList();
+
+        return new SocialPageDto(mappedFollowed, followedPage.hasNext());
     }
+
 
     public void editUserFollowed(String username, String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
         switch (type) {

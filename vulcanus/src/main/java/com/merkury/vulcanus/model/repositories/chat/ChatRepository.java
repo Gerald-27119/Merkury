@@ -10,5 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface ChatRepository extends JpaRepository<Chat, Long> {
 
     Page<Chat> findAllByParticipantsUserUsername(String username, Pageable pageable);
+    Boolean existsByIdAndParticipantsUserUsername(Long chatId, String username);
 
 }

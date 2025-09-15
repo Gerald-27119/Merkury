@@ -13,8 +13,8 @@ public record PostDetailsDto(@Positive(message = "ID must be a positive number."
                              @NotBlank(message = "Content cannot be empty.")
                              String content,
                              @NotNull(message = "Category cannot be null.")
-                             CategoryDto category,
-                             List<TagDto> tags,
+                             ForumCategoryDto category,
+                             List<ForumTagDto> tags,
                              @NotNull(message = "Author cannot be null.")
                              AuthorDto author,
                              @NotNull(message = "isAuthor cannot be empty.")

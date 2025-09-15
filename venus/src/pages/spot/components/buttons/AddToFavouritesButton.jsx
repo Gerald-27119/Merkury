@@ -5,10 +5,9 @@ import {
     isSpotFavourite,
 } from "../../../../http/spots-data.ts";
 import { useDispatch } from "react-redux";
-import { notificationAction } from "../../../../redux/notification.jsx";
+import { notificationAction } from "../../../../redux/notification";
 import Error from "../../../../components/error/Error.jsx";
-import { FaRegHeart } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
 
 export default function AddToFavouritesButton({ spotId }) {
@@ -25,14 +24,14 @@ export default function AddToFavouritesButton({ spotId }) {
         onSuccess: () => {
             queryClient.invalidateQueries(["isFavourite", spotId]);
             dispatch(
-                notificationAction.setSuccess({
+                notificationAction.addSuccess({
                     message: "Spot added to favourites!",
                 }),
             );
         },
         onError: () => {
             dispatch(
-                notificationAction.setError({
+                notificationAction.addError({
                     message:
                         "Failed to add spot to favourites. Please try again later.",
                 }),
@@ -45,14 +44,14 @@ export default function AddToFavouritesButton({ spotId }) {
         onSuccess: () => {
             queryClient.invalidateQueries(["isFavourite", spotId]);
             dispatch(
-                notificationAction.setSuccess({
+                notificationAction.addSuccess({
                     message: "Spot removed from favourites!",
                 }),
             );
         },
         onError: () => {
             dispatch(
-                notificationAction.setError({
+                notificationAction.addError({
                     message:
                         "Failed to remove spot from favourites. Please try again later.",
                 }),

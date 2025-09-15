@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addComment } from "../../../../http/comments.ts";
 import { Rate } from "antd";
-import { notificationAction } from "../../../../redux/notification.jsx";
+import { notificationAction } from "../../../../redux/notification";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -38,7 +38,7 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
             resetForm();
             await queryClient.invalidateQueries(["spot", "comments", spotId]);
             dispatch(
-                notificationAction.setSuccess({
+                notificationAction.addSuccess({
                     message: "SpotComment added successfully!",
                 }),
             );
@@ -46,13 +46,13 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
         onError: (error) => {
             if (error.response && error.response.status === 401) {
                 dispatch(
-                    notificationAction.setError({
+                    notificationAction.addError({
                         message: "Log in in order to comment.",
                     }),
                 );
             } else {
                 dispatch(
-                    notificationAction.setError({
+                    notificationAction.addError({
                         message:
                             "Failed to add comment. Please try again later.",
                     }),
@@ -64,7 +64,7 @@ export default function AddCommentForm({ spotId, isUserLoggedIn }) {
     const handleAddComment = async () => {
         if (!commentText.trim()) {
             dispatch(
-                notificationAction.setError({
+                notificationAction.addError({
                     message: "SpotComment can't be empty!",
                 }),
             );
