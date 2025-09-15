@@ -98,6 +98,22 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
             ...prevState,
             [key]: value,
         }));
+
+        setErrors((prev) => {
+            if (key === "media" || key === "borderPoints") {
+                const hasValue = Array.isArray(value)
+                    ? value.length > 0
+                    : Boolean(value);
+
+                return {
+                    ...prev,
+                    [key]: hasValue
+                        ? null
+                        : prev[key as "media" | "borderPoints"],
+                };
+            }
+            return prev;
+        });
     };
 
     const handleAddSpot = async () => {
