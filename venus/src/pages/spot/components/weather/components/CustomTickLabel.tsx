@@ -4,7 +4,7 @@ import { formatISOToAmPm } from "../../../../../utils/weather";
 import WeatherIcon from "../../../../map/components/weather/components/WeatherIcon";
 import { WiRaindrop } from "react-icons/wi";
 
-export default function CustomTickLabel(props) {
+export default function CustomTickLabel(props: any) {
     const { index, x, y, data } = props;
     const time = formatISOToAmPm(data.at(index).time);
     const temperature = `${data.at(index).temperature}°C`;

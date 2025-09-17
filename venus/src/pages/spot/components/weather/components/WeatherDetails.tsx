@@ -33,7 +33,7 @@ export default function WeatherDetails({
                     </div>
                 </WeatherTile>
                 <WeatherTile className="col-start-2 row-start-1">
-                    <div className="realtive mt-1 flex w-full flex-col">
+                    <div className="mt-1 flex w-full flex-col">
                         <div className="flex items-center text-sm">
                             <FaThermometerQuarter className="text-xl" />
                             <h6>Dew Point</h6>
@@ -52,7 +52,7 @@ export default function WeatherDetails({
                     </div>
                 </WeatherTile>
                 <WeatherTile className="col-start-2 row-start-2">
-                    <div className="realtive flex w-full flex-col">
+                    <div className="flex w-full flex-col">
                         <div className="flex items-center text-sm">
                             <WiHumidity className="text-2xl" />
                             <h6>Humidity</h6>

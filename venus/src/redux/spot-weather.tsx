@@ -25,7 +25,7 @@ const initialState: SpotWeatherSliceProps = {
     showDetailedWeather: false,
 };
 
-export const spotWeatherSLice = createSlice({
+export const spotWeatherSlice = createSlice({
     name: "spotWeather",
     initialState,
     reducers: {
@@ -59,4 +59,4 @@ export const spotWeatherSLice = createSlice({
     },
 });
 
-export const spotWeatherActions = spotWeatherSLice.actions;
+export const spotWeatherActions = spotWeatherSlice.actions;
