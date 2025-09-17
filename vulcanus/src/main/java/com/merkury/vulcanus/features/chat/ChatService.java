@@ -132,4 +132,10 @@ public class ChatService {
         return result;
     }
 
+    public boolean method(){
+        Boolean exists = Boolean.TRUE;
+        if(exists) return true;
+        else return false;
+    }
+
 }

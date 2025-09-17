@@ -81,9 +81,21 @@ export default function SocialCard({
     }
 
     function handleNavigateToChat() {
-        // dispatch(chatActions.setSelectedChatId(chat.id));
-        // dispatch(chatActions.clearNew(chat.id));
-        navigate("/chat");
+        const id = friend.commonChatId;
+
+        if (id != null && isPrivateChatWithThatUserPresent) {
+            dispatch(chatActions.setSelectedChatId(id));
+            dispatch(chatActions.clearNew(id));
+            navigate("/chat");
+        } else {
+            //request for that chat(backend has to create it? or only when you send 1st message?
+            //1.fetch
+            //2.add to redux
+            //after getting it:
+            // dispatch(chatActions.setSelectedChatId(friend.commonChatId));
+            // dispatch(chatActions.clearNew(friend.commonChatId));
+            // navigate("/chat");
+        }
     }
 
     return (
