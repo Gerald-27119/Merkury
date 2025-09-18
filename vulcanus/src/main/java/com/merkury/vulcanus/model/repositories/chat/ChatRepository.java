@@ -48,4 +48,6 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
             """)
     List<UsernameChatId> findPrivateChatsWithOthers(String owner, Collection<String> others);
 
+    Optional<Chat> findChatById(Long chatId);
+
 }

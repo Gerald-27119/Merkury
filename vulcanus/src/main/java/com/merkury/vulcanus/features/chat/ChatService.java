@@ -4,6 +4,7 @@ import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
+import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.mappers.chat.ChatMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
@@ -115,9 +116,24 @@ public class ChatService {
 
     }
 
-    public Long getCommonChatId(String currentUserUsername, String targetUserUsername){
-//        var commonChatId = chatRepository.
-        return null;
+    public ChatDto getChat(Long chatId) {
+        var currentUser = userEntityRepository.findByUsername(customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername()).orElseThrow().getId();
+        var optionalChat = chatRepository.findChatById(chatId).orElseThrow();
+
+        var last20Messages = chatMessageRepository
+                .findTop20ByChatIdOrderBySentAtDesc(chatId);
+        return ChatMapper.toChatDto(optionalChat, last20Messages, currentUser);
+    }
+
+    public ChatDto createPrivateChat(String creatorUsername, String receiverUsername) {
+        //1. jak czat nie istneije to go tworzymy? ze statsuem jakims specyficznym az druga osoba potwierdzi?
+
+        var currentUser = userEntityRepository.findByUsername(customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername()).orElseThrow().getId();
+
+        var newChat = Chat.builder()
+                .name(creatorUsername + ", " + receiverUsername)
+                .build();
+        return ChatMapper.toChatDto(newChat, currentUser);// zwracać nulla czy pustą listę?
     }
 
     @Transactional
@@ -130,12 +146,6 @@ public class ChatService {
         chatRepository.findPrivateChatsWithOthers(owner, others)
                 .forEach(r -> result.put(r.getUsername(), r.getChatId()));
         return result;
-    }
-
-    public boolean method(){
-        Boolean exists = Boolean.TRUE;
-        if(exists) return true;
-        else return false;
     }
 
 }
