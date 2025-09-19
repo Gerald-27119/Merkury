@@ -9,7 +9,7 @@
 
 @theme {
     --height-1\/10: 10%;
-
+    --breakpoint-3xl: 2560px;
     --color-mainBlue: #4242f0;
     --color-mainBlueDarker: #0d0db5;
     --color-darkText: #e5e5e5;

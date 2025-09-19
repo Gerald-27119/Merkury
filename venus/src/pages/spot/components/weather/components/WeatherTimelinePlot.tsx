@@ -43,7 +43,7 @@ export default function WeatherTimelinePlot() {
     return (
         isSuccess &&
         plotData && (
-            <div className="mt-8">
+            <div className="3xl:mt-8 mt-2">
                 <h2 className="text-2xl">Timeline</h2>
                 <div className="bg-mediumDarkBlue text-darkText scrollbar-thin scrollbar-track-rounded-lg scrollbar-track-sky-950 hover:scrollbar-thumb-sky-800 scrollbar-thumb-rounded-full mx-auto mt-4 w-[27.5rem] overflow-x-auto rounded-lg">
                     <VictoryChart
@@ -77,7 +77,7 @@ export default function WeatherTimelinePlot() {
                         theme={VictoryTheme.clean}
                         padding={{ top: 80, bottom: 60, left: 50, right: 50 }}
                         width={5000}
-                        height={400}
+                        height={400} //TODO:make it 375 when screen changes to 1920x1080
                         containerComponent={
                             <VictoryContainer responsive={false} />
                         }

@@ -55,7 +55,7 @@ export default function DetailedSpotWeather() {
             {isLoading && <LoadingSpinner />}
             {isError && <p>Failed to load weather.</p>}
             {isSuccess && (
-                <div className="mt-2 flex flex-col space-y-4">
+                <div className="3xl:space-y-4 3xl:mt-2 mt-1 flex flex-col space-y-2">
                     <WeatherOverview
                         temperature={data.current.temperature_2m}
                         weatherCode={data.current.weather_code}

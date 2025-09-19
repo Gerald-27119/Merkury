@@ -48,7 +48,7 @@ export default function WindSpeeds() {
     }
 
     return (
-        <div className="bg-whiteSmoke mt-4 flex items-center rounded-lg py-3 shadow-md">
+        <div className="bg-whiteSmoke 3xl:mt-4 mt-2 flex items-center rounded-lg py-3 shadow-md">
             <WindSpeedDisplay value={windSpeed} />
             <div className="ml-1">
                 <h3 className="mb-1.5">Height</h3>
