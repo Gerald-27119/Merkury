@@ -1,11 +1,13 @@
 package com.merkury.vulcanus.features.chat;
 
+import com.merkury.vulcanus.exception.exceptions.ChatAlreadyExistsException;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
+import com.merkury.vulcanus.model.enums.chat.ChatType;
 import com.merkury.vulcanus.model.mappers.chat.ChatMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
@@ -125,15 +127,25 @@ public class ChatService {
         return ChatMapper.toChatDto(optionalChat, last20Messages, currentUser);
     }
 
-    public ChatDto createPrivateChat(String creatorUsername, String receiverUsername) {
-        //1. jak czat nie istneije to go tworzymy? ze statsuem jakims specyficznym az druga osoba potwierdzi?
+    @Transactional
+    public ChatDto createPrivateChat(String receiverUsername) throws ChatAlreadyExistsException {
+        var currentUserUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        var optionalExistingPrivateCHat = chatRepository.findPrivateBetween(currentUserUsername, receiverUsername);
 
-        var currentUser = userEntityRepository.findByUsername(customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername()).orElseThrow().getId();
+        if (optionalExistingPrivateCHat.isPresent()) {
+            throw new ChatAlreadyExistsException(ChatType.PRIVATE, currentUserUsername, receiverUsername, optionalExistingPrivateCHat.get().getId());
+        }
+
+        var currentUser = userEntityRepository.findByUsername(currentUserUsername).orElseThrow();
+        var otherUser = userEntityRepository.findByUsername(receiverUsername).orElseThrow();
 
         var newChat = Chat.builder()
-                .name(creatorUsername + ", " + receiverUsername)
                 .build();
-        return ChatMapper.toChatDto(newChat, currentUser);// zwracać nulla czy pustą listę?
+        newChat.addParticipant(currentUser);
+        newChat.addParticipant(otherUser);
+        newChat = chatRepository.save(newChat);
+
+        return ChatMapper.toChatDto(newChat, currentUser.getId());
     }
 
     @Transactional
