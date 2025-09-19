@@ -128,7 +128,7 @@ public class ChatService {
     }
 
     @Transactional
-    public ChatDto createPrivateChat(String receiverUsername) throws ChatAlreadyExistsException {
+    public ChatDto createPrivateChat(String receiverUsername) throws ChatAlreadyExistsException {//1.user robi POST, chat juz jest i co...? a moze klient owogle nie powinien wiedziec czy chat jest czy nie, kij go to?
         var currentUserUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         var optionalExistingPrivateCHat = chatRepository.findPrivateBetween(currentUserUsername, receiverUsername);
 
