@@ -7,7 +7,7 @@ import PolygonDrawer from "./PolygonDrawer";
 import UploadButton from "./UploadButton";
 import SpotCoordinatesDto from "../../../../model/interface/spot/coordinates/spotCoordinatesDto";
 import { SpotToAddDto } from "../../../../model/interface/account/add-spot/spotToAddDto";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addSpot, fetchCoordinates } from "../../../../http/user-dashboard";
 import { useEffect, useState } from "react";
 import AddSpotInput from "./AddSpotInput";
@@ -15,6 +15,7 @@ import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinne
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { notificationAction } from "../../../../redux/notification";
 import useDebounce from "../../../../hooks/useDebounce";
+import { spotSchema } from "../validation-schema/spotSchema";
 
 type ConfigTyp = { name: keyof SpotToAddDto; type: string; id: string }[];
 
@@ -37,6 +38,12 @@ interface AddSpotModalProps {
 
 export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
     const dispatch = useDispatchTyped();
+    const queryClient = useQueryClient();
+
+    const [errors, setErrors] = useState<{
+        media?: string | null;
+        borderPoints?: string | null;
+    }>({});
 
     const [spot, setSpot] = useState<SpotToAddDto>({
         id: 0,
@@ -70,8 +77,14 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
 
     const { mutateAsync } = useMutation({
         mutationFn: addSpot,
-        onSuccess: () => {
+        onSuccess: async () => {
             onClose();
+            dispatch(
+                notificationAction.addSuccess({
+                    message: "Successfully add spot.",
+                }),
+            );
+            await queryClient.invalidateQueries({ queryKey: ["add-spot"] });
         },
         onError: () => {
             dispatch(
@@ -92,9 +105,47 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
             ...prevState,
             [key]: value,
         }));
+
+        setErrors((prev) => {
+            if (key === "media" || key === "borderPoints") {
+                const hasValue = Array.isArray(value)
+                    ? value.length > 0
+                    : Boolean(value);
+
+                return {
+                    ...prev,
+                    [key]: hasValue
+                        ? null
+                        : prev[key as "media" | "borderPoints"],
+                };
+            }
+            return prev;
+        });
     };
 
     const handleAddSpot = async () => {
+        const result = spotSchema.safeParse(spot);
+
+        const newErrors: { [key: string]: string | null } = {};
+
+        if (!result.success) {
+            result.error.issues.forEach((issue) => {
+                const field = issue.path[0] as string;
+                newErrors[field] = issue.message;
+            });
+        }
+
+        setErrors(newErrors);
+
+        if (!result.success) {
+            dispatch(
+                notificationAction.addError({
+                    message: "Please fill in all fields correctly",
+                }),
+            );
+            return;
+        }
+
         await mutateAsync(spot);
     };
 
@@ -171,9 +222,15 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
                                             handleSetSpot("media", files)
                                         }
                                     />
+                                    {errors.media && (
+                                        <p className="mt-1 text-sm text-red-600">
+                                            {errors.media}
+                                        </p>
+                                    )}
                                 </div>
                                 <div className="relative flex w-full">
                                     <PolygonDrawer
+                                        borderPointsError={errors.borderPoints}
                                         initialPosition={mapPosition}
                                         onPolygonComplete={(coords) => {
                                             const mappedCoords: SpotCoordinatesDto[] =
