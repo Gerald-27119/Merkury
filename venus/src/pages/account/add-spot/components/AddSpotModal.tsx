@@ -7,7 +7,7 @@ import PolygonDrawer from "./PolygonDrawer";
 import UploadButton from "./UploadButton";
 import SpotCoordinatesDto from "../../../../model/interface/spot/coordinates/spotCoordinatesDto";
 import { SpotToAddDto } from "../../../../model/interface/account/add-spot/spotToAddDto";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addSpot, fetchCoordinates } from "../../../../http/user-dashboard";
 import { useEffect, useState } from "react";
 import AddSpotInput from "./AddSpotInput";
@@ -38,6 +38,7 @@ interface AddSpotModalProps {
 
 export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
     const dispatch = useDispatchTyped();
+    const queryClient = useQueryClient();
 
     const [errors, setErrors] = useState<{
         media?: string | null;
@@ -76,8 +77,14 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
 
     const { mutateAsync } = useMutation({
         mutationFn: addSpot,
-        onSuccess: () => {
+        onSuccess: async () => {
             onClose();
+            dispatch(
+                notificationAction.addSuccess({
+                    message: "Successfully add spot.",
+                }),
+            );
+            await queryClient.invalidateQueries({ queryKey: ["add-spot"] });
         },
         onError: () => {
             dispatch(
