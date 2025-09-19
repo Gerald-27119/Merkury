@@ -11,6 +11,8 @@ import SpotsNameSearchBar from "./components/spot-search/SpotsNameSearchBar";
 import SearchedSpotsList from "../spot/components/searched-spot/SearchedSpotsList";
 import SearchCurrentViewButton from "./components/current-view/SearchCurrentViewButton";
 import CurrentViewSpotsList from "../spot/components/current-view-spots/CurrentViewSpotsList";
+import BasicSpotWeather from "./components/weather/BasicSpotWeather";
+import DetailedSpotWeather from "../spot/components/weather/DetailedSpotWeather";
 
 type Position = {
     longitude: number;
@@ -31,12 +33,20 @@ export default function MapPage() {
         (state) => state.spotDetails.showModal,
     );
 
+    const showBasicSpotWeatherModal = useSelectorTyped(
+        (state) => state.spotWeather.showBasicWeather,
+    );
+
     const showSearchedSpotsList = useSelectorTyped(
         (state) => state.searchedSpotsListModal.showList,
     );
 
     const showCurrentViewSpotsList = useSelectorTyped(
         (state) => state.currentViewSpotsListModal.showList,
+    );
+
+    const showDetailedSpotWeatherModal = useSelectorTyped(
+        (state) => state.spotWeather.showDetailedWeather,
     );
 
     return (
@@ -57,6 +67,7 @@ export default function MapPage() {
             onZoomEnd={handleZoomEnd}
         >
             <SpotsNameSearchBar />
+            {showBasicSpotWeatherModal && <BasicSpotWeather />}
             <AnimatePresence>
                 {showSpotDetailsModal && <SpotDetails key="spot-details" />}
                 {showSearchedSpotsList && (
@@ -64,6 +75,9 @@ export default function MapPage() {
                 )}
                 {showCurrentViewSpotsList && (
                     <CurrentViewSpotsList key="current-view-spots-list" />
+                )}
+                {showDetailedSpotWeatherModal && (
+                    <DetailedSpotWeather key="detailed-spot-weather-modal" />
                 )}
             </AnimatePresence>
             <div className="absolute right-1 bottom-1 flex flex-col items-center space-y-2 sm:right-2 sm:bottom-2 xl:right-5 xl:bottom-5">

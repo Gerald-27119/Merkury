@@ -23,6 +23,12 @@
     --color-lightBgSoft: #ffffff;
     --color-lightBgMuted: #f2f2f2;
     --color-lightBorder: #fbfdff;
+    --color-lightGrayishViolet: #f2eef9;
+    --color-whiteSmoke: #f6f6f6;
+    --color-warmerWhiteSmoke: #ece9e9;
+    --color-lightGrayishBlue: #e5e9ee;
+    --color-paleBlueGray: #acafbb;
+    --color-grayText: #d3d3d3;
     --color-violetDark: #363041;
     --color-violetLight: #6d6183;
     --color-violetLightDarker: #4f4660;
@@ -31,6 +37,7 @@
     --color-violetBtnBorderDark: #625b6e;
     --color-violetBright: #835ace;
     --color-darbVioletBtnOutline: #816ba6;
+    --color-mediumDarkBlue: #424b77;
     --color-first: #2c3e50;
     --color-second: #34495e;
     --color-third: #1abc9c;

@@ -14,6 +14,8 @@ import { MdLocationPin } from "react-icons/md";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { spotDetailsModalAction } from "../../../../redux/spot-modal";
 import { useLocation } from "react-router-dom";
+import SpotCoordinatesDto from "../../../../model/interface/spot/coordinates/spotCoordinatesDto";
+import { spotWeatherActions } from "../../../../redux/spot-weather";
 
 const clickHandlers = new Map<number, () => void>();
 
@@ -58,7 +60,13 @@ export default function Spots() {
         if (data) {
             data?.forEach((spot: GeneralSpot) => {
                 if (!shouldRenderMarker(spot.area, zoomLevel)) {
-                    const handler = () => handleSpotClick(spot.id);
+                    const handler = () =>
+                        handleSpotClick(
+                            spot.id,
+                            spot.centerPoint,
+                            spot.region,
+                            spot.city,
+                        );
                     const layerId = spot.id.toString();
                     clickHandlers.set(spot.id, handler);
                     map?.on("click", layerId, handler);
@@ -100,9 +108,23 @@ export default function Spots() {
         }
     }, [map, location]);
 
-    const handleSpotClick = (spotId: number): void => {
+    const handleSpotClick = (
+        spotId: number,
+        centerPoint: SpotCoordinatesDto,
+        region: string,
+        city: string,
+    ): void => {
         dispatch(spotDetailsModalAction.setSpotId(spotId));
+        dispatch(
+            spotWeatherActions.setSpotCoordinates({
+                latitude: centerPoint.x,
+                longitude: centerPoint.y,
+                region,
+                city,
+            }),
+        );
         dispatch(spotDetailsModalAction.handleShowModal());
+        dispatch(spotWeatherActions.openBasicWeatherModal());
     };
 
     return (
@@ -113,7 +135,14 @@ export default function Spots() {
                         key={spot.id}
                         longitude={spot.centerPoint.y}
                         latitude={spot.centerPoint.x}
-                        onClick={() => handleSpotClick(spot.id)}
+                        onClick={() =>
+                            handleSpotClick(
+                                spot.id,
+                                spot.centerPoint,
+                                spot.region,
+                                spot.city,
+                            )
+                        }
                     >
                         <MdLocationPin
                             className="text-spotLocationMarker cursor-pointer text-3xl"
