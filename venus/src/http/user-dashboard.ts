@@ -36,6 +36,18 @@ export async function getProfileForViewer(
     ).data;
 }
 
+export async function changeUserProfilePhoto(
+    profilePhoto: File,
+): Promise<void> {
+    const formData = new FormData();
+    formData.append("profilePhoto", profilePhoto);
+
+    await axios.patch(`${BASE_URL}/user-dashboard/profile`, formData, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+    });
+}
+
 export async function getUserOwnFriends(
     page: number,
     size: number,
