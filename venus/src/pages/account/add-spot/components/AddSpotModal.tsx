@@ -31,6 +31,18 @@ const addressInputConfig: ConfigTyp = [
     { name: "street", type: "text", id: "street" },
 ];
 
+const initialValue: SpotToAddDto = {
+    id: 0,
+    name: "",
+    description: "",
+    country: "",
+    region: "",
+    city: "",
+    street: "",
+    borderPoints: [],
+    media: [],
+};
+
 interface AddSpotModalProps {
     onClose: () => void;
     isOpen: boolean;
@@ -45,17 +57,7 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
         borderPoints?: string | null;
     }>({});
 
-    const [spot, setSpot] = useState<SpotToAddDto>({
-        id: 0,
-        name: "",
-        description: "",
-        country: "",
-        region: "",
-        city: "",
-        street: "",
-        borderPoints: [],
-        media: [],
-    });
+    const [spot, setSpot] = useState<SpotToAddDto>(initialValue);
 
     const debouncedStreet = useDebounce(spot.street, 500);
     const debouncedCity = useDebounce(spot.city, 500);
@@ -84,6 +86,7 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
                     message: "Successfully add spot.",
                 }),
             );
+            setSpot(initialValue);
             await queryClient.invalidateQueries({ queryKey: ["add-spot"] });
         },
         onError: () => {
