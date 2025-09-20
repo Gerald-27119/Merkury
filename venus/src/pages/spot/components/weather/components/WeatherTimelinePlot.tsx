@@ -14,9 +14,23 @@ import {
 import { useEffect, useState } from "react";
 import SpotWeatherTimelinePlotData from "../../../../../model/interface/spot/weather/spotWeatherTimelinePlotData";
 import CustomTickLabel from "./CustomTickLabel";
+import useScreenSize from "../../../../../hooks/useScreenSize";
+import ScreenSizeDto from "../../../../../model/screenSizeDto";
 
 export default function WeatherTimelinePlot() {
     const [plotData, setPlotData] = useState<SpotWeatherTimelinePlotData[]>();
+    const [plotSize, setPlotSize] = useState<ScreenSizeDto>({
+        width: 5000,
+        height: 400,
+    });
+
+    const screenSize = useScreenSize();
+
+    useEffect(() => {
+        if (screenSize.height <= 1080 || screenSize.width <= 1920) {
+            setPlotSize({ width: 5000, height: 360 });
+        }
+    }, [screenSize]);
 
     const { latitude, longitude } = useSelectorTyped(
         (state) => state.spotWeather,
@@ -76,8 +90,8 @@ export default function WeatherTimelinePlot() {
                         scale={{ x: "time" }}
                         theme={VictoryTheme.clean}
                         padding={{ top: 80, bottom: 60, left: 50, right: 50 }}
-                        width={5000}
-                        height={400} //TODO:make it 375 when screen changes to 1920x1080
+                        width={plotSize.width}
+                        height={plotSize.height}
                         containerComponent={
                             <VictoryContainer responsive={false} />
                         }

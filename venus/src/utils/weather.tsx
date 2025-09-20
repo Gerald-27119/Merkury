@@ -1,4 +1,5 @@
 import SpotWeatherTimelinePlotData from "../model/interface/spot/weather/spotWeatherTimelinePlotData";
+import ScreenSizeDto from "../model/screenSizeDto";
 
 export function formatISOToAmPm(isoTimestamp: string): string {
     const date = new Date(
