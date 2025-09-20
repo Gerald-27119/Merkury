@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { chatActions, selectIsChatPresent } from "../../../../redux/chats";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
+import { getOrCreatePrivateChat } from "../../../../http/chats";
 
 interface SocialCardProps {
     friend: SocialDto;
@@ -34,7 +35,8 @@ export default function SocialCard({
     const isPrivateChatWithThatUserPresent = useSelectorTyped(
         (state) =>
             !!(
-                friend.commonChatId && state.chats.entities[friend.commonChatId]
+                friend.commonPrivateChatId &&
+                state.chats.entities[friend.commonPrivateChatId]
             ),
     );
 
@@ -51,6 +53,21 @@ export default function SocialCard({
             await queryClient.invalidateQueries({ queryKey: ["followed"] });
         },
     });
+
+    const { mutateAsync: mutateAsyncGetOrCreatePrivateChat, data } =
+        useMutation({
+            mutationFn: () =>
+                getOrCreatePrivateChat(
+                    friend.commonPrivateChatId ?? 0, //to zrobic lepiej, problemem jest ze null nie chce sie przekazac jako query param
+                    friend.username,
+                ),
+            onSuccess: (chat) => {
+                dispatch(chatActions.upsertChats([chat]));
+                dispatch(chatActions.setSelectedChatId(chat.id));
+                dispatch(chatActions.clearNew(chat.id));
+                navigate("/chat");
+            },
+        });
 
     const removeUserFriend = async (friendUsername: string) => {
         await mutateAsyncFriends({
@@ -80,22 +97,17 @@ export default function SocialCard({
             handleRemove = () => removeUserFriend(friend.username);
     }
 
-    function handleNavigateToChat() {
-        const id = friend.commonChatId;
+    async function handleNavigateToChat() {
+        const id = friend.commonPrivateChatId;
 
         if (id != null && isPrivateChatWithThatUserPresent) {
             dispatch(chatActions.setSelectedChatId(id));
             dispatch(chatActions.clearNew(id));
             navigate("/chat");
-        } else {
-            //request for that chat(backend has to create it? or only when you send 1st message?
-            //1.fetch
-            //2.add to redux
-            //after getting it:
-            // dispatch(chatActions.setSelectedChatId(friend.commonChatId));
-            // dispatch(chatActions.clearNew(friend.commonChatId));
-            // navigate("/chat");
+            return;
         }
+
+        await mutateAsyncGetOrCreatePrivateChat();
     }
 
     return (

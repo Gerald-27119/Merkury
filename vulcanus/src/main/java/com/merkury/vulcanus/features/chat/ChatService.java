@@ -118,17 +118,31 @@ public class ChatService {
 
     }
 
-    public ChatDto getChat(Long chatId) {
-        var currentUser = userEntityRepository.findByUsername(customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername()).orElseThrow().getId();
-        var optionalChat = chatRepository.findChatById(chatId).orElseThrow();
+    @Transactional
+    public ChatDto getOrCreatePrivateChat(Long chatId, String receiverUsername) {
+        var optionalChat = chatRepository.findChatById(chatId);
 
-        var last20Messages = chatMessageRepository
-                .findTop20ByChatIdOrderBySentAtDesc(chatId);
-        return ChatMapper.toChatDto(optionalChat, last20Messages, currentUser);
+        if (optionalChat.isPresent()) {
+            return getChat(optionalChat.get());
+        } else {
+            try {
+                return createPrivateChat(receiverUsername);
+            } catch (ChatAlreadyExistsException chatAlreadyExistsException) {
+                var currentUserUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+                var chat = chatRepository.findPrivateBetween(currentUserUsername, receiverUsername).get();
+                return getChat(chat);
+            }
+        }
     }
 
-    @Transactional
-    public ChatDto createPrivateChat(String receiverUsername) throws ChatAlreadyExistsException {//1.user robi POST, chat juz jest i co...? a moze klient owogle nie powinien wiedziec czy chat jest czy nie, kij go to?
+    private ChatDto getChat(Chat chat) {
+        var currentUser = userEntityRepository.findByUsername(customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername()).orElseThrow().getId();
+        var last20Messages = chatMessageRepository
+                .findTop20ByChatIdOrderBySentAtDesc(chat.getId());
+        return ChatMapper.toChatDto(chat, last20Messages, currentUser);
+    }
+
+    private ChatDto createPrivateChat(String receiverUsername) throws ChatAlreadyExistsException {
         var currentUserUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         var optionalExistingPrivateCHat = chatRepository.findPrivateBetween(currentUserUsername, receiverUsername);
 
