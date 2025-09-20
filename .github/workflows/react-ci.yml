@@ -11,7 +11,7 @@ on:
       - master
       - develop
     paths-ignore:
-      - 'documentation/**'
+      - 'book/**'
   merge_group:
     branches: [ master, develop ]
 
