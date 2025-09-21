@@ -146,10 +146,10 @@ public class ChatService {
 
     private ChatDto createPrivateChat(String receiverUsername) throws ChatAlreadyExistsException {
         var currentUserUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        var optionalExistingPrivateCHat = chatRepository.findPrivateBetween(currentUserUsername, receiverUsername);
+        var optionalExistingPrivateChat = chatRepository.findPrivateBetween(currentUserUsername, receiverUsername);
 
-        if (optionalExistingPrivateCHat.isPresent()) {
-            throw new ChatAlreadyExistsException(ChatType.PRIVATE, currentUserUsername, receiverUsername, optionalExistingPrivateCHat.get().getId());
+        if (optionalExistingPrivateChat.isPresent()) {
+            throw new ChatAlreadyExistsException(ChatType.PRIVATE, currentUserUsername, receiverUsername, optionalExistingPrivateChat.get().getId());
         }
 
         var currentUser = userEntityRepository.findByUsername(currentUserUsername).orElseThrow();
