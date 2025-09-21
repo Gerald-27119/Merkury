@@ -2,6 +2,7 @@ package com.merkury.vulcanus.config;
 
 import com.merkury.vulcanus.config.properties.GifProviderProperties;
 import com.merkury.vulcanus.config.properties.LocationqProviderProperties;
+import com.merkury.vulcanus.config.properties.SpotWeatherProviderProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,6 +39,14 @@ public class WebClientConfig {
     @Qualifier("locationq")
     public WebClient locationqWebClient(LocationqProviderProperties props) {
         return WebClient.builder()
+                .baseUrl(props.getUrl())
+                .build();
+    }
+
+    @Bean
+    @Qualifier("spotWeather")
+    public WebClient spotWeatherWebClient(WebClient.Builder builder, SpotWeatherProviderProperties props) {
+        return builder
                 .baseUrl(props.getUrl())
                 .build();
     }
