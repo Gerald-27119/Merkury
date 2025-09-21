@@ -25,21 +25,21 @@ public class FollowersService {
     public SocialPageDto getUserFollowers(String username, int page, int size) throws UserNotFoundByUsernameException {
         var followersPage = userEntityRepository.findFollowersByFollowedUsername(username, PageRequest.of(page, size));
         if (followersPage.getContent().isEmpty()) {
-            throw new UserNotFoundByUsernameException(username);//TODO: @Mateusz, to tak powinno być? A co jak ktoś nie ma followersów?
+            throw new UserNotFoundByUsernameException(username);
         }
         var followerUsernamePrivateChatIdMap = chatService.getDmIdsMap(username, followersPage.getContent().stream().map(UserEntity::getUsername).toList());
-        var mappedFollowers = followersPage.stream().map(follower -> SocialMapper.toDto(follower, followerUsernamePrivateChatIdMap.get(follower.getUsername()))).toList();
+        var mappedFollowers = followersPage.stream().map(follower -> SocialMapper.userEntityToSocialDto(follower, followerUsernamePrivateChatIdMap.get(follower.getUsername()))).toList();
         return new SocialPageDto(mappedFollowers, followersPage.hasNext());
     }
 
     public SocialPageDto getUserFollowed(String username, int page, int size) throws UserNotFoundByUsernameException {
         var followedPage = userEntityRepository.findFollowedByFollowersUsername(username, PageRequest.of(page, size));
         if (followedPage.getContent().isEmpty()) {
-            throw new UserNotFoundByUsernameException(username);//TODO: @Mateusz, to tak powinno być? A co jak ktoś nie ma followed?
+            throw new UserNotFoundByUsernameException(username);
         }
 
         var followerUsernamePrivateChatIdMap = chatService.getDmIdsMap(username, followedPage.getContent().stream().map(UserEntity::getUsername).toList());
-        var mappedFollowed = followedPage.stream().map(follower -> SocialMapper.toDto(follower, followerUsernamePrivateChatIdMap.get(follower.getUsername()))).toList();
+        var mappedFollowed = followedPage.stream().map(follower -> SocialMapper.userEntityToSocialDto(follower, followerUsernamePrivateChatIdMap.get(follower.getUsername()))).toList();
 
         return new SocialPageDto(mappedFollowed, followedPage.hasNext());
     }
