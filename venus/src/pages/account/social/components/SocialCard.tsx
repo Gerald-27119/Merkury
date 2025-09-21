@@ -102,9 +102,6 @@ export default function SocialCard({
             navigate("/chat");
             return;
         }
-        // console.log(
-        //     `${id} ${isPrivateChatWithThatUserPresent} ${friend.username}`,
-        // );
         await mutateAsyncGetOrCreatePrivateChat();
     }
 
