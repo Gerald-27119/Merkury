@@ -1,11 +1,14 @@
 import { ConfigProvider, Rate } from "antd";
 import { FaLocationDot, FaMapLocationDot } from "react-icons/fa6";
-import { MdOutlineWbSunny } from "react-icons/md";
 import { FiInfo } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { spotDetailsModalAction } from "../../../redux/spot-modal";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import HomePageSpotDto from "../../../model/interface/spot/search-spot/homePageSpotDto";
+import { useQuery } from "@tanstack/react-query";
+import { getBasicSpotWeather } from "../../../http/weather";
+import { TbTemperatureCelsius } from "react-icons/tb";
+import WeatherIcon from "../../map/components/weather/components/WeatherIcon";
 
 interface SpotTileProps {
     spot: HomePageSpotDto;
@@ -14,6 +17,12 @@ interface SpotTileProps {
 export default function SpotTile({ spot }: SpotTileProps) {
     const navigate = useNavigate();
     const dispatch = useDispatchTyped();
+
+    const { data } = useQuery({
+        queryKey: ["weather", spot.centerPoint.x, spot.centerPoint.y],
+        queryFn: () =>
+            getBasicSpotWeather(spot.centerPoint.x, spot.centerPoint.y),
+    });
 
     let formattedDistance: string;
 
@@ -58,9 +67,15 @@ export default function SpotTile({ spot }: SpotTileProps) {
                         <p className="text-xl">{spot.city}</p>
                     </span>
                     <div className="dark:bg-violetLight bg-violetLighter flex items-center space-x-2 rounded-full px-3 py-1 shadow-md shadow-black/30">
-                        <MdOutlineWbSunny />
-                        <p>10 *C</p>
-                        {/*todo dać tu prawdziwą temp z miejsca jak Stachu zrobi pogodę*/}
+                        <WeatherIcon
+                            isDay={data?.current["is_day"]}
+                            code={data?.current["weather_code"]}
+                            textSize="text-2xl"
+                        />
+                        <span className="flex items-center gap-x-0.5">
+                            <p>{data?.current["temperature_2m"]}</p>
+                            <TbTemperatureCelsius className="text-xl" />
+                        </span>
                     </div>
                 </div>
                 <h1 className="text-2xl font-semibold">{spot.name}</h1>
