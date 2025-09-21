@@ -8,6 +8,27 @@ import {
 } from "../../../http/spots-data";
 import AdvanceSearchSuggestions from "./AdvanceSearchSuggestions";
 import HomePageSpotDto from "../../../model/interface/spot/search-spot/homePageSpotDto";
+import Dropdown from "./Dropdown";
+import {
+    SpotSortLabels,
+    SpotSortType,
+} from "../../../model/enum/spot/spotSortType";
+import {
+    SpotRatingSortLabels,
+    SpotRatingSortType,
+} from "../../../model/enum/spot/spotRatingSortType";
+
+const spotRatingSortOptions = Object.values(SpotRatingSortType).map(
+    (value) => ({
+        value,
+        name: SpotRatingSortLabels[value],
+    }),
+);
+
+const spotSortOptions = Object.values(SpotSortType).map((value) => ({
+    value,
+    name: SpotSortLabels[value],
+}));
 
 interface SearchLocation {
     city?: string;
@@ -130,68 +151,83 @@ export default function AdvanceSearchBar({
     }, [isFetchingNextPage, onSetFetchingNextPage]);
 
     return (
-        <div className="dark:bg-darkBgSoft bg-lightBgSoft flex w-full flex-col items-center justify-between space-y-3 rounded-md px-3 py-2 shadow-md md:flex-row md:space-y-0 lg:w-3/4 lg:space-x-3 xl:w-1/2 dark:shadow-black">
-            <div className="flex w-full">
-                <div className="flex w-full flex-col">
-                    <h1>Location</h1>
-                    <div className="relative w-full pt-2">
-                        <SearchInput
-                            label="Your city"
-                            id="city"
-                            value={searchLocation["city"] ?? ""}
-                            onChange={(e) => handleSetCity(e.target.value)}
-                            onFocus={() => setActiveInput("city")}
-                        />
-                        {activeInput === "city" && suggestions.length > 0 && (
-                            <AdvanceSearchSuggestions
-                                suggestions={suggestions}
-                                onClick={handleSuggestionClick}
-                                id={"city"}
+        <div className="flex w-full flex-col items-center gap-y-2">
+            <div className="dark:bg-darkBgSoft bg-lightBgSoft flex w-full flex-col items-center justify-between space-y-3 rounded-md px-3 py-2 shadow-md md:flex-row md:space-y-0 lg:w-3/4 lg:space-x-3 xl:w-1/2 dark:shadow-black">
+                <div className="flex w-full">
+                    <div className="flex w-full flex-col">
+                        <h1>Location</h1>
+                        <div className="relative w-full pt-2">
+                            <SearchInput
+                                label="Your city"
+                                id="city"
+                                value={searchLocation["city"] ?? ""}
+                                onChange={(e) => handleSetCity(e.target.value)}
+                                onFocus={() => setActiveInput("city")}
                             />
-                        )}
-                    </div>
-                </div>
-                <div className="flex w-full flex-col">
-                    <h1 className="pointer-events-none capitalize">Tags</h1>
-                    <div className="border-l-darkBorder my-2 flex h-full w-full justify-start space-x-2 border-l pl-4">
-                        <div className="relative">
-                            <button
-                                className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 flex w-full cursor-pointer justify-center rounded-md p-2 md:w-fit"
-                                onClick={() =>
-                                    setActiveInput((prevState) =>
-                                        prevState !== "tags" ? "tags" : null,
-                                    )
-                                }
-                            >
-                                <FaPlus />
-                            </button>
-                            {activeInput === "tags" &&
+                            {activeInput === "city" &&
                                 suggestions.length > 0 && (
                                     <AdvanceSearchSuggestions
                                         suggestions={suggestions}
                                         onClick={handleSuggestionClick}
-                                        id={"tags"}
+                                        id={"city"}
                                     />
                                 )}
                         </div>
-                        {searchLocation.tags?.map((tag) => (
-                            <button
-                                key={tag}
-                                onClick={() => handleRemoveTag(tag)}
-                                className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 flex w-fit cursor-pointer justify-center rounded-md px-2 py-1 capitalize"
-                            >
-                                {tag}
-                            </button>
-                        ))}
+                    </div>
+                    <div className="flex w-full flex-col">
+                        <h1 className="pointer-events-none capitalize">Tags</h1>
+                        <div className="border-l-darkBorder my-2 flex h-full w-full justify-start space-x-2 border-l pl-4">
+                            <div className="relative">
+                                <button
+                                    className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 flex w-full cursor-pointer justify-center rounded-md p-2 md:w-fit"
+                                    onClick={() =>
+                                        setActiveInput((prevState) =>
+                                            prevState !== "tags"
+                                                ? "tags"
+                                                : null,
+                                        )
+                                    }
+                                >
+                                    <FaPlus />
+                                </button>
+                                {activeInput === "tags" &&
+                                    suggestions.length > 0 && (
+                                        <AdvanceSearchSuggestions
+                                            suggestions={suggestions}
+                                            onClick={handleSuggestionClick}
+                                            id={"tags"}
+                                        />
+                                    )}
+                            </div>
+                            {searchLocation.tags?.map((tag) => (
+                                <button
+                                    key={tag}
+                                    onClick={() => handleRemoveTag(tag)}
+                                    className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 flex w-fit cursor-pointer justify-center rounded-md px-2 py-1 capitalize"
+                                >
+                                    {tag}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
+                <button
+                    className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 flex w-full cursor-pointer justify-center rounded-md p-2 md:w-fit"
+                    onClick={handleSearchSpots}
+                >
+                    <FaSearch />
+                </button>
             </div>
-            <button
-                className="dark:bg-darkBgMuted dark:hover:bg-darkBgMuted/80 bg-lightBgMuted hover:bg-lightBgMuted/80 flex w-full cursor-pointer justify-center rounded-md p-2 md:w-fit"
-                onClick={handleSearchSpots}
-            >
-                <FaSearch />
-            </button>
+            <div className="flex justify-start gap-x-3 lg:w-3/4 xl:w-1/2">
+                <Dropdown<SpotSortType>
+                    onSelectType={() => {}}
+                    sortOptions={spotSortOptions}
+                />
+                <Dropdown<SpotRatingSortType>
+                    onSelectType={() => {}}
+                    sortOptions={spotRatingSortOptions}
+                />
+            </div>
         </div>
     );
 }
