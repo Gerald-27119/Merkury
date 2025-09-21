@@ -11,6 +11,7 @@ import { AccountWrapperType } from "../../../model/enum/account/accountWrapperTy
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { changeUserProfilePhoto } from "../../../http/user-dashboard";
 import { FaEdit } from "react-icons/fa";
+import { notificationAction } from "../../../redux/notification";
 
 interface ProfileProps {
     userData: UserProfile;
@@ -34,6 +35,19 @@ export default function Profile({
         mutationFn: changeUserProfilePhoto,
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["userProfile"] });
+            dispatch(
+                notificationAction.addSuccess({
+                    message: "Your profile photo has been updated.",
+                }),
+            );
+        },
+        onError: () => {
+            dispatch(
+                notificationAction.addError({
+                    message:
+                        "We couldn’t update your profile photo. Please try again.",
+                }),
+            );
         },
     });
 
