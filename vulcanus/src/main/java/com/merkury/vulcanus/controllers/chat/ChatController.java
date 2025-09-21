@@ -43,7 +43,7 @@ public class ChatController {
     @PostMapping("/get-or-create-private-chat")
     public ResponseEntity<ChatDto> getOrCreatePrivateChat(
             @RequestParam String receiverUsername,
-            @RequestParam Long chatId
+            @RequestParam(required = false) Long chatId
     ) {
         return ResponseEntity.ok(chatService.getOrCreatePrivateChat(chatId, receiverUsername));
     }

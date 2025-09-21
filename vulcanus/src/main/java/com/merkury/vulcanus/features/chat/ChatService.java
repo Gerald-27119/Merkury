@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -119,8 +121,8 @@ public class ChatService {
     }
 
     @Transactional
-    public ChatDto getOrCreatePrivateChat(Long chatId, String receiverUsername) {
-        var optionalChat = chatRepository.findChatById(chatId);
+    public ChatDto getOrCreatePrivateChat(@Nullable Long chatId, String receiverUsername) {
+        Optional<Chat> optionalChat = Optional.ofNullable(chatId).flatMap(chatRepository::findById);
 
         if (optionalChat.isPresent()) {
             return getChat(optionalChat.get());

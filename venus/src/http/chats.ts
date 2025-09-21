@@ -48,20 +48,17 @@ export async function getMessagesForChat(
 }
 
 export async function getOrCreatePrivateChat(
-    chatId: number | null = 0,
+    chatId: number | null,
     receiverUsername: string,
 ): Promise<ChatDto> {
-    return (
-        await axios.post<ChatDto>(
-            `${BASE_URL}/chats/get-or-create-private-chat`,
-            {},
-            {
-                withCredentials: true,
-                params: {
-                    receiverUsername,
-                    chatId,
-                },
-            },
-        )
-    ).data;
+    const params: Record<string, any> = { receiverUsername };
+    if (chatId != null) params.chatId = chatId;
+
+    console.log(params);
+    const { data } = await axios.post<ChatDto>(
+        `${BASE_URL}/chats/get-or-create-private-chat`,
+        {},
+        { withCredentials: true, params },
+    );
+    return data;
 }

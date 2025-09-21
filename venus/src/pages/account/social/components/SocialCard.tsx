@@ -54,20 +54,16 @@ export default function SocialCard({
         },
     });
 
-    const { mutateAsync: mutateAsyncGetOrCreatePrivateChat, data } =
-        useMutation({
-            mutationFn: () =>
-                getOrCreatePrivateChat(
-                    friend.commonPrivateChatId ?? 0, //to zrobic lepiej, problemem jest ze null nie chce sie przekazac jako query param
-                    friend.username,
-                ),
-            onSuccess: (chat) => {
-                dispatch(chatActions.upsertChats([chat]));
-                dispatch(chatActions.setSelectedChatId(chat.id));
-                dispatch(chatActions.clearNew(chat.id));
-                navigate("/chat");
-            },
-        });
+    const { mutateAsync: mutateAsyncGetOrCreatePrivateChat } = useMutation({
+        mutationFn: () =>
+            getOrCreatePrivateChat(friend.commonPrivateChatId, friend.username),
+        onSuccess: (chat) => {
+            dispatch(chatActions.upsertChats([chat]));
+            dispatch(chatActions.setSelectedChatId(chat.id));
+            dispatch(chatActions.clearNew(chat.id));
+            navigate("/chat");
+        },
+    });
 
     const removeUserFriend = async (friendUsername: string) => {
         await mutateAsyncFriends({
@@ -106,7 +102,9 @@ export default function SocialCard({
             navigate("/chat");
             return;
         }
-
+        // console.log(
+        //     `${id} ${isPrivateChatWithThatUserPresent} ${friend.username}`,
+        // );
         await mutateAsyncGetOrCreatePrivateChat();
     }
 
