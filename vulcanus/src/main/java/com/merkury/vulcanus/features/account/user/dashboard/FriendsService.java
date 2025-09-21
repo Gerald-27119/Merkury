@@ -34,8 +34,18 @@ public class FriendsService {
             throw new UserNotFoundByUsernameException(username);
         }
 
-        var friendsUsernamePrivateChatIdMap = chatService.getDmIdsMap(username, friendsPage.getContent().stream().map(friendView -> friendView.getFriend().getUsername()).toList());
-        var mappedFriends = friendsPage.stream().map(friendView -> SocialMapper.friendViewToSocialDto(friendView, friendsUsernamePrivateChatIdMap.get(friendView.getFriend().getUsername()))).toList();
+        var friendUsernames = friendsPage.getContent()
+                .stream()
+                .map(friendView -> friendView.getFriend().getUsername())
+                .toList();
+        var friendsUsernamePrivateChatIdMap = chatService.getDmIdsMap(username, friendUsernames);
+        var mappedFriends = friendsPage.stream()
+                .map(friendView -> {
+                    var friendUsername = friendView.getFriend().getUsername();
+                    var privateChatId = friendsUsernamePrivateChatIdMap.get(friendUsername);
+                    return SocialMapper.friendViewToSocialDto(friendView, privateChatId);
+                })
+                .toList();
         return new SocialPageDto(mappedFriends, friendsPage.hasNext());
     }
 
