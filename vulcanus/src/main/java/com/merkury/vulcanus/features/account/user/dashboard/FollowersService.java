@@ -48,9 +48,19 @@ public class FollowersService {
             throw new UserNotFoundByUsernameException(username);
         }
 
-        var followerUsernamePrivateChatIdMap = chatService.getDmIdsMap(username, followedPage.getContent().stream().map(UserEntity::getUsername).toList());
-        var mappedFollowed = followedPage.stream().map(follower -> SocialMapper.userEntityToSocialDto(follower, followerUsernamePrivateChatIdMap.get(follower.getUsername()))).toList();
+        var followerUsernamePrivateChatIdMap = chatService.getDmIdsMap(
+                username,
+                followedPage.getContent().stream()
+                        .map(UserEntity::getUsername)
+                        .toList()
+        );
 
+        var mappedFollowed = followedPage.stream()
+                .map(follower -> {
+                    var chatId = followerUsernamePrivateChatIdMap.get(follower.getUsername());
+                    return SocialMapper.userEntityToSocialDto(follower, chatId);
+                })
+                .toList();
         return new SocialPageDto(mappedFollowed, followedPage.hasNext());
     }
 
