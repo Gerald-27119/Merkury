@@ -122,7 +122,6 @@ export default function SocialCard({
                 <SocialButton onClick={handleNavigateToUserProfile}>
                     <FaUser aria-label="userProfileFriendCardIcon" />
                 </SocialButton>
-                {/*TODO zrobić działające przyciski*/}
                 <SocialButton onClick={handleNavigateToChat}>
                     <BiMessageRounded aria-label="messageFriendCardIcon" />
                 </SocialButton>
