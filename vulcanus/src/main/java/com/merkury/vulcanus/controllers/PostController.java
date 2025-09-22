@@ -25,7 +25,7 @@ public class PostController {
 
     @GetMapping("/public/post")
     public ResponseEntity<Page<PostGeneralDto>> getPostsPage(HttpServletRequest request, @RequestParam(defaultValue = "0") int page) throws UserNotFoundException {
-        int defaultPageSize = 10;
+        int defaultPageSize = 5;
         Page<PostGeneralDto> posts = postService.getPostsPage(request, PageRequest.of(page, defaultPageSize));
 
         return ResponseEntity.ok(posts);

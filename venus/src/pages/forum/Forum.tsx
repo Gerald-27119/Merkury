@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import Error from "../../components/error/Error.jsx";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
 import { fetchPaginatedPosts, fetchCategoriesAndTags } from "../../http/posts";
-import { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Post from "./posts/Post";
 import AddPostButton from "./components/AddPostButton";
 import ForumSearchBar from "./components/ForumSearchBar";
@@ -13,22 +13,31 @@ import { useBoolean } from "../../hooks/useBoolean";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { notificationAction } from "../../redux/notification";
+import ForumPostPage from "../../model/interface/forum/forumPostPage";
 
 export default function Forum() {
-    const [currentPage, setCurrentPage] = useState(0);
     const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
         useBoolean(false);
     const isLogged = useSelector((state: RootState) => state.account.isLogged);
     const dispatch = useDispatch();
+    const loadMoreRef = useRef<HTMLDivElement>(null);
 
     const {
-        data: posts,
-        error: postError,
-        isError: isPostError,
-        isLoading: isPostLoading,
-    } = useQuery({
-        queryKey: ["posts", currentPage],
-        queryFn: () => fetchPaginatedPosts(currentPage),
+        data: postPage,
+        error: postPageError,
+        isError: isPostPageError,
+        isLoading: isPostPageLoading,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+    } = useInfiniteQuery<ForumPostPage>({
+        queryKey: ["posts"],
+        queryFn: ({ pageParam }) => fetchPaginatedPosts(pageParam as number),
+        getNextPageParam: (lastPage: ForumPostPage) => {
+            const { number, totalPages } = lastPage.page;
+            return number + 1 < totalPages ? number + 1 : undefined;
+        },
+        initialPageParam: 0,
     });
 
     const {
@@ -41,16 +50,24 @@ export default function Forum() {
         queryFn: () => fetchCategoriesAndTags(),
     });
 
-    if (isPostLoading) {
-        return (
-            <div>
-                <LoadingSpinner />
-            </div>
-        );
-    }
+    useEffect(() => {
+        const target = loadMoreRef.current;
+        if (!target || !hasNextPage) return;
 
-    if (isPostError) {
-        return <Error error={postError} />;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    observer.unobserve(target);
+                    fetchNextPage();
+                }
+            },
+            { rootMargin: "5px", threshold: 0 },
+        );
+        observer.observe(target);
+    }, [hasNextPage, fetchNextPage]);
+
+    if (isPostPageError) {
+        return <Error error={postPageError} />;
     }
 
     const handleAddPostClick = () => {
@@ -64,6 +81,8 @@ export default function Forum() {
             );
         }
     };
+
+    const posts = postPage?.pages.flatMap((page) => page.content ?? []);
 
     return (
         <>
@@ -80,19 +99,24 @@ export default function Forum() {
                         />
                     </div>
 
-                    {posts?.content?.length ? (
-                        <div className="mt-10">
-                            <ul>
-                                {posts.content.map((post) => (
-                                    <li key={post.id}>
-                                        <Post post={post} />
-                                    </li>
-                                ))}
-                            </ul>
+                    <div className="mt-10">
+                        {posts?.length ? (
+                            <div>
+                                <ul>
+                                    {posts.map((post) => (
+                                        <li key={post.id}>
+                                            <Post post={post} />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ) : (
+                            <span>No posts available</span>
+                        )}
+                        <div ref={loadMoreRef}>
+                            {isFetchingNextPage && <LoadingSpinner />}
                         </div>
-                    ) : (
-                        <span>No posts available</span>
-                    )}
+                    </div>
 
                     <div>
                         <ForumSearchBar />
