@@ -2,13 +2,16 @@ package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.spot.SpotService;
+import com.merkury.vulcanus.features.spot.SpotWeatherService;
 import com.merkury.vulcanus.model.dtos.spot.*;
+import com.merkury.vulcanus.model.dtos.spot.weather.BasicSpotWeatherDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -20,6 +23,8 @@ public class SpotController {
     private static final int DEFAULT_SEARCHED_SPOTS_PAGE_SIZE = 6;
 
     private final SpotService spotService;
+
+    private final SpotWeatherService spotWeatherService;
 
     @GetMapping("/public/spot/current-view")
     public ResponseEntity<Page<SearchSpotDto>> getCurrentView(@RequestParam double swLng,
@@ -102,5 +107,11 @@ public class SpotController {
                                                                             @RequestParam(defaultValue = "0") int page,
                                                                             @RequestParam(defaultValue = "20") int size) {
         return ResponseEntity.ok(spotService.getAllSpotsByLocationAndTags(city, tags, userLongitude, userLatitude, page, size));
+    }
+
+    @GetMapping("/public/spot/get-spot-basic-weather")
+    public ResponseEntity<Mono<BasicSpotWeatherDto>> getBasicSpotWeather(@RequestParam double latitude, @RequestParam double longitude) {
+        log.info("getting basic spot weather");
+        return ResponseEntity.ok(spotWeatherService.getBasicSpotWeather(latitude, longitude));
     }
 }
