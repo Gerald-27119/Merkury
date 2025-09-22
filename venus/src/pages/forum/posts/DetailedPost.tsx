@@ -5,6 +5,7 @@ import DetailedPostContent from "./components/DetailedPostContent";
 import DetailedPostActions from "./components/DetailedPostActions";
 import useForumPostActions from "../../../hooks/useForumPostActions";
 import { useNavigate } from "react-router-dom";
+import ReturnButton from "../components/ReturnButton";
 
 interface DetailedPostProps {
     post: PostDetails;
@@ -20,7 +21,7 @@ export default function DetailedPost({ post }: DetailedPostProps) {
     };
 
     return (
-        <div className="dark:bg-darkBgSoft mx-auto mt-8 mb-4 max-w-3xl rounded-xl p-6 shadow-lg">
+        <div className="dark:bg-darkBgSoft relative mx-auto mb-4 rounded-xl p-6 shadow-lg">
             <DetailedPostHeader
                 author={post.author}
                 publishDate={post.publishDate}

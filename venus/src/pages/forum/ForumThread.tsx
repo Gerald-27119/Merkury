@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
 import Error from "../../components/error/Error";
 import DetailedPost from "./posts/DetailedPost";
+import ReturnButton from "./components/ReturnButton";
 
 export default function ForumThread({}) {
     const { postId } = useParams<{ postId: string }>();
@@ -25,7 +26,10 @@ export default function ForumThread({}) {
 
     return (
         <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg min-h-screen w-full">
-            {data ? <DetailedPost post={data} /> : <span>No info</span>}
+            <div className="relative mx-auto mt-16 max-w-3xl">
+                <ReturnButton />
+                {data ? <DetailedPost post={data} /> : <span>No info</span>}
+            </div>
         </div>
     );
 }
