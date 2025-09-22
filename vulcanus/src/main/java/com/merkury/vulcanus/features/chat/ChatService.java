@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.chat;
 
 import com.merkury.vulcanus.exception.exceptions.ChatAlreadyExistsException;
+import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
@@ -121,7 +122,7 @@ public class ChatService {
     }
 
     @Transactional
-    public ChatDto getOrCreatePrivateChat(@Nullable Long chatId, String receiverUsername) {
+    public ChatDto getOrCreatePrivateChat(@Nullable Long chatId, String receiverUsername) throws UserNotFoundException{
         Optional<Chat> optionalChat = Optional.ofNullable(chatId).flatMap(chatRepository::findById);
 
         if (optionalChat.isPresent()) {
@@ -129,7 +130,7 @@ public class ChatService {
         } else {
             try {
                 return createPrivateChat(receiverUsername);
-            } catch (ChatAlreadyExistsException chatAlreadyExistsException) {
+            } catch (ChatAlreadyExistsException e) {
                 var currentUserUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
                 var chat = chatRepository.findPrivateBetween(currentUserUsername, receiverUsername).get();
                 return getChat(chat);
@@ -137,14 +138,16 @@ public class ChatService {
         }
     }
 
-    private ChatDto getChat(Chat chat) {
-        var currentUser = userEntityRepository.findByUsername(customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername()).orElseThrow().getId();
+    private ChatDto getChat(Chat chat) throws UserNotFoundException {
+        var currentUser = userEntityRepository.findByUsername(customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername())
+                .orElseThrow(()-> new UserNotFoundException("Current user not found in db"))
+                .getId();
         var last20Messages = chatMessageRepository
                 .findTop20ByChatIdOrderBySentAtDesc(chat.getId());
         return ChatMapper.toChatDto(chat, last20Messages, currentUser);
     }
 
-    private ChatDto createPrivateChat(String receiverUsername) throws ChatAlreadyExistsException {
+    private ChatDto createPrivateChat(String receiverUsername) throws ChatAlreadyExistsException, UserNotFoundException {
         var currentUserUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         var optionalExistingPrivateChat = chatRepository.findPrivateBetween(currentUserUsername, receiverUsername);
 
@@ -152,8 +155,11 @@ public class ChatService {
             throw new ChatAlreadyExistsException(ChatType.PRIVATE, currentUserUsername, receiverUsername, optionalExistingPrivateChat.get().getId());
         }
 
-        var currentUser = userEntityRepository.findByUsername(currentUserUsername).orElseThrow();
-        var otherUser = userEntityRepository.findByUsername(receiverUsername).orElseThrow();
+        var currentUser = userEntityRepository.findByUsername(currentUserUsername)
+                .orElseThrow(() -> new UserNotFoundException("Current user not found: " + currentUserUsername));
+
+        var otherUser = userEntityRepository.findByUsername(receiverUsername)
+                .orElseThrow(() -> new UserNotFoundException("User not found: " + receiverUsername));
 
         var newChat = Chat.builder()
                 .build();

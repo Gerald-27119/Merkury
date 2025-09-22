@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.controllers.chat;
 
+import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
@@ -44,7 +45,7 @@ public class ChatController {
     public ResponseEntity<ChatDto> getOrCreatePrivateChat(
             @RequestParam String receiverUsername,
             @RequestParam(required = false) Long chatId
-    ) {
+    ) throws UserNotFoundException {
         return ResponseEntity.ok(chatService.getOrCreatePrivateChat(chatId, receiverUsername));
     }
 

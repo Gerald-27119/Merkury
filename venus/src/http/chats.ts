@@ -51,8 +51,13 @@ export async function getOrCreatePrivateChat(
     chatId: number | null,
     receiverUsername: string,
 ): Promise<ChatDto> {
-    const params: Record<string, any> = { receiverUsername };
-    if (chatId != null) params.chatId = chatId;
+    const params: {
+        receiverUsername: string;
+        chatId?: number;
+    } = {
+        receiverUsername,
+        ...(chatId != null && { chatId }),
+    };
 
     const { data } = await axios.post<ChatDto>(
         `${BASE_URL}/chats/get-or-create-private-chat`,
