@@ -3,23 +3,30 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IoIosArrowDown } from "react-icons/io";
 import {
-    SpotRatingSortType,
-    SpotRatingSortValues,
-} from "../../../model/enum/spot/spotRatingSortType";
+    SpotRatingFilterType,
+    SpotRatingFilterValues,
+} from "../../../model/enum/spot/spotRatingFilterType";
 import { ConfigProvider, Rate } from "antd";
 
 interface DropdownProps<T> {
     onSelectType: (type: T) => void;
     sortOptions: { value: T; name: string }[];
+    isSort?: boolean;
 }
 
 export default function Dropdown<T>({
     onSelectType,
     sortOptions,
+    isSort,
 }: DropdownProps<T>) {
     const [isOpen, _, close, toggle] = useBoolean(false);
     const [selected, setSelected] = useState(sortOptions[0]);
     const dropdownRef = useRef<HTMLDivElement>(null);
+
+    const shouldRenderRatingStars = (option: { value: T; name: string }) =>
+        Object.values(SpotRatingFilterType).includes(
+            option.value as SpotRatingFilterType,
+        ) && option.value !== SpotRatingFilterType.ANY;
 
     const handleSelect = (option: (typeof sortOptions)[0]) => {
         setSelected(option);
@@ -48,7 +55,7 @@ export default function Dropdown<T>({
             ref={dropdownRef}
             className={`dark:bg-darkBgSoft bg-lightBgSoft flex h-15 items-center py-1 pr-2 pl-4 shadow-md transition md:h-12 dark:shadow-black ${isOpen ? "rounded-l-full rounded-tr-full" : "rounded-full"}`}
         >
-            <p>Sort:</p>
+            <p>{isSort ? "Sort:" : "Filter:"}</p>
             <div className="relative inline-block w-55 text-white">
                 <button
                     onClick={toggle}
@@ -82,33 +89,27 @@ export default function Dropdown<T>({
                                         onClick={() => handleSelect(option)}
                                     >
                                         {option.name}
-                                        {Object.values(
-                                            SpotRatingSortType,
-                                        ).includes(
-                                            option.value as SpotRatingSortType,
-                                        ) &&
-                                            option.value !==
-                                                SpotRatingSortType.ANY && (
-                                                <ConfigProvider
-                                                    theme={{
-                                                        components: {
-                                                            Rate: {
-                                                                starBg: "#aaaaab",
-                                                            },
+                                        {shouldRenderRatingStars(option) && (
+                                            <ConfigProvider
+                                                theme={{
+                                                    components: {
+                                                        Rate: {
+                                                            starBg: "#aaaaab",
                                                         },
-                                                    }}
-                                                >
-                                                    <Rate
-                                                        allowHalf
-                                                        value={
-                                                            SpotRatingSortValues[
-                                                                option.value as SpotRatingSortType
-                                                            ] || 0
-                                                        }
-                                                        disabled
-                                                    />
-                                                </ConfigProvider>
-                                            )}
+                                                    },
+                                                }}
+                                            >
+                                                <Rate
+                                                    allowHalf
+                                                    value={
+                                                        SpotRatingFilterValues[
+                                                            option.value as SpotRatingFilterType
+                                                        ] || 0
+                                                    }
+                                                    disabled
+                                                />
+                                            </ConfigProvider>
+                                        )}
                                     </button>
                                 </li>
                             ))}

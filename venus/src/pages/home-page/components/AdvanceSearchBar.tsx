@@ -14,14 +14,14 @@ import {
     SpotSortType,
 } from "../../../model/enum/spot/spotSortType";
 import {
-    SpotRatingSortLabels,
-    SpotRatingSortType,
-} from "../../../model/enum/spot/spotRatingSortType";
+    SpotRatingFilterLabels,
+    SpotRatingFilterType,
+} from "../../../model/enum/spot/spotRatingFilterType";
 
-const spotRatingSortOptions = Object.values(SpotRatingSortType).map(
+const spotRatingSortOptions = Object.values(SpotRatingFilterType).map(
     (value) => ({
         value,
-        name: SpotRatingSortLabels[value],
+        name: SpotRatingFilterLabels[value],
     }),
 );
 
@@ -33,11 +33,15 @@ const spotSortOptions = Object.values(SpotSortType).map((value) => ({
 interface SearchLocation {
     city?: string;
     tags?: string[];
+    sort: SpotSortType;
+    filter: SpotRatingFilterType;
 }
 
-const initialValue = {
+const initialValue: SearchLocation = {
     city: undefined,
     tags: [],
+    sort: SpotSortType.POPULARITY_DESCENDING,
+    filter: SpotRatingFilterType.ANY,
 };
 
 interface SearchBarProps {
@@ -54,8 +58,9 @@ export default function AdvanceSearchBar({
     const [searchLocation, setSearchLocation] =
         useState<SearchLocation>(initialValue);
     const [activeInput, setActiveInput] = useState<"city" | "tags" | null>();
+    const [hasSearched, setHasSearched] = useState(false);
 
-    const { fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
         useInfiniteQuery({
             queryKey: ["homePageSpots", searchLocation],
             queryFn: ({ pageParam = 0 }) =>
@@ -63,7 +68,7 @@ export default function AdvanceSearchBar({
             getNextPageParam: (lastPage, allPages) =>
                 lastPage.hasNext ? allPages.length : undefined,
             initialPageParam: 0,
-            enabled: false,
+            enabled: hasSearched,
         });
 
     const { data: suggestions = [] } = useQuery({
@@ -117,9 +122,23 @@ export default function AdvanceSearchBar({
     };
 
     const handleSearchSpots = async () => {
-        const result = await refetch();
-        onSetSpots(result.data?.pages[0]?.items ?? []);
+        setHasSearched(true);
+        await refetch();
         setActiveInput(null);
+    };
+
+    const handleSetSort = (sort: SpotSortType) => {
+        setSearchLocation((prevState) => ({
+            ...prevState,
+            sort,
+        }));
+    };
+
+    const handleSetFilter = (filter: SpotRatingFilterType) => {
+        setSearchLocation((prevState) => ({
+            ...prevState,
+            filter,
+        }));
     };
 
     useEffect(() => {
@@ -149,6 +168,12 @@ export default function AdvanceSearchBar({
     useEffect(() => {
         onSetFetchingNextPage(isFetchingNextPage);
     }, [isFetchingNextPage, onSetFetchingNextPage]);
+
+    useEffect(() => {
+        if (data) {
+            onSetSpots(data.pages.flatMap((p) => p.items) ?? []);
+        }
+    }, [data, onSetSpots]);
 
     return (
         <div className="flex w-full flex-col items-center gap-y-2">
@@ -220,11 +245,12 @@ export default function AdvanceSearchBar({
             </div>
             <div className="flex justify-start gap-x-3 lg:w-3/4 xl:w-1/2">
                 <Dropdown<SpotSortType>
-                    onSelectType={() => {}}
+                    onSelectType={handleSetSort}
                     sortOptions={spotSortOptions}
+                    isSort
                 />
-                <Dropdown<SpotRatingSortType>
-                    onSelectType={() => {}}
+                <Dropdown<SpotRatingFilterType>
+                    onSelectType={handleSetFilter}
                     sortOptions={spotRatingSortOptions}
                 />
             </div>
