@@ -199,8 +199,6 @@ public class PopulateForumService {
                 .comments(new ArrayList<>())
                 .build();
 
-
-        postList.addAll(List.of(post1, post2, post3, post4, post5));
         List<PostCategory> allCategories = List.of(
                 postCategory1, postCategory2, postCategory3,
                 postCategory4, postCategory5, postCategory6
@@ -209,6 +207,8 @@ public class PopulateForumService {
 
 
         for (int i = 6; i <= 100; i++) {
+            var publishDate = LocalDateTime.now().minusDays(2000 - i);
+
             Set<Tag> randomTags = new HashSet<>();
             int numberOfTags = random.nextInt(4);
             for (int j = 0; j < numberOfTags; j++) {
@@ -228,7 +228,7 @@ public class PopulateForumService {
                     .upVotes(random.nextInt(100))
                     .downVotes(random.nextInt(100))
                     .author(forumUser)
-                    .publishDate(LocalDateTime.of(2020, 3, 21, 7, 0))
+                    .publishDate(publishDate)
                     .comments(new ArrayList<>())
                     .build();
 
@@ -241,6 +241,7 @@ public class PopulateForumService {
         userRepository.saveAll(List.of(forumUser, forumUserFriend));
         postCategoryRepository.saveAll(List.of(postCategory1, postCategory2, postCategory3, postCategory4, postCategory5, postCategory6));
         tagRepository.saveAll(List.of(tag1, tag2, tag3, tag4, tag5));
+        postList.addAll(List.of(post1, post2, post3, post4, post5));
         postRepository.saveAll(postList);
     }
 }

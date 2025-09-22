@@ -2,7 +2,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import Error from "../../components/error/Error.jsx";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
 import { fetchPaginatedPosts, fetchCategoriesAndTags } from "../../http/posts";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Post from "./posts/Post";
 import AddPostButton from "./components/AddPostButton";
 import ForumSearchBar from "./components/ForumSearchBar";
@@ -57,13 +57,15 @@ export default function Forum() {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    observer.unobserve(target);
                     fetchNextPage();
                 }
             },
             { rootMargin: "5px", threshold: 0 },
         );
         observer.observe(target);
+        return () => {
+            observer.disconnect();
+        };
     }, [hasNextPage, fetchNextPage]);
 
     if (isPostPageError) {
@@ -113,8 +115,16 @@ export default function Forum() {
                         ) : (
                             <span>No posts available</span>
                         )}
-                        <div ref={loadMoreRef}>
+                        <div
+                            ref={loadMoreRef}
+                            className="flex items-center justify-center"
+                        >
                             {isFetchingNextPage && <LoadingSpinner />}
+                            {!hasNextPage && (
+                                <p className="pb-4 font-bold">
+                                    Congratulations! You've reached the end!
+                                </p>
+                            )}
                         </div>
                     </div>
 
