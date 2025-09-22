@@ -56,7 +56,7 @@ public class PostService {
                 PageRequest.of(
                         pageable.getPageNumber(),
                         pageable.getPageSize(),
-                        Sort.by(Sort.Direction.ASC, "publishDate")
+                        Sort.by(Sort.Direction.DESC, "publishDate")
                 )
         );
         var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
