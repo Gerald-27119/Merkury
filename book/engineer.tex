@@ -1,171 +1,94 @@
 \documentclass{sprz}
 
+\usepackage{glossaries}
+
 \addbibresource{bibliography.bib}
+
+\input{slownik-pojec}
 
 \studfield{Informatyka}
 \studtype{Stacjonarne}
-\title{Praca inżynierska o DRONACH!!!!!!!!!!!!}
-\engtitle{Something about this and that}
-\acronym{BRR}
-\titledate{2023-10-10}
-\supervisor{dr Puźniakowski Tadeusz}
-\reviewer{prof. dr hab. inż. lek. Jamroży Omnibus}
-\author{Nowak Jan}{s1234}{Sztuczna Inteligencja}{Stacjonarny}
-\author{Doe John}{s1222}{Aplikacje Internetowe}{Stacjonarny}
-\author{Alice Bob}{s1299}{Bumelanctwo stosowane}{Stacjonarny}
+\title{Aplikacja webowa: spoty-na-drony.pl}
+\engtitle{Web application: spoty-na-drony.pl}
+\acronym{Merkury}
+\titledate{2023-10-10} %todo jaka data tutaj ma byc
+\supervisor{mgr Adam Urbanowicz}
+\reviewer{--- brak ---} %todo dodać
+
+\author{Langmesser Adam}{s27119}{Aplikacje Internetowe}{Stacjonarny}
+\author{Redosz Mateusz}{s27094}{Aplikacje Internetowe}{Stacjonarny}
+\author{Oziemczuk Stanisław}{s26982}{Aplikacje Internetowe}{Stacjonarny}
+\author{Badek Kacper}{s29168}{Aplikacje Internetowe}{Stacjonarny}
+
 \consultant{--- brak ---} % Koniecznie trzeba podać brak, albo wpisać konsultantów tak jak przy autorach
-\projectgoals{Celem tego projektu jest pokazanie jak można użyć klasy sprz do przygotowania pracy inżynierskiej na PJATK}
-\productsandservices{Tu wpisujemy oczekiwane produkty}
-\mainfunctionalities{Tu wpisujemy oczekiwane funkcjonalności}
-\successmeasure{Kompilujący się elegancko szablon w postaci stylu LaTeX-owego który można użyć do robienia pracy inż.}
-\projlimitations{Wymagana podstawowa znajomość systemu składu tekstu LaTeX.}
-\date{miesiąc, 2100 obrony}
+\projectgoals{Stworzenie w pełni funkcjonalnej aplikacji internetowej do rozwijania hobby(latania dronem).} %todo do poprawy
+\productsandservices{Aplikacja Internetowa, Dokumentacja}
+
+\mainfunctionalities{
+    Interaktywna mapa z wyśiwetlanymi spotami oraz pogodą.\newline
+    Zaawansowana wyszukiwarka spotów.\newline
+    Forum do dzielenia się informacjami na temat dronów.\newline
+    Chat jednoosobowy oraz grupowy.\newline
+    Konto użytkownika z możliwością zapisania ulubionych spotów.
+}
+
+\successmeasure{
+    Gotowa do wdrożenia aplikacja.\newline
+    Realizacja w terminie zgodnym z wymaganiami.
+}
+
+\projlimitations{
+    Budżetowe: brak środków na wdrożenie.\newline
+    Zawodowe: brak doświadczenia.\newline
+    Czasowe: trzy semestry (09.2024 - 02.2026).\newline
+    Ludzkie: czteroosobowy zespół.
+}
+
+\date{miesiąc, 2100 obrony} %todo jaka to ma być data
 \finishdate{\today}
-\nabstract{To jest streszczenie niezwykle innowacyjnej pracy inżynierskiej w której przeplatają się elementy paplaniny z wygenerowanym tekstem pseudonaukowym rozpoznawanym jako dezinformacja.}
-\keyword{grafika komputerowa}
-\keyword{komputer}
-\keyword{XXI wiek}
-\keyword{skład komputerowy}
-\keyword{grafika 3D}
+
+%todo poprawić podejście
+\nabstract{
+    Celem niniejszej pracy było stworzenie w pełni funkcjonalnej i działającej aplikacji internetowej pozwalającej na szybkie wyszukiwanie spotów w okolicy oraz dzielenie się zdjęciami, filmami oraz doświdczeniem z innymi użytkownikami.
+    W ramach pracy stworzono system składający się z trzech komponentów: \gls{frontend}u, \gls{backend}u oraz bazy-danych.
+    Aplikacja internetowa została wykonana przy pomocy \gls{framework}a React w językach Javascript oraz Typescript, do styli został użyty Tailwind.
+    Serwis backendowy został stworzony w języku Java oraz biblioteki Spring Boot.
+    Baza danych to PostgreSql.\newline
+    Komunikacja między komponentami odbywała się zgodnie ze standardem REST.
+    Projekt został zrealizowany w podejściu ewolucyjno-przyrostowym~z~elementami Kanban.
+}
+
+\keyword{--- brak ---}%todo nie wiem czy bedzie potrzebne ale zostawiam żeby było
 
 
 
 
 \begin{document}
 
-\maketitle
+    \maketitle
+    \makeprojectcard
 
-\makeprojectcard
+    %Spis treści
+    \tableofcontents
+    \clearpage
 
-\tableofcontents
+    \input{chapters/introduction}
 
-\chapter{Informacje wstępne}
+    % Słownik pojęć i skrótów
+    \printglossary[type=\acronymtype]
+    \printglossary
 
+    \input{chapters/problem-description}
+    \input{chapters/project-context}
+    \input{chapters/requirements-analysis}
+    \input{chapters/project-decisions}
+    \input{chapters/project}
+    \input{chapters/implementation}
+    \input{chapters/testing}
+    \input{chapters/system-presentation}
+    \input{chapters/summary}
 
-\section{O projekcie}\label{ch:wstep}
-
-To jest przykładowy szablon pracy inżynierskiej na PJATK.
-
-\chapter{Przykładowe elementy}
-
-W niniejszym rozdziale pokażę różne ciekawe elementy które można użyć w pracy. Nie są to wszystkie możliwości, ale te, które moim zdaniem najczęściej pojawiają się w pracach inż. Na przykład, jeśli chcemy powołać się na jakieś źródła, robimy to tak~\cite{BEHESHTIROUI2021107419}.
-
-Drugi cytat~\cite{bla} jest z tej samej publikacji, ale w innym miejscu.
-
-\section{Listingi}
-
-Jak załączać kod źródłowy jest pokazane na listingu~\ref{lst:helloworld}
-
-
-\begin{lstlisting}[language=c,caption={Przykładowy witaj w świecie}, label={lst:helloworld}]
-printf("hello");
-\end{lstlisting}
-
-\section{Obrazki}
-
-Na ilustracji~\ref{img:pjatklogo} widzimy oficjalne logo PJATK.
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.5\textwidth]{sprz/pjatk}
-    \caption{Logo PJATK załączone jako obrazek}
-    \label{img:pjatklogo}
-\end{figure}
-
-albo dla wygody jako makro tak jak na obrazku~\ref{img:pjatklogo2}
-
-\putimage{Obrazek załączony za pomocą makra}{sprz/pjatk}{img:pjatklogo2}{0.5\textwidth}
-
-\chapter{Karty udziałowca}
-
-
-\begin{stakeholder}[label={tab:stakeholder:someholder},caption={Przykładowy opis udzialowca}]
-    \id{jednoznaczny symbol np. UOB 01, UOB 02 ... dla udziałowców ożywionych bezpośrednich, UNP 01... dla nieożywionych pośrednich itd.}
-    \name{nazwa udziałowca}
-    \descr{opis udziałowca}
-    \type{ożywiony/nieożywiony, bezpośredni/pośredni}
-    \viewpoint{z jakiej perspektywy patrzy udziałowiec np. technicznej, ekonomicznej, operatora systemu itp.}
-    \limitations{ograniczenia udziałowca np. administrator nie powinien specyfikować wymagań finansowych}
-    \requ{tu tylko symbole wymagań wyspecyfikowanych w rozdziale 3}
-\end{stakeholder}
-
-\chapter{Wymagania wszelakie}
-
-Na tabeli \ref{tab:requirements:general} pokazano jak można definiować wymagania ogólne lub dziedzinowe.
-
-\begin{requirementstab}[label={tab:requirements:general},caption={Przykładowe wymaganie ogólne lub dziedzinowe}]
-    \id{np. WO1, WO2 .. }
-    \priority{Ważność}
-    \name{krótki opis}
-    \descr{opis szczegółowy, należy dążyć do tego, żeby wszystkie znane na ten moment szczegóły wymagania zostały wydobyte i wyspecyfikowane}
-    \sholder{nazwa udziałowca, który podał wymaganie}
-    \reqrelated{wymagania zależne i uszczegóławiające – odesłanie poprzez identyfikator}
-\end{requirementstab}
-
-Teraz czas na wymagania funkcjonalne, na przykład \ref{tab:requirements:func1}
-
-\begin{requirementstab}[label={tab:requirements:func1},caption={Pryzkładowa tabela z wymaganiami na interfejs z otoczeniem}]
-    \id{jednoznaczny symbol np. FO1, FO2 .. }
-    \priority{Ważność}
-    \name{krótki opis}
-    \descr{opis szczegółowy, należy dążyć do tego, żeby wszystkie znane na ten moment szczegóły wymagania zostały wydobyte i wyspecyfikowane
-
-    Można zastosować opis jak w User Story
-    \begin{itemize}
-        \item Jako.. (konkretny użytkownik systemu)
-        \item chcę... (pożądana cecha lub problem, który trzeba rozwiązać)
-        \item bo wtedy/ponieważ… (korzyść płynąca z ukończenia story)
-    \end{itemize}
-    }
-    \acceptcrit{Warunki Satysfakcji (Szczegóły dodane na potrzeby  testów akceptacyjnych)}
-    \inputdata{uzupełniane w trakcie sprintu – dane wejściowe, związane z wymaganiem}
-    \preconditions{ uzupełniane w trakcie sprintu – warunki, które muszą być prawdziwe przed wywołaniem operacji}
-    \postconditions{ uzupełniane w trakcie sprintu – warunki, które muszą być prawdziwe po wywołaniu operacji}
-    \exceptions{ uzupełniane w trakcie sprintu – niepożądane sytuacje i sposoby ich obsługi}
-    \implementation{ uzupełniane w trakcie sprintu – opis sposobu realizacji}
-    \sholder{nazwa udziałowca, który podał wymaganie}
-    \reqrelated{wymagania zależne i uszczegóławiające – odesłanie poprzez identyfikator}
-\end{requirementstab}
-
-
-Natomiast tabela \ref{tab:requirements:env1} pokazuje wymagania na interfejs z otoczeniem.
-
-\begin{requirementstab}[label={tab:requirements:env1},caption={Pryzkładowa tabela z wymaganiami na interfejs z otoczeniem}]
-    \id{jednoznaczny symbol np. IO1, IO2 .. }
-    \priority{Ważność}
-    \name{krótki opis}
-    \descr{opis szczegółowy, należy dążyć do tego, żeby wszystkie znane na ten moment szczegóły wymagania zostały wydobyte i wyspecyfikowane}
-    \acceptcrit{Warunki Satysfakcji (Szczegóły dodane na potrzeby  testów akceptacyjnych)}
-    \inputdata{uzupełniane w trakcie sprintu – dane wejściowe, związane z wymaganiem}
-    \preconditions{ uzupełniane w trakcie sprintu – warunki, które muszą być prawdziwe przed wywołaniem operacji}
-    \postconditions{ uzupełniane w trakcie sprintu – warunki, które muszą być prawdziwe po wywołaniu operacji}
-    \exceptions{ uzupełniane w trakcie sprintu – niepożądane sytuacje i sposoby ich obsługi}
-    \implementation{ uzupełniane w trakcie sprintu – opis sposobu realizacji}
-    \sholder{nazwa udziałowca, który podał wymaganie}
-    \reqrelated{wymagania zależne i uszczegóławiające – odesłanie poprzez identyfikator}
-\end{requirementstab}
-
-Tabela dotycząca wymagań pozafunkcjonalnych \ref{tab:requirements:nonfunc1} jest także widoczne.
-
-\begin{requirementstab}[label={tab:requirements:nonfunc1},caption={Pryzkładowa tabela z wymaganiami pozafunkcjonalnymi}]
-    \id{jednoznaczny symbol np. NFO1, NFO2 .. }
-    \priority{Ważność}
-    \name{krótki opis}
-    \descr{opis szczegółowy, należy dążyć do tego, żeby wszystkie znane na ten moment szczegóły wymagania zostały wydobyte i wyspecyfikowane}
-    \acceptcrit{Warunki Satysfakcji (Szczegóły dodane na potrzeby  testów akceptacyjnych)}
-    \sholder{nazwa udziałowca, który podał wymaganie}
-    \reqrelated{wymagania zależne i uszczegóławiające – odesłanie poprzez identyfikator}
-\end{requirementstab}
-
-
-\printbibliography[title={Bibliografia}, heading=bibintoc]
-
-\makethesisattachments
-
-
-
-
-
-
+    \printbibliography[title={Bibliografia}, heading=bibintoc]
+    \makethesisattachments
 
 \end{document}
