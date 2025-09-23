@@ -4,7 +4,9 @@ import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeE
 import com.merkury.vulcanus.exception.exceptions.UserAlreadyFollowedException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFollowedException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
+import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
+import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.SocialMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
@@ -18,15 +20,25 @@ import org.springframework.stereotype.Service;
 public class FollowersService {
     private final UserEntityRepository userEntityRepository;
     private final UserEntityFetcher userEntityFetcher;
+    private final ChatService chatService;
 
     public SocialPageDto getUserFollowers(String username, int page, int size) throws UserNotFoundByUsernameException {
         var followersPage = userEntityRepository.findFollowersByFollowedUsername(username, PageRequest.of(page, size));
         if (followersPage.getContent().isEmpty()) {
             throw new UserNotFoundByUsernameException(username);
         }
-
-        var mappedFollowers = followersPage.stream().map(SocialMapper::toDto).toList();
-
+        var followerUsernamePrivateChatIdMap = chatService.mapPrivateChatIdsByUsername(
+                username,
+                followersPage.getContent().stream()
+                        .map(UserEntity::getUsername)
+                        .toList()
+        );
+        var mappedFollowers = followersPage.stream()
+                .map(follower -> {
+                    var chatId = followerUsernamePrivateChatIdMap.get(follower.getUsername());
+                    return SocialMapper.userEntityToSocialDto(follower, chatId);
+                })
+                .toList();
         return new SocialPageDto(mappedFollowers, followersPage.hasNext());
     }
 
@@ -36,8 +48,19 @@ public class FollowersService {
             throw new UserNotFoundByUsernameException(username);
         }
 
-        var mappedFollowed = followedPage.stream().map(SocialMapper::toDto).toList();
+        var followerUsernamePrivateChatIdMap = chatService.mapPrivateChatIdsByUsername(
+                username,
+                followedPage.getContent().stream()
+                        .map(UserEntity::getUsername)
+                        .toList()
+        );
 
+        var mappedFollowed = followedPage.stream()
+                .map(follower -> {
+                    var chatId = followerUsernamePrivateChatIdMap.get(follower.getUsername());
+                    return SocialMapper.userEntityToSocialDto(follower, chatId);
+                })
+                .toList();
         return new SocialPageDto(mappedFollowed, followedPage.hasNext());
     }
 

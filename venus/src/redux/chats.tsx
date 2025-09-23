@@ -9,6 +9,7 @@ import {
     ChatMessageDto,
 } from "../model/interface/chat/chatInterfaces";
 import { RootState } from "./store";
+
 type ChatsExtra = { selectedChatId: number | null };
 type ChatEntity = ChatDto & { hasNew: boolean };
 const chatsAdapter = createEntityAdapter<ChatEntity>({});
@@ -79,5 +80,8 @@ export const selectHasNewMap = createSelector(
         return map;
     },
 );
+
+export const selectIsChatPresent = (state: RootState, chatId: number) =>
+    Boolean(state.chats.entities[chatId]);
 
 export default chatsSlice.reducer;
