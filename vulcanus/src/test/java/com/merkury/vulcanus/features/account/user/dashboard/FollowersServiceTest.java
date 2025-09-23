@@ -54,7 +54,7 @@ class FollowersServiceTest {
         var followedPage = new PageImpl<>(List.of(userFollower1, userFollower2), pageable, 2);
 
         when(userEntityRepository.findFollowersByFollowedUsername(eq("user1"), any(Pageable.class))).thenReturn(followedPage);
-        when(chatService.getDmIdsMap(any(), any())).thenReturn(new HashMap<>());
+        when(chatService.mapPrivateChatIdsByUsername(any(), any())).thenReturn(new HashMap<>());
 
         var result = followersService.getUserFollowers("user1", 0, 10).items();
 
@@ -76,7 +76,7 @@ class FollowersServiceTest {
         var followersPage = new PageImpl<>(List.of(userFollower1, userFollower2), pageable, 2);
 
         when(userEntityRepository.findFollowedByFollowersUsername(eq("user1"), any(Pageable.class))).thenReturn(followersPage);
-        when(chatService.getDmIdsMap(any(), any())).thenReturn(new HashMap<>());
+        when(chatService.mapPrivateChatIdsByUsername(any(), any())).thenReturn(new HashMap<>());
 
         var result = followersService.getUserFollowed("user1", 0, 10).items();
 

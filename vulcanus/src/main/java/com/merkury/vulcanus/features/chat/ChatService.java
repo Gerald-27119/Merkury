@@ -27,7 +27,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -170,16 +169,34 @@ public class ChatService {
         return ChatMapper.toChatDto(newChat, currentUser.getId());
     }
 
+    /**
+     * Returns a stable-order map of candidate usernames to the existing private chat ID
+     * with the requesting user.
+     *
+     * <p>Keys are the provided candidate usernames (de-duplicated while preserving
+     * their original encounter order). Values are the private chat IDs when such a chat
+     * already exists, or {@code null} when it does not.</p>
+     *
+     * <p>Intended for UI scenarios like: social section in user's account/map/forum, allowing the client
+     * to easily open existing chat with any encountered user or, in case of the chat not yet existing, client knows it has to request server to create it.</p>
+     *
+     * @param requesterUsername  the username of the currently authenticated user
+     * @param candidateUsernames usernames to check against the requester
+     * @return a {@link LinkedHashMap} mapping each candidate username to a chat ID or {@code null}
+     */
     @Transactional
-    public Map<String, Long> getDmIdsMap(String owner, Collection<String> others) {
-        if (others == null || others.isEmpty()) return Map.of();
+    public Map<String, Long> mapPrivateChatIdsByUsername(
+            String requesterUsername,
+            List<String> candidateUsernames
+    ) {
+        if (candidateUsernames == null || candidateUsernames.isEmpty()) return Map.of();
 
-        Map<String, Long> result = new LinkedHashMap<>();
-        others.stream().distinct().forEach(u -> result.put(u, null));
+        Map<String, Long> chatIdsByUser = new LinkedHashMap<>();
+        candidateUsernames.stream().distinct().forEach(candidateUsername -> chatIdsByUser.put(candidateUsername, null));
 
-        chatRepository.findPrivateChatsWithOthers(owner, others)
-                .forEach(r -> result.put(r.getUsername(), r.getChatId()));
-        return result;
+        chatRepository.findPrivateChatsWithOthers(requesterUsername, candidateUsernames)
+                .forEach(row -> chatIdsByUser.put(row.getUsername(), row.getChatId()));
+        return chatIdsByUser;
     }
 
 }

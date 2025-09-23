@@ -38,7 +38,7 @@ public class FriendsService {
                 .stream()
                 .map(friendView -> friendView.getFriend().getUsername())
                 .toList();
-        var friendsUsernamePrivateChatIdMap = chatService.getDmIdsMap(username, friendUsernames);
+        var friendsUsernamePrivateChatIdMap = chatService.mapPrivateChatIdsByUsername(username, friendUsernames);
         var mappedFriends = friendsPage.stream()
                 .map(friendView -> {
                     var friendUsername = friendView.getFriend().getUsername();

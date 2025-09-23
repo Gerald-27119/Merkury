@@ -66,7 +66,7 @@ class FriendsServiceTest {
         var friendPage = new PageImpl<>(friends, PageRequest.of(0, 10), friends.size());
 
         when(friendshipRepository.findAllByUserUsername(anyString(), any(Pageable.class))).thenReturn(friendPage);
-        when(chatService.getDmIdsMap(any(), any())).thenReturn(new HashMap<>());
+        when(chatService.mapPrivateChatIdsByUsername(any(), any())).thenReturn(new HashMap<>());
 
         var result = friendsService.getUserFriends("user1", 0, 10).items();
 

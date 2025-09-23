@@ -27,7 +27,7 @@ public class FollowersService {
         if (followersPage.getContent().isEmpty()) {
             throw new UserNotFoundByUsernameException(username);
         }
-        var followerUsernamePrivateChatIdMap = chatService.getDmIdsMap(
+        var followerUsernamePrivateChatIdMap = chatService.mapPrivateChatIdsByUsername(
                 username,
                 followersPage.getContent().stream()
                         .map(UserEntity::getUsername)
@@ -48,7 +48,7 @@ public class FollowersService {
             throw new UserNotFoundByUsernameException(username);
         }
 
-        var followerUsernamePrivateChatIdMap = chatService.getDmIdsMap(
+        var followerUsernamePrivateChatIdMap = chatService.mapPrivateChatIdsByUsername(
                 username,
                 followedPage.getContent().stream()
                         .map(UserEntity::getUsername)
