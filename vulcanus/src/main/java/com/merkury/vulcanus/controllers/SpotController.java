@@ -5,6 +5,8 @@ import com.merkury.vulcanus.features.spot.SpotService;
 import com.merkury.vulcanus.features.spot.SpotWeatherService;
 import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.dtos.spot.weather.BasicSpotWeatherDto;
+import com.merkury.vulcanus.model.dtos.spot.weather.DetailedSpotWeatherDto;
+import com.merkury.vulcanus.model.dtos.spot.weather.SpotWeatherWindSpeedsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -113,5 +115,16 @@ public class SpotController {
     public ResponseEntity<Mono<BasicSpotWeatherDto>> getBasicSpotWeather(@RequestParam double latitude, @RequestParam double longitude) {
         log.info("getting basic spot weather");
         return ResponseEntity.ok(spotWeatherService.getBasicSpotWeather(latitude, longitude));
+    }
+    @GetMapping("/public/spot/get-spot-detailed-weather")
+    public ResponseEntity<Mono<DetailedSpotWeatherDto>> getDetailedSpotWeather(@RequestParam double latitude, @RequestParam double longitude) {
+        log.info("getting detailed spot weather");
+        return ResponseEntity.ok(spotWeatherService.getDetailedSpotWeather(latitude, longitude));
+    }
+
+    @GetMapping("/public/spot/get-spot-wind-speeds")
+    public ResponseEntity<Mono<SpotWeatherWindSpeedsDto>> getSpotWindSpeeds(@RequestParam double latitude, @RequestParam double longitude) {
+        log.info("getting spot wind speeds");
+        return ResponseEntity.ok(spotWeatherService.getSpotWeatherWindSpeeds(latitude, longitude));
     }
 }
