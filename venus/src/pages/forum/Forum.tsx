@@ -2,7 +2,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import Error from "../../components/error/Error.jsx";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
 import { fetchPaginatedPosts, fetchCategoriesAndTags } from "../../http/posts";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Post from "./posts/Post";
 import AddPostButton from "./components/AddPostButton";
 import ForumSearchBar from "./components/ForumSearchBar";
@@ -10,16 +10,24 @@ import ForumCategoriesTagsPanel from "./categories-and-tags/ForumCategoriesTagsP
 import RightPanel from "./components/RightPanel";
 import ForumFormModal from "./components/ForumFormModal";
 import { useBoolean } from "../../hooks/useBoolean";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { notificationAction } from "../../redux/notification";
 import ForumPostPage from "../../model/interface/forum/forumPostPage";
+import useDispatchTyped from "../../hooks/useDispatchTyped";
+import ForumPostSortDropdown from "./components/ForumPostSortDropdown";
+import { ForumPostSortOption } from "../../model/enum/forum/forumPostSortOption";
 
 export default function Forum() {
     const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
         useBoolean(false);
+    const [sortOption, setSortOption] = useState<ForumPostSortOption>({
+        name: "Newest",
+        sortBy: "PUBLISH_DATE",
+        sortDirection: "DESC",
+    });
     const isLogged = useSelector((state: RootState) => state.account.isLogged);
-    const dispatch = useDispatch();
+    const dispatch = useDispatchTyped();
     const loadMoreRef = useRef<HTMLDivElement>(null);
 
     const {
@@ -31,8 +39,9 @@ export default function Forum() {
         hasNextPage,
         isFetchingNextPage,
     } = useInfiniteQuery<ForumPostPage>({
-        queryKey: ["posts"],
-        queryFn: ({ pageParam }) => fetchPaginatedPosts(pageParam as number),
+        queryKey: ["posts", sortOption],
+        queryFn: ({ pageParam }) =>
+            fetchPaginatedPosts(pageParam as number, 10, sortOption),
         getNextPageParam: (lastPage: ForumPostPage) => {
             const { number, totalPages } = lastPage.page;
             return number + 1 < totalPages ? number + 1 : undefined;
@@ -56,17 +65,17 @@ export default function Forum() {
 
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (entry.isIntersecting) {
+                if (entry.isIntersecting && !isFetchingNextPage) {
                     fetchNextPage();
                 }
             },
-            { rootMargin: "5px", threshold: 0 },
+            { rootMargin: "50px", threshold: 0 },
         );
         observer.observe(target);
         return () => {
             observer.disconnect();
         };
-    }, [hasNextPage, fetchNextPage]);
+    }, [hasNextPage, fetchNextPage, sortOption, isFetchingNextPage]);
 
     if (isPostPageError) {
         return <Error error={postPageError} />;
@@ -102,6 +111,11 @@ export default function Forum() {
                     </div>
 
                     <div className="mt-10">
+                        <ForumPostSortDropdown
+                            onSortChange={setSortOption}
+                            selected={sortOption}
+                        />
+
                         {posts?.length ? (
                             <div>
                                 <ul>
