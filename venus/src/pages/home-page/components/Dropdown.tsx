@@ -108,6 +108,7 @@ export default function Dropdown<T>({
                                                     }
                                                     disabled
                                                 />
+                                                <p className="-ml-2">+</p>
                                             </ConfigProvider>
                                         )}
                                     </button>

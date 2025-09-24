@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import SearchSpotList from "./components/SearchSpotList";
 import Switch from "./components/Switch";
 import AdvanceSearchBar from "./components/AdvanceSearchBar";
@@ -10,9 +10,9 @@ export default function AdvanceHomePage() {
 
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-    const handleSetSearchedSpots = (spots: HomePageSpotDto[]) => {
+    const handleSetSearchedSpots = useCallback((spots: HomePageSpotDto[]) => {
         setSearchedSpots(spots);
-    };
+    }, []);
 
     return (
         <div className="dark:bg-darkBg dark:text-darkText bg-lightBg text-lightText mt-10 flex min-h-screen w-full flex-col items-center space-y-4 overflow-hidden p-8">

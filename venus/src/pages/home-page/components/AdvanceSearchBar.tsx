@@ -64,7 +64,7 @@ export default function AdvanceSearchBar({
         useInfiniteQuery({
             queryKey: ["homePageSpots", searchLocation],
             queryFn: ({ pageParam = 0 }) =>
-                getSearchedSpotsOnAdvanceHomePage(searchLocation, pageParam, 5),
+                getSearchedSpotsOnAdvanceHomePage(searchLocation, pageParam, 6),
             getNextPageParam: (lastPage, allPages) =>
                 lastPage.hasNext ? allPages.length : undefined,
             initialPageParam: 0,
@@ -170,8 +170,13 @@ export default function AdvanceSearchBar({
     }, [isFetchingNextPage, onSetFetchingNextPage]);
 
     useEffect(() => {
-        if (data) {
-            onSetSpots(data.pages.flatMap((p) => p.items) ?? []);
+        if (!data) return;
+
+        const newSpots: HomePageSpotDto[] =
+            data.pages.flatMap((p) => p.items) ?? [];
+
+        if (newSpots.length > 0) {
+            onSetSpots(newSpots);
         }
     }, [data, onSetSpots]);
 
