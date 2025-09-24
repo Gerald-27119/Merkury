@@ -1,9 +1,10 @@
 import ForumTag from "./ForumTag";
 import TagDto from "../../../model/interface/tagDto";
+import ExpansionButton from "./ExpansionButton";
 
-type ForumTagsListProps = {
+interface ForumTagsListProps {
     tags?: TagDto[];
-};
+}
 
 export default function ForumTagsList({ tags }: ForumTagsListProps) {
     return (
@@ -11,13 +12,14 @@ export default function ForumTagsList({ tags }: ForumTagsListProps) {
             <span>Tags</span>
             {tags?.length ? (
                 <div>
-                    <ul className="mt-4 flex flex-wrap gap-2 gap-y-3">
+                    <ul className="mt-4 mb-2 flex flex-wrap gap-2 gap-y-3">
                         {tags.map((tag) => (
                             <li key={tag.id}>
                                 <ForumTag tag={tag} />
                             </li>
                         ))}
                     </ul>
+                    <ExpansionButton label="All tags" />
                 </div>
             ) : (
                 <span>There are no tags</span>
