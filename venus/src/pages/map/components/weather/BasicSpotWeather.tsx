@@ -38,7 +38,7 @@ export default function BasicSpotWeather() {
 
     return (
         data && (
-            <div className="dark:bg-violetDarker dark:text-darkText absolute top-3 right-1/8 flex items-center space-x-2 rounded-3xl px-3 py-1.5 text-xl">
+            <div className="dark:bg-violetDarker dark:text-darkText 3xl:right-1/4 absolute top-2 right-1/5 flex items-center space-x-2 rounded-3xl px-3 py-2 text-xl">
                 <WeatherIcon code={data.weatherCode} isDay={data.isDay} />
                 <VerticalLine />
                 {data?.temperature}
