@@ -8,6 +8,7 @@ import com.merkury.vulcanus.model.dtos.spot.weather.api.response.WeatherApiRespo
 import com.merkury.vulcanus.utils.TimeUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -21,6 +22,10 @@ public class SpotWeatherService {
     @Qualifier("spotWeather")
     private final WebClient spotWeatherWebClient;
 
+    @Cacheable(
+            value = "spotWeatherBasic",
+            key = "#latitude + ':' + #longitude"
+    )
     public Mono<BasicSpotWeatherDto> getBasicSpotWeather(double latitude, double longitude) {
         return spotWeatherWebClient.get()
                 .uri(uriBuilder -> uriBuilder
@@ -42,6 +47,10 @@ public class SpotWeatherService {
                         response.current().isDay() != 0));
     }
 
+    @Cacheable(
+            value = "spotWeatherDetailed",
+            key = "#latitude + ':' + #longitude"
+    )
     public Mono<DetailedSpotWeatherDto> getDetailedSpotWeather(double latitude, double longitude) {
         return spotWeatherWebClient.get()
                 .uri(uriBuilder -> uriBuilder
@@ -69,6 +78,10 @@ public class SpotWeatherService {
                 );
     }
 
+    @Cacheable(
+            value = "spotWeatherWindSpeeds",
+            key = "#latitude + ':' + #longitude"
+    )
     public Mono<SpotWeatherWindSpeedsDto> getSpotWeatherWindSpeeds(double latitude, double longitude) {
         return spotWeatherWebClient.get()
                 .uri(uriBuilder -> uriBuilder
@@ -97,6 +110,10 @@ public class SpotWeatherService {
                 ));
     }
 
+    @Cacheable(
+            value = "spotWeatherTimelinePlotData",
+            key = "#latitude + ':' + #longitude"
+    )
     public Mono<List<SpotWeatherTimelinePlotDataDto>> getSpotWeatherTimelinePlotData(double latitude, double longitude) {
         return spotWeatherWebClient.get()
                 .uri(uriBuilder -> uriBuilder

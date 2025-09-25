@@ -34,6 +34,10 @@ public class RedisConfig  {
         Map<String, RedisCacheConfiguration> configs = new HashMap<>();
         configs.put("filteredSpots",      defaultConfig.entryTtl(Duration.ofSeconds(50)));
         configs.put("filteredSpotsNames", defaultConfig.entryTtl(Duration.ofSeconds(40)));
+        configs.put("spotWeatherBasic", defaultConfig.entryTtl(Duration.ofMinutes(30)));
+        configs.put("spotWeatherDetailed", defaultConfig.entryTtl(Duration.ofMinutes(30)));
+        configs.put("spotWeatherWindSpeeds", defaultConfig.entryTtl(Duration.ofMinutes(30)));
+        configs.put("spotWeatherTimelinePlotData", defaultConfig.entryTtl(Duration.ofMinutes(30)));
         configs.put("gifsTrendingTerms",  defaultConfig.entryTtl(Duration.ofHours(1)));
 
         return RedisCacheManager.builder(cf)
