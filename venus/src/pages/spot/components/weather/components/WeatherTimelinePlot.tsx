@@ -2,7 +2,6 @@ import useSelectorTyped from "../../../../../hooks/useSelectorTyped";
 import { useQuery } from "@tanstack/react-query";
 import { getWeatherDataForTimelinePlot } from "../../../../../http/weather";
 import LoadingSpinner from "../../../../../components/loading-spinner/LoadingSpinner";
-import { parseWeatherData } from "../../../../../utils/weather";
 import {
     VictoryAxis,
     VictoryChart,
@@ -12,13 +11,11 @@ import {
     VictoryTheme,
 } from "victory";
 import { useEffect, useState } from "react";
-import SpotWeatherTimelinePlotData from "../../../../../model/interface/spot/weather/spotWeatherTimelinePlotData";
 import CustomTickLabel from "./CustomTickLabel";
 import useScreenSize from "../../../../../hooks/useScreenSize";
 import ScreenSizeDto from "../../../../../model/screenSizeDto";
 
 export default function WeatherTimelinePlot() {
-    const [plotData, setPlotData] = useState<SpotWeatherTimelinePlotData[]>();
     const [plotSize, setPlotSize] = useState<ScreenSizeDto>({
         width: 5000,
         height: 400,
@@ -41,12 +38,6 @@ export default function WeatherTimelinePlot() {
         queryFn: () => getWeatherDataForTimelinePlot(latitude, longitude),
     });
 
-    useEffect(() => {
-        if (isSuccess) {
-            setPlotData(parseWeatherData(data.hourly));
-        }
-    }, [data, isSuccess]);
-
     if (isLoading) {
         return <LoadingSpinner />;
     }
@@ -56,7 +47,7 @@ export default function WeatherTimelinePlot() {
     }
     return (
         isSuccess &&
-        plotData && (
+        data && (
             <div className="3xl:mt-8 mt-2">
                 <h2 className="text-2xl">Timeline</h2>
                 <div className="bg-mediumDarkBlue text-darkText scrollbar-thin scrollbar-track-rounded-lg scrollbar-track-sky-950 hover:scrollbar-thumb-sky-800 scrollbar-thumb-rounded-full mx-auto mt-4 w-[27.5rem] overflow-x-auto rounded-lg">
@@ -65,26 +56,22 @@ export default function WeatherTimelinePlot() {
                             x: [
                                 new Date(
                                     Math.min(
-                                        ...plotData.map((d) =>
+                                        ...data.map((d) =>
                                             new Date(d.time).getTime(),
                                         ),
                                     ),
                                 ),
                                 new Date(
                                     Math.max(
-                                        ...plotData.map((d) =>
+                                        ...data.map((d) =>
                                             new Date(d.time).getTime(),
                                         ),
                                     ),
                                 ),
                             ],
                             y: [
-                                Math.min(
-                                    ...plotData.map((d) => d.temperature),
-                                ) - 2,
-                                Math.max(
-                                    ...plotData.map((d) => d.temperature),
-                                ) + 2,
+                                Math.min(...data.map((d) => d.temperature)) - 2,
+                                Math.max(...data.map((d) => d.temperature)) + 2,
                             ],
                         }}
                         scale={{ x: "time" }}
@@ -98,11 +85,9 @@ export default function WeatherTimelinePlot() {
                     >
                         <VictoryAxis
                             orientation="top"
-                            tickValues={plotData.map((d) => new Date(d.time))}
+                            tickValues={data.map((d) => new Date(d.time))}
                             tickFormat={() => ""}
-                            tickLabelComponent={
-                                <CustomTickLabel data={plotData} />
-                            }
+                            tickLabelComponent={<CustomTickLabel data={data} />}
                             style={{
                                 tickLabels: { fontSize: 12 },
                                 axis: { strokeWidth: 0 },
@@ -110,7 +95,7 @@ export default function WeatherTimelinePlot() {
                         />
 
                         <VictoryLine
-                            data={plotData.map((d) => {
+                            data={data.map((d) => {
                                 return {
                                     x: new Date(d.time),
                                     y: d.temperature,
@@ -121,7 +106,7 @@ export default function WeatherTimelinePlot() {
                         />
 
                         <VictoryScatter
-                            data={plotData.map((d) => {
+                            data={data.map((d) => {
                                 return {
                                     x: new Date(d.time),
                                     y: d.temperature,

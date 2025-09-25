@@ -1,19 +1,20 @@
 import axios from "axios";
-import { getISO8601Time } from "../utils/weather";
+import SpotBasicWeatherDto from "../model/interface/spot/weather/spotBasicWeatherDto";
+import SpotDetailedWeatherDto from "../model/interface/spot/weather/spotDetailedWeatherDto";
+import SpotWeatherWIndSpeedsDto from "../model/interface/spot/weather/spotWeatherWIndSpeedsDto";
+import SpotWeatherTimelinePlotData from "../model/interface/spot/weather/spotWeatherTimelinePlotData";
 
-export async function getBasicSpotWeather(latitude: number, longitude: number) {
+const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
+
+export async function getBasicSpotWeather(
+    latitude: number,
+    longitude: number,
+): Promise<SpotBasicWeatherDto> {
     return (
-        await axios.get("https://api.open-meteo.com/v1/forecast", {
+        await axios.get(`${BASE_URL}/public/spot/get-spot-basic-weather`, {
             params: {
                 latitude,
                 longitude,
-                current: [
-                    "temperature_2m",
-                    "weather_code",
-                    "wind_speed_10m",
-                    "is_day",
-                ],
-                wind_speed_unit: "ms",
             },
         })
     ).data;
@@ -22,43 +23,26 @@ export async function getBasicSpotWeather(latitude: number, longitude: number) {
 export async function getDetailedSpotWeather(
     latitude: number,
     longitude: number,
-) {
+): Promise<SpotDetailedWeatherDto> {
     return (
-        await axios.get("https://api.open-meteo.com/v1/forecast", {
+        await axios.get(`${BASE_URL}/public/spot/get-spot-detailed-weather`, {
             params: {
                 latitude,
                 longitude,
-                current: [
-                    "temperature_2m",
-                    "weather_code",
-                    "precipitation_probability",
-                    "dew_point_2m",
-                    "relative_humidity_2m",
-                    "is_day",
-                ],
-                daily: ["uv_index_max"],
             },
         })
     ).data;
 }
 
-export async function getWindSpeeds(latitude: number, longitude: number) {
+export async function getWindSpeeds(
+    latitude: number,
+    longitude: number,
+): Promise<SpotWeatherWIndSpeedsDto> {
     return (
-        await axios.get("https://api.open-meteo.com/v1/forecast", {
+        await axios.get(`${BASE_URL}/public/spot/get-spot-wind-speeds`, {
             params: {
                 latitude,
                 longitude,
-                hourly: [
-                    "wind_speed_1000hPa",
-                    "wind_speed_180m",
-                    "wind_speed_975hPa",
-                    "wind_speed_950hPa",
-                    "wind_speed_925hPa",
-                    "wind_speed_900hPa",
-                ],
-                start_hour: getISO8601Time(),
-                end_hour: getISO8601Time(),
-                wind_speed_unit: "ms",
             },
         })
     ).data;
@@ -67,21 +51,16 @@ export async function getWindSpeeds(latitude: number, longitude: number) {
 export async function getWeatherDataForTimelinePlot(
     latitude: number,
     longitude: number,
-) {
+): Promise<SpotWeatherTimelinePlotData[]> {
     return (
-        await axios.get("https://api.open-meteo.com/v1/forecast", {
-            params: {
-                latitude,
-                longitude,
-                hourly: [
-                    "temperature_2m",
-                    "weather_code",
-                    "precipitation_probability",
-                    "is_day",
-                ],
-                start_hour: getISO8601Time(),
-                end_hour: getISO8601Time(3),
+        await axios.get(
+            `${BASE_URL}/public/spot/get-spot-weather-timeline-plot-data`,
+            {
+                params: {
+                    latitude,
+                    longitude,
+                },
             },
-        })
+        )
     ).data;
 }

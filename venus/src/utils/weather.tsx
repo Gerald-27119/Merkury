@@ -44,8 +44,8 @@ const weatherAdjectives: Record<number, string[]> = {
     99: ["Thundery", "Thundery"],
 };
 
-export function getWeatherAdjective(code: number, isDay: number): string {
-    return weatherAdjectives[code][isDay] || "weather";
+export function getWeatherAdjective(code: number, isDay: boolean): string {
+    return weatherAdjectives[code][isDay ? 1 : 0] || "weather";
 }
 
 export function getUvIndexTextLevel(uvIndex: number): string {
@@ -57,29 +57,4 @@ export function getUvIndexTextLevel(uvIndex: number): string {
     ];
     const found = thresholds.find((t) => uvIndex < t.limit);
     return found ? found.label : "Extreme";
-}
-
-export function getISO8601Time(daysToAdd: number = 0): string {
-    const now = new Date();
-    now.setMinutes(0);
-    if (daysToAdd !== 0) {
-        now.setDate(now.getDate() + daysToAdd);
-    }
-    return now.toISOString().slice(0, 16);
-}
-
-export function parseWeatherData(data: {
-    time: string[];
-    temperature_2m: number[];
-    weather_code: number[];
-    precipitation_probability: number[];
-    is_day: number[];
-}): SpotWeatherTimelinePlotData[] {
-    return data.time.map((time, index) => ({
-        time: time,
-        temperature: data.temperature_2m[index],
-        weatherCode: data.weather_code[index],
-        precipitationProbability: data.precipitation_probability[index],
-        isDay: data.is_day[index],
-    }));
 }

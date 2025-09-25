@@ -5,20 +5,12 @@ import LoadingSpinner from "../../../../../components/loading-spinner/LoadingSpi
 import SelectHeightButton from "./SelectHeightButton";
 import WindSpeedDisplay from "./WindSpeedDisplay";
 import { useState } from "react";
+import SpotWeatherWIndSpeedsDto from "../../../../../model/interface/spot/weather/spotWeatherWIndSpeedsDto";
 
 type windSpeedsSelectionType = {
     label: string;
-    value: string;
+    value: number;
 };
-
-const windSpeedsSelection: windSpeedsSelectionType[] = [
-    { label: "100m", value: "wind_speed_1000hPa" },
-    { label: "200m", value: "wind_speed_180m" },
-    { label: "300m", value: "wind_speed_975hPa" },
-    { label: "500m", value: "wind_speed_950hPa" },
-    { label: "750m", value: "wind_speed_925hPa" },
-    { label: ">1000m", value: "wind_speed_900hPa" },
-];
 
 export default function WindSpeeds() {
     const { latitude, longitude } = useSelectorTyped(
@@ -30,6 +22,15 @@ export default function WindSpeeds() {
         queryFn: () => getWindSpeeds(latitude, longitude),
     });
 
+    const windSpeedsSelection: windSpeedsSelectionType[] = [
+        { label: "100m", value: data?.windSpeeds100m ?? 0 },
+        { label: "200m", value: data?.windSpeeds200m ?? 0 },
+        { label: "300m", value: data?.windSpeeds300m ?? 0 },
+        { label: "500m", value: data?.windSpeeds500m ?? 0 },
+        { label: "750m", value: data?.windSpeeds750m ?? 0 },
+        { label: ">1000m", value: data?.windSpeeds1000m ?? 0 },
+    ];
+
     const [selectedHeight, setSelectedHeight] = useState(
         windSpeedsSelection[0].label,
     );
@@ -37,7 +38,6 @@ export default function WindSpeeds() {
     const selected = windSpeedsSelection.find(
         (ws) => ws.label === selectedHeight,
     )!;
-    const windSpeed = data?.hourly[selected.value][0] ?? 0;
 
     if (isLoading) {
         return <LoadingSpinner />;
@@ -49,7 +49,7 @@ export default function WindSpeeds() {
 
     return (
         <div className="bg-whiteSmoke 3xl:mt-4 mt-2 flex items-center rounded-lg py-3 shadow-md">
-            <WindSpeedDisplay value={windSpeed} />
+            <WindSpeedDisplay value={selected.value} />
             <div className="ml-1">
                 <h3 className="mb-1.5">Height</h3>
                 <ul className="grid grid-cols-2 gap-2">

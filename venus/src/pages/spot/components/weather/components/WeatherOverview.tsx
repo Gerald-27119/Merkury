@@ -8,7 +8,7 @@ import WeatherIcon from "../../../../map/components/weather/components/WeatherIc
 type WeatherOverviewProps = {
     temperature: number;
     weatherCode: number;
-    isDay: number;
+    isDay: boolean;
 };
 
 export default function WeatherOverview({

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -87,16 +88,16 @@ public class SpotWeatherService {
                 .retrieve()
                 .bodyToMono(WeatherApiResponseSchema.class)
                 .map(response -> new SpotWeatherWindSpeedsDto(
-                        response.hourly().windSpeed1000hPa(),
-                        response.hourly().windSpeed180m(),
-                        response.hourly().windSpeed975hPa(),
-                        response.hourly().windSpeed950hPa(),
-                        response.hourly().windSpeed925hPa(),
-                        response.hourly().windSpeed900hPa()
+                        response.hourly().windSpeed1000hPa().getFirst(),
+                        response.hourly().windSpeed180m().getFirst(),
+                        response.hourly().windSpeed975hPa().getFirst(),
+                        response.hourly().windSpeed950hPa().getFirst(),
+                        response.hourly().windSpeed925hPa().getFirst(),
+                        response.hourly().windSpeed900hPa().getFirst()
                 ));
     }
 
-    public Mono<SpotWeatherTimelinePlotDataDto> getSpotWeatherTimelinePlotData(double latitude, double longitude) {
+    public Mono<List<SpotWeatherTimelinePlotDataDto>> getSpotWeatherTimelinePlotData(double latitude, double longitude) {
         return spotWeatherWebClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("latitude", latitude)
@@ -111,12 +112,18 @@ public class SpotWeatherService {
                         .build())
                 .retrieve()
                 .bodyToMono(WeatherApiResponseSchema.class)
-                .map(response -> new SpotWeatherTimelinePlotDataDto(
-                        response.hourly().time(),
-                        response.hourly().temperature2m(),
-                        response.hourly().weatherCode(),
-                        response.hourly().precipitationProbability(),
-                        response.hourly().isDay().stream().map(isDay -> (isDay != 0)).toList()
-                ));
+                .map(response -> {
+                    var spotWeatherTimelinePlotDataDtos = new ArrayList<SpotWeatherTimelinePlotDataDto>();
+                    for (int i = 0; i < response.hourly().time().size(); i++) {
+                        spotWeatherTimelinePlotDataDtos.add(new SpotWeatherTimelinePlotDataDto(
+                                response.hourly().time().get(i),
+                                response.hourly().temperature2m().get(i),
+                                response.hourly().weatherCode().get(i),
+                                response.hourly().precipitationProbability().get(i),
+                                response.hourly().isDay().get(i) != 0
+                        ));
+                    }
+                    return spotWeatherTimelinePlotDataDtos;
+                });
     }
 }

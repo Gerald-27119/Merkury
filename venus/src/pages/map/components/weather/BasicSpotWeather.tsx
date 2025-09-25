@@ -37,28 +37,27 @@ export default function BasicSpotWeather() {
     }
 
     return (
-        <div className="dark:bg-violetDarker dark:text-darkText absolute top-3 right-1/8 flex items-center space-x-2 rounded-3xl px-3 py-1.5 text-xl">
-            <WeatherIcon
-                code={data.current.weather_code}
-                isDay={data.current.is_day}
-            />
-            <VerticalLine />
-            {data.current.temperature_2m}
-            <span>&deg;C</span>
-            <VerticalLine />
-            <div className="flex items-baseline">
-                {data.current.wind_speed_10m}
-                <span className="text-sm">m/s</span>
+        data && (
+            <div className="dark:bg-violetDarker dark:text-darkText absolute top-3 right-1/8 flex items-center space-x-2 rounded-3xl px-3 py-1.5 text-xl">
+                <WeatherIcon code={data.weatherCode} isDay={data.isDay} />
+                <VerticalLine />
+                {data?.temperature}
+                <span>&deg;C</span>
+                <VerticalLine />
+                <div className="flex items-baseline">
+                    {data.windSpeed}
+                    <span className="text-sm">m/s</span>
+                </div>
+                <BiWind />
+                <VerticalLine />
+                <button
+                    className="cursor-pointer"
+                    onClick={handleClickShowMore}
+                    type="button"
+                >
+                    Show more
+                </button>
             </div>
-            <BiWind />
-            <VerticalLine />
-            <button
-                className="cursor-pointer"
-                onClick={handleClickShowMore}
-                type="button"
-            >
-                Show more
-            </button>
-        </div>
+        )
     );
 }

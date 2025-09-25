@@ -130,7 +130,7 @@ public class SpotController {
     }
 
     @GetMapping("/public/spot/get-spot-weather-timeline-plot-data")
-    public ResponseEntity<Mono<SpotWeatherTimelinePlotDataDto>> getSpotWeatherTimelinePlotData(@RequestParam double latitude, @RequestParam double longitude) {
+    public ResponseEntity<Mono<List<SpotWeatherTimelinePlotDataDto>>> getSpotWeatherTimelinePlotData(@RequestParam double latitude, @RequestParam double longitude) {
         log.info("getting spot weather timeline plot data");
         return ResponseEntity.ok(spotWeatherService.getSpotWeatherTimelinePlotData(latitude, longitude));
     }
