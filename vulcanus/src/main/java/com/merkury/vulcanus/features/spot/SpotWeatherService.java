@@ -2,6 +2,7 @@ package com.merkury.vulcanus.features.spot;
 
 import com.merkury.vulcanus.model.dtos.spot.weather.BasicSpotWeatherDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.DetailedSpotWeatherDto;
+import com.merkury.vulcanus.model.dtos.spot.weather.SpotWeatherTimelinePlotDataDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.SpotWeatherWindSpeedsDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.api.response.WeatherApiResponseSchema;
 import com.merkury.vulcanus.utils.TimeUtils;
@@ -92,6 +93,30 @@ public class SpotWeatherService {
                         response.hourly().windSpeed950hPa(),
                         response.hourly().windSpeed925hPa(),
                         response.hourly().windSpeed900hPa()
+                ));
+    }
+
+    public Mono<SpotWeatherTimelinePlotDataDto> getSpotWeatherTimelinePlotData(double latitude, double longitude) {
+        return spotWeatherWebClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .queryParam("latitude", latitude)
+                        .queryParam("longitude", longitude)
+                        .queryParam("hourly", List.of(
+                                "temperature_2m",
+                                "weather_code",
+                                "precipitation_probability",
+                                "is_day"))
+                        .queryParam("start_hour", TimeUtils.getISO8601Time(0))
+                        .queryParam("end_hour", TimeUtils.getISO8601Time(3))
+                        .build())
+                .retrieve()
+                .bodyToMono(WeatherApiResponseSchema.class)
+                .map(response -> new SpotWeatherTimelinePlotDataDto(
+                        response.hourly().time(),
+                        response.hourly().temperature2m(),
+                        response.hourly().weatherCode(),
+                        response.hourly().precipitationProbability(),
+                        response.hourly().isDay().stream().map(isDay -> (isDay != 0)).toList()
                 ));
     }
 }

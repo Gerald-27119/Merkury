@@ -12,6 +12,11 @@ public record HourlyWeatherResponseSchema(
         @JsonProperty("wind_speed_975hPa") List<Double> windSpeed975hPa,
         @JsonProperty("wind_speed_950hPa") List<Double> windSpeed950hPa,
         @JsonProperty("wind_speed_925hPa") List<Double> windSpeed925hPa,
-        @JsonProperty("wind_speed_900hPa") List<Double> windSpeed900hPa
+        @JsonProperty("wind_speed_900hPa") List<Double> windSpeed900hPa,
+        @JsonProperty("time") List<String> time,
+        @JsonProperty("temperature_2m") List<Double> temperature2m,
+        @JsonProperty("weather_code") List<Integer> weatherCode,
+        @JsonProperty("precipitation_probability") List<Double> precipitationProbability,
+        @JsonProperty("is_day") List<Integer>isDay
 ) {
 }

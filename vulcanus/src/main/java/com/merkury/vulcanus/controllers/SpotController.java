@@ -6,6 +6,7 @@ import com.merkury.vulcanus.features.spot.SpotWeatherService;
 import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.dtos.spot.weather.BasicSpotWeatherDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.DetailedSpotWeatherDto;
+import com.merkury.vulcanus.model.dtos.spot.weather.SpotWeatherTimelinePlotDataDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.SpotWeatherWindSpeedsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -126,5 +127,11 @@ public class SpotController {
     public ResponseEntity<Mono<SpotWeatherWindSpeedsDto>> getSpotWindSpeeds(@RequestParam double latitude, @RequestParam double longitude) {
         log.info("getting spot wind speeds");
         return ResponseEntity.ok(spotWeatherService.getSpotWeatherWindSpeeds(latitude, longitude));
+    }
+
+    @GetMapping("/public/spot/get-spot-weather-timeline-plot-data")
+    public ResponseEntity<Mono<SpotWeatherTimelinePlotDataDto>> getSpotWeatherTimelinePlotData(@RequestParam double latitude, @RequestParam double longitude) {
+        log.info("getting spot weather timeline plot data");
+        return ResponseEntity.ok(spotWeatherService.getSpotWeatherTimelinePlotData(latitude, longitude));
     }
 }
