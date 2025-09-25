@@ -163,6 +163,7 @@ public class ChatMapper {
                 .imgUrl(getChatImgUrl(chat, userId))//TODO:refactor
                 .messages(messageDtos)
                 .lastMessage(lastMessage)
+                .chatType(chat.getChatType())
                 .build();
     }
 

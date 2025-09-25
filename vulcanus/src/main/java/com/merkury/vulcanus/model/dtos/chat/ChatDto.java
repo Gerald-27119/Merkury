@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.model.dtos.chat;
 
+import com.merkury.vulcanus.model.enums.chat.ChatType;
 import lombok.Builder;
 
 import java.util.List;
@@ -10,6 +11,6 @@ import java.util.List;
  * @author Adam Langmesser
  */
 @Builder
-public record ChatDto(Long id, String name, ChatMessageDto lastMessage, String imgUrl, List<ChatMessageDto> messages) {
+public record ChatDto(Long id, String name, ChatMessageDto lastMessage, String imgUrl, List<ChatMessageDto> messages, ChatType chatType) {
 
 }
