@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -60,6 +61,10 @@ public class UserDashboardService {
         return profileService.getUserProfileForViewer(viewerUsername, targetUsername);
     }
 
+    public void changeUserProfilePhoto(MultipartFile profilePhoto) throws InvalidFileTypeException, UserNotFoundByUsernameException, BlobContainerNotFoundException, IOException, URISyntaxException {
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        profileService.changeUserProfilePhoto(username, profilePhoto);
+    }
 
     public SocialPageDto getUserOwnFriends(int page, int size) throws UserNotFoundByUsernameException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();

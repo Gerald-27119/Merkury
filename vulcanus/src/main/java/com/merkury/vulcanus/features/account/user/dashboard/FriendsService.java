@@ -4,6 +4,7 @@ import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExistException
 import com.merkury.vulcanus.exception.exceptions.FriendshipNotExistException;
 import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
+import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
 import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
@@ -24,6 +25,7 @@ public class FriendsService {
     private final UserEntityRepository userEntityRepository;
     private final UserEntityFetcher userEntityFetcher;
     private final FriendshipRepository friendshipRepository;
+    private final ChatService chatService;
 
     public SocialPageDto getUserFriends(String username, int page, int size) throws UserNotFoundByUsernameException {
         var friendsPage = friendshipRepository.findAllByUserUsername(username, PageRequest.of(page, size));
@@ -32,8 +34,18 @@ public class FriendsService {
             throw new UserNotFoundByUsernameException(username);
         }
 
-        var mappedFriends = friendsPage.stream().map(SocialMapper::toDto).toList();
-
+        var friendUsernames = friendsPage.getContent()
+                .stream()
+                .map(friendView -> friendView.getFriend().getUsername())
+                .toList();
+        var friendsUsernamePrivateChatIdMap = chatService.mapPrivateChatIdsByUsername(username, friendUsernames);
+        var mappedFriends = friendsPage.stream()
+                .map(friendView -> {
+                    var friendUsername = friendView.getFriend().getUsername();
+                    var privateChatId = friendsUsernamePrivateChatIdMap.get(friendUsername);
+                    return SocialMapper.friendViewToSocialDto(friendView, privateChatId);
+                })
+                .toList();
         return new SocialPageDto(mappedFriends, friendsPage.hasNext());
     }
 

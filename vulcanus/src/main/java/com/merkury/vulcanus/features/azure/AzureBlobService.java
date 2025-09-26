@@ -13,6 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -28,7 +32,7 @@ public class AzureBlobService {
         BlobContainerClient blobContainerClient = blobServiceClient.getBlobContainerClient(containerName);
 
         validateContainerName(blobContainerClient, containerName);
-        BlobClient blobClient = blobContainerClient.getBlobClient(changeFileName(file.getOriginalFilename()));
+        BlobClient blobClient = blobContainerClient.getBlobClient(changeFileName(Objects.requireNonNull(file.getOriginalFilename())));
 
         try {
             blobClient.upload(file.getInputStream(), file.getSize(), true);
@@ -37,6 +41,17 @@ public class AzureBlobService {
         }
 
         return blobClient.getBlobUrl();
+    }
+
+    public void delete(String containerName, String fileUrl) throws BlobContainerNotFoundException, URISyntaxException {
+        BlobContainerClient blobContainerClient = blobServiceClient.getBlobContainerClient(containerName);
+        validateContainerName(blobContainerClient, containerName);
+
+        var blobName = Paths.get(new URI(fileUrl).getPath()).getFileName().toString();
+        BlobClient blobClient = blobContainerClient.getBlobClient(blobName);
+        if (Boolean.TRUE.equals(blobClient.exists())){
+            blobClient.delete();
+        }
     }
 
     private String changeFileName(String originalFileName) {

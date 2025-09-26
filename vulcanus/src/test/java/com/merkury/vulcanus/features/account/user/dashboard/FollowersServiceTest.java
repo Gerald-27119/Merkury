@@ -4,6 +4,7 @@ import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeE
 import com.merkury.vulcanus.exception.exceptions.UserAlreadyFollowedException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFollowedException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
+import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType.*;
@@ -29,6 +31,9 @@ class FollowersServiceTest {
 
     @Mock
     private UserEntityRepository userEntityRepository;
+
+    @Mock
+    private ChatService chatService;
 
     @Mock
     private UserEntityFetcher userEntityFetcher;
@@ -49,6 +54,7 @@ class FollowersServiceTest {
         var followedPage = new PageImpl<>(List.of(userFollower1, userFollower2), pageable, 2);
 
         when(userEntityRepository.findFollowersByFollowedUsername(eq("user1"), any(Pageable.class))).thenReturn(followedPage);
+        when(chatService.mapPrivateChatIdsByUsername(any(), any())).thenReturn(new HashMap<>());
 
         var result = followersService.getUserFollowers("user1", 0, 10).items();
 
@@ -70,6 +76,7 @@ class FollowersServiceTest {
         var followersPage = new PageImpl<>(List.of(userFollower1, userFollower2), pageable, 2);
 
         when(userEntityRepository.findFollowedByFollowersUsername(eq("user1"), any(Pageable.class))).thenReturn(followersPage);
+        when(chatService.mapPrivateChatIdsByUsername(any(), any())).thenReturn(new HashMap<>());
 
         var result = followersService.getUserFollowed("user1", 0, 10).items();
 

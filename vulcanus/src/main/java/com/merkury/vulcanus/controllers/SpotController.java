@@ -4,6 +4,8 @@ import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.spot.SpotService;
 import com.merkury.vulcanus.features.spot.SpotWeatherService;
 import com.merkury.vulcanus.model.dtos.spot.*;
+import com.merkury.vulcanus.model.enums.SpotRatingFilterType;
+import com.merkury.vulcanus.model.enums.SpotSortType;
 import com.merkury.vulcanus.model.dtos.spot.weather.BasicSpotWeatherDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.DetailedSpotWeatherDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.SpotWeatherTimelinePlotDataDto;
@@ -86,12 +88,12 @@ public class SpotController {
 
     @GetMapping("/public/spot/search/home-page")
     public ResponseEntity<HomePageSpotPageDto> getSearchedSpotsOnHomePage(@RequestParam(required = false) String country,
-                                                                            @RequestParam(required = false) String region,
-                                                                            @RequestParam(required = false) String city,
-                                                                            @RequestParam(required = false) Double userLongitude,
-                                                                            @RequestParam(required = false) Double userLatitude,
-                                                                            @RequestParam(defaultValue = "0") int page,
-                                                                            @RequestParam(defaultValue = "20") int size) {
+                                                                          @RequestParam(required = false) String region,
+                                                                          @RequestParam(required = false) String city,
+                                                                          @RequestParam(required = false) Double userLongitude,
+                                                                          @RequestParam(required = false) Double userLatitude,
+                                                                          @RequestParam(defaultValue = "0") int page,
+                                                                          @RequestParam(defaultValue = "20") int size) {
         return ResponseEntity.ok(spotService.getAllSpotsByLocation(country, region, city, userLongitude, userLatitude, page, size));
     }
 
@@ -104,12 +106,15 @@ public class SpotController {
 
     @GetMapping("/public/spot/search/home-page/advance")
     public ResponseEntity<HomePageSpotPageDto> getSearchedSpotsOnHomePage(@RequestParam(required = false) String city,
-                                                                            @RequestParam(required = false) List<String> tags,
-                                                                            @RequestParam(required = false) Double userLongitude,
-                                                                            @RequestParam(required = false) Double userLatitude,
-                                                                            @RequestParam(defaultValue = "0") int page,
-                                                                            @RequestParam(defaultValue = "20") int size) {
-        return ResponseEntity.ok(spotService.getAllSpotsByLocationAndTags(city, tags, userLongitude, userLatitude, page, size));
+                                                                          @RequestParam(required = false) List<String> tags,
+                                                                          @RequestParam(required = false) Double userLongitude,
+                                                                          @RequestParam(required = false) Double userLatitude,
+                                                                          @RequestParam(required = false) SpotSortType sort,
+                                                                          @RequestParam(required = false) SpotRatingFilterType filter,
+                                                                          @RequestParam(defaultValue = "0") int page,
+                                                                          @RequestParam(defaultValue = "20") int size) {
+        var request = new SpotSearchRequestDto(city, tags, sort, filter);
+        return ResponseEntity.ok(spotService.getAllSpotsByLocationAndTags(request, userLongitude, userLatitude, page, size));
     }
 
     @GetMapping("/public/spot/get-spot-basic-weather")

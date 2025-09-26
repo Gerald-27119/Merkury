@@ -1,10 +1,14 @@
 package com.merkury.vulcanus.features.chat;
 
+import com.merkury.vulcanus.exception.exceptions.ChatAlreadyExistsException;
+import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
+import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
+import com.merkury.vulcanus.model.enums.chat.ChatType;
 import com.merkury.vulcanus.model.mappers.chat.ChatMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
@@ -18,12 +22,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -110,6 +118,85 @@ public class ChatService {
         //TODO:use diffrent mapper and DTO for this
         return ChatMapper.toChatMessageDto(chatMessageFromDb, ChatMapper.toChatMessageSenderDto(chatMessageFromDb));
 
+    }
+
+    @Transactional
+    public ChatDto getOrCreatePrivateChat(@Nullable Long chatId, String receiverUsername) throws UserNotFoundException{
+        Optional<Chat> optionalChat = Optional.ofNullable(chatId).flatMap(chatRepository::findById);
+
+        if (optionalChat.isPresent()) {
+            return getChat(optionalChat.get());
+        } else {
+            try {
+                return createPrivateChat(receiverUsername);
+            } catch (ChatAlreadyExistsException e) {
+                var currentUserUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+                var chat = chatRepository.findPrivateBetween(currentUserUsername, receiverUsername).get();
+                return getChat(chat);
+            }
+        }
+    }
+
+    private ChatDto getChat(Chat chat) throws UserNotFoundException {
+        var currentUser = userEntityRepository.findByUsername(customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername())
+                .orElseThrow(()-> new UserNotFoundException("Current user not found in db"))
+                .getId();
+        var last20Messages = chatMessageRepository
+                .findTop20ByChatIdOrderBySentAtDesc(chat.getId());
+        return ChatMapper.toChatDto(chat, last20Messages, currentUser);
+    }
+
+    private ChatDto createPrivateChat(String receiverUsername) throws ChatAlreadyExistsException, UserNotFoundException {
+        var currentUserUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        var optionalExistingPrivateChat = chatRepository.findPrivateBetween(currentUserUsername, receiverUsername);
+
+        if (optionalExistingPrivateChat.isPresent()) {
+            throw new ChatAlreadyExistsException(ChatType.PRIVATE, currentUserUsername, receiverUsername, optionalExistingPrivateChat.get().getId());
+        }
+
+        var currentUser = userEntityRepository.findByUsername(currentUserUsername)
+                .orElseThrow(() -> new UserNotFoundException("Current user not found: " + currentUserUsername));
+
+        var otherUser = userEntityRepository.findByUsername(receiverUsername)
+                .orElseThrow(() -> new UserNotFoundException("User not found: " + receiverUsername));
+
+        var newChat = Chat.builder()
+                .build();
+        newChat.addParticipant(currentUser);
+        newChat.addParticipant(otherUser);
+        newChat = chatRepository.save(newChat);
+
+        return ChatMapper.toChatDto(newChat, currentUser.getId());
+    }
+
+    /**
+     * Returns a stable-order map of candidate usernames to the existing private chat ID
+     * with the requesting user.
+     *
+     * <p>Keys are the provided candidate usernames (de-duplicated while preserving
+     * their original encounter order). Values are the private chat IDs when such a chat
+     * already exists, or {@code null} when it does not.</p>
+     *
+     * <p>Intended for UI scenarios like: social section in user's account/map/forum, allowing the client
+     * to easily open existing chat with any encountered user or, in case of the chat not yet existing, client knows it has to request server to create it.</p>
+     *
+     * @param requesterUsername  the username of the currently authenticated user
+     * @param candidateUsernames usernames to check against the requester
+     * @return a {@link LinkedHashMap} mapping each candidate username to a chat ID or {@code null}
+     */
+    @Transactional
+    public Map<String, Long> mapPrivateChatIdsByUsername(
+            String requesterUsername,
+            List<String> candidateUsernames
+    ) {
+        if (candidateUsernames == null || candidateUsernames.isEmpty()) return Map.of();
+
+        Map<String, Long> chatIdsByUser = new LinkedHashMap<>();
+        candidateUsernames.stream().distinct().forEach(candidateUsername -> chatIdsByUser.put(candidateUsername, null));
+
+        chatRepository.findPrivateChatsWithOthers(requesterUsername, candidateUsernames)
+                .forEach(row -> chatIdsByUser.put(row.getUsername(), row.getChatId()));
+        return chatIdsByUser;
     }
 
 }

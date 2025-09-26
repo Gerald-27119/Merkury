@@ -166,6 +166,19 @@ public class ChatMapper {
                 .build();
     }
 
+    public static ChatDto toChatDto(Chat chat, Long userId) {
+
+        //TODO: null check for chat and messages?
+
+        return ChatDto.builder()
+                .id(chat.getId())
+                .name(getChatName(chat, userId))//TODO:reafactor
+                .imgUrl(getChatImgUrl(chat, userId))//TODO:refactor
+                .messages(null)//pusta lsita lepiej?
+                .lastMessage(null)
+                .build();
+    }
+
 
     public static ChatMessageDtoSlice toChatMessageDtoSlice(Slice<ChatMessage> messageSlice) {
         return ChatMessageDtoSlice.builder()

@@ -12,6 +12,10 @@ import { SocialListType } from "../../../../model/enum/account/social/socialList
 import { useBoolean } from "../../../../hooks/useBoolean";
 import Modal from "../../../../components/modal/Modal";
 import { useNavigate } from "react-router-dom";
+import { chatActions, selectIsChatPresent } from "../../../../redux/chats";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
+import { getOrCreatePrivateChat } from "../../../../http/chats";
 
 interface SocialCardProps {
     friend: SocialDto;
@@ -27,6 +31,14 @@ export default function SocialCard({
     const queryClient = useQueryClient();
     const navigate = useNavigate();
     const [isModalOpen, openModal, closeModal] = useBoolean(false);
+    const dispatch = useDispatchTyped();
+    const isPrivateChatWithThatUserPresent = useSelectorTyped(
+        (state) =>
+            !!(
+                friend.commonPrivateChatId &&
+                state.chats.entities[friend.commonPrivateChatId]
+            ),
+    );
 
     const { mutateAsync: mutateAsyncFriends } = useMutation({
         mutationFn: editUserFriends,
@@ -39,6 +51,17 @@ export default function SocialCard({
         mutationFn: editUserFollowed,
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["followed"] });
+        },
+    });
+
+    const { mutateAsync: mutateAsyncGetOrCreatePrivateChat } = useMutation({
+        mutationFn: () =>
+            getOrCreatePrivateChat(friend.commonPrivateChatId, friend.username),
+        onSuccess: (chat) => {
+            dispatch(chatActions.upsertChats([chat]));
+            dispatch(chatActions.setSelectedChatId(chat.id));
+            dispatch(chatActions.clearNew(chat.id));
+            navigate("/chat");
         },
     });
 
@@ -70,6 +93,18 @@ export default function SocialCard({
             handleRemove = () => removeUserFriend(friend.username);
     }
 
+    async function handleNavigateToChat() {
+        const id = friend.commonPrivateChatId;
+
+        if (id != null && isPrivateChatWithThatUserPresent) {
+            dispatch(chatActions.setSelectedChatId(id));
+            dispatch(chatActions.clearNew(id));
+            navigate("/chat");
+            return;
+        }
+        await mutateAsyncGetOrCreatePrivateChat();
+    }
+
     return (
         <li className="dark:bg-darkBgSoft bg-lightBgSoft space-y-2 rounded-md px-3 pt-3 pb-4">
             <img
@@ -87,8 +122,7 @@ export default function SocialCard({
                 <SocialButton onClick={handleNavigateToUserProfile}>
                     <FaUser aria-label="userProfileFriendCardIcon" />
                 </SocialButton>
-                {/*TODO zrobić działające przyciski*/}
-                <SocialButton onClick={() => {}}>
+                <SocialButton onClick={handleNavigateToChat}>
                     <BiMessageRounded aria-label="messageFriendCardIcon" />
                 </SocialButton>
                 {type !== SocialListType.FOLLOWERS && !isSocialForViewer && (

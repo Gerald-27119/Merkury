@@ -1,27 +1,55 @@
 import MostPopularImage from "./components/MostPopularImage";
 import ProfileStat from "./components/ProfileStat";
 import UserProfile from "../../../model/interface/account/profile/userProfile";
-import { ReactNode } from "react";
+import { ChangeEvent, ReactNode, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { SocialListType } from "../../../model/enum/account/social/socialListType";
 import { socialAction } from "../../../redux/social";
 import AccountWrapper from "../components/AccountWrapper";
 import { AccountWrapperType } from "../../../model/enum/account/accountWrapperType";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { changeUserProfilePhoto } from "../../../http/user-dashboard";
+import { FaEdit } from "react-icons/fa";
+import { notificationAction } from "../../../redux/notification";
 
 interface ProfileProps {
     userData: UserProfile;
     children?: ReactNode;
     username?: string;
+    isProfileForViewer?: boolean;
 }
 
 export default function Profile({
     userData,
     children,
     username,
+    isProfileForViewer,
 }: ProfileProps) {
     const navigate = useNavigate();
     const dispatch = useDispatchTyped();
+    const queryClient = useQueryClient();
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+    const { mutateAsync } = useMutation({
+        mutationFn: changeUserProfilePhoto,
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["userProfile"] });
+            dispatch(
+                notificationAction.addSuccess({
+                    message: "Your profile photo has been updated.",
+                }),
+            );
+        },
+        onError: () => {
+            dispatch(
+                notificationAction.addError({
+                    message:
+                        "We couldn’t update your profile photo. Please try again.",
+                }),
+            );
+        },
+    });
 
     const handleNavigateToSocial = (type: SocialListType) => {
         dispatch(socialAction.setType(type));
@@ -36,14 +64,40 @@ export default function Profile({
         navigate(path);
     };
 
+    const handleChangeProfilePhoto = async (
+        event: ChangeEvent<HTMLInputElement>,
+    ) => {
+        if (event.target.files?.[0]) {
+            await mutateAsync(event.target.files[0]);
+        }
+    };
+
     return (
         <AccountWrapper variant={AccountWrapperType.PROFILE}>
             <div className="mt-17 flex flex-col items-center gap-7 lg:mt-0 lg:-ml-40 lg:flex-row xl:-ml-42 xl:gap-10 2xl:-ml-80">
-                <img
-                    alt="profileImage"
-                    src={userData?.profilePhoto}
-                    className="dark:drop-shadow-darkBgMuted aspect-square h-64 rounded-full shadow-md sm:h-80 lg:h-85 xl:h-96 dark:drop-shadow-md"
-                />
+                <div className="relative">
+                    <img
+                        alt="profileImage"
+                        src={userData?.profilePhoto}
+                        className="dark:drop-shadow-darkBgMuted aspect-square h-64 rounded-full shadow-md sm:h-80 lg:h-85 xl:h-96 dark:drop-shadow-md"
+                    />
+                    <input
+                        type="file"
+                        accept="image/*"
+                        ref={fileInputRef}
+                        className="hidden"
+                        onChange={handleChangeProfilePhoto}
+                    />
+                    {!isProfileForViewer && (
+                        <button
+                            onClick={() => fileInputRef.current?.click()}
+                            className="absolute inset-0 flex cursor-pointer items-center justify-center gap-x-2 rounded-full bg-black/40 text-lg opacity-0 transition hover:opacity-100"
+                        >
+                            <FaEdit />
+                            <p>Change profile photo.</p>
+                        </button>
+                    )}
+                </div>
                 <div className="flex flex-col gap-6 lg:mt-18 lg:gap-16">
                     <p className="text-center text-3xl capitalize lg:text-start">
                         {userData?.username}
