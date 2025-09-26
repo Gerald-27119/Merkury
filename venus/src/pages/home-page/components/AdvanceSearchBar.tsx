@@ -175,9 +175,7 @@ export default function AdvanceSearchBar({
         const newSpots: HomePageSpotDto[] =
             data.pages.flatMap((p) => p.items) ?? [];
 
-        if (newSpots.length > 0) {
-            onSetSpots(newSpots);
-        }
+        onSetSpots(newSpots);
     }, [data, onSetSpots]);
 
     return (
