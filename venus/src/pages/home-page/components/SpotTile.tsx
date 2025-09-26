@@ -68,12 +68,12 @@ export default function SpotTile({ spot }: SpotTileProps) {
                     </span>
                     <div className="dark:bg-violetLight bg-violetLighter flex items-center space-x-2 rounded-full px-3 py-1 shadow-md shadow-black/30">
                         <WeatherIcon
-                            isDay={data?.current?.["is_day"] ?? 0}
-                            code={data?.current?.["weather_code"] ?? 0}
+                            isDay={data?.isDay ?? true}
+                            code={data?.weatherCode ?? 0}
                             textSize="text-2xl"
                         />
                         <span className="flex items-center gap-x-0.5">
-                            <p>{data?.current?.["temperature_2m"]}</p>
+                            <p>{data?.temperature}</p>
                             <TbTemperatureCelsius className="text-xl" />
                         </span>
                     </div>
