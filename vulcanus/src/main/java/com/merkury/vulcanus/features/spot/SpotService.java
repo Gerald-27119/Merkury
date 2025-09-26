@@ -162,12 +162,23 @@ public class SpotService {
         };
     }
 
-    public HomePageSpotPageDto getAllSpotsByLocationAndTags(String city, List<String> tags, Double userLongitude, Double userLatitude, int page, int size) {
+    public HomePageSpotPageDto getAllSpotsByLocationAndTags(SpotSearchRequestDto request, Double userLongitude, Double userLatitude, int page, int size) {
         var spec = Specification.<Spot>where(null)
-                .and(SpotSpecification.hasCity(city))
-                .and(SpotSpecification.hasAnyTag(tags));
+                .and(SpotSpecification.hasCity(request.city()))
+                .and(SpotSpecification.hasAnyTag(request.tags()))
+                .and(SpotSpecification.hasMinRating(request.filter()));
 
-        Pageable pageable = PageRequest.of(page, size);
+        Sort sort = Sort.unsorted();
+        if (request.sort() != null) {
+            switch (request.sort()) {
+                case POPULARITY_DESCENDING -> sort = Sort.by(Sort.Direction.DESC, "viewsCount");
+                case POPULARITY_ASCENDING -> sort = Sort.by(Sort.Direction.ASC, "viewsCount");
+                case RATING_DESCENDING -> sort = Sort.by(Sort.Direction.DESC, "rating");
+                case RATING_ASCENDING -> sort = Sort.by(Sort.Direction.ASC, "rating");
+            }
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sort);
 
         Slice<Spot> spotPages = spotRepository.findAll(spec, pageable);
 

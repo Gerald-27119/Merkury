@@ -69,7 +69,7 @@ export default function SearchBar({
                 getSearchedSpotsOnHomePage(
                     { ...searchLocation, ...userCoords },
                     pageParam,
-                    5,
+                    6,
                 ),
             getNextPageParam: (lastPage, allPages) =>
                 lastPage.hasNext ? allPages.length : undefined,
