@@ -4,7 +4,7 @@
     nocompatible: true;
     preferredstrategy: "pseudoelements";
 }
-
+@source "../node_modules/@ferrucc-io/emoji-picker";
 @custom-variant dark (&:is(.dark *));
 
 @theme {
@@ -107,14 +107,14 @@ body {
 }
 
 .custom-rate-spot-comment
-    .ant-rate-star:not(.ant-rate-star-full)
-    .ant-rate-star-second {
+.ant-rate-star:not(.ant-rate-star-full)
+.ant-rate-star-second {
     color: #ffffff;
 }
 
 .custom-rate-searched-spot
-    .ant-rate-star:not(.ant-rate-star-full)
-    .ant-rate-star-second {
+.ant-rate-star:not(.ant-rate-star-full)
+.ant-rate-star-second {
     color: #ffffff;
 }
 
@@ -123,8 +123,8 @@ body {
 }
 
 .custom-rate-searched-spot
-    .ant-rate-star:not(.ant-rate-star-full)
-    .ant-rate-star-second {
+.ant-rate-star:not(.ant-rate-star-full)
+.ant-rate-star-second {
     color: #ffffff;
 }
 
@@ -221,3 +221,34 @@ body {
     counter-increment: list-item;
     display: inline-block;
 }
+
+
+/* Firefox  TODO:zmien wszedziena na apply*/
+.emoji-picker * {
+    scrollbar-width: thin; /* jak tailwind-scrollbar-thin */
+    scrollbar-color: var(--sb-thumb) var(--sb-track); /* thumb / track */
+}
+
+/* WebKit (Chrome/Edge/Safari) */
+.emoji-picker *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.emoji-picker *::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb);
+    border-radius: 9999px; /* jak scrollbar-thumb-rounded-full */
+}
+
+.emoji-picker *::-webkit-scrollbar-thumb:hover {
+    background: var(--sb-thumb-hover);
+}
+
+.emoji-picker *::-webkit-scrollbar-track {
+    background: var(--sb-track);
+}
+
+.emoji-picker [data-emoji]:hover {
+    @apply hover:bg-darbVioletBtnOutline hover:cursor-pointer active:bg-violetLighter border-none bg-violetDarker;
+}
+
