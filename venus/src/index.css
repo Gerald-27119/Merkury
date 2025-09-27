@@ -223,7 +223,7 @@ body {
 }
 
 .emoji-picker * {
-    @apply scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar scrollbar-w-1
+    @apply scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar scrollbar-w-1;
 }
 
 .emoji-picker [data-emoji]:hover {
