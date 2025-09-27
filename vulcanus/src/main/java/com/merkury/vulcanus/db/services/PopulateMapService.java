@@ -52,6 +52,7 @@ public class PopulateMapService {
                 .rating(5.0)
                 .ratingCount(25)
                 .author(user)
+                .timeZone("Europe/Warsaw")
                 .build();
 
         Spot spot2 = Spot.builder()
@@ -65,6 +66,7 @@ public class PopulateMapService {
                 .rating(5.0)
                 .ratingCount(25)
                 .author(user)
+                .timeZone("Europe/Warsaw")
                 .build();
 
         Spot spot3 = Spot.builder()
@@ -78,6 +80,7 @@ public class PopulateMapService {
                 .rating(3.5)
                 .ratingCount(20)
                 .author(user)
+                .timeZone("Europe/Warsaw")
                 .build();
 
         Spot spot4 = Spot.builder()
@@ -91,6 +94,7 @@ public class PopulateMapService {
                 .rating(3.6)
                 .ratingCount(15)
                 .author(user)
+                .timeZone("Europe/Warsaw")
                 .build();
 
         Spot spot5 = Spot.builder()
@@ -104,6 +108,7 @@ public class PopulateMapService {
                 .rating(4.6)
                 .ratingCount(8)
                 .author(user)
+                .timeZone("Europe/Warsaw")
                 .build();
 
         Spot spot6 = Spot.builder()
@@ -117,6 +122,7 @@ public class PopulateMapService {
                 .rating(4.5)
                 .ratingCount(1)
                 .author(user)
+                .timeZone("Europe/Warsaw")
                 .build();
 
         Spot spot7 = Spot.builder()
@@ -130,6 +136,7 @@ public class PopulateMapService {
                 .rating(4.8)
                 .ratingCount(99)
                 .author(user)
+                .timeZone("Europe/Warsaw")
                 .build();
 
         Spot spot8 = Spot.builder()
@@ -143,6 +150,7 @@ public class PopulateMapService {
                 .rating(4.6)
                 .ratingCount(25)
                 .author(user)
+                .timeZone("Europe/Warsaw")
                 .build();
 
         Spot spot9 = Spot.builder()
@@ -156,6 +164,7 @@ public class PopulateMapService {
                 .rating(5.0)
                 .ratingCount(25)
                 .author(user)
+                .timeZone("Europe/Warsaw")
                 .build();
 
         Spot spot10 = Spot.builder()
@@ -169,6 +178,7 @@ public class PopulateMapService {
                 .rating(4.4)
                 .ratingCount(25)
                 .author(user)
+                .timeZone("Europe/Warsaw")
                 .build();
 
         var contour1 = asList(

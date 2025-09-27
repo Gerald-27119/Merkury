@@ -39,6 +39,7 @@ public class Spot {
     private String description;
     private Double area;
     private BorderPoint centerPoint;
+    private String timeZone;
 
     /**
      * A list of {@link BorderPoint} objects that define the boundary points of the spot.

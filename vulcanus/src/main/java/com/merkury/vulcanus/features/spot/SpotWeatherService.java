@@ -5,6 +5,7 @@ import com.merkury.vulcanus.model.dtos.spot.weather.DetailedSpotWeatherDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.SpotWeatherTimelinePlotDataDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.SpotWeatherWindSpeedsDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.api.response.WeatherApiResponseSchema;
+import com.merkury.vulcanus.model.repositories.SpotRepository;
 import com.merkury.vulcanus.utils.TimeUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,12 +23,11 @@ public class SpotWeatherService {
     @Qualifier("spotWeather")
     private final WebClient spotWeatherWebClient;
 
-    private final TimeZoneService timeZoneService;
+    private final SpotRepository spotRepository;
 
-
-    private String getISO8601Time(double latitude, double longitude, int daysToAdd) {
-        var timeZone = timeZoneService.getTimeZone(latitude, longitude);
-        return TimeUtils.getISO8601Time(daysToAdd, timeZone.block());
+    private String getISO8601Time(long spotId, int daysToAdd) {
+        var timeZone = spotRepository.findById(spotId).get().getTimeZone();
+        return TimeUtils.getISO8601Time(daysToAdd, timeZone);
     }
 
     @Cacheable(
