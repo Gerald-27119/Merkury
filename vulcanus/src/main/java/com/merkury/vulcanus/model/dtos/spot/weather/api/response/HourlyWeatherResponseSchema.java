@@ -17,6 +17,6 @@ public record HourlyWeatherResponseSchema(
         @JsonProperty("temperature_2m") List<Double> temperature2m,
         @JsonProperty("weather_code") List<Integer> weatherCode,
         @JsonProperty("precipitation_probability") List<Double> precipitationProbability,
-        @JsonProperty("is_day") List<Integer>isDay
+        @JsonProperty("is_day") List<Integer> isDay
 ) {
 }

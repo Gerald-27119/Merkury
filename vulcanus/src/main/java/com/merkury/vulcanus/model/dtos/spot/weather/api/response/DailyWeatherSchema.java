@@ -7,6 +7,6 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record DailyWeatherSchema(
-        @JsonProperty("uv_index_max")List<Double> uvIndexMax
+        @JsonProperty("uv_index_max") List<Double> uvIndexMax
         ) {
 }

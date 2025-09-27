@@ -1,7 +1,4 @@
 export function formatISOToAmPm(isoTimestamp: string): string {
-    // const date = new Date(
-    //     isoTimestamp.endsWith("Z") ? isoTimestamp : isoTimestamp + "Z",
-    // )
     const date = new Date(isoTimestamp);
     const formatter = new Intl.DateTimeFormat("en-US", {
         hour: "numeric",
