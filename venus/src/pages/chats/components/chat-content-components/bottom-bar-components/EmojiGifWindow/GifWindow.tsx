@@ -138,13 +138,6 @@ export default function GifWindow({
                     Array.from({ length: 4 }).map((_, i) => (
                         <GifSkeleton key={i} />
                     ))}
-                {/*TODO: maybe in future*/}
-                {/*<div className="bg-violetDark flex h-30 w-full items-center justify-center rounded-xl">*/}
-                {/*    Favourite*/}
-                {/*</div>*/}
-                {/*<div className="bg-violetDark flex h-30 w-full items-center justify-center rounded-xl">*/}
-                {/*    Most Popular*/}
-                {/*</div>*/}
 
                 {isTrendingCategoriesSuccess &&
                     !searchedInputPhrase &&

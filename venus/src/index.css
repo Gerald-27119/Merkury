@@ -222,29 +222,8 @@ body {
     display: inline-block;
 }
 
-/* Firefox  TODO:zmien wszedziena na apply*/
 .emoji-picker * {
-    scrollbar-width: thin; /* jak tailwind-scrollbar-thin */
-    scrollbar-color: var(--sb-thumb) var(--sb-track); /* thumb / track */
-}
-
-/* WebKit (Chrome/Edge/Safari) */
-.emoji-picker *::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-.emoji-picker *::-webkit-scrollbar-thumb {
-    background: var(--sb-thumb);
-    border-radius: 9999px; /* jak scrollbar-thumb-rounded-full */
-}
-
-.emoji-picker *::-webkit-scrollbar-thumb:hover {
-    background: var(--sb-thumb-hover);
-}
-
-.emoji-picker *::-webkit-scrollbar-track {
-    background: var(--sb-track);
+    @apply scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar scrollbar-w-1
 }
 
 .emoji-picker [data-emoji]:hover {

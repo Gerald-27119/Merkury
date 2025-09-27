@@ -16,15 +16,6 @@ export default function EmojiWindow({
         <div
             ref={rootRef}
             className="emoji-picker bg-violetDark/80 w-full min-w-0 grow flex-col rounded-b-xl text-white"
-            style={
-                {
-                    "--sb-thumb": "var(--color-violetLight, #8b5cf6)",
-                    "--sb-thumb-hover":
-                        "var(--color-violetLightHover, #7c3aed)",
-                    "--sb-track":
-                        "color-mix(in oklab, var(--color-violetDark, #0b0b3b) 10%, transparent)",
-                } as React.CSSProperties
-            }
         >
             <EmojiPicker
                 className="w-full rounded-b-xl border-none p-2"
