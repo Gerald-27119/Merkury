@@ -1,11 +1,15 @@
-import { useRef } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import { EmojiPicker } from "@ferrucc-io/emoji-picker";
 
-export default function EmojiWindow() {
+export default function EmojiWindow({
+    setMessageToSend,
+}: {
+    setMessageToSend: Dispatch<SetStateAction<string>>;
+}) {
     const rootRef = useRef<HTMLDivElement>(null);
 
     function onEmojiSelect(emoji: string) {
-        console.log(emoji);
+        setMessageToSend((prev) => prev + " " + emoji);
     }
 
     return (
@@ -32,7 +36,7 @@ export default function EmojiWindow() {
                     <EmojiPicker.Input
                         placeholder="Search emoji"
                         autoFocus={false}
-                        className="w-full rounded-md bg-white/10 outline-none focus:ring-2 focus:ring-white/20"
+                        className="mt-1 mb-3 h-12 w-full rounded-2xl bg-white/10 outline-none focus:ring-2 focus:ring-white"
                     />
                 </EmojiPicker.Header>
 
