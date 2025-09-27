@@ -37,12 +37,14 @@ export async function getDetailedSpotWeather(
 export async function getWindSpeeds(
     latitude: number,
     longitude: number,
+    spotId: number,
 ): Promise<SpotWeatherWIndSpeedsDto> {
     return (
         await axios.get(`${BASE_URL}/public/spot/get-spot-wind-speeds`, {
             params: {
                 latitude,
                 longitude,
+                spotId,
             },
         })
     ).data;
@@ -51,6 +53,7 @@ export async function getWindSpeeds(
 export async function getWeatherDataForTimelinePlot(
     latitude: number,
     longitude: number,
+    spotId: number,
 ): Promise<SpotWeatherTimelinePlotData[]> {
     return (
         await axios.get(
@@ -59,6 +62,7 @@ export async function getWeatherDataForTimelinePlot(
                 params: {
                     latitude,
                     longitude,
+                    spotId,
                 },
             },
         )

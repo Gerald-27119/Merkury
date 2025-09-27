@@ -17,9 +17,11 @@ export default function WindSpeeds() {
         (state) => state.spotWeather,
     );
 
+    const { spotId } = useSelectorTyped((state) => state.spotDetails);
+
     const { data, isLoading, isError } = useQuery({
-        queryKey: ["spot-weather", "wind-speeds", latitude, longitude],
-        queryFn: () => getWindSpeeds(latitude, longitude),
+        queryKey: ["spot-weather", "wind-speeds", latitude, longitude, spotId],
+        queryFn: () => getWindSpeeds(latitude, longitude, spotId!),
     });
 
     const windSpeedsSelection: windSpeedsSelectionType[] = [

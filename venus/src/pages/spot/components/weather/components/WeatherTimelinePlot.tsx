@@ -33,9 +33,18 @@ export default function WeatherTimelinePlot() {
         (state) => state.spotWeather,
     );
 
+    const { spotId } = useSelectorTyped((state) => state.spotDetails);
+
     const { data, isLoading, isError, isSuccess } = useQuery({
-        queryKey: ["spot-weather", "timeline-plot", latitude, longitude],
-        queryFn: () => getWeatherDataForTimelinePlot(latitude, longitude),
+        queryKey: [
+            "spot-weather",
+            "timeline-plot",
+            latitude,
+            longitude,
+            spotId,
+        ],
+        queryFn: () =>
+            getWeatherDataForTimelinePlot(latitude, longitude, spotId!),
     });
 
     if (isLoading) {

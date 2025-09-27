@@ -1,10 +1,12 @@
 package com.merkury.vulcanus.features.spot;
 
+import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.model.dtos.spot.weather.BasicSpotWeatherDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.DetailedSpotWeatherDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.SpotWeatherTimelinePlotDataDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.SpotWeatherWindSpeedsDto;
 import com.merkury.vulcanus.model.dtos.spot.weather.api.response.WeatherApiResponseSchema;
+import com.merkury.vulcanus.model.interfaces.ISpotTimeZoneOnly;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import com.merkury.vulcanus.utils.TimeUtils;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +27,10 @@ public class SpotWeatherService {
 
     private final SpotRepository spotRepository;
 
-    private String getISO8601Time(long spotId, int daysToAdd) {
-        var timeZone = spotRepository.findById(spotId).get().getTimeZone();
+    private String getISO8601Time(Long spotId, int daysToAdd) {
+        var timeZone = spotRepository.findByIdWithTimeZone(spotId)
+                .map(ISpotTimeZoneOnly::getTimeZone)
+                .orElse("Europe/Warsaw");
         return TimeUtils.getISO8601Time(daysToAdd, timeZone);
     }
 
@@ -90,7 +94,7 @@ public class SpotWeatherService {
             value = "spotWeatherWindSpeeds",
             key = "#latitude + ':' + #longitude"
     )
-    public Mono<SpotWeatherWindSpeedsDto> getSpotWeatherWindSpeeds(double latitude, double longitude) {
+    public Mono<SpotWeatherWindSpeedsDto> getSpotWeatherWindSpeeds(double latitude, double longitude, Long spotId) {
         return spotWeatherWebClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("latitude", latitude)
@@ -102,8 +106,8 @@ public class SpotWeatherService {
                                 "wind_speed_950hPa",
                                 "wind_speed_925hPa",
                                 "wind_speed_900hPa"))
-                        .queryParam("start_hour", getISO8601Time(latitude, longitude, 0))
-                        .queryParam("end_hour", getISO8601Time(latitude, longitude, 0))
+                        .queryParam("start_hour", getISO8601Time(spotId, 0))
+                        .queryParam("end_hour", getISO8601Time(spotId, 0))
                         .queryParam("wind_speed_unit", "ms")
                         .build())
                 .retrieve()
@@ -122,7 +126,7 @@ public class SpotWeatherService {
             value = "spotWeatherTimelinePlotData",
             key = "#latitude + ':' + #longitude"
     )
-    public Mono<List<SpotWeatherTimelinePlotDataDto>> getSpotWeatherTimelinePlotData(double latitude, double longitude) {
+    public Mono<List<SpotWeatherTimelinePlotDataDto>> getSpotWeatherTimelinePlotData(double latitude, double longitude, Long spotId) {
         return spotWeatherWebClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("latitude", latitude)
@@ -132,8 +136,8 @@ public class SpotWeatherService {
                                 "weather_code",
                                 "precipitation_probability",
                                 "is_day"))
-                        .queryParam("start_hour", getISO8601Time(latitude, longitude, 0))
-                        .queryParam("end_hour", getISO8601Time(latitude, longitude, 3))
+                        .queryParam("start_hour", getISO8601Time(spotId, 0))
+                        .queryParam("end_hour", getISO8601Time(spotId, 3))
                         .build())
                 .retrieve()
                 .bodyToMono(WeatherApiResponseSchema.class)

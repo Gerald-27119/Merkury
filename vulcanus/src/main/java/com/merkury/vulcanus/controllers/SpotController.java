@@ -129,14 +129,14 @@ public class SpotController {
     }
 
     @GetMapping("/public/spot/get-spot-wind-speeds")
-    public ResponseEntity<Mono<SpotWeatherWindSpeedsDto>> getSpotWindSpeeds(@RequestParam double latitude, @RequestParam double longitude) {
+    public ResponseEntity<Mono<SpotWeatherWindSpeedsDto>> getSpotWindSpeeds(@RequestParam double latitude, @RequestParam double longitude, @RequestParam long spotId) {
         log.info("getting spot wind speeds");
-        return ResponseEntity.ok(spotWeatherService.getSpotWeatherWindSpeeds(latitude, longitude));
+        return ResponseEntity.ok(spotWeatherService.getSpotWeatherWindSpeeds(latitude, longitude, spotId));
     }
 
     @GetMapping("/public/spot/get-spot-weather-timeline-plot-data")
-    public ResponseEntity<Mono<List<SpotWeatherTimelinePlotDataDto>>> getSpotWeatherTimelinePlotData(@RequestParam double latitude, @RequestParam double longitude) {
+    public ResponseEntity<Mono<List<SpotWeatherTimelinePlotDataDto>>> getSpotWeatherTimelinePlotData(@RequestParam double latitude, @RequestParam double longitude, @RequestParam long spotId) {
         log.info("getting spot weather timeline plot data");
-        return ResponseEntity.ok(spotWeatherService.getSpotWeatherTimelinePlotData(latitude, longitude));
+        return ResponseEntity.ok(spotWeatherService.getSpotWeatherTimelinePlotData(latitude, longitude, spotId));
     }
 }
