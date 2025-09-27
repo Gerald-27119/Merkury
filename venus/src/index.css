@@ -227,5 +227,5 @@ body {
 }
 
 .emoji-picker [data-emoji]:hover {
-    @apply hover:bg-darkVioletBtnOutline active:bg-violetLighter bg-violetDarker border-none hover:cursor-pointer;
+    @apply hover:bg-darbVioletBtnOutline active:bg-violetLighter bg-violetDarker border-none hover:cursor-pointer;
 }
