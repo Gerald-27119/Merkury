@@ -51,6 +51,5 @@ public interface SpotRepository extends JpaRepository<Spot, Long>, JpaSpecificat
 
     Slice<Spot> findByAuthorUsername(String name, Pageable pageable);
 
-    @Query("SELECT s.timeZone AS timeZone FROM spots s WHERE s.id = :id")
-    Optional<ISpotTimeZoneOnly> findByIdWithTimeZone(@Param("id") Long id);
+    Optional<ISpotTimeZoneOnly> findSpotsTimeZonedById(Long id);
 }

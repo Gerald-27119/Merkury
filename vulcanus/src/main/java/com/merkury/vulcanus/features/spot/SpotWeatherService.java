@@ -28,7 +28,7 @@ public class SpotWeatherService {
     private final SpotRepository spotRepository;
 
     private String getISO8601Time(Long spotId, int daysToAdd) {
-        var timeZone = spotRepository.findByIdWithTimeZone(spotId)
+        var timeZone = spotRepository.findSpotsTimeZonedById(spotId)
                 .map(ISpotTimeZoneOnly::getTimeZone)
                 .orElse("Europe/Warsaw");
         return TimeUtils.getISO8601Time(daysToAdd, timeZone);
