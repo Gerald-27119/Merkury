@@ -1,8 +1,14 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, {
+    useState,
+    useCallback,
+    useRef,
+    ChangeEvent,
+    useEffect,
+} from "react";
 import { FaCirclePlus } from "react-icons/fa6";
 import { IoSendSharp } from "react-icons/io5";
 import { RiEmotionHappyFill } from "react-icons/ri";
-import { MdGifBox } from "react-icons/md";
+import { MdGifBox, MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 import { useWebSocket } from "../../../../stomp/useWebSocket";
 import {
     ChatMessageToSendDto,
@@ -16,6 +22,7 @@ import { chatActions } from "../../../../redux/chats";
 import EmojiGifWindowWrapper from "./bottom-bar-components/EmojiGifWindow/EmojiGifWindowWrapper";
 import { useClickOutside } from "../../../../hooks/useClickOutside";
 import { useQueryClient, InfiniteData } from "@tanstack/react-query";
+import ChatUploadFiles from "../ChatUploadFiles";
 
 type LocalMsg = ChatMessageDto & { optimistic?: true; optimisticUUID?: string };
 
@@ -135,54 +142,126 @@ export default function ChatBottomBar() {
         }
     }
 
+    const handleButtonClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    function onFileSelect(files: File[]) {
+        console.log(...files);
+    }
+
+    const [files, setFiles] = useState<File[]>([]);
+    const [previews, setPreviews] = useState<string[]>([]);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files) return;
+
+        const allowed = ["image/jpeg", "image/png", "image/gif", "video/mp4"];
+        const valid = Array.from(event.target.files).filter((f) =>
+            allowed.includes(f.type),
+        );
+
+        setFiles(valid);
+        const newPreviews = valid.map((file) => URL.createObjectURL(file));
+        setPreviews(newPreviews);
+
+        onFileSelect(valid);
+    };
+
+    useEffect(() => {
+        return () => {
+            previews.forEach((url) => URL.revokeObjectURL(url));
+        };
+    }, [previews]);
+
     return (
         <div className="flex items-center justify-center gap-4 px-3 py-3">
-            <div className="bg-violetLight/25 mr-1 flex w-full gap-3 rounded-xl px-3 py-3 shadow-md">
-                <FaCirclePlus className={iconClasses} />
+            <div className="bg-violetLight/25 mr-1 flex w-full flex-col gap-3 rounded-xl px-3 py-3 shadow-md">
+                {files.length >= 1 && (
+                    <div className="mb-4 flex gap-2 p-1">
+                        {files.map((file, index) => {
+                            const previewUrl = previews[index];
 
-                <textarea
-                    className="scrollbar-track-violetDark/10 hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin w-full resize-none bg-transparent focus:border-none focus:outline-none"
-                    placeholder="Message..."
-                    value={messageToSend}
-                    onChange={(e) => setMessageToSend(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    rows={1}
-                />
+                            if (file.type.startsWith("image/")) {
+                                return (
+                                    <img
+                                        key={index}
+                                        src={previewUrl}
+                                        alt={file.name}
+                                        className="h-16 w-16 rounded-md object-cover"
+                                    />
+                                );
+                            }
 
-                <div
-                    ref={gifEmojiWindowRef}
-                    className="flex items-center gap-2"
-                >
-                    <MdGifBox
-                        className={iconClasses}
-                        onClick={() =>
-                            setActiveGifEmojiWindow((prev) =>
-                                prev === "gif" ? null : "gif",
-                            )
-                        }
+                            // return (
+                            //     <video
+                            //         key={index}
+                            //         src={previewUrl}
+                            //         className="h-12 w-12 rounded-md bg-gray-200 object-cover"
+                            //     />
+                            // );
+                        })}
+                    </div>
+                )}
+
+                <div className="flex w-full">
+                    <button onClick={handleButtonClick} className="mr-3">
+                        <FaCirclePlus className={iconClasses} />
+                    </button>
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        style={{ display: "none" }}
+                        multiple
+                        accept="image/*, video/mp4"
                     />
-                    <RiEmotionHappyFill
-                        className={iconClasses}
-                        onClick={() =>
-                            setActiveGifEmojiWindow((prev) =>
-                                prev === "emoji" ? null : "emoji",
-                            )
-                        }
+
+                    <textarea
+                        className="scrollbar-track-violetDark/10 hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin mt-auto w-full resize-none bg-transparent focus:border-none focus:outline-none"
+                        placeholder="Message..."
+                        value={messageToSend}
+                        onChange={(e) => setMessageToSend(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        rows={1}
                     />
-                    {activeGifEmojiWindow && (
-                        <EmojiGifWindowWrapper
-                            windowName={activeGifEmojiWindow}
-                            setActiveGifEmojiWindow={setActiveGifEmojiWindow}
-                            setMessageToSend={setMessageToSend}
+
+                    <div
+                        ref={gifEmojiWindowRef}
+                        className="flex items-center gap-2"
+                    >
+                        <MdGifBox
+                            className={iconClasses}
+                            onClick={() =>
+                                setActiveGifEmojiWindow((prev) =>
+                                    prev === "gif" ? null : "gif",
+                                )
+                            }
                         />
-                    )}
+                        <RiEmotionHappyFill
+                            className={iconClasses}
+                            onClick={() =>
+                                setActiveGifEmojiWindow((prev) =>
+                                    prev === "emoji" ? null : "emoji",
+                                )
+                            }
+                        />
+                        {activeGifEmojiWindow && (
+                            <EmojiGifWindowWrapper
+                                windowName={activeGifEmojiWindow}
+                                setActiveGifEmojiWindow={
+                                    setActiveGifEmojiWindow
+                                }
+                                setMessageToSend={setMessageToSend}
+                            />
+                        )}
+                    </div>
                 </div>
             </div>
-
             <button
                 onClick={sendMessage}
                 disabled={!connected || isSending || !messageToSend.trim()}
-                className="hover:cursor-pointer disabled:opacity-50"
+                className="mt-auto mb-2 hover:cursor-pointer disabled:opacity-50"
                 title={!connected ? "Connecting..." : "Send"}
             >
                 <IoSendSharp className="mr-4 h-7 w-7 shadow-md" />
