@@ -21,7 +21,7 @@ export default function ForumPostSortDropdown({
     console.log(JSON.stringify({ selected }));
 
     return (
-        <div className="flex items-center gap-3">
+        <div className="mb-4 flex items-center gap-3">
             <p>Order By:</p>
             <select
                 value={JSON.stringify(selected)}

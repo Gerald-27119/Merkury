@@ -221,3 +221,7 @@ body {
     counter-increment: list-item;
     display: inline-block;
 }
+
+.sticky-forum-panel {
+    @apply sticky top-[1.8rem] self-start;
+}
