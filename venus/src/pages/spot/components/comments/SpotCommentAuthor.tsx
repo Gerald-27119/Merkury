@@ -10,7 +10,7 @@ export default function SpotCommentAuthor({ author }: SpotCommentAuthorProps) {
             <img
                 src={author.profilePhotoUrl}
                 alt={author.username}
-                className="h-10 aspect-square rounded-full"
+                className="aspect-square h-10 rounded-full object-cover"
             />
             <p className="text-3xl">{author.username}</p>
         </div>
