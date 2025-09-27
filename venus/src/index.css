@@ -107,14 +107,14 @@ body {
 }
 
 .custom-rate-spot-comment
-.ant-rate-star:not(.ant-rate-star-full)
-.ant-rate-star-second {
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
     color: #ffffff;
 }
 
 .custom-rate-searched-spot
-.ant-rate-star:not(.ant-rate-star-full)
-.ant-rate-star-second {
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
     color: #ffffff;
 }
 
@@ -123,8 +123,8 @@ body {
 }
 
 .custom-rate-searched-spot
-.ant-rate-star:not(.ant-rate-star-full)
-.ant-rate-star-second {
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
     color: #ffffff;
 }
 
@@ -222,7 +222,6 @@ body {
     display: inline-block;
 }
 
-
 /* Firefox  TODO:zmien wszedziena na apply*/
 .emoji-picker * {
     scrollbar-width: thin; /* jak tailwind-scrollbar-thin */
@@ -249,6 +248,5 @@ body {
 }
 
 .emoji-picker [data-emoji]:hover {
-    @apply hover:bg-darbVioletBtnOutline hover:cursor-pointer active:bg-violetLighter border-none bg-violetDarker;
+    @apply hover:bg-darbVioletBtnOutline active:bg-violetLighter bg-violetDarker border-none hover:cursor-pointer;
 }
-
