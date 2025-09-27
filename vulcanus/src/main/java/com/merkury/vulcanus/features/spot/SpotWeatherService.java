@@ -22,6 +22,14 @@ public class SpotWeatherService {
     @Qualifier("spotWeather")
     private final WebClient spotWeatherWebClient;
 
+    private final TimeZoneService timeZoneService;
+
+
+    private String getISO8601Time(double latitude, double longitude, int daysToAdd) {
+        var timeZone = timeZoneService.getTimeZone(latitude, longitude);
+        return TimeUtils.getISO8601Time(daysToAdd, timeZone.block());
+    }
+
     @Cacheable(
             value = "spotWeatherBasic",
             key = "#latitude + ':' + #longitude"
@@ -94,8 +102,8 @@ public class SpotWeatherService {
                                 "wind_speed_950hPa",
                                 "wind_speed_925hPa",
                                 "wind_speed_900hPa"))
-                        .queryParam("start_hour", TimeUtils.getISO8601Time(0))
-                        .queryParam("end_hour", TimeUtils.getISO8601Time(0))
+                        .queryParam("start_hour", getISO8601Time(latitude, longitude, 0))
+                        .queryParam("end_hour", getISO8601Time(latitude, longitude, 0))
                         .queryParam("wind_speed_unit", "ms")
                         .build())
                 .retrieve()
@@ -124,8 +132,8 @@ public class SpotWeatherService {
                                 "weather_code",
                                 "precipitation_probability",
                                 "is_day"))
-                        .queryParam("start_hour", TimeUtils.getISO8601Time(0))
-                        .queryParam("end_hour", TimeUtils.getISO8601Time(3))
+                        .queryParam("start_hour", getISO8601Time(latitude, longitude, 0))
+                        .queryParam("end_hour", getISO8601Time(latitude, longitude, 3))
                         .build())
                 .retrieve()
                 .bodyToMono(WeatherApiResponseSchema.class)

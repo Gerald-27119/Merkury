@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.config;
 
+import com.merkury.vulcanus.config.properties.CoordinatesTimeZoneProperties;
 import com.merkury.vulcanus.config.properties.GifProviderProperties;
 import com.merkury.vulcanus.config.properties.LocationqProviderProperties;
 import com.merkury.vulcanus.config.properties.SpotWeatherProviderProperties;
@@ -46,6 +47,14 @@ public class WebClientConfig {
     @Bean
     @Qualifier("spotWeather")
     public WebClient spotWeatherWebClient(WebClient.Builder builder, SpotWeatherProviderProperties props) {
+        return builder
+                .baseUrl(props.getUrl())
+                .build();
+    }
+
+    @Bean
+    @Qualifier("coordinatesTimeZone")
+    public WebClient coordinatesTimeZoneWebClient(WebClient.Builder builder, CoordinatesTimeZoneProperties props) {
         return builder
                 .baseUrl(props.getUrl())
                 .build();

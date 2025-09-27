@@ -1,9 +1,8 @@
-import SpotWeatherTimelinePlotData from "../model/interface/spot/weather/spotWeatherTimelinePlotData";
-
 export function formatISOToAmPm(isoTimestamp: string): string {
-    const date = new Date(
-        isoTimestamp.endsWith("Z") ? isoTimestamp : isoTimestamp + "Z",
-    );
+    // const date = new Date(
+    //     isoTimestamp.endsWith("Z") ? isoTimestamp : isoTimestamp + "Z",
+    // )
+    const date = new Date(isoTimestamp);
     const formatter = new Intl.DateTimeFormat("en-US", {
         hour: "numeric",
         minute: "2-digit",

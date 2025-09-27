@@ -1,31 +1,28 @@
 package com.merkury.vulcanus.utils;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class TimeUtils {
     private TimeUtils() {}
 
-    /**
-     * Returns current time with minutes set to zero, optionally adding days,
-     * in ISO-8601 format up to minutes, e.g. "2025-09-23T14:00".
-     *
-     * @param daysToAdd number of days to add (can be negative or zero)
-     * @return formatted date-time string
-     */
-    public static String getISO8601Time(int daysToAdd) {
-        var now = LocalDateTime.now();
+    public static String getISO8601Time(int daysToAdd, String zoneId) {
 
-        now = now.withMinute(0)
+        ZoneId zone = ZoneId.of(zoneId);
+
+        Instant now = Instant.now();
+        ZonedDateTime local = now.atZone(zone);
+        local = local
+                .withMinute(0)
                 .withSecond(0)
                 .withNano(0);
 
-        if (daysToAdd != 0) {
-            now = now.plusDays(daysToAdd);
+        if (daysToAdd > 0) {
+            local = local.plusDays(daysToAdd);
         }
-
-        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-
-        return now.format(formatter);
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        return local.format(fmt);
     }
 }
