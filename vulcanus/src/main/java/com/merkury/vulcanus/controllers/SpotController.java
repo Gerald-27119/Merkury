@@ -40,7 +40,7 @@ public class SpotController {
                                                               @RequestParam(defaultValue = "none") String sorting,
                                                               @RequestParam(defaultValue = "0.0") double ratingFrom,
                                                               @RequestParam(defaultValue = "0") int page) {
-        log.info("getting spots in current view");
+        log.debug("getting spots in current view");
         return ResponseEntity.ok(spotService.getSpotsInCurrentView(swLng, swLat, neLng, neLat, name, sorting, ratingFrom, PageRequest.of(page, DEFAULT_SEARCHED_SPOTS_PAGE_SIZE)));
     }
 
@@ -50,20 +50,20 @@ public class SpotController {
                                                                   @RequestParam double neLng,
                                                                   @RequestParam double neLat,
                                                                   @RequestParam(defaultValue = "") String name) {
-        log.info("getting spots names in current view");
+        log.debug("getting spots names in current view");
         return ResponseEntity.ok(spotService.getSpotsNamesInCurrentView(swLng, swLat, neLng, neLat, name));
     }
 
     @GetMapping("/public/spot/{spotId}")
     public ResponseEntity<SpotDetailsDto> getSpotById(@PathVariable Long spotId) throws SpotNotFoundException {
-        log.info("getting spot with id: {}", spotId);
+        log.debug("getting spot with id: {}", spotId);
         return ResponseEntity.ok(spotService.getSpotById(spotId));
     }
 
     @GetMapping("/public/spot/search/map")
     public ResponseEntity<List<GeneralSpotDto>> getSearchedSpotsOnMap(
             @RequestParam(defaultValue = "") String name) throws SpotsNotFoundException {
-        log.info("getting searched spots on map");
+        log.debug("getting searched spots on map");
         return ResponseEntity.ok(spotService.getSearchedSpotsOnMap(name));
     }
 
@@ -71,13 +71,13 @@ public class SpotController {
     public ResponseEntity<Page<SearchSpotDto>> getSearchedSpotsListPage(@RequestParam(defaultValue = "") String name,
                                                                         @RequestParam(defaultValue = "none") String sorting,
                                                                         @RequestParam(defaultValue = "0") int page) {
-        log.info("getting searched spots to list");
+        log.debug("getting searched spots to list");
         return ResponseEntity.ok(spotService.getSearchedSpotsListPage(name, sorting, PageRequest.of(page, DEFAULT_SEARCHED_SPOTS_PAGE_SIZE)));
     }
 
     @GetMapping("/public/spot/names")
     public ResponseEntity<List<String>> getFilteredSpotsNames(@RequestParam(defaultValue = "") String text) throws SpotsNotFoundException {
-        log.info("getting spots names");
+        log.debug("getting spots names");
         return ResponseEntity.ok(spotService.getFilteredSpotsNames(text));
     }
 
@@ -119,24 +119,24 @@ public class SpotController {
 
     @GetMapping("/public/spot/get-spot-basic-weather")
     public ResponseEntity<Mono<BasicSpotWeatherDto>> getBasicSpotWeather(@RequestParam double latitude, @RequestParam double longitude) {
-        log.info("getting basic spot weather");
+        log.debug("getting basic spot weather");
         return ResponseEntity.ok(spotWeatherService.getBasicSpotWeather(latitude, longitude));
     }
     @GetMapping("/public/spot/get-spot-detailed-weather")
     public ResponseEntity<Mono<DetailedSpotWeatherDto>> getDetailedSpotWeather(@RequestParam double latitude, @RequestParam double longitude) {
-        log.info("getting detailed spot weather");
+        log.debug("getting detailed spot weather");
         return ResponseEntity.ok(spotWeatherService.getDetailedSpotWeather(latitude, longitude));
     }
 
     @GetMapping("/public/spot/get-spot-wind-speeds")
     public ResponseEntity<Mono<SpotWeatherWindSpeedsDto>> getSpotWindSpeeds(@RequestParam double latitude, @RequestParam double longitude, @RequestParam long spotId) {
-        log.info("getting spot wind speeds");
+        log.debug("getting spot wind speeds");
         return ResponseEntity.ok(spotWeatherService.getSpotWeatherWindSpeeds(latitude, longitude, spotId));
     }
 
     @GetMapping("/public/spot/get-spot-weather-timeline-plot-data")
     public ResponseEntity<Mono<List<SpotWeatherTimelinePlotDataDto>>> getSpotWeatherTimelinePlotData(@RequestParam double latitude, @RequestParam double longitude, @RequestParam long spotId) {
-        log.info("getting spot weather timeline plot data");
+        log.debug("getting spot weather timeline plot data");
         return ResponseEntity.ok(spotWeatherService.getSpotWeatherTimelinePlotData(latitude, longitude, spotId));
     }
 }
