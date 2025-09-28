@@ -23,7 +23,7 @@ export default function ForumPostList({
     hasNextPage,
 }: ForumPostListProps) {
     return (
-        <div className="mt-8">
+        <div>
             <ForumPostSortDropdown
                 onSortChange={onSortChange}
                 selected={sortOption}

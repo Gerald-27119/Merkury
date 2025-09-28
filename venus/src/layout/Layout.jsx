@@ -24,7 +24,7 @@ export default function Layout() {
         <div className={`${isMapPage ? "relative" : "flex"} min-h-screen`}>
             <Sidebar />
             <main className="relative flex w-full flex-col items-center justify-center">
-                <MobileBar />
+                {/*<MobileBar />*/}
                 <NotificationList title="test" message="message" />
                 <Outlet />
             </main>

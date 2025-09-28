@@ -21,7 +21,7 @@ export default function DetailedPost({ post }: DetailedPostProps) {
     };
 
     return (
-        <div className="dark:bg-darkBgSoft relative mx-auto mb-4 rounded-xl p-6 shadow-lg">
+        <div className="dark:bg-darkBgSoft mx-auto mb-4 rounded-xl p-6 shadow-lg">
             <DetailedPostHeader
                 author={post.author}
                 publishDate={post.publishDate}

@@ -18,10 +18,8 @@ export default function ForumPostSortDropdown({
     onSortChange,
     selected,
 }: ForumPostSortDropdownProps) {
-    console.log(JSON.stringify({ selected }));
-
     return (
-        <div className="mb-4 flex items-center gap-3">
+        <div className="mb-4 flex h-[2.5rem] items-center gap-3">
             <p>Order By:</p>
             <select
                 value={JSON.stringify(selected)}

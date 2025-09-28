@@ -223,5 +223,5 @@ body {
 }
 
 .sticky-forum-panel {
-    @apply sticky top-[1.8rem] self-start;
+    @apply sticky top-8 self-start;
 }

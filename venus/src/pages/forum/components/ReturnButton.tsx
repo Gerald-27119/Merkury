@@ -8,7 +8,7 @@ export default function ReturnButton() {
         <button
             type="button"
             onClick={() => navigate(-1)}
-            className="dark:bg-violetDark bg-violetLight/80 dark:hover:bg-violetDarker hover:bg-violetLight absolute -top-12 left-2 mb-4 rounded-full p-2 shadow-lg"
+            className="dark:bg-violetDark bg-violetLight/80 dark:hover:bg-violetDarker hover:bg-violetLight mb-4 h-[2.5rem] w-[2.4rem] rounded-full p-2 shadow-lg"
         >
             <FaArrowLeft size={20} />
         </button>
