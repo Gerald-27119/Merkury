@@ -70,9 +70,16 @@ public class PostMapper {
         doc.select("img, video, iframe, object, embed, svg").remove();
         String plainText = doc.text();
 
-        return plainText.length() > 200
-                ? plainText.substring(0, plainText.lastIndexOf(" ", 200)) + "..."
-                : plainText;
+        if (plainText.length() <= 200) {
+            return plainText;
+        }
+
+        var lastSpace = plainText.lastIndexOf(" ", 200);
+        if (lastSpace == -1) {
+            return plainText.substring(0, 200) + "...";
+        }
+
+        return plainText.substring(0, lastSpace) + "...";
     }
 
     private static String generateSlugTitle(String title) {
