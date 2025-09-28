@@ -8,7 +8,9 @@ import com.merkury.vulcanus.model.dtos.chat.DetailedChatDto;
 import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
+import com.merkury.vulcanus.model.entities.chat.ChatMessageAttachedFile;
 import org.springframework.data.domain.Slice;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Comparator;
 import java.util.List;
@@ -190,4 +192,11 @@ public class ChatMapper {
                 .build();
     }
 
+    public static ChatMessageAttachedFile toChatMessageAttachedFile(MultipartFile file,ChatMessage chatMessage) {
+        return ChatMessageAttachedFile.builder()
+                .name(file.getName())
+                .chatMessage(chatMessage)
+                .url("")//....
+                .build();
+    }
 }

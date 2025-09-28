@@ -1,7 +1,10 @@
 package com.merkury.vulcanus.features.chat;
 
+import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.ChatAlreadyExistsException;
+import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
+import com.merkury.vulcanus.features.azure.AzureBlobService;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
@@ -14,9 +17,9 @@ import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
-import com.merkury.vulcanus.security.services.ChatSecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -25,9 +28,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +48,9 @@ public class ChatService {
     private final ChatMessageRepository chatMessageRepository;
     private final UserEntityRepository userEntityRepository;
     private final CustomUserDetailsService customUserDetailsService;
-    private final ChatSecurityService chatSecurityService;
+    private final AzureBlobService azureBlobService;
+    private final ChatStompCommunicationService chatStompCommunicationService;
+
 
     /**
      * Retrieves a <strong>PAGINATED</strong> list of recent chats with messages for a specific user.
@@ -121,7 +129,7 @@ public class ChatService {
     }
 
     @Transactional
-    public ChatDto getOrCreatePrivateChat(@Nullable Long chatId, String receiverUsername) throws UserNotFoundException{
+    public ChatDto getOrCreatePrivateChat(@Nullable Long chatId, String receiverUsername) throws UserNotFoundException {
         Optional<Chat> optionalChat = Optional.ofNullable(chatId).flatMap(chatRepository::findById);
 
         if (optionalChat.isPresent()) {
@@ -139,7 +147,7 @@ public class ChatService {
 
     private ChatDto getChat(Chat chat) throws UserNotFoundException {
         var currentUser = userEntityRepository.findByUsername(customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername())
-                .orElseThrow(()-> new UserNotFoundException("Current user not found in db"))
+                .orElseThrow(() -> new UserNotFoundException("Current user not found in db"))
                 .getId();
         var last20Messages = chatMessageRepository
                 .findTop20ByChatIdOrderBySentAtDesc(chat.getId());
@@ -199,4 +207,17 @@ public class ChatService {
         return chatIdsByUser;
     }
 
+    public Map<MultipartFile, String> sendFiles(@NotNull List<MultipartFile> mediaFiles) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException {//TODO: To not null zadziala? co jak wyjatek?
+        var mediaBlobUrlMap = new HashMap<MultipartFile, String>();
+
+        for (MultipartFile file : mediaFiles) {
+            String blobUrl = azureBlobService.upload("chatMessageFiles", file);// ? co jak blad?
+            mediaBlobUrlMap.put(file, blobUrl);
+        }
+
+//        var mappedChatMessageAttachedFiles = mediaFiles.stream().map(file -> ChatMapper.toChatMessageAttachedFile(file,chatMessage)).toList();
+//        chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(); czy to na pewno prześle tę wiadomość poprawnie też do nadawcy?
+
+        return mediaBlobUrlMap;
+    }
 }
