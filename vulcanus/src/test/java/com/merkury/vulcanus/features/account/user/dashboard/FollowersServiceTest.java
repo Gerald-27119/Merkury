@@ -55,6 +55,7 @@ class FollowersServiceTest {
 
         when(userEntityRepository.findFollowersByFollowedUsername(eq("user1"), any(Pageable.class))).thenReturn(followedPage);
         when(chatService.mapPrivateChatIdsByUsername(any(), any())).thenReturn(new HashMap<>());
+        when(userEntityRepository.existsByUsername("user1")).thenReturn(true);
 
         var result = followersService.getUserFollowers("user1", 0, 10).items();
 
@@ -77,6 +78,7 @@ class FollowersServiceTest {
 
         when(userEntityRepository.findFollowedByFollowersUsername(eq("user1"), any(Pageable.class))).thenReturn(followersPage);
         when(chatService.mapPrivateChatIdsByUsername(any(), any())).thenReturn(new HashMap<>());
+        when(userEntityRepository.existsByUsername("user1")).thenReturn(true);
 
         var result = followersService.getUserFollowed("user1", 0, 10).items();
 
