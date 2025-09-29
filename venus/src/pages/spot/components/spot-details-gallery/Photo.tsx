@@ -14,7 +14,7 @@ export default function Photo({ photo, ...props }: PhotoProps) {
     };
 
     return (
-        <div className="max-h-60">
+        <div className="h-fit">
             {isLoading && <LoadingSpinner />}
             {photo ? (
                 <img
@@ -22,6 +22,7 @@ export default function Photo({ photo, ...props }: PhotoProps) {
                     src={photo.url}
                     alt={photo.title}
                     onLoad={handleImageLoad}
+                    className="3xl:h-68 h-40 xl:h-60"
                 />
             ) : (
                 <p>No photo to display</p>
