@@ -7,6 +7,7 @@ import { ForumPostSortOption } from "../../model/enum/forum/forumPostSortOption"
 import ForumPostList from "./components/ForumPostList";
 import ForumLayout from "./components/ForumLayout";
 import SkeletonListedForumPost from "./components/SkeletonListedForumPost";
+import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
 
 export default function Forum() {
     const loadMoreRef = useRef<HTMLDivElement>(null);
@@ -74,16 +75,20 @@ export default function Forum() {
     }
 
     return (
-        <>
-            <ForumLayout>
-                <ForumPostList
-                    posts={posts}
-                    sortOption={sortOption}
-                    onSortChange={setSortOption}
-                    loadMoreRef={loadMoreRef}
-                    isFetchingNextPage={isFetchingNextPage}
-                />
-            </ForumLayout>
-        </>
+        <ForumLayout>
+            <ForumPostList
+                posts={posts}
+                sortOption={sortOption}
+                onSortChange={setSortOption}
+            />
+            <div ref={loadMoreRef} className="flex items-center justify-center">
+                {isFetchingNextPage && <LoadingSpinner />}
+                {!hasNextPage && (
+                    <p className="pb-4 font-bold">
+                        Congratulations! You've reached the end!
+                    </p>
+                )}
+            </div>
+        </ForumLayout>
     );
 }

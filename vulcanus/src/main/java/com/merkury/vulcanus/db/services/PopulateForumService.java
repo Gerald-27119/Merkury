@@ -215,7 +215,7 @@ public class PopulateForumService {
                 randomTags.add(allTags.get(random.nextInt(allTags.size())));
             }
 
-            var postX = Post.builder().title("Post number" + i)
+            var postX = Post.builder().title("Post number " + i)
                     .content("""
                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                             Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
