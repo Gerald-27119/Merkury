@@ -8,7 +8,7 @@ import useDebounce from "../../../../hooks/useDebounce";
 import { FaX } from "react-icons/fa6";
 
 interface SearchFriendsListProps {
-    close: () => void;
+    close?: () => void;
 }
 
 export default function SearchFriendsList({ close }: SearchFriendsListProps) {
