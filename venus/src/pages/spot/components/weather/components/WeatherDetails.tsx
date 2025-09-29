@@ -18,16 +18,16 @@ export default function WeatherDetails({
     humidity,
 }: WeatherDetailsProps) {
     return (
-        <div className="mt-3">
+        <div className="3xl:mt-3 mt-1">
             <h2 className="mb-2 text-2xl">Today overview</h2>
             <div className="mx-auto grid grid-cols-2 grid-rows-2 gap-1.5">
                 <WeatherTile className="col-start-1 row-start-1">
                     <div className="flex w-full flex-col">
                         <div className="flex items-center text-xs">
-                            <WiRain className="text-3xl" />
+                            <WiRain className="3xl:text-3xl text-2xl" />
                             <h6>Rain Chance</h6>
                         </div>
-                        <span className="mx-auto mt-1.5 text-4xl">
+                        <span className="3xl:text-4xl mx-auto mt-1.5 text-3xl">
                             {rainChance}%
                         </span>
                     </div>
@@ -35,10 +35,10 @@ export default function WeatherDetails({
                 <WeatherTile className="col-start-2 row-start-1">
                     <div className="mt-1 flex w-full flex-col">
                         <div className="flex items-center text-sm">
-                            <FaThermometerQuarter className="text-xl" />
+                            <FaThermometerQuarter className="3xl:text-xl text-lg" />
                             <h6>Dew Point</h6>
                         </div>
-                        <span className="mx-auto mt-2.5 text-4xl">
+                        <span className="3xl:text-4xl mx-auto mt-2.5 text-3xl">
                             {dewPoint}&deg;C
                         </span>
                     </div>
@@ -46,7 +46,7 @@ export default function WeatherDetails({
                 <WeatherTile className="col-start-1 row-start-2">
                     <div className="mt-1 flex w-full flex-col">
                         <h6 className="text-sm">UV Index</h6>
-                        <span className="mx-auto mt-2 text-4xl">
+                        <span className="3xl:text-4xl mx-auto mt-2 text-3xl">
                             {getUvIndexTextLevel(uvIndex)}
                         </span>
                     </div>
@@ -57,7 +57,7 @@ export default function WeatherDetails({
                             <WiHumidity className="text-2xl" />
                             <h6>Humidity</h6>
                         </div>
-                        <span className="mx-auto mt-2 text-4xl">
+                        <span className="3xl:text-4xl mx-auto mt-2 text-3xl">
                             {humidity}%
                         </span>
                     </div>

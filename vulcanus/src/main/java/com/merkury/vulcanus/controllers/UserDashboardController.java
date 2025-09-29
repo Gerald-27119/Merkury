@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -41,6 +42,12 @@ public class UserDashboardController {
     @GetMapping("/public/user-dashboard/profile/{targetUsername}")
     public ResponseEntity<ExtendedUserProfileDto> getUserProfileForViewer(@PathVariable String targetUsername) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.getUserProfileForViewer(targetUsername));
+    }
+
+    @PatchMapping("/user-dashboard/profile")
+    public ResponseEntity<Void> changeUserProfilePhoto(@RequestPart MultipartFile profilePhoto) throws InvalidFileTypeException, UserNotFoundByUsernameException, BlobContainerNotFoundException, IOException, URISyntaxException {
+        userDashboardService.changeUserProfilePhoto(profilePhoto);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/user-dashboard/friends")
@@ -62,7 +69,7 @@ public class UserDashboardController {
         return ResponseEntity.ok().build();
     }
 
-    /// TODO na frontendzie na razie nie jest to obsłużone będzie to zrobione w innym zadaniu
+    // TODO na frontendzie na razie nie jest to obsłużone będzie to zrobione w innym zadaniu
     @PatchMapping("/user-dashboard/friends/change-status")
     public ResponseEntity<Void> changeUserFriendsStatus(@RequestParam String friendUsername, @RequestParam UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
         userDashboardService.changeUserFriendsStatus(friendUsername, status);

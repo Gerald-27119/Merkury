@@ -51,8 +51,8 @@ export default function WeatherIcon({
 }: {
     code: number;
     textSize?: string;
-    isDay: number;
+    isDay: boolean;
 }) {
-    const Icon = weatherIcons[code][isDay] || FaQuestion;
+    const Icon = weatherIcons[code][isDay ? 1 : 0] || FaQuestion;
     return <Icon className={`${textSize ?? "text-3xl"}`} />;
 }

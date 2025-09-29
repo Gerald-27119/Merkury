@@ -4,6 +4,7 @@ import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExistException
 import com.merkury.vulcanus.exception.exceptions.FriendshipNotExistException;
 import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
+import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.interfaces.FriendView;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus.ACCEPTED;
@@ -35,6 +37,9 @@ import static org.mockito.Mockito.when;
 class FriendsServiceTest {
     @Mock
     private UserEntityRepository userEntityRepository;
+
+    @Mock
+    private ChatService chatService;
 
     @Mock
     private UserEntityFetcher userEntityFetcher;
@@ -61,6 +66,7 @@ class FriendsServiceTest {
         var friendPage = new PageImpl<>(friends, PageRequest.of(0, 10), friends.size());
 
         when(friendshipRepository.findAllByUserUsername(anyString(), any(Pageable.class))).thenReturn(friendPage);
+        when(chatService.mapPrivateChatIdsByUsername(any(), any())).thenReturn(new HashMap<>());
 
         var result = friendsService.getUserFriends("user1", 0, 10).items();
 
