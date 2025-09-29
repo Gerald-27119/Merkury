@@ -207,7 +207,7 @@ public class ChatService {
         return chatIdsByUser;
     }
 
-    public Map<MultipartFile, String> sendFiles(@NotNull List<MultipartFile> mediaFiles) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException {//TODO: To not null zadziala? co jak wyjatek?
+    private Map<MultipartFile, String> sendFiles(@NotNull List<MultipartFile> mediaFiles) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException {//TODO: To not null zadziala? co jak wyjatek?
         var mediaBlobUrlMap = new HashMap<MultipartFile, String>();
 
         for (MultipartFile file : mediaFiles) {
@@ -219,5 +219,10 @@ public class ChatService {
 //        chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(); czy to na pewno prześle tę wiadomość poprawnie też do nadawcy?
 
         return mediaBlobUrlMap;
+    }
+
+    public void organizeFilesSend(@NotNull List<MultipartFile> mediaFiles, Long messageId) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException {
+        var mediaBlobUrlMap = sendFiles(mediaFiles);
+
     }
 }
