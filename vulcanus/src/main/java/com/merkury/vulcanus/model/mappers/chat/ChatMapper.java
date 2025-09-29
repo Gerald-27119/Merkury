@@ -196,7 +196,7 @@ public class ChatMapper {
         return ChatMessageAttachedFile.builder()
                 .name(file.getName())
                 .chatMessage(chatMessage)
-                .url("")//....
+                .url("")//....?
                 .build();
     }
 }

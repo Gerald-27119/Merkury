@@ -2,7 +2,9 @@ package com.merkury.vulcanus.features.chat;
 
 import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.ChatAlreadyExistsException;
+import com.merkury.vulcanus.exception.exceptions.ChatNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
+import com.merkury.vulcanus.exception.exceptions.UserByUsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.azure.AzureBlobService;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
@@ -11,6 +13,7 @@ import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
+import com.merkury.vulcanus.model.entities.chat.ChatMessageAttachedFile;
 import com.merkury.vulcanus.model.enums.AzureBlobFileValidatorType;
 import com.merkury.vulcanus.model.enums.chat.ChatType;
 import com.merkury.vulcanus.model.mappers.chat.ChatMapper;
@@ -33,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -216,14 +220,40 @@ public class ChatService {
             mediaBlobUrlMap.put(file, blobUrl);
         }
 
-//        var mappedChatMessageAttachedFiles = mediaFiles.stream().map(file -> ChatMapper.toChatMessageAttachedFile(file,chatMessage)).toList();
-//        chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(); czy to na pewno prześle tę wiadomość poprawnie też do nadawcy?
-
         return mediaBlobUrlMap;
     }
 
-    public void organizeFilesSend(@NotNull List<MultipartFile> mediaFiles, Long messageId) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException {
-        var mediaBlobUrlMap = sendFiles(mediaFiles);
+    public void organizeFilesSend(@NotNull List<MultipartFile> mediaFiles, Long chatId) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException, ChatNotFoundException, UserByUsernameNotFoundException {
+        Map<MultipartFile, String> mediaBlobUrlMap = this.sendFiles(mediaFiles);
 
+        var chat = chatRepository.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
+        var senderUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        var sender = userEntityRepository.findByUsername(senderUsername).orElseThrow(() -> new UserByUsernameNotFoundException(senderUsername));
+
+        var chatMessage = ChatMessage.builder()
+                .chat(chat)
+                .sender(sender)
+                .chatMessageAttachedFiles(new ArrayList<>())
+                .build();
+
+        List<ChatMessageAttachedFile> chatMessageAttachedFiles = mediaBlobUrlMap.entrySet().stream().map(entry -> {
+            MultipartFile file = entry.getKey();
+            String blobUrl = entry.getValue();
+
+            return ChatMessageAttachedFile.builder()
+                    .fileType(file.getContentType())
+                    .sizeInBytes(file.getSize())
+                    .name(file.getOriginalFilename())
+                    .url(blobUrl)
+                    .chatMessage(chatMessage)
+                    .build();
+        }).toList();
+
+        chatMessage.getChatMessageAttachedFiles().addAll(chatMessageAttachedFiles);
+        chatMessageRepository.save(chatMessage);
+
+        //TODO: teraz trzeba ją wysłać userom
+        // var mappedChatMessageAttachedFiles = mediaFiles.stream().map(file -> ChatMapper.toChatMessageAttachedFile(file,chatMessage)).toList();
+        //  chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(); czy to na pewno prześle tę wiadomość poprawnie też do nadawcy?
     }
 }

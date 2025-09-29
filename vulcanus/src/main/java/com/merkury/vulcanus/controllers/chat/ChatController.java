@@ -1,18 +1,26 @@
 package com.merkury.vulcanus.controllers.chat;
 
+import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.ChatNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
+import com.merkury.vulcanus.exception.exceptions.UserByUsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -48,10 +56,13 @@ public class ChatController {
         return ResponseEntity.ok(chatService.getOrCreatePrivateChat(chatId, receiverUsername));
     }
 
-//    @PostMapping("/send-files")
-//    public ResponseEntity<Void> sendFiles(@RequestPart("media") List<MultipartFile> mediaFiles){
-//        chatService.sendFiles(mediaFiles);//a co odeslac na UI, bo trzeba wyswietlic cos
-//        return ResponseEntity.status(HttpStatus.CREATED).build();
-//    }
+    @PostMapping("/send-files")
+    public ResponseEntity<Void> sendFiles(
+            @RequestPart("media") List<MultipartFile> mediaFiles,
+            @RequestPart("chatId") Long chatId
+    ) throws ChatNotFoundException, InvalidFileTypeException, UserByUsernameNotFoundException, BlobContainerNotFoundException, IOException {
+        chatService.organizeFilesSend(mediaFiles, chatId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 
 }

@@ -1,6 +1,5 @@
 package com.merkury.vulcanus.model.entities.chat;
 
-import com.merkury.vulcanus.model.enums.chat.ChatMessageAttachedFileType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -29,7 +28,8 @@ public class ChatMessageAttachedFile {
     private String name;
     @Builder.Default
     private LocalDateTime sentAt = LocalDateTime.now();
-    private ChatMessageAttachedFileType chatMessageAttachedFileType;
+    private String fileType;
+    private long sizeInBytes;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "chat_message_id", nullable = false)

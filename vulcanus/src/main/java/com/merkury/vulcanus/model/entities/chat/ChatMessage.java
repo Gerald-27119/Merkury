@@ -60,8 +60,9 @@ public class ChatMessage {
 
     @OneToMany(
             mappedBy = "chatMessage",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE},
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true
     )
     private List<ChatMessageAttachedFile> chatMessageAttachedFiles;
+
 }
