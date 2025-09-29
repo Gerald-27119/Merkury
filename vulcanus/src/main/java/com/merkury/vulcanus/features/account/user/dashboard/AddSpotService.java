@@ -11,6 +11,7 @@ import com.merkury.vulcanus.model.dtos.account.add.spot.SpotToAddDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
+import com.merkury.vulcanus.model.enums.AzureBlobFileValidatorType;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.AddSpotMapper;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
@@ -67,7 +68,7 @@ public class AddSpotService {
         List<SpotMedia> mediaEntities = new ArrayList<>();
         if (mediaFiles != null) {
             for (MultipartFile file : mediaFiles) {
-                String blobUrl = azureBlobService.upload("mapa", file);
+                String blobUrl = azureBlobService.upload("mapa", file, AzureBlobFileValidatorType.DEFAULT);
 
                 SpotMedia mediaEntity = SpotMedia.builder()
                         .url(blobUrl)

@@ -15,8 +15,8 @@ public enum AllowedFileType {
 
     private final String contentType;
 
-    public static boolean isAllowed(String contentType) {
+    public static boolean isInvalid(String contentType) {
         return Arrays.stream(values())
-                .anyMatch(type -> type.getContentType().equalsIgnoreCase(contentType));
+                .noneMatch(type -> type.getContentType().equalsIgnoreCase(contentType));
     }
 }

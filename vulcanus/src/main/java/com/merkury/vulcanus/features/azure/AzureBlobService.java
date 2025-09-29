@@ -7,6 +7,7 @@ import com.azure.storage.blob.models.BlobStorageException;
 import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.FileUploadFailedException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
+import com.merkury.vulcanus.model.enums.AzureBlobFileValidatorType;
 import com.merkury.vulcanus.utils.AzureBlobFileValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,8 @@ public class AzureBlobService {
     private final BlobServiceClient blobServiceClient;
     private final AzureBlobFileValidator fileValidator;
 
-    public String upload(String containerName, MultipartFile file) throws IOException, InvalidFileTypeException, BlobContainerNotFoundException {
-
-        fileValidator.validate(file);
+    public String upload(String containerName, MultipartFile file, AzureBlobFileValidatorType azureBlobFileValidatorType) throws IOException, InvalidFileTypeException, BlobContainerNotFoundException {
+        fileValidator.validate(file, azureBlobFileValidatorType);
         BlobContainerClient blobContainerClient = blobServiceClient.getBlobContainerClient(containerName);
 
         validateContainerName(blobContainerClient, containerName);
@@ -49,13 +49,13 @@ public class AzureBlobService {
 
         var blobName = Paths.get(new URI(fileUrl).getPath()).getFileName().toString();
         BlobClient blobClient = blobContainerClient.getBlobClient(blobName);
-        if (Boolean.TRUE.equals(blobClient.exists())){
+        if (Boolean.TRUE.equals(blobClient.exists())) {
             blobClient.delete();
         }
     }
 
     private String changeFileName(String originalFileName) {
-       return UUID.randomUUID() + originalFileName.substring(originalFileName.lastIndexOf("."));
+        return UUID.randomUUID() + originalFileName.substring(originalFileName.lastIndexOf("."));
     }
 
     private void validateContainerName(BlobContainerClient blobContainerClient, String containerName) throws BlobContainerNotFoundException {

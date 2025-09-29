@@ -11,6 +11,7 @@ import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
+import com.merkury.vulcanus.model.enums.AzureBlobFileValidatorType;
 import com.merkury.vulcanus.model.enums.chat.ChatType;
 import com.merkury.vulcanus.model.mappers.chat.ChatMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
@@ -211,7 +212,7 @@ public class ChatService {
         var mediaBlobUrlMap = new HashMap<MultipartFile, String>();
 
         for (MultipartFile file : mediaFiles) {
-            String blobUrl = azureBlobService.upload("chatMessageFiles", file);// ? co jak blad?
+            String blobUrl = azureBlobService.upload("chat-message-files", file, AzureBlobFileValidatorType.CHAT);// ? co jak blad?
             mediaBlobUrlMap.put(file, blobUrl);
         }
 

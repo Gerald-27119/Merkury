@@ -8,6 +8,7 @@ import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ImageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.enums.AzureBlobFileValidatorType;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.ProfileMapper;
 import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
@@ -60,7 +61,7 @@ public class ProfileService {
         if (user.getProfilePhoto() != null) {
             azureBlobService.delete("user-profile", user.getProfilePhoto());
         }
-        var profilePhotoUrl = azureBlobService.upload("user-profile", profilePhoto);
+        var profilePhotoUrl = azureBlobService.upload("user-profile", profilePhoto, AzureBlobFileValidatorType.DEFAULT);
 
         user.setProfilePhoto(profilePhotoUrl);
         userEntityRepository.save(user);
