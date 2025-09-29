@@ -1,5 +1,5 @@
-import ForumTag from "./ForumTag";
-import TagDto from "../../../model/interface/tagDto";
+import ForumTag from "../ForumTag";
+import TagDto from "../../../../model/interface/tagDto";
 import ExpansionButton from "./ExpansionButton";
 
 interface ForumTagsListProps {

@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import AddPostButton from "./AddPostButton";
-import ForumCategoriesTagsPanel from "../categories-and-tags/ForumCategoriesTagsPanel";
+import ForumCategoriesTagsPanel from "../categories-and-tags/components/ForumCategoriesTagsPanel";
 import ForumSearchBar from "./ForumSearchBar";
 import RightPanel from "./RightPanel";
 import ForumFormModal from "./ForumFormModal";

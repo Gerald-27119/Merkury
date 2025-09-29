@@ -1,8 +1,8 @@
-import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
-import Error from "../../../components/error/Error";
-import ForumCategoryAndTagsDto from "../../../model/interface/forum/forumCategoryAndTagsDto";
+import Error from "../../../../components/error/Error";
+import ForumCategoryAndTagsDto from "../../../../model/interface/forum/forumCategoryAndTagsDto";
 import ForumCategoriesList from "./ForumCategoriesList";
 import ForumTagsList from "./ForumTagsList";
+import SkeletonForumCategoryTag from "./SkeletonForumCategoryTag";
 
 interface ForumCategoriesTagsPanelProps {
     data?: ForumCategoryAndTagsDto;
@@ -18,7 +18,7 @@ export default function ForumCategoriesTagsPanel({
     error,
 }: ForumCategoriesTagsPanelProps) {
     if (isLoading) {
-        return <LoadingSpinner />;
+        return <SkeletonForumCategoryTag />;
     }
 
     if (isError) {

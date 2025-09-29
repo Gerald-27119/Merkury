@@ -1,5 +1,5 @@
-import ForumCategory from "./ForumCategory";
-import ForumCategoryDto from "../../../model/interface/forum/forumCategoryDto";
+import ForumCategory from "../ForumCategory";
+import ForumCategoryDto from "../../../../model/interface/forum/forumCategoryDto";
 import ExpansionButton from "./ExpansionButton";
 
 interface ForumCategoriesListProps {
