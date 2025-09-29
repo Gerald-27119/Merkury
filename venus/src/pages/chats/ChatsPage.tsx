@@ -8,11 +8,8 @@ export default function ChatsPage() {
     return (
         <div className="flex h-screen w-full">
             <div className="border-violetLight flex w-1/6 flex-col border-l">
-                <div className="bg-violetDark border-violetLight flex items-center justify-end gap-20 border-b py-5 text-center font-medium text-white md:text-lg">
-                    {/*  TODO: move both friends and new message to the sidebar, only leave text: Chats: ?*/}
-                    {/*  TODO: work on responsiveness*/}
-                    <h2>Friends</h2>
-                    <LuMessageSquarePlus size={30} className="mr-5" />
+                <div className="bg-violetDark border-violetLight flex items-center justify-center border-b py-3 text-center font-medium text-white md:text-lg">
+                    <h2>Chats</h2>
                 </div>
 
                 <div className="scrollbar-track-violetDark/10 hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark/80 min-w-0 grow flex-col overflow-y-auto text-white">

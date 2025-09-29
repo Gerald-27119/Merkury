@@ -4,7 +4,7 @@
     nocompatible: true;
     preferredstrategy: "pseudoelements";
 }
-
+@source "../node_modules/@ferrucc-io/emoji-picker";
 @custom-variant dark (&:is(.dark *));
 
 @theme {
@@ -220,4 +220,12 @@ body {
     content: counter(list-item) ".";
     counter-increment: list-item;
     display: inline-block;
+}
+
+.emoji-picker * {
+    @apply scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar scrollbar-w-1;
+}
+
+.emoji-picker [data-emoji]:hover {
+    @apply hover:bg-darbVioletBtnOutline active:bg-violetLighter bg-violetDarker border-none hover:cursor-pointer;
 }

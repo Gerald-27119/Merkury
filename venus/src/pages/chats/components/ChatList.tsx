@@ -55,6 +55,7 @@ export default function ChatList() {
             participants: chatDto.participants,
             lastMessage: chatDto.lastMessage,
             messages: [],
+            chatType: chatDto.chatType,
         }));
         dispatch(chatActions.upsertChats(toRedux));
     }, [pagesLen, dispatch, data]);
