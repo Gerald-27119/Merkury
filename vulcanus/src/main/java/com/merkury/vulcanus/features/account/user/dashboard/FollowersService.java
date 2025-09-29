@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class FollowersService {
@@ -24,9 +26,15 @@ public class FollowersService {
 
     public SocialPageDto getUserFollowers(String username, int page, int size) throws UserNotFoundByUsernameException {
         var followersPage = userEntityRepository.findFollowersByFollowedUsername(username, PageRequest.of(page, size));
-        if (followersPage.getContent().isEmpty()) {
+
+        if (!userEntityRepository.existsByUsername(username)) {
             throw new UserNotFoundByUsernameException(username);
         }
+
+        if (followersPage.isEmpty()) {
+            return new SocialPageDto(List.of(), false);
+        }
+
         var followerUsernamePrivateChatIdMap = chatService.mapPrivateChatIdsByUsername(
                 username,
                 followersPage.getContent().stream()
@@ -44,8 +52,13 @@ public class FollowersService {
 
     public SocialPageDto getUserFollowed(String username, int page, int size) throws UserNotFoundByUsernameException {
         var followedPage = userEntityRepository.findFollowedByFollowersUsername(username, PageRequest.of(page, size));
-        if (followedPage.getContent().isEmpty()) {
+
+        if (!userEntityRepository.existsByUsername(username)) {
             throw new UserNotFoundByUsernameException(username);
+        }
+
+        if (followedPage.isEmpty()) {
+            return new SocialPageDto(List.of(), false);
         }
 
         var followerUsernamePrivateChatIdMap = chatService.mapPrivateChatIdsByUsername(

@@ -102,6 +102,13 @@ public class UserDashboardController {
         return ResponseEntity.ok(userDashboardService.getUserFollowedForViewer(targetUsername, page, size));
     }
 
+    @GetMapping("/user-dashboard/friends/find")
+    public ResponseEntity<SocialPageDto> searchUsersByUsername(@RequestParam String query,
+                                                               @RequestParam(defaultValue = "0") int page,
+                                                               @RequestParam(defaultValue = "20") int size) {
+        return ResponseEntity.ok(userDashboardService.searchUsersByUsername(query, page, size));
+    }
+
     @PatchMapping("/user-dashboard/followed")
     public ResponseEntity<Void> editUserFollowed(@RequestParam String followedUsername, @RequestParam UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
         userDashboardService.editUserFollowed(followedUsername, type);

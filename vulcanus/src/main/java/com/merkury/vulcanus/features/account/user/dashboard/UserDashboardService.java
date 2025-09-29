@@ -103,6 +103,10 @@ public class UserDashboardService {
         return followersService.getUserFollowed(targetUsername, page, size);
     }
 
+    public SocialPageDto searchUsersByUsername(String query, int page, int size){
+        return friendsService.searchUsersByUsername(query, page, size);
+    }
+
     public void editUserFollowed(String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         followersService.editUserFollowed(username, followedUsername, type);

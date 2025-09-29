@@ -11,6 +11,9 @@ import { MutableRefObject } from "react";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import PhotosList from "./components/PhotosList";
 import DatedMediaGroup from "../../../model/interface/account/media/datedMediaGroup";
+import EmptyModal from "../../../components/modal/EmptyModal";
+import { useBoolean } from "../../../hooks/useBoolean";
+import SearchFriendsList from "./components/SearchFriendsList";
 
 interface SocialProps {
     list: SocialDto[] | DatedMediaGroup[];
@@ -28,6 +31,7 @@ export default function Social({
     type,
 }: SocialProps) {
     const dispatch = useDispatchTyped();
+    const [isOpen, open, close, _] = useBoolean(false);
 
     const setType = (type: SocialListType) => {
         dispatch(socialAction.setType(type));
@@ -43,30 +47,48 @@ export default function Social({
     ];
 
     return (
-        <AccountWrapper variant={AccountWrapperType.SOCIAL}>
-            <AccountTitle text="social list" />
-            <div className="flex gap-3 text-2xl lg:mx-27">
-                {menuTypes.map(({ label, type: btnType }) => (
-                    <SocialButton
-                        key={label}
-                        onClick={() => setType(btnType)}
-                        isActive={type === btnType}
-                    >
-                        <p className="font-semibold capitalize">{label}</p>
-                    </SocialButton>
-                ))}
-            </div>
-            {type === SocialListType.PHOTOS ? (
-                <PhotosList photos={list as DatedMediaGroup[]} />
-            ) : (
-                <SocialCardList
-                    list={list as SocialDto[]}
-                    type={type}
-                    isSocialForViewer={isSocialForViewer}
-                />
-            )}
-            <div ref={loadMoreRef} className="h-10" />
-            {isFetchingNextPage && <LoadingSpinner />}
-        </AccountWrapper>
+        <>
+            <AccountWrapper variant={AccountWrapperType.SOCIAL}>
+                <div className="flex items-center justify-between">
+                    <AccountTitle text="social list" />
+                    {type === SocialListType.FRIENDS && !isSocialForViewer && (
+                        <SocialButton
+                            onClick={open}
+                            isWidthFit
+                            className="lg:mr-27"
+                        >
+                            <p className="font-semibold capitalize">
+                                Add new friend
+                            </p>
+                        </SocialButton>
+                    )}
+                </div>
+                <div className="flex gap-3 text-2xl lg:mx-27">
+                    {menuTypes.map(({ label, type: btnType }) => (
+                        <SocialButton
+                            key={label}
+                            onClick={() => setType(btnType)}
+                            isActive={type === btnType}
+                        >
+                            <p className="font-semibold capitalize">{label}</p>
+                        </SocialButton>
+                    ))}
+                </div>
+                {type === SocialListType.PHOTOS ? (
+                    <PhotosList photos={list as DatedMediaGroup[]} />
+                ) : (
+                    <SocialCardList
+                        list={list as SocialDto[]}
+                        type={type}
+                        isSocialForViewer={isSocialForViewer}
+                    />
+                )}
+                <div ref={loadMoreRef} className="h-10" />
+                {isFetchingNextPage && <LoadingSpinner />}
+            </AccountWrapper>
+            <EmptyModal onClose={close} isOpen={isOpen}>
+                <SearchFriendsList />
+            </EmptyModal>
+        </>
     );
 }

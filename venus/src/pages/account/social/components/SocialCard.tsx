@@ -12,7 +12,7 @@ import { SocialListType } from "../../../../model/enum/account/social/socialList
 import { useBoolean } from "../../../../hooks/useBoolean";
 import Modal from "../../../../components/modal/Modal";
 import { useNavigate } from "react-router-dom";
-import { chatActions, selectIsChatPresent } from "../../../../redux/chats";
+import { chatActions } from "../../../../redux/chats";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { getOrCreatePrivateChat } from "../../../../http/chats";
@@ -21,12 +21,14 @@ interface SocialCardProps {
     friend: SocialDto;
     type: SocialListType;
     isSocialForViewer: boolean;
+    isSearchFriend?: boolean;
 }
 
 export default function SocialCard({
     friend,
     type,
     isSocialForViewer,
+    isSearchFriend,
 }: SocialCardProps) {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -115,9 +117,6 @@ export default function SocialCard({
             <h3 className="text-center text-xl font-semibold capitalize">
                 {friend.username}
             </h3>
-            <h5 className="text-darkBorder text-center capitalize">
-                available
-            </h5>
             <div className="flex gap-2 text-3xl">
                 <SocialButton onClick={handleNavigateToUserProfile}>
                     <FaUser aria-label="userProfileFriendCardIcon" />
@@ -125,11 +124,13 @@ export default function SocialCard({
                 <SocialButton onClick={handleNavigateToChat}>
                     <BiMessageRounded aria-label="messageFriendCardIcon" />
                 </SocialButton>
-                {type !== SocialListType.FOLLOWERS && !isSocialForViewer && (
-                    <SocialButton onClick={openModal}>
-                        <FaUserMinus aria-label="userRemoveFriendCardIcon" />
-                    </SocialButton>
-                )}
+                {type !== SocialListType.FOLLOWERS &&
+                    !isSocialForViewer &&
+                    !isSearchFriend && (
+                        <SocialButton onClick={openModal}>
+                            <FaUserMinus aria-label="userRemoveFriendCardIcon" />
+                        </SocialButton>
+                    )}
             </div>
             <Modal
                 onClose={closeModal}

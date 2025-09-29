@@ -6,12 +6,14 @@ interface SocialCardsProps {
     list: SocialDto[] | undefined;
     type: SocialListType;
     isSocialForViewer: boolean;
+    isSearchFriend?: boolean;
 }
 
 export default function SocialCardList({
     list,
     type,
     isSocialForViewer,
+    isSearchFriend,
 }: SocialCardsProps) {
     if (!list || list.length === 0) {
         let message;
@@ -50,6 +52,7 @@ export default function SocialCardList({
                     key={f.username}
                     type={type}
                     isSocialForViewer={isSocialForViewer}
+                    isSearchFriend={isSearchFriend}
                 />
             ))}
         </ul>
