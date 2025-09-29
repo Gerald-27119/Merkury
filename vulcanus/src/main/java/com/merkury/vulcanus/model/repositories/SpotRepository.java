@@ -1,10 +1,7 @@
 package com.merkury.vulcanus.model.repositories;
 
 import com.merkury.vulcanus.model.entities.spot.Spot;
-import com.merkury.vulcanus.model.interfaces.CityView;
-import com.merkury.vulcanus.model.interfaces.CountryView;
-import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
-import com.merkury.vulcanus.model.interfaces.RegionView;
+import com.merkury.vulcanus.model.interfaces.*;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
@@ -53,4 +50,6 @@ public interface SpotRepository extends JpaRepository<Spot, Long>, JpaSpecificat
     List<ISpotNameOnly> findByNameContainingIgnoreCase(String name);
 
     Slice<Spot> findByAuthorUsername(String name, Pageable pageable);
+
+    Optional<ISpotTimeZoneOnly> findSpotsTimeZonedById(Long id);
 }

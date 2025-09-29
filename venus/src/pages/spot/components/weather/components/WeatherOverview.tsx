@@ -8,7 +8,7 @@ import WeatherIcon from "../../../../map/components/weather/components/WeatherIc
 type WeatherOverviewProps = {
     temperature: number;
     weatherCode: number;
-    isDay: number;
+    isDay: boolean;
 };
 
 export default function WeatherOverview({
@@ -18,7 +18,7 @@ export default function WeatherOverview({
 }: WeatherOverviewProps) {
     const { city, region } = useSelectorTyped((state) => state.spotWeather);
     return (
-        <div className="text-darkText mt-2.5 flex flex-col rounded-lg bg-gradient-to-r from-slate-500 via-blue-950 to-blue-900 px-3 py-2.5">
+        <div className="text-darkText 3xl:mt-2.5 mt-1.5 flex flex-col rounded-lg bg-gradient-to-r from-slate-500 via-blue-950 to-blue-900 px-3 py-2.5">
             <div className="ml-12 flex">
                 <div>
                     <h2>{city}</h2>

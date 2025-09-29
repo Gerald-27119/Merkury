@@ -43,7 +43,7 @@ export default function DetailedSpotWeather() {
             animate="visible"
             exit="exit"
             transition={{ duration: 0.3 }}
-            className="dark:bg-lightGrayishViolet absolute top-0 right-0 z-[2] flex h-full w-[29rem] flex-col p-2 text-lg"
+            className="dark:bg-lightGrayishViolet absolute right-0 z-[2] flex h-full w-[29rem] flex-col overflow-y-auto px-2 pt-2 pb-16 text-lg xl:top-0 xl:p-2"
         >
             <div className="mt-2 flex">
                 <HiX
@@ -54,18 +54,18 @@ export default function DetailedSpotWeather() {
             </div>
             {isLoading && <LoadingSpinner />}
             {isError && <p>Failed to load weather.</p>}
-            {isSuccess && (
-                <div className="mt-2 flex flex-col space-y-4">
+            {isSuccess && data && (
+                <div className="3xl:space-y-4 3xl:mt-2 mt-1 flex flex-col space-y-2">
                     <WeatherOverview
-                        temperature={data.current.temperature_2m}
-                        weatherCode={data.current.weather_code}
-                        isDay={data.current.is_day}
+                        temperature={data.temperature}
+                        weatherCode={data.weatherCode}
+                        isDay={data.isDay}
                     />
                     <WeatherDetails
-                        rainChance={data.current.precipitation_probability}
-                        dewPoint={data.current.dew_point_2m}
-                        uvIndex={data.daily.uv_index_max[0]}
-                        humidity={data.current.relative_humidity_2m}
+                        rainChance={data.precipitationProbability}
+                        dewPoint={data.dewPoint}
+                        uvIndex={data.uvIndexMax}
+                        humidity={data.relativeHumidity}
                     />
                     <WindSpeeds />
                     <WeatherTimelinePlot />

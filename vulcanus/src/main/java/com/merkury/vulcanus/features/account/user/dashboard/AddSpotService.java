@@ -6,6 +6,7 @@ import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.features.azure.AzureBlobService;
+import com.merkury.vulcanus.features.spot.TimeZoneService;
 import com.merkury.vulcanus.model.dtos.account.add.spot.AddSpotPageDto;
 import com.merkury.vulcanus.model.dtos.account.add.spot.SpotToAddDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
@@ -42,6 +43,7 @@ public class AddSpotService {
     @Qualifier("locationq")
     private final WebClient locationqWebClient;
     private final LocationqProviderProperties props;
+    private final TimeZoneService timeZoneService;
 
     public AddSpotPageDto getAllSpotsAddedByUser(String username, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
@@ -58,11 +60,13 @@ public class AddSpotService {
         var author = userEntityFetcher.getByUsername(username);
         var centerPoint = PolygonCenterPointCalculator.calculateCenterPoint(spot.borderPoints());
         var area = PolygonAreaCalculator.calculateArea(spot.borderPoints().toArray(new BorderPoint[0]));
+        var timeZone = timeZoneService.getTimeZone(centerPoint.getX(), centerPoint.getY()).block();
 
         var mappedSpot = AddSpotMapper.toEntity(spot);
         mappedSpot.setAuthor(author);
         mappedSpot.setCenterPoint(centerPoint);
         mappedSpot.setArea(area);
+        mappedSpot.setTimeZone(timeZone);
 
         List<SpotMedia> mediaEntities = new ArrayList<>();
         if (mediaFiles != null) {
