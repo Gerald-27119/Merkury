@@ -96,9 +96,15 @@ body {
     font-size: 20px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1280px) {
     .custom-rate .ant-rate-star {
         font-size: 20px;
+    }
+}
+
+@media (max-width: 1280px) {
+    .custom-rate-spot-comment .ant-rate-star {
+        font-size: 14px;
     }
 }
 

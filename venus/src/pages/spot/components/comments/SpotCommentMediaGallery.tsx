@@ -51,7 +51,7 @@ export default function SpotCommentMediaGallery({
                     <li key={media.id} className="relative">
                         {media.genericMediaType === MediaType.VIDEO ? (
                             <>
-                                <div className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-4xl">
+                                <div className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-2xl 2xl:text-4xl">
                                     <FaRegCirclePlay />
                                 </div>
                                 <div className="absolute inset-0 z-0 flex items-center justify-center">
@@ -81,7 +81,7 @@ export default function SpotCommentMediaGallery({
                                 onClick={handleShowMoreMedia}
                                 className="bg-darkBg/88 absolute inset-0 flex cursor-pointer items-center justify-center"
                             >
-                                <span className="text-lg font-semibold">
+                                <span className="text-xs font-semibold 2xl:text-lg">
                                     see more...
                                 </span>
                             </div>

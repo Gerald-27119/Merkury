@@ -73,7 +73,7 @@ export default function SpotDetails() {
             >
                 {isLoading && <LoadingSpinner />}
                 {data && (
-                    <div className="mx-3 flex h-fit w-full flex-col">
+                    <div className="mx-3 flex h-full w-full flex-col">
                         <div className="mt-3 flex items-center justify-between text-xl">
                             <div className="flex justify-start">
                                 <MdLocationPin className="mr-0.5 text-2xl text-red-600" />
