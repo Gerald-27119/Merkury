@@ -5,7 +5,6 @@ import DetailedPostContent from "./components/DetailedPostContent";
 import DetailedPostActions from "./components/DetailedPostActions";
 import useForumPostActions from "../../../hooks/useForumPostActions";
 import { useNavigate } from "react-router-dom";
-import ReturnButton from "../components/ReturnButton";
 
 interface DetailedPostProps {
     post: PostDetails;
@@ -34,6 +33,9 @@ export default function DetailedPost({ post }: DetailedPostProps) {
             <DetailedPostActions
                 postId={post.id}
                 isAuthor={post.isAuthor}
+                upVotes={post.upVotes}
+                downVotes={post.downVotes}
+                numberOfComments={post.comments.length}
                 onDelete={handleDelete}
                 onEdit={handleEdit}
                 onFollow={handleFollow}
