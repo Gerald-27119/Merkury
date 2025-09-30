@@ -100,11 +100,18 @@ body {
     .custom-rate .ant-rate-star {
         font-size: 20px;
     }
-}
 
-@media (max-width: 1280px) {
     .custom-rate-spot-comment .ant-rate-star {
         font-size: 14px;
+    }
+
+    .media-control-bar {
+        --media-control-padding: 0;
+        --media-range-track-height: 1px;
+    }
+
+    .media-control-bar > * {
+        padding: 1px;
     }
 }
 
@@ -145,17 +152,6 @@ body {
 
 .media-control-bar {
     margin-bottom: 0;
-}
-
-@media (max-width: 1280px) {
-    .media-control-bar {
-        --media-control-padding: 0;
-        --media-range-track-height: 1px;
-    }
-
-    .media-control-bar > * {
-        padding: 1px;
-    }
 }
 
 .tiptap-editor-content .ProseMirror:focus {
