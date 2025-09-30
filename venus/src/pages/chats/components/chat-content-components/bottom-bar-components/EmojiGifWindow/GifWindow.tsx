@@ -120,7 +120,7 @@ export default function GifWindow({
     // TODO: usprawnic jsx bo jest powielanie iebdzie go ejszcze wiecej (dla zapsianych gifow itd)
     return (
         <div className="flex h-full min-h-0 flex-col">
-            <div className="px-3 py-2">
+            <div className="mt-2 px-3 py-2">
                 <input
                     type="text"
                     placeholder="Search GIFs..."
@@ -131,19 +131,13 @@ export default function GifWindow({
             </div>
 
             <div
-                className={` ${scrollbarClasses} bg-violetLightDarker mt-2 grid flex-1 grid-cols-2 gap-3 overflow-y-auto rounded-b-xl p-3`}
+                className={` ${scrollbarClasses} bg-violetLightDarker grid flex-1 grid-cols-2 gap-3 overflow-y-auto rounded-b-xl p-3`}
             >
                 {isTrendingCategoriesLoading &&
                     !searchedInputPhrase &&
                     Array.from({ length: 4 }).map((_, i) => (
                         <GifSkeleton key={i} />
                     ))}
-                <div className="bg-violetDark flex h-30 w-full items-center justify-center rounded-xl">
-                    Favourite
-                </div>
-                <div className="bg-violetDark flex h-30 w-full items-center justify-center rounded-xl">
-                    Most Popular
-                </div>
 
                 {isTrendingCategoriesSuccess &&
                     !searchedInputPhrase &&

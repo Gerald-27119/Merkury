@@ -38,6 +38,7 @@ export interface ChatDto {
     messages: ChatMessageDto[];
     participants: ChatParticipantDto[];
     lastMessage: ChatMessageDto;
+    chatType: "PRIVATE" | "GROUP";
 }
 
 export interface ChatMessagesPageDto {

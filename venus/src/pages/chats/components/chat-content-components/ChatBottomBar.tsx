@@ -173,6 +173,7 @@ export default function ChatBottomBar() {
                         <EmojiGifWindowWrapper
                             windowName={activeGifEmojiWindow}
                             setActiveGifEmojiWindow={setActiveGifEmojiWindow}
+                            setMessageToSend={setMessageToSend}
                         />
                     )}
                 </div>
