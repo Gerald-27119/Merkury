@@ -10,13 +10,13 @@ import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,13 +56,17 @@ public class ChatController {
         return ResponseEntity.ok(chatService.getOrCreatePrivateChat(chatId, receiverUsername));
     }
 
-    @PostMapping("/send-files")
+    @PostMapping(
+            path = "/{chatId}/send-files",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
     public ResponseEntity<Void> sendFiles(
-            @RequestPart("media") List<MultipartFile> mediaFiles,
-            @RequestPart("chatId") Long chatId
+            @PathVariable Long chatId,
+            @RequestParam("media") List<MultipartFile> media
     ) throws ChatNotFoundException, InvalidFileTypeException, UserByUsernameNotFoundException, BlobContainerNotFoundException, IOException {
-        chatService.organizeFilesSend(mediaFiles, chatId);
+        chatService.organizeFilesSend(media, chatId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+//    TODO; prywatyzacja przesłanych zdjęc, tak aby tylko uczestnicy chatu mieli do nich dostęp, obecnie ma każdy kto ma link do zdjęcia
 
 }

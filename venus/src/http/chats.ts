@@ -4,6 +4,8 @@ import {
     ChatMessagesPageDto,
     ChatPage,
 } from "../model/interface/chat/chatInterfaces";
+import { SpotToAddDto } from "../model/interface/account/add-spot/spotToAddDto";
+import SpotCoordinatesDto from "../model/interface/spot/coordinates/spotCoordinatesDto";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
@@ -65,4 +67,20 @@ export async function getOrCreatePrivateChat(
         { withCredentials: true, params },
     );
     return data;
+}
+
+export async function sendFiles(
+    chatId: number | null,
+    files: File[],
+): Promise<void> {
+    const formData = new FormData();
+
+    for (const file of files) {
+        formData.append("media", file, file.name);
+    }
+
+    await axios.post<void>(`${BASE_URL}/chats/${chatId}/send-files`, formData, {
+        //TODO:fix url
+        withCredentials: true,
+    });
 }

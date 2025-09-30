@@ -21,8 +21,13 @@ import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { chatActions } from "../../../../redux/chats";
 import EmojiGifWindowWrapper from "./bottom-bar-components/EmojiGifWindow/EmojiGifWindowWrapper";
 import { useClickOutside } from "../../../../hooks/useClickOutside";
-import { useQueryClient, InfiniteData } from "@tanstack/react-query";
+import {
+    useQueryClient,
+    InfiniteData,
+    useMutation,
+} from "@tanstack/react-query";
 import ChatUploadFiles from "../ChatUploadFiles";
+import { sendFiles } from "../../../../http/chats";
 
 type LocalMsg = ChatMessageDto & { optimistic?: true; optimisticUUID?: string };
 
@@ -49,8 +54,15 @@ export default function ChatBottomBar() {
         () => setActiveGifEmojiWindow(null),
         activeGifEmojiWindow !== null,
     );
-
+    const { isSuccess, mutate: sendFilesMutation } = useMutation({
+        mutationKey: ["send-chat-files"],
+        mutationFn: () => sendFiles(selectedChatId, files),
+    });
     const sendMessage = useCallback(async () => {
+        console.log("Sending files!");
+        sendFilesMutation();
+        console.log("Sending message");
+
         const text = messageToSend.trim();
         if (!text || !connected || !selectedChatId) return;
 
@@ -133,6 +145,7 @@ export default function ChatBottomBar() {
         dispatch,
         queryClient,
         username,
+        sendFilesMutation,
     ]);
 
     function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -214,7 +227,7 @@ export default function ChatBottomBar() {
                         onChange={handleFileChange}
                         style={{ display: "none" }}
                         multiple
-                        accept="image/*, video/mp4"
+                        accept="image/*"
                     />
 
                     <textarea
@@ -260,7 +273,11 @@ export default function ChatBottomBar() {
             </div>
             <button
                 onClick={sendMessage}
-                disabled={!connected || isSending || !messageToSend.trim()}
+                disabled={
+                    !connected ||
+                    isSending ||
+                    (!messageToSend.trim() && files.length === 0)
+                }
                 className="mt-auto mb-2 hover:cursor-pointer disabled:opacity-50"
                 title={!connected ? "Connecting..." : "Send"}
             >

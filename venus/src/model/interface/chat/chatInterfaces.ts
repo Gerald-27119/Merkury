@@ -4,6 +4,7 @@ export interface ChatMessageDto {
     sentAt: string;
     content: string;
     chatId: number;
+    attachedFiles: ChatMessageAttachedFileDto[] | null;
 }
 
 export interface ChatMessageToSendDto {
@@ -46,4 +47,10 @@ export interface ChatMessagesPageDto {
     hasNextSlice: boolean;
     numberOfMessages: number;
     sliceNumber: number;
+}
+
+export interface ChatMessageAttachedFileDto {
+    url: string;
+    fileType: string;
+    sizeInBytes: number;
 }
