@@ -144,8 +144,23 @@ body {
 }
 
 .media-control-bar {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
 }
+
+@media (max-width: 1280px) {
+    .media-controller {
+        --media-control-icon-size: 10px;
+        --media-control-padding: 2px;
+        --media-range-track-height: 2px;
+        --media-range-thumb-size: 6px;
+        --media-font-size: 10px;
+    }
+
+    .media-control-bar > * {
+        padding: 0;
+    }
+}
+
 
 .tiptap-editor-content .ProseMirror:focus {
     outline: none;
