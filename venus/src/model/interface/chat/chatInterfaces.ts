@@ -53,4 +53,5 @@ export interface ChatMessageAttachedFileDto {
     url: string;
     fileType: string;
     sizeInBytes: number;
+    name: string;
 }

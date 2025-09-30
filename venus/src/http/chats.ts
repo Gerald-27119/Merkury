@@ -4,8 +4,6 @@ import {
     ChatMessagesPageDto,
     ChatPage,
 } from "../model/interface/chat/chatInterfaces";
-import { SpotToAddDto } from "../model/interface/account/add-spot/spotToAddDto";
-import SpotCoordinatesDto from "../model/interface/spot/coordinates/spotCoordinatesDto";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
