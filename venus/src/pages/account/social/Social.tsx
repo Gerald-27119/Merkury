@@ -87,7 +87,7 @@ export default function Social({
                 {isFetchingNextPage && <LoadingSpinner />}
             </AccountWrapper>
             <EmptyModal onClose={close} isOpen={isOpen}>
-                <SearchFriendsList />
+                <SearchFriendsList onClose={close} />
             </EmptyModal>
         </>
     );

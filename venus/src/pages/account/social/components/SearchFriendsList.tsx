@@ -8,10 +8,10 @@ import useDebounce from "../../../../hooks/useDebounce";
 import { FaX } from "react-icons/fa6";
 
 interface SearchFriendsListProps {
-    close?: () => void;
+    onClose?: () => void;
 }
 
-export default function SearchFriendsList({ close }: SearchFriendsListProps) {
+export default function SearchFriendsList({ onClose }: SearchFriendsListProps) {
     const [query, setQuery] = useState("");
     const queryDebounced = useDebounce(query, 500);
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
@@ -55,7 +55,7 @@ export default function SearchFriendsList({ close }: SearchFriendsListProps) {
     return (
         <div className="relative flex flex-col items-center gap-y-6">
             <button
-                onClick={close}
+                onClick={onClose}
                 className="absolute top-3 right-3 cursor-pointer"
             >
                 <FaX className="text-2xl hover:text-red-600" />

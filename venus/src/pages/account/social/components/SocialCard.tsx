@@ -1,6 +1,6 @@
 import { SocialDto } from "../../../../model/interface/account/social/socialDto";
 import { BiMessageRounded } from "react-icons/bi";
-import { FaUser, FaUserMinus } from "react-icons/fa";
+import { FaUser, FaUserMinus, FaUserPlus } from "react-icons/fa";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
     editUserFollowed,
@@ -21,14 +21,12 @@ interface SocialCardProps {
     friend: SocialDto;
     type: SocialListType;
     isSocialForViewer: boolean;
-    isSearchFriend?: boolean;
 }
 
 export default function SocialCard({
     friend,
     type,
     isSocialForViewer,
-    isSearchFriend,
 }: SocialCardProps) {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -124,13 +122,15 @@ export default function SocialCard({
                 <SocialButton onClick={handleNavigateToChat}>
                     <BiMessageRounded aria-label="messageFriendCardIcon" />
                 </SocialButton>
-                {type !== SocialListType.FOLLOWERS &&
-                    !isSocialForViewer &&
-                    !isSearchFriend && (
-                        <SocialButton onClick={openModal}>
+                {type !== SocialListType.FOLLOWERS && !isSocialForViewer && (
+                    <SocialButton onClick={openModal}>
+                        {friend.isUserFriend ? (
                             <FaUserMinus aria-label="userRemoveFriendCardIcon" />
-                        </SocialButton>
-                    )}
+                        ) : (
+                            <FaUserPlus aria-label="userAddFriendCardIcon" />
+                        )}
+                    </SocialButton>
+                )}
             </div>
             <Modal
                 onClose={closeModal}

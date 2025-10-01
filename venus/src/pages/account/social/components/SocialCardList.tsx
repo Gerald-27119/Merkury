@@ -41,6 +41,9 @@ export default function SocialCardList({
                     ? "This user's list is empty."
                     : "Your list is empty.";
         }
+        if (isSearchFriend) {
+            message = "We can't find a user with this username.";
+        }
         return <p className="mt-10 text-center text-gray-500">{message}</p>;
     }
 
@@ -52,7 +55,6 @@ export default function SocialCardList({
                     key={f.username}
                     type={type}
                     isSocialForViewer={isSocialForViewer}
-                    isSearchFriend={isSearchFriend}
                 />
             ))}
         </ul>
