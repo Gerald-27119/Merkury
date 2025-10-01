@@ -105,7 +105,7 @@ public class UserDashboardController {
     @GetMapping("/user-dashboard/friends/find")
     public ResponseEntity<SocialPageDto> searchUsersByUsername(@RequestParam String query,
                                                                @RequestParam(defaultValue = "0") int page,
-                                                               @RequestParam(defaultValue = "20") int size) {
+                                                               @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.searchUsersByUsername(query, page, size));
     }
 

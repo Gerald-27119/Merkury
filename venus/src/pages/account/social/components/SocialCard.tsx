@@ -65,11 +65,19 @@ export default function SocialCard({
         },
     });
 
+    const addUserFriend = async () => {
+        await mutateAsyncFriends({
+            friendUsername: friend.username,
+            type: UserRelationEditType.ADD,
+        });
+    };
+
     const removeUserFriend = async (friendUsername: string) => {
         await mutateAsyncFriends({
             friendUsername,
             type: UserRelationEditType.REMOVE,
         });
+        closeModal();
     };
 
     const removeUserFollowed = async (followedUsername: string) => {
@@ -77,6 +85,7 @@ export default function SocialCard({
             followedUsername,
             type: UserRelationEditType.REMOVE,
         });
+        closeModal();
     };
 
     const handleNavigateToUserProfile = () => {
@@ -123,7 +132,11 @@ export default function SocialCard({
                     <BiMessageRounded aria-label="messageFriendCardIcon" />
                 </SocialButton>
                 {type !== SocialListType.FOLLOWERS && !isSocialForViewer && (
-                    <SocialButton onClick={openModal}>
+                    <SocialButton
+                        onClick={
+                            friend.isUserFriend ? openModal : addUserFriend
+                        }
+                    >
                         {friend.isUserFriend ? (
                             <FaUserMinus aria-label="userRemoveFriendCardIcon" />
                         ) : (

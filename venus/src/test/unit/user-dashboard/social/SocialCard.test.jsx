@@ -10,6 +10,7 @@ import { accountSlice } from "../../../../redux/account";
 const mockFriendsData = {
     username: "User 1",
     profilePhoto: "user1.jpg",
+    isUserFriend: true,
 };
 
 const queryClient = new QueryClient();

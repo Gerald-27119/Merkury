@@ -50,7 +50,8 @@ public class FriendsService {
                 .map(friendView -> {
                     var friendUsername = friendView.getFriend().getUsername();
                     var privateChatId = friendsUsernamePrivateChatIdMap.get(friendUsername);
-                    return SocialMapper.friendViewToSocialDto(friendView, privateChatId);
+
+                    return SocialMapper.friendViewToSocialDto(friendView, privateChatId, true);
                 })
                 .toList();
         return new SocialPageDto(mappedFriends, friendsPage.hasNext());
@@ -118,7 +119,9 @@ public class FriendsService {
         }
     }
 
-    public SocialPageDto searchUsersByUsername(String query, int page, int size){
+    public SocialPageDto searchUsersByUsername(String username, String query, int page, int size) throws UserNotFoundByUsernameException {
+        var currentUser = userEntityFetcher.getByUsername(username);
+
         if (query == null || query.isBlank()) {
             return new SocialPageDto(List.of(), false);
         }
@@ -131,7 +134,13 @@ public class FriendsService {
         }
 
         var mappedUsers = usersPage.getContent().stream()
-                .map(SocialMapper::toDto)
+                .map(user -> {
+                    var isFriends = currentUser.getFriendships()
+                            .stream()
+                            .anyMatch(f -> f.getFriend().equals(user));
+
+                    return SocialMapper.toDto(user, isFriends);
+                })
                 .toList();
 
         return new SocialPageDto(mappedUsers, usersPage.hasNext());

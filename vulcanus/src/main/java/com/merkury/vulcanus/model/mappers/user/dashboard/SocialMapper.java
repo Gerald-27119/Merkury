@@ -18,18 +18,20 @@ public class SocialMapper {
                 .build();
     }
 
-    public static SocialDto friendViewToSocialDto(@NotNull FriendView friendView, @Nullable Long commonPrivateChatId) {
+    public static SocialDto friendViewToSocialDto(@NotNull FriendView friendView, @Nullable Long commonPrivateChatId, boolean isUserFriend) {
         return SocialDto.builder()
                 .username(friendView.getFriend().getUsername())
                 .profilePhoto(friendView.getFriend().getProfilePhoto())
                 .commonPrivateChatId(commonPrivateChatId)
+                .isUserFriend(isUserFriend)
                 .build();
     }
 
-    public static SocialDto toDto(@NotNull UserEntity userEntity) {
+    public static SocialDto toDto(@NotNull UserEntity userEntity, boolean isUserFriend) {
         return SocialDto.builder()
                 .username(userEntity.getUsername())
                 .profilePhoto(userEntity.getProfilePhoto())
+                .isUserFriend(isUserFriend)
                 .build();
     }
 }
