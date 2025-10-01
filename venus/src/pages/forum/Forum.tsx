@@ -1,111 +1,94 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import Error from "../../components/error/Error.jsx";
-import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner.jsx";
-import { fetchPaginatedPosts, fetchCategoriesAndTags } from "../../http/posts";
-import { useState } from "react";
-import Post from "./posts/Post";
-import AddPostButton from "./components/AddPostButton";
-import ForumSearchBar from "./components/ForumSearchBar";
-import ForumCategoriesTagsPanel from "./categories-and-tags/ForumCategoriesTagsPanel";
-import RightPanel from "./components/RightPanel";
-import ForumFormModal from "./components/ForumFormModal";
-import { useBoolean } from "../../hooks/useBoolean";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import { notificationAction } from "../../redux/notification";
+import { fetchPaginatedPosts } from "../../http/posts";
+import React, { useEffect, useRef, useState } from "react";
+import ForumPostPage from "../../model/interface/forum/forumPostPage";
+import { ForumPostSortOption } from "../../model/enum/forum/forumPostSortOption";
+import ForumPostList from "./components/ForumPostList";
+import ForumLayout from "./components/ForumLayout";
+import SkeletonListedForumPost from "./components/SkeletonListedForumPost";
+import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
 
 export default function Forum() {
-    const [currentPage, setCurrentPage] = useState(0);
-    const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
-        useBoolean(false);
-    const isLogged = useSelector((state: RootState) => state.account.isLogged);
-    const dispatch = useDispatch();
-
-    const {
-        data: posts,
-        error: postError,
-        isError: isPostError,
-        isLoading: isPostLoading,
-    } = useQuery({
-        queryKey: ["posts", currentPage],
-        queryFn: () => fetchPaginatedPosts(currentPage),
+    const loadMoreRef = useRef<HTMLDivElement>(null);
+    const [sortOption, setSortOption] = useState<ForumPostSortOption>({
+        name: "Newest",
+        sortBy: "PUBLISH_DATE",
+        sortDirection: "DESC",
     });
 
     const {
-        data: categoriesAndTags,
-        isLoading: isCatTagsLoading,
-        isError: isCatTagsError,
-        error: catTagsError,
-    } = useQuery({
-        queryKey: ["categoriesAndTags"],
-        queryFn: () => fetchCategoriesAndTags(),
+        data: postPage,
+        error: postPageError,
+        isError: isPostPageError,
+        isLoading: isPostPageLoading,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+    } = useInfiniteQuery<ForumPostPage>({
+        queryKey: ["posts", sortOption],
+        queryFn: ({ pageParam }) =>
+            fetchPaginatedPosts(pageParam as number, 10, sortOption),
+        getNextPageParam: (lastPage: ForumPostPage) => {
+            const { number, totalPages } = lastPage.page;
+            return number + 1 < totalPages ? number + 1 : undefined;
+        },
+        initialPageParam: 0,
     });
 
-    if (isPostLoading) {
+    useEffect(() => {
+        const target = loadMoreRef.current;
+        if (!target || !hasNextPage) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !isFetchingNextPage) {
+                    fetchNextPage();
+                }
+            },
+            { rootMargin: "50px", threshold: 0 },
+        );
+        observer.observe(target);
+        return () => {
+            observer.disconnect();
+        };
+    }, [hasNextPage, fetchNextPage, sortOption, isFetchingNextPage]);
+
+    const posts = postPage?.pages.flatMap(
+        (page: ForumPostPage) => page.content ?? [],
+    );
+
+    if (isPostPageLoading) {
         return (
-            <div>
-                <LoadingSpinner />
-            </div>
+            <ForumLayout>
+                <div className="mt-14 min-w-2xl">
+                    {Array.from({ length: 10 }).map((_, i) => (
+                        <SkeletonListedForumPost key={i} />
+                    ))}
+                </div>
+            </ForumLayout>
         );
     }
 
-    if (isPostError) {
-        return <Error error={postError} />;
+    if (isPostPageError) {
+        return <Error error={postPageError} />;
     }
 
-    const handleAddPostClick = () => {
-        if (isLogged) {
-            setIsModalOpenToTrue();
-        } else {
-            dispatch(
-                notificationAction.addInfo({
-                    message: "Login to create posts.",
-                }),
-            );
-        }
-    };
-
     return (
-        <>
-            <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg min-h-screen w-full">
-                <div className="mx-auto mt-8 flex w-full max-w-6xl flex-row gap-4">
-                    <div>
-                        <AddPostButton onClick={handleAddPostClick} />
-
-                        <ForumCategoriesTagsPanel
-                            data={categoriesAndTags}
-                            isLoading={isCatTagsLoading}
-                            isError={isCatTagsError}
-                            error={catTagsError}
-                        />
-                    </div>
-
-                    {posts?.content?.length ? (
-                        <div className="mt-10">
-                            <ul>
-                                {posts.content.map((post) => (
-                                    <li key={post.id}>
-                                        <Post post={post} />
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    ) : (
-                        <span>No posts available</span>
-                    )}
-
-                    <div>
-                        <ForumSearchBar />
-                        <RightPanel />
-                    </div>
-                    <ForumFormModal
-                        onClose={setIsModalOpenToFalse}
-                        isOpen={isModalOpen}
-                        categories={categoriesAndTags?.categories ?? []}
-                        tags={categoriesAndTags?.tags ?? []}
-                    />
-                </div>
+        <ForumLayout>
+            <ForumPostList
+                posts={posts}
+                sortOption={sortOption}
+                onSortChange={setSortOption}
+            />
+            <div ref={loadMoreRef} className="flex items-center justify-center">
+                {isFetchingNextPage && <LoadingSpinner />}
+                {!hasNextPage && (
+                    <p className="pb-4 font-bold">
+                        Congratulations! You've reached the end!
+                    </p>
+                )}
             </div>
-        </>
+        </ForumLayout>
     );
 }

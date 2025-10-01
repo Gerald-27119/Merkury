@@ -52,13 +52,7 @@ public class PostService {
     }
 
     public Page<PostGeneralDto> getPostsPage(HttpServletRequest request, Pageable pageable) throws UserNotFoundException {
-        Page<Post> postsPage = postRepository.findAll(
-                PageRequest.of(
-                        pageable.getPageNumber(),
-                        pageable.getPageSize(),
-                        Sort.by(Sort.Direction.ASC, "publishDate")
-                )
-        );
+        Page<Post> postsPage = postRepository.findAll(pageable);
         var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
 
         return postsPage.map(post -> PostMapper.toGeneralDto(post, user));

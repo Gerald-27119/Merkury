@@ -7,7 +7,7 @@ export default function NotificationList() {
     if (notifications.length === 0) return null;
 
     return (
-        <div className="absolute top-4 right-4 z-70 flex flex-col gap-4">
+        <div className="fixed top-4 right-4 z-70 flex flex-col gap-4">
             {notifications.map((n) => (
                 <SingleNotification
                     key={n.id}

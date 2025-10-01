@@ -48,6 +48,13 @@ public class Post implements Votable {
     @OrderBy("publishDate DESC")
     private List<PostComment> comments = new ArrayList<>();
 
+    private Integer commentsCount;
+    @PrePersist
+    @PreUpdate
+    public void updateCommentsCount() {
+        this.commentsCount = comments.size();
+    }
+
     @Builder.Default
     @ManyToMany
     @JoinTable(

@@ -222,6 +222,10 @@ body {
     display: inline-block;
 }
 
+.sticky-forum-panel {
+    @apply sticky top-8 self-start;
+}
+
 .emoji-picker * {
     @apply scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar scrollbar-w-1;
 }

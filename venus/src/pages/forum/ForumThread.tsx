@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchDetailedPost } from "../../http/posts";
 import { useParams } from "react-router-dom";
-import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
 import Error from "../../components/error/Error";
 import DetailedPost from "./posts/DetailedPost";
+import ReturnButton from "./components/ReturnButton";
+import ForumLayout from "./components/ForumLayout";
+import SkeletonDetailedPost from "./posts/components/SkeletonDetailedPost";
 
 export default function ForumThread({}) {
     const { postId } = useParams<{ postId: string }>();
@@ -16,7 +18,14 @@ export default function ForumThread({}) {
     });
 
     if (isLoading) {
-        return <LoadingSpinner />;
+        return (
+            <ForumLayout>
+                <div className="mx-auto w-xl md:w-2xl lg:w-3xl">
+                    <ReturnButton />
+                    <SkeletonDetailedPost />
+                </div>
+            </ForumLayout>
+        );
     }
 
     if (isError) {
@@ -24,8 +33,11 @@ export default function ForumThread({}) {
     }
 
     return (
-        <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg min-h-screen w-full">
-            {data ? <DetailedPost post={data} /> : <span>No info</span>}
-        </div>
+        <ForumLayout>
+            <div className="mx-auto w-xl md:w-2xl lg:w-3xl">
+                <ReturnButton />
+                {data ? <DetailedPost post={data} /> : <span>No info</span>}
+            </div>
+        </ForumLayout>
     );
 }
