@@ -2,6 +2,7 @@ import { formatSentAt } from "../../../../utils/chat";
 import { ChatMessageDto } from "../../../../model/interface/chat/chatInterfaces";
 import { useBoolean } from "../../../../hooks/useBoolean";
 import React from "react";
+import ChatMessageFiles from "./chat-message/ChatMessageFiles";
 
 interface MessageProps {
     message: ChatMessageDto;
@@ -39,7 +40,9 @@ export default React.memo(function ChatMessage({
                             : message.content}
                     </p>
 
-                    {message.attachedFiles?.map((file) => <p>{file.url}</p>)}
+                    {message.attachedFiles?.map((file) => (
+                        <p>{file.url}</p>
+                    ))}
                 </>
             ) : (
                 <div className="mt-3 flex">
@@ -71,16 +74,18 @@ export default React.memo(function ChatMessage({
                     </div>
 
                     <div className="flex flex-col gap-1">
-                        {message.attachedFiles?.map((file) => (
-                            <div>
-                                <img
-                                    src={file.url}
-                                    alt={file.name}
-                                    className="h-15 w-15"
-                                />
-                                <p>{file.name}</p>
-                            </div>
-                        ))}
+                        {/*{message.attachedFiles?.map((file) => (*/}
+                        {/*    <div>*/}
+                        {/*        <img*/}
+                        {/*            src={file.url}*/}
+                        {/*            alt={file.name}*/}
+                        {/*            className="h-15 w-15"*/}
+                        {/*        />*/}
+                        {/*        <p>{file.name}</p>*/}
+                        {/*    </div>*/}
+                        {/*))}*/}
+
+                        <ChatMessageFiles files={message.attachedFiles} />
                     </div>
                 </div>
             )}
