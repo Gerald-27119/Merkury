@@ -27,14 +27,14 @@ export default function Modal({
             {isOpen && (
                 <>
                     <motion.div
-                        className="fixed inset-0 z-40 bg-black/70"
+                        className="fixed inset-0 z-62 bg-black/70"
                         onClick={onClose}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                     ></motion.div>
                     <motion.div
-                        className="dark:bg-darkBgSoft dark:text-darkText bg-lightBgSoft text-lightText fixed top-1/2 left-1/2 z-50 w-11/12 max-w-md -translate-x-1/2 -translate-y-1/2 rounded-md p-8 shadow-md"
+                        className="dark:bg-darkBgSoft dark:text-darkText bg-lightBgSoft text-lightText fixed top-1/2 left-1/2 z-63 w-11/12 max-w-md -translate-x-1/2 -translate-y-1/2 rounded-md p-8 shadow-md"
                         onClick={(event) => event.stopPropagation()}
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}

@@ -195,6 +195,23 @@ export async function editUserFollowed({
     ).data;
 }
 
+export async function searchUsersByUsername(
+    query: string,
+    page: number,
+    size: number,
+): Promise<SocialPageDto> {
+    return (
+        await axios.get(`${BASE_URL}/user-dashboard/friends/find`, {
+            withCredentials: true,
+            params: {
+                query,
+                page,
+                size,
+            },
+        })
+    ).data;
+}
+
 export async function getSortedUserPhotos(
     type: DateSortType,
     from: string | null,

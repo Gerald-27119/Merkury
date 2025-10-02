@@ -67,6 +67,7 @@ class FriendsServiceTest {
 
         when(friendshipRepository.findAllByUserUsername(anyString(), any(Pageable.class))).thenReturn(friendPage);
         when(chatService.mapPrivateChatIdsByUsername(any(), any())).thenReturn(new HashMap<>());
+        when(userEntityRepository.existsByUsername("user1")).thenReturn(true);
 
         var result = friendsService.getUserFriends("user1", 0, 10).items();
 
