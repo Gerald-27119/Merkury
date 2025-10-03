@@ -15,7 +15,7 @@ export default function SpotComment({ comment, spotId }: SpotCommentProps) {
         <div className="dark:bg-second flex min-h-fit flex-col items-center rounded-2xl px-4 lg:py-2">
             <div className="my-3 flex w-full flex-col items-start">
                 <SpotCommentAuthor author={comment.author} />
-                <div className="flex items-baseline">
+                <div className="flex 2xl:items-baseline">
                     <div className="custom-rate-spot-comment text-ratingStarColor mt-2 mr-3.5 inline-flex min-w-fit">
                         <Rate
                             data-testid="spot-rating"
@@ -24,7 +24,7 @@ export default function SpotComment({ comment, spotId }: SpotCommentProps) {
                             value={comment.rating}
                         />
                     </div>
-                    <p className="text-lg">
+                    <p className="text-sm 2xl:text-lg">
                         {formatPublishDate(comment.publishDate)}
                     </p>
                 </div>
