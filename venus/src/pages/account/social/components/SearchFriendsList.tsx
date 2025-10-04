@@ -58,7 +58,7 @@ export default function SearchFriendsList({ onClose }: SearchFriendsListProps) {
                 onClick={onClose}
                 className="absolute top-3 right-3 cursor-pointer"
             >
-                <FaX className="text-2xl hover:text-red-600" />
+                <FaX className="transform text-2xl duration-300 hover:text-red-600" />
             </button>
             <h1 className="text-center text-2xl font-semibold">
                 Search new Friend
