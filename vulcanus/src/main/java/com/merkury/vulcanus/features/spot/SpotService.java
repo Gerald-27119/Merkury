@@ -3,8 +3,10 @@ package com.merkury.vulcanus.features.spot;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.model.dtos.spot.*;
+import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryDto;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.entities.spot.SpotTag;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
 import com.merkury.vulcanus.model.interfaces.CityView;
 import com.merkury.vulcanus.model.interfaces.CountryView;
@@ -200,5 +202,9 @@ public class SpotService {
                 .toList();
 
         return new HomePageSpotPageDto(spotDtos, spotPages.hasNext());
+    }
+
+    public Page<SpotMediaGalleryDto> getSpotGalleryPage(Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, String filters, Pageable pageable) {
+
     }
 }
