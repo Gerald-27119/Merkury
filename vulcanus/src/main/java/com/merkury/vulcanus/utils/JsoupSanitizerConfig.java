@@ -13,7 +13,7 @@ public class JsoupSanitizerConfig {
             "p", "h1", "h2", "h3", "h4", "h5", "h6", "li"
     );
 
-    public Safelist forumPostSafeList() {
+    public Safelist forumSafeList() {
         Safelist safelist = Safelist.basic()
                 .addTags("u", "a", "img", "video")
                 .addAttributes("img", "src", "alt")

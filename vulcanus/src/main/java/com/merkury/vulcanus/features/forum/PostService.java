@@ -8,9 +8,9 @@ import com.merkury.vulcanus.model.dtos.forum.*;
 import com.merkury.vulcanus.model.entities.forum.PostCategory;
 import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.Tag;
-import com.merkury.vulcanus.model.mappers.forum.mappers.CategoryMapper;
-import com.merkury.vulcanus.model.mappers.forum.mappers.TagMapper;
-import com.merkury.vulcanus.model.mappers.forum.mappers.PostMapper;
+import com.merkury.vulcanus.model.mappers.forum.CategoryMapper;
+import com.merkury.vulcanus.model.mappers.forum.TagMapper;
+import com.merkury.vulcanus.model.mappers.forum.PostMapper;
 import com.merkury.vulcanus.model.repositories.PostCategoryRepository;
 import com.merkury.vulcanus.model.repositories.PostRepository;
 import com.merkury.vulcanus.model.repositories.TagRepository;
@@ -20,9 +20,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -63,7 +61,7 @@ public class PostService {
         var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
 
-        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumPostSafeList());
+        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
         validateContentLength(cleanContent);
 
         var postEntity = PostMapper.toEntity(dto, user, category, tags);
@@ -85,7 +83,7 @@ public class PostService {
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("edit"));
         var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
-        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumPostSafeList());
+        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
 
         validateContentLength(cleanContent);
 

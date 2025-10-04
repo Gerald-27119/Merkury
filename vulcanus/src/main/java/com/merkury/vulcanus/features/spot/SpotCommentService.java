@@ -95,7 +95,7 @@ public class SpotCommentService {
         spotRepository.save(spot);
     }
 
-    public void voteComment(HttpServletRequest request, Long commentId, boolean isUpvote) throws UserNotFoundException {
+    public void voteComment(HttpServletRequest request, Long commentId, boolean isUpvote) throws UserNotFoundException, CommentNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var comment = spotCommentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
 

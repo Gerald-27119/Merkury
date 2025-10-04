@@ -1,10 +1,13 @@
-package com.merkury.vulcanus.model.mappers.forum.mappers;
+package com.merkury.vulcanus.model.mappers.forum;
 
+import com.merkury.vulcanus.model.dtos.forum.PostCommentAddDto;
 import com.merkury.vulcanus.model.dtos.forum.PostCommentDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.PostComment;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class PostCommentMapper {
@@ -29,6 +32,15 @@ public class PostCommentMapper {
         return comments.stream()
                 .map(comment -> toDto(comment, currentUser))
                 .toList();
+    }
+
+    public static PostComment toEntity(@NotNull String cleanContent, @NotNull Post post, @NotNull UserEntity author) {
+        return PostComment.builder()
+                .author(author)
+                .publishDate(LocalDateTime.now())
+                .content(cleanContent)
+                .post(post)
+                .build();
     }
 
 
