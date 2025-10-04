@@ -12,6 +12,8 @@ import com.merkury.vulcanus.model.interfaces.CityView;
 import com.merkury.vulcanus.model.interfaces.CountryView;
 import com.merkury.vulcanus.model.interfaces.RegionView;
 import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
+import com.merkury.vulcanus.model.mappers.spot.SpotMediaMapper;
+import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import com.merkury.vulcanus.model.specification.SpotSpecification;
 import com.merkury.vulcanus.utils.MapDistanceCalculator;
@@ -32,6 +34,7 @@ public class SpotService {
 
     private final SpotRepository spotRepository;
     private final SpotTagRepository spotTagRepository;
+    private final SpotMediaRepository spotMediaRepository;
 
     private Pageable configurePageableSorting(Pageable pageable, String sorting) {
         Sort customSort = switch (sorting) {
@@ -39,6 +42,9 @@ public class SpotService {
             case "byRatingCountAsc" -> Sort.by("ratingCount").ascending();
             case "byRatingDesc" -> Sort.by("rating").descending();
             case "byRatingAsc" -> Sort.by("rating").ascending();
+            case "newest" -> Sort.by("add_date").descending();
+            case "oldest" -> Sort.by("add_date").ascending();
+            case "mostLiked" -> Sort.by("likes").descending();
             default -> pageable.getSort();
         };
 
@@ -204,7 +210,13 @@ public class SpotService {
         return new HomePageSpotPageDto(spotDtos, spotPages.hasNext());
     }
 
-    public Page<SpotMediaGalleryDto> getSpotGalleryPage(Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, String filters, Pageable pageable) {
+    public Long getSpotGalleryMediaPosition(Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, Pageable pageable) {
+        var sortedPageable = configurePageableSorting(pageable, sorting);
+        return spotMediaRepository.countBefore(mediaId, spotId, mediaType);
+    }
 
+    public Page<SpotMediaGalleryDto> getSpotGalleryPage(Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, Pageable pageable) {
+        var sortedPageable = configurePageableSorting(pageable, sorting);
+        return spotMediaRepository.findBySpotIdAndGenericMediaType(spotId, mediaType, sortedPageable).map(SpotMediaMapper::toGalleryDto);
     }
 }

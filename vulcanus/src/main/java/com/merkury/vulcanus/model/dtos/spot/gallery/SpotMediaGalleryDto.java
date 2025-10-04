@@ -1,15 +1,17 @@
 package com.merkury.vulcanus.model.dtos.spot.gallery;
 
 import com.merkury.vulcanus.model.enums.GenericMediaType;
+import lombok.Builder;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
+@Builder
 public record SpotMediaGalleryDto(
         Long id,
         String url,
         GenericMediaType mediaType,
         int likesNumber,
-        LocalDateTime publishDate,
+        LocalDate publishDate,
         String authorName,
         String authorProfilePhotoUrl
 ) {

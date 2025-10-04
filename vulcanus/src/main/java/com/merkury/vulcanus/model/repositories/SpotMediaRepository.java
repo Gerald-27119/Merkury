@@ -3,7 +3,11 @@ package com.merkury.vulcanus.model.repositories;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,4 +22,24 @@ public interface SpotMediaRepository extends JpaRepository<SpotMedia, Long> {
     List<SpotMedia> findAllByAuthorUsernameAndGenericMediaType(String username, GenericMediaType genericMediaType);
 
     List<SpotMedia> findTop4ByAuthorAndGenericMediaTypeOrderByLikesDesc(UserEntity author, GenericMediaType genericMediaType);
+
+    Page<SpotMedia> findBySpotIdAndGenericMediaType(Long spotId, GenericMediaType genericMediaType, Pageable pageable);
+
+    @Query("""
+            SELECT COUNT(sm)
+            FROM spot_media sm
+            JOIN spot_media target ON target.id = :mediaId
+            WHERE sm.spot.id = :spotId
+              AND sm.genericMediaType = :genericMediaType
+              AND (sm.addDate > target.addDate
+                   OR (sm.addDate = target.addDate AND sm.id > target.id))
+              AND target.spot.id = :spotId
+              AND target.genericMediaType = :genericMediaType
+            """)
+    Long countBefore(
+            @Param("mediaId") Long mediaId,
+            @Param("spotId") Long spotId,
+            @Param("genericMediaType") GenericMediaType genericMediaType
+    );
+
 }

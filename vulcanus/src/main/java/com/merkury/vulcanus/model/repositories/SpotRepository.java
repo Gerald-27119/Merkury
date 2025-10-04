@@ -25,7 +25,6 @@ public interface SpotRepository extends JpaRepository<Spot, Long>, JpaSpecificat
 
     List<Spot> findTop18ByOrderByRatingDescViewsCountDesc();
 
-
     Page<Spot> findByNameContainingIgnoreCaseAndRatingGreaterThanEqualAndCenterPointXBetweenAndCenterPointYBetween(
             String name,
             double startRating,
