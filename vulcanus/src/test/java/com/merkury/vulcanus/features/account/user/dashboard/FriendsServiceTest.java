@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,8 +25,7 @@ import static com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditTy
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class FriendsServiceTest {
@@ -78,7 +76,7 @@ class FriendsServiceTest {
 
     @Test
     void shouldThrowUserNotFoundByUsernameExceptionWhenUserNotFound() {
-        when(friendshipRepository.findAllByUserUsernameAndStatus(anyString(), any(Pageable.class), any())).thenReturn(Page.empty());
+        when(userEntityRepository.existsByUsername("nonexistentUser")).thenReturn(false);
 
         assertThrows(UserNotFoundByUsernameException.class, () -> friendsService.getUserFriends("nonexistentUser", 0, 10));
     }
