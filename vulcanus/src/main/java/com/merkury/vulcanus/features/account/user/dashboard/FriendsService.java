@@ -28,11 +28,11 @@ public class FriendsService {
     private final ChatService chatService;
 
     public SocialPageDto getUserFriends(String username, int page, int size) throws UserNotFoundByUsernameException {
-        var friendsPage = friendshipRepository.findAllByUserUsernameAndStatus(username, PageRequest.of(page, size), UserFriendStatus.ACCEPTED);
-
         if (!userEntityRepository.existsByUsername(username)) {
             throw new UserNotFoundByUsernameException(username);
         }
+
+        var friendsPage = friendshipRepository.findAllByUserUsernameAndStatus(username, PageRequest.of(page, size), UserFriendStatus.ACCEPTED);
 
         if (friendsPage.isEmpty()) {
             return new SocialPageDto(List.of(), false);
@@ -157,11 +157,11 @@ public class FriendsService {
     }
 
     public SocialPageDto getAllFriendInvites(String username, int page, int size) throws UserNotFoundByUsernameException {
-        var friendsPage = friendshipRepository.findAllByUserUsernameAndStatus(username, PageRequest.of(page, size), PENDING_RECEIVED);
-
         if (!userEntityRepository.existsByUsername(username)) {
             throw new UserNotFoundByUsernameException(username);
         }
+
+        var friendsPage = friendshipRepository.findAllByUserUsernameAndStatus(username, PageRequest.of(page, size), PENDING_RECEIVED);
 
         if (friendsPage.isEmpty()) {
             return new SocialPageDto(List.of(), false);

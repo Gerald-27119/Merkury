@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { describe } from "vitest";
 import ProfileForViewer from "../../../../pages/account/profile/ProfileForViewer";
+import { UserFriendStatus } from "../../../../model/enum/account/social/userFriendStatus.js";
 
 const queryClient = new QueryClient();
 
@@ -41,7 +42,7 @@ const renderProfile = () => {
     );
 };
 
-const mockUserData = (isFriends, isFollowing) => ({
+const mockUserData = (friendStatus, isFollowing) => ({
     profile: {
         username: "User",
         profilePhoto: "mock-photo.jpg",
@@ -66,7 +67,7 @@ const mockUserData = (isFriends, isFollowing) => ({
             },
         ],
     },
-    isFriends,
+    friendStatus,
     isFollowing,
     isOwnProfile: false,
 });
@@ -75,7 +76,7 @@ describe("Profile for viewer component unit tests", () => {
     describe("Profile for viewer display user data correctly", () => {
         beforeEach(() => {
             useQuery.mockReturnValue({
-                data: mockUserData(false, false),
+                data: mockUserData(UserFriendStatus.NONE, false),
                 isLoading: false,
                 error: null,
             });
@@ -138,7 +139,7 @@ describe("Profile for viewer component unit tests", () => {
             describe("When isFriends and isFollowing", () => {
                 beforeEach(() => {
                     useQuery.mockReturnValue({
-                        data: mockUserData(true, true),
+                        data: mockUserData(UserFriendStatus.ACCEPTED, true),
                         isLoading: false,
                         error: null,
                     });
