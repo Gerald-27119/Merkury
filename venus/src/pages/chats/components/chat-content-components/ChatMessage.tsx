@@ -82,7 +82,7 @@ function showGif(gifUrl: string) {
         <img
             src={gifUrl}
             alt="GIF"
-            className="h-32 w-48 rounded-lg object-cover"
+            className="max-h-64 max-w-64 rounded-lg object-cover"
         />
     );
 }

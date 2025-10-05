@@ -101,9 +101,7 @@ export default function ChatBottomBar() {
         mutationFn: () => sendFiles(selectedChatId, files),
     });
     const sendMessage = useCallback(async () => {
-        console.log("Sending files!");
         sendFilesMutation();
-        console.log("Sending message");
 
         const text = messageToSend.trim();
         if (!text || !connected || !selectedChatId) return;
@@ -178,6 +176,9 @@ export default function ChatBottomBar() {
             setMessageToSend("");
         } finally {
             setIsSending(false);
+            setFiles([]);
+            // wyczysc input po wyslaniu
+            // fileInputRef.current?.
         }
     }, [
         messageToSend,
@@ -201,10 +202,6 @@ export default function ChatBottomBar() {
         fileInputRef.current?.click();
     };
 
-    function onFileSelect(files: File[]) {
-        console.log(...files);
-    }
-
     const [files, setFiles] = useState<File[]>([]);
     const [previews, setPreviews] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -217,8 +214,6 @@ export default function ChatBottomBar() {
             URL.createObjectURL(file),
         );
         setPreviews(newPreviews);
-
-        onFileSelect(filesToSend);
     };
 
     useEffect(() => {

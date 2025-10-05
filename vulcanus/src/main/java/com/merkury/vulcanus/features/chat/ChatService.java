@@ -250,10 +250,10 @@ public class ChatService {
         }).toList();
 
         chatMessage.getChatMessageAttachedFiles().addAll(chatMessageAttachedFiles);
-        chatMessageRepository.save(chatMessage);
+        var chatMessageFromDb = chatMessageRepository.save(chatMessage);
 
-        //TODO: teraz trzeba ją wysłać userom
-        // var mappedChatMessageAttachedFiles = mediaFiles.stream().map(file -> ChatMapper.toChatMessageAttachedFile(file,chatMessage)).toList();
-        //  chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(); czy to na pewno prześle tę wiadomość poprawnie też do nadawcy?
+        var chatMessageDtoToBroadCast = ChatMapper.toChatMessageDto(chatMessageFromDb);
+        chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(chatMessageDtoToBroadCast);
+//        chatStompCommunicationService.broadcastACKVersionToSender(); TODO:fix
     }
 }
