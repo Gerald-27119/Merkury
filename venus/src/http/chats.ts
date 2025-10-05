@@ -78,7 +78,6 @@ export async function sendFiles(
     }
 
     await axios.post<void>(`${BASE_URL}/chats/${chatId}/send-files`, formData, {
-        //TODO:fix url
         withCredentials: true,
     });
 }

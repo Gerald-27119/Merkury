@@ -75,7 +75,7 @@ public class ChatMapper {
                                     .name(file.getName())
                                     .build())
                     .toList();
-        }//to ta jest zbędna?
+        }
 
         return ChatMessageDto.builder()
                 .id(chatMessage.getId())
@@ -93,7 +93,6 @@ public class ChatMapper {
                 .name(chatMessage.getSender().getUsername())
                 .imgUrl(chatMessage.getSender().getProfileImage())
                 .build();
-//        TODO: ta metoda jest potrzebna?
 
         var attachedFiles = chatMessage.getChatMessageAttachedFiles().stream().map(file ->
                         ChatMessageAttachedFileDto.builder()
@@ -222,7 +221,7 @@ public class ChatMapper {
         return ChatMessageAttachedFile.builder()
                 .name(file.getName())
                 .chatMessage(chatMessage)
-                .url("")//....?
+                .url("")
                 .build();
     }
 }

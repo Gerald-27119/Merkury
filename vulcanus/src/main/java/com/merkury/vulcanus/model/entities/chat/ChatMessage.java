@@ -23,9 +23,6 @@ import java.util.List;
 @Entity
 @Table(
         name = "chat_messages"
-//        indexes = {//TODO: test if works, should i use it?
-//                @Index(name = "index_chat_message_sent_at", columnList = "chat_id, sent_at")
-//        }
 )
 @Data
 @Builder
@@ -45,16 +42,12 @@ public class ChatMessage {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sender_id", nullable = false)
     private UserEntity sender;
-    //TODO: figure out better defaults
-//    @Column(nullable = false)
     @Builder.Default
     private String content = "";
 
-    //    @Column(nullable = false)
     @Builder.Default
     private LocalDateTime sentAt = LocalDateTime.now();
 
-    //    @Column(nullable = false)
     @Builder.Default
     private boolean isSeen = false;
 

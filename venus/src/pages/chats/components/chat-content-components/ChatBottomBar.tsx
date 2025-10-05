@@ -33,32 +33,25 @@ import { FileIcon } from "./chat-message/ChatMessageFiles";
 type LocalMsg = ChatMessageDto & { optimistic?: true; optimisticUUID?: string };
 
 const ACCEPT = [
-    // Images
     "image/*",
-    // PDF
     "application/pdf",
     ".pdf",
-    // Word
     "application/msword",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     ".doc",
     ".docx",
-    // Excel
     "application/vnd.ms-excel",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     ".xls",
     ".xlsx",
-    // PowerPoint
     "application/vnd.ms-powerpoint",
     "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     ".ppt",
     ".pptx",
-    // CSV / TXT
     "text/csv",
     ".csv",
     "text/plain",
     ".txt",
-    // Archives
     "application/zip",
     "application/x-7z-compressed",
     "application/x-rar-compressed",
@@ -66,9 +59,6 @@ const ACCEPT = [
     ".7z",
     ".rar",
 ].join(",");
-
-const isImage = (mime?: string | null) =>
-    typeof mime === "string" && mime.startsWith("image/");
 
 export default function ChatBottomBar() {
     const iconClasses =
@@ -94,12 +84,10 @@ export default function ChatBottomBar() {
         activeGifEmojiWindow !== null,
     );
 
-    // Załączniki (pliki + podglądy)
     const [files, setFiles] = useState<File[]>([]);
     const [previews, setPreviews] = useState<string[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    // Jedno miejsce: czyszczenie załączników + inputa + URLi
     const clearAttachments = useCallback(() => {
         previews.forEach((url) => URL.revokeObjectURL(url));
         setPreviews([]);
@@ -107,7 +95,6 @@ export default function ChatBottomBar() {
         if (fileInputRef.current) fileInputRef.current.value = "";
     }, [previews]);
 
-    // Upload plików jako osobna mutacja (awaitowalna)
     const { mutateAsync: sendFilesMutation } = useMutation({
         mutationKey: ["send-chat-files"],
         mutationFn: async (vars: { chatId: number; files: File[] }) =>
@@ -117,7 +104,6 @@ export default function ChatBottomBar() {
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files) return;
         const filesToSend = Array.from(event.target.files);
-        // Zastępujemy, nie dokładamy (zmień na concat jeśli chcesz kolejkować)
         setFiles(filesToSend);
         const newPreviews = filesToSend.map((file) =>
             URL.createObjectURL(file),
@@ -132,25 +118,20 @@ export default function ChatBottomBar() {
     }, [previews]);
 
     const sendMessage = useCallback(async () => {
-        // 1) Najpierw spróbuj wysłać pliki, jeśli są
         if (files.length > 0 && selectedChatId) {
             try {
                 await sendFilesMutation({ chatId: selectedChatId, files });
             } catch (e) {
                 console.error("File upload failed", e);
-                // jeśli upload krytyczny, można tu zrobić return
-                // return;
             }
         }
 
-        // 2) Tekst wiadomości (opcjonalny – można wysyłać same pliki)
         const text = messageToSend.trim();
         if (!connected || !selectedChatId) {
             clearAttachments();
             return;
         }
 
-        // Wyślij wiadomość tylko gdy jest treść
         if (text) {
             const chatId = selectedChatId;
 
@@ -169,12 +150,10 @@ export default function ChatBottomBar() {
                 optimisticUUID,
             };
 
-            // Ustaw ostatnią wiadomość w liście czatów
             dispatch(
                 chatActions.setLastMessage({ chatId, message: optimistic }),
             );
 
-            // Dołóż do cache'a listy wiadomości
             queryClient.setQueryData<InfiniteData<ChatMessagesPageDto>>(
                 ["messages", chatId],
                 (old) => {
@@ -196,7 +175,6 @@ export default function ChatBottomBar() {
                 },
             );
 
-            // Zaktualizuj listę czatów (ostatnia wiadomość)
             queryClient.setQueriesData<InfiniteData<ChatPage>>(
                 { queryKey: ["user-chat-list"] },
                 (old) => {
@@ -231,7 +209,6 @@ export default function ChatBottomBar() {
             }
         }
 
-        // 3) Na końcu: zawsze posprzątaj załączniki
         clearAttachments();
     }, [
         files,

@@ -212,11 +212,11 @@ public class ChatService {
         return chatIdsByUser;
     }
 
-    private Map<MultipartFile, String> sendFiles(@NotNull List<MultipartFile> mediaFiles) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException {//TODO: To not null zadziala? co jak wyjatek?
+    private Map<MultipartFile, String> sendFiles(@NotNull List<MultipartFile> mediaFiles) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException {
         var mediaBlobUrlMap = new HashMap<MultipartFile, String>();
 
         for (MultipartFile file : mediaFiles) {
-            String blobUrl = azureBlobService.upload("chat-message-files", file, AzureBlobFileValidatorType.CHAT);// ? co jak blad?
+            String blobUrl = azureBlobService.upload("chat-message-files", file, AzureBlobFileValidatorType.CHAT);
             mediaBlobUrlMap.put(file, blobUrl);
         }
 
