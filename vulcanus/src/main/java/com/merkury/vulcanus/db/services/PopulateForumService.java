@@ -4,6 +4,7 @@ import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.forum.PostCategory;
 import com.merkury.vulcanus.model.entities.forum.Post;
+import com.merkury.vulcanus.model.entities.forum.PostComment;
 import com.merkury.vulcanus.model.entities.forum.Tag;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.model.repositories.*;
@@ -21,6 +22,7 @@ import java.util.*;
 public class PopulateForumService {
 
     private final PostRepository postRepository;
+    private final PostCommentRepository commentRepository;
     private final PostCategoryRepository postCategoryRepository;
     private final TagRepository tagRepository;
     private final UserEntityRepository userRepository;
@@ -235,6 +237,30 @@ public class PopulateForumService {
             postList.add(postX);
         }
 
+
+        List<Post> firstFivePosts = List.of(post1, post2, post3, post4, post5);
+        List<PostComment> allComments = new ArrayList<>();
+        for (Post post : firstFivePosts) {
+            List<PostComment> comments = new ArrayList<>();
+
+            for (int i = 1; i <= 10; i++) {
+                PostComment comment = PostComment.builder()
+                        .content("<p>Comment</p>")
+                        .author(i % 2 == 0 ? forumUserFriend : forumUser)
+                        .post(post)
+                        .publishDate(post.getPublishDate().plusDays(i))
+                        .upVotes(random.nextInt(50))
+                        .downVotes(random.nextInt(5))
+                        .build();
+
+                generateReplies(comment, post, forumUser, forumUserFriend, random, 1, 3);
+                comments.add(comment);
+            }
+            post.getComments().addAll(comments);
+            allComments.addAll(comments);
+        }
+
+
         userRepository.saveAll(List.of(forumUser, forumUserFriend));
         forumUser.getFriendships().add(friendship);
         forumUserFriend.getFriendships().add(reverseFriendship);
@@ -243,5 +269,38 @@ public class PopulateForumService {
         tagRepository.saveAll(List.of(tag1, tag2, tag3, tag4, tag5));
         postList.addAll(List.of(post1, post2, post3, post4, post5));
         postRepository.saveAll(postList);
+        commentRepository.saveAll(allComments);
     }
+
+    private void generateReplies(
+            PostComment parent,
+            Post post,
+            UserEntity forumUser,
+            UserEntity forumUserFriend,
+            Random random,
+            int depth,
+            int maxDepth
+    ) {
+        if (depth >= maxDepth) return;
+
+        int repliesCount = random.nextInt(3);
+        for (int j = 1; j <= repliesCount; j++) {
+            PostComment reply = PostComment.builder()
+                    .content("<p>Reply to comment</p>")
+                    .author(j % 2 == 0 ? forumUser : forumUserFriend)
+                    .post(post)
+                    .parent(parent)
+                    .publishDate(parent.getPublishDate().plusHours(j + depth))
+                    .upVotes(random.nextInt(20))
+                    .downVotes(random.nextInt(3))
+                    .build();
+
+            parent.getReplies().add(reply);
+
+            generateReplies(reply, post, forumUser, forumUserFriend, random, depth + 1, maxDepth);
+        }
+    }
+
 }
+
+
