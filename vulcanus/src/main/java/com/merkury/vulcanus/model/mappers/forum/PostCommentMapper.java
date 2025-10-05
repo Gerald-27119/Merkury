@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.model.mappers.forum;
 
-import com.merkury.vulcanus.model.dtos.forum.PostCommentAddDto;
-import com.merkury.vulcanus.model.dtos.forum.PostCommentDto;
+import com.merkury.vulcanus.model.dtos.forum.PostCommentGeneralDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.PostComment;
@@ -12,10 +11,11 @@ import java.util.List;
 
 public class PostCommentMapper {
 
-    private PostCommentMapper() {}
+    private PostCommentMapper() {
+    }
 
-    public static PostCommentDto toDto(@NotNull PostComment postComment, @NotNull UserEntity currentUser) {
-        return PostCommentDto.builder()
+    public static PostCommentGeneralDto toDto(@NotNull PostComment postComment, UserEntity currentUser) {
+        return PostCommentGeneralDto.builder()
                 .id(postComment.getId())
                 .content(postComment.getContent())
                 .upvotes(postComment.getUpVotes())
@@ -28,7 +28,7 @@ public class PostCommentMapper {
                 .build();
     }
 
-    public static List<PostCommentDto> toDto(List<PostComment> comments, UserEntity currentUser) {
+    public static List<PostCommentGeneralDto> toDto(List<PostComment> comments, UserEntity currentUser) {
         return comments.stream()
                 .map(comment -> toDto(comment, currentUser))
                 .toList();
@@ -43,5 +43,13 @@ public class PostCommentMapper {
                 .build();
     }
 
-
+    public static PostComment toEntity(@NotNull String cleanContent, @NotNull PostComment parentComment, @NotNull UserEntity author) {
+        return PostComment.builder()
+                .author(author)
+                .publishDate(LocalDateTime.now())
+                .content(cleanContent)
+                .parent(parentComment)
+                .post(parentComment.getPost())
+                .build();
+    }
 }

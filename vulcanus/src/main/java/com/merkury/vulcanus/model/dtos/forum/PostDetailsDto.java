@@ -32,5 +32,5 @@ public record PostDetailsDto(@Positive(message = "ID must be a positive number."
                              Boolean isUpVoted,
                              @NotNull(message = "isDownVoted cannot be empty.")
                              Boolean isDownVoted,
-                             List<PostCommentDto> comments) {
+                             List<PostCommentGeneralDto> comments) {
 }
