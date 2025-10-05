@@ -42,8 +42,8 @@ public class SpotService {
             case "byRatingCountAsc" -> Sort.by("ratingCount").ascending();
             case "byRatingDesc" -> Sort.by("rating").descending();
             case "byRatingAsc" -> Sort.by("rating").ascending();
-            case "newest" -> Sort.by("add_date").descending();
-            case "oldest" -> Sort.by("add_date").ascending();
+            case "newest" -> Sort.by("addDate").descending();
+            case "oldest" -> Sort.by("addDate").ascending();
             case "mostLiked" -> Sort.by("likes").descending();
             default -> pageable.getSort();
         };
@@ -215,7 +215,7 @@ public class SpotService {
         return spotMediaRepository.countBefore(mediaId, spotId, mediaType);
     }
 
-    public Page<SpotMediaGalleryDto> getSpotGalleryPage(Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, Pageable pageable) {
+    public Page<SpotMediaGalleryDto> getSpotGalleryPage(Long spotId, GenericMediaType mediaType, String sorting, Pageable pageable) {
         var sortedPageable = configurePageableSorting(pageable, sorting);
         return spotMediaRepository.findBySpotIdAndGenericMediaType(spotId, mediaType, sortedPageable).map(SpotMediaMapper::toGalleryDto);
     }
