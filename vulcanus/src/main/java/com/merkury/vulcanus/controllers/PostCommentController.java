@@ -44,7 +44,7 @@ public class PostCommentController {
                                                                                      @RequestParam(required = false) Long lastId,
                                                                                      @RequestParam(defaultValue = "10") int size) throws UserNotFoundException {
 
-        ForumPostCommentReplyPageDto page = postCommentService.getCommentRepliesByCommentId(request, commentId, lastDate, lastId, size);
+        var page = postCommentService.getCommentRepliesByCommentId(request, commentId, lastDate, lastId, size);
         return ResponseEntity.ok(page);
     }
 

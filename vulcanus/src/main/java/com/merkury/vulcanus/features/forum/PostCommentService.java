@@ -23,7 +23,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -45,10 +44,10 @@ public class PostCommentService {
     public ForumPostCommentReplyPageDto getCommentRepliesByCommentId(HttpServletRequest request, Long parentCommentId, LocalDateTime lastDate, Long lastId, int size) throws UserNotFoundException {
         var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
 
-        List<PostComment> replies = postCommentRepository.findRepliesRecursiveKeyset(parentCommentId, lastDate, lastId, size);
-        List<PostCommentGeneralDto> dtos = PostCommentMapper.toDto(replies, user);
+        var replies = postCommentRepository.findRepliesRecursiveKeyset(parentCommentId, lastDate, lastId, size);
+        var dtos = PostCommentMapper.toDto(replies, user);
 
-        Long nextCursor = dtos.isEmpty() ? null : dtos.getLast().id();
+        var nextCursor = dtos.isEmpty() ? null : dtos.getLast().id();
 
         return new ForumPostCommentReplyPageDto(dtos, nextCursor);
     }

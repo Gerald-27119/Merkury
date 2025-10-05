@@ -22,7 +22,7 @@ public class Post implements Votable {
     private Long id;
 
     private String title;
-    @Lob
+
     @Column(columnDefinition = "TEXT")
     private String content;
 

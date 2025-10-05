@@ -28,10 +28,14 @@ public interface PostCommentRepository extends JpaRepository<PostComment, Long> 
                          SELECT * FROM post_comments WHERE parent_id = :parentId
                          UNION ALL
                          SELECT c.* FROM post_comments c
-                         INNER JOIN comment_tree ct ON c.parent = ct.id
+                         INNER JOIN comment_tree ct ON c.parent_id = ct.id
                     )
                     SELECT * FROM comment_tree 
-                    WHERE (:lastDate IS NULL OR (publish_date, id) > (:lastDate, :lastId))
+                    WHERE (
+                            CAST(:lastDate AS timestamp) IS NULL
+                            OR (publish_date < CAST(:lastDate AS timestamp))
+                            OR (publish_date = CAST(:lastDate AS timestamp) AND id < CAST(:lastId AS bigint))
+                    )
                     ORDER BY publish_date DESC, id DESC
                     LIMIT :pageSize
                     """,
