@@ -3,7 +3,7 @@ import { accountSlice } from "./account";
 import { notificationSlice } from "./notification";
 import { photoSlice } from "./photo.jsx";
 import { spotDetailsModalSlice } from "./spot-modal";
-import { photoGallerySlice } from "./photo-gallery.jsx";
+import { expandedSpotMediaGallerySlice } from "./expanded-spot-media-gallery";
 import { spotFiltersSlice } from "./spot-filters";
 import { chatsSlice } from "./chats";
 import { mapSlice } from "./map";
@@ -25,7 +25,7 @@ const store = configureStore({
         photo: photoSlice.reducer,
         spotDetails: spotDetailsModalSlice.reducer,
         searchedSpotsListModal: searchedSpotListModalSlice.reducer,
-        photoGallery: photoGallerySlice.reducer,
+        photoGallery: expandedSpotMediaGallerySlice.reducer,
         spotFilters: spotFiltersSlice.reducer,
         chats: chatsSlice.reducer,
         map: mapSlice.reducer,

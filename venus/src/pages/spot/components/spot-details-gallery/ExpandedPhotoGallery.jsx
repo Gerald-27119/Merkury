@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { photoAction } from "../../../../redux/photo.jsx";
 import { RiArrowLeftWideLine, RiArrowRightWideLine } from "react-icons/ri";
 import Photo from "./Photo.tsx";
-import { photoGalleryAction } from "../../../../redux/photo-gallery.jsx";
+import { expandedSpotMediaGalleryAction } from "../../../../redux/expanded-spot-media-gallery.tsx";
 import { useEffect } from "react";
 
 const disabledBtnClasses =
@@ -33,11 +33,11 @@ export default function ExpandedPhotoGallery({ photos }) {
     };
 
     const handleClickPreviousPhoto = () => {
-        dispatch(photoGalleryAction.setPreviousPhoto());
+        dispatch(expandedSpotMediaGalleryAction.setPreviousPhoto());
     };
 
     const handleClickNextPhoto = () => {
-        dispatch(photoGalleryAction.setNextPhoto());
+        dispatch(expandedSpotMediaGalleryAction.setNextPhoto());
     };
 
     return (
