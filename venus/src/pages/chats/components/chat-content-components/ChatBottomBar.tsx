@@ -28,6 +28,48 @@ import {
 } from "@tanstack/react-query";
 import ChatUploadFiles from "../ChatUploadFiles";
 import { sendFiles } from "../../../../http/chats";
+import { FileIcon } from "./chat-message/ChatMessageFiles";
+
+const ACCEPT = [
+    // obrazy (zostają), brak video/*
+    "image/*",
+
+    // PDF
+    "application/pdf",
+    ".pdf",
+
+    // Word
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ".doc",
+    ".docx",
+
+    // Excel
+    "application/vnd.ms-excel",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ".xls",
+    ".xlsx",
+
+    // PowerPoint
+    "application/vnd.ms-powerpoint",
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    ".ppt",
+    ".pptx",
+
+    // CSV / TXT
+    "text/csv",
+    ".csv",
+    "text/plain",
+    ".txt",
+
+    // Archiwa
+    "application/zip",
+    "application/x-7z-compressed",
+    "application/x-rar-compressed",
+    ".zip",
+    ".7z",
+    ".rar",
+].join(",");
 
 type LocalMsg = ChatMessageDto & { optimistic?: true; optimisticUUID?: string };
 
@@ -168,17 +210,15 @@ export default function ChatBottomBar() {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files) return;
+        const filesToSend = Array.from(event.target.files);
 
-        const allowed = ["image/jpeg", "image/png", "image/gif", "video/mp4"];
-        const valid = Array.from(event.target.files).filter((f) =>
-            allowed.includes(f.type),
+        setFiles(filesToSend);
+        const newPreviews = filesToSend.map((file) =>
+            URL.createObjectURL(file),
         );
-
-        setFiles(valid);
-        const newPreviews = valid.map((file) => URL.createObjectURL(file));
         setPreviews(newPreviews);
 
-        onFileSelect(valid);
+        onFileSelect(filesToSend);
     };
 
     useEffect(() => {
@@ -204,15 +244,19 @@ export default function ChatBottomBar() {
                                         className="h-16 w-16 rounded-md object-cover"
                                     />
                                 );
-                            }
-
-                            // return (
-                            //     <video
-                            //         key={index}
-                            //         src={previewUrl}
-                            //         className="h-12 w-12 rounded-md bg-gray-200 object-cover"
-                            //     />
-                            // );
+                            } else
+                                return (
+                                    <div className="flex h-16 w-16 flex-col gap-1 rounded-md">
+                                        <FileIcon
+                                            mime={file.type}
+                                            filename={file.name}
+                                            size={40}
+                                        />
+                                        <span className="truncate text-sm">
+                                            {file.name}
+                                        </span>
+                                    </div>
+                                );
                         })}
                     </div>
                 )}
@@ -227,7 +271,7 @@ export default function ChatBottomBar() {
                         onChange={handleFileChange}
                         style={{ display: "none" }}
                         multiple
-                        accept="image/*"
+                        accept={ACCEPT}
                     />
 
                     <textarea

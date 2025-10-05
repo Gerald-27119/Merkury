@@ -40,13 +40,11 @@ export default React.memo(function ChatMessage({
                             : message.content}
                     </p>
 
-                    {message.attachedFiles?.map((file) => (
-                        <p>{file.url}</p>
-                    ))}
+                    <ChatMessageFiles files={message.attachedFiles} />
                 </>
             ) : (
                 <div className="mt-3 flex">
-                    <div className="mr-4 flex w-12 items-center justify-center">
+                    <div className="mr-4 mb-auto flex w-12 items-center justify-center">
                         <img
                             className="aspect-square w-14 rounded-full"
                             src={
@@ -71,20 +69,6 @@ export default React.memo(function ChatMessage({
                                 ? showGif(message.content)
                                 : message.content}
                         </p>
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                        {/*{message.attachedFiles?.map((file) => (*/}
-                        {/*    <div>*/}
-                        {/*        <img*/}
-                        {/*            src={file.url}*/}
-                        {/*            alt={file.name}*/}
-                        {/*            className="h-15 w-15"*/}
-                        {/*        />*/}
-                        {/*        <p>{file.name}</p>*/}
-                        {/*    </div>*/}
-                        {/*))}*/}
-
                         <ChatMessageFiles files={message.attachedFiles} />
                     </div>
                 </div>
