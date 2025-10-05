@@ -13,7 +13,6 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
     const navigate = useNavigate();
 
     function handleChatNameClick() {
-        console.log("Chat name clicked " + chatDto.name + chatDto.chatType);
         if (chatDto.chatType === "PRIVATE") {
             navigate(`/account/profile/${chatDto.name}`); // TODO: chatName moze byc customowy, to trzeba na userID podmienic
         } else {
