@@ -27,7 +27,7 @@ export default function SpotDetailsGallery({ media }: PhotoGalleryProps) {
                 >
                     <Carousel
                         arrows={true}
-                        className="carousel-rounded max-w-[15rem] xl:max-w-[30rem]"
+                        className="carousel-rounded 3xl:w-[30rem] w-[15rem] 2xl:w-[25rem]"
                         afterChange={(idx: number) => {
                             setCurrent(idx);
                         }}

@@ -9,7 +9,7 @@
 
 @theme {
     --height-1\/10: 10%;
-
+    --breakpoint-3xl: 160rem;
     --color-mainBlue: #4242f0;
     --color-mainBlueDarker: #0d0db5;
     --color-darkText: #e5e5e5;
@@ -96,9 +96,22 @@ body {
     font-size: 20px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1280px) {
     .custom-rate .ant-rate-star {
         font-size: 20px;
+    }
+
+    .custom-rate-spot-comment .ant-rate-star {
+        font-size: 14px;
+    }
+
+    .media-control-bar {
+        --media-control-padding: 0;
+        --media-range-track-height: 1px;
+    }
+
+    .media-control-bar > * {
+        padding: 1px;
     }
 }
 
@@ -138,7 +151,7 @@ body {
 }
 
 .media-control-bar {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
 }
 
 .tiptap-editor-content .ProseMirror:focus {
@@ -220,6 +233,10 @@ body {
     content: counter(list-item) ".";
     counter-increment: list-item;
     display: inline-block;
+}
+
+.sticky-forum-panel {
+    @apply sticky top-8 self-start;
 }
 
 .emoji-picker * {

@@ -1,16 +1,20 @@
 import axios from "axios";
 import PostDto from "../model/interface/forum/post/postDto";
-import PaginatedPosts from "../model/interface/forum/post/paginatedPosts";
 import PostDetails from "../model/interface/forum/post/postDetails";
 import ForumCategoryAndTagsDto from "../model/interface/forum/forumCategoryAndTagsDto";
+import ForumPostPage from "../model/interface/forum/forumPostPage";
+import { ForumPostSortOption } from "../model/enum/forum/forumPostSortOption";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function fetchPaginatedPosts(
     page: number,
-): Promise<PaginatedPosts> {
+    size: number,
+    sortType: ForumPostSortOption,
+): Promise<ForumPostPage> {
+    const { sortBy, sortDirection } = sortType;
     return (
         await axios.get(`${BASE_URL}/public/post`, {
-            params: { page },
+            params: { page, size, sortBy, sortDirection },
             withCredentials: true,
         })
     ).data;

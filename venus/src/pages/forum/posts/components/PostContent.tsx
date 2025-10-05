@@ -14,7 +14,7 @@ export default function PostContent({
 }: PostContentProps) {
     return (
         <div className="mt-2 flex justify-between">
-            <p className="dark:hover:text-lightBgSoft cursor-pointer break-words whitespace-pre-line">
+            <p className="dark:hover:text-lightBgSoft cursor-pointer break-words wrap-anywhere whitespace-pre-line">
                 {content}
             </p>
 

@@ -1,7 +1,7 @@
 package com.merkury.vulcanus.model.entities.forum;
 
 import com.merkury.vulcanus.model.entities.UserEntity;
-import com.merkury.vulcanus.model.enums.ReportReason;
+import com.merkury.vulcanus.model.enums.forum.ReportReason;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

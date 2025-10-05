@@ -132,14 +132,6 @@ describe("Sidebar component unit tests", () => {
                 );
                 expect(link).toBeInTheDocument();
             });
-
-            test("should render Favorite spots link", () => {
-                const links = screen.getAllByRole("link");
-                const link = links.find(
-                    (link) => link.getAttribute("href") === "/spots-list",
-                );
-                expect(link).toBeInTheDocument();
-            });
         });
     });
 

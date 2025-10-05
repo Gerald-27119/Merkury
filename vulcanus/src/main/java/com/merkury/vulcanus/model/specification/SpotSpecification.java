@@ -2,6 +2,7 @@ package com.merkury.vulcanus.model.specification;
 
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.entities.spot.SpotTag;
+import com.merkury.vulcanus.model.enums.SpotRatingFilterType;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -36,4 +37,26 @@ public class SpotSpecification {
             return tagJoin.get("name").in(tagNames);
         };
     }
+
+    public static Specification<Spot> hasMinRating(SpotRatingFilterType filter) {
+        return (root, query, cb) -> {
+            if (filter == null || filter == SpotRatingFilterType.ANY) {
+                return cb.conjunction();
+            }
+
+            double minRating;
+            switch (filter) {
+                case TWO -> minRating = 2.0;
+                case TWO_HALF -> minRating = 2.5;
+                case THREE -> minRating = 3.0;
+                case THREE_HALF -> minRating = 3.5;
+                case FOUR -> minRating = 4.0;
+                case FOUR_HALF -> minRating = 4.5;
+                default -> minRating = 0.0;
+            }
+
+            return cb.greaterThanOrEqualTo(root.get("rating"), minRating);
+        };
+    }
+
 }

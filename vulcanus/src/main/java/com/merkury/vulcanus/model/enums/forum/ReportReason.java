@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.enums;
+package com.merkury.vulcanus.model.enums.forum;
 
 public enum ReportReason {
     INAPPROPRIATE_CONTENT,

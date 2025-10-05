@@ -3,11 +3,13 @@ package com.merkury.vulcanus.controllers;
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.forum.PostService;
 import com.merkury.vulcanus.model.dtos.forum.*;
+import com.merkury.vulcanus.model.enums.forum.ForumPostSortField;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +26,12 @@ public class PostController {
     }
 
     @GetMapping("/public/post")
-    public ResponseEntity<Page<PostGeneralDto>> getPostsPage(HttpServletRequest request, @RequestParam(defaultValue = "0") int page) throws UserNotFoundException {
-        int defaultPageSize = 10;
-        Page<PostGeneralDto> posts = postService.getPostsPage(request, PageRequest.of(page, defaultPageSize));
+    public ResponseEntity<Page<PostGeneralDto>> getPostsPage(HttpServletRequest request,
+                                                             @RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "10") int size,
+                                                             @RequestParam(defaultValue = "PUBLISH_DATE") ForumPostSortField sortBy,
+                                                             @RequestParam(defaultValue = "DESC") String sortDirection) throws UserNotFoundException {
+        Page<PostGeneralDto> posts = postService.getPostsPage(request, PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortBy.getField())));
 
         return ResponseEntity.ok(posts);
     }
@@ -56,7 +61,7 @@ public class PostController {
     }
 
     @GetMapping("/public/categories-tags")
-    public ResponseEntity<ForumCategoriesAndTagsDto> getAllCategoriesAndTags(){
-       return ResponseEntity.ok(postService.getAllCategoriesAndTags());
+    public ResponseEntity<ForumCategoriesAndTagsDto> getAllCategoriesAndTags() {
+        return ResponseEntity.ok(postService.getAllCategoriesAndTags());
     }
 }

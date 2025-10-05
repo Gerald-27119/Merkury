@@ -20,7 +20,7 @@ export default function DetailedPost({ post }: DetailedPostProps) {
     };
 
     return (
-        <div className="dark:bg-darkBgSoft mx-auto mt-8 mb-4 max-w-3xl rounded-xl p-6 shadow-lg">
+        <div className="dark:bg-darkBgSoft mx-auto mb-4 rounded-xl p-6 shadow-lg">
             <DetailedPostHeader
                 author={post.author}
                 publishDate={post.publishDate}
@@ -33,6 +33,9 @@ export default function DetailedPost({ post }: DetailedPostProps) {
             <DetailedPostActions
                 postId={post.id}
                 isAuthor={post.isAuthor}
+                upVotes={post.upVotes}
+                downVotes={post.downVotes}
+                numberOfComments={post.comments.length}
                 onDelete={handleDelete}
                 onEdit={handleEdit}
                 onFollow={handleFollow}

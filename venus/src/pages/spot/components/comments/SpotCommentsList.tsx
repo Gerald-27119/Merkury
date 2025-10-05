@@ -109,7 +109,7 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
     }, [spotId]);
 
     return (
-        <div className="mt-3">
+        <div className="my-5">
             {isLoading && <LoadingSpinner />}
             {isError && (
                 <p className="mt-20 text-center text-2xl font-semibold">
@@ -119,7 +119,7 @@ export default function SpotCommentsList({ spotId }: commentsListProps) {
             <SpotCommentHeader />
             <div
                 ref={containerRef}
-                className="dark:bg-violetDark dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex flex-col items-center overflow-y-auto rounded-b-xl lg:h-[30rem] [@media(max-height:1080px)]:h-[20rem]"
+                className="dark:bg-violetDark dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin 3xl:h-[27rem] flex h-[40rem] flex-col items-center overflow-y-auto rounded-b-xl 2xl:h-[20rem]"
             >
                 {comments?.length === 0 ? (
                     <p className="mt-20 text-center text-2xl font-semibold">

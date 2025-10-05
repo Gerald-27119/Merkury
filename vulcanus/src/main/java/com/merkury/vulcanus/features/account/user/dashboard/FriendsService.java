@@ -15,7 +15,10 @@ import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus.PENDING;
 
@@ -30,8 +33,12 @@ public class FriendsService {
     public SocialPageDto getUserFriends(String username, int page, int size) throws UserNotFoundByUsernameException {
         var friendsPage = friendshipRepository.findAllByUserUsername(username, PageRequest.of(page, size));
 
-        if (friendsPage.isEmpty()) {
+        if (!userEntityRepository.existsByUsername(username)) {
             throw new UserNotFoundByUsernameException(username);
+        }
+
+        if (friendsPage.isEmpty()) {
+            return new SocialPageDto(List.of(), false);
         }
 
         var friendUsernames = friendsPage.getContent()
@@ -43,12 +50,12 @@ public class FriendsService {
                 .map(friendView -> {
                     var friendUsername = friendView.getFriend().getUsername();
                     var privateChatId = friendsUsernamePrivateChatIdMap.get(friendUsername);
-                    return SocialMapper.friendViewToSocialDto(friendView, privateChatId);
+
+                    return SocialMapper.friendViewToSocialDto(friendView, privateChatId, true);
                 })
                 .toList();
         return new SocialPageDto(mappedFriends, friendsPage.hasNext());
     }
-
 
     public void editUserFriends(String username, String friendUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException, FriendshipNotExistException, UnsupportedEditUserFriendsTypeException {
         switch (type) {
@@ -110,5 +117,32 @@ public class FriendsService {
         } else {
             throw new FriendshipNotExistException();
         }
+    }
+
+    public SocialPageDto searchUsersByUsername(String username, String query, int page, int size) throws UserNotFoundByUsernameException {
+        var currentUser = userEntityFetcher.getByUsername(username);
+
+        if (query == null || query.isBlank()) {
+            return new SocialPageDto(List.of(), false);
+        }
+
+        var pageable = PageRequest.of(page, size, Sort.by("username").ascending());
+        var usersPage = userEntityRepository.findAllByUsernameContainingIgnoreCase(query, pageable);
+
+        if (usersPage.isEmpty()) {
+            return new SocialPageDto(List.of(), false);
+        }
+
+        var mappedUsers = usersPage.getContent().stream()
+                .map(user -> {
+                    var isFriends = currentUser.getFriendships()
+                            .stream()
+                            .anyMatch(f -> f.getFriend().equals(user));
+
+                    return SocialMapper.toDto(user, isFriends);
+                })
+                .toList();
+
+        return new SocialPageDto(mappedUsers, usersPage.hasNext());
     }
 }

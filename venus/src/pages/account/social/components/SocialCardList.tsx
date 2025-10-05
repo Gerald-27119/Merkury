@@ -6,12 +6,14 @@ interface SocialCardsProps {
     list: SocialDto[] | undefined;
     type: SocialListType;
     isSocialForViewer: boolean;
+    isSearchFriend?: boolean;
 }
 
 export default function SocialCardList({
     list,
     type,
     isSocialForViewer,
+    isSearchFriend,
 }: SocialCardsProps) {
     if (!list || list.length === 0) {
         let message;
@@ -38,6 +40,9 @@ export default function SocialCardList({
                 message = isSocialForViewer
                     ? "This user's list is empty."
                     : "Your list is empty.";
+        }
+        if (isSearchFriend) {
+            message = "We can't find a user with this username.";
         }
         return <p className="mt-10 text-center text-gray-500">{message}</p>;
     }

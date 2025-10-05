@@ -37,7 +37,10 @@ export default function Video({
     }, [shouldPlayVideo]);
 
     return (
-        <div {...props} className="max-h-60 overflow-hidden rounded-2xl">
+        <div
+            {...props}
+            className="3xl:h-68 h-40 overflow-hidden rounded-2xl xl:h-60"
+        >
             <MediaController
                 style={{
                     aspectRatio: "16/9",

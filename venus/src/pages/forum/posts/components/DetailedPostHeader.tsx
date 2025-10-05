@@ -10,11 +10,8 @@ export default function DetailedPostHeader({
     onAuthorClick,
 }: DetailedPostHeaderProps) {
     return (
-        <div
-            onClick={onAuthorClick}
-            className="flex items-center justify-between text-lg"
-        >
-            <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between text-lg">
+            <div className="flex items-center gap-3" onClick={onAuthorClick}>
                 <img
                     src={author.profilePhoto}
                     alt="profileImage"

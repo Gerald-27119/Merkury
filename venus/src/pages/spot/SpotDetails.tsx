@@ -69,11 +69,11 @@ export default function SpotDetails() {
                 exit="exit"
                 variants={slideVariants}
                 transition={{ duration: 0.3 }}
-                className="dark:bg-violetDarker dark:text-darkText absolute top-10 left-0 z-[2] flex h-full w-[20rem] p-2 text-lg xl:top-0 xl:left-17 xl:w-[35rem] xl:text-xl"
+                className="dark:bg-violetDarker dark:text-darkText absolute top-10 left-0 z-[2] flex h-full w-[20rem] overflow-y-auto p-2 text-lg xl:top-0 xl:left-17 xl:w-[35rem] xl:overflow-y-hidden xl:text-xl"
             >
                 {isLoading && <LoadingSpinner />}
                 {data && (
-                    <div className="mx-3 flex h-fit w-full flex-col">
+                    <div className="mx-3 flex h-full w-full flex-col">
                         <div className="mt-3 flex items-center justify-between text-xl">
                             <div className="flex justify-start">
                                 <MdLocationPin className="mr-0.5 text-2xl text-red-600" />
@@ -84,7 +84,7 @@ export default function SpotDetails() {
                                 />
                             </div>
                             <HiX
-                                className="cursor-pointer"
+                                className="cursor-pointer text-2xl xl:text-xl"
                                 onClick={handleClickCloseModal}
                             />
                         </div>

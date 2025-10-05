@@ -1,9 +1,10 @@
-import ForumCategory from "./ForumCategory";
-import ForumCategoryDto from "../../../model/interface/forum/forumCategoryDto";
+import ForumCategory from "../ForumCategory";
+import ForumCategoryDto from "../../../../model/interface/forum/forumCategoryDto";
+import ExpansionButton from "./ExpansionButton";
 
-type ForumCategoriesListProps = {
+interface ForumCategoriesListProps {
     categories?: ForumCategoryDto[];
-};
+}
 
 export default function ForumCategoriesList({
     categories,
@@ -20,6 +21,7 @@ export default function ForumCategoriesList({
                             </li>
                         ))}
                     </ul>
+                    <ExpansionButton label="All categories" />
                 </div>
             ) : (
                 <span>There are no categories</span>

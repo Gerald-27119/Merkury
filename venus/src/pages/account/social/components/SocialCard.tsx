@@ -1,6 +1,6 @@
 import { SocialDto } from "../../../../model/interface/account/social/socialDto";
 import { BiMessageRounded } from "react-icons/bi";
-import { FaUser, FaUserMinus } from "react-icons/fa";
+import { FaUser, FaUserMinus, FaUserPlus } from "react-icons/fa";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
     editUserFollowed,
@@ -12,7 +12,7 @@ import { SocialListType } from "../../../../model/enum/account/social/socialList
 import { useBoolean } from "../../../../hooks/useBoolean";
 import Modal from "../../../../components/modal/Modal";
 import { useNavigate } from "react-router-dom";
-import { chatActions, selectIsChatPresent } from "../../../../redux/chats";
+import { chatActions } from "../../../../redux/chats";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { getOrCreatePrivateChat } from "../../../../http/chats";
@@ -65,11 +65,19 @@ export default function SocialCard({
         },
     });
 
+    const addUserFriend = async () => {
+        await mutateAsyncFriends({
+            friendUsername: friend.username,
+            type: UserRelationEditType.ADD,
+        });
+    };
+
     const removeUserFriend = async (friendUsername: string) => {
         await mutateAsyncFriends({
             friendUsername,
             type: UserRelationEditType.REMOVE,
         });
+        closeModal();
     };
 
     const removeUserFollowed = async (followedUsername: string) => {
@@ -77,6 +85,7 @@ export default function SocialCard({
             followedUsername,
             type: UserRelationEditType.REMOVE,
         });
+        closeModal();
     };
 
     const handleNavigateToUserProfile = () => {
@@ -115,9 +124,6 @@ export default function SocialCard({
             <h3 className="text-center text-xl font-semibold capitalize">
                 {friend.username}
             </h3>
-            <h5 className="text-darkBorder text-center capitalize">
-                available
-            </h5>
             <div className="flex gap-2 text-3xl">
                 <SocialButton onClick={handleNavigateToUserProfile}>
                     <FaUser aria-label="userProfileFriendCardIcon" />
@@ -126,8 +132,16 @@ export default function SocialCard({
                     <BiMessageRounded aria-label="messageFriendCardIcon" />
                 </SocialButton>
                 {type !== SocialListType.FOLLOWERS && !isSocialForViewer && (
-                    <SocialButton onClick={openModal}>
-                        <FaUserMinus aria-label="userRemoveFriendCardIcon" />
+                    <SocialButton
+                        onClick={
+                            friend.isUserFriend ? openModal : addUserFriend
+                        }
+                    >
+                        {friend.isUserFriend ? (
+                            <FaUserMinus aria-label="userRemoveFriendCardIcon" />
+                        ) : (
+                            <FaUserPlus aria-label="userAddFriendCardIcon" />
+                        )}
                     </SocialButton>
                 )}
             </div>

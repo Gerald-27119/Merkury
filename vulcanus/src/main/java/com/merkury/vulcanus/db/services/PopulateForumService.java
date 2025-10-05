@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 import java.util.*;
 
 @Service
@@ -24,9 +25,12 @@ public class PopulateForumService {
     private final TagRepository tagRepository;
     private final UserEntityRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final Random random = new Random();
 
     @Transactional
     public void initForumData() {
+
+        var postList = new ArrayList<Post>();
 
         UserEntity forumUser = UserEntity.builder()
                 .email("forumUser@gmail.com")
@@ -124,7 +128,7 @@ public class PopulateForumService {
                 .upVotes(37)
                 .downVotes(3)
                 .author(forumUser)
-                .publishDate(LocalDateTime.of(2024, 9, 3, 12, 15))
+                .publishDate(LocalDateTime.of(2024, 7, 3, 12, 15))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -156,7 +160,7 @@ public class PopulateForumService {
                 .upVotes(24)
                 .downVotes(1)
                 .author(forumUser)
-                .publishDate(LocalDateTime.of(2024, 10, 5, 9, 10))
+                .publishDate(LocalDateTime.of(2024, 6, 5, 9, 10))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -173,7 +177,7 @@ public class PopulateForumService {
                 .upVotes(41)
                 .downVotes(6)
                 .author(forumUser)
-                .publishDate(LocalDateTime.of(2024, 7, 19, 14, 35))
+                .publishDate(LocalDateTime.of(2024, 9, 19, 14, 35))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -191,9 +195,45 @@ public class PopulateForumService {
                 .upVotes(73)
                 .downVotes(2)
                 .author(forumUser)
-                .publishDate(LocalDateTime.of(2024, 6, 30, 17, 5))
+                .publishDate(LocalDateTime.of(2024, 10, 30, 17, 5))
                 .comments(new ArrayList<>())
                 .build();
+
+        List<PostCategory> allCategories = List.of(
+                postCategory1, postCategory2, postCategory3,
+                postCategory4, postCategory5, postCategory6
+        );
+        List<Tag> allTags = List.of(tag1, tag2, tag3, tag4, tag5);
+
+
+        for (int i = 6; i <= 100; i++) {
+            var publishDate = LocalDateTime.now().minusDays(2000 - i);
+
+            Set<Tag> randomTags = new HashSet<>();
+            int numberOfTags = random.nextInt(4);
+            for (int j = 0; j < numberOfTags; j++) {
+                randomTags.add(allTags.get(random.nextInt(allTags.size())));
+            }
+
+            var postX = Post.builder().title("Post number " + i)
+                    .content("""
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                            """)
+                    .postCategory(allCategories.get(random.nextInt(allCategories.size())))
+                    .tags(randomTags)
+                    .views(random.nextInt(1000 - 100 + 1) + 100)
+                    .upVotes(random.nextInt(100))
+                    .downVotes(random.nextInt(100))
+                    .author(forumUser)
+                    .publishDate(publishDate)
+                    .comments(new ArrayList<>())
+                    .build();
+
+            postList.add(postX);
+        }
 
         userRepository.saveAll(List.of(forumUser, forumUserFriend));
         forumUser.getFriendships().add(friendship);
@@ -201,6 +241,7 @@ public class PopulateForumService {
         userRepository.saveAll(List.of(forumUser, forumUserFriend));
         postCategoryRepository.saveAll(List.of(postCategory1, postCategory2, postCategory3, postCategory4, postCategory5, postCategory6));
         tagRepository.saveAll(List.of(tag1, tag2, tag3, tag4, tag5));
-        postRepository.saveAll(List.of(post1, post2, post3, post4, post5));
+        postList.addAll(List.of(post1, post2, post3, post4, post5));
+        postRepository.saveAll(postList);
     }
 }

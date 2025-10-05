@@ -30,7 +30,7 @@ export default function SpotGeneralInfo({
                             value={rating}
                         />
                     </div>
-                    <p className="text-2xl">({ratingCount})</p>
+                    <p className="text-xl 2xl:text-2xl">({ratingCount})</p>
                 </div>
             </div>
             <ul className="flex flex-wrap space-x-4">

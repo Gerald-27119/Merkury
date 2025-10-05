@@ -6,6 +6,6 @@ import org.springframework.lang.Nullable;
 @Builder
 public record SocialDto(String username,
                         String profilePhoto,
-                        @Nullable Long commonPrivateChatId
-) {
+                        @Nullable Long commonPrivateChatId,
+                        boolean isUserFriend) {
 }
