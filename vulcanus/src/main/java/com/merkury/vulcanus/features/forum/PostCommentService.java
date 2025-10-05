@@ -7,6 +7,7 @@ import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
 import com.merkury.vulcanus.features.jsoup.JsoupSanitizer;
 import com.merkury.vulcanus.features.vote.VoteService;
+import com.merkury.vulcanus.model.dtos.forum.ForumPostCommentReplyPageDto;
 import com.merkury.vulcanus.model.dtos.forum.PostCommentDto;
 import com.merkury.vulcanus.model.dtos.forum.PostCommentGeneralDto;
 import com.merkury.vulcanus.model.entities.forum.PostComment;
@@ -20,6 +21,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,11 +42,15 @@ public class PostCommentService {
         return comments.map(comment -> PostCommentMapper.toDto(comment, user));
     }
 
-    public Page<PostCommentGeneralDto> getCommentRepliesByCommentId(HttpServletRequest request, Pageable pageable, Long parentCommentId) throws UserNotFoundException {
-        Page<PostComment> replies = postCommentRepository.findAllByParent_Id(parentCommentId, pageable);
+    public ForumPostCommentReplyPageDto getCommentRepliesByCommentId(HttpServletRequest request, Long parentCommentId, LocalDateTime lastDate, Long lastId, int size) throws UserNotFoundException {
         var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
 
-        return replies.map(reply -> PostCommentMapper.toDto(reply, user));
+        List<PostComment> replies = postCommentRepository.findRepliesRecursiveKeyset(parentCommentId, lastDate, lastId, size);
+        List<PostCommentGeneralDto> dtos = PostCommentMapper.toDto(replies, user);
+
+        Long nextCursor = dtos.isEmpty() ? null : dtos.getLast().id();
+
+        return new ForumPostCommentReplyPageDto(dtos, nextCursor);
     }
 
     public void addComment(HttpServletRequest request, Long postId, PostCommentDto dto) throws UserNotFoundException, PostNotFoundException {

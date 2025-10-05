@@ -6,18 +6,41 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface PostCommentRepository extends JpaRepository<PostComment, Long> {
 
-    @EntityGraph(attributePaths = {"author", "upVotedBy", "downVotedBy"})
+    @EntityGraph(attributePaths = {"upVotedBy", "downVotedBy"})
     Page<PostComment> findAllByPost_IdAndParentIsNull(Long postId, Pageable pageable);
 
-    @EntityGraph(attributePaths = {"author", "upVotedBy", "downVotedBy"})
-    Page<PostComment> findAllByParent_Id(Long parentId, Pageable pageable);
-
     Optional<PostComment> findByIdAndAuthor(Long commentId, UserEntity author);
+
+    @Query(
+            value = """
+                    WITH RECURSIVE comment_tree AS (
+                         SELECT * FROM post_comments WHERE parent_id = :parentId
+                         UNION ALL
+                         SELECT c.* FROM post_comments c
+                         INNER JOIN comment_tree ct ON c.parent = ct.id
+                    )
+                    SELECT * FROM comment_tree 
+                    WHERE (:lastDate IS NULL OR (publish_date, id) > (:lastDate, :lastId))
+                    ORDER BY publish_date DESC, id DESC
+                    LIMIT :pageSize
+                    """,
+            nativeQuery = true
+    )
+    List<PostComment> findRepliesRecursiveKeyset(
+            @Param("parentId") Long parentId,
+            @Param("lastDate") LocalDateTime lastDate,
+            @Param("lastId") Long lastId,
+            @Param("pageSize") int pageSize
+    );
 }

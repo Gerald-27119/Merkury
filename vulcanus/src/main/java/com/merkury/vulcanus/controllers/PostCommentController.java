@@ -5,16 +5,21 @@ import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.PostNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.forum.PostCommentService;
+import com.merkury.vulcanus.model.dtos.forum.ForumPostCommentReplyPageDto;
 import com.merkury.vulcanus.model.dtos.forum.PostCommentDto;
 import com.merkury.vulcanus.model.dtos.forum.PostCommentGeneralDto;
+import com.merkury.vulcanus.model.enums.forum.ForumPostCommentSortField;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,16 +31,21 @@ public class PostCommentController {
     public ResponseEntity<Page<PostCommentGeneralDto>> getCommentsByPostId(HttpServletRequest request,
                                                                            @PathVariable Long postId,
                                                                            @RequestParam(defaultValue = "0") int page,
-                                                                           @RequestParam(defaultValue = "10") int size) throws UserNotFoundException {
-        return ResponseEntity.ok(postCommentService.getCommentsByPostId(request, PageRequest.of(page, size), postId));
+                                                                           @RequestParam(defaultValue = "10") int size,
+                                                                           @RequestParam(defaultValue = "PUBLISH_DATE") ForumPostCommentSortField sortBy,
+                                                                           @RequestParam(defaultValue = "DESC") String sortDirection) throws UserNotFoundException {
+        return ResponseEntity.ok(postCommentService.getCommentsByPostId(request, PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortBy.getField())), postId));
     }
 
     @GetMapping("/public/comments/{commentId}/replies")
-    public ResponseEntity<Page<PostCommentGeneralDto>> getCommentRepliesByCommentId(HttpServletRequest request,
-                                                                                    @PathVariable Long commentId,
-                                                                                    @RequestParam(defaultValue = "0") int page,
-                                                                                    @RequestParam(defaultValue = "10") int size) throws UserNotFoundException {
-        return ResponseEntity.ok(postCommentService.getCommentRepliesByCommentId(request, PageRequest.of(page, size), commentId));
+    public ResponseEntity<ForumPostCommentReplyPageDto> getCommentRepliesByCommentId(HttpServletRequest request,
+                                                                                     @PathVariable Long commentId,
+                                                                                     @RequestParam(required = false) LocalDateTime lastDate,
+                                                                                     @RequestParam(required = false) Long lastId,
+                                                                                     @RequestParam(defaultValue = "10") int size) throws UserNotFoundException {
+
+        ForumPostCommentReplyPageDto page = postCommentService.getCommentRepliesByCommentId(request, commentId, lastDate, lastId, size);
+        return ResponseEntity.ok(page);
     }
 
     @PostMapping("/post/{postId}/comments")
