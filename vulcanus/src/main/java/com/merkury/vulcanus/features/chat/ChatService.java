@@ -4,8 +4,8 @@ import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.ChatAlreadyExistsException;
 import com.merkury.vulcanus.exception.exceptions.ChatNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
-import com.merkury.vulcanus.exception.exceptions.UserByUsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UsernameNotFoundException;
 import com.merkury.vulcanus.features.azure.AzureBlobService;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
@@ -223,12 +223,12 @@ public class ChatService {
         return mediaBlobUrlMap;
     }
 
-    public void organizeFilesSend(@NotNull List<MultipartFile> mediaFiles, Long chatId) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException, ChatNotFoundException, UserByUsernameNotFoundException {
+    public void organizeFilesSend(@NotNull List<MultipartFile> mediaFiles, Long chatId) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException, ChatNotFoundException, UsernameNotFoundException {
         Map<MultipartFile, String> mediaBlobUrlMap = this.sendFiles(mediaFiles);
 
         var chat = chatRepository.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
         var senderUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        var sender = userEntityRepository.findByUsername(senderUsername).orElseThrow(() -> new UserByUsernameNotFoundException(senderUsername));
+        var sender = userEntityRepository.findByUsername(senderUsername).orElseThrow(() -> new UsernameNotFoundException(senderUsername));
 
         var chatMessage = ChatMessage.builder()
                 .chat(chat)

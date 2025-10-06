@@ -3,8 +3,8 @@ package com.merkury.vulcanus.controllers.chat;
 import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.ChatNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
-import com.merkury.vulcanus.exception.exceptions.UserByUsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UsernameNotFoundException;
 import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
@@ -63,7 +63,7 @@ public class ChatController {
     public ResponseEntity<Void> sendFiles(
             @PathVariable Long chatId,
             @RequestParam("media") List<MultipartFile> media
-    ) throws ChatNotFoundException, InvalidFileTypeException, UserByUsernameNotFoundException, BlobContainerNotFoundException, IOException {
+    ) throws ChatNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, UsernameNotFoundException {
         chatService.organizeFilesSend(media, chatId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
