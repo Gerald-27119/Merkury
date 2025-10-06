@@ -10,7 +10,7 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { describe } from "vitest";
 import ProfileForViewer from "../../../../pages/account/profile/ProfileForViewer";
-import { UserFriendStatus } from "../../../../model/enum/account/social/userFriendStatus.js";
+import { UserFriendStatus } from "../../../../model/enum/account/social/userFriendStatus";
 
 const queryClient = new QueryClient();
 

@@ -76,6 +76,9 @@ export default function FriendInvitesList({ onClose }: FriendInvitesListProps) {
             <h1 className="text-center text-2xl font-semibold">Invites</h1>
             {isLoading && <LoadingSpinner />}
             <ul className="flex w-full flex-col gap-y-4">
+                {allItems?.length === 0 && (
+                    <p>You don't have nay invites yet</p>
+                )}
                 {allItems?.map((invite) => (
                     <li
                         key={invite.username}
