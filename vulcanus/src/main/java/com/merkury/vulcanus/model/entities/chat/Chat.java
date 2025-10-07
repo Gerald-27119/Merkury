@@ -53,7 +53,7 @@ public class Chat {
     @Builder.Default
     private List<ChatParticipant> participants = new ArrayList<>();
 
-//    TODO: add max participants limit
+    //    TODO: add max participants limit
     public void addParticipant(UserEntity user) {
         var p = ChatParticipant.builder()
                 .chat(this)
@@ -63,11 +63,21 @@ public class Chat {
         participants.add(p);
     }
 
+    public void addParticipants(List<UserEntity> users) {
+        var participantsToAdd = users.stream().map(userEntity ->
+                ChatParticipant.builder()
+                        .chat(this)
+                        .user(userEntity)
+                        .build()
+        ).toList();
+        participants.addAll(participantsToAdd);
+    }
+
     public void removeParticipant(UserEntity user) {
         participants.removeIf(p -> p.getUser().equals(user));
     }
 
-//    @Formula(
+    //    @Formula(
 //            "(SELECT MAX(m.sent_at) FROM chat_messages m WHERE m.chat_id = id)"
 //    )
     @Builder.Default
@@ -78,5 +88,10 @@ public class Chat {
     @OrderBy("sentAt DESC")//TODO:does this DESC work? should iwmove it to the ChatMessage entity?
     @Builder.Default
     private List<ChatMessage> chatMessages = new ArrayList<>();
+
+//    @ManyToOne
+//    @JoinColumn(name = "owner_id")
+//    @Builder.Default
+//    private UserEntity owner = null;
 
 }
