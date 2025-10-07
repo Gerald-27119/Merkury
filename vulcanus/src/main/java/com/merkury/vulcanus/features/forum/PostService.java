@@ -14,11 +14,10 @@ import com.merkury.vulcanus.model.mappers.forum.PostMapper;
 import com.merkury.vulcanus.model.repositories.PostCategoryRepository;
 import com.merkury.vulcanus.model.repositories.PostRepository;
 import com.merkury.vulcanus.model.repositories.TagRepository;
+import com.merkury.vulcanus.utils.ForumContentValidator;
 import com.merkury.vulcanus.utils.JsoupSanitizerConfig;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.jsoup.Jsoup;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -38,9 +37,7 @@ public class PostService {
     private final VoteService voteService;
     private final JsoupSanitizerConfig jsoupSafeLists;
     private final JsoupSanitizer sanitizer;
-
-    private static final int MIN_CONTENT_LENGTH = 3;
-    private static final int MAX_CONTENT_LENGTH = 1000;
+    private final ForumContentValidator forumContentValidator;
 
     public PostDetailsDto getDetailedPost(HttpServletRequest request, Long postId) throws PostNotFoundException, UserNotFoundException {
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
@@ -56,13 +53,13 @@ public class PostService {
         return postsPage.map(post -> PostMapper.toGeneralDto(post, user));
     }
 
-    public void addPost(HttpServletRequest request, PostDto dto) throws CategoryNotFoundException, TagNotFoundException, UserNotFoundException, InvalidPostContentException {
+    public void addPost(HttpServletRequest request, PostDto dto) throws CategoryNotFoundException, TagNotFoundException, UserNotFoundException, InvalidForumContentException {
         var user = userDataService.getUserFromRequest(request);
         var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
 
         var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
-        validateContentLength(cleanContent);
+        forumContentValidator.validateContentLength(cleanContent);
 
         var postEntity = PostMapper.toEntity(dto, user, category, tags);
         postEntity.setContent(cleanContent);
@@ -70,7 +67,6 @@ public class PostService {
         postRepository.save(postEntity);
     }
 
-    @Transactional
     public void deletePost(HttpServletRequest request, Long postId) throws UnauthorizedPostAccessException, UserNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("delete"));
@@ -78,14 +74,14 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, UserNotFoundException, InvalidPostContentException {
+    public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, UserNotFoundException, InvalidForumContentException {
         var user = userDataService.getUserFromRequest(request);
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("edit"));
         var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
         var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
 
-        validateContentLength(cleanContent);
+        forumContentValidator.validateContentLength(cleanContent);
 
         post.setTitle(dto.title());
         post.setContent(cleanContent);
@@ -124,17 +120,4 @@ public class PostService {
         }
         return tags;
     }
-
-    private void validateContentLength(String content) throws InvalidPostContentException {
-        var doc = Jsoup.parse(content);
-        doc.select("img, video, iframe, object, embed, svg").remove();
-        String plainText = doc.text().trim();
-
-        if (plainText.length() < MIN_CONTENT_LENGTH || plainText.length() > MAX_CONTENT_LENGTH) {
-            throw new InvalidPostContentException(
-                    "Content must be between " + MIN_CONTENT_LENGTH + " and " + MAX_CONTENT_LENGTH + " characters."
-            );
-        }
-    }
-
 }

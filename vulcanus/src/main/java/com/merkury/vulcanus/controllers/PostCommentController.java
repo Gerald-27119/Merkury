@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.controllers;
 
-import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
-import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.PostNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.forum.PostCommentService;
 import com.merkury.vulcanus.model.dtos.forum.ForumPostCommentReplyPageDto;
 import com.merkury.vulcanus.model.dtos.forum.PostCommentDto;
@@ -49,7 +46,7 @@ public class PostCommentController {
     }
 
     @PostMapping("/post/{postId}/comments")
-    public ResponseEntity<Void> addPostComment(HttpServletRequest request, @PathVariable Long postId, @Valid @RequestBody PostCommentDto dto) throws UserNotFoundException, PostNotFoundException {
+    public ResponseEntity<Void> addPostComment(HttpServletRequest request, @PathVariable Long postId, @Valid @RequestBody PostCommentDto dto) throws UserNotFoundException, PostNotFoundException, InvalidForumContentException {
         postCommentService.addComment(request, postId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -61,7 +58,7 @@ public class PostCommentController {
     }
 
     @PatchMapping("/post/comments/{commentId}")
-    public ResponseEntity<Void> editPostComment(HttpServletRequest request, @PathVariable Long commentId, @Valid @RequestBody PostCommentDto dto) throws UserNotFoundException, CommentAccessException {
+    public ResponseEntity<Void> editPostComment(HttpServletRequest request, @PathVariable Long commentId, @Valid @RequestBody PostCommentDto dto) throws UserNotFoundException, CommentAccessException, InvalidForumContentException {
         postCommentService.editComment(request, commentId, dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -73,7 +70,7 @@ public class PostCommentController {
     }
 
     @PostMapping("/comments/{commentId}/replies")
-    public ResponseEntity<Void> addReplyPostComment(HttpServletRequest request, @PathVariable Long commentId, @Valid @RequestBody PostCommentDto dto) throws UserNotFoundException, CommentNotFoundException {
+    public ResponseEntity<Void> addReplyPostComment(HttpServletRequest request, @PathVariable Long commentId, @Valid @RequestBody PostCommentDto dto) throws UserNotFoundException, CommentNotFoundException, InvalidForumContentException {
         postCommentService.addReplyToComment(request, commentId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

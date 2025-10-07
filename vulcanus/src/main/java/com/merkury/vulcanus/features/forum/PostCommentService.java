@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.features.forum;
 
-import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
-import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.PostNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.account.UserDataService;
 import com.merkury.vulcanus.features.jsoup.JsoupSanitizer;
 import com.merkury.vulcanus.features.vote.VoteService;
@@ -15,9 +12,9 @@ import com.merkury.vulcanus.model.entities.forum.PostComment;
 import com.merkury.vulcanus.model.mappers.forum.PostCommentMapper;
 import com.merkury.vulcanus.model.repositories.PostCommentRepository;
 import com.merkury.vulcanus.model.repositories.PostRepository;
+import com.merkury.vulcanus.utils.ForumContentValidator;
 import com.merkury.vulcanus.utils.JsoupSanitizerConfig;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +31,7 @@ public class PostCommentService {
     private final VoteService voteService;
     private final JsoupSanitizerConfig jsoupSafeLists;
     private final JsoupSanitizer sanitizer;
+    private final ForumContentValidator forumContentValidator;
 
     public Page<PostCommentGeneralDto> getCommentsByPostId(HttpServletRequest request, Pageable pageable, Long postId) throws UserNotFoundException {
         Page<PostComment> comments = postCommentRepository.findAllByPost_IdAndParentIsNull(postId, pageable);
@@ -53,10 +51,11 @@ public class PostCommentService {
         return new ForumPostCommentReplyPageDto(dtos, nextCursor);
     }
 
-    public void addComment(HttpServletRequest request, Long postId, PostCommentDto dto) throws UserNotFoundException, PostNotFoundException {
+    public void addComment(HttpServletRequest request, Long postId, PostCommentDto dto) throws UserNotFoundException, PostNotFoundException, InvalidForumContentException {
         var user = userDataService.getUserFromRequest(request);
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
         var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
+        forumContentValidator.validateContentLength(cleanContent);
 
         var commentEntity = PostCommentMapper.toEntity(cleanContent, post, user);
 
@@ -64,7 +63,6 @@ public class PostCommentService {
         updateNumberOfComments(post, true);
     }
 
-    @Transactional
     public void deleteComment(HttpServletRequest request, Long commentId) throws UserNotFoundException, CommentAccessException {
         var user = userDataService.getUserFromRequest(request);
         var comment = postCommentRepository.findByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("delete"));
@@ -74,11 +72,12 @@ public class PostCommentService {
         updateNumberOfComments(post, false);
     }
 
-    public void editComment(HttpServletRequest request, Long commentId, PostCommentDto dto) throws UserNotFoundException, CommentAccessException {
+    public void editComment(HttpServletRequest request, Long commentId, PostCommentDto dto) throws UserNotFoundException, CommentAccessException, InvalidForumContentException {
         var user = userDataService.getUserFromRequest(request);
         var comment = postCommentRepository.findByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("edit"));
 
         var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
+        forumContentValidator.validateContentLength(cleanContent);
         comment.setContent(cleanContent);
 
         postCommentRepository.save(comment);
@@ -92,12 +91,13 @@ public class PostCommentService {
         postCommentRepository.save(comment);
     }
 
-    public void addReplyToComment(HttpServletRequest request, Long parentCommentId, PostCommentDto dto) throws UserNotFoundException, CommentNotFoundException {
+    public void addReplyToComment(HttpServletRequest request, Long parentCommentId, PostCommentDto dto) throws UserNotFoundException, CommentNotFoundException, InvalidForumContentException {
         var user = userDataService.getUserFromRequest(request);
         var parentComment = postCommentRepository.findById(parentCommentId).orElseThrow(() -> new CommentNotFoundException(parentCommentId));
         var post = parentComment.getPost();
 
         var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
+        forumContentValidator.validateContentLength(cleanContent);
         var commentEntity = PostCommentMapper.toEntity(cleanContent, parentComment, user);
 
         parentComment.getReplies().add(commentEntity);
