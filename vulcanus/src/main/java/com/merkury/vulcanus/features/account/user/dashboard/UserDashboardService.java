@@ -80,7 +80,7 @@ public class UserDashboardService {
         friendsService.editUserFriends(username, friendUsername, type);
     }
 
-    public void changeUserFriendsStatus(String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
+    public void changeUserFriendsStatus(String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException, UnsupportedUserFriendStatusException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         friendsService.changeUserFriendsStatus(username, friendUsername, status);
     }
@@ -106,6 +106,11 @@ public class UserDashboardService {
     public SocialPageDto searchUsersByUsername(String query, int page, int size) throws UserNotFoundByUsernameException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         return friendsService.searchUsersByUsername(username, query, page, size);
+    }
+
+    public SocialPageDto getAllFriendInvites(int page, int size) throws UserNotFoundByUsernameException {
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        return friendsService.getAllFriendInvites(username, page, size);
     }
 
     public void editUserFollowed(String followedUsername, UserRelationEditType type) throws UserNotFoundByUsernameException, UserAlreadyFollowedException, UserNotFollowedException, UnsupportedEditUserFriendsTypeException {

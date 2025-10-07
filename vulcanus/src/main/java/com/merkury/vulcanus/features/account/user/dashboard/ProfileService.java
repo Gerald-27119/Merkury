@@ -7,9 +7,11 @@ import com.merkury.vulcanus.features.azure.AzureBlobService;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ImageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
+import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.AzureBlobFileValidatorType;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.model.mappers.user.dashboard.ProfileMapper;
 import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
@@ -41,18 +43,18 @@ public class ProfileService {
         var images = get4MostPopularPhotosFromUser(anotherUser);
         var userProfile = ProfileMapper.toDto(anotherUser, images);
 
-        var isFriends = false;
+        var friendStatus = UserFriendStatus.NONE;
         var isFollowing = false;
         var isOwnProfile = false;
 
         if (viewerUsername != null) {
             var user = userEntityFetcher.getByUsername(viewerUsername);
-            isFriends = getIsUsersFriends(user, anotherUser);
+            friendStatus = getIsUsersFriends(user, anotherUser);
             isFollowing = getIsUsersFollowing(user, anotherUser);
             isOwnProfile = viewerUsername.equals(targetUsername);
         }
 
-        return ProfileMapper.toDto(userProfile, isFriends, isFollowing, isOwnProfile);
+        return ProfileMapper.toDto(userProfile, friendStatus, isFollowing, isOwnProfile);
     }
 
     public void changeUserProfilePhoto(String username, MultipartFile profilePhoto) throws UserNotFoundByUsernameException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, URISyntaxException {
@@ -67,8 +69,12 @@ public class ProfileService {
         userEntityRepository.save(user);
     }
 
-    private Boolean getIsUsersFriends(UserEntity user, UserEntity secondUser) {
-        return user.getFriendships().stream().anyMatch(f -> f.getFriend().equals(secondUser));
+    private UserFriendStatus getIsUsersFriends(UserEntity user, UserEntity secondUser) {
+        return user.getFriendships().stream()
+                .filter(f -> f.getFriend().equals(secondUser))
+                .map(Friendship::getStatus)
+                .findFirst()
+                .orElse(UserFriendStatus.NONE);
     }
 
     private Boolean getIsUsersFollowing(UserEntity user, UserEntity secondUser) {

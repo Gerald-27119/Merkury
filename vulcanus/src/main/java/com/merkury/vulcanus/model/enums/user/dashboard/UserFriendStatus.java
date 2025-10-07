@@ -1,5 +1,9 @@
 package com.merkury.vulcanus.model.enums.user.dashboard;
 
 public enum UserFriendStatus {
-    PENDING, ACCEPTED, REJECTED
+    PENDING_SENT,
+    PENDING_RECEIVED,
+    ACCEPTED,
+    REJECTED,
+    NONE
 }

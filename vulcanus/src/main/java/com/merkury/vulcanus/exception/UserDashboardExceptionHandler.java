@@ -88,4 +88,10 @@ public class UserDashboardExceptionHandler {
         log.error(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+
+    @ExceptionHandler(UnsupportedUserFriendStatusException.class)
+    public ResponseEntity<String> handleUnsupportedUserFriendStatusException(UnsupportedUserFriendStatusException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
 }
