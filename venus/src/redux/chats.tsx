@@ -10,17 +10,36 @@ import {
 } from "../model/interface/chat/chatInterfaces";
 import { RootState } from "./store";
 
-type ChatsExtra = { selectedChatId: number | null };
+type ChatsExtra = { selectedChatId: number | null; usersToAddToChat: string[] };
 type ChatEntity = ChatDto & { hasNew: boolean };
 const chatsAdapter = createEntityAdapter<ChatEntity>({});
 const initialState = chatsAdapter.getInitialState<ChatsExtra>({
     selectedChatId: null,
+    usersToAddToChat: [],
 });
 
 export const chatsSlice = createSlice({
     name: "chats",
     initialState,
     reducers: {
+        clearUsersToAddToChat: (state) => {
+            state.usersToAddToChat = [];
+        },
+        addUserToAddToChat(state, action: PayloadAction<string>) {
+            if (state.usersToAddToChat.length >= 6) return;
+            const clearedUsersToAddToChat = state.usersToAddToChat.filter(
+                (username) => username !== action.payload,
+            );
+            state.usersToAddToChat = [
+                ...clearedUsersToAddToChat,
+                action.payload,
+            ];
+        },
+        removeUserToAddToChat(state, action: PayloadAction<string>) {
+            state.usersToAddToChat = state.usersToAddToChat.filter(
+                (username) => username !== action.payload,
+            );
+        },
         upsertChats: (state, action: PayloadAction<ChatDto[]>) => {
             const items: ChatEntity[] = action.payload.map((c) => {
                 const prev = state.entities[c.id] as ChatEntity | undefined;

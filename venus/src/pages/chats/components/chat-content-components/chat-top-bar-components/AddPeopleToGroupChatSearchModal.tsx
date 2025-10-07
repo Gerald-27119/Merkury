@@ -6,6 +6,9 @@ import { SocialListType } from "../../../../../model/enum/account/social/socialL
 import { searchUsersByUsername } from "../../../../../http/user-dashboard";
 import SocialCardList from "../../../../account/social/components/SocialCardList";
 import LoadingSpinner from "../../../../../components/loading-spinner/LoadingSpinner";
+import useSelectorTyped from "../../../../../hooks/useSelectorTyped";
+import { chatActions } from "../../../../../redux/chats";
+import useDispatchTyped from "../../../../../hooks/useDispatchTyped";
 
 interface SearchFriendsListProps {
     onClose?: () => void;
@@ -17,6 +20,7 @@ export default function AddPeopleToGroupChatSearchModal({
     const [query, setQuery] = useState("");
     const queryDebounced = useDebounce(query, 500);
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
+    const dispatch = useDispatchTyped();
 
     const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteQuery({
@@ -54,27 +58,50 @@ export default function AddPeopleToGroupChatSearchModal({
         setQuery(event.target.value);
     };
 
-    const usersToAdd = null;
+    const usersToAddToChat = useSelectorTyped(
+        (state) => state.chats.usersToAddToChat,
+    );
+
+    function handleCloseModal() {
+        dispatch(chatActions.clearUsersToAddToChat());
+        if (onClose) {
+            onClose();
+        }
+    }
 
     return (
         <div className="relative flex flex-col items-center gap-y-6">
             <button
-                onClick={onClose}
+                onClick={handleCloseModal}
                 className="absolute top-3 right-3 cursor-pointer"
             >
                 <FaX className="text-2xl hover:text-red-600" />
             </button>
-            <h1 className="text-center text-2xl font-semibold">Choose Users</h1>
-            <div className="flex flex-col gap-y-2">
+            <div className="text-center">
+                <h1 className="text-center text-2xl font-semibold">
+                    Choose Users
+                </h1>
+                <span className="text-center text-sm font-light">
+                    There is a limit of 6
+                </span>
+            </div>
+            <div className="flex gap-4">
                 <input
                     onChange={handleChangeQuery}
                     value={query}
                     placeholder="Search user"
                     className="dark:bg-darkBgMuted bg-lightBgMuted w-full rounded-md px-2 py-1.5 shadow-md ring-0 outline-0 sm:w-96 dark:shadow-black"
                 />
+                <button className="rounded-md bg-green-600 p-2 hover:cursor-pointer hover:opacity-60">
+                    Create group Chat
+                </button>
             </div>
 
-            <div className="mt-2 mb-3 h-20 w-[50rem] bg-orange-300"></div>
+            <div className="mt-2 mb-3 flex h-16 gap-3 p-2">
+                {usersToAddToChat.map((username) => (
+                    <UserToAddButton username={username} />
+                ))}
+            </div>
 
             <SocialCardList
                 list={allItems}
@@ -85,5 +112,26 @@ export default function AddPeopleToGroupChatSearchModal({
             <div ref={loadMoreRef} className="h-10" />
             {isFetchingNextPage || (isLoading && <LoadingSpinner />)}
         </div>
+    );
+}
+
+interface UserToAddProps {
+    username: string;
+}
+
+function UserToAddButton({ username }: UserToAddProps) {
+    const dispatch = useDispatchTyped();
+
+    function remove() {
+        dispatch(chatActions.removeUserToAddToChat(username));
+    }
+
+    return (
+        <button
+            className="bg-violetLight rounded-md p-2 text-xl text-white hover:cursor-pointer hover:opacity-60"
+            onClick={remove}
+        >
+            {username}
+        </button>
     );
 }

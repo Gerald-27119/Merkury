@@ -116,7 +116,7 @@ export default function SocialCard({
     }
 
     function handleAddToPotentialGroupChat() {
-        console.log("I got clicked!");
+        dispatch(chatActions.addUserToAddToChat(friend.username));
     }
 
     return (
