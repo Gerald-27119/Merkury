@@ -36,6 +36,9 @@ export default function SocialCardList({
             case SocialListType.PHOTOS:
                 message = "This user hasn't added any photos yet.";
                 break;
+            case SocialListType.POTENTIAL_GROUP_CHAT_MEMBER:
+                message = "There are no other people in the world besides you.";
+                break;
             default:
                 message = isSocialForViewer
                     ? "This user's list is empty."

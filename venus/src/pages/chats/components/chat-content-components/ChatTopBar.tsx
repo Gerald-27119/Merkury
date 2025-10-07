@@ -4,6 +4,11 @@ import { ChatDto } from "../../../../model/interface/chat/chatInterfaces";
 import { useNavigate } from "react-router-dom";
 import { CiSettings } from "react-icons/ci";
 import { IoSettingsOutline } from "react-icons/io5";
+import { HiUserAdd } from "react-icons/hi";
+import { useBoolean } from "../../../../hooks/useBoolean";
+import EmptyModal from "../../../../components/modal/EmptyModal";
+import SearchFriendsList from "../../../account/social/components/SearchFriendsList";
+import AddPeopleToGroupChatSearchModal from "./chat-top-bar-components/AddPeopleToGroupChatSearchModal";
 
 interface ChatTopBarProps {
     chatDto: ChatDto;
@@ -11,6 +16,7 @@ interface ChatTopBarProps {
 
 export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
     const navigate = useNavigate();
+    const [isOpen, open, close, _] = useBoolean(false);
 
     function handleChatNameClick() {
         if (chatDto.chatType === "PRIVATE") {
@@ -42,8 +48,15 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                 </p>
             </button>
             <div className="flex items-center justify-center">
-                <IoSettingsOutline size={30} className="hover:cursor-pointer" />
+                <HiUserAdd
+                    size={30}
+                    className="hover:cursor-pointer"
+                    onClick={open}
+                />
             </div>
+            <EmptyModal onClose={close} isOpen={isOpen}>
+                <AddPeopleToGroupChatSearchModal onClose={close} />
+            </EmptyModal>
         </div>
     );
 }
