@@ -2,13 +2,14 @@ import { FaPhotoVideo } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import { ChatDto } from "../../../../model/interface/chat/chatInterfaces";
 import { useNavigate } from "react-router-dom";
+import { CiSettings } from "react-icons/ci";
+import { IoSettingsOutline } from "react-icons/io5";
 
 interface ChatTopBarProps {
     chatDto: ChatDto;
 }
 
 export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
-    const className: string = "text-2xl";
     const navigate = useNavigate();
 
     function handleChatNameClick() {
@@ -40,9 +41,8 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                     {chatDto?.name}
                 </p>
             </button>
-            <div className="mr-2 flex items-center justify-center gap-5">
-                <FaSearch className={className} />
-                <FaPhotoVideo className={className} />
+            <div className="flex items-center justify-center">
+                <IoSettingsOutline size={30} className="hover:cursor-pointer" />
             </div>
         </div>
     );

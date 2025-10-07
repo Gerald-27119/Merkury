@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.model.mappers.chat;
 
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
+import com.merkury.vulcanus.model.dtos.chat.ChatMessageAttachedFileDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageSenderDto;
@@ -61,12 +62,26 @@ public class ChatMapper {
         if (chatMessage == null) {
             return null;
         }
+
+        List<ChatMessageAttachedFileDto> attachedFiles = null;
+        if (chatMessage.getChatMessageAttachedFiles() != null) {
+            attachedFiles = chatMessage.getChatMessageAttachedFiles().stream().map(file ->
+                            ChatMessageAttachedFileDto.builder()
+                                    .url(file.getUrl())
+                                    .fileType(file.getFileType())
+                                    .sizeInBytes(file.getSizeInBytes())
+                                    .name(file.getName())
+                                    .build())
+                    .toList();
+        }
+
         return ChatMessageDto.builder()
                 .id(chatMessage.getId())
                 .content(chatMessage.getContent())
                 .sentAt(chatMessage.getSentAt())
                 .sender(chatMessageSenderDto)
                 .chatId(chatMessage.getChat().getId())
+                .attachedFiles(attachedFiles)
                 .build();
     }
 
@@ -77,12 +92,25 @@ public class ChatMapper {
                 .imgUrl(chatMessage.getSender().getProfileImage())
                 .build();
 
+        List<ChatMessageAttachedFileDto> attachedFiles = null;
+        if (chatMessage.getChatMessageAttachedFiles() != null) {
+            attachedFiles = chatMessage.getChatMessageAttachedFiles().stream().map(file ->
+                            ChatMessageAttachedFileDto.builder()
+                                    .url(file.getUrl())
+                                    .fileType(file.getFileType())
+                                    .sizeInBytes(file.getSizeInBytes())
+                                    .name(file.getName())
+                                    .build())
+                    .toList();
+        }
+
         return ChatMessageDto.builder()
                 .id(chatMessage.getId())
                 .content(chatMessage.getContent())
                 .sentAt(chatMessage.getSentAt())
                 .sender(senderDto)
                 .chatId(chatMessage.getChat().getId())
+                .attachedFiles(attachedFiles)
                 .build();
     }
 

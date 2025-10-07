@@ -66,3 +66,18 @@ export async function getOrCreatePrivateChat(
     );
     return data;
 }
+
+export async function sendFiles(
+    chatId: number | null,
+    files: File[],
+): Promise<void> {
+    const formData = new FormData();
+
+    for (const file of files) {
+        formData.append("media", file, file.name);
+    }
+
+    await axios.post<void>(`${BASE_URL}/chats/${chatId}/send-files`, formData, {
+        withCredentials: true,
+    });
+}
