@@ -9,9 +9,7 @@ import com.merkury.vulcanus.model.dtos.chat.DetailedChatDto;
 import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
-import com.merkury.vulcanus.model.entities.chat.ChatMessageAttachedFile;
 import org.springframework.data.domain.Slice;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Comparator;
 import java.util.List;
@@ -94,14 +92,17 @@ public class ChatMapper {
                 .imgUrl(chatMessage.getSender().getProfileImage())
                 .build();
 
-        var attachedFiles = chatMessage.getChatMessageAttachedFiles().stream().map(file ->
-                        ChatMessageAttachedFileDto.builder()
-                                .url(file.getUrl())
-                                .fileType(file.getFileType())
-                                .sizeInBytes(file.getSizeInBytes())
-                                .name(file.getName())
-                                .build())
-                .toList();
+        List<ChatMessageAttachedFileDto> attachedFiles = null;
+        if (chatMessage.getChatMessageAttachedFiles() != null) {
+            attachedFiles = chatMessage.getChatMessageAttachedFiles().stream().map(file ->
+                            ChatMessageAttachedFileDto.builder()
+                                    .url(file.getUrl())
+                                    .fileType(file.getFileType())
+                                    .sizeInBytes(file.getSizeInBytes())
+                                    .name(file.getName())
+                                    .build())
+                    .toList();
+        }
 
         return ChatMessageDto.builder()
                 .id(chatMessage.getId())
@@ -217,11 +218,4 @@ public class ChatMapper {
                 .build();
     }
 
-    public static ChatMessageAttachedFile toChatMessageAttachedFile(MultipartFile file, ChatMessage chatMessage) {
-        return ChatMessageAttachedFile.builder()
-                .name(file.getName())
-                .chatMessage(chatMessage)
-                .url("")
-                .build();
-    }
 }
