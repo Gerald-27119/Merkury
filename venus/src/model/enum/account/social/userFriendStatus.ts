@@ -1,5 +1,7 @@
 export enum UserFriendStatus {
-    PENDING = "PENDING",
+    PENDING_SENT = "PENDING_SENT",
+    PENDING_RECEIVED = "PENDING_RECEIVED",
     ACCEPTED = "ACCEPTED",
     REJECTED = "REJECTED",
+    NONE = "NONE",
 }

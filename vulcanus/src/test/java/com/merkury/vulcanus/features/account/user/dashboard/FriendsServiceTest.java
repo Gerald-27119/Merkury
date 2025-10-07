@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
-import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExistException;
-import com.merkury.vulcanus.exception.exceptions.FriendshipNotExistException;
-import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeException;
-import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
+import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.entities.UserEntity;
@@ -16,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,14 +20,12 @@ import org.springframework.data.domain.Pageable;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus.ACCEPTED;
-import static com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus.PENDING;
+import static com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus.*;
 import static com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class FriendsServiceTest {
@@ -65,7 +59,7 @@ class FriendsServiceTest {
         var friends = List.of(friend1, friend2);
         var friendPage = new PageImpl<>(friends, PageRequest.of(0, 10), friends.size());
 
-        when(friendshipRepository.findAllByUserUsername(anyString(), any(Pageable.class))).thenReturn(friendPage);
+        when(friendshipRepository.findAllByUserUsernameAndStatus(anyString(), any(Pageable.class), any())).thenReturn(friendPage);
         when(chatService.mapPrivateChatIdsByUsername(any(), any())).thenReturn(new HashMap<>());
         when(userEntityRepository.existsByUsername("user1")).thenReturn(true);
 
@@ -82,7 +76,7 @@ class FriendsServiceTest {
 
     @Test
     void shouldThrowUserNotFoundByUsernameExceptionWhenUserNotFound() {
-        when(friendshipRepository.findAllByUserUsername(anyString(), any(Pageable.class))).thenReturn(Page.empty());
+        when(userEntityRepository.existsByUsername("nonexistentUser")).thenReturn(false);
 
         assertThrows(UserNotFoundByUsernameException.class, () -> friendsService.getUserFriends("nonexistentUser", 0, 10));
     }
@@ -143,11 +137,11 @@ class FriendsServiceTest {
     }
 
     @Test
-    void shouldChangeFriendStatusWhenFriendExist() throws UserNotFoundByUsernameException, FriendshipNotExistException {
+    void shouldChangeFriendStatusWhenFriendExist() throws UserNotFoundByUsernameException, FriendshipNotExistException, UnsupportedUserFriendStatusException {
         var user = UserEntity.builder().username("user1").build();
         var friend = UserEntity.builder().username("user2").build();
-        user.getFriendships().add(new Friendship(null, user, friend, PENDING, null));
-        friend.getFriendships().add(new Friendship(null, friend, user, PENDING, null));
+        user.getFriendships().add(new Friendship(null, user, friend, PENDING_SENT, null));
+        friend.getFriendships().add(new Friendship(null, friend, user, PENDING_RECEIVED, null));
 
         when(userEntityFetcher.getByUsername("user1")).thenReturn(user);
         when(userEntityFetcher.getByUsername("user2")).thenReturn(friend);

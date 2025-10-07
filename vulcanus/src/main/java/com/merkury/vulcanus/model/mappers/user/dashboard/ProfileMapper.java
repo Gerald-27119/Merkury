@@ -6,6 +6,7 @@ import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class ProfileMapper {
                 .profilePhoto(user.getProfilePhoto())
                 .followersCount(user.getFollowers().size())
                 .followedCount(user.getFollowed().size())
-                .friendsCount(user.getFriendships().size())
+                .friendsCount(user.getFriendships().stream().filter(f -> f.getStatus().equals(UserFriendStatus.ACCEPTED)).toList().size())
                 .photosCount(user.getMedia()
                         .stream()
                         .filter(spotMedia -> spotMedia.getGenericMediaType() == GenericMediaType.PHOTO)
@@ -40,9 +41,9 @@ public class ProfileMapper {
                 .build();
     }
 
-    public static ExtendedUserProfileDto toDto(@NotNull UserProfileDto user, Boolean isFriends, Boolean isFollowing, Boolean isOwnProfile) {
+    public static ExtendedUserProfileDto toDto(@NotNull UserProfileDto user, UserFriendStatus friendStatus, Boolean isFollowing, Boolean isOwnProfile) {
         return ExtendedUserProfileDto.builder().profile(user)
-                .isFriends(isFriends)
+                .friendStatus(friendStatus)
                 .isFollowing(isFollowing)
                 .isOwnProfile(isOwnProfile)
                 .build();
