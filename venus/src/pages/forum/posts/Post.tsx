@@ -26,7 +26,7 @@ export default function Post({ post }: PostProps) {
                 <PostContent
                     content={post.content}
                     views={post.views}
-                    numberOfComments={post.numberOfComments}
+                    commentsCount={post.commentsCount}
                 />
             </div>
         </div>

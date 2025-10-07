@@ -49,7 +49,6 @@ public class Post implements Votable {
     @OrderBy("publishDate DESC")
     private List<PostComment> comments = new ArrayList<>();
 
-//    @Formula("(SELECT COUNT(*) FROM post_comments c WHERE c.post_id = id)")
     @Builder.Default
     private Integer commentsCount = 0;
 

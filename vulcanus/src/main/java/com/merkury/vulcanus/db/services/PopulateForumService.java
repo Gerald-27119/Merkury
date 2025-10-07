@@ -257,6 +257,9 @@ public class PopulateForumService {
                 comments.add(comment);
             }
             post.getComments().addAll(comments);
+            var totalComments = countAllCommentsWithReplies(comments);
+            post.setCommentsCount(totalComments);
+
             allComments.addAll(comments);
         }
 
@@ -300,6 +303,18 @@ public class PopulateForumService {
             generateReplies(reply, post, forumUser, forumUserFriend, random, depth + 1, maxDepth);
         }
     }
+
+    private int countAllCommentsWithReplies(List<PostComment> comments) {
+        int count = 0;
+        for (PostComment comment : comments) {
+            count++;
+            if (comment.getReplies() != null && !comment.getReplies().isEmpty()) {
+                count += countAllCommentsWithReplies(comment.getReplies());
+            }
+        }
+        return count;
+    }
+
 
 }
 

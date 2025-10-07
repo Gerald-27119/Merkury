@@ -10,6 +10,7 @@ import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.forum.ForumPostCommentReplyPageDto;
 import com.merkury.vulcanus.model.dtos.forum.PostCommentDto;
 import com.merkury.vulcanus.model.dtos.forum.PostCommentGeneralDto;
+import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.PostComment;
 import com.merkury.vulcanus.model.mappers.forum.PostCommentMapper;
 import com.merkury.vulcanus.model.repositories.PostCommentRepository;
@@ -60,14 +61,17 @@ public class PostCommentService {
         var commentEntity = PostCommentMapper.toEntity(cleanContent, post, user);
 
         postCommentRepository.save(commentEntity);
+        updateNumberOfComments(post, true);
     }
 
     @Transactional
     public void deleteComment(HttpServletRequest request, Long commentId) throws UserNotFoundException, CommentAccessException {
         var user = userDataService.getUserFromRequest(request);
         var comment = postCommentRepository.findByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("delete"));
+        var post = comment.getPost();
 
         postCommentRepository.delete(comment);
+        updateNumberOfComments(post, false);
     }
 
     public void editComment(HttpServletRequest request, Long commentId, PostCommentDto dto) throws UserNotFoundException, CommentAccessException {
@@ -91,12 +95,20 @@ public class PostCommentService {
     public void addReplyToComment(HttpServletRequest request, Long parentCommentId, PostCommentDto dto) throws UserNotFoundException, CommentNotFoundException {
         var user = userDataService.getUserFromRequest(request);
         var parentComment = postCommentRepository.findById(parentCommentId).orElseThrow(() -> new CommentNotFoundException(parentCommentId));
+        var post = parentComment.getPost();
 
         var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
         var commentEntity = PostCommentMapper.toEntity(cleanContent, parentComment, user);
 
         parentComment.getReplies().add(commentEntity);
         postCommentRepository.save(commentEntity);
+        updateNumberOfComments(post, true);
+    }
+
+    private void updateNumberOfComments(Post post, boolean isPositive) {
+        var newCommentCount = post.getCommentsCount();
+        post.setCommentsCount(isPositive ? newCommentCount + 1 : newCommentCount - 1);
+        postRepository.save(post);
     }
 
 }

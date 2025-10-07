@@ -33,7 +33,7 @@ public class PostMapper {
                 .downVotes(post.getDownVotes())
                 .isUpVoted(post.getUpVotedBy().contains(currentUser))
                 .isDownVoted(post.getDownVotedBy().contains(currentUser))
-                .commentsCount(post.getComments().size())
+                .commentsCount(post.getCommentsCount())
                 .build();
     }
 
@@ -49,7 +49,7 @@ public class PostMapper {
                 .category(CategoryMapper.toDto(post.getPostCategory()))
                 .tags(post.getTags().stream().map(TagMapper::toDto).toList())
                 .views(post.getViews())
-                .numberOfComments(post.getComments().size())
+                .commentsCount(post.getCommentsCount())
                 .isAuthor(currentUser != null && post.getAuthor().getId().equals(currentUser.getId()))
                 .build();
     }
