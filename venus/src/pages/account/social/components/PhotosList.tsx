@@ -8,7 +8,7 @@ interface PhotosListProps {
 
 export default function PhotosList({ photos }: PhotosListProps) {
     return (
-        <div className="flex flex-col gap-3 lg:mx-27">
+        <div className="flex h-full flex-col gap-3 lg:mx-27">
             {photos?.length
                 ? photos?.map(({ date, media }) => (
                       <div className="flex flex-col space-y-3" key={date}>
@@ -22,8 +22,8 @@ export default function PhotosList({ photos }: PhotosListProps) {
                   ))
                 : null}
             {!photos?.length ? (
-                <p className="text-center text-lg">
-                    This user hasn't added any photos .
+                <p className="flex h-full items-center justify-center text-center text-lg">
+                    This user hasn't added any photos.
                 </p>
             ) : null}
         </div>

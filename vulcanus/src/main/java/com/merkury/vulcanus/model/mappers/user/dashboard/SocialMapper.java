@@ -10,11 +10,12 @@ public class SocialMapper {
     private SocialMapper() {
     }
 
-    public static SocialDto userEntityToSocialDto(@NotNull UserEntity userEntity, @Nullable Long commonPrivateChatId) {
+    public static SocialDto userEntityToSocialDto(@NotNull UserEntity userEntity, @Nullable Long commonPrivateChatId, boolean isUserFriend) {
         return SocialDto.builder()
                 .username(userEntity.getUsername())
                 .profilePhoto(userEntity.getProfilePhoto())
                 .commonPrivateChatId(commonPrivateChatId)
+                .isUserFriend(isUserFriend)
                 .build();
     }
 

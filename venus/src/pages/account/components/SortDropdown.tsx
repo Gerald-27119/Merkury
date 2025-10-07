@@ -28,7 +28,7 @@ export default function SortDropdown({ onSelectType }: DropdownProps) {
             className={`bg-violetDark flex h-15 items-center px-2 py-1 transition md:h-12 ${isOpen ? "rounded-l-full rounded-tr-full" : "rounded-full"}`}
         >
             <p>Sort:</p>
-            <div className="relative inline-block w-44 text-white">
+            <div className="relative inline-block w-50 text-white">
                 <button
                     onClick={toggle}
                     className="flex w-full cursor-pointer items-center justify-between rounded-md px-4 py-2 text-left"

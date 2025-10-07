@@ -56,7 +56,7 @@ export default function Dropdown<T>({
             className={`dark:bg-darkBgSoft bg-lightBgSoft flex h-15 items-center py-1 pr-2 pl-4 shadow-md transition md:h-12 dark:shadow-black ${isOpen ? "rounded-l-full rounded-tr-full" : "rounded-full"}`}
         >
             <p>{isSort ? "Sort:" : "Filter:"}</p>
-            <div className="relative inline-block w-55 text-white">
+            <div className="relative inline-block w-55">
                 <button
                     onClick={toggle}
                     className="flex w-full cursor-pointer items-center justify-between rounded-md px-4 py-2 text-left"

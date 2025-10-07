@@ -68,7 +68,7 @@ export default function SearchFriendsList({ onClose }: SearchFriendsListProps) {
                     onChange={handleChangeQuery}
                     value={query}
                     placeholder="Search friends"
-                    className="dark:bg-darkBgMuted bg-lightBgMuted w-full rounded-md px-2 py-1.5 shadow-md ring-0 outline-0 sm:w-96 dark:shadow-black"
+                    className="dark:bg-darkBgMuted bg-lightBgSoft w-full rounded-md px-2 py-1.5 shadow-md ring-0 outline-0 sm:w-96 dark:shadow-black"
                 />
             </div>
             <SocialCardList

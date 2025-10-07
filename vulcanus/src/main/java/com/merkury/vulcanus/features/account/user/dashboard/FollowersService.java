@@ -44,7 +44,7 @@ public class FollowersService {
         var mappedFollowers = followersPage.stream()
                 .map(follower -> {
                     var chatId = followerUsernamePrivateChatIdMap.get(follower.getUsername());
-                    return SocialMapper.userEntityToSocialDto(follower, chatId);
+                    return SocialMapper.userEntityToSocialDto(follower, chatId, false);
                 })
                 .toList();
         return new SocialPageDto(mappedFollowers, followersPage.hasNext());
@@ -71,7 +71,7 @@ public class FollowersService {
         var mappedFollowed = followedPage.stream()
                 .map(follower -> {
                     var chatId = followerUsernamePrivateChatIdMap.get(follower.getUsername());
-                    return SocialMapper.userEntityToSocialDto(follower, chatId);
+                    return SocialMapper.userEntityToSocialDto(follower, chatId, true); //It should be true here because if it found this user, it means that it is following them.
                 })
                 .toList();
         return new SocialPageDto(mappedFollowed, followedPage.hasNext());

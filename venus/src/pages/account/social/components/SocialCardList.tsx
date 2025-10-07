@@ -44,7 +44,11 @@ export default function SocialCardList({
         if (isSearchFriend) {
             message = "We can't find a user with this username.";
         }
-        return <p className="mt-10 text-center text-gray-500">{message}</p>;
+        return (
+            <p className="flex h-full items-center justify-center text-center text-lg text-gray-500">
+                {message}
+            </p>
+        );
     }
 
     return (
