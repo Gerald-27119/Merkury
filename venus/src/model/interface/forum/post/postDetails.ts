@@ -1,5 +1,4 @@
 import ForumCategoryDto from "../forumCategoryDto";
-import PostCommentDto from "../postComment/postCommentDto";
 import PostAuthorDto from "../postAuthorDto";
 import TagDto from "../../tagDto";
 
@@ -17,5 +16,5 @@ export default interface PostDetails {
     downVotes: number;
     isUpVoted: boolean;
     isDownVoted: boolean;
-    comments: PostCommentDto[];
+    commentsCount: number;
 }

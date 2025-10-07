@@ -14,7 +14,7 @@ public class PostCommentMapper {
     private PostCommentMapper() {
     }
 
-    public static PostCommentGeneralDto toDto(@NotNull PostComment postComment, UserEntity currentUser) {
+    public static PostCommentGeneralDto toDto(@NotNull PostComment postComment, UserEntity currentUser, boolean includeRepliesCount) {
         return PostCommentGeneralDto.builder()
                 .id(postComment.getId())
                 .content(postComment.getContent())
@@ -25,12 +25,13 @@ public class PostCommentMapper {
                 .isAuthor(postComment.getAuthor().equals(currentUser))
                 .isUpVoted(postComment.getUpVotedBy().contains(currentUser))
                 .isDownVoted(postComment.getDownVotedBy().contains(currentUser))
+                .repliesCount(includeRepliesCount ? postComment.getReplies().size() : null)
                 .build();
     }
 
-    public static List<PostCommentGeneralDto> toDto(List<PostComment> comments, UserEntity currentUser) {
+    public static List<PostCommentGeneralDto> toDto(List<PostComment> comments, UserEntity currentUser, boolean includeRepliesCount) {
         return comments.stream()
-                .map(comment -> toDto(comment, currentUser))
+                .map(comment -> toDto(comment, currentUser, includeRepliesCount))
                 .toList();
     }
 

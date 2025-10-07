@@ -38,14 +38,14 @@ public class PostCommentService {
         Page<PostComment> comments = postCommentRepository.findAllByPost_IdAndParentIsNull(postId, pageable);
         var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
 
-        return comments.map(comment -> PostCommentMapper.toDto(comment, user));
+        return comments.map(comment -> PostCommentMapper.toDto(comment, user, true));
     }
 
     public ForumPostCommentReplyPageDto getCommentRepliesByCommentId(HttpServletRequest request, Long parentCommentId, LocalDateTime lastDate, Long lastId, int size) throws UserNotFoundException {
         var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
 
         var replies = postCommentRepository.findRepliesRecursiveKeyset(parentCommentId, lastDate, lastId, size);
-        var dtos = PostCommentMapper.toDto(replies, user);
+        var dtos = PostCommentMapper.toDto(replies, user, false);
 
         var nextCursor = dtos.isEmpty() ? null : dtos.getLast().id();
 

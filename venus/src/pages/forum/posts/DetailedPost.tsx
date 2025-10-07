@@ -35,7 +35,7 @@ export default function DetailedPost({ post }: DetailedPostProps) {
                 isAuthor={post.isAuthor}
                 upVotes={post.upVotes}
                 downVotes={post.downVotes}
-                numberOfComments={post.comments.length}
+                numberOfComments={post.commentsCount}
                 onDelete={handleDelete}
                 onEdit={handleEdit}
                 onFollow={handleFollow}

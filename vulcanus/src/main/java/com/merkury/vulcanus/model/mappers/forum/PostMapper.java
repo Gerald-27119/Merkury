@@ -33,7 +33,7 @@ public class PostMapper {
                 .downVotes(post.getDownVotes())
                 .isUpVoted(post.getUpVotedBy().contains(currentUser))
                 .isDownVoted(post.getDownVotedBy().contains(currentUser))
-                .comments(PostCommentMapper.toDto(post.getComments(), currentUser))
+                .commentsCount(post.getComments().size())
                 .build();
     }
 
