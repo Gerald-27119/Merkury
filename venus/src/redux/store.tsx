@@ -25,7 +25,7 @@ const store = configureStore({
         photo: photoSlice.reducer,
         spotDetails: spotDetailsModalSlice.reducer,
         searchedSpotsListModal: searchedSpotListModalSlice.reducer,
-        photoGallery: expandedSpotMediaGallerySlice.reducer,
+        expandedSpotMediaGallery: expandedSpotMediaGallerySlice.reducer,
         spotFilters: spotFiltersSlice.reducer,
         chats: chatsSlice.reducer,
         map: mapSlice.reducer,
