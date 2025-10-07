@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { MediaType } from "../model/enum/mediaType";
 import { SpotExpandedGallerySortingType } from "../model/enum/spot/spotExpandedGallerySortingType";
 
@@ -17,7 +17,26 @@ const initialState: ExpandedSpotMediaGallerySliceProps = {
 export const expandedSpotMediaGallerySlice = createSlice({
     name: "expanded-spot-media-gallery",
     initialState,
-    reducers: {},
+    reducers: {
+        setExpandedGallerySorting(
+            state,
+            action: PayloadAction<{ sorting: SpotExpandedGallerySortingType }>,
+        ) {
+            state.sorting = action.payload.sorting;
+        },
+        setExpandedGalleryMediaType(
+            state,
+            action: PayloadAction<{ mediaType: MediaType }>,
+        ) {
+            state.mediaType = action.payload.mediaType;
+        },
+        setExpandedGalleryMediaId(
+            state,
+            action: PayloadAction<{ mediaId: number }>,
+        ) {
+            state.mediaId = action.payload.mediaId;
+        },
+    },
 });
 
 export const expandedSpotMediaGalleryAction =
