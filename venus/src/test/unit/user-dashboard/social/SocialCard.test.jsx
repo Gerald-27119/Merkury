@@ -64,7 +64,7 @@ describe("Friend Card component unit tests", () => {
             });
             test("Remove", () => {
                 expect(
-                    screen.getByLabelText("userRemoveFriendCardIcon"),
+                    screen.getByLabelText("removeFriendIcon"),
                 ).toBeInTheDocument();
             });
         });
