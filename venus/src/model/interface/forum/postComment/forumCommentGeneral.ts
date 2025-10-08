@@ -1,8 +1,9 @@
-export default interface PostCommentDto {
+export default interface ForumCommentGeneral {
     id: number;
-    text: string;
+    content: string;
     upVotes: number;
     downVotes: number;
+    repliesCount: number;
     publishDate: string;
     author: string;
     isAuthor: boolean;

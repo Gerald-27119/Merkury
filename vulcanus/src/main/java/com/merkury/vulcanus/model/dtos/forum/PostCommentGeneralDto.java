@@ -10,10 +10,10 @@ public record PostCommentGeneralDto(@Positive(message = "ID must be a positive n
                                     Long id,
                                     @NotBlank(message = "Content cannot be empty.")
                                     String content,
-                                    @Min(value = 0, message = "Upvotes cannot be less than 0.")
-                                    Integer upvotes,
-                                    @Min(value = 0, message = "Downvotes cannot be less than 0.")
-                                    Integer downvotes,
+                                    @Min(value = 0, message = "UpVotes cannot be less than 0.")
+                                    Integer upVotes,
+                                    @Min(value = 0, message = "DownVotes cannot be less than 0.")
+                                    Integer downVotes,
                                     @Min(value = 0, message = "Replies cannot be less than 0")
                                     Integer repliesCount,
                                     @PastOrPresent(message = "PublishDate must be in the past or present.")
