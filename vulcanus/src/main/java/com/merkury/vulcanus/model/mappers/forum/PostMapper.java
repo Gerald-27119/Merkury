@@ -54,10 +54,10 @@ public class PostMapper {
                 .build();
     }
 
-    public static Post toEntity(@NotNull PostDto postDto, @NotNull UserEntity author, @NotNull PostCategory postCategory, Set<Tag> tags) {
+    public static Post toEntity(@NotNull PostDto postDto, @NotNull String cleanContent, @NotNull UserEntity author, @NotNull PostCategory postCategory, Set<Tag> tags) {
         return Post.builder()
                 .title(postDto.title())
-                .content(postDto.content())
+                .content(cleanContent)
                 .author(author)
                 .publishDate(LocalDateTime.now())
                 .postCategory(postCategory)

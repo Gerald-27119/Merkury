@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.features.forum;
 
 import com.merkury.vulcanus.exception.exceptions.*;
-import com.merkury.vulcanus.features.account.UserDataService;
 import com.merkury.vulcanus.features.jsoup.JsoupSanitizer;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.forum.ForumPostCommentReplyPageDto;
@@ -12,12 +11,15 @@ import com.merkury.vulcanus.model.entities.forum.PostComment;
 import com.merkury.vulcanus.model.mappers.forum.PostCommentMapper;
 import com.merkury.vulcanus.model.repositories.PostCommentRepository;
 import com.merkury.vulcanus.model.repositories.PostRepository;
+import com.merkury.vulcanus.security.CustomUserDetailsService;
 import com.merkury.vulcanus.utils.ForumContentValidator;
 import com.merkury.vulcanus.utils.JsoupSanitizerConfig;
-import jakarta.servlet.http.HttpServletRequest;
+import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,21 +29,24 @@ import java.time.LocalDateTime;
 public class PostCommentService {
     private final PostCommentRepository postCommentRepository;
     private final PostRepository postRepository;
-    private final UserDataService userDataService;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final UserEntityFetcher userEntityFetcher;
     private final VoteService voteService;
     private final JsoupSanitizerConfig jsoupSafeLists;
     private final JsoupSanitizer sanitizer;
     private final ForumContentValidator forumContentValidator;
 
-    public Page<PostCommentGeneralDto> getCommentsByPostId(HttpServletRequest request, Pageable pageable, Long postId) throws UserNotFoundException {
+    public Page<PostCommentGeneralDto> getCommentsByPostId(Pageable pageable, Long postId) throws UserNotFoundByUsernameException {
         Page<PostComment> comments = postCommentRepository.findAllByPost_IdAndParentIsNull(postId, pageable);
-        var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
+        var userName = getAuthenticatedUsernameOrNull();
+        var user = userName != null ? userEntityFetcher.getByUsername(userName) : null;
 
         return comments.map(comment -> PostCommentMapper.toDto(comment, user, true));
     }
 
-    public ForumPostCommentReplyPageDto getCommentRepliesByCommentId(HttpServletRequest request, Long parentCommentId, LocalDateTime lastDate, Long lastId, int size) throws UserNotFoundException {
-        var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
+    public ForumPostCommentReplyPageDto getCommentRepliesByCommentId(Long parentCommentId, LocalDateTime lastDate, Long lastId, int size) throws UserNotFoundByUsernameException {
+        var userName = getAuthenticatedUsernameOrNull();
+        var user = userName != null ? userEntityFetcher.getByUsername(userName) : null;
 
         var replies = postCommentRepository.findRepliesRecursiveKeyset(parentCommentId, lastDate, lastId, size);
         var dtos = PostCommentMapper.toDto(replies, user, false);
@@ -51,8 +56,8 @@ public class PostCommentService {
         return new ForumPostCommentReplyPageDto(dtos, nextCursor);
     }
 
-    public void addComment(HttpServletRequest request, Long postId, PostCommentDto dto) throws UserNotFoundException, PostNotFoundException, InvalidForumContentException {
-        var user = userDataService.getUserFromRequest(request);
+    public void addComment(Long postId, PostCommentDto dto) throws PostNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
         var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
         forumContentValidator.validateContentLength(cleanContent);
@@ -63,8 +68,8 @@ public class PostCommentService {
         updateNumberOfComments(post, true);
     }
 
-    public void deleteComment(HttpServletRequest request, Long commentId) throws UserNotFoundException, CommentAccessException {
-        var user = userDataService.getUserFromRequest(request);
+    public void deleteComment(Long commentId) throws CommentAccessException, UserNotFoundByUsernameException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var comment = postCommentRepository.findByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("delete"));
         var post = comment.getPost();
 
@@ -72,8 +77,8 @@ public class PostCommentService {
         updateNumberOfComments(post, false);
     }
 
-    public void editComment(HttpServletRequest request, Long commentId, PostCommentDto dto) throws UserNotFoundException, CommentAccessException, InvalidForumContentException {
-        var user = userDataService.getUserFromRequest(request);
+    public void editComment(Long commentId, PostCommentDto dto) throws CommentAccessException, InvalidForumContentException, UserNotFoundByUsernameException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var comment = postCommentRepository.findByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("edit"));
 
         var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
@@ -83,16 +88,16 @@ public class PostCommentService {
         postCommentRepository.save(comment);
     }
 
-    public void voteComment(HttpServletRequest request, Long commentId, boolean isUpvote) throws CommentNotFoundException, UserNotFoundException {
-        var user = userDataService.getUserFromRequest(request);
+    public void voteComment(Long commentId, boolean isUpvote) throws CommentNotFoundException, UserNotFoundByUsernameException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var comment = postCommentRepository.findByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentNotFoundException(commentId));
 
         voteService.vote(comment, user, isUpvote);
         postCommentRepository.save(comment);
     }
 
-    public void addReplyToComment(HttpServletRequest request, Long parentCommentId, PostCommentDto dto) throws UserNotFoundException, CommentNotFoundException, InvalidForumContentException {
-        var user = userDataService.getUserFromRequest(request);
+    public void addReplyToComment(Long parentCommentId, PostCommentDto dto) throws CommentNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var parentComment = postCommentRepository.findById(parentCommentId).orElseThrow(() -> new CommentNotFoundException(parentCommentId));
         var post = parentComment.getPost();
 
@@ -109,6 +114,17 @@ public class PostCommentService {
         var newCommentCount = post.getCommentsCount();
         post.setCommentsCount(isPositive ? newCommentCount + 1 : newCommentCount - 1);
         postRepository.save(post);
+    }
+
+    private String getAuthenticatedUsernameOrNull() {
+        String viewerUsername = null;
+        try {
+            viewerUsername = customUserDetailsService
+                    .loadUserDetailsFromSecurityContext()
+                    .getUsername();
+        } catch (AuthenticationCredentialsNotFoundException | InsufficientAuthenticationException ignored) {
+        }
+        return viewerUsername;
     }
 
 }

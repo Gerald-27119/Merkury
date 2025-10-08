@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.features.forum;
 
 import com.merkury.vulcanus.exception.exceptions.*;
-import com.merkury.vulcanus.features.account.UserDataService;
 import com.merkury.vulcanus.features.jsoup.JsoupSanitizer;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.forum.*;
@@ -14,12 +13,15 @@ import com.merkury.vulcanus.model.mappers.forum.PostMapper;
 import com.merkury.vulcanus.model.repositories.PostCategoryRepository;
 import com.merkury.vulcanus.model.repositories.PostRepository;
 import com.merkury.vulcanus.model.repositories.TagRepository;
+import com.merkury.vulcanus.security.CustomUserDetailsService;
 import com.merkury.vulcanus.utils.ForumContentValidator;
 import com.merkury.vulcanus.utils.JsoupSanitizerConfig;
-import jakarta.servlet.http.HttpServletRequest;
+import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -33,54 +35,57 @@ public class PostService {
     private final PostRepository postRepository;
     private final PostCategoryRepository postCategoryRepository;
     private final TagRepository tagRepository;
-    private final UserDataService userDataService;
     private final VoteService voteService;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final UserEntityFetcher userEntityFetcher;
     private final JsoupSanitizerConfig jsoupSafeLists;
     private final JsoupSanitizer sanitizer;
     private final ForumContentValidator forumContentValidator;
 
-    public PostDetailsDto getDetailedPost(HttpServletRequest request, Long postId) throws PostNotFoundException, UserNotFoundException {
+
+    public PostDetailsDto getDetailedPost(Long postId) throws PostNotFoundException, UserNotFoundByUsernameException {
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
-        var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
+        var userName = getAuthenticatedUsernameOrNull();
+        var user = userName != null ? userEntityFetcher.getByUsername(userName) : null;
 
         return PostMapper.toDetailsDto(post, user);
     }
 
-    public Page<PostGeneralDto> getPostsPage(HttpServletRequest request, Pageable pageable) throws UserNotFoundException {
+    public Page<PostGeneralDto> getPostsPage(Pageable pageable) throws UserNotFoundByUsernameException {
         Page<Post> postsPage = postRepository.findAll(pageable);
-        var user = userDataService.isJwtPresent(request) ? userDataService.getUserFromRequest(request) : null;
+        var userName = getAuthenticatedUsernameOrNull();
+        var user = userName != null ? userEntityFetcher.getByUsername(userName) : null;
 
         return postsPage.map(post -> PostMapper.toGeneralDto(post, user));
     }
 
-    public void addPost(HttpServletRequest request, PostDto dto) throws CategoryNotFoundException, TagNotFoundException, UserNotFoundException, InvalidForumContentException {
-        var user = userDataService.getUserFromRequest(request);
+    public void addPost(PostDto dto) throws CategoryNotFoundException, TagNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
 
         var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
         forumContentValidator.validateContentLength(cleanContent);
 
-        var postEntity = PostMapper.toEntity(dto, user, category, tags);
-        postEntity.setContent(cleanContent);
+        var postEntity = PostMapper.toEntity(dto, cleanContent, user, category, tags);
 
         postRepository.save(postEntity);
     }
 
-    public void deletePost(HttpServletRequest request, Long postId) throws UnauthorizedPostAccessException, UserNotFoundException {
-        var user = userDataService.getUserFromRequest(request);
+    public void deletePost(Long postId) throws UnauthorizedPostAccessException, UserNotFoundByUsernameException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("delete"));
 
         postRepository.delete(post);
     }
 
-    public void editPost(HttpServletRequest request, Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, UserNotFoundException, InvalidForumContentException {
-        var user = userDataService.getUserFromRequest(request);
+    public void editPost(Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("edit"));
         var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
-        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
 
+        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
         forumContentValidator.validateContentLength(cleanContent);
 
         post.setTitle(dto.title());
@@ -91,8 +96,8 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public void votePost(HttpServletRequest request, Long postId, boolean isUpvote) throws PostNotFoundException, UserNotFoundException {
-        var user = userDataService.getUserFromRequest(request);
+    public void votePost(Long postId, boolean isUpvote) throws PostNotFoundException, UserNotFoundByUsernameException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
 
         voteService.vote(post, user, isUpvote);
@@ -119,5 +124,16 @@ public class PostService {
             tags.add(tag);
         }
         return tags;
+    }
+
+    private String getAuthenticatedUsernameOrNull() {
+        String viewerUsername = null;
+        try {
+            viewerUsername = customUserDetailsService
+                    .loadUserDetailsFromSecurityContext()
+                    .getUsername();
+        } catch (AuthenticationCredentialsNotFoundException | InsufficientAuthenticationException ignored) {
+        }
+        return viewerUsername;
     }
 }
