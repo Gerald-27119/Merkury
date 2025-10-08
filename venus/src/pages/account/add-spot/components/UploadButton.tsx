@@ -1,5 +1,13 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
+import { FaTrash } from "react-icons/fa";
+import { v4 as uuid } from "uuid";
+
+interface PreviewItem {
+    id: string;
+    file: File;
+    url: string;
+}
 
 interface UploadButtonProps {
     onFileSelect: (files: File[]) => void;
@@ -7,14 +15,13 @@ interface UploadButtonProps {
 
 export default function UploadButton({ onFileSelect }: UploadButtonProps) {
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [files, setFiles] = useState<File[]>([]);
-    const [previews, setPreviews] = useState<string[]>([]);
+    const [items, setItems] = useState<PreviewItem[]>([]);
 
     const handleButtonClick = () => {
         fileInputRef.current?.click();
     };
 
-    const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files) return;
 
         const allowed = ["image/jpeg", "image/png", "image/gif", "video/mp4"];
@@ -22,18 +29,38 @@ export default function UploadButton({ onFileSelect }: UploadButtonProps) {
             allowed.includes(f.type),
         );
 
-        setFiles(valid);
-        const newPreviews = valid.map((file) => URL.createObjectURL(file));
-        setPreviews(newPreviews);
+        if (valid.length === 0) {
+            event.target.value = "";
+            return;
+        }
 
-        onFileSelect(valid);
+        const newItems = valid.map((file) => ({
+            id: uuid().toString(),
+            file,
+            url: URL.createObjectURL(file),
+        }));
+
+        const updatedItems = [...items, ...newItems];
+        setItems(updatedItems);
+
+        onFileSelect(updatedItems.map((i) => i.file));
+        event.target.value = "";
+    };
+
+    const handleRemoveAt = (id: string) => {
+        const itemToRemove = items.find((i) => i.id === id);
+        if (itemToRemove) URL.revokeObjectURL(itemToRemove.url);
+
+        const updatedItems = items.filter((i) => i.id !== id);
+        setItems(updatedItems);
+        onFileSelect(updatedItems.map((i) => i.file));
     };
 
     useEffect(() => {
         return () => {
-            previews.forEach((url) => URL.revokeObjectURL(url));
+            items.forEach((i) => URL.revokeObjectURL(i.url));
         };
-    }, [previews]);
+    }, [items]);
 
     return (
         <div className="w-full">
@@ -53,28 +80,35 @@ export default function UploadButton({ onFileSelect }: UploadButtonProps) {
                 accept="image/*, video/mp4"
             />
             <div className="mt-2 flex flex-wrap gap-2">
-                {files.map((file, index) => {
-                    const previewUrl = previews[index];
-
-                    if (file.type.startsWith("image/")) {
-                        return (
+                {items.map(({ id, file, url }) => (
+                    <div
+                        key={id}
+                        className="group relative h-12 w-12 overflow-hidden rounded-md"
+                    >
+                        {file.type.startsWith("image/") ? (
                             <img
-                                key={index}
-                                src={previewUrl}
+                                src={url}
                                 alt={file.name}
-                                className="h-12 w-12 rounded-md object-cover"
+                                className="h-full w-full object-cover"
                             />
-                        );
-                    }
+                        ) : (
+                            <video
+                                src={url}
+                                className="h-full w-full bg-gray-200 object-cover"
+                                muted
+                                playsInline
+                            />
+                        )}
 
-                    return (
-                        <video
-                            key={index}
-                            src={previewUrl}
-                            className="h-12 w-12 rounded-md bg-gray-200 object-cover"
-                        />
-                    );
-                })}
+                        <button
+                            type="button"
+                            onClick={() => handleRemoveAt(id)}
+                            className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/60 opacity-0 transition-opacity group-hover:opacity-100"
+                        >
+                            <FaTrash className="text-xl" />
+                        </button>
+                    </div>
+                ))}
             </div>
         </div>
     );

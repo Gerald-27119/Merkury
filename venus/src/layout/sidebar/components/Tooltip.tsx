@@ -18,7 +18,7 @@ export default function Tooltip({ links, name }: TooltipProps) {
                 <NavLink
                     key={link.name}
                     to={link.to}
-                    className="hover:bg-violetDark block px-3 pb-1 font-normal text-gray-300 last:rounded-br-md"
+                    className="hover:bg-violetDark block px-3 py-0.5 font-normal text-gray-300 last:rounded-br-md"
                 >
                     {link.name}
                 </NavLink>

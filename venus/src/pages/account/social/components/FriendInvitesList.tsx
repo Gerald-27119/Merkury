@@ -77,7 +77,9 @@ export default function FriendInvitesList({ onClose }: FriendInvitesListProps) {
             {isLoading && <LoadingSpinner />}
             <ul className="flex w-full flex-col gap-y-4">
                 {allItems?.length === 0 && (
-                    <p>You don't have nay invites yet</p>
+                    <p className="text-center">
+                        You don't have any invites yet
+                    </p>
                 )}
                 {allItems?.map((invite) => (
                     <li
