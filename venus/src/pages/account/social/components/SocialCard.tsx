@@ -1,6 +1,12 @@
 import { SocialDto } from "../../../../model/interface/account/social/socialDto";
 import { BiMessageRounded } from "react-icons/bi";
-import { FaUser, FaUserMinus, FaUserPlus } from "react-icons/fa";
+import {
+    FaUser,
+    FaUserClock,
+    FaUserMinus,
+    FaUserPlus,
+    FaUserTimes,
+} from "react-icons/fa";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
     editUserFollowed,
@@ -16,17 +22,32 @@ import { chatActions } from "../../../../redux/chats";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { getOrCreatePrivateChat } from "../../../../http/chats";
+import { UserFriendStatus } from "../../../../model/enum/account/social/userFriendStatus";
+
+export const friendStatusIconMap = {
+    [UserFriendStatus.ACCEPTED]: <FaUserMinus aria-label="removeFriendIcon" />,
+    [UserFriendStatus.PENDING_SENT]: (
+        <FaUserClock aria-label="pendingSentIcon" />
+    ),
+    [UserFriendStatus.PENDING_RECEIVED]: (
+        <FaUserClock aria-label="pendingReceivedIcon" />
+    ),
+    [UserFriendStatus.REJECTED]: <FaUserTimes aria-label="rejectedIcon" />,
+    [UserFriendStatus.NONE]: <FaUserPlus aria-label="addFriendIcon" />,
+};
 
 interface SocialCardProps {
     friend: SocialDto;
     type: SocialListType;
     isSocialForViewer: boolean;
+    isSearchFriend?: boolean;
 }
 
 export default function SocialCard({
     friend,
     type,
     isSocialForViewer,
+    isSearchFriend,
 }: SocialCardProps) {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -114,6 +135,16 @@ export default function SocialCard({
         await mutateAsyncGetOrCreatePrivateChat();
     }
 
+    let icon;
+
+    if (isSearchFriend) {
+        icon = friendStatusIconMap[friend.status as UserFriendStatus];
+    } else if (friend.isUserFriend) {
+        icon = friendStatusIconMap[UserFriendStatus.ACCEPTED];
+    } else {
+        icon = friendStatusIconMap[UserFriendStatus.NONE];
+    }
+
     return (
         <li className="dark:bg-darkBgSoft bg-lightBgSoft space-y-2 rounded-md px-3 pt-3 pb-4">
             <img
@@ -137,11 +168,7 @@ export default function SocialCard({
                             friend.isUserFriend ? openModal : addUserFriend
                         }
                     >
-                        {friend.isUserFriend ? (
-                            <FaUserMinus aria-label="userRemoveFriendCardIcon" />
-                        ) : (
-                            <FaUserPlus aria-label="userAddFriendCardIcon" />
-                        )}
+                        {icon}
                     </SocialButton>
                 )}
             </div>

@@ -56,7 +56,7 @@ export default function SearchFriendsList({ onClose }: SearchFriendsListProps) {
         <div className="relative flex flex-col items-center gap-y-6">
             <button
                 onClick={onClose}
-                className="absolute top-3 right-3 cursor-pointer"
+                className="fixed top-10 right-10 cursor-pointer"
             >
                 <FaX className="transform text-2xl duration-300 hover:text-red-600" />
             </button>

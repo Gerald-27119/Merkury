@@ -59,6 +59,7 @@ export default function SocialCardList({
                     key={f.username}
                     type={type}
                     isSocialForViewer={isSocialForViewer}
+                    isSearchFriend={isSearchFriend}
                 />
             ))}
         </ul>
