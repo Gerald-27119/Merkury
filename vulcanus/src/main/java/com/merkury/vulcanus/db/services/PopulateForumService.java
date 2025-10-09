@@ -33,6 +33,7 @@ public class PopulateForumService {
     public void initForumData() {
 
         var postList = new ArrayList<Post>();
+        var forumUsers = userRepository.findAll().subList(1, 102);
 
         UserEntity forumUser = UserEntity.builder()
                 .email("forumUser@gmail.com")
@@ -127,8 +128,6 @@ public class PopulateForumService {
                 .postCategory(postCategory1)
                 .tags(Set.of(tag1, tag2))
                 .views(254)
-                .upVotes(37)
-                .downVotes(3)
                 .author(forumUser)
                 .publishDate(LocalDateTime.of(2024, 7, 3, 12, 15))
                 .comments(new ArrayList<>())
@@ -143,8 +142,6 @@ public class PopulateForumService {
                 .postCategory(postCategory1)
                 .tags(Set.of(tag1))
                 .views(403)
-                .upVotes(61)
-                .downVotes(7)
                 .author(forumUser)
                 .publishDate(LocalDateTime.of(2024, 8, 22, 10, 20))
                 .comments(new ArrayList<>())
@@ -159,8 +156,6 @@ public class PopulateForumService {
                 .postCategory(postCategory6)
                 .tags(Set.of(tag3))
                 .views(189)
-                .upVotes(24)
-                .downVotes(1)
                 .author(forumUser)
                 .publishDate(LocalDateTime.of(2024, 6, 5, 9, 10))
                 .comments(new ArrayList<>())
@@ -176,8 +171,6 @@ public class PopulateForumService {
                 .postCategory(postCategory6)
                 .tags(new HashSet<>())
                 .views(327)
-                .upVotes(41)
-                .downVotes(6)
                 .author(forumUser)
                 .publishDate(LocalDateTime.of(2024, 9, 19, 14, 35))
                 .comments(new ArrayList<>())
@@ -194,8 +187,6 @@ public class PopulateForumService {
                 .postCategory(postCategory4)
                 .tags(Set.of(tag4))
                 .views(518)
-                .upVotes(73)
-                .downVotes(2)
                 .author(forumUser)
                 .publishDate(LocalDateTime.of(2024, 10, 30, 17, 5))
                 .comments(new ArrayList<>())
@@ -206,10 +197,14 @@ public class PopulateForumService {
                 postCategory4, postCategory5, postCategory6
         );
         List<Tag> allTags = List.of(tag1, tag2, tag3, tag4, tag5);
+        postList.addAll(List.of(post1, post2, post3, post4, post5));
 
+        for (Post post : postList) {
+            assignRandomVotes(post, forumUsers);
+        }
 
         for (int i = 6; i <= 100; i++) {
-            var publishDate = LocalDateTime.now().minusDays(2000 - i);
+            var publishDate = LocalDateTime.now().minusDays(2000 + i);
 
             Set<Tag> randomTags = new HashSet<>();
             int numberOfTags = random.nextInt(4);
@@ -227,33 +222,30 @@ public class PopulateForumService {
                     .postCategory(allCategories.get(random.nextInt(allCategories.size())))
                     .tags(randomTags)
                     .views(random.nextInt(1000 - 100 + 1) + 100)
-                    .upVotes(random.nextInt(100))
-                    .downVotes(random.nextInt(100))
-                    .author(forumUser)
+                    .author(forumUsers.get(random.nextInt(forumUsers.size())))
                     .publishDate(publishDate)
                     .comments(new ArrayList<>())
                     .build();
 
+            assignRandomVotes(postX, forumUsers);
             postList.add(postX);
         }
 
-
-        List<Post> firstFivePosts = List.of(post1, post2, post3, post4, post5);
         List<PostComment> allComments = new ArrayList<>();
-        for (Post post : firstFivePosts) {
+        for (Post post : postList) {
             List<PostComment> comments = new ArrayList<>();
 
             for (int i = 1; i <= 10; i++) {
                 PostComment comment = PostComment.builder()
                         .content("<p>Comment</p>")
-                        .author(i % 2 == 0 ? forumUserFriend : forumUser)
+                        .author(forumUsers.get(random.nextInt(forumUsers.size())))
                         .post(post)
                         .publishDate(post.getPublishDate().plusDays(i))
                         .upVotes(random.nextInt(50))
                         .downVotes(random.nextInt(5))
                         .build();
 
-                generateReplies(comment, post, forumUser, forumUserFriend, random, 1, 3);
+                generateReplies(comment, post, forumUsers, 1, 3);
                 comments.add(comment);
             }
             post.getComments().addAll(comments);
@@ -270,7 +262,6 @@ public class PopulateForumService {
         userRepository.saveAll(List.of(forumUser, forumUserFriend));
         postCategoryRepository.saveAll(List.of(postCategory1, postCategory2, postCategory3, postCategory4, postCategory5, postCategory6));
         tagRepository.saveAll(List.of(tag1, tag2, tag3, tag4, tag5));
-        postList.addAll(List.of(post1, post2, post3, post4, post5));
         postRepository.saveAll(postList);
         commentRepository.saveAll(allComments);
     }
@@ -278,19 +269,23 @@ public class PopulateForumService {
     private void generateReplies(
             PostComment parent,
             Post post,
-            UserEntity forumUser,
-            UserEntity forumUserFriend,
-            Random random,
+            List<UserEntity> users,
             int depth,
             int maxDepth
     ) {
         if (depth >= maxDepth) return;
 
         int repliesCount = random.nextInt(3);
-        for (int j = 1; j <= repliesCount; j++) {
+        for (int j = 0; j < repliesCount; j++) {
+
+            UserEntity replyAuthor;
+            do {
+                replyAuthor = users.get(random.nextInt(users.size()));
+            } while (replyAuthor.equals(parent.getAuthor()));
+
             PostComment reply = PostComment.builder()
                     .content("<p>Reply to comment</p>")
-                    .author(j % 2 == 0 ? forumUser : forumUserFriend)
+                    .author(replyAuthor)
                     .post(post)
                     .parent(parent)
                     .publishDate(parent.getPublishDate().plusHours(j + depth))
@@ -299,10 +294,10 @@ public class PopulateForumService {
                     .build();
 
             parent.getReplies().add(reply);
-
-            generateReplies(reply, post, forumUser, forumUserFriend, random, depth + 1, maxDepth);
+            generateReplies(reply, post, users, depth + 1, maxDepth);
         }
     }
+
 
     private int countAllCommentsWithReplies(List<PostComment> comments) {
         int count = 0;
@@ -313,6 +308,20 @@ public class PopulateForumService {
             }
         }
         return count;
+    }
+
+    private void assignRandomVotes(Post post, List<UserEntity> users) {
+        Collections.shuffle(users);
+        int totalVotes = random.nextInt(users.size());
+        int upVoteCount = random.nextInt(totalVotes + 1);
+
+        Set<UserEntity> upVoters = new HashSet<>(users.subList(0, upVoteCount));
+        Set<UserEntity> downVoters = new HashSet<>(users.subList(upVoteCount, totalVotes));
+
+        post.setUpVotedBy(upVoters);
+        post.setDownVotedBy(downVoters);
+        post.setUpVotes(upVoters.size());
+        post.setDownVotes(downVoters.size());
     }
 
 
