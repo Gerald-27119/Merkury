@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.features.forum;
 
 import com.merkury.vulcanus.exception.exceptions.*;
-import com.merkury.vulcanus.features.jsoup.JsoupSanitizer;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.forum.ForumPostCommentReplyPageDto;
 import com.merkury.vulcanus.model.dtos.forum.PostCommentDto;
@@ -13,7 +12,6 @@ import com.merkury.vulcanus.model.repositories.PostCommentRepository;
 import com.merkury.vulcanus.model.repositories.PostRepository;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import com.merkury.vulcanus.utils.ForumContentValidator;
-import com.merkury.vulcanus.utils.JsoupSanitizerConfig;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,8 +30,6 @@ public class PostCommentService {
     private final CustomUserDetailsService customUserDetailsService;
     private final UserEntityFetcher userEntityFetcher;
     private final VoteService voteService;
-    private final JsoupSanitizerConfig jsoupSafeLists;
-    private final JsoupSanitizer sanitizer;
     private final ForumContentValidator forumContentValidator;
 
     public Page<PostCommentGeneralDto> getCommentsByPostId(Pageable pageable, Long postId) throws UserNotFoundByUsernameException {
@@ -59,9 +55,8 @@ public class PostCommentService {
     public void addComment(Long postId, PostCommentDto dto) throws PostNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
-        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
-        forumContentValidator.validateContentLength(cleanContent);
 
+        var cleanContent = forumContentValidator.sanitizeAndValidateContent(dto.content());
         var commentEntity = PostCommentMapper.toEntity(cleanContent, post, user);
 
         postCommentRepository.save(commentEntity);
@@ -81,8 +76,7 @@ public class PostCommentService {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var comment = postCommentRepository.findByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("edit"));
 
-        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
-        forumContentValidator.validateContentLength(cleanContent);
+        var cleanContent = forumContentValidator.sanitizeAndValidateContent(dto.content());
         comment.setContent(cleanContent);
 
         postCommentRepository.save(comment);
@@ -99,10 +93,14 @@ public class PostCommentService {
     public void addReplyToComment(Long parentCommentId, PostCommentDto dto) throws CommentNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var parentComment = postCommentRepository.findById(parentCommentId).orElseThrow(() -> new CommentNotFoundException(parentCommentId));
+
+//        if (parentComment.getAuthor().equals(user)) {
+//
+//        }
+
         var post = parentComment.getPost();
 
-        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
-        forumContentValidator.validateContentLength(cleanContent);
+        var cleanContent = forumContentValidator.sanitizeAndValidateContent(dto.content());
         var commentEntity = PostCommentMapper.toEntity(cleanContent, parentComment, user);
 
         parentComment.getReplies().add(commentEntity);
@@ -110,9 +108,9 @@ public class PostCommentService {
         updateNumberOfComments(post, true);
     }
 
-    private void updateNumberOfComments(Post post, boolean isPositive) {
+    private void updateNumberOfComments(Post post, boolean isAdding) {
         var newCommentCount = post.getCommentsCount();
-        post.setCommentsCount(isPositive ? newCommentCount + 1 : newCommentCount - 1);
+        post.setCommentsCount(isAdding ? newCommentCount + 1 : newCommentCount - 1);
         postRepository.save(post);
     }
 

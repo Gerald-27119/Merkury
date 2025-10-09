@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.features.forum;
 
 import com.merkury.vulcanus.exception.exceptions.*;
-import com.merkury.vulcanus.features.jsoup.JsoupSanitizer;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.forum.*;
 import com.merkury.vulcanus.model.entities.forum.PostCategory;
@@ -15,7 +14,6 @@ import com.merkury.vulcanus.model.repositories.PostRepository;
 import com.merkury.vulcanus.model.repositories.TagRepository;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import com.merkury.vulcanus.utils.ForumContentValidator;
-import com.merkury.vulcanus.utils.JsoupSanitizerConfig;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,8 +36,6 @@ public class PostService {
     private final VoteService voteService;
     private final CustomUserDetailsService customUserDetailsService;
     private final UserEntityFetcher userEntityFetcher;
-    private final JsoupSanitizerConfig jsoupSafeLists;
-    private final JsoupSanitizer sanitizer;
     private final ForumContentValidator forumContentValidator;
 
 
@@ -64,9 +60,7 @@ public class PostService {
         var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
 
-        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
-        forumContentValidator.validateContentLength(cleanContent);
-
+        var cleanContent = forumContentValidator.sanitizeAndValidateContent(dto.content());
         var postEntity = PostMapper.toEntity(dto, cleanContent, user, category, tags);
 
         postRepository.save(postEntity);
@@ -85,8 +79,7 @@ public class PostService {
         var category = getCategoryByName(dto.category());
         var tags = getTagsByNames(dto.tags());
 
-        var cleanContent = sanitizer.clean(dto.content(), jsoupSafeLists.forumSafeList());
-        forumContentValidator.validateContentLength(cleanContent);
+        var cleanContent = forumContentValidator.sanitizeAndValidateContent(dto.content());
 
         post.setTitle(dto.title());
         post.setContent(cleanContent);
