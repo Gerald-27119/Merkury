@@ -6,12 +6,14 @@ type ExpandedSpotMediaGallerySliceProps = {
     mediaId: number;
     mediaType: MediaType;
     sorting: SpotExpandedGallerySortingType;
+    mediaPagePosition: number;
 };
 
 const initialState: ExpandedSpotMediaGallerySliceProps = {
     mediaId: 0,
     mediaType: MediaType.PHOTO,
     sorting: SpotExpandedGallerySortingType.NEWEST,
+    mediaPagePosition: 0,
 };
 
 export const expandedSpotMediaGallerySlice = createSlice({
@@ -35,6 +37,12 @@ export const expandedSpotMediaGallerySlice = createSlice({
             action: PayloadAction<{ mediaId: number }>,
         ) {
             state.mediaId = action.payload.mediaId;
+        },
+        setExpandedGalleryMediaPagePosition(
+            state,
+            action: PayloadAction<{ mediaPagePosition: number }>,
+        ) {
+            state.mediaPagePosition = action.payload.mediaPagePosition;
         },
     },
 });

@@ -1,6 +1,16 @@
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner.jsx";
-import { HTMLAttributes, useState } from "react";
+import { HTMLAttributes, useEffect, useState } from "react";
 import SpotMediaDto from "../../../../model/interface/spot/spotMediaDto";
+import { useMutation } from "@tanstack/react-query";
+import { getExpandedSpotMediaGalleryPagePosition } from "../../../../http/spots-data";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
+import { MediaType } from "../../../../model/enum/mediaType";
+import { SpotExpandedGallerySortingType } from "../../../../model/enum/spot/spotExpandedGallerySortingType";
+import {
+    expandedSpotMediaGalleryAction,
+    expandedSpotMediaGallerySlice,
+} from "../../../../redux/expanded-spot-media-gallery";
 
 type PhotoProps = {
     photo: SpotMediaDto;
@@ -13,6 +23,50 @@ export default function Photo({ photo, ...props }: PhotoProps) {
         setIsLoading(false);
     };
 
+    const dispatch = useDispatchTyped();
+
+    const { spotId } = useSelectorTyped((state) => state.spotDetails);
+    const { sorting } = useSelectorTyped(
+        (state) => state.expandedSpotMediaGallery,
+    );
+
+    const { mutateAsync, data } = useMutation({
+        mutationFn: ({
+            spotId,
+            mediaType,
+            sorting,
+        }: {
+            spotId: number;
+            mediaType: MediaType;
+            sorting: SpotExpandedGallerySortingType;
+        }) =>
+            getExpandedSpotMediaGalleryPagePosition(spotId, mediaType, sorting),
+    });
+
+    const handleClickPhoto = async () => {
+        await mutateAsync({
+            spotId: spotId!,
+            mediaType: MediaType.PHOTO,
+            sorting,
+        });
+    };
+
+    useEffect(() => {
+        if (data) {
+            dispatch(
+                expandedSpotMediaGalleryAction.setExpandedGalleryMediaId({
+                    mediaId: photo.id,
+                }),
+            );
+            dispatch(
+                expandedSpotMediaGalleryAction.setExpandedGalleryMediaPagePosition(
+                    { mediaPagePosition: data.mediaPagePosition },
+                ),
+            );
+            //     TODO: open modal
+        }
+    }, [data, photo]);
+
     return (
         <div className="h-fit">
             {isLoading && <LoadingSpinner />}
@@ -23,6 +77,7 @@ export default function Photo({ photo, ...props }: PhotoProps) {
                     alt={photo.title}
                     onLoad={handleImageLoad}
                     className="3xl:h-68 h-40 xl:h-60"
+                    onClick={handleClickPhoto}
                 />
             ) : (
                 <p>No photo to display</p>

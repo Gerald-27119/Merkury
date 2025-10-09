@@ -4,6 +4,7 @@ import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryDto;
+import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryPagePosition;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.entities.spot.SpotTag;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
@@ -210,9 +211,10 @@ public class SpotService {
         return new HomePageSpotPageDto(spotDtos, spotPages.hasNext());
     }
 
-    public Long getSpotGalleryMediaPosition(Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, Pageable pageable) {
+    public SpotMediaGalleryPagePosition getSpotGalleryMediaPosition(Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, Pageable pageable) {
         var sortedPageable = configurePageableSorting(pageable, sorting);
-        return spotMediaRepository.countBefore(mediaId, spotId, mediaType);
+        var mediaPagePosition = spotMediaRepository.countBefore(mediaId, spotId, mediaType).intValue();
+        return SpotMediaGalleryPagePosition.builder().mediaPagePosition(mediaPagePosition).build();
     }
 
     public Page<SpotMediaGalleryDto> getSpotGalleryPage(Long spotId, GenericMediaType mediaType, String sorting, Pageable pageable) {
