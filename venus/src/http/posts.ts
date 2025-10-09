@@ -50,7 +50,13 @@ export async function deletePost(postId: number): Promise<void> {
     });
 }
 
-export async function votePost(postId: number, isUpvote: boolean) {
+export async function votePost({
+    postId,
+    isUpvote,
+}: {
+    postId: number;
+    isUpvote: boolean;
+}) {
     return await axios.patch(`${BASE_URL}/post/${postId}/vote`, null, {
         params: { isUpvote },
         withCredentials: true,
