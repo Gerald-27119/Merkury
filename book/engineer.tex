@@ -1,10 +1,14 @@
 \documentclass{sprz}
 
+\usepackage[hidelinks]{hyperref}
 \usepackage{glossaries}
+\usepackage[polish]{babel}
 
+
+\makeglossaries
 \addbibresource{bibliography.bib}
 
-\input{slownik-pojec}
+\input{glossary}
 
 \studfield{Informatyka}
 \studtype{Stacjonarne}
@@ -76,7 +80,7 @@
 
     % Słownik pojęć i skrótów
     \printglossary[type=\acronymtype]
-    \printglossary
+    \printglossary[title={Słownik pojęć i skrótów},toctitle={Słownik pojęć i skrótów}]
 
     \input{chapters/problem-description}
     \input{chapters/project-context}
