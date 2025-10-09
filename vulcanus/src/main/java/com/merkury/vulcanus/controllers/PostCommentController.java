@@ -6,6 +6,7 @@ import com.merkury.vulcanus.model.dtos.forum.ForumPostCommentReplyPageDto;
 import com.merkury.vulcanus.model.dtos.forum.PostCommentDto;
 import com.merkury.vulcanus.model.dtos.forum.PostCommentGeneralDto;
 import com.merkury.vulcanus.model.enums.forum.ForumPostCommentSortField;
+import com.merkury.vulcanus.model.enums.forum.SortDirection;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -28,8 +29,8 @@ public class PostCommentController {
                                                                            @RequestParam(defaultValue = "0") int page,
                                                                            @RequestParam(defaultValue = "10") int size,
                                                                            @RequestParam(defaultValue = "PUBLISH_DATE") ForumPostCommentSortField sortBy,
-                                                                           @RequestParam(defaultValue = "DESC") String sortDirection) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(postCommentService.getCommentsByPostId(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortBy.getField())), postId));
+                                                                           @RequestParam(defaultValue = "DESC") SortDirection sortDirection) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(postCommentService.getCommentsByPostId(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())), postId));
     }
 
     @GetMapping("/public/comments/{commentId}/replies")
@@ -67,7 +68,7 @@ public class PostCommentController {
     }
 
     @PostMapping("/comments/{commentId}/replies")
-    public ResponseEntity<Void> addReplyPostComment(@PathVariable Long commentId, @Valid @RequestBody PostCommentDto dto) throws CommentNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
+    public ResponseEntity<Void> addReplyPostComment(@PathVariable Long commentId, @Valid @RequestBody PostCommentDto dto) throws CommentNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException, InvalidCommentOperationException {
         postCommentService.addReplyToComment(commentId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
