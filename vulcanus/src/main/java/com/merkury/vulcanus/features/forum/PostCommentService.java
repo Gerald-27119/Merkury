@@ -90,13 +90,13 @@ public class PostCommentService {
         postCommentRepository.save(comment);
     }
 
-    public void addReplyToComment(Long parentCommentId, PostCommentDto dto) throws CommentNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
+    public void addReplyToComment(Long parentCommentId, PostCommentDto dto) throws CommentNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException, InvalidCommentOperationException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var parentComment = postCommentRepository.findById(parentCommentId).orElseThrow(() -> new CommentNotFoundException(parentCommentId));
 
-//        if (parentComment.getAuthor().equals(user)) {
-//
-//        }
+        if (parentComment.getAuthor().equals(user)) {
+            throw new InvalidCommentOperationException();
+        }
 
         var post = parentComment.getPost();
 
