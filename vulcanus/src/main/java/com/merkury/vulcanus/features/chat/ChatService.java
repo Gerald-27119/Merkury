@@ -1,22 +1,29 @@
 package com.merkury.vulcanus.features.chat;
 
+import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.ChatAlreadyExistsException;
+import com.merkury.vulcanus.exception.exceptions.ChatNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UsernameNotFoundException;
+import com.merkury.vulcanus.features.azure.AzureBlobService;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
+import com.merkury.vulcanus.model.entities.chat.ChatMessageAttachedFile;
+import com.merkury.vulcanus.model.enums.AzureBlobFileValidatorType;
 import com.merkury.vulcanus.model.enums.chat.ChatType;
 import com.merkury.vulcanus.model.mappers.chat.ChatMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
-import com.merkury.vulcanus.security.services.ChatSecurityService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -25,9 +32,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +53,9 @@ public class ChatService {
     private final ChatMessageRepository chatMessageRepository;
     private final UserEntityRepository userEntityRepository;
     private final CustomUserDetailsService customUserDetailsService;
-    private final ChatSecurityService chatSecurityService;
+    private final AzureBlobService azureBlobService;
+    private final ChatStompCommunicationService chatStompCommunicationService;
+
 
     /**
      * Retrieves a <strong>PAGINATED</strong> list of recent chats with messages for a specific user.
@@ -121,7 +134,7 @@ public class ChatService {
     }
 
     @Transactional
-    public ChatDto getOrCreatePrivateChat(@Nullable Long chatId, String receiverUsername) throws UserNotFoundException{
+    public ChatDto getOrCreatePrivateChat(@Nullable Long chatId, String receiverUsername) throws UserNotFoundException {
         Optional<Chat> optionalChat = Optional.ofNullable(chatId).flatMap(chatRepository::findById);
 
         if (optionalChat.isPresent()) {
@@ -139,7 +152,7 @@ public class ChatService {
 
     private ChatDto getChat(Chat chat) throws UserNotFoundException {
         var currentUser = userEntityRepository.findByUsername(customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername())
-                .orElseThrow(()-> new UserNotFoundException("Current user not found in db"))
+                .orElseThrow(() -> new UserNotFoundException("Current user not found in db"))
                 .getId();
         var last20Messages = chatMessageRepository
                 .findTop20ByChatIdOrderBySentAtDesc(chat.getId());
@@ -199,4 +212,48 @@ public class ChatService {
         return chatIdsByUser;
     }
 
+    private Map<MultipartFile, String> sendFiles(@NotNull List<MultipartFile> mediaFiles) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException {
+        var mediaBlobUrlMap = new HashMap<MultipartFile, String>();
+
+        for (MultipartFile file : mediaFiles) {
+            String blobUrl = azureBlobService.upload("chat-message-files", file, AzureBlobFileValidatorType.CHAT);
+            mediaBlobUrlMap.put(file, blobUrl);
+        }
+
+        return mediaBlobUrlMap;
+    }
+
+    public void organizeFilesSend(@NotNull List<MultipartFile> mediaFiles, Long chatId) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException, ChatNotFoundException, UsernameNotFoundException {
+        Map<MultipartFile, String> mediaBlobUrlMap = this.sendFiles(mediaFiles);
+
+        var chat = chatRepository.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
+        var senderUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        var sender = userEntityRepository.findByUsername(senderUsername).orElseThrow(() -> new UsernameNotFoundException(senderUsername));
+
+        var chatMessage = ChatMessage.builder()
+                .chat(chat)
+                .sender(sender)
+                .chatMessageAttachedFiles(new ArrayList<>())
+                .build();
+
+        List<ChatMessageAttachedFile> chatMessageAttachedFiles = mediaBlobUrlMap.entrySet().stream().map(entry -> {
+            MultipartFile file = entry.getKey();
+            String blobUrl = entry.getValue();
+
+            return ChatMessageAttachedFile.builder()
+                    .fileType(file.getContentType())
+                    .sizeInBytes(file.getSize())
+                    .name(file.getOriginalFilename())
+                    .url(blobUrl)
+                    .chatMessage(chatMessage)
+                    .build();
+        }).toList();
+
+        chatMessage.getChatMessageAttachedFiles().addAll(chatMessageAttachedFiles);
+        var chatMessageFromDb = chatMessageRepository.save(chatMessage);
+
+        var chatMessageDtoToBroadCast = ChatMapper.toChatMessageDto(chatMessageFromDb);
+        chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(chatMessageDtoToBroadCast);
+//        chatStompCommunicationService.broadcastACKVersionToSender(); TODO:fix
+    }
 }

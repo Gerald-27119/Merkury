@@ -6,9 +6,15 @@ interface ModalProps {
     onClose: () => void;
     children: ReactNode;
     isOpen: boolean;
+    className?: string;
 }
 
-export default function EmptyModal({ onClose, children, isOpen }: ModalProps) {
+export default function EmptyModal({
+    onClose,
+    children,
+    isOpen,
+    className,
+}: ModalProps) {
     const modalRoot = document.getElementById("modal");
     if (!modalRoot) {
         return null;
@@ -26,7 +32,7 @@ export default function EmptyModal({ onClose, children, isOpen }: ModalProps) {
                         exit={{ opacity: 0 }}
                     />
                     <motion.div
-                        className="dark:bg-darkBgSoft dark:text-darkText bg-lightBgSoft text-lightText fixed top-1/2 left-1/2 z-61 h-4/5 w-4/5 -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-3xl shadow-lg"
+                        className={`dark:bg-darkBg dark:text-darkText bg-lightBgMuted text-lightText fixed top-1/2 left-1/2 z-61 -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-3xl shadow-lg ${className}`}
                         onClick={(e) => e.stopPropagation()}
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}

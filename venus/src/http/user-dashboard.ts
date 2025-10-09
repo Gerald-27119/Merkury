@@ -13,6 +13,7 @@ import { SocialPageDto } from "../model/interface/account/social/socialPageDto";
 import { AddSpotPageDto } from "../model/interface/account/add-spot/addSpotPageDto";
 import { SpotToAddDto } from "../model/interface/account/add-spot/spotToAddDto";
 import SpotCoordinatesDto from "../model/interface/spot/coordinates/spotCoordinatesDto";
+import { UserFriendStatus } from "../model/enum/account/social/userFriendStatus";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -209,6 +210,43 @@ export async function searchUsersByUsername(
                 size,
             },
         })
+    ).data;
+}
+
+export async function getAllFriendInvites(
+    page: number,
+    size: number,
+): Promise<SocialPageDto> {
+    return (
+        await axios.get(`${BASE_URL}/user-dashboard/friends/invites`, {
+            withCredentials: true,
+            params: {
+                page,
+                size,
+            },
+        })
+    ).data;
+}
+
+export async function changeUserFriendsStatus({
+    friendUsername,
+    status,
+}: {
+    friendUsername: string;
+    status: UserFriendStatus;
+}): Promise<void> {
+    return (
+        await axios.patch(
+            `${BASE_URL}/user-dashboard/friends/change-status`,
+            {},
+            {
+                withCredentials: true,
+                params: {
+                    friendUsername,
+                    status,
+                },
+            },
+        )
     ).data;
 }
 

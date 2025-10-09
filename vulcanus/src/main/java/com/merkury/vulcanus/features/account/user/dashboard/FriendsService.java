@@ -1,9 +1,6 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
-import com.merkury.vulcanus.exception.exceptions.FriendshipAlreadyExistException;
-import com.merkury.vulcanus.exception.exceptions.FriendshipNotExistException;
-import com.merkury.vulcanus.exception.exceptions.UnsupportedEditUserFriendsTypeException;
-import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
+import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
 import com.merkury.vulcanus.model.entities.Friendship;
@@ -20,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus.PENDING;
+import static com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,11 +28,11 @@ public class FriendsService {
     private final ChatService chatService;
 
     public SocialPageDto getUserFriends(String username, int page, int size) throws UserNotFoundByUsernameException {
-        var friendsPage = friendshipRepository.findAllByUserUsername(username, PageRequest.of(page, size));
-
         if (!userEntityRepository.existsByUsername(username)) {
             throw new UserNotFoundByUsernameException(username);
         }
+
+        var friendsPage = friendshipRepository.findAllByUserUsernameAndStatus(username, PageRequest.of(page, size), UserFriendStatus.ACCEPTED);
 
         if (friendsPage.isEmpty()) {
             return new SocialPageDto(List.of(), false);
@@ -46,12 +43,13 @@ public class FriendsService {
                 .map(friendView -> friendView.getFriend().getUsername())
                 .toList();
         var friendsUsernamePrivateChatIdMap = chatService.mapPrivateChatIdsByUsername(username, friendUsernames);
+        boolean isFriendOfUser = true;
         var mappedFriends = friendsPage.stream()
                 .map(friendView -> {
                     var friendUsername = friendView.getFriend().getUsername();
                     var privateChatId = friendsUsernamePrivateChatIdMap.get(friendUsername);
 
-                    return SocialMapper.friendViewToSocialDto(friendView, privateChatId, true);
+                    return SocialMapper.friendViewToSocialDto(friendView, privateChatId, isFriendOfUser);
                 })
                 .toList();
         return new SocialPageDto(mappedFriends, friendsPage.hasNext());
@@ -73,8 +71,8 @@ public class FriendsService {
                 .anyMatch(f -> f.getFriend().equals(friendUser));
 
         if (!isFriends) {
-            user.getFriendships().add(new Friendship(null, user, friendUser, PENDING, null));
-            friendUser.getFriendships().add(new Friendship(null, friendUser, user, PENDING, null));
+            user.getFriendships().add(new Friendship(null, user, friendUser, PENDING_SENT, null));
+            friendUser.getFriendships().add(new Friendship(null, friendUser, user, PENDING_RECEIVED, null));
 
             userEntityRepository.save(user);
             userEntityRepository.save(friendUser);
@@ -101,22 +99,35 @@ public class FriendsService {
         }
     }
 
-    public void changeUserFriendsStatus(String username, String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
+    public void changeUserFriendsStatus(String username, String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException, UnsupportedUserFriendStatusException {
         var user = userEntityFetcher.getByUsername(username);
         var friendUser = userEntityFetcher.getByUsername(friendUsername);
-        var isFriends = user.getFriendships()
-                .stream()
-                .anyMatch(f -> f.getFriend().equals(friendUser));
 
-        if (isFriends) {
-            user.getFriendships().forEach(f -> f.setStatus(status));
-            friendUser.getFriendships().forEach(f -> f.setStatus(status));
+        var uf = user.getFriendships().stream()
+                .filter(f -> f.getFriend().equals(friendUser))
+                .findFirst()
+                .orElseThrow(FriendshipNotExistException::new);
 
-            userEntityRepository.save(user);
-            userEntityRepository.save(friendUser);
-        } else {
-            throw new FriendshipNotExistException();
+        var fu = friendUser.getFriendships().stream()
+                .filter(f -> f.getFriend().equals(user))
+                .findFirst()
+                .orElseThrow(FriendshipNotExistException::new);
+
+        switch (status) {
+            case REJECTED -> {
+                user.getFriendships().remove(uf);
+                friendUser.getFriendships().remove(fu);
+                friendshipRepository.deleteAll(List.of(uf, fu));
+            }
+            case ACCEPTED -> {
+                uf.setStatus(UserFriendStatus.ACCEPTED);
+                fu.setStatus(UserFriendStatus.ACCEPTED);
+            }
+            default -> throw new UnsupportedUserFriendStatusException(status);
         }
+
+        userEntityRepository.save(user);
+        userEntityRepository.save(friendUser);
     }
 
     public SocialPageDto searchUsersByUsername(String username, String query, int page, int size) throws UserNotFoundByUsernameException {
@@ -135,14 +146,35 @@ public class FriendsService {
 
         var mappedUsers = usersPage.getContent().stream()
                 .map(user -> {
-                    var isFriends = currentUser.getFriendships()
+                    var status = currentUser.getFriendships()
                             .stream()
-                            .anyMatch(f -> f.getFriend().equals(user));
+                            .filter(f -> f.getFriend().equals(user))
+                            .map(Friendship::getStatus)
+                            .findFirst()
+                            .orElse(UserFriendStatus.NONE);
 
-                    return SocialMapper.toDto(user, isFriends);
+                    return SocialMapper.toDto(user, status);
                 })
                 .toList();
 
         return new SocialPageDto(mappedUsers, usersPage.hasNext());
+    }
+
+    public SocialPageDto getAllFriendInvites(String username, int page, int size) throws UserNotFoundByUsernameException {
+        if (!userEntityRepository.existsByUsername(username)) {
+            throw new UserNotFoundByUsernameException(username);
+        }
+
+        var friendsPage = friendshipRepository.findAllByUserUsernameAndStatus(username, PageRequest.of(page, size), PENDING_RECEIVED);
+
+        if (friendsPage.isEmpty()) {
+            return new SocialPageDto(List.of(), false);
+        }
+
+        var mappedInvites = friendsPage.stream()
+                .map(friendView -> SocialMapper.friendViewToSocialDto(friendView, null, false))
+                .toList();
+
+        return new SocialPageDto(mappedInvites, friendsPage.hasNext());
     }
 }
