@@ -1,6 +1,6 @@
 import { FaX } from "react-icons/fa6";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import useDebounce from "../../../../../hooks/useDebounce";
 import { SocialListType } from "../../../../../model/enum/account/social/socialListType";
 import { searchUsersByUsername } from "../../../../../http/user-dashboard";
@@ -9,6 +9,11 @@ import LoadingSpinner from "../../../../../components/loading-spinner/LoadingSpi
 import useSelectorTyped from "../../../../../hooks/useSelectorTyped";
 import { chatActions } from "../../../../../redux/chats";
 import useDispatchTyped from "../../../../../hooks/useDispatchTyped";
+import {
+    createGroupChat,
+    getOrCreatePrivateChat,
+} from "../../../../../http/chats";
+import { useNavigate } from "react-router-dom";
 
 interface SearchFriendsListProps {
     onClose?: () => void;
@@ -21,6 +26,7 @@ export default function AddPeopleToGroupChatSearchModal({
     const queryDebounced = useDebounce(query, 500);
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
     const dispatch = useDispatchTyped();
+    const navigate = useNavigate();
 
     const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteQuery({
@@ -69,6 +75,23 @@ export default function AddPeopleToGroupChatSearchModal({
         }
     }
 
+    async function handleCreateChat() {
+        await mutateCreateGroupChat();
+    }
+
+    const { mutateAsync: mutateCreateGroupChat } = useMutation({
+        mutationFn: () => createGroupChat(usersToAddToChat), //TODO: dodaj jeszcze userow z obecnei otawrtego cahtu
+        onSuccess: (chat) => {
+            dispatch(chatActions.upsertChats([chat]));
+            dispatch(chatActions.setSelectedChatId(chat.id));
+            dispatch(chatActions.clearNew(chat.id));
+            if (onClose) {
+                onClose();
+            }
+            navigate("/chat");
+        },
+    });
+
     return (
         <div className="relative flex flex-col items-center gap-y-6">
             <button
@@ -92,7 +115,11 @@ export default function AddPeopleToGroupChatSearchModal({
                     placeholder="Search user"
                     className="dark:bg-darkBgMuted bg-lightBgMuted w-full rounded-md px-2 py-1.5 shadow-md ring-0 outline-0 sm:w-96 dark:shadow-black"
                 />
-                <button className="rounded-md bg-green-600 p-2 hover:cursor-pointer hover:opacity-60">
+
+                <button
+                    className="rounded-md bg-green-600 p-2 hover:cursor-pointer hover:opacity-60"
+                    onClick={handleCreateChat}
+                >
                     Create group Chat
                 </button>
             </div>

@@ -224,4 +224,14 @@ public class ChatMapper {
                 .url("")
                 .build();
     }
+
+    public static ChatDto toChatDto(Chat chat) {
+        return ChatDto.builder()
+                .id(chat.getId())
+                .name(chat.getName())
+                .messages(null)
+                .lastMessage(null)
+                .chatType(chat.getChatType())
+                .build();
+    }
 }

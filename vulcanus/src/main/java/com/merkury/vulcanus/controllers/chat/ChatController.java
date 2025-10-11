@@ -8,13 +8,16 @@ import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.chat.ChatService;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
+import com.merkury.vulcanus.model.dtos.chat.group.CreateGroupChatDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -68,5 +71,11 @@ public class ChatController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 //    TODO; prywatyzacja przesłanych zdjęc, tak aby tylko uczestnicy chatu mieli do nich dostęp, obecnie ma każdy kto ma link do zdjęcia
+
+    @PostMapping("create/group")
+    public ResponseEntity<ChatDto> createGroupChat(@RequestBody CreateGroupChatDto createGroupChatDto) throws Exception {
+        var chatDto = chatService.createGroupChat(createGroupChatDto);
+        return new ResponseEntity<>(chatDto, HttpStatusCode.valueOf(201));
+    }
 
 }

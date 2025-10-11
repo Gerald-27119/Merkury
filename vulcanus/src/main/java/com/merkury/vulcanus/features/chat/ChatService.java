@@ -11,6 +11,7 @@ import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
+import com.merkury.vulcanus.model.dtos.chat.group.CreateGroupChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.entities.chat.ChatMessageAttachedFile;
@@ -55,6 +56,7 @@ public class ChatService {
     private final CustomUserDetailsService customUserDetailsService;
     private final AzureBlobService azureBlobService;
     private final ChatStompCommunicationService chatStompCommunicationService;
+    private final GroupChatService groupChatService;
 
 
     /**
@@ -255,5 +257,11 @@ public class ChatService {
         var chatMessageDtoToBroadCast = ChatMapper.toChatMessageDto(chatMessageFromDb);
         chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(chatMessageDtoToBroadCast);
 //        chatStompCommunicationService.broadcastACKVersionToSender(); TODO:fix
+    }
+
+    public ChatDto createGroupChat(CreateGroupChatDto createGroupChatDto) throws Exception {
+        var ownerUsername = this.customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        var createdChat = this.groupChatService.create(new CreateGroupChatDto(createGroupChatDto.usernames(), ownerUsername));
+        return ChatMapper.toChatDto(createdChat);
     }
 }
