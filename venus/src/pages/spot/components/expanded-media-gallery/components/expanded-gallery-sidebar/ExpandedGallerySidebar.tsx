@@ -3,7 +3,10 @@ import SortingAndFilterPanel from "./SortingAndFilterPanel";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
 import useSelectorTyped from "../../../../../../hooks/useSelectorTyped";
-import { getPaginatedExpandedSpotMediaGallery } from "../../../../../../http/spots-data";
+import {
+    getExpandedSpotMediaGalleryPagePosition,
+    getPaginatedExpandedSpotMediaGallery,
+} from "../../../../../../http/spots-data";
 import SpotExpandedMediaGalleryPage from "../../../../../../model/interface/spot/expanded-media-gallery/spotExpandedMediaGalleryPage";
 import { useBoolean } from "../../../../../../hooks/useBoolean";
 import {
@@ -14,13 +17,14 @@ import useDispatchTyped from "../../../../../../hooks/useDispatchTyped";
 import LoadingSpinner from "../../../../../../components/loading-spinner/LoadingSpinner";
 import { MediaType } from "../../../../../../model/enum/mediaType";
 import { expandedSpotMediaGalleryModalsActions } from "../../../../../../redux/expanded-spot-media-gallery-modals";
+import { expandedSpotMediaGalleryAction } from "../../../../../../redux/expanded-spot-media-gallery";
 
 export default function ExpandedGallerySidebar() {
     const [pageCount, setPageCount] = useState<number>(0);
     const [isMediaPagePositionFetched, setTrue] = useBoolean();
 
     const { spotId } = useSelectorTyped((state) => state.spotDetails);
-    const { mediaType, sorting, mediaPagePosition } = useSelectorTyped(
+    const { mediaType, sorting, mediaPagePosition, mediaId } = useSelectorTyped(
         (state) => state.expandedSpotMediaGallery,
     );
 
@@ -103,19 +107,67 @@ export default function ExpandedGallerySidebar() {
 
     const queryClient = useQueryClient();
 
-    useEffect(() => {
-        dispatch(expandedSpotGalleryMediaListAction.clearMediaList());
-        queryClient.removeQueries({
-            queryKey: [
-                "expanded-spot-media-gallery",
-                spotId,
-                mediaType,
-                sorting,
-                mediaPagePosition,
-            ],
-        });
+    // useEffect(() => {
+    //     console.log("clearing media list");
+    //     //TODO:fetch new media position when filters change
+    //     const { mediaPagePosition } =
+    //         await getExpandedSpotMediaGalleryPagePosition(
+    //             spotId!,
+    //             mediaId,
+    //             mediaType,
+    //             sorting,
+    //         );
+    //     dispatch(
+    //         expandedSpotMediaGalleryAction.setExpandedGalleryMediaPagePosition({
+    //             mediaPagePosition,
+    //         }),
+    //     );
+    //     dispatch(expandedSpotGalleryMediaListAction.clearMediaList());
+    //     queryClient.removeQueries({
+    //         queryKey: [
+    //             "expanded-spot-media-gallery",
+    //             spotId,
+    //             mediaType,
+    //             sorting,
+    //             mediaPagePosition,
+    //         ],
+    //     });
+    //
+    //     // fetchNextPage();
+    // }, [spotId, mediaType, sorting, mediaPagePosition]);
 
-        fetchNextPage();
+    useEffect(() => {
+        const fetchMediaPagePosition = async () => {
+            console.log("clearing media list");
+            const { mediaPagePosition } =
+                await getExpandedSpotMediaGalleryPagePosition(
+                    spotId!,
+                    mediaId,
+                    mediaType,
+                    sorting,
+                );
+            dispatch(
+                expandedSpotMediaGalleryAction.setExpandedGalleryMediaPagePosition(
+                    {
+                        mediaPagePosition,
+                    },
+                ),
+            );
+            dispatch(expandedSpotGalleryMediaListAction.clearMediaList());
+            queryClient.removeQueries({
+                queryKey: [
+                    "expanded-spot-media-gallery",
+                    spotId,
+                    mediaType,
+                    sorting,
+                    mediaPagePosition,
+                ],
+            });
+
+            // fetchNextPage();
+        };
+
+        fetchMediaPagePosition();
     }, [spotId, mediaType, sorting, mediaPagePosition]);
 
     const mediaList = useSelectorTyped((state) =>
@@ -131,7 +183,7 @@ export default function ExpandedGallerySidebar() {
     return (
         <div
             ref={containerRef}
-            className="dark:bg-violetHeavyDark h-full w-[20rem] p-2 xl:w-[30rem] xl:overflow-y-hidden"
+            className="dark:bg-violetHeavyDark h-full w-[20rem] overflow-y-auto p-2 xl:w-[30rem] xl:overflow-y-hidden"
         >
             <div className="mt-1 grid w-full grid-cols-3 items-center">
                 <div></div>
