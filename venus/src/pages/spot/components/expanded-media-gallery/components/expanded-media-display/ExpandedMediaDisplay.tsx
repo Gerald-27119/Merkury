@@ -1,6 +1,6 @@
-import SpotExpandedGalleryMediaDto from "../../../../../model/interface/spot/expanded-media-gallery/spotExpandedGalleryMediaDto";
+import SpotExpandedGalleryMediaDto from "../../../../../../model/interface/spot/expanded-media-gallery/spotExpandedGalleryMediaDto";
 import MediaInfoDisplay from "./MediaInfoDisplay";
-import { MediaType } from "../../../../../model/enum/mediaType";
+import { MediaType } from "../../../../../../model/enum/mediaType";
 import ExpandedGalleryPhoto from "./ExpandedGalleryPhoto";
 import ExpandedGalleryVideo from "./ExpandedGalleryVideo";
 import ExpandedGalleryPanel from "./ExpandedGalleryPanel";

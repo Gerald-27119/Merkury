@@ -7,10 +7,8 @@ import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { MediaType } from "../../../../model/enum/mediaType";
 import { SpotExpandedGallerySortingType } from "../../../../model/enum/spot/spotExpandedGallerySortingType";
-import {
-    expandedSpotMediaGalleryAction,
-    expandedSpotMediaGallerySlice,
-} from "../../../../redux/expanded-spot-media-gallery";
+import { expandedSpotMediaGalleryAction } from "../../../../redux/expanded-spot-media-gallery";
+import { expandedSpotMediaGalleryModalsActions } from "../../../../redux/expanded-spot-media-gallery-modals";
 
 type PhotoProps = {
     photo: SpotMediaDto;
@@ -37,15 +35,22 @@ export default function Photo({ photo, ...props }: PhotoProps) {
             sorting,
         }: {
             spotId: number;
+            mediaId: number;
             mediaType: MediaType;
             sorting: SpotExpandedGallerySortingType;
         }) =>
-            getExpandedSpotMediaGalleryPagePosition(spotId, mediaType, sorting),
+            getExpandedSpotMediaGalleryPagePosition(
+                spotId,
+                photo.id,
+                mediaType,
+                sorting,
+            ),
     });
 
     const handleClickPhoto = async () => {
         await mutateAsync({
             spotId: spotId!,
+            mediaId: photo.id,
             mediaType: MediaType.PHOTO,
             sorting,
         });
@@ -63,7 +68,7 @@ export default function Photo({ photo, ...props }: PhotoProps) {
                     { mediaPagePosition: data.mediaPagePosition },
                 ),
             );
-            //     TODO: open modal
+            dispatch(expandedSpotMediaGalleryModalsActions.openModals());
         }
     }, [data, photo]);
 

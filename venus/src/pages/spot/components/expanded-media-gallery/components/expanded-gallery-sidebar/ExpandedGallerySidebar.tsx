@@ -2,15 +2,18 @@ import { IoClose } from "react-icons/io5";
 import SortingAndFilterPanel from "./SortingAndFilterPanel";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
-import useSelectorTyped from "../../../../../hooks/useSelectorTyped";
-import { getPaginatedExpandedSpotMediaGallery } from "../../../../../http/spots-data";
-import SpotExpandedMediaGalleryPage from "../../../../../model/interface/spot/expanded-media-gallery/spotExpandedMediaGalleryPage";
-import { useBoolean } from "../../../../../hooks/useBoolean";
+import useSelectorTyped from "../../../../../../hooks/useSelectorTyped";
+import { getPaginatedExpandedSpotMediaGallery } from "../../../../../../http/spots-data";
+import SpotExpandedMediaGalleryPage from "../../../../../../model/interface/spot/expanded-media-gallery/spotExpandedMediaGalleryPage";
+import { useBoolean } from "../../../../../../hooks/useBoolean";
 import {
     expandedSpotGalleryMediaListAction,
     expandedSpotGalleryMediaListSelectors,
-} from "../../../../../redux/expanded-spot-gallery-media-list";
-import useDispatchTyped from "../../../../../hooks/useDispatchTyped";
+} from "../../../../../../redux/expanded-spot-gallery-media-list";
+import useDispatchTyped from "../../../../../../hooks/useDispatchTyped";
+import LoadingSpinner from "../../../../../../components/loading-spinner/LoadingSpinner";
+import { MediaType } from "../../../../../../model/enum/mediaType";
+import { expandedSpotMediaGalleryModalsActions } from "../../../../../../redux/expanded-spot-media-gallery-modals";
 
 export default function ExpandedGallerySidebar() {
     const [pageCount, setPageCount] = useState<number>(0);
@@ -119,14 +122,39 @@ export default function ExpandedGallerySidebar() {
         expandedSpotGalleryMediaListSelectors.selectAll(state),
     );
 
+    const handleCloseSidebar = () => {
+        dispatch(
+            expandedSpotMediaGalleryModalsActions.closeExpandedGallerySidebar(),
+        );
+    };
+
     return (
-        <div ref={containerRef}>
-            <div className="flex">
-                <h2>Gallery</h2>
-                <IoClose />
+        <div
+            ref={containerRef}
+            className="dark:bg-violetDarker h-full w-[20rem] p-2 xl:w-[30rem] xl:overflow-y-hidden"
+        >
+            <div className="mt-1 grid w-full grid-cols-3 items-center">
+                <div></div>
+                <h2 className="text-center text-2xl">Gallery</h2>
+                <IoClose
+                    onClick={handleCloseSidebar}
+                    className="ml-auto cursor-pointer justify-self-end text-2xl"
+                />
             </div>
             <SortingAndFilterPanel />
-            <ul>{/*media*/}</ul>
+            {isLoading && <LoadingSpinner />}
+            <ul>
+                {mediaList.map((media) =>
+                    media.mediaType === MediaType.PHOTO ? (
+                        <li key={media.id}>
+                            <img src={media.url} alt={media.url} />
+                        </li>
+                    ) : (
+                        <li key={media.id}>video</li>
+                    ),
+                )}
+            </ul>
+            {isFetchingNextPage && <LoadingSpinner />}
             <div ref={loadMoreRef} className="invisible h-1" />
         </div>
     );

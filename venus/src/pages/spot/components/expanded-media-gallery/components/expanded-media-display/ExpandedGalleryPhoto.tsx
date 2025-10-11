@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LoadingSpinner from "../../../../../components/loading-spinner/LoadingSpinner";
+import LoadingSpinner from "../../../../../../components/loading-spinner/LoadingSpinner";
 
 type ExpandedGalleryPhotoProps = {
     url: string;

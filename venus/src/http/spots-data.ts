@@ -186,6 +186,7 @@ export async function getPaginatedExpandedSpotMediaGallery(
 
 export async function getExpandedSpotMediaGalleryPagePosition(
     spotId: number,
+    mediaId: number,
     mediaType: MediaType,
     sorting: SpotExpandedGallerySortingType,
 ): Promise<{ mediaPagePosition: number }> {
@@ -193,6 +194,7 @@ export async function getExpandedSpotMediaGalleryPagePosition(
         await axios.get(`${BASE_URL}/public/spot/gallery-media-position`, {
             params: {
                 spotId,
+                mediaId,
                 mediaType,
                 sorting,
                 page: 0,
