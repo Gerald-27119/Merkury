@@ -29,18 +29,22 @@ export default function SortingAndFilterPanel() {
     );
 
     return (
-        <ul>
+        <ul className="my-4 flex flex-wrap justify-center space-y-3 space-x-3">
             <li>
                 <OptionButton
                     label={"Images"}
                     onClick={() => handleSetFilter(MediaType.PHOTO)}
                     isSelected={mediaType === MediaType.PHOTO}
                 />
+            </li>
+            <li>
                 <OptionButton
                     label={"Films"}
                     onClick={() => handleSetFilter(MediaType.VIDEO)}
                     isSelected={mediaType === MediaType.VIDEO}
                 />
+            </li>
+            <li>
                 <OptionButton
                     label={"Newest"}
                     onClick={() =>
@@ -50,6 +54,8 @@ export default function SortingAndFilterPanel() {
                         sorting === SpotExpandedGallerySortingType.NEWEST
                     }
                 />
+            </li>
+            <li>
                 <OptionButton
                     label={"Oldest"}
                     onClick={() =>
@@ -59,6 +65,8 @@ export default function SortingAndFilterPanel() {
                         sorting === SpotExpandedGallerySortingType.OLDEST
                     }
                 />
+            </li>
+            <li>
                 <OptionButton
                     label={"Most Liked"}
                     onClick={() =>

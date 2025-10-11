@@ -131,7 +131,7 @@ export default function ExpandedGallerySidebar() {
     return (
         <div
             ref={containerRef}
-            className="dark:bg-violetDarker h-full w-[20rem] p-2 xl:w-[30rem] xl:overflow-y-hidden"
+            className="dark:bg-violetHeavyDark h-full w-[20rem] p-2 xl:w-[30rem] xl:overflow-y-hidden"
         >
             <div className="mt-1 grid w-full grid-cols-3 items-center">
                 <div></div>
@@ -143,10 +143,13 @@ export default function ExpandedGallerySidebar() {
             </div>
             <SortingAndFilterPanel />
             {isLoading && <LoadingSpinner />}
-            <ul>
+            <ul className="flex flex-col items-center space-y-2">
                 {mediaList.map((media) =>
                     media.mediaType === MediaType.PHOTO ? (
-                        <li key={media.id}>
+                        <li
+                            key={media.id}
+                            className="overflow-hidden first:rounded-t-2xl"
+                        >
                             <img src={media.url} alt={media.url} />
                         </li>
                     ) : (

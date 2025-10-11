@@ -9,5 +9,12 @@ export default function OptionButton({
     onClick,
     isSelected,
 }: OptionButtonProps) {
-    return <button onClick={onClick}>{label}</button>;
+    return (
+        <button
+            onClick={onClick}
+            className={`${isSelected ? "bg-violetLightDarker" : "bg-violetDarker"} ring-violetLight hover:bg-violetLightDarker cursor-pointer rounded-2xl px-2 py-1 text-lg ring-1`}
+        >
+            {label}
+        </button>
+    );
 }
