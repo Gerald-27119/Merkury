@@ -81,7 +81,7 @@ export default function Photo({ photo, ...props }: PhotoProps) {
                     src={photo.url}
                     alt={photo.title}
                     onLoad={handleImageLoad}
-                    className="3xl:h-68 h-40 xl:h-60"
+                    className="3xl:h-68 h-40 cursor-pointer xl:h-60"
                     onClick={handleClickPhoto}
                 />
             ) : (

@@ -18,7 +18,12 @@ export default function ExpandedGalleryPhoto({
         <div className="h-fit">
             {isLoading && <LoadingSpinner />}
             {url ? (
-                <img src={url} alt={url} onLoad={handleImageLoad} />
+                <img
+                    src={url}
+                    alt={url}
+                    onLoad={handleImageLoad}
+                    className="w-[90rem] rounded-2xl"
+                />
             ) : (
                 <p>No photo to display</p>
             )}

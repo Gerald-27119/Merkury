@@ -10,11 +10,11 @@ export default function MediaInfoDisplay({
     publishDate,
 }: MediaInfoDisplayProps) {
     return (
-        <div className="flex">
+        <div className="mb-2 flex w-full justify-end space-x-3 text-lg">
             <img
                 src={authorProfilePhotoUrl}
                 alt={`${authorName}_profile_photo`}
-                className="aspect-square rounded-full"
+                className="aspect-square w-6 rounded-full"
             />
             <span>{authorName}</span>
             <span>{publishDate}</span>

@@ -18,6 +18,7 @@ import { currentViewSpotParamsSlice } from "./current-view-spot-params";
 import { spotWeatherSlice } from "./spot-weather";
 import { expandedSpotGalleryMediaListSlice } from "./expanded-spot-gallery-media-list";
 import { expandedSpotMediaGalleryModalsSlice } from "./expanded-spot-media-gallery-modals";
+import { expandedSpotGalleryCurrentMediaSlice } from "./expanded-spot-gallery-current-media";
 
 // TODO: Add persisting state to localStorage
 const store = configureStore({
@@ -42,6 +43,8 @@ const store = configureStore({
         expandedSpotGalleryMediaList: expandedSpotGalleryMediaListSlice.reducer,
         expandedSpotMediaGalleryModals:
             expandedSpotMediaGalleryModalsSlice.reducer,
+        expandedSpotGalleryCurrentMedia:
+            expandedSpotGalleryCurrentMediaSlice.reducer,
     },
 });
 

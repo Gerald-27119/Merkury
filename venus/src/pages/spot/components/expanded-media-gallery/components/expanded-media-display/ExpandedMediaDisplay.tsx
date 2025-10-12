@@ -1,36 +1,36 @@
-import SpotExpandedGalleryMediaDto from "../../../../../../model/interface/spot/expanded-media-gallery/spotExpandedGalleryMediaDto";
 import MediaInfoDisplay from "./MediaInfoDisplay";
 import { MediaType } from "../../../../../../model/enum/mediaType";
 import ExpandedGalleryPhoto from "./ExpandedGalleryPhoto";
 import ExpandedGalleryVideo from "./ExpandedGalleryVideo";
 import ExpandedGalleryPanel from "./ExpandedGalleryPanel";
+import useSelectorTyped from "../../../../../../hooks/useSelectorTyped";
 
-type ExpandedMediaDisplayProps = {
-    media: SpotExpandedGalleryMediaDto;
-    totalMedia: number;
-};
+export default function ExpandedMediaDisplay() {
+    const currentMedia = useSelectorTyped(
+        (state) => state.expandedSpotGalleryCurrentMedia,
+    );
 
-export default function ExpandedMediaDisplay({
-    media,
-    totalMedia,
-}: ExpandedMediaDisplayProps) {
     return (
-        <div>
+        <div className="flex flex-col items-center">
             <MediaInfoDisplay
-                authorName={media.authorName}
-                authorProfilePhotoUrl={media.authorProfilePhotoUrl}
-                publishDate={media.publishDate}
+                authorName={currentMedia.authorName}
+                authorProfilePhotoUrl={currentMedia.authorProfilePhotoUrl}
+                publishDate={currentMedia.publishDate}
             />
             <div>
-                {media.mediaType === MediaType.PHOTO ? (
-                    <ExpandedGalleryPhoto url={media.url} />
+                {currentMedia.mediaType === MediaType.PHOTO ? (
+                    <ExpandedGalleryPhoto url={currentMedia.url} />
                 ) : (
-                    <ExpandedGalleryVideo url={media.url} />
+                    <ExpandedGalleryVideo url={currentMedia.url} />
                 )}
             </div>
-            <div>
-                <span>{totalMedia}</span>
-                <ExpandedGalleryPanel id={media.id} likes={media.likesNumber} />
+            <div className="grid w-full grid-cols-3">
+                <span className="justify-self-start">totalMediaCount</span>
+                <ExpandedGalleryPanel
+                    id={currentMedia.id}
+                    likes={currentMedia.likesNumber}
+                />
+                <div></div>
             </div>
         </div>
     );

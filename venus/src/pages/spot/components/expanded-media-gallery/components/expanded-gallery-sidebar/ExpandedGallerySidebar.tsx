@@ -20,6 +20,7 @@ import { expandedSpotMediaGalleryModalsActions } from "../../../../../../redux/e
 import { expandedSpotMediaGalleryAction } from "../../../../../../redux/expanded-spot-media-gallery";
 import { FaChevronLeft } from "react-icons/fa6";
 import { AnimatePresence, motion, LayoutGroup } from "framer-motion";
+import { expandedSpotGalleryCurrentMediaActions } from "../../../../../../redux/expanded-spot-gallery-current-media";
 
 const slideVariants = {
     hidden: { x: "-100%", opacity: 0 },
@@ -90,6 +91,11 @@ export default function ExpandedGallerySidebar() {
             dispatch(
                 expandedSpotGalleryMediaListAction.upsertMediaList(allItems),
             );
+            dispatch(
+                expandedSpotGalleryCurrentMediaActions.setCurrentMedia({
+                    ...allItems.find((item) => item.id === mediaId)!,
+                }),
+            );
             setPageCount(data.pages.length);
         }
     }, [data, dispatch]);
@@ -120,7 +126,6 @@ export default function ExpandedGallerySidebar() {
 
     useEffect(() => {
         const fetchMediaPagePosition = async () => {
-            console.log("clearing media list");
             const { mediaPagePosition } =
                 await getExpandedSpotMediaGalleryPagePosition(
                     spotId!,
