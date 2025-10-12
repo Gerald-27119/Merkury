@@ -5,6 +5,7 @@ import com.merkury.vulcanus.model.dtos.chat.ChatMessageAttachedFileDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageSenderDto;
+import com.merkury.vulcanus.model.dtos.chat.ChatParticipantDto;
 import com.merkury.vulcanus.model.dtos.chat.DetailedChatDto;
 import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
@@ -184,6 +185,13 @@ public class ChatMapper {
                 .max(Comparator.comparing(ChatMessageDto::sentAt))
                 .orElse(null);
 
+        var participants = chat.getParticipants().stream().map(chatParticipant ->
+                        new ChatParticipantDto(
+                                chatParticipant.getUser().getUsername(),
+                                chatParticipant.getUser().getProfileImage())
+                )
+                .toList();
+
         return ChatDto.builder()
                 .id(chat.getId())
                 .name(getChatName(chat, userId))//TODO:reafactor
@@ -191,6 +199,7 @@ public class ChatMapper {
                 .messages(messageDtos)
                 .lastMessage(lastMessage)
                 .chatType(chat.getChatType())
+                .participants(participants)
                 .build();
     }
 

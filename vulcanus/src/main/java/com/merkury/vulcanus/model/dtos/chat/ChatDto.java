@@ -11,6 +11,6 @@ import java.util.List;
  * @author Adam Langmesser
  */
 @Builder
-public record ChatDto(Long id, String name, ChatMessageDto lastMessage, String imgUrl, List<ChatMessageDto> messages, ChatType chatType) {
+public record ChatDto(Long id, String name, ChatMessageDto lastMessage, String imgUrl, List<ChatMessageDto> messages, ChatType chatType, List<ChatParticipantDto> participants) {
 
 }

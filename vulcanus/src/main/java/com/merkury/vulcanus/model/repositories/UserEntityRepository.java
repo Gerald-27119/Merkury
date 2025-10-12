@@ -30,7 +30,7 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, Long> {
 
     Slice<UserEntity> findFollowedByFollowersUsername(String username, Pageable pageable);
 
-    Slice<UserEntity> findAllByUsernameContainingIgnoreCase(String usernamePart, Pageable pageable);
+    Slice<UserEntity> findAllByUsernameContainingIgnoreCaseAndUsernameNot(String usernamePart, Pageable pageable, String username);
 
     List<UserEntity> findAllByUsernameIn(List<String> usernames);
 

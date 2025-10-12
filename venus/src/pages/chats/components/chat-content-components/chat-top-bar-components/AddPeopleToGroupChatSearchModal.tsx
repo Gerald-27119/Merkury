@@ -14,6 +14,7 @@ import {
     getOrCreatePrivateChat,
 } from "../../../../../http/chats";
 import { useNavigate } from "react-router-dom";
+import { IoIosClose } from "react-icons/io";
 
 interface SearchFriendsListProps {
     onClose?: () => void;
@@ -85,12 +86,16 @@ export default function AddPeopleToGroupChatSearchModal({
             dispatch(chatActions.upsertChats([chat]));
             dispatch(chatActions.setSelectedChatId(chat.id));
             dispatch(chatActions.clearNew(chat.id));
+            dispatch(chatActions.clearUsersToAddToChat());
             if (onClose) {
                 onClose();
             }
             navigate("/chat");
         },
     });
+
+    const isNotAtLeastOneUserSelected =
+        useSelectorTyped((state) => state.chats.usersToAddToChat.length) == 0;
 
     return (
         <div className="relative flex flex-col items-center gap-y-6">
@@ -117,8 +122,13 @@ export default function AddPeopleToGroupChatSearchModal({
                 />
 
                 <button
-                    className="rounded-md bg-green-600 p-2 hover:cursor-pointer hover:opacity-60"
+                    className={`rounded-md bg-green-600 p-2 ${
+                        isNotAtLeastOneUserSelected
+                            ? "cursor-default opacity-40"
+                            : "cursor-pointer hover:opacity-60"
+                    }`}
                     onClick={handleCreateChat}
+                    disabled={isNotAtLeastOneUserSelected}
                 >
                     Create group Chat
                 </button>
@@ -155,10 +165,18 @@ function UserToAddButton({ username }: UserToAddProps) {
 
     return (
         <button
-            className="bg-violetLight rounded-md p-2 text-xl text-white hover:cursor-pointer hover:opacity-60"
+            type="button"
             onClick={remove}
+            className="bg-violetLight inline-flex items-center justify-center gap-1 rounded-md px-3 py-2 text-xl text-white hover:cursor-pointer hover:opacity-60"
+            title={`Remove ${username}`}
         >
-            {username}
+            <span className="">{username}</span>
+            <span
+                aria-hidden="true"
+                className="text-xl leading-none text-gray-200"
+            >
+                ×
+            </span>
         </button>
     );
 }

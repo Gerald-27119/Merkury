@@ -9,6 +9,9 @@ import { useBoolean } from "../../../../hooks/useBoolean";
 import EmptyModal from "../../../../components/modal/EmptyModal";
 import SearchFriendsList from "../../../account/social/components/SearchFriendsList";
 import AddPeopleToGroupChatSearchModal from "./chat-top-bar-components/AddPeopleToGroupChatSearchModal";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import { chatActions } from "../../../../redux/chats";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 
 interface ChatTopBarProps {
     chatDto: ChatDto;
@@ -17,6 +20,8 @@ interface ChatTopBarProps {
 export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
     const navigate = useNavigate();
     const [isOpen, open, close, _] = useBoolean(false);
+    const dispatch = useDispatchTyped();
+    const username = useSelectorTyped((state) => state.account.username);
 
     function handleChatNameClick() {
         if (chatDto.chatType === "PRIVATE") {
@@ -24,6 +29,20 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
         } else {
             return;
         }
+    }
+
+    function handleOpenCreateGroupChatModal() {
+        console.log(chatDto);
+        if (chatDto.chatType === "PRIVATE") {
+            const other = chatDto.participants?.find(
+                (p) => p.username !== username,
+            );
+            console.log(other);
+            if (other) {
+                dispatch(chatActions.addUserToAddToChat(other.username));
+            }
+        }
+        open();
     }
 
     return (
@@ -51,10 +70,14 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                 <HiUserAdd
                     size={30}
                     className="hover:cursor-pointer"
-                    onClick={open}
+                    onClick={handleOpenCreateGroupChatModal}
                 />
             </div>
-            <EmptyModal onClose={close} isOpen={isOpen}>
+            <EmptyModal
+                onClose={close}
+                isOpen={isOpen}
+                className="h-3/4 w-3/4 overflow-y-hidden"
+            >
                 <AddPeopleToGroupChatSearchModal onClose={close} />
             </EmptyModal>
         </div>
