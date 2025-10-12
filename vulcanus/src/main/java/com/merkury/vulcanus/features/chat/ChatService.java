@@ -1,8 +1,10 @@
 package com.merkury.vulcanus.features.chat;
 
+import com.merkury.vulcanus.exception.exceptions.AddUsersToExistingGroupChatException;
 import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.ChatAlreadyExistsException;
 import com.merkury.vulcanus.exception.exceptions.ChatNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.CreateGroupChatException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserByUsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
@@ -259,13 +261,13 @@ public class ChatService {
 //        chatStompCommunicationService.broadcastACKVersionToSender(); TODO:fix
     }
 
-    public ChatDto createGroupChat(CreateGroupChatDto createGroupChatDto) throws Exception {
+    public ChatDto createGroupChat(CreateGroupChatDto createGroupChatDto) throws CreateGroupChatException {
         var ownerUsername = this.customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         var createdChat = this.groupChatService.create(new CreateGroupChatDto(createGroupChatDto.usernames(), ownerUsername));
         return ChatMapper.toChatDto(createdChat);
     }
 
-    public ChatDto addUsersToGroupChat(List<String> usernames, String currentUserUsername, Long chatId) throws Exception {
+    public ChatDto addUsersToGroupChat(List<String> usernames, String currentUserUsername, Long chatId) throws ChatNotFoundException, AddUsersToExistingGroupChatException {
         var currentUsername = this.customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         var updatedChat = this.groupChatService.addUsers(usernames, currentUsername, chatId);
         return ChatMapper.toChatDto(updatedChat);

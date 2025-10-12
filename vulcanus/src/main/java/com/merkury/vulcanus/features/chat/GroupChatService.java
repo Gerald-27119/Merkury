@@ -1,6 +1,8 @@
 package com.merkury.vulcanus.features.chat;
 
+import com.merkury.vulcanus.exception.exceptions.AddUsersToExistingGroupChatException;
 import com.merkury.vulcanus.exception.exceptions.ChatNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.CreateGroupChatException;
 import com.merkury.vulcanus.model.dtos.chat.group.CreateGroupChatDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.chat.Chat;
@@ -24,7 +26,7 @@ class GroupChatService {
     private final ChatRepository chatRepository;
     private final UserEntityRepository userEntityRepository;
 
-    public Chat create(CreateGroupChatDto createGroupChatDto) throws Exception {
+    public Chat create(CreateGroupChatDto createGroupChatDto) throws CreateGroupChatException {
         var usernames = createGroupChatDto.usernames();
         var ownerUsername = createGroupChatDto.ownerUsername();
 
@@ -54,15 +56,15 @@ class GroupChatService {
                 .collect(Collectors.joining(", "));
     }
 
-    private List<UserEntity> getParticipants(List<String> usernames) throws Exception {
+    private List<UserEntity> getParticipants(List<String> usernames) throws CreateGroupChatException {
         var participants = userEntityRepository.findAllByUsernameIn(usernames);
-        if (participants.isEmpty()) throw new Exception();// TODO: custome excpetion
+        if (participants.isEmpty()) throw new CreateGroupChatException("Participants were not found in DB.");
         else return participants;
     }
 
-    public Chat addUsers(List<String> usernames, String currentUserUsername, Long chatId) throws Exception {
+    public Chat addUsers(List<String> usernames, String currentUserUsername, Long chatId) throws AddUsersToExistingGroupChatException, ChatNotFoundException {
         var usersToAdd = userEntityRepository.findAllByUsernameIn(usernames);
-        if (usersToAdd.size() != usernames.size()) throw new Exception();
+        if (usersToAdd.size() != usernames.size()) throw new AddUsersToExistingGroupChatException("Some useres weren't found in DB.");
         var chatFromDb = chatRepository.findChatById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
         var newParticipantsToAdd = usersToAdd.stream().map(userEntity -> ChatParticipant.builder()
                 .user(userEntity)
@@ -70,7 +72,6 @@ class GroupChatService {
                 .build()
         ).toList();
         chatFromDb.getParticipants().addAll(newParticipantsToAdd);
-        //czy moga na forncie wysietalc sie ci co sa  anc zacie juz?
         return chatRepository.save(chatFromDb);
     }
 }

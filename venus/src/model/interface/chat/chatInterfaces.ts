@@ -21,7 +21,7 @@ export interface ChatMessageSenderDto {
 }
 
 export interface ChatParticipantDto {
-    // id: number;
+    // id: number; tak ma byc jakby co :)
     username: string;
     imgUrl: string;
     // isOnline: boolean;

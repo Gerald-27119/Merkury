@@ -1,7 +1,9 @@
 package com.merkury.vulcanus.controllers.chat;
 
+import com.merkury.vulcanus.exception.exceptions.AddUsersToExistingGroupChatException;
 import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.ChatNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.CreateGroupChatException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserByUsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
@@ -74,14 +76,14 @@ public class ChatController {
 //    TODO; prywatyzacja przesłanych zdjęc, tak aby tylko uczestnicy chatu mieli do nich dostęp, obecnie ma każdy kto ma link do zdjęcia
 
     @PostMapping("create/group")
-    public ResponseEntity<ChatDto> createGroupChat(@RequestBody CreateGroupChatDto createGroupChatDto) throws Exception {
+    public ResponseEntity<ChatDto> createGroupChat(@RequestBody CreateGroupChatDto createGroupChatDto) throws CreateGroupChatException {
         var chatDto = chatService.createGroupChat(createGroupChatDto);
         return new ResponseEntity<>(chatDto, HttpStatus.CREATED);
     }
 
 //    TODO: maybe implement in future, maybe not?
     @PutMapping("add/users")
-    public ResponseEntity<ChatDto> addUsersToGroupChat(@RequestBody AddUsersToExistingGroupChatDto addUsersToExistingGroupChatDto) throws Exception {
+    public ResponseEntity<ChatDto> addUsersToGroupChat(@RequestBody AddUsersToExistingGroupChatDto addUsersToExistingGroupChatDto) throws ChatNotFoundException, AddUsersToExistingGroupChatException {
         var chatDto = chatService.addUsersToGroupChat(
                 addUsersToExistingGroupChatDto.usernames(),
                 addUsersToExistingGroupChatDto.currentUserUsername(),
