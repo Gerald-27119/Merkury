@@ -1,6 +1,12 @@
 import { SocialDto } from "../../../../model/interface/account/social/socialDto";
 import { BiMessageRounded } from "react-icons/bi";
-import { FaUser, FaUserMinus, FaUserPlus } from "react-icons/fa";
+import {
+    FaUser,
+    FaUserClock,
+    FaUserMinus,
+    FaUserPlus,
+    FaUserTimes,
+} from "react-icons/fa";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
     editUserFollowed,
@@ -17,17 +23,32 @@ import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { getOrCreatePrivateChat } from "../../../../http/chats";
 import { IoAddOutline } from "react-icons/io5";
+import { UserFriendStatus } from "../../../../model/enum/account/social/userFriendStatus";
+
+export const friendStatusIconMap = {
+    [UserFriendStatus.ACCEPTED]: <FaUserMinus aria-label="removeFriendIcon" />,
+    [UserFriendStatus.PENDING_SENT]: (
+        <FaUserClock aria-label="pendingSentIcon" />
+    ),
+    [UserFriendStatus.PENDING_RECEIVED]: (
+        <FaUserClock aria-label="pendingReceivedIcon" />
+    ),
+    [UserFriendStatus.REJECTED]: <FaUserTimes aria-label="rejectedIcon" />,
+    [UserFriendStatus.NONE]: <FaUserPlus aria-label="addFriendIcon" />,
+};
 
 interface SocialCardProps {
     friend: SocialDto;
     type: SocialListType;
     isSocialForViewer: boolean;
+    isSearchFriend?: boolean;
 }
 
 export default function SocialCard({
     friend,
     type,
     isSocialForViewer,
+    isSearchFriend,
 }: SocialCardProps) {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -115,6 +136,16 @@ export default function SocialCard({
         await mutateAsyncGetOrCreatePrivateChat();
     }
 
+    let icon;
+
+    if (isSearchFriend) {
+        icon = friendStatusIconMap[friend.status as UserFriendStatus];
+    } else if (friend.isUserFriend) {
+        icon = friendStatusIconMap[UserFriendStatus.ACCEPTED];
+    } else {
+        icon = friendStatusIconMap[UserFriendStatus.NONE];
+    }
+
     function handleAddToPotentialGroupChat() {
         dispatch(chatActions.addUserToAddToChat(friend.username));
     }
@@ -129,6 +160,23 @@ export default function SocialCard({
             <h3 className="text-center text-xl font-semibold capitalize">
                 {friend.username}
             </h3>
+            <div className="flex gap-2 text-3xl">
+                <SocialButton onClick={handleNavigateToUserProfile}>
+                    <FaUser aria-label="userProfileFriendCardIcon" />
+                </SocialButton>
+                <SocialButton onClick={handleNavigateToChat}>
+                    <BiMessageRounded aria-label="messageFriendCardIcon" />
+                </SocialButton>
+                {type !== SocialListType.FOLLOWERS && !isSocialForViewer && (
+                    <SocialButton
+                        onClick={
+                            friend.isUserFriend ? openModal : addUserFriend
+                        }
+                    >
+                        {icon}
+                    </SocialButton>
+                )}
+            </div>
             {type === SocialListType.POTENTIAL_GROUP_CHAT_MEMBER ? (
                 <SocialButton
                     onClick={handleAddToPotentialGroupChat}

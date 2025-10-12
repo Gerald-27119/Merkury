@@ -198,6 +198,7 @@ export default function AdvanceSearchBar({
                                         suggestions={suggestions}
                                         onClick={handleSuggestionClick}
                                         id={"city"}
+                                        onClose={() => setActiveInput(null)}
                                     />
                                 )}
                         </div>
@@ -224,6 +225,7 @@ export default function AdvanceSearchBar({
                                             suggestions={suggestions}
                                             onClick={handleSuggestionClick}
                                             id={"tags"}
+                                            onClose={() => setActiveInput(null)}
                                         />
                                     )}
                             </div>

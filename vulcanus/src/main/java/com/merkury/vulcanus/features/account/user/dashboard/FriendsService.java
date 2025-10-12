@@ -43,12 +43,13 @@ public class FriendsService {
                 .map(friendView -> friendView.getFriend().getUsername())
                 .toList();
         var friendsUsernamePrivateChatIdMap = chatService.mapPrivateChatIdsByUsername(username, friendUsernames);
+        boolean isFriendOfUser = true;
         var mappedFriends = friendsPage.stream()
                 .map(friendView -> {
                     var friendUsername = friendView.getFriend().getUsername();
                     var privateChatId = friendsUsernamePrivateChatIdMap.get(friendUsername);
 
-                    return SocialMapper.friendViewToSocialDto(friendView, privateChatId, true);
+                    return SocialMapper.friendViewToSocialDto(friendView, privateChatId, isFriendOfUser);
                 })
                 .toList();
         return new SocialPageDto(mappedFriends, friendsPage.hasNext());
@@ -145,11 +146,14 @@ public class FriendsService {
 
         var mappedUsers = usersPage.getContent().stream()
                 .map(user -> {
-                    var isFriends = currentUser.getFriendships()
+                    var status = currentUser.getFriendships()
                             .stream()
-                            .anyMatch(f -> f.getFriend().equals(user));
+                            .filter(f -> f.getFriend().equals(user))
+                            .map(Friendship::getStatus)
+                            .findFirst()
+                            .orElse(UserFriendStatus.NONE);
 
-                    return SocialMapper.toDto(user, isFriends);
+                    return SocialMapper.toDto(user, status);
                 })
                 .toList();
 

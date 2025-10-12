@@ -185,6 +185,7 @@ export default function SearchBar({
                                     suggestions={suggestions}
                                     onClick={handleSuggestionClick}
                                     id={id}
+                                    onClose={() => setActiveInput(null)}
                                 />
                             )}
                         </div>

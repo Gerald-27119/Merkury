@@ -30,7 +30,7 @@ export default function ForgotPassword() {
             header="Forgot your password?"
             notificationMessage="Reminder email sent!"
         >
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-y-5">
                 <FormInput
                     id="email"
                     value={enteredValue.email}
@@ -42,7 +42,7 @@ export default function ForgotPassword() {
                 />
                 <button
                     type="submit"
-                    className="m-1 mt-2 mb-2 w-full rounded-lg bg-black p-1 text-white"
+                    className="mt-2 mb-2 w-full rounded-lg bg-black p-1 text-white"
                     disabled={!didEdit.email || !isValid.email.value}
                 >
                     Remind me
