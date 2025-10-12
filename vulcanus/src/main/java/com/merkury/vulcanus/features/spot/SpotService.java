@@ -211,10 +211,9 @@ public class SpotService {
         return new HomePageSpotPageDto(spotDtos, spotPages.hasNext());
     }
 
-    public SpotMediaGalleryPagePosition getSpotGalleryMediaPosition(Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, Pageable pageable) {
-        var sortedPageable = configurePageableSorting(pageable, sorting);
-        var mediaPagePosition = spotMediaRepository.countBefore(mediaId, spotId, mediaType).intValue();
-        return SpotMediaGalleryPagePosition.builder().mediaPagePosition(mediaPagePosition).build();
+    public SpotMediaGalleryPagePosition getSpotGalleryMediaPosition(Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, int pageSize) {
+        var mediaPagePosition = spotMediaRepository.countBefore(mediaId, spotId, mediaType, sorting).intValue();
+        return SpotMediaGalleryPagePosition.builder().mediaPagePosition(mediaPagePosition % pageSize).build();
     }
 
     public Page<SpotMediaGalleryDto> getSpotGalleryPage(Long spotId, GenericMediaType mediaType, String sorting, Pageable pageable) {

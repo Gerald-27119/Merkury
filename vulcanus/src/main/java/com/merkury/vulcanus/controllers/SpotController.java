@@ -44,16 +44,14 @@ public class SpotController {
         return ResponseEntity.ok(spotService.getSpotGalleryPage(spotId, GenericMediaType.valueOf(mediaType), sorting, PageRequest.of(page, size)));
     }
 
-    //TODO: are page and size and sorting necessary?
     @GetMapping("/public/spot/gallery-media-position")
     public ResponseEntity<SpotMediaGalleryPagePosition> getSpotGalleryMediaPosition(@RequestParam Long spotId,
                                                                                     @RequestParam Long mediaId,
                                                                                     @RequestParam String mediaType,
                                                                                     @RequestParam String sorting,
-                                                                                    @RequestParam(defaultValue = "0") int page,
-                                                                                    @RequestParam(defaultValue = "6") int size) {
+                                                                                    @RequestParam(defaultValue = "6") int pageSize) {
         log.debug("get spot gallery media position");
-        return ResponseEntity.ok(spotService.getSpotGalleryMediaPosition(spotId, mediaId, GenericMediaType.valueOf(mediaType), sorting, PageRequest.of(page, size)));
+        return ResponseEntity.ok(spotService.getSpotGalleryMediaPosition(spotId, mediaId, GenericMediaType.valueOf(mediaType), sorting, pageSize));
     }
 
     @GetMapping("/public/spot/current-view")
