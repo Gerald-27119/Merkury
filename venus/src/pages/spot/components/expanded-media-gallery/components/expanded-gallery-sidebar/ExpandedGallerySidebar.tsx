@@ -164,20 +164,27 @@ export default function ExpandedGallerySidebar() {
             </div>
             <SortingAndFilterPanel />
             {isLoading && <LoadingSpinner />}
-            <ul className="flex flex-col items-center space-y-2">
-                {mediaList.map((media) =>
-                    media.mediaType === MediaType.PHOTO ? (
-                        <li
-                            key={media.id}
-                            className="overflow-hidden first:rounded-t-2xl"
-                        >
-                            <img src={media.url} alt={media.url} />
-                        </li>
-                    ) : (
-                        <li key={media.id}>video</li>
-                    ),
-                )}
-            </ul>
+            {mediaList.length === 0 ? (
+                <p className="text-center">
+                    No {mediaType === MediaType.PHOTO ? "photos" : "films"} to
+                    display.
+                </p>
+            ) : (
+                <ul className="flex flex-col items-center space-y-2">
+                    {mediaList.map((media) =>
+                        media.mediaType === MediaType.PHOTO ? (
+                            <li
+                                key={media.id}
+                                className="overflow-hidden first:rounded-t-2xl"
+                            >
+                                <img src={media.url} alt={media.url} />
+                            </li>
+                        ) : (
+                            <li key={media.id}>video</li>
+                        ),
+                    )}
+                </ul>
+            )}
             {isFetchingNextPage && <LoadingSpinner />}
             <div ref={loadMoreRef} className="invisible h-1" />
         </div>
