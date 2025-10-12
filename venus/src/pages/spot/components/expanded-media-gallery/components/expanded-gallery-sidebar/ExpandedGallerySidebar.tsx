@@ -19,6 +19,13 @@ import { MediaType } from "../../../../../../model/enum/mediaType";
 import { expandedSpotMediaGalleryModalsActions } from "../../../../../../redux/expanded-spot-media-gallery-modals";
 import { expandedSpotMediaGalleryAction } from "../../../../../../redux/expanded-spot-media-gallery";
 import { FaChevronLeft } from "react-icons/fa6";
+import { AnimatePresence, motion, LayoutGroup } from "framer-motion";
+
+const slideVariants = {
+    hidden: { x: "-100%", opacity: 0 },
+    visible: { x: 0, opacity: 1 },
+    exit: { x: "-100%", opacity: 0 },
+};
 
 export default function ExpandedGallerySidebar() {
     const [pageCount, setPageCount] = useState<number>(0);
@@ -160,45 +167,61 @@ export default function ExpandedGallerySidebar() {
     };
 
     return (
-        <div className="flex items-center">
-            <div
-                ref={containerRef}
-                className="dark:bg-violetHeavyDark h-full w-[20rem] overflow-y-auto p-2 xl:w-[30rem] xl:overflow-y-hidden"
-            >
-                <div className="mt-1 grid w-full grid-cols-3 items-center">
-                    <div></div>
-                    <h2 className="text-center text-2xl">Gallery</h2>
-                    <IoClose
-                        onClick={handleCloseSidebar}
-                        className="ml-auto cursor-pointer justify-self-end text-2xl"
-                    />
-                </div>
-                <SortingAndFilterPanel />
-                {isLoading && <LoadingSpinner />}
-                {mediaList.length === 0 ? (
-                    <p className="text-center">
-                        No {mediaType === MediaType.PHOTO ? "photos" : "films"}{" "}
-                        to display.
-                    </p>
-                ) : (
-                    <ul className="flex flex-col items-center space-y-2">
-                        {mediaList.map((media) =>
-                            media.mediaType === MediaType.PHOTO ? (
-                                <li
-                                    key={media.id}
-                                    className="overflow-hidden first:rounded-t-2xl"
-                                >
-                                    <img src={media.url} alt={media.url} />
-                                </li>
-                            ) : (
-                                <li key={media.id}>video</li>
-                            ),
+        <div className="flex items-center bg-black">
+            <AnimatePresence>
+                {showExpandedGallerySidebar && (
+                    <motion.div
+                        key="spot-expanded-media-gallery-sidebar"
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        variants={slideVariants}
+                        transition={{ duration: 0.3 }}
+                        ref={containerRef}
+                        className="dark:bg-violetHeavyDark h-full w-[20rem] overflow-y-auto p-2 xl:w-[30rem] xl:overflow-y-hidden"
+                    >
+                        <div className="mt-1 grid w-full grid-cols-3 items-center">
+                            <div></div>
+                            <h2 className="text-center text-2xl">Gallery</h2>
+                            <IoClose
+                                onClick={handleCloseSidebar}
+                                className="ml-auto cursor-pointer justify-self-end text-2xl"
+                            />
+                        </div>
+                        <SortingAndFilterPanel />
+                        {isLoading && <LoadingSpinner />}
+                        {mediaList.length === 0 ? (
+                            <p className="text-center">
+                                No{" "}
+                                {mediaType === MediaType.PHOTO
+                                    ? "photos"
+                                    : "films"}{" "}
+                                to display.
+                            </p>
+                        ) : (
+                            <ul className="flex flex-col items-center space-y-2">
+                                {mediaList.map((media) =>
+                                    media.mediaType === MediaType.PHOTO ? (
+                                        <li
+                                            key={media.id}
+                                            className="overflow-hidden first:rounded-t-2xl"
+                                        >
+                                            <img
+                                                src={media.url}
+                                                alt={media.url}
+                                            />
+                                        </li>
+                                    ) : (
+                                        <li key={media.id}>video</li>
+                                    ),
+                                )}
+                            </ul>
                         )}
-                    </ul>
+                        {isFetchingNextPage && <LoadingSpinner />}
+                        <div ref={loadMoreRef} className="invisible h-1" />
+                    </motion.div>
                 )}
-                {isFetchingNextPage && <LoadingSpinner />}
-                <div ref={loadMoreRef} className="invisible h-1" />
-            </div>
+            </AnimatePresence>
             <div className="flex h-full items-center bg-black">
                 <div
                     className="bg-violetLightDark w-fit cursor-pointer rounded-r-2xl py-3.5"
