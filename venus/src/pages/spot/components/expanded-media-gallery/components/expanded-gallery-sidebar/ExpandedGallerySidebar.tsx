@@ -18,6 +18,7 @@ import LoadingSpinner from "../../../../../../components/loading-spinner/Loading
 import { MediaType } from "../../../../../../model/enum/mediaType";
 import { expandedSpotMediaGalleryModalsActions } from "../../../../../../redux/expanded-spot-media-gallery-modals";
 import { expandedSpotMediaGalleryAction } from "../../../../../../redux/expanded-spot-media-gallery";
+import { FaChevronLeft } from "react-icons/fa6";
 
 export default function ExpandedGallerySidebar() {
     const [pageCount, setPageCount] = useState<number>(0);
@@ -26,6 +27,9 @@ export default function ExpandedGallerySidebar() {
     const { spotId } = useSelectorTyped((state) => state.spotDetails);
     const { mediaType, sorting, mediaPagePosition, mediaId } = useSelectorTyped(
         (state) => state.expandedSpotMediaGallery,
+    );
+    const { showExpandedGallerySidebar } = useSelectorTyped(
+        (state) => state.expandedSpotMediaGalleryModals,
     );
 
     const loadMoreRef = useRef<HTMLDivElement>(null);
@@ -149,44 +153,64 @@ export default function ExpandedGallerySidebar() {
         );
     };
 
+    const handleClickToggleSidebar = () => {
+        dispatch(
+            expandedSpotMediaGalleryModalsActions.toggleExpandedGallerySidebar(),
+        );
+    };
+
     return (
-        <div
-            ref={containerRef}
-            className="dark:bg-violetHeavyDark h-full w-[20rem] overflow-y-auto p-2 xl:w-[30rem] xl:overflow-y-hidden"
-        >
-            <div className="mt-1 grid w-full grid-cols-3 items-center">
-                <div></div>
-                <h2 className="text-center text-2xl">Gallery</h2>
-                <IoClose
-                    onClick={handleCloseSidebar}
-                    className="ml-auto cursor-pointer justify-self-end text-2xl"
-                />
+        <div className="flex items-center">
+            <div
+                ref={containerRef}
+                className="dark:bg-violetHeavyDark h-full w-[20rem] overflow-y-auto p-2 xl:w-[30rem] xl:overflow-y-hidden"
+            >
+                <div className="mt-1 grid w-full grid-cols-3 items-center">
+                    <div></div>
+                    <h2 className="text-center text-2xl">Gallery</h2>
+                    <IoClose
+                        onClick={handleCloseSidebar}
+                        className="ml-auto cursor-pointer justify-self-end text-2xl"
+                    />
+                </div>
+                <SortingAndFilterPanel />
+                {isLoading && <LoadingSpinner />}
+                {mediaList.length === 0 ? (
+                    <p className="text-center">
+                        No {mediaType === MediaType.PHOTO ? "photos" : "films"}{" "}
+                        to display.
+                    </p>
+                ) : (
+                    <ul className="flex flex-col items-center space-y-2">
+                        {mediaList.map((media) =>
+                            media.mediaType === MediaType.PHOTO ? (
+                                <li
+                                    key={media.id}
+                                    className="overflow-hidden first:rounded-t-2xl"
+                                >
+                                    <img src={media.url} alt={media.url} />
+                                </li>
+                            ) : (
+                                <li key={media.id}>video</li>
+                            ),
+                        )}
+                    </ul>
+                )}
+                {isFetchingNextPage && <LoadingSpinner />}
+                <div ref={loadMoreRef} className="invisible h-1" />
             </div>
-            <SortingAndFilterPanel />
-            {isLoading && <LoadingSpinner />}
-            {mediaList.length === 0 ? (
-                <p className="text-center">
-                    No {mediaType === MediaType.PHOTO ? "photos" : "films"} to
-                    display.
-                </p>
-            ) : (
-                <ul className="flex flex-col items-center space-y-2">
-                    {mediaList.map((media) =>
-                        media.mediaType === MediaType.PHOTO ? (
-                            <li
-                                key={media.id}
-                                className="overflow-hidden first:rounded-t-2xl"
-                            >
-                                <img src={media.url} alt={media.url} />
-                            </li>
-                        ) : (
-                            <li key={media.id}>video</li>
-                        ),
-                    )}
-                </ul>
-            )}
-            {isFetchingNextPage && <LoadingSpinner />}
-            <div ref={loadMoreRef} className="invisible h-1" />
+            <div className="flex h-full items-center bg-black">
+                <div
+                    className="bg-violetLightDark w-fit cursor-pointer rounded-r-2xl py-3.5"
+                    onClick={handleClickToggleSidebar}
+                >
+                    <FaChevronLeft
+                        className={`text-3xl text-black transition-transform ${
+                            showExpandedGallerySidebar ? "" : "rotate-180"
+                        }`}
+                    />
+                </div>
+            </div>
         </div>
     );
 }

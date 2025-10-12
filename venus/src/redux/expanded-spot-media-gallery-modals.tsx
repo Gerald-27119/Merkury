@@ -28,6 +28,10 @@ export const expandedSpotMediaGalleryModalsSlice = createSlice({
         closeExpandedGallerySidebar(state) {
             state.showExpandedGallerySidebar = false;
         },
+        toggleExpandedGallerySidebar(state) {
+            state.showExpandedGallerySidebar =
+                !state.showExpandedGallerySidebar;
+        },
     },
 });
 
