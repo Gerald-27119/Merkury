@@ -1,14 +1,13 @@
 package com.merkury.vulcanus.features.chat;
 
-import com.merkury.vulcanus.features.azure.AzureBlobService;
+import com.merkury.vulcanus.exception.exceptions.ChatNotFoundException;
 import com.merkury.vulcanus.model.dtos.chat.group.CreateGroupChatDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.chat.Chat;
+import com.merkury.vulcanus.model.entities.chat.ChatParticipant;
 import com.merkury.vulcanus.model.enums.chat.ChatType;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
-import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
-import com.merkury.vulcanus.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -23,11 +22,7 @@ import java.util.stream.Stream;
 class GroupChatService {
 
     private final ChatRepository chatRepository;
-    private final ChatMessageRepository chatMessageRepository;
     private final UserEntityRepository userEntityRepository;
-    private final CustomUserDetailsService customUserDetailsService;
-    private final AzureBlobService azureBlobService;
-    private final ChatStompCommunicationService chatStompCommunicationService;
 
     public Chat create(CreateGroupChatDto createGroupChatDto) throws Exception {
         var usernames = createGroupChatDto.usernames();
@@ -65,4 +60,17 @@ class GroupChatService {
         else return participants;
     }
 
+    public Chat addUsers(List<String> usernames, String currentUserUsername, Long chatId) throws Exception {
+        var usersToAdd = userEntityRepository.findAllByUsernameIn(usernames);
+        if (usersToAdd.size() != usernames.size()) throw new Exception();
+        var chatFromDb = chatRepository.findChatById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
+        var newParticipantsToAdd = usersToAdd.stream().map(userEntity -> ChatParticipant.builder()
+                .user(userEntity)
+                .chat(chatFromDb)
+                .build()
+        ).toList();
+        chatFromDb.getParticipants().addAll(newParticipantsToAdd);
+        //czy moga na forncie wysietalc sie ci co sa  anc zacie juz?
+        return chatRepository.save(chatFromDb);
+    }
 }

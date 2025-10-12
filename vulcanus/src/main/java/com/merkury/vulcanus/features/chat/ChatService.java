@@ -264,4 +264,10 @@ public class ChatService {
         var createdChat = this.groupChatService.create(new CreateGroupChatDto(createGroupChatDto.usernames(), ownerUsername));
         return ChatMapper.toChatDto(createdChat);
     }
+
+    public ChatDto addUsersToGroupChat(List<String> usernames, String currentUserUsername, Long chatId) throws Exception {
+        var currentUsername = this.customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        var updatedChat = this.groupChatService.addUsers(usernames, currentUsername, chatId);
+        return ChatMapper.toChatDto(updatedChat);
+    }
 }

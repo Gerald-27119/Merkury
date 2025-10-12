@@ -6,17 +6,18 @@ import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserByUsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.chat.ChatService;
+import com.merkury.vulcanus.model.dtos.chat.AddUsersToExistingGroupChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.group.CreateGroupChatDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -75,7 +76,18 @@ public class ChatController {
     @PostMapping("create/group")
     public ResponseEntity<ChatDto> createGroupChat(@RequestBody CreateGroupChatDto createGroupChatDto) throws Exception {
         var chatDto = chatService.createGroupChat(createGroupChatDto);
-        return new ResponseEntity<>(chatDto, HttpStatusCode.valueOf(201));
+        return new ResponseEntity<>(chatDto, HttpStatus.CREATED);
+    }
+
+//    TODO: maybe implement in future, maybe not?
+    @PutMapping("add/users")
+    public ResponseEntity<ChatDto> addUsersToGroupChat(@RequestBody AddUsersToExistingGroupChatDto addUsersToExistingGroupChatDto) throws Exception {
+        var chatDto = chatService.addUsersToGroupChat(
+                addUsersToExistingGroupChatDto.usernames(),
+                addUsersToExistingGroupChatDto.currentUserUsername(),
+                addUsersToExistingGroupChatDto.chatId()
+        );
+        return new ResponseEntity<>(chatDto, HttpStatus.OK);
     }
 
 }

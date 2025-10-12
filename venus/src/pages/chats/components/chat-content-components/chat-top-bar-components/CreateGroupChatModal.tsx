@@ -20,7 +20,7 @@ interface SearchFriendsListProps {
     onClose?: () => void;
 }
 
-export default function AddPeopleToGroupChatSearchModal({
+export default function CreateGroupChatModal({
     onClose,
 }: SearchFriendsListProps) {
     const [query, setQuery] = useState("");
