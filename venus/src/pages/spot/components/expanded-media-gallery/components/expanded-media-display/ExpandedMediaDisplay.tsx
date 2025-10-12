@@ -4,6 +4,7 @@ import ExpandedGalleryPhoto from "./ExpandedGalleryPhoto";
 import ExpandedGalleryVideo from "./ExpandedGalleryVideo";
 import ExpandedGalleryPanel from "./ExpandedGalleryPanel";
 import useSelectorTyped from "../../../../../../hooks/useSelectorTyped";
+import MediaDisplayFilterPanel from "./MediaDisplayFilterPanel";
 
 export default function ExpandedMediaDisplay() {
     const currentMedia = useSelectorTyped(
@@ -17,7 +18,10 @@ export default function ExpandedMediaDisplay() {
                 authorProfilePhotoUrl={currentMedia.authorProfilePhotoUrl}
                 publishDate={currentMedia.publishDate}
             />
-            <div>
+            <div className="relative">
+                <div className="absolute top-0 left-1/2">
+                    <MediaDisplayFilterPanel />
+                </div>
                 {currentMedia.mediaType === MediaType.PHOTO ? (
                     <ExpandedGalleryPhoto url={currentMedia.url} />
                 ) : (
