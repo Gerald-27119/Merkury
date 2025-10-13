@@ -1,38 +1,33 @@
+import ActionIconWithCount from "../posts/components/ActionIconWithCount";
 import { MdThumbDown, MdThumbUp } from "react-icons/md";
-import { FaComment, FaShare } from "react-icons/fa";
-import ForumContentMenu from "./ForumContentMenu";
-import AddCommentButton from "../../components/AddCommentButton";
-import ActionIconWithCount from "./ActionIconWithCount";
+import { FaReply } from "react-icons/fa";
+import ForumContentMenu from "../posts/components/ForumContentMenu";
 
-interface DetailedPostActionsProps {
-    postId: number;
+interface ForumCommentActionsProps {
+    commentId: number;
     isAuthor: boolean;
     upVotes: number;
     downVotes: number;
     isUpVoted: boolean;
     isDownVoted: boolean;
-    numberOfComments: number;
     onDelete: (postId: number) => void;
     onEdit: (postId: number) => void;
     onVote: (postId: number, isUpvote: boolean) => void;
-    onFollow: (postId: number) => void;
     onReport: (postId: number) => void;
 }
 
-export default function DetailedPostActions({
-    postId,
+export default function ForumCommentActions({
+    commentId,
     isAuthor,
     upVotes,
     downVotes,
     isUpVoted,
     isDownVoted,
-    numberOfComments,
     onDelete,
     onEdit,
     onVote,
-    onFollow,
     onReport,
-}: DetailedPostActionsProps) {
+}: ForumCommentActionsProps) {
     return (
         <div className="mt-2 flex items-center text-2xl">
             <div className="flex gap-6">
@@ -40,30 +35,25 @@ export default function DetailedPostActions({
                     Icon={MdThumbUp}
                     data={upVotes}
                     isActive={isUpVoted}
-                    onClick={() => onVote(postId, true)}
+                    onClick={() => onVote(commentId, true)}
                 />
                 <ActionIconWithCount
                     Icon={MdThumbDown}
                     data={downVotes}
                     isActive={isDownVoted}
-                    onClick={() => onVote(postId, false)}
+                    onClick={() => onVote(commentId, false)}
                 />
-                <ActionIconWithCount Icon={FaComment} data={numberOfComments} />
             </div>
-
             <div className="ml-8 flex gap-6">
-                <FaShare className="cursor-pointer hover:text-blue-500" />
+                <FaReply className="cursor-pointer hover:text-blue-500" />
                 <ForumContentMenu
-                    contentId={postId}
+                    contentId={commentId}
                     isUserAuthor={isAuthor}
                     onDelete={onDelete}
                     onEdit={onEdit}
-                    onFollow={onFollow}
                     onReport={onReport}
                 />
             </div>
-
-            <AddCommentButton />
         </div>
     );
 }

@@ -4,7 +4,7 @@ interface DetailedPostHeaderProps {
     onAuthorClick: () => void;
 }
 
-export default function DetailedPostHeader({
+export default function ForumContentHeader({
     author,
     publishDate,
     onAuthorClick,

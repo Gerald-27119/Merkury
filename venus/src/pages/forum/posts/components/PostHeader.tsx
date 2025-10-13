@@ -1,4 +1,4 @@
-import PostMenu from "./PostMenu";
+import ForumContentMenu from "./ForumContentMenu";
 import PostGeneral from "../../../../model/interface/forum/post/postGeneral";
 import { NavLink } from "react-router-dom";
 
@@ -24,7 +24,7 @@ export default function PortHeader({
                     {post.title}
                 </h2>
             </NavLink>
-            <PostMenu
+            <ForumContentMenu
                 postId={post.id}
                 isUserAuthor={post.isAuthor}
                 onDelete={onDelete}

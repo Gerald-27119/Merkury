@@ -1,3 +1,5 @@
+import ForumAuthorDto from "../forumAuthorDto";
+
 export default interface ForumCommentGeneral {
     id: number;
     content: string;
@@ -5,7 +7,7 @@ export default interface ForumCommentGeneral {
     downVotes: number;
     repliesCount: number;
     publishDate: string;
-    author: string;
+    author: ForumAuthorDto;
     isAuthor: boolean;
     isUpVoted: boolean;
     isDownVoted: boolean;

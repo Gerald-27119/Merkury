@@ -70,11 +70,14 @@ export default function useForumPostActions({ redirectOnDelete = false } = {}) {
 
     const handleReport = async (postId: number) => {};
 
+    const handleShare = async () => {};
+
     return {
         handleDelete,
         handleEdit,
         handleVote,
         handleFollow,
         handleReport,
+        handleShare,
     };
 }

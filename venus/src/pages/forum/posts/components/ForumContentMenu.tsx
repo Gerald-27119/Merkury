@@ -8,29 +8,29 @@ import { useToggleState } from "../../../../hooks/useToggleState";
 import { useClickOutside } from "../../../../hooks/useClickOutside";
 import { useBoolean } from "../../../../hooks/useBoolean";
 
-interface PostMenuProps {
-    postId: number;
+interface ForumContentMenuProps {
+    contentId: number;
     isUserAuthor: boolean;
-    onDelete: (postId: number) => void;
-    onEdit: (postId: number) => void;
-    onFollow: (postId: number) => void;
-    onReport: (postId: number) => void;
+    onDelete: (id: number) => void;
+    onEdit: (id: number) => void;
+    onFollow?: (id: number) => void;
+    onReport: (id: number) => void;
 }
 
-export default function PostMenu({
-    postId,
+export default function ForumContentMenu({
+    contentId,
     isUserAuthor,
     onDelete,
     onEdit,
     onFollow,
     onReport,
-}: PostMenuProps) {
+}: ForumContentMenuProps) {
     const [isPostMenuOpen, openPostMenu, closePostMenu] = useBoolean(false);
     const menuRef = useRef<HTMLDivElement>(null);
     useClickOutside(menuRef, closePostMenu, isPostMenuOpen);
 
-    const handleClick = (action: (postId: number) => void) => {
-        action(postId);
+    const handleClick = (action: (id: number) => void) => {
+        action(contentId);
         closePostMenu();
     };
 
@@ -38,16 +38,18 @@ export default function PostMenu({
         <div className="relative" ref={menuRef}>
             <HiDotsHorizontal
                 onClick={isPostMenuOpen ? closePostMenu : openPostMenu}
-                className="dark:hover:text-lightBgSoft cursor-pointer text-2xl"
+                className="cursor-pointer text-2xl hover:text-blue-500 dark:hover:text-blue-400"
             />
 
             {isPostMenuOpen && (
                 <div className="dark:border-darkBorder dark:bg-darkBgSoft absolute right-0 z-10 mt-2 w-40 rounded-md border bg-white shadow-lg">
                     <ul className="items-center py-1 text-sm">
-                        <MenuItem onClick={() => handleClick(onFollow)}>
-                            <FaBell />
-                            Follow
-                        </MenuItem>
+                        {onFollow && (
+                            <MenuItem onClick={() => handleClick(onFollow)}>
+                                <FaBell />
+                                Follow
+                            </MenuItem>
+                        )}
 
                         <MenuItem onClick={() => handleClick(onReport)}>
                             <MdFlag />
