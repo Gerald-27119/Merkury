@@ -64,7 +64,7 @@ class GroupChatService {
 
     public Chat addUsers(List<String> usernames, String currentUserUsername, Long chatId) throws AddUsersToExistingGroupChatException, ChatNotFoundException {
         var usersToAdd = userEntityRepository.findAllByUsernameIn(usernames);
-        if (usersToAdd.size() != usernames.size()) throw new AddUsersToExistingGroupChatException("Some useres weren't found in DB.");
+        if (usersToAdd.size() != usernames.size()) throw new AddUsersToExistingGroupChatException("Some users weren't found in DB.");
         var chatFromDb = chatRepository.findChatById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
         var newParticipantsToAdd = usersToAdd.stream().map(userEntity -> ChatParticipant.builder()
                 .user(userEntity)

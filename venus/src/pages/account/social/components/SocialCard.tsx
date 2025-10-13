@@ -173,7 +173,7 @@ export default function SocialCard({
                     aria-disabled={isClicked}
                 >
                     {isClicked ? (
-                        <span className="font-semibol text-base">Dodano</span>
+                        <span className="text-base font-semibold">Dodano</span>
                     ) : (
                         <IoAddOutline
                             aria-label="addToPotentialGroupChatIcon"

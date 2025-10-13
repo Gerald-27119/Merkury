@@ -138,7 +138,7 @@ public class FriendsService {
         }
 
         var pageable = PageRequest.of(page, size, Sort.by("username").ascending());
-        var usersPage = userEntityRepository.findAllByUsernameContainingIgnoreCaseAndUsernameNot(query, pageable, currentUser.getUsername());
+        var usersPage = userEntityRepository.findAllByUsernameContainingIgnoreCaseAndUsernameNot(query, currentUser.getUsername(), pageable);
 
         if (usersPage.isEmpty()) {
             return new SocialPageDto(List.of(), false);

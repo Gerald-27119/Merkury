@@ -136,7 +136,7 @@ export default function CreateGroupChatModal({
 
             <div className="mt-2 mb-3 flex h-16 gap-3 p-2">
                 {usersToAddToChat.map((username) => (
-                    <UserToAddButton username={username} />
+                    <UserToAddButton username={username} key={username} />
                 ))}
             </div>
 

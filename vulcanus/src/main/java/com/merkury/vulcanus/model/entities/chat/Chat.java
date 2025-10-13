@@ -74,7 +74,7 @@ public class Chat {
         participants.addAll(participantsToAdd);
     }
 
-    public void addOwner(UserEntity user){
+    public void addOwner(UserEntity user) {
         var p = ChatParticipant.builder()
                 .chat(this)
                 .user(user)
@@ -92,7 +92,7 @@ public class Chat {
 //            "(SELECT MAX(m.sent_at) FROM chat_messages m WHERE m.chat_id = id)"
 //    )
     @Builder.Default
-    private LocalDateTime lastMessageAt = LocalDateTime.now();;//TODO: figure out better default value
+    private LocalDateTime lastMessageAt = LocalDateTime.now();//TODO: figure out better default value
 
     //TODO:how it works excatly, should i use it? the cascader persist
     @OneToMany(mappedBy = "chat")
