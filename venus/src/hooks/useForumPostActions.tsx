@@ -66,11 +66,13 @@ export default function useForumPostActions({ redirectOnDelete = false } = {}) {
         }
     };
 
-    const handleFollow = async (postId: number) => {};
+    const handleFollow = async (id: number) => {};
 
-    const handleReport = async (postId: number) => {};
+    const handleReport = async (id: number) => {};
 
     const handleShare = async () => {};
+
+    const handleReply = async () => {};
 
     return {
         handleDelete,
@@ -79,5 +81,6 @@ export default function useForumPostActions({ redirectOnDelete = false } = {}) {
         handleFollow,
         handleReport,
         handleShare,
+        handleReply,
     };
 }

@@ -2,10 +2,9 @@ import ForumCommentGeneral from "../../../model/interface/forum/postComment/foru
 import ForumContentHeader from "../posts/components/ForumContentHeader";
 import { useNavigate } from "react-router-dom";
 import ForumCommentContent from "./ForumCommentContent";
-import { MdKeyboardArrowDown, MdThumbUp } from "react-icons/md";
-import ActionIconWithCount from "../posts/components/ActionIconWithCount";
 import ForumContentActions from "../components/ForumContentActions";
 import ShowRepliesButton from "./ShowRepliesButton";
+import useForumPostActions from "../../../hooks/useForumPostActions";
 
 interface ForumCommentProps {
     comment: ForumCommentGeneral;
@@ -14,11 +13,12 @@ interface ForumCommentProps {
 export default function ForumComment({ comment }: ForumCommentProps) {
     const navigate = useNavigate();
 
+    const { handleDelete, handleEdit, handleVote, handleReport, handleReply } =
+        useForumPostActions({ redirectOnDelete: false });
+
     const handleNavigateToAuthorProfile = () => {
         navigate(`/account/profile/${comment.author.username}`);
     };
-
-    const handlesmth = () => {};
 
     return (
         <div className="">
@@ -35,11 +35,11 @@ export default function ForumComment({ comment }: ForumCommentProps) {
                 downVotes={comment.downVotes}
                 isUpVoted={comment.isUpVoted}
                 isDownVoted={comment.isDownVoted}
-                onDelete={handlesmth}
-                onEdit={handlesmth}
-                onVote={handlesmth}
-                onReport={handlesmth}
-                onReply={handlesmth}
+                onDelete={handleDelete}
+                onEdit={handleEdit}
+                onVote={handleVote}
+                onReport={handleReport}
+                onReply={handleReply}
             />
 
             <div className="flex items-center">
