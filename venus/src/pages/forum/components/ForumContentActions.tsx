@@ -74,10 +74,10 @@ export default function ForumContentActions({
                 )}
 
                 {onShare && (
-                    <FaShare
-                        onClick={onShare}
-                        className="cursor-pointer hover:text-blue-500 dark:hover:text-blue-400"
-                    />
+                    <div className="flex cursor-pointer items-center gap-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">
+                        <FaShare onClick={onShare} />
+                        <p>Share</p>
+                    </div>
                 )}
 
                 <ForumContentMenu

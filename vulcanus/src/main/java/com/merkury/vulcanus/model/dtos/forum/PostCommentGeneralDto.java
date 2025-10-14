@@ -26,6 +26,9 @@ public record PostCommentGeneralDto(@Positive(message = "ID must be a positive n
                                     @NotNull(message = "isUpVoted cannot be empty.")
                                     Boolean isUpVoted,
                                     @NotNull(message = "isDownVoted cannot be empty.")
-                                    Boolean isDownVoted) {
+                                    Boolean isDownVoted,
+                                    @NotNull(message = "isReply cannot be empty.")
+                                    Boolean isReply
+                                    ) {
 
 }

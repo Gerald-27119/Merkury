@@ -25,6 +25,7 @@ public class PostCommentMapper {
                 .isAuthor(postComment.getAuthor().equals(currentUser))
                 .isUpVoted(postComment.getUpVotedBy().contains(currentUser))
                 .isDownVoted(postComment.getDownVotedBy().contains(currentUser))
+                .isReply(postComment.getParent() != null)
                 .repliesCount(includeRepliesCount ? postComment.getReplies().size() : null)
                 .build();
     }

@@ -1,12 +1,14 @@
 interface DetailedPostHeaderProps {
     author: { username: string; profilePhoto: string };
     publishDate: string | Date;
+    isReply?: boolean;
     onAuthorClick: () => void;
 }
 
 export default function ForumContentHeader({
     author,
     publishDate,
+    isReply,
     onAuthorClick,
 }: DetailedPostHeaderProps) {
     return (
@@ -15,7 +17,7 @@ export default function ForumContentHeader({
                 <img
                     src={author.profilePhoto}
                     alt="profileImage"
-                    className="h-12 w-12 cursor-pointer rounded-full"
+                    className={`cursor-pointer rounded-full ${isReply ? "h-8 w-8" : "h-12 w-12"}`}
                 />
                 <span className="cursor-pointer">{author.username}</span>
             </div>

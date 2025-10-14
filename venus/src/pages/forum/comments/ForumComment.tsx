@@ -41,6 +41,7 @@ export default function ForumComment({ comment }: ForumCommentProps) {
             <ForumContentHeader
                 author={comment.author}
                 publishDate={comment.publishDate}
+                isReply={comment.isReply}
                 onAuthorClick={handleNavigateToAuthorProfile}
             />
             <ForumCommentContent content={comment.content} />

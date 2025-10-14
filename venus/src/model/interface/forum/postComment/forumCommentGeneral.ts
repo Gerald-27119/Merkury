@@ -11,4 +11,5 @@ export default interface ForumCommentGeneral {
     isAuthor: boolean;
     isUpVoted: boolean;
     isDownVoted: boolean;
+    isReply: boolean;
 }
