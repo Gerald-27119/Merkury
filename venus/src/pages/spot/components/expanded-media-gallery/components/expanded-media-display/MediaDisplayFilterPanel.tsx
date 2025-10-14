@@ -26,7 +26,6 @@ export default function MediaDisplayFilterPanel() {
             >
                 <BiImages onClick={() => handleSetMediaType(MediaType.PHOTO)} />
             </div>
-            <hr className="absolute top-1.5 left-1/2 h-6 w-0.5 bg-white" />
             <div
                 className={`${mediaType === MediaType.VIDEO ? "bg-grayBg/70" : "bg-black/70"} cursor-pointer rounded-br-2xl px-2 py-1`}
             >
@@ -34,6 +33,7 @@ export default function MediaDisplayFilterPanel() {
                     onClick={() => handleSetMediaType(MediaType.VIDEO)}
                 />
             </div>
+            <hr className="absolute top-1 left-[2.84rem] z-2 h-7 w-0.5 rounded-2xl bg-white" />
         </div>
     );
 }
