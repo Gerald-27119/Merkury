@@ -229,7 +229,7 @@ export default function ExpandedGallerySidebar() {
             </AnimatePresence>
             <div className="flex h-full items-center bg-black">
                 <div
-                    className="bg-violetLightDark w-fit cursor-pointer rounded-r-2xl py-3.5"
+                    className="bg-violetLightDark hover:bg-violetLightDarker w-fit cursor-pointer rounded-r-2xl py-3.5"
                     onClick={handleClickToggleSidebar}
                 >
                     <FaChevronLeft
