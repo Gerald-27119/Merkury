@@ -19,8 +19,8 @@ public record PostCommentGeneralDto(@Positive(message = "ID must be a positive n
                                     @PastOrPresent(message = "PublishDate must be in the past or present.")
                                     @NotNull(message = "PublishDate cannot be null.")
                                     LocalDateTime publishDate,
-                                    @NotBlank(message = "Author cannot be empty.")
-                                    String author,
+                                    @NotNull(message = "Author cannot be null.")
+                                    AuthorDto author,
                                     @NotNull(message = "isAuthor cannot be empty.")
                                     Boolean isAuthor,
                                     @NotNull(message = "isUpVoted cannot be empty.")

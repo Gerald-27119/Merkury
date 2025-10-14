@@ -21,7 +21,7 @@ public class PostCommentMapper {
                 .upVotes(postComment.getUpVotes())
                 .downVotes(postComment.getDownVotes())
                 .publishDate(postComment.getPublishDate())
-                .author(postComment.getAuthor().getUsername())
+                .author(AuthorMapper.toDto(postComment.getAuthor()))
                 .isAuthor(postComment.getAuthor().equals(currentUser))
                 .isUpVoted(postComment.getUpVotedBy().contains(currentUser))
                 .isDownVoted(postComment.getDownVotedBy().contains(currentUser))
