@@ -3,6 +3,13 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{glossaries}
 \usepackage[polish]{babel}
+\definecolor{httptype}{RGB}{0, 128, 0}
+
+
+\lstdefinelanguage{http}{
+    morekeywords={GET, POST, PUT, DELETE, PATCH, OPTIONS},
+    keywordstyle=\color{httptype}\bfseries
+}
 
 
 \makeglossaries
@@ -85,9 +92,9 @@
     \input{chapters/problem-description}
     \input{chapters/project-context}
     \input{chapters/requirements-analysis}
-    \input{chapters/project-decisions}
+%    \input{chapters/project-decisions}
     \input{chapters/project}
-    \input{chapters/implementation}
+    \input{chapters/implementation/implementation}
     \input{chapters/testing}
     \input{chapters/system-presentation}
     \input{chapters/amount-of-work/amount-of-work}

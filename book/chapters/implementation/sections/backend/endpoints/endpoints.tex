@@ -1,0 +1,69 @@
+%! Author = Mateusz Redosz
+%! Date = 14/10/2025
+
+
+\subsection{Endpointy systemu:}
+\label{subsec:endpointy-systemu}
+
+\noindent\textbf{Panel użytkownika}\\
+\texttt{GET /user-dashboard/profile}
+\texttt{GET /public/user-dashboard/profile/{targetUsername}}
+\texttt{PATCH /user-dashboard/profile}
+\texttt{GET /user-dashboard/friends}
+\texttt{GET /public/user-dashboard/friends/{targetUsername}}
+\texttt{PATCH /user-dashboard/friends}
+\texttt{PATCH /user-dashboard/friends/change-status}
+\texttt{GET /user-dashboard/followers}
+\texttt{GET /public/user-dashboard/followers/{targetUsername}}
+\texttt{GET /user-dashboard/followed}
+\texttt{GET /public/user-dashboard/followed/{targetUsername}}
+\texttt{GET /user-dashboard/friends/find}
+\texttt{GET /user-dashboard/friends/invites}
+\texttt{PATCH /user-dashboard/followed}
+\texttt{GET /user-dashboard/favorite-spots}
+\texttt{PATCH /user-dashboard/favorite-spots}
+\texttt{GET /user-dashboard/photos}
+\texttt{GET /user-dashboard/comments}
+\texttt{PATCH /user-dashboard/settings}
+\texttt{GET /user-dashboard/settings}
+\texttt{GET /user-dashboard/movies}
+\texttt{GET /user-dashboard/photos/{targetUsername}}
+\texttt{GET /user-dashboard/add-spot}
+\texttt{POST /user-dashboard/add-spot}
+\texttt{GET /user-dashboard/add-spot/coordinates}
+
+\subsubsection{\lstinline[language=http]{POST /register}}
+Rejestracja nowego użytkownika. \\
+\textbf{Request body:}
+\begin{lstlisting}[language=json]
+{
+  "email": "string",
+  "password": "string"
+}
+\end{lstlisting}
+\textbf{Responses:}
+\begin{itemize}
+    \item 200: Rejestracja powiodła się.
+    \item 400: Błąd walidacji danych.
+\begin{lstlisting}[language=json]
+{
+  "type": "string",
+  "title": "string",
+  "status": 0,
+  "detail": "string",
+  "instance": "string",
+  "errors": {
+    "additionalProp1": [
+      "string"
+    ],
+    "additionalProp2": [
+      "string"
+    ],
+    "additionalProp3": [
+      "string"
+    ]
+  }
+}
+\end{lstlisting}
+\end{itemize}
+
