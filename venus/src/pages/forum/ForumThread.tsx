@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchDetailedPost } from "../../http/posts";
 import { useParams } from "react-router-dom";
-import Error from "../../components/error/Error";
 import DetailedPost from "./posts/DetailedPost";
 import ReturnButton from "./components/ReturnButton";
 import ForumLayout from "./components/ForumLayout";
-import SkeletonDetailedPost from "./posts/components/SkeletonDetailedPost";
 import { getCommentsByPostId } from "../../http/post-comments";
 import { useState } from "react";
 import { ForumCommentSortOption } from "../../model/enum/forum/forumCommentSortOption";
@@ -41,27 +39,17 @@ export default function ForumThread({}) {
         queryFn: () => getCommentsByPostId(parsedPostId, 0, 10, sortOption),
     });
 
-    if (isPostDetailsLoading) {
-        return (
-            <ForumLayout>
-                <div className="mx-auto w-xl md:w-2xl lg:w-3xl">
-                    <ReturnButton />
-                    <SkeletonDetailedPost />
-                </div>
-            </ForumLayout>
-        );
-    }
-
-    if (isPostDetailsError) {
-        return <Error error={PostDetailsError} />;
-    }
-
     return (
         <ForumLayout>
             <div className="mx-auto w-xl md:w-2xl lg:w-3xl">
                 <ReturnButton />
                 {PostDetails ? (
-                    <DetailedPost post={PostDetails} />
+                    <DetailedPost
+                        post={PostDetails}
+                        isLoading={isPostDetailsLoading}
+                        isError={isPostDetailsError}
+                        error={PostDetailsError}
+                    />
                 ) : (
                     <span>No info</span>
                 )}
@@ -69,6 +57,9 @@ export default function ForumThread({}) {
                     comments={forumCommentPage?.content}
                     sortOption={sortOption}
                     onSortChange={setSortOption}
+                    isLoading={isforumCommentPageLoading}
+                    isError={isforumCommentPageError}
+                    error={forumCommentPageError}
                 />
             </div>
         </ForumLayout>

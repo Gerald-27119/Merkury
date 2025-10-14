@@ -5,6 +5,10 @@ import ForumCommentContent from "./ForumCommentContent";
 import ForumContentActions from "../components/ForumContentActions";
 import ShowRepliesButton from "./ShowRepliesButton";
 import useForumPostActions from "../../../hooks/useForumPostActions";
+import { useQuery } from "@tanstack/react-query";
+import { getCommentRepliesByCommentId } from "../../../http/post-comments";
+import { useBoolean } from "../../../hooks/useBoolean";
+import ForumCommentList from "./ForumCommentList";
 
 interface ForumCommentProps {
     comment: ForumCommentGeneral;
@@ -12,6 +16,7 @@ interface ForumCommentProps {
 
 export default function ForumComment({ comment }: ForumCommentProps) {
     const navigate = useNavigate();
+    const [areRepliesOpen, openReplies, closeReplies] = useBoolean(false);
 
     const { handleDelete, handleEdit, handleVote, handleReport, handleReply } =
         useForumPostActions({ redirectOnDelete: false });
@@ -20,8 +25,19 @@ export default function ForumComment({ comment }: ForumCommentProps) {
         navigate(`/account/profile/${comment.author.username}`);
     };
 
+    const {
+        data: repliesPage,
+        error: repliesPageError,
+        isError: isrepliesPageError,
+        isLoading: isrepliesPageLoading,
+    } = useQuery({
+        queryKey: [comment.id, "forumCommentsReplies"],
+        queryFn: () => getCommentRepliesByCommentId(comment.id, 10),
+        enabled: areRepliesOpen,
+    });
+
     return (
-        <div className="">
+        <div>
             <ForumContentHeader
                 author={comment.author}
                 publishDate={comment.publishDate}
@@ -42,13 +58,30 @@ export default function ForumComment({ comment }: ForumCommentProps) {
                 onReply={handleReply}
             />
 
-            <div className="flex items-center">
-                {comment.repliesCount > 0 && (
+            {comment.repliesCount != null && comment.repliesCount > 0 && (
+                <div className="flex items-center">
                     <div>
-                        <ShowRepliesButton data={comment.repliesCount} />
+                        <ShowRepliesButton
+                            data={comment.repliesCount}
+                            isOpen={areRepliesOpen}
+                            onClick={
+                                areRepliesOpen ? closeReplies : openReplies
+                            }
+                        />
                     </div>
-                )}
-            </div>
+                </div>
+            )}
+
+            {areRepliesOpen && (
+                <div className="ml-10">
+                    <ForumCommentList
+                        comments={repliesPage?.comments}
+                        isLoading={isrepliesPageLoading}
+                        isError={isrepliesPageError}
+                        error={repliesPageError}
+                    />
+                </div>
+            )}
         </div>
     );
 }

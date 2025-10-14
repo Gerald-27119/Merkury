@@ -5,12 +5,24 @@ import DetailedPostContent from "./components/DetailedPostContent";
 import useForumPostActions from "../../../hooks/useForumPostActions";
 import { useNavigate } from "react-router-dom";
 import ForumContentActions from "../components/ForumContentActions";
+import Error from "../../../components/error/Error";
+import ForumLayout from "../components/ForumLayout";
+import ReturnButton from "../components/ReturnButton";
+import SkeletonDetailedPost from "./components/SkeletonDetailedPost";
 
 interface DetailedPostProps {
     post: PostDetails;
+    isLoading: boolean;
+    isError: boolean;
+    error: Error | null;
 }
 
-export default function DetailedPost({ post }: DetailedPostProps) {
+export default function DetailedPost({
+    post,
+    isLoading,
+    isError,
+    error,
+}: DetailedPostProps) {
     const {
         handleDelete,
         handleEdit,
@@ -24,6 +36,21 @@ export default function DetailedPost({ post }: DetailedPostProps) {
     const handleNavigateToAuthorProfile = () => {
         navigate(`/account/profile/${post.author.username}`);
     };
+
+    if (isLoading) {
+        return (
+            <ForumLayout>
+                <div className="mx-auto w-xl md:w-2xl lg:w-3xl">
+                    <ReturnButton />
+                    <SkeletonDetailedPost />
+                </div>
+            </ForumLayout>
+        );
+    }
+
+    if (isError) {
+        return <Error error={error} />;
+    }
 
     return (
         <div className="dark:bg-darkBgSoft mx-auto mb-4 rounded-xl p-6 shadow-lg">

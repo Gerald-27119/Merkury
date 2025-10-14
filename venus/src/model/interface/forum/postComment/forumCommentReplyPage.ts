@@ -1,6 +1,6 @@
-import ForumCommentDto from "./forumCommentDto";
+import ForumCommentGeneral from "./forumCommentGeneral";
 
 export default interface ForumCommentReplyPage {
-    comments: ForumCommentDto[];
+    comments: ForumCommentGeneral[];
     nextCursor: number | null;
 }

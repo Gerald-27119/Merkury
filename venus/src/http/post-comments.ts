@@ -32,7 +32,7 @@ export async function getCommentRepliesByCommentId(
     if (lastId) params.lastId = lastId;
     return (
         await axios.get(`${BASE_URL}/public/comments/${commentId}/replies`, {
-            params: { params },
+            params: params,
             withCredentials: true,
         })
     ).data;
