@@ -4,6 +4,14 @@ import { ChatDto } from "../../../../model/interface/chat/chatInterfaces";
 import { useNavigate } from "react-router-dom";
 import { CiSettings } from "react-icons/ci";
 import { IoSettingsOutline } from "react-icons/io5";
+import { HiUserAdd } from "react-icons/hi";
+import { useBoolean } from "../../../../hooks/useBoolean";
+import EmptyModal from "../../../../components/modal/EmptyModal";
+import SearchFriendsList from "../../../account/social/components/SearchFriendsList";
+import CreateGroupChatModal from "./chat-top-bar-components/CreateGroupChatModal";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import { chatActions } from "../../../../redux/chats";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 
 interface ChatTopBarProps {
     chatDto: ChatDto;
@@ -11,6 +19,9 @@ interface ChatTopBarProps {
 
 export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
     const navigate = useNavigate();
+    const [isOpen, open, close, _] = useBoolean(false);
+    const dispatch = useDispatchTyped();
+    const username = useSelectorTyped((state) => state.account.username);
 
     function handleChatNameClick() {
         if (chatDto.chatType === "PRIVATE") {
@@ -18,6 +29,18 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
         } else {
             return;
         }
+    }
+
+    function handleOpenCreateGroupChatModal() {
+        if (chatDto.chatType === "PRIVATE") {
+            const other = chatDto.participants?.find(
+                (p) => p.username !== username,
+            );
+            if (other) {
+                dispatch(chatActions.addUserToAddToChat(other.username));
+            }
+        }
+        open();
     }
 
     return (
@@ -41,9 +64,24 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                     {chatDto?.name}
                 </p>
             </button>
-            <div className="flex items-center justify-center">
-                <IoSettingsOutline size={30} className="hover:cursor-pointer" />
-            </div>
+
+            {chatDto.chatType === "PRIVATE" && (
+                <div className="flex items-center justify-center">
+                    <HiUserAdd
+                        size={30}
+                        className="hover:cursor-pointer"
+                        onClick={handleOpenCreateGroupChatModal}
+                    />
+                </div>
+            )}
+
+            <EmptyModal
+                onClose={close}
+                isOpen={isOpen}
+                className="h-3/4 w-3/4 overflow-y-hidden"
+            >
+                <CreateGroupChatModal onClose={close} />
+            </EmptyModal>
         </div>
     );
 }

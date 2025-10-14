@@ -15,7 +15,10 @@ import java.time.LocalDateTime;
                 columnNames = {"chat_id", "user_id"}
         )
 )
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ChatParticipant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,14 +32,15 @@ public class ChatParticipant {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
+    @Builder.Default
     @Column(nullable = false)
-    private LocalDateTime joinedAt;
+    private LocalDateTime joinedAt = LocalDateTime.now();
 
     @Builder.Default
     private LocalDateTime lastInteractionAt = LocalDateTime.now();
 
-     @Enumerated(EnumType.STRING)
-     @Column(nullable = false)
-     @Builder.Default
-     private ChatParticipantRole role = ChatParticipantRole.MEMBER;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private ChatParticipantRole role = ChatParticipantRole.MEMBER;
 }

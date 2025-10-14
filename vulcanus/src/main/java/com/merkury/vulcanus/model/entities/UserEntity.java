@@ -211,4 +211,5 @@ public class UserEntity implements UserDetails {
     public boolean isAccountNonExpired() {
         return accountNonExpired;
     }
+
 }

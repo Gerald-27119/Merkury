@@ -1,16 +1,19 @@
 package com.merkury.vulcanus.features.chat;
 
+import com.merkury.vulcanus.exception.exceptions.AddUsersToExistingGroupChatException;
 import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.ChatAlreadyExistsException;
 import com.merkury.vulcanus.exception.exceptions.ChatNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.CreateGroupChatException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
+import com.merkury.vulcanus.exception.exceptions.UserByUsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.UsernameNotFoundException;
 import com.merkury.vulcanus.features.azure.AzureBlobService;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
+import com.merkury.vulcanus.model.dtos.chat.group.CreateGroupChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.entities.chat.ChatMessageAttachedFile;
@@ -55,6 +58,7 @@ public class ChatService {
     private final CustomUserDetailsService customUserDetailsService;
     private final AzureBlobService azureBlobService;
     private final ChatStompCommunicationService chatStompCommunicationService;
+    private final GroupChatService groupChatService;
 
 
     /**
@@ -223,12 +227,12 @@ public class ChatService {
         return mediaBlobUrlMap;
     }
 
-    public void organizeFilesSend(@NotNull List<MultipartFile> mediaFiles, Long chatId) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException, ChatNotFoundException, UsernameNotFoundException {
+    public void organizeFilesSend(@NotNull List<MultipartFile> mediaFiles, Long chatId) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException, ChatNotFoundException, UserByUsernameNotFoundException {
         Map<MultipartFile, String> mediaBlobUrlMap = this.sendFiles(mediaFiles);
 
         var chat = chatRepository.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
         var senderUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        var sender = userEntityRepository.findByUsername(senderUsername).orElseThrow(() -> new UsernameNotFoundException(senderUsername));
+        var sender = userEntityRepository.findByUsername(senderUsername).orElseThrow(() -> new UserByUsernameNotFoundException(senderUsername));
 
         var chatMessage = ChatMessage.builder()
                 .chat(chat)
@@ -255,5 +259,17 @@ public class ChatService {
         var chatMessageDtoToBroadCast = ChatMapper.toChatMessageDto(chatMessageFromDb);
         chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(chatMessageDtoToBroadCast);
 //        chatStompCommunicationService.broadcastACKVersionToSender(); TODO:fix
+    }
+
+    public ChatDto createGroupChat(CreateGroupChatDto createGroupChatDto) throws CreateGroupChatException {
+        var ownerUsername = this.customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        var createdChat = this.groupChatService.create(new CreateGroupChatDto(createGroupChatDto.usernames(), ownerUsername));
+        return ChatMapper.toChatDto(createdChat);
+    }
+
+    public ChatDto addUsersToGroupChat(List<String> usernames, String currentUserUsername, Long chatId) throws ChatNotFoundException, AddUsersToExistingGroupChatException {
+        var currentUsername = this.customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        var updatedChat = this.groupChatService.addUsers(usernames, currentUsername, chatId);
+        return ChatMapper.toChatDto(updatedChat);
     }
 }
