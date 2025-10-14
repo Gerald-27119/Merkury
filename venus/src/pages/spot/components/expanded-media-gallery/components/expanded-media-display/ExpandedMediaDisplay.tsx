@@ -31,7 +31,7 @@ export default function ExpandedMediaDisplay() {
             <div className="grid w-full grid-cols-3">
                 <span className="justify-self-start">totalMediaCount</span>
                 <ExpandedGalleryPanel
-                    id={currentMedia.id}
+                    url={currentMedia.url}
                     likes={currentMedia.likesNumber}
                 />
                 <div></div>
