@@ -28,8 +28,9 @@ export default function ForumComment({ comment }: ForumCommentProps) {
     const {
         data: repliesPage,
         error: repliesPageError,
-        isError: isrepliesPageError,
-        isLoading: isrepliesPageLoading,
+        isError: isRepliesPageError,
+        isLoading: isRepliesPageLoading,
+        isFetching: isRepliesPageFetching,
     } = useQuery({
         queryKey: [comment.id, "forumCommentsReplies"],
         queryFn: () => getCommentRepliesByCommentId(comment.id, 10),
@@ -77,8 +78,8 @@ export default function ForumComment({ comment }: ForumCommentProps) {
                 <div className="ml-10">
                     <ForumCommentList
                         comments={repliesPage?.comments}
-                        isLoading={isrepliesPageLoading}
-                        isError={isrepliesPageError}
+                        isLoading={isRepliesPageLoading}
+                        isError={isRepliesPageError}
                         error={repliesPageError}
                         areReplies={true}
                     />

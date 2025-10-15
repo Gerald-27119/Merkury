@@ -35,7 +35,7 @@ export default function ForumThread({}) {
         isError: isforumCommentPageError,
         isLoading: isforumCommentPageLoading,
     } = useQuery({
-        queryKey: ["forumComments", sortOption],
+        queryKey: ["forumComments", parsedPostId, sortOption],
         queryFn: () => getCommentsByPostId(parsedPostId, 0, 10, sortOption),
     });
 
