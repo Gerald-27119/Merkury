@@ -6,8 +6,6 @@ import { MediaType } from "../../../../model/enum/mediaType";
 import { motion } from "framer-motion";
 import ReactPlayer from "react-player";
 
-//TODO add video display
-
 const slideVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
