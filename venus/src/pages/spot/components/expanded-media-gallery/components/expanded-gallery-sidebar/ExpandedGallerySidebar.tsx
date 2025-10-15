@@ -19,7 +19,7 @@ import { MediaType } from "../../../../../../model/enum/mediaType";
 import { expandedSpotMediaGalleryModalsActions } from "../../../../../../redux/expanded-spot-media-gallery-modals";
 import { expandedSpotMediaGalleryAction } from "../../../../../../redux/expanded-spot-media-gallery";
 import { FaChevronLeft, FaRegCirclePlay } from "react-icons/fa6";
-import { AnimatePresence, motion, LayoutGroup } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { expandedSpotGalleryCurrentMediaActions } from "../../../../../../redux/expanded-spot-gallery-current-media";
 import ReactPlayer from "react-player";
 import SpotExpandedGalleryMediaDto from "../../../../../../model/interface/spot/expanded-media-gallery/spotExpandedGalleryMediaDto";
@@ -33,6 +33,9 @@ const slideVariants = {
 export default function ExpandedGallerySidebar() {
     const [pageCount, setPageCount] = useState<number>(0);
     const [isMediaPagePositionFetched, setTrue] = useBoolean();
+    const [currentMediaType, setCurrentMediaType] = useState<MediaType>(
+        MediaType.PHOTO,
+    );
 
     const { spotId } = useSelectorTyped((state) => state.spotDetails);
     const { mediaType, sorting, mediaPagePosition, mediaId } = useSelectorTyped(
@@ -176,6 +179,22 @@ export default function ExpandedGallerySidebar() {
     const handleClickSetCurrentMedia = (media: SpotExpandedGalleryMediaDto) => {
         dispatch(expandedSpotGalleryCurrentMediaActions.setCurrentMedia(media));
     };
+
+    useEffect(() => {
+        if (mediaType !== currentMediaType && isSuccess) {
+            setCurrentMediaType(mediaType);
+        }
+    }, [mediaType, isSuccess]);
+
+    useEffect(() => {
+        if (mediaList.length > 0) {
+            dispatch(
+                expandedSpotGalleryCurrentMediaActions.setCurrentMedia(
+                    mediaList.at(0)!,
+                ),
+            );
+        }
+    }, [mediaList]);
 
     return (
         <div className="flex items-center bg-black">
