@@ -1,69 +1,69 @@
 %! Author = Mateusz Redosz
 %! Date = 14/10/2025
 
-
 \subsection{Endpointy systemu:}
 \label{subsec:endpointy-systemu}
 
-\noindent\textbf{Panel użytkownika}\\
-\texttt{GET /user-dashboard/profile}
-\texttt{GET /public/user-dashboard/profile/{targetUsername}}
-\texttt{PATCH /user-dashboard/profile}
-\texttt{GET /user-dashboard/friends}
-\texttt{GET /public/user-dashboard/friends/{targetUsername}}
-\texttt{PATCH /user-dashboard/friends}
-\texttt{PATCH /user-dashboard/friends/change-status}
-\texttt{GET /user-dashboard/followers}
-\texttt{GET /public/user-dashboard/followers/{targetUsername}}
-\texttt{GET /user-dashboard/followed}
-\texttt{GET /public/user-dashboard/followed/{targetUsername}}
-\texttt{GET /user-dashboard/friends/find}
-\texttt{GET /user-dashboard/friends/invites}
-\texttt{PATCH /user-dashboard/followed}
-\texttt{GET /user-dashboard/favorite-spots}
-\texttt{PATCH /user-dashboard/favorite-spots}
-\texttt{GET /user-dashboard/photos}
-\texttt{GET /user-dashboard/comments}
-\texttt{PATCH /user-dashboard/settings}
-\texttt{GET /user-dashboard/settings}
-\texttt{GET /user-dashboard/movies}
-\texttt{GET /user-dashboard/photos/{targetUsername}}
-\texttt{GET /user-dashboard/add-spot}
-\texttt{POST /user-dashboard/add-spot}
-\texttt{GET /user-dashboard/add-spot/coordinates}
 
-\subsubsection{\lstinline[language=http]{POST /register}}
-Rejestracja nowego użytkownika. \\
-\textbf{Request body:}
+\subsubsection*{\lstinline[language=http]{GET} \texttt{/user-dashboard/profile}}
+
+\noindent\textbf{Opis:} Zwraca profil aktualnie zalogowanego użytkownika.\\[2pt]
+\textbf{Metoda:} \lstinline[language=http]{GET /user-dashboard/profile}\\[2pt]
+\textbf{Zwraca (200 OK):} \texttt{application/json} — obiekt \texttt{UserProfileDto}.\\[2pt]
+\textbf{Błąd (404 Not Found):} \texttt{text/plain} — komunikat z wyjątku \texttt{UserNotFoundByUsernameException}.\\[6pt]
+
+\noindent\textbf{Przykładowa odpowiedź (200 OK):}
 \begin{lstlisting}[language=json]
 {
-  "email": "string",
-  "password": "string"
+  "username": "john_doe",
+  "profilePhoto": "https://cdn.example.com/profiles/john_doe.jpg",
+  "followersCount": 125,
+  "followedCount": 87,
+  "friendsCount": 32,
+  "photosCount": 58,
+  "mostPopularPhotos": [
+    {
+      "src": "https://cdn.example.com/photos/123.jpg",
+      "heartsCount": 240,
+      "viewsCount": 3400,
+      "title": "Sunset at the beach",
+      "id": 123
+    }
+  ]
 }
 \end{lstlisting}
-\textbf{Responses:}
+
+\noindent\textbf{Example response (404 Not Found):}
+\lstinline[language=httperror]{404 Not Found}
+
+
+
+\noindent\textbf{Panel użytkownika}
+
 \begin{itemize}
-    \item 200: Rejestracja powiodła się.
-    \item 400: Błąd walidacji danych.
-\begin{lstlisting}[language=json]
-{
-  "type": "string",
-  "title": "string",
-  "status": 0,
-  "detail": "string",
-  "instance": "string",
-  "errors": {
-    "additionalProp1": [
-      "string"
-    ],
-    "additionalProp2": [
-      "string"
-    ],
-    "additionalProp3": [
-      "string"
-    ]
-  }
-}
-\end{lstlisting}
+\item \lstinline[language=http]{GET /user-dashboard/profile}
+\item \lstinline[language=http]{GET /public/user-dashboard/profile/"targetUsername"}
+\item \lstinline[language=http]{PATCH /user-dashboard/profile}
+\item \lstinline[language=http]{GET /user-dashboard/friends}
+\item \lstinline[language=http]{GET /public/user-dashboard/friends/"targetUsername"}
+\item \lstinline[language=http]{PATCH /user-dashboard/friends}
+\item \lstinline[language=http]{PATCH /user-dashboard/friends/change-status}
+\item \lstinline[language=http]{GET /user-dashboard/followers}
+\item \lstinline[language=http]{GET /public/user-dashboard/followers/"targetUsername"}
+\item \lstinline[language=http]{GET /user-dashboard/followed}
+\item \lstinline[language=http]{GET /public/user-dashboard/followed/"targetUsername"}
+\item \lstinline[language=http]{GET /user-dashboard/friends/find}
+\item \lstinline[language=http]{GET /user-dashboard/friends/invites}
+\item \lstinline[language=http]{PATCH /user-dashboard/followed}
+\item \lstinline[language=http]{GET /user-dashboard/favorite-spots}
+\item \lstinline[language=http]{PATCH /user-dashboard/favorite-spots}
+\item \lstinline[language=http]{GET /user-dashboard/photos}
+\item \lstinline[language=http]{GET /user-dashboard/comments}
+\item \lstinline[language=http]{PATCH /user-dashboard/settings}
+\item \lstinline[language=http]{GET /user-dashboard/settings}
+\item \lstinline[language=http]{GET /user-dashboard/movies}
+\item \lstinline[language=http]{GET /user-dashboard/photos/"targetUsername"}
+\item \lstinline[language=http]{GET /user-dashboard/add-spot}
+\item \lstinline[language=http]{POST /user-dashboard/add-spot}
+\item \lstinline[language=http]{GET /user-dashboard/add-spot/coordinates}
 \end{itemize}
-
