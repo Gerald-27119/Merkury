@@ -45,6 +45,10 @@ export default function ExpandedGallerySidebar() {
         (state) => state.expandedSpotMediaGalleryModals,
     );
 
+    const { showExpandedGallery } = useSelectorTyped(
+        (state) => state.expandedSpotMediaGalleryModals,
+    );
+
     const loadMoreRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -180,21 +184,29 @@ export default function ExpandedGallerySidebar() {
         dispatch(expandedSpotGalleryCurrentMediaActions.setCurrentMedia(media));
     };
 
-    useEffect(() => {
-        if (mediaType !== currentMediaType && isSuccess) {
-            setCurrentMediaType(mediaType);
-        }
-    }, [mediaType, isSuccess]);
+    //TODO: do sth with this
 
-    useEffect(() => {
-        if (mediaList.length > 0) {
-            dispatch(
-                expandedSpotGalleryCurrentMediaActions.setCurrentMedia(
-                    mediaList.at(0)!,
-                ),
-            );
-        }
-    }, [mediaList]);
+    // useEffect(() => {
+    //     if (mediaType !== currentMediaType && isSuccess) {
+    //         setCurrentMediaType(mediaType);
+    //     }
+    // }, [mediaType, isSuccess]);
+    //
+    // useEffect(() => {
+    //     if (
+    //         showExpandedGallery &&
+    //         isMediaPagePositionFetched &&
+    //         mediaList.length > 0 &&
+    //         mediaType !== currentMediaType
+    //     ) {
+    //         dispatch(
+    //             expandedSpotGalleryCurrentMediaActions.setCurrentMedia(
+    //                 mediaList.at(0)!,
+    //             ),
+    //         );
+    //         setCurrentMediaType(mediaType);
+    //     }
+    // }, [mediaList, showExpandedGallery, mediaType, isMediaPagePositionFetched]);
 
     return (
         <div className="flex items-center bg-black">

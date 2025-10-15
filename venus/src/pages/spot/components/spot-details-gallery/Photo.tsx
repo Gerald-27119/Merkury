@@ -68,6 +68,11 @@ export default function Photo({ photo, ...props }: PhotoProps) {
                     { mediaPagePosition: data.mediaPagePosition },
                 ),
             );
+            dispatch(
+                expandedSpotMediaGalleryAction.setExpandedGalleryMediaType({
+                    mediaType: MediaType.PHOTO,
+                }),
+            );
             dispatch(expandedSpotMediaGalleryModalsActions.openModals());
         }
     }, [data, photo]);

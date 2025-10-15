@@ -1,5 +1,5 @@
 import { useBoolean } from "../../../../hooks/useBoolean";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getSpotCommentsMedia } from "../../../../http/comments";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
 import SpotCommentMediaDto from "../../../../model/interface/spot/comment/spotCommentMediaDto";
@@ -9,6 +9,10 @@ import ReactPlayer from "react-player";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { expandedSpotMediaGalleryAction } from "../../../../redux/expanded-spot-media-gallery";
 import { expandedSpotMediaGalleryModalsActions } from "../../../../redux/expanded-spot-media-gallery-modals";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
+import { SpotExpandedGallerySortingType } from "../../../../model/enum/spot/spotExpandedGallerySortingType";
+import { getExpandedSpotMediaGalleryPagePosition } from "../../../../http/spots-data";
+import { useEffect, useState } from "react";
 
 type SpotCommentMediaGalleryProps = {
     initialMedia: SpotCommentMediaDto[];
@@ -24,6 +28,10 @@ export default function SpotCommentMediaGallery({
     numberOfMedia,
 }: SpotCommentMediaGalleryProps) {
     const [isShowMoreMedia, showMoreMedia, _, __] = useBoolean();
+    const [clickedMediaData, setClickedMediaData] = useState<{
+        mediaId: number | null;
+        mediaType: MediaType | null;
+    }>();
 
     const dispatch = useDispatchTyped();
 
@@ -47,19 +55,63 @@ export default function SpotCommentMediaGallery({
         ? (mediaData ?? initialMedia)
         : initialMedia;
 
-    const handleClickClickMedia = (mediaType: MediaType, mediaId: number) => {
-        dispatch(
-            expandedSpotMediaGalleryAction.setExpandedGalleryMediaType({
-                mediaType,
-            }),
-        );
-        dispatch(
-            expandedSpotMediaGalleryAction.setExpandedGalleryMediaId({
+    const { sorting } = useSelectorTyped(
+        (state) => state.expandedSpotMediaGallery,
+    );
+
+    const { mutateAsync, data } = useMutation({
+        mutationFn: ({
+            spotId,
+            mediaId,
+            mediaType,
+            sorting,
+        }: {
+            spotId: number;
+            mediaId: number;
+            mediaType: MediaType;
+            sorting: SpotExpandedGallerySortingType;
+        }) =>
+            getExpandedSpotMediaGalleryPagePosition(
+                spotId,
                 mediaId,
-            }),
-        );
-        dispatch(expandedSpotMediaGalleryModalsActions.openModals());
+                mediaType,
+                sorting,
+            ),
+    });
+
+    const handleClickClickMedia = async (
+        mediaType: MediaType,
+        mediaId: number,
+    ) => {
+        setClickedMediaData({ mediaId, mediaType });
+        await mutateAsync({
+            spotId: spotId!,
+            mediaId: mediaId,
+            mediaType: mediaType,
+            sorting,
+        });
     };
+
+    useEffect(() => {
+        if (data) {
+            dispatch(
+                expandedSpotMediaGalleryAction.setExpandedGalleryMediaId({
+                    mediaId: clickedMediaData?.mediaId!,
+                }),
+            );
+            dispatch(
+                expandedSpotMediaGalleryAction.setExpandedGalleryMediaPagePosition(
+                    { mediaPagePosition: data.mediaPagePosition },
+                ),
+            );
+            dispatch(
+                expandedSpotMediaGalleryAction.setExpandedGalleryMediaType({
+                    mediaType: clickedMediaData?.mediaType!,
+                }),
+            );
+            dispatch(expandedSpotMediaGalleryModalsActions.openModals());
+        }
+    }, [data]);
 
     return (
         <>
