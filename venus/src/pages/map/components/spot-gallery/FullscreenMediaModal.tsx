@@ -3,8 +3,16 @@ import { IoClose } from "react-icons/io5";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { expandedSpotMediaGalleryFullscreenSizeActions } from "../../../../redux/expanded-spot-media-gallery-fullscreen-size";
 import { MediaType } from "../../../../model/enum/mediaType";
+import { motion } from "framer-motion";
 
-//TODO add video display and animation
+//TODO add video display
+
+const slideVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+    exit: { opacity: 0 },
+};
+
 export default function FullscreenMediaModal() {
     const { url, mediaType } = useSelectorTyped(
         (state) => state.expandedSpotGalleryCurrentMedia,
@@ -17,7 +25,14 @@ export default function FullscreenMediaModal() {
     };
 
     return (
-        <div className="absolute top-0 z-[4] flex h-full w-full flex-col items-center bg-black">
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={slideVariants}
+            transition={{ duration: 0.3 }}
+            className="absolute top-0 z-[4] flex h-full w-full flex-col items-center bg-black"
+        >
             <IoClose
                 onClick={handleCloseFullscreenModal}
                 className="text-darkText mt-2 ml-auto cursor-pointer text-2xl"
@@ -33,6 +48,6 @@ export default function FullscreenMediaModal() {
                     <p>video</p>
                 )}
             </div>
-        </div>
+        </motion.div>
     );
 }
