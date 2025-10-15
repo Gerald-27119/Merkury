@@ -60,6 +60,7 @@ export default function ForumThread({}) {
                     isLoading={isforumCommentPageLoading}
                     isError={isforumCommentPageError}
                     error={forumCommentPageError}
+                    areReplies={false}
                 />
             </div>
         </ForumLayout>

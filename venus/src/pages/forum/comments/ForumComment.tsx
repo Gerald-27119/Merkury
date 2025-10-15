@@ -80,6 +80,7 @@ export default function ForumComment({ comment }: ForumCommentProps) {
                         isLoading={isrepliesPageLoading}
                         isError={isrepliesPageError}
                         error={repliesPageError}
+                        areReplies={true}
                     />
                 </div>
             )}
