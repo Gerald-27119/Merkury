@@ -4,6 +4,7 @@ import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { expandedSpotMediaGalleryFullscreenSizeActions } from "../../../../redux/expanded-spot-media-gallery-fullscreen-size";
 import { MediaType } from "../../../../model/enum/mediaType";
 import { motion } from "framer-motion";
+import ReactPlayer from "react-player";
 
 //TODO add video display
 
@@ -45,7 +46,16 @@ export default function FullscreenMediaModal() {
                         className="max-h-full max-w-full"
                     />
                 ) : (
-                    <p>video</p>
+                    <ReactPlayer
+                        controls={true}
+                        src={url}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            aspectRatio: "16/9",
+                        }}
+                        slot="media"
+                    />
                 )}
             </div>
         </motion.div>

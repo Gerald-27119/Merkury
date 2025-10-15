@@ -18,9 +18,11 @@ import LoadingSpinner from "../../../../../../components/loading-spinner/Loading
 import { MediaType } from "../../../../../../model/enum/mediaType";
 import { expandedSpotMediaGalleryModalsActions } from "../../../../../../redux/expanded-spot-media-gallery-modals";
 import { expandedSpotMediaGalleryAction } from "../../../../../../redux/expanded-spot-media-gallery";
-import { FaChevronLeft } from "react-icons/fa6";
+import { FaChevronLeft, FaRegCirclePlay } from "react-icons/fa6";
 import { AnimatePresence, motion, LayoutGroup } from "framer-motion";
 import { expandedSpotGalleryCurrentMediaActions } from "../../../../../../redux/expanded-spot-gallery-current-media";
+import ReactPlayer from "react-player";
+import SpotExpandedGalleryMediaDto from "../../../../../../model/interface/spot/expanded-media-gallery/spotExpandedGalleryMediaDto";
 
 const slideVariants = {
     hidden: { x: "-100%", opacity: 0 },
@@ -171,6 +173,10 @@ export default function ExpandedGallerySidebar() {
         );
     };
 
+    const handleClickSetCurrentMedia = (media: SpotExpandedGalleryMediaDto) => {
+        dispatch(expandedSpotGalleryCurrentMediaActions.setCurrentMedia(media));
+    };
+
     return (
         <div className="flex items-center bg-black">
             <AnimatePresence>
@@ -209,7 +215,12 @@ export default function ExpandedGallerySidebar() {
                                     media.mediaType === MediaType.PHOTO ? (
                                         <li
                                             key={media.id}
-                                            className="overflow-hidden first:rounded-t-2xl"
+                                            className="cursor-pointer overflow-hidden first:rounded-t-2xl"
+                                            onClick={() =>
+                                                handleClickSetCurrentMedia(
+                                                    media,
+                                                )
+                                            }
                                         >
                                             <img
                                                 src={media.url}
@@ -217,7 +228,32 @@ export default function ExpandedGallerySidebar() {
                                             />
                                         </li>
                                     ) : (
-                                        <li key={media.id}>video</li>
+                                        <li
+                                            key={media.id}
+                                            className="relative first:rounded-t-2xl"
+                                            onClick={() =>
+                                                handleClickSetCurrentMedia(
+                                                    media,
+                                                )
+                                            }
+                                        >
+                                            <div className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-2xl 2xl:text-4xl">
+                                                <FaRegCirclePlay />
+                                            </div>
+                                            <div className="z-10 flex items-center justify-center">
+                                                <ReactPlayer
+                                                    playing={false}
+                                                    src={media.url}
+                                                    controls={false}
+                                                    style={{
+                                                        width: "100%",
+                                                        height: "100%",
+                                                        aspectRatio: "16/9",
+                                                        "--controls": "none",
+                                                    }}
+                                                />
+                                            </div>
+                                        </li>
                                     ),
                                 )}
                             </ul>
