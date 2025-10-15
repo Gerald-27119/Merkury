@@ -6,6 +6,9 @@ import SpotCommentMediaDto from "../../../../model/interface/spot/comment/spotCo
 import { MediaType } from "../../../../model/enum/mediaType";
 import { FaRegCirclePlay } from "react-icons/fa6";
 import ReactPlayer from "react-player";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import { expandedSpotMediaGalleryAction } from "../../../../redux/expanded-spot-media-gallery";
+import { expandedSpotMediaGalleryModalsActions } from "../../../../redux/expanded-spot-media-gallery-modals";
 
 type SpotCommentMediaGalleryProps = {
     initialMedia: SpotCommentMediaDto[];
@@ -21,6 +24,8 @@ export default function SpotCommentMediaGallery({
     numberOfMedia,
 }: SpotCommentMediaGalleryProps) {
     const [isShowMoreMedia, showMoreMedia, _, __] = useBoolean();
+
+    const dispatch = useDispatchTyped();
 
     const {
         data: mediaData,
@@ -42,16 +47,38 @@ export default function SpotCommentMediaGallery({
         ? (mediaData ?? initialMedia)
         : initialMedia;
 
+    const handleClickClickMedia = (mediaType: MediaType, mediaId: number) => {
+        dispatch(
+            expandedSpotMediaGalleryAction.setExpandedGalleryMediaType({
+                mediaType,
+            }),
+        );
+        dispatch(
+            expandedSpotMediaGalleryAction.setExpandedGalleryMediaId({
+                mediaId,
+            }),
+        );
+        dispatch(expandedSpotMediaGalleryModalsActions.openModals());
+    };
+
     return (
         <>
             <ul
                 className={`${numberOfMedia < 3 ? "flex space-x-3" : "grid grid-cols-3 gap-3"}`}
             >
                 {mediaList.map((media: SpotCommentMediaDto, idx: number) => (
-                    <li key={media.id} className="relative">
+                    <li key={media.id} className="relative cursor-pointer">
                         {media.genericMediaType === MediaType.VIDEO ? (
                             <>
-                                <div className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-2xl 2xl:text-4xl">
+                                <div
+                                    onClick={() =>
+                                        handleClickClickMedia(
+                                            media.genericMediaType,
+                                            media.id,
+                                        )
+                                    }
+                                    className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-2xl 2xl:text-4xl"
+                                >
                                     <FaRegCirclePlay />
                                 </div>
                                 <div className="absolute inset-0 z-0 flex items-center justify-center">
@@ -70,6 +97,12 @@ export default function SpotCommentMediaGallery({
                             </>
                         ) : (
                             <img
+                                onClick={() =>
+                                    handleClickClickMedia(
+                                        media.genericMediaType,
+                                        media.id,
+                                    )
+                                }
                                 src={media.url}
                                 alt="spot photo"
                                 className="aspect-square w-40"
