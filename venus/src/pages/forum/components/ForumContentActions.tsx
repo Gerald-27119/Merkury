@@ -12,6 +12,7 @@ interface ForumContentActionsProps {
     isUpVoted: boolean;
     isDownVoted: boolean;
 
+    onClick?: (id: number) => void;
     onVote: (id: number, isUpvote: boolean) => void;
     onDelete: (id: number) => void;
     onEdit: (id: number) => void;
@@ -32,6 +33,7 @@ export default function ForumContentActions({
     isUpVoted,
     isDownVoted,
     commentsCount,
+    onClick,
     onVote,
     onDelete,
     onEdit,
@@ -90,7 +92,9 @@ export default function ForumContentActions({
                 />
             </div>
 
-            {showAddCommentButton && <AddCommentButton />}
+            {showAddCommentButton && (
+                <AddCommentButton onClick={() => onClick?.(contentId)} />
+            )}
         </div>
     );
 }

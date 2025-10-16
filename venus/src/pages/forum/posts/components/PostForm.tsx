@@ -1,14 +1,15 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Option from "../../../../model/interface/forum/selectOption";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PostFormInput from "./PostFormInput";
 import PostFormEditor from "./PostFormEditor";
 import {
-    ForumPostFormSchema,
     ForumPostFormFields,
+    ForumPostFormSchema,
 } from "../../../../model/schema/forumPostFormSchema";
 import ControlledSelect from "../../components/ControlledSelect";
 import PostDto from "../../../../model/interface/forum/post/postDto";
+import { RichTextEditorVariantType } from "../../../../model/enum/forum/richTextEditorVariantType";
 
 interface FormProps {
     handlePost: (data: PostDto) => void;
@@ -92,6 +93,7 @@ export default function PostForm({
                     name="content"
                     control={control}
                     error={errors.content?.message}
+                    variant={RichTextEditorVariantType.MODAL}
                 />
 
                 <div className="mt-4 flex justify-end gap-2">

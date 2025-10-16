@@ -15,6 +15,7 @@ interface DetailedPostProps {
     isLoading: boolean;
     isError: boolean;
     error: Error | null;
+    onClick: (id: number) => void;
 }
 
 export default function DetailedPost({
@@ -22,6 +23,7 @@ export default function DetailedPost({
     isLoading,
     isError,
     error,
+    onClick,
 }: DetailedPostProps) {
     const {
         handleDelete,
@@ -71,6 +73,7 @@ export default function DetailedPost({
                 isUpVoted={post.isUpVoted}
                 isDownVoted={post.isDownVoted}
                 commentsCount={post.commentsCount}
+                onClick={onClick}
                 onDelete={handleDelete}
                 onEdit={handleEdit}
                 onVote={handleVote}

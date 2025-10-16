@@ -38,7 +38,13 @@ export async function getCommentRepliesByCommentId(
     ).data;
 }
 
-export async function addComment(postId: number, newComment: ForumCommentDto) {
+export async function addComment({
+    postId,
+    newComment,
+}: {
+    postId: number;
+    newComment: ForumCommentDto;
+}) {
     return await axios.post(`${BASE_URL}/post/${postId}/comments`, newComment, {
         withCredentials: true,
     });
