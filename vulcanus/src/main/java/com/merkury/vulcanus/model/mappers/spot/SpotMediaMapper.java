@@ -2,6 +2,7 @@ package com.merkury.vulcanus.model.mappers.spot;
 
 import com.merkury.vulcanus.model.dtos.spot.SpotMediaDto;
 import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryDto;
+import com.merkury.vulcanus.model.dtos.spot.gallery.SpotSidebarMediaGalleryDto;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import jakarta.validation.constraints.NotNull;
 
@@ -30,6 +31,14 @@ public class SpotMediaMapper {
                 .likesNumber(spotMedia.getLikes())
                 .publishDate(spotMedia.getAddDate())
                 .mediaType(spotMedia.getGenericMediaType())
+                .build();
+    }
+
+    public static SpotSidebarMediaGalleryDto toSidebarGalleryDto(@NotNull SpotMedia spotMedia) {
+        return SpotSidebarMediaGalleryDto.builder()
+                .id(spotMedia.getId())
+                .mediaType(spotMedia.getGenericMediaType())
+                .url(spotMedia.getUrl())
                 .build();
     }
 }

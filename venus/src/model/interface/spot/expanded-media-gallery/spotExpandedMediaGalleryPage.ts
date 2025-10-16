@@ -1,5 +1,5 @@
 import Pageable from "../../../pageable";
-import SpotExpandedGalleryMediaDto from "./spotExpandedGalleryMediaDto";
+import SpotExpandedGallerySidebarMediaDto from "./spotExpandedGallerySidebarMediaDto";
 
 export default interface SpotExpandedMediaGalleryPage
-    extends Pageable<SpotExpandedGalleryMediaDto> {}
+    extends Pageable<SpotExpandedGallerySidebarMediaDto> {}

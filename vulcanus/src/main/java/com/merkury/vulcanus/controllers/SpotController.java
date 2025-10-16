@@ -6,6 +6,7 @@ import com.merkury.vulcanus.features.spot.SpotWeatherService;
 import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryDto;
 import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryPagePosition;
+import com.merkury.vulcanus.model.dtos.spot.gallery.SpotSidebarMediaGalleryDto;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.enums.SpotRatingFilterType;
 import com.merkury.vulcanus.model.enums.SpotSortType;
@@ -35,11 +36,11 @@ public class SpotController {
     private final SpotWeatherService spotWeatherService;
 
     @GetMapping("/public/spot/gallery")
-    public ResponseEntity<Page<SpotMediaGalleryDto>> getSpotGalleryPage(@RequestParam Long spotId,
-                                                                        @RequestParam String mediaType,
-                                                                        @RequestParam String sorting,
-                                                                        @RequestParam(defaultValue = "0") int page,
-                                                                        @RequestParam(defaultValue = "6") int size) {
+    public ResponseEntity<Page<SpotSidebarMediaGalleryDto>> getSpotGalleryPage(@RequestParam Long spotId,
+                                                                               @RequestParam String mediaType,
+                                                                               @RequestParam String sorting,
+                                                                               @RequestParam(defaultValue = "0") int page,
+                                                                               @RequestParam(defaultValue = "6") int size) {
         log.debug("get spot gallery page");
         return ResponseEntity.ok(spotService.getSpotGalleryPage(spotId, GenericMediaType.valueOf(mediaType), sorting, PageRequest.of(page, size)));
     }
@@ -52,6 +53,12 @@ public class SpotController {
                                                                                     @RequestParam(defaultValue = "6") int pageSize) {
         log.debug("get spot gallery media position");
         return ResponseEntity.ok(spotService.getSpotGalleryMediaPosition(spotId, mediaId, GenericMediaType.valueOf(mediaType), sorting, pageSize));
+    }
+
+    @GetMapping("/public/spot/gallery-fullscreen-media")
+    public ResponseEntity<SpotMediaGalleryDto> getSpotGalleryFullscreenMedia(@RequestParam Long spotId, @RequestParam Long mediaId, @RequestParam String mediaType) throws SpotMediaNotFoundException {
+        log.debug("get spot gallery fullscreen media");
+        return ResponseEntity.ok(spotService.getMediaForFullscreen(spotId, mediaId, GenericMediaType.valueOf(mediaType)));
     }
 
     @GetMapping("/public/spot/current-view")

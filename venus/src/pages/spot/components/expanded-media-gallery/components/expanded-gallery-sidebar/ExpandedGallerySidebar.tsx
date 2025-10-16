@@ -20,9 +20,8 @@ import { expandedSpotMediaGalleryModalsActions } from "../../../../../../redux/e
 import { expandedSpotMediaGalleryAction } from "../../../../../../redux/expanded-spot-media-gallery";
 import { FaChevronLeft, FaRegCirclePlay } from "react-icons/fa6";
 import { AnimatePresence, motion } from "framer-motion";
-import { expandedSpotGalleryCurrentMediaActions } from "../../../../../../redux/expanded-spot-gallery-current-media";
 import ReactPlayer from "react-player";
-import SpotExpandedGalleryMediaDto from "../../../../../../model/interface/spot/expanded-media-gallery/spotExpandedGalleryMediaDto";
+import SpotExpandedGallerySidebarMediaDto from "../../../../../../model/interface/spot/expanded-media-gallery/spotExpandedGallerySidebarMediaDto";
 
 const slideVariants = {
     hidden: { x: "-100%", opacity: 0 },
@@ -53,6 +52,7 @@ export default function ExpandedGallerySidebar() {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const dispatch = useDispatchTyped();
+    const queryClient = useQueryClient();
 
     const {
         data,
@@ -100,11 +100,6 @@ export default function ExpandedGallerySidebar() {
             dispatch(
                 expandedSpotGalleryMediaListAction.upsertMediaList(allItems),
             );
-            dispatch(
-                expandedSpotGalleryCurrentMediaActions.setCurrentMedia({
-                    ...allItems.find((item) => item.id === mediaId)!,
-                }),
-            );
             setPageCount(data.pages.length);
         }
     }, [data, dispatch]);
@@ -131,42 +126,68 @@ export default function ExpandedGallerySidebar() {
         return () => observer.disconnect();
     }, [fetchNextPage, hasNextPage, pageCount]);
 
-    const queryClient = useQueryClient();
-
-    useEffect(() => {
-        const fetchMediaPagePosition = async () => {
-            const { mediaPagePosition } =
-                await getExpandedSpotMediaGalleryPagePosition(
-                    spotId!,
-                    mediaId,
-                    mediaType,
-                    sorting,
-                );
-            dispatch(
-                expandedSpotMediaGalleryAction.setExpandedGalleryMediaPagePosition(
-                    {
-                        mediaPagePosition,
-                    },
-                ),
-            );
-            dispatch(expandedSpotGalleryMediaListAction.clearMediaList());
-            queryClient.removeQueries({
-                queryKey: [
-                    "expanded-spot-media-gallery",
-                    spotId,
-                    mediaType,
-                    sorting,
-                    mediaPagePosition,
-                ],
-            });
-        };
-
-        fetchMediaPagePosition();
-    }, [spotId, mediaType, sorting, mediaPagePosition]);
-
     const mediaList = useSelectorTyped((state) =>
         expandedSpotGalleryMediaListSelectors.selectAll(state),
     );
+
+    useEffect(() => {
+        dispatch(expandedSpotGalleryMediaListAction.clearMediaList());
+        queryClient.removeQueries({
+            queryKey: [
+                "expanded-spot-media-gallery",
+                spotId,
+                mediaType,
+                sorting,
+                mediaPagePosition,
+            ],
+        });
+        setCurrentMediaType(mediaType);
+    }, [mediaType]);
+    //TODO: when mediaTypes change wrong mediaId is set
+    useEffect(() => {
+        if (
+            mediaType !== currentMediaType &&
+            mediaList &&
+            mediaList.length > 0
+        ) {
+            dispatch(
+                expandedSpotMediaGalleryAction.setExpandedGalleryMediaId({
+                    mediaId: mediaList.at(0)!.id,
+                }),
+            );
+        }
+    }, [mediaList, currentMediaType, mediaType]);
+
+    // useEffect(() => {
+    //     const fetchMediaPagePosition = async () => {
+    //         const { mediaPagePosition } =
+    //             await getExpandedSpotMediaGalleryPagePosition(
+    //                 spotId!,
+    //                 mediaId,
+    //                 mediaType,
+    //                 sorting,
+    //             );
+    //         dispatch(
+    //             expandedSpotMediaGalleryAction.setExpandedGalleryMediaPagePosition(
+    //                 {
+    //                     mediaPagePosition,
+    //                 },
+    //             ),
+    //         );
+    //         dispatch(expandedSpotGalleryMediaListAction.clearMediaList());
+    //         queryClient.removeQueries({
+    //             queryKey: [
+    //                 "expanded-spot-media-gallery",
+    //                 spotId,
+    //                 mediaType,
+    //                 sorting,
+    //                 mediaPagePosition,
+    //             ],
+    //         });
+    //     };
+    //
+    //     fetchMediaPagePosition();
+    // }, [spotId, mediaType, sorting, mediaPagePosition]);
 
     const handleCloseSidebar = () => {
         dispatch(
@@ -180,8 +201,22 @@ export default function ExpandedGallerySidebar() {
         );
     };
 
-    const handleClickSetCurrentMedia = (media: SpotExpandedGalleryMediaDto) => {
-        dispatch(expandedSpotGalleryCurrentMediaActions.setCurrentMedia(media));
+    const handleClickSetCurrentMedia = (
+        media: SpotExpandedGallerySidebarMediaDto,
+    ) => {
+        queryClient.removeQueries({
+            queryKey: ["expanded-media-display", mediaType, mediaId, spotId],
+        });
+        dispatch(
+            expandedSpotMediaGalleryAction.setExpandedGalleryMediaId({
+                mediaId: media.id,
+            }),
+        );
+        dispatch(
+            expandedSpotMediaGalleryAction.setExpandedGalleryMediaType({
+                mediaType: media.mediaType,
+            }),
+        );
     };
 
     //TODO: do sth with this
@@ -191,7 +226,7 @@ export default function ExpandedGallerySidebar() {
     //         setCurrentMediaType(mediaType);
     //     }
     // }, [mediaType, isSuccess]);
-    //
+
     // useEffect(() => {
     //     if (
     //         showExpandedGallery &&
@@ -199,14 +234,29 @@ export default function ExpandedGallerySidebar() {
     //         mediaList.length > 0 &&
     //         mediaType !== currentMediaType
     //     ) {
+    //         const currentMedia = mediaList.at(0)!;
+    //         console.log(currentMedia.mediaType, +" from sidebar");
     //         dispatch(
-    //             expandedSpotGalleryCurrentMediaActions.setCurrentMedia(
-    //                 mediaList.at(0)!,
-    //             ),
+    //             expandedSpotMediaGalleryAction.setExpandedGalleryMediaType({
+    //                 mediaType: currentMedia.mediaType,
+    //             }),
+    //         );
+    //         dispatch(
+    //             expandedSpotMediaGalleryAction.setExpandedGalleryMediaId({
+    //                 mediaId: currentMedia.id,
+    //             }),
     //         );
     //         setCurrentMediaType(mediaType);
+    //         queryClient.removeQueries({
+    //             queryKey: [
+    //                 "expanded-media-display",
+    //                 mediaType,
+    //                 mediaId,
+    //                 spotId,
+    //             ],
+    //         });
     //     }
-    // }, [mediaList, showExpandedGallery, mediaType, isMediaPagePositionFetched]);
+    // }, []);
 
     return (
         <div className="flex items-center bg-black">

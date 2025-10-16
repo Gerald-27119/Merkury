@@ -9,6 +9,7 @@ import { HomePageSpotPageDto } from "../model/interface/spot/search-spot/homePag
 import SpotExpandedMediaGalleryPage from "../model/interface/spot/expanded-media-gallery/spotExpandedMediaGalleryPage";
 import { MediaType } from "../model/enum/mediaType";
 import { SpotExpandedGallerySortingType } from "../model/enum/spot/spotExpandedGallerySortingType";
+import SpotExpandedGalleryMediaDto from "../model/interface/spot/expanded-media-gallery/spotExpandedGalleryMediaDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function fetchFilteredSpots(name: string): Promise<GeneralSpot[]> {
@@ -199,6 +200,19 @@ export async function getExpandedSpotMediaGalleryPagePosition(
                 sorting,
                 page: 0,
             },
+            withCredentials: true,
+        })
+    ).data;
+}
+
+export async function getSpotGalleryFullscreenMedia(
+    spotId: number,
+    mediaId: number,
+    mediaType: MediaType,
+): Promise<SpotExpandedGalleryMediaDto> {
+    return (
+        await axios.get(`${BASE_URL}/public/spot/gallery-fullscreen-media`, {
+            params: { spotId, mediaId, mediaType },
             withCredentials: true,
         })
     ).data;

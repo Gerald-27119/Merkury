@@ -3,11 +3,11 @@ import {
     createSlice,
     PayloadAction,
 } from "@reduxjs/toolkit";
-import SpotExpandedGalleryMediaDto from "../model/interface/spot/expanded-media-gallery/spotExpandedGalleryMediaDto";
 import { RootState } from "./store";
+import SpotExpandedGallerySidebarMediaDto from "../model/interface/spot/expanded-media-gallery/spotExpandedGallerySidebarMediaDto";
 
 export const expandedSpotGalleryMediaListAdapter =
-    createEntityAdapter<SpotExpandedGalleryMediaDto>();
+    createEntityAdapter<SpotExpandedGallerySidebarMediaDto>();
 
 const initialState = expandedSpotGalleryMediaListAdapter.getInitialState();
 
@@ -17,7 +17,7 @@ export const expandedSpotGalleryMediaListSlice = createSlice({
     reducers: {
         upsertMediaList(
             state,
-            action: PayloadAction<SpotExpandedGalleryMediaDto[]>,
+            action: PayloadAction<SpotExpandedGallerySidebarMediaDto[]>,
         ) {
             expandedSpotGalleryMediaListAdapter.upsertMany(
                 state,

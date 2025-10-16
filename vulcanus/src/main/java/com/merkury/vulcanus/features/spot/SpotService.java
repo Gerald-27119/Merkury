@@ -1,10 +1,12 @@
 package com.merkury.vulcanus.features.spot;
 
+import com.merkury.vulcanus.exception.exceptions.SpotMediaNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryDto;
 import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryPagePosition;
+import com.merkury.vulcanus.model.dtos.spot.gallery.SpotSidebarMediaGalleryDto;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.entities.spot.SpotTag;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
@@ -212,13 +214,30 @@ public class SpotService {
     }
 
     //TODO: this is not working as expected
-    public SpotMediaGalleryPagePosition getSpotGalleryMediaPosition(Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, int pageSize) {
-        var mediaPagePosition = spotMediaRepository.countBefore(mediaId, spotId, mediaType, sorting).intValue();
-        return SpotMediaGalleryPagePosition.builder().mediaPagePosition(mediaPagePosition % pageSize).build();
+//    public SpotMediaGalleryPagePosition getSpotGalleryMediaPosition(Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, int pageSize) {
+//        var mediaPagePosition = spotMediaRepository.countBefore(mediaId, spotId, mediaType, sorting).intValue();
+//        return SpotMediaGalleryPagePosition.builder().mediaPagePosition(mediaPagePosition % pageSize).build();
+//    }
+
+    public SpotMediaGalleryPagePosition getSpotGalleryMediaPosition(
+            Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, int pageSize) {
+        Long countBefore = spotMediaRepository.countBeforeWithTieBreaker(mediaId, spotId, mediaType, sorting);
+        int pos = countBefore.intValue();
+        int pageNumber = pos / pageSize;
+        int posInPage = pos % pageSize;
+        return SpotMediaGalleryPagePosition.builder()
+                .mediaPagePosition(pageNumber)
+                .build();
     }
 
-    public Page<SpotMediaGalleryDto> getSpotGalleryPage(Long spotId, GenericMediaType mediaType, String sorting, Pageable pageable) {
+    public Page<SpotSidebarMediaGalleryDto> getSpotGalleryPage(Long spotId, GenericMediaType mediaType, String sorting, Pageable pageable) {
         var sortedPageable = configurePageableSorting(pageable, sorting);
-        return spotMediaRepository.findBySpotIdAndGenericMediaType(spotId, mediaType, sortedPageable).map(SpotMediaMapper::toGalleryDto);
+        return spotMediaRepository.findBySpotIdAndGenericMediaType(spotId, mediaType, sortedPageable).map(SpotMediaMapper::toSidebarGalleryDto);
+    }
+
+    public SpotMediaGalleryDto getMediaForFullscreen(Long spotId, Long mediaId, GenericMediaType mediaType) throws SpotMediaNotFoundException {
+        var media = spotMediaRepository.findByIdAndSpotIdAndGenericMediaType(mediaId, spotId, mediaType)
+                .orElseThrow(() -> new SpotMediaNotFoundException(spotId, mediaId));
+        return SpotMediaMapper.toGalleryDto(media);
     }
 }
