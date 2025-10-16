@@ -4,13 +4,13 @@ import { HiEye } from "react-icons/hi";
 interface PostContentProps {
     content: string;
     views: number;
-    numberOfComments: number;
+    commentsCount: number;
 }
 
 export default function PostContent({
     content,
     views,
-    numberOfComments,
+    commentsCount,
 }: PostContentProps) {
     return (
         <div className="mt-2 flex justify-between">
@@ -26,7 +26,7 @@ export default function PostContent({
 
                 <div className="flex flex-col items-center space-y-3 text-lg">
                     <span className="align-middle leading-none">
-                        {numberOfComments}
+                        {commentsCount}
                     </span>
                     <span className="align-middle leading-none">{views}</span>
                 </div>

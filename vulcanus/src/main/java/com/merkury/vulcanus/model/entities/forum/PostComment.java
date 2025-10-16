@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 public class PostComment extends Comment {
 
-    @Lob
     @Column(columnDefinition = "TEXT")
     private String content;
 

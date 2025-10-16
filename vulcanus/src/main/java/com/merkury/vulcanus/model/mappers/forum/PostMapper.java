@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.mappers.forum.mappers;
+package com.merkury.vulcanus.model.mappers.forum;
 
 import com.merkury.vulcanus.model.dtos.forum.PostDetailsDto;
 import com.merkury.vulcanus.model.dtos.forum.PostDto;
@@ -33,7 +33,7 @@ public class PostMapper {
                 .downVotes(post.getDownVotes())
                 .isUpVoted(post.getUpVotedBy().contains(currentUser))
                 .isDownVoted(post.getDownVotedBy().contains(currentUser))
-                .comments(PostCommentMapper.toDto(post.getComments(), currentUser))
+                .commentsCount(post.getCommentsCount())
                 .build();
     }
 
@@ -49,15 +49,15 @@ public class PostMapper {
                 .category(CategoryMapper.toDto(post.getPostCategory()))
                 .tags(post.getTags().stream().map(TagMapper::toDto).toList())
                 .views(post.getViews())
-                .numberOfComments(post.getComments().size())
+                .commentsCount(post.getCommentsCount())
                 .isAuthor(currentUser != null && post.getAuthor().getId().equals(currentUser.getId()))
                 .build();
     }
 
-    public static Post toEntity(@NotNull PostDto postDto, @NotNull UserEntity author, @NotNull PostCategory postCategory, Set<Tag> tags) {
+    public static Post toEntity(@NotNull PostDto postDto, @NotNull String cleanContent, @NotNull UserEntity author, @NotNull PostCategory postCategory, Set<Tag> tags) {
         return Post.builder()
                 .title(postDto.title())
-                .content(postDto.content())
+                .content(cleanContent)
                 .author(author)
                 .publishDate(LocalDateTime.now())
                 .postCategory(postCategory)

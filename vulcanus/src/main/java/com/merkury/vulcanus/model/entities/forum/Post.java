@@ -4,6 +4,7 @@ import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.interfaces.Votable;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Formula;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class Post implements Votable {
     private Long id;
 
     private String title;
-    @Lob
+
     @Column(columnDefinition = "TEXT")
     private String content;
 
@@ -48,12 +49,8 @@ public class Post implements Votable {
     @OrderBy("publishDate DESC")
     private List<PostComment> comments = new ArrayList<>();
 
-    private Integer commentsCount;
-    @PrePersist
-    @PreUpdate
-    public void updateCommentsCount() {
-        this.commentsCount = comments.size();
-    }
+    @Builder.Default
+    private Integer commentsCount = 0;
 
     @Builder.Default
     @ManyToMany

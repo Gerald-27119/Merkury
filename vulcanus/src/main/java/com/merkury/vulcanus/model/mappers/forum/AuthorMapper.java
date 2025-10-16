@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.mappers.forum.mappers;
+package com.merkury.vulcanus.model.mappers.forum;
 
 import com.merkury.vulcanus.model.dtos.forum.AuthorDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
