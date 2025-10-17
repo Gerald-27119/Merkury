@@ -1,11 +1,11 @@
-import ForumContentMenu from "./ForumContentMenu";
 import PostGeneral from "../../../../model/interface/forum/post/postGeneral";
 import { NavLink } from "react-router-dom";
+import ForumPostMenu from "./ForumPostMenu";
 
 interface PostHeaderProps {
     post: PostGeneral;
     onDelete: (postId: number) => void;
-    onEdit: (postId: number) => void;
+    onEdit: (post: PostGeneral) => void;
     onFollow: (postId: number) => void;
     onReport: (postId: number) => void;
 }
@@ -24,9 +24,9 @@ export default function PostHeader({
                     {post.title}
                 </h2>
             </NavLink>
-            <ForumContentMenu
-                contentId={post.id}
-                isUserAuthor={post.isAuthor}
+            <ForumPostMenu
+                post={post}
+                isAuthor={post.isAuthor}
                 onDelete={onDelete}
                 onEdit={onEdit}
                 onFollow={onFollow}

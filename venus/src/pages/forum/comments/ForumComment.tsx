@@ -2,7 +2,6 @@ import ForumCommentGeneral from "../../../model/interface/forum/postComment/foru
 import ForumContentHeader from "../posts/components/ForumContentHeader";
 import { useNavigate } from "react-router-dom";
 import ForumCommentContent from "./ForumCommentContent";
-import ForumContentActions from "../components/ForumContentActions";
 import ShowRepliesButton from "./ShowRepliesButton";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -13,6 +12,7 @@ import {
 import { useBoolean } from "../../../hooks/useBoolean";
 import ForumCommentList from "./ForumCommentList";
 import useForumEntityActions from "../../../hooks/useForumEntityActions";
+import ForumCommentActions from "./ForumCommentActions";
 
 interface ForumCommentProps {
     comment: ForumCommentGeneral;
@@ -48,6 +48,8 @@ export default function ForumComment({ comment }: ForumCommentProps) {
 
     const handleCommentEdit = () => {};
 
+    const handleCommentReply = () => {};
+
     return (
         <div>
             <ForumContentHeader
@@ -57,18 +59,14 @@ export default function ForumComment({ comment }: ForumCommentProps) {
                 onAuthorClick={handleNavigateToAuthorProfile}
             />
             <ForumCommentContent content={comment.content} />
-            <ForumContentActions
-                contentId={comment.id}
-                isAuthor={comment.isAuthor}
-                upVotes={comment.upVotes}
-                downVotes={comment.downVotes}
-                isUpVoted={comment.isUpVoted}
-                isDownVoted={comment.isDownVoted}
+
+            <ForumCommentActions
+                comment={comment}
                 onDelete={handleDelete}
                 onEdit={handleCommentEdit}
                 onVote={handleVote}
                 onReport={handleReport}
-                onReply={handleReply}
+                onReply={handleCommentReply}
             />
 
             {comment.repliesCount != null && comment.repliesCount > 0 && (

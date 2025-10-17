@@ -13,10 +13,16 @@ import { fetchDetailedPost } from "../../http/posts";
 import ForumCommentDto from "../../model/interface/forum/postComment/forumCommentDto";
 import useForumEntityActions from "../../hooks/useForumEntityActions";
 import { ForumEntityPayloads } from "../../model/interface/forum/forumEntityPayloads";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { notificationAction } from "../../redux/notification";
+import useDispatchTyped from "../../hooks/useDispatchTyped";
 
 export default function ForumThread({}) {
     const { postId } = useParams<{ postId: string }>();
     const parsedPostId = Number(postId);
+    const dispatch = useDispatchTyped();
+    const isLogged = useSelector((state: RootState) => state.account.isLogged);
     const [isCommentFormVisible, showCommentForm, hideCommentForm] =
         useBoolean(false);
     const [sortOption, setSortOption] = useState<ForumCommentSortOption>({
@@ -39,8 +45,8 @@ export default function ForumThread({}) {
     const {
         data: forumCommentPage,
         error: forumCommentPageError,
-        isError: isforumCommentPageError,
-        isLoading: isforumCommentPageLoading,
+        isError: isForumCommentPageError,
+        isLoading: isForumCommentPageLoading,
     } = useQuery({
         queryKey: ["forumComments", parsedPostId, sortOption],
         queryFn: () => getCommentsByPostId(parsedPostId, 0, 10, sortOption),
@@ -58,6 +64,18 @@ export default function ForumThread({}) {
         await handleAdd({ postId: parsedPostId, newComment });
     };
 
+    const handleAddCommentClick = () => {
+        if (isLogged) {
+            isCommentFormVisible ? hideCommentForm() : showCommentForm();
+        } else {
+            dispatch(
+                notificationAction.addInfo({
+                    message: "Login to add comments.",
+                }),
+            );
+        }
+    };
+
     return (
         <ForumLayout>
             <div className="mx-auto w-xl md:w-2xl lg:w-3xl">
@@ -68,11 +86,7 @@ export default function ForumThread({}) {
                         isLoading={isPostDetailsLoading}
                         isError={isPostDetailsError}
                         error={PostDetailsError}
-                        onClick={
-                            isCommentFormVisible
-                                ? hideCommentForm
-                                : showCommentForm
-                        }
+                        onAddCommentClick={handleAddCommentClick}
                     />
                 ) : (
                     <span>No info</span>
@@ -89,8 +103,8 @@ export default function ForumThread({}) {
                     comments={forumCommentPage?.content}
                     sortOption={sortOption}
                     onSortChange={setSortOption}
-                    isLoading={isforumCommentPageLoading}
-                    isError={isforumCommentPageError}
+                    isLoading={isForumCommentPageLoading}
+                    isError={isForumCommentPageError}
                     error={forumCommentPageError}
                     areReplies={false}
                 />

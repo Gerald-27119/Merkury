@@ -44,17 +44,19 @@ export default function ForumContentMenu({
             {isPostMenuOpen && (
                 <div className="dark:border-darkBorder dark:bg-darkBgSoft absolute right-0 z-10 mt-2 w-40 rounded-md border bg-white shadow-lg">
                     <ul className="items-center py-1 text-sm">
-                        {onFollow && (
+                        {onFollow && !isUserAuthor && (
                             <MenuItem onClick={() => handleClick(onFollow)}>
                                 <FaBell />
                                 Follow
                             </MenuItem>
                         )}
 
-                        <MenuItem onClick={() => handleClick(onReport)}>
-                            <MdFlag />
-                            Report
-                        </MenuItem>
+                        {!isUserAuthor && (
+                            <MenuItem onClick={() => handleClick(onReport)}>
+                                <MdFlag />
+                                Report
+                            </MenuItem>
+                        )}
 
                         {isUserAuthor && (
                             <>

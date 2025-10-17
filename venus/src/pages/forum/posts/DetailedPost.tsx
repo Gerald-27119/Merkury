@@ -3,20 +3,20 @@ import PostMetaData from "./components/PostMetaData";
 import ForumContentHeader from "./components/ForumContentHeader";
 import DetailedPostContent from "./components/DetailedPostContent";
 import { useNavigate } from "react-router-dom";
-import ForumContentActions from "../components/ForumContentActions";
 import Error from "../../../components/error/Error";
 import ForumLayout from "../components/ForumLayout";
 import ReturnButton from "../components/ReturnButton";
 import SkeletonDetailedPost from "./components/SkeletonDetailedPost";
 import useForumEntityActions from "../../../hooks/useForumEntityActions";
 import { deletePost, editPost, votePost } from "../../../http/posts";
+import DetailedPostActions from "./components/DetailedPostActions";
 
 interface DetailedPostProps {
     post: PostDetails;
     isLoading: boolean;
     isError: boolean;
     error: Error | null;
-    onClick: (id: number) => void;
+    onAddCommentClick: () => void;
 }
 
 export default function DetailedPost({
@@ -24,7 +24,7 @@ export default function DetailedPost({
     isLoading,
     isError,
     error,
-    onClick,
+    onAddCommentClick,
 }: DetailedPostProps) {
     const navigate = useNavigate();
 
@@ -75,22 +75,32 @@ export default function DetailedPost({
                 <PostMetaData category={post.category} tags={post.tags} />
             </div>
             <DetailedPostContent title={post.title} content={post.content} />
-            <ForumContentActions
-                contentId={post.id}
-                isAuthor={post.isAuthor}
-                upVotes={post.upVotes}
-                downVotes={post.downVotes}
-                isUpVoted={post.isUpVoted}
-                isDownVoted={post.isDownVoted}
-                commentsCount={post.commentsCount}
-                onClick={onClick}
+            {/*<ForumContentActions*/}
+            {/*    contentId={post.id}*/}
+            {/*    isAuthor={post.isAuthor}*/}
+            {/*    upVotes={post.upVotes}*/}
+            {/*    downVotes={post.downVotes}*/}
+            {/*    isUpVoted={post.isUpVoted}*/}
+            {/*    isDownVoted={post.isDownVoted}*/}
+            {/*    commentsCount={post.commentsCount}*/}
+            {/*    onClick={onClick}*/}
+            {/*    onDelete={handleDelete}*/}
+            {/*    onEdit={handlePostEdit}*/}
+            {/*    onVote={handleVote}*/}
+            {/*    onFollow={handleFollow}*/}
+            {/*    onReport={handleReport}*/}
+            {/*    onShare={handleShare}*/}
+            {/*    showAddCommentButton={true}*/}
+            {/*/>*/}
+            <DetailedPostActions
+                post={post}
+                onAddCommentClick={onAddCommentClick}
                 onDelete={handleDelete}
                 onEdit={handlePostEdit}
                 onVote={handleVote}
                 onFollow={handleFollow}
                 onReport={handleReport}
                 onShare={handleShare}
-                showAddCommentButton={true}
             />
         </div>
     );

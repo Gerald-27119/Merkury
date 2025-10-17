@@ -2,7 +2,7 @@ import { createPortal } from "react-dom";
 import ForumCategoryDto from "../../../model/interface/forum/forumCategoryDto";
 import PostForm from "../posts/components/PostForm";
 import PostDto from "../../../model/interface/forum/post/postDto";
-import { addPost } from "../../../http/posts";
+import { addPost, editPost } from "../../../http/posts";
 import TagDto from "../../../model/interface/tagDto";
 import useForumEntityActions from "../../../hooks/useForumEntityActions";
 import { ForumEntityPayloads } from "../../../model/interface/forum/forumEntityPayloads";
@@ -12,6 +12,7 @@ interface ModalProps {
     isOpen: boolean;
     categories: ForumCategoryDto[];
     tags: TagDto[];
+    postToEdit?: PostDto | null;
 }
 
 export default function ForumFormModal({
@@ -19,6 +20,7 @@ export default function ForumFormModal({
     isOpen,
     categories,
     tags,
+    postToEdit,
 }: ModalProps) {
     const modalRoot = document.getElementById("modal");
 
@@ -36,16 +38,22 @@ export default function ForumFormModal({
         label: tag.name,
     }));
 
-    const { handleAdd } = useForumEntityActions<ForumEntityPayloads["addPost"]>(
-        {
-            entityName: "post",
-            addFn: addPost,
-            queryKeys: { list: "posts", single: "post" },
-        },
-    );
+    const { handleAdd, handleEdit } = useForumEntityActions<
+        ForumEntityPayloads["addPost"],
+        ForumEntityPayloads["editPost"]
+    >({
+        entityName: "post",
+        addFn: addPost,
+        editFn: editPost,
+        queryKeys: { list: "posts", single: "post" },
+    });
 
     const handleAddPost = async (newPost: PostDto) => {
         await handleAdd(newPost);
+    };
+
+    const handleEditPost = async (postData: PostDto) => {
+        await handleEdit({ postId: 1, postData });
     };
 
     return createPortal(
@@ -58,9 +66,11 @@ export default function ForumFormModal({
                     ></div>
                     <PostForm
                         handleAddPost={handleAddPost}
+                        handleEditPost={handleEditPost}
                         onClose={onClose}
                         categories={categoryOptions}
                         tags={tagOptions}
+                        postToEdit={postToEdit}
                     />
                 </>
             )}

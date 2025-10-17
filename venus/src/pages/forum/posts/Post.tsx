@@ -5,6 +5,7 @@ import PostContent from "./components/PostContent";
 import useForumEntityActions from "../../../hooks/useForumEntityActions";
 import { deletePost, editPost } from "../../../http/posts";
 import { ForumEntityPayloads } from "../../../model/interface/forum/forumEntityPayloads";
+import PostDetails from "../../../model/interface/forum/post/postDetails";
 
 interface PostProps {
     post: PostGeneral;
@@ -19,7 +20,7 @@ export default function Post({ post }: PostProps) {
             queryKeys: { list: "posts", single: "post" },
         });
 
-    const handlePostEdit = (postId: number) => {};
+    const handlePostEdit = (post: PostGeneral | PostDetails) => {};
 
     return (
         <div className="dark:bg-darkBgSoft mx-auto my-4 max-w-md rounded-xl shadow-md md:max-w-2xl">

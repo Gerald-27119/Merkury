@@ -13,16 +13,20 @@ import { RichTextEditorVariantType } from "../../../../model/enum/forum/richText
 
 interface FormProps {
     handleAddPost: (data: PostDto) => void;
+    handleEditPost: (postData: PostDto) => void;
     onClose: () => void;
     categories: Option[];
     tags: Option[];
+    postToEdit?: PostDto | null;
 }
 
 export default function PostForm({
     handleAddPost,
+    handleEditPost,
     onClose,
     categories,
     tags,
+    postToEdit,
 }: FormProps) {
     const {
         register,
@@ -32,12 +36,25 @@ export default function PostForm({
     } = useForm<ForumPostFormFields>({
         resolver: zodResolver(ForumPostFormSchema),
         mode: "onBlur",
-        defaultValues: {
-            title: "",
-            category: null,
-            tags: [],
-            content: "",
-        },
+        defaultValues: postToEdit
+            ? {
+                  title: postToEdit.title,
+                  content: postToEdit.content,
+                  category: {
+                      value: postToEdit.category,
+                      label: postToEdit.category,
+                  },
+                  tags: postToEdit.tags.map((tag) => ({
+                      value: tag,
+                      label: tag,
+                  })),
+              }
+            : {
+                  title: "",
+                  category: null,
+                  tags: [],
+                  content: "",
+              },
     });
 
     const onSubmit: SubmitHandler<ForumPostFormFields> = (data) => {
@@ -47,7 +64,9 @@ export default function PostForm({
             category: data.category!.value,
             tags: data.tags ? data.tags.map((tag) => tag.value) : [],
         };
-        handleAddPost(newPost);
+
+        postToEdit ? handleEditPost(newPost) : handleAddPost(newPost);
+
         onClose();
     };
 
