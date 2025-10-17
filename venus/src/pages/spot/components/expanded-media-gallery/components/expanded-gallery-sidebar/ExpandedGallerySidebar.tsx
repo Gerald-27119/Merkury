@@ -3,10 +3,7 @@ import SortingAndFilterPanel from "./SortingAndFilterPanel";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
 import useSelectorTyped from "../../../../../../hooks/useSelectorTyped";
-import {
-    getExpandedSpotMediaGalleryPagePosition,
-    getPaginatedExpandedSpotMediaGallery,
-} from "../../../../../../http/spots-data";
+import { getPaginatedExpandedSpotMediaGallery } from "../../../../../../http/spots-data";
 import SpotExpandedMediaGalleryPage from "../../../../../../model/interface/spot/expanded-media-gallery/spotExpandedMediaGalleryPage";
 import { useBoolean } from "../../../../../../hooks/useBoolean";
 import {
@@ -132,23 +129,31 @@ export default function ExpandedGallerySidebar() {
 
     useEffect(() => {
         dispatch(expandedSpotGalleryMediaListAction.clearMediaList());
+        dispatch(
+            expandedSpotMediaGalleryAction.setExpandedGalleryMediaPagePosition({
+                mediaPagePosition: 0,
+            }),
+        );
         queryClient.removeQueries({
             queryKey: [
                 "expanded-spot-media-gallery",
                 spotId,
                 mediaType,
                 sorting,
-                mediaPagePosition,
+                0,
             ],
         });
         setCurrentMediaType(mediaType);
+        setPageCount(0);
     }, [mediaType]);
-    //TODO: when mediaTypes change wrong mediaId is set
+
     useEffect(() => {
         if (
-            mediaType !== currentMediaType &&
+            isSuccess &&
+            mediaType === currentMediaType &&
             mediaList &&
-            mediaList.length > 0
+            mediaList.length > 0 &&
+            !mediaList.some((media) => media.id === mediaId)
         ) {
             dispatch(
                 expandedSpotMediaGalleryAction.setExpandedGalleryMediaId({
@@ -156,38 +161,7 @@ export default function ExpandedGallerySidebar() {
                 }),
             );
         }
-    }, [mediaList, currentMediaType, mediaType]);
-
-    // useEffect(() => {
-    //     const fetchMediaPagePosition = async () => {
-    //         const { mediaPagePosition } =
-    //             await getExpandedSpotMediaGalleryPagePosition(
-    //                 spotId!,
-    //                 mediaId,
-    //                 mediaType,
-    //                 sorting,
-    //             );
-    //         dispatch(
-    //             expandedSpotMediaGalleryAction.setExpandedGalleryMediaPagePosition(
-    //                 {
-    //                     mediaPagePosition,
-    //                 },
-    //             ),
-    //         );
-    //         dispatch(expandedSpotGalleryMediaListAction.clearMediaList());
-    //         queryClient.removeQueries({
-    //             queryKey: [
-    //                 "expanded-spot-media-gallery",
-    //                 spotId,
-    //                 mediaType,
-    //                 sorting,
-    //                 mediaPagePosition,
-    //             ],
-    //         });
-    //     };
-    //
-    //     fetchMediaPagePosition();
-    // }, [spotId, mediaType, sorting, mediaPagePosition]);
+    }, [mediaList, currentMediaType, mediaId, isSuccess]);
 
     const handleCloseSidebar = () => {
         dispatch(
@@ -218,45 +192,6 @@ export default function ExpandedGallerySidebar() {
             }),
         );
     };
-
-    //TODO: do sth with this
-
-    // useEffect(() => {
-    //     if (mediaType !== currentMediaType && isSuccess) {
-    //         setCurrentMediaType(mediaType);
-    //     }
-    // }, [mediaType, isSuccess]);
-
-    // useEffect(() => {
-    //     if (
-    //         showExpandedGallery &&
-    //         isMediaPagePositionFetched &&
-    //         mediaList.length > 0 &&
-    //         mediaType !== currentMediaType
-    //     ) {
-    //         const currentMedia = mediaList.at(0)!;
-    //         console.log(currentMedia.mediaType, +" from sidebar");
-    //         dispatch(
-    //             expandedSpotMediaGalleryAction.setExpandedGalleryMediaType({
-    //                 mediaType: currentMedia.mediaType,
-    //             }),
-    //         );
-    //         dispatch(
-    //             expandedSpotMediaGalleryAction.setExpandedGalleryMediaId({
-    //                 mediaId: currentMedia.id,
-    //             }),
-    //         );
-    //         setCurrentMediaType(mediaType);
-    //         queryClient.removeQueries({
-    //             queryKey: [
-    //                 "expanded-media-display",
-    //                 mediaType,
-    //                 mediaId,
-    //                 spotId,
-    //             ],
-    //         });
-    //     }
-    // }, []);
 
     return (
         <div className="flex items-center bg-black">

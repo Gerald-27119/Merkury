@@ -38,7 +38,6 @@ export default function ExpandedMediaDisplay() {
 
     useEffect(() => {
         if (isSuccess && currentMedia) {
-            console.log(mediaId + " from useEffect");
             dispatch(
                 expandedSpotGalleryCurrentMediaActions.setCurrentMedia({
                     mediaType: currentMedia.mediaType,
@@ -47,7 +46,6 @@ export default function ExpandedMediaDisplay() {
             );
         }
     }, [isSuccess, currentMedia]);
-    console.log(mediaId, " outside useEffect");
     return (
         <div className="flex flex-col items-center">
             {isLoading && <LoadingSpinner />}
