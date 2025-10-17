@@ -221,7 +221,7 @@ public class SpotService {
         int pageNumber = pos / pageSize;
         int posInPage = pos % pageSize;
         return SpotMediaGalleryPagePosition.builder()
-                .mediaPagePosition(pageNumber)
+                .mediaPagePosition(posInPage)
                 .build();
     }
 

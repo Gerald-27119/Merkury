@@ -124,23 +124,27 @@ export default function ExpandedGallerySidebar() {
     );
 
     useEffect(() => {
-        dispatch(expandedSpotGalleryMediaListAction.clearMediaList());
-        dispatch(
-            expandedSpotMediaGalleryAction.setExpandedGalleryMediaPagePosition({
-                mediaPagePosition: 0,
-            }),
-        );
-        queryClient.removeQueries({
-            queryKey: [
-                "expanded-spot-media-gallery",
-                spotId,
-                mediaType,
-                sorting,
-                0,
-            ],
-        });
-        setCurrentMediaType(mediaType);
-        setPageCount(0);
+        if (mediaType !== currentMediaType) {
+            dispatch(expandedSpotGalleryMediaListAction.clearMediaList());
+            dispatch(
+                expandedSpotMediaGalleryAction.setExpandedGalleryMediaPagePosition(
+                    {
+                        mediaPagePosition: 0,
+                    },
+                ),
+            );
+            queryClient.removeQueries({
+                queryKey: [
+                    "expanded-spot-media-gallery",
+                    spotId,
+                    mediaType,
+                    sorting,
+                    0,
+                ],
+            });
+            setCurrentMediaType(mediaType);
+            setPageCount(0);
+        }
     }, [mediaType]);
 
     useEffect(() => {
