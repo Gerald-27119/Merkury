@@ -198,7 +198,6 @@ export async function getExpandedSpotMediaGalleryPagePosition(
                 mediaId,
                 mediaType,
                 sorting,
-                page: 0,
             },
             withCredentials: true,
         })
