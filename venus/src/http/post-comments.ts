@@ -69,15 +69,18 @@ export async function deleteComment(commentId: number): Promise<void> {
     });
 }
 
-export async function voteComment(commentId: number, isUpvote: boolean) {
-    await axios.patch(
-        `${BASE_URL}/post/comments/${commentId}/vote`,
-        {},
-        {
-            params: { isUpvote },
-            withCredentials: true,
-        },
-    );
+export async function voteComment({
+    id,
+    isUpvote,
+}: {
+    id: number;
+    isUpvote: boolean;
+}) {
+    const commentId = id;
+    await axios.patch(`${BASE_URL}/post/comments/${commentId}/vote`, null, {
+        params: { isUpvote },
+        withCredentials: true,
+    });
 }
 
 export async function replyToComment(

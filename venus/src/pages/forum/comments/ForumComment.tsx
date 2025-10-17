@@ -6,9 +6,14 @@ import ForumContentActions from "../components/ForumContentActions";
 import ShowRepliesButton from "./ShowRepliesButton";
 import useForumPostActions from "../../../hooks/useForumPostActions";
 import { useQuery } from "@tanstack/react-query";
-import { getCommentRepliesByCommentId } from "../../../http/post-comments";
+import {
+    deleteComment,
+    getCommentRepliesByCommentId,
+    voteComment,
+} from "../../../http/post-comments";
 import { useBoolean } from "../../../hooks/useBoolean";
 import ForumCommentList from "./ForumCommentList";
+import useForumEntityActions from "../../../hooks/useForumEntityActions";
 
 interface ForumCommentProps {
     comment: ForumCommentGeneral;
@@ -18,8 +23,17 @@ export default function ForumComment({ comment }: ForumCommentProps) {
     const navigate = useNavigate();
     const [areRepliesOpen, openReplies, closeReplies] = useBoolean(false);
 
+    // const { handleDelete, handleEdit, handleVote, handleReport, handleReply } =
+    //     useForumPostActions({ redirectOnDelete: false });
+
     const { handleDelete, handleEdit, handleVote, handleReport, handleReply } =
-        useForumPostActions({ redirectOnDelete: false });
+        useForumEntityActions({
+            entityName: "comment",
+            queryKeys: { list: "forumComments", single: "comment" },
+            deleteFn: deleteComment,
+            voteFn: voteComment,
+            redirectOnDelete: false,
+        });
 
     const handleNavigateToAuthorProfile = () => {
         navigate(`/account/profile/${comment.author.username}`);
@@ -30,7 +44,6 @@ export default function ForumComment({ comment }: ForumCommentProps) {
         error: repliesPageError,
         isError: isRepliesPageError,
         isLoading: isRepliesPageLoading,
-        isFetching: isRepliesPageFetching,
     } = useQuery({
         queryKey: [comment.id, "forumCommentsReplies"],
         queryFn: () => getCommentRepliesByCommentId(comment.id, 10),

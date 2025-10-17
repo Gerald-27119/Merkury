@@ -1,12 +1,15 @@
 package com.merkury.vulcanus.model.entities.forum;
 
 import com.merkury.vulcanus.model.entities.Comment;
+import com.merkury.vulcanus.model.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "post_comments")
 @SuperBuilder
@@ -32,4 +35,23 @@ public class PostComment extends Comment {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<PostComment> replies = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "post_comment_up_votes",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    @Builder.Default
+    private Set<UserEntity> upVotedBy = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "post_comment_down_votes",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    @Builder.Default
+    private Set<UserEntity> downVotedBy = new HashSet<>();
+
 }

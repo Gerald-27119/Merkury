@@ -7,6 +7,7 @@ import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.PostComment;
 import com.merkury.vulcanus.model.entities.forum.Tag;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
+import com.merkury.vulcanus.model.interfaces.Votable;
 import com.merkury.vulcanus.model.repositories.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class PopulateForumService {
 
         var postList = new ArrayList<Post>();
         var forumUsers = userRepository.findAll().subList(1, 102);
+        var voteUsers = userRepository.findAll().subList(20, 40);
 
         UserEntity forumUser = UserEntity.builder()
                 .email("forumUser@gmail.com")
@@ -241,10 +243,9 @@ public class PopulateForumService {
                         .author(forumUsers.get(random.nextInt(forumUsers.size())))
                         .post(post)
                         .publishDate(post.getPublishDate().plusDays(i))
-                        .upVotes(random.nextInt(50))
-                        .downVotes(random.nextInt(5))
                         .build();
 
+                assignRandomVotes(comment, voteUsers);
                 generateReplies(comment, post, forumUsers, 1, 3);
                 comments.add(comment);
             }
@@ -254,7 +255,6 @@ public class PopulateForumService {
 
             allComments.addAll(comments);
         }
-
 
         userRepository.saveAll(List.of(forumUser, forumUserFriend));
         forumUser.getFriendships().add(friendship);
@@ -289,8 +289,6 @@ public class PopulateForumService {
                     .post(post)
                     .parent(parent)
                     .publishDate(parent.getPublishDate().plusHours(j + depth))
-                    .upVotes(random.nextInt(20))
-                    .downVotes(random.nextInt(3))
                     .build();
 
             parent.getReplies().add(reply);
@@ -310,7 +308,7 @@ public class PopulateForumService {
         return count;
     }
 
-    private void assignRandomVotes(Post post, List<UserEntity> users) {
+    private void assignRandomVotes(Votable entity, List<UserEntity> users) {
         Collections.shuffle(users);
         int totalVotes = random.nextInt(users.size());
         int upVoteCount = random.nextInt(totalVotes + 1);
@@ -318,10 +316,10 @@ public class PopulateForumService {
         Set<UserEntity> upVoters = new HashSet<>(users.subList(0, upVoteCount));
         Set<UserEntity> downVoters = new HashSet<>(users.subList(upVoteCount, totalVotes));
 
-        post.setUpVotedBy(upVoters);
-        post.setDownVotedBy(downVoters);
-        post.setUpVotes(upVoters.size());
-        post.setDownVotes(downVoters.size());
+        entity.setUpVotedBy(upVoters);
+        entity.setDownVotedBy(downVoters);
+        entity.setUpVotes(upVoters.size());
+        entity.setDownVotes(downVoters.size());
     }
 
 

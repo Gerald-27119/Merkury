@@ -84,7 +84,7 @@ public class PostCommentService {
 
     public void voteComment(Long commentId, boolean isUpvote) throws CommentNotFoundException, UserNotFoundByUsernameException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
-        var comment = postCommentRepository.findByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentNotFoundException(commentId));
+        var comment = postCommentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
 
         voteService.vote(comment, user, isUpvote);
         postCommentRepository.save(comment);

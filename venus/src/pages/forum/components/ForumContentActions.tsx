@@ -20,7 +20,7 @@ interface ForumContentActionsProps {
 
     commentsCount?: number;
     onFollow?: (id: number) => void;
-    onReply?: () => void;
+    onReply?: (id: number) => void;
     onShare?: () => void;
     showAddCommentButton?: boolean;
 }
@@ -70,7 +70,7 @@ export default function ForumContentActions({
             <div className="ml-8 flex gap-6">
                 {onReply && (
                     <div className="flex cursor-pointer items-center gap-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">
-                        <FaReply onClick={onReply} />
+                        <FaReply onClick={() => onReply(contentId)} />
                         <p>Reply</p>
                     </div>
                 )}
