@@ -214,65 +214,69 @@ export default function ExpandedGallerySidebar() {
                         <SortingAndFilterPanel />
                         {isLoading && <LoadingSpinner />}
                         {isError && <p>Failed to fetch list of media.</p>}
-                        {mediaList.length === 0 ? (
-                            <p className="text-center">
-                                No{" "}
-                                {mediaType === MediaType.PHOTO
-                                    ? "photos"
-                                    : "films"}{" "}
-                                to display.
-                            </p>
-                        ) : (
-                            <ul className="flex flex-col items-center space-y-2">
-                                {mediaList.map((media) =>
-                                    media.mediaType === MediaType.PHOTO ? (
-                                        <li
-                                            key={media.id}
-                                            className="cursor-pointer overflow-hidden first:rounded-t-2xl"
-                                            onClick={() =>
-                                                handleClickSetCurrentMedia(
-                                                    media,
-                                                )
-                                            }
-                                        >
-                                            <img
-                                                src={media.url}
-                                                alt={media.url}
-                                            />
-                                        </li>
-                                    ) : (
-                                        <li
-                                            key={media.id}
-                                            className="relative first:rounded-t-2xl"
-                                            onClick={() =>
-                                                handleClickSetCurrentMedia(
-                                                    media,
-                                                )
-                                            }
-                                        >
-                                            <div className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-2xl 2xl:text-4xl">
-                                                <FaRegCirclePlay />
-                                            </div>
-                                            <div className="z-10 flex items-center justify-center">
-                                                <ReactPlayer
-                                                    playing={false}
+                        <div className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin h-[71rem] overflow-y-auto">
+                            {mediaList.length === 0 ? (
+                                <p className="text-center">
+                                    No{" "}
+                                    {mediaType === MediaType.PHOTO
+                                        ? "photos"
+                                        : "films"}{" "}
+                                    to display.
+                                </p>
+                            ) : (
+                                <ul className="flex flex-col items-center space-y-2">
+                                    {mediaList.map((media) =>
+                                        media.mediaType === MediaType.PHOTO ? (
+                                            <li
+                                                key={media.id}
+                                                className="cursor-pointer overflow-hidden first:rounded-t-2xl last:rounded-b-2xl"
+                                                onClick={() =>
+                                                    handleClickSetCurrentMedia(
+                                                        media,
+                                                    )
+                                                }
+                                            >
+                                                <img
+                                                    className="h-72 w-[28rem]"
                                                     src={media.url}
-                                                    controls={false}
-                                                    style={{
-                                                        width: "100%",
-                                                        height: "100%",
-                                                        aspectRatio: "16/9",
-                                                        "--controls": "none",
-                                                    }}
+                                                    alt={media.url}
                                                 />
-                                            </div>
-                                        </li>
-                                    ),
-                                )}
-                            </ul>
-                        )}
-                        {isFetchingNextPage && <LoadingSpinner />}
-                        <div ref={loadMoreRef} className="invisible h-1" />
+                                            </li>
+                                        ) : (
+                                            <li
+                                                key={media.id}
+                                                className="relative first:rounded-t-2xl"
+                                                onClick={() =>
+                                                    handleClickSetCurrentMedia(
+                                                        media,
+                                                    )
+                                                }
+                                            >
+                                                <div className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-2xl 2xl:text-4xl">
+                                                    <FaRegCirclePlay />
+                                                </div>
+                                                <div className="z-10 flex h-72 w-[28rem] items-center justify-center">
+                                                    <ReactPlayer
+                                                        playing={false}
+                                                        src={media.url}
+                                                        controls={false}
+                                                        style={{
+                                                            width: "100%",
+                                                            height: "100%",
+                                                            aspectRatio: "16/9",
+                                                            "--controls":
+                                                                "none",
+                                                        }}
+                                                    />
+                                                </div>
+                                            </li>
+                                        ),
+                                    )}
+                                </ul>
+                            )}
+                            {isFetchingNextPage && <LoadingSpinner />}
+                            <div ref={loadMoreRef} className="invisible h-1" />
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
