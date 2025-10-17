@@ -1,6 +1,5 @@
 import ForumCategoryDto from "../forumCategoryDto";
-import PostCommentDto from "../postComment/postCommentDto";
-import PostAuthorDto from "../postAuthorDto";
+import ForumAuthorDto from "../forumAuthorDto";
 import TagDto from "../../tagDto";
 
 export default interface PostDetails {
@@ -9,7 +8,7 @@ export default interface PostDetails {
     content: string;
     category: ForumCategoryDto;
     tags: TagDto[];
-    author: PostAuthorDto;
+    author: ForumAuthorDto;
     isAuthor: boolean;
     publishDate: string;
     views: number;
@@ -17,5 +16,5 @@ export default interface PostDetails {
     downVotes: number;
     isUpVoted: boolean;
     isDownVoted: boolean;
-    comments: PostCommentDto[];
+    commentsCount: number;
 }

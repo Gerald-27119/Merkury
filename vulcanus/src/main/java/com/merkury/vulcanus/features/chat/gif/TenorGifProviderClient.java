@@ -16,11 +16,12 @@ import java.util.List;
 //2. zbierac loakzliacje od usera
 //3. unikalne id usera do wyszukiwania
 //4. raportowanie do tenor o wyszukiwanych frazach
+
 /**
  * As of 16.07.2025 we are using Tenor as the GIF provider.
  */
 @Component
-public class TenorGifProviderClient {
+class TenorGifProviderClient {
 
     public TenorGifProviderClient(@Qualifier("tenorClient") WebClient webClient,
                                   GifProviderProperties props) {
@@ -32,7 +33,7 @@ public class TenorGifProviderClient {
     private final GifProviderProperties props;
 
     private static final String locale = "pl_PL";
-//    private static final String country = "PL"; dev purpose only
+    //    private static final String country = "PL"; dev purpose only
     private static final int limit = 10;
 
 

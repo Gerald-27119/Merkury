@@ -11,7 +11,7 @@ interface DetailedPostProps {
 }
 
 export default function DetailedPost({ post }: DetailedPostProps) {
-    const { handleDelete, handleEdit, handleFollow, handleReport } =
+    const { handleDelete, handleEdit, handleVote, handleFollow, handleReport } =
         useForumPostActions({ redirectOnDelete: true });
     const navigate = useNavigate();
 
@@ -35,9 +35,12 @@ export default function DetailedPost({ post }: DetailedPostProps) {
                 isAuthor={post.isAuthor}
                 upVotes={post.upVotes}
                 downVotes={post.downVotes}
-                numberOfComments={post.comments.length}
+                isUpVoted={post.isUpVoted}
+                isDownVoted={post.isDownVoted}
+                numberOfComments={post.commentsCount}
                 onDelete={handleDelete}
                 onEdit={handleEdit}
+                onVote={handleVote}
                 onFollow={handleFollow}
                 onReport={handleReport}
             />

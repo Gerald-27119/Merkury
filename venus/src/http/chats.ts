@@ -81,3 +81,13 @@ export async function sendFiles(
         withCredentials: true,
     });
 }
+
+export async function createGroupChat(usernames: string[]): Promise<ChatDto> {
+    const body = { usernames };
+    const { data } = await axios.post<ChatDto>(
+        `${BASE_URL}/chats/create/group`,
+        body,
+        { withCredentials: true },
+    );
+    return data;
+}

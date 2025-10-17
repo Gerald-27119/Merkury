@@ -21,10 +21,10 @@ export interface ChatMessageSenderDto {
 }
 
 export interface ChatParticipantDto {
-    id: number;
-    name: string;
+    // id: number; tak ma byc jakby co :)
+    username: string;
     imgUrl: string;
-    isOnline: boolean;
+    // isOnline: boolean;
 }
 
 export interface ChatPage {

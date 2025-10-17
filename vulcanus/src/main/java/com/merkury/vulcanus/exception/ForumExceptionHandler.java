@@ -29,7 +29,7 @@ public class ForumExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
-    @ExceptionHandler(InvalidPostContentException.class)
+    @ExceptionHandler(InvalidForumContentException.class)
     public ResponseEntity<String> handleInvalidPostContentException(Exception ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
