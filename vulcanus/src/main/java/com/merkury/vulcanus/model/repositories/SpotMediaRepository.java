@@ -31,28 +31,6 @@ public interface SpotMediaRepository extends JpaRepository<SpotMedia, Long> {
         FROM spot_media sm
         JOIN spot_media target ON target.id = :mediaId
         WHERE sm.spot.id = :spotId
-          AND sm.genericMediaType = :genericMediaType
-          AND (
-              (:sorting = 'newest' AND sm.addDate > target.addDate) OR
-              (:sorting = 'oldest' AND sm.addDate < target.addDate) OR
-              (:sorting = 'mostLiked' AND sm.likes > target.likes) OR
-              (:sorting IS NULL AND sm.addDate > target.addDate)
-          )
-          AND target.spot.id = :spotId
-          AND target.genericMediaType = :genericMediaType
-        """)
-    Long countBefore(
-            @Param("mediaId") Long mediaId,
-            @Param("spotId") Long spotId,
-            @Param("genericMediaType") GenericMediaType genericMediaType,
-            @Param("sorting") String sorting
-    );
-
-    @Query("""
-        SELECT COUNT(sm)
-        FROM spot_media sm
-        JOIN spot_media target ON target.id = :mediaId
-        WHERE sm.spot.id = :spotId
           AND sm.genericMediaType = :mediaType
           AND target.spot.id = :spotId
           AND target.genericMediaType = :mediaType

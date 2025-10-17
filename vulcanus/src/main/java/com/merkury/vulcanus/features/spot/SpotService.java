@@ -213,12 +213,7 @@ public class SpotService {
         return new HomePageSpotPageDto(spotDtos, spotPages.hasNext());
     }
 
-    //TODO: this is not working as expected
-//    public SpotMediaGalleryPagePosition getSpotGalleryMediaPosition(Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, int pageSize) {
-//        var mediaPagePosition = spotMediaRepository.countBefore(mediaId, spotId, mediaType, sorting).intValue();
-//        return SpotMediaGalleryPagePosition.builder().mediaPagePosition(mediaPagePosition % pageSize).build();
-//    }
-
+    //TODO:clean it
     public SpotMediaGalleryPagePosition getSpotGalleryMediaPosition(
             Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, int pageSize) {
         Long countBefore = spotMediaRepository.countBeforeWithTieBreaker(mediaId, spotId, mediaType, sorting);
