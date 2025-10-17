@@ -41,10 +41,6 @@ export default function ExpandedGallerySidebar() {
         (state) => state.expandedSpotMediaGalleryModals,
     );
 
-    const { showExpandedGallery } = useSelectorTyped(
-        (state) => state.expandedSpotMediaGalleryModals,
-    );
-
     const loadMoreRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -217,6 +213,7 @@ export default function ExpandedGallerySidebar() {
                         </div>
                         <SortingAndFilterPanel />
                         {isLoading && <LoadingSpinner />}
+                        {isError && <p>Failed to fetch list of media.</p>}
                         {mediaList.length === 0 ? (
                             <p className="text-center">
                                 No{" "}
