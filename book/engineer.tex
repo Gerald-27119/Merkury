@@ -4,6 +4,69 @@
 \usepackage{glossaries}
 \usepackage[polish]{babel}
 
+%HTTP Methods Coloring
+\lstdefinelanguage{http}{
+    alsoletter={:},
+    literate=
+        {GET}{{{\color{blue}\textbf{GET}}}}3
+        {POST}{{{\color{green!60!black}\textbf{POST}}}}4
+        {DELETE}{{{\color{red}\textbf{DELETE}}}}6
+        {PUT}{{{\color{orange!90!black}\textbf{PUT}}}}3
+        {PATCH}{{{\color{teal}\textbf{PATCH}}}}5
+        {OPTIONS}{{{\color{magenta!80!black}\textbf{OPTIONS}}}}7
+}
+
+%JSON Coloring
+\lstdefinelanguage{json}{
+    basicstyle=\footnotesize\ttfamily,
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    framerule=0pt,
+    backgroundcolor=\color{gray!3},
+    literate=
+    *{true}{{{\color{blue}\bfseries true}}}4
+        {false}{{{\color{blue}\bfseries false}}}5
+        {null}{{{\color{magenta}\bfseries null}}}4
+        {:}{{{\color{black}:{}}}}1
+        {,}{{{\color{black},{}}}}1
+        {"}{{{\color{gray}"}}}1
+        {0}{{{\color{purple!70!black}0}}}1
+        {1}{{{\color{purple!70!black}1}}}1
+        {2}{{{\color{purple!70!black}2}}}1
+        {3}{{{\color{purple!70!black}3}}}1
+        {4}{{{\color{purple!70!black}4}}}1
+        {5}{{{\color{purple!70!black}5}}}1
+        {6}{{{\color{purple!70!black}6}}}1
+        {7}{{{\color{purple!70!black}7}}}1
+        {8}{{{\color{purple!70!black}8}}}1
+        {9}{{{\color{purple!70!black}9}}}1,
+    morestring=[b]",
+    stringstyle=\color{green!40!black}
+}
+
+% Http Errors coloring
+\lstdefinelanguage{httperror}{
+    basicstyle=\footnotesize\ttfamily,
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!3},
+    literate=*
+        {200\ OK}{{{\color{green!50!black}\textbf{200 OK}}}}6
+        {201\ Created}{{{\color{green!40!black}\textbf{201 Created}}}}12
+        {204\ No\ Content}{{{\color{green!30!black}\textbf{204 No Content}}}}14
+        {400\ Bad\ Request}{{{\color{orange!80!black}\textbf{400 Bad Request}}}}15
+        {401\ Unauthorized}{{{\color{orange!70!black}\textbf{401 Unauthorized}}}}16
+        {403\ Forbidden}{{{\color{orange!90!black}\textbf{403 Forbidden}}}}13
+        {404\ Not\ Found}{{{\color{red!80!black}\textbf{404 Not Found}}}}13
+        {409\ Conflict}{{{\color{red!70!black}\textbf{409 Conflict}}}}12
+        {500\ Internal\ Server\ Error}{{{\color{red!90!black}\textbf{500 Internal Server Error}}}}25,
+}
+
+
+
+
 
 \makeglossaries
 \addbibresource{bibliography.bib}
@@ -85,9 +148,9 @@
     \input{chapters/problem-description}
     \input{chapters/project-context}
     \input{chapters/requirements-analysis}
-    \input{chapters/project-decisions}
+%    \input{chapters/project-decisions}
     \input{chapters/project}
-    \input{chapters/implementation}
+    \input{chapters/implementation/implementation}
     \input{chapters/testing}
     \input{chapters/system-presentation}
     \input{chapters/amount-of-work/amount-of-work}
