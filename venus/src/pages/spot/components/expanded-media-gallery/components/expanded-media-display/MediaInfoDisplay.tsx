@@ -14,7 +14,7 @@ export default function MediaInfoDisplay({
             <img
                 src={authorProfilePhotoUrl}
                 alt={`${authorName}_profile_photo`}
-                className="aspect-square w-6 rounded-full"
+                className="aspect-square w-7 rounded-full"
             />
             <span>{authorName}</span>
             <span>{publishDate}</span>

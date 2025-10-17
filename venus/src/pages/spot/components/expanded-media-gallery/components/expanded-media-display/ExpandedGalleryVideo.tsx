@@ -8,15 +8,17 @@ export default function ExpandedGalleryVideo({
     url,
 }: ExpandedGalleryVideoProps) {
     return (
-        <ReactPlayer
-            controls={true}
-            src={url}
-            style={{
-                width: "100%",
-                height: "100%",
-                aspectRatio: "16/9",
-            }}
-            slot="media"
-        />
+        <div className='"h-[60rem] w-[90rem] overflow-hidden rounded-2xl'>
+            <ReactPlayer
+                controls={true}
+                src={url}
+                style={{
+                    width: "100%",
+                    height: "100%",
+                    aspectRatio: "16/9",
+                }}
+                slot="media"
+            />
+        </div>
     );
 }

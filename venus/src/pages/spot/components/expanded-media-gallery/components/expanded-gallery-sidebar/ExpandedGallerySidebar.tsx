@@ -245,7 +245,7 @@ export default function ExpandedGallerySidebar() {
                                         ) : (
                                             <li
                                                 key={media.id}
-                                                className="relative first:rounded-t-2xl"
+                                                className="relative overflow-hidden first:rounded-t-2xl last:rounded-b-2xl"
                                                 onClick={() =>
                                                     handleClickSetCurrentMedia(
                                                         media,
