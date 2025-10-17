@@ -3,11 +3,9 @@ import ForumCategoryDto from "../../../model/interface/forum/forumCategoryDto";
 import PostForm from "../posts/components/PostForm";
 import PostDto from "../../../model/interface/forum/post/postDto";
 import { addPost } from "../../../http/posts";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
-import { notificationAction } from "../../../redux/notification";
-import { AxiosError } from "axios";
 import TagDto from "../../../model/interface/tagDto";
+import useForumEntityActions from "../../../hooks/useForumEntityActions";
+import { ForumEntityPayloads } from "../../../model/interface/forum/forumEntityPayloads";
 
 interface ModalProps {
     onClose: () => void;
@@ -23,8 +21,6 @@ export default function ForumFormModal({
     tags,
 }: ModalProps) {
     const modalRoot = document.getElementById("modal");
-    const queryClient = useQueryClient();
-    const dispatch = useDispatch();
 
     if (!modalRoot) {
         return null;
@@ -40,36 +36,16 @@ export default function ForumFormModal({
         label: tag.name,
     }));
 
-    const { mutateAsync: mutateNewPost } = useMutation({
-        mutationFn: addPost,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ["posts"] });
-            dispatch(
-                notificationAction.addSuccess({
-                    message: "Post created successfully!",
-                }),
-            );
+    const { handleAdd } = useForumEntityActions<ForumEntityPayloads["addPost"]>(
+        {
+            entityName: "post",
+            addFn: addPost,
+            queryKeys: { list: "posts", single: "post" },
         },
-        onError: (e: AxiosError) => {
-            if (e.status === 401) {
-                dispatch(
-                    notificationAction.addInfo({
-                        message: "Login to create posts.",
-                    }),
-                );
-            } else {
-                dispatch(
-                    notificationAction.addError({
-                        message:
-                            "Failed to create post. Please try again later.",
-                    }),
-                );
-            }
-        },
-    });
+    );
 
-    const handlePost = async (forumPostData: PostDto) => {
-        await mutateNewPost(forumPostData);
+    const handleAddPost = async (newPost: PostDto) => {
+        await handleAdd(newPost);
     };
 
     return createPortal(
@@ -81,7 +57,7 @@ export default function ForumFormModal({
                         onClick={onClose}
                     ></div>
                     <PostForm
-                        handlePost={handlePost}
+                        handleAddPost={handleAddPost}
                         onClose={onClose}
                         categories={categoryOptions}
                         tags={tagOptions}

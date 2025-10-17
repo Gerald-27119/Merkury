@@ -21,7 +21,7 @@ interface ForumContentActionsProps {
     commentsCount?: number;
     onFollow?: (id: number) => void;
     onReply?: (id: number) => void;
-    onShare?: () => void;
+    onShare?: (url: string) => void;
     showAddCommentButton?: boolean;
 }
 
@@ -77,7 +77,7 @@ export default function ForumContentActions({
 
                 {onShare && (
                     <div className="flex cursor-pointer items-center gap-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">
-                        <FaShare onClick={onShare} />
+                        <FaShare onClick={() => onShare("debil")} />
                         <p>Share</p>
                     </div>
                 )}

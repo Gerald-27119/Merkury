@@ -2,13 +2,14 @@ import PostDetails from "../../../model/interface/forum/post/postDetails";
 import PostMetaData from "./components/PostMetaData";
 import ForumContentHeader from "./components/ForumContentHeader";
 import DetailedPostContent from "./components/DetailedPostContent";
-import useForumPostActions from "../../../hooks/useForumPostActions";
 import { useNavigate } from "react-router-dom";
 import ForumContentActions from "../components/ForumContentActions";
 import Error from "../../../components/error/Error";
 import ForumLayout from "../components/ForumLayout";
 import ReturnButton from "../components/ReturnButton";
 import SkeletonDetailedPost from "./components/SkeletonDetailedPost";
+import useForumEntityActions from "../../../hooks/useForumEntityActions";
+import { deletePost, editPost, votePost } from "../../../http/posts";
 
 interface DetailedPostProps {
     post: PostDetails;
@@ -25,19 +26,28 @@ export default function DetailedPost({
     error,
     onClick,
 }: DetailedPostProps) {
+    const navigate = useNavigate();
+
     const {
-        handleDelete,
         handleEdit,
-        handleVote,
+        handleDelete,
         handleFollow,
         handleReport,
         handleShare,
-    } = useForumPostActions({ redirectOnDelete: true });
-    const navigate = useNavigate();
+        handleVote,
+    } = useForumEntityActions({
+        entityName: "post",
+        deleteFn: deletePost,
+        voteFn: votePost,
+        redirectOnDelete: true,
+        queryKeys: { list: "posts", single: "post" },
+    });
 
     const handleNavigateToAuthorProfile = () => {
         navigate(`/account/profile/${post.author.username}`);
     };
+
+    const handlePostEdit = () => {};
 
     if (isLoading) {
         return (
@@ -75,7 +85,7 @@ export default function DetailedPost({
                 commentsCount={post.commentsCount}
                 onClick={onClick}
                 onDelete={handleDelete}
-                onEdit={handleEdit}
+                onEdit={handlePostEdit}
                 onVote={handleVote}
                 onFollow={handleFollow}
                 onReport={handleReport}

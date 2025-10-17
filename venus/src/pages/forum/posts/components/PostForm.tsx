@@ -12,14 +12,14 @@ import PostDto from "../../../../model/interface/forum/post/postDto";
 import { RichTextEditorVariantType } from "../../../../model/enum/forum/richTextEditorVariantType";
 
 interface FormProps {
-    handlePost: (data: PostDto) => void;
+    handleAddPost: (data: PostDto) => void;
     onClose: () => void;
     categories: Option[];
     tags: Option[];
 }
 
 export default function PostForm({
-    handlePost,
+    handleAddPost,
     onClose,
     categories,
     tags,
@@ -47,7 +47,7 @@ export default function PostForm({
             category: data.category!.value,
             tags: data.tags ? data.tags.map((tag) => tag.value) : [],
         };
-        handlePost(newPost);
+        handleAddPost(newPost);
         onClose();
     };
 

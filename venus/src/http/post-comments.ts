@@ -50,10 +50,13 @@ export async function addComment({
     });
 }
 
-export async function editComment(
-    commentId: number,
-    commentData: ForumCommentDto,
-) {
+export async function editComment({
+    commentId,
+    commentData,
+}: {
+    commentId: number;
+    commentData: ForumCommentDto;
+}) {
     return await axios.patch(
         `${BASE_URL}/post/comments/${commentId}`,
         commentData,
@@ -76,8 +79,7 @@ export async function voteComment({
     id: number;
     isUpvote: boolean;
 }) {
-    const commentId = id;
-    await axios.patch(`${BASE_URL}/post/comments/${commentId}/vote`, null, {
+    await axios.patch(`${BASE_URL}/post/comments/${id}/vote`, null, {
         params: { isUpvote },
         withCredentials: true,
     });
@@ -90,6 +92,16 @@ export async function replyToComment(
     return await axios.post(
         `${BASE_URL}/comments/${commentId}/replies`,
         replyData,
+        {
+            withCredentials: true,
+        },
+    );
+}
+
+export async function reportComment(commentId: number) {
+    return await axios.patch(
+        `${BASE_URL}/post/comments/${commentId}/report`,
+        null,
         {
             withCredentials: true,
         },

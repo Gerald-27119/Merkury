@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import ForumCommentContent from "./ForumCommentContent";
 import ForumContentActions from "../components/ForumContentActions";
 import ShowRepliesButton from "./ShowRepliesButton";
-import useForumPostActions from "../../../hooks/useForumPostActions";
 import { useQuery } from "@tanstack/react-query";
 import {
     deleteComment,
@@ -22,9 +21,6 @@ interface ForumCommentProps {
 export default function ForumComment({ comment }: ForumCommentProps) {
     const navigate = useNavigate();
     const [areRepliesOpen, openReplies, closeReplies] = useBoolean(false);
-
-    // const { handleDelete, handleEdit, handleVote, handleReport, handleReply } =
-    //     useForumPostActions({ redirectOnDelete: false });
 
     const { handleDelete, handleEdit, handleVote, handleReport, handleReply } =
         useForumEntityActions({
@@ -50,6 +46,8 @@ export default function ForumComment({ comment }: ForumCommentProps) {
         enabled: areRepliesOpen,
     });
 
+    const handleCommentEdit = () => {};
+
     return (
         <div>
             <ForumContentHeader
@@ -67,7 +65,7 @@ export default function ForumComment({ comment }: ForumCommentProps) {
                 isUpVoted={comment.isUpVoted}
                 isDownVoted={comment.isDownVoted}
                 onDelete={handleDelete}
-                onEdit={handleEdit}
+                onEdit={handleCommentEdit}
                 onVote={handleVote}
                 onReport={handleReport}
                 onReply={handleReply}

@@ -10,7 +10,7 @@ interface PostHeaderProps {
     onReport: (postId: number) => void;
 }
 
-export default function PortHeader({
+export default function PostHeader({
     post,
     onDelete,
     onEdit,
@@ -25,7 +25,7 @@ export default function PortHeader({
                 </h2>
             </NavLink>
             <ForumContentMenu
-                postId={post.id}
+                contentId={post.id}
                 isUserAuthor={post.isAuthor}
                 onDelete={onDelete}
                 onEdit={onEdit}

@@ -5,18 +5,19 @@ import useDispatchTyped from "./useDispatchTyped";
 import { useNavigate } from "react-router-dom";
 import { notificationAction } from "../redux/notification";
 import capitalize from "antd/es/_util/capitalize";
+import { AxiosError } from "axios";
 
-interface useForumEntityActionsProps {
+interface useForumEntityActionsProps<TAddPayload, TEditPayload> {
     entityName: string;
     queryKeys: {
         list: string;
         single: string;
     };
-    redirectOnDelete: boolean;
-    addFn?: (id: number) => Promise<any>;
-    editFn?: (id: number) => Promise<any>;
-    deleteFn: (id: number) => Promise<any>;
-    voteFn: ({
+    redirectOnDelete?: boolean;
+    addFn?: (payload: TAddPayload) => Promise<any>;
+    editFn?: (payload: TEditPayload) => Promise<any>;
+    deleteFn?: (id: number) => Promise<any>;
+    voteFn?: ({
         id,
         isUpvote,
     }: {
@@ -25,7 +26,10 @@ interface useForumEntityActionsProps {
     }) => Promise<any>;
 }
 
-export default function useForumEntityActions({
+export default function useForumEntityActions<
+    TAddPayload = void,
+    TEditPayload = void,
+>({
     entityName,
     queryKeys,
     redirectOnDelete,
@@ -33,11 +37,69 @@ export default function useForumEntityActions({
     editFn,
     deleteFn,
     voteFn,
-}: useForumEntityActionsProps) {
+}: useForumEntityActionsProps<TAddPayload, TEditPayload>) {
     const isLogged = useSelector((state: RootState) => state.account.isLogged);
     const queryClient = useQueryClient();
     const dispatch = useDispatchTyped();
     const navigate = useNavigate();
+
+    const { mutateAsync: mutateAdd } = useMutation({
+        mutationFn: addFn,
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: [queryKeys.list],
+            });
+            dispatch(
+                notificationAction.addSuccess({
+                    message: `${capitalize(entityName)} created successfully!`,
+                }),
+            );
+        },
+        onError: (e: AxiosError) => {
+            if (e.status === 401) {
+                dispatch(
+                    notificationAction.addInfo({
+                        message: `Login to add ${capitalize(entityName)}s.`,
+                    }),
+                );
+            } else {
+                dispatch(
+                    notificationAction.addError({
+                        message: `Failed to create ${entityName}. Please try again later.`,
+                    }),
+                );
+            }
+        },
+    });
+
+    const { mutateAsync: mutateEdit } = useMutation({
+        mutationFn: editFn,
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: [queryKeys.list],
+            });
+            dispatch(
+                notificationAction.addSuccess({
+                    message: `${capitalize(entityName)} edited successfully!`,
+                }),
+            );
+        },
+        onError: (e: AxiosError) => {
+            if (e.status === 401) {
+                dispatch(
+                    notificationAction.addInfo({
+                        message: `Login to edit ${capitalize(entityName)}s.`,
+                    }),
+                );
+            } else {
+                dispatch(
+                    notificationAction.addError({
+                        message: `Failed to edit ${entityName}. Please try again later.`,
+                    }),
+                );
+            }
+        },
+    });
 
     const { mutateAsync: mutateDelete } = useMutation({
         mutationFn: deleteFn,
@@ -68,46 +130,52 @@ export default function useForumEntityActions({
                 queryKey: [queryKeys.list],
             });
         },
-        onError: () => {
-            dispatch(
-                notificationAction.addError({
-                    message: "Something went wrong. Please try again later.",
-                }),
-            );
+        onError: (e: AxiosError) => {
+            if (e.status == 401) {
+                dispatch(
+                    notificationAction.addInfo({
+                        message: "Login to vote",
+                    }),
+                );
+            } else {
+                dispatch(
+                    notificationAction.addError({
+                        message:
+                            "Something went wrong. Please try again later.",
+                    }),
+                );
+            }
         },
     });
 
-    const handleAdd = async () => {};
+    const handleAdd = async (payload: TAddPayload) => {
+        await mutateAdd(payload);
+    };
 
-    const handleEdit = async () => {};
+    const handleEdit = async (payload: TEditPayload) => {
+        await mutateEdit(payload);
+    };
 
     const handleDelete = async (id: number) => {
         await mutateDelete(id);
     };
 
     const handleVote = async (id: number, isUpvote: boolean) => {
-        if (isLogged) {
-            await mutateVote({ id, isUpvote });
-        } else {
-            dispatch(
-                notificationAction.addInfo({
-                    message: "Login to vote.",
-                }),
-            );
-        }
+        await mutateVote({ id, isUpvote });
     };
 
-    const handleFollow = async (id: number) => {};
-
     const handleReport = async (id: number) => {};
+
+    const handleFollow = async (id: number) => {};
 
     const handleShare = async (url: string) => {};
 
     const handleReply = async (id: number) => {};
 
     return {
-        handleDelete,
+        handleAdd,
         handleEdit,
+        handleDelete,
         handleVote,
         handleFollow,
         handleReport,

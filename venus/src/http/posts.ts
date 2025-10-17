@@ -38,8 +38,14 @@ export async function addPost(newPost: PostDto) {
     });
 }
 
-export async function editPost(postId: number, PostData: PostDto) {
-    return await axios.patch(`${BASE_URL}/post/${postId}`, PostData, {
+export async function editPost({
+    postId,
+    postData,
+}: {
+    postId: number;
+    postData: PostDto;
+}) {
+    return await axios.patch(`${BASE_URL}/post/${postId}`, postData, {
         withCredentials: true,
     });
 }
@@ -51,14 +57,26 @@ export async function deletePost(postId: number): Promise<void> {
 }
 
 export async function votePost({
-    postId,
+    id,
     isUpvote,
 }: {
-    postId: number;
+    id: number;
     isUpvote: boolean;
 }) {
-    return await axios.patch(`${BASE_URL}/post/${postId}/vote`, null, {
+    return await axios.patch(`${BASE_URL}/post/${id}/vote`, null, {
         params: { isUpvote },
+        withCredentials: true,
+    });
+}
+
+export async function followPost(postId: number) {
+    return await axios.patch(`${BASE_URL}/post/${postId}/follow`, null, {
+        withCredentials: true,
+    });
+}
+
+export async function reportPost(postId: number) {
+    return await axios.patch(`${BASE_URL}/post/${postId}/report`, null, {
         withCredentials: true,
     });
 }

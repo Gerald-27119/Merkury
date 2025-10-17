@@ -54,9 +54,9 @@ export default function useForumPostActions({ redirectOnDelete = false } = {}) {
 
     const handleEdit = async (postId: number) => {};
 
-    const handleVote = async (postId: number, isUpvote: boolean) => {
+    const handleVote = async (id: number, isUpvote: boolean) => {
         if (isLogged) {
-            await mutateVote({ postId, isUpvote });
+            await mutateVote({ id, isUpvote });
         } else {
             dispatch(
                 notificationAction.addInfo({
