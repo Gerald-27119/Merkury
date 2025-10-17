@@ -41,6 +41,7 @@ export default function ExpandedGallerySidebar() {
         (state) => state.expandedSpotMediaGalleryModals,
     );
 
+    const loadPreviousPageRef = useRef<HTMLDivElement>(null);
     const loadMoreRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -55,6 +56,9 @@ export default function ExpandedGallerySidebar() {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
+        hasPreviousPage,
+        isFetchingPreviousPage,
+        fetchPreviousPage,
     } = useInfiniteQuery({
         queryKey: [
             "expanded-spot-media-gallery",
@@ -74,6 +78,10 @@ export default function ExpandedGallerySidebar() {
             const { number, totalPages } = lastPage.page;
             return number + 1 < totalPages ? number + 1 : undefined;
         },
+        getPreviousPageParam: (lastPage: SpotExpandedMediaGalleryPage) => {
+            const { number } = lastPage.page;
+            return number - 1 >= 0 ? number - 1 : undefined;
+        },
         enabled: !!spotId && isMediaPagePositionFetched,
         initialPageParam: mediaPagePosition,
     });
@@ -90,6 +98,7 @@ export default function ExpandedGallerySidebar() {
             const allItems = data.pages.flatMap(
                 (p: SpotExpandedMediaGalleryPage) => p.content,
             );
+            //TODO: when data comes form previous page it should be added to the start of the list
             dispatch(
                 expandedSpotGalleryMediaListAction.upsertMediaList(allItems),
             );
@@ -100,24 +109,53 @@ export default function ExpandedGallerySidebar() {
     useEffect(() => {
         const container = containerRef.current;
         const target = loadMoreRef.current;
-        if (!container || !target || !hasNextPage) return;
+        const previousPageTarget = loadPreviousPageRef.current;
+        if (!container) return;
 
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    observer.unobserve(target);
-                    fetchNextPage();
-                }
-            },
-            {
-                root: container,
-                rootMargin: "50px",
-                threshold: 0,
-            },
-        );
-        observer.observe(target);
-        return () => observer.disconnect();
-    }, [fetchNextPage, hasNextPage, pageCount]);
+        if (target && hasNextPage) {
+            const observer = new IntersectionObserver(
+                ([entry]) => {
+                    if (entry.isIntersecting) {
+                        observer.unobserve(target);
+                        fetchNextPage();
+                    }
+                },
+                {
+                    root: container,
+                    rootMargin: "50px",
+                    threshold: 0,
+                },
+            );
+
+            observer.observe(target);
+            return () => observer.disconnect();
+        }
+
+        if (previousPageTarget && hasPreviousPage) {
+            const observer = new IntersectionObserver(
+                ([entry]) => {
+                    if (entry.isIntersecting) {
+                        observer.unobserve(previousPageTarget);
+                        fetchPreviousPage();
+                    }
+                },
+                {
+                    root: container,
+                    rootMargin: "-50px",
+                    threshold: 0,
+                },
+            );
+
+            observer.observe(previousPageTarget);
+            return () => observer.disconnect();
+        }
+    }, [
+        fetchNextPage,
+        hasNextPage,
+        pageCount,
+        hasPreviousPage,
+        fetchPreviousPage,
+    ]);
 
     const mediaList = useSelectorTyped((state) =>
         expandedSpotGalleryMediaListSelectors.selectAll(state),
@@ -219,6 +257,11 @@ export default function ExpandedGallerySidebar() {
                         {isLoading && <LoadingSpinner />}
                         {isError && <p>Failed to fetch list of media.</p>}
                         <div className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin h-[71rem] overflow-y-auto">
+                            <div
+                                ref={loadPreviousPageRef}
+                                className="invisible h-1"
+                            />
+                            {isFetchingPreviousPage && <LoadingSpinner />}
                             {mediaList.length === 0 ? (
                                 <p className="text-center">
                                     No{" "}
