@@ -68,15 +68,11 @@ export default function ExpandedMediaDisplay() {
                             <ExpandedGalleryVideo url={currentMedia.url} />
                         )}
                     </div>
-                    <div className="grid w-full grid-cols-3">
-                        <span className="justify-self-start">
-                            totalMediaCount
-                        </span>
+                    <div className="flex w-full justify-center">
                         <ExpandedGalleryPanel
                             url={currentMedia.url}
                             likes={currentMedia.likesNumber}
                         />
-                        <div></div>
                     </div>
                 </>
             )}
