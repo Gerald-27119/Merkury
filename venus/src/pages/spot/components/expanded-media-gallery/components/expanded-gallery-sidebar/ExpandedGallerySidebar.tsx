@@ -42,8 +42,9 @@ export default function ExpandedGallerySidebar() {
     );
 
     const loadPreviousPageRef = useRef<HTMLDivElement>(null);
-    const loadMoreRef = useRef<HTMLDivElement>(null);
+    const loadNextPageRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const fetchDirection = useRef<"previous" | "next" | null>(null);
 
     const dispatch = useDispatchTyped();
     const queryClient = useQueryClient();
@@ -98,17 +99,30 @@ export default function ExpandedGallerySidebar() {
             const allItems = data.pages.flatMap(
                 (p: SpotExpandedMediaGalleryPage) => p.content,
             );
-            //TODO: when data comes form previous page it should be added to the start of the list
-            dispatch(
-                expandedSpotGalleryMediaListAction.upsertMediaList(allItems),
-            );
+
+            if (fetchDirection.current === "previous") {
+                dispatch(
+                    expandedSpotGalleryMediaListAction.prependMediaList(
+                        allItems,
+                    ),
+                );
+            } else if (fetchDirection.current === "next") {
+                dispatch(
+                    expandedSpotGalleryMediaListAction.upsertMediaList(
+                        allItems,
+                    ),
+                );
+            } else {
+                return;
+            }
+
             setPageCount(data.pages.length);
         }
     }, [data, dispatch]);
 
     useEffect(() => {
         const container = containerRef.current;
-        const target = loadMoreRef.current;
+        const target = loadNextPageRef.current;
         const previousPageTarget = loadPreviousPageRef.current;
         if (!container) return;
 
@@ -117,6 +131,7 @@ export default function ExpandedGallerySidebar() {
                 ([entry]) => {
                     if (entry.isIntersecting) {
                         observer.unobserve(target);
+                        fetchDirection.current = "next";
                         fetchNextPage();
                     }
                 },
@@ -136,6 +151,7 @@ export default function ExpandedGallerySidebar() {
                 ([entry]) => {
                     if (entry.isIntersecting) {
                         observer.unobserve(previousPageTarget);
+                        fetchDirection.current = "previous";
                         fetchPreviousPage();
                     }
                 },
@@ -322,7 +338,10 @@ export default function ExpandedGallerySidebar() {
                                 </ul>
                             )}
                             {isFetchingNextPage && <LoadingSpinner />}
-                            <div ref={loadMoreRef} className="invisible h-1" />
+                            <div
+                                ref={loadNextPageRef}
+                                className="invisible h-1"
+                            />
                         </div>
                     </motion.div>
                 )}

@@ -24,6 +24,20 @@ export const expandedSpotGalleryMediaListSlice = createSlice({
                 action.payload,
             );
         },
+        prependMediaList(
+            state,
+            action: PayloadAction<SpotExpandedGallerySidebarMediaDto[]>,
+        ) {
+            expandedSpotGalleryMediaListAdapter.upsertMany(
+                state,
+                action.payload,
+            );
+            const newIds = action.payload.map((item) => item.id);
+            state.ids = [
+                ...newIds,
+                ...state.ids.filter((id) => !newIds.includes(id)),
+            ];
+        },
         clearMediaList(state) {
             expandedSpotGalleryMediaListAdapter.removeAll(state);
         },
