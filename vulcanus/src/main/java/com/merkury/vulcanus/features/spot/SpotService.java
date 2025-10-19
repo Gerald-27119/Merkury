@@ -232,7 +232,7 @@ public class SpotService {
 
     public SpotMediaGalleryDto getMediaForFullscreen(Long spotId, Long mediaId, GenericMediaType mediaType) throws SpotMediaNotFoundException {
         var media = spotMediaRepository.findByIdAndSpotIdAndGenericMediaType(mediaId, spotId, mediaType)
-                .orElseThrow(() -> new SpotMediaNotFoundException(spotId, mediaId));
+                .orElseThrow(() -> new SpotMediaNotFoundException(spotId, mediaId, mediaType));
         return SpotMediaMapper.toGalleryDto(media);
     }
 }
