@@ -13,6 +13,12 @@ import { useBoolean } from "../../../hooks/useBoolean";
 import ForumCommentList from "./ForumCommentList";
 import useForumEntityActions from "../../../hooks/useForumEntityActions";
 import ForumCommentActions from "./ForumCommentActions";
+import ForumCommentForm from "./ForumCommentForm";
+import { notificationAction } from "../../../redux/notification";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { useState } from "react";
 
 interface ForumCommentProps {
     comment: ForumCommentGeneral;
@@ -20,7 +26,14 @@ interface ForumCommentProps {
 
 export default function ForumComment({ comment }: ForumCommentProps) {
     const navigate = useNavigate();
+    const [commentToEdit, setCommentToEdit] = useState({
+        content: "",
+    });
     const [areRepliesOpen, openReplies, closeReplies] = useBoolean(false);
+    const [isEditingFormVisible, showEditForm, hideEditForm] =
+        useBoolean(false);
+    const dispatch = useDispatchTyped();
+    const isLogged = useSelector((state: RootState) => state.account.isLogged);
 
     const { handleDelete, handleEdit, handleVote, handleReport, handleReply } =
         useForumEntityActions({
@@ -48,6 +61,19 @@ export default function ForumComment({ comment }: ForumCommentProps) {
 
     const handleCommentEdit = () => {};
 
+    const handleCommentEditClick = (comment: ForumCommentGeneral) => {
+        if (isLogged) {
+            setCommentToEdit(comment);
+            isEditingFormVisible ? hideEditForm() : showEditForm();
+        } else {
+            dispatch(
+                notificationAction.addInfo({
+                    message: "Login to edit comments.",
+                }),
+            );
+        }
+    };
+
     const handleCommentReply = () => {};
 
     return (
@@ -58,16 +84,28 @@ export default function ForumComment({ comment }: ForumCommentProps) {
                 isReply={comment.isReply}
                 onAuthorClick={handleNavigateToAuthorProfile}
             />
-            <ForumCommentContent content={comment.content} />
+            {!isEditingFormVisible && (
+                <div>
+                    <ForumCommentContent content={comment.content} />
 
-            <ForumCommentActions
-                comment={comment}
-                onDelete={handleDelete}
-                onEdit={handleCommentEdit}
-                onVote={handleVote}
-                onReport={handleReport}
-                onReply={handleCommentReply}
-            />
+                    <ForumCommentActions
+                        comment={comment}
+                        onDelete={handleDelete}
+                        onEdit={handleCommentEditClick}
+                        onVote={handleVote}
+                        onReport={handleReport}
+                        onReply={handleCommentReply}
+                    />
+                </div>
+            )}
+
+            {isEditingFormVisible && (
+                <ForumCommentForm
+                    handleComment={handleCommentEdit}
+                    onClose={hideEditForm}
+                    commentToEdit={commentToEdit}
+                />
+            )}
 
             {comment.repliesCount != null && comment.repliesCount > 0 && (
                 <div className="flex items-center">

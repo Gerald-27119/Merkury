@@ -7,16 +7,20 @@ import {
 } from "../../../model/schema/forumCommentFormSchema";
 import ForumCommentDto from "../../../model/interface/forum/postComment/forumCommentDto";
 import { RichTextEditorVariantType } from "../../../model/enum/forum/richTextEditorVariantType";
+import ForumCommentGeneral from "../../../model/interface/forum/postComment/forumCommentGeneral";
 
 interface ForumCommentFormProps {
     handleComment: (newComment: ForumCommentDto) => void;
     onClose: () => void;
+    commentToEdit?: ForumCommentDto;
 }
 
 export default function ForumCommentForm({
     handleComment,
     onClose,
+    commentToEdit,
 }: ForumCommentFormProps) {
+    console.log(commentToEdit?.content);
     const {
         handleSubmit,
         control,
@@ -24,9 +28,11 @@ export default function ForumCommentForm({
     } = useForm<ForumCommentFormFields>({
         resolver: zodResolver(ForumCommentFormSchema),
         mode: "onBlur",
-        defaultValues: {
-            content: "",
-        },
+        defaultValues: commentToEdit
+            ? { content: commentToEdit.content }
+            : {
+                  content: "",
+              },
     });
 
     const onSubmit: SubmitHandler<ForumCommentFormFields> = (data) => {

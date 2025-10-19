@@ -75,23 +75,7 @@ export default function DetailedPost({
                 <PostMetaData category={post.category} tags={post.tags} />
             </div>
             <DetailedPostContent title={post.title} content={post.content} />
-            {/*<ForumContentActions*/}
-            {/*    contentId={post.id}*/}
-            {/*    isAuthor={post.isAuthor}*/}
-            {/*    upVotes={post.upVotes}*/}
-            {/*    downVotes={post.downVotes}*/}
-            {/*    isUpVoted={post.isUpVoted}*/}
-            {/*    isDownVoted={post.isDownVoted}*/}
-            {/*    commentsCount={post.commentsCount}*/}
-            {/*    onClick={onClick}*/}
-            {/*    onDelete={handleDelete}*/}
-            {/*    onEdit={handlePostEdit}*/}
-            {/*    onVote={handleVote}*/}
-            {/*    onFollow={handleFollow}*/}
-            {/*    onReport={handleReport}*/}
-            {/*    onShare={handleShare}*/}
-            {/*    showAddCommentButton={true}*/}
-            {/*/>*/}
+
             <DetailedPostActions
                 post={post}
                 onAddCommentClick={onAddCommentClick}
