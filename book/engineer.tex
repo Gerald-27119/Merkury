@@ -3,6 +3,7 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{glossaries}
 \usepackage[polish]{babel}
+\usepackage{import}
 
 %HTTP Methods Coloring
 \lstdefinelanguage{http}{
@@ -139,22 +140,21 @@
     \tableofcontents
     \clearpage
 
-    \input{chapters/introduction}
+    \input{chapters/wstep/wstep}
 
     % Słownik pojęć i skrótów
 %    \printglossary[type=\acronymtype]
     \printglossary[title={Słownik pojęć i skrótów},toctitle={Słownik pojęć i skrótów}]
 
-    \input{chapters/problem-description}
-    \input{chapters/project-context}
-    \input{chapters/requirements-analysis}
-%    \input{chapters/project-decisions}
-    \input{chapters/project}
-    \input{chapters/implementation/implementation}
-    \input{chapters/testing}
-    \input{chapters/system-presentation}
-    \input{chapters/amount-of-work/amount-of-work}
-    \input{chapters/summary}
+    \input{chapters/opis-problemu/opis-problemu}
+    \input{chapters/planowanie/planowanie}
+    \input{chapters/analiza-wymagan/analiza-wymagan}
+    \input{chapters/projekt/projekt}
+    \input{chapters/realizacja-projektu/realizacja-projektu}
+    \input{chapters/testy/testy}
+    \input{chapters/prezentacja-systemu/prezentacja-systemu}
+    \input{chapters/naklad-pracy/naklad-pracy}
+    \input{chapters/podsumowanie/podsumowanie}
 
     \printbibliography[title={Bibliografia}, heading=bibintoc]
     \makethesisattachments
