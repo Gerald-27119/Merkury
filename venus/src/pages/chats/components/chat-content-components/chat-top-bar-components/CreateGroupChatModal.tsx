@@ -15,6 +15,7 @@ import {
 } from "../../../../../http/chats";
 import { useNavigate } from "react-router-dom";
 import { IoIosClose } from "react-icons/io";
+import { ChatDto } from "../../../../../model/interface/chat/chatInterfaces";
 
 interface SearchFriendsListProps {
     onClose?: () => void;

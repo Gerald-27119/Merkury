@@ -135,7 +135,7 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                 isOpen={isOpenGroup}
                 className="overflow-y-hidden"
             >
-                <EditGroupChatModal onClose={closeGroup} />
+                <EditGroupChatModal onClose={closeGroup} chatDto={chatDto} />
             </EmptyModal>
 
             <EmptyModal

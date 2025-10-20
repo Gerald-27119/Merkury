@@ -8,15 +8,19 @@ import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserByUsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.chat.ChatService;
-import com.merkury.vulcanus.model.dtos.chat.AddUsersToExistingGroupChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
+import com.merkury.vulcanus.model.dtos.chat.group.AddUsersToExistingGroupChatDto;
 import com.merkury.vulcanus.model.dtos.chat.group.CreateGroupChatDto;
+import com.merkury.vulcanus.model.dtos.chat.group.UpdateGroupChatDto;
+import com.merkury.vulcanus.model.dtos.chat.group.UpdatedGroupChatDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -90,6 +94,34 @@ public class ChatController {
                 addUsersToExistingGroupChatDto.chatId()
         );
         return new ResponseEntity<>(chatDto, HttpStatus.OK);
+    }
+
+    @PatchMapping(
+            value = "/{chatId}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<ChatDto> updateGroupChat(
+            @PathVariable Long chatId,
+            @ModelAttribute UpdateGroupChatDto updateGroupChatDto
+    ) throws ChatNotFoundException,
+            InvalidFileTypeException,
+            UserByUsernameNotFoundException,
+            BlobContainerNotFoundException,
+            IOException {
+
+        // PRZYKŁADOWA kontrola pól opcjonalnych:
+        // String newName = StringUtils.hasText(req.getName()) ? req.getName().trim() : null;
+        // MultipartFile image = (req.getImage() != null && !req.getImage().isEmpty()) ? req.getImage() : null;
+
+        // TODO: tu wywołaj swoją logikę aktualizacji (serwis),
+        // która zwróci pełny, zaktualizowany ChatDto (nowa nazwa i/lub nowe imgUrl).
+        // ChatDto updated = chatService.updateChat(chatId, newName, image);
+
+        // na potrzeby szkicu:
+        UpdatedGroupChatDto updated =    this.chatService.updateGroupChat(chatId, updateGroupChatDto);
+
+        return ResponseEntity.ok(updated);
     }
 
 }

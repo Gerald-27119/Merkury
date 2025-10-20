@@ -14,6 +14,8 @@ import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.group.CreateGroupChatDto;
+import com.merkury.vulcanus.model.dtos.chat.group.UpdateGroupChatDto;
+import com.merkury.vulcanus.model.dtos.chat.group.UpdatedGroupChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.entities.chat.ChatMessageAttachedFile;
@@ -271,5 +273,16 @@ public class ChatService {
         var currentUsername = this.customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         var updatedChat = this.groupChatService.addUsers(usernames, currentUsername, chatId);
         return ChatMapper.toChatDto(updatedChat);
+    }
+
+    public UpdatedGroupChatDto updateGroupChat(Long chatId, UpdateGroupChatDto updateGroupChatDto) throws ChatNotFoundException {
+        var newChatName = updateGroupChatDto.newName();
+        var newImg = updateGroupChatDto.image();
+
+        var chatFromDb = this.chatRepository.findById(chatId).orElseThrow(()-> new ChatNotFoundException(chatId));
+
+
+        UpdatedGroupChatDto updatedGroupChatDto = null;
+        return updatedGroupChatDto;
     }
 }

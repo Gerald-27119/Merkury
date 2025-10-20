@@ -91,3 +91,24 @@ export async function createGroupChat(usernames: string[]): Promise<ChatDto> {
     );
     return data;
 }
+
+export type UpdateChatPayload = {
+    name?: string;
+    image?: File;
+};
+
+export async function updateChatDetails(
+    chatId: number,
+    payload: UpdateChatPayload,
+): Promise<ChatDto> {
+    const form = new FormData();
+    if (payload.name !== undefined) form.append("name", payload.name);
+    if (payload.image) form.append("image", payload.image, payload.image.name);
+
+    const { data } = await axios.patch<ChatDto>(
+        `${BASE_URL}/chats/${chatId}`,
+        form,
+        { withCredentials: true },
+    );
+    return data;
+}
