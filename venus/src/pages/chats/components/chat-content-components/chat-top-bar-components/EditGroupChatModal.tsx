@@ -4,7 +4,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { notificationAction } from "../../../../../redux/notification";
 import { chatActions } from "../../../../../redux/chats";
-import { ChatDto } from "../../../../../model/interface/chat/chatInterfaces";
+import {
+    ChatDto,
+    UpdatedGroupChatDto,
+} from "../../../../../model/interface/chat/chatInterfaces";
 import {
     updateChatDetails,
     type UpdateChatPayload,
@@ -34,7 +37,7 @@ export default function EditGroupChatModal({
     const { mutateAsync, isPending } = useMutation({
         mutationFn: (payload: UpdateChatPayload) =>
             updateChatDetails(chatDto.id, payload),
-        onSuccess: async (updated: ChatDto) => {
+        onSuccess: async (updated: UpdatedGroupChatDto) => {
             // dispatch(chatActions.updateChat(updated));
             // opcjonalnie odśwież listę czatów / szczegóły
             await queryClient.invalidateQueries({ queryKey: ["chatList"] });

@@ -263,6 +263,7 @@ public class ChatService {
 //        chatStompCommunicationService.broadcastACKVersionToSender(); TODO:fix
     }
 
+
     public ChatDto createGroupChat(CreateGroupChatDto createGroupChatDto) throws CreateGroupChatException {
         var ownerUsername = this.customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         var createdChat = this.groupChatService.create(new CreateGroupChatDto(createGroupChatDto.usernames(), ownerUsername));
@@ -275,14 +276,29 @@ public class ChatService {
         return ChatMapper.toChatDto(updatedChat);
     }
 
-    public UpdatedGroupChatDto updateGroupChat(Long chatId, UpdateGroupChatDto updateGroupChatDto) throws ChatNotFoundException {
+    @Transactional
+    public UpdatedGroupChatDto updateGroupChat(Long chatId, UpdateGroupChatDto updateGroupChatDto) throws ChatNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException {
+
         var newChatName = updateGroupChatDto.newName();
         var newImg = updateGroupChatDto.image();
 
-        var chatFromDb = this.chatRepository.findById(chatId).orElseThrow(()-> new ChatNotFoundException(chatId));
+        var chatFromDb = this.chatRepository.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
 
+        if (newChatName != null && !newChatName.isEmpty()) {
+            chatFromDb.setName(newChatName);
+        }
 
-        UpdatedGroupChatDto updatedGroupChatDto = null;
-        return updatedGroupChatDto;
+        if (newImg != null && newImg.isEmpty()) {
+            var newImgUrl = this.sendNewChatProfileImg(newImg);
+            chatFromDb.setImgUrl(newImgUrl);
+        }
+
+        var updatedChatFromDb = this.chatRepository.save(chatFromDb);
+
+        return new UpdatedGroupChatDto(updatedChatFromDb.getName(), updatedChatFromDb.getImgUrl());
+    }
+
+    private String sendNewChatProfileImg(@NotNull MultipartFile newChatImg) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException {
+        return azureBlobService.upload("group-chat-profile-img", newChatImg, AzureBlobFileValidatorType.GROUP_CHAT_PROFILE_IMG);
     }
 }

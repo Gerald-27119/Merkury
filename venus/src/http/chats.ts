@@ -3,6 +3,7 @@ import {
     ChatDto,
     ChatMessagesPageDto,
     ChatPage,
+    UpdatedGroupChatDto,
 } from "../model/interface/chat/chatInterfaces";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
@@ -100,12 +101,12 @@ export type UpdateChatPayload = {
 export async function updateChatDetails(
     chatId: number,
     payload: UpdateChatPayload,
-): Promise<ChatDto> {
+): Promise<UpdatedGroupChatDto> {
     const form = new FormData();
     if (payload.name !== undefined) form.append("name", payload.name);
     if (payload.image) form.append("image", payload.image, payload.image.name);
 
-    const { data } = await axios.patch<ChatDto>(
+    const { data } = await axios.patch<UpdatedGroupChatDto>(
         `${BASE_URL}/chats/${chatId}`,
         form,
         { withCredentials: true },

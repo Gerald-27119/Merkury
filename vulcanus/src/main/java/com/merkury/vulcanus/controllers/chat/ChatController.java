@@ -85,7 +85,7 @@ public class ChatController {
         return new ResponseEntity<>(chatDto, HttpStatus.CREATED);
     }
 
-//    TODO: maybe implement in future, maybe not?
+    //    TODO: maybe implement in future, maybe not?
     @PutMapping("add/users")
     public ResponseEntity<ChatDto> addUsersToGroupChat(@RequestBody AddUsersToExistingGroupChatDto addUsersToExistingGroupChatDto) throws ChatNotFoundException, AddUsersToExistingGroupChatException {
         var chatDto = chatService.addUsersToGroupChat(
@@ -101,26 +101,11 @@ public class ChatController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<ChatDto> updateGroupChat(
+    public ResponseEntity<UpdatedGroupChatDto> updateGroupChat(//TODO:test
             @PathVariable Long chatId,
             @ModelAttribute UpdateGroupChatDto updateGroupChatDto
-    ) throws ChatNotFoundException,
-            InvalidFileTypeException,
-            UserByUsernameNotFoundException,
-            BlobContainerNotFoundException,
-            IOException {
-
-        // PRZYKŁADOWA kontrola pól opcjonalnych:
-        // String newName = StringUtils.hasText(req.getName()) ? req.getName().trim() : null;
-        // MultipartFile image = (req.getImage() != null && !req.getImage().isEmpty()) ? req.getImage() : null;
-
-        // TODO: tu wywołaj swoją logikę aktualizacji (serwis),
-        // która zwróci pełny, zaktualizowany ChatDto (nowa nazwa i/lub nowe imgUrl).
-        // ChatDto updated = chatService.updateChat(chatId, newName, image);
-
-        // na potrzeby szkicu:
-        UpdatedGroupChatDto updated =    this.chatService.updateGroupChat(chatId, updateGroupChatDto);
-
+    ) throws ChatNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException {
+        UpdatedGroupChatDto updated = this.chatService.updateGroupChat(chatId, updateGroupChatDto);
         return ResponseEntity.ok(updated);
     }
 

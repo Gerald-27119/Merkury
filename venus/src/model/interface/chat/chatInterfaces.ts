@@ -55,3 +55,8 @@ export interface ChatMessageAttachedFileDto {
     sizeInBytes: number;
     name: string;
 }
+
+export interface UpdatedGroupChatDto {
+    newName: string;
+    newImgUrl: string;
+}
