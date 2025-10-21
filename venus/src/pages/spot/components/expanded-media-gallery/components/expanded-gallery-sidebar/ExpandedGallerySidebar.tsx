@@ -19,12 +19,42 @@ import { FaChevronLeft, FaRegCirclePlay } from "react-icons/fa6";
 import { AnimatePresence, motion } from "framer-motion";
 import ReactPlayer from "react-player";
 import SpotExpandedGallerySidebarMediaDto from "../../../../../../model/interface/spot/expanded-media-gallery/spotExpandedGallerySidebarMediaDto";
+import { LayoutGroup } from "motion/react";
 
-const slideVariants = {
-    hidden: { x: "-100%", opacity: 0 },
-    visible: { x: 0, opacity: 1 },
-    exit: { x: "-100%", opacity: 0 },
+//TODO:AnimatePresence may cause the problem, maybe instead of conditionally rendering the sidebar, should changes the visibility?
+
+// const sidebarVariants = {
+//     open: { x: 0, opacity: 1 },
+//     closed: { x: "-100%", opacity: 0 },
+// };
+
+const sidebarVariants = {
+    open: {
+        // x: 0,
+        opacity: 1,
+        // transition: { duration: 0.3, ease: "easeInOut" },
+    },
+    closed: {
+        // x: "-100%",
+        opacity: 0,
+        // transition: { duration: 0.3, ease: "easeInOut" },
+    },
+    exit: {
+        // x: "-100%",
+        opacity: 0,
+        // transition: { duration: 0.3, ease: "easeInOut" },
+    },
 };
+
+const arrowVariants = {
+    open: { rotate: 0 },
+    closed: { rotate: 180 },
+};
+
+// const toggleVariants = {
+//     open: { opacity: 1 },
+//     closed: { opacity: 1 },
+// };
 
 export default function ExpandedGallerySidebar() {
     const [pageCount, setPageCount] = useState<number>(0);
@@ -249,115 +279,147 @@ export default function ExpandedGallerySidebar() {
 
     return (
         <div className="flex items-center bg-black">
-            <AnimatePresence>
-                {showExpandedGallerySidebar && (
-                    <motion.div
-                        key="spot-expanded-media-gallery-sidebar"
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                        variants={slideVariants}
-                        transition={{ duration: 0.3 }}
-                        ref={containerRef}
-                        className="dark:bg-violetHeavyDark h-full w-[20rem] overflow-y-auto p-2 xl:w-[30rem] xl:overflow-y-hidden"
-                    >
-                        <div className="mt-1 grid w-full grid-cols-3 items-center">
-                            <div></div>
-                            <h2 className="text-center text-2xl">Gallery</h2>
-                            <IoClose
-                                onClick={handleCloseSidebar}
-                                className="ml-auto cursor-pointer justify-self-end text-2xl"
-                            />
-                        </div>
-                        <SortingAndFilterPanel />
-                        {isLoading && <LoadingSpinner />}
-                        {isError && <p>Failed to fetch list of media.</p>}
-                        <div className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin h-[71rem] overflow-y-auto">
-                            <div
-                                ref={loadPreviousPageRef}
-                                className="invisible h-1"
-                            />
-                            {isFetchingPreviousPage && <LoadingSpinner />}
-                            {mediaList.length === 0 ? (
-                                <p className="text-center">
-                                    No{" "}
-                                    {mediaType === MediaType.PHOTO
-                                        ? "photos"
-                                        : "films"}{" "}
-                                    to display.
-                                </p>
-                            ) : (
-                                <ul className="flex flex-col items-center space-y-2">
-                                    {mediaList.map((media) =>
-                                        media.mediaType === MediaType.PHOTO ? (
-                                            <li
-                                                key={media.id}
-                                                className="cursor-pointer overflow-hidden first:rounded-t-2xl last:rounded-b-2xl"
-                                                onClick={() =>
-                                                    handleClickSetCurrentMedia(
-                                                        media,
-                                                    )
-                                                }
-                                            >
-                                                <img
-                                                    className="h-72 w-[28rem]"
-                                                    src={media.url}
-                                                    alt={media.url}
-                                                />
-                                            </li>
-                                        ) : (
-                                            <li
-                                                key={media.id}
-                                                className="relative overflow-hidden first:rounded-t-2xl last:rounded-b-2xl"
-                                                onClick={() =>
-                                                    handleClickSetCurrentMedia(
-                                                        media,
-                                                    )
-                                                }
-                                            >
-                                                <div className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-2xl 2xl:text-4xl">
-                                                    <FaRegCirclePlay />
-                                                </div>
-                                                <div className="z-10 flex h-72 w-[28rem] items-center justify-center">
-                                                    <ReactPlayer
-                                                        playing={false}
-                                                        src={media.url}
-                                                        controls={false}
-                                                        style={{
-                                                            width: "100%",
-                                                            height: "100%",
-                                                            aspectRatio: "16/9",
-                                                            "--controls":
-                                                                "none",
-                                                        }}
-                                                    />
-                                                </div>
-                                            </li>
-                                        ),
-                                    )}
-                                </ul>
-                            )}
-                            {isFetchingNextPage && <LoadingSpinner />}
-                            <div
-                                ref={loadNextPageRef}
-                                className="invisible h-1"
-                            />
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-            <div className="flex h-full items-center bg-black">
-                <div
-                    className="bg-violetLightDark hover:bg-violetLightDarker w-fit cursor-pointer rounded-r-2xl py-3.5"
-                    onClick={handleClickToggleSidebar}
+            <LayoutGroup>
+                <AnimatePresence
+                    mode="popLayout"
+                    onExitComplete={() => handleCloseSidebar()}
                 >
-                    <FaChevronLeft
-                        className={`text-3xl text-black transition-transform ${
-                            showExpandedGallerySidebar ? "" : "rotate-180"
-                        }`}
-                    />
-                </div>
-            </div>
+                    {showExpandedGallerySidebar && (
+                        <motion.div
+                            key="expanded-spot-gallery-sidebar"
+                            layout
+                            // layoutId="expanded-spot-media-gallery-layoutid"
+                            variants={sidebarVariants}
+                            initial="closed"
+                            exit="exit"
+                            animate={
+                                showExpandedGallerySidebar ? "open" : "closed"
+                            }
+                            // transition={{ duration: 0.3 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            ref={containerRef}
+                            className="dark:bg-violetHeavyDark h-full w-[20rem] overflow-y-auto p-2 xl:w-[30rem] xl:overflow-y-hidden"
+                        >
+                            <div className="mt-1 grid w-full grid-cols-3 items-center">
+                                <div></div>
+                                <h2 className="text-center text-2xl">
+                                    Gallery
+                                </h2>
+                                <IoClose
+                                    onClick={handleCloseSidebar}
+                                    className="ml-auto cursor-pointer justify-self-end text-2xl"
+                                />
+                            </div>
+                            <SortingAndFilterPanel />
+                            {isLoading && <LoadingSpinner />}
+                            {isError && <p>Failed to fetch list of media.</p>}
+                            <div className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin h-[71rem] overflow-y-auto">
+                                <div
+                                    ref={loadPreviousPageRef}
+                                    className="invisible h-1"
+                                />
+                                {isFetchingPreviousPage && <LoadingSpinner />}
+                                {mediaList.length === 0 ? (
+                                    <p className="text-center">
+                                        No{" "}
+                                        {mediaType === MediaType.PHOTO
+                                            ? "photos"
+                                            : "films"}{" "}
+                                        to display.
+                                    </p>
+                                ) : (
+                                    <ul className="flex flex-col items-center space-y-2">
+                                        {mediaList.map((media) =>
+                                            media.mediaType ===
+                                            MediaType.PHOTO ? (
+                                                <li
+                                                    key={media.id}
+                                                    className="cursor-pointer overflow-hidden first:rounded-t-2xl last:rounded-b-2xl"
+                                                    onClick={() =>
+                                                        handleClickSetCurrentMedia(
+                                                            media,
+                                                        )
+                                                    }
+                                                >
+                                                    <img
+                                                        className="h-72 w-[28rem]"
+                                                        src={media.url}
+                                                        alt={media.url}
+                                                    />
+                                                </li>
+                                            ) : (
+                                                <li
+                                                    key={media.id}
+                                                    className="relative overflow-hidden first:rounded-t-2xl last:rounded-b-2xl"
+                                                    onClick={() =>
+                                                        handleClickSetCurrentMedia(
+                                                            media,
+                                                        )
+                                                    }
+                                                >
+                                                    <div className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-2xl 2xl:text-4xl">
+                                                        <FaRegCirclePlay />
+                                                    </div>
+                                                    <div className="z-10 flex h-72 w-[28rem] items-center justify-center">
+                                                        <ReactPlayer
+                                                            playing={false}
+                                                            src={media.url}
+                                                            controls={false}
+                                                            style={{
+                                                                width: "100%",
+                                                                height: "100%",
+                                                                aspectRatio:
+                                                                    "16/9",
+                                                                "--controls":
+                                                                    "none",
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </li>
+                                            ),
+                                        )}
+                                    </ul>
+                                )}
+                                {isFetchingNextPage && <LoadingSpinner />}
+                                <div
+                                    ref={loadNextPageRef}
+                                    className="invisible h-1"
+                                />
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+                <motion.div
+                    layout
+                    // layoutId="expanded-spot-media-gallery-layoutid"
+                    // variants={toggleVariants}
+                    initial="closed"
+                    animate={showExpandedGallerySidebar ? "open" : "closed"}
+                    // transition={{ duration: 0.3 }}
+                    transition={{
+                        duration: 0.3,
+                        ease: "easeInOut",
+                    }}
+                    className="flex h-full items-center bg-black"
+                >
+                    <div
+                        className="bg-violetLightDark hover:bg-violetLightDarker w-fit cursor-pointer rounded-r-2xl py-3.5"
+                        onClick={handleClickToggleSidebar}
+                    >
+                        <motion.div
+                            initial="closed"
+                            animate={
+                                showExpandedGallerySidebar ? "open" : "closed"
+                            }
+                            key="expanded-spot-gallery-sidebar-arrow"
+                            variants={arrowVariants}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <FaChevronLeft className={`text-3xl text-black`} />
+                        </motion.div>
+                    </div>
+                </motion.div>
+            </LayoutGroup>
         </div>
     );
 }
