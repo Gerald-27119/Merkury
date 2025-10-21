@@ -111,4 +111,11 @@ public class ChatController {
         return ResponseEntity.ok(updated);
     }
 
+
+//    @GetMapping("/group-chat/add/{chatId}")
+//    public ResponseEntity<SocialPageDto> searchPotentialUsersToAddToGroupChatByUsername(@PathVariable Long chatId,
+//                                                               @RequestParam(defaultValue = "0") int page,
+//                                                               @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
+////        return ResponseEntity.ok(userDashboardService.searchUsersByUsername(query, page, size));
+//    }
 }

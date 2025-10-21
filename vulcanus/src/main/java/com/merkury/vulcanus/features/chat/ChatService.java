@@ -299,4 +299,40 @@ public class ChatService {
     private String sendNewChatProfileImg(@NotNull MultipartFile newChatImg) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException {
         return azureBlobService.upload("group-chat-profile-img", newChatImg, AzureBlobFileValidatorType.GROUP_CHAT_PROFILE_IMG);
     }
+
+//    TODO:logika do użycia
+//    public SocialPageDto searchUsersByUsername(String query, int page, int size) throws UserNotFoundByUsernameException {
+//        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+//        return friendsService.searchUsersByUsername(username, query, page, size);
+//    }
+
+//    private SocialPageDto searchUsersByUsername(String username, String query, int page, int size) throws UserNotFoundByUsernameException {
+//        var currentUser = userEntityFetcher.getByUsername(username);
+//
+//        if (query == null || query.isBlank()) {
+//            return new SocialPageDto(List.of(), false);
+//        }
+//
+//        var pageable = PageRequest.of(page, size, Sort.by("username").ascending());
+//        var usersPage = userEntityRepository.findAllByUsernameContainingIgnoreCaseAndUsernameNot(query, currentUser.getUsername(), pageable);
+//
+//        if (usersPage.isEmpty()) {
+//            return new SocialPageDto(List.of(), false);
+//        }
+//
+//        var mappedUsers = usersPage.getContent().stream()
+//                .map(user -> {
+//                    var status = currentUser.getFriendships()
+//                            .stream()
+//                            .filter(f -> f.getFriend().equals(user))
+//                            .map(Friendship::getStatus)
+//                            .findFirst()
+//                            .orElse(UserFriendStatus.NONE);
+//
+//                    return SocialMapper.toDto(user, status);
+//                })
+//                .toList();
+//
+//        return new SocialPageDto(mappedUsers, usersPage.hasNext());
+//    }
 }
