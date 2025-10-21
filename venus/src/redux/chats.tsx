@@ -12,7 +12,11 @@ import {
 } from "../model/interface/chat/chatInterfaces";
 import { RootState } from "./store";
 
-type ChatsExtra = { selectedChatId: number | null; usersToAddToChat: string[] };
+type ChatsExtra = {
+    selectedChatId: number | null;
+    usersToAddToChat: string[];
+    showSideBar: boolean;
+};
 type ChatEntity = ChatDto & { hasNew: boolean };
 
 const timeOf = (m?: ChatMessageDto) => {
@@ -28,12 +32,16 @@ const chatsAdapter = createEntityAdapter<ChatEntity>({
 const initialState = chatsAdapter.getInitialState<ChatsExtra>({
     selectedChatId: null,
     usersToAddToChat: [],
+    showSideBar: false,
 });
 
 export const chatsSlice = createSlice({
     name: "chats",
     initialState,
     reducers: {
+        toggleShowSideBar(state) {
+            state.showSideBar = !state.showSideBar;
+        },
         clearUsersToAddToChat: (state) => {
             state.usersToAddToChat = [];
         },
@@ -50,7 +58,12 @@ export const chatsSlice = createSlice({
         updateChat(state, action: PayloadAction<UpdatedGroupChat>) {
             const { chatId, newName, newImgUrl } = action.payload;
             const changes: Partial<ChatEntity> = {};
-            if (newName !== undefined) changes.name = newName;
+            if (typeof newName === "string") {
+                const n = newName.trim();
+                if (n.length > 0 && n.toLowerCase() !== "null") {
+                    changes.name = n;
+                }
+            }
             if (newImgUrl !== undefined) changes.imgUrl = newImgUrl;
 
             if (Object.keys(changes).length > 0) {

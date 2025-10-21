@@ -235,11 +235,19 @@ public class ChatMapper {
     }
 
     public static ChatDto toChatDto(Chat chat) {
+        var participants = chat.getParticipants().stream().map(chatParticipant ->
+                        new ChatParticipantDto(
+                                chatParticipant.getUser().getUsername(),
+                                chatParticipant.getUser().getProfileImage())
+                )
+                .toList();
+
         return ChatDto.builder()
                 .id(chat.getId())
                 .name(chat.getName())
                 .messages(null)
                 .lastMessage(null)
+                .participants(participants)
                 .chatType(chat.getChatType())
                 .build();
     }

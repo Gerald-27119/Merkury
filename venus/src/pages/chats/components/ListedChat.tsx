@@ -38,8 +38,8 @@ function ListedChat({ chat, hasNew }: ListedChatProps) {
                 src={chat?.imgUrl ? `${chat?.imgUrl}` : "/users/default.png"} // //TODO: zpewnic porpawne wyswietlanie zdjecia profilowego
                 alt={chat.imgUrl}
             />
-            <div className="flex w-full flex-col">
-                <p className="max-w-80 truncate text-lg font-medium">
+            <div className="flex w-full min-w-0 flex-col">
+                <p className="flex-1 truncate text-lg font-medium">
                     {chat?.name}
                 </p>
                 <div className="flex gap-2 text-sm text-nowrap text-gray-400">

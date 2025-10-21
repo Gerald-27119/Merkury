@@ -28,6 +28,10 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
     const dispatch = useDispatchTyped();
     const username = useSelectorTyped((state) => state.account.username);
 
+    function handleOpenSidebar() {
+        dispatch(chatActions.toggleShowSideBar());
+    }
+
     function handleChatNameClick() {
         if (chatDto.chatType === "PRIVATE") {
             navigate(`/account/profile/${chatDto.name}`); // TODO: chatName moze byc customowy, to trzeba na userID podmienic
@@ -121,12 +125,19 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                 </div>
             )}
 
-            {/*TODO: może zrobię*/}
-            {/*{chatDto.chatType === "GROUP" && (*/}
-            {/*    <div className="flex items-center justify-center">*/}
-            {/*        <FaUsers size={30} className="mr-4 hover:cursor-pointer" />*/}
-            {/*    </div>*/}
-            {/*)}*/}
+            {chatDto.chatType === "GROUP" && (
+                <div className="flex items-center justify-center">
+                    <FaUsers
+                        size={30}
+                        className="mr-4 hover:cursor-pointer"
+                        onClick={handleOpenSidebar}
+                    />
+                    <HiUserAdd
+                        size={30}
+                        className="mr-2 hover:cursor-pointer"
+                    />
+                </div>
+            )}
 
             <EmptyModal
                 onClose={closeGroup}
