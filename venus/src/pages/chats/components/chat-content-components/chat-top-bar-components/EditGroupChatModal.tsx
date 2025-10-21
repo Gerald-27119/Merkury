@@ -6,6 +6,7 @@ import { notificationAction } from "../../../../../redux/notification";
 import { chatActions } from "../../../../../redux/chats";
 import {
     ChatDto,
+    UpdatedGroupChat,
     UpdatedGroupChatDto,
 } from "../../../../../model/interface/chat/chatInterfaces";
 import {
@@ -23,7 +24,6 @@ export default function EditGroupChatModal({
     onClose,
     chatDto,
 }: EditGroupChatModalProps) {
-    const queryClient = useQueryClient();
     const dispatch = useDispatch();
 
     const [name, setName] = useState<string>("");
@@ -38,12 +38,12 @@ export default function EditGroupChatModal({
         mutationFn: (payload: UpdateChatPayload) =>
             updateChatDetails(chatDto.id, payload),
         onSuccess: async (updated: UpdatedGroupChatDto) => {
-            // dispatch(chatActions.updateChat(updated));
-            // opcjonalnie odśwież listę czatów / szczegóły
-            await queryClient.invalidateQueries({ queryKey: ["chatList"] });
-            await queryClient.invalidateQueries({
-                queryKey: ["chat", chatDto.id],
-            });
+            const updatedGroupChat: UpdatedGroupChat = {
+                chatId: chatDto.id,
+                newName: updated.newName,
+                newImgUrl: updated.newImgUrl,
+            };
+            dispatch(chatActions.updateChat(updatedGroupChat));
             dispatch(
                 notificationAction.addSuccess({ message: "Chat updated." }),
             );
@@ -105,7 +105,7 @@ export default function EditGroupChatModal({
                         previewUrl
                             ? previewUrl
                             : chatDto?.imgUrl
-                              ? `/users/${chatDto.imgUrl}`
+                              ? `${chatDto.imgUrl}`
                               : "/users/default.png"
                     }
                     className="aspect-square h-40 rounded-full shadow-md"

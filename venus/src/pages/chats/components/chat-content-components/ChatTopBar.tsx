@@ -64,12 +64,11 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                         src={
                             chatDto?.imgUrl
                                 ? // for development purposes
-                                  `/users/${chatDto?.imgUrl}`
+                                  `${chatDto?.imgUrl}`
                                 : "/users/default.png"
                         }
                         alt={"Image that listed chat has"}
                     />
-                    {/*TODO: pzejscie do profilu usera jezeli chat jest prywanty, jezeli grupowy to otwarcie listy userow*/}
                     <p className="text-lg font-semibold text-white">
                         {chatDto?.name}
                     </p>
@@ -86,7 +85,7 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                             className="aspect-square w-9 rounded-full"
                             src={
                                 chatDto?.imgUrl
-                                    ? `/users/${chatDto.imgUrl}`
+                                    ? `${chatDto.imgUrl}`
                                     : "/users/default.png"
                             }
                             alt="Awatar czatu"
@@ -105,7 +104,7 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                     <div
                         id="chat-tooltip"
                         role="tooltip"
-                        className="bg-violetLightDarker text-md pointer-events-none absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 translate-y-1 rounded-md p-2 text-white opacity-0 shadow-lg transition-all duration-150 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:opacity-100"
+                        className="bg-violetLightDarker text-md pointer-events-none absolute top-full left-1/2 z-10 mt-2 min-w-20 -translate-x-1/2 translate-y-1 rounded-md p-2 text-center text-white opacity-0 shadow-lg transition-all duration-150 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:opacity-100"
                     >
                         Edit Chat
                         <div className="bg-violetLightDarker absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45" />

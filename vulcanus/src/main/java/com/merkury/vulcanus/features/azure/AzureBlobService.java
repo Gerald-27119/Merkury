@@ -10,6 +10,7 @@ import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.model.enums.AzureBlobFileValidatorType;
 import com.merkury.vulcanus.utils.AzureBlobFileValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +21,7 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AzureBlobService {
@@ -37,6 +39,7 @@ public class AzureBlobService {
         try {
             blobClient.upload(file.getInputStream(), file.getSize(), true);
         } catch (BlobStorageException ex) {
+            log.error("File upload to blob failed: {}", ex.getServiceMessage());
             throw new FileUploadFailedException(ex);
         }
 

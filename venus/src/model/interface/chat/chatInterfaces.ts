@@ -60,3 +60,9 @@ export interface UpdatedGroupChatDto {
     newName: string;
     newImgUrl: string;
 }
+
+export interface UpdatedGroupChat {
+    chatId: number;
+    newName: string;
+    newImgUrl: string;
+}

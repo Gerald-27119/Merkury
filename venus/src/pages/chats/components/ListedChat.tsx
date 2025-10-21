@@ -37,13 +37,16 @@ function ListedChat({ chat, hasNew }: ListedChatProps) {
                 className="aspect-square w-12 rounded-full"
                 src={
                     chat?.imgUrl
-                        ? `/users/${chat.imgUrl}`
+                        ? // for development purposes
+                          `${chat?.imgUrl}`
                         : "/users/default.png"
                 }
                 alt={chat.imgUrl}
             />
             <div className="flex w-full flex-col">
-                <p className="text-lg font-medium">{chat?.name}</p>
+                <p className="max-w-80 truncate text-lg font-medium">
+                    {chat?.name}
+                </p>
                 <div className="flex gap-2 text-sm text-nowrap text-gray-400">
                     {chat.lastMessage && (
                         <>

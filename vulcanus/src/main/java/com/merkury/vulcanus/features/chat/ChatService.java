@@ -278,7 +278,6 @@ public class ChatService {
 
     @Transactional
     public UpdatedGroupChatDto updateGroupChat(Long chatId, UpdateGroupChatDto updateGroupChatDto) throws ChatNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException {
-
         var newChatName = updateGroupChatDto.newName();
         var newImg = updateGroupChatDto.image();
 
@@ -288,13 +287,13 @@ public class ChatService {
             chatFromDb.setName(newChatName);
         }
 
-        if (newImg != null && newImg.isEmpty()) {
+        if (newImg != null && !newImg.isEmpty()) {
             var newImgUrl = this.sendNewChatProfileImg(newImg);
             chatFromDb.setImgUrl(newImgUrl);
         }
 
         var updatedChatFromDb = this.chatRepository.save(chatFromDb);
-
+        //1. chaty w db nie maja name, nadaje przy wyciaganiu (blad)
         return new UpdatedGroupChatDto(updatedChatFromDb.getName(), updatedChatFromDb.getImgUrl());
     }
 

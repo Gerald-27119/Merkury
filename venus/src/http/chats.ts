@@ -103,7 +103,7 @@ export async function updateChatDetails(
     payload: UpdateChatPayload,
 ): Promise<UpdatedGroupChatDto> {
     const form = new FormData();
-    if (payload.name !== undefined) form.append("name", payload.name);
+    if (payload.name !== undefined) form.append("newName", payload.name);
     if (payload.image) form.append("image", payload.image, payload.image.name);
 
     const { data } = await axios.patch<UpdatedGroupChatDto>(
