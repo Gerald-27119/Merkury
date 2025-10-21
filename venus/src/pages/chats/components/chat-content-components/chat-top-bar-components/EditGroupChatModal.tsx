@@ -1,6 +1,6 @@
 import { FaX } from "react-icons/fa6";
 import { ChangeEvent, useMemo, useRef, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { notificationAction } from "../../../../../redux/notification";
 import { chatActions } from "../../../../../redux/chats";
@@ -13,7 +13,7 @@ import {
     updateChatDetails,
     type UpdateChatPayload,
 } from "../../../../../http/chats";
-import { FaEdit } from "react-icons/fa"; // <— NOWY import
+import { FaEdit } from "react-icons/fa";
 
 interface EditGroupChatModalProps {
     onClose?: () => void;

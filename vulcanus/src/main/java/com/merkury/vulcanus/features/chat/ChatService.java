@@ -293,7 +293,6 @@ public class ChatService {
         }
 
         var updatedChatFromDb = this.chatRepository.save(chatFromDb);
-        //1. chaty w db nie maja name, nadaje przy wyciaganiu (blad)
         return new UpdatedGroupChatDto(updatedChatFromDb.getName(), updatedChatFromDb.getImgUrl());
     }
 

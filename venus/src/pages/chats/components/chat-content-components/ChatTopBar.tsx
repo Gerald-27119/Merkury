@@ -63,8 +63,7 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                         className="aspect-square w-9 rounded-full"
                         src={
                             chatDto?.imgUrl
-                                ? // for development purposes
-                                  `${chatDto?.imgUrl}`
+                                ? `${chatDto?.imgUrl}` //TODO: zpewnic porpawne wyswietlanie zdjecia profilowego
                                 : "/users/default.png"
                         }
                         alt={"Image that listed chat has"}
