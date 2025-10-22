@@ -7,8 +7,10 @@ import com.merkury.vulcanus.exception.exceptions.ChatNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.CreateGroupChatException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserByUsernameNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.azure.AzureBlobService;
+import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
@@ -16,12 +18,15 @@ import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.group.CreateGroupChatDto;
 import com.merkury.vulcanus.model.dtos.chat.group.UpdateGroupChatDto;
 import com.merkury.vulcanus.model.dtos.chat.group.UpdatedGroupChatDto;
+import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.entities.chat.ChatMessageAttachedFile;
 import com.merkury.vulcanus.model.enums.AzureBlobFileValidatorType;
 import com.merkury.vulcanus.model.enums.chat.ChatType;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.model.mappers.chat.ChatMapper;
+import com.merkury.vulcanus.model.mappers.user.dashboard.SocialMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
@@ -33,6 +38,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -300,39 +306,8 @@ public class ChatService {
         return azureBlobService.upload("group-chat-profile-img", newChatImg, AzureBlobFileValidatorType.GROUP_CHAT_PROFILE_IMG);
     }
 
-//    TODO:logika do użycia
-//    public SocialPageDto searchUsersByUsername(String query, int page, int size) throws UserNotFoundByUsernameException {
-//        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-//        return friendsService.searchUsersByUsername(username, query, page, size);
-//    }
+    private GroupChatService.SimpleSliceDto<GroupChatService.PotentialChatMember> searchPotentialUsersToAddToGroupChat(Long chatId, String query, int page, int size) {
+        return this.groupChatService.searchPotentialUsersToAddToGroupChat(chatId, query, page, size);
+    }
 
-//    private SocialPageDto searchUsersByUsername(String username, String query, int page, int size) throws UserNotFoundByUsernameException {
-//        var currentUser = userEntityFetcher.getByUsername(username);
-//
-//        if (query == null || query.isBlank()) {
-//            return new SocialPageDto(List.of(), false);
-//        }
-//
-//        var pageable = PageRequest.of(page, size, Sort.by("username").ascending());
-//        var usersPage = userEntityRepository.findAllByUsernameContainingIgnoreCaseAndUsernameNot(query, currentUser.getUsername(), pageable);
-//
-//        if (usersPage.isEmpty()) {
-//            return new SocialPageDto(List.of(), false);
-//        }
-//
-//        var mappedUsers = usersPage.getContent().stream()
-//                .map(user -> {
-//                    var status = currentUser.getFriendships()
-//                            .stream()
-//                            .filter(f -> f.getFriend().equals(user))
-//                            .map(Friendship::getStatus)
-//                            .findFirst()
-//                            .orElse(UserFriendStatus.NONE);
-//
-//                    return SocialMapper.toDto(user, status);
-//                })
-//                .toList();
-//
-//        return new SocialPageDto(mappedUsers, usersPage.hasNext());
-//    }
 }

@@ -7,6 +7,8 @@ import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class UserEntityFetcher {
@@ -21,4 +23,5 @@ public class UserEntityFetcher {
         return userEntityRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with this id " + id));
     }
+
 }

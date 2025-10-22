@@ -3,17 +3,28 @@ package com.merkury.vulcanus.features.chat;
 import com.merkury.vulcanus.exception.exceptions.AddUsersToExistingGroupChatException;
 import com.merkury.vulcanus.exception.exceptions.ChatNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.CreateGroupChatException;
+import com.merkury.vulcanus.model.dtos.SimpleSliceDto;
+import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
 import com.merkury.vulcanus.model.dtos.chat.group.CreateGroupChatDto;
+import com.merkury.vulcanus.model.dtos.chat.group.PotentialChatMember;
+import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatParticipant;
 import com.merkury.vulcanus.model.enums.chat.ChatType;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
+import com.merkury.vulcanus.model.mappers.user.dashboard.SocialMapper;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
+import com.merkury.vulcanus.model.repositories.chat.ChatParticipantRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -25,6 +36,7 @@ class GroupChatService {
 
     private final ChatRepository chatRepository;
     private final UserEntityRepository userEntityRepository;
+    private final ChatParticipantRepository chatParticipantRepository;
 
     public Chat create(CreateGroupChatDto createGroupChatDto) throws CreateGroupChatException {
         var usernames = createGroupChatDto.usernames();
@@ -64,7 +76,8 @@ class GroupChatService {
 
     public Chat addUsers(List<String> usernames, String currentUserUsername, Long chatId) throws AddUsersToExistingGroupChatException, ChatNotFoundException {
         var usersToAdd = userEntityRepository.findAllByUsernameIn(usernames);
-        if (usersToAdd.size() != usernames.size()) throw new AddUsersToExistingGroupChatException("Some users weren't found in DB.");
+        if (usersToAdd.size() != usernames.size())
+            throw new AddUsersToExistingGroupChatException("Some users weren't found in DB.");
         var chatFromDb = chatRepository.findChatById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
         var newParticipantsToAdd = usersToAdd.stream().map(userEntity -> ChatParticipant.builder()
                 .user(userEntity)
@@ -74,4 +87,32 @@ class GroupChatService {
         chatFromDb.getParticipants().addAll(newParticipantsToAdd);
         return chatRepository.save(chatFromDb);
     }
+
+    public SimpleSliceDto<PotentialChatMember> searchPotentialUsersToAddToGroupChat(Long chatId, String query, int page, int size) {
+        List<String> usernamesToOmitInSearch = chatParticipantRepository.findChatParticipantsByChat_Id(chatId).stream()
+                .map(ChatParticipant::getUser)
+                .map(UserEntity::getUsername)
+                .toList();
+
+        if (query == null || query.isBlank()) {
+            return new SimpleSliceDto<>(false, List.of());
+        }
+
+        var pageable = PageRequest.of(page, size, Sort.by("username").ascending());
+        var usersPage = userEntityRepository.findAllByUsernameContainingIgnoreCaseAndUsernameNotIn(query, pageable, usernamesToOmitInSearch);
+
+        if (usersPage.isEmpty()) {
+            return new SimpleSliceDto<>(false, List.of());
+        }
+
+        var mappedPotentialChatMembers = usersPage.getContent().stream()
+                .map(user -> new PotentialChatMember(
+                        user.getUsername(),
+                        user.getProfileImage()
+                ))
+                .toList();
+
+        return new SimpleSliceDto<>(usersPage.hasNext(), mappedPotentialChatMembers);
+    }
+
 }
