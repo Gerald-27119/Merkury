@@ -1,8 +1,11 @@
 import axios from "axios";
 import {
+    AddUsersToExistingGroupChatDto,
     ChatDto,
     ChatMessagesPageDto,
     ChatPage,
+    PotentialChatMemberDto,
+    SimpleSliceDto,
     UpdatedGroupChatDto,
 } from "../model/interface/chat/chatInterfaces";
 
@@ -114,5 +117,39 @@ export async function updateChatDetails(
     return data;
 }
 
-//1. search
-//2. addUsers
+type BackendSimpleSliceDto<T> = {
+    hasNext: boolean;
+    collection: T[];
+};
+
+export async function searchPotentialUsersToAddToGroupChat(
+    chatId: number,
+    query: string,
+    page = 0,
+    size = 20,
+): Promise<SimpleSliceDto<PotentialChatMemberDto>> {
+    const { data } = await axios.get<
+        BackendSimpleSliceDto<PotentialChatMemberDto>
+    >(`${BASE_URL}/chats/group-chat/add/search/${chatId}`, {
+        withCredentials: true,
+        params: { query, page, size },
+    });
+
+    return {
+        hasNext: data.hasNext,
+        items: data.collection ?? [],
+    };
+}
+
+export async function addUsersToGroupChat(
+    chatId: number,
+    usernames: string[],
+): Promise<ChatDto> {
+    const body: AddUsersToExistingGroupChatDto = { usernames };
+    const { data } = await axios.put<ChatDto>(
+        `${BASE_URL}/chats/add/users/${chatId}`,
+        body,
+        { withCredentials: true },
+    );
+    return data;
+}

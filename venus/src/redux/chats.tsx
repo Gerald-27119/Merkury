@@ -42,19 +42,31 @@ export const chatsSlice = createSlice({
         toggleShowSideBar(state) {
             state.showSideBar = !state.showSideBar;
         },
-        clearUsersToAddToChat: (state) => {
+
+        /* --- Selekcja użytkowników do dodania do czatu --- */
+        clearUsersToAddToChat(state) {
             state.usersToAddToChat = [];
         },
-        addUserToAddToChat(state, action: PayloadAction<string>) {
-            if (state.usersToAddToChat.length >= 6) return;
-            const clearedUsersToAddToChat = state.usersToAddToChat.filter(
-                (username) => username !== action.payload,
-            );
-            state.usersToAddToChat = [
-                ...clearedUsersToAddToChat,
-                action.payload,
-            ];
+        setUsersToAddToChat(state, action: PayloadAction<string[]>) {
+            // pełne nadpisanie – przydatne, gdy chcesz zsynchronizować ze źródłem
+            // lub „wyczyścić i wkleić” wielu naraz
+            const uniq = Array.from(new Set(action.payload));
+            state.usersToAddToChat = uniq;
         },
+        addUserToAddToChat(state, action: PayloadAction<string>) {
+            const username = action.payload;
+            // de-dupe
+            if (!state.usersToAddToChat.includes(username)) {
+                state.usersToAddToChat.push(username);
+            }
+        },
+        removeUserToAddToChat(state, action: PayloadAction<string>) {
+            state.usersToAddToChat = state.usersToAddToChat.filter(
+                (u) => u !== action.payload,
+            );
+        },
+
+        /* --- Aktualizacje listy czatów --- */
         updateChat(state, action: PayloadAction<UpdatedGroupChat>) {
             const { chatId, newName, newImgUrl } = action.payload;
             const changes: Partial<ChatEntity> = {};
@@ -70,36 +82,33 @@ export const chatsSlice = createSlice({
                 chatsAdapter.updateOne(state, { id: chatId, changes });
             }
         },
-        removeUserToAddToChat(state, action: PayloadAction<string>) {
-            state.usersToAddToChat = state.usersToAddToChat.filter(
-                (username) => username !== action.payload,
-            );
-        },
-        upsertChats: (state, action: PayloadAction<ChatDto[]>) => {
+        upsertChats(state, action: PayloadAction<ChatDto[]>) {
             const items: ChatEntity[] = action.payload.map((c) => {
                 const prev = state.entities[c.id] as ChatEntity | undefined;
                 return { ...c, hasNew: prev?.hasNew ?? false };
             });
             chatsAdapter.upsertMany(state, items);
         },
-        setSelectedChatId: (state, action: PayloadAction<number | null>) => {
+
+        /* --- Selekcja i statusy --- */
+        setSelectedChatId(state, action: PayloadAction<number | null>) {
             state.selectedChatId = action.payload;
         },
-        setLastMessage: (
+        setLastMessage(
             state,
             action: PayloadAction<{ chatId: number; message: ChatMessageDto }>,
-        ) => {
+        ) {
             const { chatId, message } = action.payload;
             chatsAdapter.updateOne(state, {
                 id: chatId,
                 changes: { lastMessage: message },
             });
         },
-        markNew: (state, action: PayloadAction<number>) => {
+        markNew(state, action: PayloadAction<number>) {
             const chat = state.entities[action.payload];
             if (chat) chat.hasNew = true;
         },
-        clearNew: (state, action: PayloadAction<number>) => {
+        clearNew(state, action: PayloadAction<number>) {
             const chat = state.entities[action.payload];
             if (chat) chat.hasNew = false;
         },

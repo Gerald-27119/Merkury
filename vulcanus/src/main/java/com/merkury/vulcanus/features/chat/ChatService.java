@@ -272,10 +272,15 @@ public class ChatService {
         return ChatMapper.toChatDto(createdChat);
     }
 
-    public ChatDto addUsersToGroupChat(Long chatId, List<String> usernames) throws ChatNotFoundException, AddUsersToExistingGroupChatException {
+    public ChatDto addUsersToGroupChat(Long chatId, List<String> usernames) throws ChatNotFoundException, AddUsersToExistingGroupChatException, UserNotFoundException {
         var currentUsername = this.customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         var updatedChat = this.groupChatService.addUsers(usernames, currentUsername, chatId);
-        return ChatMapper.toChatDto(updatedChat);
+        var currentUser = userEntityRepository.findByUsername(customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername())
+                .orElseThrow(() -> new UserNotFoundException("Current user not found in db"))
+                .getId();
+        var last20Messages = chatMessageRepository
+                .findTop20ByChatIdOrderBySentAtDesc(updatedChat.getId());
+        return ChatMapper.toChatDto(updatedChat, last20Messages, currentUser);
     }
 
     @Transactional

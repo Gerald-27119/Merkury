@@ -38,7 +38,7 @@ export default function GroupChatParticipantsSideBar() {
                             } // //TODO: zpewnic porpawne wyswietlanie zdjecia profilowego
                             alt={participant.username}
                         />
-                        <div className="flex w-full flex-col">
+                        <div className="flex w-full min-w-0 flex-col">
                             <p className="max-w-80 truncate text-lg font-medium">
                                 {participant?.username}
                             </p>

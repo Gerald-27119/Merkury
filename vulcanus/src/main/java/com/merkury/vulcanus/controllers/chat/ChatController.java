@@ -114,7 +114,7 @@ public class ChatController {
     @PutMapping("add/users/{chatId}")
     public ResponseEntity<ChatDto> addUsersToGroupChat(
             @PathVariable Long chatId,
-            @RequestBody AddUsersToExistingGroupChatDto addUsersToExistingGroupChatDto) throws ChatNotFoundException, AddUsersToExistingGroupChatException {
+            @RequestBody AddUsersToExistingGroupChatDto addUsersToExistingGroupChatDto) throws ChatNotFoundException, AddUsersToExistingGroupChatException, UserNotFoundException {
         var chatDto = chatService.addUsersToGroupChat(chatId, addUsersToExistingGroupChatDto.usernames());
         return new ResponseEntity<>(chatDto, HttpStatus.OK);
     }
