@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { accountSlice } from "./account";
 import { notificationSlice } from "./notification";
-import { photoSlice } from "./photo.jsx";
 import { spotDetailsModalSlice } from "./spot-modal";
 import { expandedSpotMediaGallerySlice } from "./expanded-spot-media-gallery";
 import { spotFiltersSlice } from "./spot-filters";
@@ -29,7 +28,6 @@ const store = configureStore({
     reducer: {
         account: accountSlice.reducer,
         notification: notificationSlice.reducer,
-        photo: photoSlice.reducer,
         spotDetails: spotDetailsModalSlice.reducer,
         searchedSpotsListModal: searchedSpotListModalSlice.reducer,
         expandedSpotMediaGallery: expandedSpotMediaGallerySlice.reducer,

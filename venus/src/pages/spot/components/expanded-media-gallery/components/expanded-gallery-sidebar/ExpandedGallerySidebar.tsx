@@ -293,7 +293,7 @@ export default function ExpandedGallerySidebar() {
                             <SortingAndFilterPanel />
                             {isLoading && <LoadingSpinner />}
                             {isError && <p>Failed to fetch list of media.</p>}
-                            <div className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin 3xl:h-[71rem] overflow-y-auto xl:h-[35rem]">
+                            <div className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin 3xl:h-[71rem] overflow-y-auto xl:h-[35rem] 2xl:h-[56rem]">
                                 <div
                                     ref={loadPreviousPageRef}
                                     className="invisible h-1"
@@ -340,7 +340,7 @@ export default function ExpandedGallerySidebar() {
                                                     <div className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-2xl 2xl:text-4xl">
                                                         <FaRegCirclePlay />
                                                     </div>
-                                                    <div className="z-10 flex h-72 w-[28rem] items-center justify-center">
+                                                    <div className="2xl:[w-26rem] 3xl:w-[28rem] z-10 flex h-72 items-center justify-center">
                                                         <ReactPlayer
                                                             playing={false}
                                                             src={media.url}
