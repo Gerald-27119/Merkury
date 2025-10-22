@@ -16,10 +16,9 @@ import { MediaType } from "../../../../../../model/enum/mediaType";
 import { expandedSpotMediaGalleryModalsActions } from "../../../../../../redux/expanded-spot-media-gallery-modals";
 import { expandedSpotMediaGalleryAction } from "../../../../../../redux/expanded-spot-media-gallery";
 import { FaChevronLeft, FaRegCirclePlay } from "react-icons/fa6";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, LayoutGroup } from "framer-motion";
 import ReactPlayer from "react-player";
 import SpotExpandedGallerySidebarMediaDto from "../../../../../../model/interface/spot/expanded-media-gallery/spotExpandedGallerySidebarMediaDto";
-import { LayoutGroup } from "motion/react";
 
 const sidebarVariants = {
     open: {
@@ -262,9 +261,9 @@ export default function ExpandedGallerySidebar() {
 
     return (
         <div className="flex items-center bg-black">
-            <LayoutGroup>
+            <LayoutGroup id="spot-expanded-media-gallery-layout-group">
                 <AnimatePresence
-                    mode="popLayout"
+                    mode="wait"
                     onExitComplete={() => handleCloseSidebar()}
                 >
                     {showExpandedGallerySidebar && (
@@ -277,7 +276,7 @@ export default function ExpandedGallerySidebar() {
                             animate={
                                 showExpandedGallerySidebar ? "open" : "closed"
                             }
-                            transition={{ duration: 0.5, ease: "easeInOut" }}
+                            transition={{ duration: 0.4, ease: "easeInOut" }}
                             ref={containerRef}
                             className="dark:bg-violetHeavyDark 3xl:w-[30rem] h-full w-[20rem] overflow-y-auto p-2 xl:w-[25rem] xl:overflow-y-hidden"
                         >
@@ -374,7 +373,7 @@ export default function ExpandedGallerySidebar() {
                     layout
                     animate={showExpandedGallerySidebar ? "open" : "closed"}
                     transition={{
-                        duration: 0.5,
+                        duration: 0.4,
                         ease: "easeInOut",
                     }}
                     className="flex h-full items-center bg-black"
