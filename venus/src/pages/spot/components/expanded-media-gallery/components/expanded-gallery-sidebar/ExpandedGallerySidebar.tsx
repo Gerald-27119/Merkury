@@ -121,14 +121,12 @@ export default function ExpandedGallerySidebar() {
                         allItems,
                     ),
                 );
-            } else if (fetchDirection.current === "next") {
+            } else {
                 dispatch(
                     expandedSpotGalleryMediaListAction.upsertMediaList(
                         allItems,
                     ),
                 );
-            } else {
-                return;
             }
 
             setPageCount(data.pages.length);
@@ -279,9 +277,9 @@ export default function ExpandedGallerySidebar() {
                             animate={
                                 showExpandedGallerySidebar ? "open" : "closed"
                             }
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            transition={{ duration: 0.5, ease: "easeInOut" }}
                             ref={containerRef}
-                            className="dark:bg-violetHeavyDark h-full w-[20rem] overflow-y-auto p-2 xl:w-[25rem] xl:overflow-y-hidden"
+                            className="dark:bg-violetHeavyDark 3xl:w-[30rem] h-full w-[20rem] overflow-y-auto p-2 xl:w-[25rem] xl:overflow-y-hidden"
                         >
                             <div className="mt-1 grid w-full grid-cols-3 items-center">
                                 <div></div>
@@ -296,7 +294,7 @@ export default function ExpandedGallerySidebar() {
                             <SortingAndFilterPanel />
                             {isLoading && <LoadingSpinner />}
                             {isError && <p>Failed to fetch list of media.</p>}
-                            <div className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin h-[71rem] overflow-y-auto xl:h-[35rem]">
+                            <div className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin 3xl:h-[71rem] overflow-y-auto xl:h-[35rem]">
                                 <div
                                     ref={loadPreviousPageRef}
                                     className="invisible h-1"
@@ -376,7 +374,7 @@ export default function ExpandedGallerySidebar() {
                     layout
                     animate={showExpandedGallerySidebar ? "open" : "closed"}
                     transition={{
-                        duration: 0.3,
+                        duration: 0.5,
                         ease: "easeInOut",
                     }}
                     className="flex h-full items-center bg-black"

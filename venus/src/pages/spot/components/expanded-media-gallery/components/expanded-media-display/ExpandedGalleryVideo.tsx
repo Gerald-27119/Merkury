@@ -8,7 +8,7 @@ export default function ExpandedGalleryVideo({
     url,
 }: ExpandedGalleryVideoProps) {
     return (
-        <div className='"h-[60rem] w-[90rem] overflow-hidden rounded-2xl xl:h-[30rem] xl:w-[55rem]'>
+        <div className="3xl:h-[60rem] 3xl:w-[90rem] overflow-hidden rounded-2xl xl:h-[30rem] xl:w-[55rem]">
             <ReactPlayer
                 controls={true}
                 src={url}
