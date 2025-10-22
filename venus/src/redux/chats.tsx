@@ -8,7 +8,6 @@ import {
     ChatDto,
     ChatMessageDto,
     UpdatedGroupChat,
-    UpdatedGroupChatDto,
 } from "../model/interface/chat/chatInterfaces";
 import { RootState } from "./store";
 
@@ -35,6 +34,51 @@ const initialState = chatsAdapter.getInitialState<ChatsExtra>({
     showSideBar: false,
 });
 
+/** --- helpers do bezpiecznego merge dla innych przypadków --- */
+function memberKey(m: any) {
+    return m?.id ?? m?.username ?? JSON.stringify(m);
+}
+function mergeMembers(prev?: any[], incoming?: any[]) {
+    if (!prev && !incoming) return undefined;
+    if (!prev) return incoming;
+    if (!incoming) return prev;
+    const map = new Map<string, any>();
+    for (const m of [...prev, ...incoming]) map.set(memberKey(m), m);
+    return Array.from(map.values());
+}
+function mergeChat(
+    prev: ChatEntity | undefined,
+    incoming: ChatDto,
+): ChatEntity {
+    const merged: any = { ...(prev ?? {}), ...incoming };
+    merged.hasNew = (prev as any)?.hasNew ?? false;
+
+    const prevMembers =
+        (prev as any)?.members ??
+        (prev as any)?.participants ??
+        (prev as any)?.users;
+
+    const incomingMembers =
+        (incoming as any)?.members ??
+        (incoming as any)?.participants ??
+        (incoming as any)?.users;
+
+    const unified = mergeMembers(prevMembers, incomingMembers);
+    if (unified) {
+        if ("members" in merged || "members" in (incoming as any)) {
+            merged.members = unified;
+        } else if (
+            "participants" in merged ||
+            "participants" in (incoming as any)
+        ) {
+            merged.participants = unified;
+        } else if ("users" in merged || "users" in (incoming as any)) {
+            merged.users = unified;
+        }
+    }
+    return merged as ChatEntity;
+}
+
 export const chatsSlice = createSlice({
     name: "chats",
     initialState,
@@ -43,30 +87,26 @@ export const chatsSlice = createSlice({
             state.showSideBar = !state.showSideBar;
         },
 
-        /* --- Selekcja użytkowników do dodania do czatu --- */
+        // selekcja użytkowników do dodania
         clearUsersToAddToChat(state) {
             state.usersToAddToChat = [];
         },
         setUsersToAddToChat(state, action: PayloadAction<string[]>) {
-            // pełne nadpisanie – przydatne, gdy chcesz zsynchronizować ze źródłem
-            // lub „wyczyścić i wkleić” wielu naraz
-            const uniq = Array.from(new Set(action.payload));
-            state.usersToAddToChat = uniq;
+            state.usersToAddToChat = Array.from(new Set(action.payload));
         },
         addUserToAddToChat(state, action: PayloadAction<string>) {
-            const username = action.payload;
-            // de-dupe
-            if (!state.usersToAddToChat.includes(username)) {
-                state.usersToAddToChat.push(username);
+            const u = action.payload;
+            if (!state.usersToAddToChat.includes(u)) {
+                state.usersToAddToChat.push(u);
             }
         },
         removeUserToAddToChat(state, action: PayloadAction<string>) {
             state.usersToAddToChat = state.usersToAddToChat.filter(
-                (u) => u !== action.payload,
+                (x) => x !== action.payload,
             );
         },
 
-        /* --- Aktualizacje listy czatów --- */
+        // aktualizacje listy czatów
         updateChat(state, action: PayloadAction<UpdatedGroupChat>) {
             const { chatId, newName, newImgUrl } = action.payload;
             const changes: Partial<ChatEntity> = {};
@@ -77,20 +117,34 @@ export const chatsSlice = createSlice({
                 }
             }
             if (newImgUrl !== undefined) changes.imgUrl = newImgUrl;
-
             if (Object.keys(changes).length > 0) {
                 chatsAdapter.updateOne(state, { id: chatId, changes });
             }
         },
+
+        /** Upsert z bezpiecznym merge (używaj gdy incoming może być niepełny) */
         upsertChats(state, action: PayloadAction<ChatDto[]>) {
-            const items: ChatEntity[] = action.payload.map((c) => {
-                const prev = state.entities[c.id] as ChatEntity | undefined;
-                return { ...c, hasNew: prev?.hasNew ?? false };
+            const mergedItems: ChatEntity[] = action.payload.map((incoming) => {
+                const prev = state.entities[incoming.id] as
+                    | ChatEntity
+                    | undefined;
+                return mergeChat(prev, incoming);
             });
-            chatsAdapter.upsertMany(state, items);
+            chatsAdapter.upsertMany(state, mergedItems);
         },
 
-        /* --- Selekcja i statusy --- */
+        /** NOWE: Pełna podmiana czatu na obiekt z backendu (zachowuje hasNew). */
+        replaceChat(state, action: PayloadAction<ChatDto>) {
+            const incoming = action.payload;
+            const prev = state.entities[incoming.id] as ChatEntity | undefined;
+            const entity: ChatEntity = {
+                ...incoming,
+                hasNew: prev?.hasNew ?? false,
+            };
+            chatsAdapter.upsertOne(state, entity);
+        },
+
+        // selekcja i statusy
         setSelectedChatId(state, action: PayloadAction<number | null>) {
             state.selectedChatId = action.payload;
         },

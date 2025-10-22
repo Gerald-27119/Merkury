@@ -145,7 +145,7 @@ export async function addUsersToGroupChat(
     chatId: number,
     usernames: string[],
 ): Promise<ChatDto> {
-    const body: AddUsersToExistingGroupChatDto = { usernames };
+    const body = { usernames };
     const { data } = await axios.put<ChatDto>(
         `${BASE_URL}/chats/add/users/${chatId}`,
         body,

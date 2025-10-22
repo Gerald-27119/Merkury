@@ -1,5 +1,9 @@
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
-import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import {
+    useInfiniteQuery,
+    useMutation,
+    useQueryClient,
+} from "@tanstack/react-query";
 import useDebounce from "../../../../../hooks/useDebounce";
 import LoadingSpinner from "../../../../../components/loading-spinner/LoadingSpinner";
 import useSelectorTyped from "../../../../../hooks/useSelectorTyped";
@@ -30,6 +34,7 @@ export default function AddPeopleToGroupChatModal({
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
     const dispatch = useDispatchTyped();
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
     const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteQuery({
@@ -86,10 +91,17 @@ export default function AddPeopleToGroupChatModal({
     const { mutateAsync: mutateAddUsers, isPending: isAdding } = useMutation({
         mutationFn: () => addUsersToGroupChat(chatId, usersToAddToChat),
         onSuccess: (updatedChat) => {
-            dispatch(chatActions.upsertChats([updatedChat]));
+            // KLUCZ: pełna podmiana czatu na zwrócony przez backend (pełny ChatDto)
+            dispatch(chatActions.replaceChat(updatedChat));
             dispatch(chatActions.setSelectedChatId(updatedChat.id));
             dispatch(chatActions.clearNew(updatedChat.id));
             dispatch(chatActions.clearUsersToAddToChat());
+
+            // Odśwież wyniki wyszukiwania – dodani użytkownicy powinni zniknąć z listy
+            queryClient.invalidateQueries({
+                queryKey: ["group-add-search", chatId],
+            });
+
             onClose?.();
             navigate("/chat");
         },

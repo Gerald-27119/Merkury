@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -39,6 +41,7 @@ public class PopulateChatsService {
      * </ul>
      * <p>
      * One of the chats will be getting (live) random messages for separate test (dev) service
+     *
      * @author Adam Langmesser
      * @Date: 05-07-2025
      */
@@ -83,9 +86,15 @@ public class PopulateChatsService {
         for (UserEntity u : participants) {
             chat.addParticipant(u);
         }
-        if (participants.size() > 2) chat.setChatType(GROUP);
+        if (participants.size() > 2) {
+            chat.setChatType(GROUP);
+            chat.setName(chat.getParticipants().stream()
+                    .map(chatParticipant -> chatParticipant.getUser().getUsername())
+                    .collect(Collectors.joining(", ")));
+        }
 
         chat = chatRepository.save(chat); // aby chat miał ID
+
 
         if (withMessages) {
             var messages = getRandomChatMessages(sampleChatMessages.length, participants, chat)
