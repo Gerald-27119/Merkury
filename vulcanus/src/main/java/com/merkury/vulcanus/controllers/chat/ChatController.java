@@ -8,10 +8,12 @@ import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserByUsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.chat.ChatService;
+import com.merkury.vulcanus.model.dtos.SimpleSliceDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.group.AddUsersToExistingGroupChatDto;
 import com.merkury.vulcanus.model.dtos.chat.group.CreateGroupChatDto;
+import com.merkury.vulcanus.model.dtos.chat.group.PotentialChatMemberDto;
 import com.merkury.vulcanus.model.dtos.chat.group.UpdateGroupChatDto;
 import com.merkury.vulcanus.model.dtos.chat.group.UpdatedGroupChatDto;
 import lombok.RequiredArgsConstructor;
@@ -87,17 +89,6 @@ public class ChatController {
         return new ResponseEntity<>(chatDto, HttpStatus.CREATED);
     }
 
-    //    TODO: maybe implement in future, maybe not?
-    @PutMapping("add/users")
-    public ResponseEntity<ChatDto> addUsersToGroupChat(@RequestBody AddUsersToExistingGroupChatDto addUsersToExistingGroupChatDto) throws ChatNotFoundException, AddUsersToExistingGroupChatException {
-        var chatDto = chatService.addUsersToGroupChat(
-                addUsersToExistingGroupChatDto.usernames(),
-                addUsersToExistingGroupChatDto.currentUserUsername(),
-                addUsersToExistingGroupChatDto.chatId()
-        );
-        return new ResponseEntity<>(chatDto, HttpStatus.OK);
-    }
-
     @PatchMapping(
             value = "/{chatId}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
@@ -112,10 +103,20 @@ public class ChatController {
     }
 
 
-//    @GetMapping("/group-chat/add/{chatId}")
-//    public ResponseEntity<SocialPageDto> searchPotentialUsersToAddToGroupChatByUsername(@PathVariable Long chatId,
-//                                                               @RequestParam(defaultValue = "0") int page,
-//                                                               @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
-////        return ResponseEntity.ok(userDashboardService.searchUsersByUsername(query, page, size));
-//    }
+    @GetMapping("group-chat/add/search/{chatId}")
+    public ResponseEntity<SimpleSliceDto<PotentialChatMemberDto>> searchPotentialUserByUsernameToAddToGroupChat(@PathVariable Long chatId,
+                                                                                                                @RequestParam String query,
+                                                                                                                @RequestParam(defaultValue = "0") int page,
+                                                                                                                @RequestParam(defaultValue = "20") int size) {
+        return ResponseEntity.ok(chatService.searchPotentialUsersToAddToGroupChat(chatId, query, page, size));
+    }
+
+    @PutMapping("add/users/{chatId}")
+    public ResponseEntity<ChatDto> addUsersToGroupChat(
+            @PathVariable Long chatId,
+            @RequestBody AddUsersToExistingGroupChatDto addUsersToExistingGroupChatDto) throws ChatNotFoundException, AddUsersToExistingGroupChatException {
+        var chatDto = chatService.addUsersToGroupChat(chatId, addUsersToExistingGroupChatDto.usernames());
+        return new ResponseEntity<>(chatDto, HttpStatus.OK);
+    }
+
 }

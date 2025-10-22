@@ -113,3 +113,6 @@ export async function updateChatDetails(
     );
     return data;
 }
+
+//1. search
+//2. addUsers
