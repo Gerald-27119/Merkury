@@ -14,6 +14,8 @@ import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.group.CreateGroupChatDto;
+import com.merkury.vulcanus.model.dtos.chat.group.UpdateGroupChatDto;
+import com.merkury.vulcanus.model.dtos.chat.group.UpdatedGroupChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.entities.chat.ChatMessageAttachedFile;
@@ -261,6 +263,7 @@ public class ChatService {
 //        chatStompCommunicationService.broadcastACKVersionToSender(); TODO:fix
     }
 
+
     public ChatDto createGroupChat(CreateGroupChatDto createGroupChatDto) throws CreateGroupChatException {
         var ownerUsername = this.customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         var createdChat = this.groupChatService.create(new CreateGroupChatDto(createGroupChatDto.usernames(), ownerUsername));
@@ -271,5 +274,29 @@ public class ChatService {
         var currentUsername = this.customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         var updatedChat = this.groupChatService.addUsers(usernames, currentUsername, chatId);
         return ChatMapper.toChatDto(updatedChat);
+    }
+
+    @Transactional
+    public UpdatedGroupChatDto updateGroupChat(Long chatId, UpdateGroupChatDto updateGroupChatDto) throws ChatNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException {
+        var newChatName = updateGroupChatDto.newName();
+        var newImg = updateGroupChatDto.image();
+
+        var chatFromDb = this.chatRepository.findById(chatId).orElseThrow(() -> new ChatNotFoundException(chatId));
+
+        if (newChatName != null && !newChatName.isEmpty()) {
+            chatFromDb.setName(newChatName);
+        }
+
+        if (newImg != null && !newImg.isEmpty()) {
+            var newImgUrl = this.sendNewChatProfileImg(newImg);
+            chatFromDb.setImgUrl(newImgUrl);
+        }
+
+        var updatedChatFromDb = this.chatRepository.save(chatFromDb);
+        return new UpdatedGroupChatDto(updatedChatFromDb.getName(), updatedChatFromDb.getImgUrl());
+    }
+
+    private String sendNewChatProfileImg(@NotNull MultipartFile newChatImg) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException {
+        return azureBlobService.upload("group-chat-profile-img", newChatImg, AzureBlobFileValidatorType.GROUP_CHAT_PROFILE_IMG);
     }
 }

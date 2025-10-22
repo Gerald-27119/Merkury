@@ -7,6 +7,8 @@ import {
 import {
     ChatDto,
     ChatMessageDto,
+    UpdatedGroupChat,
+    UpdatedGroupChatDto,
 } from "../model/interface/chat/chatInterfaces";
 import { RootState } from "./store";
 
@@ -44,6 +46,16 @@ export const chatsSlice = createSlice({
                 ...clearedUsersToAddToChat,
                 action.payload,
             ];
+        },
+        updateChat(state, action: PayloadAction<UpdatedGroupChat>) {
+            const { chatId, newName, newImgUrl } = action.payload;
+            const changes: Partial<ChatEntity> = {};
+            if (newName !== undefined) changes.name = newName;
+            if (newImgUrl !== undefined) changes.imgUrl = newImgUrl;
+
+            if (Object.keys(changes).length > 0) {
+                chatsAdapter.updateOne(state, { id: chatId, changes });
+            }
         },
         removeUserToAddToChat(state, action: PayloadAction<string>) {
             state.usersToAddToChat = state.usersToAddToChat.filter(

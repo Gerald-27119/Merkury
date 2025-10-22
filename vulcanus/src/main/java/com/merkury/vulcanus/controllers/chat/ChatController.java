@@ -8,15 +8,20 @@ import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserByUsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.chat.ChatService;
-import com.merkury.vulcanus.model.dtos.chat.AddUsersToExistingGroupChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
+import com.merkury.vulcanus.model.dtos.chat.group.AddUsersToExistingGroupChatDto;
 import com.merkury.vulcanus.model.dtos.chat.group.CreateGroupChatDto;
+import com.merkury.vulcanus.model.dtos.chat.group.UpdateGroupChatDto;
+import com.merkury.vulcanus.model.dtos.chat.group.UpdatedGroupChatDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/chats")
 @RequiredArgsConstructor
@@ -81,7 +87,7 @@ public class ChatController {
         return new ResponseEntity<>(chatDto, HttpStatus.CREATED);
     }
 
-//    TODO: maybe implement in future, maybe not?
+    //    TODO: maybe implement in future, maybe not?
     @PutMapping("add/users")
     public ResponseEntity<ChatDto> addUsersToGroupChat(@RequestBody AddUsersToExistingGroupChatDto addUsersToExistingGroupChatDto) throws ChatNotFoundException, AddUsersToExistingGroupChatException {
         var chatDto = chatService.addUsersToGroupChat(
@@ -90,6 +96,19 @@ public class ChatController {
                 addUsersToExistingGroupChatDto.chatId()
         );
         return new ResponseEntity<>(chatDto, HttpStatus.OK);
+    }
+
+    @PatchMapping(
+            value = "/{chatId}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<UpdatedGroupChatDto> updateGroupChat(
+            @PathVariable Long chatId,
+            @ModelAttribute UpdateGroupChatDto updateGroupChatDto
+    ) throws ChatNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException {
+        UpdatedGroupChatDto updated = this.chatService.updateGroupChat(chatId, updateGroupChatDto);
+        return ResponseEntity.ok(updated);
     }
 
 }

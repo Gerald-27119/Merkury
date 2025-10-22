@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.dtos.chat;
+package com.merkury.vulcanus.model.dtos.chat.group;
 
 import java.util.List;
 
