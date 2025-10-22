@@ -1,6 +1,4 @@
-import { ChatParticipantDto } from "../../../../model/interface/chat/chatInterfaces";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
-import { formatMessageLength, formatSentAt } from "../../../../utils/chat";
 import { useNavigate } from "react-router-dom";
 
 export default function GroupChatParticipantsSideBar() {

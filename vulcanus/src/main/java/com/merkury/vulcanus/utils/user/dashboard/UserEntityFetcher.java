@@ -7,8 +7,6 @@ import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 public class UserEntityFetcher {

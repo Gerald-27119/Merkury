@@ -13,7 +13,6 @@ import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { chatActions } from "../../../../redux/chats";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { FaUsers } from "react-icons/fa6";
-import { FiMoreVertical } from "react-icons/fi";
 import { MdEdit } from "react-icons/md";
 import EditGroupChatModal from "./chat-top-bar-components/EditGroupChatModal";
 import AddPeopleToGroupChatModal from "./chat-top-bar-components/AddPeopleToGroupChatModal";

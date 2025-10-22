@@ -91,13 +91,11 @@ export default function AddPeopleToGroupChatModal({
     const { mutateAsync: mutateAddUsers, isPending: isAdding } = useMutation({
         mutationFn: () => addUsersToGroupChat(chatId, usersToAddToChat),
         onSuccess: (updatedChat) => {
-            // KLUCZ: pełna podmiana czatu na zwrócony przez backend (pełny ChatDto)
             dispatch(chatActions.replaceChat(updatedChat));
             dispatch(chatActions.setSelectedChatId(updatedChat.id));
             dispatch(chatActions.clearNew(updatedChat.id));
             dispatch(chatActions.clearUsersToAddToChat());
 
-            // Odśwież wyniki wyszukiwania – dodani użytkownicy powinni zniknąć z listy
             queryClient.invalidateQueries({
                 queryKey: ["group-add-search", chatId],
             });
@@ -159,7 +157,6 @@ export default function AddPeopleToGroupChatModal({
                 </button>
             </div>
 
-            {/* Selected users */}
             <div className="mt-2 mb-3 flex min-h-10 flex-wrap gap-3 p-2">
                 {usersToAddToChat.map((username) => (
                     <UserChip key={username} username={username} />
@@ -171,7 +168,6 @@ export default function AddPeopleToGroupChatModal({
                 )}
             </div>
 
-            {/* Results grid */}
             <div className="w-full max-w-5xl">
                 <ResultsGrid
                     items={allItems}
