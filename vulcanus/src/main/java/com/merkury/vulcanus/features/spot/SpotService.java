@@ -213,13 +213,11 @@ public class SpotService {
         return new HomePageSpotPageDto(spotDtos, spotPages.hasNext());
     }
 
-    //TODO:clean it
     public SpotMediaGalleryPagePosition getSpotGalleryMediaPosition(
             Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, int pageSize) {
         Long countBefore = spotMediaRepository.countBeforeWithTieBreaker(mediaId, spotId, mediaType, sorting);
         int pos = countBefore.intValue();
         int pageNumber = pos / pageSize;
-        int posInPage = pos % pageSize;
         return SpotMediaGalleryPagePosition.builder()
                 .mediaPagePosition(pageNumber)
                 .build();
