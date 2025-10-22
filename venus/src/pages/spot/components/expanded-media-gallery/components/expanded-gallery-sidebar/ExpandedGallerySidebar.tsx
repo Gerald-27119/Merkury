@@ -21,28 +21,18 @@ import ReactPlayer from "react-player";
 import SpotExpandedGallerySidebarMediaDto from "../../../../../../model/interface/spot/expanded-media-gallery/spotExpandedGallerySidebarMediaDto";
 import { LayoutGroup } from "motion/react";
 
-//TODO:AnimatePresence may cause the problem, maybe instead of conditionally rendering the sidebar, should changes the visibility?
-
-// const sidebarVariants = {
-//     open: { x: 0, opacity: 1 },
-//     closed: { x: "-100%", opacity: 0 },
-// };
-
 const sidebarVariants = {
     open: {
-        // x: 0,
+        x: 0,
         opacity: 1,
-        // transition: { duration: 0.3, ease: "easeInOut" },
     },
     closed: {
-        // x: "-100%",
+        x: "-100%",
         opacity: 0,
-        // transition: { duration: 0.3, ease: "easeInOut" },
     },
     exit: {
-        // x: "-100%",
+        x: "-100%",
         opacity: 0,
-        // transition: { duration: 0.3, ease: "easeInOut" },
     },
 };
 
@@ -50,11 +40,6 @@ const arrowVariants = {
     open: { rotate: 0 },
     closed: { rotate: 180 },
 };
-
-// const toggleVariants = {
-//     open: { opacity: 1 },
-//     closed: { opacity: 1 },
-// };
 
 export default function ExpandedGallerySidebar() {
     const [pageCount, setPageCount] = useState<number>(0);
@@ -288,17 +273,15 @@ export default function ExpandedGallerySidebar() {
                         <motion.div
                             key="expanded-spot-gallery-sidebar"
                             layout
-                            // layoutId="expanded-spot-media-gallery-layoutid"
                             variants={sidebarVariants}
                             initial="closed"
                             exit="exit"
                             animate={
                                 showExpandedGallerySidebar ? "open" : "closed"
                             }
-                            // transition={{ duration: 0.3 }}
                             transition={{ duration: 0.3, ease: "easeInOut" }}
                             ref={containerRef}
-                            className="dark:bg-violetHeavyDark h-full w-[20rem] overflow-y-auto p-2 xl:w-[30rem] xl:overflow-y-hidden"
+                            className="dark:bg-violetHeavyDark h-full w-[20rem] overflow-y-auto p-2 xl:w-[25rem] xl:overflow-y-hidden"
                         >
                             <div className="mt-1 grid w-full grid-cols-3 items-center">
                                 <div></div>
@@ -313,7 +296,7 @@ export default function ExpandedGallerySidebar() {
                             <SortingAndFilterPanel />
                             {isLoading && <LoadingSpinner />}
                             {isError && <p>Failed to fetch list of media.</p>}
-                            <div className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin h-[71rem] overflow-y-auto">
+                            <div className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin h-[71rem] overflow-y-auto xl:h-[35rem]">
                                 <div
                                     ref={loadPreviousPageRef}
                                     className="invisible h-1"
@@ -391,11 +374,7 @@ export default function ExpandedGallerySidebar() {
                 </AnimatePresence>
                 <motion.div
                     layout
-                    // layoutId="expanded-spot-media-gallery-layoutid"
-                    // variants={toggleVariants}
-                    initial="closed"
                     animate={showExpandedGallerySidebar ? "open" : "closed"}
-                    // transition={{ duration: 0.3 }}
                     transition={{
                         duration: 0.3,
                         ease: "easeInOut",

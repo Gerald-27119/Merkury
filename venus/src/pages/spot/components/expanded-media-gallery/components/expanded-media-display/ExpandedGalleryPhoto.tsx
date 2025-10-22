@@ -22,7 +22,7 @@ export default function ExpandedGalleryPhoto({
                     src={url}
                     alt={url}
                     onLoad={handleImageLoad}
-                    className="h-[60rem] w-[90rem] rounded-2xl"
+                    className="h-[60rem] w-[90rem] rounded-2xl xl:h-[30rem] xl:w-[55rem]"
                 />
             ) : (
                 <p>No photo to display</p>
