@@ -150,10 +150,8 @@ export default function SocialCard({
         icon = friendStatusIconMap[UserFriendStatus.NONE];
     }
 
-    // ====== LOGIKA „dodaj do grupy” ======
     const isSelected = selectedUsernames?.has(friend.username) ?? false;
     const limitReached = !!maxReached;
-    // blokujemy: jeśli już wybrany LUB (limit i nie jest już wybrany)
     const disableAdd = isSelected || (limitReached && !isSelected);
 
     const handleAddToPotentialGroupChat = () => {
