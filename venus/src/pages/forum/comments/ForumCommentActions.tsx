@@ -22,7 +22,7 @@ export default function ForumCommentActions({
     onReply,
 }: ForumCommentActionsProps) {
     return (
-        <div className="mt-2 flex items-center text-2xl">
+        <div className="mt-4 flex items-center text-2xl">
             <div className="flex gap-6">
                 <ActionIconWithCount
                     Icon={MdThumbUp}

@@ -12,15 +12,16 @@ import ForumCommentGeneral from "../../../model/interface/forum/postComment/foru
 interface ForumCommentFormProps {
     handleComment: (newComment: ForumCommentDto) => void;
     onClose: () => void;
-    commentToEdit?: ForumCommentDto;
+    commentToEdit?: ForumCommentGeneral;
+    className?: string;
 }
 
 export default function ForumCommentForm({
     handleComment,
     onClose,
     commentToEdit,
+    className,
 }: ForumCommentFormProps) {
-    console.log(commentToEdit?.content);
     const {
         handleSubmit,
         control,
@@ -44,7 +45,7 @@ export default function ForumCommentForm({
     };
 
     return (
-        <div className="mb-4">
+        <div className={`mb-4 ${className}`}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <PostFormEditor<ForumCommentFormFields>
                     name="content"

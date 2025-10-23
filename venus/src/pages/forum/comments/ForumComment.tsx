@@ -6,6 +6,7 @@ import ShowRepliesButton from "./ShowRepliesButton";
 import { useQuery } from "@tanstack/react-query";
 import {
     deleteComment,
+    editComment,
     getCommentRepliesByCommentId,
     voteComment,
 } from "../../../http/post-comments";
@@ -19,6 +20,8 @@ import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useState } from "react";
+import ForumCommentDto from "../../../model/interface/forum/postComment/forumCommentDto";
+import { ForumEntityPayloads } from "../../../model/interface/forum/forumEntityPayloads";
 
 interface ForumCommentProps {
     comment: ForumCommentGeneral;
@@ -26,9 +29,9 @@ interface ForumCommentProps {
 
 export default function ForumComment({ comment }: ForumCommentProps) {
     const navigate = useNavigate();
-    const [commentToEdit, setCommentToEdit] = useState({
-        content: "",
-    });
+    const [commentToEdit, setCommentToEdit] =
+        useState<ForumCommentGeneral | null>(null);
+
     const [areRepliesOpen, openReplies, closeReplies] = useBoolean(false);
     const [isEditingFormVisible, showEditForm, hideEditForm] =
         useBoolean(false);
@@ -36,11 +39,12 @@ export default function ForumComment({ comment }: ForumCommentProps) {
     const isLogged = useSelector((state: RootState) => state.account.isLogged);
 
     const { handleDelete, handleEdit, handleVote, handleReport, handleReply } =
-        useForumEntityActions({
+        useForumEntityActions<void, ForumEntityPayloads["editComment"]>({
             entityName: "comment",
             queryKeys: { list: "forumComments", single: "comment" },
             deleteFn: deleteComment,
             voteFn: voteComment,
+            editFn: editComment,
             redirectOnDelete: false,
         });
 
@@ -48,18 +52,12 @@ export default function ForumComment({ comment }: ForumCommentProps) {
         navigate(`/account/profile/${comment.author.username}`);
     };
 
-    const {
-        data: repliesPage,
-        error: repliesPageError,
-        isError: isRepliesPageError,
-        isLoading: isRepliesPageLoading,
-    } = useQuery({
-        queryKey: [comment.id, "forumCommentsReplies"],
-        queryFn: () => getCommentRepliesByCommentId(comment.id, 10),
-        enabled: areRepliesOpen,
-    });
-
-    const handleCommentEdit = () => {};
+    const handleCommentEdit = async (updatedComment: ForumCommentDto) => {
+        await handleEdit({
+            commentId: commentToEdit!.id,
+            commentData: updatedComment,
+        });
+    };
 
     const handleCommentEditClick = (comment: ForumCommentGeneral) => {
         if (isLogged) {
@@ -75,6 +73,17 @@ export default function ForumComment({ comment }: ForumCommentProps) {
     };
 
     const handleCommentReply = () => {};
+
+    const {
+        data: repliesPage,
+        error: repliesPageError,
+        isError: isRepliesPageError,
+        isLoading: isRepliesPageLoading,
+    } = useQuery({
+        queryKey: [comment.id, "forumCommentsReplies"],
+        queryFn: () => getCommentRepliesByCommentId(comment.id, 10),
+        enabled: areRepliesOpen,
+    });
 
     return (
         <div>
@@ -99,11 +108,12 @@ export default function ForumComment({ comment }: ForumCommentProps) {
                 </div>
             )}
 
-            {isEditingFormVisible && (
+            {isEditingFormVisible && commentToEdit && (
                 <ForumCommentForm
                     handleComment={handleCommentEdit}
                     onClose={hideEditForm}
                     commentToEdit={commentToEdit}
+                    className="mt-4"
                 />
             )}
 

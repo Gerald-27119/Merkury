@@ -25,16 +25,8 @@ export default function Tiptap({
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
-                bulletList: {
-                    HTMLAttributes: {
-                        class: "list-disc ml-4",
-                    },
-                },
-                orderedList: {
-                    HTMLAttributes: {
-                        class: "list-decimal ml-4",
-                    },
-                },
+                bulletList: { keepMarks: true, keepAttributes: false },
+                orderedList: { keepMarks: true, keepAttributes: false },
                 link: {
                     linkOnPaste: true,
                     autolink: false,
@@ -61,14 +53,14 @@ export default function Tiptap({
 
     const wrapperVariants = {
         default: "flex flex-col",
-        modal: "flex h-full flex-col",
+        modal: "flex flex-col h-full",
     };
 
     const baseContentClassName =
         "tiptap-editor-content [&_.is-empty:first-child::before]:text-lightText/60 dark:[&_.is-empty:first-child::before]:text-darkText/50 overflow-y-auto wrap-break-word [&_.is-empty:first-child::before]:content-[attr(data-placeholder)]";
 
     const contentVariants = {
-        default: "resize-y min-h-30 max-h-300",
+        default: "resize-y  min-h-30 max-h-300",
         modal: "h-full flex-1",
     };
 
