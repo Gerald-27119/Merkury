@@ -25,8 +25,8 @@ export default function Tiptap({
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
-                bulletList: { keepMarks: true, keepAttributes: false },
-                orderedList: { keepMarks: true, keepAttributes: false },
+                bulletList: {},
+                orderedList: {},
                 link: {
                     linkOnPaste: true,
                     autolink: false,
@@ -57,11 +57,11 @@ export default function Tiptap({
     };
 
     const baseContentClassName =
-        "tiptap-editor-content [&_.is-empty:first-child::before]:text-lightText/60 dark:[&_.is-empty:first-child::before]:text-darkText/50 overflow-y-auto wrap-break-word [&_.is-empty:first-child::before]:content-[attr(data-placeholder)]";
+        "tiptap-editor-content cursor-text [&_.is-empty:first-child::before]:text-lightText/60 dark:[&_.is-empty:first-child::before]:text-darkText/50 overflow-y-auto wrap-break-word [&_.is-empty:first-child::before]:content-[attr(data-placeholder)]";
 
     const contentVariants = {
-        default: "resize-y  min-h-30 max-h-300",
-        modal: "h-full flex-1",
+        default: "resize-y min-h-30 max-h-300",
+        modal: "h-full",
     };
 
     return (
@@ -71,6 +71,7 @@ export default function Tiptap({
                 <EditorContent
                     editor={editor}
                     onBlur={onBlur}
+                    onClick={() => editor?.commands.focus()}
                     className={`${baseContentClassName} ${contentVariants[variant]}`}
                 />
             </div>
