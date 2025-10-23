@@ -2,6 +2,7 @@ import { formatSentAt } from "../../../../utils/chat";
 import { ChatMessageDto } from "../../../../model/interface/chat/chatInterfaces";
 import { useBoolean } from "../../../../hooks/useBoolean";
 import React from "react";
+import ChatMessageFiles from "./chat-message/ChatMessageFiles";
 
 interface MessageProps {
     message: ChatMessageDto;
@@ -38,15 +39,17 @@ export default React.memo(function ChatMessage({
                             ? showGif(message.content)
                             : message.content}
                     </p>
+
+                    <ChatMessageFiles files={message.attachedFiles} />
                 </>
             ) : (
                 <div className="mt-3 flex">
-                    <div className="mr-4 flex w-12 items-center justify-center">
+                    <div className="mr-4 mb-auto flex w-12 items-center justify-center">
                         <img
                             className="aspect-square w-14 rounded-full"
                             src={
-                                message.sender.imgUrl // for development purposes
-                                    ? `/users/${message.sender.imgUrl}`
+                                message.sender.imgUrl //TODO: zpewnic porpawne wyswietlanie zdjecia profilowego
+                                    ? `${message.sender.imgUrl}`
                                     : "/users/default.png"
                             }
                             alt={"Sender's image"}
@@ -66,6 +69,7 @@ export default React.memo(function ChatMessage({
                                 ? showGif(message.content)
                                 : message.content}
                         </p>
+                        <ChatMessageFiles files={message.attachedFiles} />
                     </div>
                 </div>
             )}
@@ -78,7 +82,7 @@ function showGif(gifUrl: string) {
         <img
             src={gifUrl}
             alt="GIF"
-            className="h-32 w-48 rounded-lg object-cover"
+            className="max-h-64 max-w-64 rounded-lg object-cover"
         />
     );
 }

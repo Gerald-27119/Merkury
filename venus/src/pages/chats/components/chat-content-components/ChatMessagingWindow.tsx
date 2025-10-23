@@ -185,7 +185,7 @@ export default function ChatMessagingWindow({
                 return (
                     <div
                         key={`${chatDto.id}:${message.id}`}
-                        className="hover:bg-violetLight/40 pl-2"
+                        className="hover:bg-violetLight/10 pl-2"
                     >
                         {thisDate !== prevDate && (
                             <div className="my-2 flex w-full items-center">

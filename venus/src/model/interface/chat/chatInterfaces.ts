@@ -4,6 +4,7 @@ export interface ChatMessageDto {
     sentAt: string;
     content: string;
     chatId: number;
+    attachedFiles: ChatMessageAttachedFileDto[] | null;
 }
 
 export interface ChatMessageToSendDto {
@@ -20,10 +21,10 @@ export interface ChatMessageSenderDto {
 }
 
 export interface ChatParticipantDto {
-    id: number;
-    name: string;
+    // id: number; tak ma byc jakby co :)
+    username: string;
     imgUrl: string;
-    isOnline: boolean;
+    // isOnline: boolean;
 }
 
 export interface ChatPage {
@@ -46,4 +47,22 @@ export interface ChatMessagesPageDto {
     hasNextSlice: boolean;
     numberOfMessages: number;
     sliceNumber: number;
+}
+
+export interface ChatMessageAttachedFileDto {
+    url: string;
+    fileType: string;
+    sizeInBytes: number;
+    name: string;
+}
+
+export interface UpdatedGroupChatDto {
+    newName: string;
+    newImgUrl: string;
+}
+
+export interface UpdatedGroupChat {
+    chatId: number;
+    newName: string;
+    newImgUrl: string;
 }

@@ -19,7 +19,7 @@ public record PostGeneralDto(@Positive(message = "ID must be a positive number."
                              @Min(value = 0, message = "Views cannot be less than 0.")
                              Integer views,
                              @Min(value = 0, message = "Comments cannot be less than 0")
-                             Integer numberOfComments,
+                             Integer commentsCount,
                              @NotNull(message = "isAuthor cannot be empty.")
                              Boolean isAuthor) {
 }

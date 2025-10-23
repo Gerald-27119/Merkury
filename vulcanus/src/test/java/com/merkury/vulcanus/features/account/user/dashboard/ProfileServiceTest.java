@@ -167,7 +167,6 @@ class ProfileServiceTest {
                 () -> assertEquals(0, result.profile().friendsCount()),
                 () -> assertEquals(0, result.profile().photosCount()),
                 () -> assertTrue(result.isOwnProfile()),
-                () -> assertFalse(result.isFriends()),
                 () -> assertFalse(result.isFollowing())
         );
     }

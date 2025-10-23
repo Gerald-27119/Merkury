@@ -9,6 +9,6 @@ export default interface PostGeneral {
     category: ForumCategoryDto;
     tags: TagDto[];
     views: number;
-    numberOfComments: number;
+    commentsCount: number;
     isAuthor: boolean;
 }

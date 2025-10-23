@@ -69,9 +69,8 @@ public class UserDashboardController {
         return ResponseEntity.ok().build();
     }
 
-    // TODO na frontendzie na razie nie jest to obsłużone będzie to zrobione w innym zadaniu
     @PatchMapping("/user-dashboard/friends/change-status")
-    public ResponseEntity<Void> changeUserFriendsStatus(@RequestParam String friendUsername, @RequestParam UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException {
+    public ResponseEntity<Void> changeUserFriendsStatus(@RequestParam String friendUsername, @RequestParam UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException, UnsupportedUserFriendStatusException {
         userDashboardService.changeUserFriendsStatus(friendUsername, status);
         return ResponseEntity.ok().build();
     }
@@ -107,6 +106,12 @@ public class UserDashboardController {
                                                                @RequestParam(defaultValue = "0") int page,
                                                                @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
         return ResponseEntity.ok(userDashboardService.searchUsersByUsername(query, page, size));
+    }
+
+    @GetMapping("/user-dashboard/friends/invites")
+    public ResponseEntity<SocialPageDto> getAllFriendInvites(@RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "20") int size) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(userDashboardService.getAllFriendInvites(page, size));
     }
 
     @PatchMapping("/user-dashboard/followed")

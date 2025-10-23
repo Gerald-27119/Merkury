@@ -32,5 +32,6 @@ public record PostDetailsDto(@Positive(message = "ID must be a positive number."
                              Boolean isUpVoted,
                              @NotNull(message = "isDownVoted cannot be empty.")
                              Boolean isDownVoted,
-                             List<PostCommentDto> comments) {
+                             @Min(value = 0, message = "CommentsCount cannot be less than 0.")
+                             Integer commentsCount) {
 }

@@ -3,6 +3,7 @@ import {
     ChatDto,
     ChatMessagesPageDto,
     ChatPage,
+    UpdatedGroupChatDto,
 } from "../model/interface/chat/chatInterfaces";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
@@ -63,6 +64,52 @@ export async function getOrCreatePrivateChat(
         `${BASE_URL}/chats/get-or-create-private-chat`,
         {},
         { withCredentials: true, params },
+    );
+    return data;
+}
+
+export async function sendFiles(
+    chatId: number | null,
+    files: File[],
+): Promise<void> {
+    const formData = new FormData();
+
+    for (const file of files) {
+        formData.append("media", file, file.name);
+    }
+
+    await axios.post<void>(`${BASE_URL}/chats/${chatId}/send-files`, formData, {
+        withCredentials: true,
+    });
+}
+
+export async function createGroupChat(usernames: string[]): Promise<ChatDto> {
+    const body = { usernames };
+    const { data } = await axios.post<ChatDto>(
+        `${BASE_URL}/chats/create/group`,
+        body,
+        { withCredentials: true },
+    );
+    return data;
+}
+
+export type UpdateChatPayload = {
+    name?: string;
+    image?: File;
+};
+
+export async function updateChatDetails(
+    chatId: number,
+    payload: UpdateChatPayload,
+): Promise<UpdatedGroupChatDto> {
+    const form = new FormData();
+    if (payload.name !== undefined) form.append("newName", payload.name);
+    if (payload.image) form.append("image", payload.image, payload.image.name);
+
+    const { data } = await axios.patch<UpdatedGroupChatDto>(
+        `${BASE_URL}/chats/${chatId}`,
+        form,
+        { withCredentials: true },
     );
     return data;
 }

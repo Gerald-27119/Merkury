@@ -7,20 +7,61 @@ import {
 import {
     ChatDto,
     ChatMessageDto,
+    UpdatedGroupChat,
+    UpdatedGroupChatDto,
 } from "../model/interface/chat/chatInterfaces";
 import { RootState } from "./store";
 
-type ChatsExtra = { selectedChatId: number | null };
+type ChatsExtra = { selectedChatId: number | null; usersToAddToChat: string[] };
 type ChatEntity = ChatDto & { hasNew: boolean };
-const chatsAdapter = createEntityAdapter<ChatEntity>({});
+
+const timeOf = (m?: ChatMessageDto) => {
+    if (!m?.sentAt) return 0;
+    const t = Date.parse(m.sentAt);
+    return Number.isFinite(t) ? t : 0;
+};
+
+const chatsAdapter = createEntityAdapter<ChatEntity>({
+    sortComparer: (a, b) => timeOf(b.lastMessage) - timeOf(a.lastMessage),
+});
+
 const initialState = chatsAdapter.getInitialState<ChatsExtra>({
     selectedChatId: null,
+    usersToAddToChat: [],
 });
 
 export const chatsSlice = createSlice({
     name: "chats",
     initialState,
     reducers: {
+        clearUsersToAddToChat: (state) => {
+            state.usersToAddToChat = [];
+        },
+        addUserToAddToChat(state, action: PayloadAction<string>) {
+            if (state.usersToAddToChat.length >= 6) return;
+            const clearedUsersToAddToChat = state.usersToAddToChat.filter(
+                (username) => username !== action.payload,
+            );
+            state.usersToAddToChat = [
+                ...clearedUsersToAddToChat,
+                action.payload,
+            ];
+        },
+        updateChat(state, action: PayloadAction<UpdatedGroupChat>) {
+            const { chatId, newName, newImgUrl } = action.payload;
+            const changes: Partial<ChatEntity> = {};
+            if (newName !== undefined) changes.name = newName;
+            if (newImgUrl !== undefined) changes.imgUrl = newImgUrl;
+
+            if (Object.keys(changes).length > 0) {
+                chatsAdapter.updateOne(state, { id: chatId, changes });
+            }
+        },
+        removeUserToAddToChat(state, action: PayloadAction<string>) {
+            state.usersToAddToChat = state.usersToAddToChat.filter(
+                (username) => username !== action.payload,
+            );
+        },
         upsertChats: (state, action: PayloadAction<ChatDto[]>) => {
             const items: ChatEntity[] = action.payload.map((c) => {
                 const prev = state.entities[c.id] as ChatEntity | undefined;
@@ -36,8 +77,10 @@ export const chatsSlice = createSlice({
             action: PayloadAction<{ chatId: number; message: ChatMessageDto }>,
         ) => {
             const { chatId, message } = action.payload;
-            const chat = state.entities[chatId];
-            if (chat) chat.lastMessage = message;
+            chatsAdapter.updateOne(state, {
+                id: chatId,
+                changes: { lastMessage: message },
+            });
         },
         markNew: (state, action: PayloadAction<number>) => {
             const chat = state.entities[action.payload];
@@ -75,7 +118,7 @@ export const selectHasNewMap = createSelector(
         const map: Record<number, boolean> = {};
         for (const [k, v] of Object.entries(entities)) {
             if (!v) continue;
-            map[Number(k)] = v.hasNew;
+            map[Number(k)] = (v as ChatEntity).hasNew;
         }
         return map;
     },

@@ -38,8 +38,8 @@ export const ForumPostFormSchema = z.object({
         .refine((val) => stripHtml(val).length >= 3, {
             message: "Content must be at least 3 characters long.",
         })
-        .refine((val) => stripHtml(val).length <= 1000, {
-            message: "Content must be at most 1000 characters long.",
+        .refine((val) => stripHtml(val).length <= 5000, {
+            message: "Content must be at most 5000 characters long.",
         }),
 });
 

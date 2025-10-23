@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
+import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.spot.SpotCommentService;
@@ -59,7 +60,7 @@ public class SpotCommentController {
     }
 
     @PatchMapping("/spot/comments/{commentId}/vote")
-    public ResponseEntity<Void> voteComment(HttpServletRequest request, @PathVariable Long commentId, @RequestParam boolean isUpvote) throws UserNotFoundException {
+    public ResponseEntity<Void> voteComment(HttpServletRequest request, @PathVariable Long commentId, @RequestParam boolean isUpvote) throws UserNotFoundException, CommentNotFoundException {
         spotCommentService.voteComment(request, commentId, isUpvote);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

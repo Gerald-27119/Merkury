@@ -41,10 +41,11 @@ public class FollowersService {
                         .map(UserEntity::getUsername)
                         .toList()
         );
+        boolean isFollowedUser = false;
         var mappedFollowers = followersPage.stream()
                 .map(follower -> {
                     var chatId = followerUsernamePrivateChatIdMap.get(follower.getUsername());
-                    return SocialMapper.userEntityToSocialDto(follower, chatId);
+                    return SocialMapper.userEntityToSocialDto(follower, chatId, isFollowedUser);
                 })
                 .toList();
         return new SocialPageDto(mappedFollowers, followersPage.hasNext());
@@ -68,10 +69,11 @@ public class FollowersService {
                         .toList()
         );
 
+        boolean isFollowedUser = true;
         var mappedFollowed = followedPage.stream()
                 .map(follower -> {
                     var chatId = followerUsernamePrivateChatIdMap.get(follower.getUsername());
-                    return SocialMapper.userEntityToSocialDto(follower, chatId);
+                    return SocialMapper.userEntityToSocialDto(follower, chatId, isFollowedUser);
                 })
                 .toList();
         return new SocialPageDto(mappedFollowed, followedPage.hasNext());

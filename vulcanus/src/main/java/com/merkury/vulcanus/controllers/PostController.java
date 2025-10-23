@@ -4,7 +4,7 @@ import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.forum.PostService;
 import com.merkury.vulcanus.model.dtos.forum.*;
 import com.merkury.vulcanus.model.enums.forum.ForumPostSortField;
-import jakarta.servlet.http.HttpServletRequest;
+import com.merkury.vulcanus.model.enums.forum.SortDirection;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,42 +21,41 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/public/post/{postId}")
-    public ResponseEntity<PostDetailsDto> getDetailedPost(HttpServletRequest request, @PathVariable Long postId) throws PostNotFoundException, UserNotFoundException {
-        return ResponseEntity.ok(postService.getDetailedPost(request, postId));
+    public ResponseEntity<PostDetailsDto> getDetailedPost(@PathVariable Long postId) throws PostNotFoundException, UserNotFoundByUsernameException {
+        return ResponseEntity.ok(postService.getDetailedPost(postId));
     }
 
     @GetMapping("/public/post")
-    public ResponseEntity<Page<PostGeneralDto>> getPostsPage(HttpServletRequest request,
-                                                             @RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Page<PostGeneralDto>> getPostsPage(@RequestParam(defaultValue = "0") int page,
                                                              @RequestParam(defaultValue = "10") int size,
                                                              @RequestParam(defaultValue = "PUBLISH_DATE") ForumPostSortField sortBy,
-                                                             @RequestParam(defaultValue = "DESC") String sortDirection) throws UserNotFoundException {
-        Page<PostGeneralDto> posts = postService.getPostsPage(request, PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortBy.getField())));
+                                                             @RequestParam(defaultValue = "DESC") SortDirection sortDirection) throws UserNotFoundByUsernameException {
+        Page<PostGeneralDto> posts = postService.getPostsPage(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())));
 
         return ResponseEntity.ok(posts);
     }
 
     @PostMapping("/post")
-    public ResponseEntity<Void> addPost(HttpServletRequest request, @Valid @RequestBody PostDto post) throws CategoryNotFoundException, TagNotFoundException, UserNotFoundException, InvalidPostContentException {
-        postService.addPost(request, post);
+    public ResponseEntity<Void> addPost(@Valid @RequestBody PostDto post) throws CategoryNotFoundException, TagNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
+        postService.addPost(post);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("post/{postId}")
-    public ResponseEntity<Void> deletePost(HttpServletRequest request, @PathVariable Long postId) throws UnauthorizedPostAccessException, UserNotFoundException {
-        postService.deletePost(request, postId);
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId) throws UnauthorizedPostAccessException, UserNotFoundByUsernameException {
+        postService.deletePost(postId);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("post/{postId}")
-    public ResponseEntity<Void> editPost(HttpServletRequest request, @PathVariable Long postId, @Valid @RequestBody PostDto post) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, UserNotFoundException, InvalidPostContentException {
-        postService.editPost(request, postId, post);
+    public ResponseEntity<Void> editPost(@PathVariable Long postId, @Valid @RequestBody PostDto post) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
+        postService.editPost(postId, post);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/post/{postId}/vote")
-    public ResponseEntity<Void> votePost(HttpServletRequest request, @PathVariable Long postId, @RequestParam boolean isUpvote) throws PostNotFoundException, UserNotFoundException {
-        postService.votePost(request, postId, isUpvote);
+    public ResponseEntity<Void> votePost(@PathVariable Long postId, @RequestParam boolean isUpvote) throws PostNotFoundException, UserNotFoundByUsernameException {
+        postService.votePost(postId, isUpvote);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

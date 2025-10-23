@@ -1,0 +1,90 @@
+%! Author = Mateusz Redosz
+%! Date = 14/10/2025
+
+\subsection{Endpointy systemu:}
+\label{subsec:endpointy-systemu}
+
+
+\subsubsection*{\lstinline[language=http]{GET} \texttt{/user-dashboard/profile}}
+
+\noindent\textbf{Opis:} Zwraca profil aktualnie zalogowanego użytkownika.\\[2pt]
+\textbf{Metoda:} \lstinline[language=http]{GET /user-dashboard/profile}\\[2pt]
+\textbf{Zwraca (200 OK):} \texttt{application/json} — obiekt \texttt{UserProfileDto}.\\[2pt]
+\textbf{Błąd (404 Not Found):} \texttt{text/plain} — \newline komunikat z wyjątku \texttt{UserNotFoundByUsernameException}.\\[6pt]
+
+\noindent\textbf{Przykładowa odpowiedź (200 OK):}
+\begin{lstlisting}[language=json]
+{
+  "username": "john_doe",
+  "profilePhoto": "https://cdn.example.com/profiles/john_doe.jpg",
+  "followersCount": 125,
+  "followedCount": 87,
+  "friendsCount": 32,
+  "photosCount": 58,
+  "mostPopularPhotos": [
+    {
+      "src": "https://cdn.example.com/photos/123.jpg",
+      "heartsCount": 240,
+      "viewsCount": 3400,
+      "title": "Sunset at the beach",
+      "id": 123
+    }
+  ]
+}
+\end{lstlisting}
+
+\noindent\textbf{Example response (404 Not Found):}
+%\lstinline[language=httperror]|404 Not Found|
+
+
+
+
+\noindent\textbf{Panel użytkownika}
+
+\begin{itemize}
+\item \lstinline[language=http]{GET /user-dashboard/profile}
+\item \lstinline[language=http]{GET /public/user-dashboard/profile/"targetUsername"}
+\item \lstinline[language=http]{PATCH /user-dashboard/profile}
+\item \lstinline[language=http]{GET /user-dashboard/friends}
+\item \lstinline[language=http]{GET /public/user-dashboard/friends/"targetUsername"}
+\item \lstinline[language=http]{PATCH /user-dashboard/friends}
+\item \lstinline[language=http]{PATCH /user-dashboard/friends/change-status}
+\item \lstinline[language=http]{GET /user-dashboard/followers}
+\item \lstinline[language=http]{GET /public/user-dashboard/followers/"targetUsername"}
+\item \lstinline[language=http]{GET /user-dashboard/followed}
+\item \lstinline[language=http]{GET /public/user-dashboard/followed/"targetUsername"}
+\item \lstinline[language=http]{GET /user-dashboard/friends/find}
+\item \lstinline[language=http]{GET /user-dashboard/friends/invites}
+\item \lstinline[language=http]{PATCH /user-dashboard/followed}
+\item \lstinline[language=http]{GET /user-dashboard/favorite-spots}
+\item \lstinline[language=http]{PATCH /user-dashboard/favorite-spots}
+\item \lstinline[language=http]{GET /user-dashboard/photos}
+\item \lstinline[language=http]{GET /user-dashboard/comments}
+\item \lstinline[language=http]{PATCH /user-dashboard/settings}
+\item \lstinline[language=http]{GET /user-dashboard/settings}
+\item \lstinline[language=http]{GET /user-dashboard/movies}
+\item \lstinline[language=http]{GET /user-dashboard/photos/"targetUsername"}
+\item \lstinline[language=http]{GET /user-dashboard/add-spot}
+\item \lstinline[language=http]{POST /user-dashboard/add-spot}
+\item \lstinline[language=http]{GET /user-dashboard/add-spot/coordinates}
+\end{itemize}
+
+\noindent\textbf{Strona główna}
+
+\begin{itemize}
+  \item \lstinline[language=http]{GET /public/spot/most-popular}
+  \item \lstinline[language=http]{GET /public/spot/search/home-page}
+  \item \lstinline[language=http]{GET /public/spot/search/home-page/locations}
+  \item \lstinline[language=http]{GET /public/spot/search/home-page/advance}
+\end{itemize}
+
+\noindent\textbf{Konto użytkownika}
+
+\begin{itemize}
+  \item \lstinline[language=http]{POST /public/account/register}
+  \item \lstinline[language=http]{POST /public/account/login}
+  \item \lstinline[language=http]{GET /account/login-success}
+  \item \lstinline[language=http]{POST /public/account/forgot-password}
+  \item \lstinline[language=http]{POST /public/account/set-new-password}
+  \item \lstinline[language=http]{GET /account/check}
+\end{itemize}

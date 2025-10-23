@@ -3,6 +3,7 @@ import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+    changeUserFriendsStatus,
     editUserFollowed,
     editUserFriends,
     getProfileForViewer,
@@ -17,6 +18,15 @@ import { SocialListType } from "../../../model/enum/account/social/socialListTyp
 import { resolveRelationEditType } from "../../../utils/account/profile";
 import Button from "../../../components/buttons/Button";
 import { ButtonVariantType } from "../../../model/enum/buttonVariantType";
+import { UserFriendStatus } from "../../../model/enum/account/social/userFriendStatus";
+
+const statusToMessage = {
+    [UserFriendStatus.ACCEPTED]: "remove from friends",
+    [UserFriendStatus.NONE]: "add to friends",
+    [UserFriendStatus.REJECTED]: "add to friends",
+    [UserFriendStatus.PENDING_SENT]: "waiting for confirmation",
+    [UserFriendStatus.PENDING_RECEIVED]: "click to accept",
+};
 
 export default function ProfileForViewer() {
     const dispatch = useDispatchTyped();
@@ -91,10 +101,21 @@ export default function ProfileForViewer() {
         },
     });
 
+    const { mutateAsync: mutateChangeFriendStatus } = useMutation({
+        mutationFn: changeUserFriendsStatus,
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ["userProfile", username],
+            });
+        },
+    });
+
     const handleEditToFriends = async () => {
         await mutateFriends({
             friendUsername: username!,
-            type: resolveRelationEditType(data?.isFriends),
+            type: resolveRelationEditType(
+                data?.friendStatus === UserFriendStatus.ACCEPTED,
+            ),
         });
     };
 
@@ -124,6 +145,13 @@ export default function ProfileForViewer() {
         closeModal();
     };
 
+    const handleChangeFriendStatus = async () => {
+        await mutateChangeFriendStatus({
+            friendUsername: data?.profile.username ?? "",
+            status: UserFriendStatus.ACCEPTED,
+        });
+    };
+
     useEffect(() => {
         if (data?.isOwnProfile) {
             navigate("/account/profile");
@@ -141,6 +169,19 @@ export default function ProfileForViewer() {
             </div>
         );
     }
+
+    const getFriendActionHandler = (status: UserFriendStatus) => {
+        switch (status) {
+            case UserFriendStatus.ACCEPTED:
+                return confirmRemoveFromFriends;
+            case UserFriendStatus.NONE:
+                return handleEditToFriends;
+            case UserFriendStatus.PENDING_RECEIVED:
+                return handleChangeFriendStatus;
+            default:
+                return () => {};
+        }
+    };
 
     return (
         <>
@@ -162,15 +203,9 @@ export default function ProfileForViewer() {
                     </Button>
                     <Button
                         variant={ButtonVariantType.PROFILE}
-                        onClick={
-                            data.isFriends
-                                ? confirmRemoveFromFriends
-                                : handleEditToFriends
-                        }
+                        onClick={getFriendActionHandler(data.friendStatus)}
                     >
-                        {data.isFriends
-                            ? "remove from friends"
-                            : "add to friends"}
+                        {statusToMessage[data.friendStatus] ?? "unknown status"}
                     </Button>
                 </div>
             </Profile>

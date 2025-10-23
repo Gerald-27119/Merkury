@@ -56,9 +56,9 @@ export default function SearchFriendsList({ onClose }: SearchFriendsListProps) {
         <div className="relative flex flex-col items-center gap-y-6">
             <button
                 onClick={onClose}
-                className="absolute top-3 right-3 cursor-pointer"
+                className="fixed top-10 right-10 cursor-pointer"
             >
-                <FaX className="text-2xl hover:text-red-600" />
+                <FaX className="transform text-2xl duration-300 hover:text-red-600" />
             </button>
             <h1 className="text-center text-2xl font-semibold">
                 Search new Friend
@@ -68,7 +68,7 @@ export default function SearchFriendsList({ onClose }: SearchFriendsListProps) {
                     onChange={handleChangeQuery}
                     value={query}
                     placeholder="Search friends"
-                    className="dark:bg-darkBgMuted bg-lightBgMuted w-full rounded-md px-2 py-1.5 shadow-md ring-0 outline-0 sm:w-96 dark:shadow-black"
+                    className="dark:bg-darkBgMuted bg-lightBgSoft w-full rounded-md px-2 py-1.5 shadow-md ring-0 outline-0 sm:w-96 dark:shadow-black"
                 />
             </div>
             <SocialCardList

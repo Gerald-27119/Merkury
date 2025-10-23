@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.socket.WebSocketHttpHeaders;
@@ -42,7 +41,7 @@ public class ChatTestService {
     /**
      * First run 10s after startup, then every 20s.
      */
-    @Scheduled(fixedRate = 20_000, initialDelay = 10_000)
+//    @Scheduled(fixedRate = 20_000, initialDelay = 10_000)
     public void scheduledSendTestMessage() {
         var user = userEntityRepository.findByUsername("user")
                 .orElseThrow();

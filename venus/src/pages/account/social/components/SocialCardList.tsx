@@ -36,6 +36,9 @@ export default function SocialCardList({
             case SocialListType.PHOTOS:
                 message = "This user hasn't added any photos yet.";
                 break;
+            case SocialListType.POTENTIAL_GROUP_CHAT_MEMBER:
+                message = "There are no other people in the world besides you.";
+                break;
             default:
                 message = isSocialForViewer
                     ? "This user's list is empty."
@@ -44,7 +47,11 @@ export default function SocialCardList({
         if (isSearchFriend) {
             message = "We can't find a user with this username.";
         }
-        return <p className="mt-10 text-center text-gray-500">{message}</p>;
+        return (
+            <p className="flex h-full items-center justify-center text-center text-lg text-gray-500">
+                {message}
+            </p>
+        );
     }
 
     return (
@@ -55,6 +62,7 @@ export default function SocialCardList({
                     key={f.username}
                     type={type}
                     isSocialForViewer={isSocialForViewer}
+                    isSearchFriend={isSearchFriend}
                 />
             ))}
         </ul>
