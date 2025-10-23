@@ -85,8 +85,6 @@ export default function ForumComment({ comment }: ForumCommentProps) {
         enabled: areRepliesOpen,
     });
 
-    console.log(activeForm?.type);
-
     return (
         <div>
             <ForumContentHeader

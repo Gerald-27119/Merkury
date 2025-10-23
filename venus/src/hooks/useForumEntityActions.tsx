@@ -200,7 +200,14 @@ export default function useForumEntityActions<
 
     const handleFollow = async (id: number) => {};
 
-    const handleShare = async (url: string) => {};
+    const handleShare = async (url: string) => {
+        await navigator.clipboard.writeText(url);
+        dispatch(
+            notificationAction.addSuccess({
+                message: "Copied to clipboard!",
+            }),
+        );
+    };
 
     const handleReply = async (
         commentId: number,

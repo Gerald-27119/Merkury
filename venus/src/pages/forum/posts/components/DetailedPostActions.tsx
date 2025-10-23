@@ -46,8 +46,11 @@ export default function DetailedPostActions({
                     data={post.commentsCount}
                 />
 
-                <div className="flex cursor-pointer items-center gap-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">
-                    <FaShare onClick={() => onShare("debil")} />
+                <div
+                    className="flex cursor-pointer items-center gap-2 text-lg hover:text-blue-500 dark:hover:text-blue-400"
+                    onClick={() => onShare(location.href)}
+                >
+                    <FaShare />
                     <p>Share</p>
                 </div>
             </div>

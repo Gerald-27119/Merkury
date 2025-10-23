@@ -38,7 +38,7 @@ export default function ForumCommentList({
 
     return (
         <div>
-            {!areReplies && (
+            {!areReplies && comments!.length > 1 && (
                 <ForumSortDropdown
                     options={options}
                     onSortChange={onSortChange}
@@ -46,7 +46,7 @@ export default function ForumCommentList({
                 />
             )}
 
-            <div className="dark:bg-darkBgSoft mb-4 rounded-xl p-4 shadow-lg dark:shadow-none">
+            <div className="dark:bg-darkBgSoft mb-8 rounded-xl p-4 shadow-lg dark:shadow-none">
                 <AnimatePresence mode="wait">
                     {isLoading ? (
                         <motion.div
