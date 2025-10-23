@@ -26,39 +26,39 @@ public interface SpotMediaRepository extends JpaRepository<SpotMedia, Long> {
 
     Page<SpotMedia> findBySpotIdAndGenericMediaType(Long spotId, GenericMediaType genericMediaType, Pageable pageable);
 
-    @Query("""
-        SELECT COUNT(sm)
-        FROM spot_media sm
-        JOIN spot_media target ON target.id = :mediaId
-        WHERE sm.spot.id = :spotId
-          AND sm.genericMediaType = :mediaType
-          AND target.spot.id = :spotId
-          AND target.genericMediaType = :mediaType
-          AND (
-            (:sorting = 'newest' AND
-                (sm.addDate > target.addDate
-                 OR (sm.addDate = target.addDate AND sm.id > target.id))
-            )
-            OR (:sorting = 'oldest' AND
-                (sm.addDate < target.addDate
-                 OR (sm.addDate = target.addDate AND sm.id < target.id))
-            )
-            OR (:sorting = 'mostLiked' AND
-                (sm.likes > target.likes
-                 OR (sm.likes = target.likes AND sm.id > target.id))
-            )
-            OR (:sorting IS NULL AND
-                (sm.addDate > target.addDate
-                 OR (sm.addDate = target.addDate AND sm.id > target.id))
-            )
-          )
-    """)
-    Long countBeforeWithTieBreaker(
+    @Query(
+            value = """
+                      WITH ranked AS (
+                        SELECT
+                          id,
+                          ROW_NUMBER() OVER (
+                            PARTITION BY spot_id, generic_media_type
+                            ORDER BY
+                              CASE WHEN :sorting = 'newest' THEN add_date END DESC,
+                              CASE WHEN :sorting = 'newest' THEN id END ASC,
+                              CASE WHEN :sorting = 'oldest' THEN add_date END ASC,
+                              CASE WHEN :sorting = 'oldest' THEN id END ASC,
+                              CASE WHEN :sorting = 'mostLiked' THEN likes END DESC,
+                              CASE WHEN :sorting = 'mostLiked' THEN id END ASC,
+                              id ASC
+                          ) AS pos
+                        FROM spot_media
+                        WHERE spot_id = :spotId
+                          AND generic_media_type = :mediaType
+                      )
+                      SELECT pos
+                      FROM ranked
+                      WHERE id = :mediaId
+                    """,
+            nativeQuery = true
+    )
+    Integer findPositionForMedia(
             @Param("mediaId") Long mediaId,
             @Param("spotId") Long spotId,
-            @Param("mediaType") GenericMediaType mediaType,
+            @Param("mediaType") String mediaType,
             @Param("sorting") String sorting
     );
+
 
     Optional<SpotMedia> findByIdAndSpotIdAndGenericMediaType(Long id, Long spotId, GenericMediaType genericMediaType);
 }

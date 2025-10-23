@@ -219,6 +219,7 @@ export default function ExpandedGallerySidebar() {
             mediaType === currentMediaType &&
             mediaList &&
             mediaList.length > 0 &&
+            mediaId !== 0 &&
             !mediaList.some((media) => media.id === mediaId)
         ) {
             dispatch(

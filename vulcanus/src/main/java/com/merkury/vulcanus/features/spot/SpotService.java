@@ -215,8 +215,7 @@ public class SpotService {
 
     public SpotMediaGalleryPagePosition getSpotGalleryMediaPosition(
             Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, int pageSize) {
-        Long countBefore = spotMediaRepository.countBeforeWithTieBreaker(mediaId, spotId, mediaType, sorting);
-        int pos = countBefore.intValue();
+        int pos = spotMediaRepository.findPositionForMedia(mediaId, spotId, mediaType.toString(), sorting);
         int pageNumber = pos / pageSize;
         return SpotMediaGalleryPagePosition.builder()
                 .mediaPagePosition(pageNumber)
