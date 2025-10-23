@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { notificationAction } from "../redux/notification";
 import capitalize from "antd/es/_util/capitalize";
 import { AxiosError } from "axios";
+import ForumCommentDto from "../model/interface/forum/postComment/forumCommentDto";
+import { replyToComment } from "../http/post-comments";
 
 interface useForumEntityActionsProps<TAddPayload, TEditPayload> {
     entityName: string;
@@ -148,6 +150,36 @@ export default function useForumEntityActions<
         },
     });
 
+    const { mutateAsync: mutateReply } = useMutation({
+        mutationFn: replyToComment,
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: [queryKeys.list],
+            });
+            dispatch(
+                notificationAction.addSuccess({
+                    message: "Replied successfully",
+                }),
+            );
+        },
+        onError: (e: AxiosError) => {
+            if (e.status == 401) {
+                dispatch(
+                    notificationAction.addInfo({
+                        message: "Login to comment",
+                    }),
+                );
+            } else {
+                dispatch(
+                    notificationAction.addError({
+                        message:
+                            "Something went wrong. Please try again later.",
+                    }),
+                );
+            }
+        },
+    });
+
     const handleAdd = async (payload: TAddPayload) => {
         await mutateAdd(payload);
     };
@@ -170,7 +202,12 @@ export default function useForumEntityActions<
 
     const handleShare = async (url: string) => {};
 
-    const handleReply = async (id: number) => {};
+    const handleReply = async (
+        commentId: number,
+        replyData: ForumCommentDto,
+    ) => {
+        await mutateReply({ commentId, replyData });
+    };
 
     return {
         handleAdd,

@@ -53,7 +53,6 @@ export default function DetailedPostActions({
             </div>
 
             <div className="ml-8 flex gap-6">
-                <FaShare className="cursor-pointer hover:text-blue-500" />
                 <ForumPostMenu
                     post={post}
                     isAuthor={post.isAuthor}

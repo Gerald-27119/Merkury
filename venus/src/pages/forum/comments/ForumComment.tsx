@@ -20,21 +20,21 @@ import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useState } from "react";
-import ForumCommentDto from "../../../model/interface/forum/postComment/forumCommentDto";
 import { ForumEntityPayloads } from "../../../model/interface/forum/forumEntityPayloads";
 
 interface ForumCommentProps {
     comment: ForumCommentGeneral;
 }
 
+type ActiveForm =
+    | { type: "edit"; comment: ForumCommentGeneral }
+    | { type: "reply"; parentCommentId: number }
+    | null;
+
 export default function ForumComment({ comment }: ForumCommentProps) {
     const navigate = useNavigate();
-    const [commentToEdit, setCommentToEdit] =
-        useState<ForumCommentGeneral | null>(null);
-
     const [areRepliesOpen, openReplies, closeReplies] = useBoolean(false);
-    const [isEditingFormVisible, showEditForm, hideEditForm] =
-        useBoolean(false);
+    const [activeForm, setActiveForm] = useState<ActiveForm>(null);
     const dispatch = useDispatchTyped();
     const isLogged = useSelector((state: RootState) => state.account.isLogged);
 
@@ -52,27 +52,27 @@ export default function ForumComment({ comment }: ForumCommentProps) {
         navigate(`/account/profile/${comment.author.username}`);
     };
 
-    const handleCommentEdit = async (updatedComment: ForumCommentDto) => {
-        await handleEdit({
-            commentId: commentToEdit!.id,
-            commentData: updatedComment,
-        });
-    };
-
     const handleCommentEditClick = (comment: ForumCommentGeneral) => {
         if (isLogged) {
-            setCommentToEdit(comment);
-            isEditingFormVisible ? hideEditForm() : showEditForm();
+            setActiveForm({ type: "edit", comment });
         } else {
             dispatch(
                 notificationAction.addInfo({
-                    message: "Login to edit comments.",
+                    message: "Login to comment.",
                 }),
             );
         }
     };
 
-    const handleCommentReply = () => {};
+    const handleCommentReplyClick = (commentId: number) => {
+        if (isLogged) {
+            setActiveForm({ type: "reply", parentCommentId: commentId });
+        } else {
+            dispatch(
+                notificationAction.addInfo({ message: "Login to reply." }),
+            );
+        }
+    };
 
     const {
         data: repliesPage,
@@ -85,6 +85,8 @@ export default function ForumComment({ comment }: ForumCommentProps) {
         enabled: areRepliesOpen,
     });
 
+    console.log(activeForm?.type);
+
     return (
         <div>
             <ForumContentHeader
@@ -93,7 +95,7 @@ export default function ForumComment({ comment }: ForumCommentProps) {
                 isReply={comment.isReply}
                 onAuthorClick={handleNavigateToAuthorProfile}
             />
-            {!isEditingFormVisible && (
+            {activeForm?.type !== "edit" && (
                 <div>
                     <ForumCommentContent content={comment.content} />
 
@@ -103,16 +105,31 @@ export default function ForumComment({ comment }: ForumCommentProps) {
                         onEdit={handleCommentEditClick}
                         onVote={handleVote}
                         onReport={handleReport}
-                        onReply={handleCommentReply}
+                        onReply={handleCommentReplyClick}
                     />
                 </div>
             )}
 
-            {isEditingFormVisible && commentToEdit && (
+            {activeForm?.type === "edit" && activeForm.comment && (
                 <ForumCommentForm
-                    handleComment={handleCommentEdit}
-                    onClose={hideEditForm}
-                    commentToEdit={commentToEdit}
+                    handleComment={(data) =>
+                        handleEdit({
+                            commentId: activeForm.comment.id,
+                            commentData: data,
+                        })
+                    }
+                    onClose={() => setActiveForm(null)}
+                    commentToEdit={activeForm.comment}
+                    className="mt-4"
+                />
+            )}
+
+            {activeForm?.type === "reply" && (
+                <ForumCommentForm
+                    handleComment={(data) =>
+                        handleReply(activeForm.parentCommentId, data)
+                    }
+                    onClose={() => setActiveForm(null)}
                     className="mt-4"
                 />
             )}

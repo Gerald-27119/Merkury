@@ -37,13 +37,17 @@ export default function ForumCommentActions({
                     onClick={() => onVote(comment.id, false)}
                 />
 
-                <div className="flex cursor-pointer items-center gap-2 text-lg hover:text-blue-500 dark:hover:text-blue-400">
-                    <FaReply onClick={() => onReply(comment.id)} />
-                    <p>Reply</p>
-                </div>
+                {!comment.isAuthor && (
+                    <div
+                        className="flex cursor-pointer items-center gap-2 text-lg hover:text-blue-500 dark:hover:text-blue-400"
+                        onClick={() => onReply(comment.id)}
+                    >
+                        <FaReply />
+                        <p>Reply</p>
+                    </div>
+                )}
             </div>
             <div className="ml-8 flex gap-6">
-                <FaReply className="cursor-pointer hover:text-blue-500" />
                 <ForumCommentMenu
                     comment={comment}
                     isAuthor={comment.isAuthor}

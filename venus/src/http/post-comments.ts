@@ -85,10 +85,13 @@ export async function voteComment({
     });
 }
 
-export async function replyToComment(
-    commentId: number,
-    replyData: ForumCommentDto,
-) {
+export async function replyToComment({
+    commentId,
+    replyData,
+}: {
+    commentId: number;
+    replyData: ForumCommentDto;
+}) {
     return await axios.post(
         `${BASE_URL}/comments/${commentId}/replies`,
         replyData,
