@@ -11,12 +11,11 @@ import { useBoolean } from "../../hooks/useBoolean";
 import ForumCommentForm from "./comments/ForumCommentForm";
 import { fetchDetailedPost } from "../../http/posts";
 import ForumCommentDto from "../../model/interface/forum/postComment/forumCommentDto";
-import useForumEntityActions from "../../hooks/useForumEntityActions";
-import { ForumEntityPayloads } from "../../model/interface/forum/forumEntityPayloads";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { notificationAction } from "../../redux/notification";
 import useDispatchTyped from "../../hooks/useDispatchTyped";
+import { useAppMutation } from "../../hooks/useAppMutation";
 
 export default function ForumThread({}) {
     const { postId } = useParams<{ postId: string }>();
@@ -32,8 +31,8 @@ export default function ForumThread({}) {
     });
 
     const {
-        data: PostDetails,
-        error: PostDetailsError,
+        data: postDetails,
+        error: postDetailsError,
         isError: isPostDetailsError,
         isLoading: isPostDetailsLoading,
     } = useQuery({
@@ -52,16 +51,14 @@ export default function ForumThread({}) {
         queryFn: () => getCommentsByPostId(parsedPostId, 0, 10, sortOption),
     });
 
-    const { handleAdd } = useForumEntityActions<
-        ForumEntityPayloads["addComment"]
-    >({
-        entityName: "comment",
-        addFn: addComment,
-        queryKeys: { list: "forumComments", single: "comment" },
+    const { mutateAsync: addCommentMutate } = useAppMutation(addComment, {
+        successMessage: "Comment added successfully!",
+        invalidateKeys: [["forumComments", parsedPostId]],
+        loginToAccessMessage: "Login to comment",
     });
 
     const handleAddComment = async (newComment: ForumCommentDto) => {
-        await handleAdd({ postId: parsedPostId, newComment });
+        await addCommentMutate({ postId: parsedPostId, newComment });
     };
 
     const handleAddCommentClick = () => {
@@ -80,12 +77,12 @@ export default function ForumThread({}) {
         <ForumLayout>
             <div className="mx-auto w-xl md:w-2xl lg:w-3xl">
                 <ReturnButton />
-                {PostDetails ? (
+                {postDetails ? (
                     <DetailedPost
-                        post={PostDetails}
+                        post={postDetails}
                         isLoading={isPostDetailsLoading}
                         isError={isPostDetailsError}
-                        error={PostDetailsError}
+                        error={postDetailsError}
                         onAddCommentClick={handleAddCommentClick}
                     />
                 ) : (
@@ -100,6 +97,7 @@ export default function ForumThread({}) {
                 )}
 
                 <ForumCommentList
+                    postId={postDetails?.id}
                     comments={forumCommentPage?.content}
                     sortOption={sortOption}
                     onSortChange={setSortOption}

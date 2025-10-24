@@ -9,7 +9,7 @@ interface DetailedPostActionsProps {
     post: PostDetails;
     onAddCommentClick: () => void;
     onDelete: (postId: number) => void;
-    onEdit: () => void;
+    onEdit: (post: PostDetails) => void;
     onVote: (postId: number, isUpvote: boolean) => void;
     onFollow: (postId: number) => void;
     onReport: (postId: number) => void;

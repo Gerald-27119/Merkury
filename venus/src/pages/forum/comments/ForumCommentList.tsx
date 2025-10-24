@@ -7,6 +7,8 @@ import ForumSortDropdown from "../components/ForumSortDropdown";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface ForumCommentListProps {
+    postId?: number;
+    parentCommentId?: number;
     comments?: ForumCommentGeneral[];
     sortOption?: ForumCommentSortOption;
     onSortChange?: (option: ForumCommentSortOption) => void;
@@ -17,6 +19,8 @@ interface ForumCommentListProps {
 }
 
 export default function ForumCommentList({
+    postId,
+    parentCommentId,
     comments,
     sortOption,
     onSortChange,
@@ -38,7 +42,7 @@ export default function ForumCommentList({
 
     return (
         <div>
-            {!areReplies && comments!.length > 1 && (
+            {!areReplies && comments?.length && comments.length > 1 && (
                 <ForumSortDropdown
                     options={options}
                     onSortChange={onSortChange}
@@ -67,7 +71,11 @@ export default function ForumCommentList({
                         >
                             {comments.map((comment) => (
                                 <li key={comment.id}>
-                                    <ForumComment comment={comment} />
+                                    <ForumComment
+                                        comment={comment}
+                                        postId={postId}
+                                        parentCommentId={parentCommentId}
+                                    />
                                 </li>
                             ))}
                         </motion.ul>

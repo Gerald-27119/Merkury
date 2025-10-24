@@ -8,11 +8,11 @@ import {
     deleteComment,
     editComment,
     getCommentRepliesByCommentId,
+    replyToComment,
     voteComment,
 } from "../../../http/post-comments";
 import { useBoolean } from "../../../hooks/useBoolean";
 import ForumCommentList from "./ForumCommentList";
-import useForumEntityActions from "../../../hooks/useForumEntityActions";
 import ForumCommentActions from "./ForumCommentActions";
 import ForumCommentForm from "./ForumCommentForm";
 import { notificationAction } from "../../../redux/notification";
@@ -20,10 +20,13 @@ import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useState } from "react";
-import { ForumEntityPayloads } from "../../../model/interface/forum/forumEntityPayloads";
+import { useAppMutation } from "../../../hooks/useAppMutation";
+import ForumCommentDto from "../../../model/interface/forum/postComment/forumCommentDto";
 
 interface ForumCommentProps {
     comment: ForumCommentGeneral;
+    postId?: number;
+    parentCommentId?: number;
 }
 
 type ActiveForm =
@@ -31,26 +34,55 @@ type ActiveForm =
     | { type: "reply"; parentCommentId: number }
     | null;
 
-export default function ForumComment({ comment }: ForumCommentProps) {
+export default function ForumComment({
+    comment,
+    postId,
+    parentCommentId,
+}: ForumCommentProps) {
     const navigate = useNavigate();
     const [areRepliesOpen, openReplies, closeReplies] = useBoolean(false);
     const [activeForm, setActiveForm] = useState<ActiveForm>(null);
     const dispatch = useDispatchTyped();
     const isLogged = useSelector((state: RootState) => state.account.isLogged);
 
-    const { handleDelete, handleEdit, handleVote, handleReport, handleReply } =
-        useForumEntityActions<void, ForumEntityPayloads["editComment"]>({
-            entityName: "comment",
-            queryKeys: { list: "forumComments", single: "comment" },
-            deleteFn: deleteComment,
-            voteFn: voteComment,
-            editFn: editComment,
-            redirectOnDelete: false,
-        });
-
     const handleNavigateToAuthorProfile = () => {
         navigate(`/account/profile/${comment.author.username}`);
     };
+
+    const { mutateAsync: editCommentMutate } = useAppMutation(editComment, {
+        successMessage: "Comment updated successfully!",
+        invalidateKeys: [
+            ["forumComments", postId],
+            ["forumCommentReplies", parentCommentId],
+        ],
+        loginToAccessMessage: "Login to comment",
+    });
+
+    const { mutateAsync: deleteCommentMutate } = useAppMutation(deleteComment, {
+        successMessage: "Comment deleted successfully!",
+        invalidateKeys: [
+            ["forumComments", postId],
+            ["forumCommentReplies", parentCommentId],
+        ],
+        loginToAccessMessage: "Login to comment",
+    });
+
+    const { mutateAsync: voteCommentMutate } = useAppMutation(voteComment, {
+        invalidateKeys: [
+            ["forumComments", postId],
+            ["forumCommentReplies", parentCommentId],
+        ],
+        loginToAccessMessage: "Login to vote",
+    });
+
+    const { mutateAsync: replyCommentMutate } = useAppMutation(replyToComment, {
+        successMessage: "Replied successfully!",
+        invalidateKeys: [
+            ["forumComments", postId],
+            ["forumCommentReplies", parentCommentId],
+        ],
+        loginToAccessMessage: "Login to comment",
+    });
 
     const handleCommentEditClick = (comment: ForumCommentGeneral) => {
         if (isLogged) {
@@ -64,6 +96,21 @@ export default function ForumComment({ comment }: ForumCommentProps) {
         }
     };
 
+    const handleEdit = async (
+        commentId: number,
+        commentData: ForumCommentDto,
+    ) => {
+        await editCommentMutate({ commentId, commentData });
+    };
+
+    const handleDelete = async (commentId: number) => {
+        await deleteCommentMutate(commentId);
+    };
+
+    const handleVote = async (id: number, isUpvote: boolean) => {
+        await voteCommentMutate({ id, isUpvote });
+    };
+
     const handleCommentReplyClick = (commentId: number) => {
         if (isLogged) {
             setActiveForm({ type: "reply", parentCommentId: commentId });
@@ -73,6 +120,15 @@ export default function ForumComment({ comment }: ForumCommentProps) {
             );
         }
     };
+
+    const handleReply = async (
+        commentId: number,
+        replyData: ForumCommentDto,
+    ) => {
+        await replyCommentMutate({ commentId, replyData });
+    };
+
+    const handleReport = async (commentId: number) => {};
 
     const {
         data: repliesPage,
@@ -111,10 +167,7 @@ export default function ForumComment({ comment }: ForumCommentProps) {
             {activeForm?.type === "edit" && activeForm.comment && (
                 <ForumCommentForm
                     handleComment={(data) =>
-                        handleEdit({
-                            commentId: activeForm.comment.id,
-                            commentData: data,
-                        })
+                        handleEdit(activeForm.comment.id, data)
                     }
                     onClose={() => setActiveForm(null)}
                     commentToEdit={activeForm.comment}
@@ -154,6 +207,7 @@ export default function ForumComment({ comment }: ForumCommentProps) {
                         isError={isRepliesPageError}
                         error={repliesPageError}
                         areReplies={true}
+                        parentCommentId={comment.id}
                     />
                 </div>
             )}

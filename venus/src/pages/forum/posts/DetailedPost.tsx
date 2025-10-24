@@ -7,9 +7,11 @@ import Error from "../../../components/error/Error";
 import ForumLayout from "../components/ForumLayout";
 import ReturnButton from "../components/ReturnButton";
 import SkeletonDetailedPost from "./components/SkeletonDetailedPost";
-import useForumEntityActions from "../../../hooks/useForumEntityActions";
-import { deletePost, editPost, votePost } from "../../../http/posts";
 import DetailedPostActions from "./components/DetailedPostActions";
+import { deletePost, editPost, votePost } from "../../../http/posts";
+import { notificationAction } from "../../../redux/notification";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { useAppMutation } from "../../../hooks/useAppMutation";
 
 interface DetailedPostProps {
     post: PostDetails;
@@ -27,27 +29,52 @@ export default function DetailedPost({
     onAddCommentClick,
 }: DetailedPostProps) {
     const navigate = useNavigate();
+    const dispatch = useDispatchTyped();
 
-    const {
-        handleEdit,
-        handleDelete,
-        handleFollow,
-        handleReport,
-        handleShare,
-        handleVote,
-    } = useForumEntityActions({
-        entityName: "post",
-        deleteFn: deletePost,
-        voteFn: votePost,
-        redirectOnDelete: true,
-        queryKeys: { list: "posts", single: "post" },
+    const { mutateAsync: editPostMutate } = useAppMutation(editPost, {
+        successMessage: "Post updated successfully!",
+        loginToAccessMessage: "Login to edit posts",
+        invalidateKeys: [["posts"], ["post", 1]],
     });
+
+    const { mutateAsync: deletePostMutate } = useAppMutation(deletePost, {
+        successMessage: "Post deleted successfully!",
+        loginToAccessMessage: "Login to delete posts",
+        invalidateKeys: [["posts"]],
+    });
+
+    const { mutateAsync: votePostMutate } = useAppMutation(votePost, {
+        invalidateKeys: [["post"]],
+        loginToAccessMessage: "Login to vote",
+    });
+
+    const handleEditClick = async (post: PostDetails) => {};
+
+    const handleDelete = async (postId: number) => {
+        await deletePostMutate(postId);
+        navigate(`/forum`);
+    };
+
+    const handleVote = async (id: number, isUpvote: boolean) => {
+        await votePostMutate({ id, isUpvote });
+    };
+
+    const handleFollow = async (postId: number) => {};
+
+    const handlePostShare = async (url: string) => {
+        await navigator.clipboard.writeText(url);
+        dispatch(
+            notificationAction.addSuccess({
+                message: "Copied to clipboard!",
+            }),
+        );
+    };
+
+    const handleReport = async (postId: number) => {};
 
     const handleNavigateToAuthorProfile = () => {
         navigate(`/account/profile/${post.author.username}`);
     };
-
-    const handlePostEdit = () => {};
 
     if (isLoading) {
         return (
@@ -80,11 +107,11 @@ export default function DetailedPost({
                 post={post}
                 onAddCommentClick={onAddCommentClick}
                 onDelete={handleDelete}
-                onEdit={handlePostEdit}
+                onEdit={handleEditClick}
                 onVote={handleVote}
                 onFollow={handleFollow}
                 onReport={handleReport}
-                onShare={handleShare}
+                onShare={handlePostShare}
             />
         </div>
     );

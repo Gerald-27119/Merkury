@@ -4,8 +4,7 @@ import PostForm from "../posts/components/PostForm";
 import PostDto from "../../../model/interface/forum/post/postDto";
 import { addPost, editPost } from "../../../http/posts";
 import TagDto from "../../../model/interface/tagDto";
-import useForumEntityActions from "../../../hooks/useForumEntityActions";
-import { ForumEntityPayloads } from "../../../model/interface/forum/forumEntityPayloads";
+import { useAppMutation } from "../../../hooks/useAppMutation";
 
 interface ModalProps {
     onClose: () => void;
@@ -38,22 +37,24 @@ export default function ForumFormModal({
         label: tag.name,
     }));
 
-    const { handleAdd, handleEdit } = useForumEntityActions<
-        ForumEntityPayloads["addPost"],
-        ForumEntityPayloads["editPost"]
-    >({
-        entityName: "post",
-        addFn: addPost,
-        editFn: editPost,
-        queryKeys: { list: "posts", single: "post" },
+    const { mutateAsync: addPostMutate } = useAppMutation(addPost, {
+        successMessage: "Post added successfully!",
+        loginToAccessMessage: "Login to add posts",
+        invalidateKeys: [["posts"]],
+    });
+
+    const { mutateAsync: editPostMutate } = useAppMutation(editPost, {
+        successMessage: "Post updated successfully!",
+        loginToAccessMessage: "Login to edit posts",
+        invalidateKeys: [["posts"], ["post", 1]],
     });
 
     const handleAddPost = async (newPost: PostDto) => {
-        await handleAdd(newPost);
+        await addPostMutate(newPost);
     };
 
     const handleEditPost = async (postData: PostDto) => {
-        await handleEdit({ postId: 1, postData });
+        await editPostMutate({ postId: 1, postData });
     };
 
     return createPortal(
