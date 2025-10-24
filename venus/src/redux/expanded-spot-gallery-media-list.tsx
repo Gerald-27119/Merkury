@@ -33,9 +33,10 @@ export const expandedSpotGalleryMediaListSlice = createSlice({
                 action.payload,
             );
             const newIds = action.payload.map((item) => item.id);
+            const newIdsSet = new Set(newIds);
             state.ids = [
                 ...newIds,
-                ...state.ids.filter((id) => !newIds.includes(id)),
+                ...state.ids.filter((id) => !newIdsSet.has(id)),
             ];
         },
         clearMediaList(state) {

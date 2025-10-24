@@ -52,7 +52,7 @@ public interface SpotMediaRepository extends JpaRepository<SpotMedia, Long> {
                     """,
             nativeQuery = true
     )
-    Integer findPositionForMedia(
+    Optional<Integer> findPositionForMedia(
             @Param("mediaId") Long mediaId,
             @Param("spotId") Long spotId,
             @Param("mediaType") String mediaType,

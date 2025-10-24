@@ -214,8 +214,8 @@ public class SpotService {
     }
 
     public SpotMediaGalleryPagePosition getSpotGalleryMediaPosition(
-            Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, int pageSize) {
-        int pos = spotMediaRepository.findPositionForMedia(mediaId, spotId, mediaType.toString(), sorting);
+            Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, int pageSize) throws SpotMediaNotFoundException {
+        int pos = spotMediaRepository.findPositionForMedia(mediaId, spotId, mediaType.toString(), sorting).orElseThrow(() -> new SpotMediaNotFoundException(spotId, mediaId, mediaType));
         int pageNumber = pos / pageSize;
         return SpotMediaGalleryPagePosition.builder()
                 .mediaPagePosition(pageNumber)

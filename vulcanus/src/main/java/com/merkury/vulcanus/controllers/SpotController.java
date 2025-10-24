@@ -50,7 +50,7 @@ public class SpotController {
                                                                                     @RequestParam Long mediaId,
                                                                                     @RequestParam String mediaType,
                                                                                     @RequestParam String sorting,
-                                                                                    @RequestParam(defaultValue = "6") int pageSize) {
+                                                                                    @RequestParam(defaultValue = "6") int pageSize) throws SpotMediaNotFoundException {
         log.debug("get spot gallery media position");
         return ResponseEntity.ok(spotService.getSpotGalleryMediaPosition(spotId, mediaId, GenericMediaType.valueOf(mediaType), sorting, pageSize));
     }
