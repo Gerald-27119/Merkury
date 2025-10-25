@@ -10,9 +10,11 @@ import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotPageDto;
+import com.merkury.vulcanus.model.dtos.account.spots.IsFavouriteSpotDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
+import com.merkury.vulcanus.model.enums.user.dashboard.FavouriteSpotListOperationType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
@@ -123,9 +125,19 @@ public class UserDashboardService {
         return favoriteSpotService.getUserFavoritesSpots(username, type, page, size);
     }
 
-    public void removeFavoriteSpot(FavoriteSpotsListType type, Long spotId) throws FavoriteSpotNotExistException {
+    public void editFavoriteSpotList(FavoriteSpotsListType type, Long spotId, FavouriteSpotListOperationType operationType) throws FavoriteSpotNotExistException, UserNotFoundException, SpotNotFoundException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        favoriteSpotService.removeFavoriteSpot(username, type, spotId);
+        if (operationType == FavouriteSpotListOperationType.ADD) {
+            favoriteSpotService.addFavouriteSpot(username, type, spotId);
+        } else {
+            favoriteSpotService.removeFavoriteSpot(username, type, spotId);
+        }
+    }
+
+    public IsFavouriteSpotDto isSpotInUserFavoriteSpots(Long spotId) {
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        var isFavouriteSpot = favoriteSpotService.isSpotInUserFavoriteSpots(username, spotId);
+        return new IsFavouriteSpotDto(isFavouriteSpot);
     }
 
     public DatedMediaGroupPageDto getSortedUserPhotos(DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
