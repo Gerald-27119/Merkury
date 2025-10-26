@@ -8,11 +8,14 @@ import {
     ChatDto,
     ChatMessageDto,
     UpdatedGroupChat,
-    UpdatedGroupChatDto,
 } from "../model/interface/chat/chatInterfaces";
 import { RootState } from "./store";
 
-type ChatsExtra = { selectedChatId: number | null; usersToAddToChat: string[] };
+type ChatsExtra = {
+    selectedChatId: number | null;
+    usersToAddToChat: string[];
+    showSideBar: boolean;
+};
 type ChatEntity = ChatDto & { hasNew: boolean };
 
 const timeOf = (m?: ChatMessageDto) => {
@@ -28,65 +31,126 @@ const chatsAdapter = createEntityAdapter<ChatEntity>({
 const initialState = chatsAdapter.getInitialState<ChatsExtra>({
     selectedChatId: null,
     usersToAddToChat: [],
+    showSideBar: false,
 });
+
+function memberKey(m: any) {
+    return m?.id ?? m?.username ?? JSON.stringify(m);
+}
+
+function mergeMembers(prev?: any[], incoming?: any[]) {
+    if (!prev && !incoming) return undefined;
+    if (!prev) return incoming;
+    if (!incoming) return prev;
+    const map = new Map<string, any>();
+    for (const m of [...prev, ...incoming]) map.set(memberKey(m), m);
+    return Array.from(map.values());
+}
+
+function mergeChat(
+    prev: ChatEntity | undefined,
+    incoming: ChatDto,
+): ChatEntity {
+    const merged: any = { ...(prev ?? {}), ...incoming };
+    merged.hasNew = (prev as any)?.hasNew ?? false;
+
+    const prevMembers =
+        (prev as any)?.members ??
+        (prev as any)?.participants ??
+        (prev as any)?.users;
+
+    const incomingMembers =
+        (incoming as any)?.members ??
+        (incoming as any)?.participants ??
+        (incoming as any)?.users;
+
+    const unified = mergeMembers(prevMembers, incomingMembers);
+    if (unified) {
+        if ("members" in merged || "members" in (incoming as any)) {
+            merged.members = unified;
+        } else if (
+            "participants" in merged ||
+            "participants" in (incoming as any)
+        ) {
+            merged.participants = unified;
+        } else if ("users" in merged || "users" in (incoming as any)) {
+            merged.users = unified;
+        }
+    }
+    return merged as ChatEntity;
+}
 
 export const chatsSlice = createSlice({
     name: "chats",
     initialState,
     reducers: {
-        clearUsersToAddToChat: (state) => {
+        toggleShowSideBar(state) {
+            state.showSideBar = !state.showSideBar;
+        },
+        clearUsersToAddToChat(state) {
             state.usersToAddToChat = [];
         },
         addUserToAddToChat(state, action: PayloadAction<string>) {
-            if (state.usersToAddToChat.length >= 6) return;
-            const clearedUsersToAddToChat = state.usersToAddToChat.filter(
-                (username) => username !== action.payload,
-            );
-            state.usersToAddToChat = [
-                ...clearedUsersToAddToChat,
-                action.payload,
-            ];
-        },
-        updateChat(state, action: PayloadAction<UpdatedGroupChat>) {
-            const { chatId, newName, newImgUrl } = action.payload;
-            const changes: Partial<ChatEntity> = {};
-            if (newName !== undefined) changes.name = newName;
-            if (newImgUrl !== undefined) changes.imgUrl = newImgUrl;
-
-            if (Object.keys(changes).length > 0) {
-                chatsAdapter.updateOne(state, { id: chatId, changes });
+            const u = action.payload;
+            if (!state.usersToAddToChat.includes(u)) {
+                state.usersToAddToChat.push(u);
             }
         },
         removeUserToAddToChat(state, action: PayloadAction<string>) {
             state.usersToAddToChat = state.usersToAddToChat.filter(
-                (username) => username !== action.payload,
+                (x) => x !== action.payload,
             );
         },
-        upsertChats: (state, action: PayloadAction<ChatDto[]>) => {
-            const items: ChatEntity[] = action.payload.map((c) => {
-                const prev = state.entities[c.id] as ChatEntity | undefined;
-                return { ...c, hasNew: prev?.hasNew ?? false };
-            });
-            chatsAdapter.upsertMany(state, items);
+        updateChat(state, action: PayloadAction<UpdatedGroupChat>) {
+            const { chatId, newName, newImgUrl } = action.payload;
+            const changes: Partial<ChatEntity> = {};
+            if (typeof newName === "string") {
+                const n = newName.trim();
+                if (n.length > 0 && n.toLowerCase() !== "null") {
+                    changes.name = n;
+                }
+            }
+            if (newImgUrl !== undefined) changes.imgUrl = newImgUrl;
+            if (Object.keys(changes).length > 0) {
+                chatsAdapter.updateOne(state, { id: chatId, changes });
+            }
         },
-        setSelectedChatId: (state, action: PayloadAction<number | null>) => {
+        upsertChats(state, action: PayloadAction<ChatDto[]>) {
+            const mergedItems: ChatEntity[] = action.payload.map((incoming) => {
+                const prev = state.entities[incoming.id] as
+                    | ChatEntity
+                    | undefined;
+                return mergeChat(prev, incoming);
+            });
+            chatsAdapter.upsertMany(state, mergedItems);
+        },
+        replaceChat(state, action: PayloadAction<ChatDto>) {
+            const incoming = action.payload;
+            const prev = state.entities[incoming.id] as ChatEntity | undefined;
+            const entity: ChatEntity = {
+                ...incoming,
+                hasNew: prev?.hasNew ?? false,
+            };
+            chatsAdapter.upsertOne(state, entity);
+        },
+        setSelectedChatId(state, action: PayloadAction<number | null>) {
             state.selectedChatId = action.payload;
         },
-        setLastMessage: (
+        setLastMessage(
             state,
             action: PayloadAction<{ chatId: number; message: ChatMessageDto }>,
-        ) => {
+        ) {
             const { chatId, message } = action.payload;
             chatsAdapter.updateOne(state, {
                 id: chatId,
                 changes: { lastMessage: message },
             });
         },
-        markNew: (state, action: PayloadAction<number>) => {
+        markNew(state, action: PayloadAction<number>) {
             const chat = state.entities[action.payload];
             if (chat) chat.hasNew = true;
         },
-        clearNew: (state, action: PayloadAction<number>) => {
+        clearNew(state, action: PayloadAction<number>) {
             const chat = state.entities[action.payload];
             if (chat) chat.hasNew = false;
         },

@@ -1,5 +1,5 @@
 import { FaX } from "react-icons/fa6";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import useDebounce from "../../../../../hooks/useDebounce";
 import { SocialListType } from "../../../../../model/enum/account/social/socialListType";
@@ -9,13 +9,8 @@ import LoadingSpinner from "../../../../../components/loading-spinner/LoadingSpi
 import useSelectorTyped from "../../../../../hooks/useSelectorTyped";
 import { chatActions } from "../../../../../redux/chats";
 import useDispatchTyped from "../../../../../hooks/useDispatchTyped";
-import {
-    createGroupChat,
-    getOrCreatePrivateChat,
-} from "../../../../../http/chats";
+import { createGroupChat } from "../../../../../http/chats";
 import { useNavigate } from "react-router-dom";
-import { IoIosClose } from "react-icons/io";
-import { ChatDto } from "../../../../../model/interface/chat/chatInterfaces";
 
 interface SearchFriendsListProps {
     onClose?: () => void;
@@ -44,6 +39,8 @@ export default function CreateGroupChatModal({
 
     useEffect(() => {
         if (!loadMoreRef.current) return;
+        const el = loadMoreRef.current;
+
         const observer = new IntersectionObserver(
             (entries) => {
                 if (
@@ -56,10 +53,9 @@ export default function CreateGroupChatModal({
             },
             { threshold: 1.0 },
         );
-        observer.observe(loadMoreRef.current);
-        return () => {
-            observer.disconnect();
-        };
+
+        observer.observe(el);
+        return () => observer.disconnect();
     }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     const handleChangeQuery = (event: ChangeEvent<HTMLInputElement>) => {
@@ -69,34 +65,37 @@ export default function CreateGroupChatModal({
     const usersToAddToChat = useSelectorTyped(
         (state) => state.chats.usersToAddToChat,
     );
+    const selectedSet = useMemo(
+        () => new Set(usersToAddToChat),
+        [usersToAddToChat],
+    );
+    const maxReached = usersToAddToChat.length >= 6;
 
     function handleCloseModal() {
         dispatch(chatActions.clearUsersToAddToChat());
-        if (onClose) {
-            onClose();
-        }
+        onClose?.();
     }
+
+    const { mutateAsync: mutateCreateGroupChat, isPending: isCreating } =
+        useMutation({
+            mutationFn: () => createGroupChat(usersToAddToChat),
+            onSuccess: (chat) => {
+                dispatch(chatActions.upsertChats([chat]));
+                dispatch(chatActions.setSelectedChatId(chat.id));
+                dispatch(chatActions.clearNew(chat.id));
+                dispatch(chatActions.clearUsersToAddToChat());
+                onClose?.();
+                navigate("/chat");
+            },
+        });
+
+    const isCreateDisabled = usersToAddToChat.length === 0 || isCreating;
 
     async function handleCreateChat() {
-        await mutateCreateGroupChat();
+        if (!isCreateDisabled) {
+            await mutateCreateGroupChat();
+        }
     }
-
-    const { mutateAsync: mutateCreateGroupChat } = useMutation({
-        mutationFn: () => createGroupChat(usersToAddToChat), //TODO: dodaj jeszcze userow z obecnei otawrtego cahtu
-        onSuccess: (chat) => {
-            dispatch(chatActions.upsertChats([chat]));
-            dispatch(chatActions.setSelectedChatId(chat.id));
-            dispatch(chatActions.clearNew(chat.id));
-            dispatch(chatActions.clearUsersToAddToChat());
-            if (onClose) {
-                onClose();
-            }
-            navigate("/chat");
-        },
-    });
-
-    const isNotAtLeastOneUserSelected =
-        useSelectorTyped((state) => state.chats.usersToAddToChat.length) == 0;
 
     return (
         <div className="relative flex flex-col items-center gap-y-6">
@@ -106,36 +105,35 @@ export default function CreateGroupChatModal({
             >
                 <FaX className="text-2xl hover:text-red-600" />
             </button>
+
             <div className="text-center">
-                <h1 className="text-center text-2xl font-semibold">
-                    Choose Users
-                </h1>
-                <span className="text-center text-sm font-light">
+                <h1 className="text-2xl font-semibold">Choose Users</h1>
+                <span className="text-sm font-light">
                     There is a limit of 6
                 </span>
             </div>
-            <div className="flex gap-4">
+
+            <div className="flex w-full max-w-xl items-center gap-4">
                 <input
                     onChange={handleChangeQuery}
                     value={query}
                     placeholder="Search user"
-                    className="dark:bg-darkBgMuted bg-lightBgMuted w-full rounded-md px-2 py-1.5 shadow-md ring-0 outline-0 sm:w-96 dark:shadow-black"
+                    className="bg-lightBgMuted dark:bg-darkBgMuted w-full rounded-md px-2 py-1.5 shadow-md ring-0 outline-0 dark:shadow-black"
                 />
-
                 <button
-                    className={`rounded-md bg-green-600 p-2 ${
-                        isNotAtLeastOneUserSelected
+                    className={`w-30 rounded-md bg-green-600 p-2 text-white ${
+                        isCreateDisabled
                             ? "cursor-default opacity-40"
-                            : "cursor-pointer hover:opacity-60"
+                            : "cursor-pointer hover:opacity-80"
                     }`}
                     onClick={handleCreateChat}
-                    disabled={isNotAtLeastOneUserSelected}
+                    disabled={isCreateDisabled}
                 >
-                    Create group Chat
+                    {isCreating ? "Creating..." : "Create Chat"}
                 </button>
             </div>
 
-            <div className="mt-2 mb-3 flex h-16 gap-3 p-2">
+            <div className="mt-2 mb-3 flex h-16 flex-wrap gap-3 p-2">
                 {usersToAddToChat.map((username) => (
                     <UserToAddButton username={username} key={username} />
                 ))}
@@ -146,9 +144,16 @@ export default function CreateGroupChatModal({
                 type={SocialListType.POTENTIAL_GROUP_CHAT_MEMBER}
                 isSocialForViewer={false}
                 isSearchFriend
+                selectedUsernames={selectedSet}
+                maxReached={maxReached}
+                onAddToGroup={(u: string) =>
+                    dispatch(chatActions.addUserToAddToChat(u))
+                }
             />
+
             <div ref={loadMoreRef} className="h-10" />
-            {isFetchingNextPage || (isLoading && <LoadingSpinner />)}
+
+            {(isFetchingNextPage || isLoading) && <LoadingSpinner />}
         </div>
     );
 }
@@ -171,7 +176,7 @@ function UserToAddButton({ username }: UserToAddProps) {
             className="bg-violetLight inline-flex items-center justify-center gap-1 rounded-md px-3 py-2 text-xl text-white hover:cursor-pointer hover:opacity-60"
             title={`Remove ${username}`}
         >
-            <span className="">{username}</span>
+            <span>{username}</span>
             <span
                 aria-hidden="true"
                 className="text-xl leading-none text-gray-200"

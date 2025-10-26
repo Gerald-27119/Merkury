@@ -9,11 +9,13 @@ import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserByUsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.azure.AzureBlobService;
+import com.merkury.vulcanus.model.dtos.SimpleSliceDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.IncomingChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.group.CreateGroupChatDto;
+import com.merkury.vulcanus.model.dtos.chat.group.PotentialChatMemberDto;
 import com.merkury.vulcanus.model.dtos.chat.group.UpdateGroupChatDto;
 import com.merkury.vulcanus.model.dtos.chat.group.UpdatedGroupChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
@@ -270,10 +272,15 @@ public class ChatService {
         return ChatMapper.toChatDto(createdChat);
     }
 
-    public ChatDto addUsersToGroupChat(List<String> usernames, String currentUserUsername, Long chatId) throws ChatNotFoundException, AddUsersToExistingGroupChatException {
+    public ChatDto addUsersToGroupChat(Long chatId, List<String> usernames) throws ChatNotFoundException, AddUsersToExistingGroupChatException, UserNotFoundException {
         var currentUsername = this.customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         var updatedChat = this.groupChatService.addUsers(usernames, currentUsername, chatId);
-        return ChatMapper.toChatDto(updatedChat);
+        var currentUser = userEntityRepository.findByUsername(customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername())
+                .orElseThrow(() -> new UserNotFoundException("Current user not found in db"))
+                .getId();
+        var last20Messages = chatMessageRepository
+                .findTop20ByChatIdOrderBySentAtDesc(updatedChat.getId());
+        return ChatMapper.toChatDto(updatedChat, last20Messages, currentUser);
     }
 
     @Transactional
@@ -299,4 +306,9 @@ public class ChatService {
     private String sendNewChatProfileImg(@NotNull MultipartFile newChatImg) throws InvalidFileTypeException, BlobContainerNotFoundException, IOException {
         return azureBlobService.upload("group-chat-profile-img", newChatImg, AzureBlobFileValidatorType.GROUP_CHAT_PROFILE_IMG);
     }
+
+    public SimpleSliceDto<PotentialChatMemberDto> searchPotentialUsersToAddToGroupChat(Long chatId, String query, int page, int size) {
+        return this.groupChatService.searchPotentialUsersToAddToGroupChat(chatId, query, page, size);
+    }
+
 }

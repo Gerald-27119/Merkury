@@ -1,10 +1,19 @@
 import ChatList from "./components/ChatList";
 import ChatContent from "./components/ChatContent";
-import { LuMessageSquarePlus } from "react-icons/lu";
+import GroupChatParticipantsSideBar from "./components/right-sidebar/GroupChatParticipantsSideBar";
+import useSelectorTyped from "../../hooks/useSelectorTyped";
 
 export default function ChatsPage() {
     // TODO: optimize renders using this tool
     // TODO: widok jak ktos nie ma zadnychc chatow
+
+    const showSideBar = useSelectorTyped((s) => s.chats.showSideBar);
+    const selectedChatId = useSelectorTyped((s) => s.chats.selectedChatId);
+    const selectedChat = useSelectorTyped((s) =>
+        selectedChatId != null ? s.chats.entities[selectedChatId] : undefined,
+    );
+
+    const isGroup = selectedChat?.chatType === "GROUP";
     return (
         <div className="flex h-screen w-full">
             <div className="border-violetLight flex w-1/6 flex-col border-l">
@@ -20,6 +29,11 @@ export default function ChatsPage() {
             <div className="bg-violetDark/96 min-w-0 flex-1 text-white">
                 <ChatContent />
             </div>
+            {showSideBar && isGroup && (
+                <div className="h-full w-56">
+                    <GroupChatParticipantsSideBar />
+                </div>
+            )}
         </div>
     );
 }
