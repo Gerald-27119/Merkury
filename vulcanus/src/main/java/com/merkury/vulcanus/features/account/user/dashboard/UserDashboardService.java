@@ -136,7 +136,7 @@ public class UserDashboardService {
 
     public IsFavouriteSpotDto isSpotInUserFavoriteSpots(Long spotId) {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        var isFavouriteSpot = favoriteSpotService.isSpotInUserFavoriteSpots(username, spotId);
+        var isFavouriteSpot = favoriteSpotService.isSpotInUserFavoriteSpots(username, spotId, FavoriteSpotsListType.FAVORITE);
         return new IsFavouriteSpotDto(isFavouriteSpot);
     }
 

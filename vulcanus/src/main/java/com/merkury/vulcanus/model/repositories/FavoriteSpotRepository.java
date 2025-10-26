@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 
 public interface FavoriteSpotRepository extends JpaRepository<FavoriteSpot, Long> {
     Slice<FavoriteSpot> findAllByUserUsername(String username, Pageable pageable);
@@ -21,4 +23,8 @@ public interface FavoriteSpotRepository extends JpaRepository<FavoriteSpot, Long
     Integer removeFavoriteSpotByUserUsernameAndTypeAndSpotId(String username, FavoriteSpotsListType type, Long spotId);
 
     boolean existsByUserUsernameAndSpotIdAndType(String userUsername, Long spotId, FavoriteSpotsListType type);
+
+    boolean existsByUserUsernameAndSpotIdAndTypeNot(String userUsername, Long spotId, FavoriteSpotsListType type);
+
+    Optional<FavoriteSpot> findByUserUsernameAndSpotId(String userUsername, Long spotId);
 }

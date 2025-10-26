@@ -42,21 +42,34 @@ public class FavoriteSpotService {
     }
 
     public void addFavouriteSpot(String username, FavoriteSpotsListType type, Long spotId) throws UserNotFoundException, SpotNotFoundException, SpotAlreadyFavouriteException {
-        var favoriteSpot = new FavoriteSpot();
         var user = userEntityRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(String.format("User with username %s not found", username)));
         var spot = spotRepository.findById(spotId)
                 .orElseThrow(() -> new SpotNotFoundException(spotId));
 
-        var isSpotAlreadyInFavourites = this.isSpotInUserFavoriteSpots(username, spotId);
+        var isSpotAlreadyInFavourites = this.isSpotInUserFavoriteSpots(username, spotId, FavoriteSpotsListType.FAVORITE);
         if (isSpotAlreadyInFavourites) {
             throw new SpotAlreadyFavouriteException(spotId);
         }
 
-        favoriteSpot.setType(type);
-        favoriteSpot.setUser(user);
-        favoriteSpot.setSpot(spot);
-        favoriteSpotRepository.save(favoriteSpot);
+        var isSpotInOtherListType = this.checkSpotIsInAnyOtherListType(username, spotId, FavoriteSpotsListType.FAVORITE);
+
+        if (isSpotInOtherListType) {
+            var spotInOtherList = favoriteSpotRepository.findByUserUsernameAndSpotId(username, spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
+            spotInOtherList.setType(FavoriteSpotsListType.FAVORITE);
+            favoriteSpotRepository.save(spotInOtherList);
+        }else {
+            var favoriteSpot = FavoriteSpot.builder()
+                    .spot(spot)
+                    .user(user)
+                    .type(type)
+                    .build();
+            favoriteSpotRepository.save(favoriteSpot);
+        }
+    }
+
+    private boolean checkSpotIsInAnyOtherListType(String username, long spotId,  FavoriteSpotsListType typeNotToCheck) {
+        return favoriteSpotRepository.existsByUserUsernameAndSpotIdAndTypeNot(username, spotId, typeNotToCheck);
     }
 
     public void removeFavoriteSpot(String username, FavoriteSpotsListType type, Long spotId) throws FavoriteSpotNotExistException {
@@ -66,7 +79,7 @@ public class FavoriteSpotService {
         }
     }
 
-    public boolean isSpotInUserFavoriteSpots(String username, Long spotId) {
-        return favoriteSpotRepository.existsByUserUsernameAndSpotIdAndType(username, spotId, FavoriteSpotsListType.FAVORITE);
+    public boolean isSpotInUserFavoriteSpots(String username, Long spotId, FavoriteSpotsListType type) {
+        return favoriteSpotRepository.existsByUserUsernameAndSpotIdAndType(username, spotId, type);
     }
 }
