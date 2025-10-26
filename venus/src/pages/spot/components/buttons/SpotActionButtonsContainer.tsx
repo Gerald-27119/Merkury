@@ -3,21 +3,49 @@ import {
     MdOutlineNavigation,
     MdOutlineBookmarkBorder,
     MdOutlineAddPhotoAlternate,
+    MdOutlineBookmark
 } from "react-icons/md";
 import { AiOutlineShareAlt } from "react-icons/ai";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
+import { useQuery } from "@tanstack/react-query";
+import { checkSpotIsInUserFavourites } from "../../../../http/user-dashboard";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import { useEffect } from "react";
+import { notificationAction } from "../../../../redux/notification";
 
 type SpotActionButtonsContainerProps = {
-    spotId: number | null;
+    spotId: number;
 };
 //TODO:implement handlers in another task
 export default function SpotActionButtonsContainer({
     spotId,
 }: SpotActionButtonsContainerProps) {
+
+    const {isLogged} = useSelectorTyped(state => state.account)
+
+    const {data, isError} = useQuery({
+        queryKey:["isSpotFavouriteCheck", spotId],
+        queryFn: () => checkSpotIsInUserFavourites(spotId),
+        enabled: isLogged
+    })
+
+    const dispatch = useDispatchTyped()
+
+    useEffect(() => {
+        if (isError) {
+            dispatch(notificationAction.addError({message: "Failed to check if spots is in favourites"}))
+        }
+    }, [isError])
+
     const clickNavigateHandler = (spotId: number | null): void => {
         console.log("navigate: ", spotId);
     };
-    const clickSaveSpotHandler = (spotId: number | null): void => {
-        console.log("save: ", spotId);
+    const clickSaveSpotHandler = (spotId: number): void => {
+        if (!isLogged) {
+            dispatch(notificationAction.addInfo({message: "Please sign in to add spot to favourites"}))
+        } else {
+            //TODO: send request to add or remove
+        }
     };
     const clickShareSpotHandler = (spotId: number | null): void => {
         console.log("share: ", spotId);
@@ -39,7 +67,11 @@ export default function SpotActionButtonsContainer({
                 <SpotActionButton
                     onClickHandler={() => clickSaveSpotHandler(spotId)}
                 >
-                    <MdOutlineBookmarkBorder data-testid="save-spot-button-icon" />
+                    {isLogged && data?.isFavouriteSpot ?
+                        <MdOutlineBookmark />
+                        :
+                        <MdOutlineBookmarkBorder data-testid="save-spot-button-icon" />
+                    }
                 </SpotActionButton>
             </li>
             <li key={2}>

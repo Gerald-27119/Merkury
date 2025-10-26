@@ -14,6 +14,7 @@ import { AddSpotPageDto } from "../model/interface/account/add-spot/addSpotPageD
 import { SpotToAddDto } from "../model/interface/account/add-spot/spotToAddDto";
 import SpotCoordinatesDto from "../model/interface/spot/coordinates/spotCoordinatesDto";
 import { UserFriendStatus } from "../model/enum/account/social/userFriendStatus";
+import IsFavouriteSpotDto from "../model/interface/account/favorite-spots/isFavouriteSpotDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -283,6 +284,7 @@ interface RemoveFavoriteSpotProps {
     spotId: number;
 }
 
+//TODO: change name
 export async function removeFavoriteSpot({
     type,
     spotId,
@@ -299,6 +301,17 @@ export async function removeFavoriteSpot({
                 },
             },
         )
+    ).data;
+}
+
+export async function checkSpotIsInUserFavourites(
+    spotId: number,
+): Promise<IsFavouriteSpotDto> {
+    return (
+        await axios.get(`${BASE_URL}/user-dashboard/is-spot-favourite`, {
+            params: spotId,
+            withCredentials: true,
+        })
     ).data;
 }
 

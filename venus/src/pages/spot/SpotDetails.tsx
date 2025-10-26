@@ -96,7 +96,7 @@ export default function SpotDetails() {
                             tags={data.tags}
                         />
                         <SpotDetailsGallery media={data.media} />
-                        <SpotActionButtonsContainer spotId={spotId} />
+                        <SpotActionButtonsContainer spotId={spotId!} />
                         <SpotCommentsList spotId={data.id} />
                     </div>
                 )}
