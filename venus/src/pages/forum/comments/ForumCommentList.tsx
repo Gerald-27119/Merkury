@@ -42,11 +42,12 @@ export default function ForumCommentList({
 
     return (
         <div>
-            {!areReplies && comments?.length && comments.length > 1 && (
+            {!areReplies && (
                 <ForumSortDropdown
                     options={options}
                     onSortChange={onSortChange}
                     selected={sortOption}
+                    disabled={!comments?.length || comments.length <= 1}
                 />
             )}
 
