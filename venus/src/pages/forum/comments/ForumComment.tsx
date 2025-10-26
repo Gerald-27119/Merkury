@@ -147,7 +147,7 @@ export default function ForumComment({
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-    } = useInfiniteQuery<ForumCommentReplyPage, Error>({
+    } = useInfiniteQuery<ForumCommentReplyPage>({
         queryKey: ["forumCommentReplies", comment.id],
         queryFn: (context) => {
             const { pageParam } = context as {
