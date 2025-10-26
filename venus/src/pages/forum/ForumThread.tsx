@@ -1,10 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import DetailedPost from "./posts/DetailedPost";
 import ReturnButton from "./components/ReturnButton";
 import ForumLayout from "./components/ForumLayout";
 import { addComment, getCommentsByPostId } from "../../http/post-comments";
-import { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ForumCommentSortOption } from "../../model/enum/forum/forumCommentSortOption";
 import ForumCommentList from "./comments/ForumCommentList";
 import { useBoolean } from "../../hooks/useBoolean";
@@ -16,10 +16,13 @@ import { RootState } from "../../redux/store";
 import { notificationAction } from "../../redux/notification";
 import useDispatchTyped from "../../hooks/useDispatchTyped";
 import { useAppMutation } from "../../hooks/useAppMutation";
+import ForumCommentPage from "../../model/interface/forum/postComment/forumCommentPage";
+import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
 
 export default function ForumThread({}) {
     const { postId } = useParams<{ postId: string }>();
     const parsedPostId = Number(postId);
+    const loadMoreRef = useRef<HTMLDivElement>(null);
     const dispatch = useDispatchTyped();
     const isLogged = useSelector((state: RootState) => state.account.isLogged);
     const [isCommentFormVisible, showCommentForm, hideCommentForm] =
@@ -46,9 +49,23 @@ export default function ForumThread({}) {
         error: forumCommentPageError,
         isError: isForumCommentPageError,
         isLoading: isForumCommentPageLoading,
-    } = useQuery({
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+    } = useInfiniteQuery<ForumCommentPage>({
         queryKey: ["forumComments", parsedPostId, sortOption],
-        queryFn: () => getCommentsByPostId(parsedPostId, 0, 10, sortOption),
+        queryFn: ({ pageParam }) =>
+            getCommentsByPostId(
+                parsedPostId,
+                pageParam as number,
+                10,
+                sortOption,
+            ),
+        getNextPageParam: (lastPage: ForumCommentPage) => {
+            const { number, totalPages } = lastPage.page;
+            return number + 1 < totalPages ? number + 1 : undefined;
+        },
+        initialPageParam: 0,
     });
 
     const { mutateAsync: addCommentMutate } = useAppMutation(addComment, {
@@ -72,6 +89,28 @@ export default function ForumThread({}) {
             );
         }
     };
+
+    useEffect(() => {
+        const target = loadMoreRef.current;
+        if (!target || !hasNextPage) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !isFetchingNextPage) {
+                    fetchNextPage();
+                }
+            },
+            { rootMargin: "50px", threshold: 0 },
+        );
+        observer.observe(target);
+        return () => {
+            observer.disconnect();
+        };
+    }, [hasNextPage, fetchNextPage, sortOption, isFetchingNextPage]);
+
+    const comments = forumCommentPage?.pages.flatMap(
+        (page: ForumCommentPage) => page.content ?? [],
+    );
 
     return (
         <ForumLayout>
@@ -98,7 +137,7 @@ export default function ForumThread({}) {
 
                 <ForumCommentList
                     postId={postDetails?.id}
-                    comments={forumCommentPage?.content}
+                    comments={comments}
                     sortOption={sortOption}
                     onSortChange={setSortOption}
                     isLoading={isForumCommentPageLoading}
@@ -106,6 +145,12 @@ export default function ForumThread({}) {
                     error={forumCommentPageError}
                     areReplies={false}
                 />
+                <div
+                    ref={loadMoreRef}
+                    className="flex items-center justify-center"
+                >
+                    {isFetchingNextPage && <LoadingSpinner />}
+                </div>
             </div>
         </ForumLayout>
     );

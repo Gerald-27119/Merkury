@@ -21,6 +21,7 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -44,12 +45,20 @@ public class PostCommentService {
         var userName = getAuthenticatedUsernameOrNull();
         var user = userName != null ? userEntityFetcher.getByUsername(userName) : null;
 
-        var replies = postCommentRepository.findRepliesRecursiveKeyset(parentCommentId, lastDate, lastId, size);
+        var replies = postCommentRepository.findRepliesRecursiveKeyset(parentCommentId, lastDate, lastId, size + 1);
+
+        Long nextCursorId = null;
+        LocalDateTime nextCursorDate = null;
+        if (replies.size() > size) {
+            var next = replies.get(size);
+            nextCursorId = next.getId();
+            nextCursorDate = next.getPublishDate();
+            replies = replies.subList(0, size);
+        }
+
         var dtos = PostCommentMapper.toDto(replies, user, false);
 
-        var nextCursor = dtos.isEmpty() ? null : dtos.getLast().id();
-
-        return new ForumPostCommentReplyPageDto(dtos, nextCursor);
+        return new ForumPostCommentReplyPageDto(dtos, nextCursorId, nextCursorDate);
     }
 
     public void addComment(Long postId, PostCommentDto dto) throws PostNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {

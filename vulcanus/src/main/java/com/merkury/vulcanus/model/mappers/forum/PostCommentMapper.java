@@ -26,7 +26,7 @@ public class PostCommentMapper {
                 .isUpVoted(postComment.getUpVotedBy().contains(currentUser))
                 .isDownVoted(postComment.getDownVotedBy().contains(currentUser))
                 .isReply(postComment.getParent() != null)
-                .repliesCount(includeRepliesCount ? postComment.getReplies().size() : null)
+                .repliesCount(includeRepliesCount ? countAllReplies(postComment) : null)
                 .build();
     }
 
@@ -54,4 +54,14 @@ public class PostCommentMapper {
                 .post(parentComment.getPost())
                 .build();
     }
+
+    private static int countAllReplies(PostComment comment) {
+        int count = 0;
+        for (PostComment reply : comment.getReplies()) {
+            count++;
+            count += countAllReplies(reply);
+        }
+        return count;
+    }
+
 }

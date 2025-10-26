@@ -33,10 +33,10 @@ public interface PostCommentRepository extends JpaRepository<PostComment, Long> 
                     SELECT * FROM comment_tree 
                     WHERE (
                             CAST(:lastDate AS timestamp) IS NULL
-                            OR (publish_date < CAST(:lastDate AS timestamp))
-                            OR (publish_date = CAST(:lastDate AS timestamp) AND id < CAST(:lastId AS bigint))
+                            OR (publish_date > CAST(:lastDate AS timestamp))
+                            OR (publish_date = CAST(:lastDate AS timestamp) AND id >= CAST(:lastId AS bigint))
                     )
-                    ORDER BY publish_date DESC, id DESC
+                    ORDER BY publish_date ASC, id ASC
                     LIMIT :pageSize
                     """,
             nativeQuery = true

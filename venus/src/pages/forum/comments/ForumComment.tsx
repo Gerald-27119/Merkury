@@ -2,8 +2,9 @@ import ForumCommentGeneral from "../../../model/interface/forum/postComment/foru
 import ForumContentHeader from "../posts/components/ForumContentHeader";
 import { useNavigate } from "react-router-dom";
 import ForumCommentContent from "./ForumCommentContent";
+import { BsArrowReturnRight } from "react-icons/bs";
 import ShowRepliesButton from "./ShowRepliesButton";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import {
     deleteComment,
     editComment,
@@ -22,6 +23,8 @@ import { RootState } from "../../../redux/store";
 import { useState } from "react";
 import { useAppMutation } from "../../../hooks/useAppMutation";
 import ForumCommentDto from "../../../model/interface/forum/postComment/forumCommentDto";
+import ForumCommentReplyPage from "../../../model/interface/forum/postComment/forumCommentReplyPage";
+import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 
 interface ForumCommentProps {
     comment: ForumCommentGeneral;
@@ -52,8 +55,9 @@ export default function ForumComment({
     const { mutateAsync: editCommentMutate } = useAppMutation(editComment, {
         successMessage: "Comment updated successfully!",
         invalidateKeys: [
-            ["forumComments", postId],
-            ["forumCommentReplies", parentCommentId],
+            ...(!parentCommentId
+                ? [["forumComments", postId]]
+                : [["forumCommentReplies", parentCommentId]]),
         ],
         loginToAccessMessage: "Login to comment",
     });
@@ -61,16 +65,18 @@ export default function ForumComment({
     const { mutateAsync: deleteCommentMutate } = useAppMutation(deleteComment, {
         successMessage: "Comment deleted successfully!",
         invalidateKeys: [
-            ["forumComments", postId],
-            ["forumCommentReplies", parentCommentId],
+            ...(!parentCommentId
+                ? [["forumComments", postId]]
+                : [["forumCommentReplies", parentCommentId]]),
         ],
         loginToAccessMessage: "Login to comment",
     });
 
     const { mutateAsync: voteCommentMutate } = useAppMutation(voteComment, {
         invalidateKeys: [
-            ["forumComments", postId],
-            ["forumCommentReplies", parentCommentId],
+            ...(!parentCommentId
+                ? [["forumComments", postId]]
+                : [["forumCommentReplies", parentCommentId]]),
         ],
         loginToAccessMessage: "Login to vote",
     });
@@ -79,7 +85,9 @@ export default function ForumComment({
         successMessage: "Replied successfully!",
         invalidateKeys: [
             ["forumComments", postId],
-            ["forumCommentReplies", parentCommentId],
+            ...(!parentCommentId
+                ? [["forumCommentReplies", comment.id]]
+                : [["forumCommentReplies", parentCommentId]]),
         ],
         loginToAccessMessage: "Login to comment",
     });
@@ -125,6 +133,7 @@ export default function ForumComment({
         commentId: number,
         replyData: ForumCommentDto,
     ) => {
+        console.log();
         await replyCommentMutate({ commentId, replyData });
     };
 
@@ -135,11 +144,38 @@ export default function ForumComment({
         error: repliesPageError,
         isError: isRepliesPageError,
         isLoading: isRepliesPageLoading,
-    } = useQuery({
-        queryKey: [comment.id, "forumCommentsReplies"],
-        queryFn: () => getCommentRepliesByCommentId(comment.id, 10),
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+    } = useInfiniteQuery<ForumCommentReplyPage, Error>({
+        queryKey: ["forumCommentReplies", comment.id],
+        queryFn: (context) => {
+            const { pageParam } = context as {
+                pageParam?: { lastDate?: string; lastId?: number };
+            };
+
+            return getCommentRepliesByCommentId(
+                comment.id,
+                10,
+                pageParam?.lastDate,
+                pageParam?.lastId,
+            );
+        },
+        getNextPageParam: (lastPage) => {
+            return lastPage.nextCursorId
+                ? {
+                      lastId: lastPage.nextCursorId,
+                      lastDate: lastPage.nextCursorDate,
+                  }
+                : undefined;
+        },
+        initialPageParam: undefined,
         enabled: areRepliesOpen,
     });
+
+    const replies = repliesPage?.pages.flatMap(
+        (page: ForumCommentReplyPage) => page.comments ?? [],
+    );
 
     return (
         <div>
@@ -149,6 +185,7 @@ export default function ForumComment({
                 isReply={comment.isReply}
                 onAuthorClick={handleNavigateToAuthorProfile}
             />
+
             {activeForm?.type !== "edit" && (
                 <div>
                     <ForumCommentContent content={comment.content} />
@@ -202,13 +239,26 @@ export default function ForumComment({
             {areRepliesOpen && (
                 <div className="ml-10">
                     <ForumCommentList
-                        comments={repliesPage?.comments}
+                        comments={replies}
                         isLoading={isRepliesPageLoading}
                         isError={isRepliesPageError}
                         error={repliesPageError}
                         areReplies={true}
                         parentCommentId={comment.id}
                     />
+                    <div className="text-lg text-blue-400">
+                        {hasNextPage && !isFetchingNextPage && (
+                            <button
+                                onClick={() => fetchNextPage()}
+                                className="flex cursor-pointer items-center gap-2"
+                            >
+                                <BsArrowReturnRight />
+                                <p>Load more replies</p>
+                            </button>
+                        )}
+
+                        {isFetchingNextPage && <LoadingSpinner />}
+                    </div>
                 </div>
             )}
         </div>

@@ -2,5 +2,6 @@ import ForumCommentGeneral from "./forumCommentGeneral";
 
 export default interface ForumCommentReplyPage {
     comments: ForumCommentGeneral[];
-    nextCursor: number | null;
+    nextCursorId: number | null;
+    nextCursorDate: string | null;
 }
