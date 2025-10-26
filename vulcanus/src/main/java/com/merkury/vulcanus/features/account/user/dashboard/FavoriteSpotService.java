@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.FavoriteSpotNotExistException;
+import com.merkury.vulcanus.exception.exceptions.SpotAlreadyFavouriteException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotPageDto;
@@ -40,12 +41,17 @@ public class FavoriteSpotService {
         return new FavoriteSpotPageDto(mappedFavoriteSpots, favoriteSpots.hasNext());
     }
 
-    public void addFavouriteSpot(String username, FavoriteSpotsListType type, Long spotId) throws UserNotFoundException, SpotNotFoundException {
+    public void addFavouriteSpot(String username, FavoriteSpotsListType type, Long spotId) throws UserNotFoundException, SpotNotFoundException, SpotAlreadyFavouriteException {
         var favoriteSpot = new FavoriteSpot();
         var user = userEntityRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(String.format("User with username %s not found", username)));
         var spot = spotRepository.findById(spotId)
                 .orElseThrow(() -> new SpotNotFoundException(spotId));
+
+        var isSpotAlreadyInFavourites = this.isSpotInUserFavoriteSpots(username, spotId);
+        if (isSpotAlreadyInFavourites) {
+            throw new SpotAlreadyFavouriteException(spotId);
+        }
 
         favoriteSpot.setType(type);
         favoriteSpot.setUser(user);

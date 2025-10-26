@@ -129,9 +129,8 @@ public class UserDashboardController {
         return ResponseEntity.ok(userDashboardService.getUserFavoritesSpots(type, page, size));
     }
 
-    //TODO: check where this is called on frontend
     @PatchMapping("/user-dashboard/favorite-spots")
-    public ResponseEntity<Void> removeFavoriteSpot(@RequestParam FavoriteSpotsListType type, @RequestParam Long spotId, @RequestParam FavouriteSpotListOperationType operationType) throws FavoriteSpotNotExistException, UserNotFoundException, SpotNotFoundException {
+    public ResponseEntity<Void> editFavoriteSpotList(@RequestParam FavoriteSpotsListType type, @RequestParam Long spotId, @RequestParam FavouriteSpotListOperationType operationType) throws FavoriteSpotNotExistException, UserNotFoundException, SpotNotFoundException, SpotAlreadyFavouriteException {
         userDashboardService.editFavoriteSpotList(type, spotId, operationType);
         return ResponseEntity.ok().build();
     }

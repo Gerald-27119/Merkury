@@ -125,7 +125,7 @@ public class UserDashboardService {
         return favoriteSpotService.getUserFavoritesSpots(username, type, page, size);
     }
 
-    public void editFavoriteSpotList(FavoriteSpotsListType type, Long spotId, FavouriteSpotListOperationType operationType) throws FavoriteSpotNotExistException, UserNotFoundException, SpotNotFoundException {
+    public void editFavoriteSpotList(FavoriteSpotsListType type, Long spotId, FavouriteSpotListOperationType operationType) throws FavoriteSpotNotExistException, UserNotFoundException, SpotNotFoundException, SpotAlreadyFavouriteException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         if (operationType == FavouriteSpotListOperationType.ADD) {
             favoriteSpotService.addFavouriteSpot(username, type, spotId);

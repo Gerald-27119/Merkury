@@ -36,6 +36,7 @@ export default function FavoriteSpots() {
         });
 
     const allItems = data?.pages.flatMap((page) => page.items);
+    console.log(allItems)
 
     const handleSetSelectedType = (type: FavoriteSpotsListType) => {
         setSelectedType(type);

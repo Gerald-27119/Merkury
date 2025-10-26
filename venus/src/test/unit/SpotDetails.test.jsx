@@ -1,7 +1,6 @@
 import {
     QueryClient,
     QueryClientProvider,
-    useInfiniteQuery,
     useQuery,
 } from "@tanstack/react-query";
 import { configureStore } from "@reduxjs/toolkit";
@@ -12,6 +11,7 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import SpotDetails from "../../pages/spot/SpotDetails";
 import { sidebarSlice } from "../../redux/sidebar";
+import { accountSlice } from "../../redux/account.tsx";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +28,7 @@ const renderSpotDetails = () => {
             spotDetails: spotDetailsModalSlice.reducer,
             sidebar: sidebarSlice.reducer,
             spotComments: spotCommentSlice.reducer,
+            account: accountSlice.reducer()
         },
         preloadedState: {
             spotDetails: {
@@ -41,6 +42,10 @@ const renderSpotDetails = () => {
                 ids: [],
                 entities: {},
             },
+            account: {
+                isLogged: false,
+                username: ""
+            }
         },
     });
 
