@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.exception;
 
 import com.merkury.vulcanus.exception.exceptions.SpotAlreadyFavouriteException;
+import com.merkury.vulcanus.exception.exceptions.SpotMediaNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFavouriteException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
@@ -36,4 +37,8 @@ public class SpotExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
+    @ExceptionHandler(SpotMediaNotFoundException.class)
+    public ResponseEntity<String> handleSpotMediaNotFoundException(SpotMediaNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }

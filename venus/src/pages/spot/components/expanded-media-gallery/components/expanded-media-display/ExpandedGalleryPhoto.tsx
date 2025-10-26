@@ -1,0 +1,32 @@
+import { useState } from "react";
+import LoadingSpinner from "../../../../../../components/loading-spinner/LoadingSpinner";
+
+type ExpandedGalleryPhotoProps = {
+    url: string;
+};
+
+export default function ExpandedGalleryPhoto({
+    url,
+}: ExpandedGalleryPhotoProps) {
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    const handleImageLoad = () => {
+        setIsLoading(false);
+    };
+
+    return (
+        <div className="h-fit">
+            {isLoading && <LoadingSpinner />}
+            {url ? (
+                <img
+                    src={url}
+                    alt={url}
+                    onLoad={handleImageLoad}
+                    className="3xl:h-[60rem] 3xl:w-[90rem] rounded-2xl xl:h-[30rem] xl:w-[55rem] 2xl:h-[50rem] 2xl:w-[80rem]"
+                />
+            ) : (
+                <p>No photo to display</p>
+            )}
+        </div>
+    );
+}

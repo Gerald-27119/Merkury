@@ -12,6 +12,7 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import SpotDetails from "../../pages/spot/SpotDetails";
 import { sidebarSlice } from "../../redux/sidebar";
+import { expandedSpotMediaGallerySlice } from "../../redux/expanded-spot-media-gallery.js";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const renderSpotDetails = () => {
             spotDetails: spotDetailsModalSlice.reducer,
             sidebar: sidebarSlice.reducer,
             spotComments: spotCommentSlice.reducer,
+            expandedSpotMediaGallery: expandedSpotMediaGallerySlice.reducer,
         },
         preloadedState: {
             spotDetails: {
