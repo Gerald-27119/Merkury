@@ -17,7 +17,7 @@ import { useEffect } from "react";
 import { notificationAction } from "../../../../redux/notification";
 import { FavoriteSpotsListType } from "../../../../model/enum/account/favorite-spots/favoriteSpotsListType";
 import { FavouriteSpotListOperationType } from "../../../../model/enum/account/favorite-spots/favouriteSpotListOperationType";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 type SpotActionButtonsContainerProps = {
     spotId: number;
@@ -43,11 +43,17 @@ export default function SpotActionButtonsContainer({
             await queryClient.invalidateQueries({
                 queryKey: ["favorite-spots", FavoriteSpotsListType.FAVORITE],
             });
-            await queryClient.invalidateQueries({queryKey:["isSpotFavouriteCheck", spotId]})
+            await queryClient.invalidateQueries({
+                queryKey: ["isSpotFavouriteCheck", spotId],
+            });
         },
         onError: () => {
-            dispatch(notificationAction.addError({message: "Failed to edit favourites spots list."}))
-        }
+            dispatch(
+                notificationAction.addError({
+                    message: "Failed to edit favourites spots list.",
+                }),
+            );
+        },
     });
 
     useEffect(() => {
@@ -75,19 +81,19 @@ export default function SpotActionButtonsContainer({
                 await mutateAsync({
                     type: FavoriteSpotsListType.FAVORITE,
                     operationType: FavouriteSpotListOperationType.REMOVE,
-                    spotId
+                    spotId,
                 });
             } else {
-               await mutateAsync({
+                await mutateAsync({
                     type: FavoriteSpotsListType.FAVORITE,
                     operationType: FavouriteSpotListOperationType.ADD,
-                    spotId
+                    spotId,
                 });
             }
         }
     };
 
-    const location = useLocation()
+    const location = useLocation();
 
     const clickShareSpotHandler = async (spotId: number): Promise<void> => {
         if (!navigator.clipboard) {
@@ -99,7 +105,9 @@ export default function SpotActionButtonsContainer({
             return;
         }
         try {
-            await navigator.clipboard.writeText(`${window.location.origin}${location.pathname}?=share&spotId=${spotId}`);
+            await navigator.clipboard.writeText(
+                `${window.location.origin}${location.pathname}?=share&spotId=${spotId}`,
+            );
             dispatch(
                 notificationAction.addSuccess({
                     message: "Spot url copied to clipboard!",
@@ -111,8 +119,16 @@ export default function SpotActionButtonsContainer({
             );
         }
     };
-    const clickAddPhotoToSpotHandler = (spotId: number | null): void => {
-        console.log("addPhoto: ", spotId);
+    const clickAddMediaToSpotHandler = (spotId: number): void => {
+        if (!isLogged) {
+            dispatch(
+                notificationAction.addInfo({
+                    message: "Please sign in to add media to the spot.",
+                }),
+            );
+        } else {
+            console.log("addPhoto: ", spotId);
+        }
     };
 
     return (
@@ -144,7 +160,7 @@ export default function SpotActionButtonsContainer({
             </li>
             <li key={3}>
                 <SpotActionButton
-                    onClickHandler={() => clickAddPhotoToSpotHandler(spotId)}
+                    onClickHandler={() => clickAddMediaToSpotHandler(spotId)}
                 >
                     <MdOutlineAddPhotoAlternate data-testid="add-photo-button-icon" />
                 </SpotActionButton>
