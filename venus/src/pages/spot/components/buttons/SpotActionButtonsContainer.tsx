@@ -85,8 +85,27 @@ export default function SpotActionButtonsContainer({
             }
         }
     };
-    const clickShareSpotHandler = (spotId: number | null): void => {
-        console.log("share: ", spotId);
+    const clickShareSpotHandler = async (spotId: number): Promise<void> => {
+        if (!navigator.clipboard) {
+            dispatch(
+                notificationAction.addInfo({
+                    message: "Clipboard API not supported",
+                }),
+            );
+            return;
+        }
+        try {
+            await navigator.clipboard.writeText(`localhost:5173/map?=share&spotId=${spotId}`);
+            dispatch(
+                notificationAction.addSuccess({
+                    message: "Spot url copied to clipboard!",
+                }),
+            );
+        } catch (err) {
+            dispatch(
+                notificationAction.addError({ message: "Failed to copy: " }),
+            );
+        }
     };
     const clickAddPhotoToSpotHandler = (spotId: number | null): void => {
         console.log("addPhoto: ", spotId);
