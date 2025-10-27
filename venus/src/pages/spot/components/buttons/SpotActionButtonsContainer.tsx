@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { notificationAction } from "../../../../redux/notification";
 import { FavoriteSpotsListType } from "../../../../model/enum/account/favorite-spots/favoriteSpotsListType";
 import { FavouriteSpotListOperationType } from "../../../../model/enum/account/favorite-spots/favouriteSpotListOperationType";
+import {useLocation} from "react-router-dom";
 
 type SpotActionButtonsContainerProps = {
     spotId: number;
@@ -85,6 +86,9 @@ export default function SpotActionButtonsContainer({
             }
         }
     };
+
+    const location = useLocation()
+
     const clickShareSpotHandler = async (spotId: number): Promise<void> => {
         if (!navigator.clipboard) {
             dispatch(
@@ -95,7 +99,7 @@ export default function SpotActionButtonsContainer({
             return;
         }
         try {
-            await navigator.clipboard.writeText(`localhost:5173/map?=share&spotId=${spotId}`);
+            await navigator.clipboard.writeText(`${window.location.origin}${location.pathname}?=share&spotId=${spotId}`);
             dispatch(
                 notificationAction.addSuccess({
                     message: "Spot url copied to clipboard!",

@@ -13,6 +13,9 @@ import SearchCurrentViewButton from "./components/current-view/SearchCurrentView
 import CurrentViewSpotsList from "../spot/components/current-view-spots/CurrentViewSpotsList";
 import BasicSpotWeather from "./components/weather/BasicSpotWeather";
 import DetailedSpotWeather from "../spot/components/weather/DetailedSpotWeather";
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { spotDetailsModalAction } from "../../redux/spot-modal";
 
 type Position = {
     longitude: number;
@@ -25,9 +28,18 @@ const defaultPosition: Position = {
 };
 export default function MapPage() {
     const dispatch = useDispatchTyped();
+    const [searchParams] = useSearchParams();
     const handleZoomEnd = (event: any) => {
         dispatch(mapAction.setZoomLevel(event.target.getZoom()));
     };
+
+    useEffect(() =>{
+        const spotId = searchParams.get("spotId")
+        if (spotId) {
+            dispatch(spotDetailsModalAction.setSpotId(Number(spotId)))
+            dispatch(spotDetailsModalAction.handleShowModal())
+        }
+    },[])
 
     const showSpotDetailsModal = useSelectorTyped(
         (state) => state.spotDetails.showModal,
