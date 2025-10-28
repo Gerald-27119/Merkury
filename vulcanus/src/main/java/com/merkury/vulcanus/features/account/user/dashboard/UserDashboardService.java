@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.*;
+import com.merkury.vulcanus.features.spot.SpotService;
 import com.merkury.vulcanus.model.dtos.account.add.spot.AddSpotPageDto;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
@@ -43,6 +44,7 @@ public class UserDashboardService {
     private final SettingsService settingsService;
     private final AddSpotService addSpotService;
     private final CustomUserDetailsService customUserDetailsService;
+    private final SpotService spotService;
 
     public UserProfileDto getUserOwnProfile() throws UserNotFoundByUsernameException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
@@ -172,6 +174,11 @@ public class UserDashboardService {
     public AddSpotPageDto getAllSpotsAddedByUser(int page, int size) {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         return addSpotService.getAllSpotsAddedByUser(username, page, size);
+    }
+
+    public void addMediaToSpot(List<MultipartFile> mediaFiles, long spotId) throws InvalidFileTypeException, SpotNotFoundException, UserNotFoundByUsernameException, BlobContainerNotFoundException, IOException {
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        spotService.addMediaToSpot(mediaFiles, spotId, username);
     }
 
     public void addSpot(String spotJson, List<MultipartFile> mediaFiles) throws UserNotFoundByUsernameException, IOException, InvalidFileTypeException, BlobContainerNotFoundException {
