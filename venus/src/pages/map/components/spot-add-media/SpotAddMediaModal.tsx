@@ -1,5 +1,5 @@
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
-import React, { useState } from "react";
+import { useState } from "react";
 import UploadButton from "../../../account/add-spot/components/UploadButton";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { notificationAction } from "../../../../redux/notification";
