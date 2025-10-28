@@ -1,15 +1,22 @@
 package com.merkury.vulcanus.features.spot;
 
+import com.merkury.vulcanus.exception.exceptions.SpotMediaNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.model.dtos.spot.*;
+import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryDto;
+import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryPagePosition;
+import com.merkury.vulcanus.model.dtos.spot.gallery.SpotSidebarMediaGalleryDto;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.entities.spot.SpotTag;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
 import com.merkury.vulcanus.model.interfaces.CityView;
 import com.merkury.vulcanus.model.interfaces.CountryView;
 import com.merkury.vulcanus.model.interfaces.RegionView;
 import com.merkury.vulcanus.model.mappers.spot.SpotMapper;
+import com.merkury.vulcanus.model.mappers.spot.SpotMediaMapper;
+import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import com.merkury.vulcanus.model.specification.SpotSpecification;
 import com.merkury.vulcanus.utils.MapDistanceCalculator;
@@ -30,6 +37,7 @@ public class SpotService {
 
     private final SpotRepository spotRepository;
     private final SpotTagRepository spotTagRepository;
+    private final SpotMediaRepository spotMediaRepository;
 
     private Pageable configurePageableSorting(Pageable pageable, String sorting) {
         Sort customSort = switch (sorting) {
@@ -37,6 +45,9 @@ public class SpotService {
             case "byRatingCountAsc" -> Sort.by("ratingCount").ascending();
             case "byRatingDesc" -> Sort.by("rating").descending();
             case "byRatingAsc" -> Sort.by("rating").ascending();
+            case "newest" -> Sort.by("addDate").descending();
+            case "oldest" -> Sort.by("addDate").ascending();
+            case "mostLiked" -> Sort.by("likes").descending();
             default -> pageable.getSort();
         };
 
@@ -200,5 +211,25 @@ public class SpotService {
                 .toList();
 
         return new HomePageSpotPageDto(spotDtos, spotPages.hasNext());
+    }
+
+    public SpotMediaGalleryPagePosition getSpotGalleryMediaPosition(
+            Long spotId, Long mediaId, GenericMediaType mediaType, String sorting, int pageSize) throws SpotMediaNotFoundException {
+        int pos = spotMediaRepository.findPositionForMedia(mediaId, spotId, mediaType.toString(), sorting).orElseThrow(() -> new SpotMediaNotFoundException(spotId, mediaId, mediaType));
+        int pageNumber = pos / pageSize;
+        return SpotMediaGalleryPagePosition.builder()
+                .mediaPagePosition(pageNumber)
+                .build();
+    }
+
+    public Page<SpotSidebarMediaGalleryDto> getSpotGalleryPage(Long spotId, GenericMediaType mediaType, String sorting, Pageable pageable) {
+        var sortedPageable = configurePageableSorting(pageable, sorting);
+        return spotMediaRepository.findBySpotIdAndGenericMediaType(spotId, mediaType, sortedPageable).map(SpotMediaMapper::toSidebarGalleryDto);
+    }
+
+    public SpotMediaGalleryDto getMediaForFullscreen(Long spotId, Long mediaId, GenericMediaType mediaType) throws SpotMediaNotFoundException {
+        var media = spotMediaRepository.findByIdAndSpotIdAndGenericMediaType(mediaId, spotId, mediaType)
+                .orElseThrow(() -> new SpotMediaNotFoundException(spotId, mediaId, mediaType));
+        return SpotMediaMapper.toGalleryDto(media);
     }
 }

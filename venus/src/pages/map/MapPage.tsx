@@ -13,6 +13,8 @@ import SearchCurrentViewButton from "./components/current-view/SearchCurrentView
 import CurrentViewSpotsList from "../spot/components/current-view-spots/CurrentViewSpotsList";
 import BasicSpotWeather from "./components/weather/BasicSpotWeather";
 import DetailedSpotWeather from "../spot/components/weather/DetailedSpotWeather";
+import ExpandedSpotMediaGallery from "../spot/components/expanded-media-gallery/ExpandedSpotMediaGallery";
+import FullscreenMediaModal from "./components/spot-gallery/FullscreenMediaModal";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { spotDetailsModalAction } from "../../redux/spot-modal";
@@ -61,6 +63,14 @@ export default function MapPage() {
         (state) => state.spotWeather.showDetailedWeather,
     );
 
+    const { showExpandedGallery } = useSelectorTyped(
+        (state) => state.expandedSpotMediaGalleryModals,
+    );
+
+    const { isFullscreenSize } = useSelectorTyped(
+        (state) => state.expandedSpotMediaGalleryFullscreenSizeModal,
+    );
+
     return (
         <Map
             initialViewState={{
@@ -90,6 +100,12 @@ export default function MapPage() {
                 )}
                 {showDetailedSpotWeatherModal && (
                     <DetailedSpotWeather key="detailed-spot-weather-modal" />
+                )}
+                {showExpandedGallery && (
+                    <ExpandedSpotMediaGallery key="expanded-spot-media-gallery" />
+                )}
+                {isFullscreenSize && (
+                    <FullscreenMediaModal key="expanded-spot-media-gallery-fullscreen-media-modal" />
                 )}
             </AnimatePresence>
             <div className="absolute right-1 bottom-1 flex flex-col items-center space-y-2 sm:right-2 sm:bottom-2 xl:right-5 xl:bottom-5">

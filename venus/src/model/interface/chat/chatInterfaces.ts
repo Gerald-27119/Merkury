@@ -66,3 +66,17 @@ export interface UpdatedGroupChat {
     newName: string;
     newImgUrl: string;
 }
+
+export type PotentialChatMemberDto = {
+    username: string;
+    profileImg: string | null;
+};
+
+export type SimpleSliceDto<T> = {
+    hasNext: boolean;
+    items: T[];
+};
+
+export type AddUsersToExistingGroupChatDto = {
+    usernames: string[];
+};

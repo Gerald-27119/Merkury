@@ -4,6 +4,10 @@ import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.spot.SpotService;
 import com.merkury.vulcanus.features.spot.SpotWeatherService;
 import com.merkury.vulcanus.model.dtos.spot.*;
+import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryDto;
+import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryPagePosition;
+import com.merkury.vulcanus.model.dtos.spot.gallery.SpotSidebarMediaGalleryDto;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.enums.SpotRatingFilterType;
 import com.merkury.vulcanus.model.enums.SpotSortType;
 import com.merkury.vulcanus.model.dtos.spot.weather.BasicSpotWeatherDto;
@@ -30,6 +34,32 @@ public class SpotController {
     private final SpotService spotService;
 
     private final SpotWeatherService spotWeatherService;
+
+    @GetMapping("/public/spot/gallery")
+    public ResponseEntity<Page<SpotSidebarMediaGalleryDto>> getSpotGalleryPage(@RequestParam Long spotId,
+                                                                               @RequestParam String mediaType,
+                                                                               @RequestParam String sorting,
+                                                                               @RequestParam(defaultValue = "0") int page,
+                                                                               @RequestParam(defaultValue = "6") int size) {
+        log.debug("get spot gallery page");
+        return ResponseEntity.ok(spotService.getSpotGalleryPage(spotId, GenericMediaType.valueOf(mediaType), sorting, PageRequest.of(page, size)));
+    }
+
+    @GetMapping("/public/spot/gallery-media-position")
+    public ResponseEntity<SpotMediaGalleryPagePosition> getSpotGalleryMediaPosition(@RequestParam Long spotId,
+                                                                                    @RequestParam Long mediaId,
+                                                                                    @RequestParam String mediaType,
+                                                                                    @RequestParam String sorting,
+                                                                                    @RequestParam(defaultValue = "6") int pageSize) throws SpotMediaNotFoundException {
+        log.debug("get spot gallery media position");
+        return ResponseEntity.ok(spotService.getSpotGalleryMediaPosition(spotId, mediaId, GenericMediaType.valueOf(mediaType), sorting, pageSize));
+    }
+
+    @GetMapping("/public/spot/gallery-fullscreen-media")
+    public ResponseEntity<SpotMediaGalleryDto> getSpotGalleryFullscreenMedia(@RequestParam Long spotId, @RequestParam Long mediaId, @RequestParam String mediaType) throws SpotMediaNotFoundException {
+        log.debug("get spot gallery fullscreen media");
+        return ResponseEntity.ok(spotService.getMediaForFullscreen(spotId, mediaId, GenericMediaType.valueOf(mediaType)));
+    }
 
     @GetMapping("/public/spot/current-view")
     public ResponseEntity<Page<SearchSpotDto>> getCurrentView(@RequestParam double swLng,
@@ -122,6 +152,7 @@ public class SpotController {
         log.debug("getting basic spot weather");
         return ResponseEntity.ok(spotWeatherService.getBasicSpotWeather(latitude, longitude));
     }
+
     @GetMapping("/public/spot/get-spot-detailed-weather")
     public ResponseEntity<Mono<DetailedSpotWeatherDto>> getDetailedSpotWeather(@RequestParam double latitude, @RequestParam double longitude) {
         log.debug("getting detailed spot weather");

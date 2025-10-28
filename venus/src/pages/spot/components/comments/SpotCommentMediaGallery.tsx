@@ -1,11 +1,18 @@
 import { useBoolean } from "../../../../hooks/useBoolean";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getSpotCommentsMedia } from "../../../../http/comments";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
 import SpotCommentMediaDto from "../../../../model/interface/spot/comment/spotCommentMediaDto";
 import { MediaType } from "../../../../model/enum/mediaType";
 import { FaRegCirclePlay } from "react-icons/fa6";
 import ReactPlayer from "react-player";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import { expandedSpotMediaGalleryAction } from "../../../../redux/expanded-spot-media-gallery";
+import { expandedSpotMediaGalleryModalsActions } from "../../../../redux/expanded-spot-media-gallery-modals";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
+import { SpotExpandedGallerySortingType } from "../../../../model/enum/spot/spotExpandedGallerySortingType";
+import { getExpandedSpotMediaGalleryPagePosition } from "../../../../http/spots-data";
+import { useEffect, useState } from "react";
 
 type SpotCommentMediaGalleryProps = {
     initialMedia: SpotCommentMediaDto[];
@@ -21,6 +28,12 @@ export default function SpotCommentMediaGallery({
     numberOfMedia,
 }: SpotCommentMediaGalleryProps) {
     const [isShowMoreMedia, showMoreMedia, _, __] = useBoolean();
+    const [clickedMediaData, setClickedMediaData] = useState<{
+        mediaId: number | null;
+        mediaType: MediaType | null;
+    }>();
+
+    const dispatch = useDispatchTyped();
 
     const {
         data: mediaData,
@@ -42,16 +55,82 @@ export default function SpotCommentMediaGallery({
         ? (mediaData ?? initialMedia)
         : initialMedia;
 
+    const { sorting } = useSelectorTyped(
+        (state) => state.expandedSpotMediaGallery,
+    );
+
+    const { mutateAsync, data } = useMutation({
+        mutationFn: ({
+            spotId,
+            mediaId,
+            mediaType,
+            sorting,
+        }: {
+            spotId: number;
+            mediaId: number;
+            mediaType: MediaType;
+            sorting: SpotExpandedGallerySortingType;
+        }) =>
+            getExpandedSpotMediaGalleryPagePosition(
+                spotId,
+                mediaId,
+                mediaType,
+                sorting,
+            ),
+    });
+
+    const handleClickClickMedia = async (
+        mediaType: MediaType,
+        mediaId: number,
+    ) => {
+        setClickedMediaData({ mediaId, mediaType });
+        await mutateAsync({
+            spotId: spotId!,
+            mediaId: mediaId,
+            mediaType: mediaType,
+            sorting,
+        });
+    };
+
+    useEffect(() => {
+        if (data) {
+            dispatch(
+                expandedSpotMediaGalleryAction.setExpandedGalleryMediaId({
+                    mediaId: clickedMediaData?.mediaId!,
+                }),
+            );
+            dispatch(
+                expandedSpotMediaGalleryAction.setExpandedGalleryMediaPagePosition(
+                    { mediaPagePosition: data.mediaPagePosition },
+                ),
+            );
+            dispatch(
+                expandedSpotMediaGalleryAction.setExpandedGalleryMediaType({
+                    mediaType: clickedMediaData?.mediaType!,
+                }),
+            );
+            dispatch(expandedSpotMediaGalleryModalsActions.openModals());
+        }
+    }, [data]);
+
     return (
         <>
             <ul
                 className={`${numberOfMedia < 3 ? "flex space-x-3" : "grid grid-cols-3 gap-3"}`}
             >
                 {mediaList.map((media: SpotCommentMediaDto, idx: number) => (
-                    <li key={media.id} className="relative">
+                    <li key={media.id} className="relative cursor-pointer">
                         {media.genericMediaType === MediaType.VIDEO ? (
                             <>
-                                <div className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-2xl 2xl:text-4xl">
+                                <div
+                                    onClick={() =>
+                                        handleClickClickMedia(
+                                            media.genericMediaType,
+                                            media.id,
+                                        )
+                                    }
+                                    className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-2xl 2xl:text-4xl"
+                                >
                                     <FaRegCirclePlay />
                                 </div>
                                 <div className="absolute inset-0 z-0 flex items-center justify-center">
@@ -70,6 +149,12 @@ export default function SpotCommentMediaGallery({
                             </>
                         ) : (
                             <img
+                                onClick={() =>
+                                    handleClickClickMedia(
+                                        media.genericMediaType,
+                                        media.id,
+                                    )
+                                }
                                 src={media.url}
                                 alt="spot photo"
                                 className="aspect-square w-40"

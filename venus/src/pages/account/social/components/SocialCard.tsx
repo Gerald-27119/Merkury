@@ -24,7 +24,6 @@ import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { getOrCreatePrivateChat } from "../../../../http/chats";
 import { IoAddOutline } from "react-icons/io5";
 import { UserFriendStatus } from "../../../../model/enum/account/social/userFriendStatus";
-import { useState } from "react";
 
 export const friendStatusIconMap = {
     [UserFriendStatus.ACCEPTED]: <FaUserMinus aria-label="removeFriendIcon" />,
@@ -43,6 +42,9 @@ interface SocialCardProps {
     type: SocialListType;
     isSocialForViewer: boolean;
     isSearchFriend?: boolean;
+    selectedUsernames?: Set<string>;
+    maxReached?: boolean;
+    onAddToGroup?: (username: string) => void;
 }
 
 export default function SocialCard({
@@ -50,12 +52,15 @@ export default function SocialCard({
     type,
     isSocialForViewer,
     isSearchFriend,
+    selectedUsernames,
+    maxReached,
+    onAddToGroup,
 }: SocialCardProps) {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
     const [isModalOpen, openModal, closeModal] = useBoolean(false);
-    const [isClicked, setIsClicked] = useState(false); // << używamy do disable/grey-out
     const dispatch = useDispatchTyped();
+
     const isPrivateChatWithThatUserPresent = useSelectorTyped(
         (state) =>
             !!(
@@ -117,7 +122,6 @@ export default function SocialCard({
     };
 
     let handleRemove = async () => {};
-
     switch (type) {
         case SocialListType.FOLLOWED:
             handleRemove = () => removeUserFollowed(friend.username);
@@ -128,7 +132,6 @@ export default function SocialCard({
 
     async function handleNavigateToChat() {
         const id = friend.commonPrivateChatId;
-
         if (id != null && isPrivateChatWithThatUserPresent) {
             dispatch(chatActions.setSelectedChatId(id));
             dispatch(chatActions.clearNew(id));
@@ -139,7 +142,6 @@ export default function SocialCard({
     }
 
     let icon;
-
     if (isSearchFriend) {
         icon = friendStatusIconMap[friend.status as UserFriendStatus];
     } else if (friend.isUserFriend) {
@@ -148,14 +150,22 @@ export default function SocialCard({
         icon = friendStatusIconMap[UserFriendStatus.NONE];
     }
 
-    function handleAddToPotentialGroupChat() {
-        if (isClicked) return;
-        dispatch(chatActions.addUserToAddToChat(friend.username));
-        setIsClicked(true);
-    }
+    const isSelected = selectedUsernames?.has(friend.username) ?? false;
+    const limitReached = !!maxReached;
+    const disableAdd = isSelected || (limitReached && !isSelected);
+
+    const handleAddToPotentialGroupChat = () => {
+        if (disableAdd) return;
+        onAddToGroup?.(friend.username);
+    };
 
     return (
-        <li className="dark:bg-darkBgSoft bg-lightBgSoft space-y-2 rounded-md px-3 pt-3 pb-4">
+        <li
+            className={[
+                "space-y-2 rounded-md px-3 pt-3 pb-4",
+                "bg-lightBgSoft dark:bg-darkBgSoft",
+            ].join(" ")}
+        >
             <img
                 src={friend.profilePhoto}
                 alt="profileImage"
@@ -168,12 +178,17 @@ export default function SocialCard({
             {type === SocialListType.POTENTIAL_GROUP_CHAT_MEMBER ? (
                 <SocialButton
                     onClick={handleAddToPotentialGroupChat}
-                    className="h-12 disabled:cursor-not-allowed disabled:opacity-50 disabled:saturate-0"
-                    disabled={isClicked}
-                    aria-disabled={isClicked}
+                    className={[
+                        "h-12 transition",
+                        disableAdd
+                            ? "pointer-events-none cursor-not-allowed opacity-50 saturate-0"
+                            : "hover:opacity-80",
+                    ].join(" ")}
+                    disabled={disableAdd}
+                    aria-disabled={disableAdd}
                 >
-                    {isClicked ? (
-                        <span className="text-base font-semibold">Dodano</span>
+                    {isSelected ? (
+                        <span className="text-base font-semibold">Added</span>
                     ) : (
                         <IoAddOutline
                             aria-label="addToPotentialGroupChatIcon"
@@ -203,6 +218,7 @@ export default function SocialCard({
                         )}
                 </div>
             )}
+
             <Modal
                 onClose={closeModal}
                 onClick={handleRemove}

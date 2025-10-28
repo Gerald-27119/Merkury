@@ -5,18 +5,6 @@
 \usepackage[polish]{babel}
 \usepackage{import}
 
-%HTTP Methods Coloring
-\lstdefinelanguage{http}{
-    alsoletter={:},
-    literate=
-        {GET}{{{\color{blue}\textbf{GET}}}}3
-        {POST}{{{\color{green!60!black}\textbf{POST}}}}4
-        {DELETE}{{{\color{red}\textbf{DELETE}}}}6
-        {PUT}{{{\color{orange!90!black}\textbf{PUT}}}}3
-        {PATCH}{{{\color{teal}\textbf{PATCH}}}}5
-        {OPTIONS}{{{\color{magenta!80!black}\textbf{OPTIONS}}}}7
-}
-
 %JSON Coloring
 \lstdefinelanguage{json}{
     basicstyle=\footnotesize\ttfamily,
@@ -46,26 +34,6 @@
     stringstyle=\color{green!40!black}
 }
 
-% Http Errors coloring
-\lstdefinelanguage{httperror}{
-    basicstyle=\footnotesize\ttfamily,
-    showstringspaces=false,
-    breaklines=true,
-    frame=single,
-    backgroundcolor=\color{gray!3},
-    literate=*
-        {200\ OK}{{{\color{green!50!black}\textbf{200 OK}}}}6
-        {201\ Created}{{{\color{green!40!black}\textbf{201 Created}}}}12
-        {204\ No\ Content}{{{\color{green!30!black}\textbf{204 No Content}}}}14
-        {400\ Bad\ Request}{{{\color{orange!80!black}\textbf{400 Bad Request}}}}15
-        {401\ Unauthorized}{{{\color{orange!70!black}\textbf{401 Unauthorized}}}}16
-        {403\ Forbidden}{{{\color{orange!90!black}\textbf{403 Forbidden}}}}13
-        {404\ Not\ Found}{{{\color{red!80!black}\textbf{404 Not Found}}}}13
-        {409\ Conflict}{{{\color{red!70!black}\textbf{409 Conflict}}}}12
-        {500\ Internal\ Server\ Error}{{{\color{red!90!black}\textbf{500 Internal Server Error}}}}25,
-}
-
-
 
 
 
@@ -81,7 +49,7 @@
 \acronym{Merkury}
 \titledate{2023-10-10} %todo jaka data tutaj ma byc
 \supervisor{mgr Adam Urbanowicz}
-\reviewer{--- brak ---} %todo dodać
+\reviewer{dr Elżbieta Puźniakowska-Gałuch}
 
 \author{Langmesser Adam}{s27119}{Aplikacje Internetowe}{Stacjonarny}
 \author{Redosz Mateusz}{s27094}{Aplikacje Internetowe}{Stacjonarny}
@@ -150,6 +118,7 @@
     \input{chapters/planowanie/planowanie}
     \input{chapters/analiza-wymagan/analiza-wymagan}
     \input{chapters/projekt/projekt}
+    \input{chapters/przebieg-realizacji/przebieg-realizacji}
     \input{chapters/realizacja-projektu/realizacja-projektu}
     \input{chapters/testy/testy}
     \input{chapters/prezentacja-systemu/prezentacja-systemu}

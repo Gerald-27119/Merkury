@@ -21,4 +21,5 @@ public class UserEntityFetcher {
         return userEntityRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with this id " + id));
     }
+
 }
