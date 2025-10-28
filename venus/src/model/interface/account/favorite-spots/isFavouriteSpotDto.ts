@@ -1,3 +1,3 @@
 export default interface IsFavouriteSpotDto {
-    isFavouriteSpot: boolean
+    isFavouriteSpot: boolean;
 }

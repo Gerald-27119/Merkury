@@ -1,24 +1,24 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 type AddSpotMediaModalProps = {
-    showAddMediaModal: boolean
-}
+    showAddMediaModal: boolean;
+};
 
 const initialState: AddSpotMediaModalProps = {
-    showAddMediaModal: false
-}
+    showAddMediaModal: false,
+};
 
 export const addSpotMediaModalSlice = createSlice({
     name: "addSpotMediaModal",
     initialState,
     reducers: {
         openAddSpotMediaModal(state) {
-            state.showAddMediaModal = true
+            state.showAddMediaModal = true;
         },
         closeAddSpotMediaModal(state) {
-            state.showAddMediaModal = false
-        }
-    }
-})
+            state.showAddMediaModal = false;
+        },
+    },
+});
 
-export const addSpotMediaModalActions = addSpotMediaModalSlice.actions
+export const addSpotMediaModalActions = addSpotMediaModalSlice.actions;

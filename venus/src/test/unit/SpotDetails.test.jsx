@@ -46,8 +46,8 @@ const renderSpotDetails = () => {
             },
             account: {
                 isLogged: false,
-                username: ""
-            }
+                username: "",
+            },
         },
     });
 

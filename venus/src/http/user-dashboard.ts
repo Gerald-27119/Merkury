@@ -15,7 +15,7 @@ import { SpotToAddDto } from "../model/interface/account/add-spot/spotToAddDto";
 import SpotCoordinatesDto from "../model/interface/spot/coordinates/spotCoordinatesDto";
 import { UserFriendStatus } from "../model/enum/account/social/userFriendStatus";
 import IsFavouriteSpotDto from "../model/interface/account/favorite-spots/isFavouriteSpotDto";
-import {FavouriteSpotListOperationType} from "../model/enum/account/favorite-spots/favouriteSpotListOperationType";
+import { FavouriteSpotListOperationType } from "../model/enum/account/favorite-spots/favouriteSpotListOperationType";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -283,7 +283,7 @@ export async function getUserFavoriteSpots(
 interface EditFavoriteSpotListProps {
     type: FavoriteSpotsListType;
     spotId: number;
-    operationType: FavouriteSpotListOperationType
+    operationType: FavouriteSpotListOperationType;
 }
 
 export async function editFavoriteSpotList({
@@ -300,7 +300,7 @@ export async function editFavoriteSpotList({
                 params: {
                     type,
                     spotId,
-                    operationType
+                    operationType,
                 },
             },
         )

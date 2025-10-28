@@ -35,13 +35,13 @@ export default function MapPage() {
         dispatch(mapAction.setZoomLevel(event.target.getZoom()));
     };
 
-    useEffect(() =>{
-        const spotId = searchParams.get("spotId")
+    useEffect(() => {
+        const spotId = searchParams.get("spotId");
         if (spotId) {
-            dispatch(spotDetailsModalAction.setSpotId(Number(spotId)))
-            dispatch(spotDetailsModalAction.handleShowModal())
+            dispatch(spotDetailsModalAction.setSpotId(Number(spotId)));
+            dispatch(spotDetailsModalAction.handleShowModal());
         }
-    },[])
+    }, []);
 
     const showSpotDetailsModal = useSelectorTyped(
         (state) => state.spotDetails.showModal,
