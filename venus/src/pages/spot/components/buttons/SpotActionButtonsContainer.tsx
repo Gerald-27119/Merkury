@@ -18,6 +18,7 @@ import { notificationAction } from "../../../../redux/notification";
 import { FavoriteSpotsListType } from "../../../../model/enum/account/favorite-spots/favoriteSpotsListType";
 import { FavouriteSpotListOperationType } from "../../../../model/enum/account/favorite-spots/favouriteSpotListOperationType";
 import { useLocation } from "react-router-dom";
+import { addSpotMediaModalActions } from "../../../../redux/add-spot-media-modal";
 
 type SpotActionButtonsContainerProps = {
     spotId: number;
@@ -119,7 +120,7 @@ export default function SpotActionButtonsContainer({
             );
         }
     };
-    const clickAddMediaToSpotHandler = (spotId: number): void => {
+    const clickAddMediaToSpotHandler = (): void => {
         if (!isLogged) {
             dispatch(
                 notificationAction.addInfo({
@@ -127,7 +128,7 @@ export default function SpotActionButtonsContainer({
                 }),
             );
         } else {
-            console.log("addPhoto: ", spotId);
+            dispatch(addSpotMediaModalActions.openAddSpotMediaModal());
         }
     };
 
@@ -159,9 +160,7 @@ export default function SpotActionButtonsContainer({
                 </SpotActionButton>
             </li>
             <li key={3}>
-                <SpotActionButton
-                    onClickHandler={() => clickAddMediaToSpotHandler(spotId)}
-                >
+                <SpotActionButton onClickHandler={clickAddMediaToSpotHandler}>
                     <MdOutlineAddPhotoAlternate data-testid="add-photo-button-icon" />
                 </SpotActionButton>
             </li>

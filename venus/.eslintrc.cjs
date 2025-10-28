@@ -26,6 +26,3 @@ module.exports = {
         "react/prop-types": "off",
     },
 };
-
-// Po aktualizacji uruchom w terminalu:
-// npm install -D @typescript-eslint/parser @typescript-eslint/eslint-plugin

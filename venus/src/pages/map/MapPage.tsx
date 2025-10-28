@@ -18,6 +18,7 @@ import FullscreenMediaModal from "./components/spot-gallery/FullscreenMediaModal
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { spotDetailsModalAction } from "../../redux/spot-modal";
+import SpotAddMediaModal from "./components/spot-add-media/SpotAddMediaModal";
 
 type Position = {
     longitude: number;
@@ -71,6 +72,10 @@ export default function MapPage() {
         (state) => state.expandedSpotMediaGalleryFullscreenSizeModal,
     );
 
+    const { showAddMediaModal } = useSelectorTyped(
+        (state) => state.spotAddMediaModal,
+    );
+
     return (
         <Map
             initialViewState={{
@@ -106,6 +111,9 @@ export default function MapPage() {
                 )}
                 {isFullscreenSize && (
                     <FullscreenMediaModal key="expanded-spot-media-gallery-fullscreen-media-modal" />
+                )}
+                {showAddMediaModal && (
+                    <SpotAddMediaModal key="spot-add-media-modal" />
                 )}
             </AnimatePresence>
             <div className="absolute right-1 bottom-1 flex flex-col items-center space-y-2 sm:right-2 sm:bottom-2 xl:right-5 xl:bottom-5">
