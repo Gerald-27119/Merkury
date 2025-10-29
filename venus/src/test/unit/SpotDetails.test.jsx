@@ -29,7 +29,7 @@ const renderSpotDetails = () => {
             spotDetails: spotDetailsModalSlice.reducer,
             sidebar: sidebarSlice.reducer,
             spotComments: spotCommentSlice.reducer,
-            account: accountSlice.reducer(),
+            account: accountSlice.reducer,
             expandedSpotMediaGallery: expandedSpotMediaGallerySlice.reducer,
         },
         preloadedState: {
@@ -93,7 +93,7 @@ const mockSpotDetailsData = {
             mediaType: "PHOTO",
         },
     ],
-    weatherApiCallCoords: {
+    centerPoint: {
         x: 1,
         y: 1,
     },
