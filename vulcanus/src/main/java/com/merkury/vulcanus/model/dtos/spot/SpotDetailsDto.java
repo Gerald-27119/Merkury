@@ -28,6 +28,6 @@ public record SpotDetailsDto(@Positive(message = "ID must be a positive number."
                              @NotEmpty(message = "Media list cannot be empty.")
                              List<SpotMediaDto> media,
                              @NotNull(message = "Coordinates cannot be empty.")
-                             SpotCoordinatesDto weatherApiCallCoords,
+                             SpotCoordinatesDto centerPoint,
                              Set<SpotTagDto> tags) {
 }

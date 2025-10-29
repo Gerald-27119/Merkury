@@ -19,13 +19,16 @@ import { FavoriteSpotsListType } from "../../../../model/enum/account/favorite-s
 import { FavouriteSpotListOperationType } from "../../../../model/enum/account/favorite-spots/favouriteSpotListOperationType";
 import { useLocation } from "react-router-dom";
 import { addSpotMediaModalActions } from "../../../../redux/add-spot-media-modal";
+import SpotCoordinatesDto from "../../../../model/interface/spot/coordinates/spotCoordinatesDto";
 
 type SpotActionButtonsContainerProps = {
     spotId: number;
+    centerPoint: SpotCoordinatesDto;
 };
 
 export default function SpotActionButtonsContainer({
     spotId,
+    centerPoint,
 }: SpotActionButtonsContainerProps) {
     const { isLogged } = useSelectorTyped((state) => state.account);
 
@@ -67,8 +70,34 @@ export default function SpotActionButtonsContainer({
         }
     }, [isError]);
 
-    const clickNavigateHandler = (spotId: number | null): void => {
-        console.log("navigate: ", spotId);
+    const clickNavigateHandler = (): void => {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const userLat = position.coords.latitude;
+                const userLng = position.coords.longitude;
+
+                const url = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${centerPoint.x},${centerPoint.y}&travelmode=driving`;
+                window.open(url, "_blank");
+            },
+            (error) => {
+                let message: string;
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        message = "Please allow location access.";
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        message = "Unable to retrieve your location.";
+                        break;
+                    case error.TIMEOUT:
+                        message = "Location request timed out.";
+                        break;
+                    default:
+                        message = "An unknown error occurred.";
+                }
+                dispatch(notificationAction.addError({ message }));
+            },
+            { enableHighAccuracy: true, timeout: 10000 },
+        );
     };
     const clickSaveSpotHandler = async (spotId: number): Promise<void> => {
         if (!isLogged) {
@@ -135,9 +164,7 @@ export default function SpotActionButtonsContainer({
     return (
         <ul className="mt-3 flex items-center justify-center space-x-3">
             <li key={0}>
-                <SpotActionButton
-                    onClickHandler={() => clickNavigateHandler(spotId)}
-                >
+                <SpotActionButton onClickHandler={clickNavigateHandler}>
                     <MdOutlineNavigation data-testid="navigate-to-spot-button-icon" />
                 </SpotActionButton>
             </li>
