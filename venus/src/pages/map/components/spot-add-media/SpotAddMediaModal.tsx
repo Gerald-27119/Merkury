@@ -25,6 +25,7 @@ export default function SpotAddMediaModal() {
         mutationKey: ["addSpotMedia", spotId],
         mutationFn: addMediaToSpot,
         onSuccess: async () => {
+            setMediaFiles([]);
             dispatch(
                 notificationAction.addSuccess({
                     message: "Media added successfully.",
@@ -33,7 +34,6 @@ export default function SpotAddMediaModal() {
             await queryClient.invalidateQueries({
                 queryKey: ["spotDetails", spotId],
             });
-            setMediaFiles([]);
         },
         onError: () => {
             dispatch(

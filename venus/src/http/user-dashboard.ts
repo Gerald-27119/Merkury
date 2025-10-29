@@ -438,13 +438,15 @@ export async function addMediaToSpot(
     addSpotMedia: AddSpotMediaProps,
 ): Promise<void> {
     const { spotId, formData } = addSpotMedia;
-    return await axios.post(
-        `${BASE_URL}/user-dashboard/add-spot-media`,
-        formData,
-        {
-            withCredentials: true,
-            headers: { "Content-Type": "multipart/form-data" },
-            params: { spotId },
-        },
-    );
+    return (
+        await axios.post(
+            `${BASE_URL}/user-dashboard/add-spot-media`,
+            formData,
+            {
+                withCredentials: true,
+                headers: { "Content-Type": "multipart/form-data" },
+                params: { spotId },
+            },
+        )
+    ).data;
 }

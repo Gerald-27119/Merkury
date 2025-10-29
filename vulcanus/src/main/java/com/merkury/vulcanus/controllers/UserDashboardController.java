@@ -136,7 +136,7 @@ public class UserDashboardController {
     }
 
     @PostMapping("/user-dashboard/add-spot-media")
-    public ResponseEntity<Void> addMediaToSpot(@RequestPart("media") List<MultipartFile> mediaFiles, @RequestParam Long spotId) throws InvalidFileTypeException, SpotNotFoundException, UserNotFoundByUsernameException, BlobContainerNotFoundException, IOException {
+    public ResponseEntity<Void> addMediaToSpot(@RequestPart("mediaFiles") List<MultipartFile> mediaFiles, @RequestParam Long spotId) throws InvalidFileTypeException, SpotNotFoundException, UserNotFoundByUsernameException, BlobContainerNotFoundException, IOException {
         userDashboardService.addMediaToSpot(mediaFiles, spotId);
         return ResponseEntity.ok().build();
     }

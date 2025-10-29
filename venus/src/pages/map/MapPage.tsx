@@ -36,6 +36,8 @@ export default function MapPage() {
         dispatch(mapAction.setZoomLevel(event.target.getZoom()));
     };
 
+    const { isLogged } = useSelectorTyped((state) => state.account);
+
     useEffect(() => {
         const spotId = searchParams.get("spotId");
         if (spotId) {
@@ -112,7 +114,7 @@ export default function MapPage() {
                 {isFullscreenSize && (
                     <FullscreenMediaModal key="expanded-spot-media-gallery-fullscreen-media-modal" />
                 )}
-                {showAddMediaModal && (
+                {isLogged && showAddMediaModal && (
                     <SpotAddMediaModal key="spot-add-media-modal" />
                 )}
             </AnimatePresence>
