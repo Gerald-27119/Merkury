@@ -32,6 +32,7 @@ export default function Spots() {
     const { mutateAsync } = useMutation({
         mutationKey: ["increase-spot-views-count"],
         mutationFn: increaseSpotViewsCount,
+        onError: () => {},
     });
 
     const { data, error } = useQuery({
