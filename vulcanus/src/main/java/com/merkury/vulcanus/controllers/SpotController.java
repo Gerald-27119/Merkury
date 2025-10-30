@@ -90,6 +90,13 @@ public class SpotController {
         return ResponseEntity.ok(spotService.getSpotById(spotId));
     }
 
+    @PatchMapping("/public/spot/increase-view-count")
+    public ResponseEntity<Void> increaseSpotViewsCount(@RequestParam long spotId) throws SpotNotFoundException {
+        log.debug("Increase spot views count: {}", spotId);
+        spotService.increaseSpotViewsCount(spotId);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/public/spot/search/map")
     public ResponseEntity<List<GeneralSpotDto>> getSearchedSpotsOnMap(
             @RequestParam(defaultValue = "") String name) throws SpotsNotFoundException {

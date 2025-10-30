@@ -75,6 +75,13 @@ public class SpotService {
         return spotRepository.findByIdWithTags(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
 
+    public void increaseSpotViewsCount(long spotId) throws SpotNotFoundException {
+        var spot = spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
+        spot.setViewsCount(spot.getViewsCount() + 1);
+        spotRepository.save(spot);
+    }
+
+
     @Cacheable(
             value = "filteredSpots",
             key = "#name",
