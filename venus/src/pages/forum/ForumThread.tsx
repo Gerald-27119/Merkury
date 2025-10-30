@@ -112,21 +112,22 @@ export default function ForumThread({}) {
         (page: ForumCommentPage) => page.content ?? [],
     );
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [parsedPostId]);
+
     return (
         <ForumLayout>
             <div className="mx-auto w-xl md:w-2xl lg:w-3xl">
                 <ReturnButton />
-                {postDetails ? (
-                    <DetailedPost
-                        post={postDetails}
-                        isLoading={isPostDetailsLoading}
-                        isError={isPostDetailsError}
-                        error={postDetailsError}
-                        onAddCommentClick={handleAddCommentClick}
-                    />
-                ) : (
-                    <span>No info</span>
-                )}
+
+                <DetailedPost
+                    post={postDetails!}
+                    isLoading={isPostDetailsLoading}
+                    isError={isPostDetailsError}
+                    error={postDetailsError}
+                    onAddCommentClick={handleAddCommentClick}
+                />
 
                 {isCommentFormVisible && (
                     <ForumCommentForm

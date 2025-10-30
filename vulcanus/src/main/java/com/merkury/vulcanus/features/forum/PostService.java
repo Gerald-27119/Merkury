@@ -18,6 +18,7 @@ import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,7 @@ public class PostService {
         var userName = getAuthenticatedUsernameOrNull();
         var user = userName != null ? userEntityFetcher.getByUsername(userName) : null;
 
+        increasePostViews(post);
         return PostMapper.toDetailsDto(post, user);
     }
 
@@ -128,5 +130,11 @@ public class PostService {
         } catch (AuthenticationCredentialsNotFoundException | InsufficientAuthenticationException ignored) {
         }
         return viewerUsername;
+    }
+
+    @Async
+    protected void increasePostViews(Post post) {
+        post.setViews(post.getViews() + 1);
+        postRepository.save(post);
     }
 }

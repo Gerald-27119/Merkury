@@ -4,8 +4,6 @@ import ForumContentHeader from "./components/ForumContentHeader";
 import DetailedPostContent from "./components/DetailedPostContent";
 import { useNavigate } from "react-router-dom";
 import Error from "../../../components/error/Error";
-import ForumLayout from "../components/ForumLayout";
-import ReturnButton from "../components/ReturnButton";
 import SkeletonDetailedPost from "./components/SkeletonDetailedPost";
 import DetailedPostActions from "./components/DetailedPostActions";
 import { deletePost, votePost } from "../../../http/posts";
@@ -82,12 +80,9 @@ export default function DetailedPost({
 
     if (isLoading) {
         return (
-            <ForumLayout>
-                <div className="mx-auto w-xl md:w-2xl lg:w-3xl">
-                    <ReturnButton />
-                    <SkeletonDetailedPost />
-                </div>
-            </ForumLayout>
+            <div>
+                <SkeletonDetailedPost />
+            </div>
         );
     }
 
