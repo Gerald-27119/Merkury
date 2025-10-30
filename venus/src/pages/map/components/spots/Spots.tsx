@@ -39,7 +39,7 @@ export default function Spots() {
         queryKey: ["spots", "filter", name],
         refetchOnWindowFocus: false,
         staleTime: 1000 * 60 * 5,
-        retry: false
+        retry: false,
     });
 
     useEffect(() => {
