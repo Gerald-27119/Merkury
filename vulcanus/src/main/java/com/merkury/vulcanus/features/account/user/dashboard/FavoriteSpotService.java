@@ -58,7 +58,7 @@ public class FavoriteSpotService {
             var spotInOtherList = favoriteSpotRepository.findByUserUsernameAndSpotId(username, spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
             spotInOtherList.setType(FavoriteSpotsListType.FAVORITE);
             favoriteSpotRepository.save(spotInOtherList);
-        }else {
+        } else {
             var favoriteSpot = FavoriteSpot.builder()
                     .spot(spot)
                     .user(user)
@@ -68,7 +68,7 @@ public class FavoriteSpotService {
         }
     }
 
-    private boolean checkSpotIsInAnyOtherListType(String username, long spotId,  FavoriteSpotsListType typeNotToCheck) {
+    private boolean checkSpotIsInAnyOtherListType(String username, long spotId, FavoriteSpotsListType typeNotToCheck) {
         return favoriteSpotRepository.existsByUserUsernameAndSpotIdAndTypeNot(username, spotId, typeNotToCheck);
     }
 

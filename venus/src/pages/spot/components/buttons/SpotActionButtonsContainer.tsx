@@ -136,7 +136,7 @@ export default function SpotActionButtonsContainer({
         }
         try {
             await navigator.clipboard.writeText(
-                `${window.location.origin}${location.pathname}?=share&spotId=${spotId}`,
+                `${window.location.origin}${location.pathname}?share=true&spotId=${spotId}`,
             );
             dispatch(
                 notificationAction.addSuccess({

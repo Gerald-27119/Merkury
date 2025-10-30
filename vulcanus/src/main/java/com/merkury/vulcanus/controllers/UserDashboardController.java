@@ -144,7 +144,6 @@ public class UserDashboardController {
     @GetMapping("/user-dashboard/is-spot-favourite")
     public ResponseEntity<IsFavouriteSpotDto> isSpotFavourite(@RequestParam Long spotId) {
         return ResponseEntity.ok(userDashboardService.isSpotInUserFavoriteSpots(spotId));
-
     }
 
     @GetMapping("/user-dashboard/photos")
