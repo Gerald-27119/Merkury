@@ -2,21 +2,17 @@ import PostGeneral from "../../../model/interface/forum/post/postGeneral";
 import PostHeader from "./components/PostHeader";
 import PostMetaData from "./components/PostMetaData";
 import PostContent from "./components/PostContent";
-import { deletePost, editPost, votePost } from "../../../http/posts";
-import PostDetails from "../../../model/interface/forum/post/postDetails";
+import { deletePost } from "../../../http/posts";
 import { useAppMutation } from "../../../hooks/useAppMutation";
-import PostDto from "../../../model/interface/forum/post/postDto";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { forumModalAction } from "../../../redux/forumModal";
 
 interface PostProps {
     post: PostGeneral;
 }
 
 export default function Post({ post }: PostProps) {
-    const { mutateAsync: editPostMutate } = useAppMutation(editPost, {
-        successMessage: "Post updated successfully!",
-        loginToAccessMessage: "Login to edit posts",
-        invalidateKeys: [["posts"], ["post", post.id]],
-    });
+    const dispatch = useDispatchTyped();
 
     const { mutateAsync: deletePostMutate } = useAppMutation(deletePost, {
         successMessage: "Post deleted successfully!",
@@ -24,10 +20,15 @@ export default function Post({ post }: PostProps) {
         invalidateKeys: [["posts"]],
     });
 
-    const handleEditClick = (post: PostGeneral | PostDetails) => {};
-
-    const handleEdit = async (postData: PostDto) => {
-        await editPostMutate({ postId: post.id, postData });
+    const handleEditClick = (post: PostGeneral) => {
+        let postToEdit = {
+            id: post.id,
+            title: post.title,
+            content: post.content,
+            category: post.category.name,
+            tags: post.tags.map((tag) => tag.name),
+        };
+        dispatch(forumModalAction.openEditModal(postToEdit));
     };
 
     const handleDelete = async (postId: number) => {
@@ -50,7 +51,7 @@ export default function Post({ post }: PostProps) {
                 />
                 <PostMetaData category={post.category} tags={post.tags} />
                 <PostContent
-                    content={post.content}
+                    content={post.summaryContent}
                     views={post.views}
                     commentsCount={post.commentsCount}
                 />

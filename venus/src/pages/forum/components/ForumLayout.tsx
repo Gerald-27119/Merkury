@@ -10,7 +10,7 @@ import { notificationAction } from "../../../redux/notification";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
-import { useBoolean } from "../../../hooks/useBoolean";
+import { forumModalAction } from "../../../redux/forumModal";
 
 interface ForumLayoutProps {
     children: ReactNode;
@@ -19,8 +19,9 @@ interface ForumLayoutProps {
 export default function ForumLayout({ children }: ForumLayoutProps) {
     const isLogged = useSelector((state: RootState) => state.account.isLogged);
     const dispatch = useDispatchTyped();
-    const [isModalOpen, setIsModalOpenToTrue, setIsModalOpenToFalse] =
-        useBoolean(false);
+    const { isOpen, mode, postToEdit } = useSelector(
+        (state: RootState) => state.forum,
+    );
 
     const {
         data: categoriesAndTags,
@@ -34,7 +35,7 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
 
     const handleAddPostClick = () => {
         if (isLogged) {
-            setIsModalOpenToTrue();
+            dispatch(forumModalAction.openCreateModal());
         } else {
             dispatch(
                 notificationAction.addInfo({
@@ -65,8 +66,10 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
                     <RightPanel />
                 </div>
                 <ForumFormModal
-                    onClose={setIsModalOpenToFalse}
-                    isOpen={isModalOpen}
+                    onClose={() => dispatch(forumModalAction.closeModal())}
+                    isOpen={isOpen}
+                    mode={mode}
+                    postToEdit={postToEdit}
                     categories={categoriesAndTags?.categories ?? []}
                     tags={categoriesAndTags?.tags ?? []}
                 />

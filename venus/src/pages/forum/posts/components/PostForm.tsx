@@ -12,8 +12,7 @@ import PostDto from "../../../../model/interface/forum/post/postDto";
 import { RichTextEditorVariantType } from "../../../../model/enum/forum/richTextEditorVariantType";
 
 interface FormProps {
-    handleAddPost: (data: PostDto) => void;
-    handleEditPost: (postData: PostDto) => void;
+    handlePost: (data: PostDto) => void;
     onClose: () => void;
     categories: Option[];
     tags: Option[];
@@ -21,8 +20,7 @@ interface FormProps {
 }
 
 export default function PostForm({
-    handleAddPost,
-    handleEditPost,
+    handlePost,
     onClose,
     categories,
     tags,
@@ -65,8 +63,7 @@ export default function PostForm({
             tags: data.tags ? data.tags.map((tag) => tag.value) : [],
         };
 
-        postToEdit ? handleEditPost(newPost) : handleAddPost(newPost);
-
+        handlePost(newPost);
         onClose();
     };
 
@@ -126,7 +123,7 @@ export default function PostForm({
                         type="submit"
                         className="dark:bg-violetDark bg-violetLight/80 dark:hover:bg-violetDarker hover:bg-violetLight cursor-pointer rounded px-4 py-2 text-white"
                     >
-                        Post
+                        {postToEdit ? "Edit" : "Post"}
                     </button>
                 </div>
             </form>

@@ -5,23 +5,28 @@ import PostDto from "../../../model/interface/forum/post/postDto";
 import { addPost, editPost } from "../../../http/posts";
 import TagDto from "../../../model/interface/tagDto";
 import { useAppMutation } from "../../../hooks/useAppMutation";
+import PostToEdit from "../../../model/interface/forum/post/postToEdit";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ModalProps {
     onClose: () => void;
     isOpen: boolean;
+    mode: "create" | "edit";
     categories: ForumCategoryDto[];
     tags: TagDto[];
-    postToEdit?: PostDto | null;
+    postToEdit?: PostToEdit | null;
 }
 
 export default function ForumFormModal({
     onClose,
     isOpen,
+    mode,
     categories,
     tags,
     postToEdit,
 }: ModalProps) {
     const modalRoot = document.getElementById("modal");
+    const queryClient = useQueryClient();
 
     if (!modalRoot) {
         return null;
@@ -46,15 +51,26 @@ export default function ForumFormModal({
     const { mutateAsync: editPostMutate } = useAppMutation(editPost, {
         successMessage: "Post updated successfully!",
         loginToAccessMessage: "Login to edit posts",
-        invalidateKeys: [["posts"], ["post", 1]],
     });
 
-    const handleAddPost = async (newPost: PostDto) => {
-        await addPostMutate(newPost);
-    };
-
-    const handleEditPost = async (postData: PostDto) => {
-        await editPostMutate({ postId: 1, postData });
+    const handlePost = async (postData: PostDto) => {
+        if (mode === "create") {
+            await addPostMutate(postData);
+        } else if (mode === "edit" && postToEdit?.id) {
+            await editPostMutate(
+                { postId: postToEdit.id, postData },
+                {
+                    onSuccess: async () => {
+                        await queryClient.invalidateQueries({
+                            queryKey: ["post", postToEdit.id],
+                        });
+                        await queryClient.invalidateQueries({
+                            queryKey: ["posts"],
+                        });
+                    },
+                },
+            );
+        }
     };
 
     return createPortal(
@@ -66,8 +82,7 @@ export default function ForumFormModal({
                         onClick={onClose}
                     ></div>
                     <PostForm
-                        handleAddPost={handleAddPost}
-                        handleEditPost={handleEditPost}
+                        handlePost={handlePost}
                         onClose={onClose}
                         categories={categoryOptions}
                         tags={tagOptions}

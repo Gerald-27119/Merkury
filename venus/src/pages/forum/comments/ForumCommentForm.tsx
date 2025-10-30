@@ -65,7 +65,7 @@ export default function ForumCommentForm({
                         type="submit"
                         className="dark:bg-violetDark bg-violetLight/80 dark:hover:bg-violetDarker hover:bg-violetLight cursor-pointer rounded px-4 py-2 text-white"
                     >
-                        Post
+                        {commentToEdit ? "Edit" : "Comment"}
                     </button>
                 </div>
             </form>

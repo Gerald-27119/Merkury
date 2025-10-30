@@ -8,10 +8,11 @@ import ForumLayout from "../components/ForumLayout";
 import ReturnButton from "../components/ReturnButton";
 import SkeletonDetailedPost from "./components/SkeletonDetailedPost";
 import DetailedPostActions from "./components/DetailedPostActions";
-import { deletePost, editPost, votePost } from "../../../http/posts";
+import { deletePost, votePost } from "../../../http/posts";
 import { notificationAction } from "../../../redux/notification";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { useAppMutation } from "../../../hooks/useAppMutation";
+import { forumModalAction } from "../../../redux/forumModal";
 
 interface DetailedPostProps {
     post: PostDetails;
@@ -31,12 +32,6 @@ export default function DetailedPost({
     const navigate = useNavigate();
     const dispatch = useDispatchTyped();
 
-    const { mutateAsync: editPostMutate } = useAppMutation(editPost, {
-        successMessage: "Post updated successfully!",
-        loginToAccessMessage: "Login to edit posts",
-        invalidateKeys: [["posts"], ["post", 1]],
-    });
-
     const { mutateAsync: deletePostMutate } = useAppMutation(deletePost, {
         successMessage: "Post deleted successfully!",
         loginToAccessMessage: "Login to delete posts",
@@ -48,7 +43,16 @@ export default function DetailedPost({
         loginToAccessMessage: "Login to vote",
     });
 
-    const handleEditClick = async (post: PostDetails) => {};
+    const handleEditClick = async (post: PostDetails) => {
+        let postToEdit = {
+            id: post.id,
+            title: post.title,
+            content: post.content,
+            category: post.category.name,
+            tags: post.tags.map((tag) => tag.name),
+        };
+        dispatch(forumModalAction.openEditModal(postToEdit));
+    };
 
     const handleDelete = async (postId: number) => {
         await deletePostMutate(postId);
