@@ -3,3 +3,44 @@
 
 \subsection{Struktura aplikacji}
 \label{subsec:struktura-aplikacji}
+
+Architektura aplikacji frontendowej została
+zaprojektowana w strukturze folder-by-type, polegający na podziale kodu względem
+typu (komponenty, strony, modele, itd.).
+Każdy plik jest w katalogu odpowiadającemu
+jego zastosowaniu.
+
+
+
+Głównym elementem aplikacji jest mechanizm
+routingu z biblioteki React Router. Definiuje on ścieżki do każdej
+funkcjonalności aplikacji. Dzięki temu aplikacja posiada płynną nawigację
+między różnymi widokami bez konieczności przeładowywania strony.
+
+%\putimage{Implementacja routera 1}{attachments/router1}{img:router1}{0.2\textwidth}
+%\putimage{Implementacja routera 2}{attachments/router2}{img:router2}{0.2\textwidth}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{attachments/router1}
+    \caption{Implementacja routera 1}
+    \label{img:router1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{attachments/router2}
+    \caption{Implementacja routera 2}
+    \label{img:router2}
+\end{figure}
+
+Został zastosowany również wzorzec Protected
+Route, służy on do zabezpieczenia niektórych tras przed dostępem użytkowników
+niezalogowanych. W pliku router.tsx w głównym katalogu projektu w metodzie
+createBrowserRouter widocznej na rysunku(numerRysunku) została ona opakowana w
+komponent ProtectedRoute który pełni rolę bramki. Przykładem takiej ścieżki
+może być trasa /account/profile która prowadzi do profilu zalogowanego
+użytkownika. Jeżeli na podaną ścieżkę wejdzie użytkownik niezalogowany zostanie
+on automatycznie przeniesiony na stronę główną.
+
+\putimage{Implementacja komponentu zabezpieczjącego}{attachments/protected-route}{img:protected-route}{1\textwidth}
