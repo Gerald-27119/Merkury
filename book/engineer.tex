@@ -100,7 +100,6 @@
     \maketitle
     \makeprojectcard
 
-    %Spis treści
     \tableofcontents
     \clearpage
 
@@ -116,20 +115,14 @@
     \input{chapters/naklad-pracy/naklad-pracy}
     \input{chapters/podsumowanie/podsumowanie}
 
-%    \input{chapters/slownik-pojec/slownik-pojec}
     \chapter{Słownik pojęć i skrótów}
     \label{ch:sownik-pojec-i-skrotow}
-    \setglossarysection{section} % zamiast domyślnego chapter*
-    \vspace*{-2\baselineskip} % usuwa odstęp
+    \setglossarysection{section}
+    \vspace*{-2\baselineskip}
     \printglossary[type=\acronymtype, title={}, toctitle={}]
-%TODO: odstep do usuanieca w pliku wynikowym
 
-%    \input{chapters/bibliografia/bibliografia}
-%    \chapter{Bibliografia}
-%    \label{ch:bibliografia}
     \printbibliography[title={}, heading=bibintoc]
-%    \input{chapters/zalaczniki/zalaczniki}
-%    TODO: jakz robic aby zalaczeniki byly w spisie tresci
+
     \cleardoublepage
     \phantomsection
     \addcontentsline{toc}{chapter}{Załączniki}
