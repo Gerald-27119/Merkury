@@ -119,25 +119,8 @@
     \input{chapters/prezentacja-systemu/prezentacja-systemu}
     \input{chapters/naklad-pracy/naklad-pracy}
     \input{chapters/podsumowanie/podsumowanie}
-
-    \chapter{Słownik pojęć i skrótów}
-    \label{ch:sownik-pojec-i-skrotow}
-    \printglossary[type=\acronymtype]
-%    \printglossary[title={Słownik pojęć i skrótów}, toctitle={Słownik pojęć i skrótów}]
-%TODO:nie wiem czmu słownik pojec sie rozjezdza
-
-    \usepackage[backend=biber,style=numeric,sorting=nyt]{biblatex}
-    \addbibresource{bibliography.bib}
-    \usepackage{csquotes}
-    \chapter{Bibliografia}
-    \label{ch:bibliografia}
-    \printbibliography[heading=bibintoc, title={Bibliografia}]
-
-    \chapter{Załączniki}
-    \label{ch:zaaczniki}
-%\appendix
-    \makethesisattachments
-
-
+    \input{chapters/slownik-pojec/slownik-pojec}
+    \input{chapters/bibliografia/bibliografia}
+    \input{chapters/zalaczniki/zalaczniki}
 
 \end{document}
