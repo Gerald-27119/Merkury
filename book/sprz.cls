@@ -340,7 +340,7 @@
 
 
 \newcommand{\makethesisattachments}{%
-%\chapter*{Załączniki}
+\chapter*{Załączniki}
 
 Płyta CD z następującą zawartością:
 \begin{itemize}
