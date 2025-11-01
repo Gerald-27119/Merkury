@@ -5,6 +5,19 @@
 \usepackage[polish]{babel}
 \usepackage{import}
 \usepackage{csquotes}
+
+%nowe pakiety do tabel:
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array} % do m{...} i nowych typów kolumn
+
+%customowe rozmiary kolumn (do użytku ogolonego)
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{Y}{>{\hspace{0.6em}}X<{\hspace{0.6em}}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}} % lewa, zawijana
+
+\usepackage{float}% ma pomoc z bugiem ze tabelki/zdjęcia przenoszą sie na koniec rozdziału, używam w tabelce dal aktorów
+
 %JSON Coloring
 \lstdefinelanguage{json}{
     basicstyle=\footnotesize\ttfamily,

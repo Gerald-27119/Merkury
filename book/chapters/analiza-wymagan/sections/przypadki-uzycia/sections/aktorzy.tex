@@ -1,0 +1,30 @@
+%! Author = Adam
+%! Date = 01/11/2025
+
+\subsection{Aktorzy}
+\label{subsec:aktorzy}
+
+\begin{table}[H] % to powoduje ze tabelka nie przenosi sie na koniec rozdziału
+    \centering
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabularx}{\textwidth}{|L{0.34\textwidth}|X|}
+        \hline
+        \textbf{Aktor} & \textbf{Krótki opis} \\ \hline
+        Użytkownik niezalogowany & Gość przeglądający publiczne treści (mapa, spoty, forum), może się zarejestrować/zalogować. \\ \hline
+        Użytkownik (nie premium) & Zarejestrowany użytkownik podstawowy: zarządza kontem i ulubionymi, dodaje treści/komentarze, korzysta z czatu. \\ \hline
+        Użytkownik premium & Użytkownik z wykupioną subskrypcją; ma dostęp do funkcji premium (np. widok premium, rozszerzone wyszukiwanie). \\ \hline
+        Moderator & Nadzór treści: przegląda zgłoszenia, akceptuje/usuwa posty i komentarze, blokuje nadużycia. \\ \hline
+        Deweloper & Osoba utrzymująca system: inicjuje pipeline’y, monitoruje wdrożenia i infrastrukturę. \\ \hline
+        Dostawca tożsamości (OAuth) & Zewnętrzny provider logowania (SSO) używany do weryfikacji kont użytkowników. \\ \hline
+        Bramka płatnicza & Zewnętrzny system obsługujący płatności/subskrypcje (autoryzacja, statusy). \\ \hline
+        Usługa mailowa (SMTP) & Serwis do wysyłki wiadomości e-mail (rejestracja, reset hasła, powiadomienia). \\ \hline
+        Dostawca API do map & Zewnętrzny dostawca map/tili/geokodowania wykorzystywany w widoku mapy. \\ \hline
+        Dostawca API pogodowego & Zewnętrzne API prognoz pogody używane do prezentacji warunków na spotach. \\ \hline
+        Azure Blob Storage & Usługa chmurowa od Microsoftu do przechowywania multimediów m.in: zdjęc spotów, plików wysłąnych na chacie przez użytkowników. \\ \hline
+        Baza danych (DB) & System przechowywania danych aplikacji. \\ \hline
+        GitHub (repo + CI/CD) & Repozytorium kodu i pipeline’y automatyzujące build/test/deploy. \\ \hline
+    \end{tabularx}
+    \caption{Aktorzy systemu – przegląd}
+    \label{tab:aktorzy}
+\end{table}
+
