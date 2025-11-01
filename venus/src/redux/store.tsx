@@ -15,13 +15,11 @@ import { currentViewSpotsSlice } from "./current-view-spots";
 import { currentViewSpotsListModalSlice } from "./current-view-spots-list-modal";
 import { currentViewSpotParamsSlice } from "./current-view-spot-params";
 import { spotWeatherSlice } from "./spot-weather";
+import { addSpotMediaModalSlice } from "./add-spot-media-modal";
 import { expandedSpotGalleryMediaListSlice } from "./expanded-spot-gallery-media-list";
 import { expandedSpotMediaGalleryModalsSlice } from "./expanded-spot-media-gallery-modals";
 import { expandedSpotMediaGalleryFullscreenSizeSlice } from "./expanded-spot-media-gallery-fullscreen-size";
-import {
-    expandedSpotGalleryCurrentMediaActions,
-    expandedSpotGalleryCurrentMediaSlice,
-} from "./expanded-spot-gallery-current-media";
+import { expandedSpotGalleryCurrentMediaSlice } from "./expanded-spot-gallery-current-media";
 
 // TODO: Add persisting state to localStorage
 const store = configureStore({
@@ -49,6 +47,7 @@ const store = configureStore({
             expandedSpotMediaGalleryFullscreenSizeSlice.reducer,
         expandedSpotGalleryCurrentMedia:
             expandedSpotGalleryCurrentMediaSlice.reducer,
+        spotAddMediaModal: addSpotMediaModalSlice.reducer,
     },
 });
 

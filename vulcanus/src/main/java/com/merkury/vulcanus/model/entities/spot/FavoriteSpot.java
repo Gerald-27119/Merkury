@@ -16,6 +16,7 @@ public class FavoriteSpot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private FavoriteSpotsListType type;
 
     @ManyToOne
