@@ -9,6 +9,7 @@ import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentAddDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentEditDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentMediaDto;
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentUserVoteInfoDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -63,5 +64,11 @@ public class SpotCommentController {
     public ResponseEntity<Void> voteComment(HttpServletRequest request, @PathVariable Long commentId, @RequestParam boolean isUpvote) throws UserNotFoundException, CommentNotFoundException {
         spotCommentService.voteComment(request, commentId, isUpvote);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/spot/comments/vote-type")
+    public ResponseEntity<SpotCommentUserVoteInfoDto> getVoteInfo(HttpServletRequest request, @RequestParam Long commentId) throws UserNotFoundException {
+        //TODO: spotCommentService.getVoteInfo()
+        return ResponseEntity.ok().build();
     }
 }
