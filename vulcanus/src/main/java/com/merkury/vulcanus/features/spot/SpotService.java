@@ -26,6 +26,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Collections;
@@ -74,6 +75,14 @@ public class SpotService {
     public SpotDetailsDto getSpotById(Long id) throws SpotNotFoundException {
         return spotRepository.findByIdWithTags(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
+
+    @Transactional
+    public void increaseSpotViewsCount(long spotId) throws SpotNotFoundException {
+        var spot = spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
+        spot.setViewsCount(spot.getViewsCount() + 1);
+        spotRepository.save(spot);
+    }
+
 
     @Cacheable(
             value = "filteredSpots",

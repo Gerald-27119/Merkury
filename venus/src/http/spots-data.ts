@@ -216,3 +216,13 @@ export async function getSpotGalleryFullscreenMedia(
         })
     ).data;
 }
+
+export async function increaseSpotViewsCount(spotId: number): Promise<void> {
+    return (
+        await axios.patch(
+            `${BASE_URL}/public/spot/increase-view-count`,
+            {},
+            { params: { spotId }, withCredentials: true },
+        )
+    ).data;
+}
