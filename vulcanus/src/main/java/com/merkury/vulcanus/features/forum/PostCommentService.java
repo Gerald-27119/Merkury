@@ -3,13 +3,14 @@ package com.merkury.vulcanus.features.forum;
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.forum.ForumPostCommentReplyPageDto;
+import com.merkury.vulcanus.model.dtos.forum.ForumReportDto;
 import com.merkury.vulcanus.model.dtos.forum.PostCommentDto;
 import com.merkury.vulcanus.model.dtos.forum.PostCommentGeneralDto;
 import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.PostComment;
 import com.merkury.vulcanus.model.mappers.forum.PostCommentMapper;
-import com.merkury.vulcanus.model.repositories.PostCommentRepository;
-import com.merkury.vulcanus.model.repositories.PostRepository;
+import com.merkury.vulcanus.model.repositories.forum.PostCommentRepository;
+import com.merkury.vulcanus.model.repositories.forum.PostRepository;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import com.merkury.vulcanus.utils.ForumContentValidator;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
@@ -21,7 +22,6 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +31,7 @@ public class PostCommentService {
     private final CustomUserDetailsService customUserDetailsService;
     private final UserEntityFetcher userEntityFetcher;
     private final VoteService voteService;
+    private final ReportService reportService;
     private final ForumContentValidator forumContentValidator;
 
     public Page<PostCommentGeneralDto> getCommentsByPostId(Pageable pageable, Long postId) throws UserNotFoundByUsernameException {
@@ -99,12 +100,19 @@ public class PostCommentService {
         postCommentRepository.save(comment);
     }
 
+    public void reportComment(Long commentId, ForumReportDto report) throws CommentNotFoundException, UserNotFoundByUsernameException, ContentAlreadyReportedException, OwnContentReportException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
+        var comment = postCommentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
+
+        reportService.reportPostComment(report, comment, user);
+    }
+
     public void addReplyToComment(Long parentCommentId, PostCommentDto dto) throws CommentNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException, InvalidCommentOperationException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var parentComment = postCommentRepository.findById(parentCommentId).orElseThrow(() -> new CommentNotFoundException(parentCommentId));
 
         if (parentComment.getAuthor().equals(user)) {
-            throw new InvalidCommentOperationException();
+            throw new InvalidCommentOperationException("You cannot reply to your own comment.");
         }
 
         var post = parentComment.getPost();

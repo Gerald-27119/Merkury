@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.model.repositories;
+package com.merkury.vulcanus.model.repositories.forum;
 
 import com.merkury.vulcanus.model.entities.forum.PostCategory;
 import org.springframework.data.jpa.repository.JpaRepository;

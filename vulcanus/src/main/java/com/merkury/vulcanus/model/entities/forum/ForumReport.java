@@ -23,8 +23,7 @@ public abstract class ForumReport {
 
     @Builder.Default
     private LocalDateTime reportDate = LocalDateTime.now();
-    @Builder.Default
-    private ForumReportReason reason = ForumReportReason.INAPPROPRIATE_CONTENT;
+    private ForumReportReason reason;
     private String details;
 
     @ManyToOne

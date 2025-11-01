@@ -3,7 +3,7 @@ import Error from "../../components/error/Error.jsx";
 import { fetchPaginatedPosts } from "../../http/posts";
 import React, { useEffect, useRef, useState } from "react";
 import ForumPostPage from "../../model/interface/forum/forumPostPage";
-import { ForumPostSortOption } from "../../model/enum/forum/forumPostSortOption";
+import { PostSortOption } from "../../model/enum/forum/postSortOption";
 import ForumPostList from "./components/ForumPostList";
 import ForumLayout from "./components/ForumLayout";
 import SkeletonListedForumPost from "./components/SkeletonListedForumPost";
@@ -11,7 +11,7 @@ import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
 
 export default function Forum() {
     const loadMoreRef = useRef<HTMLDivElement>(null);
-    const [sortOption, setSortOption] = useState<ForumPostSortOption>({
+    const [sortOption, setSortOption] = useState<PostSortOption>({
         name: "Newest",
         sortBy: "PUBLISH_DATE",
         sortDirection: "DESC",

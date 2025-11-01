@@ -1,6 +1,6 @@
 import PostCommentGeneral from "../../../model/interface/forum/postComment/postCommentGeneral";
 import PostComment from "./PostComment";
-import { ForumCommentSortOption } from "../../../model/enum/forum/forumCommentSortOption";
+import { PostCommentSortOption } from "../../../model/enum/forum/postCommentSortOption";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import Error from "../../../components/error/Error";
 import ForumSortDropdown from "../components/ForumSortDropdown";
@@ -10,8 +10,8 @@ interface ForumCommentListProps {
     postId?: number;
     parentCommentId?: number;
     comments?: PostCommentGeneral[];
-    sortOption?: ForumCommentSortOption;
-    onSortChange?: (option: ForumCommentSortOption) => void;
+    sortOption?: PostCommentSortOption;
+    onSortChange?: (option: PostCommentSortOption) => void;
     isLoading: boolean;
     isError: boolean;
     error: Error | null;
@@ -29,7 +29,7 @@ export default function PostCommentList({
     error,
     areReplies,
 }: ForumCommentListProps) {
-    const options: ForumCommentSortOption[] = [
+    const options: PostCommentSortOption[] = [
         { name: "Newest", sortBy: "PUBLISH_DATE", sortDirection: "DESC" },
         { name: "Oldest", sortBy: "PUBLISH_DATE", sortDirection: "ASC" },
         { name: "Most UpVoted", sortBy: "UP_VOTES", sortDirection: "DESC" },

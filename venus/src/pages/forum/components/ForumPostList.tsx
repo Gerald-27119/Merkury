@@ -2,12 +2,12 @@ import ForumSortDropdown from "./ForumSortDropdown";
 import Post from "../posts/Post";
 import React from "react";
 import PostGeneral from "../../../model/interface/forum/post/postGeneral";
-import { ForumPostSortOption } from "../../../model/enum/forum/forumPostSortOption";
+import { PostSortOption } from "../../../model/enum/forum/postSortOption";
 
 interface ForumPostListProps {
     posts?: PostGeneral[];
-    sortOption: ForumPostSortOption;
-    onSortChange: (option: ForumPostSortOption) => void;
+    sortOption: PostSortOption;
+    onSortChange: (option: PostSortOption) => void;
 }
 
 export default function ForumPostList({
@@ -15,7 +15,7 @@ export default function ForumPostList({
     sortOption,
     onSortChange,
 }: ForumPostListProps) {
-    const options: ForumPostSortOption[] = [
+    const options: PostSortOption[] = [
         { name: "Newest", sortBy: "PUBLISH_DATE", sortDirection: "DESC" },
         { name: "Oldest", sortBy: "PUBLISH_DATE", sortDirection: "ASC" },
         { name: "Most Viewed", sortBy: "VIEWS", sortDirection: "DESC" },

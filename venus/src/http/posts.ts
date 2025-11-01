@@ -3,14 +3,14 @@ import PostDto from "../model/interface/forum/post/postDto";
 import PostDetails from "../model/interface/forum/post/postDetails";
 import ForumCategoryAndTagsDto from "../model/interface/forum/forumCategoryAndTagsDto";
 import ForumPostPage from "../model/interface/forum/forumPostPage";
-import { ForumPostSortOption } from "../model/enum/forum/forumPostSortOption";
+import { PostSortOption } from "../model/enum/forum/postSortOption";
 import ForumReportDto from "../model/interface/forum/forumReportDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function fetchPaginatedPosts(
     page: number,
     size: number,
-    sortType: ForumPostSortOption,
+    sortType: PostSortOption,
 ): Promise<ForumPostPage> {
     const { sortBy, sortDirection } = sortType;
     return (

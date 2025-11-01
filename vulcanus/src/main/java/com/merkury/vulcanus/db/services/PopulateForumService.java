@@ -9,6 +9,10 @@ import com.merkury.vulcanus.model.entities.forum.Tag;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.model.interfaces.Votable;
 import com.merkury.vulcanus.model.repositories.*;
+import com.merkury.vulcanus.model.repositories.forum.PostCategoryRepository;
+import com.merkury.vulcanus.model.repositories.forum.PostCommentRepository;
+import com.merkury.vulcanus.model.repositories.forum.PostRepository;
+import com.merkury.vulcanus.model.repositories.forum.PostTagRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,7 +29,7 @@ public class PopulateForumService {
     private final PostRepository postRepository;
     private final PostCommentRepository commentRepository;
     private final PostCategoryRepository postCategoryRepository;
-    private final TagRepository tagRepository;
+    private final PostTagRepository postTagRepository;
     private final UserEntityRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final Random random = new Random();
@@ -261,7 +265,7 @@ public class PopulateForumService {
         forumUserFriend.getFriendships().add(reverseFriendship);
         userRepository.saveAll(List.of(forumUser, forumUserFriend));
         postCategoryRepository.saveAll(List.of(postCategory1, postCategory2, postCategory3, postCategory4, postCategory5, postCategory6));
-        tagRepository.saveAll(List.of(tag1, tag2, tag3, tag4, tag5));
+        postTagRepository.saveAll(List.of(tag1, tag2, tag3, tag4, tag5));
         postRepository.saveAll(postList);
         commentRepository.saveAll(allComments);
     }

@@ -1,8 +1,9 @@
 import axios from "axios";
-import { ForumCommentSortOption } from "../model/enum/forum/forumCommentSortOption";
+import { PostCommentSortOption } from "../model/enum/forum/postCommentSortOption";
 import PostCommentPage from "../model/interface/forum/postComment/postCommentPage";
 import PostCommentDto from "../model/interface/forum/postComment/postCommentDto";
 import PostCommentReplyPage from "../model/interface/forum/postComment/postCommentReplyPage";
+import ForumReportDto from "../model/interface/forum/forumReportDto";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
@@ -10,7 +11,7 @@ export async function getCommentsByPostId(
     postId: number,
     page: number,
     size: number,
-    sortType: ForumCommentSortOption,
+    sortType: PostCommentSortOption,
 ): Promise<PostCommentPage> {
     const { sortBy, sortDirection } = sortType;
     return (
@@ -101,10 +102,10 @@ export async function replyToComment({
     );
 }
 
-export async function reportComment(commentId: number) {
+export async function reportComment(commentId: number, report: ForumReportDto) {
     return await axios.patch(
         `${BASE_URL}/post/comments/${commentId}/report`,
-        null,
+        report,
         {
             withCredentials: true,
         },

@@ -5,7 +5,7 @@ import ReturnButton from "./components/ReturnButton";
 import ForumLayout from "./components/ForumLayout";
 import { addComment, getCommentsByPostId } from "../../http/post-comments";
 import React, { useEffect, useRef, useState } from "react";
-import { ForumCommentSortOption } from "../../model/enum/forum/forumCommentSortOption";
+import { PostCommentSortOption } from "../../model/enum/forum/postCommentSortOption";
 import PostCommentList from "./comments/PostCommentList";
 import { useBoolean } from "../../hooks/useBoolean";
 import PostCommentForm from "./comments/PostCommentForm";
@@ -28,7 +28,7 @@ export default function ForumThread({}) {
     const isLogged = useSelector((state: RootState) => state.account.isLogged);
     const [isCommentFormVisible, showCommentForm, hideCommentForm] =
         useBoolean(false);
-    const [sortOption, setSortOption] = useState<ForumCommentSortOption>({
+    const [sortOption, setSortOption] = useState<PostCommentSortOption>({
         name: "Newest",
         sortBy: "PUBLISH_DATE",
         sortDirection: "DESC",

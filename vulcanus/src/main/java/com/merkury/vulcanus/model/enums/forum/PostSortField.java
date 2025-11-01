@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum ForumPostCommentSortField {
+public enum PostSortField {
     PUBLISH_DATE("publishDate"),
-    UP_VOTES("upVotes"),
-    DOWN_VOTES("downVotes");
+    VIEWS("views"),
+    COMMENTS("commentsCount");
 
     private final String field;
 }
