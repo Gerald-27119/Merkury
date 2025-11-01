@@ -5,20 +5,29 @@
 \label{subsec:struktura-aplikacji}
 
 Architektura aplikacji frontendowej została
-zaprojektowana w strukturze folder-by-type, polegający na podziale kodu względem
+zaprojektowana w strukturze \gls{folder-by-type}, polegający na podziale kodu względem
 typu (komponenty, strony, modele, itd.).
-Każdy plik jest w katalogu odpowiadającemu
-jego zastosowaniu.
+Każdy plik jest w katalogu odpowiadającemu jego zastosowaniu co widać na rysunkach
+\ref{img:struktura-frontend1} i \ref{img:struktura-frontend2}.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{attachments/struktura-frontend1}
+    \caption{Struktura katalogów 1}
+    \label{img:struktura-frontend1}
+\end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{attachments/struktura-frontend2}
+    \caption{Struktura katalogów 2}
+    \label{img:struktura-frontend2}
+\end{figure}
 
 Głównym elementem aplikacji jest mechanizm
-routingu z biblioteki React Router. Definiuje on ścieżki do każdej
+routingu z \gls{bibliote}ki React Router. Definiuje on ścieżki do każdej
 funkcjonalności aplikacji. Dzięki temu aplikacja posiada płynną nawigację
 między różnymi widokami bez konieczności przeładowywania strony.
-
-%\putimage{Implementacja routera 1}{attachments/router1}{img:router1}{0.2\textwidth}
-%\putimage{Implementacja routera 2}{attachments/router2}{img:router2}{0.2\textwidth}
 
 \begin{figure}[H]
     \centering
@@ -34,13 +43,18 @@ między różnymi widokami bez konieczności przeładowywania strony.
     \label{img:router2}
 \end{figure}
 
-Został zastosowany również wzorzec Protected
-Route, służy on do zabezpieczenia niektórych tras przed dostępem użytkowników
+Został zastosowany również \gls{wzorzec} \gls{protected-route}, służy on do zabezpieczenia
+niektórych tras przed dostępem użytkowników
 niezalogowanych. W pliku router.tsx w głównym katalogu projektu w metodzie
-createBrowserRouter widocznej na rysunku(numerRysunku) została ona opakowana w
-komponent ProtectedRoute który pełni rolę bramki. Przykładem takiej ścieżki
-może być trasa /account/profile która prowadzi do profilu zalogowanego
-użytkownika. Jeżeli na podaną ścieżkę wejdzie użytkownik niezalogowany zostanie
+createBrowserRouter widocznej na rysunkach \ref{img:router1} i \ref{img:router2} została ona opakowana w
+komponent ProtectedRoute który pełni rolę bramki \ref{img:protected-route}. Przykładem takiej ścieżki
+może być trasa /chat która prowadzi do chatu dla zalogowanych użytkowników.
+Jeżeli na podaną ścieżkę wejdzie użytkownik niezalogowany zostanie
 on automatycznie przeniesiony na stronę główną.
 
-\putimage{Implementacja komponentu zabezpieczjącego}{attachments/protected-route}{img:protected-route}{1\textwidth}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/protected-route}
+    \caption{Implementacja komponentu bramki}
+    \label{img:protected-route}
+\end{figure}
