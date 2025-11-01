@@ -4,10 +4,7 @@
 \subsection{Aktorzy}
 \label{subsec:aktorzy}
 
-\renewcommand{\arraystretch}{1.15} %to nie jest grozne?
-
-%TODO postgres
-%TODO porpaw reszte
+\renewcommand{\arraystretch}{1.15}
 
 \begin{longtable}{|L{0.34\textwidth}|p{0.62\textwidth}|}
     \hline
@@ -25,14 +22,18 @@
     Użytkownik premium & Użytkownik z wykupioną subskrypcją; ma dostęp do funkcji premium (np. widok premium, rozszerzone wyszukiwanie). \\ \hline
     Moderator & Nadzór treści: przegląda zgłoszenia, akceptuje/usuwa posty i komentarze, blokuje nadużycia. \\ \hline
     Deweloper & Osoba utrzymująca system: inicjuje pipeline’y, monitoruje wdrożenia i infrastrukturę. \\ \hline
-    Dostawca tożsamości (OAuth) & Zewnętrzny provider logowania (SSO) używany do weryfikacji kont użytkowników. \\ \hline
-    Bramka płatnicza & Zewnętrzny system obsługujący płatności/subskrypcje (autoryzacja, statusy). \\ \hline
-    Usługa mailowa (SMTP) & Serwis do wysyłki wiadomości e-mail (rejestracja, reset hasła, powiadomienia). \\ \hline
-    Dostawca API do map & Zewnętrzny dostawca map/tili/geokodowania wykorzystywany w widoku mapy. \\ \hline
-    Dostawca API pogodowego & Zewnętrzne API prognoz pogody używane do prezentacji warunków na spotach. \\ \hline
-    Azure Blob Storage & Usługa chmurowa do przechowywania multimediów (zdjęcia spotów, pliki z czatu). \\ \hline
-    Baza danych (DB) & System przechowywania danych aplikacji. \\ \hline
-    GitHub (repo + CI/CD) & Repozytorium kodu i pipeline’y automatyzujące build/test/deploy. \\ \hline
+    Bramka płatnicza (Pytanie... bo nie bedzie u nas zaimplementwanej platnosci) & Zewnętrzny system obsługujący płatności/subskrypcje (autoryzacja, statusy). \\ \hline
+    Usługa mailowa (Mailtrap) & Serwis do wysyłki wiadomości e-mail (rejestracja, reset hasła, powiadomienia). \\ \hline
+    Dostawca API do map (OpenFreeMap) & Zewnętrzny dostawca map/tili/geokodowania wykorzystywany w widoku mapy. \\ \hline
+    Nawigacja (Google Maps) & Zewnętrzny dostawca map używany do nawigacji. \\ \hline
+    Dostawca API pogodowego (Open-Meteo) & Zewnętrzne API prognoz pogody używane do prezentacji warunków na spotach. \\ \hline
+    Dostawca API GIFów (Tenor) & Zewnętrzne API prognoz pogody używane do prezentacji warunków na spotach. \\ \hline
+    Azure Blob Storage & Usługa chmurowa do przechowywania multimediów (np. zdjęcia spotów, pliki z czatu). \\ \hline
+    Baza danych (PostgreSQL) & System przechowywania danych aplikacji. \\ \hline
+    Cache (Redis) & System przechowywania danych aplikacji. \\ \hline
+    GitHub (repo + CI/CD) & Repozytorium kodu i pipeline’y automatyzujące build/test. \\ \hline
+    Dostawca OAuth (Google) & Zewnętrzny provider logowania/rejestracji. \\ \hline
+    Dostawca OAuth (Github) & Zewnętrzny provider logowania/rejestracji. \\ \hline
 
     \caption{Aktorzy systemu – przegląd\label{tab:aktorzy}}
 
