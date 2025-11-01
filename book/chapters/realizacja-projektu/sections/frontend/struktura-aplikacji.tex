@@ -4,57 +4,62 @@
 \subsection{Struktura aplikacji}
 \label{subsec:struktura-aplikacji}
 
-Architektura aplikacji frontendowej została
-zaprojektowana w strukturze \gls{folder-by-type}, polegający na podziale kodu względem
-typu (komponenty, strony, modele, itd.).
-Każdy plik jest w katalogu odpowiadającemu jego zastosowaniu co widać na rysunkach
-\ref{img:struktura-frontend1} i \ref{img:struktura-frontend2}.
+Architektura aplikacji frontendowej została zaprojektowana w strukturze
+\gls{folder-by-type}, która polega na podziale kodu według typu zasobu
+(komponenty, strony, modele itd.). Każdy plik znajduje się w katalogu
+odpowiadającym jego przeznaczeniu, co widać na rysunkach
+\ref{img:struktura-frontend1} oraz \ref{img:struktura-frontend2}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{attachments/struktura-frontend1}
-    \caption{Struktura katalogów 1}
+    \caption{Struktura katalogów (1)}
     \label{img:struktura-frontend1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{attachments/struktura-frontend2}
-    \caption{Struktura katalogów 2}
+    \caption{Struktura katalogów (2)}
     \label{img:struktura-frontend2}
 \end{figure}
 
-Głównym elementem aplikacji jest mechanizm
-routingu z \gls{bibliote}ki React Router. Definiuje on ścieżki do każdej
-funkcjonalności aplikacji. Dzięki temu aplikacja posiada płynną nawigację
-między różnymi widokami bez konieczności przeładowywania strony.
+Głównym elementem aplikacji jest mechanizm routingu oparty na bibliotece
+React Router. Definiuje on ścieżki do poszczególnych funkcjonalności
+aplikacji. Dzięki temu możliwa jest płynna nawigacja między różnymi
+widokami bez konieczności przeładowywania strony.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{attachments/router1}
-    \caption{Implementacja routera 1}
+    \caption{Implementacja routera (1)}
     \label{img:router1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{attachments/router2}
-    \caption{Implementacja routera 2}
+    \caption{Implementacja routera (2)}
     \label{img:router2}
 \end{figure}
 
-Został zastosowany również \gls{wzorzec} \gls{protected-route}, służy on do zabezpieczenia
-niektórych tras przed dostępem użytkowników
-niezalogowanych. W pliku router.tsx w głównym katalogu projektu w metodzie
-createBrowserRouter widocznej na rysunkach \ref{img:router1} i \ref{img:router2} została ona opakowana w
-komponent ProtectedRoute który pełni rolę bramki \ref{img:protected-route}. Przykładem takiej ścieżki
-może być trasa /chat która prowadzi do chatu dla zalogowanych użytkowników.
-Jeżeli na podaną ścieżkę wejdzie użytkownik niezalogowany zostanie
-on automatycznie przeniesiony na stronę główną.
+W projekcie zastosowano również wzorzec \gls{protected-route}, który służy
+do zabezpieczania wybranych tras przed dostępem użytkowników
+niezalogowanych. W pliku \texttt{router.tsx}, znajdującym się w głównym
+katalogu projektu, w konfiguracji przekazywanej do funkcji
+\texttt{createBrowserRouter} (rysunki \ref{img:router1} oraz
+\ref{img:router2}), wybrane ścieżki zostały opakowane w komponent
+\texttt{ProtectedRoute}. Komponent ten pełni rolę bramki
+(rysunek~\ref{img:protected-route}).
+
+Przykładem takiej chronionej ścieżki jest trasa \texttt{/chat},
+prowadząca do modułu czatu dostępnego wyłącznie dla zalogowanych
+użytkowników. Jeśli niezalogowany użytkownik spróbuje uzyskać dostęp do
+tej ścieżki, zostanie automatycznie przekierowany na stronę główną.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/protected-route}
-    \caption{Implementacja komponentu bramki}
+    \caption{Implementacja komponentu bramki (\texttt{ProtectedRoute})}
     \label{img:protected-route}
 \end{figure}
