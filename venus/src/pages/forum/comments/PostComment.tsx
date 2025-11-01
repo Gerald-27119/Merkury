@@ -1,7 +1,7 @@
-import ForumCommentGeneral from "../../../model/interface/forum/postComment/forumCommentGeneral";
+import PostCommentGeneral from "../../../model/interface/forum/postComment/postCommentGeneral";
 import ForumContentHeader from "../posts/components/ForumContentHeader";
 import { useNavigate } from "react-router-dom";
-import ForumCommentContent from "./ForumCommentContent";
+import PostCommentContent from "./PostCommentContent";
 import { BsArrowReturnRight } from "react-icons/bs";
 import ShowRepliesButton from "./ShowRepliesButton";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -13,31 +13,31 @@ import {
     voteComment,
 } from "../../../http/post-comments";
 import { useBoolean } from "../../../hooks/useBoolean";
-import ForumCommentList from "./ForumCommentList";
-import ForumCommentActions from "./ForumCommentActions";
-import ForumCommentForm from "./ForumCommentForm";
+import PostCommentList from "./PostCommentList";
+import PostCommentActions from "./PostCommentActions";
+import PostCommentForm from "./PostCommentForm";
 import { notificationAction } from "../../../redux/notification";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useState } from "react";
 import { useAppMutation } from "../../../hooks/useAppMutation";
-import ForumCommentDto from "../../../model/interface/forum/postComment/forumCommentDto";
-import ForumCommentReplyPage from "../../../model/interface/forum/postComment/forumCommentReplyPage";
+import PostCommentDto from "../../../model/interface/forum/postComment/postCommentDto";
+import PostCommentReplyPage from "../../../model/interface/forum/postComment/postCommentReplyPage";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 
 interface ForumCommentProps {
-    comment: ForumCommentGeneral;
+    comment: PostCommentGeneral;
     postId?: number;
     parentCommentId?: number;
 }
 
 type ActiveForm =
-    | { type: "edit"; comment: ForumCommentGeneral }
+    | { type: "edit"; comment: PostCommentGeneral }
     | { type: "reply"; parentCommentId: number }
     | null;
 
-export default function ForumComment({
+export default function PostComment({
     comment,
     postId,
     parentCommentId,
@@ -92,7 +92,7 @@ export default function ForumComment({
         loginToAccessMessage: "Login to comment",
     });
 
-    const handleCommentEditClick = (comment: ForumCommentGeneral) => {
+    const handleCommentEditClick = (comment: PostCommentGeneral) => {
         if (isLogged) {
             setActiveForm({ type: "edit", comment });
         } else {
@@ -106,7 +106,7 @@ export default function ForumComment({
 
     const handleEdit = async (
         commentId: number,
-        commentData: ForumCommentDto,
+        commentData: PostCommentDto,
     ) => {
         await editCommentMutate({ commentId, commentData });
     };
@@ -131,7 +131,7 @@ export default function ForumComment({
 
     const handleReply = async (
         commentId: number,
-        replyData: ForumCommentDto,
+        replyData: PostCommentDto,
     ) => {
         console.log();
         await replyCommentMutate({ commentId, replyData });
@@ -147,7 +147,7 @@ export default function ForumComment({
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-    } = useInfiniteQuery<ForumCommentReplyPage>({
+    } = useInfiniteQuery<PostCommentReplyPage>({
         queryKey: ["forumCommentReplies", comment.id],
         queryFn: (context) => {
             const { pageParam } = context as {
@@ -174,7 +174,7 @@ export default function ForumComment({
     });
 
     const replies = repliesPage?.pages.flatMap(
-        (page: ForumCommentReplyPage) => page.comments ?? [],
+        (page: PostCommentReplyPage) => page.comments ?? [],
     );
 
     return (
@@ -188,9 +188,9 @@ export default function ForumComment({
 
             {activeForm?.type !== "edit" && (
                 <div>
-                    <ForumCommentContent content={comment.content} />
+                    <PostCommentContent content={comment.content} />
 
-                    <ForumCommentActions
+                    <PostCommentActions
                         comment={comment}
                         onDelete={handleDelete}
                         onEdit={handleCommentEditClick}
@@ -202,7 +202,7 @@ export default function ForumComment({
             )}
 
             {activeForm?.type === "edit" && activeForm.comment && (
-                <ForumCommentForm
+                <PostCommentForm
                     handleComment={(data) =>
                         handleEdit(activeForm.comment.id, data)
                     }
@@ -213,7 +213,7 @@ export default function ForumComment({
             )}
 
             {activeForm?.type === "reply" && (
-                <ForumCommentForm
+                <PostCommentForm
                     handleComment={(data) =>
                         handleReply(activeForm.parentCommentId, data)
                     }
@@ -238,7 +238,7 @@ export default function ForumComment({
 
             {areRepliesOpen && (
                 <div className="ml-10">
-                    <ForumCommentList
+                    <PostCommentList
                         comments={replies}
                         isLoading={isRepliesPageLoading}
                         isError={isRepliesPageError}

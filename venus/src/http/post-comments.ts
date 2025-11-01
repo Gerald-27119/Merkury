@@ -1,8 +1,8 @@
 import axios from "axios";
 import { ForumCommentSortOption } from "../model/enum/forum/forumCommentSortOption";
-import ForumCommentPage from "../model/interface/forum/postComment/forumCommentPage";
-import ForumCommentDto from "../model/interface/forum/postComment/forumCommentDto";
-import ForumCommentReplyPage from "../model/interface/forum/postComment/forumCommentReplyPage";
+import PostCommentPage from "../model/interface/forum/postComment/postCommentPage";
+import PostCommentDto from "../model/interface/forum/postComment/postCommentDto";
+import PostCommentReplyPage from "../model/interface/forum/postComment/postCommentReplyPage";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
@@ -11,7 +11,7 @@ export async function getCommentsByPostId(
     page: number,
     size: number,
     sortType: ForumCommentSortOption,
-): Promise<ForumCommentPage> {
+): Promise<PostCommentPage> {
     const { sortBy, sortDirection } = sortType;
     return (
         await axios.get(`${BASE_URL}/public/post/${postId}/comments`, {
@@ -26,7 +26,7 @@ export async function getCommentRepliesByCommentId(
     size: number,
     lastDate?: string,
     lastId?: number,
-): Promise<ForumCommentReplyPage> {
+): Promise<PostCommentReplyPage> {
     const params: Record<string, any> = { size };
     if (lastDate) params.lastDate = lastDate;
     if (lastId) params.lastId = lastId;
@@ -43,7 +43,7 @@ export async function addComment({
     newComment,
 }: {
     postId: number;
-    newComment: ForumCommentDto;
+    newComment: PostCommentDto;
 }) {
     return await axios.post(`${BASE_URL}/post/${postId}/comments`, newComment, {
         withCredentials: true,
@@ -55,7 +55,7 @@ export async function editComment({
     commentData,
 }: {
     commentId: number;
-    commentData: ForumCommentDto;
+    commentData: PostCommentDto;
 }) {
     return await axios.patch(
         `${BASE_URL}/post/comments/${commentId}`,
@@ -90,7 +90,7 @@ export async function replyToComment({
     replyData,
 }: {
     commentId: number;
-    replyData: ForumCommentDto;
+    replyData: PostCommentDto;
 }) {
     return await axios.post(
         `${BASE_URL}/comments/${commentId}/replies`,

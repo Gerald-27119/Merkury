@@ -1,14 +1,14 @@
 import ForumContentMenu from "../posts/components/ForumContentMenu";
-import ForumCommentGeneral from "../../../model/interface/forum/postComment/forumCommentGeneral";
+import PostCommentGeneral from "../../../model/interface/forum/postComment/postCommentGeneral";
 
 interface ForumCommentMenuProps {
-    comment: ForumCommentGeneral;
+    comment: PostCommentGeneral;
     onDelete: (commentId: number) => void;
-    onEdit: (comment: ForumCommentGeneral) => void;
+    onEdit: (comment: PostCommentGeneral) => void;
     onReport: (commentId: number) => void;
 }
 
-export default function ForumCommentMenu({
+export default function PostCommentMenu({
     comment,
     onDelete,
     onEdit,

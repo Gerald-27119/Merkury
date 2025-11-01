@@ -2,7 +2,7 @@ interface ForumCommentContentProps {
     content: string;
 }
 
-export default function ForumCommentContent({
+export default function PostCommentContent({
     content,
 }: ForumCommentContentProps) {
     return (

@@ -5,18 +5,18 @@ import {
     ForumCommentFormFields,
     ForumCommentFormSchema,
 } from "../../../model/schema/forumCommentFormSchema";
-import ForumCommentDto from "../../../model/interface/forum/postComment/forumCommentDto";
+import PostCommentDto from "../../../model/interface/forum/postComment/postCommentDto";
 import { RichTextEditorVariantType } from "../../../model/enum/forum/richTextEditorVariantType";
-import ForumCommentGeneral from "../../../model/interface/forum/postComment/forumCommentGeneral";
+import PostCommentGeneral from "../../../model/interface/forum/postComment/postCommentGeneral";
 
 interface ForumCommentFormProps {
-    handleComment: (newComment: ForumCommentDto) => void;
+    handleComment: (newComment: PostCommentDto) => void;
     onClose: () => void;
-    commentToEdit?: ForumCommentGeneral;
+    commentToEdit?: PostCommentGeneral;
     className?: string;
 }
 
-export default function ForumCommentForm({
+export default function PostCommentForm({
     handleComment,
     onClose,
     commentToEdit,

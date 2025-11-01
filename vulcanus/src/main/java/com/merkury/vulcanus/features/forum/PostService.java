@@ -3,6 +3,7 @@ package com.merkury.vulcanus.features.forum;
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.forum.*;
+import com.merkury.vulcanus.model.entities.forum.PostReport;
 import com.merkury.vulcanus.model.entities.forum.PostCategory;
 import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.Tag;
@@ -104,7 +105,7 @@ public class PostService {
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
 
         if (post.getAuthor().equals(user)) {
-            throw new InvalidPostOperationException();
+            throw new InvalidPostOperationException("You can't follow your own post.");
         }
 
         var followers = post.getFollowers();
@@ -113,6 +114,22 @@ public class PostService {
         } else {
             followers.add(user);
         }
+        postRepository.save(post);
+    }
+
+    public void reportPost(Long postId, ForumReportDto report) throws PostNotFoundException, UserNotFoundByUsernameException, InvalidPostOperationException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
+        var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
+
+        if (post.getAuthor().equals(user)) {
+            throw new InvalidPostOperationException("You can't report your own post.");
+        }
+
+        PostReport rep = new PostReport();
+        rep.setReason(report.reason());
+        rep.setDetails(report.details());
+        rep.setPost(post);
+
         postRepository.save(post);
     }
 

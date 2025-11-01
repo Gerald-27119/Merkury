@@ -1,19 +1,19 @@
 import ActionIconWithCount from "../posts/components/ActionIconWithCount";
 import { MdThumbDown, MdThumbUp } from "react-icons/md";
 import { FaReply } from "react-icons/fa";
-import ForumCommentGeneral from "../../../model/interface/forum/postComment/forumCommentGeneral";
-import ForumCommentMenu from "./ForumCommentMenu";
+import PostCommentGeneral from "../../../model/interface/forum/postComment/postCommentGeneral";
+import PostCommentMenu from "./PostCommentMenu";
 
 interface ForumCommentActionsProps {
-    comment: ForumCommentGeneral;
+    comment: PostCommentGeneral;
     onDelete: (commentId: number) => void;
-    onEdit: (comment: ForumCommentGeneral) => void;
+    onEdit: (comment: PostCommentGeneral) => void;
     onVote: (commentId: number, isUpvote: boolean) => void;
     onReport: (commentId: number) => void;
     onReply: (commentId: number) => void;
 }
 
-export default function ForumCommentActions({
+export default function PostCommentActions({
     comment,
     onDelete,
     onEdit,
@@ -48,7 +48,7 @@ export default function ForumCommentActions({
                 )}
             </div>
             <div className="ml-8 flex gap-6">
-                <ForumCommentMenu
+                <PostCommentMenu
                     comment={comment}
                     onDelete={onDelete}
                     onEdit={onEdit}

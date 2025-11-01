@@ -65,6 +65,12 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PatchMapping("/post/{postId}/report")
+    public ResponseEntity<Void> reportPost(@PathVariable Long postId, @Valid @RequestBody ForumReportDto report) throws PostNotFoundException, UserNotFoundByUsernameException, InvalidPostOperationException {
+        postService.reportPost(postId, report);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @GetMapping("/public/categories-tags")
     public ResponseEntity<ForumCategoriesAndTagsDto> getAllCategoriesAndTags() {
         return ResponseEntity.ok(postService.getAllCategoriesAndTags());

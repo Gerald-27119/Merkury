@@ -1,6 +1,6 @@
 import ForumAuthorDto from "../forumAuthorDto";
 
-export default interface ForumCommentGeneral {
+export default interface PostCommentGeneral {
     id: number;
     content: string;
     upVotes: number;

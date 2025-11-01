@@ -1,5 +1,5 @@
-import ForumCommentGeneral from "../../../model/interface/forum/postComment/forumCommentGeneral";
-import ForumComment from "./ForumComment";
+import PostCommentGeneral from "../../../model/interface/forum/postComment/postCommentGeneral";
+import PostComment from "./PostComment";
 import { ForumCommentSortOption } from "../../../model/enum/forum/forumCommentSortOption";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import Error from "../../../components/error/Error";
@@ -9,7 +9,7 @@ import { AnimatePresence, motion } from "framer-motion";
 interface ForumCommentListProps {
     postId?: number;
     parentCommentId?: number;
-    comments?: ForumCommentGeneral[];
+    comments?: PostCommentGeneral[];
     sortOption?: ForumCommentSortOption;
     onSortChange?: (option: ForumCommentSortOption) => void;
     isLoading: boolean;
@@ -18,7 +18,7 @@ interface ForumCommentListProps {
     areReplies: boolean;
 }
 
-export default function ForumCommentList({
+export default function PostCommentList({
     postId,
     parentCommentId,
     comments,
@@ -72,7 +72,7 @@ export default function ForumCommentList({
                         >
                             {comments.map((comment) => (
                                 <li key={comment.id}>
-                                    <ForumComment
+                                    <PostComment
                                         comment={comment}
                                         postId={postId}
                                         parentCommentId={parentCommentId}

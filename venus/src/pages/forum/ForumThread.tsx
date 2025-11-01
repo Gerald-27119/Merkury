@@ -6,17 +6,17 @@ import ForumLayout from "./components/ForumLayout";
 import { addComment, getCommentsByPostId } from "../../http/post-comments";
 import React, { useEffect, useRef, useState } from "react";
 import { ForumCommentSortOption } from "../../model/enum/forum/forumCommentSortOption";
-import ForumCommentList from "./comments/ForumCommentList";
+import PostCommentList from "./comments/PostCommentList";
 import { useBoolean } from "../../hooks/useBoolean";
-import ForumCommentForm from "./comments/ForumCommentForm";
+import PostCommentForm from "./comments/PostCommentForm";
 import { fetchDetailedPost, followPost } from "../../http/posts";
-import ForumCommentDto from "../../model/interface/forum/postComment/forumCommentDto";
+import PostCommentDto from "../../model/interface/forum/postComment/postCommentDto";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { notificationAction } from "../../redux/notification";
 import useDispatchTyped from "../../hooks/useDispatchTyped";
 import { useAppMutation } from "../../hooks/useAppMutation";
-import ForumCommentPage from "../../model/interface/forum/postComment/forumCommentPage";
+import PostCommentPage from "../../model/interface/forum/postComment/postCommentPage";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
 import FollowPostButton from "./components/FollowPostButton";
 
@@ -53,7 +53,7 @@ export default function ForumThread({}) {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-    } = useInfiniteQuery<ForumCommentPage>({
+    } = useInfiniteQuery<PostCommentPage>({
         queryKey: ["forumComments", parsedPostId, sortOption],
         queryFn: ({ pageParam }) =>
             getCommentsByPostId(
@@ -62,7 +62,7 @@ export default function ForumThread({}) {
                 10,
                 sortOption,
             ),
-        getNextPageParam: (lastPage: ForumCommentPage) => {
+        getNextPageParam: (lastPage: PostCommentPage) => {
             const { number, totalPages } = lastPage.page;
             return number + 1 < totalPages ? number + 1 : undefined;
         },
@@ -81,7 +81,7 @@ export default function ForumThread({}) {
         invalidateKeys: [["post", parsedPostId]],
     });
 
-    const handleAddComment = async (newComment: ForumCommentDto) => {
+    const handleAddComment = async (newComment: PostCommentDto) => {
         await addCommentMutate({ postId: parsedPostId, newComment });
     };
 
@@ -124,7 +124,7 @@ export default function ForumThread({}) {
     }, [parsedPostId]);
 
     const comments = forumCommentPage?.pages.flatMap(
-        (page: ForumCommentPage) => page.content ?? [],
+        (page: PostCommentPage) => page.content ?? [],
     );
 
     return (
@@ -151,13 +151,13 @@ export default function ForumThread({}) {
                 />
 
                 {isCommentFormVisible && (
-                    <ForumCommentForm
+                    <PostCommentForm
                         handleComment={handleAddComment}
                         onClose={hideCommentForm}
                     />
                 )}
 
-                <ForumCommentList
+                <PostCommentList
                     postId={postDetails?.id}
                     comments={comments}
                     sortOption={sortOption}
