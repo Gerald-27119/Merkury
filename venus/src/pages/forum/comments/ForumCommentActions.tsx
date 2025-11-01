@@ -50,7 +50,6 @@ export default function ForumCommentActions({
             <div className="ml-8 flex gap-6">
                 <ForumCommentMenu
                     comment={comment}
-                    isAuthor={comment.isAuthor}
                     onDelete={onDelete}
                     onEdit={onEdit}
                     onReport={onReport}

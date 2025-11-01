@@ -12,4 +12,5 @@ export default interface PostGeneral {
     views: number;
     commentsCount: number;
     isAuthor: boolean;
+    isFollowed: boolean;
 }

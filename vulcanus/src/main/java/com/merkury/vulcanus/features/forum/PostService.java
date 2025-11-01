@@ -99,6 +99,23 @@ public class PostService {
         postRepository.save(post);
     }
 
+    public void followPost(Long postId) throws PostNotFoundException, UserNotFoundByUsernameException, InvalidPostOperationException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
+        var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
+
+        if (post.getAuthor().equals(user)) {
+            throw new InvalidPostOperationException();
+        }
+
+        var followers = post.getFollowers();
+        if (followers.contains(user)) {
+            followers.remove(user);
+        } else {
+            followers.add(user);
+        }
+        postRepository.save(post);
+    }
+
     public ForumCategoriesAndTagsDto getAllCategoriesAndTags() {
         var categories = postCategoryRepository.findAll();
         var tags = tagRepository.findAll();

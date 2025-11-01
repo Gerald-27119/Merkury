@@ -3,7 +3,6 @@ import ForumCommentGeneral from "../../../model/interface/forum/postComment/foru
 
 interface ForumCommentMenuProps {
     comment: ForumCommentGeneral;
-    isAuthor: boolean;
     onDelete: (commentId: number) => void;
     onEdit: (comment: ForumCommentGeneral) => void;
     onReport: (commentId: number) => void;
@@ -11,7 +10,6 @@ interface ForumCommentMenuProps {
 
 export default function ForumCommentMenu({
     comment,
-    isAuthor,
     onDelete,
     onEdit,
     onReport,
@@ -19,7 +17,7 @@ export default function ForumCommentMenu({
     return (
         <ForumContentMenu
             contentId={comment.id}
-            isUserAuthor={isAuthor}
+            isUserAuthor={comment.isAuthor}
             onDelete={() => onDelete(comment.id)}
             onEdit={() => onEdit(comment)}
             onReport={() => onReport(comment.id)}

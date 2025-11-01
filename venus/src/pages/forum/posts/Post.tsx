@@ -2,7 +2,7 @@ import PostGeneral from "../../../model/interface/forum/post/postGeneral";
 import PostHeader from "./components/PostHeader";
 import PostMetaData from "./components/PostMetaData";
 import PostContent from "./components/PostContent";
-import { deletePost } from "../../../http/posts";
+import { deletePost, followPost } from "../../../http/posts";
 import { useAppMutation } from "../../../hooks/useAppMutation";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { forumModalAction } from "../../../redux/forumModal";
@@ -17,6 +17,14 @@ export default function Post({ post }: PostProps) {
     const { mutateAsync: deletePostMutate } = useAppMutation(deletePost, {
         successMessage: "Post deleted successfully!",
         loginToAccessMessage: "Login to delete posts",
+        invalidateKeys: [["posts"]],
+    });
+
+    const { mutateAsync: followPostMutate } = useAppMutation(followPost, {
+        successMessage: post.isFollowed
+            ? "Post is no longer being followed!"
+            : "Post is now being followed!",
+        loginToAccessMessage: "Login to follow posts.",
         invalidateKeys: [["posts"]],
     });
 
@@ -35,7 +43,9 @@ export default function Post({ post }: PostProps) {
         await deletePostMutate(postId);
     };
 
-    const handleFollow = async (postId: number) => {};
+    const handleFollow = async (postId: number) => {
+        await followPostMutate(postId);
+    };
 
     const handleReport = async (postId: number) => {};
 

@@ -26,7 +26,6 @@ export default function PostHeader({
             </NavLink>
             <ForumPostMenu
                 post={post}
-                isAuthor={post.isAuthor}
                 onDelete={onDelete}
                 onEdit={onEdit}
                 onFollow={onFollow}

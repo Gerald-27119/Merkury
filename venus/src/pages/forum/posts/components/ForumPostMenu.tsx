@@ -4,7 +4,6 @@ import PostDetails from "../../../../model/interface/forum/post/postDetails";
 
 interface ForumPostMenuProps<T extends PostGeneral | PostDetails> {
     post: T;
-    isAuthor: boolean;
     onDelete: (postId: number) => void;
     onEdit: (post: T) => void;
     onFollow: (postId: number) => void;
@@ -13,7 +12,6 @@ interface ForumPostMenuProps<T extends PostGeneral | PostDetails> {
 
 export default function ForumPostMenu<T extends PostGeneral | PostDetails>({
     post,
-    isAuthor,
     onDelete,
     onEdit,
     onFollow,
@@ -22,7 +20,8 @@ export default function ForumPostMenu<T extends PostGeneral | PostDetails>({
     return (
         <ForumContentMenu
             contentId={post.id}
-            isUserAuthor={isAuthor}
+            isUserAuthor={post.isAuthor}
+            isFollowed={post.isFollowed}
             onDelete={() => onDelete(post.id)}
             onEdit={() => onEdit(post)}
             onFollow={() => onFollow(post.id)}

@@ -18,6 +18,7 @@ interface DetailedPostProps {
     isError: boolean;
     error: Error | null;
     onAddCommentClick: () => void;
+    handleFollow: (postId: number) => void;
 }
 
 export default function DetailedPost({
@@ -26,6 +27,7 @@ export default function DetailedPost({
     isError,
     error,
     onAddCommentClick,
+    handleFollow,
 }: DetailedPostProps) {
     const navigate = useNavigate();
     const dispatch = useDispatchTyped();
@@ -60,8 +62,6 @@ export default function DetailedPost({
     const handleVote = async (id: number, isUpvote: boolean) => {
         await votePostMutate({ id, isUpvote });
     };
-
-    const handleFollow = async (postId: number) => {};
 
     const handlePostShare = async (url: string) => {
         await navigator.clipboard.writeText(url);

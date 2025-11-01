@@ -58,7 +58,6 @@ export default function DetailedPostActions({
             <div className="ml-8 flex gap-6">
                 <ForumPostMenu
                     post={post}
-                    isAuthor={post.isAuthor}
                     onDelete={onDelete}
                     onEdit={onEdit}
                     onFollow={onFollow}

@@ -59,6 +59,12 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PatchMapping("/post/{postId}/follow")
+    public ResponseEntity<Void> followPost(@PathVariable Long postId) throws PostNotFoundException, UserNotFoundByUsernameException, InvalidPostOperationException {
+        postService.followPost(postId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @GetMapping("/public/categories-tags")
     public ResponseEntity<ForumCategoriesAndTagsDto> getAllCategoriesAndTags() {
         return ResponseEntity.ok(postService.getAllCategoriesAndTags());

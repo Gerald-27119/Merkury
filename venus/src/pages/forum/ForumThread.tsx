@@ -9,7 +9,7 @@ import { ForumCommentSortOption } from "../../model/enum/forum/forumCommentSortO
 import ForumCommentList from "./comments/ForumCommentList";
 import { useBoolean } from "../../hooks/useBoolean";
 import ForumCommentForm from "./comments/ForumCommentForm";
-import { fetchDetailedPost } from "../../http/posts";
+import { fetchDetailedPost, followPost } from "../../http/posts";
 import ForumCommentDto from "../../model/interface/forum/postComment/forumCommentDto";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -18,6 +18,7 @@ import useDispatchTyped from "../../hooks/useDispatchTyped";
 import { useAppMutation } from "../../hooks/useAppMutation";
 import ForumCommentPage from "../../model/interface/forum/postComment/forumCommentPage";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
+import FollowPostButton from "./components/FollowPostButton";
 
 export default function ForumThread({}) {
     const { postId } = useParams<{ postId: string }>();
@@ -74,6 +75,12 @@ export default function ForumThread({}) {
         loginToAccessMessage: "Login to comment",
     });
 
+    const { mutateAsync: followPostMutate } = useAppMutation(followPost, {
+        successMessage: "Post is now being followed!",
+        loginToAccessMessage: "Login to follow posts",
+        invalidateKeys: [["post", parsedPostId]],
+    });
+
     const handleAddComment = async (newComment: ForumCommentDto) => {
         await addCommentMutate({ postId: parsedPostId, newComment });
     };
@@ -88,6 +95,10 @@ export default function ForumThread({}) {
                 }),
             );
         }
+    };
+
+    const handlePostFollow = async (postId: number) => {
+        await followPostMutate(postId);
     };
 
     useEffect(() => {
@@ -108,18 +119,27 @@ export default function ForumThread({}) {
         };
     }, [hasNextPage, fetchNextPage, sortOption, isFetchingNextPage]);
 
-    const comments = forumCommentPage?.pages.flatMap(
-        (page: ForumCommentPage) => page.content ?? [],
-    );
-
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [parsedPostId]);
 
+    const comments = forumCommentPage?.pages.flatMap(
+        (page: ForumCommentPage) => page.content ?? [],
+    );
+
     return (
         <ForumLayout>
             <div className="mx-auto w-xl md:w-2xl lg:w-3xl">
-                <ReturnButton />
+                <div className="flex justify-between">
+                    <ReturnButton />
+                    {!isPostDetailsLoading && !postDetails?.isAuthor && (
+                        <FollowPostButton
+                            onClick={handlePostFollow}
+                            postId={postDetails?.id}
+                            isFollowed={postDetails?.isFollowed}
+                        />
+                    )}
+                </div>
 
                 <DetailedPost
                     post={postDetails!}
@@ -127,6 +147,7 @@ export default function ForumThread({}) {
                     isError={isPostDetailsError}
                     error={postDetailsError}
                     onAddCommentClick={handleAddCommentClick}
+                    handleFollow={handlePostFollow}
                 />
 
                 {isCommentFormVisible && (

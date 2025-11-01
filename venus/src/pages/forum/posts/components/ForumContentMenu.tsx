@@ -1,16 +1,17 @@
 import { HiDotsHorizontal } from "react-icons/hi";
-import { FaBell, FaEdit } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
+import { BiSolidBell, BiSolidBellOff } from "react-icons/bi";
 import { FaTrashCan } from "react-icons/fa6";
 import { MdFlag } from "react-icons/md";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import MenuItem from "../../components/MenuItem";
-import { useToggleState } from "../../../../hooks/useToggleState";
 import { useClickOutside } from "../../../../hooks/useClickOutside";
 import { useBoolean } from "../../../../hooks/useBoolean";
 
 interface ForumContentMenuProps {
     contentId: number;
     isUserAuthor: boolean;
+    isFollowed?: boolean;
     onDelete: (id: number) => void;
     onEdit: (id: number) => void;
     onFollow?: (id: number) => void;
@@ -20,34 +21,42 @@ interface ForumContentMenuProps {
 export default function ForumContentMenu({
     contentId,
     isUserAuthor,
+    isFollowed,
     onDelete,
     onEdit,
     onFollow,
     onReport,
 }: ForumContentMenuProps) {
-    const [isPostMenuOpen, openPostMenu, closePostMenu] = useBoolean(false);
+    const [isMenuOpen, openMenu, closeMenu] = useBoolean(false);
     const menuRef = useRef<HTMLDivElement>(null);
-    useClickOutside(menuRef, closePostMenu, isPostMenuOpen);
+    useClickOutside(menuRef, closeMenu, isMenuOpen);
 
     const handleClick = (action: (id: number) => void) => {
         action(contentId);
-        closePostMenu();
+        closeMenu();
     };
 
     return (
         <div className="relative" ref={menuRef}>
             <HiDotsHorizontal
-                onClick={isPostMenuOpen ? closePostMenu : openPostMenu}
+                onClick={isMenuOpen ? closeMenu : openMenu}
                 className="cursor-pointer text-2xl hover:text-blue-500 dark:hover:text-blue-400"
             />
 
-            {isPostMenuOpen && (
+            {isMenuOpen && (
                 <div className="dark:border-darkBorder dark:bg-darkBgSoft absolute right-0 z-10 mt-2 w-40 rounded-md border bg-white shadow-lg">
                     <ul className="items-center py-1 text-sm">
                         {onFollow && !isUserAuthor && (
                             <MenuItem onClick={() => handleClick(onFollow)}>
-                                <FaBell />
-                                Follow
+                                {isFollowed ? (
+                                    <>
+                                        <BiSolidBellOff /> Unfollow
+                                    </>
+                                ) : (
+                                    <>
+                                        <BiSolidBell /> Follow
+                                    </>
+                                )}
                             </MenuItem>
                         )}
 
