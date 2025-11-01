@@ -3,3 +3,42 @@
 
 \subsection{Zarządzanie stanem i przepływ danych}
 \label{subsec:zarzadzanie-stanem-i-przeplyw-danych}
+
+W projekcie postawiliśmy na zrównoważone podejście do zarządzania
+\gls{stan}em. Korzystamy zarówno z lokalnego \gls{stan}u komponentów
+(za pomocą hooka \texttt{useState}), jak i ze \gls{stan}u globalnego,
+utrzymywanego przez \gls{bibliote}kę React~Redux. Globalny \gls{stan}
+został wprowadzony po to, aby możliwie najbardziej ograniczyć
+przekazywanie propsów w głąb drzewa komponentów oraz uniknąć
+niepotrzebnych ponownych renderów.
+
+Do przechowywania \gls{stan}u lokalnego, ograniczonego tylko do danego
+komponentu (lub jego najbliższych elementów podrzędnych), wykorzystujemy
+hooki \texttt{useState} oraz \texttt{useEffect}. Natomiast w przypadku
+bardziej złożonej logiki lub potrzeby ponownego wykorzystania kodu
+powstały hooki niestandardowe, takie jak \texttt{useScreenSize},
+\texttt{useDarkMode} czy \texttt{useClickOutside}. Dzięki temu większość
+logiki biznesowej została wydzielona z warstwy \gls{ui}, co poprawia
+czytelność i ułatwia utrzymanie kodu.
+
+Z racji tego, że korzystamy z Reacta w połączeniu z TypeScriptem,
+przygotowaliśmy również własne hooki wspomagające typowanie, takie jak
+\texttt{useDispatchTyped} oraz \texttt{useSelectorTyped}. Pozwalają one
+na bezpieczne typowanie akcji oraz selektorów Reduxa bez konieczności
+powtarzania adnotacji typów w każdym komponencie.
+Fragmenty tej implementacji przedstawiono na rysunkach
+\ref{img:redux-store} oraz \ref{img:redux-account}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/redux-store}
+    \caption{Konfiguracja sklepu (\texttt{Redux store})}
+    \label{img:redux-store}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/redux-account}
+    \caption{Przykładowy slice odpowiedzialny za sprawdzenie czy użytkownik jest zalogowany}
+    \label{img:redux-account}
+\end{figure}
