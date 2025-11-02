@@ -1,5 +1,69 @@
-%! Author = mateusz
-%! Date = 20/10/2025
+%! Author = Mateusz
+%! Date = 02/11/2025
 
 \subsection{Style}
 \label{subsec:style}
+
+Do stylowania interfejsu wykorzystaliśmy \gls{framework} Tailwind CSS.
+Dzięki gotowym klasom udostępnianym przez Tailwind mogliśmy definiować wygląd
+elementów bezpośrednio w kodzie komponentu, bez konieczności przechodzenia do osobnych plików ze stylami.
+Ułatwia to zarówno tworzenie widoków, jak i późniejsze modyfikacje — w przypadku zmiany stylu
+dokładnie wiadomo, gdzie należy jej dokonać.
+Korzystanie ze zdefiniowanych klas pozwoliło nam również zachować spójność wizualną w całej aplikacji.
+W pliku \texttt{index.css} zdefiniowaliśmy zmienne
+kolorystyczne (rys. \ref{img:css-kolory1} i \ref{img:css-kolory2}).
+Dzięki temu zmiana motywu kolorystycznego w przyszłości sprowadza się do edycji wartości w jednym miejscu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/css-kolory1}
+    \caption{Implementacja zmiennych kolorystycznych (1)}
+    \label{img:css-kolory1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/css-kolory2}
+    \caption{Implementacja zmiennych kolorystycznych (2)}
+    \label{img:css-kolory2}
+\end{figure}
+
+W niektórych miejscach konieczne było zapisanie stylów w czystym \gls{css}, ponieważ część
+użytych \gls{bibliote}k tego wymagała. W innych przypadkach wystarczyło skorzystać z klas
+zdefiniowanych w \texttt{index.css} oraz klas Tailwinda.
+Cała aplikacja jest \gls{responsywn}a. Tailwind udostępnia predefiniowane prefiksy
+responsywne (np. \texttt{md:}, \texttt{lg:}) (rys. \ref{img:tailwind-responsywnosc}), które pozwalają przypisywać style zależnie od
+szerokości ekranu bez pisania własnych reguł @media.
+Dzięki temu implementacja widoków mobilnych i desktopowych była znacząco szybsza.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/tailwind-responsywnosc}
+    \caption{Przykładowe użycie klas Tailwind (w tym prefiksów responsywności)}
+    \label{img:tailwind-responsywnosc}
+\end{figure}
+
+Tailwind został też wykorzystany do obsługi trybu jasnego i ciemnego.
+Wystarczy dodać klasę z prefiksem \texttt{dark:} (np. \texttt{dark:bg-black}), aby zmienić kolorystykę
+elementu, gdy aplikacja jest w trybie ciemnym (rys. \ref{img:tailwind-motyw}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/tailwind-motyw}
+    \caption{Przykładowe użycie klas Tailwind (w tym wariantu \texttt{dark:})}
+    \label{img:tailwind-motyw}
+\end{figure}
+
+Aby uzyskać płynniejsze i przyjemniejsze animacje, wykorzystaliśmy \gls{bibliote}kę Framer Motion.
+Pozwala ona w prosty sposób tworzyć animacje elementów interfejsu, bez potrzeby ręcznego pisania
+złożonych reguł CSS. W naszej aplikacji użyliśmy jej m.in. w polach formularza logowania i rejestracji
+(rys. \ref{img:motion}).
+Na początku etykieta pola (np. „username”) jest wyświetlana wewnątrz pola tekstowego,
+natomiast po kliknięciu w pole jest płynnie przesuwana nad to pole, co poprawia czytelność i ergonomię formularza.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/motion}
+    \caption{Implementacja animacji z wykorzystaniem Framer Motion}
+    \label{img:motion}
+\end{figure}

@@ -1,5 +1,49 @@
-%! Author = mateusz
-%! Date = 20/10/2025
+%! Author = Mateusz
+%! Date = 02/11/2025
 
 \subsection{Integracja i komunikacja z backendem}
-\label{subsec:integracja-i-komunikacja-z-backendem}
+\label{subsec:integracja-i-komunikacji-z-backendem}
+
+Jest to kluczowy element aplikacji, ponieważ wymaga bezpiecznego przesyłania danych użytkownika.
+W celu uproszczenia komunikacji z serwerem skorzystaliśmy z biblioteki \texttt{axios} oraz \gls{bibliote}ki \texttt{TanStack Query}.
+We wszystkich ścieżkach, które wymagają, aby użytkownik był zalogowany, do zapytania dołączany jest token
+\gls{jwt}. Token jest przekazywany w ciasteczku dzięki ustawieniu parametru \texttt{withCredentials} na wartość \texttt{true}.
+Przykładem pliku odpowiedzialnego za taką komunikację jest \texttt{account.js}
+(rys. \ref{img:account-axios1} i \ref{img:account-axios2}), który obsługuje operacje związane z logowaniem,
+rejestracją, zmianą hasła oraz wylogowaniem.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/account-axios1}
+    \caption{Implementacja modułu \texttt{account} (1)}
+    \label{img:account-axios1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/account-axios2}
+    \caption{Implementacja modułu \texttt{account} (2)}
+    \label{img:account-axios2}
+\end{figure}
+Funkcje odpowiedzialne za komunikację z backendem zostały umieszczone w katalogu \texttt{/http}.
+Dzięki temu są one scentralizowane i mogą być w prosty sposób wykorzystywane w różnych częściach aplikacji.
+Zastosowaliśmy TanStack Query, ponieważ znacząco ogranicza on powtarzalny kod oraz upraszcza obsługę błędów i
+stanów zapytania (takich jak ładowanie danych, błąd, sukces). \gls{bibliote}ka udostępnia m.in.
+wartość \texttt{isLoading},
+dzięki czemu komponent może łatwo wyświetlić ekran ładowania bez ręcznego zarządzania własnym stanem.
+Dodatkowo \gls{hook} \texttt{useQuery} z tej \gls{bibliote}ki umożliwia automatyczne pobieranie danych po wejściu na daną podstronę.
+Oznacza to, że komponent deklaruje jedynie „jakie dane są mu potrzebne”, a TanStack Query zajmuje się ich pobraniem,
+cache’owaniem oraz odświeżaniem.
+Do operacji, które wymagają wywołania akcji po stronie użytkownika (np. wysłania formularza logowania),
+wykorzystujemy \gls{hook} \texttt{useMutation} z TanStack Query.
+Przykład użycia tego rozwiązania w procesie
+logowania został przedstawiony na rys. \ref{img:login-tanstack}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/login-tanstack}
+    \caption{Wykorzystanie TanStack Query przy logowaniu użytkownika}
+    \label{img:login-tanstack}
+\end{figure}
+
+
