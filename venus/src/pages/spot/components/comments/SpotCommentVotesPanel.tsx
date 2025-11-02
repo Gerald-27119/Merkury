@@ -1,5 +1,4 @@
-import { BiLike, BiSolidDislike, BiSolidLike } from "react-icons/bi";
-import { BiDislike } from "react-icons/bi";
+import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from "react-icons/bi";
 import SpotCommentVoteDisplay from "./SpotCommentVoteDisplay";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
@@ -15,6 +14,11 @@ type SpotCommentVotesProps = {
     commentId: number;
 };
 
+type VoteCounterType = {
+    upVotes: number;
+    downVotes: number;
+};
+
 const inActiveBtnClassNames: string =
     "absolute cursor-pointer transition-opacity hover:opacity-0";
 const activeBtnClassNames: string =
@@ -28,8 +32,13 @@ export default function SpotCommentVotesPanel({
     const [voteType, setVoteType] = useState<SpotCommentVoteType>(
         SpotCommentVoteType.NONE,
     );
+    const [voteCounter, setVoteCounter] = useState<VoteCounterType>({
+        upVotes: upvotes,
+        downVotes: downvotes,
+    });
 
     const { isLogged } = useSelectorTyped((state) => state.account);
+    const { spotId } = useSelectorTyped((state) => state.spotDetails);
     const dispatch = useDispatchTyped();
     const queryClient = useQueryClient();
 
@@ -45,6 +54,9 @@ export default function SpotCommentVotesPanel({
         onSuccess: async () => {
             await queryClient.invalidateQueries({
                 queryKey: ["get-spot-comment-vote-info", commentId],
+            });
+            await queryClient.invalidateQueries({
+                queryKey: ["spot-comments", spotId],
             });
         },
         onError: () => {
@@ -64,6 +76,13 @@ export default function SpotCommentVotesPanel({
                 }),
             );
         } else {
+            setVoteCounter((prevState) => ({
+                upVotes: prevState.upVotes + 1,
+                downVotes:
+                    voteType === SpotCommentVoteType.DOWN_VOTE
+                        ? prevState.downVotes - 1
+                        : prevState.downVotes,
+            }));
             await mutateAsync({ commentId, isUpvote: true });
         }
     };
@@ -76,6 +95,13 @@ export default function SpotCommentVotesPanel({
                 }),
             );
         } else {
+            setVoteCounter((prevState) => ({
+                upVotes:
+                    voteType === SpotCommentVoteType.UP_VOTE
+                        ? prevState.upVotes - 1
+                        : prevState.upVotes,
+                downVotes: prevState.downVotes + 1,
+            }));
             await mutateAsync({ commentId, isUpvote: false });
         }
     };
@@ -86,15 +112,46 @@ export default function SpotCommentVotesPanel({
         }
     }, [data, isSuccess]);
 
+    const likeOutlineClass =
+        voteType === SpotCommentVoteType.UP_VOTE
+            ? activeBtnClassNames
+            : inActiveBtnClassNames;
+    const likeSolidClass =
+        voteType === SpotCommentVoteType.UP_VOTE
+            ? inActiveBtnClassNames
+            : activeBtnClassNames;
+
+    const dislikeOutlineClass =
+        voteType === SpotCommentVoteType.DOWN_VOTE
+            ? activeBtnClassNames
+            : inActiveBtnClassNames;
+    const dislikeSolidClass =
+        voteType === SpotCommentVoteType.DOWN_VOTE
+            ? inActiveBtnClassNames
+            : activeBtnClassNames;
+
+    console.log(voteType);
     return (
         <div className="mt-3 flex w-full justify-start space-x-3">
-            <SpotCommentVoteDisplay votes={upvotes}>
-                <BiLike className={inActiveBtnClassNames} />
-                <BiSolidLike className={activeBtnClassNames} />
+            <SpotCommentVoteDisplay votes={voteCounter.upVotes}>
+                <BiLike
+                    className={likeOutlineClass}
+                    onClick={handleUpVoteComment}
+                />
+                <BiSolidLike
+                    className={likeSolidClass}
+                    onClick={handleUpVoteComment}
+                />
             </SpotCommentVoteDisplay>
-            <SpotCommentVoteDisplay votes={downvotes}>
-                <BiDislike className={inActiveBtnClassNames} />
-                <BiSolidDislike className={activeBtnClassNames} />
+            <SpotCommentVoteDisplay votes={voteCounter.downVotes}>
+                <BiDislike
+                    className={dislikeOutlineClass}
+                    onClick={handleDownVoteComment}
+                />
+                <BiSolidDislike
+                    className={dislikeSolidClass}
+                    onClick={handleDownVoteComment}
+                />
             </SpotCommentVoteDisplay>
         </div>
     );
