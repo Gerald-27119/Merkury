@@ -4,38 +4,26 @@
 \subsection{Aktorzy}
 \label{subsec:aktorzy}
 
-\renewcommand{\arraystretch}{1.15}
+\begin{description}
+    \item[\textbf{Użytkownik niezalogowany}] Gość przeglądający publiczne treści (mapa, spoty, forum); może się zarejestrować/zalogować.
+    \item[\textbf{Użytkownik (nie premium)}] Zarejestrowany użytkownik podstawowy: zarządza kontem i ulubionymi, dodaje treści/komentarze, korzysta z czatu.
+    \item[\textbf{Użytkownik premium}] Użytkownik z wykupioną subskrypcją; ma dostęp do funkcji premium (np. widok premium, rozszerzone wyszukiwanie).
+    \item[\textbf{Moderator}] Nadzór treści: przegląda zgłoszenia, akceptuje/usuwa posty i komentarze, blokuje nadużycia.
+    \item[\textbf{Deweloper}] Osoba utrzymująca system: inicjuje pipeline’y, monitoruje wdrożenia i infrastrukturę.
+\end{description}
 
-\begin{longtable}{|L{0.34\textwidth}|p{0.62\textwidth}|}
-    \hline
-    \textbf{Aktor} & \textbf{Krótki opis} \\ \hline
-    \endfirsthead
-    \hline
-    \textbf{Aktor} & \textbf{Krótki opis} \\ \hline
-    \endhead
-    \hline \multicolumn{2}{r}{\small Kontynuacja na następnej stronie} \\
-    \endfoot
-    \endlastfoot
-
-    Użytkownik niezalogowany & Gość przeglądający publiczne treści (mapa, spoty, forum), może się zarejestrować/zalogować. \\ \hline
-    Użytkownik (nie premium) & Zarejestrowany użytkownik podstawowy: zarządza kontem i ulubionymi, dodaje treści/komentarze, korzysta z czatu. \\ \hline
-    Użytkownik premium & (???)Użytkownik z wykupioną subskrypcją; ma dostęp do funkcji premium (np. widok premium, rozszerzone wyszukiwanie). \\ \hline
-    Moderator & Nadzór treści (???????): przegląda zgłoszenia, akceptuje/usuwa posty i komentarze, blokuje nadużycia. \\ \hline
-    Deweloper & Osoba utrzymująca system: inicjuje pipeline’y, monitoruje wdrożenia i infrastrukturę. \\ \hline
-    Bramka płatnicza (Pytanie... bo nie bedzie u nas zaimplementwanej platnosci) & Zewnętrzny system obsługujący płatności/subskrypcje (autoryzacja, statusy). \\ \hline
-    Usługa mailowa (Mailtrap) & Serwis do wysyłki wiadomości e-mail (rejestracja, reset hasła, powiadomienia). \\ \hline
-    Dostawca API do map (OpenFreeMap) & Zewnętrzny dostawca map/tili/geokodowania wykorzystywany w widoku mapy. \\ \hline
-    Nawigacja (Google Maps) & Zewnętrzny dostawca map używany do nawigacji. \\ \hline
-    Dostawca API pogodowego (Open-Meteo) & Zewnętrzne API prognoz pogody używane do prezentacji warunków na spotach. \\ \hline
-    Dostawca API GIFów (Tenor) & Zewnętrzne API prognoz pogody używane do prezentacji warunków na spotach. \\ \hline
-    Dostawca API do określania strefy czasowej spota (\("\)Where the ISS at?\("\)) & Zewnętrzne API prognoz pogody używane do prezentacji warunków na spotach. \\ \hline
-    Azure Blob Storage & Usługa chmurowa do przechowywania multimediów (np. zdjęcia spotów, pliki z czatu). \\ \hline
-    Baza danych (PostgreSQL) & System przechowywania danych aplikacji. \\ \hline
-    Cache (Redis) & System tymczasowej pamięci na często używane dane. \\ \hline
-    GitHub (repo + CI/CD) & Repozytorium kodu i pipeline’y automatyzujące build/test. \\ \hline
-    Dostawca OAuth (Google) & Zewnętrzny provider logowania/rejestracji. \\ \hline
-    Dostawca OAuth (Github) & Zewnętrzny provider logowania/rejestracji. \\ \hline
-
-    \caption{Aktorzy systemu – przegląd\label{tab:aktorzy}}
-
-\end{longtable}
+\paragraph{Aktorzy będący zewnętrznymi usługami}
+Szczegółowe opisy znajdują się w rozdziale~\ref{subsec:uslugi-zewnetrzne}.
+Poniżej jedynie lista nazw:
+\begin{itemize}
+    \item Usługa mailowa (Mailtrap)
+    \item Dostawca API do map (OpenFreeMap)
+    \item Nawigacja (Google Maps)
+    \item Dostawca API pogodowego (Open-Meteo)
+    \item Dostawca API GIFów (Tenor)
+    \item Dostawca API do określania strefy czasowej spota (``Where the ISS at?'')
+    \item Dostawca API do geolokalizacji (LocationQ)
+    \item Azure Blob Storage
+    \item Dostawca OAuth (Google)
+    \item Dostawca OAuth (GitHub)
+\end{itemize}
