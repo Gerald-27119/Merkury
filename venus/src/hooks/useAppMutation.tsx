@@ -7,6 +7,7 @@ interface useAppMutationProps {
     successMessage?: string;
     loginToAccessMessage?: string;
     invalidateKeys?: (string | number | undefined)[][];
+    errorMessages?: Record<number, string>;
 }
 
 export function useAppMutation<TData, TVariables>(
@@ -15,6 +16,7 @@ export function useAppMutation<TData, TVariables>(
         successMessage,
         loginToAccessMessage,
         invalidateKeys = [],
+        errorMessages,
     }: useAppMutationProps = {},
 ) {
     const queryClient = useQueryClient();
@@ -40,20 +42,32 @@ export function useAppMutation<TData, TVariables>(
             }
         },
         onError: (error: AxiosError) => {
-            if (error.response?.status === 401 && loginToAccessMessage) {
+            const status = error.response?.status;
+
+            if (status === 401 && loginToAccessMessage) {
                 dispatch(
                     notificationAction.addInfo({
                         message: loginToAccessMessage,
                     }),
                 );
-            } else {
+                return;
+            }
+
+            if (status && errorMessages?.[status]) {
                 dispatch(
                     notificationAction.addError({
-                        message:
-                            "Something went wrong. Please try again later.",
+                        message: errorMessages[status],
                     }),
                 );
+                return;
             }
+
+            // fallback
+            dispatch(
+                notificationAction.addError({
+                    message: "Something went wrong. Please try again later.",
+                }),
+            );
         },
     });
 }

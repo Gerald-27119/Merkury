@@ -25,11 +25,17 @@ export default function ForumReportModal({
     const { mutateAsync: reportPostMutate } = useAppMutation(reportPost, {
         successMessage: "Post reported successfully!",
         loginToAccessMessage: "Login to report posts.",
+        errorMessages: {
+            409: "You have already reported this post.",
+        },
     });
 
     const { mutateAsync: reportCommentMutate } = useAppMutation(reportComment, {
         successMessage: "Comment reported successfully!",
         loginToAccessMessage: "Login to report comments.",
+        errorMessages: {
+            409: "You have already reported this comment.",
+        },
     });
 
     const handleReport = async (reason: ForumReportReason, details: string) => {
