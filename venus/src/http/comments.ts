@@ -68,7 +68,7 @@ export async function getSpotCommentVoteInfo(
 ): Promise<SpotCommentVoteInfoDto> {
     return (
         await axios.get(`${BASE_URL}/spot/comments/vote-type`, {
-            params: commentId,
+            params: { commentId },
             withCredentials: true,
         })
     ).data;

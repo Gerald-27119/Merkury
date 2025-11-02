@@ -68,6 +68,7 @@ public class SpotCommentController {
 
     @GetMapping("/spot/comments/vote-type")
     public ResponseEntity<SpotCommentUserVoteInfoDto> getVoteInfo(@RequestParam Long commentId) {
+        log.debug("getVoteInfo({})", commentId);
         return ResponseEntity.ok(spotCommentService.getVoteInfo(commentId));
     }
 }

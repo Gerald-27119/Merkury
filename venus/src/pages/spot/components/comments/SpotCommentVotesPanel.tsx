@@ -77,7 +77,10 @@ export default function SpotCommentVotesPanel({
             );
         } else {
             setVoteCounter((prevState) => ({
-                upVotes: prevState.upVotes + 1,
+                upVotes:
+                    voteType === SpotCommentVoteType.UP_VOTE
+                        ? prevState.upVotes - 1
+                        : prevState.upVotes + 1,
                 downVotes:
                     voteType === SpotCommentVoteType.DOWN_VOTE
                         ? prevState.downVotes - 1
@@ -100,7 +103,10 @@ export default function SpotCommentVotesPanel({
                     voteType === SpotCommentVoteType.UP_VOTE
                         ? prevState.upVotes - 1
                         : prevState.upVotes,
-                downVotes: prevState.downVotes + 1,
+                downVotes:
+                    voteType == SpotCommentVoteType.DOWN_VOTE
+                        ? prevState.downVotes - 1
+                        : prevState.downVotes + 1,
             }));
             await mutateAsync({ commentId, isUpvote: false });
         }
@@ -130,7 +136,6 @@ export default function SpotCommentVotesPanel({
             ? inActiveBtnClassNames
             : activeBtnClassNames;
 
-    console.log(voteType);
     return (
         <div className="mt-3 flex w-full justify-start space-x-3">
             <SpotCommentVoteDisplay votes={voteCounter.upVotes}>
