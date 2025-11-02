@@ -19,10 +19,10 @@ type VoteCounterType = {
     downVotes: number;
 };
 
-const inActiveBtnClassNames: string =
-    "absolute cursor-pointer transition-opacity hover:opacity-0";
-const activeBtnClassNames: string =
-    "absolute cursor-pointer opacity-0 transition-opacity hover:opacity-100";
+const baseIconClass =
+    "absolute cursor-pointer transition-opacity duration-200 ease-in-out";
+const visible = "opacity-100";
+const hidden = "opacity-0 group-hover:opacity-100";
 
 export default function SpotCommentVotesPanel({
     upvotes,
@@ -118,43 +118,41 @@ export default function SpotCommentVotesPanel({
         }
     }, [data, isSuccess]);
 
-    const likeOutlineClass =
-        voteType === SpotCommentVoteType.UP_VOTE
-            ? activeBtnClassNames
-            : inActiveBtnClassNames;
-    const likeSolidClass =
-        voteType === SpotCommentVoteType.UP_VOTE
-            ? inActiveBtnClassNames
-            : activeBtnClassNames;
-
-    const dislikeOutlineClass =
-        voteType === SpotCommentVoteType.DOWN_VOTE
-            ? activeBtnClassNames
-            : inActiveBtnClassNames;
-    const dislikeSolidClass =
-        voteType === SpotCommentVoteType.DOWN_VOTE
-            ? inActiveBtnClassNames
-            : activeBtnClassNames;
-
     return (
         <div className="mt-3 flex w-full justify-start space-x-3">
             <SpotCommentVoteDisplay votes={voteCounter.upVotes}>
                 <BiLike
-                    className={likeOutlineClass}
+                    className={`${baseIconClass} ${
+                        voteType === SpotCommentVoteType.UP_VOTE
+                            ? hidden
+                            : visible
+                    }`}
                     onClick={handleUpVoteComment}
                 />
                 <BiSolidLike
-                    className={likeSolidClass}
+                    className={`${baseIconClass} ${
+                        voteType === SpotCommentVoteType.UP_VOTE
+                            ? visible
+                            : hidden
+                    }`}
                     onClick={handleUpVoteComment}
                 />
             </SpotCommentVoteDisplay>
             <SpotCommentVoteDisplay votes={voteCounter.downVotes}>
                 <BiDislike
-                    className={dislikeOutlineClass}
+                    className={`${baseIconClass} ${
+                        voteType === SpotCommentVoteType.DOWN_VOTE
+                            ? hidden
+                            : visible
+                    }`}
                     onClick={handleDownVoteComment}
                 />
                 <BiSolidDislike
-                    className={dislikeSolidClass}
+                    className={`${baseIconClass} ${
+                        voteType === SpotCommentVoteType.DOWN_VOTE
+                            ? visible
+                            : hidden
+                    }`}
                     onClick={handleDownVoteComment}
                 />
             </SpotCommentVoteDisplay>
