@@ -67,8 +67,7 @@ public class SpotCommentController {
     }
 
     @GetMapping("/spot/comments/vote-type")
-    public ResponseEntity<SpotCommentUserVoteInfoDto> getVoteInfo(HttpServletRequest request, @RequestParam Long commentId) throws UserNotFoundException {
-        //TODO: spotCommentService.getVoteInfo()
-        return ResponseEntity.ok().build();
+    public ResponseEntity<SpotCommentUserVoteInfoDto> getVoteInfo(@RequestParam Long commentId) {
+        return ResponseEntity.ok(spotCommentService.getVoteInfo(commentId));
     }
 }

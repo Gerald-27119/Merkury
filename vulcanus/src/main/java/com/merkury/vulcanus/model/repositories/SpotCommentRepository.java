@@ -31,4 +31,8 @@ public interface SpotCommentRepository extends JpaRepository<SpotComment, Long> 
     Slice<SpotComment> findAllByAuthorUsernameAndPublishDateGreaterThanEqual(String username, LocalDateTime startDate, Pageable pageable);
 
     Slice<SpotComment> findAllByAuthorUsernameAndPublishDateLessThanEqual(String username, LocalDateTime endDate, Pageable pageable);
+
+    Boolean existsByIdAndUpVotedByUsername(Long commentId, String username);
+
+    Boolean existsByIdAndDownVotedByUsername(Long commentId, String username);
 }
