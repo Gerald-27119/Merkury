@@ -1,5 +1,6 @@
 import axios from "axios";
 import SpotCommentPage from "../model/interface/spot/comment/spotCommentPage";
+import SpotCommentVoteInfoDto from "../model/interface/spot/comment/spotCommentVoteInfoDto";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
@@ -60,4 +61,15 @@ export async function voteComment({ commentId, isUpvote }: voteCommentProps) {
             withCredentials: true,
         },
     );
+}
+
+export async function getSpotCommentVoteInfo(
+    commentId: number,
+): Promise<SpotCommentVoteInfoDto> {
+    return (
+        await axios.get(`${BASE_URL}/spot/comments/vote-type`, {
+            params: commentId,
+            withCredentials: true,
+        })
+    ).data;
 }

@@ -4,8 +4,10 @@ import SpotCommentVoteDisplay from "./SpotCommentVoteDisplay";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { notificationAction } from "../../../../redux/notification";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { voteComment } from "../../../../http/comments";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getSpotCommentVoteInfo, voteComment } from "../../../../http/comments";
+import { useEffect, useState } from "react";
+import { SpotCommentVoteType } from "../../../../model/enum/spot/spotCommentVoteType";
 
 type SpotCommentVotesProps = {
     upvotes: number;
@@ -23,13 +25,28 @@ export default function SpotCommentVotesPanel({
     downvotes,
     commentId,
 }: SpotCommentVotesProps) {
+    const [voteType, setVoteType] = useState<SpotCommentVoteType>(
+        SpotCommentVoteType.NONE,
+    );
+
     const { isLogged } = useSelectorTyped((state) => state.account);
     const dispatch = useDispatchTyped();
     const queryClient = useQueryClient();
 
+    const { data, isSuccess } = useQuery({
+        queryKey: ["get-spot-comment-vote-info", commentId],
+        queryFn: () => getSpotCommentVoteInfo(commentId),
+        enabled: isLogged,
+    });
+
     const { mutateAsync } = useMutation({
         mutationKey: ["vote-comment", commentId],
         mutationFn: voteComment,
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ["get-spot-comment-vote-info", commentId],
+            });
+        },
         onError: () => {
             dispatch(
                 notificationAction.addError({
@@ -62,6 +79,12 @@ export default function SpotCommentVotesPanel({
             await mutateAsync({ commentId, isUpvote: false });
         }
     };
+
+    useEffect(() => {
+        if (isSuccess && data) {
+            setVoteType(data.voteInfo);
+        }
+    }, [data, isSuccess]);
 
     return (
         <div className="mt-3 flex w-full justify-start space-x-3">
