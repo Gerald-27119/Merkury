@@ -6,6 +6,10 @@ import SearchSpotDtoPage from "../model/interface/spot/search-spot/searchSpotDto
 import { TopRatedSpot } from "../model/interface/spot/topRatedSpot";
 import { SpotSearchRequestDto } from "../model/interface/spot/spotSearchRequestDto";
 import { HomePageSpotPageDto } from "../model/interface/spot/search-spot/homePageSpotPageDto";
+import SpotExpandedMediaGalleryPage from "../model/interface/spot/expanded-media-gallery/spotExpandedMediaGalleryPage";
+import { MediaType } from "../model/enum/mediaType";
+import { SpotExpandedGallerySortingType } from "../model/enum/spot/spotExpandedGallerySortingType";
+import SpotExpandedGalleryMediaDto from "../model/interface/spot/expanded-media-gallery/spotExpandedGalleryMediaDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function fetchFilteredSpots(name: string): Promise<GeneralSpot[]> {
@@ -75,34 +79,6 @@ export async function fetchSpotsDataById(
     return (await axios.get(`${BASE_URL}/public/spot/${id}`)).data;
 }
 
-export async function addSpotToFavourites(spotId) {
-    return await axios.patch(
-        `${BASE_URL}/spot/favourites/add/${spotId}`,
-        null,
-        {
-            withCredentials: true,
-        },
-    );
-}
-
-export async function removeSpotFromFavourites(spotId) {
-    return await axios.patch(
-        `${BASE_URL}/spot/favourites/remove/${spotId}`,
-        null,
-        {
-            withCredentials: true,
-        },
-    );
-}
-
-export async function isSpotFavourite(spotId) {
-    return (
-        await axios.get(`${BASE_URL}/spot/favourites/${spotId}`, {
-            withCredentials: true,
-        })
-    ).data;
-}
-
 export async function get18MostPopularSpots(): Promise<TopRatedSpot[]> {
     return (await axios.get(`${BASE_URL}/public/spot/most-popular`)).data;
 }
@@ -159,5 +135,66 @@ export async function getSearchedSpotsOnAdvanceHomePage(
             params: { ...spotSearchRequestDto, page, size },
             paramsSerializer: (params) => queryString.stringify(params),
         })
+    ).data;
+}
+
+export async function getPaginatedExpandedSpotMediaGallery(
+    spotId: number,
+    mediaType: MediaType,
+    sorting: SpotExpandedGallerySortingType,
+    page: number,
+): Promise<SpotExpandedMediaGalleryPage> {
+    return (
+        await axios.get(`${BASE_URL}/public/spot/gallery`, {
+            params: {
+                spotId,
+                mediaType,
+                sorting,
+                page,
+            },
+            withCredentials: true,
+        })
+    ).data;
+}
+
+export async function getExpandedSpotMediaGalleryPagePosition(
+    spotId: number,
+    mediaId: number,
+    mediaType: MediaType,
+    sorting: SpotExpandedGallerySortingType,
+): Promise<{ mediaPagePosition: number }> {
+    return (
+        await axios.get(`${BASE_URL}/public/spot/gallery-media-position`, {
+            params: {
+                spotId,
+                mediaId,
+                mediaType,
+                sorting,
+            },
+            withCredentials: true,
+        })
+    ).data;
+}
+
+export async function getSpotGalleryFullscreenMedia(
+    spotId: number,
+    mediaId: number,
+    mediaType: MediaType,
+): Promise<SpotExpandedGalleryMediaDto> {
+    return (
+        await axios.get(`${BASE_URL}/public/spot/gallery-fullscreen-media`, {
+            params: { spotId, mediaId, mediaType },
+            withCredentials: true,
+        })
+    ).data;
+}
+
+export async function increaseSpotViewsCount(spotId: number): Promise<void> {
+    return (
+        await axios.patch(
+            `${BASE_URL}/public/spot/increase-view-count`,
+            {},
+            { params: { spotId }, withCredentials: true },
+        )
     ).data;
 }

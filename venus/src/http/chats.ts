@@ -1,8 +1,12 @@
 import axios from "axios";
 import {
+    AddUsersToExistingGroupChatDto,
     ChatDto,
     ChatMessagesPageDto,
     ChatPage,
+    PotentialChatMemberDto,
+    SimpleSliceDto,
+    UpdatedGroupChatDto,
 } from "../model/interface/chat/chatInterfaces";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
@@ -80,4 +84,72 @@ export async function sendFiles(
     await axios.post<void>(`${BASE_URL}/chats/${chatId}/send-files`, formData, {
         withCredentials: true,
     });
+}
+
+export async function createGroupChat(usernames: string[]): Promise<ChatDto> {
+    const body = { usernames };
+    const { data } = await axios.post<ChatDto>(
+        `${BASE_URL}/chats/create/group`,
+        body,
+        { withCredentials: true },
+    );
+    return data;
+}
+
+export type UpdateChatPayload = {
+    name?: string;
+    image?: File;
+};
+
+export async function updateChatDetails(
+    chatId: number,
+    payload: UpdateChatPayload,
+): Promise<UpdatedGroupChatDto> {
+    const form = new FormData();
+    if (payload.name !== undefined) form.append("newName", payload.name);
+    if (payload.image) form.append("image", payload.image, payload.image.name);
+
+    const { data } = await axios.patch<UpdatedGroupChatDto>(
+        `${BASE_URL}/chats/${chatId}`,
+        form,
+        { withCredentials: true },
+    );
+    return data;
+}
+
+type BackendSimpleSliceDto<T> = {
+    hasNext: boolean;
+    collection: T[];
+};
+
+export async function searchPotentialUsersToAddToGroupChat(
+    chatId: number,
+    query: string,
+    page = 0,
+    size = 20,
+): Promise<SimpleSliceDto<PotentialChatMemberDto>> {
+    const { data } = await axios.get<
+        BackendSimpleSliceDto<PotentialChatMemberDto>
+    >(`${BASE_URL}/chats/group-chat/add/search/${chatId}`, {
+        withCredentials: true,
+        params: { query, page, size },
+    });
+
+    return {
+        hasNext: data.hasNext,
+        items: data.collection ?? [],
+    };
+}
+
+export async function addUsersToGroupChat(
+    chatId: number,
+    usernames: string[],
+): Promise<ChatDto> {
+    const body = { usernames };
+    const { data } = await axios.put<ChatDto>(
+        `${BASE_URL}/chats/add/users/${chatId}`,
+        body,
+        { withCredentials: true },
+    );
+    return data;
 }

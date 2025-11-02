@@ -22,6 +22,7 @@ import { chatActions } from "../../../../redux/chats";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { getOrCreatePrivateChat } from "../../../../http/chats";
+import { IoAddOutline } from "react-icons/io5";
 import { UserFriendStatus } from "../../../../model/enum/account/social/userFriendStatus";
 
 export const friendStatusIconMap = {
@@ -41,6 +42,9 @@ interface SocialCardProps {
     type: SocialListType;
     isSocialForViewer: boolean;
     isSearchFriend?: boolean;
+    selectedUsernames?: Set<string>;
+    maxReached?: boolean;
+    onAddToGroup?: (username: string) => void;
 }
 
 export default function SocialCard({
@@ -48,11 +52,15 @@ export default function SocialCard({
     type,
     isSocialForViewer,
     isSearchFriend,
+    selectedUsernames,
+    maxReached,
+    onAddToGroup,
 }: SocialCardProps) {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
     const [isModalOpen, openModal, closeModal] = useBoolean(false);
     const dispatch = useDispatchTyped();
+
     const isPrivateChatWithThatUserPresent = useSelectorTyped(
         (state) =>
             !!(
@@ -114,7 +122,6 @@ export default function SocialCard({
     };
 
     let handleRemove = async () => {};
-
     switch (type) {
         case SocialListType.FOLLOWED:
             handleRemove = () => removeUserFollowed(friend.username);
@@ -125,7 +132,6 @@ export default function SocialCard({
 
     async function handleNavigateToChat() {
         const id = friend.commonPrivateChatId;
-
         if (id != null && isPrivateChatWithThatUserPresent) {
             dispatch(chatActions.setSelectedChatId(id));
             dispatch(chatActions.clearNew(id));
@@ -136,7 +142,6 @@ export default function SocialCard({
     }
 
     let icon;
-
     if (isSearchFriend) {
         icon = friendStatusIconMap[friend.status as UserFriendStatus];
     } else if (friend.isUserFriend) {
@@ -145,8 +150,22 @@ export default function SocialCard({
         icon = friendStatusIconMap[UserFriendStatus.NONE];
     }
 
+    const isSelected = selectedUsernames?.has(friend.username) ?? false;
+    const limitReached = !!maxReached;
+    const disableAdd = isSelected || (limitReached && !isSelected);
+
+    const handleAddToPotentialGroupChat = () => {
+        if (disableAdd) return;
+        onAddToGroup?.(friend.username);
+    };
+
     return (
-        <li className="dark:bg-darkBgSoft bg-lightBgSoft space-y-2 rounded-md px-3 pt-3 pb-4">
+        <li
+            className={[
+                "space-y-2 rounded-md px-3 pt-3 pb-4",
+                "bg-lightBgSoft dark:bg-darkBgSoft",
+            ].join(" ")}
+        >
             <img
                 src={friend.profilePhoto}
                 alt="profileImage"
@@ -155,23 +174,51 @@ export default function SocialCard({
             <h3 className="text-center text-xl font-semibold capitalize">
                 {friend.username}
             </h3>
-            <div className="flex gap-2 text-3xl">
-                <SocialButton onClick={handleNavigateToUserProfile}>
-                    <FaUser aria-label="userProfileFriendCardIcon" />
+
+            {type === SocialListType.POTENTIAL_GROUP_CHAT_MEMBER ? (
+                <SocialButton
+                    onClick={handleAddToPotentialGroupChat}
+                    className={[
+                        "h-12 transition",
+                        disableAdd
+                            ? "pointer-events-none cursor-not-allowed opacity-50 saturate-0"
+                            : "hover:opacity-80",
+                    ].join(" ")}
+                    disabled={disableAdd}
+                    aria-disabled={disableAdd}
+                >
+                    {isSelected ? (
+                        <span className="text-base font-semibold">Added</span>
+                    ) : (
+                        <IoAddOutline
+                            aria-label="addToPotentialGroupChatIcon"
+                            className="text-4xl"
+                        />
+                    )}
                 </SocialButton>
-                <SocialButton onClick={handleNavigateToChat}>
-                    <BiMessageRounded aria-label="messageFriendCardIcon" />
-                </SocialButton>
-                {type !== SocialListType.FOLLOWERS && !isSocialForViewer && (
-                    <SocialButton
-                        onClick={
-                            friend.isUserFriend ? openModal : addUserFriend
-                        }
-                    >
-                        {icon}
+            ) : (
+                <div className="flex gap-2 text-3xl">
+                    <SocialButton onClick={handleNavigateToUserProfile}>
+                        <FaUser aria-label="userProfileFriendCardIcon" />
                     </SocialButton>
-                )}
-            </div>
+                    <SocialButton onClick={handleNavigateToChat}>
+                        <BiMessageRounded aria-label="messageFriendCardIcon" />
+                    </SocialButton>
+                    {type !== SocialListType.FOLLOWERS &&
+                        !isSocialForViewer && (
+                            <SocialButton
+                                onClick={
+                                    friend.isUserFriend
+                                        ? openModal
+                                        : addUserFriend
+                                }
+                            >
+                                {icon}
+                            </SocialButton>
+                        )}
+                </div>
+            )}
+
             <Modal
                 onClose={closeModal}
                 onClick={handleRemove}

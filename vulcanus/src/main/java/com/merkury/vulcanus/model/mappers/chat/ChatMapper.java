@@ -5,11 +5,14 @@ import com.merkury.vulcanus.model.dtos.chat.ChatMessageAttachedFileDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageSenderDto;
+import com.merkury.vulcanus.model.dtos.chat.ChatParticipantDto;
 import com.merkury.vulcanus.model.dtos.chat.DetailedChatDto;
 import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
+import com.merkury.vulcanus.model.entities.chat.ChatMessageAttachedFile;
 import org.springframework.data.domain.Slice;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Comparator;
 import java.util.List;
@@ -92,17 +95,14 @@ public class ChatMapper {
                 .imgUrl(chatMessage.getSender().getProfileImage())
                 .build();
 
-        List<ChatMessageAttachedFileDto> attachedFiles = null;
-        if (chatMessage.getChatMessageAttachedFiles() != null) {
-            attachedFiles = chatMessage.getChatMessageAttachedFiles().stream().map(file ->
-                            ChatMessageAttachedFileDto.builder()
-                                    .url(file.getUrl())
-                                    .fileType(file.getFileType())
-                                    .sizeInBytes(file.getSizeInBytes())
-                                    .name(file.getName())
-                                    .build())
-                    .toList();
-        }
+        var attachedFiles = chatMessage.getChatMessageAttachedFiles().stream().map(file ->
+                        ChatMessageAttachedFileDto.builder()
+                                .url(file.getUrl())
+                                .fileType(file.getFileType())
+                                .sizeInBytes(file.getSizeInBytes())
+                                .name(file.getName())
+                                .build())
+                .toList();
 
         return ChatMessageDto.builder()
                 .id(chatMessage.getId())
@@ -185,6 +185,13 @@ public class ChatMapper {
                 .max(Comparator.comparing(ChatMessageDto::sentAt))
                 .orElse(null);
 
+        var participants = chat.getParticipants().stream().map(chatParticipant ->
+                        new ChatParticipantDto(
+                                chatParticipant.getUser().getUsername(),
+                                chatParticipant.getUser().getProfileImage())
+                )
+                .toList();
+
         return ChatDto.builder()
                 .id(chat.getId())
                 .name(getChatName(chat, userId))//TODO:reafactor
@@ -192,6 +199,7 @@ public class ChatMapper {
                 .messages(messageDtos)
                 .lastMessage(lastMessage)
                 .chatType(chat.getChatType())
+                .participants(participants)
                 .build();
     }
 
@@ -218,4 +226,29 @@ public class ChatMapper {
                 .build();
     }
 
+    public static ChatMessageAttachedFile toChatMessageAttachedFile(MultipartFile file, ChatMessage chatMessage) {
+        return ChatMessageAttachedFile.builder()
+                .name(file.getName())
+                .chatMessage(chatMessage)
+                .url("")
+                .build();
+    }
+
+    public static ChatDto toChatDto(Chat chat) {
+        var participants = chat.getParticipants().stream().map(chatParticipant ->
+                        new ChatParticipantDto(
+                                chatParticipant.getUser().getUsername(),
+                                chatParticipant.getUser().getProfileImage())
+                )
+                .toList();
+
+        return ChatDto.builder()
+                .id(chat.getId())
+                .name(chat.getName())
+                .messages(null)
+                .lastMessage(null)
+                .participants(participants)
+                .chatType(chat.getChatType())
+                .build();
+    }
 }

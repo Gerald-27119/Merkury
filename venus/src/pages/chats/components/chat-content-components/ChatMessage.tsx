@@ -48,8 +48,8 @@ export default React.memo(function ChatMessage({
                         <img
                             className="aspect-square w-14 rounded-full"
                             src={
-                                message.sender.imgUrl // for development purposes
-                                    ? `/users/${message.sender.imgUrl}`
+                                message.sender.imgUrl //TODO: zpewnic porpawne wyswietlanie zdjecia profilowego
+                                    ? `${message.sender.imgUrl}`
                                     : "/users/default.png"
                             }
                             alt={"Sender's image"}

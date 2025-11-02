@@ -1,7 +1,6 @@
 import {
     QueryClient,
     QueryClientProvider,
-    useInfiniteQuery,
     useQuery,
 } from "@tanstack/react-query";
 import { configureStore } from "@reduxjs/toolkit";
@@ -12,6 +11,8 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import SpotDetails from "../../pages/spot/SpotDetails";
 import { sidebarSlice } from "../../redux/sidebar";
+import { expandedSpotMediaGallerySlice } from "../../redux/expanded-spot-media-gallery.js";
+import { accountSlice } from "../../redux/account.tsx";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,8 @@ const renderSpotDetails = () => {
             spotDetails: spotDetailsModalSlice.reducer,
             sidebar: sidebarSlice.reducer,
             spotComments: spotCommentSlice.reducer,
+            account: accountSlice.reducer,
+            expandedSpotMediaGallery: expandedSpotMediaGallerySlice.reducer,
         },
         preloadedState: {
             spotDetails: {
@@ -40,6 +43,10 @@ const renderSpotDetails = () => {
             spotComments: {
                 ids: [],
                 entities: {},
+            },
+            account: {
+                isLogged: false,
+                username: "",
             },
         },
     });
@@ -86,7 +93,7 @@ const mockSpotDetailsData = {
             mediaType: "PHOTO",
         },
     ],
-    weatherApiCallCoords: {
+    centerPoint: {
         x: 1,
         y: 1,
     },

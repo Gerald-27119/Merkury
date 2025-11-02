@@ -14,6 +14,8 @@ import { AddSpotPageDto } from "../model/interface/account/add-spot/addSpotPageD
 import { SpotToAddDto } from "../model/interface/account/add-spot/spotToAddDto";
 import SpotCoordinatesDto from "../model/interface/spot/coordinates/spotCoordinatesDto";
 import { UserFriendStatus } from "../model/enum/account/social/userFriendStatus";
+import IsFavouriteSpotDto from "../model/interface/account/favorite-spots/isFavouriteSpotDto";
+import { FavouriteSpotListOperationType } from "../model/enum/account/favorite-spots/favouriteSpotListOperationType";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -278,15 +280,17 @@ export async function getUserFavoriteSpots(
     ).data;
 }
 
-interface RemoveFavoriteSpotProps {
+interface EditFavoriteSpotListProps {
     type: FavoriteSpotsListType;
     spotId: number;
+    operationType: FavouriteSpotListOperationType;
 }
 
-export async function removeFavoriteSpot({
+export async function editFavoriteSpotList({
     type,
     spotId,
-}: RemoveFavoriteSpotProps): Promise<void> {
+    operationType,
+}: EditFavoriteSpotListProps): Promise<void> {
     return (
         await axios.patch(
             `${BASE_URL}/user-dashboard/favorite-spots`,
@@ -296,9 +300,21 @@ export async function removeFavoriteSpot({
                 params: {
                     type,
                     spotId,
+                    operationType,
                 },
             },
         )
+    ).data;
+}
+
+export async function checkSpotIsInUserFavourites(
+    spotId: number,
+): Promise<IsFavouriteSpotDto> {
+    return (
+        await axios.get(`${BASE_URL}/user-dashboard/is-spot-favourite`, {
+            params: { spotId },
+            withCredentials: true,
+        })
     ).data;
 }
 
@@ -410,5 +426,27 @@ export async function fetchCoordinates(
             },
             withCredentials: true,
         })
+    ).data;
+}
+
+type AddSpotMediaProps = {
+    formData: FormData;
+    spotId: number;
+};
+
+export async function addMediaToSpot(
+    addSpotMedia: AddSpotMediaProps,
+): Promise<void> {
+    const { spotId, formData } = addSpotMedia;
+    return (
+        await axios.post(
+            `${BASE_URL}/user-dashboard/add-spot-media`,
+            formData,
+            {
+                withCredentials: true,
+                headers: { "Content-Type": "multipart/form-data" },
+                params: { spotId },
+            },
+        )
     ).data;
 }

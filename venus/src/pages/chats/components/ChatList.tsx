@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo } from "react";
+import React, { useRef, useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import ListedChat from "./ListedChat";
 import { getChatListByPage } from "../../../http/chats";
@@ -10,12 +10,18 @@ import SkeletonListedChat from "./skeleton/SkeletonListedChat";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import useSelectorTyped from "../../../hooks/useSelectorTyped";
-import { chatActions, selectHasNewMap } from "../../../redux/chats";
+import {
+    chatActions,
+    selectHasNewMap,
+    selectAllChats,
+} from "../../../redux/chats";
 
 export default function ChatList() {
     const dispatch = useDispatchTyped();
     const selectedChatId = useSelectorTyped((s) => s.chats.selectedChatId);
     const hasNewMap = useSelectorTyped(selectHasNewMap);
+
+    const chats = useSelectorTyped(selectAllChats);
 
     const {
         data,
@@ -24,7 +30,6 @@ export default function ChatList() {
         isFetchingNextPage,
         isError,
         isLoading,
-        isSuccess,
     } = useInfiniteQuery<ChatPage>({
         queryKey: ["user-chat-list"],
         queryFn: ({ pageParam = 0 }) =>
@@ -33,46 +38,36 @@ export default function ChatList() {
         initialPageParam: 0,
     });
 
-    const chats: ChatDto[] = useMemo(() => {
-        if (!data) return [];
-        const map = new Map<number, ChatDto>();
-        for (const page of data.pages) {
-            for (const item of page.items) map.set(item.id, item);
-        }
-        return Array.from(map.values());
-    }, [data]);
-
-    const pagesLen = data?.pages.length ?? 0;
     useEffect(() => {
-        if (!pagesLen) return;
-        const lastPage = data!.pages[pagesLen - 1];
+        if (!data?.pages?.length) return;
+        const lastPage = data.pages[data.pages.length - 1];
         if (!lastPage?.items?.length) return;
 
-        const toRedux = lastPage.items.map<ChatDto>((chatDto) => ({
+        const toRedux: ChatDto[] = lastPage.items.map((chatDto) => ({
             id: chatDto.id,
             name: chatDto.name,
             imgUrl: chatDto.imgUrl,
-            participants: chatDto.participants,
+            participants: chatDto.participants ?? [],
             lastMessage: chatDto.lastMessage,
             messages: [],
             chatType: chatDto.chatType,
         }));
+
         dispatch(chatActions.upsertChats(toRedux));
-    }, [pagesLen, dispatch, data]);
+    }, [data, dispatch]);
 
     const didSelectRef = useRef(false);
-    const firstChatId = data?.pages?.[0]?.items?.[0]?.id;
     useEffect(() => {
         if (didSelectRef.current) return;
         if (selectedChatId != null) {
             didSelectRef.current = true;
             return;
         }
-        if (typeof firstChatId === "number") {
-            dispatch(chatActions.setSelectedChatId(firstChatId));
+        if (chats.length > 0) {
+            dispatch(chatActions.setSelectedChatId(chats[0].id));
             didSelectRef.current = true;
         }
-    }, [firstChatId, selectedChatId, dispatch]);
+    }, [chats, selectedChatId, dispatch]);
 
     const loadMoreRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -94,7 +89,7 @@ export default function ChatList() {
         return () => obs.disconnect();
     }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
-    if (isLoading)
+    if (isLoading && chats.length === 0) {
         return (
             <>
                 {Array.from({ length: 15 }).map((_, i) => (
@@ -102,7 +97,9 @@ export default function ChatList() {
                 ))}
             </>
         );
-    if (isError) return <div>Failed to load chats</div>;
+    }
+
+    if (isError && chats.length === 0) return <div>Failed to load chats</div>;
 
     return (
         <>

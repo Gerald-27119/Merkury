@@ -7,6 +7,9 @@ interface SocialCardsProps {
     type: SocialListType;
     isSocialForViewer: boolean;
     isSearchFriend?: boolean;
+    selectedUsernames?: Set<string>;
+    maxReached?: boolean;
+    onAddToGroup?: (username: string) => void;
 }
 
 export default function SocialCardList({
@@ -14,6 +17,9 @@ export default function SocialCardList({
     type,
     isSocialForViewer,
     isSearchFriend,
+    selectedUsernames,
+    maxReached,
+    onAddToGroup,
 }: SocialCardsProps) {
     if (!list || list.length === 0) {
         let message;
@@ -36,6 +42,9 @@ export default function SocialCardList({
             case SocialListType.PHOTOS:
                 message = "This user hasn't added any photos yet.";
                 break;
+            case SocialListType.POTENTIAL_GROUP_CHAT_MEMBER:
+                message = "There are no other people in the world besides you.";
+                break;
             default:
                 message = isSocialForViewer
                     ? "This user's list is empty."
@@ -53,13 +62,16 @@ export default function SocialCardList({
 
     return (
         <ul className="flex flex-wrap items-center justify-center gap-5 lg:mx-27">
-            {list?.map((f) => (
+            {list.map((f) => (
                 <SocialCard
                     friend={f}
                     key={f.username}
                     type={type}
                     isSocialForViewer={isSocialForViewer}
                     isSearchFriend={isSearchFriend}
+                    selectedUsernames={selectedUsernames}
+                    maxReached={maxReached}
+                    onAddToGroup={onAddToGroup}
                 />
             ))}
         </ul>

@@ -21,10 +21,10 @@ export interface ChatMessageSenderDto {
 }
 
 export interface ChatParticipantDto {
-    id: number;
-    name: string;
+    // id: number; tak ma byc jakby co :)
+    username: string;
     imgUrl: string;
-    isOnline: boolean;
+    // isOnline: boolean;
 }
 
 export interface ChatPage {
@@ -55,3 +55,28 @@ export interface ChatMessageAttachedFileDto {
     sizeInBytes: number;
     name: string;
 }
+
+export interface UpdatedGroupChatDto {
+    newName: string;
+    newImgUrl: string;
+}
+
+export interface UpdatedGroupChat {
+    chatId: number;
+    newName: string;
+    newImgUrl: string;
+}
+
+export type PotentialChatMemberDto = {
+    username: string;
+    profileImg: string | null;
+};
+
+export type SimpleSliceDto<T> = {
+    hasNext: boolean;
+    items: T[];
+};
+
+export type AddUsersToExistingGroupChatDto = {
+    usernames: string[];
+};
