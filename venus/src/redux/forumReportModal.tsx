@@ -1,26 +1,29 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface ForumState {
+interface ForumReportModalInitialState {
     isReportOpen: boolean;
-    reportContentId: number | null;
+    reportTarget: { type: "post" | "comment"; id: number } | null;
 }
 
-const initialState: ForumState = {
+const initialState: ForumReportModalInitialState = {
     isReportOpen: false,
-    reportContentId: null,
+    reportTarget: null,
 };
 
 export const forumReportModalSlice = createSlice({
     name: "forumReportModal",
     initialState: initialState,
     reducers: {
-        openReportModal: (state, action: PayloadAction<number>) => {
+        openReportModal: (
+            state,
+            action: PayloadAction<{ type: "post" | "comment"; id: number }>,
+        ) => {
             state.isReportOpen = true;
-            state.reportContentId = action.payload;
+            state.reportTarget = action.payload;
         },
         closeReportModal: (state) => {
             state.isReportOpen = false;
-            state.reportContentId = null;
+            state.reportTarget = null;
         },
     },
 });

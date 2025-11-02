@@ -1,7 +1,7 @@
-import ActionIconWithCount from "../posts/components/ActionIconWithCount";
+import ActionIconWithCount from "../../posts/components/ActionIconWithCount";
 import { MdThumbDown, MdThumbUp } from "react-icons/md";
 import { FaReply } from "react-icons/fa";
-import PostCommentGeneral from "../../../model/interface/forum/postComment/postCommentGeneral";
+import PostCommentGeneral from "../../../../model/interface/forum/postComment/postCommentGeneral";
 import PostCommentMenu from "./PostCommentMenu";
 
 interface ForumCommentActionsProps {

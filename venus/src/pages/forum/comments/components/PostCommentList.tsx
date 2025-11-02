@@ -1,9 +1,9 @@
-import PostCommentGeneral from "../../../model/interface/forum/postComment/postCommentGeneral";
-import PostComment from "./PostComment";
-import { PostCommentSortOption } from "../../../model/enum/forum/postCommentSortOption";
-import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
-import Error from "../../../components/error/Error";
-import ForumSortDropdown from "../components/ForumSortDropdown";
+import PostCommentGeneral from "../../../../model/interface/forum/postComment/postCommentGeneral";
+import PostComment from "../PostComment";
+import { PostCommentSortOption } from "../../../../model/enum/forum/postCommentSortOption";
+import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
+import Error from "../../../../components/error/Error";
+import ForumSortDropdown from "../../components/ForumSortDropdown";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface ForumCommentListProps {

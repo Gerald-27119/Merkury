@@ -1,5 +1,5 @@
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { formatNumber } from "../../../utils/forum/numberFormatter";
+import { formatNumber } from "../../../../utils/forum/numberFormatter";
 
 interface ShowRepliesButtonProps {
     data: number;

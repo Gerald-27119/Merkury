@@ -11,6 +11,7 @@ import { notificationAction } from "../../../redux/notification";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { useAppMutation } from "../../../hooks/useAppMutation";
 import { forumModalAction } from "../../../redux/forumModal";
+import { forumReportModalAction } from "../../../redux/forumReportModal";
 
 interface DetailedPostProps {
     post: PostDetails;
@@ -72,7 +73,14 @@ export default function DetailedPost({
         );
     };
 
-    const handleReport = async (postId: number) => {};
+    const handleReport = async (postId: number) => {
+        dispatch(
+            forumReportModalAction.openReportModal({
+                type: "post",
+                id: postId,
+            }),
+        );
+    };
 
     const handleNavigateToAuthorProfile = () => {
         navigate(`/account/profile/${post.author.username}`);

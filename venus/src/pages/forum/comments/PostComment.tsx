@@ -1,9 +1,9 @@
 import PostCommentGeneral from "../../../model/interface/forum/postComment/postCommentGeneral";
 import ForumContentHeader from "../posts/components/ForumContentHeader";
 import { useNavigate } from "react-router-dom";
-import PostCommentContent from "./PostCommentContent";
+import PostCommentContent from "./components/PostCommentContent";
 import { BsArrowReturnRight } from "react-icons/bs";
-import ShowRepliesButton from "./ShowRepliesButton";
+import ShowRepliesButton from "./components/ShowRepliesButton";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import {
     deleteComment,
@@ -13,9 +13,9 @@ import {
     voteComment,
 } from "../../../http/post-comments";
 import { useBoolean } from "../../../hooks/useBoolean";
-import PostCommentList from "./PostCommentList";
-import PostCommentActions from "./PostCommentActions";
-import PostCommentForm from "./PostCommentForm";
+import PostCommentList from "./components/PostCommentList";
+import PostCommentActions from "./components/PostCommentActions";
+import PostCommentForm from "./components/PostCommentForm";
 import { notificationAction } from "../../../redux/notification";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { useSelector } from "react-redux";
@@ -25,6 +25,7 @@ import { useAppMutation } from "../../../hooks/useAppMutation";
 import PostCommentDto from "../../../model/interface/forum/postComment/postCommentDto";
 import PostCommentReplyPage from "../../../model/interface/forum/postComment/postCommentReplyPage";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
+import { forumReportModalAction } from "../../../redux/forumReportModal";
 
 interface ForumCommentProps {
     comment: PostCommentGeneral;
@@ -137,7 +138,14 @@ export default function PostComment({
         await replyCommentMutate({ commentId, replyData });
     };
 
-    const handleReport = async (commentId: number) => {};
+    const handleReport = async (commentId: number) => {
+        dispatch(
+            forumReportModalAction.openReportModal({
+                type: "comment",
+                id: commentId,
+            }),
+        );
+    };
 
     const {
         data: repliesPage,

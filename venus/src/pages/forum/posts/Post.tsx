@@ -49,7 +49,12 @@ export default function Post({ post }: PostProps) {
     };
 
     const handleReport = async (postId: number) => {
-        dispatch(forumReportModalAction.openReportModal(postId));
+        dispatch(
+            forumReportModalAction.openReportModal({
+                type: "post",
+                id: postId,
+            }),
+        );
     };
 
     return (

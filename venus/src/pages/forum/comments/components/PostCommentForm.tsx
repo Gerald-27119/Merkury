@@ -1,14 +1,14 @@
-import PostFormEditor from "../posts/components/PostFormEditor";
+import PostFormEditor from "../../posts/components/PostFormEditor";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
     PostCommentFormFields,
     PostCommentFormSchema,
-} from "../../../model/zod-schemas/postCommentFormSchema";
-import PostCommentDto from "../../../model/interface/forum/postComment/postCommentDto";
-import { RichTextEditorVariantType } from "../../../model/enum/forum/richTextEditorVariantType";
-import PostCommentGeneral from "../../../model/interface/forum/postComment/postCommentGeneral";
-import FormActionButtons from "../components/FormActionButtons";
+} from "../../../../model/zod-schemas/postCommentFormSchema";
+import PostCommentDto from "../../../../model/interface/forum/postComment/postCommentDto";
+import { RichTextEditorVariantType } from "../../../../model/enum/forum/richTextEditorVariantType";
+import PostCommentGeneral from "../../../../model/interface/forum/postComment/postCommentGeneral";
+import FormActionButtons from "../../components/FormActionButtons";
 
 interface ForumCommentFormProps {
     handleComment: (newComment: PostCommentDto) => void;

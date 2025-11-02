@@ -24,7 +24,7 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
     const { isOpen, mode, postToEdit } = useSelector(
         (state: RootState) => state.forum,
     );
-    const { isReportOpen, reportContentId } = useSelector(
+    const { isReportOpen, reportTarget } = useSelector(
         (state: RootState) => state.forumReport,
     );
 
@@ -83,7 +83,7 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
                         dispatch(forumReportModalAction.closeReportModal())
                     }
                     isOpen={isReportOpen}
-                    contentId={reportContentId}
+                    reportTarget={reportTarget}
                 />
             </div>
         </div>

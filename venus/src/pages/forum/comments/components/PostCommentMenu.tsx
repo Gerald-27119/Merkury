@@ -1,5 +1,5 @@
-import ForumContentMenu from "../posts/components/ForumContentMenu";
-import PostCommentGeneral from "../../../model/interface/forum/postComment/postCommentGeneral";
+import ForumContentMenu from "../../posts/components/ForumContentMenu";
+import PostCommentGeneral from "../../../../model/interface/forum/postComment/postCommentGeneral";
 
 interface ForumCommentMenuProps {
     comment: PostCommentGeneral;
