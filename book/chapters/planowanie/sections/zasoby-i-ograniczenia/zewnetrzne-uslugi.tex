@@ -4,7 +4,7 @@
 \subsection{Usługi zewnętrzne}
 \label{subsec:uslugi-zewnetrzne}
 \begingroup
-\newcommand{\integrationcard}[4]{%
+\newcommand{\integrationcard}[5]{%
     \begin{table}[H]
     \centering
     {\renewcommand{\arraystretch}{1.15}%
@@ -14,52 +14,61 @@
     \textbf{Opis}   & #3 \\ \hline
     \textbf{Limit}  & #4 \\ \hline
     \end{tabularx}}
-    \caption{Karta integracji: #2\label{#1}}
-    \end{table}
+    \caption{Karta integracji: #5\label{#1}}
+    \end{table}%
 }
 
 \integrationcard{tab:github-actions}
-{GitHub Actions (CI)}
+{GitHub Actions (CI)~\cite{github-actions-billing}}
 {Uruchomienia pipeline’ów CI/CD dla repozytorium GitHub.}
 {3000 min/mies. (wg planu GitHub Education)}
+{GitHub Actions (CI)}
 
 \integrationcard{tab:azure-blob}
-{Azure Blob Storage}
+{Azure Blob Storage~\cite{azure-blob-scalability}}
 {Magazyn obiektów na pliki (np. zdjęcia spotów, załączniki z czatu).}
 {TODO}
+{Azure Blob Storage}
 
 \integrationcard{tab:mailtrap}
-{Mailtrap (Email Testing/API)}
+{Mailtrap (Email Testing/API)~\cite{mailtrap-limits}}
 {Środowisko testowe SMTP oraz Email API do wysyłki powiadomień na środowiskach nieprodukcyjnych.}
 {TODO}
+{Mailtrap (Email Testing/API)}
 
 \integrationcard{tab:locationiq}
-{LocationIQ (Geocoding)}
+{LocationIQ (Geocoding)~\cite{locationiq-pricing}}
 {Geokodowanie/adresy i autosugestia przy dodawaniu nowych spotów.}
 {5\,000 zapytań/dzień (plan Free)}
+{LocationIQ (Geocoding)}
 
 \integrationcard{tab:google-maps}
-{Google Maps Platform — nawigacja/URL}
+{Google Maps Platform — nawigacja/URL~\cite{google-maps-pricing}}
 {Otwieranie nawigacji w aplikacji Map (deep link/URL).}
 {TODO}
+{Google Maps Platform — nawigacja/URL}
 
 \integrationcard{tab:openfreemap}
-{OpenFreeMap (OSM tiles)}
+{OpenFreeMap (OSM tiles)~\cite{openfreemap-docs,openfreemap-quickstart}}
 {Publiczny serwer kafelków do renderu mapy na froncie.}
 {TODO}
+{OpenFreeMap (OSM tiles)}
 
 \integrationcard{tab:open-meteo}
-{Open\mbox{-}Meteo (Weather API)}
+{Open\mbox{-}Meteo (Weather API)~\cite{open-meteo-usage}}
 {Prognozy pogody wyświetlane dla spotów.}
 {10\,000 zapytań/dzień (plan Free)}
+{Open-Meteo (Weather API)}
 
 \integrationcard{tab:tenor}
-{Tenor GIF API}
+{Tenor GIF API~\cite{tenor-docs}}
 {Wyszukiwanie GIF-ów w czacie.}
 {TODO}
+{Tenor GIF API}
 
 \integrationcard{tab:wheretheiss}
-{„Where the ISS at?”}
+{„Where the ISS at?”~\cite{wheretheiss-docs}}
 {Proste HTTP API udostępniające bieżące dane o pozycji; wykorzystywane pomocniczo.}
 {TODO}
+{„Where the ISS at?”}
 \endgroup
