@@ -1,18 +1,18 @@
 import React, { ReactNode } from "react";
-import AddPostButton from "./AddPostButton";
-import ForumCategoriesTagsPanel from "../categories-and-tags/components/ForumCategoriesTagsPanel";
-import ForumSearchBar from "./ForumSearchBar";
-import RightPanel from "./RightPanel";
-import ForumAddPostModal from "./ForumAddPostModal";
+import AddPostButton from "./components/AddPostButton";
+import ForumCategoriesTagsPanel from "./categories-and-tags/components/ForumCategoriesTagsPanel";
+import ForumSearchBar from "./components/ForumSearchBar";
+import RightPanel from "./components/RightPanel";
+import ForumAddPostModal from "./components/ForumAddPostModal";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCategoriesAndTags } from "../../../http/posts";
-import { notificationAction } from "../../../redux/notification";
+import { fetchCategoriesAndTags } from "../../http/posts";
+import { notificationAction } from "../../redux/notification";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import useDispatchTyped from "../../../hooks/useDispatchTyped";
-import { forumModalAction } from "../../../redux/forumModal";
-import ForumReportModal from "./ForumReportModal";
-import { forumReportModalAction } from "../../../redux/forumReportModal";
+import { RootState } from "../../redux/store";
+import useDispatchTyped from "../../hooks/useDispatchTyped";
+import { forumModalAction } from "../../redux/forumModal";
+import ForumReportModal from "./components/ForumReportModal";
+import { forumReportModalAction } from "../../redux/forumReportModal";
 
 interface ForumLayoutProps {
     children: ReactNode;

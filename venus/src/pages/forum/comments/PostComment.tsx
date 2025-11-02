@@ -94,15 +94,7 @@ export default function PostComment({
     });
 
     const handleCommentEditClick = (comment: PostCommentGeneral) => {
-        if (isLogged) {
-            setActiveForm({ type: "edit", comment });
-        } else {
-            dispatch(
-                notificationAction.addInfo({
-                    message: "Login to comment.",
-                }),
-            );
-        }
+        setActiveForm({ type: "edit", comment });
     };
 
     const handleEdit = async (
@@ -117,7 +109,11 @@ export default function PostComment({
     };
 
     const handleVote = async (id: number, isUpvote: boolean) => {
-        await voteCommentMutate({ id, isUpvote });
+        if (isLogged) {
+            await voteCommentMutate({ id, isUpvote });
+        } else {
+            dispatch(notificationAction.addInfo({ message: "Login to vote." }));
+        }
     };
 
     const handleCommentReplyClick = (commentId: number) => {
@@ -134,17 +130,24 @@ export default function PostComment({
         commentId: number,
         replyData: PostCommentDto,
     ) => {
-        console.log();
         await replyCommentMutate({ commentId, replyData });
     };
 
     const handleReport = async (commentId: number) => {
-        dispatch(
-            forumReportModalAction.openReportModal({
-                type: "comment",
-                id: commentId,
-            }),
-        );
+        if (isLogged) {
+            dispatch(
+                forumReportModalAction.openReportModal({
+                    type: "comment",
+                    id: commentId,
+                }),
+            );
+        } else {
+            dispatch(
+                notificationAction.addInfo({
+                    message: "Login to report comments.",
+                }),
+            );
+        }
     };
 
     const {

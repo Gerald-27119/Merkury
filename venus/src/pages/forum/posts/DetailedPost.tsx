@@ -12,6 +12,8 @@ import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { useAppMutation } from "../../../hooks/useAppMutation";
 import { forumModalAction } from "../../../redux/forumModal";
 import { forumReportModalAction } from "../../../redux/forumReportModal";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 interface DetailedPostProps {
     post: PostDetails;
@@ -32,6 +34,7 @@ export default function DetailedPost({
 }: DetailedPostProps) {
     const navigate = useNavigate();
     const dispatch = useDispatchTyped();
+    const isLogged = useSelector((state: RootState) => state.account.isLogged);
 
     const { mutateAsync: deletePostMutate } = useAppMutation(deletePost, {
         successMessage: "Post deleted successfully!",
@@ -61,7 +64,15 @@ export default function DetailedPost({
     };
 
     const handleVote = async (id: number, isUpvote: boolean) => {
-        await votePostMutate({ id, isUpvote });
+        if (isLogged) {
+            await votePostMutate({ id, isUpvote });
+        } else {
+            dispatch(
+                notificationAction.addInfo({
+                    message: "Login to vote.",
+                }),
+            );
+        }
     };
 
     const handlePostShare = async (url: string) => {
@@ -74,12 +85,20 @@ export default function DetailedPost({
     };
 
     const handleReport = async (postId: number) => {
-        dispatch(
-            forumReportModalAction.openReportModal({
-                type: "post",
-                id: postId,
-            }),
-        );
+        if (isLogged) {
+            dispatch(
+                forumReportModalAction.openReportModal({
+                    type: "post",
+                    id: postId,
+                }),
+            );
+        } else {
+            dispatch(
+                notificationAction.addInfo({
+                    message: "Login to report posts.",
+                }),
+            );
+        }
     };
 
     const handleNavigateToAuthorProfile = () => {

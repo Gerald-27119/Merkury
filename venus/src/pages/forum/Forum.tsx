@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ForumPostPage from "../../model/interface/forum/forumPostPage";
 import { PostSortOption } from "../../model/enum/forum/postSortOption";
 import ForumPostList from "./components/ForumPostList";
-import ForumLayout from "./components/ForumLayout";
+import ForumLayout from "./ForumLayout";
 import SkeletonListedForumPost from "./components/SkeletonListedForumPost";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
 

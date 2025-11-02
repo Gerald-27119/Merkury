@@ -2,7 +2,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import DetailedPost from "./posts/DetailedPost";
 import ReturnButton from "./components/ReturnButton";
-import ForumLayout from "./components/ForumLayout";
+import ForumLayout from "./ForumLayout";
 import { addComment, getCommentsByPostId } from "../../http/post-comments";
 import React, { useEffect, useRef, useState } from "react";
 import { PostCommentSortOption } from "../../model/enum/forum/postCommentSortOption";

@@ -7,6 +7,9 @@ import { useAppMutation } from "../../../hooks/useAppMutation";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { forumModalAction } from "../../../redux/forumModal";
 import { forumReportModalAction } from "../../../redux/forumReportModal";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { notificationAction } from "../../../redux/notification";
 
 interface PostProps {
     post: PostGeneral;
@@ -14,6 +17,7 @@ interface PostProps {
 
 export default function Post({ post }: PostProps) {
     const dispatch = useDispatchTyped();
+    const isLogged = useSelector((state: RootState) => state.account.isLogged);
 
     const { mutateAsync: deletePostMutate } = useAppMutation(deletePost, {
         successMessage: "Post deleted successfully!",
@@ -45,16 +49,32 @@ export default function Post({ post }: PostProps) {
     };
 
     const handleFollow = async (postId: number) => {
-        await followPostMutate(postId);
+        if (isLogged) {
+            await followPostMutate(postId);
+        } else {
+            dispatch(
+                notificationAction.addInfo({
+                    message: "Login to follow posts.",
+                }),
+            );
+        }
     };
 
     const handleReport = async (postId: number) => {
-        dispatch(
-            forumReportModalAction.openReportModal({
-                type: "post",
-                id: postId,
-            }),
-        );
+        if (isLogged) {
+            dispatch(
+                forumReportModalAction.openReportModal({
+                    type: "post",
+                    id: postId,
+                }),
+            );
+        } else {
+            dispatch(
+                notificationAction.addInfo({
+                    message: "Login to report posts.",
+                }),
+            );
+        }
     };
 
     return (
