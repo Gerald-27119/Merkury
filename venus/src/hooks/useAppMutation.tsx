@@ -62,7 +62,6 @@ export function useAppMutation<TData, TVariables>(
                 return;
             }
 
-            // fallback
             dispatch(
                 notificationAction.addError({
                     message: "Something went wrong. Please try again later.",
