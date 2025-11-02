@@ -104,7 +104,7 @@ export default function SpotCommentVotesPanel({
                         ? prevState.upVotes - 1
                         : prevState.upVotes,
                 downVotes:
-                    voteType == SpotCommentVoteType.DOWN_VOTE
+                    voteType === SpotCommentVoteType.DOWN_VOTE
                         ? prevState.downVotes - 1
                         : prevState.downVotes + 1,
             }));
