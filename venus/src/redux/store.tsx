@@ -17,6 +17,7 @@ import { currentViewSpotsListModalSlice } from "./current-view-spots-list-modal"
 import { currentViewSpotParamsSlice } from "./current-view-spot-params";
 import { spotWeatherSlice } from "./spot-weather";
 import { forumModalSlice } from "./forumModal";
+import { forumReportModalSlice } from "./forumReportModal";
 
 // TODO: Add persisting state to localStorage
 const store = configureStore({
@@ -39,6 +40,7 @@ const store = configureStore({
         currentViewSpotsParams: currentViewSpotParamsSlice.reducer,
         spotWeather: spotWeatherSlice.reducer,
         forum: forumModalSlice.reducer,
+        forumReport: forumReportModalSlice.reducer,
     },
 });
 

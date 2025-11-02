@@ -40,7 +40,7 @@ export default function PostFormEditor<T extends FieldValues>({
                             />
                         </div>
                         {error && (
-                            <p className="text-xs font-bold text-red-500">
+                            <p className="mt-1 text-xs font-bold text-red-500">
                                 {error}
                             </p>
                         )}

@@ -8,7 +8,7 @@ import { useAppMutation } from "../../../hooks/useAppMutation";
 import PostToEdit from "../../../model/interface/forum/post/postToEdit";
 import { useQueryClient } from "@tanstack/react-query";
 
-interface ModalProps {
+interface ForumAddPostModalProps {
     onClose: () => void;
     isOpen: boolean;
     mode: "create" | "edit";
@@ -17,14 +17,14 @@ interface ModalProps {
     postToEdit?: PostToEdit | null;
 }
 
-export default function ForumFormModal({
+export default function ForumAddPostModal({
     onClose,
     isOpen,
     mode,
     categories,
     tags,
     postToEdit,
-}: ModalProps) {
+}: ForumAddPostModalProps) {
     const modalRoot = document.getElementById("modal");
     const queryClient = useQueryClient();
 

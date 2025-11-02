@@ -4,12 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import PostFormInput from "./PostFormInput";
 import PostFormEditor from "./PostFormEditor";
 import {
-    ForumPostFormFields,
-    ForumPostFormSchema,
-} from "../../../../model/schema/forumPostFormSchema";
+    PostFormFields,
+    PostFormSchema,
+} from "../../../../model/zod-schemas/postFormSchema";
 import ControlledSelect from "../../components/ControlledSelect";
 import PostDto from "../../../../model/interface/forum/post/postDto";
 import { RichTextEditorVariantType } from "../../../../model/enum/forum/richTextEditorVariantType";
+import FormActionButtons from "../../components/FormActionButtons";
 
 interface FormProps {
     handlePost: (data: PostDto) => void;
@@ -31,8 +32,8 @@ export default function PostForm({
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<ForumPostFormFields>({
-        resolver: zodResolver(ForumPostFormSchema),
+    } = useForm<PostFormFields>({
+        resolver: zodResolver(PostFormSchema),
         mode: "onBlur",
         defaultValues: postToEdit
             ? {
@@ -55,7 +56,7 @@ export default function PostForm({
               },
     });
 
-    const onSubmit: SubmitHandler<ForumPostFormFields> = (data) => {
+    const onSubmit: SubmitHandler<PostFormFields> = (data) => {
         let newPost = {
             title: data.title,
             content: data.content,
@@ -80,7 +81,7 @@ export default function PostForm({
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex flex-col gap-4"
             >
-                <PostFormInput<ForumPostFormFields>
+                <PostFormInput<PostFormFields>
                     name="title"
                     placeholder="Title"
                     type="text"
@@ -88,7 +89,7 @@ export default function PostForm({
                     error={errors.title?.message}
                 />
 
-                <ControlledSelect<ForumPostFormFields>
+                <ControlledSelect<PostFormFields>
                     name="category"
                     placeholder="Category"
                     control={control}
@@ -96,7 +97,7 @@ export default function PostForm({
                     options={categories}
                     error={errors.category?.message}
                 />
-                <ControlledSelect<ForumPostFormFields>
+                <ControlledSelect<PostFormFields>
                     name="tags"
                     placeholder="Tags"
                     control={control}
@@ -105,27 +106,17 @@ export default function PostForm({
                     error={errors.tags?.message}
                 />
 
-                <PostFormEditor<ForumPostFormFields>
+                <PostFormEditor<PostFormFields>
                     name="content"
                     control={control}
                     error={errors.content?.message}
                     variant={RichTextEditorVariantType.MODAL}
                 />
 
-                <div className="mt-4 flex justify-end gap-2">
-                    <button
-                        onClick={onClose}
-                        className="cursor-pointer rounded bg-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-400"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        type="submit"
-                        className="dark:bg-violetDark bg-violetLight/80 dark:hover:bg-violetDarker hover:bg-violetLight cursor-pointer rounded px-4 py-2 text-white"
-                    >
-                        {postToEdit ? "Edit" : "Post"}
-                    </button>
-                </div>
+                <FormActionButtons
+                    onCancel={onClose}
+                    submitLabel={postToEdit ? "Edit" : "Post"}
+                />
             </form>
         </div>
     );

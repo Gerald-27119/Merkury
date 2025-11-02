@@ -3,7 +3,7 @@ import AddPostButton from "./AddPostButton";
 import ForumCategoriesTagsPanel from "../categories-and-tags/components/ForumCategoriesTagsPanel";
 import ForumSearchBar from "./ForumSearchBar";
 import RightPanel from "./RightPanel";
-import ForumFormModal from "./ForumFormModal";
+import ForumAddPostModal from "./ForumAddPostModal";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCategoriesAndTags } from "../../../http/posts";
 import { notificationAction } from "../../../redux/notification";
@@ -11,6 +11,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { forumModalAction } from "../../../redux/forumModal";
+import ForumReportModal from "./ForumReportModal";
+import { forumReportModalAction } from "../../../redux/forumReportModal";
 
 interface ForumLayoutProps {
     children: ReactNode;
@@ -21,6 +23,9 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
     const dispatch = useDispatchTyped();
     const { isOpen, mode, postToEdit } = useSelector(
         (state: RootState) => state.forum,
+    );
+    const { isReportOpen, reportContentId } = useSelector(
+        (state: RootState) => state.forumReport,
     );
 
     const {
@@ -65,13 +70,20 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
                     <ForumSearchBar />
                     <RightPanel />
                 </div>
-                <ForumFormModal
+                <ForumAddPostModal
                     onClose={() => dispatch(forumModalAction.closeModal())}
                     isOpen={isOpen}
                     mode={mode}
                     postToEdit={postToEdit}
                     categories={categoriesAndTags?.categories ?? []}
                     tags={categoriesAndTags?.tags ?? []}
+                />
+                <ForumReportModal
+                    onClose={() =>
+                        dispatch(forumReportModalAction.closeReportModal())
+                    }
+                    isOpen={isReportOpen}
+                    contentId={reportContentId}
                 />
             </div>
         </div>

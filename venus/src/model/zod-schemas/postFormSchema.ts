@@ -5,7 +5,7 @@ function stripHtml(html: string): string {
     const doc = parser.parseFromString(html, "text/html");
     return doc.body.textContent?.trim() || "";
 }
-export const ForumPostFormSchema = z.object({
+export const PostFormSchema = z.object({
     title: z
         .string()
         .trim()
@@ -43,4 +43,4 @@ export const ForumPostFormSchema = z.object({
         }),
 });
 
-export type ForumPostFormFields = z.infer<typeof ForumPostFormSchema>;
+export type PostFormFields = z.infer<typeof PostFormSchema>;

@@ -76,7 +76,13 @@ export async function followPost(postId: number) {
     });
 }
 
-export async function reportPost(postId: number, report: ForumReportDto) {
+export async function reportPost({
+    postId,
+    report,
+}: {
+    postId: number;
+    report: ForumReportDto;
+}) {
     return await axios.patch(`${BASE_URL}/post/${postId}/report`, report, {
         withCredentials: true,
     });

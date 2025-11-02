@@ -6,6 +6,7 @@ import { deletePost, followPost } from "../../../http/posts";
 import { useAppMutation } from "../../../hooks/useAppMutation";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 import { forumModalAction } from "../../../redux/forumModal";
+import { forumReportModalAction } from "../../../redux/forumReportModal";
 
 interface PostProps {
     post: PostGeneral;
@@ -47,7 +48,9 @@ export default function Post({ post }: PostProps) {
         await followPostMutate(postId);
     };
 
-    const handleReport = async (postId: number) => {};
+    const handleReport = async (postId: number) => {
+        dispatch(forumReportModalAction.openReportModal(postId));
+    };
 
     return (
         <div className="dark:bg-darkBgSoft mx-auto my-4 max-w-md rounded-xl shadow-md md:max-w-2xl">

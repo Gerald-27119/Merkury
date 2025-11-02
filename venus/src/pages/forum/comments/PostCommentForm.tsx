@@ -2,12 +2,13 @@ import PostFormEditor from "../posts/components/PostFormEditor";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    ForumCommentFormFields,
-    ForumCommentFormSchema,
-} from "../../../model/schema/forumCommentFormSchema";
+    PostCommentFormFields,
+    PostCommentFormSchema,
+} from "../../../model/zod-schemas/postCommentFormSchema";
 import PostCommentDto from "../../../model/interface/forum/postComment/postCommentDto";
 import { RichTextEditorVariantType } from "../../../model/enum/forum/richTextEditorVariantType";
 import PostCommentGeneral from "../../../model/interface/forum/postComment/postCommentGeneral";
+import FormActionButtons from "../components/FormActionButtons";
 
 interface ForumCommentFormProps {
     handleComment: (newComment: PostCommentDto) => void;
@@ -26,8 +27,8 @@ export default function PostCommentForm({
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<ForumCommentFormFields>({
-        resolver: zodResolver(ForumCommentFormSchema),
+    } = useForm<PostCommentFormFields>({
+        resolver: zodResolver(PostCommentFormSchema),
         mode: "onBlur",
         defaultValues: commentToEdit
             ? { content: commentToEdit.content }
@@ -36,7 +37,7 @@ export default function PostCommentForm({
               },
     });
 
-    const onSubmit: SubmitHandler<ForumCommentFormFields> = (data) => {
+    const onSubmit: SubmitHandler<PostCommentFormFields> = (data) => {
         let newComment = {
             content: data.content,
         };
@@ -47,27 +48,17 @@ export default function PostCommentForm({
     return (
         <div className={`mb-4 ${className}`}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <PostFormEditor<ForumCommentFormFields>
+                <PostFormEditor<PostCommentFormFields>
                     name="content"
                     control={control}
                     error={errors.content?.message}
                     variant={RichTextEditorVariantType.DEFAULT}
                 />
 
-                <div className="mt-4 flex justify-end gap-2">
-                    <button
-                        onClick={onClose}
-                        className="cursor-pointer rounded bg-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-400"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        type="submit"
-                        className="dark:bg-violetDark bg-violetLight/80 dark:hover:bg-violetDarker hover:bg-violetLight cursor-pointer rounded px-4 py-2 text-white"
-                    >
-                        {commentToEdit ? "Edit" : "Comment"}
-                    </button>
-                </div>
+                <FormActionButtons
+                    onCancel={onClose}
+                    submitLabel={commentToEdit ? "Edit" : "Comment"}
+                />
             </form>
         </div>
     );

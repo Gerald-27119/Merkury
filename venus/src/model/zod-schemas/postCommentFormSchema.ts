@@ -6,7 +6,7 @@ function stripHtml(html: string): string {
     return doc.body.textContent?.trim() || "";
 }
 
-export const ForumCommentFormSchema = z.object({
+export const PostCommentFormSchema = z.object({
     content: z
         .string()
         .refine((val) => stripHtml(val).length >= 3, {
@@ -17,4 +17,4 @@ export const ForumCommentFormSchema = z.object({
         }),
 });
 
-export type ForumCommentFormFields = z.infer<typeof ForumCommentFormSchema>;
+export type PostCommentFormFields = z.infer<typeof PostCommentFormSchema>;

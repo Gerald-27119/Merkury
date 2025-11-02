@@ -17,6 +17,6 @@ public class ReportExceptionHandler {
 
     @ExceptionHandler(OwnContentReportException.class)
     public ResponseEntity<String> ownContentReportException(OwnContentReportException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

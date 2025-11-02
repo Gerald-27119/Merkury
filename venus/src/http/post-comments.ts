@@ -102,7 +102,13 @@ export async function replyToComment({
     );
 }
 
-export async function reportComment(commentId: number, report: ForumReportDto) {
+export async function reportComment({
+    commentId,
+    report,
+}: {
+    commentId: number;
+    report: ForumReportDto;
+}) {
     return await axios.patch(
         `${BASE_URL}/post/comments/${commentId}/report`,
         report,
