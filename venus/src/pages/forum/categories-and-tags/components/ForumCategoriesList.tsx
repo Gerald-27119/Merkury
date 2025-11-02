@@ -24,7 +24,7 @@ export default function ForumCategoriesList({
                     <ExpansionButton label="All categories" />
                 </div>
             ) : (
-                <span>There are no categories</span>
+                <span className="flex items-center">No categories found</span>
             )}
         </div>
     );

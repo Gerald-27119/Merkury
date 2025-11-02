@@ -22,6 +22,7 @@ public class PostController {
 
     @GetMapping("/public/post/{postId}")
     public ResponseEntity<PostDetailsDto> getDetailedPost(@PathVariable Long postId) throws PostNotFoundException, UserNotFoundByUsernameException {
+        postService.increasePostViews(postId);
         return ResponseEntity.ok(postService.getDetailedPost(postId));
     }
 

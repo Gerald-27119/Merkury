@@ -3,7 +3,7 @@ package com.merkury.vulcanus.features.forum;
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.forum.*;
-import com.merkury.vulcanus.model.entities.forum.PostReport;
+import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.forum.PostCategory;
 import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.Tag;
@@ -47,7 +47,6 @@ public class PostService {
         var userName = getAuthenticatedUsernameOrNull();
         var user = userName != null ? userEntityFetcher.getByUsername(userName) : null;
 
-        increasePostViews(post);
         return PostMapper.toDetailsDto(post, user);
     }
 
@@ -109,12 +108,7 @@ public class PostService {
             throw new InvalidPostOperationException("You can't follow your own post.");
         }
 
-        var followers = post.getFollowers();
-        if (followers.contains(user)) {
-            followers.remove(user);
-        } else {
-            followers.add(user);
-        }
+        toggleFollower(post, user);
         postRepository.save(post);
     }
 
@@ -123,6 +117,14 @@ public class PostService {
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
 
         reportService.reportPost(report, post, user);
+    }
+
+    @Async
+    public void increasePostViews(Long postId) throws PostNotFoundException {
+        var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
+
+        post.setViews(post.getViews() + 1);
+        postRepository.save(post);
     }
 
     public ForumCategoriesAndTagsDto getAllCategoriesAndTags() {
@@ -158,9 +160,14 @@ public class PostService {
         return viewerUsername;
     }
 
-    @Async
-    protected void increasePostViews(Post post) {
-        post.setViews(post.getViews() + 1);
-        postRepository.save(post);
+    private void toggleFollower(Post post, UserEntity user) {
+        var followers = post.getFollowers();
+
+        if (followers.contains(user)) {
+            followers.remove(user);
+        } else {
+            followers.add(user);
+        }
     }
+
 }

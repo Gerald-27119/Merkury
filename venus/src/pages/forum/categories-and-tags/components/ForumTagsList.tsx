@@ -22,7 +22,7 @@ export default function ForumTagsList({ tags }: ForumTagsListProps) {
                     <ExpansionButton label="All tags" />
                 </div>
             ) : (
-                <span>There are no tags</span>
+                <span className="flex items-center">No tags found</span>
             )}
         </div>
     );
