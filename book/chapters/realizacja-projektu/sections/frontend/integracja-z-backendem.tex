@@ -6,7 +6,7 @@
 
 Jest to kluczowy element aplikacji, ponieważ wymaga bezpiecznego przesyłania danych użytkownika.
 W celu uproszczenia komunikacji z serwerem skorzystaliśmy z
-biblioteki \texttt{axios}~\cite{axios} oraz \gls{bibliote}ki \texttt{TanStack Query}~\cite{tanstack-query}.
+biblioteki \texttt{axios}~\cite{axios} oraz \glslink{biblioteka}{Biblioteki} \texttt{TanStack Query}~\cite{tanstack-query}.
 We wszystkich ścieżkach, które wymagają, aby użytkownik był zalogowany, do zapytania dołączany jest token
 \gls{jwt}. Token jest przekazywany w ciasteczku dzięki ustawieniu parametru \texttt{withCredentials} na wartość \texttt{true}.
 Przykładem pliku odpowiedzialnego za taką komunikację jest \texttt{account.js}
@@ -29,10 +29,10 @@ rejestracją, zmianą hasła oraz wylogowaniem.
 Funkcje odpowiedzialne za komunikację z backendem zostały umieszczone w katalogu \texttt{/http}.
 Dzięki temu są one scentralizowane i mogą być w prosty sposób wykorzystywane w różnych częściach aplikacji.
 Zastosowaliśmy TanStack Query, ponieważ znacząco ogranicza on powtarzalny kod oraz upraszcza obsługę błędów i
-stanów zapytania (takich jak ładowanie danych, błąd, sukces). \gls{bibliote}ka udostępnia m.in.
+stanów zapytania (takich jak ładowanie danych, błąd, sukces). \glslink{biblioteka} udostępnia m.in.
 wartość \texttt{isLoading},
 dzięki czemu komponent może łatwo wyświetlić ekran ładowania bez ręcznego zarządzania własnym stanem.
-Dodatkowo \gls{hook} \texttt{useQuery} z tej \gls{bibliote}ki umożliwia automatyczne pobieranie danych po wejściu na daną podstronę.
+Dodatkowo \gls{hook} \texttt{useQuery} z tej \glslink{biblioteka}{Biblioteki} umożliwia automatyczne pobieranie danych po wejściu na daną podstronę.
 Oznacza to, że komponent deklaruje jedynie „jakie dane są mu potrzebne”, a TanStack Query zajmuje się ich pobraniem,
 cache’owaniem oraz odświeżaniem.
 Do operacji, które wymagają wywołania akcji po stronie użytkownika (np. wysłania formularza logowania),

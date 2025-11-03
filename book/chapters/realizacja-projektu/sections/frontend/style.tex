@@ -29,10 +29,11 @@ Dzięki temu zmiana motywu kolorystycznego w przyszłości sprowadza się do edy
 \end{figure}
 
 W niektórych miejscach konieczne było zapisanie stylów w czystym \gls{css}, ponieważ część
-użytych \gls{bibliote}k tego wymagała. W innych przypadkach wystarczyło skorzystać z klas
+użytych \glslink{biblioteka}{Bibliotek} tego wymagała. W innych przypadkach wystarczyło skorzystać z klas
 zdefiniowanych w \texttt{index.css} oraz klas Tailwinda.
-Cała aplikacja jest \gls{responsywn}a. Tailwind udostępnia predefiniowane prefiksy
-responsywne (np. \texttt{md:}, \texttt{lg:}) (rys. \ref{img:tailwind-responsywnosc}), które pozwalają przypisywać style zależnie od
+Cała aplikacja jest \glslink{responsywnosc}{Responsywna}. Tailwind udostępnia predefiniowane prefiksy
+\glslink{responsywnosc}{Responsywne} (np. \texttt{md:}, \texttt{lg:}) (rys. \ref{img:tailwind-responsywnosc}),
+które pozwalają przypisywać style zależnie od
 szerokości ekranu bez pisania własnych reguł @media.
 Dzięki temu implementacja widoków mobilnych i desktopowych była znacząco szybsza.
 
@@ -54,9 +55,9 @@ elementu, gdy aplikacja jest w trybie ciemnym (rys. \ref{img:tailwind-motyw}).
     \label{img:tailwind-motyw}
 \end{figure}
 
-Aby uzyskać płynniejsze i przyjemniejsze animacje, wykorzystaliśmy \gls{bibliote}kę Motion~\cite{motion}.
+Aby uzyskać płynniejsze i przyjemniejsze animacje, wykorzystaliśmy \glslink{biblioteka}{Bibliotekę} Motion~\cite{motion}.
 Pozwala ona w prosty sposób tworzyć animacje elementów interfejsu, bez potrzeby ręcznego pisania
-złożonych reguł CSS. W naszej aplikacji użyliśmy jej m.in. w polach formularza logowania i rejestracji
+złożonych reguł \gls{css}. W naszej aplikacji użyliśmy jej m.in. w polach formularza logowania i rejestracji
 (rys. \ref{img:motion}).
 Na początku etykieta pola (np. „username”) jest wyświetlana wewnątrz pola tekstowego,
 natomiast po kliknięciu w pole jest płynnie przesuwana nad to pole, co poprawia czytelność i ergonomię formularza.
