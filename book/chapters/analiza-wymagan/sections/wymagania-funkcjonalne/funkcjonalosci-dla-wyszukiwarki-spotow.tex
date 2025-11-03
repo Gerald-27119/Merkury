@@ -1,5 +1,49 @@
-%! Author = mateusz
-%! Date = 19/10/2025
+%! Author = Mateusz
+%! Date = 03/11/2025
 
 \subsection{Funkcjonalności dla wyszukiwarki spotów}
 \label{subsec:funkcjonalnosci-dla-wyszukiwarki-spotow}
+
+\begin{requirementstab}[placement=H, label={tab:requirements:func1},caption={}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Strona główna z podstawowymi filtrami}
+    \descr{Jako użytkownik chcę mieć dostęp do strony głównej,
+        która wyświetla najpopularniejsze spoty i listę spotów które
+        można filtrować.}
+    \acceptcrit{Użytkownik może zobaczyć listę najpopularniejszych miejsc.
+    Lista zawiera zdjęcia, nazwę miejsca, lokalizację, tagi i opinie.
+    Użytkownik może filtrować miejsca według lokalizacji
+        (kraj, region, miasto).}
+    \inputdata{Lokalizacja użytkownika (kraj, region, miasto).
+    Ewentualne dane z bazy miejsc turystycznych.}
+    \preconditions{Użytkownik nie musi być zalogowany.}
+    \postconditions{Użytkownik widzi popularne miejsca z danego miasta
+        (np. Gdańsk). Użytkownik może przejść do szczegółów danego miejsca.}
+    \exceptions{}
+    \implementation{}
+    \sholder{}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[placement=H, label={tab:requirements:func1},caption={}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Strona główna z zaawansowanymi filtrami}
+    \descr{Jako użytkownik chcę mieć dostęp do strony głównej,
+        która wyświetla najpopularniejsze spoty i listę spotów które
+        można filtrować i sortować.}
+    \acceptcrit{Użytkownik może zobaczyć listę najpopularniejszych miejsc.
+    Lista zawiera zdjęcia, nazwę miejsca, lokalizację i krótki opis.
+    Użytkownik może filtrować miejsca według lokalizacji
+        (kraj, region, miasto), po ocenie oraz sortować po ocenie.}
+    \inputdata{Lokalizacja użytkownika (kraj, region, miasto),
+        sortowanie i filtry. Ewentualne dane z bazy miejsc turystycznych.}
+    \preconditions{Użytkownik nie musi być zalogowany.}
+    \postconditions{Użytkownik widzi popularne miejsca z danego miasta
+        (np. Gdańsk). Użytkownik może przejść do szczegółów danego miejsca.}
+    \exceptions{}
+    \implementation{}
+    \sholder{}
+    \reqrelated{}
+\end{requirementstab}
