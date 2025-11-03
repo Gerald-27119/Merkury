@@ -5,7 +5,8 @@
 \label{subsec:integracja-i-komunikacji-z-backendem}
 
 Jest to kluczowy element aplikacji, ponieważ wymaga bezpiecznego przesyłania danych użytkownika.
-W celu uproszczenia komunikacji z serwerem skorzystaliśmy z biblioteki \texttt{axios} oraz \gls{bibliote}ki \texttt{TanStack Query}.
+W celu uproszczenia komunikacji z serwerem skorzystaliśmy z
+biblioteki \texttt{axios}~\cite{axios} oraz \gls{bibliote}ki \texttt{TanStack Query}~\cite{tanstack-query}.
 We wszystkich ścieżkach, które wymagają, aby użytkownik był zalogowany, do zapytania dołączany jest token
 \gls{jwt}. Token jest przekazywany w ciasteczku dzięki ustawieniu parametru \texttt{withCredentials} na wartość \texttt{true}.
 Przykładem pliku odpowiedzialnego za taką komunikację jest \texttt{account.js}
