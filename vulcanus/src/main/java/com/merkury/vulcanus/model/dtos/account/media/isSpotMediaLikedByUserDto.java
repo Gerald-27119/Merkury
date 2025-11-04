@@ -1,0 +1,4 @@
+package com.merkury.vulcanus.model.dtos.account.media;
+
+public record isSpotMediaLikedByUserDto(boolean isSpotMediaLiked) {
+}

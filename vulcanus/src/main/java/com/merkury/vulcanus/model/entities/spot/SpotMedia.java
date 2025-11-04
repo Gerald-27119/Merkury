@@ -6,9 +6,13 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "spot_media")
 @Data
@@ -39,4 +43,10 @@ public class SpotMedia {
     @ManyToOne
     @JoinColumn(name = "spot_id")
     private Spot spot;
+
+    @ManyToMany(mappedBy = "likedSpotMedia")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @Builder.Default
+    private Set<UserEntity> likedBy = new HashSet<>();
 }
