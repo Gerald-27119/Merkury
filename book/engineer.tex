@@ -4,7 +4,7 @@
 \usepackage{glossaries}
 \usepackage[polish]{babel}
 \usepackage{import}
-
+\usepackage{csquotes}
 %JSON Coloring
 \lstdefinelanguage{json}{
     basicstyle=\footnotesize\ttfamily,
@@ -34,11 +34,6 @@
     stringstyle=\color{green!40!black}
 }
 
-
-
-
-\makeglossaries
-\addbibresource{bibliography.bib}
 
 \input{glossary}
 
@@ -97,23 +92,18 @@
 \keyword{--- brak ---}%todo nie wiem czy bedzie potrzebne ale zostawiam żeby było
 
 
-
+\addbibresource{bibliography.bib}
+\makeglossaries
 
 \begin{document}
 
     \maketitle
     \makeprojectcard
 
-    %Spis treści
     \tableofcontents
     \clearpage
 
     \input{chapters/wstep/wstep}
-
-    % Słownik pojęć i skrótów
-%    \printglossary[type=\acronymtype]
-    \printglossary[title={Słownik pojęć i skrótów},toctitle={Słownik pojęć i skrótów}]
-
     \input{chapters/opis-problemu/opis-problemu}
     \input{chapters/planowanie/planowanie}
     \input{chapters/analiza-wymagan/analiza-wymagan}
@@ -125,7 +115,17 @@
     \input{chapters/naklad-pracy/naklad-pracy}
     \input{chapters/podsumowanie/podsumowanie}
 
-    \printbibliography[title={Bibliografia}, heading=bibintoc]
+    \chapter{Słownik pojęć i skrótów}
+    \label{ch:sownik-pojec-i-skrotow}
+    \setglossarysection{section}
+    \vspace*{-2\baselineskip}
+    \printglossary[type=\acronymtype, title={}, toctitle={}]
+
+    \printbibliography[title={}, heading=bibintoc]
+
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Załączniki}
     \makethesisattachments
 
 \end{document}
