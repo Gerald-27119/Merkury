@@ -5,6 +5,7 @@ import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService
 import com.merkury.vulcanus.model.dtos.account.add.spot.AddSpotPageDto;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
+import com.merkury.vulcanus.model.dtos.account.media.IsSpotMediaLikedByUserDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
@@ -207,5 +208,10 @@ public class UserDashboardController {
     @GetMapping("/user-dashboard/add-spot/coordinates")
     public ResponseEntity<Mono<BorderPoint>> getCoordinates(@RequestParam String query) {
         return ResponseEntity.ok(userDashboardService.getCoordinates(query));
+    }
+
+    @GetMapping("/user-dashboard/check-is-spot-media-liked")
+    public ResponseEntity<IsSpotMediaLikedByUserDto> checkIsSpotMediaLikedByUser(@RequestParam long spotMediaId) throws UserIdByUsernameNotFoundException {
+        return ResponseEntity.ok(userDashboardService.checkIsSpotMediaLikedByUser(spotMediaId));
     }
 }
