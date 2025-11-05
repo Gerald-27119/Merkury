@@ -77,28 +77,35 @@
 
 \newglossaryentry{DAD_LLC}{
     name={Disciplined Agile Delivery - Lean Life Cycle},
-    description={Kanbanowy tryb pracy bez sprintów: zespół pobiera małe zadania z tablicy, pilnuje limitów pracy w toku i często wdraża małe zmiany.
-    Planowanie jest lekkie i na bieżąco; priorytet mają rzeczy o najwyższej wartości.
-    Skupiamy się na płynności—skraca się czas przejścia zadań, usuwa blokady, usprawnia proces małymi krokami.
-    Jakość jest wbudowana: code review, testy automatyczne i prosta definicja „gotowe”}
+    description={
+        Disciplined Agile Delivery w wariancie Lean Life Cycle to sposób prowadzenia projektu,
+        który łączy elastyczność Agile z przewidywalnością Waterfalla,
+        ale bez stałych sprintów — praca toczy się w ciągłym przepływie.
+        Na starcie zakłada mocniejszą fazę przygotowawczą: doprecyzowanie zakresu,
+        szkic architektury, identyfikację ryzyk i kryteria jakości. W realizacji następuje ciągłe doprecyzowywanie wymagań
+        i backlogu, oparte na regularnym feedbacku udziałowców, co pozwala korygować obrany kurs.
+        Całość opiera się na praktykach Lean — koncentracji na wartości, wizualizacji pracy
+        i małych partiach dostaw — oraz lekkim governance: peer review
+        i regularnych przeglądach postępów.
+    }
 }
 
 \newglossaryentry{operator-drona}
 {
     name={Operator drona},
-    description={Osoba lub podmiot będący właścicielem i/lub zarządzającym statkami bezzałogowymi; odpowiada za organizację lotów, rejestry, utrzymanie floty oraz zgodność operacji z przepisami. Może posiadać jeden lub wiele dronów.}
+    description={Osoba lub podmiot będący właścicielem floty dronów. Może posiadać jeden lub wiele dronów. Droniarz rekreacyjny jest zazwyczaj jednocześnie operatorem floty oraz pilotem.}
 }
 
 \newglossaryentry{pilot-drona}
 {
     name={Pilot drona},
-    description={Osoba posiadająca uprawnienia do pilotowania drona i wykonująca loty zgodnie z obowiązującymi przepisami oraz procedurami bezpieczeństwa.}
+    description={Osoba posiadająca uprawnienia do pilotowania drona (jeżeli są wymagane) i wykonująca loty dronem. Droniarz rekreacyjny jest zazwyczaj jednocześnie pilotem oraz operatorem floty.}
 }
 
 \newglossaryentry{droniarz}
 {
     name={Droniarz},
-    description={Potoczne określenie pilota będącego jednocześnie operatorem drona; zwykle entuzjasta UAV, który łączy latanie, utrzymanie sprzętu i rozwój umiejętności.}
+    description={Potoczne określenie osoby, która jest jednocześnie pilotem oraz operatorem drona. Zwykle entuzjasta dronów.}
 }
 
 \newglossaryentry{pilot-fpv}
@@ -106,13 +113,15 @@
     name={Pilot FPV},
     description={Pilot drona latający w trybie \textit{First Person View} (FPV), korzystający z gogli przekazujących obraz z kamery pokładowej, co pozwala sterować z perspektywy pierwszej osoby.}
 }
+\newglossaryentry{droniarz-fpv}{alias=pilot-fpv}
 
 \newglossaryentry{pilot-foto}
 {
     name={Pilot foto},
-    description={Pilot drona wykorzystujący platformy fotograficzne/filmowe do rejestracji materiałów wizualnych (zdjęcia, wideo), zwykle z naciskiem na stabilizację i jakość obrazu.}
+    description={Pilot wykorzystujący drony fotograficzne/filmowe do rejestracji materiałów wizualnych (zdjęcia, wideo), zwykle z naciskiem na stabilizację i jakość obrazu.}
 }
 \newglossaryentry{droniarz-foto}{alias=pilot-foto}
+\newglossaryentry{droniarz-fotograf}{alias=pilot-foto}
 
 \newglossaryentry{azure-blob-storage}
 {
