@@ -6,3 +6,8 @@
 *.fls
 *.synctex.gz
 *.toc
+*.glg
+*.glo
+*.gls
+*.ist
+*.out
