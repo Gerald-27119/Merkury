@@ -55,8 +55,15 @@ public class MediaService {
         spotMediaRepository.save(spotMedia);
     }
 
-    public void removeSpotMediaFromLiked(String username, long spotMediaId) {
-        //TODO
+    public void removeSpotMediaFromLiked(String username, long spotMediaId) throws SpotMediaNotFoundException, UserNotFoundByUsernameException {
+        var spotMedia = spotMediaRepository.findById(spotMediaId).orElseThrow(() -> new SpotMediaNotFoundException(spotMediaId));
+        var user = userEntityRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundByUsernameException(username));
+
+        spotMedia.setLikes(spotMedia.getLikes() - 1);
+        user.getLikedSpotMedia().remove(spotMedia);
+
+        userEntityRepository.save(user);
+        spotMediaRepository.save(spotMedia);
     }
 
     private DatedMediaGroupPageDto getAllUserMedia(String username, LocalDate from, LocalDate to, GenericMediaType type, DateSortType sortType, int page, int size) throws UnsupportedDateSortTypeException {
