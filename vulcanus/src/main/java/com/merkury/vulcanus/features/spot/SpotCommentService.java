@@ -10,6 +10,7 @@ import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentAddDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentEditDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentMediaDto;
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentUserVoteInfoDto;
 import com.merkury.vulcanus.model.entities.spot.SpotComment;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.mappers.spot.SpotCommentMapper;
@@ -17,6 +18,7 @@ import com.merkury.vulcanus.model.mappers.spot.SpotCommentMediaMapper;
 import com.merkury.vulcanus.model.repositories.SpotCommentMediaRepository;
 import com.merkury.vulcanus.model.repositories.SpotCommentRepository;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
+import com.merkury.vulcanus.security.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,6 +38,7 @@ public class SpotCommentService {
     private final UserDataService userDataService;
     private final VoteService voteService;
     private final SpotCommentMediaRepository spotCommentMediaRepository;
+    private final CustomUserDetailsService customUserDetailsService;
 
     public Page<SpotCommentDto> getCommentsBySpotId(HttpServletRequest request, Long spotId, Pageable pageable) throws UserNotFoundException {
         Page<SpotComment> commentsPage = spotCommentRepository.findBySpotIdOrderByPublishDateDescIdAsc(spotId, pageable);
@@ -54,6 +57,11 @@ public class SpotCommentService {
 
         spotCommentRepository.save(SpotCommentMapper.toEntity(dto, spot, user));
         updateSpotRating(spot);
+    }
+
+    public SpotCommentUserVoteInfoDto getVoteInfo(long commentId) {
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        return voteService.getVoteInfo(commentId, username);
     }
 
     public void deleteComment(HttpServletRequest request, Long commentId) throws CommentAccessException, UserNotFoundException {

@@ -11,9 +11,11 @@ import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotPageDto;
+import com.merkury.vulcanus.model.dtos.account.spots.IsFavouriteSpotDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
+import com.merkury.vulcanus.model.enums.user.dashboard.FavouriteSpotListOperationType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserRelationEditType;
 import jakarta.servlet.http.HttpServletResponse;
@@ -128,9 +130,20 @@ public class UserDashboardController {
     }
 
     @PatchMapping("/user-dashboard/favorite-spots")
-    public ResponseEntity<Void> removeFavoriteSpot(@RequestParam FavoriteSpotsListType type, @RequestParam Long spotId) throws FavoriteSpotNotExistException {
-        userDashboardService.removeFavoriteSpot(type, spotId);
+    public ResponseEntity<Void> editFavoriteSpotList(@RequestParam FavoriteSpotsListType type, @RequestParam Long spotId, @RequestParam FavouriteSpotListOperationType operationType) throws FavoriteSpotNotExistException, UserNotFoundException, SpotNotFoundException, SpotAlreadyFavouriteException {
+        userDashboardService.editFavoriteSpotList(type, spotId, operationType);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/user-dashboard/add-spot-media")
+    public ResponseEntity<Void> addMediaToSpot(@RequestPart("mediaFiles") List<MultipartFile> mediaFiles, @RequestParam Long spotId) throws InvalidFileTypeException, SpotNotFoundException, UserNotFoundByUsernameException, BlobContainerNotFoundException, IOException {
+        userDashboardService.addMediaToSpot(mediaFiles, spotId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/user-dashboard/is-spot-favourite")
+    public ResponseEntity<IsFavouriteSpotDto> isSpotFavourite(@RequestParam Long spotId) {
+        return ResponseEntity.ok(userDashboardService.isSpotInUserFavoriteSpots(spotId));
     }
 
     @GetMapping("/user-dashboard/photos")

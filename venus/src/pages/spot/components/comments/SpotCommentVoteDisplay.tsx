@@ -11,7 +11,7 @@ export default function SpotCommentVoteDisplay({
 }: SpotCommentVoteDisplayProps) {
     return (
         <div className="flex items-center space-x-1 text-2xl">
-            <div className="relative h-6 w-6">{children}</div>
+            <div className="group relative h-6 w-6">{children}</div>
             <p>{votes}</p>
         </div>
     );

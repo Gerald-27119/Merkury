@@ -41,6 +41,7 @@ export default function SpotComment({ comment, spotId }: SpotCommentProps) {
             <SpotCommentVotesPanel
                 upvotes={comment.upvotes}
                 downvotes={comment.downvotes}
+                commentId={comment.id}
             />
         </div>
     );
