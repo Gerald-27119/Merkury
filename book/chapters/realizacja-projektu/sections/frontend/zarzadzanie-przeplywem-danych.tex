@@ -1,4 +1,4 @@
-%! Author = mateusz
+%! Author = Mateusz
 %! Date = 20/10/2025
 
 \subsection{Zarządzanie stanem i przepływ danych}
@@ -13,13 +13,13 @@ został wprowadzony po to, aby możliwie najbardziej ograniczyć
 przekazywanie \glslink{props}{Propsów} w głąb drzewa komponentów oraz uniknąć
 niepotrzebnych ponownych renderów.
 
-Do przechowywania \gls{stan}u lokalnego, ograniczonego tylko do danego
-komponentu (lub jego najbliższych elementów podrzędnych), wykorzystujemy
-hooki \texttt{useState} oraz \texttt{useEffect}. Natomiast w przypadku
-bardziej złożonej logiki lub potrzeby ponownego wykorzystania kodu
+Do przechowywania \gls{stan}u lokalnego, ograniczonego tylko do danego komponentu
+(lub jego najbliższych elementów podrzędnych), wykorzystujemy hooki \texttt{useState}.
+Natomiast efekty uboczne i synchronizację realizujemy za pomocą \texttt{useEffect}.
+Natomiast w przypadku bardziej złożonej logiki lub potrzeby ponownego wykorzystania kodu
 powstały hooki niestandardowe, takie jak \texttt{useScreenSize},
 \texttt{useDarkMode} czy \texttt{useClickOutside}. Dzięki temu większość
-logiki biznesowej została wydzielona z warstwy \gls{ui}, co poprawia
+logiki prezentacji została wydzielona z warstwy \gls{ui}, co poprawia
 czytelność i ułatwia utrzymanie kodu.
 
 Z racji tego, że korzystamy z \gls{react}a w połączeniu z TypeScriptem,
