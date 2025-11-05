@@ -1,14 +1,14 @@
 import axios from "axios";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
-export async function registerUser(user) {
-    return await axios.post(`${BASE_URL}/public/account/register`, user, {
+export async function loginUser(user) {
+    return await axios.post(`${BASE_URL}/public/account/login`, user, {
         withCredentials: true,
     });
 }
 
-export async function loginUser(userData) {
-    return await axios.post(`${BASE_URL}/public/account/login`, userData, {
+export async function registerUser(user) {
+    return await axios.post(`${BASE_URL}/public/account/register`, user, {
         withCredentials: true,
     });
 }
