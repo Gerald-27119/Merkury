@@ -7,10 +7,10 @@
 W projekcie postawiliśmy na zrównoważone podejście do zarządzania
 \gls{stan}em. Korzystamy zarówno z lokalnego \gls{stan}u komponentów
 (za pomocą hooka \texttt{useState})~\cite{react-use-state}, jak i ze \gls{stan}u globalnego,
-utrzymywanego przez \glslink{biblioteka}{Bibliotekę} React~Redux~\cite{redux}.
+utrzymywanego przez \glslink{biblioteka}{Bibliotekę} \gls{react}~\gls{redux}~\cite{redux}.
 Globalny \gls{stan}
 został wprowadzony po to, aby możliwie najbardziej ograniczyć
-przekazywanie propsów w głąb drzewa komponentów oraz uniknąć
+przekazywanie \glslink{propsy}{Propsów} w głąb drzewa komponentów oraz uniknąć
 niepotrzebnych ponownych renderów.
 
 Do przechowywania \gls{stan}u lokalnego, ograniczonego tylko do danego
@@ -22,10 +22,10 @@ powstały hooki niestandardowe, takie jak \texttt{useScreenSize},
 logiki biznesowej została wydzielona z warstwy \gls{ui}, co poprawia
 czytelność i ułatwia utrzymanie kodu.
 
-Z racji tego, że korzystamy z Reacta w połączeniu z TypeScriptem,
+Z racji tego, że korzystamy z \gls{react}a w połączeniu z TypeScriptem,
 przygotowaliśmy również własne hooki wspomagające typowanie, takie jak
 \texttt{useDispatchTyped} oraz \texttt{useSelectorTyped}. Pozwalają one
-na bezpieczne typowanie akcji oraz selektorów Reduxa bez konieczności
+na bezpieczne typowanie akcji oraz selektorów \gls{redux}a bez konieczności
 powtarzania adnotacji typów w każdym komponencie.
 Fragmenty tej implementacji przedstawiono na rysunkach
 \ref{img:redux-store} oraz \ref{img:redux-account}.

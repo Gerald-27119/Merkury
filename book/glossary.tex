@@ -122,7 +122,7 @@
 \newglossaryentry{protected-route}
 {
     name={Protected route},
-    description={Trasa w aplikacji, do której dostęp jest ograniczony, zwykle tylko dla zalogowanych użytkowników lub użytkowników z odpowiednimi uprawnieniami. Jeżeli użytkownik nie spełnia warunków, jest przekierowywany.}
+    description={Trasa w aplikacji, do której dostęp jest ograniczony, zwykle tylko dla zalogowanych użytkowników lub użytkowników z odpowiednimi uprawnieniami. Jeżeli użytkownik nie spełnia warunków, jest przekierowywany (np. na stronę główną.}
 }
 
 \newglossaryentry{wzorzec}
@@ -153,5 +153,31 @@
 
 \newglossaryentry{responsywnosc}{
     name={Responsywność},
-    description={Określenie związane z projektowaniem responsywnym (Responsive Web Design, RWD), czyli dostosowywaniem interfejsu do różnych rozmiarów i parametrów ekranów. Obejmuje m.in. elastyczne siatki, grafiki i media queries, tak aby układ i czytelność były zachowane na telefonach, tabletach i desktopach.}
+    description={Określenie związane z projektowaniem responsywnym (Responsive Web Design, RWD), czyli dostosowywaniem interfejsu do różnych rozmiarów i parametrów ekranów. Obejmuje m.in. elastyczne siatki, grafiki i \gls{media-queries}, tak aby układ i czytelność były zachowane na telefonach, tabletach i desktopach.}
 }
+
+\newglossaryentry{props}{
+    name={Props},
+    description={Właściwości przekazywane do komponentu React przez komponent nadrzędny; służą do konfiguracji i przekazywania danych. Powinny być traktowane jako tylko do odczytu (read-only) wewnątrz komponentu potomnego.}
+}
+
+\newglossaryentry{react}{
+    name={React},
+    description={Biblioteka JavaScript do budowy interfejsów użytkownika w oparciu o komponenty deklaratywne i wirtualny DOM. Zapewnia jednokierunkowy przepływ danych oraz zarządzanie stanem komponentów.}
+}
+
+\newglossaryentry{type-script}{
+    name={TypeScript},
+    description={Rozszerzenie do języka JavaScript dodający statyczne typowanie, interfejsy i narzędzia do większych projektów. Kompiluje się do czystego JavaScript, ułatwiając wykrywanie błędów w czasie kompilacji i refaktoryzację.}
+}
+
+\newglossaryentry{redux}{
+    name={Redux},
+    description={Biblioteka do przewidywalnego zarządzania stanem aplikacji. Opiera się na jednym \emph{store}, akcjach i czystych \emph{reducerach}, promuje niemutowalność i jednokierunkowy przepływ danych. Często używana z Reactem, ale niezależna od niego.}
+}
+
+\newglossaryentry{media-queries}{
+    name={Media queries},
+    description={Konstrukcja CSS pozwalająca stosować reguły stylów w zależności od cech urządzenia/okna (np. szerokości ekranu, orientacji, preferencji użytkownika). Podstawa responsywnego projektowania (\emph{responsive design}).}
+}
+

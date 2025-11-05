@@ -7,7 +7,7 @@
 Jest to kluczowy element aplikacji, ponieważ wymaga bezpiecznego przesyłania danych użytkownika.
 W celu uproszczenia komunikacji z serwerem skorzystaliśmy z
 biblioteki \texttt{axios}~\cite{axios} oraz \glslink{biblioteka}{Biblioteki} \texttt{TanStack Query}~\cite{tanstack-query}.
-We wszystkich ścieżkach, które wymagają, aby użytkownik był zalogowany, do zapytania dołączany jest token
+We wszystkich ścieżkach, które wymagają aby użytkownik był zalogowany, do zapytania dołączany jest token
 \gls{jwt}. Token jest przekazywany w ciasteczku dzięki ustawieniu parametru \texttt{withCredentials} na wartość \texttt{true}.
 Przykładem pliku odpowiedzialnego za taką komunikację jest \texttt{account.js}
 (rys. \ref{img:account-axios1} i \ref{img:account-axios2}), który obsługuje operacje związane z logowaniem,
