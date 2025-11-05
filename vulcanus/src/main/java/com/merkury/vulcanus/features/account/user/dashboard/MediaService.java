@@ -1,7 +1,9 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
+import com.merkury.vulcanus.exception.exceptions.SpotMediaNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserIdByUsernameNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
@@ -42,8 +44,15 @@ public class MediaService {
         return spotMediaRepository.existsByIdAndLikedBy_Id(spotMediaId, userId);
     }
 
-    public void addSpotMediaToLiked(String username, long spotMediaId) {
-        //TODO
+    public void addSpotMediaToLiked(String username, long spotMediaId) throws SpotMediaNotFoundException, UserNotFoundByUsernameException {
+        var spotMedia = spotMediaRepository.findById(spotMediaId).orElseThrow(() -> new SpotMediaNotFoundException(spotMediaId));
+        var user = userEntityRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundByUsernameException(username));
+
+        spotMedia.setLikes(spotMedia.getLikes() + 1);
+        user.getLikedSpotMedia().add(spotMedia);
+
+        userEntityRepository.save(user);
+        spotMediaRepository.save(spotMedia);
     }
 
     public void removeSpotMediaFromLiked(String username, long spotMediaId) {
