@@ -110,17 +110,19 @@ export default function ExpandedGalleryPanel({
     };
 
     return (
-        <div className="bg-grayBg/15 flex w-fit items-center justify-center space-x-3 justify-self-center rounded-b-2xl px-5 py-1 text-2xl">
-            <HiOutlineArrowsExpand
-                className="cursor-pointer"
-                onClick={handleSetMediaFullscreen}
-            />
-            <a href={url}>
-                <BiDownload className="cursor-pointer" />
+        <div className="flex w-fit items-center justify-center justify-self-center text-2xl">
+            <div className="bg-grayBg/15 hover:bg-grayBg/20 cursor-pointer rounded-bl-2xl py-2 pr-2.5 pl-3.5">
+                <HiOutlineArrowsExpand onClick={handleSetMediaFullscreen} />
+            </div>
+            <a
+                href={url}
+                className="bg-grayBg/15 hover:bg-grayBg/20 m-0 cursor-pointer px-3 py-2"
+            >
+                <BiDownload />
             </a>
             <div
                 onClick={handleClickEditSpotMediaLikes}
-                className="hover:bg-grayBg/20 flex cursor-pointer items-center space-x-1"
+                className="hover:bg-grayBg/20 bg-grayBg/15 flex cursor-pointer items-center space-x-1 rounded-br-2xl py-1 pr-2.5 pl-1.5"
             >
                 {isLogged && isSpotMediaLikedByUser ? (
                     <GoHeartFill />
