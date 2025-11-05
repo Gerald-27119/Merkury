@@ -7,11 +7,13 @@ import { expandedSpotMediaGalleryFullscreenSizeActions } from "../../../../../..
 type ExpandedGalleryPanel = {
     url: string;
     likes: number;
+    spotMediaId: number;
 };
 
 export default function ExpandedGalleryPanel({
     url,
     likes,
+    spotMediaId,
 }: ExpandedGalleryPanel) {
     const dispatch = useDispatchTyped();
 
