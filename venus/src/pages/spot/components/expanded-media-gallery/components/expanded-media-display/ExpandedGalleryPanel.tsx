@@ -7,6 +7,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
     checkIsSpotMediaLikedByUser,
     editSpotMediaLikes,
+    increaseSpotMediaViewCount,
 } from "../../../../../../http/user-dashboard";
 import useSelectorTyped from "../../../../../../hooks/useSelectorTyped";
 import { notificationAction } from "../../../../../../redux/notification";
@@ -64,6 +65,18 @@ export default function ExpandedGalleryPanel({
             });
         },
     });
+
+    const { mutateAsync: mutateAsyncIncreaseSpotMediaViewsCount } = useMutation(
+        {
+            mutationKey: ["increase-spot-media-views-count", spotMediaId],
+            mutationFn: increaseSpotMediaViewCount,
+            onError: () => {},
+        },
+    );
+
+    useEffect(() => {
+        mutateAsyncIncreaseSpotMediaViewsCount(spotMediaId);
+    }, []);
 
     const { data, isSuccess } = useQuery({
         queryKey: ["is-spot-media-liked-by-user", spotMediaId],

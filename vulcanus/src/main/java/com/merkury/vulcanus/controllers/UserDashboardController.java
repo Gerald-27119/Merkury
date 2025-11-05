@@ -220,4 +220,10 @@ public class UserDashboardController {
         userDashboardService.editSpotMediaLikes(spotMediaId);
         return ResponseEntity.ok().build();
     }
+
+    @PatchMapping("/public/user-dashboard/increase-spot-media-views-count")
+    public ResponseEntity<Void> increaseSpotMediaViewCount(@RequestParam long spotMediaId) throws SpotMediaNotFoundException {
+        userDashboardService.increaseSpotMediaViewCount(spotMediaId);
+        return ResponseEntity.ok().build();
+    }
 }

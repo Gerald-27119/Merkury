@@ -206,4 +206,8 @@ public class UserDashboardService {
             mediaService.addSpotMediaToLiked(username, spotMediaId);
         }
     }
+
+    public void increaseSpotMediaViewCount(long spotMediaId) throws SpotMediaNotFoundException {
+        mediaService.increaseSpotMediaViewCount(spotMediaId);
+    }
 }

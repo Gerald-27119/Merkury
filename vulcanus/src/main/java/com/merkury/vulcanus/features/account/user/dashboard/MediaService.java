@@ -66,6 +66,12 @@ public class MediaService {
         spotMediaRepository.save(spotMedia);
     }
 
+    public void increaseSpotMediaViewCount(long spotMediaId) throws SpotMediaNotFoundException {
+        var spotMedia = spotMediaRepository.findById(spotMediaId).orElseThrow(() -> new SpotMediaNotFoundException(spotMediaId));
+        spotMedia.setViews(spotMedia.getViews() + 1);
+        spotMediaRepository.save(spotMedia);
+    }
+
     private DatedMediaGroupPageDto getAllUserMedia(String username, LocalDate from, LocalDate to, GenericMediaType type, DateSortType sortType, int page, int size) throws UnsupportedDateSortTypeException {
         List<SpotMedia> media;
 

@@ -472,3 +472,15 @@ export async function editSpotMediaLikes(spotMediaId: number): Promise<void> {
         )
     ).data;
 }
+
+export async function increaseSpotMediaViewCount(
+    spotMediaId: number,
+): Promise<void> {
+    return (
+        await axios.patch(
+            `${BASE_URL}/public/user-dashboard/increase-spot-media-views-count`,
+            {},
+            { params: { spotMediaId }, withCredentials: true },
+        )
+    ).data;
+}
