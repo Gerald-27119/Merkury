@@ -1,5 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchFilteredSpots } from "../../../../http/spots-data.js";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+    fetchFilteredSpots,
+    increaseSpotViewsCount,
+} from "../../../../http/spots-data.js";
 import { useEffect } from "react";
 import { notificationAction } from "../../../../redux/notification";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
@@ -26,12 +29,18 @@ export default function Spots() {
     const { current: map } = useMap();
     const location = useLocation();
 
-    //Todo stachu dodaj tu to retry: false,
+    const { mutateAsync } = useMutation({
+        mutationKey: ["increase-spot-views-count"],
+        mutationFn: increaseSpotViewsCount,
+        onError: () => {},
+    });
+
     const { data, error } = useQuery({
         queryFn: () => fetchFilteredSpots(name),
         queryKey: ["spots", "filter", name],
         refetchOnWindowFocus: false,
         staleTime: 1000 * 60 * 5,
+        retry: false,
     });
 
     useEffect(() => {
@@ -125,6 +134,7 @@ export default function Spots() {
         );
         dispatch(spotDetailsModalAction.handleShowModal());
         dispatch(spotWeatherActions.openBasicWeatherModal());
+        mutateAsync(spotId);
     };
 
     return (
