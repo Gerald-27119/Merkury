@@ -198,3 +198,25 @@ export async function increaseSpotViewsCount(spotId: number): Promise<void> {
         )
     ).data;
 }
+
+export async function editSpotMediaLikes(spotMediaId: number): Promise<void> {
+    return (
+        await axios.patch(
+            `${BASE_URL}/public/spot/edit-spot-media-likes`,
+            {},
+            { params: { spotMediaId }, withCredentials: true },
+        )
+    ).data;
+}
+
+export async function increaseSpotMediaViewCount(
+    spotMediaId: number,
+): Promise<void> {
+    return (
+        await axios.patch(
+            `${BASE_URL}/public/spot/increase-spot-media-views-count`,
+            {},
+            { params: { spotMediaId }, withCredentials: true },
+        )
+    ).data;
+}

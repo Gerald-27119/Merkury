@@ -462,25 +462,3 @@ export async function checkIsSpotMediaLikedByUser(
         )
     ).data;
 }
-
-export async function editSpotMediaLikes(spotMediaId: number): Promise<void> {
-    return (
-        await axios.patch(
-            `${BASE_URL}/user-dashboard/edit-spot-media-likes`,
-            {},
-            { params: { spotMediaId }, withCredentials: true },
-        )
-    ).data;
-}
-
-export async function increaseSpotMediaViewCount(
-    spotMediaId: number,
-): Promise<void> {
-    return (
-        await axios.patch(
-            `${BASE_URL}/public/user-dashboard/increase-spot-media-views-count`,
-            {},
-            { params: { spotMediaId }, withCredentials: true },
-        )
-    ).data;
-}

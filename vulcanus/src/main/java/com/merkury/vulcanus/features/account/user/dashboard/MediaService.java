@@ -1,9 +1,7 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
-import com.merkury.vulcanus.exception.exceptions.SpotMediaNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
 import com.merkury.vulcanus.exception.exceptions.UserIdByUsernameNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
@@ -42,34 +40,6 @@ public class MediaService {
     public boolean checkIsSpotMediaLikedByUser(long spotMediaId, String username) throws UserIdByUsernameNotFoundException {
         var userId = userEntityRepository.findByUsername(username).orElseThrow(() -> new UserIdByUsernameNotFoundException(username)).getId();
         return spotMediaRepository.existsByIdAndLikedBy_Id(spotMediaId, userId);
-    }
-
-    public void addSpotMediaToLiked(String username, long spotMediaId) throws SpotMediaNotFoundException, UserNotFoundByUsernameException {
-        var spotMedia = spotMediaRepository.findById(spotMediaId).orElseThrow(() -> new SpotMediaNotFoundException(spotMediaId));
-        var user = userEntityRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundByUsernameException(username));
-
-        spotMedia.setLikes(spotMedia.getLikes() + 1);
-        user.getLikedSpotMedia().add(spotMedia);
-
-        userEntityRepository.save(user);
-        spotMediaRepository.save(spotMedia);
-    }
-
-    public void removeSpotMediaFromLiked(String username, long spotMediaId) throws SpotMediaNotFoundException, UserNotFoundByUsernameException {
-        var spotMedia = spotMediaRepository.findById(spotMediaId).orElseThrow(() -> new SpotMediaNotFoundException(spotMediaId));
-        var user = userEntityRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundByUsernameException(username));
-
-        spotMedia.setLikes(spotMedia.getLikes() - 1);
-        user.getLikedSpotMedia().remove(spotMedia);
-
-        userEntityRepository.save(user);
-        spotMediaRepository.save(spotMedia);
-    }
-
-    public void increaseSpotMediaViewCount(long spotMediaId) throws SpotMediaNotFoundException {
-        var spotMedia = spotMediaRepository.findById(spotMediaId).orElseThrow(() -> new SpotMediaNotFoundException(spotMediaId));
-        spotMedia.setViews(spotMedia.getViews() + 1);
-        spotMediaRepository.save(spotMedia);
     }
 
     private DatedMediaGroupPageDto getAllUserMedia(String username, LocalDate from, LocalDate to, GenericMediaType type, DateSortType sortType, int page, int size) throws UnsupportedDateSortTypeException {

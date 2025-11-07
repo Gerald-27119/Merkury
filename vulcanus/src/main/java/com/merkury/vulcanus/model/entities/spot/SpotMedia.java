@@ -24,6 +24,9 @@ public class SpotMedia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private Long version;
+
     private String url;
     private String alt;
     private String description;

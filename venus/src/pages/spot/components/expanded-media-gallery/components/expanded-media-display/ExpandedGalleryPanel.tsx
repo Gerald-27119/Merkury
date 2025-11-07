@@ -4,14 +4,14 @@ import { GoHeart, GoHeartFill } from "react-icons/go";
 import useDispatchTyped from "../../../../../../hooks/useDispatchTyped";
 import { expandedSpotMediaGalleryFullscreenSizeActions } from "../../../../../../redux/expanded-spot-media-gallery-fullscreen-size";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-    checkIsSpotMediaLikedByUser,
-    editSpotMediaLikes,
-    increaseSpotMediaViewCount,
-} from "../../../../../../http/user-dashboard";
+import { checkIsSpotMediaLikedByUser } from "../../../../../../http/user-dashboard";
 import useSelectorTyped from "../../../../../../hooks/useSelectorTyped";
 import { notificationAction } from "../../../../../../redux/notification";
 import { useEffect, useState } from "react";
+import {
+    editSpotMediaLikes,
+    increaseSpotMediaViewCount,
+} from "../../../../../../http/spots-data";
 
 type ExpandedGalleryPanel = {
     url: string;

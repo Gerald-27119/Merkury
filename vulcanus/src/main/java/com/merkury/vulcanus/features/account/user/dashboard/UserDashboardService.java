@@ -196,18 +196,4 @@ public class UserDashboardService {
         var isMediaLiked = mediaService.checkIsSpotMediaLikedByUser(spotMediaId, username);
         return new IsSpotMediaLikedByUserDto(isMediaLiked);
     }
-
-    public void editSpotMediaLikes(long spotMediaId) throws UserIdByUsernameNotFoundException, SpotMediaNotFoundException, UserNotFoundByUsernameException {
-        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        var isMediaLiked = mediaService.checkIsSpotMediaLikedByUser(spotMediaId, username);
-        if (isMediaLiked) {
-            mediaService.removeSpotMediaFromLiked(username, spotMediaId);
-        } else {
-            mediaService.addSpotMediaToLiked(username, spotMediaId);
-        }
-    }
-
-    public void increaseSpotMediaViewCount(long spotMediaId) throws SpotMediaNotFoundException {
-        mediaService.increaseSpotMediaViewCount(spotMediaId);
-    }
 }

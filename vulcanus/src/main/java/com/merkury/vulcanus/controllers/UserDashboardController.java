@@ -214,16 +214,4 @@ public class UserDashboardController {
     public ResponseEntity<IsSpotMediaLikedByUserDto> checkIsSpotMediaLikedByUser(@RequestParam long spotMediaId) throws UserIdByUsernameNotFoundException {
         return ResponseEntity.ok(userDashboardService.checkIsSpotMediaLikedByUser(spotMediaId));
     }
-
-    @PatchMapping("/user-dashboard/edit-spot-media-likes")
-    public ResponseEntity<Void> editSpotMediaLikes(@RequestParam long spotMediaId) throws SpotMediaNotFoundException, UserNotFoundByUsernameException, UserIdByUsernameNotFoundException {
-        userDashboardService.editSpotMediaLikes(spotMediaId);
-        return ResponseEntity.ok().build();
-    }
-
-    @PatchMapping("/public/user-dashboard/increase-spot-media-views-count")
-    public ResponseEntity<Void> increaseSpotMediaViewCount(@RequestParam long spotMediaId) throws SpotMediaNotFoundException {
-        userDashboardService.increaseSpotMediaViewCount(spotMediaId);
-        return ResponseEntity.ok().build();
-    }
 }

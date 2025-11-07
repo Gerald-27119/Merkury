@@ -30,6 +30,9 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private Long version;
+
     private String profileImage;
 
     @Column(unique = true, nullable = false)

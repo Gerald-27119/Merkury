@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.*;
+import com.merkury.vulcanus.features.spot.SpotMediaService;
 import com.merkury.vulcanus.features.spot.SpotService;
 import com.merkury.vulcanus.features.spot.SpotWeatherService;
 import com.merkury.vulcanus.model.dtos.spot.*;
@@ -34,6 +35,8 @@ public class SpotController {
     private final SpotService spotService;
 
     private final SpotWeatherService spotWeatherService;
+
+    private final SpotMediaService spotMediaService;
 
     @GetMapping("/public/spot/gallery")
     public ResponseEntity<Page<SpotSidebarMediaGalleryDto>> getSpotGalleryPage(@RequestParam Long spotId,
@@ -176,5 +179,17 @@ public class SpotController {
     public ResponseEntity<Mono<List<SpotWeatherTimelinePlotDataDto>>> getSpotWeatherTimelinePlotData(@RequestParam double latitude, @RequestParam double longitude, @RequestParam long spotId) {
         log.debug("getting spot weather timeline plot data");
         return ResponseEntity.ok(spotWeatherService.getSpotWeatherTimelinePlotData(latitude, longitude, spotId));
+    }
+
+    @PatchMapping("/public/spot/increase-spot-media-views-count")
+    public ResponseEntity<Void> increaseSpotMediaViewCount(@RequestParam long spotMediaId) throws SpotMediaNotFoundException {
+        spotMediaService.increaseSpotMediaViewCount(spotMediaId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/public/spot/edit-spot-media-likes")
+    public ResponseEntity<Void> editSpotMediaLikes(@RequestParam long spotMediaId) throws SpotMediaNotFoundException, UserNotFoundByUsernameException {
+        spotMediaService.toggleSpotMediaLikes(spotMediaId);
+        return ResponseEntity.ok().build();
     }
 }
