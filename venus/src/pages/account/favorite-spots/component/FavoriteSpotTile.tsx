@@ -4,7 +4,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { ConfigProvider, Rate } from "antd";
 import FavoriteSpotTags from "./FavoriteSpotTags";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { removeFavoriteSpot } from "../../../../http/user-dashboard";
+import { editFavoriteSpotList } from "../../../../http/user-dashboard";
 import { FavoriteSpotsListType } from "../../../../model/enum/account/favorite-spots/favoriteSpotsListType";
 import Button from "../../../../components/buttons/Button";
 import { ButtonVariantType } from "../../../../model/enum/buttonVariantType";
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "../../../../components/modal/Modal";
 import { useBoolean } from "../../../../hooks/useBoolean";
 import { formatSpotType } from "../../../../utils/account/favoriteSpotTypeFormater";
+import { FavouriteSpotListOperationType } from "../../../../model/enum/account/favorite-spots/favouriteSpotListOperationType";
 
 interface FavoriteSpotTileProps {
     spot: FavoriteSpot;
@@ -28,7 +29,7 @@ export default function FavoriteSpotTile({
     const navigate = useNavigate();
 
     const { mutateAsync } = useMutation({
-        mutationFn: removeFavoriteSpot,
+        mutationFn: editFavoriteSpotList,
         onSuccess: async () => {
             await queryClient.invalidateQueries({
                 queryKey: ["favorite-spots", selectedType],
@@ -37,7 +38,11 @@ export default function FavoriteSpotTile({
     });
 
     const handleRemoveSpot = async () => {
-        await mutateAsync({ type: spot.type, spotId: spot.id });
+        await mutateAsync({
+            type: spot.type,
+            spotId: spot.id,
+            operationType: FavouriteSpotListOperationType.REMOVE,
+        });
     };
 
     const handleSeeOnMap = () => {

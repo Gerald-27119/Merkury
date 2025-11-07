@@ -47,9 +47,9 @@ public class SpotMapper {
                 .tags(spot.getTags().stream()
                         .map(SpotTagMapper::toDto)
                         .collect(Collectors.toSet()))
-                .weatherApiCallCoords(new SpotCoordinatesDto(
-                        spot.getBorderPoints().getFirst().getX(),
-                        spot.getBorderPoints().getFirst().getY()))
+                .centerPoint(new SpotCoordinatesDto(
+                        spot.getCenterPoint().getX(),
+                        spot.getCenterPoint().getY()))
                 .build();
     }
 

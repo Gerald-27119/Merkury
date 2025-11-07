@@ -79,34 +79,6 @@ export async function fetchSpotsDataById(
     return (await axios.get(`${BASE_URL}/public/spot/${id}`)).data;
 }
 
-export async function addSpotToFavourites(spotId) {
-    return await axios.patch(
-        `${BASE_URL}/spot/favourites/add/${spotId}`,
-        null,
-        {
-            withCredentials: true,
-        },
-    );
-}
-
-export async function removeSpotFromFavourites(spotId) {
-    return await axios.patch(
-        `${BASE_URL}/spot/favourites/remove/${spotId}`,
-        null,
-        {
-            withCredentials: true,
-        },
-    );
-}
-
-export async function isSpotFavourite(spotId) {
-    return (
-        await axios.get(`${BASE_URL}/spot/favourites/${spotId}`, {
-            withCredentials: true,
-        })
-    ).data;
-}
-
 export async function get18MostPopularSpots(): Promise<TopRatedSpot[]> {
     return (await axios.get(`${BASE_URL}/public/spot/most-popular`)).data;
 }
@@ -214,5 +186,15 @@ export async function getSpotGalleryFullscreenMedia(
             params: { spotId, mediaId, mediaType },
             withCredentials: true,
         })
+    ).data;
+}
+
+export async function increaseSpotViewsCount(spotId: number): Promise<void> {
+    return (
+        await axios.patch(
+            `${BASE_URL}/public/spot/increase-view-count`,
+            {},
+            { params: { spotId }, withCredentials: true },
+        )
     ).data;
 }
