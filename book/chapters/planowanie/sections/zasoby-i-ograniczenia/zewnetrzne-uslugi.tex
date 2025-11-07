@@ -4,61 +4,64 @@
 \subsection{Usługi zewnętrzne}
 \label{subsec:uslugi-zewnetrzne}
 \begingroup
-\newcommand{\integrationcard}[5]{%
-    \begin{table}[H]
-    \centering
-    {\renewcommand{\arraystretch}{1.15}%
+\newcommand{\integrationcard}[5]{
+    \refstepcounter{integrationcard}
+    \begin{center}
+    {\renewcommand{\arraystretch}{1.15}
     \begin{tabularx}{\textwidth}{|p{0.22\textwidth}|X|}
     \hline
     \textbf{Usługa} & #2 \\ \hline
     \textbf{Opis}   & #3 \\ \hline
     \textbf{Limit}  & #4 \\ \hline
-    \end{tabularx}}
-    \caption{Karta integracji: #5\label{#1}}
-    \end{table}%
+    \end{tabularx}}\\[2pt]
+    \textbf{Tabela \theintegrationcard:} Usługa zewnętrzna: #5%
+    \label{#1}%
+    % jeśli chcemy mieć je w spisie tabel:
+    \addcontentsline{lot}{table}{Tabela \theintegrationcard: Usługa zewnętrzna: #5}
+    \end{center}%
 }
 
 \integrationcard{tab:github-actions}
 {GitHub Actions (CI)~\cite{github-actions-billing}}
 {Uruchomienia pipeline’ów CI/CD dla repozytorium GitHub.}
-{3000 min/mies. (wg planu GitHub Education)}
+{3000 min/mies.}
 {GitHub Actions (CI)}
 
 \integrationcard{tab:azure-blob}
 {Azure Blob Storage~\cite{azure-blob-scalability}}
-{Magazyn obiektów na pliki (np. zdjęcia spotów, załączniki z czatu).}
-{TODO}
+{Magazyn plików (m.in. zdjęcia spotów, załączniki z czatu).}
+{1 GB/mies.}
 {Azure Blob Storage}
 
 \integrationcard{tab:mailtrap}
-{Mailtrap (Email Testing/API)~\cite{mailtrap-limits}}
-{Środowisko testowe SMTP oraz Email API do wysyłki powiadomień na środowiskach nieprodukcyjnych.}
-{TODO}
-{Mailtrap (Email Testing/API)}
+{Mailtrap~\cite{mailtrap-limits}}
+{Środowisko testowe SMTP oraz Email API do wysyłki maili}
+{150 maili/dzień}
+{Mailtrap}
 
 \integrationcard{tab:locationiq}
-{LocationIQ (Geocoding)~\cite{locationiq-pricing}}
+{LocationIQ~\cite{locationiq-pricing}}
 {Geokodowanie/adresy i autosugestia przy dodawaniu nowych spotów.}
-{5\,000 zapytań/dzień (plan Free)}
-{LocationIQ (Geocoding)}
+{5\,000 zapytań/dzień}
+{LocationIQ)}
 
 \integrationcard{tab:google-maps}
-{Google Maps Platform — nawigacja/URL~\cite{google-maps-pricing}}
+{Google Maps API~\cite{google-maps-pricing}}
 {Otwieranie nawigacji w aplikacji Map (deep link/URL).}
-{TODO}
-{Google Maps Platform — nawigacja/URL}
+{50\,000 zapytań/mies.}
+{Google Maps API}
 
 \integrationcard{tab:openfreemap}
-{OpenFreeMap (OSM tiles)~\cite{openfreemap-docs,openfreemap-quickstart}}
+{OpenFreeMap~\cite{openfreemap-docs,openfreemap-quickstart}}
 {Publiczny serwer kafelków do renderu mapy na froncie.}
-{TODO}
-{OpenFreeMap (OSM tiles)}
+{30\,000 zapytań/mies.}
+{OpenFreeMap}
 
 \integrationcard{tab:open-meteo}
-{Open\mbox{-}Meteo (Weather API)~\cite{open-meteo-usage}}
+{Open\mbox{-}Meteo~\cite{open-meteo-usage}}
 {Prognozy pogody wyświetlane dla spotów.}
-{10\,000 zapytań/dzień (plan Free)}
-{Open-Meteo (Weather API)}
+{10\,000 zapytań/dzień}
+{Open-Meteo}
 
 \integrationcard{tab:tenor}
 {Tenor GIF API~\cite{tenor-docs}}
@@ -69,6 +72,6 @@
 \integrationcard{tab:wheretheiss}
 {„Where the ISS at?”~\cite{wheretheiss-docs}}
 {Proste HTTP API udostępniające bieżące dane o pozycji; wykorzystywane pomocniczo.}
-{TODO}
+{1 request na sekundę; brak ogólnego limitu}
 {„Where the ISS at?”}
 \endgroup
