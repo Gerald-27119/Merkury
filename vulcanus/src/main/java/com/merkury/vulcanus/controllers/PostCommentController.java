@@ -26,21 +26,21 @@ public class PostCommentController {
     private final PostCommentService postCommentService;
 
     @GetMapping("/public/post/{postId}/comments")
-    public ResponseEntity<Page<PostCommentGeneralDto>> getCommentsByPostId(@PathVariable Long postId,
-                                                                           @RequestParam(defaultValue = "0") int page,
-                                                                           @RequestParam(defaultValue = "10") int size,
-                                                                           @RequestParam(defaultValue = "PUBLISH_DATE") PostCommentSortField sortBy,
-                                                                           @RequestParam(defaultValue = "DESC") SortDirection sortDirection) throws UserNotFoundByUsernameException {
-        return ResponseEntity.ok(postCommentService.getCommentsByPostId(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())), postId));
+    public ResponseEntity<Page<PostCommentGeneralDto>> getPaginatedCommentsByPostId(@PathVariable Long postId,
+                                                                                    @RequestParam(defaultValue = "0") int page,
+                                                                                    @RequestParam(defaultValue = "10") int size,
+                                                                                    @RequestParam(defaultValue = "PUBLISH_DATE") PostCommentSortField sortBy,
+                                                                                    @RequestParam(defaultValue = "DESC") SortDirection sortDirection) throws UserNotFoundByUsernameException {
+        return ResponseEntity.ok(postCommentService.getPaginatedCommentsByPostId(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())), postId));
     }
 
     @GetMapping("/public/comments/{commentId}/replies")
-    public ResponseEntity<ForumPostCommentReplyPageDto> getCommentRepliesByCommentId(@PathVariable Long commentId,
-                                                                                     @RequestParam(required = false) LocalDateTime lastDate,
-                                                                                     @RequestParam(required = false) Long lastId,
-                                                                                     @RequestParam(defaultValue = "10") int size) throws UserNotFoundByUsernameException {
+    public ResponseEntity<ForumPostCommentReplyPageDto> getPaginatedCommentRepliesByCommentId(@PathVariable Long commentId,
+                                                                                              @RequestParam(required = false) LocalDateTime lastDate,
+                                                                                              @RequestParam(required = false) Long lastId,
+                                                                                              @RequestParam(defaultValue = "10") int size) throws UserNotFoundByUsernameException {
 
-        var page = postCommentService.getCommentRepliesByCommentId(commentId, lastDate, lastId, size);
+        var page = postCommentService.getPaginatedCommentRepliesByCommentId(commentId, lastDate, lastId, size);
         return ResponseEntity.ok(page);
     }
 
@@ -75,7 +75,7 @@ public class PostCommentController {
     }
 
     @PostMapping("/comments/{commentId}/replies")
-    public ResponseEntity<Void> addReplyPostComment(@PathVariable Long commentId, @Valid @RequestBody PostCommentDto dto) throws CommentNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException, InvalidCommentOperationException {
+    public ResponseEntity<Void> addReplyPostComment(@PathVariable Long commentId, @Valid @RequestBody PostCommentDto dto) throws CommentNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException, InvalidCommentOperationException, PostNotFoundException {
         postCommentService.addReplyToComment(commentId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

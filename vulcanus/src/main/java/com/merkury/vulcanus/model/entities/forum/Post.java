@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity(name = "forum_posts")
+@Entity(name = "posts")
 @Data
 @Builder
 @NoArgsConstructor

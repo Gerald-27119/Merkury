@@ -16,10 +16,10 @@ import com.merkury.vulcanus.model.repositories.forum.PostTagRepository;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import com.merkury.vulcanus.utils.ForumContentValidator;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
@@ -119,13 +119,12 @@ public class PostService {
         reportService.reportPost(report, post, user);
     }
 
-    @Async
+    @Transactional
     public void increasePostViews(Long postId) throws PostNotFoundException {
-        var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
-
-        post.setViews(post.getViews() + 1);
-        postRepository.save(post);
+        int updated = postRepository.incrementViews(postId);
+        if (updated == 0) throw new PostNotFoundException(postId);
     }
+
 
     public ForumCategoriesAndTagsDto getAllCategoriesAndTags() {
         var categories = postCategoryRepository.findAll();

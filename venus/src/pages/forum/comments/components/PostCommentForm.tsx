@@ -38,10 +38,9 @@ export default function PostCommentForm({
     });
 
     const onSubmit: SubmitHandler<PostCommentFormFields> = (data) => {
-        let newComment = {
+        handleComment({
             content: data.content,
-        };
-        handleComment(newComment);
+        });
         onClose();
     };
 

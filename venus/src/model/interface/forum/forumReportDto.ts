@@ -2,5 +2,5 @@ import { ForumReportReason } from "../../enum/forum/forumReportReason";
 
 export default interface ForumReportDto {
     reason: ForumReportReason;
-    details: String;
+    details: string;
 }

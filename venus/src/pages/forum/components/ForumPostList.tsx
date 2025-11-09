@@ -10,20 +10,20 @@ interface ForumPostListProps {
     onSortChange: (option: PostSortOption) => void;
 }
 
+const options: PostSortOption[] = [
+    { name: "Newest", sortBy: "PUBLISH_DATE", sortDirection: "DESC" },
+    { name: "Oldest", sortBy: "PUBLISH_DATE", sortDirection: "ASC" },
+    { name: "Most Viewed", sortBy: "VIEWS", sortDirection: "DESC" },
+    { name: "Least Viewed", sortBy: "VIEWS", sortDirection: "ASC" },
+    { name: "Most Commented", sortBy: "COMMENTS", sortDirection: "DESC" },
+    { name: "Least Commented", sortBy: "COMMENTS", sortDirection: "ASC" },
+];
+
 export default function ForumPostList({
     posts,
     sortOption,
     onSortChange,
 }: ForumPostListProps) {
-    const options: PostSortOption[] = [
-        { name: "Newest", sortBy: "PUBLISH_DATE", sortDirection: "DESC" },
-        { name: "Oldest", sortBy: "PUBLISH_DATE", sortDirection: "ASC" },
-        { name: "Most Viewed", sortBy: "VIEWS", sortDirection: "DESC" },
-        { name: "Least Viewed", sortBy: "VIEWS", sortDirection: "ASC" },
-        { name: "Most Commented", sortBy: "COMMENTS", sortDirection: "DESC" },
-        { name: "Least Commented", sortBy: "COMMENTS", sortDirection: "ASC" },
-    ];
-
     return (
         <div>
             <ForumSortDropdown

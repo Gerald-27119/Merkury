@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -21,6 +22,10 @@ public interface PostCommentRepository extends JpaRepository<PostComment, Long> 
     Page<PostComment> findAllByPost_IdAndParentIsNull(Long postId, Pageable pageable);
 
     Optional<PostComment> findByIdAndAuthor(Long commentId, UserEntity author);
+
+    @Modifying
+    @Query("update post_comments c set c.repliesCount = c.repliesCount + 1 where c.id = :id")
+    int incrementRepliesCount(@Param("id") Long commentId);
 
     @Query(
             value = """
@@ -47,4 +52,19 @@ public interface PostCommentRepository extends JpaRepository<PostComment, Long> 
             @Param("lastId") Long lastId,
             @Param("pageSize") int pageSize
     );
+
+    @Query(
+            value = """
+        WITH RECURSIVE comment_tree AS (
+            SELECT id, parent_id FROM post_comments WHERE parent_id = :parentId
+            UNION ALL
+            SELECT c.id, c.parent_id FROM post_comments c
+            INNER JOIN comment_tree ct ON c.parent_id = ct.id
+        )
+        SELECT COUNT(*) FROM comment_tree
+        """,
+            nativeQuery = true
+    )
+    int countAllReplies(@Param("parentId") Long parentId);
+
 }

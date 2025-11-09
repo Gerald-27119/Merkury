@@ -36,6 +36,11 @@ public class PostComment extends Comment {
     @Builder.Default
     private List<PostComment> replies = new ArrayList<>();
 
+    @Builder.Default
+    private Integer repliesCount = 0;
+    @Builder.Default
+    private Boolean isDeleted = false;
+
     @ManyToMany
     @JoinTable(
             name = "post_comment_up_votes",
