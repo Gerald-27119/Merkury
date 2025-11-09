@@ -3,22 +3,22 @@
 
 \subsection{Usługi zewnętrzne}
 \label{subsec:uslugi-zewnetrzne}
-\begingroup
-\newcommand{\integrationcard}[5]{
-    \refstepcounter{integrationcard}
-    \begin{center}
-    {\renewcommand{\arraystretch}{1.15}
+
+% Makro karty integracji
+\newcommand{\integrationcard}[5]{%
+    \refstepcounter{integrationcard}%
+    \par\begin{center}
+    \renewcommand{\arraystretch}{1.15}%
     \begin{tabularx}{\textwidth}{|p{0.22\textwidth}|X|}
     \hline
     \textbf{Usługa} & #2 \\ \hline
     \textbf{Opis}   & #3 \\ \hline
     \textbf{Limit}  & #4 \\ \hline
-    \end{tabularx}}\\[2pt]
-    \textbf{Tabela \theintegrationcard:} Usługa zewnętrzna: #5%
-    \label{#1}%
-    % jeśli chcemy mieć je w spisie tabel:
-    \addcontentsline{lot}{table}{Tabela \theintegrationcard: Usługa zewnętrzna: #5}
+    \end{tabularx}
+    \vspace{3pt}
+    \textbf{Tabela \theintegrationcard:} Usługa zewnętrzna: #5\label{#1}
     \end{center}%
+    \addcontentsline{lot}{table}{Tabela \theintegrationcard: Usługa zewnętrzna: #5}%
 }
 
 \integrationcard{tab:github-actions}
@@ -35,7 +35,7 @@
 
 \integrationcard{tab:mailtrap}
 {Mailtrap~\cite{mailtrap-limits}}
-{Środowisko testowe SMTP oraz Email API do wysyłki maili}
+{Środowisko testowe SMTP oraz Email API do wysyłki maili.}
 {150 maili/dzień}
 {Mailtrap}
 
@@ -43,12 +43,12 @@
 {LocationIQ~\cite{locationiq-pricing}}
 {Geokodowanie adresu przy dodawaniu nowych spotów.}
 {5\,000 zapytań/dzień}
-{LocationIQ)}
+{LocationIQ}
 
 \integrationcard{tab:google-maps}
 {Google Maps (Maps URLs)~\cite{google-maps-urls}}
-{Otwieranie nawigacji w aplikacji Map (deep link/URL).}
-{brak}
+{Otwieranie nawigacji w aplikacji Map Google (deep link/URL).}
+{Brak limitu w ramach dokumentowanego sposobu użycia.}
 {Google Maps (Maps URLs)}
 
 \integrationcard{tab:openfreemap}
@@ -66,12 +66,11 @@
 \integrationcard{tab:tenor}
 {Tenor GIF API~\cite{tenor-docs}}
 {Wyszukiwanie GIF-ów w czacie.}
-{1 request na sekundę; brak ogólnego limitu}
+{1 zapytanie na sekundę; brak ogólnego limitu dziennego.}
 {Tenor GIF API}
 
 \integrationcard{tab:wheretheiss}
-{„Where the ISS at?”~\cite{wheretheiss-docs}}
-{Proste HTTP API udostępniające bieżące dane o pozycji; wykorzystywane pomocniczo.}
-{1 request na sekundę; brak ogólnego limitu}
-{„Where the ISS at?”}
-\endgroup
+{Where the ISS at?~\cite{wheretheiss-docs}}
+{HTTP API z bieżącą pozycją satelity, używane pomocniczo.}
+{1 zapytanie na sekundę; brak ogólnego limitu dziennego.}
+{Where the ISS at?}
