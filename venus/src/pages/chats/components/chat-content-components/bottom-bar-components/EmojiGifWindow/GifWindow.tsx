@@ -22,7 +22,7 @@ import { notificationAction } from "../../../../../../redux/notification";
 import { useDispatch } from "react-redux";
 
 const scrollbarClasses =
-    "scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar scrollbar-w-1";
+    "dark:scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar scrollbar-w-1";
 
 // TODO: create better, gloabl, customizable skeleton
 function GifSkeleton() {
@@ -124,14 +124,14 @@ export default function GifWindow({
                 <input
                     type="text"
                     placeholder="Search GIFs..."
-                    className="bg-violetLight w-full rounded-xl p-2"
+                    className="dark:bg-violetLight bg-violetLighter/30 w-full rounded-xl p-2"
                     value={searchedInputPhrase}
                     onChange={(e) => setSearchedInputPhrase(e.target.value)}
                 />
             </div>
 
             <div
-                className={` ${scrollbarClasses} bg-violetLightDarker grid flex-1 grid-cols-2 gap-3 overflow-y-auto rounded-b-xl p-3`}
+                className={` ${scrollbarClasses} dark:bg-violetLightDarker grid flex-1 grid-cols-2 gap-3 overflow-y-auto rounded-b-xl p-3`}
             >
                 {isTrendingCategoriesLoading &&
                     !searchedInputPhrase &&
@@ -148,7 +148,7 @@ export default function GifWindow({
                                 onClick={() =>
                                     setSearchedInputPhrase(cat.searchTerm)
                                 }
-                                className="group bg-violetDark hover:border-violetLighter relative h-32 w-full cursor-pointer overflow-hidden rounded-xl border border-transparent transition-colors duration-300 ease-in-out"
+                                className="group dark:bg-violetDark dark:hover:border-violetLighter hover:border-violetDark relative h-32 w-full cursor-pointer overflow-hidden rounded-xl border border-transparent transition-colors duration-300 ease-in-out"
                             >
                                 <img
                                     src={cat.gifUrl}
@@ -175,7 +175,7 @@ export default function GifWindow({
                     allSearchGifs.map((gif: SearchedGif) => (
                         <button
                             key={gif.url}
-                            className="group bg-violetDark hover:border-violetLighter relative h-32 w-full cursor-pointer overflow-hidden rounded-xl border border-transparent transition-colors duration-300 ease-in-out"
+                            className="group dark:bg-violetDark hover:border-violetLighter relative h-32 w-full cursor-pointer overflow-hidden rounded-xl border border-transparent transition-colors duration-300 ease-in-out"
                             onClick={() => sendMessage(gif.url)}
                         >
                             {/*TODO:take care of alt*/}

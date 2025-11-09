@@ -355,7 +355,7 @@ export default function ChatBottomBar() {
                 className="mt-auto mb-2 hover:cursor-pointer disabled:opacity-50  "
                 title={!connected ? "Connecting..." : "Send"}
             >
-                <IoSendSharp className="mr-4 h-7 w-7 dark:shadow-md" />
+                <IoSendSharp className="mr-4 h-7 w-7   text-violetLighter" />
             </button>
         </div>
     );
