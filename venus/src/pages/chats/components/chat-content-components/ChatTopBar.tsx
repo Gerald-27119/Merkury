@@ -104,7 +104,7 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                         </p>
 
                         <MdEdit
-                            className="shrink-0 dark:text-white/80 opacity-0 transition-opacity duration-150 group-focus-within:opacity-100 group-hover:opacity-100 violet-500  "
+                            className="violet-500 shrink-0 opacity-0 transition-opacity duration-150 group-focus-within:opacity-100 group-hover:opacity-100 dark:text-white/80"
                             aria-hidden="true"
                         />
                     </button>
@@ -121,7 +121,7 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
             )}
 
             {chatDto.chatType === "PRIVATE" && (
-                <div className="flex items-center justify-center text-violetLight">
+                <div className="text-violetLight flex items-center justify-center">
                     <HiUserAdd
                         size={30}
                         className="mr-2 hover:cursor-pointer"
@@ -134,12 +134,12 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                 <div className="flex items-center justify-center">
                     <FaUsers
                         size={30}
-                        className="mr-4 hover:cursor-pointer dark:text-white text-violetLight"
+                        className="text-violetLight mr-4 hover:cursor-pointer dark:text-white"
                         onClick={handleOpenSidebar}
                     />
                     <HiUserAdd
                         size={30}
-                        className="mr-2 hover:cursor-pointer dark:text-white text-violetLight"
+                        className="text-violetLight mr-2 hover:cursor-pointer dark:text-white"
                         onClick={handleOpenAddPeopleToGroupChatModal}
                     />
                 </div>

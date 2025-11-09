@@ -28,7 +28,7 @@ function ListedChat({ chat, hasNew }: ListedChatProps) {
                 isSelected
                     ? "dark:bg-violetLight/80 bg-violetBright/60"
                     : hasNew
-                      ? "dark:bg-violet-300/65 bg-violetBright/40"
+                      ? "bg-violetBright/40 dark:bg-violet-300/65"
                       : "hover:dark:bg-violetLight/40 hover:bg-violetBright/20"
             }`}
             onClick={handleSelectedChatChange}

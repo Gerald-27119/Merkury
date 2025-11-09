@@ -271,8 +271,8 @@ function ResultsGrid({
                                 isSelected
                                     ? "cursor-pointer bg-emerald-600 hover:opacity-90"
                                     : disabledAdd
-                                      ? "pointer-events-none cursor-not-allowed bg-violetLight/40 opacity-60 saturate-0"
-                                      : "cursor-pointer bg-violetLight  hover:opacity-80",
+                                      ? "bg-violetLight/40 pointer-events-none cursor-not-allowed opacity-60 saturate-0"
+                                      : "bg-violetLight cursor-pointer hover:opacity-80",
                             ].join(" ")}
                             aria-disabled={disabledAdd}
                             aria-label={

@@ -28,7 +28,7 @@ export default function EmojiWindow({
                         placeholder="Search emoji"
                         autoFocus={false}
                         hideIcon={true}
-                        className="text-md mt-1 mb-3 flex h-11 w-full items-start justify-start rounded-2xl bg-violetLighter/30 dark:bg-white/10 text-start outline-none focus:ring-2 focus:ring-white"
+                        className="text-md bg-violetLighter/30 mt-1 mb-3 flex h-11 w-full items-start justify-start rounded-2xl text-start outline-none focus:ring-2 focus:ring-white dark:bg-white/10"
                     />
                 </EmojiPicker.Header>
 

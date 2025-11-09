@@ -131,7 +131,7 @@ export default function EditGroupChatModal({
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder={chatDto.name}
-                    className="border-violetLight dark:bg-violetDark focus:border-violetLighter w-[22rem] rounded-xl border p-2 dark:text-white dark:placeholder-white/60 focus:outline-none"
+                    className="border-violetLight dark:bg-violetDark focus:border-violetLighter w-[22rem] rounded-xl border p-2 focus:outline-none dark:text-white dark:placeholder-white/60"
                 />
             </div>
 
