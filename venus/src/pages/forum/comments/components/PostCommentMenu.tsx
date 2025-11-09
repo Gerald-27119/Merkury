@@ -18,6 +18,7 @@ export default function PostCommentMenu({
         <ForumContentMenu
             contentId={comment.id}
             isUserAuthor={comment.isAuthor}
+            isContentDeleted={comment.isDeleted}
             onDelete={() => onDelete(comment.id)}
             onEdit={() => onEdit(comment)}
             onReport={() => onReport(comment.id)}

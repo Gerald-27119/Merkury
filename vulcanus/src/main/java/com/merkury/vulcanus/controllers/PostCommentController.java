@@ -51,19 +51,19 @@ public class PostCommentController {
     }
 
     @DeleteMapping("/post/comments/{commentId}")
-    public ResponseEntity<Void> deletePostComment(@PathVariable Long commentId) throws CommentAccessException, UserNotFoundByUsernameException {
+    public ResponseEntity<Void> deletePostComment(@PathVariable Long commentId) throws CommentAccessException, UserNotFoundByUsernameException, CommentDeletedException {
         postCommentService.deleteComment(commentId);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/post/comments/{commentId}")
-    public ResponseEntity<Void> editPostComment(@PathVariable Long commentId, @Valid @RequestBody PostCommentDto dto) throws CommentAccessException, InvalidForumContentException, UserNotFoundByUsernameException {
+    public ResponseEntity<Void> editPostComment(@PathVariable Long commentId, @Valid @RequestBody PostCommentDto dto) throws CommentAccessException, InvalidForumContentException, UserNotFoundByUsernameException, CommentDeletedException {
         postCommentService.editComment(commentId, dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/post/comments/{commentId}/vote")
-    public ResponseEntity<Void> votePostComment(@PathVariable Long commentId, @RequestParam boolean isUpvote) throws CommentNotFoundException, UserNotFoundByUsernameException {
+    public ResponseEntity<Void> votePostComment(@PathVariable Long commentId, @RequestParam boolean isUpvote) throws CommentNotFoundException, UserNotFoundByUsernameException, CommentDeletedException {
         postCommentService.voteComment(commentId, isUpvote);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

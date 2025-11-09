@@ -11,6 +11,7 @@ import { useBoolean } from "../../../../hooks/useBoolean";
 interface ForumContentMenuProps {
     contentId: number;
     isUserAuthor: boolean;
+    isContentDeleted?: boolean;
     isFollowed?: boolean;
     onDelete: (id: number) => void;
     onEdit: (id: number) => void;
@@ -21,6 +22,7 @@ interface ForumContentMenuProps {
 export default function ForumContentMenu({
     contentId,
     isUserAuthor,
+    isContentDeleted = false,
     isFollowed,
     onDelete,
     onEdit,
@@ -38,10 +40,12 @@ export default function ForumContentMenu({
 
     return (
         <div className="relative" ref={menuRef}>
-            <HiDotsHorizontal
-                onClick={isMenuOpen ? closeMenu : openMenu}
-                className="cursor-pointer text-2xl hover:text-blue-500 dark:hover:text-blue-400"
-            />
+            {!isContentDeleted && (
+                <HiDotsHorizontal
+                    onClick={isMenuOpen ? closeMenu : openMenu}
+                    className="cursor-pointer text-2xl hover:text-blue-500 dark:hover:text-blue-400"
+                />
+            )}
 
             {isMenuOpen && (
                 <div className="dark:border-darkBorder dark:bg-darkBgSoft absolute right-0 z-10 mt-2 w-40 rounded-md border bg-white shadow-lg">

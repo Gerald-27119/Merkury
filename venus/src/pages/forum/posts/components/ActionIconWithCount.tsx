@@ -6,6 +6,7 @@ interface ActionIconWithCountProps {
     data: number;
     isActive?: boolean;
     onClick?: () => void;
+    disabled?: boolean;
 }
 
 export default function ActionIconWithCount({
@@ -13,12 +14,13 @@ export default function ActionIconWithCount({
     data,
     onClick,
     isActive,
+    disabled,
 }: ActionIconWithCountProps) {
     return (
         <div className="flex items-center">
             <Icon
-                onClick={onClick}
-                className={`cursor-pointer hover:text-blue-400 ${isActive ? "text-blue-400" : ""}`}
+                onClick={disabled ? undefined : onClick}
+                className={` ${disabled ? "cursor-not-allowed text-gray-400" : "cursor-pointer hover:text-blue-400"} ${isActive && !disabled ? "text-blue-400" : ""} `}
             />
             <p className="ml-2 w-10 text-lg tabular-nums select-none">
                 {formatNumber(data)}

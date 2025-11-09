@@ -27,6 +27,7 @@ public class PostCommentMapper {
                 .isDownVoted(postComment.getDownVotedBy().contains(currentUser))
                 .isReply(postComment.getParent() != null)
                 .repliesCount(repliesCount)
+                .isDeleted(postComment.getIsDeleted())
                 .build();
     }
 

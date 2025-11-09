@@ -12,4 +12,5 @@ export default interface PostCommentGeneral {
     isUpVoted: boolean;
     isDownVoted: boolean;
     isReply: boolean;
+    isDeleted: boolean;
 }

@@ -78,29 +78,32 @@ public class PostCommentService {
         updateCommentsCount(post.getId());
     }
 
-    public void deleteComment(Long commentId) throws CommentAccessException, UserNotFoundByUsernameException {
+    public void deleteComment(Long commentId) throws CommentAccessException, UserNotFoundByUsernameException, CommentDeletedException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var comment = postCommentRepository.findByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("delete"));
 
+        throwIfCommentDeleted(comment);
         comment.setContent("<p>Comment was deleted by the user.</p>");
         comment.setIsDeleted(true);
         postCommentRepository.save(comment);
     }
 
-    public void editComment(Long commentId, PostCommentDto dto) throws CommentAccessException, InvalidForumContentException, UserNotFoundByUsernameException {
+    public void editComment(Long commentId, PostCommentDto dto) throws CommentAccessException, InvalidForumContentException, UserNotFoundByUsernameException, CommentDeletedException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var comment = postCommentRepository.findByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("edit"));
 
+        throwIfCommentDeleted(comment);
         var cleanContent = forumContentValidator.sanitizeAndValidateContent(dto.content());
         comment.setContent(cleanContent);
 
         postCommentRepository.save(comment);
     }
 
-    public void voteComment(Long commentId, boolean isUpvote) throws CommentNotFoundException, UserNotFoundByUsernameException {
+    public void voteComment(Long commentId, boolean isUpvote) throws CommentNotFoundException, UserNotFoundByUsernameException, CommentDeletedException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var comment = postCommentRepository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
 
+        throwIfCommentDeleted(comment);
         voteService.vote(comment, user, isUpvote);
         postCommentRepository.save(comment);
     }
@@ -139,6 +142,12 @@ public class PostCommentService {
     private void updateCommentsCount(Long postId) throws PostNotFoundException {
         int updated = postRepository.incrementCommentsCount(postId);
         if (updated == 0) throw new PostNotFoundException(postId);
+    }
+
+    private void throwIfCommentDeleted(PostComment comment) throws CommentDeletedException {
+        if (comment.getIsDeleted()) {
+            throw new CommentDeletedException(comment.getId().toString());
+        }
     }
 
     private String getAuthenticatedUsernameOrNull() {

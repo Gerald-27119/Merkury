@@ -28,16 +28,18 @@ export default function PostCommentActions({
                     Icon={MdThumbUp}
                     data={comment.upVotes}
                     isActive={comment.isUpVoted}
+                    disabled={comment.isDeleted}
                     onClick={() => onVote(comment.id, true)}
                 />
                 <ActionIconWithCount
                     Icon={MdThumbDown}
                     data={comment.downVotes}
                     isActive={comment.isDownVoted}
+                    disabled={comment.isDeleted}
                     onClick={() => onVote(comment.id, false)}
                 />
 
-                {!comment.isAuthor && (
+                {!comment.isAuthor && !comment.isDeleted && (
                     <div
                         className="flex cursor-pointer items-center gap-2 text-lg hover:text-blue-500 dark:hover:text-blue-400"
                         onClick={() => onReply(comment.id)}
