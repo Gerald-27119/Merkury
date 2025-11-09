@@ -4,15 +4,32 @@
 \section{Udziałowcy}
 \label{sec:udzialowcy}
 
-\begin{table}[htbp]
-    \centering
-    \renewcommand{\arraystretch}{1.15}
-    \begin{tabularx}{\textwidth}{|L{0.33\textwidth}|X|}
-        \hline
-        \textbf{Nazwa udziałowca} & \textbf{Opis} \\ \hline
-        Zespół projektowy & Odpowiedzialny za zaprojektowanie, implementację i testowanie systemu. \\ \hline
-        Promotor & Weryfikuje i nadzoruje pracę zespołu projektowego. \\ \hline
-        \Glspl{droniarz} & Główni użytkownicy systemu. \\ \hline
-    \end{tabularx}
-    \caption{Przedstawienie poszczególnych udziałowców}\label{tab:udzialowcy}
-\end{table}
+\begin{stakeholder}[label={tab:stakeholder:team},caption={Zespół projektowy}]
+    \id{UO1}
+    \name{Zespół projektowy}
+    \descr{Zespół czterech studentów odpowiedzialnych za analizę, projekt, implementację, testy oraz dokumentację systemu.}
+    \type{ożywiony, bezpośredni}
+    \viewpoint{techniczna, wykonawcza}
+    \limitations{Ograniczone zasoby czasowe i doświadczenie komercyjne.}
+    \requ{Wymagania funkcjonalne i techniczne systemu, możliwość realizacji w ramach projektu dyplomowego.}
+\end{stakeholder}
+
+\begin{stakeholder}[label={tab:stakeholder:promotor},caption={Promotor}]
+    \id{UO2}
+    \name{Promotor}
+    \descr{Osoba nadzorująca przebieg projektu, weryfikująca poprawność merytoryczną i zgodność z wymaganiami uczelni.}
+    \type{ożywiony, pośredni}
+    \viewpoint{merytoryczna, formalna, jakościowa}
+    \limitations{Nie odpowiada za implementację; rekomenduje, opiniuje i zatwierdza.}
+    \requ{Czytelna dokumentacja, zgodność z wytycznymi kierunku i dobry poziom techniczny rozwiązania.}
+\end{stakeholder}
+
+\begin{stakeholder}[label={tab:stakeholder:droniarze},caption={Droniarze}]
+    \id{UO3}
+    \name{\Glspl{droniarz}}
+    \descr{Główna grupa docelowa systemu – osoby latające dronami rekreacyjnie lub półprofesjonalnie, szukające miejsc do lotów i wymiany doświadczeń.}
+    \type{ożywiony, bezpośredni}
+    \viewpoint{użytkownik końcowy: prostota obsługi, rzetelne informacje o spotach, wygodne dzielenie się treściami.}
+    \limitations{Brak wpływu na architekturę techniczną systemu; oczekują intuicyjnego interfejsu.}
+    \requ{Lista spotów, informacje o ograniczeniach prawnych, oceny/komentarze, dodawanie treści, podstawowe funkcje społecznościowe.}
+\end{stakeholder}
