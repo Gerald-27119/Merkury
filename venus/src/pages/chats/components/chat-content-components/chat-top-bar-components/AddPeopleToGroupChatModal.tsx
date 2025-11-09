@@ -140,7 +140,7 @@ export default function AddPeopleToGroupChatModal({
                     className="dark:bg-darkBgMuted bg-lightBgMuted w-[30rem] rounded-md px-3 py-2 shadow-md ring-0 outline-0 dark:shadow-black"
                 />
                 <button
-                    className={`rounded-md px-4 py-1 ${
+                    className={`rounded-md px-4 py-1 text-white ${
                         isNoSelection || isAdding
                             ? "cursor-not-allowed bg-green-600/40"
                             : "cursor-pointer bg-green-600 hover:opacity-80"
@@ -271,8 +271,8 @@ function ResultsGrid({
                                 isSelected
                                     ? "cursor-pointer bg-emerald-600 hover:opacity-90"
                                     : disabledAdd
-                                      ? "pointer-events-none cursor-not-allowed bg-blue-600/40 opacity-60 saturate-0"
-                                      : "cursor-pointer bg-blue-600 hover:opacity-80",
+                                      ? "pointer-events-none cursor-not-allowed bg-violetLight/40 opacity-60 saturate-0"
+                                      : "cursor-pointer bg-violetLight  hover:opacity-80",
                             ].join(" ")}
                             aria-disabled={disabledAdd}
                             aria-label={

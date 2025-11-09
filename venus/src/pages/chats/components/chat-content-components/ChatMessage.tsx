@@ -29,12 +29,12 @@ export default React.memo(function ChatMessage({
                 <>
                     <div className="flex w-13 justify-center pt-1">
                         {shouldShowTooltipWithTime && (
-                            <p className="text-xs text-gray-400">
+                            <p className="text-xs dark:text-gray-400">
                                 {formatSentAt(message.sentAt)}
                             </p>
                         )}
                     </div>
-                    <p className="pl-3 whitespace-pre-line text-white">
+                    <p className="pl-3 whitespace-pre-line dark:text-white">
                         {shouldShowGif(message.content)
                             ? showGif(message.content)
                             : message.content}
@@ -60,11 +60,11 @@ export default React.memo(function ChatMessage({
                             <p className="text-xl font-semibold">
                                 {message.sender.name}
                             </p>
-                            <p className="flex items-end text-[0.8rem] text-gray-400">
+                            <p className="flex items-end text-[0.8rem] dark:text-gray-400">
                                 {formatSentAt(message.sentAt)}
                             </p>
                         </div>
-                        <p className="whitespace-pre-line text-white">
+                        <p className="whitespace-pre-line dark:text-white">
                             {shouldShowGif(message.content)
                                 ? showGif(message.content)
                                 : message.content}

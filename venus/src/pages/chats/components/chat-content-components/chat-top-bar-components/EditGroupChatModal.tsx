@@ -131,13 +131,13 @@ export default function EditGroupChatModal({
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder={chatDto.name}
-                    className="border-violetLight bg-violetDark focus:border-violetLighter w-[22rem] rounded-xl border p-2 text-white placeholder-white/60 focus:outline-none"
+                    className="border-violetLight dark:bg-violetDark focus:border-violetLighter w-[22rem] rounded-xl border p-2 dark:text-white dark:placeholder-white/60 focus:outline-none"
                 />
             </div>
 
             <div className="mt-auto flex gap-2">
                 <button
-                    className={`${commonButtonsClasses} bg-violetDark`}
+                    className={`${commonButtonsClasses} dark:bg-violetDark bg-violetLightDark text-white`}
                     onClick={handleCloseModal}
                 >
                     Cancel

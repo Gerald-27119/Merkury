@@ -62,7 +62,7 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
     }
 
     return (
-        <div className="bg-violetDark flex items-center justify-between gap-4 px-4 py-5">
+        <div className="dark:bg-violetDark flex items-center justify-between gap-4 px-4 py-5">
             {chatDto.chatType === "PRIVATE" ? (
                 <button
                     className="flex min-w-0 items-center gap-3 rounded-xl p-3 hover:cursor-pointer hover:bg-purple-400/20"
@@ -77,7 +77,7 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                         }
                         alt={"Image that listed chat has"}
                     />
-                    <p className="max-w-[22rem] truncate text-lg font-semibold text-white">
+                    <p className="max-w-[22rem] truncate text-lg font-semibold dark:text-white">
                         {chatDto?.name}
                     </p>
                 </button>
@@ -99,12 +99,12 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                             alt="Awatar czatu"
                         />
 
-                        <p className="max-w-[22rem] flex-1 truncate text-lg font-semibold text-white">
+                        <p className="max-w-[22rem] flex-1 truncate text-lg font-semibold dark:text-white">
                             {chatDto?.name}
                         </p>
 
                         <MdEdit
-                            className="shrink-0 text-white/80 opacity-0 transition-opacity duration-150 group-focus-within:opacity-100 group-hover:opacity-100"
+                            className="shrink-0 dark:text-white/80 opacity-0 transition-opacity duration-150 group-focus-within:opacity-100 group-hover:opacity-100 violet-500  "
                             aria-hidden="true"
                         />
                     </button>
@@ -112,16 +112,16 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                     <div
                         id="chat-tooltip"
                         role="tooltip"
-                        className="bg-violetLightDarker text-md pointer-events-none absolute top-full left-1/2 z-10 mt-2 min-w-20 -translate-x-1/2 translate-y-1 rounded-md p-2 text-center text-white opacity-0 shadow-lg transition-all duration-150 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:opacity-100"
+                        className="darK:bg-violetLightDarker bg-violetLighter text-md pointer-events-none absolute top-full left-1/2 z-10 mt-2 min-w-20 -translate-x-1/2 translate-y-1 rounded-md p-2 text-center text-white opacity-0 shadow-lg transition-all duration-150 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:opacity-100"
                     >
                         Edit Chat
-                        <div className="bg-violetLightDarker absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45" />
+                        <div className="dark:bg-violetLightDarker bg-violetLighter absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45" />
                     </div>
                 </div>
             )}
 
             {chatDto.chatType === "PRIVATE" && (
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center text-violetLight">
                     <HiUserAdd
                         size={30}
                         className="mr-2 hover:cursor-pointer"
@@ -134,12 +134,12 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                 <div className="flex items-center justify-center">
                     <FaUsers
                         size={30}
-                        className="mr-4 hover:cursor-pointer"
+                        className="mr-4 hover:cursor-pointer dark:text-white text-violetLight"
                         onClick={handleOpenSidebar}
                     />
                     <HiUserAdd
                         size={30}
-                        className="mr-2 hover:cursor-pointer"
+                        className="mr-2 hover:cursor-pointer dark:text-white text-violetLight"
                         onClick={handleOpenAddPeopleToGroupChatModal}
                     />
                 </div>
