@@ -4,7 +4,6 @@ import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.interfaces.Votable;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Formula;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

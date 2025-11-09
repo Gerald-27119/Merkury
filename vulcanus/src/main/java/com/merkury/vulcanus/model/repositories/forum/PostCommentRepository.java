@@ -27,6 +27,22 @@ public interface PostCommentRepository extends JpaRepository<PostComment, Long> 
     @Query("update post_comments c set c.repliesCount = c.repliesCount + 1 where c.id = :id")
     int incrementRepliesCount(@Param("id") Long commentId);
 
+    @Modifying
+    @Query("UPDATE post_comments c SET c.upVotes = c.upVotes + 1 WHERE c.id = :id")
+    void incrementUpvote(@Param("id") Long id);
+
+    @Modifying
+    @Query("UPDATE post_comments c SET c.downVotes = c.downVotes + 1 WHERE c.id = :id")
+    void incrementDownvote(@Param("id") Long id);
+
+    @Modifying
+    @Query("UPDATE post_comments c SET c.upVotes = c.upVotes - 1 WHERE c.id = :id AND c.upVotes > 0")
+    void decrementUpvote(@Param("id") Long id);
+
+    @Modifying
+    @Query("UPDATE post_comments c SET c.downVotes = c.downVotes - 1 WHERE c.id = :id AND c.downVotes > 0")
+    void decrementDownvote(@Param("id") Long id);
+
     @Query(
             value = """
                     WITH RECURSIVE comment_tree AS (

@@ -4,8 +4,6 @@ import com.merkury.vulcanus.model.dtos.forum.PostCommentGeneralDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.PostComment;
-import com.merkury.vulcanus.model.repositories.forum.PostCommentRepository;
-import com.merkury.vulcanus.model.repositories.forum.PostRepository;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;

@@ -296,6 +296,7 @@ public class PopulateForumService {
                     .build();
 
             parent.getReplies().add(reply);
+            parent.setRepliesCount(parent.getRepliesCount() + 1);
             generateReplies(reply, post, users, depth + 1, maxDepth);
         }
     }
