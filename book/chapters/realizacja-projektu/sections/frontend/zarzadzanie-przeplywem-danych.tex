@@ -1,5 +1,45 @@
-%! Author = mateusz
+%! Author = Mateusz
 %! Date = 20/10/2025
 
 \subsection{Zarządzanie stanem i przepływ danych}
 \label{subsec:zarzadzanie-stanem-i-przeplyw-danych}
+
+W projekcie postawiliśmy na zrównoważone podejście do zarządzania
+\gls{stan}em. Korzystamy zarówno z lokalnego \gls{stan}u komponentów
+(za pomocą \gls{hook}a \texttt{useState})~\cite{react-use-state}, jak i ze \gls{stan}u globalnego,
+utrzymywanego przez \glslink{biblioteka}{Bibliotekę} \gls{react}~\gls{redux}~\cite{redux}.
+Globalny \gls{stan}
+został wprowadzony po to, aby możliwie najbardziej ograniczyć
+przekazywanie \glslink{props}{Propsów} w głąb drzewa komponentów oraz uniknąć
+niepotrzebnych ponownych renderów.
+
+Do przechowywania \gls{stan}u lokalnego, ograniczonego tylko do danego komponentu
+(lub jego najbliższych elementów podrzędnych), wykorzystujemy \gls{hook} \texttt{useState}.
+Natomiast efekty uboczne i synchronizację realizujemy za pomocą \texttt{useEffect}.
+W przypadku bardziej złożonej logiki lub potrzeby ponownego wykorzystania kodu
+powstały \gls{hook}i niestandardowe, takie jak \texttt{useScreenSize},
+\texttt{useDarkMode} czy \texttt{useClickOutside}. Dzięki temu większość
+logiki prezentacji została wydzielona z warstwy \gls{ui}, co poprawia
+czytelność i ułatwia utrzymanie kodu.
+
+Z racji tego, że korzystamy z \gls{react}a w połączeniu z \gls{type-script}em,
+przygotowaliśmy również własne \gls{hook}i wspomagające typowanie, takie jak
+\texttt{useDispatchTyped} oraz \texttt{useSelectorTyped}. Pozwalają one
+na bezpieczne typowanie akcji oraz selektorów \gls{redux}a bez konieczności
+powtarzania adnotacji typów w każdym komponencie.
+Fragmenty tej implementacji przedstawiono na rysunkach
+\ref{img:redux-store} oraz \ref{img:redux-account}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/redux-store}
+    \caption{Konfiguracja sklepu (\texttt{Redux store})}
+    \label{img:redux-store}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/redux-account}
+    \caption{Przykładowy slice odpowiedzialny za sprawdzenie czy użytkownik jest zalogowany}
+    \label{img:redux-account}
+\end{figure}

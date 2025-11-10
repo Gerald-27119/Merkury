@@ -5,6 +5,7 @@ import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 @Builder
 public record PostDetailsDto(@Positive(message = "ID must be a positive number.")
                              Long id,
@@ -19,6 +20,8 @@ public record PostDetailsDto(@Positive(message = "ID must be a positive number."
                              AuthorDto author,
                              @NotNull(message = "isAuthor cannot be empty.")
                              Boolean isAuthor,
+                             @NotNull(message = "isFollowed cannot be empty.")
+                             Boolean isFollowed,
                              @PastOrPresent(message = "PublishDate must be in the past or present.")
                              @NotNull(message = "PublishDate cannot be null.")
                              LocalDateTime publishDate,

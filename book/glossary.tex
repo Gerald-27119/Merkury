@@ -99,12 +99,147 @@
     description={Powtarzalne, sprawdzone rozwiązanie typowego problemu projektowego lub architektonicznego. Wzorzec opisuje \emph{jak} coś organizować lub implementować, żeby było czytelne, skalowalne i łatwe w utrzymaniu}
 }
 
-\newglossaryentry{DAD_LLC}{
+\newglossaryentry{DAD_LLC}
+{
     name={Disciplined Agile Delivery - Lean Life Cycle},
-    description={Kanbanowy tryb pracy bez sprintów: zespół pobiera małe zadania z tablicy, pilnuje limitów pracy w toku i często wdraża małe zmiany.
-    Planowanie jest lekkie i na bieżąco; priorytet mają rzeczy o najwyższej wartości.
-    Skupiamy się na płynności—skraca się czas przejścia zadań, usuwa blokady, usprawnia proces małymi krokami.
-    Jakość jest wbudowana: code review, testy automatyczne i prosta definicja „gotowe”}
+    description={
+        Disciplined Agile Delivery w wariancie Lean Life Cycle to sposób prowadzenia projektu,
+        który łączy elastyczność Agile z przewidywalnością Waterfalla,
+        ale bez stałych sprintów — praca toczy się w ciągłym przepływie.
+        Na starcie zakłada mocniejszą fazę przygotowawczą: doprecyzowanie zakresu,
+        szkic architektury, identyfikację ryzyk i kryteria jakości.
+        W realizacji następuje ciągłe doprecyzowywanie wymagań
+        i backlogu, oparte na regularnym feedbacku udziałowców.
+        Całość opiera się na praktykach Lean oraz lekkim governance:
+        code review i regularnych przeglądach postępów.
+    }
+}
+
+\newglossaryentry{operator-drona}
+{
+    name={Operator drona},
+    description={Osoba lub podmiot będący właścicielem floty dronów. Może posiadać jeden lub wiele dronów. Droniarz rekreacyjny jest zazwyczaj jednocześnie operatorem floty oraz pilotem.}
+}
+
+\newglossaryentry{pilot-drona}
+{
+    name={Pilot drona},
+    description={Osoba posiadająca uprawnienia do pilotowania drona (jeżeli są wymagane) i wykonująca loty dronem. Droniarz rekreacyjny jest zazwyczaj jednocześnie pilotem oraz operatorem floty.}
+}
+
+\newglossaryentry{droniarz}
+{
+    name={Droniarz},
+    plural={droniarze},
+    description={Potoczne określenie osoby, która jest jednocześnie pilotem oraz operatorem drona. Zwykle entuzjasta dronów.}
+}
+
+\newglossaryentry{PANSA}
+{
+    name={PANSA},
+    description={
+        Polish Air Navigation Services Agency, pol. Polska Agencja Żeglugi Powietrznej.
+        Instytucja ta zapewnia m.in. mapę z zaznaczonymi strefami lotów.
+        Każda strefa ma swoje właściwości prawne.
+    }
+}
+
+\newglossaryentry{pilot-fpv}
+{
+    name={Pilot FPV},
+    description={Pilot drona latający w trybie \textit{First Person View} (FPV),
+    korzystający z gogli przekazujących obraz z kamery pokładowej.}
+}
+
+\newglossaryentry{droniarz-fpv}
+{
+    name={Droniarz FPV},
+    description={\glsentrydesc{pilot-fpv}}
+}
+
+\newglossaryentry{droniarz-foto-video}
+{
+    name={Droniarz foto/video},
+    description={Pilot wykorzystujący drony fotograficzne/filmowe do rejestracji materiałów wizualnych
+    (zdjęcia, wideo), zwykle z naciskiem na stabilizację i jakość obrazu.},
+    user1={droniarzem foto/video}
+}
+
+\newglossaryentry{droniarz-foto}
+{
+    name={Droniarz foto},
+    description={\glsentrydesc{droniarz-foto-video}}
+}
+
+\newglossaryentry{droniarz-fotograf}
+{
+    name={Droniarz fotograf},
+    description={\glsentrydesc{droniarz-foto-video}}
+}
+
+\newglossaryentry{pilot-foto}
+{
+    name={Pilot foto},
+    description={\glsentrydesc{droniarz-foto-video}}
+}
+
+\newglossaryentry{azure-blob-storage}
+{
+    name={Azure Blob Storage},
+    description={Usługa magazynu obiektowego w chmurze Microsoft Azure do przechowywania
+    nieustrukturyzowanych danych (\textit{blobs}) takich jak obrazy, wideo i pliki.
+    Udostępnia kontenery, warstwy dostępu, wersjonowanie oraz tokeny SAS; często używana
+    do hostowania multimediów w aplikacjach webowych.}
+}
+
+\newglossaryentry{stan}{
+    name={Stan},
+    description={Aktualny zestaw danych przechowywanych przez aplikację lub komponent, na podstawie którego renderowany jest interfejs użytkownika. Stan może być lokalny (utrzymywany w pojedynczym komponencie) albo globalny (wspólny dla wielu komponentów).}
+}
+
+\newglossaryentry{ui}{
+    name={UI},
+    description={Interfejs użytkownika (ang. \textit{User Interface}); warstwa prezentacji odpowiedzialna za sposób wyświetlania danych oraz interakcji użytkownika z aplikacją.}
+}
+
+\newglossaryentry{hook}{
+    name={Hook (React)},
+    description={Prosta funkcja w React, która „dodaje” możliwości do elementu interfejsu — np. pozwala mu coś zapamiętać (stan) albo zrobić coś po zmianie/załadowaniu. Wszystkie hooki zaczynają się od \texttt{use...} (np. \texttt{useState}, \texttt{useEffect}).}
+}
+
+\newglossaryentry{css}{
+    name={CSS},
+    description={Kaskadowe arkusze stylów (Cascading Style Sheets) — język opisu prezentacji dokumentów (np. HTML). Definiuje wygląd interfejsu: układ, kolory, typografię, odstępy, animacje i zachowania responsywne, oddzielając warstwę treści od warstwy prezentacji.}
+}
+
+\newglossaryentry{responsywnosc}{
+    name={Responsywność},
+    description={Określenie związane z projektowaniem responsywnym (Responsive Web Design, RWD), czyli dostosowywaniem interfejsu do różnych rozmiarów i parametrów ekranów. Obejmuje m.in. elastyczne siatki, grafiki i \gls{media-queries}, tak aby układ i czytelność były zachowane na telefonach, tabletach i desktopach.}
+}
+
+\newglossaryentry{props}{
+    name={Props},
+    description={Właściwości przekazywane do komponentu React przez komponent nadrzędny; służą do konfiguracji i przekazywania danych. Powinny być traktowane jako tylko do odczytu (read-only) wewnątrz komponentu potomnego.}
+}
+
+\newglossaryentry{react}{
+    name={React},
+    description={Biblioteka JavaScript do budowy interfejsów użytkownika w oparciu o komponenty deklaratywne i wirtualny DOM. Zapewnia jednokierunkowy przepływ danych oraz zarządzanie stanem komponentów.}
+}
+
+\newglossaryentry{type-script}{
+    name={TypeScript},
+    description={Rozszerzenie do języka JavaScript dodający statyczne typowanie, interfejsy i narzędzia do większych projektów. Kompiluje się do czystego JavaScript, ułatwiając wykrywanie błędów w czasie kompilacji i refaktoryzację.}
+}
+
+\newglossaryentry{redux}{
+    name={Redux},
+    description={Biblioteka do przewidywalnego zarządzania stanem aplikacji. Opiera się na jednym \emph{store}, akcjach i czystych \emph{reducerach}, promuje niemutowalność i jednokierunkowy przepływ danych. Często używana z Reactem, ale niezależna od niego.}
+}
+
+\newglossaryentry{media-queries}{
+    name={Media queries},
+    description={Konstrukcja CSS pozwalająca stosować reguły stylów w zależności od cech urządzenia/okna (np. szerokości ekranu, orientacji, preferencji użytkownika). Podstawa responsywnego projektowania (\emph{responsive design}).}
 }
 
 \newglossaryentry{backlog}{

@@ -5,7 +5,22 @@
 \usepackage[polish]{babel}
 \usepackage{import}
 \usepackage{csquotes}
-\usepackage{float}
+\usepackage{float}% ma pomoc z bugiem ze tabelki/zdjęcia przenoszą sie na koniec rozdziału
+
+%nowe pakiety do tabel:
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array,ltablex}
+\keepXColumns
+
+%customowe rozmiary kolumn (do użytku ogolonego)
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{Y}{>{\hspace{0.6em}}X<{\hspace{0.6em}}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+% używam w "zewnętrzne-usługi"
+\newcounter{integrationcard}[chapter]
+\renewcommand{\theintegrationcard}{\thechapter.\arabic{integrationcard}}
 
 %JSON Coloring
 \lstdefinelanguage{json}{
@@ -97,6 +112,12 @@
 \addbibresource{bibliography.bib}
 \makeglossaries
 
+% odmiana wpisów ze słowniczka:
+\newcommand{\glsdroniarzFotoVideoInstr}{%
+    \glslink{droniarz-foto-video}{\glsentryuseri{droniarz-foto-video}}%
+}
+
+
 \begin{document}
 
     \maketitle
@@ -122,6 +143,12 @@
     \setglossarysection{section}
     \vspace*{-2\baselineskip}
     \printglossary[type=\acronymtype, title={}, toctitle={}]
+
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Spis tabel}
+    \renewcommand{\listtablename}{Spis tabel}
+    \listoftables
 
     \printbibliography[title={}, heading=bibintoc]
 

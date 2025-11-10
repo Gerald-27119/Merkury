@@ -73,12 +73,12 @@ export default function SelectWithSearch({
                 classNames={selectClassNames}
             />
             {error && (
-                <p className="text-xs font-bold break-words text-red-500">
+                <p className="mt-1 text-xs font-bold break-words text-red-500">
                     {error}
                 </p>
             )}
             {isLimitWarningVisible && !error && (
-                <p className="text-xs font-bold break-words text-yellow-500">
+                <p className="mt-1 text-xs font-bold break-words text-yellow-500">
                     You can't select more than 3 tags
                 </p>
             )}
