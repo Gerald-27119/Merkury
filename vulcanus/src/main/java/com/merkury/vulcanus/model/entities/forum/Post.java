@@ -4,7 +4,6 @@ import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.interfaces.Votable;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Formula;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity(name = "forum_posts")
+@Entity(name = "posts")
 @Data
 @Builder
 @NoArgsConstructor
@@ -69,6 +68,15 @@ public class Post implements Votable {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<UserEntity> downVotedBy = new HashSet<>();
+
+    @Builder.Default
+    @ManyToMany
+    @JoinTable(
+            name = "post_followers",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<UserEntity> followers = new HashSet<>();
 
     @Builder.Default
     @ManyToMany

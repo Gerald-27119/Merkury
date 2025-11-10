@@ -1,64 +1,63 @@
 import { MdThumbDown, MdThumbUp } from "react-icons/md";
 import { FaComment, FaShare } from "react-icons/fa";
-import PostMenu from "./PostMenu";
 import AddCommentButton from "../../components/AddCommentButton";
-import DetailedPostActionButton from "./DetailedPostActionButton";
+import ActionIconWithCount from "./ActionIconWithCount";
+import ForumPostMenu from "./ForumPostMenu";
+import PostDetails from "../../../../model/interface/forum/post/postDetails";
 
 interface DetailedPostActionsProps {
-    postId: number;
-    isAuthor: boolean;
-    upVotes: number;
-    downVotes: number;
-    isUpVoted: boolean;
-    isDownVoted: boolean;
-    numberOfComments: number;
+    post: PostDetails;
+    onAddCommentClick: () => void;
     onDelete: (postId: number) => void;
-    onEdit: (postId: number) => void;
+    onEdit: (post: PostDetails) => void;
     onVote: (postId: number, isUpvote: boolean) => void;
     onFollow: (postId: number) => void;
     onReport: (postId: number) => void;
+    onShare: (url: string) => void;
 }
 
 export default function DetailedPostActions({
-    postId,
-    isAuthor,
-    upVotes,
-    downVotes,
-    isUpVoted,
-    isDownVoted,
-    numberOfComments,
+    post,
+    onAddCommentClick,
     onDelete,
     onEdit,
     onVote,
     onFollow,
     onReport,
+    onShare,
 }: DetailedPostActionsProps) {
     return (
         <div className="mt-2 flex items-center text-2xl">
             <div className="flex gap-6">
-                <DetailedPostActionButton
+                <ActionIconWithCount
                     Icon={MdThumbUp}
-                    data={upVotes}
-                    isActive={isUpVoted}
-                    onClick={() => onVote(postId, true)}
+                    data={post.upVotes}
+                    isActive={post.isUpVoted}
+                    onClick={() => onVote(post.id, true)}
                 />
-                <DetailedPostActionButton
+                <ActionIconWithCount
                     Icon={MdThumbDown}
-                    data={downVotes}
-                    isActive={isDownVoted}
-                    onClick={() => onVote(postId, false)}
+                    data={post.downVotes}
+                    isActive={post.isDownVoted}
+                    onClick={() => onVote(post.id, false)}
                 />
-                <DetailedPostActionButton
+                <ActionIconWithCount
                     Icon={FaComment}
-                    data={numberOfComments}
+                    data={post.commentsCount}
                 />
+
+                <div
+                    className="flex cursor-pointer items-center gap-2 text-lg hover:text-blue-500 dark:hover:text-blue-400"
+                    onClick={() => onShare(location.href)}
+                >
+                    <FaShare />
+                    <p>Share</p>
+                </div>
             </div>
 
             <div className="ml-8 flex gap-6">
-                <FaShare className="cursor-pointer hover:text-blue-500" />
-                <PostMenu
-                    postId={postId}
-                    isUserAuthor={isAuthor}
+                <ForumPostMenu
+                    post={post}
                     onDelete={onDelete}
                     onEdit={onEdit}
                     onFollow={onFollow}
@@ -66,7 +65,7 @@ export default function DetailedPostActions({
                 />
             </div>
 
-            <AddCommentButton />
+            <AddCommentButton onClick={onAddCommentClick} />
         </div>
     );
 }

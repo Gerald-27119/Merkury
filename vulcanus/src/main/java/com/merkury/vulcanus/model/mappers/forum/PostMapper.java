@@ -27,6 +27,7 @@ public class PostMapper {
                 .tags(post.getTags().stream().map(TagMapper::toDto).toList())
                 .author(AuthorMapper.toDto(post.getAuthor()))
                 .isAuthor(currentUser != null && post.getAuthor().getId().equals(currentUser.getId()))
+                .isFollowed(currentUser != null && post.getFollowers().contains(currentUser))
                 .publishDate(post.getPublishDate())
                 .views(post.getViews())
                 .upVotes(post.getUpVotes())
@@ -45,12 +46,14 @@ public class PostMapper {
                 .id(post.getId())
                 .title(post.getTitle())
                 .slugTitle(slug)
-                .content(summary)
+                .summaryContent(summary)
+                .content(post.getContent())
                 .category(CategoryMapper.toDto(post.getPostCategory()))
                 .tags(post.getTags().stream().map(TagMapper::toDto).toList())
                 .views(post.getViews())
                 .commentsCount(post.getCommentsCount())
                 .isAuthor(currentUser != null && post.getAuthor().getId().equals(currentUser.getId()))
+                .isFollowed(currentUser != null && post.getFollowers().contains(currentUser))
                 .build();
     }
 

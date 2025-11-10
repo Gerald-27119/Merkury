@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostReport extends Report {
+public class PostReport extends ForumReport {
 
     @ManyToOne
     @JoinColumn(name = "post_id")

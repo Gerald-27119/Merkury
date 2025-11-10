@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @MappedSuperclass
 @Data
@@ -26,24 +24,6 @@ public abstract class Comment implements Votable {
     private Integer upVotes = 0;
     @Builder.Default
     private Integer downVotes = 0;
-
-    @Builder.Default
-    @ManyToMany
-    @JoinTable(
-            name = "comment_upVotes",
-            joinColumns = @JoinColumn(name = "comment_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<UserEntity> upVotedBy = new HashSet<>();
-
-    @Builder.Default
-    @ManyToMany
-    @JoinTable(
-            name = "comment_downVotes",
-            joinColumns = @JoinColumn(name = "comment_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<UserEntity> downVotedBy = new HashSet<>();
 
     @Builder.Default
     private LocalDateTime publishDate = LocalDateTime.now();

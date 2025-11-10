@@ -1,8 +1,9 @@
 import axios from "axios";
-import { ForumCommentSortOption } from "../model/enum/forum/forumCommentSortOption";
-import ForumCommentPage from "../model/interface/forum/postComment/forumCommentPage";
-import ForumCommentDto from "../model/interface/forum/postComment/forumCommentDto";
-import ForumCommentReplyPage from "../model/interface/forum/postComment/forumCommentReplyPage";
+import { PostCommentSortOption } from "../model/enum/forum/postCommentSortOption";
+import PostCommentPage from "../model/interface/forum/postComment/postCommentPage";
+import PostCommentDto from "../model/interface/forum/postComment/postCommentDto";
+import PostCommentReplyPage from "../model/interface/forum/postComment/postCommentReplyPage";
+import ForumReportDto from "../model/interface/forum/forumReportDto";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
@@ -10,8 +11,8 @@ export async function getCommentsByPostId(
     postId: number,
     page: number,
     size: number,
-    sortType: ForumCommentSortOption,
-): Promise<ForumCommentPage> {
+    sortType: PostCommentSortOption,
+): Promise<PostCommentPage> {
     const { sortBy, sortDirection } = sortType;
     return (
         await axios.get(`${BASE_URL}/public/post/${postId}/comments`, {
@@ -26,7 +27,7 @@ export async function getCommentRepliesByCommentId(
     size: number,
     lastDate?: string,
     lastId?: number,
-): Promise<ForumCommentReplyPage> {
+): Promise<PostCommentReplyPage> {
     const params: Record<string, any> = { size };
     if (lastDate) params.lastDate = lastDate;
     if (lastId) params.lastId = lastId;
@@ -38,16 +39,25 @@ export async function getCommentRepliesByCommentId(
     ).data;
 }
 
-export async function addComment(postId: number, newComment: ForumCommentDto) {
+export async function addComment({
+    postId,
+    newComment,
+}: {
+    postId: number;
+    newComment: PostCommentDto;
+}) {
     return await axios.post(`${BASE_URL}/post/${postId}/comments`, newComment, {
         withCredentials: true,
     });
 }
 
-export async function editComment(
-    commentId: number,
-    commentData: ForumCommentDto,
-) {
+export async function editComment({
+    commentId,
+    commentData,
+}: {
+    commentId: number;
+    commentData: PostCommentDto;
+}) {
     return await axios.patch(
         `${BASE_URL}/post/comments/${commentId}`,
         commentData,
@@ -63,24 +73,45 @@ export async function deleteComment(commentId: number): Promise<void> {
     });
 }
 
-export async function voteComment(commentId: number, isUpvote: boolean) {
-    await axios.patch(
-        `${BASE_URL}/post/comments/${commentId}/vote`,
-        {},
+export async function voteComment({
+    id,
+    isUpvote,
+}: {
+    id: number;
+    isUpvote: boolean;
+}) {
+    await axios.patch(`${BASE_URL}/post/comments/${id}/vote`, null, {
+        params: { isUpvote },
+        withCredentials: true,
+    });
+}
+
+export async function replyToComment({
+    commentId,
+    replyData,
+}: {
+    commentId: number;
+    replyData: PostCommentDto;
+}) {
+    return await axios.post(
+        `${BASE_URL}/comments/${commentId}/replies`,
+        replyData,
         {
-            params: { isUpvote },
             withCredentials: true,
         },
     );
 }
 
-export async function replyToComment(
-    commentId: number,
-    replyData: ForumCommentDto,
-) {
-    return await axios.post(
-        `${BASE_URL}/comments/${commentId}/replies`,
-        replyData,
+export async function reportComment({
+    commentId,
+    report,
+}: {
+    commentId: number;
+    report: ForumReportDto;
+}) {
+    return await axios.patch(
+        `${BASE_URL}/post/comments/${commentId}/report`,
+        report,
         {
             withCredentials: true,
         },
