@@ -1,8 +1,11 @@
 package com.merkury.vulcanus.features.spot;
 
 import com.merkury.vulcanus.exception.exceptions.SpotMediaNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UserIdByUsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
+import com.merkury.vulcanus.model.dtos.account.media.IsSpotMediaLikedByUserDto;
 import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
+import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import jakarta.persistence.OptimisticLockException;
 import lombok.AllArgsConstructor;
@@ -19,6 +22,7 @@ public class SpotMediaService {
     private final SpotMediaRepository spotMediaRepository;
     private final SpotMediaLikesService spotMediaLikesService;
     private final CustomUserDetailsService customUserDetailsService;
+    private final UserEntityRepository userEntityRepository;
 
     private static final int MAX_RETRIES = 3;
 
@@ -50,5 +54,12 @@ public class SpotMediaService {
         var spotMedia = spotMediaRepository.findById(spotMediaId).orElseThrow(() -> new SpotMediaNotFoundException(spotMediaId));
         spotMedia.setViews(spotMedia.getViews() + 1);
         spotMediaRepository.save(spotMedia);
+    }
+
+    public IsSpotMediaLikedByUserDto checkIsSpotMediaLikedByUser(long spotMediaId) throws UserIdByUsernameNotFoundException {
+        var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        var userId = userEntityRepository.findByUsername(username).orElseThrow(() -> new UserIdByUsernameNotFoundException(username)).getId();
+        var isMediaLiked = spotMediaLikesService.checkIsSpotMediaLikedByUser(spotMediaId, username);
+        return new IsSpotMediaLikedByUserDto(isMediaLiked);
     }
 }

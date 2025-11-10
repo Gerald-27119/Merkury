@@ -4,6 +4,7 @@ import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.spot.SpotMediaService;
 import com.merkury.vulcanus.features.spot.SpotService;
 import com.merkury.vulcanus.features.spot.SpotWeatherService;
+import com.merkury.vulcanus.model.dtos.account.media.IsSpotMediaLikedByUserDto;
 import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryDto;
 import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryPagePosition;
@@ -191,5 +192,10 @@ public class SpotController {
     public ResponseEntity<Void> editSpotMediaLikes(@RequestParam long spotMediaId) throws SpotMediaNotFoundException, UserNotFoundByUsernameException {
         spotMediaService.toggleSpotMediaLikes(spotMediaId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/spot/check-is-spot-media-liked")
+    public ResponseEntity<IsSpotMediaLikedByUserDto> checkIsSpotMediaLikedByUser(@RequestParam long spotMediaId) throws UserIdByUsernameNotFoundException {
+        return ResponseEntity.ok(spotMediaService.checkIsSpotMediaLikedByUser(spotMediaId));
     }
 }

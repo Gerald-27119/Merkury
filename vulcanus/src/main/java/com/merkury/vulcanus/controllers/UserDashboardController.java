@@ -209,9 +209,4 @@ public class UserDashboardController {
     public ResponseEntity<Mono<BorderPoint>> getCoordinates(@RequestParam String query) {
         return ResponseEntity.ok(userDashboardService.getCoordinates(query));
     }
-
-    @GetMapping("/user-dashboard/check-is-spot-media-liked")
-    public ResponseEntity<IsSpotMediaLikedByUserDto> checkIsSpotMediaLikedByUser(@RequestParam long spotMediaId) throws UserIdByUsernameNotFoundException {
-        return ResponseEntity.ok(userDashboardService.checkIsSpotMediaLikedByUser(spotMediaId));
-    }
 }

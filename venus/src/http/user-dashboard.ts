@@ -16,7 +16,7 @@ import SpotCoordinatesDto from "../model/interface/spot/coordinates/spotCoordina
 import { UserFriendStatus } from "../model/enum/account/social/userFriendStatus";
 import IsFavouriteSpotDto from "../model/interface/account/favorite-spots/isFavouriteSpotDto";
 import { FavouriteSpotListOperationType } from "../model/enum/account/favorite-spots/favouriteSpotListOperationType";
-import IsSpotMediaLikedByUserDto from "../model/interface/account/media/isSpotMediaLikedByUserDto";
+
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function getUserOwnProfile(): Promise<UserProfile> {
@@ -448,17 +448,6 @@ export async function addMediaToSpot(
                 headers: { "Content-Type": "multipart/form-data" },
                 params: { spotId },
             },
-        )
-    ).data;
-}
-
-export async function checkIsSpotMediaLikedByUser(
-    spotMediaId: number,
-): Promise<IsSpotMediaLikedByUserDto> {
-    return (
-        await axios.get(
-            `${BASE_URL}/user-dashboard/check-is-spot-media-liked`,
-            { params: { spotMediaId }, withCredentials: true },
         )
     ).data;
 }

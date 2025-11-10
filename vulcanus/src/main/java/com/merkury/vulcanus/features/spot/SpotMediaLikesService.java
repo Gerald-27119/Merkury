@@ -1,6 +1,7 @@
 package com.merkury.vulcanus.features.spot;
 
 import com.merkury.vulcanus.exception.exceptions.SpotMediaNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UserIdByUsernameNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
@@ -33,5 +34,10 @@ public class SpotMediaLikesService {
 
         userEntityRepository.save(user);
         spotMediaRepository.save(spotMedia);
+    }
+
+    public boolean checkIsSpotMediaLikedByUser(long spotMediaId, String username) throws UserIdByUsernameNotFoundException {
+        var userId = userEntityRepository.findByUsername(username).orElseThrow(() -> new UserIdByUsernameNotFoundException(username)).getId();
+        return spotMediaRepository.existsByIdAndLikedBy_Id(spotMediaId, userId);
     }
 }

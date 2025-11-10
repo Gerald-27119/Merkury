@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.features.account.user.dashboard;
 
 import com.merkury.vulcanus.exception.exceptions.UnsupportedDateSortTypeException;
-import com.merkury.vulcanus.exception.exceptions.UserIdByUsernameNotFoundException;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
@@ -9,7 +8,6 @@ import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.enums.user.dashboard.DateSortType;
 import com.merkury.vulcanus.model.mappers.user.dashboard.MediaMapper;
 import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
-import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +21,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MediaService {
     private final SpotMediaRepository spotMediaRepository;
-    private final UserEntityRepository userEntityRepository;
 
     public DatedMediaGroupPageDto getAllUserPhotos(String username, int page, int size) throws UnsupportedDateSortTypeException {
         return getAllUserMedia(username, null, null, GenericMediaType.PHOTO, DateSortType.DATE_ASCENDING, page, size);
@@ -35,11 +32,6 @@ public class MediaService {
 
     public DatedMediaGroupPageDto getSortedUserMovies(String username, DateSortType type, LocalDate from, LocalDate to, int page, int size) throws UnsupportedDateSortTypeException {
         return getAllUserMedia(username, from, to, GenericMediaType.VIDEO, type, page, size);
-    }
-
-    public boolean checkIsSpotMediaLikedByUser(long spotMediaId, String username) throws UserIdByUsernameNotFoundException {
-        var userId = userEntityRepository.findByUsername(username).orElseThrow(() -> new UserIdByUsernameNotFoundException(username)).getId();
-        return spotMediaRepository.existsByIdAndLikedBy_Id(spotMediaId, userId);
     }
 
     private DatedMediaGroupPageDto getAllUserMedia(String username, LocalDate from, LocalDate to, GenericMediaType type, DateSortType sortType, int page, int size) throws UnsupportedDateSortTypeException {
