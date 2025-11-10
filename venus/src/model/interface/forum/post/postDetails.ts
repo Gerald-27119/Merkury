@@ -10,6 +10,7 @@ export default interface PostDetails {
     tags: TagDto[];
     author: ForumAuthorDto;
     isAuthor: boolean;
+    isFollowed: boolean;
     publishDate: string;
     views: number;
     upVotes: number;

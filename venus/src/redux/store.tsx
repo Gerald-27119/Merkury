@@ -20,6 +20,8 @@ import { expandedSpotGalleryMediaListSlice } from "./expanded-spot-gallery-media
 import { expandedSpotMediaGalleryModalsSlice } from "./expanded-spot-media-gallery-modals";
 import { expandedSpotMediaGalleryFullscreenSizeSlice } from "./expanded-spot-media-gallery-fullscreen-size";
 import { expandedSpotGalleryCurrentMediaSlice } from "./expanded-spot-gallery-current-media";
+import { forumModalSlice } from "./forumModal";
+import { forumReportModalSlice } from "./forumReportModal";
 
 // TODO: Add persisting state to localStorage
 const store = configureStore({
@@ -48,6 +50,8 @@ const store = configureStore({
         expandedSpotGalleryCurrentMedia:
             expandedSpotGalleryCurrentMediaSlice.reducer,
         spotAddMediaModal: addSpotMediaModalSlice.reducer,
+        forum: forumModalSlice.reducer,
+        forumReport: forumReportModalSlice.reducer,
     },
 });
 

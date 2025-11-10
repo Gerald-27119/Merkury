@@ -33,4 +33,9 @@ public class ForumExceptionHandler {
     public ResponseEntity<String> handleInvalidPostContentException(Exception ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+
+    @ExceptionHandler(InvalidPostOperationException.class)
+    public ResponseEntity<String> handleInvalidPostOperationException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
 }

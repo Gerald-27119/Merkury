@@ -3,18 +3,20 @@ package com.merkury.vulcanus.features.forum;
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.forum.*;
+import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.forum.PostCategory;
 import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.Tag;
 import com.merkury.vulcanus.model.mappers.forum.CategoryMapper;
 import com.merkury.vulcanus.model.mappers.forum.TagMapper;
 import com.merkury.vulcanus.model.mappers.forum.PostMapper;
-import com.merkury.vulcanus.model.repositories.PostCategoryRepository;
-import com.merkury.vulcanus.model.repositories.PostRepository;
-import com.merkury.vulcanus.model.repositories.TagRepository;
+import com.merkury.vulcanus.model.repositories.forum.PostCategoryRepository;
+import com.merkury.vulcanus.model.repositories.forum.PostRepository;
+import com.merkury.vulcanus.model.repositories.forum.PostTagRepository;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import com.merkury.vulcanus.utils.ForumContentValidator;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +34,9 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final PostCategoryRepository postCategoryRepository;
-    private final TagRepository tagRepository;
+    private final PostTagRepository postTagRepository;
     private final VoteService voteService;
+    private final ReportService reportService;
     private final CustomUserDetailsService customUserDetailsService;
     private final UserEntityFetcher userEntityFetcher;
     private final ForumContentValidator forumContentValidator;
@@ -97,9 +100,35 @@ public class PostService {
         postRepository.save(post);
     }
 
+    public void followPost(Long postId) throws PostNotFoundException, UserNotFoundByUsernameException, InvalidPostOperationException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
+        var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
+
+        if (post.getAuthor().equals(user)) {
+            throw new InvalidPostOperationException("You can't follow your own post.");
+        }
+
+        toggleFollower(post, user);
+        postRepository.save(post);
+    }
+
+    public void reportPost(Long postId, ForumReportDto report) throws PostNotFoundException, UserNotFoundByUsernameException, ContentAlreadyReportedException, OwnContentReportException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
+        var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
+
+        reportService.reportPost(report, post, user);
+    }
+
+    @Transactional
+    public void increasePostViews(Long postId) throws PostNotFoundException {
+        int updated = postRepository.incrementViews(postId);
+        if (updated == 0) throw new PostNotFoundException(postId);
+    }
+
+
     public ForumCategoriesAndTagsDto getAllCategoriesAndTags() {
         var categories = postCategoryRepository.findAll();
-        var tags = tagRepository.findAll();
+        var tags = postTagRepository.findAll();
 
         return new ForumCategoriesAndTagsDto(categories.stream().map(CategoryMapper::toDto).toList(), tags.stream().map(TagMapper::toDto).toList());
     }
@@ -112,7 +141,7 @@ public class PostService {
     private Set<Tag> getTagsByNames(List<String> tagNames) throws TagNotFoundException {
         Set<Tag> tags = new HashSet<>();
         for (String tagName : tagNames) {
-            Tag tag = tagRepository.findByName(tagName)
+            Tag tag = postTagRepository.findByName(tagName)
                     .orElseThrow(() -> new TagNotFoundException(tagName));
             tags.add(tag);
         }
@@ -129,4 +158,15 @@ public class PostService {
         }
         return viewerUsername;
     }
+
+    private void toggleFollower(Post post, UserEntity user) {
+        var followers = post.getFollowers();
+
+        if (followers.contains(user)) {
+            followers.remove(user);
+        } else {
+            followers.add(user);
+        }
+    }
+
 }

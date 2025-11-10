@@ -1,27 +1,125 @@
 import PostDetails from "../../../model/interface/forum/post/postDetails";
 import PostMetaData from "./components/PostMetaData";
-import DetailedPostHeader from "./components/DetailedPostHeader";
+import ForumContentHeader from "./components/ForumContentHeader";
 import DetailedPostContent from "./components/DetailedPostContent";
-import DetailedPostActions from "./components/DetailedPostActions";
-import useForumPostActions from "../../../hooks/useForumPostActions";
 import { useNavigate } from "react-router-dom";
+import Error from "../../../components/error/Error";
+import SkeletonDetailedPost from "./components/SkeletonDetailedPost";
+import DetailedPostActions from "./components/DetailedPostActions";
+import { deletePost, votePost } from "../../../http/posts";
+import { notificationAction } from "../../../redux/notification";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { useAppMutation } from "../../../hooks/useAppMutation";
+import { forumModalAction } from "../../../redux/forumModal";
+import { forumReportModalAction } from "../../../redux/forumReportModal";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 interface DetailedPostProps {
     post: PostDetails;
+    isLoading: boolean;
+    isError: boolean;
+    error: Error | null;
+    onAddCommentClick: () => void;
+    handleFollow: (postId: number) => void;
 }
 
-export default function DetailedPost({ post }: DetailedPostProps) {
-    const { handleDelete, handleEdit, handleVote, handleFollow, handleReport } =
-        useForumPostActions({ redirectOnDelete: true });
+export default function DetailedPost({
+    post,
+    isLoading,
+    isError,
+    error,
+    onAddCommentClick,
+    handleFollow,
+}: DetailedPostProps) {
     const navigate = useNavigate();
+    const dispatch = useDispatchTyped();
+    const isLogged = useSelector((state: RootState) => state.account.isLogged);
+
+    const { mutateAsync: deletePostMutate } = useAppMutation(deletePost, {
+        successMessage: "Post deleted successfully!",
+        loginToAccessMessage: "Login to delete posts",
+        invalidateKeys: [["posts"]],
+    });
+
+    const { mutateAsync: votePostMutate } = useAppMutation(votePost, {
+        invalidateKeys: [["post"]],
+        loginToAccessMessage: "Login to vote",
+    });
+
+    const handleEditClick = async (post: PostDetails) => {
+        let postToEdit = {
+            id: post.id,
+            title: post.title,
+            content: post.content,
+            category: post.category.name,
+            tags: post.tags.map((tag) => tag.name),
+        };
+        dispatch(forumModalAction.openEditModal(postToEdit));
+    };
+
+    const handleDelete = async (postId: number) => {
+        await deletePostMutate(postId);
+        navigate(`/forum`);
+    };
+
+    const handleVote = async (id: number, isUpvote: boolean) => {
+        if (isLogged) {
+            await votePostMutate({ id, isUpvote });
+        } else {
+            dispatch(
+                notificationAction.addInfo({
+                    message: "Login to vote.",
+                }),
+            );
+        }
+    };
+
+    const handlePostShare = async (url: string) => {
+        await navigator.clipboard.writeText(url);
+        dispatch(
+            notificationAction.addSuccess({
+                message: "Copied to clipboard!",
+            }),
+        );
+    };
+
+    const handleReport = async (postId: number) => {
+        if (isLogged) {
+            dispatch(
+                forumReportModalAction.openReportModal({
+                    type: "post",
+                    id: postId,
+                }),
+            );
+        } else {
+            dispatch(
+                notificationAction.addInfo({
+                    message: "Login to report posts.",
+                }),
+            );
+        }
+    };
 
     const handleNavigateToAuthorProfile = () => {
         navigate(`/account/profile/${post.author.username}`);
     };
 
+    if (isLoading) {
+        return (
+            <div>
+                <SkeletonDetailedPost />
+            </div>
+        );
+    }
+
+    if (isError) {
+        return <Error error={error} />;
+    }
+
     return (
         <div className="dark:bg-darkBgSoft mx-auto mb-4 rounded-xl p-6 shadow-lg">
-            <DetailedPostHeader
+            <ForumContentHeader
                 author={post.author}
                 publishDate={post.publishDate}
                 onAuthorClick={handleNavigateToAuthorProfile}
@@ -30,19 +128,16 @@ export default function DetailedPost({ post }: DetailedPostProps) {
                 <PostMetaData category={post.category} tags={post.tags} />
             </div>
             <DetailedPostContent title={post.title} content={post.content} />
+
             <DetailedPostActions
-                postId={post.id}
-                isAuthor={post.isAuthor}
-                upVotes={post.upVotes}
-                downVotes={post.downVotes}
-                isUpVoted={post.isUpVoted}
-                isDownVoted={post.isDownVoted}
-                numberOfComments={post.commentsCount}
+                post={post}
+                onAddCommentClick={onAddCommentClick}
                 onDelete={handleDelete}
-                onEdit={handleEdit}
+                onEdit={handleEditClick}
                 onVote={handleVote}
                 onFollow={handleFollow}
                 onReport={handleReport}
+                onShare={handlePostShare}
             />
         </div>
     );

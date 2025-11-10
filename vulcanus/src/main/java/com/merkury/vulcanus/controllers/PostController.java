@@ -3,7 +3,7 @@ package com.merkury.vulcanus.controllers;
 import com.merkury.vulcanus.exception.exceptions.*;
 import com.merkury.vulcanus.features.forum.PostService;
 import com.merkury.vulcanus.model.dtos.forum.*;
-import com.merkury.vulcanus.model.enums.forum.ForumPostSortField;
+import com.merkury.vulcanus.model.enums.forum.PostSortField;
 import com.merkury.vulcanus.model.enums.forum.SortDirection;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +22,14 @@ public class PostController {
 
     @GetMapping("/public/post/{postId}")
     public ResponseEntity<PostDetailsDto> getDetailedPost(@PathVariable Long postId) throws PostNotFoundException, UserNotFoundByUsernameException {
+        postService.increasePostViews(postId);
         return ResponseEntity.ok(postService.getDetailedPost(postId));
     }
 
     @GetMapping("/public/post")
     public ResponseEntity<Page<PostGeneralDto>> getPostsPage(@RequestParam(defaultValue = "0") int page,
                                                              @RequestParam(defaultValue = "10") int size,
-                                                             @RequestParam(defaultValue = "PUBLISH_DATE") ForumPostSortField sortBy,
+                                                             @RequestParam(defaultValue = "PUBLISH_DATE") PostSortField sortBy,
                                                              @RequestParam(defaultValue = "DESC") SortDirection sortDirection) throws UserNotFoundByUsernameException {
         Page<PostGeneralDto> posts = postService.getPostsPage(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())));
 
@@ -56,6 +57,18 @@ public class PostController {
     @PatchMapping("/post/{postId}/vote")
     public ResponseEntity<Void> votePost(@PathVariable Long postId, @RequestParam boolean isUpvote) throws PostNotFoundException, UserNotFoundByUsernameException {
         postService.votePost(postId, isUpvote);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PatchMapping("/post/{postId}/follow")
+    public ResponseEntity<Void> followPost(@PathVariable Long postId) throws PostNotFoundException, UserNotFoundByUsernameException, InvalidPostOperationException {
+        postService.followPost(postId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PatchMapping("/post/{postId}/report")
+    public ResponseEntity<Void> reportPost(@PathVariable Long postId, @Valid @RequestBody ForumReportDto report) throws PostNotFoundException, UserNotFoundByUsernameException, ContentAlreadyReportedException, OwnContentReportException {
+        postService.reportPost(postId, report);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
