@@ -17,6 +17,12 @@ public class UserDashboardExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
+    @ExceptionHandler(UserIdByUsernameNotFoundException.class)
+    public ResponseEntity<String> handleUserIdByUsernameNotFoundException(UserIdByUsernameNotFoundException ex) {
+        log.error(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
     @ExceptionHandler(FriendshipAlreadyExistException.class)
     public ResponseEntity<String> handleFriendshipAlreadyExistException(FriendshipAlreadyExistException ex) {
         log.error(ex.getMessage());

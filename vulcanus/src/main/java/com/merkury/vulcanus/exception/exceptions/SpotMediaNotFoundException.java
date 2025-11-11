@@ -6,4 +6,7 @@ public class SpotMediaNotFoundException extends Exception {
     public SpotMediaNotFoundException(Long spotId, Long mediaId, GenericMediaType mediaType) {
         super(String.format("Media with id: %d in spot with id %d as %s not found", mediaId, spotId, mediaType));
     }
+    public SpotMediaNotFoundException(Long spotMediaId) {
+        super(String.format("Spot media with id: %d not found", spotMediaId));
+    }
 }

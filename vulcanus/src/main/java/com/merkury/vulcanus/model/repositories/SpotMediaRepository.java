@@ -61,4 +61,7 @@ public interface SpotMediaRepository extends JpaRepository<SpotMedia, Long> {
 
 
     Optional<SpotMedia> findByIdAndSpotIdAndGenericMediaType(Long id, Long spotId, GenericMediaType genericMediaType);
+
+    boolean existsByIdAndLikedBy_Id(Long mediaId, Long userId);
+
 }
