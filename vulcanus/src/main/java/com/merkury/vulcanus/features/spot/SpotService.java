@@ -1,14 +1,20 @@
 package com.merkury.vulcanus.features.spot;
 
+import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.SpotMediaNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
+import com.merkury.vulcanus.features.azure.AzureBlobService;
 import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryDto;
 import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryPagePosition;
 import com.merkury.vulcanus.model.dtos.spot.gallery.SpotSidebarMediaGalleryDto;
 import com.merkury.vulcanus.model.entities.spot.Spot;
+import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.entities.spot.SpotTag;
+import com.merkury.vulcanus.model.enums.AzureBlobFileValidatorType;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.interfaces.ISpotNameOnly;
 import com.merkury.vulcanus.model.interfaces.CityView;
@@ -21,13 +27,18 @@ import com.merkury.vulcanus.model.repositories.SpotRepository;
 import com.merkury.vulcanus.model.specification.SpotSpecification;
 import com.merkury.vulcanus.utils.MapDistanceCalculator;
 import com.merkury.vulcanus.model.repositories.SpotTagRepository;
+import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,6 +49,8 @@ public class SpotService {
     private final SpotRepository spotRepository;
     private final SpotTagRepository spotTagRepository;
     private final SpotMediaRepository spotMediaRepository;
+    private final AzureBlobService azureBlobService;
+    private final UserEntityFetcher userEntityFetcher;
 
     private Pageable configurePageableSorting(Pageable pageable, String sorting) {
         Sort customSort = switch (sorting) {
@@ -74,6 +87,14 @@ public class SpotService {
     public SpotDetailsDto getSpotById(Long id) throws SpotNotFoundException {
         return spotRepository.findByIdWithTags(id).map(SpotMapper::toDetailsDto).orElseThrow(() -> new SpotNotFoundException(id));
     }
+
+    @Transactional
+    public void increaseSpotViewsCount(long spotId) throws SpotNotFoundException {
+        var spot = spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
+        spot.setViewsCount(spot.getViewsCount() + 1);
+        spotRepository.save(spot);
+    }
+
 
     @Cacheable(
             value = "filteredSpots",
@@ -231,5 +252,33 @@ public class SpotService {
         var media = spotMediaRepository.findByIdAndSpotIdAndGenericMediaType(mediaId, spotId, mediaType)
                 .orElseThrow(() -> new SpotMediaNotFoundException(spotId, mediaId, mediaType));
         return SpotMediaMapper.toGalleryDto(media);
+    }
+
+    public void addMediaToSpot(List<MultipartFile> mediaFiles, long spotId, String username) throws UserNotFoundByUsernameException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, SpotNotFoundException {
+        var author = userEntityFetcher.getByUsername(username);
+        var spot = spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
+        List<SpotMedia> entities = new ArrayList<>();
+        if (mediaFiles != null) {
+            for (MultipartFile file : mediaFiles) {
+                String blobUrl = azureBlobService.upload("mapa", file, AzureBlobFileValidatorType.DEFAULT);
+
+                SpotMedia mediaEntity = SpotMedia.builder()
+                        .url(blobUrl)
+                        .alt(file.getOriginalFilename())
+                        .description("")
+                        .genericMediaType(getMediaType(file))
+                        .author(author)
+                        .spot(spot)
+                        .build();
+                entities.add(mediaEntity);
+            }
+        }
+        spotMediaRepository.saveAll(entities);
+    }
+
+    private GenericMediaType getMediaType(MultipartFile file) {
+        var contentType = file.getContentType();
+        if (contentType != null && contentType.startsWith("image")) return GenericMediaType.PHOTO;
+        return GenericMediaType.VIDEO;
     }
 }

@@ -12,6 +12,6 @@ export default interface SpotDetails {
     rating: number;
     ratingCount: number;
     media: SpotMediaDto[];
-    weatherApiCallCoords: SpotCoordinatesDto;
+    centerPoint: SpotCoordinatesDto;
     tags: TagDto[];
 }

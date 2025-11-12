@@ -7,7 +7,12 @@ import com.merkury.vulcanus.model.entities.forum.Post;
 import com.merkury.vulcanus.model.entities.forum.PostComment;
 import com.merkury.vulcanus.model.entities.forum.Tag;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
+import com.merkury.vulcanus.model.interfaces.Votable;
 import com.merkury.vulcanus.model.repositories.*;
+import com.merkury.vulcanus.model.repositories.forum.PostCategoryRepository;
+import com.merkury.vulcanus.model.repositories.forum.PostCommentRepository;
+import com.merkury.vulcanus.model.repositories.forum.PostRepository;
+import com.merkury.vulcanus.model.repositories.forum.PostTagRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,7 +29,7 @@ public class PopulateForumService {
     private final PostRepository postRepository;
     private final PostCommentRepository commentRepository;
     private final PostCategoryRepository postCategoryRepository;
-    private final TagRepository tagRepository;
+    private final PostTagRepository postTagRepository;
     private final UserEntityRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final Random random = new Random();
@@ -34,6 +39,7 @@ public class PopulateForumService {
 
         var postList = new ArrayList<Post>();
         var forumUsers = userRepository.findAll().subList(1, 102);
+        var voteUsers = userRepository.findAll().subList(20, 40);
 
         UserEntity forumUser = UserEntity.builder()
                 .email("forumUser@gmail.com")
@@ -241,10 +247,9 @@ public class PopulateForumService {
                         .author(forumUsers.get(random.nextInt(forumUsers.size())))
                         .post(post)
                         .publishDate(post.getPublishDate().plusDays(i))
-                        .upVotes(random.nextInt(50))
-                        .downVotes(random.nextInt(5))
                         .build();
 
+                assignRandomVotes(comment, voteUsers);
                 generateReplies(comment, post, forumUsers, 1, 3);
                 comments.add(comment);
             }
@@ -255,13 +260,12 @@ public class PopulateForumService {
             allComments.addAll(comments);
         }
 
-
         userRepository.saveAll(List.of(forumUser, forumUserFriend));
         forumUser.getFriendships().add(friendship);
         forumUserFriend.getFriendships().add(reverseFriendship);
         userRepository.saveAll(List.of(forumUser, forumUserFriend));
         postCategoryRepository.saveAll(List.of(postCategory1, postCategory2, postCategory3, postCategory4, postCategory5, postCategory6));
-        tagRepository.saveAll(List.of(tag1, tag2, tag3, tag4, tag5));
+        postTagRepository.saveAll(List.of(tag1, tag2, tag3, tag4, tag5));
         postRepository.saveAll(postList);
         commentRepository.saveAll(allComments);
     }
@@ -289,11 +293,10 @@ public class PopulateForumService {
                     .post(post)
                     .parent(parent)
                     .publishDate(parent.getPublishDate().plusHours(j + depth))
-                    .upVotes(random.nextInt(20))
-                    .downVotes(random.nextInt(3))
                     .build();
 
             parent.getReplies().add(reply);
+            parent.setRepliesCount(parent.getRepliesCount() + 1);
             generateReplies(reply, post, users, depth + 1, maxDepth);
         }
     }
@@ -310,7 +313,7 @@ public class PopulateForumService {
         return count;
     }
 
-    private void assignRandomVotes(Post post, List<UserEntity> users) {
+    private void assignRandomVotes(Votable entity, List<UserEntity> users) {
         Collections.shuffle(users);
         int totalVotes = random.nextInt(users.size());
         int upVoteCount = random.nextInt(totalVotes + 1);
@@ -318,10 +321,10 @@ public class PopulateForumService {
         Set<UserEntity> upVoters = new HashSet<>(users.subList(0, upVoteCount));
         Set<UserEntity> downVoters = new HashSet<>(users.subList(upVoteCount, totalVotes));
 
-        post.setUpVotedBy(upVoters);
-        post.setDownVotedBy(downVoters);
-        post.setUpVotes(upVoters.size());
-        post.setDownVotes(downVoters.size());
+        entity.setUpVotedBy(upVoters);
+        entity.setDownVotedBy(downVoters);
+        entity.setUpVotes(upVoters.size());
+        entity.setDownVotes(downVoters.size());
     }
 
 

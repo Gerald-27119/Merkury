@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getPaginatedSpotComments } from "../../../../http/comments";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import {

@@ -136,16 +136,16 @@ class SpotControllerWithServerStartupTest {
 
         favoriteSpotRepository.deleteAll();
         List<SpotMedia> spotMedia1 = Arrays.asList(
-                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot1),
-                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot1)
+                new SpotMedia(null, null, "photo1.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot1, new HashSet<>()),
+                new SpotMedia(null, null, "photo2.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot1, new HashSet<>())
         );
         List<SpotMedia> spotMedia2 = Arrays.asList(
-                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot2),
-                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot2)
+                new SpotMedia(null, null, "photo1.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot2, new HashSet<>()),
+                new SpotMedia(null, null, "photo2.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot2, new HashSet<>())
         );
         List<SpotMedia> spotMedia3 = Arrays.asList(
-                new SpotMedia(null, "photo1.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot3),
-                new SpotMedia(null, "photo2.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot3)
+                new SpotMedia(null, null, "photo1.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot3, new HashSet<>()),
+                new SpotMedia(null, null, "photo2.jpg", "alt", "description", 0, 0, GenericMediaType.PHOTO, null, null, spot3, new HashSet<>())
         );
 
         spot1.setMedia(spotMedia1);

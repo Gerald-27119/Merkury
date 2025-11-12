@@ -157,10 +157,6 @@ body {
     margin-bottom: 0;
 }
 
-.tiptap-editor-content .ProseMirror:focus {
-    outline: none;
-}
-
 .tiptap {
     height: 100%;
     white-space: pre-wrap;
@@ -223,19 +219,27 @@ body {
     line-height: 0.5;
 }
 
+.tiptap-editor-content .ProseMirror:focus {
+    outline: none;
+}
+
+.tiptap-editor-content li {
+    line-height: 1.5;
+}
+
 .tiptap ul li::before {
     content: "•";
     display: inline-block;
-}
-
-.tiptap ol {
-    counter-reset: list-item;
 }
 
 .tiptap ol li::before {
     content: counter(list-item) ".";
     counter-increment: list-item;
     display: inline-block;
+}
+
+.tiptap ol {
+    counter-reset: list-item;
 }
 
 .sticky-forum-panel {

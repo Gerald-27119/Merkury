@@ -1,100 +1,195 @@
 %! Author = Mateusz Redosz
 %! Date = 20/09/2025
 
+% Słownik pojęć
+
 \newglossaryentry{backend}
 {
     name={Backend},
-    description={Część aplikacji odpowiedzialna za logikę biznesową, przetwarzanie danych i komunikację z bazą danych. Działa po stronie serwera i obsługuje żądania wysyłane przez frontend.}
+    description={Część aplikacji odpowiedzialna za logikę biznesową, przetwarzanie danych i komunikację z bazą danych. Działa po stronie serwera i obsługuje żądania wysyłane przez frontend}
 }
 
 \newglossaryentry{frontend}
 {
     name={Frontend},
-    description={Warstwa aplikacji odpowiedzialna za interfejs użytkownika oraz interakcję z użytkownikiem. Zazwyczaj tworzona przy użyciu technologii takich jak HTML, CSS i JavaScript.}
+    description={Warstwa aplikacji odpowiedzialna za interfejs użytkownika oraz interakcję z użytkownikiem. Zazwyczaj tworzona przy użyciu technologii takich jak HTML, CSS i JavaScript}
 }
 
 \newglossaryentry{baza-danych}
 {
     name={Baza danych},
-    description={Zbiór uporządkowanych danych przechowywanych w sposób umożliwiający ich łatwe wyszukiwanie, modyfikowanie i analizowanie. W aplikacjach najczęściej wykorzystywane są relacyjne lub nierelacyjne bazy danych.}
+    description={Zbiór uporządkowanych danych przechowywanych w sposób umożliwiający ich łatwe wyszukiwanie, modyfikowanie i analizowanie. W aplikacjach najczęściej wykorzystywane są relacyjne lub nierelacyjne bazy danych}
 }
 
 \newglossaryentry{framework}
 {
     name={Framework},
-    description={Zestaw narzędzi, bibliotek i struktur wspomagających tworzenie aplikacji. Ułatwia programowanie poprzez dostarczenie gotowych komponentów oraz określenie zasad organizacji kodu.}
+    description={Zestaw narzędzi, bibliotek i struktur wspomagających tworzenie aplikacji. Ułatwia programowanie poprzez dostarczenie gotowych komponentów oraz określenie zasad organizacji kodu}
 }
 
 \newglossaryentry{review-kodu}
 {
     name={Review kodu},
-    description={Proces polegający na wzajemnym przeglądzie kodu źródłowego przez programistów w celu wykrycia błędów, poprawy jakości oraz zwiększenia spójności projektu.}
+    description={Proces polegający na wzajemnym przeglądzie kodu źródłowego przez programistów w celu wykrycia błędów, poprawy jakości oraz zwiększenia spójności projektu}
 }
 
 \newglossaryentry{jwt}
 {
     name={JWT},
-    description={Skrót od \textit{JSON Web Token}. Standard służący do bezpiecznego przekazywania informacji między stronami w formacie JSON, często używany w procesach autoryzacji użytkowników.}
+    description={Skrót od \textit{JSON Web Token}. Standard służący do bezpiecznego przekazywania informacji między stronami w formacie JSON, często używany w procesach autoryzacji użytkowników}
 }
 
 \newglossaryentry{cicd}
 {
     name={CI/CD},
-    description={Skrót od \textit{Continuous Integration/Continuous Deployment}. Praktyka programistyczna polegająca na automatyzacji procesu budowania, testowania i wdrażania oprogramowania.}
+    description={Skrót od \textit{Continuous Integration/Continuous Deployment}. Praktyka programistyczna polegająca na automatyzacji procesu budowania, testowania i wdrażania oprogramowania}
 }
 
 \newglossaryentry{commit}
 {
     name={Commit},
-    description={Zapis zmian w repozytorium systemu kontroli wersji, który dokumentuje stan projektu w określonym momencie.}
+    description={Zapis zmian w repozytorium systemu kontroli wersji, który dokumentuje stan projektu w określonym momencie}
 }
 
 \newglossaryentry{push}
 {
     name={Push},
-    description={Operacja w systemie kontroli wersji polegająca na wysłaniu lokalnych zmian (commitów) do zdalnego repozytorium.}
+    description={Operacja w systemie kontroli wersji polegająca na wysłaniu lokalnych zmian (commitów) do zdalnego repozytorium}
 }
 
 \newglossaryentry{spot}
 {
     name={Spot},
-    description={Spotkanie zespołu projektowego, zazwyczaj krótkie i regularne, służące omówieniu postępów prac, problemów oraz planów na najbliższy okres.}
+    description={Spotkanie zespołu projektowego, zazwyczaj krótkie i regularne, służące omówieniu postępów prac, problemów oraz planów na najbliższy okres}
 }
 
 \newglossaryentry{sidebar}
 {
     name={Sidebar},
-    description={Boczny panel w interfejsie użytkownika, zawierający menu nawigacyjne lub dodatkowe opcje funkcjonalne aplikacji.}
+    description={Boczny panel w interfejsie użytkownika, zawierający menu nawigacyjne lub dodatkowe opcje funkcjonalne aplikacji}
 }
 
 \newglossaryentry{design}
 {
     name={Design},
-    description={Etap lub proces projektowania wyglądu i funkcjonalności aplikacji, obejmujący zarówno aspekty wizualne, jak i użytkowe (UX/UI).}
+    description={Etap lub proces projektowania wyglądu i funkcjonalności aplikacji, obejmujący zarówno aspekty wizualne, jak i użytkowe (UX/UI)}
 }
 
 \newglossaryentry{folder-by-type}
 {
     name={Folder by type},
-    description={Sposób organizowania struktury katalogów w projekcie, w którym pliki są grupowane według rodzaju (typu) zasobu, a nie według funkcjonalności. Na przykład wszystkie komponenty trafiają do jednego folderu, wszystkie style do innego itd.}
+    description={Sposób organizowania struktury katalogów w projekcie, w którym pliki są grupowane według rodzaju (typu) zasobu, a nie według funkcjonalności. Na przykład wszystkie komponenty trafiają do jednego folderu, wszystkie style do innego itd}
 }
 
-\newglossaryentry{bibliote}
+\newglossaryentry{biblioteka}
 {
-    name={Bibliote},
-    description={Zewnętrzny lub wewnętrzny zestaw gotowych funkcji, klas, komponentów lub modułów, który można wielokrotnie wykorzystywać w projekcie zamiast pisać wszystko od zera.}
+    name={Biblioteka},
+    description={Zewnętrzny lub wewnętrzny zestaw gotowych funkcji, klas, komponentów lub modułów, który można wielokrotnie wykorzystywać w projekcie zamiast pisać wszystko od zera}
 }
 
 \newglossaryentry{protected-route}
 {
     name={Protected route},
-    description={Trasa w aplikacji, do której dostęp jest ograniczony, zwykle tylko dla zalogowanych użytkowników lub użytkowników z odpowiednimi uprawnieniami. Jeżeli użytkownik nie spełnia warunków, jest przekierowywany.}
+    description={Trasa w aplikacji, do której dostęp jest ograniczony, zwykle tylko dla zalogowanych użytkowników lub użytkowników z odpowiednimi uprawnieniami. Jeżeli użytkownik nie spełnia warunków, jest przekierowywany (np. na stronę główną)}
 }
 
 \newglossaryentry{wzorzec}
 {
     name={Wzorzec},
-    description={Powtarzalne, sprawdzone rozwiązanie typowego problemu projektowego lub architektonicznego. Wzorzec opisuje \emph{jak} coś organizować lub implementować, żeby było czytelne, skalowalne i łatwe w utrzymaniu.}
+    description={Powtarzalne, sprawdzone rozwiązanie typowego problemu projektowego lub architektonicznego. Wzorzec opisuje \emph{jak} coś organizować lub implementować, żeby było czytelne, skalowalne i łatwe w utrzymaniu}
+}
+
+\newglossaryentry{DAD_LLC}
+{
+    name={Disciplined Agile Delivery - Lean Life Cycle},
+    description={
+        Disciplined Agile Delivery w wariancie Lean Life Cycle to sposób prowadzenia projektu,
+        który łączy elastyczność Agile z przewidywalnością Waterfalla,
+        ale bez stałych sprintów — praca toczy się w ciągłym przepływie.
+        Na starcie zakłada mocniejszą fazę przygotowawczą: doprecyzowanie zakresu,
+        szkic architektury, identyfikację ryzyk i kryteria jakości.
+        W realizacji następuje ciągłe doprecyzowywanie wymagań
+        i backlogu, oparte na regularnym feedbacku udziałowców.
+        Całość opiera się na praktykach Lean oraz lekkim governance:
+        code review i regularnych przeglądach postępów.
+    }
+}
+
+\newglossaryentry{operator-drona}
+{
+    name={Operator drona},
+    description={Osoba lub podmiot będący właścicielem floty dronów. Może posiadać jeden lub wiele dronów. Droniarz rekreacyjny jest zazwyczaj jednocześnie operatorem floty oraz pilotem.}
+}
+
+\newglossaryentry{pilot-drona}
+{
+    name={Pilot drona},
+    description={Osoba posiadająca uprawnienia do pilotowania drona (jeżeli są wymagane) i wykonująca loty dronem. Droniarz rekreacyjny jest zazwyczaj jednocześnie pilotem oraz operatorem floty.}
+}
+
+\newglossaryentry{droniarz}
+{
+    name={Droniarz},
+    plural={droniarze},
+    description={Potoczne określenie osoby, która jest jednocześnie pilotem oraz operatorem drona. Zwykle entuzjasta dronów.}
+}
+
+\newglossaryentry{PANSA}
+{
+    name={PANSA},
+    description={
+        Polish Air Navigation Services Agency, pol. Polska Agencja Żeglugi Powietrznej.
+        Instytucja ta zapewnia m.in. mapę z zaznaczonymi strefami lotów.
+        Każda strefa ma swoje właściwości prawne.
+    }
+}
+
+\newglossaryentry{pilot-fpv}
+{
+    name={Pilot FPV},
+    description={Pilot drona latający w trybie \textit{First Person View} (FPV),
+    korzystający z gogli przekazujących obraz z kamery pokładowej.}
+}
+
+\newglossaryentry{droniarz-fpv}
+{
+    name={Droniarz FPV},
+    description={\glsentrydesc{pilot-fpv}}
+}
+
+\newglossaryentry{droniarz-foto-video}
+{
+    name={Droniarz foto/video},
+    description={Pilot wykorzystujący drony fotograficzne/filmowe do rejestracji materiałów wizualnych
+    (zdjęcia, wideo), zwykle z naciskiem na stabilizację i jakość obrazu.},
+    user1={droniarzem foto/video}
+}
+
+\newglossaryentry{droniarz-foto}
+{
+    name={Droniarz foto},
+    description={\glsentrydesc{droniarz-foto-video}}
+}
+
+\newglossaryentry{droniarz-fotograf}
+{
+    name={Droniarz fotograf},
+    description={\glsentrydesc{droniarz-foto-video}}
+}
+
+\newglossaryentry{pilot-foto}
+{
+    name={Pilot foto},
+    description={\glsentrydesc{droniarz-foto-video}}
+}
+
+\newglossaryentry{azure-blob-storage}
+{
+    name={Azure Blob Storage},
+    description={Usługa magazynu obiektowego w chmurze Microsoft Azure do przechowywania
+    nieustrukturyzowanych danych (\textit{blobs}) takich jak obrazy, wideo i pliki.
+    Udostępnia kontenery, warstwy dostępu, wersjonowanie oraz tokeny SAS; często używana
+    do hostowania multimediów w aplikacjach webowych.}
 }
 
 \newglossaryentry{stan}{
@@ -106,3 +201,44 @@
     name={UI},
     description={Interfejs użytkownika (ang. \textit{User Interface}); warstwa prezentacji odpowiedzialna za sposób wyświetlania danych oraz interakcji użytkownika z aplikacją.}
 }
+
+\newglossaryentry{hook}{
+    name={Hook (React)},
+    description={Prosta funkcja w React, która „dodaje” możliwości do elementu interfejsu — np. pozwala mu coś zapamiętać (stan) albo zrobić coś po zmianie/załadowaniu. Wszystkie hooki zaczynają się od \texttt{use...} (np. \texttt{useState}, \texttt{useEffect}).}
+}
+
+\newglossaryentry{css}{
+    name={CSS},
+    description={Kaskadowe arkusze stylów (Cascading Style Sheets) — język opisu prezentacji dokumentów (np. HTML). Definiuje wygląd interfejsu: układ, kolory, typografię, odstępy, animacje i zachowania responsywne, oddzielając warstwę treści od warstwy prezentacji.}
+}
+
+\newglossaryentry{responsywnosc}{
+    name={Responsywność},
+    description={Określenie związane z projektowaniem responsywnym (Responsive Web Design, RWD), czyli dostosowywaniem interfejsu do różnych rozmiarów i parametrów ekranów. Obejmuje m.in. elastyczne siatki, grafiki i \gls{media-queries}, tak aby układ i czytelność były zachowane na telefonach, tabletach i desktopach.}
+}
+
+\newglossaryentry{props}{
+    name={Props},
+    description={Właściwości przekazywane do komponentu React przez komponent nadrzędny; służą do konfiguracji i przekazywania danych. Powinny być traktowane jako tylko do odczytu (read-only) wewnątrz komponentu potomnego.}
+}
+
+\newglossaryentry{react}{
+    name={React},
+    description={Biblioteka JavaScript do budowy interfejsów użytkownika w oparciu o komponenty deklaratywne i wirtualny DOM. Zapewnia jednokierunkowy przepływ danych oraz zarządzanie stanem komponentów.}
+}
+
+\newglossaryentry{type-script}{
+    name={TypeScript},
+    description={Rozszerzenie do języka JavaScript dodający statyczne typowanie, interfejsy i narzędzia do większych projektów. Kompiluje się do czystego JavaScript, ułatwiając wykrywanie błędów w czasie kompilacji i refaktoryzację.}
+}
+
+\newglossaryentry{redux}{
+    name={Redux},
+    description={Biblioteka do przewidywalnego zarządzania stanem aplikacji. Opiera się na jednym \emph{store}, akcjach i czystych \emph{reducerach}, promuje niemutowalność i jednokierunkowy przepływ danych. Często używana z Reactem, ale niezależna od niego.}
+}
+
+\newglossaryentry{media-queries}{
+    name={Media queries},
+    description={Konstrukcja CSS pozwalająca stosować reguły stylów w zależności od cech urządzenia/okna (np. szerokości ekranu, orientacji, preferencji użytkownika). Podstawa responsywnego projektowania (\emph{responsive design}).}
+}
+

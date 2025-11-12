@@ -72,6 +72,7 @@ export default function ExpandedMediaDisplay() {
                         <ExpandedGalleryPanel
                             url={currentMedia.url}
                             likes={currentMedia.likesNumber}
+                            spotMediaId={currentMedia.id}
                         />
                     </div>
                 </>

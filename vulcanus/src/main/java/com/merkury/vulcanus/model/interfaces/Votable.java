@@ -9,5 +9,7 @@ public interface Votable {
     Set<UserEntity> getDownVotedBy();
     void setUpVotes(Integer upVotes);
     void setDownVotes(Integer downVotes);
+    void setUpVotedBy(Set<UserEntity> upVotedBy);
+    void setDownVotedBy(Set<UserEntity> downVotedBy);
 }
 

@@ -4,7 +4,23 @@
 \usepackage{glossaries}
 \usepackage[polish]{babel}
 \usepackage{import}
-\usepackage{float}
+\usepackage{csquotes}
+\usepackage{float}% ma pomoc z bugiem ze tabelki/zdjęcia przenoszą sie na koniec rozdziału
+
+%nowe pakiety do tabel:
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array,ltablex}
+\keepXColumns
+
+%customowe rozmiary kolumn (do użytku ogolonego)
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{Y}{>{\hspace{0.6em}}X<{\hspace{0.6em}}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+% używam w "zewnętrzne-usługi"
+\newcounter{integrationcard}[chapter]
+\renewcommand{\theintegrationcard}{\thechapter.\arabic{integrationcard}}
 
 %JSON Coloring
 \lstdefinelanguage{json}{
@@ -35,11 +51,6 @@
     stringstyle=\color{green!40!black}
 }
 
-
-
-
-\makeglossaries
-\addbibresource{bibliography.bib}
 
 \input{glossary}
 
@@ -98,6 +109,13 @@
 \keyword{--- brak ---}%todo nie wiem czy bedzie potrzebne ale zostawiam żeby było
 
 
+\addbibresource{bibliography.bib}
+\makeglossaries
+
+% odmiana wpisów ze słowniczka:
+\newcommand{\glsdroniarzFotoVideoInstr}{%
+    \glslink{droniarz-foto-video}{\glsentryuseri{droniarz-foto-video}}%
+}
 
 
 \begin{document}
@@ -105,16 +123,10 @@
     \maketitle
     \makeprojectcard
 
-    %Spis treści
     \tableofcontents
     \clearpage
 
     \input{chapters/wstep/wstep}
-
-    % Słownik pojęć i skrótów
-%    \printglossary[type=\acronymtype]
-    \printglossary[title={Słownik pojęć i skrótów},toctitle={Słownik pojęć i skrótów}]
-
     \input{chapters/opis-problemu/opis-problemu}
     \input{chapters/planowanie/planowanie}
     \input{chapters/analiza-wymagan/analiza-wymagan}
@@ -126,7 +138,23 @@
     \input{chapters/naklad-pracy/naklad-pracy}
     \input{chapters/podsumowanie/podsumowanie}
 
-    \printbibliography[title={Bibliografia}, heading=bibintoc]
+    \chapter{Słownik pojęć i skrótów}
+    \label{ch:sownik-pojec-i-skrotow}
+    \setglossarysection{section}
+    \vspace*{-2\baselineskip}
+    \printglossary[type=\acronymtype, title={}, toctitle={}]
+
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Spis tabel}
+    \renewcommand{\listtablename}{Spis tabel}
+    \listoftables
+
+    \printbibliography[title={}, heading=bibintoc]
+
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Załączniki}
     \makethesisattachments
 
 \end{document}
