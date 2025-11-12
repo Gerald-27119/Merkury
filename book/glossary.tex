@@ -269,7 +269,7 @@
     description={Architektura budowania usług sieciowych komunikujących poprzez metody protokołu HTTP (GET, PUT, POST, DELETE, PATCH).
     Wymiana danych występuje często w formacie JSON lub XML.
     REST \gls{API} musi spełniać następujące reguły:
-    \begin{enumerate}[nosep]
+    \protect\begin{enumerate}[nosep]
         \item \textbf{Rozdzielenie klient-serwer}
 
         Klient i serwer są od siebie niezależne, komunikują się poprzez interfejs.
@@ -284,13 +284,13 @@
         \item \textbf{Jednolity interfejs}
 
         Serwer definiuje jednolity intefejs poprzez zasady:
-        \begin{itemize}[nosep]
+        \protect\begin{itemize}[nosep]
             \item Identyfikacja zasobów - każdy zasób musi być jednoznacznie (unikatowo) zidentyfikowany w interakcji klient-serwer.
             \item Manipulacja zasobów poprzez reprezentacje - po otrzymaniu reprezentacji zasobu, klient może zmienić stan zasobu poprzez przesłanie zmodyfikowanej reprezentacji.
             \item Samoopisujące się wiadomości - każde żądanie i odpowiedź powinny zawierać informacje do jego poprawnego przetworzenia.
             \item Hypermedia jako silnik stanu aplikacji (HATEOAS) - po otrzymaniu odpowiedzi z serwera, klient powinien móc dynamicznie poznać inne interakcje poprzez linki.
-        \end{itemize}
+        \protect\end{itemize}
         \item \textbf{Warstwowość}
-    \end{enumerate}
+    \protect\end{enumerate}
     }
 }
