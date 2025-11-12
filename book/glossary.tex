@@ -265,32 +265,24 @@
 }
 
 \longnewglossaryentry{rest_api}{
-    name={REST \gls{API}},
-    description={Architektura budowania usług sieciowych komunikujących poprzez metody protokołu HTTP (GET, PUT, POST, DELETE, PATCH).
-    Wymiana danych występuje często w formacie JSON lub XML.
-    REST \gls{API} musi spełniać następujące reguły:
-    \protect\begin{enumerate}[nosep]
-        \item \textbf{Rozdzielenie klient-serwer}
-
-        Klient i serwer są od siebie niezależne, komunikują się poprzez interfejs.
-        \item \textbf{Bezstanowość}
-
-        Każde żądanie przez klienta zawiera wszystkie informacje niezbędne do jego obsłużenia.
+    name={REST API}
+}{
+    Architektura budowania usług sieciowych komunikujących poprzez metody protokołu HTTP (GET, PUT, POST, DELETE, PATCH).%
+    Wymiana danych występuje często w formacie JSON lub XML.\\[0.5em]
+    REST API musi spełniać następujące reguły:
+    \begin{enumerate}[nosep]
+        \item \textbf{Rozdzielenie klient-serwer} — klient i serwer są od siebie niezależne, komunikują się poprzez interfejs.
+        \item \textbf{Bezstanowość} — każde żądanie przez klienta zawiera wszystkie informacje niezbędne do jego obsłużenia.
         Po otrzymaniu żądania serwer nie przechowuje o nim żadnych informacji.
-        \item \textbf{Buforowalność (cache)}
-
-        Odpowiedzi z \gls{API} powinny informować czy dane są możliwe do cachewania.
-        Jeśli tak, to przy kolejnym żądaniu powinny być zwrócone z cachea.
-        \item \textbf{Jednolity interfejs}
-
-        Serwer definiuje jednolity intefejs poprzez zasady:
-        \protect\begin{itemize}[nosep]
-            \item Identyfikacja zasobów - każdy zasób musi być jednoznacznie (unikatowo) zidentyfikowany w interakcji klient-serwer.
-            \item Manipulacja zasobów poprzez reprezentacje - po otrzymaniu reprezentacji zasobu, klient może zmienić stan zasobu poprzez przesłanie zmodyfikowanej reprezentacji.
-            \item Samoopisujące się wiadomości - każde żądanie i odpowiedź powinny zawierać informacje do jego poprawnego przetworzenia.
-            \item Hypermedia jako silnik stanu aplikacji (HATEOAS) - po otrzymaniu odpowiedzi z serwera, klient powinien móc dynamicznie poznać inne interakcje poprzez linki.
-        \protect\end{itemize}
+        \item \textbf{Buforowalność (cache)} — odpowiedzi z API powinny informować, czy dane można cache’ować.
+        Jeśli tak, to przy kolejnym żądaniu mogą być zwrócone z cache’a.
+        \item \textbf{Jednolity interfejs}:
+        \begin{itemize}[nosep]
+            \item Identyfikacja zasobów – każdy zasób musi być jednoznacznie zidentyfikowany w interakcji klient-serwer.
+            \item Manipulacja zasobów poprzez reprezentację – po otrzymaniu reprezentacji klient może zmienić stan zasobu przesyłając zmodyfikowaną reprezentację.
+            \item Samoopisujące się wiadomości – każde żądanie i odpowiedź powinny zawierać informacje do jego poprawnego przetworzenia.
+            \item Hypermedia jako silnik stanu aplikacji (HATEOAS) – po otrzymaniu odpowiedzi klient powinien móc dynamicznie poznać inne interakcje przez linki.
+        \end{itemize}
         \item \textbf{Warstwowość}
-    \protect\end{enumerate}
-    }
+    \end{enumerate}
 }
