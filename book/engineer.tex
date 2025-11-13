@@ -6,9 +6,9 @@
 \usepackage{import}
 \usepackage{csquotes}
 \usepackage{float}% ma pomoc z bugiem ze tabelki/zdjęcia przenoszą sie na koniec rozdziału
+\usepackage{minted}
 
 %nowe pakiety do tabel:
-\usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage{array,ltablex}
 \keepXColumns
@@ -21,36 +21,6 @@
 % używam w "zewnętrzne-usługi"
 \newcounter{integrationcard}[chapter]
 \renewcommand{\theintegrationcard}{\thechapter.\arabic{integrationcard}}
-
-%JSON Coloring
-\lstdefinelanguage{json}{
-    basicstyle=\footnotesize\ttfamily,
-    showstringspaces=false,
-    breaklines=true,
-    frame=single,
-    framerule=0pt,
-    backgroundcolor=\color{gray!3},
-    literate=
-    *{true}{{{\color{blue}\bfseries true}}}4
-        {false}{{{\color{blue}\bfseries false}}}5
-        {null}{{{\color{magenta}\bfseries null}}}4
-        {:}{{{\color{black}:{}}}}1
-        {,}{{{\color{black},{}}}}1
-        {"}{{{\color{gray}"}}}1
-        {0}{{{\color{purple!70!black}0}}}1
-        {1}{{{\color{purple!70!black}1}}}1
-        {2}{{{\color{purple!70!black}2}}}1
-        {3}{{{\color{purple!70!black}3}}}1
-        {4}{{{\color{purple!70!black}4}}}1
-        {5}{{{\color{purple!70!black}5}}}1
-        {6}{{{\color{purple!70!black}6}}}1
-        {7}{{{\color{purple!70!black}7}}}1
-        {8}{{{\color{purple!70!black}8}}}1
-        {9}{{{\color{purple!70!black}9}}}1,
-    morestring=[b]",
-    stringstyle=\color{green!40!black}
-}
-
 
 \input{glossary}
 
