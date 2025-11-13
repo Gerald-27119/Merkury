@@ -18,7 +18,7 @@ import ScreenSizeDto from "../../../../../model/screenSizeDto";
 export default function WeatherTimelinePlot() {
     const [plotSize, setPlotSize] = useState<ScreenSizeDto>({
         width: 5000,
-        height: 400,
+        height: 430,
     });
 
     const screenSize = useScreenSize();
@@ -77,15 +77,17 @@ export default function WeatherTimelinePlot() {
                                         ),
                                     ),
                                 ),
-                            ],
+                            ], //TODO: values of y causes the positioning problem in CustomTickLabel, it is based on them
                             y: [
                                 Math.min(...data.map((d) => d.temperature)) - 2,
                                 Math.max(...data.map((d) => d.temperature)) + 2,
+                                // 20,
+                                // 20,
                             ],
                         }}
                         scale={{ x: "time" }}
                         theme={VictoryTheme.clean}
-                        padding={{ top: 80, bottom: 60, left: 50, right: 50 }}
+                        padding={{ top: 80, bottom: 30, left: 50, right: 50 }}
                         width={plotSize.width}
                         height={plotSize.height}
                         containerComponent={
