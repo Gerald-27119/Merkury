@@ -51,7 +51,7 @@ export default function PostCommentList({
                 />
             )}
 
-            <div className="dark:bg-darkBgSoft mb-4 rounded-xl p-4 shadow-lg dark:shadow-none">
+            <div className="dark:bg-darkBgSoft bg-lightBgSoft mb-4 rounded-xl p-4 shadow-lg dark:shadow-none">
                 <AnimatePresence mode="wait">
                     {isLoading ? (
                         <motion.div

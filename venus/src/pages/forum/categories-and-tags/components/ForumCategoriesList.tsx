@@ -13,7 +13,7 @@ export default function ForumCategoriesList({
         <div className="p-4">
             <span>Categories</span>
             {categories?.length ? (
-                <div className="mt-2 whitespace-nowrap">
+                <div className="mt-2">
                     <ul>
                         {categories.map((category) => (
                             <li key={category.id}>

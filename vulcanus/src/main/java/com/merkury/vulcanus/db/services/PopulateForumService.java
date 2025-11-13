@@ -135,7 +135,7 @@ public class PopulateForumService {
                 .tags(Set.of(tag1, tag2))
                 .views(254)
                 .author(forumUser)
-                .publishDate(LocalDateTime.of(2024, 7, 3, 12, 15))
+                .publishDate(LocalDateTime.of(2025, 10, 15, 12, 15))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -149,7 +149,7 @@ public class PopulateForumService {
                 .tags(Set.of(tag1))
                 .views(403)
                 .author(forumUser)
-                .publishDate(LocalDateTime.of(2024, 8, 22, 10, 20))
+                .publishDate(LocalDateTime.of(2025, 10, 22, 10, 20))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -163,7 +163,7 @@ public class PopulateForumService {
                 .tags(Set.of(tag3))
                 .views(189)
                 .author(forumUser)
-                .publishDate(LocalDateTime.of(2024, 6, 5, 9, 10))
+                .publishDate(LocalDateTime.of(2025, 10, 28, 9, 10))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -178,7 +178,7 @@ public class PopulateForumService {
                 .tags(new HashSet<>())
                 .views(327)
                 .author(forumUser)
-                .publishDate(LocalDateTime.of(2024, 9, 19, 14, 35))
+                .publishDate(LocalDateTime.of(2025, 11, 3, 14, 35))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -194,7 +194,7 @@ public class PopulateForumService {
                 .tags(Set.of(tag4))
                 .views(518)
                 .author(forumUser)
-                .publishDate(LocalDateTime.of(2024, 10, 30, 17, 5))
+                .publishDate(LocalDateTime.of(2025, 11, 10, 17, 5))
                 .comments(new ArrayList<>())
                 .build();
 

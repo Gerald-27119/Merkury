@@ -2,10 +2,10 @@ import React, { ReactNode } from "react";
 import AddPostButton from "./components/AddPostButton";
 import ForumCategoriesTagsPanel from "./categories-and-tags/components/ForumCategoriesTagsPanel";
 import ForumSearchBar from "./components/ForumSearchBar";
-import RightPanel from "./components/RightPanel";
+import TrendingPostsPanel from "./components/TrendingPostsPanel";
 import ForumAddPostModal from "./components/ForumAddPostModal";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCategoriesAndTags } from "../../http/posts";
+import { fetchCategoriesAndTags, fetchTrendingPosts } from "../../http/posts";
 import { notificationAction } from "../../redux/notification";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -38,6 +38,16 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
         queryFn: () => fetchCategoriesAndTags(),
     });
 
+    const {
+        data: trendingPosts,
+        isLoading: isTrendingPostsLoading,
+        isError: isTrendingPostsError,
+        error: trendingPostsError,
+    } = useQuery({
+        queryKey: ["trendingPosts"],
+        queryFn: () => fetchTrendingPosts(),
+    });
+
     const handleAddPostClick = () => {
         if (isLogged) {
             dispatch(forumModalAction.openCreateModal());
@@ -66,9 +76,14 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
 
                 <div>{children}</div>
 
-                <div className="sticky-forum-panel">
+                <div className="sticky-forum-panel w-58">
                     <ForumSearchBar />
-                    <RightPanel />
+                    <TrendingPostsPanel
+                        data={trendingPosts}
+                        isLoading={isTrendingPostsLoading}
+                        isError={isTrendingPostsError}
+                        error={trendingPostsError}
+                    />
                 </div>
                 <ForumAddPostModal
                     onClose={() => dispatch(forumModalAction.closeModal())}

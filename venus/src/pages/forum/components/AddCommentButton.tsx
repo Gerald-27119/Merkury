@@ -7,7 +7,7 @@ interface AddCommentButtonProps {
 export default function AddCommentButton({ onClick }: AddCommentButtonProps) {
     return (
         <div
-            className="dark:bg-violetDark bg-violetLight/80 dark:hover:bg-violetDarker hover:bg-violetLight ml-auto flex cursor-pointer items-center gap-1 rounded-3xl px-3 py-2 font-bold"
+            className="dark:bg-violetDark bg-violetLight text-darkText dark:hover:bg-violetDarker hover:bg-violetLight ml-auto flex cursor-pointer items-center gap-1 rounded-3xl px-3 py-2 font-bold"
             onClick={onClick}
         >
             <FiPlus className="text-2xl" />

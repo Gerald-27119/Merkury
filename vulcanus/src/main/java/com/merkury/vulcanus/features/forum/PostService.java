@@ -24,6 +24,7 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -56,6 +57,13 @@ public class PostService {
         var user = userName != null ? userEntityFetcher.getByUsername(userName) : null;
 
         return postsPage.map(post -> PostMapper.toGeneralDto(post, user));
+    }
+
+    public List<TrendingPostDto> getTrendingPosts(Pageable pageable) {
+        LocalDateTime monthAgo = LocalDateTime.now().minusMonths(1);
+        List<Post> trending = postRepository.findTopTrendingPosts(monthAgo, pageable);
+
+        return trending.stream().map(PostMapper::toTrendingDto).toList();
     }
 
     public void addPost(PostDto dto) throws CategoryNotFoundException, TagNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {

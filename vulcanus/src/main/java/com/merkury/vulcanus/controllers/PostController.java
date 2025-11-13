@@ -14,6 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+
 @RestController
 @RequiredArgsConstructor
 public class PostController {
@@ -34,6 +37,12 @@ public class PostController {
         Page<PostGeneralDto> posts = postService.getPostsPage(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())));
 
         return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/public/post/trending")
+    public ResponseEntity<List<TrendingPostDto>> getTrendingPosts(
+            @RequestParam(defaultValue = "3") int size) {
+        return ResponseEntity.ok(postService.getTrendingPosts(PageRequest.of(0, size)));
     }
 
     @PostMapping("/post")
