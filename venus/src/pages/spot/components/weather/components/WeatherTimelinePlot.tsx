@@ -15,10 +15,13 @@ import CustomTickLabel from "./CustomTickLabel";
 import useScreenSize from "../../../../../hooks/useScreenSize";
 import ScreenSizeDto from "../../../../../model/screenSizeDto";
 
+const VIRTUAL_Y_MIN = 0;
+const VIRTUAL_Y_MAX = 100;
+
 export default function WeatherTimelinePlot() {
     const [plotSize, setPlotSize] = useState<ScreenSizeDto>({
         width: 5000,
-        height: 430,
+        height: 460,
     });
 
     const screenSize = useScreenSize();
@@ -54,6 +57,18 @@ export default function WeatherTimelinePlot() {
     if (isError) {
         return <p>Failed to load data for timeline plot.</p>;
     }
+
+    const actualMin = data
+        ? Math.min(...data.map((d) => d.temperature)) - 1
+        : 0;
+    const actualMax = data
+        ? Math.max(...data.map((d) => d.temperature)) + 1
+        : 100;
+    const span = actualMax - actualMin || 1;
+    const mapY = (temp: number) =>
+        VIRTUAL_Y_MIN +
+        ((temp - actualMin) / span) * (VIRTUAL_Y_MAX - VIRTUAL_Y_MIN);
+
     return (
         isSuccess &&
         data && (
@@ -77,17 +92,12 @@ export default function WeatherTimelinePlot() {
                                         ),
                                     ),
                                 ),
-                            ], //TODO: values of y causes the positioning problem in CustomTickLabel, it is based on them
-                            y: [
-                                Math.min(...data.map((d) => d.temperature)) - 2,
-                                Math.max(...data.map((d) => d.temperature)) + 2,
-                                // 20,
-                                // 20,
                             ],
+                            y: [VIRTUAL_Y_MIN, VIRTUAL_Y_MAX],
                         }}
                         scale={{ x: "time" }}
                         theme={VictoryTheme.clean}
-                        padding={{ top: 80, bottom: 30, left: 50, right: 50 }}
+                        padding={{ top: 90, bottom: 60, left: 50, right: 50 }}
                         width={plotSize.width}
                         height={plotSize.height}
                         containerComponent={
@@ -97,7 +107,6 @@ export default function WeatherTimelinePlot() {
                         <VictoryAxis
                             orientation="top"
                             tickValues={data.map((d) => new Date(d.time))}
-                            tickFormat={() => ""}
                             tickLabelComponent={<CustomTickLabel data={data} />}
                             style={{
                                 tickLabels: { fontSize: 12 },
@@ -109,7 +118,7 @@ export default function WeatherTimelinePlot() {
                             data={data.map((d) => {
                                 return {
                                     x: new Date(d.time),
-                                    y: d.temperature,
+                                    y: mapY(d.temperature),
                                 };
                             })}
                             style={{ data: { stroke: "#ece9e9" } }}
@@ -120,7 +129,7 @@ export default function WeatherTimelinePlot() {
                             data={data.map((d) => {
                                 return {
                                     x: new Date(d.time),
-                                    y: d.temperature,
+                                    y: mapY(d.temperature),
                                 };
                             })}
                             style={{ data: { fill: "white" } }}
