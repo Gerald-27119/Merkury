@@ -1,13 +1,8 @@
-import { FaPhotoVideo } from "react-icons/fa";
-import { FaSearch } from "react-icons/fa";
 import { ChatDto } from "../../../../model/interface/chat/chatInterfaces";
 import { useNavigate } from "react-router-dom";
-import { CiSettings } from "react-icons/ci";
-import { IoSettingsOutline } from "react-icons/io5";
 import { HiUserAdd } from "react-icons/hi";
 import { useBoolean } from "../../../../hooks/useBoolean";
 import EmptyModal from "../../../../components/modal/EmptyModal";
-import SearchFriendsList from "../../../account/social/components/SearchFriendsList";
 import CreateGroupChatModal from "./chat-top-bar-components/CreateGroupChatModal";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { chatActions } from "../../../../redux/chats";
@@ -104,7 +99,7 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                         </p>
 
                         <MdEdit
-                            className="violet-500 shrink-0 opacity-0 transition-opacity duration-150 group-focus-within:opacity-100 group-hover:opacity-100 dark:text-white/80"
+                            className="shrink-0 opacity-0 transition-opacity duration-150 group-focus-within:opacity-100 group-hover:opacity-100 dark:text-white/80"
                             aria-hidden="true"
                         />
                     </button>
@@ -112,7 +107,7 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                     <div
                         id="chat-tooltip"
                         role="tooltip"
-                        className="darK:bg-violetLightDarker bg-violetLighter text-md pointer-events-none absolute top-full left-1/2 z-10 mt-2 min-w-20 -translate-x-1/2 translate-y-1 rounded-md p-2 text-center text-white opacity-0 shadow-lg transition-all duration-150 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:opacity-100"
+                        className="dark:bg-violetLightDarker bg-violetLighter text-md pointer-events-none absolute top-full left-1/2 z-10 mt-2 min-w-20 -translate-x-1/2 translate-y-1 rounded-md p-2 text-center text-white opacity-0 shadow-lg transition-all duration-150 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:opacity-100"
                     >
                         Edit Chat
                         <div className="dark:bg-violetLightDarker bg-violetLighter absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45" />
