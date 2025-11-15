@@ -236,7 +236,7 @@ export default function ChatBottomBar() {
 
     return (
         <div className="flex items-center justify-center gap-4 px-3 py-3">
-            <div className="bg-violetLight/25 mr-1 flex w-full flex-col gap-3 rounded-xl px-3 py-3 shadow-md">
+            <div className="dark:bg-violetLight/25 bg-violetLighter/20 mr-1 flex w-full flex-col gap-3 rounded-xl px-3 py-3 shadow-md">
                 {files.length >= 1 && (
                     <div className="mb-4 flex gap-2 p-1">
                         {files.map((file, index) => {
@@ -355,7 +355,7 @@ export default function ChatBottomBar() {
                 className="mt-auto mb-2 hover:cursor-pointer disabled:opacity-50"
                 title={!connected ? "Connecting..." : "Send"}
             >
-                <IoSendSharp className="mr-4 h-7 w-7 shadow-md" />
+                <IoSendSharp className="text-violetLighter mr-4 h-7 w-7" />
             </button>
         </div>
     );

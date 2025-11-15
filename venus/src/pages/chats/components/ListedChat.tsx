@@ -26,10 +26,10 @@ function ListedChat({ chat, hasNew }: ListedChatProps) {
         <button
             className={`flex w-full items-center gap-4 px-3 py-3 text-left hover:cursor-pointer ${
                 isSelected
-                    ? "bg-violetLight/80"
+                    ? "dark:bg-violetLight/80 bg-violetBright/60"
                     : hasNew
-                      ? "bg-violet-300/65"
-                      : "hover:bg-violetLight/40"
+                      ? "bg-violetBright/40 dark:bg-violet-300/65"
+                      : "hover:dark:bg-violetLight/40 hover:bg-violetBright/20"
             }`}
             onClick={handleSelectedChatChange}
         >
@@ -42,7 +42,7 @@ function ListedChat({ chat, hasNew }: ListedChatProps) {
                 <p className="flex-1 truncate text-lg font-medium">
                     {chat?.name}
                 </p>
-                <div className="flex gap-2 text-sm text-nowrap text-gray-400">
+                <div className="flex gap-2 text-sm text-nowrap dark:text-gray-400">
                     {chat.lastMessage && (
                         <>
                             {chat.lastMessage?.sender?.name && (
@@ -55,7 +55,7 @@ function ListedChat({ chat, hasNew }: ListedChatProps) {
                                     chat.lastMessage.content ?? "",
                                 )}
                             </p>
-                            <p className="ml-auto block text-xs text-gray-400">
+                            <p className="ml-auto block text-xs dark:text-gray-400">
                                 {formatSentAt(chat.lastMessage.sentAt)}
                             </p>
                         </>
