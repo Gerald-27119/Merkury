@@ -19,6 +19,7 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { spotDetailsModalAction } from "../../redux/spot-modal";
 import SpotAddMediaModal from "./components/spot-add-media/SpotAddMediaModal";
+import { spotWeatherActions } from "../../redux/spot-weather";
 
 type Position = {
     longitude: number;
@@ -40,9 +41,22 @@ export default function MapPage() {
 
     useEffect(() => {
         const spotId = searchParams.get("spotId");
-        if (spotId) {
+        const longitude = searchParams.get("longitude");
+        const latitude = searchParams.get("latitude");
+        const region = searchParams.get("region");
+        const city = searchParams.get("city");
+        if (spotId && longitude && latitude && region && city) {
             dispatch(spotDetailsModalAction.setSpotId(Number(spotId)));
+            dispatch(
+                spotWeatherActions.setSpotCoordinates({
+                    latitude: Number(latitude),
+                    longitude: Number(longitude),
+                    region,
+                    city,
+                }),
+            );
             dispatch(spotDetailsModalAction.handleShowModal());
+            dispatch(spotWeatherActions.openBasicWeatherModal());
         }
     }, []);
 
