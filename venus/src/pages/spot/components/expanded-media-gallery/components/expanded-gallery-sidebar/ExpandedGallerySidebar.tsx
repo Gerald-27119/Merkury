@@ -1,7 +1,7 @@
 import { IoClose } from "react-icons/io5";
 import SortingAndFilterPanel from "./SortingAndFilterPanel";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useSelectorTyped from "../../../../../../hooks/useSelectorTyped";
 import { getPaginatedExpandedSpotMediaGallery } from "../../../../../../http/spots-data";
 import SpotExpandedMediaGalleryPage from "../../../../../../model/interface/spot/expanded-media-gallery/spotExpandedMediaGalleryPage";
@@ -315,7 +315,7 @@ export default function ExpandedGallerySidebar() {
                                             MediaType.PHOTO ? (
                                                 <li
                                                     key={media.id}
-                                                    className="cursor-pointer overflow-hidden first:rounded-t-2xl last:rounded-b-2xl"
+                                                    className="h-72 w-[28rem] cursor-pointer flex items-center justify-center overflow-hidden bg-black first:rounded-t-2xl last:rounded-b-2xl"
                                                     onClick={() =>
                                                         handleClickSetCurrentMedia(
                                                             media,
@@ -323,7 +323,7 @@ export default function ExpandedGallerySidebar() {
                                                     }
                                                 >
                                                     <img
-                                                        className="h-72 w-[28rem]"
+                                                        className="max-h-full max-w-full object-contain"
                                                         src={media.url}
                                                         alt={media.url}
                                                     />

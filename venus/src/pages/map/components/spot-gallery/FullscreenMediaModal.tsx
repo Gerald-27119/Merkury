@@ -22,7 +22,7 @@ export default function FullscreenMediaModal() {
     const handleCloseFullscreenModal = () => {
         dispatch(expandedSpotMediaGalleryFullscreenSizeActions.setNormalSize());
     };
-
+    //TODO: fix displaying
     return (
         <motion.div
             initial="hidden"
@@ -30,18 +30,14 @@ export default function FullscreenMediaModal() {
             exit="exit"
             variants={slideVariants}
             transition={{ duration: 0.3 }}
-            className="absolute top-0 z-[4] flex h-full w-full flex-col items-center bg-black"
+            className="absolute top-0 z-[4] flex h-full w-full justify-center bg-black"
         >
-            <IoClose
-                onClick={handleCloseFullscreenModal}
-                className="text-darkText mt-2 ml-auto cursor-pointer text-2xl"
-            />
-            <div className="flex h-full items-center">
+            <div className="flex h-full items-center justify-center">
                 {mediaType === MediaType.PHOTO ? (
                     <img
                         alt={url}
                         src={url}
-                        className="max-h-full max-w-full"
+                        className="max-h-full max-w-full object-contain"
                     />
                 ) : (
                     <ReactPlayer
@@ -56,6 +52,10 @@ export default function FullscreenMediaModal() {
                     />
                 )}
             </div>
+            <IoClose
+                onClick={handleCloseFullscreenModal}
+                className="text-darkText mt-2 mr-2 mb-auto ml-auto cursor-pointer text-3xl"
+            />
         </motion.div>
     );
 }
