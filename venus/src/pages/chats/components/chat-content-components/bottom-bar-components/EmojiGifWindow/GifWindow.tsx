@@ -1,10 +1,4 @@
-import {
-    useRef,
-    useEffect,
-    useState,
-    Dispatch,
-    SetStateAction,
-} from "react";
+import { useRef, useEffect, useState, Dispatch, SetStateAction } from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
     searchTenorGifs,
