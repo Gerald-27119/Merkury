@@ -53,7 +53,4 @@ public class ChatStompCommunicationService {
         messagingTemplate.convertAndSend("/subscribe/chats/ack/" + currentUserUsername, ackChatMessageDto);
     }
 
-
-//    TODO:robieni tego asynchronicznie? mechanizm ponowniea? jak to siema do powaidomien? ACK z forntu? ponownienie wyslania wiadomosci i ponownie broadcastu?, broadcast tylko do osob "online"?
-
 }

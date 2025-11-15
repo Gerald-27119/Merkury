@@ -35,7 +35,7 @@ function ListedChat({ chat, hasNew }: ListedChatProps) {
         >
             <img
                 className="aspect-square w-12 rounded-full"
-                src={chat?.imgUrl ? `${chat?.imgUrl}` : "/users/default.png"} //TODO: zpewnic porpawne wyswietlanie zdjecia profilowego
+                src={chat?.imgUrl ? `${chat?.imgUrl}` : "/users/default.png"}
                 alt={chat.imgUrl}
             />
             <div className="flex w-full min-w-0 flex-col">

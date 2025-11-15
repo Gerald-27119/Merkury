@@ -33,7 +33,7 @@ export default function GroupChatParticipantsSideBar() {
                                 participant?.imgUrl
                                     ? `${participant?.imgUrl}`
                                     : "/users/default.png"
-                            } // //TODO: zpewnic porpawne wyswietlanie zdjecia profilowego
+                            }
                             alt={participant.username}
                         />
                         <div className="flex w-full min-w-0 flex-col">

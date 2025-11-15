@@ -30,7 +30,7 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
 
     function handleChatNameClick() {
         if (chatDto.chatType === "PRIVATE") {
-            navigate(`/account/profile/${chatDto.name}`); // TODO: chatName moze byc customowy, to trzeba na userID podmienic
+            navigate(`/account/profile/${chatDto.name}`);
         } else {
             return;
         }
@@ -67,7 +67,7 @@ export default function ChatTopBar({ chatDto }: ChatTopBarProps) {
                         className="aspect-square w-9 rounded-full"
                         src={
                             chatDto?.imgUrl
-                                ? `${chatDto?.imgUrl}` //TODO: zpewnic porpawne wyswietlanie zdjecia profilowego
+                                ? `${chatDto?.imgUrl}`
                                 : "/users/default.png"
                         }
                         alt={"Image that listed chat has"}

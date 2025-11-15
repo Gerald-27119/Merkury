@@ -84,7 +84,6 @@ public class ChatService {
 
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
 
-        //TODO:refactor mapper to use username instead of userId
         var userId = userEntityRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"))
                 .getId();
@@ -109,7 +108,7 @@ public class ChatService {
     }
 
     @Transactional
-    public ChatMessageDto saveChatMessage(IncomingChatMessageDto chatMessageDto) {//TODO:check if user can send message to this chat
+    public ChatMessageDto saveChatMessage(IncomingChatMessageDto chatMessageDto) {
         var chat = chatRepository.findById(chatMessageDto.chatId())
                 .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
 
@@ -125,18 +124,11 @@ public class ChatService {
                 .build();
 
         chat.getChatMessages().add(chatMessage);
-        chat.setLastMessageAt(LocalDateTime.now());//TODO; optimise it better
-
+        chat.setLastMessageAt(LocalDateTime.now());
 
         var chatMessageFromDb = chatMessageRepository.save(chatMessage);
-        chatRepository.save(chat);//@OneToMany(mappedBy = "chat", cascade = CascadeType.PERSIST) - check more deeply
+        chatRepository.save(chat);
 
-//        TODO:WHY
-        var lastMessage = chat.getChatMessages().stream()
-                .max(Comparator.comparing(ChatMessage::getSentAt))
-                .orElseThrow(() -> new EntityNotFoundException("Chat not found"));
-
-        //TODO:use diffrent mapper and DTO for this
         return ChatMapper.toChatMessageDto(chatMessageFromDb, ChatMapper.toChatMessageSenderDto(chatMessageFromDb));
 
     }
@@ -262,7 +254,6 @@ public class ChatService {
 
         var chatMessageDtoToBroadCast = ChatMapper.toChatMessageDto(chatMessageFromDb);
         chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(chatMessageDtoToBroadCast);
-//        chatStompCommunicationService.broadcastACKVersionToSender(); TODO:fix
     }
 
 
