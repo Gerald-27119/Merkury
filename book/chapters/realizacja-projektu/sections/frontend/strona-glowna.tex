@@ -4,34 +4,26 @@
 \subsection{Strona główna}
 \label{subsec:strona-glowna-frontend}
 
-\begin{minted}[
-    linenos,
-    breaklines,
-    fontsize=\small,
-    frame=lines,
-    tabsize=2,
-    autogobble
-]{jsx}
-<div className="dark:bg-darkBg dark:text-darkText bg-lightBg text-lightText flex min-h-screen w-full flex-col items-center space-y-4 overflow-hidden p-8 pt-18">
-  <Switch />
-  <SearchBar
-    onSetSpots={handleSetSearchedSpots}
-    loadMoreRef={loadMoreRef}
-    onSetFetchingNextPage={setIsFetchingNextPage}
-  />
-  <div className="flex w-full flex-col items-center space-y-4">
-    <h1 className="text-center text-3xl">The Most Popular Spots</h1>
-    <div className="flex w-full flex-col items-center space-y-5">
-      <Carousel spots={data!} spotsPerPage={spotsPerPage} />
-      <SearchSpotList
-        spots={searchedSpots}
-        isFetchingNextPage={isFetchingNextPage}
-        loadMoreRef={loadMoreRef}
-      />
-    </div>
-  </div>
-</div>
-\end{minted}
+Jednym z głównych modółów aplikacji jest strona główna.
+Pełni ona rolę głównej wyszukiwarki spotów, dzięki której użytkownik może w
+łatwy sposób znaleść interesujące go lokacje.
+Posiadan ona dwa tryby prosty i zaawansowany, dzięki przyciskowi na samej górze strnony można się łatwo
+przełączyć między tymi widokami.
+Na prostym znajduje się karuzela z 12 najpopularniejszymi spotami w całej aplikacji, użytkownik może tutaj
+wyszukać spoty po lokalizacji ( kraj, region, miasto).
+Na zaawansowanym widoku jest wyszukiwarka która filtruje po mieście, tagach oraz ocenie dodatkowo
+sortuje po popularności i ocenach.
+
+Strona główna została zbudowana z dwóch głównych komponentów HomePaga oraz AdvanceHomePage.
+W skład prostej wersji wchodzą następujące komponenty:
+\begin{itemize}
+  \item Switch - służy do przełączania widoku między trybem podstawowym a zaawansowanym
+  \item SearchBar - wyszukiwarka spotów
+  \item Carousel - wyświetla najpopularnejsze spoty
+  \item SearchSpotList - wyświetla wyszukane spoty
+\end{itemize}
+
+
 
 \begin{figure}[H]
     \centering
