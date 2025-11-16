@@ -22,7 +22,7 @@ export default function FullscreenMediaModal() {
     const handleCloseFullscreenModal = () => {
         dispatch(expandedSpotMediaGalleryFullscreenSizeActions.setNormalSize());
     };
-    //TODO: fix displaying
+
     return (
         <motion.div
             initial="hidden"
@@ -34,7 +34,7 @@ export default function FullscreenMediaModal() {
         >
             <IoClose
                 onClick={handleCloseFullscreenModal}
-                className="text-darkText cursor-pointer text-3xl absolute right-4 top-4 z-5"
+                className="text-darkText absolute top-4 right-4 z-5 cursor-pointer text-3xl"
             />
             <div className="relative flex h-full items-center justify-center">
                 {mediaType === MediaType.PHOTO ? (
