@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import AddPostButton from "./components/AddPostButton";
 import ForumCategoriesTagsPanel from "./categories-and-tags/components/ForumCategoriesTagsPanel";
-import ForumSearchBar from "./components/ForumSearchBar";
+import ForumSearchBar from "./post-search/ForumSearchBar";
 import TrendingPostsPanel from "./components/TrendingPostsPanel";
 import ForumAddPostModal from "./components/ForumAddPostModal";
 import { useQuery } from "@tanstack/react-query";

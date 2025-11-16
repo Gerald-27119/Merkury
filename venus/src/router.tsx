@@ -22,6 +22,7 @@ import HomePage from "./pages/home-page/HomePage";
 import Movies from "./pages/account/movies/Movies";
 import AdvanceHomePage from "./pages/home-page/AdvanceHomePage";
 import AddedSpot from "./pages/account/add-spot/AddedSpot";
+import ForumSearch from "./pages/forum/ForumSearch";
 
 const router = createBrowserRouter([
     {
@@ -141,6 +142,10 @@ const router = createBrowserRouter([
             {
                 path: "forum/:postId/:slugTitle?",
                 element: <ForumThread />,
+            },
+            {
+                path: "forum/search",
+                element: <ForumSearch />,
             },
             {
                 path: "map",

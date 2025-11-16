@@ -34,6 +34,11 @@ export async function fetchTrendingPosts(): Promise<TrendingPostDto[]> {
     return (await axios.get(`${BASE_URL}/public/post/trending`)).data;
 }
 
+export async function searchPosts(searchPhrase: string): Promise<string[]> {
+    return (await axios.get(`${BASE_URL}/public/post/search/${searchPhrase}`))
+        .data;
+}
+
 export async function fetchCategoriesAndTags(): Promise<ForumCategoryAndTagsDto> {
     return (await axios.get(`${BASE_URL}/public/categories-tags`)).data;
 }

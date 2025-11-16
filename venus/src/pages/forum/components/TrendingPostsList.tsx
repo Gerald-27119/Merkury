@@ -14,14 +14,17 @@ export default function TrendingPostsList({ posts }: TrendingPostsListProps) {
                 <div className="mt-2">
                     <ul className="space-y-2">
                         {posts.map((post, index) => (
-                            <NavLink to={`/forum/${post.id}/${post.slugTitle}`}>
-                                <li key={post.id} className="">
+                            <li key={post.id}>
+                                <NavLink
+                                    to={`/forum/${post.id}/${post.slugTitle}`}
+                                >
                                     <TrendingPost post={post} />
-                                    {index !== posts.length - 1 && (
-                                        <div className="dark:bg-darkText bg-lightText my-2 h-[1px]" />
-                                    )}
-                                </li>
-                            </NavLink>
+                                </NavLink>
+
+                                {index !== posts.length - 1 && (
+                                    <div className="dark:bg-darkText bg-lightText my-2 h-[1px]" />
+                                )}
+                            </li>
                         ))}
                     </ul>
                 </div>

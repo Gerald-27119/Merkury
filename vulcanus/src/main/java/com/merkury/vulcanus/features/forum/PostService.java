@@ -66,6 +66,12 @@ public class PostService {
         return trending.stream().map(PostMapper::toTrendingDto).toList();
     }
 
+    public List<String> searchPosts(String phrase, Pageable pageable) {
+        List<Post> searchResults = postRepository.findAllByTitleContainingIgnoreCase(phrase, pageable);
+
+        return searchResults.stream().map(Post::getTitle).toList();
+    }
+
     public void addPost(PostDto dto) throws CategoryNotFoundException, TagNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var category = getCategoryByName(dto.category());

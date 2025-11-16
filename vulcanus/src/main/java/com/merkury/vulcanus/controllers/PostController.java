@@ -45,6 +45,13 @@ public class PostController {
         return ResponseEntity.ok(postService.getTrendingPosts(PageRequest.of(0, size)));
     }
 
+    @GetMapping("/public/post/search/{searchPhrase}")
+    public ResponseEntity<List<String>> searchPosts(@RequestParam(defaultValue = "0") int page,
+                                                           @RequestParam(defaultValue = "10") int size,
+                                                           @PathVariable String searchPhrase) {
+        return ResponseEntity.ok(postService.searchPosts(searchPhrase, PageRequest.of(page, size)));
+    }
+
     @PostMapping("/post")
     public ResponseEntity<Void> addPost(@Valid @RequestBody PostDto post) throws CategoryNotFoundException, TagNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
         postService.addPost(post);
