@@ -4,59 +4,63 @@
 \subsection{Strona główna}
 \label{subsec:strona-glowna-frontend}
 
-Jednym z głównych modółów aplikacji jest strona główna.
-Pełni ona rolę głównej wyszukiwarki spotów, dzięki której użytkownik może w
-łatwy sposób znaleść interesujące go lokacje.
-Posiadan ona dwa tryby prosty i zaawansowany, dzięki przyciskowi na samej górze strnony można się łatwo
-przełączyć między tymi widokami.
-Na prostym znajduje się karuzela z 12 najpopularniejszymi spotami w całej aplikacji, użytkownik może tutaj
-wyszukać spoty po lokalizacji ( kraj, region, miasto).
-Na zaawansowanym widoku jest wyszukiwarka która filtruje po mieście, tagach oraz ocenie dodatkowo
-sortuje po popularności i ocenach.
+Jednym z głównych modułów aplikacji jest strona główna.
+Pełni ona rolę centralnej wyszukiwarki spotów, dzięki której użytkownik może w prosty i intuicyjny sposób znaleźć interesujące go lokalizacje.
+Strona działa w dwóch trybach: prostym oraz zaawansowanym.
+Przełączanie pomiędzy tymi widokami odbywa się za pomocą przycisku umieszczonego w górnej części strony.
 
-Strona główna została zbudowana z dwóch głównych komponentów HomePaga oraz AdvanceHomePage.
+W trybie prostym prezentowana jest karuzela z dwunastoma najpopularniejszymi spotami w całej aplikacji.
+Użytkownik może w tym miejscu wyszukiwać spoty po lokalizacji (kraj, region, miasto).
+Widok zaawansowany udostępnia rozszerzoną wyszukiwarkę, która umożliwia filtrowanie wyników po mieście,
+tagach oraz ocenie, a także ich sortowanie według popularności i średniej oceny.
+
+Strona główna została zbudowana z dwóch głównych komponentów: \texttt{HomePage} oraz \texttt{AdvanceHomePage}.
 W skład prostej wersji wchodzą następujące komponenty:
 \begin{itemize}
-  \item Switch - służy do przełączania widoku między trybem podstawowym a zaawansowanym
-  \item SearchBar - wyszukiwarka spotów
-  \item Carousel - wyświetla najpopularnejsze spoty
-  \item SearchSpotList - wyświetla wyszukane spoty
+    \item \texttt{Switch} -- służy do przełączania widoku między trybem podstawowym a zaawansowanym,
+    \item \texttt{SearchBar} -- podstawowa wyszukiwarka spotów,
+    \item \texttt{Carousel} -- wyświetla najpopularniejsze spoty,
+    \item \texttt{SearchSpotList} -- wyświetla wyszukane spoty.
 \end{itemize}
 
 W skład zaawansowanej wersji wchodzą następujące komponenty:
 \begin{itemize}
-    \item Switch - służy do przełączania widoku między trybem podstawowym a zaawansowanym
-    \item AdvanceSearchBar - wyszukiwarka spotów
-    \item SearchSpotList - wyświetla wyszukane spoty
+    \item \texttt{Switch} -- służy do przełączania widoku między trybem podstawowym a zaawansowanym,
+    \item \texttt{AdvanceSearchBar} -- zaawansowana wyszukiwarka spotów,
+    \item \texttt{SearchSpotList} -- wyświetla wyszukane spoty.
 \end{itemize}
 
-Komponent Switch zawiera w sobie dwa NavLink z biblioteki React Router dzięki temu można przełącznyć widok bez niepotrzebnych
-odświeżeń strony.
+Komponent \texttt{Switch} zawiera dwa elementy \texttt{NavLink} z biblioteki React Router,
+co pozwala na przełączanie widoków bez konieczności przeładowywania całej strony.
 
-W koponencie SearchBar po wpisaniu conajmniej 2 znaków pojawi się lista z podpowiedziami
-do kraju, regionu oraz miasta w zależności od tego które aktualnie uzupełniamy.
-Po pokazaniu się tej listy można wybrać interesujące nas miejsce dzięki czemu
-wiemy w jakich lokalizacjach znajdują się spoty.
+W komponencie \texttt{SearchBar} po wpisaniu co najmniej dwóch znaków wyświetlana jest lista podpowiedzi
+dla kraju, regionu oraz miasta, w zależności od aktualnie uzupełnianego pola.
+Po pojawieniu się listy użytkownik może wybrać interesującą go lokalizację,
+co ułatwia określenie, w jakich miejscach znajdują się dostępne spoty.
 
-SearchSpotList zawiera listę komponentów SpotTile, LoadingSpiner oraz komunikat który
-wyświetli się jeżeli nie zostanie wyświetlony żaden spot.
+Komponent \texttt{SearchSpotList} odpowiada za prezentację wyników wyszukiwania.
+W zależności od stanu zapytania do API wyświetlana jest lista komponentów \texttt{SpotTile}, komponent \texttt{LoadingSpinner}
+lub komunikat informujący o braku wyników.
 
-Spot tile zawiera informacje takie jak:
+Komponent \texttt{SpotTile} zawiera następujące informacje:
 \begin{itemize}
-    \item Zdjęcie spota
-    \item Miasto w którym  się znajduje
-    \item Nazwę
-    \item Oceny i ich liczbę
-    \item Tagi
-    \item Podstawowe informacje pogodowe (temperatura i typ)
-    \item Dwa przyciski, jeden do przejścia do szczegółów a drugi z informacją jak daleko znajduje
-    się dany spot, po kliknięciu pokazuje go na mapie.
+    \item zdjęcie spota,
+    \item miasto, w którym się znajduje,
+    \item nazwę spota,
+    \item ocenę oraz liczbę ocen,
+    \item tagi,
+    \item podstawowe informacje pogodowe (temperatura i typ pogody),
+    \item dwa przyciski: jeden prowadzący do widoku szczegółów spota oraz drugi informujący, jak daleko znajduje się dany spot; po kliknięciu przycisku lokalizacja spota jest prezentowana na mapie.
 \end{itemize}
 
-Komponent AdvanceSearchBar wygląda bardzo podobnie tylko z lokalizacji można podać tylko miasto,
-dodatko jest mozżliwość dodania tagów z listy.
-Jest też filtrowanie po ocenie oraz sortowanie po ocenie i popularności (komponenty Dropdown).
+Komponent \texttt{AdvanceSearchBar} jest zbliżony wyglądem do wersji podstawowej,
+jednak w polu lokalizacji można podać wyłącznie miasto.
+Dodatkowo dostępna jest możliwość dodawania tagów z przygotowanej listy.
+Użytkownik może również filtrować wyniki po ocenie oraz sortować je według oceny i
+popularności z wykorzystaniem komponentów typu \texttt{Dropdown}.
 
+% Implementację widoku strony głównej przedstawiono na rysunku~\ref{img:implementacja-strona-glowna1}.
+%
 %\begin{figure}[H]
 %    \centering
 %    \includegraphics[width=1\textwidth]{attachments/implementacja-strona-glowna1}
