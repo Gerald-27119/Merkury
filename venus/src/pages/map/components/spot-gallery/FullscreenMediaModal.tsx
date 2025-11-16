@@ -30,9 +30,13 @@ export default function FullscreenMediaModal() {
             exit="exit"
             variants={slideVariants}
             transition={{ duration: 0.3 }}
-            className="absolute top-0 z-[4] flex h-full w-full justify-center bg-black"
+            className="absolute top-0 z-[4] h-full w-full bg-black"
         >
-            <div className="flex h-full items-center justify-center">
+            <IoClose
+                onClick={handleCloseFullscreenModal}
+                className="text-darkText cursor-pointer text-3xl absolute right-4 top-4 z-5"
+            />
+            <div className="relative flex h-full items-center justify-center">
                 {mediaType === MediaType.PHOTO ? (
                     <img
                         alt={url}
@@ -52,10 +56,6 @@ export default function FullscreenMediaModal() {
                     />
                 )}
             </div>
-            <IoClose
-                onClick={handleCloseFullscreenModal}
-                className="text-darkText mt-2 mr-2 mb-auto ml-auto cursor-pointer text-3xl"
-            />
         </motion.div>
     );
 }
