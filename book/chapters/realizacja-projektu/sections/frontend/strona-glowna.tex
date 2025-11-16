@@ -33,11 +33,33 @@ W skład zaawansowanej wersji wchodzą następujące komponenty:
 Komponent Switch zawiera w sobie dwa NavLink z biblioteki React Router dzięki temu można przełącznyć widok bez niepotrzebnych
 odświeżeń strony.
 
+W koponencie SearchBar po wpisaniu conajmniej 2 znaków pojawi się lista z podpowiedziami
+do kraju, regionu oraz miasta w zależności od tego które aktualnie uzupełniamy.
+Po pokazaniu się tej listy można wybrać interesujące nas miejsce dzięki czemu
+wiemy w jakich lokalizacjach znajdują się spoty.
 
+SearchSpotList zawiera listę komponentów SpotTile, LoadingSpiner oraz komunikat który
+wyświetli się jeżeli nie zostanie wyświetlony żaden spot.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-strona-glowna1}
-    \caption{Implementacja strony głównej}
-    \label{img:implementacja-strona-glowna1}
-\end{figure}
+Spot tile zawiera informacje takie jak:
+\begin{itemize}
+    \item Zdjęcie spota
+    \item Miasto w którym  się znajduje
+    \item Nazwę
+    \item Oceny i ich liczbę
+    \item Tagi
+    \item Podstawowe informacje pogodowe (temperatura i typ)
+    \item Dwa przyciski, jeden do przejścia do szczegółów a drugi z informacją jak daleko znajduje
+    się dany spot, po kliknięciu pokazuje go na mapie.
+\end{itemize}
+
+Komponent AdvanceSearchBar wygląda bardzo podobnie tylko z lokalizacji można podać tylko miasto,
+dodatko jest mozżliwość dodania tagów z listy.
+Jest też filtrowanie po ocenie oraz sortowanie po ocenie i popularności (komponenty Dropdown).
+
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=1\textwidth]{attachments/implementacja-strona-glowna1}
+%    \caption{Implementacja strony głównej}
+%    \label{img:implementacja-strona-glowna1}
+%\end{figure}
