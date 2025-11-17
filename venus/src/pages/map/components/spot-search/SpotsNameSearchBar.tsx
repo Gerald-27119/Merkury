@@ -9,11 +9,13 @@ import { searchedSpotListModalAction } from "../../../../redux/searched-spot-lis
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { searchedSpotsSliceActions } from "../../../../redux/searched-spots";
 import { useBoolean } from "../../../../hooks/useBoolean";
+import { IoClose } from "react-icons/io5";
 
 export default function SpotsNameSearchBar() {
     const [searchSpotName, setSearchSpotName] = useState<string>("");
     const debounceSpotNamesHints = useDebounce(searchSpotName, 500);
-    const [isShowHints, showHints, hideHints, _] = useBoolean();
+    const [isShowHints, showHints, hideHints] = useBoolean();
+    const [didSearch, setDidSearchTrue, setDidSearchFalse] = useBoolean();
 
     const { name, sorting } = useSelectorTyped((state) => state.spotFilters);
 
@@ -41,10 +43,19 @@ export default function SpotsNameSearchBar() {
         });
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    //TODO: X icon should only appear when input is not empty, should click the icon close the left hand side list?
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        dispatch(spotFiltersAction.setFilters({ name: searchSpotName }));
-        queryClient.invalidateQueries({
+        if (!didSearch) {
+            dispatch(spotFiltersAction.setFilters({ name: searchSpotName }));
+            setDidSearchTrue();
+        } else {
+            setSearchSpotName("");
+            dispatch(spotFiltersAction.setFilters({ name: "" }));
+            setDidSearchFalse();
+        }
+        // dispatch(spotFiltersAction.setFilters({ name: searchSpotName }));
+        await queryClient.invalidateQueries({
             queryKey: ["spots", "filter", debounceSpotNamesHints],
         });
         queryClient.removeQueries({
@@ -79,8 +90,15 @@ export default function SpotsNameSearchBar() {
                         value={searchSpotName}
                         onChange={handleNameChange}
                     />
-                    <button type="submit" className="cursor-pointer text-xl">
-                        <FaSearch data-testid="search-icon" />
+                    <button type="submit" className="cursor-pointer">
+                        {didSearch ? (
+                            <IoClose className="text-2xl" />
+                        ) : (
+                            <FaSearch
+                                className="text-xl"
+                                data-testid="search-icon"
+                            />
+                        )}
                     </button>
                 </div>
                 {isShowHints && spotsNames.length > 0 && (
