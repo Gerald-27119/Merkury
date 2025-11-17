@@ -17,6 +17,7 @@ export default function ForumSearchBar({ onSearch }: ForumSearchBarProps) {
     const [areHintsShown, showHints, hideHints] = useBoolean();
     const navigate = useNavigate();
     const searchRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
     useClickOutside(searchRef, hideHints, areHintsShown);
 
     const { data: postTitles = [] } = useQuery({
@@ -42,11 +43,14 @@ export default function ForumSearchBar({ onSearch }: ForumSearchBarProps) {
     const handleHintClick = (hint: string) => {
         setSearchPhrase(hint);
         hideHints();
+        inputRef.current?.focus();
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        navigate("/forum/search");
+        const params = new URLSearchParams();
+        if (searchPhrase) params.set("q", searchPhrase);
+        navigate(`/forum/search?${params.toString()}`);
     };
 
     return (
@@ -56,6 +60,7 @@ export default function ForumSearchBar({ onSearch }: ForumSearchBarProps) {
                     <input
                         className="focus:outline-none"
                         placeholder="Search"
+                        ref={inputRef}
                         value={searchPhrase}
                         onChange={handlePhraseChange}
                         onFocus={() => {

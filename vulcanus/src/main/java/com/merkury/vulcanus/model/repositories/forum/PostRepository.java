@@ -2,6 +2,7 @@ package com.merkury.vulcanus.model.repositories.forum;
 
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.forum.Post;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,7 +26,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("update posts p set p.commentsCount = p.commentsCount + 1 where p.id = :id")
     int incrementCommentsCount(@Param("id") Long postId);
 
-    List<Post> findAllByTitleContainingIgnoreCase(String phrase, Pageable pageable);
+    Page<Post> findAllByTitleContainingIgnoreCase(String phrase, Pageable pageable);
+
+    List<Post> findTop10ByTitleContainingIgnoreCase(String phrase);
 
     @Query("""
     SELECT p 

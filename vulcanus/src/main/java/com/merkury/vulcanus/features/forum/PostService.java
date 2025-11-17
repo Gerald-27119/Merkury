@@ -59,17 +59,26 @@ public class PostService {
         return postsPage.map(post -> PostMapper.toGeneralDto(post, user));
     }
 
+    public Page<PostGeneralDto> getSearchedPostsPage(Pageable pageable, String phrase) throws UserNotFoundByUsernameException {
+        Page<Post> postsPage = postRepository.findAllByTitleContainingIgnoreCase(phrase, pageable);
+        var userName = getAuthenticatedUsernameOrNull();
+        var user = userName != null ? userEntityFetcher.getByUsername(userName) : null;
+
+
+        return postsPage.map(post -> PostMapper.toGeneralDto(post, user));
+    }
+
+    public List<String> searchPosts(String phrase) {
+        List<Post> searchResults = postRepository.findTop10ByTitleContainingIgnoreCase(phrase);
+
+        return searchResults.stream().map(Post::getTitle).toList();
+    }
+
     public List<TrendingPostDto> getTrendingPosts(Pageable pageable) {
         LocalDateTime monthAgo = LocalDateTime.now().minusMonths(1);
         List<Post> trending = postRepository.findTopTrendingPosts(monthAgo, pageable);
 
         return trending.stream().map(PostMapper::toTrendingDto).toList();
-    }
-
-    public List<String> searchPosts(String phrase, Pageable pageable) {
-        List<Post> searchResults = postRepository.findAllByTitleContainingIgnoreCase(phrase, pageable);
-
-        return searchResults.stream().map(Post::getTitle).toList();
     }
 
     public void addPost(PostDto dto) throws CategoryNotFoundException, TagNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {

@@ -22,7 +22,7 @@ import HomePage from "./pages/home-page/HomePage";
 import Movies from "./pages/account/movies/Movies";
 import AdvanceHomePage from "./pages/home-page/AdvanceHomePage";
 import AddedSpot from "./pages/account/add-spot/AddedSpot";
-import ForumSearch from "./pages/forum/ForumSearch";
+import ForumSearch from "./pages/forum/post-search/ForumSearch";
 
 const router = createBrowserRouter([
     {

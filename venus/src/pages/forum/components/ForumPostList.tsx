@@ -3,11 +3,14 @@ import Post from "../posts/Post";
 import React from "react";
 import PostGeneral from "../../../model/interface/forum/post/postGeneral";
 import { PostSortOption } from "../../../model/enum/forum/postSortOption";
+import SearchResults from "../post-search/SearchResults";
 
 interface ForumPostListProps {
     posts?: PostGeneral[];
     sortOption: PostSortOption;
     onSortChange: (option: PostSortOption) => void;
+    searchPhrase?: string;
+    totalSearchResults?: number;
 }
 
 const options: PostSortOption[] = [
@@ -23,6 +26,8 @@ export default function ForumPostList({
     posts,
     sortOption,
     onSortChange,
+    searchPhrase,
+    totalSearchResults,
 }: ForumPostListProps) {
     return (
         <div>
@@ -30,7 +35,15 @@ export default function ForumPostList({
                 options={options}
                 onSortChange={onSortChange}
                 selected={sortOption}
+                disabled={!posts?.length || posts.length <= 1}
             />
+
+            {searchPhrase && (
+                <SearchResults
+                    data={totalSearchResults}
+                    searchPhrase={searchPhrase}
+                />
+            )}
 
             {posts?.length ? (
                 <div>
@@ -43,7 +56,9 @@ export default function ForumPostList({
                     </ul>
                 </div>
             ) : (
-                <span>No posts available</span>
+                <div className="mt-2 flex items-center justify-center p-2 text-lg">
+                    <span>No posts available</span>
+                </div>
             )}
         </div>
     );

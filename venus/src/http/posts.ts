@@ -30,13 +30,31 @@ export async function fetchDetailedPost(postId: number): Promise<PostDetails> {
     ).data;
 }
 
-export async function fetchTrendingPosts(): Promise<TrendingPostDto[]> {
-    return (await axios.get(`${BASE_URL}/public/post/trending`)).data;
+export async function fetchSearchedPosts(
+    page: number,
+    size: number,
+    searchPhrase: string,
+    sortType: PostSortOption,
+): Promise<ForumPostPage> {
+    const { sortBy, sortDirection } = sortType;
+    return (
+        await axios.get(`${BASE_URL}/public/post/search/${searchPhrase}`, {
+            params: { page, size, sortBy, sortDirection },
+            withCredentials: true,
+        })
+    ).data;
 }
 
 export async function searchPosts(searchPhrase: string): Promise<string[]> {
-    return (await axios.get(`${BASE_URL}/public/post/search/${searchPhrase}`))
-        .data;
+    return (
+        await axios.get(
+            `${BASE_URL}/public/post/search/hints/${encodeURIComponent(searchPhrase)}`,
+        )
+    ).data;
+}
+
+export async function fetchTrendingPosts(): Promise<TrendingPostDto[]> {
+    return (await axios.get(`${BASE_URL}/public/post/trending`)).data;
 }
 
 export async function fetchCategoriesAndTags(): Promise<ForumCategoryAndTagsDto> {

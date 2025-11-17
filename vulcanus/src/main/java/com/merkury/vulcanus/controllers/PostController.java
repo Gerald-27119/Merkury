@@ -39,17 +39,26 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    @GetMapping("/public/post/search/{searchPhrase}")
+    public ResponseEntity<Page<PostGeneralDto>> getSearchedPostsPage(@RequestParam(defaultValue = "0") int page,
+                                                                     @RequestParam(defaultValue = "10") int size,
+                                                                     @RequestParam(defaultValue = "PUBLISH_DATE") PostSortField sortBy,
+                                                                     @RequestParam(defaultValue = "DESC") SortDirection sortDirection,
+                                                                     @PathVariable String searchPhrase) throws UserNotFoundByUsernameException {
+        Page<PostGeneralDto> posts = postService.getSearchedPostsPage(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())), searchPhrase);
+
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/public/post/search/hints/{searchPhrase}")
+    public ResponseEntity<List<String>> searchPosts(@PathVariable String searchPhrase) {
+        return ResponseEntity.ok(postService.searchPosts(searchPhrase));
+    }
+
     @GetMapping("/public/post/trending")
     public ResponseEntity<List<TrendingPostDto>> getTrendingPosts(
             @RequestParam(defaultValue = "3") int size) {
         return ResponseEntity.ok(postService.getTrendingPosts(PageRequest.of(0, size)));
-    }
-
-    @GetMapping("/public/post/search/{searchPhrase}")
-    public ResponseEntity<List<String>> searchPosts(@RequestParam(defaultValue = "0") int page,
-                                                           @RequestParam(defaultValue = "10") int size,
-                                                           @PathVariable String searchPhrase) {
-        return ResponseEntity.ok(postService.searchPosts(searchPhrase, PageRequest.of(page, size)));
     }
 
     @PostMapping("/post")

@@ -1,15 +1,18 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import Error from "../../components/error/Error.jsx";
-import { fetchPaginatedPosts } from "../../http/posts";
+import ForumPostPage from "../../../model/interface/forum/forumPostPage";
+import { fetchSearchedPosts } from "../../../http/posts";
 import React, { useEffect, useRef, useState } from "react";
-import ForumPostPage from "../../model/interface/forum/forumPostPage";
-import { PostSortOption } from "../../model/enum/forum/postSortOption";
-import ForumLayout from "./ForumLayout";
-import SkeletonListedForumPost from "./components/SkeletonListedForumPost";
-import LoadingState from "../../model/interface/forum/loadingState";
-import ForumPostsPage from "./ForumPostsPage";
+import { PostSortOption } from "../../../model/enum/forum/postSortOption";
+import ForumLayout from "../ForumLayout";
+import { useSearchParams } from "react-router-dom";
+import ForumPostsPage from "../ForumPostsPage";
+import LoadingState from "../../../model/interface/forum/loadingState";
+import Error from "../../../components/error/Error";
+import SkeletonListedForumPost from "../components/SkeletonListedForumPost";
 
-export default function Forum() {
+export default function ForumSearch() {
+    const [params] = useSearchParams();
+    const phrase = params.get("q") ?? "";
     const loadMoreRef = useRef<HTMLDivElement>(null);
     const [sortOption, setSortOption] = useState<PostSortOption>({
         name: "Newest",
@@ -18,22 +21,23 @@ export default function Forum() {
     });
 
     const {
-        data: postPage,
-        error: postPageError,
-        isError: isPostPageError,
-        isLoading: isPostPageLoading,
+        data: searchPostPage,
+        error: searchPostPageError,
+        isError: isSearchPostPageError,
+        isLoading: isSearchPostPageLoading,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
     } = useInfiniteQuery<ForumPostPage>({
-        queryKey: ["posts", sortOption],
+        queryKey: ["searchedPosts", sortOption, phrase],
         queryFn: ({ pageParam }) =>
-            fetchPaginatedPosts(pageParam as number, 10, sortOption),
+            fetchSearchedPosts(pageParam as number, 10, phrase, sortOption),
         getNextPageParam: (lastPage: ForumPostPage) => {
             const { number, totalPages } = lastPage.page;
             return number + 1 < totalPages ? number + 1 : undefined;
         },
         initialPageParam: 0,
+        enabled: phrase.trim().length > 0,
     });
 
     useEffect(() => {
@@ -58,14 +62,14 @@ export default function Forum() {
         isFetchingNextPage,
         hasNextPage,
         loadMoreRef,
-        message: "Congratulations! You've reached the end!",
+        message: "No more results found.",
     };
 
-    const posts = postPage?.pages.flatMap(
+    const posts = searchPostPage?.pages.flatMap(
         (page: ForumPostPage) => page.content ?? [],
     );
 
-    if (isPostPageLoading) {
+    if (isSearchPostPageLoading) {
         return (
             <ForumLayout>
                 <div className="mt-14 min-w-2xl">
@@ -77,8 +81,8 @@ export default function Forum() {
         );
     }
 
-    if (isPostPageError) {
-        return <Error error={postPageError} />;
+    if (isSearchPostPageError) {
+        return <Error error={searchPostPageError} />;
     }
 
     return (
@@ -88,6 +92,10 @@ export default function Forum() {
                 sortOption={sortOption}
                 onSortChange={setSortOption}
                 loadingState={loadingState}
+                searchPhrase={phrase}
+                totalSearchResults={
+                    searchPostPage?.pages?.[0]?.page.totalElements ?? 0
+                }
             />
         </ForumLayout>
     );
