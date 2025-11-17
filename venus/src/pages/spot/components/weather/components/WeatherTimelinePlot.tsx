@@ -74,7 +74,7 @@ export default function WeatherTimelinePlot() {
         data && (
             <div className="3xl:mt-8 mt-2">
                 <h2 className="text-2xl">Timeline</h2>
-                <div className="bg-mediumDarkBlue text-darkText scrollbar-thin scrollbar-track-rounded-lg scrollbar-track-sky-950 hover:scrollbar-thumb-sky-800 scrollbar-thumb-rounded-full mx-auto mt-4 w-[27.5rem] overflow-x-auto rounded-lg">
+                <div className="bg-mediumDarkBlue text-darkText scrollbar-thin scrollbar-track-rounded-lg scrollbar-hover:cursor-grab scrollbar-active:cursor-grabbing scrollbar-track-sky-950 hover:scrollbar-thumb-sky-800 scrollbar-thumb-sky-700 scrollbar-thumb-rounded-full mx-auto mt-4 w-[27.5rem] overflow-x-auto rounded-lg">
                     <VictoryChart
                         domain={{
                             x: [
