@@ -315,7 +315,7 @@ export default function ExpandedGallerySidebar() {
                                             MediaType.PHOTO ? (
                                                 <li
                                                     key={media.id}
-                                                    className="flex h-72 w-[28rem] cursor-pointer items-center justify-center overflow-hidden bg-black first:rounded-t-2xl last:rounded-b-2xl"
+                                                    className="flex h-72 w-[28rem] cursor-pointer items-center justify-center overflow-hidden bg-zinc-800 first:rounded-t-2xl last:rounded-b-2xl"
                                                     onClick={() =>
                                                         handleClickSetCurrentMedia(
                                                             media,

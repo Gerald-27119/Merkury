@@ -59,12 +59,13 @@ export default function WeatherOverview({
                     <h2>{city}</h2>
                     <h3 className="text-grayText text-xs">{region}</h3>
                 </div>
-
-                <p className="ml-24 text-4xl">
-                    {isLoading && <LoadingSpinner />}
-                    {isSuccess && currentTime}
-                    {isError && "Failed to get spot current time."}
-                </p>
+                {isLoading && <LoadingSpinner />}
+                {isError && (
+                    <p className="ml-24 text-4xl">
+                        Failed to get spot current time.
+                    </p>
+                )}
+                {isSuccess && <p className="ml-24 text-4xl">{currentTime}</p>}
             </div>
             <div className="mt-3 ml-12 flex text-xl">
                 <span className="text-2xl">{temperature}&deg;C</span>
