@@ -16,13 +16,11 @@ public class GifService {
 
     private final TenorGifProviderClient client;
 
-    //    TODO:move obecjts mapping here
     @Cacheable(cacheNames = "gifsTrendingTerms", sync = true)
     public Mono<List<TenorGifCategoryDto>> getTrendingCategories() {
         return client.getTrendingCategories();
     }
 
-//    TODO:add caching
     public Mono<TenorGifSearchWrapperDto> searchGifsBySearchPhrase(String searchPhrase, String next) {
         return client.searchGifsBySearchPhrase(searchPhrase, next)
                 .map(TenorMapper::mapToSearchWrapper);

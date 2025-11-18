@@ -30,15 +30,3 @@ public class ChatStompCommunicationController {
         chatStompCommunicationService.broadcastACKVersionToSender(chatMessageDtoToBroadCast, message.optimisticMessageUUID());
     }
 }
-
-//TODO: USER SENDS MESSAGE FLOW:
-// 1. User sends message to the server (* POST vs STOMP dilemma)
-// 2. Validate if User can send message to this chat (TODO)
-// 2.1 Validate message fields (TODO)
-// 2.2 Validate message content length (TODO)
-// 3. Save message to DB
-// 4. Broadcast message to all subscribers (via STOMP)
-//TODO: poownienie forntu i ponownienie abckendu
-// Security
-// https://docs.spring.io/spring-security/reference/servlet/integrations/websocket.html
-// https://docs.spring.io/spring-framework/reference/web/websocket/server.html

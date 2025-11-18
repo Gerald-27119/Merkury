@@ -1,10 +1,4 @@
-import React, {
-    useRef,
-    useEffect,
-    useState,
-    Dispatch,
-    SetStateAction,
-} from "react";
+import { useRef, useEffect, useState, Dispatch, SetStateAction } from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
     searchTenorGifs,
@@ -24,7 +18,6 @@ import { useDispatch } from "react-redux";
 const scrollbarClasses =
     "dark:scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar scrollbar-w-1";
 
-// TODO: create better, gloabl, customizable skeleton
 function GifSkeleton() {
     return <div className="h-32 w-full animate-pulse rounded-xl bg-gray-300" />;
 }
@@ -51,9 +44,7 @@ export default function GifWindow({
         };
         try {
             publish(`/app/send/${selectedChatId}/message`, formatted);
-            // TODO: uzyskać potwierdzenie ACK
         } finally {
-            console.log("GIF sent successfully:", gifUrl);
             setActiveGifEmojiWindow(null);
         }
     }
@@ -117,7 +108,6 @@ export default function GifWindow({
     const allSearchGifs: SearchedGif[] =
         searchPages?.pages.flatMap((p: SearchedGifs) => p.gifs) ?? [];
 
-    // TODO: usprawnic jsx bo jest powielanie iebdzie go ejszcze wiecej (dla zapsianych gifow itd)
     return (
         <div className="flex h-full min-h-0 flex-col">
             <div className="mt-2 px-3 py-2">
@@ -178,7 +168,6 @@ export default function GifWindow({
                             className="group dark:bg-violetDark hover:border-violetLighter relative h-32 w-full cursor-pointer overflow-hidden rounded-xl border border-transparent transition-colors duration-300 ease-in-out"
                             onClick={() => sendMessage(gif.url)}
                         >
-                            {/*TODO:take care of alt*/}
                             <img
                                 src={gif.url}
                                 alt={gif.url}

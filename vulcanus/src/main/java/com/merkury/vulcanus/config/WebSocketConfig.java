@@ -9,27 +9,25 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
-//TODO: move to config dir?
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/subscribe");// <- tutaj user dostaje odpowiedź np. /topic/chat
-        config.setApplicationDestinationPrefixes("/app");// <- tutaj user strzela np. /app/chat albo /app/hello
+        config.enableSimpleBroker("/subscribe");
+        config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/connect")// <- tutaj user się łączy (separate from STOMP, it's to upgrade to WebSocket)
+        registry.addEndpoint("/connect")
                 .setAllowedOriginPatterns("http://localhost:*")
                 .withSockJS();
     }
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        // intercept every inbound STOMP frame and populate SecurityContext
         registration.interceptors(securityContextChannelInterceptor());
     }
 

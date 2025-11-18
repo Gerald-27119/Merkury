@@ -29,5 +29,3 @@ export async function searchTenorGifs(
         })
     ).data;
 }
-
-//TODO: przydałoby sie przchowywanie informacji o jezyku uzytkownika oraz kraju i wysyłać do Tenora

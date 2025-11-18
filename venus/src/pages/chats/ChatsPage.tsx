@@ -4,9 +4,6 @@ import GroupChatParticipantsSideBar from "./components/right-sidebar/GroupChatPa
 import useSelectorTyped from "../../hooks/useSelectorTyped";
 
 export default function ChatsPage() {
-    // TODO: optimize renders using this tool
-    // TODO: widok jak ktos nie ma zadnychc chatow
-
     const showSideBar = useSelectorTyped((s) => s.chats.showSideBar);
     const selectedChatId = useSelectorTyped((s) => s.chats.selectedChatId);
     const selectedChat = useSelectorTyped((s) =>

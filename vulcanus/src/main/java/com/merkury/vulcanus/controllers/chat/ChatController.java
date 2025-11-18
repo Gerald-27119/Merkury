@@ -43,7 +43,6 @@ import java.util.List;
 public class ChatController {
 
     private final ChatService chatService;
-    // TODO: przy edycji chatu sprawdzenie czy user ma odmina an tym czacie
 
     @GetMapping("/{chatId}/messages")
     public ResponseEntity<ChatMessageDtoSlice> getMessagesForChatByChatId(
@@ -81,7 +80,6 @@ public class ChatController {
         chatService.organizeFilesSend(media, chatId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-//    TODO; prywatyzacja przesłanych zdjęc, tak aby tylko uczestnicy chatu mieli do nich dostęp, obecnie ma każdy kto ma link do zdjęcia
 
     @PostMapping("create/group")
     public ResponseEntity<ChatDto> createGroupChat(@RequestBody CreateGroupChatDto createGroupChatDto) throws CreateGroupChatException {
