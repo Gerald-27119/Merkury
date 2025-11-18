@@ -10,6 +10,7 @@ import SpotExpandedMediaGalleryPage from "../model/interface/spot/expanded-media
 import { MediaType } from "../model/enum/mediaType";
 import { SpotExpandedGallerySortingType } from "../model/enum/spot/spotExpandedGallerySortingType";
 import SpotExpandedGalleryMediaDto from "../model/interface/spot/expanded-media-gallery/spotExpandedGalleryMediaDto";
+import IsSpotMediaLikedByUserDto from "../model/interface/account/media/isSpotMediaLikedByUserDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function fetchFilteredSpots(name: string): Promise<GeneralSpot[]> {
@@ -196,5 +197,38 @@ export async function increaseSpotViewsCount(spotId: number): Promise<void> {
             {},
             { params: { spotId }, withCredentials: true },
         )
+    ).data;
+}
+
+export async function editSpotMediaLikes(spotMediaId: number): Promise<void> {
+    return (
+        await axios.patch(
+            `${BASE_URL}/public/spot/edit-spot-media-likes`,
+            {},
+            { params: { spotMediaId }, withCredentials: true },
+        )
+    ).data;
+}
+
+export async function increaseSpotMediaViewCount(
+    spotMediaId: number,
+): Promise<void> {
+    return (
+        await axios.patch(
+            `${BASE_URL}/public/spot/increase-spot-media-views-count`,
+            {},
+            { params: { spotMediaId }, withCredentials: true },
+        )
+    ).data;
+}
+
+export async function checkIsSpotMediaLikedByUser(
+    spotMediaId: number,
+): Promise<IsSpotMediaLikedByUserDto> {
+    return (
+        await axios.get(`${BASE_URL}/spot/check-is-spot-media-liked`, {
+            params: { spotMediaId },
+            withCredentials: true,
+        })
     ).data;
 }

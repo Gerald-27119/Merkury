@@ -12,11 +12,11 @@ export default function EmojiGifWindowWrapper({
     setMessageToSend: Dispatch<SetStateAction<string>>;
 }) {
     const commonButtonStyle =
-        "px-2 py-2 hover:cursor-pointer hover:bg-violetLight";
-    const selectedButtonStyle = "bg-violetDarker";
+        "px-2 py-2 hover:cursor-pointer dark:hover:bg-violetLight hover:bg-violetLighter/60";
+    const selectedButtonStyle = "dark:bg-violetDarker bg-violetLighter/30";
 
     return (
-        <div className="bg-violetLightDarker border-violetLighter/35 absolute right-6 bottom-18 z-50 flex h-[26rem] w-[32rem] flex-col rounded-xl border-2">
+        <div className="dark:bg-violetLightDarker border-violetLighter/35 absolute right-6 bottom-18 z-50 flex h-[26rem] w-[32rem] flex-col rounded-xl border-2">
             <div className="flex w-full items-center justify-center">
                 <button
                     className={`${commonButtonStyle} grow text-center ${windowName === "gif" && selectedButtonStyle} rounded-tl-xl`}

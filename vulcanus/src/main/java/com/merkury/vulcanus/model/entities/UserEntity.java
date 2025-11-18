@@ -30,6 +30,9 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private Long version;
+
     private String profileImage;
 
     @Column(unique = true, nullable = false)
@@ -67,6 +70,18 @@ public class UserEntity implements UserDetails {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<FavoriteSpot> favoriteSpots = new ArrayList<>();
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_liked_spot_media",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "spot_media_id")
+    )
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @Builder.Default
+    private Set<SpotMedia> likedSpotMedia = new HashSet<>();
 
     @Builder.Default
     @ManyToMany

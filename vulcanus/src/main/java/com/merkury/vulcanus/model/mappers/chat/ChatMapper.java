@@ -6,8 +6,6 @@ import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDtoSlice;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageSenderDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatParticipantDto;
-import com.merkury.vulcanus.model.dtos.chat.DetailedChatDto;
-import com.merkury.vulcanus.model.dtos.chat.SimpleChatDto;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.entities.chat.ChatMessageAttachedFile;
@@ -21,47 +19,8 @@ import java.util.stream.Collectors;
 
 public class ChatMapper {
 
-    public static SimpleChatDto toSimpleChatDto(Chat chat, ChatMessage lastMessage, Long userId, List<ChatMessage> chatMessages) {
-//        TODO:Get rid off
-        var messageSenderDto = toChatMessageSenderDto(lastMessage);
-        var lastMessageDto = ChatMapper.toChatMessageDto(lastMessage, messageSenderDto);
-
-        var chatMessageDtoList = chatMessages.stream()
-                .map(chatMessage -> {
-//                    TODO:change name
-                    var messageSenderDto1 = toChatMessageSenderDto(chatMessage);
-                    return ChatMapper.toChatMessageDto(chatMessage, messageSenderDto1);
-                })
-                .toList();
-
-        return SimpleChatDto.builder()
-                .id(chat.getId())
-                .name(getChatName(chat, userId))
-                .lastMessage(lastMessageDto)
-                .imgUrl(getChatImgUrl(chat, userId))
-                .messages(chatMessageDtoList)
-                .build();
-    }
-
-    public static DetailedChatDto toDetailedChatDto(Chat chat, List<ChatMessage> chatMessageList) {
-        var chatMessageDtoList = chatMessageList.stream()
-                .map(chatMessage -> {
-                    var messageSenderDto = toChatMessageSenderDto(chatMessage);
-                    return ChatMapper.toChatMessageDto(chatMessage, messageSenderDto);
-                })
-                .toList();
-
-        return DetailedChatDto.builder()
-                .id(chat.getId())
-                .name(chat.getName())
-                .messages(chatMessageDtoList)
-                .imgUrl(chat.getImgUrl())
-                .build();
-    }
-
     public static ChatMessageDto toChatMessageDto(ChatMessage chatMessage,
                                                   ChatMessageSenderDto chatMessageSenderDto) {
-
         if (chatMessage == null) {
             return null;
         }
@@ -131,7 +90,7 @@ public class ChatMapper {
         else {
             switch (chat.getChatType()) {
                 case PRIVATE -> {
-                    return chat.getParticipants().stream()//TODO:aaaaa, username
+                    return chat.getParticipants().stream()
                             .filter(chatParticipant -> !Objects.equals(chatParticipant.getUser().getId(), userId))
                             .map(chatParticipant -> chatParticipant.getUser().getUsername()).findFirst().orElse(null);
                 }
@@ -171,9 +130,6 @@ public class ChatMapper {
     }
 
     public static ChatDto toChatDto(Chat chat, List<ChatMessage> messages, Long userId) {
-
-        //TODO: null check for chat and messages?
-
         var messageDtos = messages.stream()
                 .map(message -> {
                     var senderDto = toChatMessageSenderDto(message);
@@ -194,8 +150,8 @@ public class ChatMapper {
 
         return ChatDto.builder()
                 .id(chat.getId())
-                .name(getChatName(chat, userId))//TODO:reafactor
-                .imgUrl(getChatImgUrl(chat, userId))//TODO:refactor
+                .name(getChatName(chat, userId))
+                .imgUrl(getChatImgUrl(chat, userId))
                 .messages(messageDtos)
                 .lastMessage(lastMessage)
                 .chatType(chat.getChatType())
@@ -204,14 +160,11 @@ public class ChatMapper {
     }
 
     public static ChatDto toChatDto(Chat chat, Long userId) {
-
-        //TODO: null check for chat and messages?
-
         return ChatDto.builder()
                 .id(chat.getId())
-                .name(getChatName(chat, userId))//TODO:reafactor
-                .imgUrl(getChatImgUrl(chat, userId))//TODO:refactor
-                .messages(null)//pusta lsita lepiej?
+                .name(getChatName(chat, userId))
+                .imgUrl(getChatImgUrl(chat, userId))
+                .messages(null)
                 .lastMessage(null)
                 .build();
     }
@@ -223,14 +176,6 @@ public class ChatMapper {
                 .hasNextSlice(messageSlice.hasNext())
                 .numberOfMessages(messageSlice.getNumberOfElements())
                 .sliceNumber(messageSlice.getNumber())
-                .build();
-    }
-
-    public static ChatMessageAttachedFile toChatMessageAttachedFile(MultipartFile file, ChatMessage chatMessage) {
-        return ChatMessageAttachedFile.builder()
-                .name(file.getName())
-                .chatMessage(chatMessage)
-                .url("")
                 .build();
     }
 

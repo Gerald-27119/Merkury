@@ -1,6 +1,5 @@
 import axios from "axios";
 import {
-    AddUsersToExistingGroupChatDto,
     ChatDto,
     ChatMessagesPageDto,
     ChatPage,
@@ -22,16 +21,10 @@ export async function getChatListByPage(
         })
     ).data;
 
-    // TODO: move this somewhere else
     const nextPage =
         items.length === numberOfChatsPerPage ? pageParam + 1 : undefined;
     return { items, nextPage };
 }
-
-//TODO: reafactor method names etc
-//TODO: work on loading skeletons, spinners, optimize rerenders, etc.
-//TODO: add caching?
-//TODO: add caching on frontend, to not refetch every time?
 
 export async function getMessagesForChat(
     chatId: number,

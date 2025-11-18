@@ -11,31 +11,20 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-//TODO:
-//1. właczyc filtrowanie po przeznaczeniu wiekowym tresci
-//2. zbierac loakzliacje od usera
-//3. unikalne id usera do wyszukiwania
-//4. raportowanie do tenor o wyszukiwanych frazach
 
-/**
- * As of 16.07.2025 we are using Tenor as the GIF provider.
- */
 @Component
 class TenorGifProviderClient {
+
+    private final WebClient webClient;
+    private final GifProviderProperties props;
+    private static final String locale = "pl_PL";
+    private static final int limit = 10;
 
     public TenorGifProviderClient(@Qualifier("tenorClient") WebClient webClient,
                                   GifProviderProperties props) {
         this.webClient = webClient;
         this.props = props;
     }
-
-    private final WebClient webClient;
-    private final GifProviderProperties props;
-
-    private static final String locale = "pl_PL";
-    //    private static final String country = "PL"; dev purpose only
-    private static final int limit = 10;
-
 
     public Mono<List<TenorGifCategoryDto>> getTrendingCategories() {
         return webClient.get()
