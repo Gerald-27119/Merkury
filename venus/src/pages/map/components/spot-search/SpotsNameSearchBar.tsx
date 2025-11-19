@@ -29,34 +29,34 @@ export default function SpotsNameSearchBar() {
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        if (debounceSpotNamesHints) {
+        if (debounceSpotNamesHints && !didSearch && searchSpotName.trim()) {
             showHints();
         } else {
             hideHints();
         }
-    }, [debounceSpotNamesHints]);
+    }, [debounceSpotNamesHints, didSearch, searchSpotName]);
 
     const handleNameChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchSpotName(e.target.value);
+        setDidSearchFalse();
         await queryClient.invalidateQueries({
             queryKey: ["spotsNames", debounceSpotNamesHints],
         });
     };
 
-    //TODO: X icon should only appear when input is not empty, should click the icon close the left hand side list?
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
+    const handleSubmit = async (newName?: string) => {
+        const nameToSet =
+            newName !== undefined ? newName : debounceSpotNamesHints;
         if (!didSearch) {
-            dispatch(spotFiltersAction.setFilters({ name: searchSpotName }));
+            dispatch(spotFiltersAction.setFilters({ name: nameToSet }));
             setDidSearchTrue();
         } else {
             setSearchSpotName("");
             dispatch(spotFiltersAction.setFilters({ name: "" }));
             setDidSearchFalse();
         }
-        // dispatch(spotFiltersAction.setFilters({ name: searchSpotName }));
         await queryClient.invalidateQueries({
-            queryKey: ["spots", "filter", debounceSpotNamesHints],
+            queryKey: ["spots", "filter", nameToSet],
         });
         queryClient.removeQueries({
             queryKey: ["spots", name, sorting],
@@ -65,16 +65,14 @@ export default function SpotsNameSearchBar() {
         dispatch(searchedSpotsSliceActions.clearSearchedSpots());
     };
 
-    const handleHintClick = (hint: string) => {
+    const handleHintClick = async (hint: string) => {
         setSearchSpotName(hint);
         hideHints();
+        await handleSubmit(hint);
     };
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="dark:text-darkText mt-2 flex items-end justify-center space-x-3"
-        >
+        <div className="dark:text-darkText mt-2 flex items-end justify-center space-x-3">
             <div className="relative flex items-center">
                 <div
                     className={`dark:bg-violetDarker flex w-96 items-center justify-between ${isShowHints && spotsNames?.length ? "rounded-t-3xl" : "rounded-3xl"} px-5 py-2 text-lg font-semibold`}
@@ -90,8 +88,11 @@ export default function SpotsNameSearchBar() {
                         value={searchSpotName}
                         onChange={handleNameChange}
                     />
-                    <button type="submit" className="cursor-pointer">
-                        {didSearch ? (
+                    <button
+                        onClick={() => handleSubmit()}
+                        className="cursor-pointer"
+                    >
+                        {didSearch && debounceSpotNamesHints ? (
                             <IoClose className="text-2xl" />
                         ) : (
                             <FaSearch
@@ -115,6 +116,6 @@ export default function SpotsNameSearchBar() {
                     </ul>
                 )}
             </div>
-        </form>
+        </div>
     );
 }
