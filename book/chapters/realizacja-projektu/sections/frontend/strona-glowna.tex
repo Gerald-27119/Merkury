@@ -2,7 +2,7 @@
 \label{subsec:strona-glowna-frontend}
 
 Jednym z głównych modułów aplikacji jest strona główna.
-Pełni ona rolę centralnej wyszukiwarki spotów, dzięki której użytkownik może w prosty sposób znaleźć interesujące go lokalizacje.
+Pełni ona rolę centralnej wyszukiwarki \gls{spot}ów, dzięki której użytkownik może w prosty sposób znaleźć interesujące go lokalizacje.
 Strona działa w dwóch trybach: prostym oraz zaawansowanym (rys. \ref{img:implementacja-prosta-strona-glowna} i \ref{img:implementacja-zaawansowana-strona-glowna}).
 
 \begin{figure}[H]
@@ -29,7 +29,7 @@ Przełączanie pomiędzy tymi widokami odbywa się za pomocą przycisku umieszcz
 \end{figure}
 
 W trybie prostym prezentowana jest karuzela (rys. \ref{img:implementacja-karuzela-spotow}) z dwunastoma najpopularniejszymi spotami w całej aplikacji.
-Użytkownik może w tym miejscu wyszukiwać spoty po lokalizacji (kraj, region, miasto).
+Użytkownik może w tym miejscu wyszukiwać \gls{spot}y po lokalizacji (kraj, region, miasto).
 
 \begin{figure}[H]
     \centering
@@ -45,25 +45,25 @@ Strona główna została zbudowana z dwóch głównych komponentów: \texttt{Hom
 W skład prostej wersji wchodzą następujące komponenty:
 \begin{itemize}
     \item \texttt{Switch} -- służy do przełączania widoku między trybem podstawowym a zaawansowanym,
-    \item \texttt{SearchBar} -- podstawowa wyszukiwarka spotów,
-    \item \texttt{Carousel} -- wyświetla najpopularniejsze spoty,
-    \item \texttt{SearchSpotList} -- wyświetla wyszukane spoty.
+    \item \texttt{SearchBar} -- podstawowa wyszukiwarka \gls{spot}ów,
+    \item \texttt{Carousel} -- wyświetla najpopularniejsze \gls{spot}y,
+    \item \texttt{SearchSpotList} -- wyświetla wyszukane \gls{spot}y.
 \end{itemize}
 
 W skład zaawansowanej wersji wchodzą następujące komponenty:
 \begin{itemize}
     \item \texttt{Switch} -- służy do przełączania widoku między trybem podstawowym a zaawansowanym,
-    \item \texttt{AdvanceSearchBar} -- zaawansowana wyszukiwarka spotów,
-    \item \texttt{SearchSpotList} -- wyświetla wyszukane spoty.
+    \item \texttt{AdvanceSearchBar} -- zaawansowana wyszukiwarka \gls{spot}ów,
+    \item \texttt{SearchSpotList} -- wyświetla wyszukane \gls{spot}y.
 \end{itemize}
 
-Komponent \texttt{Switch} (rys. \ref{img:implementacja-switch}) zawiera dwa elementy \texttt{NavLink} z biblioteki React Router,
+Komponent \texttt{Switch} (rys. \ref{img:implementacja-switch}) zawiera dwa elementy \texttt{NavLink} z \glslink{biblioteka}{Biblioteki} React Router,
 co pozwala na przełączanie widoków bez konieczności przeładowywania całej strony.
 
 W komponencie \texttt{SearchBar} (rys. \ref{img:implementacja-prosta-wyszukiwarka}) po wpisaniu co najmniej dwóch znaków wyświetlana jest lista podpowiedzi
 dla kraju, regionu oraz miasta, w zależności od aktualnie uzupełnianego pola.
 Po pojawieniu się listy użytkownik może wybrać interesującą go lokalizację,
-co ułatwia określenie, w jakich miejscach znajdują się dostępne spoty.
+co ułatwia określenie, w jakich miejscach znajdują się dostępne \gls{spot}y.
 
 \begin{figure}[H]
     \centering
@@ -76,7 +76,7 @@ Komponent \texttt{SearchSpotList} (rys. \ref{img:implementacja-lista-spotow-stro
 Został w nim zaimplementowany mechanizm przewijania nieskończonego (infinite scroll),
 który automatycznie pobiera kolejne strony wyników w momencie, gdy użytkownik zbliża się do końca listy.
 Wykorzystuje on listę komponentów \texttt{SpotTile}, a także komponent \texttt{LoadingSpinner}
-oraz komunikat informujący o braku wyników, jeżeli nie zostanie odnaleziony żaden spot.
+oraz komunikat informujący o braku wyników, jeżeli nie zostanie odnaleziony żaden \gls{spot}.
 
 \begin{figure}[H]
     \centering
@@ -87,13 +87,13 @@ oraz komunikat informujący o braku wyników, jeżeli nie zostanie odnaleziony �
 
 Komponent \texttt{SpotTile} zawiera następujące informacje:
 \begin{itemize}
-    \item zdjęcie spota,
+    \item zdjęcie \gls{spot}a,
     \item miasto, w którym się znajduje,
-    \item nazwę spota,
+    \item nazwę \gls{spot}a,
     \item ocenę oraz liczbę ocen,
     \item tagi,
     \item podstawowe informacje pogodowe (temperatura i typ pogody),
-    \item dwa przyciski: jeden prowadzący do widoku szczegółów spota oraz drugi informujący, jak daleko znajduje się dany spot; po kliknięciu przycisku lokalizacja spota jest prezentowana na mapie.
+    \item dwa przyciski: jeden prowadzący do widoku szczegółów \gls{spot}a oraz drugi informujący, jak daleko znajduje się dany \gls{spot}; po kliknięciu przycisku lokalizacja \gls{spot}a jest prezentowana na mapie.
 \end{itemize}
 
 Komponent \texttt{AdvanceSearchBar} jest zbliżony wyglądem i strukturą do wersji podstawowej,
