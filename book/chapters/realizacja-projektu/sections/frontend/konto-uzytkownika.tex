@@ -1,5 +1,27 @@
-%! Author = mateusz
-%! Date = 20/10/2025
+%! Author = Mateusz
+%! Date = 19/11/2025
 
 \subsection{Konto użytkownika}
 \label{subsec:konto-uzytkownika-frontend}
+
+Kolejnym z głównych modółów aplikacji jest panel użytkownika.
+Został on podzielony na 8 zakładek:
+
+\begin{itemize}
+    \item Profile - profil użytkownika oraz możliwość zmiany zdjęcia profilowego,
+    \item Spots - lista z spotami dodanymi do list (np. ulubionych, do ponownego odwiedzenia),
+    \item Photos - lista zdjęć które użytkownik doddał do spotów, komentarzy pod spotami oraz na forum,
+    \item Movies - lista filmów które użytkownik doddał do spotów, komentarzy pod spotami oraz na forum,
+    \item Social - listy z znajomymi, obserwowanymi i obserwującymi,
+    \item Add spot - lista ze spotami które dodał użytkownik oraz formularz do dodania nowego spota,
+    \item Comments - lista komentarzy które użytkownik dodał pod spotami,
+    \item Settings - ustawienia użytkownika (zmiana: nazwy użytkownika, e-mail, hasła),
+\end{itemize}
+
+Profil użytkownika został zbudowany z dwóch głównych komponentów (ProfileForViewer oraz UserOwnProfile).
+W obu jest używany reuzywalny komponent Profile dzięki czemu widok w większości jest identyczny, własnego profilu
+oraz profilu innego użytkownika, na profilu innego użytkownika dodatkowo wyświetlają się dwa przyciski
+jeden do dodania bądź usunięcia ze znajomych, drugi do obserwowania oraz usunięcia z obserwowanych.
+W komponencie Profile znajduje się zdjęcie użytkownika, po najechaniu na zdjęcie pojawia się przycisk do zmiany zdjęcia.
+Są również cztery przyciski do przejścia do znajomych, obserwowanych, obserwujących oraz zdjęć danego użytkownika.
+Na samym dole znajduje się lista czterach najpopularniejszych zdjęć danego użytkownika.
