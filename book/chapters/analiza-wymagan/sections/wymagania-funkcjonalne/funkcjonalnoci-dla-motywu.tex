@@ -11,7 +11,7 @@
     \descr{Jako użytkownik chcę móc zmienić motyw aplikacji.}
     \acceptcrit{Dostępna jest opcja przełączenia motywu na \emph{jasny} lub \emph{ciemny}; zmiana następuje bez przeładowania strony; ustawienie działa we wszystkich widokach.}
     \inputdata{Preferencje użytkownika dotyczące motywu.}
-    \preconditions{Zalogowany użytkownik.}
+    \preconditions{Brak.}
     \postconditions{Zmiana motywu widoczna jest natychmiast po kliknięciu przycisku.}
     \exceptions{Brak.}
     \implementation{Tailwind CSS z \texttt{darkMode:\ 'class'}; motyw przełączany przez dodanie/usunięcie klasy \texttt{dark} na elemencie \texttt{<html>};}
@@ -24,7 +24,7 @@
     \priority{M}
     \name{Zapamiętywanie preferencji motywu}
     \descr{Jako użytkownik chcę, aby moja preferencja motywu była zapamiętana i przywracana przy kolejnym użyciu aplikacji.}
-    \acceptcrit{Wybrany motyw jest przywracany po ponownym zalogowaniu i odświeżeniu strony; preferencja jest zapamiętywana lokalnie w przeglądarce.}
+    \acceptcrit{Wybrany motyw jest przywracany po ponownym włączeniu i odświeżeniu strony; preferencja jest zapamiętywana lokalnie w przeglądarce.}
     \inputdata{Preferencje użytkownika zapisane lokalnie.}
     \preconditions{FOXX dostępne.}
     \postconditions{Motyw po uruchomieniu odpowiada ostatniej decyzji użytkownika.}

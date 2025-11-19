@@ -23,7 +23,6 @@ import { expandedSpotGalleryCurrentMediaSlice } from "./expanded-spot-gallery-cu
 import { forumModalSlice } from "./forumModal";
 import { forumReportModalSlice } from "./forumReportModal";
 
-// TODO: Add persisting state to localStorage
 const store = configureStore({
     reducer: {
         account: accountSlice.reducer,

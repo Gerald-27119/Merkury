@@ -15,14 +15,14 @@ export default function GroupChatParticipantsSideBar() {
     }
 
     return (
-        <aside className="bg-violetDark/80 flex h-full flex-col p-3 text-white">
-            <p className="text-md mt-1 mb-1 ml-2 font-semibold text-white">
+        <aside className="dark:bg-violetDark/80 flex h-full flex-col p-3 dark:text-white">
+            <p className="text-md mt-1 mb-1 ml-2 font-semibold dark:text-white">
                 Chat Participants - {selectedChat?.participants?.length}
             </p>
-            <div className="scrollbar-track-violetDark/10 hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark/80 flex h-full w-full min-w-0 grow flex-col gap-1 overflow-y-auto">
+            <div className="dark:scrollbar-track-violetDark/10 hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin dark:bg-violetDark/80 flex h-full w-full min-w-0 grow flex-col gap-1 overflow-y-auto">
                 {selectedChat?.participants?.map((participant) => (
                     <button
-                        className={`hover:bg-violetLight flex w-full items-center gap-4 px-2 py-3 text-left hover:cursor-pointer`}
+                        className={`hover:dark:bg-violetLight hover:bg-violetBright/60 flex w-full items-center gap-4 px-2 py-3 text-left hover:cursor-pointer`}
                         onClick={() =>
                             handleParticipantClick(participant.username)
                         }
@@ -33,7 +33,7 @@ export default function GroupChatParticipantsSideBar() {
                                 participant?.imgUrl
                                     ? `${participant?.imgUrl}`
                                     : "/users/default.png"
-                            } // //TODO: zpewnic porpawne wyswietlanie zdjecia profilowego
+                            }
                             alt={participant.username}
                         />
                         <div className="flex w-full min-w-0 flex-col">
