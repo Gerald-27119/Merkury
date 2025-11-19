@@ -242,3 +242,61 @@
     description={Konstrukcja CSS pozwalająca stosować reguły stylów w zależności od cech urządzenia/okna (np. szerokości ekranu, orientacji, preferencji użytkownika). Podstawa responsywnego projektowania (\emph{responsive design}).}
 }
 
+\newglossaryentry{backlog}{
+    name={Backlog},
+    description={Lista zadań, które należy wykonać w ramach projektu, używane w metodykach zwinnych.}
+}
+
+\newglossaryentry{tablica_kanban}{
+    name={Tablica Kanban},
+    description={Narzędzie do zarządzania przepływem pracy, które pomaga zespołom śledzić zadania oraz ich postępy.
+    Składa się z kolumn reprezentujących stan etapu prac, na przykład „Do zrobienia” lub „W trakcie”.}
+}
+
+\newglossaryentry{ide}{
+    name={IDE},
+    description={(ang. \textit{integrated development environment}); to zintegrowane środowisko programistyczne, służące do
+    tworzenia, modyfikowania, testowania i konserwacji oprogramowania}
+}
+
+\newglossaryentry{api}{
+    name={API},
+    description={(ang. \textit{application programming interface}); zbiór reguł i operacji do komunikacji z oprogramowaniem.}
+}
+
+\longnewglossaryentry{rest_api}{
+    name={REST API}
+}{
+    Architektura budowania usług sieciowych komunikujących się poprzez metody protokołu HTTP (GET, PUT, POST, DELETE, PATCH).
+    Wymiana danych występuje często w formacie JSON lub XML.
+    \\REST API musi spełniać następujące reguły:
+    \begin{enumerate}[nosep]
+        \item \textbf{Rozdzielenie klient-serwer} \textemdash \space klient i serwer są od siebie niezależne, komunikują się poprzez interfejs.
+        \item \textbf{Bezstanowość} \textemdash \space każde żądanie przez klienta zawiera wszystkie informacje niezbędne do jego obsłużenia.
+        Po otrzymaniu żądania serwer nie przechowuje o nim żadnych informacji.
+        \item \textbf{Buforowalność (cache)} \textemdash \space odpowiedzi z API powinny informować, czy dane można cache’ować.
+        Jeśli tak, to przy kolejnym żądaniu mogą być zwrócone z cache’a.
+        \item \textbf{Jednolity interfejs}:
+        \begin{itemize}[nosep]
+            \item \textbf{Identyfikacja zasobów} \textemdash \space każdy zasób musi być jednoznacznie zidentyfikowany w interakcji klient-serwer.
+            \item \textbf{Manipulacja zasobów poprzez reprezentację} \textemdash \space po otrzymaniu reprezentacji klient może zmienić stan zasobu przesyłając zmodyfikowaną reprezentację.
+            \item \textbf{Samoopisujące się wiadomości} \textemdash \space każde żądanie i odpowiedź powinny zawierać informacje do jego poprawnego przetworzenia.
+            \item \textbf{Hypermedia jako silnik stanu aplikacji (HATEOAS)} \textemdash \space po otrzymaniu odpowiedzi klient powinien móc dynamicznie poznać inne interakcje przez linki.
+        \end{itemize}
+        \item \textbf{Warstwowość} \textemdash \space klient nie wie czy komunikuje się bezpośrednio z serwerem, czy poprzez pośrednika
+        (np. proxy) oraz nie wie z czym komunikuje się obsługująca go warstwa.
+        \item \textbf{Kod na żądanie (opcjonalnie)} \textemdash \space serwer może przesłać fragment kodu, który zostanie wykonany przez klienta.
+    \end{enumerate}
+}
+
+\newglossaryentry{uml}{
+    name={UML},
+    description={(ang. \textit{Unified Modeling Language});
+    graficzny język wizualizacji, specyfikowania oraz dokumentowania składników systemów informatycznych. }
+}
+
+\newglossaryentry{bpmn}{
+    name={BPMN},
+    description={(ang. \textit{Business Process Model and Notation});
+    standardowa notacja graficzna, która umożliwia szczegółowe przedstawienie i dokumentowanie procesów biznesowych.}
+}
