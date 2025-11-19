@@ -7,6 +7,8 @@
 \usepackage{csquotes}
 \usepackage{float}% ma pomoc z bugiem ze tabelki/zdjęcia przenoszą sie na koniec rozdziału
 \usepackage{minted}
+\usepackage{enumitem} % dla lepszej kontroli list
+\usepackage[utf8]{inputenc}
 
 %nowe pakiety do tabel:
 \usepackage{booktabs}
@@ -108,9 +110,11 @@
     \input{chapters/naklad-pracy/naklad-pracy}
     \input{chapters/podsumowanie/podsumowanie}
 
+
     \chapter{Słownik pojęć i skrótów}
     \label{ch:sownik-pojec-i-skrotow}
     \setglossarysection{section}
+    \setglossarystyle{altlist}
     \vspace*{-2\baselineskip}
     \printglossary[type=\acronymtype, title={}, toctitle={}]
 
