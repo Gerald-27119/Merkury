@@ -8,11 +8,13 @@ import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { FaSearch } from "react-icons/fa";
 import { currentViewSpotParamsActions } from "../../../../redux/current-view-spot-params";
 import { currentViewSpotsActions } from "../../../../redux/current-view-spots";
+import { IoClose } from "react-icons/io5";
 
 export default function CurrentViewSpotsNameSearchBar() {
     const [searchSpotName, setSearchSpotName] = useState<string>("");
     const debounceSpotNamesHints = useDebounce(searchSpotName, 500);
-    const [isShowHints, showHints, hideHints, _] = useBoolean();
+    const [isShowHints, showHints, hideHints] = useBoolean();
+    const [didSearch, setDidSearchTrue, setDidSearchFalse] = useBoolean();
 
     const { swLng, swLat, neLng, neLat, name, sorting, ratingFrom } =
         useSelectorTyped((state) => state.currentViewSpotsParams);
@@ -34,15 +36,16 @@ export default function CurrentViewSpotsNameSearchBar() {
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        if (debounceSpotNamesHints) {
+        if (debounceSpotNamesHints && !didSearch && searchSpotName.trim()) {
             showHints();
         } else {
             hideHints();
         }
-    }, [debounceSpotNamesHints]);
+    }, [debounceSpotNamesHints, didSearch, searchSpotName]);
 
     const handleNameChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchSpotName(e.target.value);
+        setDidSearchFalse();
         await queryClient.invalidateQueries({
             queryKey: [
                 "current-view-spots",
@@ -57,11 +60,21 @@ export default function CurrentViewSpotsNameSearchBar() {
         });
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
-        dispatch(
-            currentViewSpotParamsActions.setParams({ name: searchSpotName }),
-        );
+    const handleSubmit = (newName?: string) => {
+        const nameToSet =
+            newName !== undefined ? newName : debounceSpotNamesHints;
+        if (!didSearch) {
+            dispatch(
+                currentViewSpotParamsActions.setParams({
+                    name: nameToSet,
+                }),
+            );
+            setDidSearchTrue();
+        } else {
+            setSearchSpotName("");
+            dispatch(currentViewSpotParamsActions.setParams({ name: "" }));
+            setDidSearchFalse();
+        }
         queryClient.removeQueries({
             queryKey: [
                 "current-view-spots",
@@ -80,11 +93,11 @@ export default function CurrentViewSpotsNameSearchBar() {
     const handleHintClick = (hint: string) => {
         setSearchSpotName(hint);
         hideHints();
+        handleSubmit(hint);
     };
 
     return (
-        <form
-            onSubmit={handleSubmit}
+        <div
             className="dark:text-darkText mt-2 flex w-full items-end justify-center space-x-3"
             data-testid="current-view-spots-name-search-bar"
         >
@@ -103,8 +116,18 @@ export default function CurrentViewSpotsNameSearchBar() {
                         value={searchSpotName}
                         onChange={handleNameChange}
                     />
-                    <button type="submit" className="cursor-pointer text-xl">
-                        <FaSearch data-testid="search-icon" />
+                    <button
+                        onClick={() => handleSubmit()}
+                        className="cursor-pointer"
+                    >
+                        {didSearch && debounceSpotNamesHints ? (
+                            <IoClose className="text-2xl" />
+                        ) : (
+                            <FaSearch
+                                className="text-xl"
+                                data-testid="search-icon"
+                            />
+                        )}
                     </button>
                 </div>
                 {isShowHints && spotsNames.length > 0 && (
@@ -121,6 +144,6 @@ export default function CurrentViewSpotsNameSearchBar() {
                     </ul>
                 )}
             </div>
-        </form>
+        </div>
     );
 }
