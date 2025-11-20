@@ -1,21 +1,22 @@
-\subsection{Strona główna}
+\subsection{Wyszukiwarka spotów}
 \label{subsec:strona-glowna-frontend}
 
-Jednym z głównych modułów aplikacji jest strona główna.
-Pełni ona rolę centralnej wyszukiwarki \gls{spot}ów, dzięki której użytkownik może w prosty sposób znaleźć interesujące go lokalizacje.
-Strona działa w dwóch trybach: prostym oraz zaawansowanym (rys. \ref{img:implementacja-prosta-strona-glowna} i \ref{img:implementacja-zaawansowana-strona-glowna}).
+Jednym z głównych modułów aplikacji jest wyszukiwarka spotów, która umożliwia użytkownikowi szybkie
+odnalezienie interesujących lokalizacji.
+Funkcjonuje ona w dwóch wariantach: prostym i zaawansowanym
+(rys. \ref{img:implementacja-prosta-strona-glowna} oraz \ref{img:implementacja-zaawansowana-strona-glowna}).
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-prosta-strona-glowna}
-    \caption{Implementacja prostej wersji strony głównej}
+    \caption{Implementacja prostej wersji wyszukiwarki}
     \label{img:implementacja-prosta-strona-glowna}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-zaawansowana-strona-glowna}
-    \caption{Implementacja zaawansowanej wersji strony głównej}
+    \caption{Implementacja zaawansowanej wersji wyszukiwarki}
     \label{img:implementacja-zaawansowana-strona-glowna}
 \end{figure}
 
@@ -28,7 +29,7 @@ Przełączanie pomiędzy tymi widokami odbywa się za pomocą przycisku umieszcz
     \label{img:implementacja-switch}
 \end{figure}
 
-W trybie prostym prezentowana jest karuzela (rys. \ref{img:implementacja-karuzela-spotow}) z dwunastoma najpopularniejszymi spotami w całej aplikacji.
+W trybie prostym prezentowana jest karuzela (rys. \ref{img:implementacja-karuzela-spotow}) z dwunastoma najpopularniejszymi \gls{spot}ami w całej aplikacji.
 Użytkownik może w tym miejscu wyszukiwać \gls{spot}y po lokalizacji (kraj, region, miasto).
 
 \begin{figure}[H]
@@ -41,7 +42,7 @@ Użytkownik może w tym miejscu wyszukiwać \gls{spot}y po lokalizacji (kraj, re
 Widok zaawansowany udostępnia rozszerzoną wyszukiwarkę, która umożliwia filtrowanie wyników po mieście,
 tagach oraz ocenie, a także ich sortowanie według popularności i średniej oceny (rys. \ref{img:implementacja-zaawansowana-strona-glowna}).
 
-Strona główna została zbudowana z dwóch głównych komponentów: \texttt{HomePage} oraz \texttt{AdvanceHomePage}.
+Wyszukiwarka spotów została zbudowana z dwóch głównych komponentów: \texttt{HomePage} oraz \texttt{AdvanceHomePage}.
 W skład prostej wersji wchodzą następujące komponenty:
 \begin{itemize}
     \item \texttt{Switch} -- służy do przełączania widoku między trybem podstawowym a zaawansowanym,
@@ -73,7 +74,7 @@ co ułatwia określenie, w jakich miejscach znajdują się dostępne \gls{spot}y
 \end{figure}
 
 Komponent \texttt{SearchSpotList} (rys. \ref{img:implementacja-lista-spotow-strona-glowna}) odpowiada za prezentację wyników wyszukiwania.
-Został w nim zaimplementowany mechanizm przewijania nieskończonego (\glslink{infinity-scroll}{infinite scroll}),
+Został w nim zaimplementowany mechanizm przewijania nieskończonego (\glslink{infinite-scroll}{infinite scroll}),
 który automatycznie pobiera kolejne strony wyników w momencie, gdy użytkownik zbliża się do końca listy.
 Wykorzystuje on listę komponentów \texttt{SpotTile}, a także komponent \texttt{LoadingSpinner}
 oraz komunikat informujący o braku wyników, jeżeli nie zostanie odnaleziony żaden \gls{spot}.
@@ -105,4 +106,4 @@ z wykorzystaniem komponentów typu \texttt{Dropdown}.
 Oba widoki (\texttt{HomePage} i \texttt{AdvanceHomePage}) współdzielą część komponentów,
 między innymi \texttt{Switch} oraz \texttt{SearchSpotList}.
 Dzięki temu kod odpowiedzialny za wyświetlanie listy wyników jest zdefiniowany w jednym miejscu,
-a zmiany w sposobie prezentacji spotów wymagają modyfikacji tylko w komponentach współdzielonych.
+a zmiany w sposobie prezentacji \gls{spot}ów wymagają modyfikacji tylko w komponentach współdzielonych.
