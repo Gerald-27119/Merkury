@@ -24,6 +24,13 @@
 \newcounter{integrationcard}[chapter]
 \renewcommand{\theintegrationcard}{\thechapter.\arabic{integrationcard}}
 
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
 \input{glossary}
 
 \studfield{Informatyka}
@@ -95,7 +102,10 @@
     \maketitle
     \makeprojectcard
 
+    \begingroup
+    \hypersetup{linkcolor=black}
     \tableofcontents
+    \endgroup
     \clearpage
 
     \input{chapters/wstep/wstep}
