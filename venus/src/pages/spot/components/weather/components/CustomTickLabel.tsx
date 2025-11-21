@@ -5,7 +5,7 @@ import { WiRaindrop } from "react-icons/wi";
 
 export default function CustomTickLabel(props: any) {
     const { index, x, y, data } = props;
-    const time = formatISOToAmPm(data.at(index).time, data.timeZone);
+    const time = formatISOToAmPm(data.at(index).time, data.at(index).timeZone);
     const temperature = `${data.at(index).temperature}°C`;
     const precipitationProbability = `${data.at(index).precipitationProbability}%`;
 

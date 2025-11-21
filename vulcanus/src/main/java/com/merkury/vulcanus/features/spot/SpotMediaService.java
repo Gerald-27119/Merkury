@@ -10,6 +10,9 @@ import jakarta.persistence.OptimisticLockException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,29 +24,17 @@ public class SpotMediaService {
     private final SpotMediaLikesService spotMediaLikesService;
     private final CustomUserDetailsService customUserDetailsService;
 
-    private static final int MAX_RETRIES = 3;
-
+    @Retryable(retryFor = {ObjectOptimisticLockingFailureException.class, OptimisticLockException.class},
+            maxAttempts = 5,
+            backoff = @Backoff(delay = 50, multiplier = 2.0, maxDelay = 2000))
     public void toggleSpotMediaLikes(long spotMediaId) throws SpotMediaNotFoundException, UserNotFoundByUsernameException {
         String username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
+        spotMediaLikesService.toggleLikes(username, spotMediaId);
+    }
 
-        int attempts = 0;
-        while (true) {
-            attempts++;
-            try {
-                spotMediaLikesService.toggleLikes(username, spotMediaId);
-                break;
-            } catch (ObjectOptimisticLockingFailureException | OptimisticLockException e) {
-                if (attempts >= MAX_RETRIES) {
-                    log.error("Failed to save spot media likes change. Max retries count exceeded.", e);
-                    throw e;
-                }
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException ie) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }
+    @Recover
+    public void recoverFromToggleSpotMediaLikes(Exception e, long spotMediaId) {
+        log.error("Could not toggle likes for media {} after retries", spotMediaId, e);
     }
 
     public void increaseSpotMediaViewCount(long spotMediaId) throws SpotMediaNotFoundException {

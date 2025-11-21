@@ -40,17 +40,25 @@ export default function MapPage() {
     const { isLogged } = useSelectorTyped((state) => state.account);
 
     useEffect(() => {
-        const spotId = searchParams.get("spotId");
-        const longitude = searchParams.get("longitude");
-        const latitude = searchParams.get("latitude");
+        const spotId = Number(searchParams.get("spotId"));
+        const longitude = Number(searchParams.get("longitude"));
+        const latitude = Number(searchParams.get("latitude"));
         const region = searchParams.get("region");
         const city = searchParams.get("city");
-        if (spotId && longitude && latitude && region && city) {
-            dispatch(spotDetailsModalAction.setSpotId(Number(spotId)));
+        if (
+            Number.isInteger(spotId) &&
+            Number.isFinite(longitude) &&
+            Number.isFinite(latitude) &&
+            region &&
+            region.trim().length > 0 &&
+            city &&
+            city.trim().length > 0
+        ) {
+            dispatch(spotDetailsModalAction.setSpotId(spotId));
             dispatch(
                 spotWeatherActions.setSpotCoordinates({
-                    latitude: Number(latitude),
-                    longitude: Number(longitude),
+                    latitude,
+                    longitude,
                     region,
                     city,
                 }),

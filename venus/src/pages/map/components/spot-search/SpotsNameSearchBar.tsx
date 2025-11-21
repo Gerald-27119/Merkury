@@ -89,6 +89,7 @@ export default function SpotsNameSearchBar() {
                         onChange={handleNameChange}
                     />
                     <button
+                        type="button"
                         onClick={() => handleSubmit()}
                         className="cursor-pointer"
                     >

@@ -123,14 +123,14 @@ body {
 }
 
 .custom-rate-spot-comment
-    .ant-rate-star:not(.ant-rate-star-full)
-    .ant-rate-star-second {
+.ant-rate-star:not(.ant-rate-star-full)
+.ant-rate-star-second {
     color: #ffffff;
 }
 
 .custom-rate-searched-spot
-    .ant-rate-star:not(.ant-rate-star-full)
-    .ant-rate-star-second {
+.ant-rate-star:not(.ant-rate-star-full)
+.ant-rate-star-second {
     color: #ffffff;
 }
 
@@ -139,8 +139,8 @@ body {
 }
 
 .custom-rate-searched-spot
-    .ant-rate-star:not(.ant-rate-star-full)
-    .ant-rate-star-second {
+.ant-rate-star:not(.ant-rate-star-full)
+.ant-rate-star-second {
     color: #ffffff;
 }
 
@@ -252,4 +252,12 @@ body {
 
 .emoji-picker [data-emoji]:hover {
     @apply hover:bg-darbVioletBtnOutline active:bg-violetLighter bg-violetDarker border-none hover:cursor-pointer;
+}
+
+.scroll-grab::-webkit-scrollbar-thumb {
+    cursor: grab;
+}
+
+.scroll-grab::-webkit-scrollbar-thumb:active {
+    cursor: grabbing;
 }

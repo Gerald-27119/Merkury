@@ -137,7 +137,7 @@ export default function SpotActionButtonsContainer({
         }
         try {
             await navigator.clipboard.writeText(
-                `${window.location.origin}${location.pathname}?share=true&spotId=${spotId}&latitude=${spotLocationInfo.latitude}&longitude=${spotLocationInfo.longitude}&region=${spotLocationInfo.region}&city=${spotLocationInfo.city}`,
+                `${window.location.origin}${location.pathname}?share=true&spotId=${encodeURIComponent(spotId)}&latitude=${encodeURIComponent(spotLocationInfo.latitude)}&longitude=${encodeURIComponent(spotLocationInfo.longitude)}&region=${encodeURIComponent(spotLocationInfo.region)}&city=${encodeURIComponent(spotLocationInfo.city)}`,
             );
             dispatch(
                 notificationAction.addSuccess({

@@ -117,6 +117,7 @@ export default function CurrentViewSpotsNameSearchBar() {
                         onChange={handleNameChange}
                     />
                     <button
+                        type="button"
                         onClick={() => handleSubmit()}
                         className="cursor-pointer"
                     >

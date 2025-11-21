@@ -34,7 +34,7 @@ export default function FullscreenMediaModal() {
         >
             <IoClose
                 onClick={handleCloseFullscreenModal}
-                className="text-darkText absolute top-4 right-4 z-5 cursor-pointer text-3xl"
+                className="text-darkText absolute top-4 right-4 z-[5] cursor-pointer text-3xl"
             />
             <div className="relative flex h-full items-center justify-center">
                 {mediaType === MediaType.PHOTO ? (
