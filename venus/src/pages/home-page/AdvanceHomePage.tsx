@@ -15,8 +15,7 @@ export default function AdvanceHomePage() {
     }, []);
 
     return (
-        <div className="dark:bg-darkBg dark:text-darkText bg-lightBg text-lightText
-        flex min-h-screen w-full flex-col items-center space-y-4 overflow-hidden p-8 pt-18">
+        <div className="dark:bg-darkBg dark:text-darkText bg-lightBg text-lightText flex min-h-screen w-full flex-col items-center space-y-4 overflow-hidden p-8 pt-18">
             <Switch />
             <AdvanceSearchBar
                 onSetSpots={handleSetSearchedSpots}
