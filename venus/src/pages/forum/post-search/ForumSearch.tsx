@@ -13,6 +13,11 @@ import SkeletonListedForumPost from "../components/SkeletonListedForumPost";
 export default function ForumSearch() {
     const [params] = useSearchParams();
     const phrase = params.get("q") ?? "";
+    const category = params.get("category") ?? "";
+    const tags = params.getAll("tags") ?? "";
+    const fromDate = params.get("from") ?? "";
+    const toDate = params.get("to") ?? "";
+    const author = params.get("author") ?? "";
     const loadMoreRef = useRef<HTMLDivElement>(null);
     const [sortOption, setSortOption] = useState<PostSortOption>({
         name: "Newest",
@@ -29,15 +34,33 @@ export default function ForumSearch() {
         hasNextPage,
         isFetchingNextPage,
     } = useInfiniteQuery<ForumPostPage>({
-        queryKey: ["searchedPosts", sortOption, phrase],
+        queryKey: [
+            "searchedPosts",
+            sortOption,
+            phrase,
+            category,
+            tags,
+            fromDate,
+            toDate,
+            author,
+        ],
         queryFn: ({ pageParam }) =>
-            fetchSearchedPosts(pageParam as number, 10, phrase, sortOption),
+            fetchSearchedPosts(
+                pageParam as number,
+                10,
+                phrase,
+                category,
+                tags,
+                fromDate,
+                toDate,
+                author,
+                sortOption,
+            ),
         getNextPageParam: (lastPage: ForumPostPage) => {
             const { number, totalPages } = lastPage.page;
             return number + 1 < totalPages ? number + 1 : undefined;
         },
         initialPageParam: 0,
-        enabled: phrase.trim().length > 0,
     });
 
     useEffect(() => {
@@ -62,7 +85,10 @@ export default function ForumSearch() {
         isFetchingNextPage,
         hasNextPage,
         loadMoreRef,
-        message: "No more results found.",
+        message:
+            (searchPostPage?.pages?.[0]?.page.totalElements ?? 0) > 0
+                ? "No more results found."
+                : undefined,
     };
 
     const posts = searchPostPage?.pages.flatMap(

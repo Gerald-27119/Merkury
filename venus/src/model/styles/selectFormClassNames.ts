@@ -1,5 +1,6 @@
-const selectClassNames = {
-    control: () => "rounded-lg dark:bg-darkBg bg-lightBgSoft p-2 shadow-lg",
+const selectFormClassNames = {
+    control: () =>
+        "rounded-lg dark:bg-darkBg bg-lightBgSoft p-2 shadow-lg h-10",
     menu: () =>
         "dark:bg-darkBg bg-lightBgSoft border mt-1 rounded-lg shadow-lg dark:text-darkText text-lightText",
     option: ({
@@ -25,4 +26,4 @@ const selectClassNames = {
     clearIndicator: () => "hover:text-red-500",
 };
 
-export default selectClassNames;
+export default selectFormClassNames;

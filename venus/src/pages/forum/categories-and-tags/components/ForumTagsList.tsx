@@ -1,4 +1,4 @@
-import ForumTag from "../ForumTag";
+import PostTag from "../PostTag";
 import TagDto from "../../../../model/interface/tagDto";
 import ExpansionButton from "./ExpansionButton";
 
@@ -15,7 +15,7 @@ export default function ForumTagsList({ tags }: ForumTagsListProps) {
                     <ul className="mt-4 mb-2 flex flex-wrap gap-2 gap-y-3">
                         {tags.map((tag) => (
                             <li key={tag.id}>
-                                <ForumTag tag={tag} />
+                                <PostTag tag={tag} />
                             </li>
                         ))}
                     </ul>

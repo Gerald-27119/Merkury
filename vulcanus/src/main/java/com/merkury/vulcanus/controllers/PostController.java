@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -39,13 +40,19 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
-    @GetMapping("/public/post/search/{searchPhrase}")
+    @GetMapping("/public/post/search")
     public ResponseEntity<Page<PostGeneralDto>> getSearchedPostsPage(@RequestParam(defaultValue = "0") int page,
                                                                      @RequestParam(defaultValue = "10") int size,
                                                                      @RequestParam(defaultValue = "PUBLISH_DATE") PostSortField sortBy,
                                                                      @RequestParam(defaultValue = "DESC") SortDirection sortDirection,
-                                                                     @PathVariable String searchPhrase) throws UserNotFoundByUsernameException {
-        Page<PostGeneralDto> posts = postService.getSearchedPostsPage(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())), searchPhrase);
+                                                                     @RequestParam(required = false) String searchPhrase,
+                                                                     @RequestParam(required = false) String category,
+                                                                     @RequestParam(required = false) List<String> tags,
+                                                                     @RequestParam(required = false) LocalDate fromDate,
+                                                                     @RequestParam(required = false) LocalDate toDate,
+                                                                     @RequestParam(required = false) String author
+    ) throws UserNotFoundByUsernameException {
+        Page<PostGeneralDto> posts = postService.getSearchedPostsPage(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())), searchPhrase, category, tags, fromDate, toDate, author);
 
         return ResponseEntity.ok(posts);
     }

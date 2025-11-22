@@ -6,19 +6,51 @@ import { useBoolean } from "../../../hooks/useBoolean";
 import { searchPosts } from "../../../http/posts";
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import { useNavigate } from "react-router-dom";
+import PostCategoryDto from "../../../model/interface/forum/postCategoryDto";
+import TagDto from "../../../model/interface/tagDto";
+import SearchHintsList from "./SearchHintsList";
+import SelectWithSearch from "../components/SelectWithSearch";
+import selectSearchClassNames from "../../../model/styles/selectSearchClassNames";
+import { FaSearch } from "react-icons/fa";
+import Option from "../../../model/interface/forum/selectOption";
+import SearchFieldInput from "./SearchFieldInput";
 
 interface ForumSearchBarProps {
-    onSearch?: () => void;
+    categories: PostCategoryDto[];
+    tags: TagDto[];
 }
 
-export default function ForumSearchBar({ onSearch }: ForumSearchBarProps) {
+export default function ForumSearchBar({
+    categories,
+    tags,
+}: ForumSearchBarProps) {
     const [searchPhrase, setSearchPhrase] = useState("");
+    const [userName, setUserName] = useState("");
+    const [searchCategory, setSearchCategory] = useState<Option>();
+    const [searchTags, setSearchTags] = useState<Option[]>();
+    const [fromDate, setFromDate] = useState("");
+    const [toDate, setToDate] = useState("");
+
     const debouncedPhrase = useDebounce(searchPhrase, 500);
+
     const [areHintsShown, showHints, hideHints] = useBoolean();
+    const [isMenuOpen, openMenu, closeMenu] = useBoolean();
+
     const navigate = useNavigate();
     const searchRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+
     useClickOutside(searchRef, hideHints, areHintsShown);
+
+    const categoryOptions = categories.map((category) => ({
+        value: category.name,
+        label: category.name,
+    }));
+
+    const tagOptions = tags.map((tag) => ({
+        value: tag.name,
+        label: tag.name,
+    }));
 
     const { data: postTitles = [] } = useQuery({
         queryKey: ["postTitles", debouncedPhrase],
@@ -46,19 +78,34 @@ export default function ForumSearchBar({ onSearch }: ForumSearchBarProps) {
         inputRef.current?.focus();
     };
 
+    const handleMenuClick = () => {
+        hideHints();
+        isMenuOpen ? closeMenu() : openMenu();
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        hideHints();
         const params = new URLSearchParams();
         if (searchPhrase) params.set("q", searchPhrase);
+        if (searchCategory) params.set("category", searchCategory.value);
+        if (searchTags?.length)
+            searchTags.forEach((tag) => params.append("tags", tag.value));
+        if (fromDate) params.set("from", fromDate);
+        if (toDate) params.set("to", toDate);
+        if (userName) params.set("author", userName);
         navigate(`/forum/search?${params.toString()}`);
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="relative" ref={searchRef}>
-                <div className="dark:bg-darkBgSoft bg-lightBgSoft mb-4 flex items-center gap-2 rounded-2xl p-2 shadow-lg">
+            <div ref={searchRef}>
+                <div
+                    className={`dark:bg-darkBgSoft bg-lightBgSoft flex items-center gap-2 ${isMenuOpen ? "rounded-t-2xl" : "rounded-2xl shadow-lg"} relative p-2`}
+                >
                     <input
                         className="focus:outline-none"
+                        type="text"
                         placeholder="Search"
                         ref={inputRef}
                         value={searchPhrase}
@@ -66,24 +113,76 @@ export default function ForumSearchBar({ onSearch }: ForumSearchBarProps) {
                         onFocus={() => {
                             if (searchPhrase.trim().length > 0) showHints();
                         }}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") handleSubmit(e);
+                        }}
                     ></input>
-                    <button className="cursor-pointer text-2xl" type="button">
+                    <button
+                        className="cursor-pointer text-2xl"
+                        type="button"
+                        onClick={handleMenuClick}
+                    >
                         <HiMenu />
                     </button>
+                    {areHintsShown && (
+                        <SearchHintsList
+                            hints={postTitles}
+                            onHintClick={handleHintClick}
+                        />
+                    )}
                 </div>
-                {areHintsShown && postTitles.length > 0 && (
-                    <div className="dark:border-darkBorder dark:bg-darkBgSoft absolute top-full left-0 w-full rounded-md border bg-white shadow-lg">
-                        <ul className="items-center py-1 text-sm">
-                            {postTitles.map((title) => (
-                                <li
-                                    key={title}
-                                    className="dark:hover:bg-darkBgMuted flex cursor-pointer items-center gap-2 px-4 py-2 hover:bg-gray-100"
-                                    onClick={() => handleHintClick(title)}
-                                >
-                                    {title}
-                                </li>
-                            ))}
-                        </ul>
+
+                {isMenuOpen && (
+                    <div className="dark:bg-darkBgSoft bg-lightBg rounded-b-2xl p-2 text-sm shadow-lg">
+                        <div className="mt-2 grid grid-cols-2 gap-2">
+                            <div>
+                                <p className="mb-1">Category</p>
+                                <SelectWithSearch
+                                    placeholder=""
+                                    isMultiChoice={false}
+                                    options={categoryOptions}
+                                    value={searchCategory}
+                                    isClearable={true}
+                                    onChange={setSearchCategory}
+                                    classNames={selectSearchClassNames}
+                                />
+                            </div>
+
+                            <div>
+                                <p className="mb-1">Tags</p>
+                                <SelectWithSearch
+                                    placeholder=""
+                                    isMultiChoice={true}
+                                    options={tagOptions}
+                                    value={searchTags}
+                                    isClearable={false}
+                                    onChange={setSearchTags}
+                                    classNames={selectSearchClassNames}
+                                />
+                            </div>
+
+                            <SearchFieldInput
+                                label="From"
+                                inputType="date"
+                                value={fromDate}
+                                onChange={(e) => setFromDate(e.target.value)}
+                            />
+
+                            <SearchFieldInput
+                                label="To"
+                                inputType="date"
+                                value={toDate}
+                                onChange={(e) => setToDate(e.target.value)}
+                            />
+
+                            <SearchFieldInput
+                                label="Posted By"
+                                inputType="text"
+                                value={userName}
+                                onChange={(e) => setUserName(e.target.value)}
+                                Icon={FaSearch}
+                            />
+                        </div>
                     </div>
                 )}
             </div>

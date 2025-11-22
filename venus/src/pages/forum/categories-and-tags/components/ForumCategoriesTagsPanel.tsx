@@ -1,11 +1,13 @@
 import Error from "../../../../components/error/Error";
-import ForumCategoryAndTagsDto from "../../../../model/interface/forum/forumCategoryAndTagsDto";
+import PostCategoryAndTagsDto from "../../../../model/interface/forum/postCategoryAndTagsDto";
 import ForumCategoriesList from "./ForumCategoriesList";
 import ForumTagsList from "./ForumTagsList";
 import SkeletonForumCategoryTag from "./SkeletonForumCategoryTag";
+import PostCategoryDto from "../../../../model/interface/forum/postCategoryDto";
+import TagDto from "../../../../model/interface/tagDto";
 
 interface ForumCategoriesTagsPanelProps {
-    data?: ForumCategoryAndTagsDto;
+    data?: PostCategoryAndTagsDto;
     isLoading: boolean;
     isError: boolean;
     error?: unknown;

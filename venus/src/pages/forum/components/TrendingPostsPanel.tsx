@@ -25,7 +25,7 @@ export default function TrendingPostsPanel({
     }
 
     return (
-        <div className="dark:bg-darkBgSoft bg-lightBgSoft inline-block max-w-full rounded-2xl break-words shadow-lg">
+        <div className="dark:bg-darkBgSoft bg-lightBgSoft mt-4 inline-block max-w-full rounded-2xl break-words shadow-lg">
             <TrendingPostsList posts={data} />
         </div>
     );

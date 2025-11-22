@@ -77,7 +77,10 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
                 <div>{children}</div>
 
                 <div className="sticky-forum-panel w-58">
-                    <ForumSearchBar />
+                    <ForumSearchBar
+                        categories={categoriesAndTags?.categories ?? []}
+                        tags={categoriesAndTags?.tags ?? []}
+                    />
                     <TrendingPostsPanel
                         data={trendingPosts}
                         isLoading={isTrendingPostsLoading}

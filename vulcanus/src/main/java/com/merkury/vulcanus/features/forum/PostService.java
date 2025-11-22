@@ -13,6 +13,7 @@ import com.merkury.vulcanus.model.mappers.forum.PostMapper;
 import com.merkury.vulcanus.model.repositories.forum.PostCategoryRepository;
 import com.merkury.vulcanus.model.repositories.forum.PostRepository;
 import com.merkury.vulcanus.model.repositories.forum.PostTagRepository;
+import com.merkury.vulcanus.model.specification.PostSpecification;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import com.merkury.vulcanus.utils.ForumContentValidator;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
@@ -20,10 +21,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -59,11 +62,17 @@ public class PostService {
         return postsPage.map(post -> PostMapper.toGeneralDto(post, user));
     }
 
-    public Page<PostGeneralDto> getSearchedPostsPage(Pageable pageable, String phrase) throws UserNotFoundByUsernameException {
-        Page<Post> postsPage = postRepository.findAllByTitleContainingIgnoreCase(phrase, pageable);
+    public Page<PostGeneralDto> getSearchedPostsPage(Pageable pageable, String phrase, String category, List<String> tags, LocalDate fromDate, LocalDate toDate, String author) throws UserNotFoundByUsernameException {
+        Specification<Post> spec = Specification.where(PostSpecification.hasPhrase(phrase))
+                .and(PostSpecification.hasCategory(category))
+                .and(PostSpecification.hasTags(tags))
+                .and(PostSpecification.hasFromDate(fromDate))
+                .and(PostSpecification.hasToDate(toDate))
+                .and(PostSpecification.hasAuthor(author));
+
+        Page<Post> postsPage = postRepository.findAll(spec, pageable);
         var userName = getAuthenticatedUsernameOrNull();
         var user = userName != null ? userEntityFetcher.getByUsername(userName) : null;
-
 
         return postsPage.map(post -> PostMapper.toGeneralDto(post, user));
     }

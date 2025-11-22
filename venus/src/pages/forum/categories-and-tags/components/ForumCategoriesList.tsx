@@ -1,9 +1,9 @@
-import ForumCategory from "../ForumCategory";
-import ForumCategoryDto from "../../../../model/interface/forum/forumCategoryDto";
+import PostCategory from "../PostCategory";
+import PostCategoryDto from "../../../../model/interface/forum/postCategoryDto";
 import ExpansionButton from "./ExpansionButton";
 
 interface ForumCategoriesListProps {
-    categories?: ForumCategoryDto[];
+    categories?: PostCategoryDto[];
 }
 
 export default function ForumCategoriesList({
@@ -17,7 +17,7 @@ export default function ForumCategoriesList({
                     <ul>
                         {categories.map((category) => (
                             <li key={category.id}>
-                                <ForumCategory category={category} />
+                                <PostCategory category={category} />
                             </li>
                         ))}
                     </ul>

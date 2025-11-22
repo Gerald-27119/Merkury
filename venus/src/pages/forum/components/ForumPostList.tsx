@@ -56,7 +56,7 @@ export default function ForumPostList({
                     </ul>
                 </div>
             ) : (
-                <div className="mt-2 flex items-center justify-center p-2 text-lg">
+                <div className="mt-2 flex w-md items-center justify-center p-2 text-lg md:w-2xl">
                     <span>No posts available</span>
                 </div>
             )}

@@ -1,7 +1,7 @@
 import axios from "axios";
 import PostDto from "../model/interface/forum/post/postDto";
 import PostDetails from "../model/interface/forum/post/postDetails";
-import ForumCategoryAndTagsDto from "../model/interface/forum/forumCategoryAndTagsDto";
+import PostCategoryAndTagsDto from "../model/interface/forum/postCategoryAndTagsDto";
 import ForumPostPage from "../model/interface/forum/forumPostPage";
 import { PostSortOption } from "../model/enum/forum/postSortOption";
 import ForumReportDto from "../model/interface/forum/forumReportDto";
@@ -34,12 +34,28 @@ export async function fetchSearchedPosts(
     page: number,
     size: number,
     searchPhrase: string,
+    category: string,
+    tags: string[],
+    fromDate: string,
+    toDate: string,
+    author: string,
     sortType: PostSortOption,
 ): Promise<ForumPostPage> {
     const { sortBy, sortDirection } = sortType;
     return (
-        await axios.get(`${BASE_URL}/public/post/search/${searchPhrase}`, {
-            params: { page, size, sortBy, sortDirection },
+        await axios.get(`${BASE_URL}/public/post/search`, {
+            params: {
+                page,
+                size,
+                sortBy,
+                sortDirection,
+                searchPhrase,
+                category,
+                tags: tags.join(","),
+                fromDate,
+                toDate,
+                author,
+            },
             withCredentials: true,
         })
     ).data;
@@ -57,7 +73,7 @@ export async function fetchTrendingPosts(): Promise<TrendingPostDto[]> {
     return (await axios.get(`${BASE_URL}/public/post/trending`)).data;
 }
 
-export async function fetchCategoriesAndTags(): Promise<ForumCategoryAndTagsDto> {
+export async function fetchCategoriesAndTags(): Promise<PostCategoryAndTagsDto> {
     return (await axios.get(`${BASE_URL}/public/categories-tags`)).data;
 }
 
