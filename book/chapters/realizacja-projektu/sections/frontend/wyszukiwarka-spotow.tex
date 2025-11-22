@@ -1,21 +1,24 @@
-\subsection{Strona główna}
+\subsection{Wyszukiwarka spotów}
 \label{subsec:strona-glowna-frontend}
 
-Jednym z głównych modułów aplikacji jest strona główna.
-Pełni ona rolę centralnej wyszukiwarki \gls{spot}ów, dzięki której użytkownik może w prosty sposób znaleźć interesujące go lokalizacje.
-Strona działa w dwóch trybach: prostym oraz zaawansowanym (rys. \ref{img:implementacja-prosta-strona-glowna} i \ref{img:implementacja-zaawansowana-strona-glowna}).
+Niniejszy rozdział opisuje sposób implementacji wyszukiwarki spotów. \newline
+
+Jednym z głównych modułów aplikacji jest wyszukiwarka spotów, która umożliwia użytkownikowi szybkie
+odnalezienie interesujących lokalizacji.
+Funkcjonuje ona w dwóch wariantach: prostym i zaawansowanym
+(rys. \ref{img:implementacja-prosta-strona-glowna} oraz \ref{img:implementacja-zaawansowana-strona-glowna}).
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-prosta-strona-glowna}
-    \caption{Implementacja prostej wersji strony głównej}
+    \caption{Implementacja prostej wersji wyszukiwarki}
     \label{img:implementacja-prosta-strona-glowna}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-zaawansowana-strona-glowna}
-    \caption{Implementacja zaawansowanej wersji strony głównej}
+    \caption{Implementacja zaawansowanej wersji wyszukiwarki}
     \label{img:implementacja-zaawansowana-strona-glowna}
 \end{figure}
 
@@ -28,42 +31,42 @@ Przełączanie pomiędzy tymi widokami odbywa się za pomocą przycisku umieszcz
     \label{img:implementacja-switch}
 \end{figure}
 
-W trybie prostym prezentowana jest karuzela (rys. \ref{img:implementacja-karuzela-spotow}) z dwunastoma najpopularniejszymi spotami w całej aplikacji.
-Użytkownik może w tym miejscu wyszukiwać \gls{spot}y po lokalizacji (kraj, region, miasto).
+W trybie prostym prezentowana jest karuzela (rys. \ref{img:implementacja-karuzela-spotow}) z dwunastoma najpopularniejszymi \glslink{spot}{spotami} w całej aplikacji.
+Użytkownik może w tym miejscu wyszukiwać \glslink{spot}{spoty} po lokalizacji (kraj, region, miasto).
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-karuzela-spotow}
-    \caption{Implementacja karuzeli z najpopularniejszymi spotami}
+    \caption{Implementacja karuzeli z najpopularniejszymi \glslink{spot}{spotami}}
     \label{img:implementacja-karuzela-spotow}
 \end{figure}
 
 Widok zaawansowany udostępnia rozszerzoną wyszukiwarkę, która umożliwia filtrowanie wyników po mieście,
 tagach oraz ocenie, a także ich sortowanie według popularności i średniej oceny (rys. \ref{img:implementacja-zaawansowana-strona-glowna}).
 
-Strona główna została zbudowana z dwóch głównych komponentów: \texttt{HomePage} oraz \texttt{AdvanceHomePage}.
+Wyszukiwarka spotów została zbudowana z dwóch głównych komponentów: \texttt{HomePage} oraz \texttt{AdvanceHomePage}.
 W skład prostej wersji wchodzą następujące komponenty:
 \begin{itemize}
     \item \texttt{Switch} -- służy do przełączania widoku między trybem podstawowym a zaawansowanym,
-    \item \texttt{SearchBar} -- podstawowa wyszukiwarka \gls{spot}ów,
-    \item \texttt{Carousel} -- wyświetla najpopularniejsze \gls{spot}y,
-    \item \texttt{SearchSpotList} -- wyświetla wyszukane \gls{spot}y.
+    \item \texttt{SearchBar} -- podstawowa wyszukiwarka \glslink{spot}{spotów},
+    \item \texttt{Carousel} -- wyświetla najpopularniejsze \glslink{spot}{spoty},
+    \item \texttt{SearchSpotList} -- wyświetla wyszukane \glslink{spot}{spoty}.
 \end{itemize}
 
 W skład zaawansowanej wersji wchodzą następujące komponenty:
 \begin{itemize}
     \item \texttt{Switch} -- służy do przełączania widoku między trybem podstawowym a zaawansowanym,
-    \item \texttt{AdvanceSearchBar} -- zaawansowana wyszukiwarka \gls{spot}ów,
-    \item \texttt{SearchSpotList} -- wyświetla wyszukane \gls{spot}y.
+    \item \texttt{AdvanceSearchBar} -- zaawansowana wyszukiwarka \glslink{spot}{spotów},
+    \item \texttt{SearchSpotList} -- wyświetla wyszukane \glslink{spot}{spoty}.
 \end{itemize}
 
-Komponent \texttt{Switch} (rys. \ref{img:implementacja-switch}) zawiera dwa elementy \texttt{NavLink} z \glslink{biblioteka}{Biblioteki} React Router,
+Komponent \texttt{Switch} (rys. \ref{img:implementacja-switch}) zawiera dwa elementy \texttt{NavLink} z \glslink{biblioteka}{biblioteki} React Router,
 co pozwala na przełączanie widoków bez konieczności przeładowywania całej strony.
 
 W komponencie \texttt{SearchBar} (rys. \ref{img:implementacja-prosta-wyszukiwarka}) po wpisaniu co najmniej dwóch znaków wyświetlana jest lista podpowiedzi
 dla kraju, regionu oraz miasta, w zależności od aktualnie uzupełnianego pola.
 Po pojawieniu się listy użytkownik może wybrać interesującą go lokalizację,
-co ułatwia określenie, w jakich miejscach znajdują się dostępne \gls{spot}y.
+co ułatwia określenie, w jakich miejscach znajdują się dostępne \glslink{spot}{spoty}.
 
 \begin{figure}[H]
     \centering
@@ -73,27 +76,27 @@ co ułatwia określenie, w jakich miejscach znajdują się dostępne \gls{spot}y
 \end{figure}
 
 Komponent \texttt{SearchSpotList} (rys. \ref{img:implementacja-lista-spotow-strona-glowna}) odpowiada za prezentację wyników wyszukiwania.
-Został w nim zaimplementowany mechanizm przewijania nieskończonego (\glslink{infinity-scroll}{infinite scroll}),
+Został w nim zaimplementowany mechanizm przewijania nieskończonego (\glslink{infinite-scroll}{infinite scroll}),
 który automatycznie pobiera kolejne strony wyników w momencie, gdy użytkownik zbliża się do końca listy.
 Wykorzystuje on listę komponentów \texttt{SpotTile}, a także komponent \texttt{LoadingSpinner}
-oraz komunikat informujący o braku wyników, jeżeli nie zostanie odnaleziony żaden \gls{spot}.
+oraz komunikat informujący o braku wyników, jeżeli nie zostanie odnaleziony żaden \glslink{spot}{spot}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-lista-spotow-strona-glowna}
-    \caption{Implementacja listy do wyświetlania spotów}
+    \caption{Implementacja listy do wyświetlania \glslink{spot}{spotów}}
     \label{img:implementacja-lista-spotow-strona-glowna}
 \end{figure}
 
 Komponent \texttt{SpotTile} zawiera następujące informacje:
 \begin{itemize}
-    \item zdjęcie \gls{spot}a,
+    \item zdjęcie \glslink{spot}{spota},
     \item miasto, w którym się znajduje,
-    \item nazwę \gls{spot}a,
+    \item nazwę \glslink{spot}{spota},
     \item ocenę oraz liczbę ocen,
     \item tagi,
     \item podstawowe informacje pogodowe (temperatura i typ pogody),
-    \item dwa przyciski: jeden prowadzący do widoku szczegółów \gls{spot}a oraz drugi informujący, jak daleko znajduje się dany \gls{spot}; po kliknięciu przycisku lokalizacja \gls{spot}a jest prezentowana na mapie.
+    \item dwa przyciski: jeden prowadzący do widoku szczegółów \glslink{spot}{spota} oraz drugi informujący, jak daleko znajduje się dany \glslink{spot}{spot}; po kliknięciu przycisku lokalizacja \glslink{spot}{spota} jest prezentowana na mapie.
 \end{itemize}
 
 Komponent \texttt{AdvanceSearchBar} jest zbliżony wyglądem i strukturą do wersji podstawowej,
@@ -105,4 +108,4 @@ z wykorzystaniem komponentów typu \texttt{Dropdown}.
 Oba widoki (\texttt{HomePage} i \texttt{AdvanceHomePage}) współdzielą część komponentów,
 między innymi \texttt{Switch} oraz \texttt{SearchSpotList}.
 Dzięki temu kod odpowiedzialny za wyświetlanie listy wyników jest zdefiniowany w jednym miejscu,
-a zmiany w sposobie prezentacji spotów wymagają modyfikacji tylko w komponentach współdzielonych.
+a zmiany w sposobie prezentacji \glslink{spot}{spotów} wymagają modyfikacji tylko w komponentach współdzielonych.
