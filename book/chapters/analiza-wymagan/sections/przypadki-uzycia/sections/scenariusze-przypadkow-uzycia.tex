@@ -4,6 +4,9 @@
 \subsection{Scenariusze przypadków użycia}
 \label{subsec:scenariusz-przypadkow-uzycia}
 
+Niniejszy rozdział zawiera scenariusze przypadków użycia.
+Zostały one wykonane dla wybranych przypadków użycia.
+
 % --- Licznik dla scenariuszy przypadków użycia ---
 \newcounter{usecase}[chapter]
 \renewcommand{\theusecase}{\thechapter.\arabic{usecase}}
@@ -59,5 +62,1270 @@
             komunikat o błędzie.
         \end{enumerate}
     }
+}
 
+\usecasecard{tab:pu2-logowanie}{Logowanie użytkownika}{PU2}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany}
+    \ucdesc{Użytkownik loguje się do systemu, podając login i hasło.}
+    \ucpre{Użytkownik znajduje się na stronie logowania.}
+    \ucpost{Użytkownik jest zalogowany i przeniesiony na stronę główną aplikacji.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wpisuje nazwę użytkownika lub adres e-mail.
+            \item Użytkownik wpisuje hasło.
+            \item Użytkownik naciska przycisk logowania.
+            \item System weryfikuje dane logowania.
+            \item System loguje użytkownika i przenosi go na stronę główną.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[4a.] Podane dane są niepoprawne – system wyświetla komunikat o błędzie i pozwala ponowić próbę.
+            \item[4b.] Konto użytkownika jest zablokowane – system informuje o blokadzie i sugeruje kontakt z administratorem.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu3-reset-hasla}{Resetowanie hasła}{PU3}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany, Usługa SMTP}
+    \ucdesc{Użytkownik inicjuje reset hasła, aby odzyskać dostęp do konta.}
+    \ucpre{Użytkownik znajduje się na ekranie resetu hasła.}
+    \ucpost{Użytkownik otrzymuje wiadomość e-mail z linkiem do ustawienia nowego hasła.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wpisuje adres e-mail powiązany z kontem.
+            \item Użytkownik zatwierdza żądanie resetu hasła.
+            \item System sprawdza, czy istnieje konto powiązane z podanym adresem.
+            \item System generuje token resetu hasła.
+            \item System wysyła e-mail z linkiem do zmiany hasła.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Nie istnieje konto dla podanego adresu – system wyświetla komunikat o błędzie.
+            \item[5a.] Występuje błąd połączenia z usługą SMTP – system informuje użytkownika o problemie technicznym.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu4-zmiana-hasla}{Zmiana hasła w ustawieniach konta}{PU4}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik zmienia hasło do konta z poziomu ustawień profilu.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się na ekranie ustawień konta.}
+    \ucpost{Hasło do konta użytkownika zostało zaktualizowane.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do sekcji zmiany hasła.
+            \item Użytkownik wpisuje aktualne hasło.
+            \item Użytkownik wpisuje nowe hasło i powtarza je.
+            \item Użytkownik zatwierdza formularz zmiany hasła.
+            \item System weryfikuje aktualne hasło i poprawność nowego.
+            \item System zapisuje nowe hasło i informuje o powodzeniu operacji.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[5a.] Aktualne hasło jest nieprawidłowe – system wyświetla komunikat i nie zapisuje zmian.
+            \item[5b.] Nowe hasło nie spełnia wymagań bezpieczeństwa – system informuje o błędzie i podświetla pola do poprawy.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu5-zmiana-motywu}{Zmiana motywu interfejsu}{PU5}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik niezalogowany}
+    \ucdesc{Użytkownik zmienia motyw kolorystyczny interfejsu (np. jasny/ciemny).}
+    \ucpre{Użytkownik znajduje się w aplikacji webowej.}
+    \ucpost{Wybrany motyw jest zastosowany w interfejsie i zapamiętany w ustawieniach.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera menu ustawień wyglądu.
+            \item Użytkownik wybiera dostępny motyw interfejsu.
+            \item System stosuje wybrany motyw.
+            \item System zapisuje preferencję (np. w local storage lub profilu użytkownika).
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu6-wylogowanie}{Wylogowanie użytkownika}{PU6}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik wylogowuje się z aplikacji.}
+    \ucpre{Użytkownik jest zalogowany.}
+    \ucpost{Sesja użytkownika została zakończona, użytkownik widzi stronę startową dla niezalogowanych.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję wylogowania z menu.
+            \item System unieważnia sesję użytkownika.
+            \item System przenosi użytkownika na stronę startową aplikacji.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu7-powiadomienia}{Przeglądanie powiadomień}{PU7}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda listę powiadomień (np. o nowych komentarzach, wiadomościach, płatnościach).}
+    \ucpre{Użytkownik jest zalogowany.}
+    \ucpost{Powiadomienia zostały wyświetlone, a wybrane oznaczone jako przeczytane.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera panel powiadomień.
+            \item System pobiera listę powiadomień użytkownika.
+            \item System wyświetla powiadomienia w odwróconym porządku chronologicznym.
+            \item Użytkownik otwiera wybrane powiadomienie.
+            \item System oznacza powiadomienie jako przeczytane i ewentualnie przenosi użytkownika do powiązanego widoku (np. postu, spota, czatu).
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] System nie może pobrać powiadomień (błąd serwera) – użytkownik otrzymuje komunikat o błędzie i może spróbować ponownie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu8-edycja-konta}{Edycja danych konta}{PU8}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik modyfikuje podstawowe dane konta (np. imię, avatar, opis).}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w sekcji ustawień konta.}
+    \ucpost{Zaktualizowane dane konta są zapisane i widoczne w profilu.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera formularz edycji danych konta.
+            \item Użytkownik wprowadza zmiany w dostępnych polach.
+            \item Użytkownik zatwierdza formularz.
+            \item System waliduje dane i zapisuje zmiany.
+            \item System informuje użytkownika o poprawnym zapisaniu danych.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[4a.] Formularz zawiera błędne dane – system wyświetla komunikat i podświetla pola wymagające poprawy.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu9-subskrypcja}{Wykupienie subskrypcji premium}{PU9}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany, Bramka płatnicza, System finansowo-księgowy}
+    \ucdesc{Użytkownik opłaca subskrypcję premium w celu uzyskania dodatkowych funkcji.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w module subskrypcji.}
+    \ucpost{Subskrypcja premium jest aktywna, a użytkownik ma dostęp do funkcji premium.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera plan subskrypcji.
+            \item Użytkownik przechodzi do bramki płatniczej.
+            \item Użytkownik podaje dane płatnicze i zatwierdza transakcję.
+            \item Bramka płatnicza przetwarza płatność i zwraca wynik do systemu.
+            \item System zapisuje informację o opłaconej subskrypcji i aktualizuje uprawnienia.
+            \item System generuje wpis w systemie finansowo-księgowym.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[4a.] Płatność nie powiodła się – system informuje użytkownika i umożliwia ponowną próbę.
+            \item[5a.] W czasie aktualizacji subskrypcji wystąpił błąd – system cofa zmiany i wyświetla komunikat o problemie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu10-mapa}{Przeglądanie mapy spotów}{PU10}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany, Użytkownik zalogowany, Usługa do wyświetlania mapy}
+    \ucdesc{Użytkownik przegląda mapę z zaznaczonymi spotami.}
+    \ucpre{Użytkownik znajduje się w module mapy.}
+    \ucpost{Mapa ze spotami została wyświetlona, a użytkownik może przybliżać, oddalać i przesuwać widok.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item System inicjuje widok mapy z domyślnym obszarem.
+            \item System pobiera listę spotów w aktualnym zakresie mapy.
+            \item System rysuje znaczniki spotów na mapie.
+            \item Użytkownik przesuwa lub skaluje mapę.
+            \item System dociąga i aktualizuje listę spotów dla nowego zakresu.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Usługa mapy jest niedostępna – system wyświetla komunikat o błędzie i prosty widok zastępczy.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu11-szukaj-na-mapie}{Wyszukiwanie spota na mapie}{PU11}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany, Użytkownik zalogowany}
+    \ucdesc{Użytkownik wyszukuje spota korzystając z pola wyszukiwania na mapie (np. po nazwie lub lokalizacji).}
+    \ucpre{Użytkownik widzi mapę spotów.}
+    \ucpost{Mapa zostaje ustawiona na wybranego spota lub listę dopasowań.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wpisuje frazę w polu wyszukiwania na mapie.
+            \item System podpowiada listę pasujących spotów.
+            \item Użytkownik wybiera spota z listy.
+            \item System przybliża mapę do wybranego spota i podświetla jego znacznik.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Brak wyników dla podanej frazy – system informuje użytkownika o braku dopasowań.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu12-globalna-wyszukiwarka}{Wyszukiwanie spota w globalnej wyszukiwarce}{PU12}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik}
+    \ucdesc{Użytkownik wyszukuje spoty za pomocą globalnej wyszukiwarki w aplikacji.}
+    \ucpre{Użytkownik ma dostęp do globalnego pola wyszukiwania.}
+    \ucpost{Użytkownik otrzymuje listę znalezionych spotów.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wpisuje frazę w globalnej wyszukiwarce.
+            \item System wyszukuje spoty spełniające kryteria.
+            \item System wyświetla listę wyników.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Brak wyników – system wyświetla komunikat i proponuje zmianę kryteriów wyszukiwania.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu13-przejscie-z-wynikow}{Przejście do spota na mapie z wyszukiwarki}{PU13}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik}
+    \ucdesc{Użytkownik przechodzi z wyników wyszukiwarki do widoku mapy ustawionego na konkretny spot.}
+    \ucpre{Wyświetlona jest lista wyników wyszukiwania spotów.}
+    \ucpost{Mapa jest przybliżona do wybranego spota, a jego szczegóły są dostępne.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera spota z listy wyników.
+            \item System przełącza widok na moduł mapy.
+            \item System ustawia mapę na lokalizację spota i podświetla jego znacznik.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu14-szczegoly-spota}{Wyświetlanie szczegółów spota}{PU14}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany, Użytkownik zalogowany}
+    \ucdesc{Użytkownik otwiera widok szczegółów wybranego spota.}
+    \ucpre{Użytkownik ma przed sobą mapę lub listę spotów.}
+    \ucpost{Wyświetlony jest ekran ze szczegółami spota (opis, media, komentarze).}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera spota z mapy lub listy.
+            \item System pobiera szczegółowe dane spota.
+            \item System wyświetla kartę szczegółów spota.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Spot został usunięty – system informuje użytkownika o niedostępności spota.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu15-komentarze-spota}{Przeglądanie komentarzy do spota}{PU15}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany, Użytkownik zalogowany}
+    \ucdesc{Użytkownik czyta komentarze pod wybranym spotem.}
+    \ucpre{Wyświetlany jest widok szczegółów spota.}
+    \ucpost{Lista komentarzy do spota została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item System pobiera komentarze powiązane ze spotem.
+            \item System wyświetla komentarze w kolejności chronologicznej lub według popularności.
+            \item Użytkownik przewija listę komentarzy.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[1a.] Spot nie ma jeszcze komentarzy – system wyświetla odpowiednią informację.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu16-pogoda}{Przeglądanie pogody na spocie}{PU16}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany, Usługa danych pogodowych}
+    \ucdesc{Użytkownik sprawdza prognozę pogody dla lokalizacji spota.}
+    \ucpre{Wyświetlany jest widok szczegółów spota z dostępną lokalizacją.}
+    \ucpost{Prognoza pogody dla spota została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do zakładki z pogodą dla spota.
+            \item System wysyła zapytanie do usługi pogodowej z lokalizacją spota.
+            \item System odbiera prognozę i prezentuje ją (np. temperatura, wiatr, opady).
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Usługa pogodowa jest niedostępna – system wyświetla komunikat o braku danych pogodowych.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu17-posty-forum}{Przeglądanie postów na forum}{PU17}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany, Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda listę postów na forum.}
+    \ucpre{Użytkownik znajduje się w module forum.}
+    \ucpost{Lista postów forum jest wyświetlona, a użytkownik może przechodzić do szczegółów.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item System pobiera listę postów z wybranego działu forum.
+            \item System wyświetla posty z podstawowymi informacjami (autor, data, liczba komentarzy).
+            \item Użytkownik wybiera post, który chce przeczytać.
+            \item System otwiera szczegółowy widok posta.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[1a.] Brak postów w danym dziale – system wyświetla odpowiednią informację.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu18-dodaj-post}{Dodanie posta na forum}{PU18}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany, Usługa do przechowywania plików w chmurze}
+    \ucdesc{Użytkownik publikuje nowy post na forum.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w module forum.}
+    \ucpost{Nowy post jest widoczny na forum.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję dodania nowego posta.
+            \item Użytkownik wpisuje tytuł i treść posta.
+            \item (Opcjonalnie) Użytkownik dodaje załączniki (zdjęcia/filmy) do posta.
+            \item Użytkownik publikuje posta.
+            \item System zapisuje posta (oraz załączniki w chmurze) i wyświetla go na liście postów.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Załącznik nie może zostać zapisany – system informuje o błędzie i pozwala opublikować posta bez pliku.
+            \item[4a.] Formularz zawiera błędne lub niekompletne dane – system wyświetla komunikat i prosi o poprawę.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu19-dodaj-komentarz}{Dodanie komentarza na forum}{PU19}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik dodaje komentarz pod postem na forum.}
+    \ucpre{Użytkownik jest zalogowany i widzi szczegóły posta.}
+    \ucpost{Nowy komentarz został zapisany i widoczny pod postem.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wpisuje treść komentarza w formularzu pod postem.
+            \item Użytkownik publikuje komentarz.
+            \item System zapisuje komentarz i odświeża listę komentarzy.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Treść komentarza jest pusta lub przekracza limit znaków – system wyświetla komunikat o błędzie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu20-historia-postow}{Przeglądanie historii interakcji z postami}{PU20}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda historię swoich aktywności na forum (dodane posty, komentarze, reakcje).}
+    \ucpre{Użytkownik jest zalogowany.}
+    \ucpost{Lista interakcji użytkownika z postami jest wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do sekcji historii aktywności.
+            \item System pobiera historię interakcji użytkownika.
+            \item System wyświetla listę interakcji z możliwością filtrowania (np. posty, komentarze).
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu21-czat-prywatny}{Utworzenie prywatnego czatu}{PU21}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik tworzy prywatną konwersację z innym użytkownikiem.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w module czatu.}
+    \ucpost{Nowy czat prywatny został utworzony i widoczny na liście czatów.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję utworzenia nowego czatu.
+            \item Użytkownik wskazuje docelowego użytkownika (np. z listy znajomych lub wyszukiwarki).
+            \item System sprawdza, czy istnieje już prywatny czat między tymi użytkownikami.
+            \item System tworzy nowy czat (jeśli nie istnieje) i dodaje do niego uczestników.
+            \item System otwiera widok nowego czatu.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Taki czat już istnieje – system zamiast tworzyć nowy, otwiera istniejącą konwersację.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu22-czat-grupowy}{Utworzenie czatu grupowego}{PU22}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik tworzy nowy czat grupowy z kilkoma uczestnikami.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w module czatu.}
+    \ucpost{Czat grupowy został utworzony i widoczny na liście czatów.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję utworzenia czatu grupowego.
+            \item Użytkownik podaje nazwę czatu grupowego.
+            \item Użytkownik wybiera uczestników grupy.
+            \item Użytkownik zatwierdza utworzenie czatu.
+            \item System tworzy czat grupowy i dodaje do niego wskazanych użytkowników.
+            \item System otwiera widok nowego czatu grupowego.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Użytkownik nie wybrał żadnego dodatkowego uczestnika – system informuje, że czat grupowy wymaga co najmniej dwóch uczestników poza twórcą.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu23-lista-czatow}{Przeglądanie listy czatów}{PU23}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda listę swoich czatów prywatnych i grupowych.}
+    \ucpre{Użytkownik jest zalogowany i otwiera moduł czatu.}
+    \ucpost{Lista czatów użytkownika została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item System pobiera listę czatów użytkownika.
+            \item System wyświetla listę czatów z podstawowymi informacjami (nazwa, ostatnia wiadomość, liczba nieprzeczytanych).
+            \item Użytkownik wybiera czat z listy.
+            \item System otwiera widok wybranego czatu.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu24-wyslij-wiadomosc}{Wysyłanie wiadomości na czacie}{PU24}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik wysyła wiadomość tekstową na czacie prywatnym lub grupowym.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w widoku konkretnego czatu.}
+    \ucpost{Nowa wiadomość jest zapisana i widoczna w historii czatu.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wpisuje treść wiadomości w polu edycji.
+            \item Użytkownik wysyła wiadomość (np. naciskając Enter lub ikonę wysyłania).
+            \item System zapisuje wiadomość i dostarcza ją do uczestników czatu.
+            \item System wyświetla wiadomość na liście wiadomości.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Treść wiadomości jest pusta – system blokuje wysłanie i pozostaje w tym samym widoku.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu25-wyslij-gifa}{Wysyłanie GIF-a na czacie}{PU25}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany, Usługa GIF-ów}
+    \ucdesc{Użytkownik wysyła animację GIF w konwersacji czatowej.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w widoku czatu.}
+    \ucpost{Wybrany GIF został dodany jako wiadomość w czacie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję dodania GIF-a.
+            \item System otwiera okno wyszukiwarki GIF-ów.
+            \item Użytkownik wybiera lub wyszukuje GIF-a.
+            \item Użytkownik zatwierdza wysłanie GIF-a.
+            \item System dodaje GIF-a jako wiadomość na czacie.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Usługa GIF-ów jest niedostępna – system informuje o braku możliwości wysłania GIF-a.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu26-wyslij-plik}{Wysyłanie pliku na czacie}{PU26}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany, Usługa do przechowywania plików w chmurze}
+    \ucdesc{Użytkownik wysyła plik (np. zdjęcie, film) w czacie.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w widoku czatu.}
+    \ucpost{Plik został zapisany w chmurze i powiązany z wiadomością na czacie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję dodania pliku.
+            \item Użytkownik wybiera plik z urządzenia.
+            \item System przesyła plik do usługi przechowywania w chmurze.
+            \item System tworzy wiadomość z odnośnikiem do pliku.
+            \item System wyświetla wiadomość na liście czatu.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Przesyłanie pliku nie powiodło się – system informuje użytkownika i umożliwia ponowną próbę.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu27-edycja-czatu}{Edycja ustawień czatu}{PU27}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik modyfikuje ustawienia czatu (np. nazwę, avatar, tryb powiadomień).}
+    \ucpre{Użytkownik jest zalogowany i ma uprawnienia do edycji danego czatu.}
+    \ucpost{Zaktualizowane ustawienia czatu są zapisane i widoczne dla uczestników.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera panel ustawień czatu.
+            \item Użytkownik wprowadza zmiany (np. nazwę, opis, avatar).
+            \item Użytkownik zapisuje zmiany.
+            \item System waliduje dane i aktualizuje konfigurację czatu.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów poza walidacją pól.}
+}
+
+\usecasecard{tab:pu28-dodaj-czlonka}{Dodanie członka do czatu grupowego}{PU28}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik z uprawnieniami administratora dodaje nowego uczestnika do czatu grupowego.}
+    \ucpre{Użytkownik jest zalogowany, znajduje się w czacie grupowym i ma prawo zarządzać członkami.}
+    \ucpost{Nowy uczestnik został dodany do czatu grupowego.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera listę uczestników czatu grupowego.
+            \item Użytkownik wybiera opcję dodania nowego członka.
+            \item Użytkownik wskazuje użytkownika do dodania.
+            \item System dodaje wskazanego użytkownika do czatu grupowego.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Użytkownik, którego chcemy dodać, zablokował zapraszającego – system informuje o braku możliwości dodania.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu29-historia-czatu}{Przeszukiwanie historii czatu}{PU29}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik premium}
+    \ucdesc{Użytkownik wyszukuje konkretne wiadomości w historii czatu.}
+    \ucpre{Użytkownik jest zalogowany jako użytkownik premium i znajduje się w widoku czatu.}
+    \ucpost{Wiadomości spełniające kryteria wyszukiwania zostały wyświetlone.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera pole wyszukiwania historii w czacie.
+            \item Użytkownik wpisuje frazę lub filtr (np. zakres dat, autor).
+            \item System filtruje wiadomości zgodnie z kryteriami.
+            \item System prezentuje listę dopasowanych fragmentów rozmowy.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu30-wyslane-pliki}{Przeglądanie wysłanych plików na czacie}{PU30}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik premium, Usługa do przechowywania plików w chmurze}
+    \ucdesc{Użytkownik przegląda listę plików wysłanych w ramach czatów.}
+    \ucpre{Użytkownik jest zalogowany jako użytkownik premium.}
+    \ucpost{Użytkownik widzi listę wysłanych plików i może przechodzić do powiązanych czatów.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera sekcję „Wysłane pliki”.
+            \item System pobiera metadane plików z usługi przechowywania.
+            \item System wyświetla listę plików z podstawowymi informacjami (nazwa, typ, data).
+            \item Użytkownik wybiera plik, aby otworzyć go lub przejść do powiązanego czatu.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu31-dodaj-spota}{Dodanie spota w profilu użytkownika}{PU31}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany, Usługa do wyświetlania mapy, Usługa do przechowywania plików w chmurze}
+    \ucdesc{Użytkownik dodaje nowy spot poprzez swój profil.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w widoku swojego profilu.}
+    \ucpost{Nowy spot został zapisany i widoczny na mapie oraz w profilu użytkownika.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję „Dodaj spota”.
+            \item Użytkownik uzupełnia podstawowe informacje o spocie (nazwa, opis, typ).
+            \item Użytkownik wskazuje lokalizację spota na mapie.
+            \item (Opcjonalnie) Użytkownik dodaje zdjęcia/filmy do spota.
+            \item Użytkownik zapisuje spota.
+            \item System zapisuje dane spota (oraz pliki w chmurze) i aktualizuje mapę oraz profil użytkownika.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Formularz zawiera błędy – system wyświetla komunikat i zaznacza wymagające poprawy pola.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu32-profil-wlasny}{Przeglądanie profilu użytkownika}{PU32}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda swój profil (lista spotów, media, podstawowe dane).}
+    \ucpre{Użytkownik jest zalogowany.}
+    \ucpost{Wyświetlony jest widok profilu użytkownika wraz z jego zawartością.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera swój profil.
+            \item System pobiera dane profilu (informacje podstawowe, spoty, media).
+            \item System wyświetla dane w odpowiednich sekcjach (spoty, zdjęcia, filmy, komentarze).
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu33-profil-innego}{Przeglądanie profilu innego użytkownika}{PU33}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik ogląda profil innego użytkownika (np. z mapy, forum lub społeczności).}
+    \ucpre{Użytkownik jest zalogowany i ma dostęp do odnośnika do profilu innego użytkownika.}
+    \ucpost{Profil innego użytkownika został wyświetlony.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera odnośnik do profilu innego użytkownika.
+            \item System pobiera publiczne dane profilu docelowego użytkownika.
+            \item System wyświetla profil (spoty, media, podstawowe informacje).
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Profil jest ustawiony jako prywatny – system wyświetla ograniczoną ilość informacji i komunikat o prywatności.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu34-multimedia-spotow}{Przeglądanie multimediów powiązanych ze spotami}{PU34}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda zdjęcia i filmy dodane do spotów.}
+    \ucpre{Użytkownik znajduje się w swoim profilu lub w widoku szczegółów spota.}
+    \ucpost{Lista zdjęć i filmów powiązanych ze spotami została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do zakładki multimediów.
+            \item System pobiera listę multimediów z wybranych spotów.
+            \item System wyświetla miniatury zdjęć i filmów.
+            \item Użytkownik otwiera wybrane medium w powiększeniu.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu35-dodaj-znajomego}{Dodanie użytkownika do znajomych}{PU35}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik wysyła lub akceptuje zaproszenie do znajomych.}
+    \ucpre{Użytkownik jest zalogowany i przegląda profil innego użytkownika.}
+    \ucpost{Relacja „znajomy” została utworzona lub zaproszenie czeka na akceptację.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik klika przycisk „Dodaj do znajomych”.
+            \item System sprawdza, czy relacja już istnieje.
+            \item System tworzy nowe zaproszenie lub bezpośrednio ustanawia relację (w zależności od modelu).
+            \item System informuje o statusie (wysłano zaproszenie lub dodano do znajomych).
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Użytkownik docelowy zablokował nadawcę – system informuje, że nie można wysłać zaproszenia.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu36-spolecznosci}{Przeglądanie społeczności (social)}{PU36}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda społeczności, grupy lub listy znajomych powiązane z aplikacją.}
+    \ucpre{Użytkownik jest zalogowany.}
+    \ucpost{Lista społeczności lub znajomych została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do sekcji społeczności.
+            \item System pobiera listę społeczności i znajomych użytkownika.
+            \item System wyświetla listę z możliwością przechodzenia do profili i czatów.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu37-zarzadzaj-komentarzami-spot}{Zarządzanie komentarzami do spotów}{PU37}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany (właściciel spota lub moderator)}
+    \ucdesc{Użytkownik zarządza komentarzami dodanymi do spota (edycja, usuwanie, ukrywanie).}
+    \ucpre{Użytkownik jest zalogowany i wyświetla szczegóły spota.}
+    \ucpost{Wybrane komentarze zostały zaktualizowane lub ukryte zgodnie z działaniem użytkownika.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera panel zarządzania komentarzami dla danego spota.
+            \item System pobiera listę komentarzy wraz z możliwymi akcjami.
+            \item Użytkownik wybiera komentarz i akcję (np. edytuj, usuń, ukryj).
+            \item System wykonuje wybraną akcję na komentarzu.
+            \item System odświeża listę komentarzy.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Użytkownik nie ma uprawnień do zarządzania komentarzem – system wyświetla komunikat o braku uprawnień.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu38-zarzadzaj-komentarzami-forum}{Zarządzanie komentarzami na forum}{PU38}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany (autor posta lub moderator)}
+    \ucdesc{Użytkownik zarządza komentarzami pod postami forum (edycja, usuwanie, przypinanie).}
+    \ucpre{Użytkownik jest zalogowany i ma dostęp do danego wątku forum.}
+    \ucpost{Komentarze zostały zaktualizowane zgodnie z działaniami użytkownika.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera widok komentarzy pod postem.
+            \item Użytkownik wybiera komentarz i odpowiednią akcję.
+            \item System weryfikuje uprawnienia użytkownika.
+            \item System wykonuje wybraną akcję i aktualizuje widok.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Użytkownik nie ma wymaganych uprawnień – system blokuje operację i informuje o tym.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu39-zarzadzaj-postami}{Zarządzanie postami na forum}{PU39}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany (autor posta lub moderator)}
+    \ucdesc{Użytkownik edytuje, archiwizuje lub usuwa własne posty na forum.}
+    \ucpre{Użytkownik jest zalogowany i otwiera listę swoich postów lub moderowany dział forum.}
+    \ucpost{Status wybranych postów został zaktualizowany.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do sekcji zarządzania postami.
+            \item System pobiera listę postów użytkownika (lub działu).
+            \item Użytkownik wybiera post i żądaną akcję (edycja, archiwizacja, usunięcie).
+            \item System zapisuje zmiany i aktualizuje listę postów.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Użytkownik próbuje usunąć post z zablokowanego wątku – system odmawia wykonania operacji.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu40-zglos-komentarz}{Zgłoszenie komentarza naruszającego regulamin}{PU40}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik zgłasza komentarz (na forum lub pod spotem) jako naruszający regulamin.}
+    \ucpre{Użytkownik widzi komentarz w aplikacji.}
+    \ucpost{Zgłoszenie komentarza zostało zapisane i trafiło do kolejki moderacyjnej.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję „Zgłoś komentarz”.
+            \item Użytkownik określa powód zgłoszenia.
+            \item System zapisuje zgłoszenie i wiąże je z komentarzem i zgłaszającym.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu41-zglos-spota}{Zgłoszenie spota}{PU41}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik zgłasza spota jako nieaktualnego, niebezpiecznego lub naruszającego przepisy.}
+    \ucpre{Wyświetlony jest widok szczegółów spota.}
+    \ucpost{Zgłoszenie dotyczące spota zostało zapisane w systemie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję „Zgłoś spota”.
+            \item Użytkownik wskazuje powód zgłoszenia i dodaje opis.
+            \item System zapisuje zgłoszenie i informuje, że zostanie ono przeanalizowane.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu42-zglos-posta}{Zgłoszenie posta na forum}{PU42}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik zgłasza post forum jako naruszający regulamin lub tematykę.}
+    \ucpre{Wyświetlony jest widok posta na forum.}
+    \ucpost{Zgłoszenie posta zostało zapisane i przekazane moderatorom.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję „Zgłoś post”.
+            \item Użytkownik wybiera kategorię naruszenia i potwierdza zgłoszenie.
+            \item System zapisuje zgłoszenie i oznacza post jako zgłoszony.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu43-moderacja-zgloszen}{Moderacja zgłoszonych treści}{PU43}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany (moderator)}
+    \ucdesc{Moderator przegląda zgłoszone posty, spoty i komentarze oraz podejmuje decyzje moderacyjne.}
+    \ucpre{Moderator jest zalogowany i ma dostęp do panelu zgłoszeń.}
+    \ucpost{Treści zostały oznaczone jako zaakceptowane, usunięte lub zablokowane.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Moderator otwiera panel zgłoszeń.
+            \item System wyświetla listę zgłoszonych treści z podstawowymi informacjami.
+            \item Moderator wybiera zgłoszenie i analizuje treść.
+            \item Moderator podejmuje decyzję (np. odrzuć, usuń treść, zablokuj użytkownika).
+            \item System zapisuje decyzję i aktualizuje stan treści.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu44-zmien-typ-mapy}{Zmiana typu mapy}{PU44}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik premium, Usługa do wyświetlania mapy}
+    \ucdesc{Użytkownik zmienia typ mapy (np. standardowa, satelitarna, hybrydowa).}
+    \ucpre{Użytkownik premium jest na ekranie mapy.}
+    \ucpost{Mapa jest wyświetlana w wybranym typie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera ustawienia widoku mapy.
+            \item Użytkownik wybiera typ mapy z dostępnej listy.
+            \item System przełącza widok mapy na wybrany typ.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Wybrany typ mapy nie jest dostępny (błąd usługi mapowej) – system przywraca poprzedni typ i informuje o błędzie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu45-strefy-pansa}{Przeglądanie stref PANSA}{PU45}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik premium, Usługa do wyświetlania mapy}
+    \ucdesc{Użytkownik wyświetla na mapie strefy przestrzeni powietrznej \gls{PANSA}.}
+    \ucpre{Użytkownik premium ma otwarty moduł mapy.}
+    \ucpost{Strefy PANSA zostały zwizualizowane na mapie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik włącza warstwę „Strefy PANSA”.
+            \item System pobiera dane o strefach z odpowiedniego źródła.
+            \item System nakłada kontury stref na mapę.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Dane o strefach są chwilowo niedostępne – system komunikuje problem i nie włącza warstwy.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu46-mapa-ze-strefami}{Korzystanie z mapy ze strefami PANSA}{PU46}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik premium}
+    \ucdesc{Użytkownik planuje lot, uwzględniając strefy PANSA wyświetlane na mapie.}
+    \ucpre{Na mapie są włączone strefy PANSA.}
+    \ucpost{Użytkownik zaplanował lokalizację lotu poza strefami ograniczeń lub świadomie w ich obrębie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik analizuje przebieg stref PANSA na mapie.
+            \item Użytkownik wybiera spota lub lokalizację planowanego lotu.
+            \item System informuje, czy lokalizacja znajduje się w strefie i jaki jest jej typ.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu47-korzystaj-wyszukiwarka-spotow}{Korzystanie z wyszukiwarki spotów}{PU47}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik}
+    \ucdesc{Użytkownik korzysta z modułu wyszukiwania spotów z filtrami i sortowaniem.}
+    \ucpre{Użytkownik ma dostęp do modułu wyszukiwarki spotów.}
+    \ucpost{Użytkownik otrzymał listę spotów odpowiadających zadanym kryteriom.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera moduł wyszukiwarki spotów.
+            \item Użytkownik ustawia kryteria (np. lokalizacja, typ spota, poziom trudności).
+            \item Użytkownik uruchamia wyszukiwanie.
+            \item System zwraca listę spotów spełniających kryteria wraz z podstawowymi informacjami.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[4a.] Brak wyników – system informuje o braku dopasowań i proponuje rozluźnienie filtrów.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu48-korzystaj-mapa}{Korzystanie z mapy aplikacji}{PU48}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik}
+    \ucdesc{Użytkownik korzysta z modułu mapy do przeglądania spotów i innych warstw.}
+    \ucpre{Użytkownik otworzył moduł mapy.}
+    \ucpost{Użytkownik zapoznał się z dostępnymi spotami i warstwami mapy.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przesuwa i przybliża mapę zgodnie z potrzebą.
+            \item System dociąga spoty dla bieżącego zakresu.
+            \item Użytkownik włącza/wyłącza dostępne warstwy (np. strefy PANSA, typ mapy).
+            \item System aktualizuje prezentację mapy zgodnie z ustawieniami.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu49-korzystaj-forum}{Korzystanie z forum}{PU49}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik}
+    \ucdesc{Użytkownik korzysta z forum do wymiany informacji z innymi użytkownikami.}
+    \ucpre{Użytkownik ma dostęp do modułu forum.}
+    \ucpost{Użytkownik przegląda i tworzy treści na forum zgodnie z uprawnieniami.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera dział forum.
+            \item Użytkownik przegląda listę postów i komentarzy.
+            \item Użytkownik dodaje nowe posty lub komentarze, jeśli jest zalogowany.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Użytkownik niezalogowany próbuje dodać treść – system przekierowuje na ekran logowania.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu50-korzystaj-czat}{Korzystanie z czatu}{PU50}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik korzysta z modułu czatu do komunikacji prywatnej i grupowej.}
+    \ucpre{Użytkownik jest zalogowany.}
+    \ucpost{Użytkownik wysłał i odebrał wiadomości w wybranych czatach.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera listę czatów.
+            \item Użytkownik wybiera istniejący czat lub tworzy nowy.
+            \item Użytkownik wysyła wiadomości tekstowe, GIF-y lub pliki.
+            \item System w czasie rzeczywistym dostarcza wiadomości do pozostałych uczestników.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu51-korzystaj-profil}{Korzystanie z profilu użytkownika}{PU51}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik zarządza swoim profilem oraz przegląda powiązane z nim treści.}
+    \ucpre{Użytkownik jest zalogowany.}
+    \ucpost{Profil użytkownika został zaktualizowany lub przejrzany.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera swój profil.
+            \item Użytkownik przegląda listę własnych spotów, komentarzy i multimediów.
+            \item Użytkownik edytuje dane profilu lub dodaje nowe treści (np. spota).
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu52-wlasne-spoty}{Przeglądanie dodanych spotów}{PU52}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik wyświetla listę spotów, które sam dodał.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w swoim profilu.}
+    \ucpost{Lista własnych spotów została wyświetlona, z możliwością przejścia do szczegółów.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do sekcji „Moje spoty”.
+            \item System pobiera spoty dodane przez użytkownika.
+            \item System wyświetla listę spotów z podstawowymi informacjami i linkami do mapy.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Użytkownik nie dodał jeszcze żadnego spota – system wyświetla komunikat zachęcający do utworzenia pierwszego spota.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu53-wlasne-komentarze-spot}{Przeglądanie dodanych komentarzy do spotów}{PU53}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda komentarze, które dodał do różnych spotów.}
+    \ucpre{Użytkownik jest zalogowany i ma dostęp do swojego profilu.}
+    \ucpost{Lista komentarzy dodanych przez użytkownika została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera sekcję „Moje komentarze do spotów”.
+            \item System pobiera komentarze powiązane z użytkownikiem.
+            \item System wyświetla komentarze z linkami do odpowiednich spotów.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu54-wlasne-zdjecia-spot}{Przeglądanie dodanych zdjęć do spotów}{PU54}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany, Usługa do przechowywania plików w chmurze}
+    \ucdesc{Użytkownik przegląda zdjęcia przypisane do dodanych spotów.}
+    \ucpre{Użytkownik jest zalogowany i posiada dodane zdjęcia.}
+    \ucpost{Wyświetlono galerię zdjęć powiązanych ze spotami użytkownika.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do zakładki „Moje zdjęcia”.
+            \item System pobiera metadane zdjęć z chmury.
+            \item System wyświetla miniatury zdjęć z możliwością ich powiększenia.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu55-wlasne-filmy-spot}{Przeglądanie dodanych filmów do spotów}{PU55}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany, Usługa do przechowywania plików w chmurze}
+    \ucdesc{Użytkownik przegląda filmy powiązane z jego spotami.}
+    \ucpre{Użytkownik jest zalogowany i dodał co najmniej jeden film do spota.}
+    \ucpost{Wyświetlono listę lub galerię filmów ze skrótowym podglądem.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera zakładkę „Moje filmy”.
+            \item System pobiera metadane filmów.
+            \item System wyświetla listę miniatur filmów z możliwością odtworzenia.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu56-strefa-czasowa-spota}{Określenie strefy czasowej spota}{PU56}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany, Usługa do określania strefy czasowej}
+    \ucdesc{Podczas dodawania spota system ustala odpowiednią strefę czasową lokalizacji.}
+    \ucpre{Użytkownik wypełnia formularz dodawania spota z lokalizacją.}
+    \ucpost{Spot ma przypisaną poprawną strefę czasową.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wskazuje lokalizację spota na mapie.
+            \item System wysyła zapytanie do usługi stref czasowych.
+            \item System otrzymuje informację o strefie i zapisuje ją przy spocie.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Usługa stref czasowych jest niedostępna – system zapisuje spota z domyślną strefą i oznacza brak pewności.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu57-korekta-czasu}{Korekta czasu zdarzeń do lokalnej strefy użytkownika}{PU57}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik}
+    \ucdesc{System prezentuje godziny zdarzeń (postów, spotów, wiadomości) w lokalnej strefie czasowej użytkownika.}
+    \ucpre{Użytkownik korzysta z aplikacji i ma określoną strefę czasową.}
+    \ucpost{Wszystkie prezentowane daty są przeliczone do strefy użytkownika.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item System ustala strefę czasową użytkownika (np. z przeglądarki lub profilu).
+            \item System przelicza daty i godziny zdarzeń do lokalnego czasu.
+            \item Użytkownik ogląda zdarzenia z poprawnie przeliczonym czasem.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu58-login-oauth}{Logowanie przy użyciu zewnętrznego dostawcy OAuth}{PU58}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany, Usługa OAuth}
+    \ucdesc{Użytkownik loguje się do systemu, korzystając z zewnętrznego dostawcy (np. Google).}
+    \ucpre{Użytkownik jest na stronie logowania.}
+    \ucpost{Użytkownik jest zalogowany przy użyciu konta zewnętrznego.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję logowania przez zewnętrznego dostawcę.
+            \item System przekierowuje użytkownika do strony logowania dostawcy.
+            \item Użytkownik autoryzuje dostęp aplikacji.
+            \item Dostawca zwraca token autoryzacyjny.
+            \item System loguje użytkownika na podstawie danych z dostawcy.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Użytkownik anuluje autoryzację – system wraca na ekran logowania i nie loguje użytkownika.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu59-polacz-oauth}{Powiązanie konta z dostawcą OAuth}{PU59}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany, Usługa OAuth}
+    \ucdesc{Użytkownik dodaje do swojego profilu powiązanie z kontem zewnętrznego dostawcy.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w ustawieniach konta.}
+    \ucpost{Konto użytkownika jest powiązane z wybranym dostawcą OAuth.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję „Połącz z kontem zewnętrznym”.
+            \item System przekierowuje użytkownika do autoryzacji u dostawcy.
+            \item Po akceptacji system zapisuje powiązanie z kontem użytkownika.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Użytkownik odrzuca autoryzację – system wraca do ustawień konta bez zmian.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu60-potwierdz-email}{Potwierdzenie adresu e-mail po rejestracji}{PU60}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik, Usługa SMTP}
+    \ucdesc{Użytkownik aktywuje konto klikając link przesłany na e-mail.}
+    \ucpre{Użytkownik przeszedł proces rejestracji, a system wysłał wiadomość aktywacyjną.}
+    \ucpost{Konto użytkownika jest oznaczone jako aktywne.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera wiadomość e-mail z linkiem aktywacyjnym.
+            \item Użytkownik klika link aktywacyjny.
+            \item System weryfikuje token aktywacyjny.
+            \item System oznacza konto jako aktywne i loguje użytkownika lub przekierowuje na ekran logowania.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Token jest nieprawidłowy lub wygasł – system informuje o błędzie i proponuje ponowne wysłanie linku.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu61-historia-platnosci}{Przeglądanie historii płatności i subskrypcji}{PU61}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany, System finansowo-księgowy}
+    \ucdesc{Użytkownik przegląda historię opłat i status subskrypcji premium.}
+    \ucpre{Użytkownik jest zalogowany i posiada historię transakcji.}
+    \ucpost{Użytkownik otrzymał listę swoich płatności oraz aktualny status subskrypcji.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do sekcji „Płatności i subskrypcje”.
+            \item System pobiera dane o transakcjach z systemu finansowo-księgowego.
+            \item System wyświetla listę transakcji wraz ze statusem subskrypcji.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Dane płatności są chwilowo niedostępne – system wyświetla stosowny komunikat.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu62-anuluj-subskrypcje}{Anulowanie subskrypcji premium}{PU62}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany, System finansowo-księgowy}
+    \ucdesc{Użytkownik rezygnuje z dalszego odnawiania subskrypcji premium.}
+    \ucpre{Subskrypcja premium jest aktywna.}
+    \ucpost{Subskrypcja została oznaczona jako nieodnawialna po zakończeniu bieżącego okresu.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wchodzi do ustawień subskrypcji.
+            \item Użytkownik wybiera opcję anulowania subskrypcji.
+            \item System przekazuje informację o anulowaniu do systemu finansowo-księgowego.
+            \item System aktualizuje status subskrypcji użytkownika.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] System finansowo-księgowy zwraca błąd – system informuje użytkownika i pozostawia subskrypcję aktywną.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu63-autoodnowienie-subskrypcji}{Zarządzanie automatycznym odnowieniem subskrypcji}{PU63}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany, System finansowo-księgowy}
+    \ucdesc{Użytkownik włącza lub wyłącza automatyczne odnawianie subskrypcji premium.}
+    \ucpre{Użytkownik posiada aktywną lub niedawno wygasłą subskrypcję.}
+    \ucpost{Ustawienia automatycznego odnowienia zostały zapisane.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera ustawienia subskrypcji.
+            \item Użytkownik przełącza opcję automatycznego odnowienia.
+            \item System zapisuje zmianę i przekazuje ją do systemu finansowo-księgowego.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu64-eksport-danych}{Eksport danych profilu użytkownika}{PU64}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik generuje paczkę z danymi swojego konta (np. na potrzeby RODO).}
+    \ucpre{Użytkownik jest zalogowany.}
+    \ucpost{System przygotował plik z danymi użytkownika i udostępnił go do pobrania.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera sekcję prywatności w ustawieniach konta.
+            \item Użytkownik wybiera opcję eksportu danych.
+            \item System przygotowuje paczkę danych (spoty, posty, komentarze, profil).
+            \item System udostępnia plik do pobrania użytkownikowi.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Proces generowania paczki nie powiódł się – system informuje o błędzie i proponuje ponowną próbę.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu65-usuniecie-konta}{Usunięcie konta użytkownika}{PU65}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik trwale usuwa swoje konto wraz z powiązanymi danymi (zgodnie z polityką systemu).}
+    \ucpre{Użytkownik jest zalogowany i potwierdził tożsamość (np. hasłem).}
+    \ucpost{Konto użytkownika jest usunięte lub oznaczone jako zanonimizowane.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do sekcji usuwania konta.
+            \item Użytkownik zapoznaje się z konsekwencjami usunięcia konta.
+            \item Użytkownik potwierdza operację (np. wpisując hasło lub kod).
+            \item System usuwa lub anonimizuje dane użytkownika zgodnie z polityką.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Użytkownik przerywa proces – system nie wykonuje żadnych zmian.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu66-dezaktywuj-spota}{Dezaktywacja spota przez właściciela}{PU66}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Właściciel spota dezaktywuje go, aby nie był dłużej widoczny na mapie i w wyszukiwarce.}
+    \ucpre{Użytkownik jest zalogowany i jest właścicielem spota.}
+    \ucpost{Spot jest oznaczony jako nieaktywny i ukryty dla innych użytkowników.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera szczegóły własnego spota.
+            \item Użytkownik wybiera opcję dezaktywacji spota.
+            \item System prosi o potwierdzenie operacji.
+            \item Po potwierdzeniu system oznacza spota jako nieaktywny i ukrywa go z mapy oraz wyszukiwarki.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Użytkownik rezygnuje z dezaktywacji – system pozostawia spota aktywnym.
+        \end{enumerate}
+    }
 }
