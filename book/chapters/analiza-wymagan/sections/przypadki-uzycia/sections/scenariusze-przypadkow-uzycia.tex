@@ -1,5 +1,62 @@
-%! Author = mateusz
-%! Date = 18/10/2025
+%%! Author = Adam
+%%! Date = 22/11/2025
 
-\subsection{Scenariusz przypadków użycia}
+\subsection{Scenariusze przypadków użycia}
 \label{subsec:scenariusz-przypadkow-uzycia}
+
+% --- Licznik dla scenariuszy przypadków użycia ---
+\newcounter{usecase}[chapter]
+\renewcommand{\theusecase}{\thechapter.\arabic{usecase}}
+
+% --- Pomocnicze makra na pola w tabeli scenariusza ---
+\newcommand{\ucpriority}[1]{\textbf{Priorytet} & #1 \\ \hline}
+\newcommand{\ucactors}[1]{\textbf{Aktorzy} & #1 \\ \hline}
+\newcommand{\ucdesc}[1]{\textbf{Opis} & #1 \\ \hline}
+\newcommand{\ucpre}[1]{\textbf{Warunki wstępne} & #1 \\ \hline}
+\newcommand{\ucpost}[1]{\textbf{Warunki końcowe} & #1 \\ \hline}
+\newcommand{\ucmain}[1]{\textbf{Główny przepływ zdarzeń} & #1 \\ \hline}
+\newcommand{\ucalt}[1]{\textbf{Alternatywne przepływy zdarzeń} & #1 \\ \hline}
+\newcommand{\ucspecial}[1]{\textbf{Specjalne wymagania} & #1 \\ \hline}
+
+\newcommand{\usecasecard}[4]{%
+    \refstepcounter{usecase}%
+    \begin{center}
+    \renewcommand{\arraystretch}{1.15}%
+    \begin{tabularx}{\textwidth}{|p{0.22\textwidth}|X|}
+    \hline
+    \textbf{Nazwa} & #2 \\ \hline
+    \textbf{Numer} & #3 \\ \hline
+    #4
+    \end{tabularx}
+    \vspace{3pt}
+    \textbf{Tabela \theusecase:} Scenariusz przypadku użycia: #2\label{#1}
+    \end{center}%
+    \addcontentsline{lot}{table}{Tabela \theusecase: Scenariusz przypadku użycia: #2}%
+}
+
+% Scenariusze PU:
+%TODO: na sam koniec zrob aby wygladem rpzypominaly te z uczelni
+%TODO: do porpawyts a karty udzialowcow
+
+\usecasecard{tab:pu1-rejestracja}{Rejestracja użytkownika}{PU1}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany}
+    \ucdesc{Użytkownik zakłada konto poprzez formularz rejestracji.}
+    \ucpre{Użytkownik znajduje się na stronie z formularzem rejestracji.}
+    \ucpost{Użytkownik posiada konto w systemie i jest zalogowany na stronie głównej.}
+    \ucmain{%
+        \begin{enumerate}[nosep]
+            \item Użytkownik wypełnia formularz rejestracyjny.
+            \item Użytkownik naciska przycisk rejestracji.
+            \item System tworzy konto użytkownika.
+            \item System loguje użytkownika i przenosi go na stronę główną aplikacji.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep]
+            \item \textbf{a)} Formularz zawiera niepoprawne dane – system wyświetla
+            komunikat o błędzie oraz podświetla pola wymagające poprawy.
+        \end{enumerate}
+    }
+    \ucspecial{Brak specjalnych wymagań.}
+}
