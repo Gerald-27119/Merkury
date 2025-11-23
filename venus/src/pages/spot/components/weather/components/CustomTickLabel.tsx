@@ -1,4 +1,3 @@
-import React from "react";
 import { VictoryLabel } from "victory";
 import { formatISOToAmPm } from "../../../../../utils/weather";
 import WeatherIcon from "../../../../map/components/weather/components/WeatherIcon";
@@ -6,9 +5,10 @@ import { WiRaindrop } from "react-icons/wi";
 
 export default function CustomTickLabel(props: any) {
     const { index, x, y, data } = props;
-    const time = formatISOToAmPm(data.at(index).time);
+    const time = formatISOToAmPm(data.at(index).time, data.at(index).timeZone);
     const temperature = `${data.at(index).temperature}°C`;
     const precipitationProbability = `${data.at(index).precipitationProbability}%`;
+
     return (
         <g transform={`translate(${x}, ${y})`}>
             <VictoryLabel
@@ -34,7 +34,7 @@ export default function CustomTickLabel(props: any) {
                 style={{ fontSize: 13, fill: "white" }}
                 dy={15}
             />
-            <g transform="translate(-17, 260)">
+            <g transform="translate(-17, 330)">
                 <WiRaindrop size={25} className="text-slate-400" />
                 <text
                     x="20"

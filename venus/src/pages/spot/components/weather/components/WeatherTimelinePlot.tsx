@@ -15,10 +15,13 @@ import CustomTickLabel from "./CustomTickLabel";
 import useScreenSize from "../../../../../hooks/useScreenSize";
 import ScreenSizeDto from "../../../../../model/screenSizeDto";
 
+const VIRTUAL_Y_MIN = 0;
+const VIRTUAL_Y_MAX = 100;
+
 export default function WeatherTimelinePlot() {
     const [plotSize, setPlotSize] = useState<ScreenSizeDto>({
         width: 5000,
-        height: 400,
+        height: 460,
     });
 
     const screenSize = useScreenSize();
@@ -54,12 +57,24 @@ export default function WeatherTimelinePlot() {
     if (isError) {
         return <p>Failed to load data for timeline plot.</p>;
     }
+
+    const actualMin = data
+        ? Math.min(...data.map((d) => d.temperature)) - 1
+        : 0;
+    const actualMax = data
+        ? Math.max(...data.map((d) => d.temperature)) + 1
+        : 100;
+    const span = actualMax - actualMin || 1;
+    const mapY = (temp: number) =>
+        VIRTUAL_Y_MIN +
+        ((temp - actualMin) / span) * (VIRTUAL_Y_MAX - VIRTUAL_Y_MIN);
+
     return (
         isSuccess &&
         data && (
             <div className="3xl:mt-8 mt-2">
                 <h2 className="text-2xl">Timeline</h2>
-                <div className="bg-mediumDarkBlue text-darkText scrollbar-thin scrollbar-track-rounded-lg scrollbar-track-sky-950 hover:scrollbar-thumb-sky-800 scrollbar-thumb-rounded-full mx-auto mt-4 w-[27.5rem] overflow-x-auto rounded-lg">
+                <div className="bg-mediumDarkBlue text-darkText scrollbar-thin scrollbar-track-rounded-lg scrollbar-track-sky-950 hover:scrollbar-thumb-sky-800 scrollbar-thumb-sky-700 scrollbar-thumb-rounded-full scroll-grab mx-auto mt-4 w-[27.5rem] overflow-x-auto rounded-lg">
                     <VictoryChart
                         domain={{
                             x: [
@@ -78,14 +93,11 @@ export default function WeatherTimelinePlot() {
                                     ),
                                 ),
                             ],
-                            y: [
-                                Math.min(...data.map((d) => d.temperature)) - 2,
-                                Math.max(...data.map((d) => d.temperature)) + 2,
-                            ],
+                            y: [VIRTUAL_Y_MIN, VIRTUAL_Y_MAX],
                         }}
                         scale={{ x: "time" }}
                         theme={VictoryTheme.clean}
-                        padding={{ top: 80, bottom: 60, left: 50, right: 50 }}
+                        padding={{ top: 90, bottom: 60, left: 50, right: 50 }}
                         width={plotSize.width}
                         height={plotSize.height}
                         containerComponent={
@@ -95,7 +107,6 @@ export default function WeatherTimelinePlot() {
                         <VictoryAxis
                             orientation="top"
                             tickValues={data.map((d) => new Date(d.time))}
-                            tickFormat={() => ""}
                             tickLabelComponent={<CustomTickLabel data={data} />}
                             style={{
                                 tickLabels: { fontSize: 12 },
@@ -107,7 +118,7 @@ export default function WeatherTimelinePlot() {
                             data={data.map((d) => {
                                 return {
                                     x: new Date(d.time),
-                                    y: d.temperature,
+                                    y: mapY(d.temperature),
                                 };
                             })}
                             style={{ data: { stroke: "#ece9e9" } }}
@@ -118,7 +129,7 @@ export default function WeatherTimelinePlot() {
                             data={data.map((d) => {
                                 return {
                                     x: new Date(d.time),
-                                    y: d.temperature,
+                                    y: mapY(d.temperature),
                                 };
                             })}
                             style={{ data: { fill: "white" } }}
