@@ -1,19 +1,26 @@
 %! Author = Adam
-%! Date = 11/2/2025
+%! Date = 13/11/2025
 
 \subsection{Usługi zewnętrzne}
 \label{subsec:uslugi-zewnetrzne}
 
-% Makro karty integracji
+\makeatletter
+\@ifundefined{c@integrationcard}{%
+    \newcounter{integrationcard}[chapter]%
+}{}
+\renewcommand{\theintegrationcard}{\thechapter.\arabic{integrationcard}}
+\makeatother
+
 \newcommand{\integrationcard}[5]{%
     \refstepcounter{integrationcard}%
-    \par\begin{center}
+    \begin{center}
     \renewcommand{\arraystretch}{1.15}%
-    \begin{tabularx}{\textwidth}{|p{0.22\textwidth}|X|}
-    \hline
-    \textbf{Usługa} & #2 \\ \hline
-    \textbf{Opis}   & #3 \\ \hline
-    \textbf{Limit}  & #4 \\ \hline
+    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}}p{0.22\textwidth}|X|}
+    \rowcolor{lightgray}
+    \multicolumn{2}{|c|}{\textbf{KARTA USŁUGI ZEWNĘTRZNEJ}} \\ \hline
+    \textbf{Nazwa:} & #2 \\ \hline
+    \textbf{Opis:}   & #3 \\ \hline
+    \textbf{Limit:}  & #4 \\ \hline
     \end{tabularx}
     \vspace{3pt}
     \textbf{Tabela \theintegrationcard:} Usługa zewnętrzna: #5\label{#1}
@@ -52,7 +59,7 @@
 {Google Maps (Maps URLs)}
 
 \integrationcard{tab:openfreemap}
-{OpenFreeMap~\cite{openfreemap-docs,openfreemap-quickstart}}
+{OpenFreeMap~\cite{openfreemap-docs}}
 {Publiczny serwer kafelków do renderu mapy na froncie.}
 {30\,000 zapytań/mies.}
 {OpenFreeMap}
