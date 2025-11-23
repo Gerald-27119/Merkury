@@ -3,3 +3,52 @@
 
 \subsection{Funkcjonalności dla chatu}
 \label{subsec:funkcjonalnosci-dla-chatu}
+
+\funcreqcard{tab:req-chat-list}
+{Przeglądanie listy czatów użytkownika}
+{FCHAT01}
+{Wysoki}
+{
+    \frdesc{Jako użytkownik chcę mieć możliwość przeglądania listy czatów,
+        do których należę, aby szybko odnajdywać i otwierać interesujące mnie
+        rozmowy.}
+
+    \fraccept{Po zalogowaniu użytkownik ma dostęp do listy czatów, do których
+    jest przypisany. Lista wyświetla przynajmniej nazwę czatu oraz datę
+    lub fragment ostatniej wiadomości. Dołączenie użytkownika do nowego
+    czatu lub usunięcie z istniejącego jest odzwierciedlone na liście bez
+    konieczności ponownego logowania. Próba pobrania listy czatów innego
+    użytkownika kończy się odmową dostępu.}
+
+    \frinput{Kontekst zalogowanego użytkownika (identyfikator użytkownika
+    wynikający z sesji lub tokena). Opcjonalnie parametry filtrowania
+    i paginacji (np. fraza wyszukiwania, numer strony).}
+
+    \frpre{Użytkownik jest poprawnie zalogowany do systemu. W bazie danych
+    istnieją czaty powiązane z danym użytkownikiem lub brak takich czatów.}
+
+    \frpost{Użytkownik otrzymuje listę czatów, do których należy, lub
+    informację o braku czatów. Użytkownik może wybrać czat z listy,
+        aby przejść do widoku rozmowy.}
+
+    \frexceptions{Brak czatów powiązanych z użytkownikiem (wyświetlenie
+    komunikatu informującego). Błąd autoryzacji (np. utrata sesji) skutkujący
+    przekierowaniem do ekranu logowania. Błąd komunikacji z serwerem
+        (np. timeout) skutkujący prezentacją komunikatu o błędzie
+        i możliwości ponownego odświeżenia listy.}
+
+    \frimpl{Frontend: komponent listy czatów w panelu nawigacyjnym aplikacji
+        (React), korzystający z klienta HTTP/GraphQL (np. \texttt{axios} lub
+        \texttt{@tanstack/query}) do pobierania listy czatów aktualnie
+        zalogowanego użytkownika. Obsługa stanu ładowania, błędu oraz pustej listy.
+        Backend: zapytanie (np. GraphQL \texttt{chatsByCurrentUser} lub
+        REST \texttt{/api/chats/me}) zwracające stronicowaną listę czatów,
+        w której filtr po użytkowniku jest wymuszany po stronie serwera
+        na podstawie kontekstu autoryzacji, a nie danych z klienta.}
+
+    \frstakeholders{Zespół projektowy~2.1, promotor~2.2, droniarze~2.3.}
+
+    \frrelated{FOXX -- Logowanie i rejestracja; FCHAT02 -- Wysyłanie
+    wiadomości na czacie; FCHAT03 -- Otrzymywanie nowych wiadomości
+    w czasie zbliżonym do rzeczywistego.}
+}

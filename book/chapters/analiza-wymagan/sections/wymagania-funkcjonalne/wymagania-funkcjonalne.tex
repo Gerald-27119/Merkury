@@ -4,7 +4,8 @@
 \section{Wymagania funkcjonalne}
 \label{sec:wymagania-funkcjonalne}
 
-Niniejszy rozdział zawiera wymagania funkcjonalne postawione systemowi. Został on podzielony tematycznie.
+Niniejszy rozdział zawiera wymagania funkcjonalne postawione systemowi.
+Został on podzielony tematycznie.
 
 % --- Licznik kart wymagań funkcjonalnych ---
 \newcounter{funcreq}[chapter]
@@ -12,7 +13,14 @@ Niniejszy rozdział zawiera wymagania funkcjonalne postawione systemowi. Został
 
 % --- Pola karty wymagania funkcjonalnego (lewa kolumna) ---
 \newcommand{\fridpriority}[2]{%
-    \textbf{Identyfikator:} & #1 \hfill \textbf{Priorytet:}~#2 \\ \hline}
+    \textbf{Identyfikator:} &
+    #1\hfill
+    \begingroup
+    \setlength{\fboxsep}{1pt}%
+    \colorbox{lightgray}{\strut\textbf{Priorytet:}}~#2%
+    \endgroup
+    \\ \hline
+}
 \newcommand{\frname}[1]{\textbf{Nazwa:} & #1 \\ \hline}
 \newcommand{\frdesc}[1]{\textbf{Opis:} & #1 \\ \hline}
 \newcommand{\fraccept}[1]{\textbf{Kryteria akceptacji:} & #1 \\ \hline}
