@@ -175,3 +175,25 @@
     }
     \ucalt{Brak istotnych alternatywnych przepływów.}
 }
+
+\usecasecard{tab:pu-forum-przegladaj-komentarze}{Przeglądanie komentarzy pod postem}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik niezalogowany, Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda komentarze dodane pod wybranym postem na forum.}
+    \ucpre{Wyświetlany jest szczegółowy widok posta na forum.}
+    \ucpost{Lista komentarzy powiązanych z postem została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item System pobiera komentarze powiązane z wybranym postem.
+            \item System wyświetla komentarze (np. w kolejności chronologicznej lub według popularności).
+            \item Użytkownik przewija listę komentarzy i zapoznaje się z ich treścią.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[1a.] Post nie ma jeszcze komentarzy – system wyświetla informację o braku komentarzy.
+            \item[1b.] Wystąpił błąd podczas pobierania komentarzy – system wyświetla komunikat o błędzie i umożliwia ponowną próbę.
+        \end{enumerate}
+    }
+}
+

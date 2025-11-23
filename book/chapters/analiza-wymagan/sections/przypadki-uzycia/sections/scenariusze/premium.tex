@@ -1,28 +1,6 @@
 \subsubsection{Scenariusze przypadków użycia dla funkcji premium}
 
-\usecasecard{tab:pu7-subskrypcja}{Wykupienie subskrypcji premium}{%
-    \ucpriority{Niski}
-    \ucactors{Użytkownik zalogowany, Bramka płatnicza, System finansowo-księgowy}
-    \ucdesc{Użytkownik opłaca subskrypcję premium w celu uzyskania dodatkowych funkcji.}
-    \ucpre{Użytkownik jest zalogowany i znajduje się w module subskrypcji.}
-    \ucpost{Subskrypcja premium jest aktywna, a użytkownik ma dostęp do funkcji premium.}
-    \ucmain{%
-        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item Użytkownik wybiera plan subskrypcji.
-            \item Użytkownik przechodzi do bramki płatniczej.
-            \item Użytkownik podaje dane płatnicze i zatwierdza transakcję.
-            \item Bramka płatnicza przetwarza płatność i zwraca wynik do systemu.
-            \item System zapisuje informację o opłaconej subskrypcji i aktualizuje uprawnienia.
-            \item System generuje wpis w systemie finansowo-księgowym.
-        \end{enumerate}
-    }
-    \ucalt{%
-        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
-            \item[4a.] Płatność nie powiodła się – system informuje użytkownika i umożliwia ponowną próbę.
-            \item[5a.] W czasie aktualizacji subskrypcji wystąpił błąd – system cofa zmiany i wyświetla komunikat o problemie.
-        \end{enumerate}
-    }
-}
+
 
 \usecasecard{tab:pu25-historia-czatu}{Przeszukiwanie historii czatu}{%
     \ucpriority{Niski}

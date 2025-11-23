@@ -20,6 +20,29 @@
     }
 }
 
+\usecasecard{tab:pu-chat-otworz}{Otwarcie czatu}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik otwiera wybrany czat, aby wyświetlić historię rozmowy i móc wysyłać kolejne wiadomości.}
+    \ucpre{Użytkownik jest zalogowany i widzi listę swoich czatów lub otrzymał powiadomienie prowadzące do czatu.}
+    \ucpost{Wybrany czat został otwarty, a historia rozmowy jest widoczna dla użytkownika.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera czat z listy czatów lub z powiadomienia.
+            \item System pobiera dane czatu (uczestników, ostatnie wiadomości).
+            \item System oznacza nieprzeczytane wiadomości w czacie jako przeczytane.
+            \item System wyświetla widok czatu wraz z historią rozmowy.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Czat nie jest już dostępny (np. został usunięty lub użytkownik utracił do niego dostęp) – system wyświetla komunikat o braku dostępu i powraca do listy czatów.
+            \item[2b.] Wystąpił błąd podczas pobierania danych czatu – system wyświetla komunikat o błędzie i umożliwia ponowną próbę.
+        \end{enumerate}
+    }
+}
+
+
 \usecasecard{tab:pu19-czat-grupowy}{Utworzenie czatu grupowego}{%
     \ucpriority{Średni}
     \ucactors{Użytkownik zalogowany}

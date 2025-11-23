@@ -22,6 +22,28 @@
     }
 }
 
+\usecasecard{tab:pu11-szczegoly-spota}{Otwarcie szczegółów spota}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany, Użytkownik zalogowany}
+    \ucdesc{Użytkownik otwiera widok szczegółów wybranego spota.}
+    \ucpre{Użytkownik widzi mapę spotów lub listę wyników wyszukiwania.}
+    \ucpost{Wyświetlony został widok szczegółów spota z podstawowymi informacjami oraz jego lokalizacją na mapie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera spota z mapy lub z listy wyników wyszukiwania.
+            \item System pobiera dane szczegółowe spota (informacje opisowe, lokalizacja).
+            \item System otwiera widok szczegółów spota.
+            \item System prezentuje informacje o spocie oraz mapę przybliżoną do jego lokalizacji.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Spot nie istnieje (został usunięty lub ukryty) – system informuje użytkownika i powraca do poprzedniego widoku.
+            \item[2b.] Wystąpił błąd podczas pobierania danych spota – system wyświetla komunikat o błędzie i umożliwia ponowną próbę.
+        \end{enumerate}
+    }
+}
+
 \usecasecard{tab:pu12-komentarze-spota}{Przeglądanie komentarzy do spota}{%
     \ucpriority{Średni}
     \ucactors{Użytkownik niezalogowany}
