@@ -11,11 +11,13 @@
 % --- Karta usługi zewnętrznej ---
 \newcommand{\integrationcard}[5]{%
     \refstepcounter{integrationcard}%
+    \edef\intid{UZ\arabic{integrationcard}}%
     \begin{center}
     \renewcommand{\arraystretch}{1.15}%
-    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.22\textwidth}|X|}
+    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.19\textwidth}|X|}
     \rowcolor{lightgray}
     \multicolumn{2}{|c|}{\textbf{KARTA USŁUGI ZEWNĘTRZNEJ}} \\ \hline
+    \textbf{Identyfikator:} & \intid \\ \hline
     \textbf{Nazwa:} & #2 \\ \hline
     \textbf{Opis:}  & #3 \\ \hline
     \textbf{Limit:} & #4 \\ \hline
