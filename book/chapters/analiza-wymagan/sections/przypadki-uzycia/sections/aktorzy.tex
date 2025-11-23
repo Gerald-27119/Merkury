@@ -5,6 +5,7 @@
 \label{subsec:aktorzy}
 Niniejszy rozdział przedstawia aktorów wraz z opisami.
 \begin{description}[style=unboxed,leftmargin=0pt,labelindent=0pt]
+    \item[\textbf{Użytkownik systemu}] - Reprezentuje każdą osobę korzystającą z aplikacji.
     \item[\textbf{Użytkownik niezalogowany}] - Gość przeglądający publiczne treści (mapa, spoty, forum): może się zarejestrować lub zalogować.
     \item[\textbf{Użytkownik zalogowany}] - Ma dostęp do wszystkich darmowych funkcjonalności aplikacji. Zarządza kontem i ulubionymi spotami, dodaje posty i komentarze, korzysta z czatu.
     \item[\textbf{Użytkownik premium}] - Użytkownik z wykupioną subskrypcją: ma dostęp do funkcji premium np. oznaczenie stref \gls{PANSA} na mapie.
@@ -19,3 +20,15 @@ Niniejszy rozdział przedstawia aktorów wraz z opisami.
     \item[\textbf{Usługa do określania strefy czasowej}] - usługa ustalająca strefę czasową spota na podstawie jego współrzędnych geograficznych.
 
 \end{description}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/przypadki-uzycia/aktorzy/uzytkownicy}
+    \caption{Diagram hierarchii użytkowników systemu}
+    \label{fig:pu-u}
+\end{figure}
+\noindent
+Na diagramie przedstawiono hierarchię aktorów systemu reprezentujących użytkownika.
+Podstawową rolą jest Użytkownik systemu, która reprezentuje każdą osobę korzystającą z aplikacji.
+Z niej dziedziczą dwie bardziej szczegółowe role: Użytkownik niezalogowany (ma dostęp tylko do funkcji publicznych) oraz Użytkownik zalogowany (posiada konto i dostęp do funkcji wymagających uwierzytelnienia).
+Dodatkowo Użytkownik premium jest wyspecjalizowaną wersją użytkownika zalogowanego i oprócz standardowych funkcji otrzymuje dostęp do funkcji premium.
