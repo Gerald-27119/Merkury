@@ -11,23 +11,23 @@ Zostały one wykonane dla wybranych przypadków użycia.
 \newcounter{usecase}[chapter]
 \renewcommand{\theusecase}{\thechapter.\arabic{usecase}}
 
-% --- Pomocnicze makra na pola w tabeli scenariusza ---
-\newcommand{\ucpriority}[1]{\textbf{Priorytet} & #1 \\ \hline}
-\newcommand{\ucactors}[1]{\textbf{Aktorzy} & #1 \\ \hline}
-\newcommand{\ucdesc}[1]{\textbf{Opis} & #1 \\ \hline}
-\newcommand{\ucpre}[1]{\textbf{Warunki wstępne} & #1 \\ \hline}
-\newcommand{\ucpost}[1]{\textbf{Warunki końcowe} & #1 \\ \hline}
-\newcommand{\ucmain}[1]{\textbf{Główny przepływ zdarzeń} & #1 \\ \hline}
-\newcommand{\ucalt}[1]{\textbf{Alternatywne przepływy zdarzeń} & #1 \\ \hline}
+\newcommand{\ucpriority}[1]{\textbf{Priorytet:} & #1 \\ \hline}
+\newcommand{\ucactors}[1]{\textbf{Aktorzy:} & #1 \\ \hline}
+\newcommand{\ucdesc}[1]{\textbf{Opis:} & #1 \\ \hline}
+\newcommand{\ucpre}[1]{\textbf{Warunki wstępne:} & #1 \\ \hline}
+\newcommand{\ucpost}[1]{\textbf{Warunki końcowe:} & #1 \\ \hline}
+\newcommand{\ucmain}[1]{\textbf{Główny przepływ zdarzeń:} & #1 \\ \hline}
+\newcommand{\ucalt}[1]{\textbf{Alternatywne przepływy zdarzeń:} & #1 \\ \hline}
 
 \newcommand{\usecasecard}[4]{%
     \refstepcounter{usecase}%
     \begin{center}
     \renewcommand{\arraystretch}{1.15}%
-    \begin{tabularx}{\textwidth}{|p{0.19\textwidth}|X|}
-    \hline
-    \textbf{Nazwa} & #2 \\ \hline
-    \textbf{Numer} & #3 \\ \hline
+    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}}p{0.20\textwidth}|X|}
+    \rowcolor{lightgray}
+    \multicolumn{2}{|c|}{\textbf{KARTA SCENARIUSZA PRZYPADKU UŻYCIA}} \\ \hline
+    \textbf{Nazwa:} & #2 \\ \hline
+    \textbf{Numer:} & #3 \\ \hline
     #4
     \end{tabularx}
     \vspace{3pt}
@@ -37,8 +37,6 @@ Zostały one wykonane dla wybranych przypadków użycia.
 }
 
 % Scenariusze PU:
-%TODO: na sam koniec zrob aby wygladem rpzypominaly te z uczelni
-%TODO: do porpawyts a karty udzialowcow
 
 \usecasecard{tab:pu1-rejestracja}{Rejestracja użytkownika}{PU1}{%
     \ucpriority{Wysoki}
