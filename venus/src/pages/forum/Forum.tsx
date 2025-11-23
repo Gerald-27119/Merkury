@@ -4,7 +4,6 @@ import { fetchPaginatedPosts } from "../../http/posts";
 import React, { useEffect, useRef, useState } from "react";
 import ForumPostPage from "../../model/interface/forum/forumPostPage";
 import { PostSortOption } from "../../model/enum/forum/postSortOption";
-import ForumLayout from "./ForumLayout";
 import SkeletonListedForumPost from "./components/SkeletonListedForumPost";
 import LoadingState from "../../model/interface/forum/loadingState";
 import ForumPostsPage from "./ForumPostsPage";
@@ -67,13 +66,11 @@ export default function Forum() {
 
     if (isPostPageLoading) {
         return (
-            <ForumLayout>
-                <div className="mt-14 w-md md:w-2xl">
-                    {Array.from({ length: 10 }).map((_, i) => (
-                        <SkeletonListedForumPost key={i} />
-                    ))}
-                </div>
-            </ForumLayout>
+            <div className="mt-14 w-md md:w-2xl">
+                {Array.from({ length: 10 }).map((_, i) => (
+                    <SkeletonListedForumPost key={i} />
+                ))}
+            </div>
         );
     }
 
@@ -82,13 +79,11 @@ export default function Forum() {
     }
 
     return (
-        <ForumLayout>
-            <ForumPostsPage
-                posts={posts}
-                sortOption={sortOption}
-                onSortChange={setSortOption}
-                loadingState={loadingState}
-            />
-        </ForumLayout>
+        <ForumPostsPage
+            posts={posts}
+            sortOption={sortOption}
+            onSortChange={setSortOption}
+            loadingState={loadingState}
+        />
     );
 }

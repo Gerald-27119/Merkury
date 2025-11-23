@@ -25,6 +25,8 @@ import AddedSpot from "./pages/account/add-spot/AddedSpot";
 import ForumSearch from "./pages/forum/post-search/ForumSearch";
 import PostTagsPage from "./pages/forum/categories-and-tags/components/PostTagsPage";
 import PostCategoriesPage from "./pages/forum/categories-and-tags/components/PostCategoriesPage";
+import ForumLayout from "./pages/forum/ForumLayout";
+import ForumLayoutRoute from "./layout/forum/ForumLayoutRoute";
 
 const router = createBrowserRouter([
     {
@@ -139,23 +141,29 @@ const router = createBrowserRouter([
             },
             {
                 path: "forum",
-                element: <Forum />,
-            },
-            {
-                path: "forum/:postId/:slugTitle?",
-                element: <ForumThread />,
-            },
-            {
-                path: "forum/search",
-                element: <ForumSearch />,
-            },
-            {
-                path: "forum/categories",
-                element: <PostCategoriesPage />,
-            },
-            {
-                path: "forum/tags",
-                element: <PostTagsPage />,
+                element: <ForumLayoutRoute />,
+                children: [
+                    {
+                        index: true,
+                        element: <Forum />,
+                    },
+                    {
+                        path: ":postId/:slugTitle?",
+                        element: <ForumThread />,
+                    },
+                    {
+                        path: "search",
+                        element: <ForumSearch />,
+                    },
+                    {
+                        path: "categories",
+                        element: <PostCategoriesPage />,
+                    },
+                    {
+                        path: "tags",
+                        element: <PostTagsPage />,
+                    },
+                ],
             },
             {
                 path: "map",

@@ -3,7 +3,6 @@ import ForumPostPage from "../../../model/interface/forum/forumPostPage";
 import { fetchSearchedPosts } from "../../../http/posts";
 import React, { useEffect, useRef, useState } from "react";
 import { PostSortOption } from "../../../model/enum/forum/postSortOption";
-import ForumLayout from "../ForumLayout";
 import { useSearchParams } from "react-router-dom";
 import ForumPostsPage from "../ForumPostsPage";
 import LoadingState from "../../../model/interface/forum/loadingState";
@@ -107,13 +106,11 @@ export default function ForumSearch() {
 
     if (isSearchPostPageLoading) {
         return (
-            <ForumLayout>
-                <div className="mt-14 w-md md:w-2xl">
-                    {Array.from({ length: 10 }).map((_, i) => (
-                        <SkeletonListedForumPost key={i} />
-                    ))}
-                </div>
-            </ForumLayout>
+            <div className="mt-14 w-md md:w-2xl">
+                {Array.from({ length: 10 }).map((_, i) => (
+                    <SkeletonListedForumPost key={i} />
+                ))}
+            </div>
         );
     }
 
@@ -122,17 +119,15 @@ export default function ForumSearch() {
     }
 
     return (
-        <ForumLayout>
-            <ForumPostsPage
-                posts={posts}
-                sortOption={sortOption}
-                onSortChange={setSortOption}
-                loadingState={loadingState}
-                searchFilters={searchFilters}
-                totalSearchResults={
-                    searchPostPage?.pages?.[0]?.page.totalElements ?? 0
-                }
-            />
-        </ForumLayout>
+        <ForumPostsPage
+            posts={posts}
+            sortOption={sortOption}
+            onSortChange={setSortOption}
+            loadingState={loadingState}
+            searchFilters={searchFilters}
+            totalSearchResults={
+                searchPostPage?.pages?.[0]?.page.totalElements ?? 0
+            }
+        />
     );
 }
