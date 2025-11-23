@@ -1,4 +1,4 @@
-import SkeletonForumCategoryTag from "../categories-and-tags/components/SkeletonForumCategoryTag";
+import SkeletonPostCategoryTag from "../categories-and-tags/components/SkeletonPostCategoryTag";
 import Error from "../../../components/error/Error";
 import TrendingPostDto from "../../../model/interface/forum/trendingPostDto";
 import TrendingPostsList from "./TrendingPostsList";
@@ -17,7 +17,7 @@ export default function TrendingPostsPanel({
     error,
 }: TrendingPostsPanelProps) {
     if (isLoading) {
-        return <SkeletonForumCategoryTag />;
+        return <SkeletonPostCategoryTag />;
     }
 
     if (isError) {

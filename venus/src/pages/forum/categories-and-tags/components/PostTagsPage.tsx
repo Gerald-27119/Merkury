@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllTagsAlphabetically } from "../../../../http/posts";
-import SkeletonForumCategoryTag from "./SkeletonForumCategoryTag";
+import SkeletonPostCategoryTag from "./SkeletonPostCategoryTag";
 import Error from "../../../../components/error/Error";
 import PostTag from "../PostTag";
 import TagDto from "../../../../model/interface/tagDto";
@@ -13,7 +13,7 @@ export default function PostTagsPage() {
     });
 
     if (isLoading) {
-        return <SkeletonForumCategoryTag />;
+        return <SkeletonPostCategoryTag />;
     }
 
     if (isError) {

@@ -1,8 +1,8 @@
 import Error from "../../../../components/error/Error";
 import PostCategoryAndTagsDto from "../../../../model/interface/forum/postCategoryAndTagsDto";
-import ForumCategoriesList from "./ForumCategoriesList";
-import ForumTagsList from "./ForumTagsList";
-import SkeletonForumCategoryTag from "./SkeletonForumCategoryTag";
+import PostCategoriesList from "./PostCategoriesList";
+import PostTagsList from "./PostTagsList";
+import SkeletonPostCategoryTag from "./SkeletonPostCategoryTag";
 
 interface ForumCategoriesTagsPanelProps {
     data?: PostCategoryAndTagsDto;
@@ -11,14 +11,14 @@ interface ForumCategoriesTagsPanelProps {
     error?: unknown;
 }
 
-export default function ForumCategoriesTagsPanel({
+export default function PostCategoriesTagsPanel({
     data,
     isLoading,
     isError,
     error,
 }: ForumCategoriesTagsPanelProps) {
     if (isLoading) {
-        return <SkeletonForumCategoryTag />;
+        return <SkeletonPostCategoryTag />;
     }
 
     if (isError) {
@@ -27,8 +27,8 @@ export default function ForumCategoriesTagsPanel({
 
     return (
         <div className="dark:bg-darkBgSoft bg-lightBgSoft w-54 rounded-2xl shadow-lg">
-            <ForumCategoriesList categories={data?.categories} />
-            <ForumTagsList tags={data?.tags} />
+            <PostCategoriesList categories={data?.categories} />
+            <PostTagsList tags={data?.tags} />
         </div>
     );
 }

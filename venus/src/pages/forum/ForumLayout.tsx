@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import AddPostButton from "./components/AddPostButton";
-import ForumCategoriesTagsPanel from "./categories-and-tags/components/ForumCategoriesTagsPanel";
+import PostCategoriesTagsPanel from "./categories-and-tags/components/PostCategoriesTagsPanel";
 import ForumSearchBar from "./post-search/ForumSearchBar";
 import TrendingPostsPanel from "./components/TrendingPostsPanel";
 import ForumAddPostModal from "./components/ForumAddPostModal";
@@ -66,7 +66,7 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
                 <div className="sticky-forum-panel">
                     <AddPostButton onClick={handleAddPostClick} />
 
-                    <ForumCategoriesTagsPanel
+                    <PostCategoriesTagsPanel
                         data={categoriesAndTags}
                         isLoading={isCatTagsLoading}
                         isError={isCatTagsError}

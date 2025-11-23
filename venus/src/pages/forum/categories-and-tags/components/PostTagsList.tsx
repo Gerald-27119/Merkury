@@ -7,7 +7,7 @@ interface ForumTagsListProps {
     tags?: TagDto[];
 }
 
-export default function ForumTagsList({ tags }: ForumTagsListProps) {
+export default function PostTagsList({ tags }: ForumTagsListProps) {
     const navigate = useNavigate();
 
     const handleClick = () => {

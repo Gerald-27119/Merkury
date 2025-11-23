@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllCategoriesAlphabetically } from "../../../../http/posts";
-import SkeletonForumCategoryTag from "./SkeletonForumCategoryTag";
+import SkeletonPostCategoryTag from "./SkeletonPostCategoryTag";
 import Error from "../../../../components/error/Error";
 import PostCategoryDescription from "../PostCategoryDescription";
 import ForumLayout from "../../ForumLayout";
@@ -12,7 +12,7 @@ export default function PostCategoriesPage() {
     });
 
     if (isLoading) {
-        return <SkeletonForumCategoryTag />;
+        return <SkeletonPostCategoryTag />;
     }
 
     if (isError) {

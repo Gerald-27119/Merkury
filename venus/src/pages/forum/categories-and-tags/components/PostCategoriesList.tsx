@@ -7,7 +7,7 @@ interface ForumCategoriesListProps {
     categories?: PostCategoryDto[];
 }
 
-export default function ForumCategoriesList({
+export default function PostCategoriesList({
     categories,
 }: ForumCategoriesListProps) {
     const navigate = useNavigate();
