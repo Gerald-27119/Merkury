@@ -1,7 +1,8 @@
-import SkeletonPostCategoryTag from "../categories-and-tags/components/SkeletonPostCategoryTag";
 import Error from "../../../components/error/Error";
 import TrendingPostDto from "../../../model/interface/forum/trendingPostDto";
 import TrendingPostsList from "./TrendingPostsList";
+import SkeletonTrendingPost from "../posts/components/SkeletonTrendingPost";
+import React from "react";
 
 interface TrendingPostsPanelProps {
     data?: TrendingPostDto[];
@@ -17,7 +18,7 @@ export default function TrendingPostsPanel({
     error,
 }: TrendingPostsPanelProps) {
     if (isLoading) {
-        return <SkeletonPostCategoryTag />;
+        return <SkeletonTrendingPost />;
     }
 
     if (isError) {
@@ -25,7 +26,7 @@ export default function TrendingPostsPanel({
     }
 
     return (
-        <div className="dark:bg-darkBgSoft bg-lightBgSoft mt-4 inline-block max-w-full rounded-2xl break-words shadow-lg">
+        <div className="dark:bg-darkBgSoft bg-lightBgSoft mt-4 inline-block w-full rounded-2xl break-words shadow-lg">
             <TrendingPostsList posts={data} />
         </div>
     );

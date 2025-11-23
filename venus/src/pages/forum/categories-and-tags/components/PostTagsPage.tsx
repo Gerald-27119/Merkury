@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllTagsAlphabetically } from "../../../../http/posts";
-import SkeletonPostCategoryTag from "./SkeletonPostCategoryTag";
 import Error from "../../../../components/error/Error";
 import PostTag from "../PostTag";
 import TagDto from "../../../../model/interface/tagDto";
 import ForumLayout from "../../ForumLayout";
+import SkeletonAllPostTags from "./SkeletonAllPostTags";
+import React from "react";
 
 export default function PostTagsPage() {
     const { data, isLoading, isError, error } = useQuery({
@@ -13,7 +14,16 @@ export default function PostTagsPage() {
     });
 
     if (isLoading) {
-        return <SkeletonPostCategoryTag />;
+        return (
+            <ForumLayout>
+                <div className="w-md space-y-8 md:w-2xl">
+                    <h1 className="mb-7 text-3xl font-bold">Tags</h1>
+                    {Array.from({ length: 10 }).map((_, i) => (
+                        <SkeletonAllPostTags key={i} />
+                    ))}
+                </div>
+            </ForumLayout>
+        );
     }
 
     if (isError) {
@@ -36,7 +46,7 @@ export default function PostTagsPage() {
     return (
         <ForumLayout>
             <div className="w-md space-y-8 md:w-2xl">
-                <h1 className="mb-4 text-3xl font-bold">Tags</h1>
+                <h1 className="mb-5 text-3xl font-bold">Tags</h1>
                 {alphabet.map((letter) => (
                     <div
                         key={letter}

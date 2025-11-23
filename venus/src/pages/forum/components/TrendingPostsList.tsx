@@ -9,7 +9,7 @@ interface TrendingPostsListProps {
 export default function TrendingPostsList({ posts }: TrendingPostsListProps) {
     return (
         <div className="p-4">
-            <span className="">Trending Posts</span>
+            <span>Trending Posts</span>
             {posts?.length ? (
                 <div className="mt-2">
                     <ul className="space-y-2">

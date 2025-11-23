@@ -68,7 +68,7 @@ export default function Forum() {
     if (isPostPageLoading) {
         return (
             <ForumLayout>
-                <div className="mt-14 min-w-2xl">
+                <div className="mt-14 w-md md:w-2xl">
                     {Array.from({ length: 10 }).map((_, i) => (
                         <SkeletonListedForumPost key={i} />
                     ))}
