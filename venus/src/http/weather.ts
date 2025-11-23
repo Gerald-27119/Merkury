@@ -3,6 +3,7 @@ import SpotBasicWeatherDto from "../model/interface/spot/weather/spotBasicWeathe
 import SpotDetailedWeatherDto from "../model/interface/spot/weather/spotDetailedWeatherDto";
 import SpotWeatherWIndSpeedsDto from "../model/interface/spot/weather/spotWeatherWIndSpeedsDto";
 import SpotWeatherTimelinePlotData from "../model/interface/spot/weather/spotWeatherTimelinePlotData";
+import SpotTimeZoneDto from "../model/interface/spot/weather/spotTimeZoneDto";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
@@ -66,5 +67,16 @@ export async function getWeatherDataForTimelinePlot(
                 },
             },
         )
+    ).data;
+}
+
+export async function getSpotTimeZone(
+    spotId: number,
+): Promise<SpotTimeZoneDto> {
+    return (
+        await axios.get(`${BASE_URL}/public/spot/get-spot-time-zone`, {
+            params: { spotId },
+            withCredentials: true,
+        })
     ).data;
 }

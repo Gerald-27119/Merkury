@@ -8,7 +8,8 @@ public record SpotWeatherTimelinePlotDataDto(
         Double temperature,
         Integer weatherCode,
         Double precipitationProbability,
-        Boolean isDay
+        Boolean isDay,
+        String timeZone
 ) implements Serializable {
     @Serial
     private static final long serialVersionUID = 4L;

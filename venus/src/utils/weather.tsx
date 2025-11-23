@@ -1,10 +1,13 @@
-export function formatISOToAmPm(isoTimestamp: string): string {
+export function formatISOToAmPm(
+    isoTimestamp: string,
+    timeZone: string,
+): string {
     const date = new Date(isoTimestamp);
     const formatter = new Intl.DateTimeFormat("en-US", {
         hour: "numeric",
         minute: "2-digit",
         hour12: true,
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        timeZone,
     });
     return formatter.format(date);
 }

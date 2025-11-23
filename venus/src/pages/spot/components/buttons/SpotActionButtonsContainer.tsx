@@ -31,6 +31,7 @@ export default function SpotActionButtonsContainer({
     centerPoint,
 }: SpotActionButtonsContainerProps) {
     const { isLogged } = useSelectorTyped((state) => state.account);
+    const spotLocationInfo = useSelectorTyped((state) => state.spotWeather);
 
     const dispatch = useDispatchTyped();
     const queryClient = useQueryClient();
@@ -136,7 +137,7 @@ export default function SpotActionButtonsContainer({
         }
         try {
             await navigator.clipboard.writeText(
-                `${window.location.origin}${location.pathname}?share=true&spotId=${spotId}`,
+                `${window.location.origin}${location.pathname}?share=true&spotId=${encodeURIComponent(spotId)}&latitude=${encodeURIComponent(spotLocationInfo.latitude)}&longitude=${encodeURIComponent(spotLocationInfo.longitude)}&region=${encodeURIComponent(spotLocationInfo.region)}&city=${encodeURIComponent(spotLocationInfo.city)}`,
             );
             dispatch(
                 notificationAction.addSuccess({

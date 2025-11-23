@@ -1,10 +1,7 @@
 package com.merkury.vulcanus.features.spot;
 
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
-import com.merkury.vulcanus.model.dtos.spot.weather.BasicSpotWeatherDto;
-import com.merkury.vulcanus.model.dtos.spot.weather.DetailedSpotWeatherDto;
-import com.merkury.vulcanus.model.dtos.spot.weather.SpotWeatherTimelinePlotDataDto;
-import com.merkury.vulcanus.model.dtos.spot.weather.SpotWeatherWindSpeedsDto;
+import com.merkury.vulcanus.model.dtos.spot.weather.*;
 import com.merkury.vulcanus.model.dtos.spot.weather.api.response.WeatherApiResponseSchema;
 import com.merkury.vulcanus.model.interfaces.ISpotTimeZoneOnly;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
@@ -95,6 +92,7 @@ public class SpotWeatherService {
             key = "#latitude + ':' + #longitude"
     )
     public Mono<SpotWeatherWindSpeedsDto> getSpotWeatherWindSpeeds(double latitude, double longitude, Long spotId) {
+        var startHour = getISO8601Time(spotId, 0);
         return spotWeatherWebClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("latitude", latitude)
@@ -106,8 +104,8 @@ public class SpotWeatherService {
                                 "wind_speed_950hPa",
                                 "wind_speed_925hPa",
                                 "wind_speed_900hPa"))
-                        .queryParam("start_hour", getISO8601Time(spotId, 0))
-                        .queryParam("end_hour", getISO8601Time(spotId, 0))
+                        .queryParam("start_hour", startHour)
+                        .queryParam("end_hour", startHour)
                         .queryParam("wind_speed_unit", "ms")
                         .build())
                 .retrieve()
@@ -126,7 +124,10 @@ public class SpotWeatherService {
             value = "spotWeatherTimelinePlotData",
             key = "#latitude + ':' + #longitude"
     )
-    public Mono<List<SpotWeatherTimelinePlotDataDto>> getSpotWeatherTimelinePlotData(double latitude, double longitude, Long spotId) {
+    public Mono<List<SpotWeatherTimelinePlotDataDto>> getSpotWeatherTimelinePlotData(double latitude, double longitude, Long spotId) throws SpotNotFoundException {
+        var timeZone = spotRepository.findSpotsTimeZonedById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId)).getTimeZone();
+        var startHour = getISO8601Time(spotId, 0);
+        var endHour = getISO8601Time(spotId, 3);
         return spotWeatherWebClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("latitude", latitude)
@@ -136,8 +137,8 @@ public class SpotWeatherService {
                                 "weather_code",
                                 "precipitation_probability",
                                 "is_day"))
-                        .queryParam("start_hour", getISO8601Time(spotId, 0))
-                        .queryParam("end_hour", getISO8601Time(spotId, 3))
+                        .queryParam("start_hour", startHour)
+                        .queryParam("end_hour", endHour)
                         .build())
                 .retrieve()
                 .bodyToMono(WeatherApiResponseSchema.class)
@@ -149,10 +150,16 @@ public class SpotWeatherService {
                                 response.hourly().temperature2m().get(i),
                                 response.hourly().weatherCode().get(i),
                                 response.hourly().precipitationProbability().get(i),
-                                response.hourly().isDay().get(i) != 0
+                                response.hourly().isDay().get(i) != 0,
+                                timeZone
                         ));
                     }
                     return spotWeatherTimelinePlotDataDtos;
                 });
+    }
+
+    public SpotTimeZoneDto getSpotTimeZone(Long spotId) throws SpotNotFoundException {
+        var timeZone = spotRepository.findSpotsTimeZonedById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId)).getTimeZone();
+        return new SpotTimeZoneDto(timeZone);
     }
 }
