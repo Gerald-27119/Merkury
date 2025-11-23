@@ -9,6 +9,7 @@ import ForumPostsPage from "../ForumPostsPage";
 import LoadingState from "../../../model/interface/forum/loadingState";
 import Error from "../../../components/error/Error";
 import SkeletonListedForumPost from "../components/SkeletonListedForumPost";
+import { ForumSearchFilters } from "../../../model/interface/forum/forumSearchFilters";
 
 export default function ForumSearch() {
     const [params] = useSearchParams();
@@ -95,10 +96,19 @@ export default function ForumSearch() {
         (page: ForumPostPage) => page.content ?? [],
     );
 
+    const searchFilters: ForumSearchFilters = {
+        phrase,
+        category,
+        tags,
+        fromDate,
+        toDate,
+        author,
+    };
+
     if (isSearchPostPageLoading) {
         return (
             <ForumLayout>
-                <div className="mt-14 min-w-2xl">
+                <div className="mt-14 w-md md:w-2xl">
                     {Array.from({ length: 10 }).map((_, i) => (
                         <SkeletonListedForumPost key={i} />
                     ))}
@@ -118,7 +128,7 @@ export default function ForumSearch() {
                 sortOption={sortOption}
                 onSortChange={setSortOption}
                 loadingState={loadingState}
-                searchPhrase={phrase}
+                searchFilters={searchFilters}
                 totalSearchResults={
                     searchPostPage?.pages?.[0]?.page.totalElements ?? 0
                 }
