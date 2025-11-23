@@ -1,0 +1,103 @@
+\subsubsection{Scenariusze przypadków użycia dla mapy}
+
+\usecasecard{tab:pu8-mapa}{Przeglądanie mapy spotów}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany, Usługa do wyświetlania mapy}
+    \ucdesc{Użytkownik przegląda mapę spotów.}
+    \ucpre{Użytkownik znajduje się w module mapy.}
+    \ucpost{Mapa ze spotami została wyświetlona, a użytkownik może przybliżać, oddalać i przesuwać widok.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item System inicjuje widok mapy z domyślnym obszarem.
+            \item System pobiera listę spotów w aktualnym zakresie mapy.
+            \item System rysuje znaczniki spotów na mapie.
+            \item Użytkownik przesuwa lub skaluje mapę.
+            \item System pobiera spoty dla nowego zakresu.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Usługa mapy jest niedostępna – system wyświetla komunikat o błędzie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu12-komentarze-spota}{Przeglądanie komentarzy do spota}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik niezalogowany}
+    \ucdesc{Użytkownik czyta komentarze pod wybranym spotem.}
+    \ucpre{Wyświetlany jest widok szczegółów spota.}
+    \ucpost{Lista komentarzy do spota została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item System pobiera komentarze powiązane ze spotem.
+            \item System wyświetla komentarze w kolejności chronologicznej lub według popularności.
+            \item Użytkownik przewija listę komentarzy.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[1a.] Spot nie ma jeszcze komentarzy – system wyświetla odpowiednią informację.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu13-pogoda}{Przeglądanie pogody na spocie}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany, Usługa danych pogodowych}
+    \ucdesc{Użytkownik sprawdza prognozę pogody dla lokalizacji spota.}
+    \ucpre{Wyświetlany jest widok szczegółów spota.}
+    \ucpost{Prognoza pogody dla spota została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera zakładkę pogody.
+            \item System wysyła zapytanie do usługi pogodowej z lokalizacją spota.
+            \item System odbiera prognozę i prezentuje ją (temperatura, prędkość wiatru, opady).
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Usługa pogodowa jest niedostępna – system wyświetla komunikat o braku danych pogodowych.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu37-zmien-typ-mapy}{Zmiana typu mapy}{%
+    \ucpriority{Niski}
+    \ucactors{Użytkownik premium, Usługa do wyświetlania mapy}
+    \ucdesc{Użytkownik zmienia typ mapy (np. standardowa, satelitarna, hybrydowa).}
+    \ucpre{Użytkownik premium jest na ekranie mapy.}
+    \ucpost{Mapa jest wyświetlana w wybranym typie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera ustawienia widoku mapy.
+            \item Użytkownik wybiera typ mapy z dostępnej listy.
+            \item System przełącza widok mapy na wybrany typ.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Wybrany typ mapy nie jest dostępny (błąd usługi mapowej) – system przywraca poprzedni typ i informuje o błędzie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu38-strefy-pansa}{Przeglądanie stref PANSA}{%
+    \ucpriority{Niski}
+    \ucactors{Użytkownik premium, Usługa do wyświetlania mapy}
+    \ucdesc{Użytkownik wyświetla na mapie strefy przestrzeni powietrznej \gls{PANSA}.}
+    \ucpre{Użytkownik premium ma otwarty moduł mapy.}
+    \ucpost{Strefy PANSA zostały zwizualizowane na mapie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik włącza warstwę „Strefy PANSA”.
+            \item System pobiera dane o strefach.
+            \item System nakłada kontury stref na mapę.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Dane o strefach są chwilowo niedostępne – system komunikuje problem i nie włącza warstwy.
+        \end{enumerate}
+    }
+}

@@ -1,0 +1,93 @@
+\subsubsection{Scenariusze przypadków użycia dla profilu użytkownika}
+
+\usecasecard{tab:pu27-dodaj-spota}{Dodanie spota w profilu użytkownika}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany, Usługa do wyświetlania mapy, Usługa do przechowywania plików w chmurze}
+    \ucdesc{Użytkownik dodaje nowy spot poprzez swój profil.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w widoku swojego profilu.}
+    \ucpost{Nowy spot został zapisany i widoczny na mapie oraz w profilu użytkownika.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję „Dodaj spota”.
+            \item Użytkownik uzupełnia podstawowe informacje o spocie (nazwa, opis, typ).
+            \item Użytkownik wskazuje lokalizację spota na mapie.
+            \item (Opcjonalnie) Użytkownik dodaje zdjęcia/filmy do spota.
+            \item Użytkownik zapisuje spota.
+            \item System zapisuje dane spota (oraz pliki w chmurze) i aktualizuje mapę oraz profil użytkownika.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Formularz zawiera błędy – system wyświetla komunikat i zaznacza wymagające poprawy pola.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu28-profil-wlasny}{Przeglądanie profilu użytkownika}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda swój profil (lista spotów, media, podstawowe dane).}
+    \ucpre{Użytkownik jest zalogowany.}
+    \ucpost{Wyświetlony jest widok profilu użytkownika wraz z jego zawartością.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera swój profil.
+            \item System pobiera dane profilu (informacje podstawowe, spoty, media).
+            \item System wyświetla dane w odpowiednich sekcjach (spoty, zdjęcia, filmy, komentarze).
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu29-profil-innego}{Przeglądanie profilu innego użytkownika}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik ogląda profil innego użytkownika (np. z mapy, forum lub społeczności).}
+    \ucpre{Użytkownik jest zalogowany i ma dostęp do odnośnika do profilu innego użytkownika.}
+    \ucpost{Profil innego użytkownika został wyświetlony.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera odnośnik do profilu innego użytkownika.
+            \item System pobiera dane profilu docelowego użytkownika.
+            \item System wyświetla profil (media, podstawowe informacje).
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Wystąpił błąd podczas pobierania danych użytkownika  – system wyświetla informację o błędzie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu30-dodaj-znajomego}{Dodanie użytkownika do znajomych}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik wysyła lub akceptuje zaproszenie do znajomych.}
+    \ucpre{Użytkownik jest zalogowany i przegląda profil innego użytkownika.}
+    \ucpost{Relacja „znajomy” została utworzona lub zaproszenie czeka na akceptację.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik klika przycisk „Dodaj do znajomych”.
+            \item System sprawdza, czy relacja już istnieje.
+            \item System tworzy nowe zaproszenie.
+            \item System informuje o statusie o wysłaniu zaproszenia.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu31-spolecznosci}{Przeglądanie społeczności}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda społeczności, grupy lub listy znajomych powiązane z aplikacją.}
+    \ucpre{Użytkownik jest zalogowany.}
+    \ucpost{Lista społeczności lub znajomych została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do sekcji społeczności.
+            \item System pobiera listę społeczności i znajomych użytkownika.
+            \item System wyświetla listę z możliwością przechodzenia do profili i czatów.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
