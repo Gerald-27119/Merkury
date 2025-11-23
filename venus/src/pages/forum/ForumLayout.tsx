@@ -62,7 +62,7 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
 
     return (
         <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg min-h-screen w-full">
-            <div className="mx-auto mt-8 flex w-full max-w-6xl flex-row gap-4">
+            <div className="mx-auto mt-16 flex w-full max-w-6xl flex-row gap-4 xl:mt-8">
                 <div className="sticky-forum-panel">
                     <AddPostButton onClick={handleAddPostClick} />
 

@@ -1,12 +1,19 @@
 import PostTag from "../PostTag";
 import TagDto from "../../../../model/interface/tagDto";
 import ExpansionButton from "./ExpansionButton";
+import { useNavigate } from "react-router-dom";
 
 interface ForumTagsListProps {
     tags?: TagDto[];
 }
 
 export default function ForumTagsList({ tags }: ForumTagsListProps) {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate("/forum/tags");
+    };
+
     return (
         <div className="p-4">
             <span>Tags</span>
@@ -19,7 +26,7 @@ export default function ForumTagsList({ tags }: ForumTagsListProps) {
                             </li>
                         ))}
                     </ul>
-                    <ExpansionButton label="All tags" />
+                    <ExpansionButton label="All tags" onClick={handleClick} />
                 </div>
             ) : (
                 <span className="flex items-center">No tags found</span>

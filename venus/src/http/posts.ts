@@ -6,6 +6,8 @@ import ForumPostPage from "../model/interface/forum/forumPostPage";
 import { PostSortOption } from "../model/enum/forum/postSortOption";
 import ForumReportDto from "../model/interface/forum/forumReportDto";
 import TrendingPostDto from "../model/interface/forum/trendingPostDto";
+import PostCategoryDto from "../model/interface/forum/postCategoryDto";
+import TagDto from "../model/interface/tagDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function fetchPaginatedPosts(
@@ -74,7 +76,17 @@ export async function fetchTrendingPosts(): Promise<TrendingPostDto[]> {
 }
 
 export async function fetchCategoriesAndTags(): Promise<PostCategoryAndTagsDto> {
-    return (await axios.get(`${BASE_URL}/public/categories-tags`)).data;
+    return (await axios.get(`${BASE_URL}/public/post/categories-tags`)).data;
+}
+
+export async function fetchAllCategoriesAlphabetically(): Promise<
+    PostCategoryDto[]
+> {
+    return (await axios.get(`${BASE_URL}/public/post/categories`)).data;
+}
+
+export async function fetchAllTagsAlphabetically(): Promise<TagDto[]> {
+    return (await axios.get(`${BASE_URL}/public/post/tags`)).data;
 }
 
 export async function addPost(newPost: PostDto) {

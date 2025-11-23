@@ -23,6 +23,8 @@ import Movies from "./pages/account/movies/Movies";
 import AdvanceHomePage from "./pages/home-page/AdvanceHomePage";
 import AddedSpot from "./pages/account/add-spot/AddedSpot";
 import ForumSearch from "./pages/forum/post-search/ForumSearch";
+import PostTagsPage from "./pages/forum/categories-and-tags/components/PostTagsPage";
+import PostCategoriesPage from "./pages/forum/categories-and-tags/components/PostCategoriesPage";
 
 const router = createBrowserRouter([
     {
@@ -146,6 +148,14 @@ const router = createBrowserRouter([
             {
                 path: "forum/search",
                 element: <ForumSearch />,
+            },
+            {
+                path: "forum/categories",
+                element: <PostCategoriesPage />,
+            },
+            {
+                path: "forum/tags",
+                element: <PostTagsPage />,
             },
             {
                 path: "map",

@@ -15,15 +15,15 @@ export default function PostCategory({ category }: ForumCategoryProps) {
     };
 
     return (
-        <span
+        <div
             onClick={handleClick}
-            className="dark:hover:text-lightBgSoft inline-flex cursor-pointer items-center space-x-2 leading-none"
+            className="dark:hover:bg-darkBgMuted hover:bg-lightBgDarker inline-flex cursor-pointer items-center space-x-2 rounded p-1 leading-none"
         >
             <span
                 className="inline-block h-4 w-1.5 rounded-full"
                 style={{ backgroundColor: category.colour }}
             ></span>
             <span>{category.name}</span>
-        </span>
+        </div>
     );
 }

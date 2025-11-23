@@ -104,8 +104,18 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/public/categories-tags")
+    @GetMapping("/public/post/categories-tags")
     public ResponseEntity<ForumCategoriesAndTagsDto> getAllCategoriesAndTags() {
         return ResponseEntity.ok(postService.getAllCategoriesAndTags());
+    }
+
+    @GetMapping("/public/post/categories")
+    public ResponseEntity<List<PostCategoryDto>> getAllCategoriesAlphabetically() {
+        return ResponseEntity.ok(postService.getAllCategoriesAlphabetically());
+    }
+
+    @GetMapping("/public/post/tags")
+    public ResponseEntity<List<PostTagDto>> getAllTagsAlphabetically() {
+        return ResponseEntity.ok(postService.getAllTagsAlphabetically());
     }
 }

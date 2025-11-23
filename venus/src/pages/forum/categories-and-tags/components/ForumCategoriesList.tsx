@@ -1,6 +1,7 @@
 import PostCategory from "../PostCategory";
 import PostCategoryDto from "../../../../model/interface/forum/postCategoryDto";
 import ExpansionButton from "./ExpansionButton";
+import { useNavigate } from "react-router-dom";
 
 interface ForumCategoriesListProps {
     categories?: PostCategoryDto[];
@@ -9,6 +10,12 @@ interface ForumCategoriesListProps {
 export default function ForumCategoriesList({
     categories,
 }: ForumCategoriesListProps) {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate("/forum/categories");
+    };
+
     return (
         <div className="p-4">
             <span>Categories</span>
@@ -21,7 +28,10 @@ export default function ForumCategoriesList({
                             </li>
                         ))}
                     </ul>
-                    <ExpansionButton label="All categories" />
+                    <ExpansionButton
+                        label="All categories"
+                        onClick={handleClick}
+                    />
                 </div>
             ) : (
                 <span className="flex items-center">No categories found</span>

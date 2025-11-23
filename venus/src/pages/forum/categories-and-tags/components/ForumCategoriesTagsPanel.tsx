@@ -3,8 +3,6 @@ import PostCategoryAndTagsDto from "../../../../model/interface/forum/postCatego
 import ForumCategoriesList from "./ForumCategoriesList";
 import ForumTagsList from "./ForumTagsList";
 import SkeletonForumCategoryTag from "./SkeletonForumCategoryTag";
-import PostCategoryDto from "../../../../model/interface/forum/postCategoryDto";
-import TagDto from "../../../../model/interface/tagDto";
 
 interface ForumCategoriesTagsPanelProps {
     data?: PostCategoryAndTagsDto;

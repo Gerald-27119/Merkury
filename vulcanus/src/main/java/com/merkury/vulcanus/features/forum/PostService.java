@@ -165,6 +165,16 @@ public class PostService {
         return new ForumCategoriesAndTagsDto(categories.stream().map(CategoryMapper::toDto).toList(), tags.stream().map(TagMapper::toDto).toList());
     }
 
+    public List<PostCategoryDto> getAllCategoriesAlphabetically() {
+        var categories = postCategoryRepository.findAllByOrderByNameAsc();
+        return categories.stream().map(CategoryMapper::toDto).toList();
+    }
+
+    public List<PostTagDto> getAllTagsAlphabetically() {
+        var tags = postTagRepository.findAllByOrderByNameAsc();
+        return tags.stream().map(TagMapper::toDto).toList();
+    }
+
     private PostCategory getCategoryByName(String name) throws CategoryNotFoundException {
         return postCategoryRepository.findByName(name)
                 .orElseThrow(() -> new CategoryNotFoundException(name));
