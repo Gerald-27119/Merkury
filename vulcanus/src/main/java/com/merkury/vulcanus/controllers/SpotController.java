@@ -9,13 +9,10 @@ import com.merkury.vulcanus.model.dtos.spot.*;
 import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryDto;
 import com.merkury.vulcanus.model.dtos.spot.gallery.SpotMediaGalleryPagePosition;
 import com.merkury.vulcanus.model.dtos.spot.gallery.SpotSidebarMediaGalleryDto;
+import com.merkury.vulcanus.model.dtos.spot.weather.*;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
 import com.merkury.vulcanus.model.enums.SpotRatingFilterType;
 import com.merkury.vulcanus.model.enums.SpotSortType;
-import com.merkury.vulcanus.model.dtos.spot.weather.BasicSpotWeatherDto;
-import com.merkury.vulcanus.model.dtos.spot.weather.DetailedSpotWeatherDto;
-import com.merkury.vulcanus.model.dtos.spot.weather.SpotWeatherTimelinePlotDataDto;
-import com.merkury.vulcanus.model.dtos.spot.weather.SpotWeatherWindSpeedsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -177,7 +174,7 @@ public class SpotController {
     }
 
     @GetMapping("/public/spot/get-spot-weather-timeline-plot-data")
-    public ResponseEntity<Mono<List<SpotWeatherTimelinePlotDataDto>>> getSpotWeatherTimelinePlotData(@RequestParam double latitude, @RequestParam double longitude, @RequestParam long spotId) {
+    public ResponseEntity<Mono<List<SpotWeatherTimelinePlotDataDto>>> getSpotWeatherTimelinePlotData(@RequestParam double latitude, @RequestParam double longitude, @RequestParam long spotId) throws SpotNotFoundException {
         log.debug("getting spot weather timeline plot data");
         return ResponseEntity.ok(spotWeatherService.getSpotWeatherTimelinePlotData(latitude, longitude, spotId));
     }
@@ -197,5 +194,10 @@ public class SpotController {
     @GetMapping("/spot/check-is-spot-media-liked")
     public ResponseEntity<IsSpotMediaLikedByUserDto> checkIsSpotMediaLikedByUser(@RequestParam long spotMediaId) throws UserIdByUsernameNotFoundException {
         return ResponseEntity.ok(spotMediaService.checkIsSpotMediaLikedByUser(spotMediaId));
+    }
+
+    @GetMapping("/public/spot/get-spot-time-zone")
+    public ResponseEntity<SpotTimeZoneDto> getSpotTimeZone(@RequestParam long spotId) throws SpotNotFoundException {
+        return ResponseEntity.ok(spotWeatherService.getSpotTimeZone(spotId));
     }
 }

@@ -5,14 +5,15 @@ import com.merkury.vulcanus.exception.exceptions.UserIdByUsernameNotFoundExcepti
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundByUsernameException;
 import com.merkury.vulcanus.model.dtos.account.media.IsSpotMediaLikedByUserDto;
 import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
-import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import jakarta.persistence.OptimisticLockException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -22,43 +23,29 @@ public class SpotMediaService {
     private final SpotMediaRepository spotMediaRepository;
     private final SpotMediaLikesService spotMediaLikesService;
     private final CustomUserDetailsService customUserDetailsService;
-    private final UserEntityRepository userEntityRepository;
 
-    private static final int MAX_RETRIES = 3;
-
+    @Retryable(retryFor = {ObjectOptimisticLockingFailureException.class, OptimisticLockException.class},
+            maxAttempts = 5,
+            backoff = @Backoff(delay = 50, multiplier = 2.0, maxDelay = 2000))
     public void toggleSpotMediaLikes(long spotMediaId) throws SpotMediaNotFoundException, UserNotFoundByUsernameException {
         String username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-
-        int attempts = 0;
-        while (true) {
-            attempts++;
-            try {
-                spotMediaLikesService.toggleLikes(username, spotMediaId);
-                break;
-            } catch (ObjectOptimisticLockingFailureException | OptimisticLockException e) {
-                if (attempts >= MAX_RETRIES) {
-                    log.error("Failed to save spot media likes change. Max retries count exceeded.", e);
-                    throw e;
-                }
-                try {
-                    wait(50);
-                } catch (InterruptedException ie) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }
+        spotMediaLikesService.toggleLikes(username, spotMediaId);
     }
 
-    @Transactional
+    @Recover
+    public void recoverFromToggleSpotMediaLikes(Exception e, long spotMediaId) {
+        log.error("Could not toggle likes for media {} after retries", spotMediaId, e);
+    }
+
     public void increaseSpotMediaViewCount(long spotMediaId) throws SpotMediaNotFoundException {
-        var spotMedia = spotMediaRepository.findById(spotMediaId).orElseThrow(() -> new SpotMediaNotFoundException(spotMediaId));
-        spotMedia.setViews(spotMedia.getViews() + 1);
-        spotMediaRepository.save(spotMedia);
+        int updated = spotMediaRepository.incrementViews(spotMediaId);
+        if (updated == 0) {
+            throw new SpotMediaNotFoundException(spotMediaId);
+        }
     }
 
     public IsSpotMediaLikedByUserDto checkIsSpotMediaLikedByUser(long spotMediaId) throws UserIdByUsernameNotFoundException {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-        var userId = userEntityRepository.findByUsername(username).orElseThrow(() -> new UserIdByUsernameNotFoundException(username)).getId();
         var isMediaLiked = spotMediaLikesService.checkIsSpotMediaLikedByUser(spotMediaId, username);
         return new IsSpotMediaLikedByUserDto(isMediaLiked);
     }

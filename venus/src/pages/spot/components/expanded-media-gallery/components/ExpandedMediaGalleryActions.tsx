@@ -4,12 +4,14 @@ import { expandedSpotMediaGalleryModalsActions } from "../../../../../redux/expa
 import { IoClose } from "react-icons/io5";
 import { notificationAction } from "../../../../../redux/notification";
 import useSelectorTyped from "../../../../../hooks/useSelectorTyped";
+import { expandedSpotGalleryMediaListAction } from "../../../../../redux/expanded-spot-gallery-media-list";
 
 export default function ExpandedMediaGalleryActions() {
     const dispatch = useDispatchTyped();
 
     const handleClickCloseModals = () => {
         dispatch(expandedSpotMediaGalleryModalsActions.closeModals());
+        dispatch(expandedSpotGalleryMediaListAction.clearMediaList());
     };
 
     const mediaUrl = useSelectorTyped(

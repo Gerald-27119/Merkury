@@ -15,6 +15,7 @@ import {
     currentViewSpotsSelectors,
 } from "../../../../redux/current-view-spots";
 import CurrentViewSpotsFormsContainer from "./CurrentViewSpotsFormsContainer";
+import { currentViewSpotParamsActions } from "../../../../redux/current-view-spot-params";
 
 const slideVariants = {
     hidden: { x: "-100%", opacity: 0 },
@@ -31,6 +32,7 @@ export default function CurrentViewSpotsList() {
         dispatch(
             currentViewSpotsListModalActions.closeCurrentViewSpotsListModal(),
         );
+        dispatch(currentViewSpotParamsActions.setParams({ name: "" }));
     };
 
     const { swLng, swLat, neLng, neLat, name, sorting, ratingFrom } =
