@@ -62,42 +62,23 @@
     }
 }
 
-\usecasecard{tab:pu37-zmien-typ-mapy}{Zmiana typu mapy}{%
-    \ucpriority{Niski}
-    \ucactors{Użytkownik premium, Usługa do wyświetlania mapy}
-    \ucdesc{Użytkownik zmienia typ mapy (np. standardowa, satelitarna, hybrydowa).}
-    \ucpre{Użytkownik premium jest na ekranie mapy.}
-    \ucpost{Mapa jest wyświetlana w wybranym typie.}
+\usecasecard{tab:pu9-szukaj-na-mapie}{Wyszukiwanie spota na mapie}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany}
+    \ucdesc{Użytkownik wyszukuje spota po nazwie korzystając z pola wyszukiwania na mapie.}
+    \ucpre{Użytkownik widzi mapę spotów.}
+    \ucpost{Mapa zostaje ustawiona na wybranego spota lub listę dopasowań.}
     \ucmain{%
         \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item Użytkownik otwiera ustawienia widoku mapy.
-            \item Użytkownik wybiera typ mapy z dostępnej listy.
-            \item System przełącza widok mapy na wybrany typ.
+            \item Użytkownik wpisuje frazę w polu wyszukiwania na mapie.
+            \item System podpowiada listę pasujących spotów.
+            \item Użytkownik wybiera spota z listy.
+            \item System przybliża mapę do wybranego spota i podświetla jego znacznik.
         \end{enumerate}
     }
     \ucalt{%
         \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
-            \item[3a.] Wybrany typ mapy nie jest dostępny (błąd usługi mapowej) – system przywraca poprzedni typ i informuje o błędzie.
-        \end{enumerate}
-    }
-}
-
-\usecasecard{tab:pu38-strefy-pansa}{Przeglądanie stref PANSA}{%
-    \ucpriority{Niski}
-    \ucactors{Użytkownik premium, Usługa do wyświetlania mapy}
-    \ucdesc{Użytkownik wyświetla na mapie strefy przestrzeni powietrznej \gls{PANSA}.}
-    \ucpre{Użytkownik premium ma otwarty moduł mapy.}
-    \ucpost{Strefy PANSA zostały zwizualizowane na mapie.}
-    \ucmain{%
-        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item Użytkownik włącza warstwę „Strefy PANSA”.
-            \item System pobiera dane o strefach.
-            \item System nakłada kontury stref na mapę.
-        \end{enumerate}
-    }
-    \ucalt{%
-        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
-            \item[2a.] Dane o strefach są chwilowo niedostępne – system komunikuje problem i nie włącza warstwy.
+            \item[2a.] Brak wyników dla podanej frazy – system informuje użytkownika o braku dopasowań.
         \end{enumerate}
     }
 }

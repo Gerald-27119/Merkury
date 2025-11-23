@@ -1,26 +1,5 @@
 \subsubsection{Scenariusze przypadków użycia dla wyszukiwarki}
 
-\usecasecard{tab:pu9-szukaj-na-mapie}{Wyszukiwanie spota na mapie}{%
-    \ucpriority{Wysoki}
-    \ucactors{Użytkownik niezalogowany}
-    \ucdesc{Użytkownik wyszukuje spota po nazwie korzystając z pola wyszukiwania na mapie.}
-    \ucpre{Użytkownik widzi mapę spotów.}
-    \ucpost{Mapa zostaje ustawiona na wybranego spota lub listę dopasowań.}
-    \ucmain{%
-        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item Użytkownik wpisuje frazę w polu wyszukiwania na mapie.
-            \item System podpowiada listę pasujących spotów.
-            \item Użytkownik wybiera spota z listy.
-            \item System przybliża mapę do wybranego spota i podświetla jego znacznik.
-        \end{enumerate}
-    }
-    \ucalt{%
-        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
-            \item[2a.] Brak wyników dla podanej frazy – system informuje użytkownika o braku dopasowań.
-        \end{enumerate}
-    }
-}
-
 \usecasecard{tab:pu10-globalna-wyszukiwarka}{Wyszukiwanie spota w globalnej wyszukiwarce}{%
     \ucpriority{Wysoki}
     \ucactors{Użytkownik niezalogowany, Usługa do wyświetlania mapy, Usługa do pogody}

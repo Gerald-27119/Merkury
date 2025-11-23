@@ -23,3 +23,78 @@
         \end{enumerate}
     }
 }
+
+\usecasecard{tab:pu25-historia-czatu}{Przeszukiwanie historii czatu}{%
+    \ucpriority{Niski}
+    \ucactors{Użytkownik premium}
+    \ucdesc{Użytkownik wyszukuje konkretne wiadomości w historii czatu.}
+    \ucpre{Użytkownik jest zalogowany jako użytkownik premium i znajduje się w widoku czatu.}
+    \ucpost{Wiadomości spełniające kryteria wyszukiwania zostały wyświetlone.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera pole wyszukiwania historii w czacie.
+            \item Użytkownik wpisuje frazę lub filtr (np. zakres dat, autor).
+            \item System filtruje wiadomości zgodnie z kryteriami.
+            \item System prezentuje listę dopasowanych fragmentów rozmowy.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu26-wyslane-pliki}{Przeglądanie wysłanych plików na czacie}{%
+    \ucpriority{Niski}
+    \ucactors{Użytkownik premium, Usługa do przechowywania plików w chmurze}
+    \ucdesc{Użytkownik przegląda listę plików wysłanych w ramach czatów.}
+    \ucpre{Użytkownik jest zalogowany jako użytkownik premium.}
+    \ucpost{Użytkownik widzi listę wysłanych plików i może przechodzić do powiązanych czatów.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera sekcję „Wysłane pliki”.
+            \item System pobiera metadane plików z usługi przechowywania.
+            \item System wyświetla listę plików z podstawowymi informacjami (nazwa, typ, data).
+            \item Użytkownik wybiera plik, aby otworzyć go lub przejść do powiązanego czatu.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu37-zmien-typ-mapy}{Zmiana typu mapy}{%
+    \ucpriority{Niski}
+    \ucactors{Użytkownik premium, Usługa do wyświetlania mapy}
+    \ucdesc{Użytkownik zmienia typ mapy (np. standardowa, satelitarna, hybrydowa).}
+    \ucpre{Użytkownik premium jest na ekranie mapy.}
+    \ucpost{Mapa jest wyświetlana w wybranym typie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera ustawienia widoku mapy.
+            \item Użytkownik wybiera typ mapy z dostępnej listy.
+            \item System przełącza widok mapy na wybrany typ.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Wybrany typ mapy nie jest dostępny (błąd usługi mapowej) – system przywraca poprzedni typ i informuje o błędzie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu38-strefy-pansa}{Przeglądanie stref PANSA}{%
+    \ucpriority{Niski}
+    \ucactors{Użytkownik premium, Usługa do wyświetlania mapy}
+    \ucdesc{Użytkownik wyświetla na mapie strefy przestrzeni powietrznej \gls{PANSA}.}
+    \ucpre{Użytkownik premium ma otwarty moduł mapy.}
+    \ucpost{Strefy PANSA zostały zwizualizowane na mapie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik włącza warstwę „Strefy PANSA”.
+            \item System pobiera dane o strefach.
+            \item System nakłada kontury stref na mapę.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Dane o strefach są chwilowo niedostępne – system komunikuje problem i nie włącza warstwy.
+        \end{enumerate}
+    }
+}
+
