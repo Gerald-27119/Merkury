@@ -91,3 +91,108 @@
     }
     \ucalt{Brak istotnych alternatywnych przepływów.}
 }
+
+\usecasecard{tab:pu39-przegladaj-dodane-spoty}{Przeglądanie dodanych spotów}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany, Usługa do wyświetlania mapy}
+    \ucdesc{Użytkownik przegląda listę/siatkę spotów, które sam dodał.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w widoku swojego profilu lub sekcji „Moje spoty”.}
+    \ucpost{Lista dodanych spotów użytkownika została wyświetlona (np. na mapie i/lub w formie listy).}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do sekcji „Moje spoty”.
+            \item System pobiera listę spotów dodanych przez użytkownika.
+            \item System wyświetla listę spotów oraz znaczniki na mapie.
+            \item Użytkownik wybiera spota, aby przejść do jego szczegółów.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Użytkownik nie dodał jeszcze żadnego spota – system wyświetla komunikat i proponuje dodanie pierwszego spota.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu40-edytuj-dane-uzytkownika}{Edycja danych użytkownika}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik modyfikuje swoje dane profilu (np. nazwę, opis, avatar).}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w widoku edycji profilu.}
+    \ucpost{Zaktualizowane dane profilu są zapisane i widoczne w aplikacji.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera widok edycji profilu.
+            \item Użytkownik wprowadza zmiany w danych profilu.
+            \item Użytkownik zapisuje zmiany.
+            \item System waliduje dane i zapisuje zaktualizowany profil.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[4a.] Dane są niepoprawne lub niekompletne – system wyświetla komunikat o błędzie i zaznacza pola do poprawy.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu41-przegladaj-zdjecia-spotow}{Przeglądanie dodanych zdjęć do spotów}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany, Usługa do przechowywania plików w chmurze}
+    \ucdesc{Użytkownik przegląda wszystkie zdjęcia powiązane ze spotami, które dodał.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w sekcji mediów (np. „Moje zdjęcia”).}
+    \ucpost{Lista lub galeria zdjęć powiązanych ze spotami użytkownika została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera sekcję przeglądania zdjęć ze spotów.
+            \item System pobiera metadane zdjęć z usługi przechowywania plików.
+            \item System wyświetla galerię zdjęć z podstawowymi informacjami (np. nazwa spota, data dodania).
+            \item Użytkownik wybiera zdjęcie, aby zobaczyć je w powiększeniu lub przejść do spota.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Użytkownik nie dodał jeszcze zdjęć – system wyświetla informację o braku zdjęć.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu42-przegladaj-filmy-spotow}{Przeglądanie dodanych filmów do spotów}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany, Usługa do przechowywania plików w chmurze}
+    \ucdesc{Użytkownik przegląda filmy powiązane ze spotami, które dodał.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w sekcji mediów (np. „Moje filmy”).}
+    \ucpost{Lista lub galeria filmów powiązanych ze spotami użytkownika została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera sekcję przeglądania filmów ze spotów.
+            \item System pobiera metadane filmów z usługi przechowywania plików.
+            \item System wyświetla listę/galerię filmów z podstawowymi informacjami.
+            \item Użytkownik wybiera film, aby go odtworzyć lub przejść do spota.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Użytkownik nie dodał jeszcze filmów – system wyświetla informację o braku filmów.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu43-przegladaj-komentarze-spotow}{Przeglądanie dodanych komentarzy do spotów}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda komentarze dodane do spotów, które sam utworzył.}
+    \ucpre{Użytkownik jest zalogowany i otwiera sekcję komentarzy do swoich spotów.}
+    \ucpost{Lista komentarzy do spotów użytkownika została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do sekcji komentarzy do własnych spotów.
+            \item System pobiera komentarze powiązane ze spotami użytkownika.
+            \item System wyświetla komentarze (np. w kolejności chronologicznej lub według popularności).
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Żaden z spotów użytkownika nie ma komentarzy – system wyświetla odpowiednią informację.
+        \end{enumerate}
+    }
+}
+
