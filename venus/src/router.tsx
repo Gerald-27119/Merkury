@@ -27,6 +27,8 @@ import PostTagsPage from "./pages/forum/categories-and-tags/components/PostTagsP
 import PostCategoriesPage from "./pages/forum/categories-and-tags/components/PostCategoriesPage";
 import ForumLayout from "./pages/forum/ForumLayout";
 import ForumLayoutRoute from "./layout/forum/ForumLayoutRoute";
+import ForumHistory from "./pages/forum/ForumHistory";
+import ForumFollowed from "./pages/forum/ForumFollowed";
 
 const router = createBrowserRouter([
     {
@@ -162,6 +164,14 @@ const router = createBrowserRouter([
                     {
                         path: "tags",
                         element: <PostTagsPage />,
+                    },
+                    {
+                        path: "history",
+                        element: <ForumHistory />,
+                    },
+                    {
+                        path: "followed",
+                        element: <ForumFollowed />,
                     },
                 ],
             },

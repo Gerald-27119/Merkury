@@ -118,7 +118,7 @@ export default function ForumSearchBar({
                         }}
                     ></input>
                     <button
-                        className="cursor-pointer text-2xl"
+                        className={`${isMenuOpen ? "rotate-90" : ""} absolute right-3 cursor-pointer text-2xl`}
                         type="button"
                         onClick={handleMenuClick}
                     >
