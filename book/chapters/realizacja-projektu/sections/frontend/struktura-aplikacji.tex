@@ -4,10 +4,13 @@
 \subsection{Struktura aplikacji}
 \label{subsec:struktura-aplikacji}
 
-Architektura aplikacji frontendowej została zaprojektowana w strukturze
+Niniejszy podrozdział przedstawia strukturę aplikacji \glslink{frontend}{frontendowej}
+oraz organizację jej kluczowych elementów. \newline
+
+Architektura aplikacji \glslink{frontend}{frontendowej} została zaprojektowana w strukturze
 \gls{folder-by-type}, która polega na podziale kodu według typu zasobu
 (komponenty, strony, modele itd.). Każdy plik znajduje się w katalogu
-odpowiadającym jego przeznaczeniu, co jest przedstawione na rysunkach
+odpowiadającym jego przeznaczeniu, co zostało przedstawione na rysunkach
 \ref{img:struktura-frontend1} oraz \ref{img:struktura-frontend2}.
 
 \begin{figure}[H]
@@ -25,8 +28,9 @@ odpowiadającym jego przeznaczeniu, co jest przedstawione na rysunkach
 \end{figure}
 
 Głównym elementem aplikacji jest mechanizm routingu oparty na \glslink{biblioteka}{Bibliotece}
-React Router. Definiuje on ścieżki do poszczególnych funkcjonalności
-aplikacji. Dzięki temu możliwa jest płynna nawigacja między różnymi
+React Router.
+Definiuje on ścieżki do poszczególnych funkcjonalności aplikacji.
+Dzięki temu możliwa jest płynna nawigacja między różnymi
 widokami bez konieczności przeładowywania strony.
 
 \begin{figure}[H]
@@ -43,18 +47,16 @@ widokami bez konieczności przeładowywania strony.
     \label{img:router2}
 \end{figure}
 
-W projekcie zastosowano również wzorzec \gls{protected-route}, który służy
-do zabezpieczania wybranych tras przed dostępem użytkowników
-niezalogowanych. W pliku \texttt{router.tsx}, znajdującym się w głównym
-katalogu projektu, w konfiguracji przekazywanej do funkcji
-\texttt{createBrowserRouter} (rysunki \ref{img:router1} oraz
-\ref{img:router2}), wybrane ścieżki zostały opakowane w komponent
-\texttt{ProtectedRoute}. Komponent ten pełni rolę bramki
-(rysunek~\ref{img:protected-route}).
+W projekcie zastosowano również wzorzec \glslink{protected-route}{protected route}, który służy
+do zabezpieczania wybranych tras przed dostępem użytkowników niezalogowanych.
+W pliku \texttt{router.tsx}, znajdującym się w głównym katalogu projektu, w konfiguracji
+przekazywanej do funkcji \texttt{createBrowserRouter} (rysunki \ref{img:router1} oraz
+\ref{img:router2}), wybrane ścieżki zostały opakowane w komponent\texttt{ProtectedRoute}.
+Komponent ten pełni rolę bramki (rysunek~\ref{img:protected-route}).
 
 Przykładem takiej chronionej ścieżki jest trasa \texttt{/chat},
-prowadząca do modułu czatu dostępnego wyłącznie dla zalogowanych
-użytkowników. Jeśli niezalogowany użytkownik spróbuje uzyskać dostęp do
+prowadząca do modułu czatu dostępnego wyłącznie dla zalogowanych użytkowników.
+Jeśli niezalogowany użytkownik spróbuje uzyskać dostęp do
 tej ścieżki, zostanie automatycznie przekierowany na stronę główną.
 
 \begin{figure}[H]
