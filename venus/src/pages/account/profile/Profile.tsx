@@ -79,7 +79,8 @@ export default function Profile({
                     <img
                         alt="profileImage"
                         src={userData?.profilePhoto}
-                        className="dark:drop-shadow-darkBgMuted aspect-square h-64 rounded-full shadow-md sm:h-80 lg:h-85 xl:h-96 dark:drop-shadow-md"
+                        className="dark:drop-shadow-darkBgMuted aspect-square h-64 rounded-full
+                         shadow-md sm:h-80 lg:h-85 xl:h-96 dark:drop-shadow-md"
                     />
                     <input
                         type="file"
