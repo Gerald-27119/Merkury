@@ -13,7 +13,10 @@ export default function SpotCommentAuthor({ author }: SpotCommentAuthorProps) {
     };
 
     return (
-        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => handleNavigateToAuthorProfile(author.username)}>
+        <div
+            className="flex cursor-pointer items-center space-x-3"
+            onClick={() => handleNavigateToAuthorProfile(author.username)}
+        >
             <img
                 src={author.profilePhotoUrl}
                 alt={author.username}
