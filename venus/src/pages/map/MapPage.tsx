@@ -113,7 +113,7 @@ export default function MapPage() {
                 height: "100vh",
                 overflow: "hidden",
             }}
-            mapStyle="/map_style1.json"
+            mapStyle="/map_style.json"
             attributionControl={false}
             onZoomEnd={handleZoomEnd}
         >
