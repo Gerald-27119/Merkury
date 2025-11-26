@@ -8,9 +8,25 @@ System będzie składał się z kilku głównych komponentów, z których każdy
 
 \begin{itemize}
     \item \glslink{frontend}{Frontend} – odpowiada za warstwę prezentacji oraz interfejs
-        użytkownika dostępny dla wszystkich użytkowników systemu,
+    użytkownika dostępny dla wszystkich użytkowników systemu,
     \item \glslink{backend}{Backend} – odpowiada za autoryzację użytkowników oraz obsługę
-        komunikacji między \glslink{frontend}{frontendem} a \glslink{baza-danych}{bazą danych},
+    komunikacji między \glslink{frontend}{frontendem} a \glslink{baza-danych}{bazą danych},
     \item \glslink{baza-danych}{Baza danych} – przechowuje wszystkie dane aplikacji, w tym dane
-        użytkowników, dane operacyjne oraz informacje potrzebne do działania systemu.
+    użytkowników, dane operacyjne oraz informacje potrzebne do działania systemu.
+    \item \glslink{redis}{Redis} – wykorzystywany jako warstwa cache, przechowująca często
+    odczytywane dane w pamięci operacyjnej, co znacząco przyspiesza działanie systemu
+    oraz zmniejsza obciążenie głównej bazy danych.
+\end{itemize}
+
+\noindent Poniżej przedstawiono listę zewnętrznych API wraz z odwołaniami do odpowiadających im tabel:
+
+\begin{itemize}
+    \item Azure Blob Storage~\ref{tab:azure-blob}
+    \item Mailtrap~\ref{tab:mailtrap}
+    \item LocationIQ~\ref{tab:locationiq}
+    \item Google Maps~\ref{tab:google-maps}
+    \item OpenFreeMap~\ref{tab:openfreemap}
+    \item Open Meteo~\ref{tab:open-meteo}
+    \item Tenor Gif~\ref{tab:tenor}
+    \item Where the ISS at?~\ref{tab:wheretheiss}
 \end{itemize}
