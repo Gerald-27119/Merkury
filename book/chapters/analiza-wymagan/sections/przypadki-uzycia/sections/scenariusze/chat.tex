@@ -1,3 +1,6 @@
+%! Author = Adam
+%! Date = 22/11/2025
+
 \subsubsection{Scenariusze przypadków użycia dla czatu}
 
 \usecasecard{tab:pu18-czat-prywatny}{Utworzenie prywatnego czatu}{%
@@ -20,17 +23,17 @@
     }
 }
 
-\usecasecard{tab:pu-chat-otworz}{Otwarcie czatu}{%
+\usecasecard{tab:pu-chat-otworz}{Otworzenie czatu}{%
     \ucpriority{Wysoki}
     \ucactors{Użytkownik zalogowany}
     \ucdesc{Użytkownik otwiera wybrany czat, aby wyświetlić historię rozmowy i móc wysyłać kolejne wiadomości.}
     \ucpre{Użytkownik jest zalogowany i widzi listę swoich czatów lub otrzymał powiadomienie prowadzące do czatu.}
-    \ucpost{Wybrany czat został otwarty, a historia rozmowy jest widoczna dla użytkownika.}
+    \ucpost{Wybrany czat został otworzony, a historia rozmowy jest widoczna dla użytkownika.}
     \ucmain{%
         \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
             \item Użytkownik wybiera czat z listy czatów lub z powiadomienia.
             \item System pobiera dane czatu (uczestników, ostatnie wiadomości).
-            \item System oznacza nieprzeczytane wiadomości w czacie jako przeczytane.
+            \item System oznacza nieprzeczytane wiadomości na czacie jako przeczytane.
             \item System wyświetla widok czatu wraz z historią rozmowy.
         \end{enumerate}
     }
@@ -48,7 +51,7 @@
     \ucactors{Użytkownik zalogowany}
     \ucdesc{Użytkownik tworzy nowy czat grupowy z kilkoma uczestnikami.}
     \ucpre{Użytkownik jest zalogowany i znajduje się na dowolnym czacie prywatnym.}
-    \ucpost{Czat grupowy został utworzony i otwarty.}
+    \ucpost{Czat grupowy został utworzony i wyświetlony na ekranie.}
     \ucmain{%
         \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
             \item Użytkownik wybiera opcję utworzenia czatu grupowego.
@@ -128,7 +131,7 @@
 \usecasecard{tab:pu22-wyslij-plik}{Wysyłanie pliku na czacie}{%
     \ucpriority{Średni}
     \ucactors{Użytkownik zalogowany, Usługa do przechowywania plików w chmurze}
-    \ucdesc{Użytkownik wysyła plik (np. zdjęcie, film) w czacie.}
+    \ucdesc{Użytkownik wysyła plik (np. zdjęcie, film) na czacie.}
     \ucpre{Użytkownik jest zalogowany i znajduje się w widoku czatu.}
     \ucpost{Plik został zapisany w chmurze i powiązany z wiadomością na czacie.}
     \ucmain{%

@@ -1,3 +1,6 @@
+%! Author = Adam
+%! Date = 22/11/2025
+
 \subsubsection{Scenariusze przypadków użycia dla forum}
 
 \usecasecard{tab:pu14-posty-forum}{Przeglądanie postów na forum}{%
@@ -80,27 +83,7 @@
     \ucalt{Brak istotnych alternatywnych przepływów.}
 }
 
-\usecasecard{tab:pu32-zarzadzaj-komentarzami-spot}{Zarządzanie komentarzami do spotów}{%
-    \ucpriority{Niski}
-    \ucactors{Użytkownik zalogowany (właściciel spota lub moderator)}
-    \ucdesc{Użytkownik zarządza komentarzami dodanymi do spota (edycja, usuwanie, ukrywanie).}
-    \ucpre{Użytkownik jest zalogowany i wyświetla szczegóły spota.}
-    \ucpost{Wybrane komentarze zostały zaktualizowane lub ukryte zgodnie z działaniem użytkownika.}
-    \ucmain{%
-        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item Użytkownik otwiera panel zarządzania komentarzami dla danego spota.
-            \item System pobiera listę komentarzy wraz z możliwymi akcjami.
-            \item Użytkownik wybiera komentarz i akcję (np. edytuj, usuń, ukryj).
-            \item System wykonuje wybraną akcję na komentarzu.
-            \item System odświeża listę komentarzy.
-        \end{enumerate}
-    }
-    \ucalt{%
-        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
-            \item[3a.] Użytkownik nie ma uprawnień do zarządzania komentarzem – system wyświetla komunikat o braku uprawnień.
-        \end{enumerate}
-    }
-}
+
 
 \usecasecard{tab:pu33-zarzadzaj-komentarzami-forum}{Zarządzanie komentarzami na forum}{%
     \ucpriority{Niski}
@@ -123,26 +106,6 @@
     }
 }
 
-\usecasecard{tab:pu34-zarzadzaj-postami}{Zarządzanie postami na forum}{%
-    \ucpriority{Niski}
-    \ucactors{Użytkownik zalogowany (autor posta lub moderator)}
-    \ucdesc{Użytkownik edytuje, archiwizuje lub usuwa własne posty na forum.}
-    \ucpre{Użytkownik jest zalogowany i otwiera listę swoich postów lub moderowany dział forum.}
-    \ucpost{Status wybranych postów został zaktualizowany.}
-    \ucmain{%
-        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item Użytkownik przechodzi do sekcji zarządzania postami.
-            \item System pobiera listę postów użytkownika (lub działu).
-            \item Użytkownik wybiera post i żądaną akcję (edycja, archiwizacja, usunięcie).
-            \item System zapisuje zmiany i aktualizuje listę postów.
-        \end{enumerate}
-    }
-    \ucalt{%
-        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
-            \item[3a.] Użytkownik próbuje usunąć post z zablokowanego wątku – system odmawia wykonania operacji.
-        \end{enumerate}
-    }
-}
 
 \usecasecard{tab:pu35-zglos-komentarz}{Zgłoszenie komentarza naruszającego regulamin}{%
     \ucpriority{Średni}

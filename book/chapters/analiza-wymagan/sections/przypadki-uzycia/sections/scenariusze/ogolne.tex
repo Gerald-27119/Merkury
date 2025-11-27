@@ -1,3 +1,6 @@
+%! Author = Adam
+%! Date = 22/11/2025
+
 \subsubsection{Scenariusze przypadków użycia – funkcje ogólne}
 
 \usecasecard{tab:pu1-rejestracja}{Rejestracja użytkownika}{%
@@ -11,7 +14,7 @@
             \item Użytkownik wypełnia formularz rejestracyjny.
             \item Użytkownik naciska przycisk rejestracji.
             \item System tworzy konto użytkownika.
-            \item System loguje użytkownika i przenosi go na stronę główną aplikacji.
+            \item System loguje użytkownika i przenosi go na ostatnio dowiedzoną podstronę.
         \end{enumerate}
     }
     \ucalt{%
@@ -19,6 +22,8 @@
             \item[1a.] Podane dane są niepoprawne – system wyświetla
             komunikat o błędzie oraz podświetla pola wymagające poprawy.
             \item[2a.] Nazwa użytkownika jest już zajęta – system wyświetla
+            komunikat o błędzie.
+            \item[2b.] Adres email jest już zajęty – system wyświetla
             komunikat o błędzie.
         \end{enumerate}
     }
@@ -29,12 +34,12 @@
     \ucactors{Użytkownik niezalogowany}
     \ucdesc{Użytkownik loguje się do systemu, podając login i hasło.}
     \ucpre{Użytkownik znajduje się na stronie logowania.}
-    \ucpost{Użytkownik jest zalogowany i przeniesiony na stronę główną aplikacji.}
+    \ucpost{Użytkownik jest zalogowany i przeniesiony na ostatnio dowiedzoną podstronę.}
     \ucmain{%
         \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
             \item Użytkownik wypełnia formularz logowania.
             \item Użytkownik naciska przycisk logowania.
-            \item System loguje użytkownika i przenosi go na ostatnią odwiedzoną przez niego stronę aplikacji.
+            \item System loguje użytkownika i przenosi go na ostatnio dowiedzoną podstronę.
         \end{enumerate}
     }
     \ucalt{%

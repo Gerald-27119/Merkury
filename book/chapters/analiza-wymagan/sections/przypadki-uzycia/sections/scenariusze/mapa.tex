@@ -1,3 +1,6 @@
+%! Author = Adam
+%! Date = 22/11/2025
+
 \subsubsection{Scenariusze przypadków użycia dla mapy}
 
 \usecasecard{tab:pu8-mapa}{Przeglądanie mapy spotów}{%
@@ -9,7 +12,7 @@
     \ucmain{%
         \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
             \item System inicjuje widok mapy z domyślnym obszarem.
-            \item System pobiera listę spotów w aktualnym zakresie mapy.
+            \item System pobiera listę spotów.
             \item System rysuje znaczniki spotów na mapie.
             \item Użytkownik przesuwa lub skaluje mapę.
             \item System pobiera spoty dla nowego zakresu.
@@ -26,11 +29,11 @@
     \ucpriority{Wysoki}
     \ucactors{Użytkownik niezalogowany, Użytkownik zalogowany}
     \ucdesc{Użytkownik otwiera widok szczegółów wybranego spota.}
-    \ucpre{Użytkownik widzi mapę spotów lub listę wyników wyszukiwania.}
+    \ucpre{Użytkownik widzi mapę spotów.}
     \ucpost{Wyświetlony został widok szczegółów spota z podstawowymi informacjami oraz jego lokalizacją na mapie.}
     \ucmain{%
         \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item Użytkownik wybiera spota z mapy lub z listy wyników wyszukiwania.
+            \item Użytkownik wybiera spota z mapy.
             \item System pobiera dane szczegółowe spota (informacje opisowe, lokalizacja).
             \item System otwiera widok szczegółów spota.
             \item System prezentuje informacje o spocie oraz mapę przybliżoną do jego lokalizacji.
