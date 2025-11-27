@@ -61,7 +61,10 @@ export default function ForumFollowed() {
         isFetchingNextPage,
         hasNextPage,
         loadMoreRef,
-        message: "Congratulations! You've reached the end!",
+        message:
+            (data?.pages?.[0]?.page.totalElements ?? 0) > 0
+                ? "No more followed posts"
+                : undefined,
     };
 
     if (isLoading) {

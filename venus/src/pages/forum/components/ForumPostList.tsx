@@ -70,7 +70,7 @@ export default function ForumPostList({
                 </div>
             ) : (
                 <div className="mt-2 flex w-md items-center justify-center p-2 text-lg md:w-2xl">
-                    <span>No posts available</span>
+                    <span>No results found</span>
                 </div>
             )}
         </div>
