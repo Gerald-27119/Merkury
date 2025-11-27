@@ -10,6 +10,7 @@ import com.merkury.vulcanus.model.entities.forum.Tag;
 import com.merkury.vulcanus.model.mappers.forum.CategoryMapper;
 import com.merkury.vulcanus.model.mappers.forum.TagMapper;
 import com.merkury.vulcanus.model.mappers.forum.PostMapper;
+import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.forum.PostCategoryRepository;
 import com.merkury.vulcanus.model.repositories.forum.PostRepository;
 import com.merkury.vulcanus.model.repositories.forum.PostTagRepository;
@@ -37,6 +38,7 @@ import java.util.Set;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UserEntityRepository userRepository;
     private final PostCategoryRepository postCategoryRepository;
     private final PostTagRepository postTagRepository;
     private final VoteService voteService;
@@ -60,6 +62,14 @@ public class PostService {
         var user = userName != null ? userEntityFetcher.getByUsername(userName) : null;
 
         return postsPage.map(post -> PostMapper.toGeneralDto(post, user));
+    }
+
+    public Page<PostGeneralDto> getFollowedPostsPage(Pageable pageable) throws UserNotFoundByUsernameException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
+        var posts = postRepository.findAllFollowedPosts(user.getId(), pageable);
+        System.out.println("Followerzy dla userId: " + user.getId());
+
+        return posts.map(post -> PostMapper.toGeneralDto(post, user));
     }
 
     public Page<PostGeneralDto> getSearchedPostsPage(Pageable pageable, String phrase, String category, List<String> tags, LocalDate fromDate, LocalDate toDate, String author) throws UserNotFoundByUsernameException {
@@ -141,7 +151,7 @@ public class PostService {
         }
 
         toggleFollower(post, user);
-        postRepository.save(post);
+        userRepository.save(user);
     }
 
     public void reportPost(Long postId, ForumReportDto report) throws PostNotFoundException, UserNotFoundByUsernameException, ContentAlreadyReportedException, OwnContentReportException {
@@ -202,12 +212,12 @@ public class PostService {
     }
 
     private void toggleFollower(Post post, UserEntity user) {
-        var followers = post.getFollowers();
+        var followed = user.getFollowedPosts();
 
-        if (followers.contains(user)) {
-            followers.remove(user);
+        if (followed.contains(post)) {
+            followed.remove(post);
         } else {
-            followers.add(user);
+            followed.add(post);
         }
     }
 

@@ -40,6 +40,16 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    @GetMapping("/posts/followed")
+    public ResponseEntity<Page<PostGeneralDto>> getFollowedPostsPage(@RequestParam(defaultValue = "0") int page,
+                                                                     @RequestParam(defaultValue = "10") int size,
+                                                                     @RequestParam(defaultValue = "PUBLISH_DATE") PostSortField sortBy,
+                                                                     @RequestParam(defaultValue = "DESC") SortDirection sortDirection) throws UserNotFoundByUsernameException {
+        Page<PostGeneralDto> posts = postService.getFollowedPostsPage(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())));
+
+        return ResponseEntity.ok(posts);
+    }
+
     @GetMapping("/public/post/search")
     public ResponseEntity<Page<PostGeneralDto>> getSearchedPostsPage(@RequestParam(defaultValue = "0") int page,
                                                                      @RequestParam(defaultValue = "10") int size,

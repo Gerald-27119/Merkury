@@ -30,7 +30,7 @@ export default function Post({ post }: PostProps) {
             ? "Post is no longer being followed!"
             : "Post is now being followed!",
         loginToAccessMessage: "Login to follow posts.",
-        invalidateKeys: [["posts"]],
+        invalidateKeys: [["posts"], ["followedPosts"]],
     });
 
     const handleEditClick = (post: PostGeneral) => {

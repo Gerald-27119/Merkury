@@ -28,11 +28,15 @@ export const staticLinks = (isLogged: boolean): SidebarItemType[] => [
             ? []
             : [
                   {
+                      to: "/forum",
+                      name: "home page",
+                      type: "link",
+                  },
+                  {
                       to: "/forum/followed",
                       name: "followed posts",
                       type: "link",
                   },
-                  { to: "/forum/history", name: "history", type: "link" },
               ],
     },
 ];

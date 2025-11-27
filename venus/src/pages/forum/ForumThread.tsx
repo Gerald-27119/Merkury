@@ -77,7 +77,7 @@ export default function ForumThread({}) {
     const { mutateAsync: followPostMutate } = useAppMutation(followPost, {
         successMessage: "Post is now being followed!",
         loginToAccessMessage: "Login to follow posts",
-        invalidateKeys: [["post", parsedPostId]],
+        invalidateKeys: [["post", parsedPostId], ["followedPosts"]],
     });
 
     const handleAddComment = async (newComment: PostCommentDto) => {

@@ -166,12 +166,12 @@ const router = createBrowserRouter([
                         element: <PostTagsPage />,
                     },
                     {
-                        path: "history",
-                        element: <ForumHistory />,
-                    },
-                    {
                         path: "followed",
-                        element: <ForumFollowed />,
+                        element: (
+                            <ProtectedRoute>
+                                <ForumFollowed />
+                            </ProtectedRoute>
+                        ),
                     },
                 ],
             },

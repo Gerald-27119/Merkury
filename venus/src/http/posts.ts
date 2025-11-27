@@ -32,6 +32,20 @@ export async function fetchDetailedPost(postId: number): Promise<PostDetails> {
     ).data;
 }
 
+export async function fetchFollowedPosts(
+    page: number,
+    size: number,
+    sortType: PostSortOption,
+): Promise<ForumPostPage> {
+    const { sortBy, sortDirection } = sortType;
+    return (
+        await axios.get(`${BASE_URL}/posts/followed`, {
+            params: { page, size, sortBy, sortDirection },
+            withCredentials: true,
+        })
+    ).data;
+}
+
 export async function fetchSearchedPosts(
     page: number,
     size: number,

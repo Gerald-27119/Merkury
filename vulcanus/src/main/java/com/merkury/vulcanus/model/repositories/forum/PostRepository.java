@@ -19,6 +19,9 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificationExecutor<Post> {
     Optional<Post> findPostByIdAndAuthor(Long postId, UserEntity author);
 
+    @Query("SELECT p FROM posts p JOIN p.followers f WHERE f.id = :userId")
+    Page<Post> findAllFollowedPosts(@Param("userId") Long userId, Pageable pageable);
+
     @Modifying
     @Query("update posts p set p.views = p.views + 1 where p.id = :id")
     int incrementViews(@Param("id") Long postId);
