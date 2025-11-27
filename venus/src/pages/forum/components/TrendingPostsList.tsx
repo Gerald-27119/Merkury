@@ -1,5 +1,4 @@
 import TrendingPostDto from "../../../model/interface/forum/trendingPostDto";
-import { NavLink } from "react-router-dom";
 import TrendingPost from "../posts/components/TrendingPost";
 
 interface TrendingPostsListProps {
@@ -15,11 +14,7 @@ export default function TrendingPostsList({ posts }: TrendingPostsListProps) {
                     <ul className="space-y-2">
                         {posts.map((post, index) => (
                             <li key={post.id}>
-                                <NavLink
-                                    to={`/forum/${post.id}/${post.slugTitle}`}
-                                >
-                                    <TrendingPost post={post} />
-                                </NavLink>
+                                <TrendingPost post={post} />
 
                                 {index !== posts.length - 1 && (
                                     <div className="dark:bg-darkText bg-lightText my-2 h-[1px]" />
