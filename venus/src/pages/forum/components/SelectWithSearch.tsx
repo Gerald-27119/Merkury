@@ -20,7 +20,7 @@ interface SelectWithSearchProps {
     isMultiChoice: boolean;
     maxOptionChoice?: number;
     options: Option[];
-    value: Option | Option[] | undefined;
+    value: Option | Option[] | null;
     isClearable: boolean;
     onChange?: (val: any) => void;
     onBlur?: () => void;

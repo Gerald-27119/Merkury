@@ -21,7 +21,7 @@ interface ForumSearchBarProps {
 interface SearchState {
     searchPhrase: string;
     username: string;
-    searchCategory?: Option;
+    searchCategory: Option | null;
     searchTags: Option[];
     fromDate: string;
     toDate: string;
@@ -34,7 +34,7 @@ export default function ForumSearchBar({
     const [searchState, setSearchState] = useState<SearchState>({
         searchPhrase: "",
         username: "",
-        searchCategory: undefined,
+        searchCategory: null,
         searchTags: [],
         fromDate: "",
         toDate: "",
@@ -65,7 +65,7 @@ export default function ForumSearchBar({
         setSearchState({
             searchPhrase: "",
             username: "",
-            searchCategory: { value: "", label: "" },
+            searchCategory: null,
             searchTags: [],
             fromDate: "",
             toDate: "",
@@ -122,7 +122,7 @@ export default function ForumSearchBar({
                                     isMultiChoice={false}
                                     options={categoryOptions}
                                     value={searchState.searchCategory}
-                                    isClearable={false}
+                                    isClearable={true}
                                     onChange={(val) =>
                                         handleChange("searchCategory", val)
                                     }
