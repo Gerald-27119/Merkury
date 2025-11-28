@@ -4,13 +4,13 @@
 \subsection{Diagram architektury}
 \label{subsec:diagram-architektury}
 
-Aplikacja została zaprojektowana w oparciu o architekturę klient–serwer z podziałem na
+Projekt aplikacji oparto na architekturze klient–serwer z podziałem na
 \glslink{frontend}{frontend} i \glslink{backend}{backend}.
-Takie podejście ułatwia rozwój oraz utrzymanie systemu, a dodatkowo pozwala skalować
-poszczególne komponenty niezależnie od siebie.
+Takie podejście ułatwia rozwój i utrzymanie systemu oraz umożliwia skalowanie
+poszczególnych komponentów niezależnie od siebie.
 Komunikacja między \glslink{frontend}{frontendem} a \glslink{backend}{backendem}
 odbywa się za pomocą \gls{rest_api}, przy czym dane przesyłane są w formacie JSON.
-Dzięki temu integracja między warstwami aplikacji jest lekka, czytelna i łatwa do rozszerzenia w przyszłości.
+Integracja między warstwami aplikacji jest dzięki temu lekka, czytelna i łatwa do rozszerzenia w przyszłości.
 
 \begin{figure}[H]
     \centering
