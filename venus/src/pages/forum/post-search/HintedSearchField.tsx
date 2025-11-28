@@ -62,7 +62,7 @@ export default function HintedSearchField({
     };
 
     return (
-        <div className="relative" ref={wrapperRef}>
+        <div className="relative flex-grow pr-8" ref={wrapperRef}>
             <input
                 className={`w-full focus:outline-none ${className}`}
                 placeholder={placeholder}

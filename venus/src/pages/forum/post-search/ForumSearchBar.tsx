@@ -18,16 +18,27 @@ interface ForumSearchBarProps {
     tags: TagDto[];
 }
 
+interface SearchState {
+    searchPhrase: string;
+    username: string;
+    searchCategory?: Option;
+    searchTags: Option[];
+    fromDate: string;
+    toDate: string;
+}
+
 export default function ForumSearchBar({
     categories,
     tags,
 }: ForumSearchBarProps) {
-    const [searchPhrase, setSearchPhrase] = useState("");
-    const [username, setUsername] = useState("");
-    const [searchCategory, setSearchCategory] = useState<Option>();
-    const [searchTags, setSearchTags] = useState<Option[]>();
-    const [fromDate, setFromDate] = useState("");
-    const [toDate, setToDate] = useState("");
+    const [searchState, setSearchState] = useState<SearchState>({
+        searchPhrase: "",
+        username: "",
+        searchCategory: undefined,
+        searchTags: [],
+        fromDate: "",
+        toDate: "",
+    });
 
     const [isMenuOpen, openMenu, closeMenu] = useBoolean();
 
@@ -43,16 +54,39 @@ export default function ForumSearchBar({
         label: tag.name,
     }));
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleChange = <T extends keyof SearchState>(
+        key: T,
+        value: SearchState[T],
+    ) => {
+        setSearchState((prev) => ({ ...prev, [key]: value }));
+    };
+
+    const handleClear = () => {
+        setSearchState({
+            searchPhrase: "",
+            username: "",
+            searchCategory: { value: "", label: "" },
+            searchTags: [],
+            fromDate: "",
+            toDate: "",
+        });
+    };
+
+    const handleSubmit = (e?: React.FormEvent) => {
+        e?.preventDefault();
+
         const params = new URLSearchParams();
-        if (searchPhrase) params.set("q", searchPhrase);
-        if (searchCategory) params.set("category", searchCategory.value);
-        if (searchTags?.length)
-            searchTags.forEach((tag) => params.append("tags", tag.value));
-        if (fromDate) params.set("from", fromDate);
-        if (toDate) params.set("to", toDate);
-        if (username) params.set("author", username);
+        if (searchState.searchPhrase) params.set("q", searchState.searchPhrase);
+        if (searchState.searchCategory)
+            params.set("category", searchState.searchCategory.value);
+        if (searchState.searchTags?.length)
+            searchState.searchTags.forEach((tag) =>
+                params.append("tags", tag.value),
+            );
+        if (searchState.fromDate) params.set("from", searchState.fromDate);
+        if (searchState.toDate) params.set("to", searchState.toDate);
+        if (searchState.username) params.set("author", searchState.username);
+
         navigate(`/forum/search?${params.toString()}`);
     };
 
@@ -64,12 +98,11 @@ export default function ForumSearchBar({
                 >
                     <HintedSearchField
                         placeholder="Search"
-                        value={searchPhrase}
-                        onChange={setSearchPhrase}
+                        value={searchState.searchPhrase}
+                        onChange={(val) => handleChange("searchPhrase", val)}
                         fetchHints={searchPosts}
                         onSubmit={handleSubmit}
                     />
-
                     <button
                         className={`${isMenuOpen ? "rotate-90" : ""} absolute right-3 cursor-pointer text-2xl`}
                         type="button"
@@ -88,9 +121,11 @@ export default function ForumSearchBar({
                                     placeholder=""
                                     isMultiChoice={false}
                                     options={categoryOptions}
-                                    value={searchCategory}
-                                    isClearable={true}
-                                    onChange={setSearchCategory}
+                                    value={searchState.searchCategory}
+                                    isClearable={false}
+                                    onChange={(val) =>
+                                        handleChange("searchCategory", val)
+                                    }
                                     classNames={selectSearchClassNames}
                                 />
                             </div>
@@ -101,36 +136,41 @@ export default function ForumSearchBar({
                                     placeholder=""
                                     isMultiChoice={true}
                                     options={tagOptions}
-                                    value={searchTags}
+                                    value={searchState.searchTags}
                                     isClearable={false}
-                                    onChange={setSearchTags}
+                                    onChange={(val) =>
+                                        handleChange("searchTags", val)
+                                    }
                                     classNames={selectSearchClassNames}
                                 />
                             </div>
 
                             <SearchDateFieldInput
                                 label="From"
-                                value={fromDate}
-                                onChange={(value) => setFromDate(value)}
+                                value={searchState.fromDate}
+                                onChange={(val) =>
+                                    handleChange("fromDate", val)
+                                }
                             />
 
                             <SearchDateFieldInput
                                 label="To"
-                                value={toDate}
-                                onChange={(value) => setToDate(value)}
+                                value={searchState.toDate}
+                                onChange={(val) => handleChange("toDate", val)}
                             />
 
                             <div>
                                 <p className="mb-1">Author</p>
-                                <div className="dark:bg-darkBg bg-lightBgSoft relative rounded-lg p-1 shadow-lg">
+                                <div className="dark:bg-darkBg bg-lightBgSoft relative h-[1.875rem] rounded-lg p-1 shadow-lg">
                                     <HintedSearchField
                                         placeholder="Search"
-                                        value={username}
-                                        onChange={setUsername}
+                                        value={searchState.username}
+                                        onChange={(val) =>
+                                            handleChange("username", val)
+                                        }
                                         fetchHints={searchUsers}
                                         onSubmit={handleSubmit}
                                     />
-
                                     <button
                                         type="submit"
                                         className="absolute top-2 right-2 cursor-pointer"
@@ -138,6 +178,22 @@ export default function ForumSearchBar({
                                         <FaSearch />
                                     </button>
                                 </div>
+                            </div>
+
+                            <div className="mt-6 flex gap-2">
+                                <button
+                                    type="button"
+                                    onClick={handleClear}
+                                    className="flex-1 cursor-pointer rounded bg-gray-300 p-1 text-gray-700 hover:bg-gray-400"
+                                >
+                                    Clear
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="dark:bg-violetDark bg-violetLight/80 dark:hover:bg-violetDarker hover:bg-violetLight flex-1 cursor-pointer rounded p-1 text-white"
+                                >
+                                    Search
+                                </button>
                             </div>
                         </div>
                     </div>
