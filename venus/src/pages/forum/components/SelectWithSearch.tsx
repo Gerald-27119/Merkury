@@ -1,69 +1,48 @@
 import Select, { MultiValue, SingleValue } from "react-select";
 import Option from "../../../model/interface/forum/selectOption";
 import { useRef } from "react";
-import { useBoolean } from "../../../hooks/useBoolean";
-
-interface SelectClassNames {
-    control?: (...args: any[]) => string;
-    menu?: (...args: any[]) => string;
-    option?: (...args: any[]) => string;
-    singleValue?: (...args: any[]) => string;
-    placeholder?: (...args: any[]) => string;
-    multiValue?: (...args: any[]) => string;
-    multiValueLabel?: (...args: any[]) => string;
-    multiValueRemove?: (...args: any[]) => string;
-    clearIndicator?: (...args: any[]) => string;
-}
+import { selectVariants } from "../../../model/styles/selectVariants";
+import { SelectClassNames } from "../../../model/interface/forum/selectClassNames";
+import { selectBaseClassNames } from "../../../model/styles/selectBaseClassNames";
 
 interface SelectWithSearchProps {
     placeholder: string;
     isMultiChoice: boolean;
-    maxOptionChoice?: number;
     options: Option[];
     value: Option | Option[] | null;
     isClearable: boolean;
     onChange?: (val: any) => void;
     onBlur?: () => void;
     error?: string;
-    classNames?: SelectClassNames;
+    variant: "form" | "search";
 }
 
 export default function SelectWithSearch({
     placeholder,
     isMultiChoice,
-    maxOptionChoice,
     options,
     value,
     isClearable,
     onChange,
     onBlur,
     error,
-    classNames,
+    variant = "form",
 }: SelectWithSearchProps) {
-    const [isLimitWarningVisible, showLimitWarning, hideLimitWarning] =
-        useBoolean(false);
     const selectRef = useRef<any>(null);
 
     const handleChange = (
         selected: MultiValue<Option> | SingleValue<Option>,
     ) => {
-        if (
-            isMultiChoice &&
-            maxOptionChoice &&
-            Array.isArray(selected) &&
-            selected.length > maxOptionChoice
-        ) {
-            showLimitWarning();
-            setTimeout(() => hideLimitWarning(), 2000);
-            selectRef.current?.blur();
-            return;
-        }
-
         onChange?.(selected);
 
         if (!isMultiChoice) {
             selectRef.current?.blur();
         }
+    };
+
+    const mergedClassNames: SelectClassNames = {
+        ...selectBaseClassNames,
+        ...selectVariants[variant],
     };
 
     return (
@@ -83,24 +62,30 @@ export default function SelectWithSearch({
                 menuPortalTarget={document.body}
                 styles={{
                     menuPortal: (provided) => ({ ...provided, zIndex: 100 }),
+                    input: (provided) => ({ ...provided, cursor: "text" }),
+                    option: (provided) => ({ ...provided, cursor: "pointer" }),
                     control: (provided) => ({
                         ...provided,
                         cursor: "pointer",
                         minHeight: 30,
+                        overflow: "hidden",
                     }),
-                    input: (provided) => ({ ...provided, cursor: "text" }),
-                    option: (provided) => ({ ...provided, cursor: "pointer" }),
+                    valueContainer: (provided) => ({
+                        ...provided,
+                        overflowX: "auto",
+                        flexWrap: "nowrap",
+                        scrollbarWidth: "thin",
+                    }),
+                    multiValue: (provided) => ({
+                        ...provided,
+                        flexShrink: 0,
+                    }),
                 }}
-                classNames={classNames}
+                classNames={mergedClassNames}
             />
             {error && (
                 <p className="mt-1 text-xs font-bold break-words text-red-500">
                     {error}
-                </p>
-            )}
-            {isLimitWarningVisible && !error && (
-                <p className="mt-1 text-xs font-bold break-words text-yellow-500">
-                    You can't select more than 3 tags
                 </p>
             )}
         </div>

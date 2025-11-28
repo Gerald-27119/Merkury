@@ -119,15 +119,18 @@ export default function ForumSearch() {
     }
 
     return (
-        <ForumPostsPage
-            posts={posts}
-            sortOption={sortOption}
-            onSortChange={setSortOption}
-            loadingState={loadingState}
-            searchFilters={searchFilters}
-            totalSearchResults={
-                searchPostPage?.pages?.[0]?.page.totalElements ?? 0
-            }
-        />
+        <div>
+            <h1 className="mb-5 text-3xl font-bold">Search results</h1>
+            <ForumPostsPage
+                posts={posts}
+                sortOption={sortOption}
+                onSortChange={setSortOption}
+                loadingState={loadingState}
+                searchFilters={searchFilters}
+                totalSearchResults={
+                    searchPostPage?.pages?.[0]?.page.totalElements ?? 0
+                }
+            />
+        </div>
     );
 }

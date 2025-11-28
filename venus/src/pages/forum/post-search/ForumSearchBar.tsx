@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import PostCategoryDto from "../../../model/interface/forum/postCategoryDto";
 import TagDto from "../../../model/interface/tagDto";
 import SelectWithSearch from "../components/SelectWithSearch";
-import selectSearchClassNames from "../../../model/styles/selectSearchClassNames";
 import Option from "../../../model/interface/forum/selectOption";
 import SearchDateFieldInput from "./SearchDateFieldInput";
 import HintedSearchField from "./HintedSearchField";
@@ -126,7 +125,7 @@ export default function ForumSearchBar({
                                     onChange={(val) =>
                                         handleChange("searchCategory", val)
                                     }
-                                    classNames={selectSearchClassNames}
+                                    variant="search"
                                 />
                             </div>
 
@@ -141,7 +140,7 @@ export default function ForumSearchBar({
                                     onChange={(val) =>
                                         handleChange("searchTags", val)
                                     }
-                                    classNames={selectSearchClassNames}
+                                    variant="search"
                                 />
                             </div>
 
