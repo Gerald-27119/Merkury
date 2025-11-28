@@ -7,7 +7,6 @@ interface ControlledSelectProps<T extends FieldValues> {
     placeholder: string;
     control: Control<T>;
     isMultiChoice: boolean;
-    maxOptionChoice?: number;
     options: Option[];
     error?: string;
 }

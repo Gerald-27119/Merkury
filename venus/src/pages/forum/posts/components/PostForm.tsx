@@ -102,7 +102,6 @@ export default function PostForm({
                     placeholder="Tags"
                     control={control}
                     isMultiChoice={true}
-                    maxOptionChoice={3}
                     options={tags}
                     error={errors.tags?.message}
                 />

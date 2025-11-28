@@ -67,7 +67,6 @@ public class PostService {
     public Page<PostGeneralDto> getFollowedPostsPage(Pageable pageable) throws UserNotFoundByUsernameException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var posts = postRepository.findAllFollowedPosts(user.getId(), pageable);
-        System.out.println("Followerzy dla userId: " + user.getId());
 
         return posts.map(post -> PostMapper.toGeneralDto(post, user));
     }
