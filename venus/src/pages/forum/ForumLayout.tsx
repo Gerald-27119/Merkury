@@ -76,7 +76,7 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
 
                 <div>{children}</div>
 
-                <div className="sticky-forum-panel w-64">
+                <div className="sticky-forum-panel w-64 min-w-64">
                     <ForumSearchBar
                         categories={categoriesAndTags?.categories ?? []}
                         tags={categoriesAndTags?.tags ?? []}

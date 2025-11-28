@@ -1,19 +1,17 @@
 import { HiMenu } from "react-icons/hi";
-import useDebounce from "../../../hooks/useDebounce";
-import React, { useEffect, useRef, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
 import { useBoolean } from "../../../hooks/useBoolean";
 import { searchPosts } from "../../../http/posts";
-import { useClickOutside } from "../../../hooks/useClickOutside";
 import { useNavigate } from "react-router-dom";
 import PostCategoryDto from "../../../model/interface/forum/postCategoryDto";
 import TagDto from "../../../model/interface/tagDto";
-import SearchHintsList from "./SearchHintsList";
 import SelectWithSearch from "../components/SelectWithSearch";
 import selectSearchClassNames from "../../../model/styles/selectSearchClassNames";
-import { FaSearch } from "react-icons/fa";
 import Option from "../../../model/interface/forum/selectOption";
-import SearchFieldInput from "./SearchFieldInput";
+import SearchDateFieldInput from "./SearchDateFieldInput";
+import HintedSearchField from "./HintedSearchField";
+import { searchUsers } from "../../../http/user";
+import { FaSearch } from "react-icons/fa";
 
 interface ForumSearchBarProps {
     categories: PostCategoryDto[];
@@ -25,22 +23,15 @@ export default function ForumSearchBar({
     tags,
 }: ForumSearchBarProps) {
     const [searchPhrase, setSearchPhrase] = useState("");
-    const [userName, setUserName] = useState("");
+    const [username, setUsername] = useState("");
     const [searchCategory, setSearchCategory] = useState<Option>();
     const [searchTags, setSearchTags] = useState<Option[]>();
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
 
-    const debouncedPhrase = useDebounce(searchPhrase, 500);
-
-    const [areHintsShown, showHints, hideHints] = useBoolean();
     const [isMenuOpen, openMenu, closeMenu] = useBoolean();
 
     const navigate = useNavigate();
-    const searchRef = useRef<HTMLDivElement>(null);
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    useClickOutside(searchRef, hideHints, areHintsShown);
 
     const categoryOptions = categories.map((category) => ({
         value: category.name,
@@ -52,40 +43,8 @@ export default function ForumSearchBar({
         label: tag.name,
     }));
 
-    const { data: postTitles = [] } = useQuery({
-        queryKey: ["postTitles", debouncedPhrase],
-        queryFn: () => searchPosts(debouncedPhrase),
-        enabled: debouncedPhrase.trim().length > 0,
-    });
-
-    useEffect(() => {
-        if (debouncedPhrase.trim().length === 0) {
-            hideHints();
-        }
-    }, [debouncedPhrase]);
-
-    const handlePhraseChange = async (
-        e: React.ChangeEvent<HTMLInputElement>,
-    ) => {
-        setSearchPhrase(e.target.value);
-        if (e.target.value.trim().length > 0) {
-            showHints();
-        }
-    };
-    const handleHintClick = (hint: string) => {
-        setSearchPhrase(hint);
-        hideHints();
-        inputRef.current?.focus();
-    };
-
-    const handleMenuClick = () => {
-        hideHints();
-        isMenuOpen ? closeMenu() : openMenu();
-    };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        hideHints();
         const params = new URLSearchParams();
         if (searchPhrase) params.set("q", searchPhrase);
         if (searchCategory) params.set("category", searchCategory.value);
@@ -93,43 +52,31 @@ export default function ForumSearchBar({
             searchTags.forEach((tag) => params.append("tags", tag.value));
         if (fromDate) params.set("from", fromDate);
         if (toDate) params.set("to", toDate);
-        if (userName) params.set("author", userName);
+        if (username) params.set("author", username);
         navigate(`/forum/search?${params.toString()}`);
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <div ref={searchRef}>
+            <div>
                 <div
                     className={`dark:bg-darkBgSoft bg-lightBgSoft flex items-center gap-2 ${isMenuOpen ? "rounded-t-2xl" : "rounded-2xl shadow-lg"} relative p-2`}
                 >
-                    <input
-                        className="focus:outline-none"
-                        type="text"
+                    <HintedSearchField
                         placeholder="Search"
-                        ref={inputRef}
                         value={searchPhrase}
-                        onChange={handlePhraseChange}
-                        onFocus={() => {
-                            if (searchPhrase.trim().length > 0) showHints();
-                        }}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter") handleSubmit(e);
-                        }}
-                    ></input>
+                        onChange={setSearchPhrase}
+                        fetchHints={searchPosts}
+                        onSubmit={handleSubmit}
+                    />
+
                     <button
                         className={`${isMenuOpen ? "rotate-90" : ""} absolute right-3 cursor-pointer text-2xl`}
                         type="button"
-                        onClick={handleMenuClick}
+                        onClick={isMenuOpen ? closeMenu : openMenu}
                     >
                         <HiMenu />
                     </button>
-                    {areHintsShown && (
-                        <SearchHintsList
-                            hints={postTitles}
-                            onHintClick={handleHintClick}
-                        />
-                    )}
                 </div>
 
                 {isMenuOpen && (
@@ -161,27 +108,37 @@ export default function ForumSearchBar({
                                 />
                             </div>
 
-                            <SearchFieldInput
+                            <SearchDateFieldInput
                                 label="From"
-                                inputType="date"
                                 value={fromDate}
-                                onChange={(e) => setFromDate(e.target.value)}
+                                onChange={(value) => setFromDate(value)}
                             />
 
-                            <SearchFieldInput
+                            <SearchDateFieldInput
                                 label="To"
-                                inputType="date"
                                 value={toDate}
-                                onChange={(e) => setToDate(e.target.value)}
+                                onChange={(value) => setToDate(value)}
                             />
 
-                            <SearchFieldInput
-                                label="Posted By"
-                                inputType="text"
-                                value={userName}
-                                onChange={(e) => setUserName(e.target.value)}
-                                Icon={FaSearch}
-                            />
+                            <div>
+                                <p className="mb-1">Author</p>
+                                <div className="dark:bg-darkBg bg-lightBgSoft relative rounded-lg p-1 shadow-lg">
+                                    <HintedSearchField
+                                        placeholder="Search"
+                                        value={username}
+                                        onChange={setUsername}
+                                        fetchHints={searchUsers}
+                                        onSubmit={handleSubmit}
+                                    />
+
+                                    <button
+                                        type="submit"
+                                        className="absolute top-2 right-2 cursor-pointer"
+                                    >
+                                        <FaSearch />
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 )}
