@@ -4,28 +4,28 @@
 \subsection{Zarządzanie stanem i przepływ danych}
 \label{subsec:zarzadzanie-stanem-i-przeplyw-danych}
 
-Niniejszy podrozdział opisuje zastosowane w projekcie podejście do zarządzania \glslink{stan}{stanem}
+W niniejszym podrozdziale opisano zastosowane w projekcie podejście do zarządzania \glslink{stan}{stanem}
 oraz organizację przepływu danych w aplikacji frontendowej. \newline
 
-W projekcie postawiliśmy na zrównoważone podejście do zarządzania \glslink{stan}{stanem}.
-Korzystamy zarówno z lokalnego \glslink{stan}{stanu} komponentów
+W projekcie postawiono na zrównoważone podejście do zarządzania \glslink{stan}{stanem}.
+Korzysta się zarówno z lokalnego \glslink{stan}{stanu} komponentów
 (za pomocą \glslink{hook}{hooka} \texttt{useState})~\cite{react-use-state}, jak i ze \glslink{stan}{stanu} globalnego,
 utrzymywanego przez \glslink{biblioteka}{bibliotekę} \gls{react}~\gls{redux}~\cite{redux}.
-Globalny \glslink{stan}{stan} został wprowadzony po to, aby możliwie najbardziej ograniczyć
+Globalny \glslink{stan}{stan} wprowadzono w celu możliwie jak największego ograniczenia
 przekazywanie \glslink{props}{propsów} w głąb drzewa komponentów oraz uniknąć
 niepotrzebnych ponownych renderów.
 
 Do przechowywania \glslink{stan}{stanu} lokalnego, ograniczonego tylko do danego komponentu
-(lub jego najbliższych elementów podrzędnych), wykorzystujemy \glslink{hook}{hook} \texttt{useState}.
-Natomiast efekty uboczne i synchronizację realizujemy za pomocą \texttt{useEffect}.
+(lub jego najbliższych elementów podrzędnych), wykorzystuje się \glslink{hook}{hook} \texttt{useState}.
+Natomiast efekty uboczne i synchronizację realizuje się za pomocą \texttt{useEffect}.
 W przypadku bardziej złożonej logiki lub potrzeby ponownego wykorzystania kodu
 powstały \glslink{hook}{hooki} niestandardowe, takie jak \texttt{useScreenSize},
 \texttt{useDarkMode} czy \texttt{useClickOutside}.
-Dzięki temu większość logiki prezentacji została wydzielona
+Dzięki temu większość logiki prezentacji wydzielono
 z warstwy \gls{ui}, co poprawia czytelność i ułatwia utrzymanie kodu.
 
 Z racji tego, że korzystamy z \glslink{react}{reacta} w połączeniu z \glslink{type-script}{TypeScriptem},
-przygotowaliśmy również własne \glslink{hook}{hooki} wspomagające typowanie, takie jak
+przygotowano również własne \glslink{hook}{hooki} wspomagające typowanie, takie jak
 \texttt{useDispatchTyped} oraz \texttt{useSelectorTyped}.
 Pozwalają one na bezpieczne typowanie akcji oraz selektorów \glslink{redux}{reduxa}
 bez konieczności powtarzania adnotacji typów w każdym komponencie.

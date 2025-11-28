@@ -4,16 +4,16 @@
 \subsection{Style}
 \label{subsec:style}
 
-Niniejszy podrozdział przedstawia zastosowane w projekcie rozwiązania dotyczące stylowania interfejsu użytkownika
+W niniejszym podrozdziale przedstawiono zastosowane w projekcie rozwiązania dotyczące stylowania interfejsu użytkownika
 oraz narzędzia wykorzystywane do tworzenia spójnej i \glslink{responsywnosc}{responsywnej} warstwy wizualnej aplikacji. \newline
 
-Do stylowania interfejsu wykorzystaliśmy \glslink{framework}{framework} Tailwind CSS~\cite{tailwind}.
-Dzięki gotowym klasom udostępnianym przez Tailwind mogliśmy definiować wygląd
-elementów bezpośrednio w kodzie komponentu, bez konieczności przechodzenia do osobnych plików ze stylami.
+Do stylowania interfejsu wykorzystano \glslink{framework}{framework} Tailwind CSS~\cite{tailwind}.
+Dzięki gotowym klasom udostępnianym przez Tailwind wygląd elementów można definiować
+bezpośrednio w kodzie komponentu, bez konieczności przechodzenia do osobnych plików ze stylami.
 Ułatwia to zarówno tworzenie widoków, jak i późniejsze modyfikacje — w przypadku zmiany stylu
 dokładnie wiadomo, gdzie należy jej dokonać.
-Korzystanie ze zdefiniowanych klas pozwoliło nam również zachować spójność wizualną w całej aplikacji.
-W pliku \texttt{index.css} zdefiniowaliśmy zmienne kolorystyczne (rys. \ref{img:css-kolory1} i \ref{img:css-kolory2}).
+Korzystanie ze zdefiniowanych klas pozwoliło zachować spójność wizualną w całej aplikacji.
+W pliku \texttt{index.css} zdefiniowano zmienne kolorystyczne (rys. \ref{img:css-kolory1} i \ref{img:css-kolory2}).
 Dzięki temu zmiana motywu kolorystycznego w przyszłości sprowadza się do edycji wartości w jednym miejscu.
 
 \begin{figure}[H]
@@ -36,7 +36,7 @@ W innych przypadkach wystarczyło skorzystać z klas zdefiniowanych w \texttt{in
 Część aplikacji jest \glslink{responsywnosc}{responsywna}.
 Tailwind udostępnia predefiniowane prefiksy \glslink{responsywnosc}{responsywne}
 (np. \texttt{md:}, \texttt{lg:}) (rys. \ref{img:tailwind-responsywnosc}),
-stworzyliśmy również własny (\texttt{3xl:}) na ekrany o rozdzielczości 2560px.
+utworzono również własny (\texttt{3xl:}) na ekrany o rozdzielczości 2560px.
 Pozwalają one przypisywać style zależnie od szerokości ekranu bez pisania własnych reguł \glslink{media-queries}{media queries}.
 Dzięki temu implementacja widoków mobilnych i desktopowych była znacząco szybsza.
 
@@ -58,10 +58,10 @@ elementu, gdy aplikacja jest w trybie ciemnym (rys. \ref{img:tailwind-motyw}).
     \label{img:tailwind-motyw}
 \end{figure}
 
-Aby uzyskać płynniejsze i przyjemniejsze animacje, wykorzystaliśmy \glslink{biblioteka}{bibliotekę} Motion~\cite{motion}.
+Aby uzyskać płynniejsze i przyjemniejsze animacje, wykorzystano \glslink{biblioteka}{bibliotekę} Motion~\cite{motion}.
 Pozwala ona w prosty sposób tworzyć animacje elementów interfejsu, bez potrzeby ręcznego pisania
 złożonych reguł \gls{css}.
-W naszej aplikacji użyliśmy jej m.in. w polach formularza logowania i rejestracji (rys. \ref{img:motion}).
+W aplikacji wykorzystano ją m.in. w polach formularza logowania i rejestracji (rys. \ref{img:motion}).
 Na początku etykieta pola (np. „username”) jest wyświetlana wewnątrz pola tekstowego,
 natomiast po kliknięciu w pole jest płynnie przesuwana nad to pole, co poprawia czytelność i ergonomię formularza.
 

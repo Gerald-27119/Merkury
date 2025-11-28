@@ -1,9 +1,12 @@
+%! Author = Mateusz
+%! Date = 19/11/2025
+
 \subsection{Wyszukiwarka spotów}
 \label{subsec:strona-glowna-frontend}
 
-Niniejszy rozdział opisuje sposób implementacji wyszukiwarki spotów. \newline
+W niniejszym rozdziale przedstawiono sposób implementacji wyszukiwarki spotów. \newline
 
-Jednym z głównych modułów aplikacji jest wyszukiwarka spotów, która umożliwia użytkownikowi szybkie
+Jednym z głównych modułów aplikacji jest wyszukiwarka spotów, umożliwiająca szybkie
 odnalezienie interesujących lokalizacji.
 Funkcjonuje ona w dwóch wariantach: prostym i zaawansowanym
 (rys. \ref{img:implementacja-prosta-strona-glowna} oraz \ref{img:implementacja-zaawansowana-strona-glowna}).
@@ -32,7 +35,7 @@ Przełączanie pomiędzy tymi widokami odbywa się za pomocą przycisku umieszcz
 \end{figure}
 
 W trybie prostym prezentowana jest karuzela (rys. \ref{img:implementacja-karuzela-spotow}) z dwunastoma najpopularniejszymi \glslink{spot}{spotami} w całej aplikacji.
-Użytkownik może w tym miejscu wyszukiwać \glslink{spot}{spoty} po lokalizacji (kraj, region, miasto).
+W tym widoku możliwe jest wyszukiwanie \glslink{spot}{spotów} po lokalizacji (kraj, region, miasto).
 
 \begin{figure}[H]
     \centering
@@ -65,8 +68,8 @@ co pozwala na przełączanie widoków bez konieczności przeładowywania całej 
 
 W komponencie \texttt{SearchBar} (rys. \ref{img:implementacja-prosta-wyszukiwarka}) po wpisaniu co najmniej dwóch znaków wyświetlana jest lista podpowiedzi
 dla kraju, regionu oraz miasta, w zależności od aktualnie uzupełnianego pola.
-Po pojawieniu się listy użytkownik może wybrać interesującą go lokalizację,
-co ułatwia określenie, w jakich miejscach znajdują się dostępne \glslink{spot}{spoty}.
+Po pojawieniu się listy możliwe jest wybranie odpowiedniej lokalizacji,
+co ułatwia określenie lokalizacji dostępnych \glslink{spot}{spotów}.
 
 \begin{figure}[H]
     \centering
@@ -96,7 +99,8 @@ Komponent \texttt{SpotTile} zawiera następujące informacje:
     \item ocenę oraz liczbę ocen,
     \item tagi,
     \item podstawowe informacje pogodowe (temperatura i typ pogody),
-    \item dwa przyciski: jeden prowadzący do widoku szczegółów \glslink{spot}{spota} oraz drugi informujący, jak daleko znajduje się dany \glslink{spot}{spot}; po kliknięciu przycisku lokalizacja \glslink{spot}{spota} jest prezentowana na mapie.
+    \item dwa przyciski: jeden prowadzący do widoku szczegółów \glslink{spot}{spota} oraz drugi informujący,
+        jak daleko znajduje się dany \glslink{spot}{spot}; po kliknięciu przycisku prezentowana jest lokalizacja \glslink{spot}{spota} na mapie.
 \end{itemize}
 
 Komponent \texttt{AdvanceSearchBar} jest zbliżony wyglądem i strukturą do wersji podstawowej,
