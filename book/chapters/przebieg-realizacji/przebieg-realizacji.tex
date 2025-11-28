@@ -1,113 +1,351 @@
 %! Author = Adam
-%! Date = 18/02/2025
+%! Date = 10/01/2025
 
 \chapter{Przebieg realizacji projektu}
 \label{ch:przebieg-realizacji-projektu}
 
+W niniejszym rozdziale przedstawiono rzeczywisty przebieg realizacji projektu
+w kolejnych fazach czasowych.
+Opis odzwierciedla sposób pracy zespołu zgodny z metodyką
+Disciplined Agile Delivery (DAD) w wariancie Lean Life Cycle%
+\footnote{\textit{TODO: odwołanie do rozdziału opisującego metodykę pracy
+oraz do pozycji w bibliografii.}},
+w której prace deweloperskie, planowanie i doprecyzowywanie wymagań
+przebiegają iteracyjnie i równolegle.
 
-Rozdział prezentuje chronologiczny przebieg realizacji projektu, opisując najważniejsze etapy prac oraz decyzje projektowe.
+Warto podkreślić, że przez cały czas trwania projektu członkowie zespołu
+poświęcali znaczącą część czasu na wzajemne przeglądy kodu oraz
+ciągły feedback dotyczący implementacji poszczególnych funkcjonalności
+(zarówno w obrębie backendu, jak i frontendu).
+Taki sposób pracy pozwolił na szybkie wychwytywanie błędów,
+ujednolicenie stylu implementacji oraz bieżące korygowanie
+wymagań funkcjonalnych%
+\footnote{\textit{TODO: odwołanie do rozdziału dotyczącego testów
+i jakości oprogramowania.}}.
 
+\section{Faza przedprojektowa (czerwiec–wrzesień 2024)}
+\label{sec:faza-przedprojektowa}
 
-\section{Przebieg realizacji projektu}
-\label{sec:przebieg-realizacji-projektu}
+Faza przedprojektowa obejmowała okres od czerwca do września 2024 roku
+i poprzedzała formalne zatwierdzenie tematu pracy oraz opracowanie harmonogramu
+przedstawionego w rozdziale planistycznym%
+\footnote{\textit{TODO: odwołanie do rozdziału z harmonogramem projektu.}}.
 
-\noindent
-\textbf{Lipiec -- wrzesień 2024.}
-W tym okresie zebrano zespół projektowy oraz przygotowano środowisko deweloperskie
-(repozytorium kodu, konfiguracja narzędzi, podstawowa infrastruktura).
-Równolegle rozpoczęto prace nad modułem logowania i rejestracji użytkownika,
-który miał stać się fundamentem dalszego rozwoju aplikacji.
+Zespół rozpoczął prace deweloperskie już w czerwcu 2024 roku,
+co było możliwe dzięki temu, że niezależnie od ostatecznego tematu
+zakładano stworzenie aplikacji internetowej wymagającej kont użytkowników.
+Wynikało to bezpośrednio ze specyfiki specjalizacji
+„Aplikacje Internetowe”, na której studiują wszyscy członkowie zespołu%
+\footnote{\textit{TODO: ewentualne odwołanie do opisu kontekstu studiów
+w rozdziale wstępnym.}}.
+W efekcie część prac technicznych została wykonana jeszcze przed
+formalnym wyborem tematu projektu.
 
-\medskip
+\subsection{Czerwiec 2024}
 
-\noindent
-\textbf{Październik 2024 -- styczeń 2025.}
-Z początkiem roku akademickiego wybrano temat projektu inżynierskiego
-oraz w ramach przedmiotu PRO opracowano wstępne wymagania systemu.
-Przeprowadzono analizę grupy docelowej i doprecyzowano główne scenariusze użycia.
-Od tego momentu nastąpiło właściwe rozpoczęcie prac deweloperskich --
-implementowano kolejne moduły backendu i frontend,
-opierając się na ustalonych wymaganiach.
+W czerwcu 2024 roku wykonano następujące działania przygotowawcze:
 
-\medskip
+\begin{itemize}
+    \item Przygotowanie szkieletu projektu backendu w technologii Spring Boot –
+    utworzono podstawowe pakiety, konfigurację aplikacji oraz minimalną
+    strukturę modułów (\textbf{cały zespół}).
+    \item Konfiguracja narzędzia \texttt{Jira}:
+    zespół zapoznał się z typowym podziałem na epiki, taski i podtaski,
+    zdefiniował statusy przepływu pracy oraz utworzył tablicę
+    w stylu Kanban (\textbf{Kacper Badek}).
+    \item Utworzenie repozytorium w serwisie \texttt{GitHub}
+    i skonfigurowanie podstawowych reguł pracy z repozytorium
+    (\textbf{Adam Langmesser}).
+    \item Przygotowanie pierwszego potoku CI/CD dla backendu –
+    automatyczne budowanie projektu i uruchamianie testów jednostkowych
+    na serwerze ciągłej integracji (\textbf{Adam Langmesser}).
+\end{itemize}
 
-\noindent
-\textbf{Luty 2025.}
-Kontynuowano prace deweloperskie.
-Rozbudowywano istniejące funkcjonalności
-oraz stabilizowano fundamenty architektury aplikacji.
+\subsection{Lipiec 2024}
 
-\medskip
+W lipcu 2024 roku skupiono się na warstwie frontendowej
+i pierwszych funkcjonalnościach związanych z kontami użytkowników:
 
-\noindent
-\textbf{Marzec -- czerwiec 2025.}
-W tym okresie przeprowadzono analizę aspektów społecznych i biznesowych produktu
-oraz doprecyzowano model wartości dla użytkownika końcowego.
-Opracowano szczegółowy projekt interfejsu użytkownika,
-uwzględniając zebrane wymagania i wyniki analiz.
-Projekt UI był kilkukrotnie iterowany na podstawie wewnętrznych przeglądów
-oraz testów użyteczności w zespole.
+\begin{itemize}
+    \item Przygotowanie szkieletu aplikacji frontendowej
+    (React + TypeScript) wraz z podstawową strukturą komponentów
+    i konfiguracją narzędzi budujących (\textbf{cały zespół}).
+    \item Rozpoczęcie prac nad potokiem CI/CD dla frontendu,
+    którego konfigurację finalnie ukończono we wrześniu 2024 roku
+    (\textbf{Adam Langmesser}).
+    \item Implementacja podstawowej logiki logowania
+    i rejestracji użytkownika zarówno po stronie backendu
+    (endpointy REST/GraphQL), jak i frontendu
+    (formularze oraz obsługa żądań)
+    (\textbf{Adam Langmesser}).
+\end{itemize}
 
-\medskip
+\subsection{Sierpień 2024}
 
-\noindent
-\textbf{Lipiec -- wrzesień 2025.}
-Prowadzono intensywne prace deweloperskie,
-skupiając się na implementacji zaprojektowanych wcześniej ekranów
-i przepływów w interfejsie użytkownika
-oraz na integracji z usługami zewnętrznymi.
-W tym czasie zespół zidentyfikował część funkcji
-o zbyt dużej złożoności jak na dostępny czas,
-dlatego ograniczono zakres MVP na rzecz dopracowania kluczowych modułów.
+W sierpniu 2024 roku zespół skupił się na zagadnieniach bezpieczeństwa
+oraz na dopracowaniu pierwszych ekranów aplikacji:
 
-\medskip
+\begin{itemize}
+    \item Dodanie Spring Security i implementacja logiki
+    uwierzytelniania oraz autoryzacji użytkownika po stronie backendu
+    (\textbf{Adam Langmesser}).
+    \item Konfiguracja biblioteki Tailwind CSS na froncie,
+    umożliwiająca spójne i responsywne stylowanie komponentów
+    (\textbf{Mateusz Redosz}).
+    \item Konfiguracja narzędzia \texttt{Prettier}
+    do automatycznego formatowania kodu frontendu
+    (\textbf{Mateusz Redosz}).
+    \item Stworzenie formularza rejestracji użytkownika
+    wraz z podstawową walidacją po stronie frontendu
+    (\textbf{Mateusz Redosz}).
+    \item Dodanie i konfiguracja biblioteki TanStack Query
+    do obsługi komunikacji z backendem i cachowania danych
+    (\textbf{Mateusz Redosz}).
+    \item Implementacja strony logowania użytkownika
+    po stronie frontendu (\textbf{Kacper Badek}).
+    \item Implementacja logiki resetowania hasła
+    (proces „zapomniałem hasła”) po stronie frontendu
+    (\textbf{Stanisław Oziemczuk}).
+\end{itemize}
 
-\noindent
-\textbf{Październik -- listopad 2025.}
-Rozpoczęto prace nad częścią tekstową pracy inżynierskiej.
-Zebrano i uporządkowano materiały powstałe na wcześniejszych semestrach
-(diagramy, dokumenty analityczne i projektowe),
-a następnie włączono je do spójnej struktury pracy.
-Do końca listopada sfinalizowano główne prace deweloperskie --
-od tego momentu wprowadzano jedynie poprawki błędów
-oraz drobne usprawnienia.
+\subsection{Wrzesień 2024}
 
-\medskip
+We wrześniu 2024 roku kontynuowano prace nad bezpieczeństwem
+i przygotowaniem środowiska uruchomieniowego:
 
-\noindent
-\textbf{Grudzień 2025 -- luty 2026.}
-Zakończenie prac deweloperskich zostało zwieńczone prezentacją aplikacji promotorowi.
-Przygotowano i uruchomiono testy automatyczne dla najważniejszych funkcjonalności.
-W kodzie wprowadzano już tylko niewielkie poprawki,
-a główny nacisk przeniesiono na ukończenie części tekstowej pracy.
-Prace nad projektem zakończono 20 lutego 2026 roku.
+\begin{itemize}
+    \item Implementacja przycisków na stronie logowania
+    umożliwiających logowanie i rejestrację z wykorzystaniem OAuth
+    (GitHub i Google) po stronie frontendu.
+    \item Zastąpienie bazy danych działającej w pamięci (in-memory)
+    instancją uruchamianą w kontenerze \texttt{Docker},
+    co urealniło środowisko deweloperskie i testowe
+    (\textbf{Adam Langmesser}).
+    \item Dostosowanie potoku CI/CD backendu tak,
+    aby uwzględniał uruchamianie bazy danych w kontenerze
+    podczas wykonywania testów (\textbf{Adam Langmesser}).
+    \item Implementacja logiki resetowania hasła po stronie backendu –
+    generowanie tokenów, ich weryfikacja oraz integracja
+    z istniejącym procesem resetowania na froncie
+    (\textbf{Kacper Badek}).
+    \item Dokończenie konfiguracji potoku CI/CD dla frontendu
+    (\textbf{Adam Langmesser}).
+\end{itemize}
 
-\section{Podsumowanie}
-\label{sec:podsumowanie}
+\section{Etap 1 (październik 2024 – styczeń 2025)}
+\label{sec:etap1}
 
-Zespół rozpoczął prace deweloperskie w lipcu 2024 roku,
-jeszcze przed formalnym wyborem tematu projektu.
-Było to możliwe dzięki temu,
-że niezależnie od ostatecznego tematu,
-zakładano stworzenie aplikacji internetowej wymagającej kont użytkowników,
-co wynikało ze specjalizacji ,,Aplikacje Internetowe'',
-na której studiują wszyscy członkowie zespołu.
+Etap 1 był przede wszystkim poświęcony dopracowaniu wymagań wstępnych,
+stabilizacji modułu uwierzytelniania oraz pierwszym eksperymentom
+z mapą spotów.
+W tym okresie zespół łączył prace deweloperskie z działaniami
+analitycznymi i planistycznymi (opracowanie harmonogramu, założeń
+oraz wymagań w ramach przedmiotów projektowych na uczelni).
 
-Wraz z nadejściem października 2024 roku wybrano temat projektu,
-a w ramach przedmiotu PRO opracowano wstępne wymagania systemu.
-Od tego momentu prace deweloperskie nad produktem trwały nieprzerwanie
-aż do początku grudnia 2025 roku.
-Część programistyczna projektu zajęła łącznie około 18 miesięcy.
-Równolegle z implementacją tworzono dokumentację systemu.
+\subsection{Październik 2024}
 
-W trakcie rozwoju systemu zespół na bieżąco weryfikował
-i aktualizował wymagania stawiane aplikacji.
-Wielokrotnie zmieniano i ulepszano wygląd interfejsu użytkownika,
-uwzględniając pojawiające się wnioski z analiz i testów.
-Wraz ze zbliżaniem się terminu zakończenia projektu
-urealniono zakres produktu oraz skorygowano priorytety --
-część mniej istotnych funkcjonalności przesunięto poza zakres MVP
-na rzecz dopracowania kluczowych modułów.
-\newline
-\newline
-\textbf{Prace nad projektem zakończono 20 lutego 2026 roku.}
+\begin{itemize}
+    \item Poprawa konfiguracji CORS na backendzie, tak aby aplikacja frontendowa
+    mogła komunikować się z serwerem w sposób bezpieczny
+    i zgodny z przeglądarkowymi ograniczeniami
+    (\textbf{Mateusz Redosz}).
+    \item Zmiana sposobu przechowywania tokena JWT – umieszczenie go
+    w ciasteczku \texttt{HttpOnly}, co poprawiło bezpieczeństwo aplikacji
+    (\textbf{Mateusz Redosz}).
+    \item Uporządkowanie pliku \texttt{.gitignore}
+    oraz struktury repozytorium (\textbf{Kacper Badek}).
+    \item Implementacja logowania OAuth z wykorzystaniem Google i GitHub
+    po stronie backendu oraz integracja z frontem
+    (\textbf{Stanisław Oziemczuk}).
+    \item Formalny wybór tematu projektu inżynierskiego przez zespół.
+\end{itemize}
+
+\subsection{Listopad 2024}
+
+\begin{itemize}
+    \item Opracowanie harmonogramu projektu w formie opisowej oraz
+    w postaci wykresu Gantta (\textbf{cały zespół})%
+    \footnote{\textit{TODO: odwołanie do rozdziału z harmonogramem projektu.}}.
+    \item Przygotowanie wstępnych założeń i wymagań w ramach przedmiotu PRO
+    (\textbf{cały zespół})%
+    \footnote{\textit{TODO: odwołanie do rozdziału z analizą wymagań.}}.
+    \item Implementacja demonstracyjnej mapy z wykorzystaniem biblioteki Leaflet –
+    prototyp miał na celu pokazanie zespołowi możliwości interaktywnej mapy
+    (\textbf{Adam Langmesser}).
+    Ze względu na ograniczone możliwości customizacji wyglądu biblioteki
+    zdecydowano się później na zmianę dostawcy kafelków mapowych na usługę
+    \textit{TODO: uzupełnić nazwę docelowej usługi mapowej}.
+    \item Poprawki konfiguracji narzędzia \texttt{ESLint}
+    po stronie frontendu (\textbf{Adam Langmesser}).
+    \item Implementacja logiki cyklicznego usuwania przeterminowanych
+    tokenów resetu hasła (\textbf{Kacper Badek}).
+    \item Poprawki działania logowania użytkownika po stronie backendu
+    i frontendu, obejmujące obsługę błędów oraz komunikaty dla użytkownika
+    (\textbf{Stanisław Oziemczuk}).
+    \item Dalsze poprawki obsługi JWT na backendzie oraz logowania błędów
+    związanych z procesem logowania i rejestracji
+    (\textbf{Mateusz Redosz}).
+\end{itemize}
+
+\subsection{Grudzień 2024}
+
+\begin{itemize}
+    \item Dalsze poprawki konfiguracji Spring Security na backendzie,
+    w tym doprecyzowanie ról i uprawnień (\textbf{Adam Langmesser}).
+    \item Poprawa logowania błędów związanych z resetowaniem hasła
+    użytkownika po stronie backendu (\textbf{Kacper Badek}).
+    \item Rozszerzenie encji użytkownika o dane deweloperskie
+    oraz przygotowanie inicjalnych danych w bazie
+    (np. konta testowe) (\textbf{Adam Langmesser}).
+    \item Dodanie biblioteki Redux do frontendu i wstępna konfiguracja store
+    (\textbf{Mateusz Redosz}).
+    \item Implementacja automatycznego wylogowywania użytkownika
+    po wygaśnięciu tokena JWT (\textbf{Mateusz Redosz}).
+    \item Stworzenie komponentu frontendu odpowiedzialnego za wyświetlanie
+    szczegółów pojedynczego spota (\textbf{Stanisław Oziemczuk}).
+    \item Stworzenie komponentu odpowiedzialnego za prezentację błędów
+    systemowych użytkownikowi (globalny mechanizm powiadomień)
+    (\textbf{Mateusz Redosz}).
+    \item Dostosowanie wyglądu i treści wiadomości e-mail wysyłanych
+    przez system (np. w procesie resetu hasła)
+    (\textbf{Kacper Badek}).
+    \item Implementacja testów automatycznych związanych z bezpieczeństwem
+    (scenariusze logowania i rejestracji użytkownika po stronie backendu)
+    (\textbf{Adam Langmesser}).
+\end{itemize}
+
+\subsection{Styczeń 2025}
+
+\begin{itemize}
+    \item Dodanie danych deweloperskich dla mapy
+    (przykładowe spoty, dane do prezentacji i testów)
+    (\textbf{Kacper Badek}).
+    \item Rozszerzenie stanu Redux o informację o tym,
+    czy użytkownik jest aktualnie zalogowany
+    (\textbf{Mateusz Redosz}).
+    \item Implementacja testów E2E dla procesów logowania
+    i rejestracji użytkownika (\textbf{Mateusz Redosz}).
+    \item Poprawki logowania i rejestracji z wykorzystaniem OAuth
+    (Google/GitHub) – dopracowanie scenariuszy brzegowych
+    (\textbf{Stanisław Oziemczuk}).
+    \item Dodanie uruchamiania testów frontendu do potoku CI/CD
+    (\textbf{Mateusz Redosz}).
+    \item Poprawa testów logowania i rejestracji na backendzie
+    oraz ujednolicenie asercji (\textbf{Adam Langmesser}).
+    \item Implementacja logiki filtrowania spotów na mapie
+    po różnych kryteriach (np. nazwa) po stronie backendu
+    (\textbf{Stanisław Oziemczuk}).
+    \item Poprawa sposobu wyświetlania szczegółów spota na froncie
+    (\textbf{Mateusz Redosz}).
+    \item Dalsze dopracowanie logiki filtrowania spotów po nazwie
+    po stronie backendu (\textbf{Stanisław Oziemczuk}).
+    \item Implementacja logiki dodawania spota do ulubionych
+    po stronie backendu (\textbf{Kacper Badek}).
+\end{itemize}
+
+\section{Etap 2 (luty 2025 – wrzesień 2025)}
+\label{sec:etap2}
+
+Etap 2 obejmował zasadniczą część prac deweloperskich nad aplikacją.
+W tym okresie rozwijano kolejne moduły (mapa, forum, czat, panel użytkownika),
+równolegle doprecyzowując dokumentację oraz weryfikując i aktualizując
+wymagania na podstawie bieżących doświadczeń zespołu%
+\footnote{\textit{TODO: odwołanie do rozdziału z analizą wymagań
+i do rozdziału opisującego projekt architektury.}}.
+
+\subsection{Luty 2025}
+
+\begin{itemize}
+    \item Poprawa wyglądu strony logowania, w tym dopracowanie stylistyki
+    komponentów oraz zachowania w trybie ciemnym i jasnym
+    (\textbf{Mateusz Redosz}).
+    \item Poprawa logiki wylogowywania użytkownika na froncie
+    (m.in. czyszczenie stanu Redux, przekierowania)
+    (\textbf{Mateusz Redosz}).
+    \item Poprawa logiki dodawania komentarzy do spotów na mapie
+    po stronie frontendu (\textbf{Mateusz Redosz}).
+    \item Implementacja logiki dodawania spota do ulubionych
+    po stronie frontendu oraz integracja z backendem
+    (\textbf{Stanisław Oziemczuk}).
+    \item Implementacja integracji z zewnętrznym API pogodowym
+    służącym do pobierania podstawowych danych pogodowych
+    dla danego spota (\textbf{Stanisław Oziemczuk}).
+    \textit{TODO: uzupełnić nazwę i dostawcę API oraz odwołać się
+    do kart usług zewnętrznych i bibliografii.}
+\end{itemize}
+
+\subsection{Marzec 2025}
+
+\textit{TODO: do uzupełnienia – opis prac wykonanych w marcu 2025 roku
+    (np. rozwój forum, pierwsza wersja czatu, dalsze prace nad mapą).}
+
+\subsection{Kwiecień 2025}
+
+\textit{TODO: do uzupełnienia – opis prac wykonanych w kwietniu 2025 roku.}
+
+\subsection{Maj 2025}
+
+\textit{TODO: do uzupełnienia – opis prac wykonanych w maju 2025 roku.}
+
+\subsection{Czerwiec 2025}
+
+\textit{TODO: do uzupełnienia – opis prac wykonanych w czerwcu 2025 roku.}
+
+\subsection{Lipiec 2025}
+
+\textit{TODO: do uzupełnienia – opis prac wykonanych w lipcu 2025 roku.}
+
+\subsection{Sierpień 2025}
+
+\textit{TODO: do uzupełnienia – opis prac wykonanych w sierpniu 2025 roku.}
+
+\subsection{Wrzesień 2025}
+
+\textit{TODO: do uzupełnienia – opis prac wykonanych we wrześniu 2025 roku
+oraz podsumowanie Etapu 2.}
+
+\section{Etap 3 (październik 2025 – styczeń 2026)}
+\label{sec:etap3}
+
+Etap 3 obejmował finalizację prac nad systemem,
+dopracowanie dokumentacji technicznej i tekstowej pracy inżynierskiej
+oraz przygotowanie projektu do oddania.
+W tym czasie większość nowych funkcjonalności była już zaimplementowana,
+a nacisk położono na stabilizację, testy oraz spójny opis w dokumentacji.
+
+\subsection{Październik 2025}
+
+\textit{TODO: do uzupełnienia – opis prac wykonanych w październiku 2025 roku
+    (np. domykanie brakujących funkcjonalności, porządki w kodzie,
+    stabilizacja środowiska).}
+
+\subsection{Listopad 2025}
+
+\begin{itemize}
+    \item Opracowanie rozdziału \textit{Analiza wymagań} –
+    przygotowanie listy aktorów systemu, diagramu przypadków użycia
+    oraz scenariuszy przypadków użycia
+    (\textbf{Adam Langmesser}).
+    \textit{TODO: odwołanie do odpowiedniego rozdziału i podrozdziałów.}
+\end{itemize}
+
+\subsection{Grudzień 2025}
+
+\begin{itemize}
+    \item Opracowanie podrozdziału poświęconego wymaganiom
+    dla modułu czatu, w tym wymagań funkcjonalnych
+    i pozafunkcjonalnych (\textbf{Adam Langmesser}).
+    \textit{TODO: odwołanie do numeru podrozdziału z wymaganiami dla czatu.}
+    \item Dopracowanie kart usług zewnętrznych
+    (m.in. usług mapowych, pogodowych, poczty e-mail)
+    wykorzystywanych przez system (\textbf{Adam Langmesser}).
+    \textit{TODO: odwołanie do sekcji z kartami usług zewnętrznych.}
+\end{itemize}
+
+\subsection{Styczeń 2026}
+
+\textit{TODO: do uzupełnienia – szczegółowy opis ostatnich prac wykonanych
+w styczniu 2026 roku (np. końcowe testy, poprawki kosmetyczne,
+    formatowanie pracy).}
+
+Na zakończenie prac projektowych przyjęto datę \textbf{10 stycznia 2026 roku}.
