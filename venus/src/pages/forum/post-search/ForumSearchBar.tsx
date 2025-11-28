@@ -71,8 +71,8 @@ export default function ForumSearchBar({
         });
     };
 
-    const handleSubmit = (e?: React.FormEvent) => {
-        e?.preventDefault();
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
 
         const params = new URLSearchParams();
         if (searchState.searchPhrase) params.set("q", searchState.searchPhrase);

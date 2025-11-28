@@ -23,21 +23,28 @@ export const staticLinks = (isLogged: boolean): SidebarItemType[] => [
         to: "/forum",
         icon: <MdOutlineForum aria-label="forum" />,
         name: "forum",
-        type: isLogged ? "submenu" : "link",
-        children: !isLogged
-            ? []
-            : [
-                  {
-                      to: "/forum",
-                      name: "home page",
-                      type: "link",
-                  },
-                  {
-                      to: "/forum/followed",
-                      name: "followed posts",
-                      type: "link",
-                  },
-              ],
+        type: "submenu",
+        children: [
+            {
+                to: "/forum",
+                name: "home page",
+                type: "link",
+            },
+            {
+                to: "/forum/guidelines",
+                name: "guidelines",
+                type: "link",
+            },
+            ...(isLogged
+                ? [
+                      {
+                          to: "/forum/followed",
+                          name: "followed posts",
+                          type: "link",
+                      } as const,
+                  ]
+                : []),
+        ],
     },
 ];
 

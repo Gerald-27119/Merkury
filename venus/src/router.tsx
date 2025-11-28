@@ -25,10 +25,9 @@ import AddedSpot from "./pages/account/add-spot/AddedSpot";
 import ForumSearch from "./pages/forum/post-search/ForumSearch";
 import PostTagsPage from "./pages/forum/categories-and-tags/components/PostTagsPage";
 import PostCategoriesPage from "./pages/forum/categories-and-tags/components/PostCategoriesPage";
-import ForumLayout from "./pages/forum/ForumLayout";
 import ForumLayoutRoute from "./layout/forum/ForumLayoutRoute";
-import ForumHistory from "./pages/forum/ForumHistory";
 import ForumFollowed from "./pages/forum/ForumFollowed";
+import ForumGuidelines from "./pages/forum/components/ForumGuidelines";
 
 const router = createBrowserRouter([
     {
@@ -164,6 +163,10 @@ const router = createBrowserRouter([
                     {
                         path: "tags",
                         element: <PostTagsPage />,
+                    },
+                    {
+                        path: "guidelines",
+                        element: <ForumGuidelines />,
                     },
                     {
                         path: "followed",
