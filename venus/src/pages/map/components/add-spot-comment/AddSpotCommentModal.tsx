@@ -5,6 +5,7 @@ import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { addSpotCommentModalInfoActions } from "../../../../redux/add-spot-comment-modal-info";
 import { motion } from "framer-motion";
 import UploadButton from "../../../account/add-spot/components/UploadButton";
+import { notificationAction } from "../../../../redux/notification";
 
 const slideVariants = {
     hidden: { opacity: 0 },
@@ -27,6 +28,25 @@ export default function AddSpotCommentModal() {
 
     const handleFileSelect = (files: File[]) => {
         setMediaFiles(files);
+    };
+
+    const handleAddSpotComment = () => {
+        if (mediaFiles.length === 0) {
+            dispatch(
+                notificationAction.addError({
+                    message: "Please add at least one media.",
+                }),
+            );
+            return;
+        } else if (mediaFiles.length > 20) {
+            dispatch(
+                notificationAction.addError({
+                    message: "Maximum amount of media id 20.",
+                }),
+            );
+            return;
+        }
+        //TODO: validate
     };
 
     return (
@@ -76,7 +96,7 @@ export default function AddSpotCommentModal() {
                     >
                         Cancel
                     </button>
-                    <button className="bg-violetBrighter hover:bg-violetBright cursor-pointer rounded-xl px-3 py-1.5">
+                    <button onClick={handleAddSpotComment} className="bg-violetBrighter hover:bg-violetBright cursor-pointer rounded-xl px-3 py-1.5">
                         Publish
                     </button>
                 </div>
