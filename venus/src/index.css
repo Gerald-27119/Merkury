@@ -247,9 +247,17 @@ body {
 }
 
 .emoji-picker * {
-    @apply scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar scrollbar-w-1;
+    @apply dark:scrollbar-track-violetLightDarker hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar scrollbar-w-1;
 }
 
 .emoji-picker [data-emoji]:hover {
     @apply hover:bg-darbVioletBtnOutline active:bg-violetLighter bg-violetDarker border-none hover:cursor-pointer;
+}
+
+.scroll-grab::-webkit-scrollbar-thumb {
+    cursor: grab;
+}
+
+.scroll-grab::-webkit-scrollbar-thumb:active {
+    cursor: grabbing;
 }

@@ -10,7 +10,7 @@ import {
     useQueryClient,
 } from "@tanstack/react-query";
 import { getMessagesForChat } from "../../../../http/chats";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { chatActions, selectLastMessageForChat } from "../../../../redux/chats";
@@ -171,7 +171,7 @@ export default function ChatMessagingWindow({
     return (
         <div
             ref={containerRef}
-            className="scrollbar-track-violetDark scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin bg-violetDark/20 flex h-full flex-col-reverse overflow-y-scroll py-1"
+            className="dark:scrollbar-track-violetDark scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin dark:bg-violetDark/20 flex h-full flex-col-reverse overflow-y-scroll bg-gray-50 py-1"
         >
             {messages.map((message, idx) => {
                 const thisDate = new Date(message.sentAt).toDateString();
@@ -190,7 +190,7 @@ export default function ChatMessagingWindow({
                         {thisDate !== prevDate && (
                             <div className="my-2 flex w-full items-center">
                                 <hr className="flex-grow border-gray-500" />
-                                <span className="px-2 text-xs text-gray-300">
+                                <span className="px-2 text-xs dark:text-gray-300">
                                     {format(new Date(message.sentAt), "PPP")}
                                 </span>
                                 <hr className="flex-grow border-gray-500" />
@@ -209,7 +209,7 @@ export default function ChatMessagingWindow({
             <div ref={topSentinelRef} aria-hidden className="h-0 w-full" />
 
             {hasNextPage && isFetchingNextPage && (
-                <div className="py-2 text-center text-xs text-gray-400">
+                <div className="py-2 text-center text-xs dark:text-gray-400">
                     Loading older…
                 </div>
             )}

@@ -1,5 +1,50 @@
-%! Author = mateusz
-%! Date = 19/10/2025
+%! Author = Mateusz
+%! Date = 03/11/2025
 
 \subsection{Funkcjonalności dla motywu}
 \label{subsec:funkcjonalnosci-dla-motywu}
+
+\begin{requirementstab}[label={tab:requirements:func1},caption={Ustawienia motywu (ręczna zmiana)}]
+    \id{FOXX}
+    \priority{M}
+    \name{Ustawienia motywu}
+    \descr{Jako użytkownik chcę móc zmienić motyw aplikacji.}
+    \acceptcrit{Dostępna jest opcja przełączenia motywu na \emph{jasny} lub \emph{ciemny}; zmiana następuje bez przeładowania strony; ustawienie działa we wszystkich widokach.}
+    \inputdata{Preferencje użytkownika dotyczące motywu.}
+    \preconditions{Brak.}
+    \postconditions{Zmiana motywu widoczna jest natychmiast po kliknięciu przycisku.}
+    \exceptions{Brak.}
+    \implementation{Tailwind CSS z \texttt{darkMode:\ 'class'}; motyw przełączany przez dodanie/usunięcie klasy \texttt{dark} na elemencie \texttt{<html>};}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}, promotor~\ref{tab:stakeholder:promotor}, droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:func1},caption={Zapamiętanie preferencji motywu}]
+    \id{FOXX}
+    \priority{M}
+    \name{Zapamiętywanie preferencji motywu}
+    \descr{Jako użytkownik chcę, aby moja preferencja motywu była zapamiętana i przywracana przy kolejnym użyciu aplikacji.}
+    \acceptcrit{Wybrany motyw jest przywracany po ponownym włączeniu i odświeżeniu strony; preferencja jest zapamiętywana lokalnie w przeglądarce.}
+    \inputdata{Preferencje użytkownika zapisane lokalnie.}
+    \preconditions{FOXX dostępne.}
+    \postconditions{Motyw po uruchomieniu odpowiada ostatniej decyzji użytkownika.}
+    \exceptions{Brak dostępu do magazynu trwałego — preferencja przechowywana w local storage.}
+    \implementation{Zapis w \texttt{localStorage} pod kluczem \texttt{theme} (\texttt{dark} lub \texttt{light}); krótki skrypt umieszczony w \texttt{App.jsx} przed startem odczytuje \texttt{localStorage} i odpowiednio dodaje lub usuwa klasę \texttt{dark} na \texttt{<html>} (eliminuje mignięcie stylów).}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}, promotor~\ref{tab:stakeholder:promotor}, droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:func1},caption={Szybki przełącznik motywu w interfejsie}]
+    \id{FOXX}
+    \priority{S}
+    \name{Przełącznik motywu w \gls{sidebar}}
+    \descr{Jako użytkownik chcę szybko zmieniać motyw bez wchodzenia w ustawienia.}
+    \acceptcrit{W \gls{sidebar} dostępny jest przełącznik \emph{Jasny/Ciemny}; posiada odpowiednio ikony \emph{słońca/księżyca}; zmiana następuje natychmiast.}
+    \inputdata{Bieżąca preferencja motywu.}
+    \preconditions{FOXX, FOXX dostępne.}
+    \postconditions{Motyw zmieniony; preferencja zaktualizowana.}
+    \exceptions{Brak.}
+    \implementation{Przycisk typu \emph{toggle} wywołuje funkcję, która przełącza klasę \texttt{dark} na \texttt{document.documentElement} oraz aktualizuje \texttt{localStorage} (\texttt{theme = 'dark'|'light'}); brak przeładowania strony.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}, promotor~\ref{tab:stakeholder:promotor}, droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}

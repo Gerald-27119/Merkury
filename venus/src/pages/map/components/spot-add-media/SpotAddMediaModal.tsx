@@ -89,14 +89,14 @@ export default function SpotAddMediaModal() {
                 <div className="text-darkText mt-10 flex space-x-3 text-xl">
                     <button
                         onClick={handleCloseModal}
-                        className="hover:bg-darkBgMuted cursor-pointer rounded-xl px-2.5 py-1"
+                        className="hover:bg-darkBgMuted w-44 cursor-pointer rounded-xl px-2.5 py-1"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={handleSubmit}
                         disabled={isPending}
-                        className="hover:bg-darkBgMuted cursor-pointer rounded-xl px-2.5 py-1"
+                        className="hover:bg-darkBgMuted w-44 cursor-pointer rounded-xl px-2.5 py-1"
                     >
                         {isPending ? "Uploading…" : "Submit"}
                     </button>

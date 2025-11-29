@@ -1,5 +1,35 @@
-%! Author = mateusz
-%! Date = 19/10/2025
+%! Author = Mateusz
+%! Date = 03/11/2025
 
 \subsection{Funkcjonalności dla wyszukiwarki spotów}
 \label{subsec:funkcjonalnosci-dla-wyszukiwarki-spotow}
+
+\begin{requirementstab}[label={tab:requirements:spots-basic},caption={Strona główna — podstawowe filtry}]
+    \id{FOXX}
+    \priority{M}
+    \name{Strona główna z podstawowymi filtrami}
+    \descr{Jako użytkownik chcę mieć dostęp do strony głównej, która wyświetla karuzelę z najpopularniejszymi spotami oraz listę spotów, które można filtrować.}
+    \acceptcrit{Użytkownik widzi karuzelę najpopularniejszych miejsc. Karuzela zawiera zdjęcia, nazwę miejsca i miasto. Użytkownik może filtrować miejsca według lokalizacji (kraj, region, miasto).}
+    \inputdata{Lokalizacja użytkownika (kraj, region, miasto); dane z bazy spotów.}
+    \preconditions{Użytkownik nie musi być zalogowany.}
+    \postconditions{Użytkownik widzi popularne miejsca z wybranego miasta (np. Gdańsk) i może przejść do szczegółów danego miejsca.}
+    \exceptions{Brak wyników dla wybranych filtrów; błąd połączenia z API.}
+    \implementation{Frontend: React + Tailwind. Pobieranie danych przez \texttt{@tanstack/react-query} i \texttt{axios} (\texttt{GET} do backendu z parametrami lokalizacji). Filtry lokacji mapowane na parametry zapytania.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}, promotor~\ref{tab:stakeholder:promotor}, droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:spots-advanced},caption={Strona główna — zaawansowane filtry}]
+    \id{FOXX}
+    \priority{M}
+    \name{Strona główna z zaawansowanymi filtrami}
+    \descr{Jako użytkownik chcę mieć dostęp do strony głównej, która wyświetla listę spotów, które można filtrować i sortować.}
+    \acceptcrit{Użytkownik widzi listę, którą może filtrować według miasta, tagów i oceny spota, a także sortować po ocenie i popularności.}
+    \inputdata{Lokalizacja użytkownika (miasto), wartości filtrów i sortowania; dane z bazy spotów.}
+    \preconditions{Użytkownik nie musi być zalogowany.}
+    \postconditions{Użytkownik widzi wyniki zgodne z zastosowanymi filtrami i sortowaniem oraz może przejść do szczegółów danego miejsca.}
+    \exceptions{Brak wyników po zastosowaniu filtrów; błąd połączenia z API.}
+    \implementation{Frontend: React + Tailwind. Pobieranie danych przez \texttt{@tanstack/react-query} i \texttt{axios} z parametrami: lokalizacja, tagi, minimalna ocena oraz kryterium sortowania.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}, promotor~\ref{tab:stakeholder:promotor}, droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{SPXX}
+\end{requirementstab}

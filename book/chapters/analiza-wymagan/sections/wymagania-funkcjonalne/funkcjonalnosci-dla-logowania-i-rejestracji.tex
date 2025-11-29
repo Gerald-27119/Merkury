@@ -1,5 +1,20 @@
-%! Author = mateusz
-%! Date = 19/10/2025
+%! Author = Mateusz
+%! Date = 03/11/2025
 
 \subsection{Funkcjonalności dla logowania i rejestracji}
-\label{subsec:funkcjonalnosci-dla-logowania i rejestracji}
+\label{subsec:funkcjonalnosci-dla-logowania-i-rejestracji}
+
+\begin{requirementstab}[label={tab:requirements:func1},caption={Logowanie i rejestracja}]
+    \id{FOXX}
+    \priority{M}
+    \name{Logowanie i rejestracja}
+    \descr{Jako użytkownik chcę mieć możliwość zalogowania się do aplikacji, korzystając z formularza lub poprzez konto Google lub GitHub.}
+    \acceptcrit{Użytkownik może zalogować się do aplikacji zarówno za pomocą standardowego formularza, jak i przy użyciu konta w serwisie Google lub GitHub.}
+    \inputdata{Dane użytkownika: adres e-mail, hasło; przy rejestracji dodatkowo nazwa użytkownika.}
+    \preconditions{Użytkownik niezalogowany.}
+    \postconditions{Działające formularze rejestracji i logowania oraz możliwość logowania za pomocą konta Google i GitHub.}
+    \exceptions{Błędne dane logowania; przerwana lub nieudana autoryzacja u dostawcy (Google/GitHub).}
+    \implementation{Frontend: formularze w React; wysyłka żądań przez \texttt{axios} z \texttt{withCredentials}. SSO: integracja z Google i GitHub (OAuth~2.0) z przekierowaniem i ustawieniem sesji po stronie backendu (httpOnly cookie). Obsługa statusu \texttt{401} zgodnie z mechanizmem wylogowania.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}, promotor~\ref{tab:stakeholder:promotor}, droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}

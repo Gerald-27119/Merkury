@@ -1,5 +1,200 @@
-%! Author = mateusz
-%! Date = 19/10/2025
+%! Author = Mateusz
+%! Date = 01/11/2025
 
 \subsection{Funkcjonalności dla konta użytkownika}
 \label{subsec:funkcjonalnosci-dla-konta-uzytkownika}
+
+\begin{requirementstab}[label={tab:requirements:account-profile},caption={Profil użytkownika}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Profil użytkownika}
+    \descr{Jako użytkownik chcę mieć dostęp do strony profilu, aby sprawdzić informacje o swoim koncie.}
+    \acceptcrit{Użytkownik widzi liczby: znajomych, obserwowanych i obserwujących, a także najpopularniejsze zdjęcia.}
+    \inputdata{Lista zdjęć oraz liczby: znajomych, obserwujących i obserwowanych.}
+    \preconditions{Użytkownik jest zalogowany.}
+    \postconditions{Wyświetlone informacje o profilu.}
+    \exceptions{Błąd połączenia z API; brak danych profilu; brak uprawnień (401/403).}
+    \implementation{Frontend: React + Tailwind; pobieranie danych profilu przez \texttt{@tanstack/react-query} i \texttt{axios} z \texttt{withCredentials}. Prezentacja w widoku profilu.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}; promotor~\ref{tab:stakeholder:promotor}; droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:account-added-spots},caption={Lista dodanych spotów}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Lista dodanych spotów}
+    \descr{Jako użytkownik chcę sprawdzić listę spotów, które dodałem.}
+    \acceptcrit{Użytkownik widzi listę własnych dodanych spotów.}
+    \inputdata{Lista dodanych spotów.}
+    \preconditions{Użytkownik jest zalogowany.}
+    \postconditions{Wyświetlona lista dodanych spotów.}
+    \exceptions{Brak wyników; błąd połączenia z API.}
+    \implementation{Pobranie listy z backendu (endpoint listy własnych spotów) przez \texttt{react-query} + \texttt{axios}; prezentacja listy z podstawowymi danymi.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}; promotor~\ref{tab:stakeholder:promotor}; droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:account-add-spot},caption={Dodanie spota}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Dodanie spota}
+    \descr{Jako użytkownik chcę mieć dostęp do formularza dodania spota.}
+    \acceptcrit{Użytkownik ma dostęp do formularza dodania spota i może go wysłać.}
+    \inputdata{Formularz dodania spota.}
+    \preconditions{Użytkownik jest zalogowany.}
+    \postconditions{Wyświetlony formularz dodania spota (po wysłaniu: zapis na backendzie).}
+    \exceptions{Nieprawidłowe dane formularza; błąd połączenia z API.}
+    \implementation{Formularz w React; walidacja przeglądarkowa; wysyłka przez \texttt{axios} (POST) z \texttt{withCredentials}.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}; promotor~\ref{tab:stakeholder:promotor}; droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:account-photos},caption={Lista zdjęć}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Lista zdjęć}
+    \descr{Jako użytkownik chcę mieć dostęp do listy zdjęć, które dodałem na forum, do komentarzy pod spotem oraz do spota.}
+    \acceptcrit{Użytkownik widzi listę swoich zdjęć.}
+    \inputdata{Lista zdjęć.}
+    \preconditions{Użytkownik jest zalogowany.}
+    \postconditions{Wyświetlona lista zdjęć.}
+    \exceptions{Brak wyników; błąd połączenia z API.}
+    \implementation{Pobranie listy zdjęć użytkownika przez \texttt{react-query} + \texttt{axios}; prezentacja z miniaturami.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}; promotor~\ref{tab:stakeholder:promotor}; droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:account-videos},caption={Lista filmów}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Lista filmów}
+    \descr{Jako użytkownik chcę mieć dostęp do listy filmów, które dodałem na forum, do komentarzy pod spotem oraz do spota.}
+    \acceptcrit{Użytkownik widzi listę swoich filmów.}
+    \inputdata{Lista filmów.}
+    \preconditions{Użytkownik jest zalogowany.}
+    \postconditions{Wyświetlona lista filmów.}
+    \exceptions{Brak wyników; błąd połączenia z API.}
+    \implementation{Pobranie listy filmów użytkownika przez \texttt{react-query} + \texttt{axios}; prezentacja z miniaturami.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}; promotor~\ref{tab:stakeholder:promotor}; droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:account-friends},caption={Lista znajomych}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Lista znajomych}
+    \descr{Jako użytkownik chcę mieć dostęp do listy znajomych.}
+    \acceptcrit{Użytkownik ma dostęp do listy znajomych.}
+    \inputdata{Lista znajomych.}
+    \preconditions{Użytkownik jest zalogowany.}
+    \postconditions{Wyświetlona lista znajomych.}
+    \exceptions{Brak wyników; błąd połączenia z API.}
+    \implementation{Pobranie listy znajomych przez \texttt{react-query} + \texttt{axios}; standardowa prezentacja listy.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}; promotor~\ref{tab:stakeholder:promotor}; droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:account-followers},caption={Lista obserwujących}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Lista obserwujących}
+    \descr{Jako użytkownik chcę mieć dostęp do listy obserwujących.}
+    \acceptcrit{Użytkownik ma dostęp do listy obserwujących.}
+    \inputdata{Lista obserwujących.}
+    \preconditions{Użytkownik jest zalogowany.}
+    \postconditions{Wyświetlona lista obserwujących.}
+    \exceptions{Brak wyników; błąd połączenia z API.}
+    \implementation{Pobranie listy obserwujących przez \texttt{react-query} + \texttt{axios}; standardowa prezentacja listy.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}; promotor~\ref{tab:stakeholder:promotor}; droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:account-following},caption={Lista obserwowanych}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Lista obserwowanych}
+    \descr{Jako użytkownik chcę mieć dostęp do listy obserwowanych.}
+    \acceptcrit{Użytkownik ma dostęp do listy obserwowanych.}
+    \inputdata{Lista obserwowanych.}
+    \preconditions{Użytkownik jest zalogowany.}
+    \postconditions{Wyświetlona lista obserwowanych.}
+    \exceptions{Brak wyników; błąd połączenia z API.}
+    \implementation{Pobranie listy obserwowanych przez \texttt{react-query} + \texttt{axios}; standardowa prezentacja listy.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}; promotor~\ref{tab:stakeholder:promotor}; droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:account-spots-lists},caption={Lista polubionych/odwiedzonych/planowanych spotów}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Lista spotów}
+    \descr{Jako użytkownik chcę mieć dostęp do listy spotów, które polubiłem, odwiedziłem i planuję odwiedzić.}
+    \acceptcrit{Użytkownik ma dostęp do listy spotów w wymienionych kategoriach.}
+    \inputdata{Listy spotów: polubione, odwiedzone, planowane.}
+    \preconditions{Użytkownik jest zalogowany.}
+    \postconditions{Wyświetlone listy spotów.}
+    \exceptions{Brak wyników; błąd połączenia z API.}
+    \implementation{Pobranie list przez \texttt{react-query} + \texttt{axios}; prezentacja w zakładkach/kategoriach.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}; promotor~\ref{tab:stakeholder:promotor}; droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:account-comments},caption={Lista komentarzy}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Lista komentarzy}
+    \descr{Jako użytkownik chcę mieć dostęp do listy komentarzy.}
+    \acceptcrit{Użytkownik ma dostęp do listy swoich komentarzy.}
+    \inputdata{Lista komentarzy.}
+    \preconditions{Użytkownik jest zalogowany.}
+    \postconditions{Wyświetlona lista komentarzy.}
+    \exceptions{Brak wyników; błąd połączenia z API.}
+    \implementation{Pobranie listy komentarzy użytkownika przez \texttt{react-query} + \texttt{axios}; standardowa prezentacja listy.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}; promotor~\ref{tab:stakeholder:promotor}; droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:account-settings},caption={Ustawienia profilu}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Ustawienia}
+    \descr{Jako użytkownik chcę mieć możliwość zmiany danych.}
+    \acceptcrit{Użytkownik może edytować wybrane dane profilu i zapisać zmiany.}
+    \inputdata{Formularz edycji danych.}
+    \preconditions{Użytkownik jest zalogowany.}
+    \postconditions{Wyświetlony formularz edycji; po zapisie — zaktualizowane dane.}
+    \exceptions{Nieprawidłowe dane formularza; błąd połączenia z API.}
+    \implementation{Formularz w React; walidacja pól; wysyłka przez \texttt{axios} (PUT/PATCH) z \texttt{withCredentials}. Po sukcesie — komunikat i odświeżenie danych przez \texttt{react-query}.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}; promotor~\ref{tab:stakeholder:promotor}; droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:account-password-reset},caption={Resetowanie hasła}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Resetowanie hasła}
+    \descr{Jako użytkownik chcę mieć możliwość zresetowania hasła do swojego konta.}
+    \acceptcrit{Po kliknięciu w odpowiedni link użytkownik może zresetować hasło do konta.}
+    \inputdata{Adres e-mail użytkownika do wysłania linku resetującego.}
+    \preconditions{Użytkownik podał poprawny adres e-mail użyty przy rejestracji.}
+    \postconditions{Hasło zresetowane po przejściu całej procedury.}
+    \exceptions{Niepoprawny adres e-mail; wygasły lub nieprawidłowy token resetu; błąd połączenia z API.}
+    \implementation{Frontend: formularz „zapomniałem hasła” (POST do endpointu wysyłającego link resetu) oraz formularz ustawienia nowego hasła (POST/PATCH z tokenem). Wysyłka przez \texttt{axios}; obsługa komunikatów o powodzeniu/błędach.}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}; promotor~\ref{tab:stakeholder:promotor}; droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
+
+\begin{requirementstab}[label={tab:requirements:account-add-friends},caption={Dodawanie do znajomych}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{M}
+    \name{Dodawanie użytkowników do listy znajomych}
+    \descr{Jako użytkownik chcę mieć możliwość dodawania innych użytkowników do listy znajomych.}
+    \acceptcrit{Użytkownik może dodać innego użytkownika do swojej listy znajomych.}
+    \inputdata{Dane użytkownika, którego chcemy dodać do znajomych.}
+    \preconditions{Użytkownik jest zalogowany.}
+    \postconditions{Znajomy dodany do listy i widoczny w profilu użytkownika.}
+    \exceptions{Brak uprawnień; użytkownik już jest znajomym; błąd połączenia z API.}
+    \implementation{Akcja wysłania zaproszenia do znajomych przez \texttt{axios}; po akceptacji — aktualizacja listy (odświeżenie \texttt{react-query}).}
+    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}; promotor~\ref{tab:stakeholder:promotor}; droniarze~\ref{tab:stakeholder:droniarze}.}
+    \reqrelated{}
+\end{requirementstab}
