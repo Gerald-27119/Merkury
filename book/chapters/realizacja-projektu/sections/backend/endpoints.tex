@@ -4,30 +4,57 @@
 \subsection{Endpointy systemu}
 \label{subsec:endpointy-systemu}
 
-\newcounter{endpoint}[chapter]
-\renewcommand{\theendpoint}{\thechapter.\arabic{endpoint}}
+%\newcounter{endpoint}[chapter]
+%\renewcommand{\theendpoint}{\thechapter.\arabic{endpoint}}
 
-% --- Pola karty endpointu ---
-\newcommand{\epid}[1]{\textbf{Identyfikator:} & #1 \\ \hline}
-\newcommand{\epname}[1]{\textbf{Nazwa endpointu:} & #1 \\ \hline}
-\newcommand{\epurl}[1]{\textbf{Metoda / URL:} & #1 \\ \hline}
-\newcommand{\epmodel}[1]{\textbf{Response Model:} & #1 \\ \hline}
-\newcommand{\epstatus}[1]{\textbf{HTTP Status:} & #1 \\ \hline}
-\newcommand{\epexample}[1]{%
-    \textbf{Przykład odpowiedzi:} &
-    \begin{lstlisting}[basicstyle=\ttfamily\small, frame=single]
-    #1
-    \end{lstlisting} \\ \hline
+% --- Pola endpointu (lewa kolumna) ---
+\newcommand{\epid}[1]{\textbf{ID endpointu:} & #1 \\ \hline}
+\newcommand{\epurl}[1]{\textbf{URL:} & #1 \\ \hline}
+\newcommand{\epname}[1]{\textbf{Nazwa:} & #1 \\ \hline}
+\newcommand{\epinput}[1]{\textbf{Co przyjmuje:} & #1 \\ \hline}
+\newcommand{\epquery}[1]{\textbf{Query params:} & #1 \\ \hline}
+\newcommand{\epresponse}[1]{\textbf{Response codes:} & #1 \\ \hline}
+\newcommand{\epoutput}[1]{\textbf{Co zwraca:} & #1 \\ \hline}
+
+% --- Endpoint card ---
+% --- Endpoint card z output ---
+\newcommand{\cardendpoint}[7]{%
+    \par\begin{center}
+    \renewcommand{\arraystretch}{1.15}%
+    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.2\textwidth}|X|}
+    \rowcolor{lightgray}
+    \multicolumn{2}{|c|}{\textbf{ENDPOINT API}} \\ \hline
+    \epid{#1}
+    \epurl{#2}
+    \epname{#3}
+    \epinput{#4}
+    \epquery{#5}
+    \epresponse{#6}
+    \epoutput{#7}
+    \end{tabularx}
+    \end{center}%
 }
 
-\begin{tabular}{|p{4cm}|p{10cm}|}
-    \hline
-    \epid{1}
-    \epname{Pobierz uzytkownika}
-    \epurl{GET /api/users/{id}}
-    \epmodel{UserResponse}
-    \epstatus{200 OK}
-\end{tabular}
+
+\cardendpoint
+{EP02} % ID
+{/user-dashboard/profile} % URL
+{Pobierz własny profil użytkownika} % Nazwa
+{Brak} % Co przyjmuje
+{Brak} % Query params
+{200 OK, 404 Not Found, 401 Unauthorized} % Response codes
+{%
+    \begin{itemize}[leftmargin=*]
+        \item \textbf{username}: String
+        \item \textbf{profilePhoto}: String (URL)
+        \item \textbf{followersCount}: Integer
+        \item \textbf{followedCount}: Integer
+        \item \textbf{friendsCount}: Integer
+        \item \textbf{photosCount}: Integer
+        \item \textbf{mostPopularPhotos}: List<ImageDto>
+    \end{itemize}
+}
+
 
 
 %\noindent\textbf{Panel użytkownika}
