@@ -1,8 +1,33 @@
 %! Author = Mateusz
 %! Date = 26/11/2025
-%
+
 \subsection{Endpointy systemu}
 \label{subsec:endpointy-systemu}
+
+\newcounter{endpoint}[chapter]
+\renewcommand{\theendpoint}{\thechapter.\arabic{endpoint}}
+
+% --- Pola karty endpointu ---
+\newcommand{\epid}[1]{\textbf{Identyfikator:} & #1 \\ \hline}
+\newcommand{\epname}[1]{\textbf{Nazwa endpointu:} & #1 \\ \hline}
+\newcommand{\epurl}[1]{\textbf{Metoda / URL:} & #1 \\ \hline}
+\newcommand{\epmodel}[1]{\textbf{Response Model:} & #1 \\ \hline}
+\newcommand{\epstatus}[1]{\textbf{HTTP Status:} & #1 \\ \hline}
+\newcommand{\epexample}[1]{%
+    \textbf{Przykład odpowiedzi:} &
+    \begin{lstlisting}[basicstyle=\ttfamily\small, frame=single]
+    #1
+    \end{lstlisting} \\ \hline
+}
+
+\begin{tabular}{|p{4cm}|p{10cm}|}
+    \hline
+    \epid{1}
+    \epname{Pobierz uzytkownika}
+    \epurl{GET /api/users/{id}}
+    \epmodel{UserResponse}
+    \epstatus{200 OK}
+\end{tabular}
 
 
 %\noindent\textbf{Panel użytkownika}
