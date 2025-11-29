@@ -4,6 +4,7 @@ import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
+import com.merkury.vulcanus.exception.exceptions.SpotMediaNumberOfMediaExceeded;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
@@ -65,23 +66,24 @@ public class SpotCommentService {
         return spotCommentMediaRepository.findBySpotCommentIdAndSpotCommentSpotId(spotId, commentId).stream().map(SpotCommentMediaMapper::toDto).toList();
     }
 
-    public void addComment(SpotCommentAddDto dto, Long spotId, List<MultipartFile> mediaFiles) throws SpotNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, UserNotFoundException {
+    public void addComment(SpotCommentAddDto dto, Long spotId, List<MultipartFile> mediaFiles) throws SpotNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, UserNotFoundException, SpotMediaNumberOfMediaExceeded {
         var user = customUserDetailsService.loadUserDetailsFromSecurityContext();
         var spot = spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
-        //TODO: check if media size is max 20
+        if (mediaFiles.size() > 20) {
+            throw new SpotMediaNumberOfMediaExceeded();
+        }
         var author = userEntityRepository.findByUsername(user.getUsername())
                 .orElseThrow(() -> new UserNotFoundException(String.format("User with %s not found", user.getUsername())));
-        List<SpotCommentMedia> mediaEntities = new ArrayList<>();
-        if (mediaFiles != null) {
-            for (MultipartFile file : mediaFiles) {
-                String blobUrl = azureBlobService.upload("mapa", file, AzureBlobFileValidatorType.DEFAULT);
 
-                SpotCommentMedia spotCommentMedia = SpotCommentMedia.builder()
-                        .url(blobUrl)
-                        .genericMediaType(getMediaType(file))
-                        .build();
-                mediaEntities.add(spotCommentMedia);
-            }
+        List<SpotCommentMedia> mediaEntities = new ArrayList<>();
+        for (MultipartFile file : mediaFiles) {
+            String blobUrl = azureBlobService.upload("mapa", file, AzureBlobFileValidatorType.DEFAULT);
+
+            SpotCommentMedia spotCommentMedia = SpotCommentMedia.builder()
+                    .url(blobUrl)
+                    .genericMediaType(getMediaType(file))
+                    .build();
+            mediaEntities.add(spotCommentMedia);
         }
 
         var spotCommentEntity = SpotCommentMapper.toEntity(dto, spot, author);
