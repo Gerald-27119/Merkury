@@ -39,6 +39,7 @@
     --color-violetHeavyDark: #1e1b23;
     --color-violetBtnBorderDark: #625b6e;
     --color-violetBright: #835ace;
+    --color-violetBrighter: #7353A7;
     --color-darbVioletBtnOutline: #816ba6;
     --color-mediumDarkBlue: #424b77;
     --color-first: #2c3e50;
@@ -123,14 +124,14 @@ body {
 }
 
 .custom-rate-spot-comment
-    .ant-rate-star:not(.ant-rate-star-full)
-    .ant-rate-star-second {
+.ant-rate-star:not(.ant-rate-star-full)
+.ant-rate-star-second {
     color: #ffffff;
 }
 
 .custom-rate-searched-spot
-    .ant-rate-star:not(.ant-rate-star-full)
-    .ant-rate-star-second {
+.ant-rate-star:not(.ant-rate-star-full)
+.ant-rate-star-second {
     color: #ffffff;
 }
 
@@ -139,8 +140,8 @@ body {
 }
 
 .custom-rate-searched-spot
-    .ant-rate-star:not(.ant-rate-star-full)
-    .ant-rate-star-second {
+.ant-rate-star:not(.ant-rate-star-full)
+.ant-rate-star-second {
     color: #ffffff;
 }
 

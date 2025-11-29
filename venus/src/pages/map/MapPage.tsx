@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import { spotDetailsModalAction } from "../../redux/spot-modal";
 import SpotAddMediaModal from "./components/spot-add-media/SpotAddMediaModal";
 import { spotWeatherActions } from "../../redux/spot-weather";
+import AddSpotCommentModal from "./components/add-spot-comment/AddSpotCommentModal";
 
 type Position = {
     longitude: number;
@@ -100,6 +101,10 @@ export default function MapPage() {
         (state) => state.spotAddMediaModal,
     );
 
+    const { showAddSpotCommentModal } = useSelectorTyped(
+        (state) => state.addSpotCommentModal,
+    );
+
     return (
         <Map
             initialViewState={{
@@ -138,6 +143,9 @@ export default function MapPage() {
                 )}
                 {isLogged && showAddMediaModal && (
                     <SpotAddMediaModal key="spot-add-media-modal" />
+                )}
+                {isLogged && showAddSpotCommentModal && (
+                    <AddSpotCommentModal key="add=spot-comment-modal" />
                 )}
             </AnimatePresence>
             <div className="absolute right-1 bottom-1 flex flex-col items-center space-y-2 sm:right-2 sm:bottom-2 xl:right-5 xl:bottom-5">

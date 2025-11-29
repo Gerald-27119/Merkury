@@ -1,6 +1,8 @@
 import { FaPlus } from "react-icons/fa6";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { addSpotCommentModalInfoActions } from "../../../../redux/add-spot-comment-modal-info";
+import useSelectorTyped from "../../../../hooks/useSelectorTyped";
+import { notificationAction } from "../../../../redux/notification";
 
 type SpotCommentHeaderProps = {
     spotName: string;
@@ -10,11 +12,22 @@ export default function SpotCommentHeader({
     spotName,
 }: SpotCommentHeaderProps) {
     const dispatch = useDispatchTyped();
+    const { isLogged } = useSelectorTyped((state) => state.account);
 
     const handleClickAddComment = () => {
-        dispatch(
-            addSpotCommentModalInfoActions.openAddSpotCommentModal(spotName),
-        );
+        if (isLogged) {
+            dispatch(
+                addSpotCommentModalInfoActions.openAddSpotCommentModal(
+                    spotName,
+                ),
+            );
+        } else {
+            dispatch(
+                notificationAction.addInfo({
+                    message: "Please sign in to add comment.",
+                }),
+            );
+        }
     };
 
     return (
