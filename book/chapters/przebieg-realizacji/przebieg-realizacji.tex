@@ -62,7 +62,7 @@ w rozdziale wstępnym.
 W czerwcu 2024 roku wykonano następujące działania przygotowawcze:
 
 \begin{zadaniaosoby}{Adam Langmesser}
-    \item Utworzenie repozytorium w serwisie \texttt{GitHub}
+    \item Utworzenie repozytorium w serwisie \gls{github}
     i skonfigurowanie podstawowych reguł pracy z repozytorium.
     \item Przygotowanie pierwszego potoku \gls{cicd} dla backendu –
     automatyczne budowanie projektu i uruchamianie testów jednostkowych
@@ -70,7 +70,7 @@ W czerwcu 2024 roku wykonano następujące działania przygotowawcze:
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
-    \item Konfiguracja narzędzia \texttt{Jira}:
+    \item Konfiguracja narzędzia \gls{jira}:
     zapoznanie się z typowym podziałem na epiki, taski i podtaski,
     zdefiniowanie statusów przepływu pracy oraz utworzenie
     \gls{tablica_kanban}.
@@ -78,8 +78,8 @@ W czerwcu 2024 roku wykonano następujące działania przygotowawcze:
 
 \begin{zadaniaosoby}{Cały zespół}
     \item Przygotowanie szkieletu projektu backendu w technologii
-    Spring Boot – utworzono podstawowe pakiety, konfigurację aplikacji
-    oraz minimalną strukturę modułów.
+    \gls{spring-boot} – utworzono podstawowe pakiety,
+    konfigurację aplikacji oraz minimalną strukturę modułów.
 \end{zadaniaosoby}
 
 \subsection*{Lipiec 2024}
@@ -108,18 +108,18 @@ W sierpniu 2024 roku zespół skupił się na zagadnieniach bezpieczeństwa
 oraz na dopracowaniu pierwszych ekranów aplikacji:
 
 \begin{zadaniaosoby}{Adam Langmesser}
-    \item Dodanie Spring Security i implementacja logiki
+    \item Dodanie \gls{spring-security} i implementacja logiki
     uwierzytelniania oraz autoryzacji użytkownika po stronie backendu.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Konfiguracja biblioteki Tailwind \gls{css} na froncie,
+    \item Konfiguracja biblioteki \gls{tailwind-css} na froncie,
     umożliwiająca spójne i responsywne stylowanie komponentów.
-    \item Konfiguracja narzędzia \texttt{Prettier}
+    \item Konfiguracja narzędzia \gls{prettier}
     do automatycznego formatowania kodu frontendu.
     \item Stworzenie formularza rejestracji użytkownika
     wraz z podstawową walidacją po stronie frontendu.
-    \item Dodanie i konfiguracja biblioteki TanStack Query
+    \item Dodanie i konfiguracja biblioteki \gls{tanstack-query}
     do obsługi komunikacji z backendem i cachowania danych.
 \end{zadaniaosoby}
 
@@ -140,7 +140,7 @@ i przygotowaniem środowiska uruchomieniowego:
 
 \begin{zadaniaosoby}{Adam Langmesser}
     \item Zastąpienie bazy danych działającej w pamięci (in-memory)
-    instancją uruchamianą w kontenerze \texttt{Docker},
+    instancją uruchamianą w kontenerze \gls{docker},
     co urealniło środowisko deweloperskie i testowe.
     \item Dostosowanie potoku \gls{cicd} backendu tak,
     aby uwzględniał uruchamianie bazy danych w kontenerze
@@ -174,11 +174,11 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
 \subsection*{Październik 2024}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Poprawa konfiguracji CORS na backendzie, tak aby aplikacja
+    \item Poprawa konfiguracji \gls{cors} na backendzie, tak aby aplikacja
     frontendowa mogła komunikować się z serwerem w sposób bezpieczny
     i zgodny z przeglądarkowymi ograniczeniami.
     \item Zmiana sposobu przechowywania tokena \gls{jwt} – umieszczenie go
-    w ciasteczku \texttt{HttpOnly}, co poprawiło bezpieczeństwo
+    w ciasteczku \gls{http-only-cookie}, co poprawiło bezpieczeństwo
     aplikacji.
 \end{zadaniaosoby}
 
@@ -200,18 +200,18 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
 
 \begin{zadaniaosoby}{Adam Langmesser}
     \item Implementacja demonstracyjnej mapy z wykorzystaniem
-    biblioteki Leaflet – prototyp miał na celu pokazanie zespołowi
+    biblioteki \gls{leaflet} – prototyp miał na celu pokazanie zespołowi
     możliwości interaktywnej mapy.
     Ze względu na ograniczone możliwości customizacji wyglądu
     biblioteki zdecydowano się później na zmianę dostawcy
     kafelków mapowych na usługę
     TODO: uzupełnić nazwę docelowej usługi mapowej.
-    \item Poprawki konfiguracji narzędzia \texttt{ESLint}
+    \item Poprawki konfiguracji narzędzia \gls{eslint}
     po stronie frontendu.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Dalsze poprawki obsługi JWT na backendzie oraz logowania
+    \item Dalsze poprawki obsługi \gls{jwt} na backendzie oraz logowania
     błędów związanych z procesem logowania i rejestracji.
 \end{zadaniaosoby}
 
@@ -239,7 +239,7 @@ TODO: odwołanie do rozdziału z analizą wymagań.
 \subsection*{Grudzień 2024}
 
 \begin{zadaniaosoby}{Adam Langmesser}
-    \item Dalsze poprawki konfiguracji Spring Security na backendzie,
+    \item Dalsze poprawki konfiguracji \gls{spring-security} na backendzie,
     w tym doprecyzowanie ról i uprawnień.
     \item Rozszerzenie encji użytkownika o dane deweloperskie
     oraz przygotowanie inicjalnych danych w bazie
@@ -253,7 +253,7 @@ TODO: odwołanie do rozdziału z analizą wymagań.
     \item Dodanie biblioteki \gls{redux} do frontendu i wstępna
     konfiguracja store.
     \item Implementacja automatycznego wylogowywania użytkownika
-    po wygaśnięciu tokena JWT.
+    po wygaśnięciu tokena \gls{jwt}.
     \item Stworzenie komponentu odpowiedzialnego za prezentację błędów
     systemowych użytkownikowi (globalny mechanizm powiadomień).
 \end{zadaniaosoby}
@@ -280,7 +280,7 @@ TODO: odwołanie do rozdziału z analizą wymagań.
 \begin{zadaniaosoby}{Mateusz Redosz}
     \item Rozszerzenie stanu \gls{redux} o informację o tym,
     czy użytkownik jest aktualnie zalogowany.
-    \item Implementacja testów E2E dla procesów logowania
+    \item Implementacja testów \gls{e2e-tests} dla procesów logowania
     i rejestracji użytkownika.
     \item Dodanie uruchamiania testów frontendu do potoku \gls{cicd}.
     \item Poprawa sposobu wyświetlania szczegółów spota na froncie.
@@ -333,7 +333,7 @@ z założeniami funkcjonalnymi.
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
     \item Implementacja logiki dodawania spota do ulubionych
     po stronie frontendu oraz integracja z backendem.
-    \item Implementacja integracji z zewnętrznym API pogodowym
+    \item Implementacja integracji z zewnętrznym \gls{api} pogodowym
     służącym do pobierania podstawowych danych pogodowych
     dla danego spota.
 \end{zadaniaosoby}
@@ -394,8 +394,9 @@ uporządkowaniu struktury dokumentacji pracy inżynierskiej.
     wyszukiwania spotów na backendzie oraz dostosowanie komponentów
     stron głównych i list wyników wyszukiwania do pracy
     w trybie nieskończonego przewijania (\gls{infinite-scroll})
-    z mechanizmem \textit{„load more”}, z wykorzystaniem obserwatora
-    przecięcia oraz przekazywaniem referencji i stanów ładowania.
+    z mechanizmem \textit{„load more”}, z wykorzystaniem tzw.
+    obserwatora przecięcia (\gls{intersection-observer}) oraz
+    przekazywaniem referencji i stanów ładowania.
     \item Dodanie walidacji formularza dodawania spota
     w oparciu o schemat walidacyjny, w tym sprawdzanie kompletności
     danych, wymaganego zestawu multimediów oraz punktów poligonu,
@@ -404,17 +405,17 @@ uporządkowaniu struktury dokumentacji pracy inżynierskiej.
     \item Rozszerzenie komponentu przesyłania multimediów o podgląd
     wybranych obrazów i materiałów wideo oraz poprawę zarządzania
     cyklem życia adresów URL podglądu; jednocześnie podniesiono
-    priorytet wyświetlania listy powiadomień (warstwa \textit{z-index}),
+    priorytet wyświetlania listy powiadomień (warstwa \gls{z-index}),
     aby były lepiej widoczne.
     \item Wprowadzenie pełnej obsługi zmiany zdjęcia profilowego
     użytkownika, obejmującej wysyłanie plików do backendu, usuwanie
     poprzednich zdjęć z magazynu obiektowego oraz aktualizację adresu
     zdjęcia w profilu użytkownika.
-    \item Refaktoryzacja struktury projektu \LaTeX: zastąpienie
-    dotychczasowej treści demonstracyjnej rzeczywistymi rozdziałami
-    opisującymi projekt \textit{„spoty-na-drony.pl”}, aktualizacja
-    metadanych (tytuł, autorzy, promotor, cele projektu) oraz dodanie
-    osobnych plików rozdziałów dla głównych części pracy
+    \item Refaktoryzacja struktury projektu \LaTeX{} (\gls{latex}):
+    zastąpienie dotychczasowej treści demonstracyjnej rzeczywistymi
+    rozdziałami opisującymi projekt \textit{„spoty-na-drony.pl”},
+    aktualizacja metadanych (tytuł, autorzy, promotor, cele projektu)
+    oraz dodanie osobnych plików rozdziałów dla głównych części pracy
     (wstęp, opis problemu, kontekst projektu, analiza wymagań,
     decyzje projektowe, projekt, planowanie, implementacja, testowanie,
     prezentacja systemu, podsumowanie) i włączenie ich do pliku głównego.
@@ -427,12 +428,13 @@ uporządkowaniu struktury dokumentacji pracy inżynierskiej.
 
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
     \item Implementacja kompletnej funkcjonalności pogody dla spotów:
-    dodanie podstawowego i szczegółowego modalu pogodowego oraz
-    zestawu komponentów interfejsu prezentujących m.in. temperaturę,
-    prędkość wiatru, opady oraz dodatkowe parametry meteorologiczne.
+    dodanie podstawowego i szczegółowego modalu pogodowego
+    (\gls{modal}) oraz zestawu komponentów interfejsu prezentujących
+    m.in. temperaturę, prędkość wiatru, opady oraz dodatkowe
+    parametry meteorologiczne.
     \item Przebudowa obsługi pogody tak, aby zamiast bezpośrednich
     wywołań publicznego API wykorzystywany był backend jako warstwa
-    pośrednia, z wprowadzeniem dedykowanych struktur DTO oraz
+    pośrednia, z wprowadzeniem dedykowanych struktur \gls{dto} oraz
     dostosowaniem komponentów prezentujących dane pogodowe
     do nowego modelu danych i wymagań responsywności.
 \end{zadaniaosoby}
@@ -488,7 +490,7 @@ opiekunem był promotor pracy, mgr inż. Adam Urbanowicz.
     o możliwość podglądu wielu plików, nadawania im unikalnych
     identyfikatorów oraz usuwania pojedynczych plików przed wysłaniem.
     \item Przebudowa struktury rozdziału \textit{Implementacja}:
-    wydzielenie osobnych sekcji dla backendu, frontendu i CI/CD,
+    wydzielenie osobnych sekcji dla backendu, frontendu i \gls{cicd},
     uzupełnienie dokumentacji backendu o listę endpointów z przykładami
     odpowiedzi oraz przygotowanie miejsc na opis implementacji
     pozostałych części.
@@ -525,7 +527,7 @@ opiekunem był promotor pracy, mgr inż. Adam Urbanowicz.
     z wykorzystaniem mechanizmów stronicowania i sortowania postów
     po stronie klienta i serwera.
     \item Zastąpienie klasycznych wskaźników ładowania (spinnerów)
-    loaderami typu „skeleton” dla listy postów oraz paneli
+    loaderami typu \gls{skeleton-loader} dla listy postów oraz paneli
     kategorii i tagów, co poprawiło odbiór interfejsu w trakcie
     ładowania danych.
 \end{zadaniaosoby}
