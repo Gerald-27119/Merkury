@@ -1,4 +1,3 @@
-
 %! Author = Adam
 %! Date = 10/01/2025
 
@@ -8,16 +7,16 @@
 W niniejszym rozdziale przedstawiono rzeczywisty przebieg realizacji
 projektu w kolejnych fazach czasowych.
 Opis odzwierciedla sposób pracy zespołu zgodny z metodyką
-Disciplined Agile Delivery (DAD) w wariancie Lean Life Cycle,
-w której prace deweloperskie, planowanie i doprecyzowywanie wymagań
-przebiegają iteracyjnie i równolegle.
+\gls{DAD_LLC}, w której prace deweloperskie, planowanie
+i doprecyzowywanie wymagań przebiegają iteracyjnie i równolegle.
 TODO: odwołanie do rozdziału opisującego metodykę pracy
 oraz do odpowiednich pozycji w bibliografii.
 
 Warto podkreślić, że przez cały czas trwania projektu członkowie zespołu
-poświęcali znaczącą część czasu na wzajemne przeglądy kodu oraz
-ciągły feedback dotyczący implementacji poszczególnych funkcjonalności
-(zarówno w obrębie backendu, jak i frontendu).
+poświęcali znaczącą część czasu na wzajemne przeglądy kodu
+(\gls{review-kodu}) oraz ciągły feedback dotyczący implementacji
+poszczególnych funkcjonalności (zarówno w obrębie backendu,
+jak i frontendu).
 Taki sposób pracy pozwolił na szybkie wychwytywanie błędów,
 ujednolicenie stylu implementacji oraz bieżące korygowanie
 wymagań funkcjonalnych.
@@ -65,7 +64,7 @@ W czerwcu 2024 roku wykonano następujące działania przygotowawcze:
 \begin{zadaniaosoby}{Adam Langmesser}
     \item Utworzenie repozytorium w serwisie \texttt{GitHub}
     i skonfigurowanie podstawowych reguł pracy z repozytorium.
-    \item Przygotowanie pierwszego potoku CI/CD dla backendu –
+    \item Przygotowanie pierwszego potoku \gls{cicd} dla backendu –
     automatyczne budowanie projektu i uruchamianie testów jednostkowych
     na serwerze ciągłej integracji.
 \end{zadaniaosoby}
@@ -73,8 +72,8 @@ W czerwcu 2024 roku wykonano następujące działania przygotowawcze:
 \begin{zadaniaosoby}{Kacper Badek}
     \item Konfiguracja narzędzia \texttt{Jira}:
     zapoznanie się z typowym podziałem na epiki, taski i podtaski,
-    zdefiniowanie statusów przepływu pracy oraz utworzenie tablicy
-    w stylu Kanban.
+    zdefiniowanie statusów przepływu pracy oraz utworzenie
+    \gls{tablica_kanban}.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Cały zespół}
@@ -89,18 +88,18 @@ W lipcu 2024 roku skupiono się na warstwie frontendowej
 i pierwszych funkcjonalnościach związanych z kontami użytkowników:
 
 \begin{zadaniaosoby}{Adam Langmesser}
-    \item Rozpoczęcie prac nad potokiem CI/CD dla frontendu,
+    \item Rozpoczęcie prac nad potokiem \gls{cicd} dla frontendu,
     którego konfigurację finalnie ukończono we wrześniu 2024 roku.
     \item Implementacja podstawowej logiki logowania
     i rejestracji użytkownika zarówno po stronie backendu
-    (endpointy REST/GraphQL), jak i frontendu
+    (endpointy \gls{rest_api}), jak i frontendu
     (formularze oraz obsługa żądań).
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Cały zespół}
     \item Przygotowanie szkieletu aplikacji frontendowej
-    (React + TypeScript) wraz z podstawową strukturą komponentów
-    i konfiguracją narzędzi budujących.
+    (\gls{react} + \gls{type-script}) wraz z podstawową strukturą
+    komponentów i konfiguracją narzędzi budujących.
 \end{zadaniaosoby}
 
 \subsection*{Sierpień 2024}
@@ -114,7 +113,7 @@ oraz na dopracowaniu pierwszych ekranów aplikacji:
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Konfiguracja biblioteki Tailwind CSS na froncie,
+    \item Konfiguracja biblioteki Tailwind \gls{css} na froncie,
     umożliwiająca spójne i responsywne stylowanie komponentów.
     \item Konfiguracja narzędzia \texttt{Prettier}
     do automatycznego formatowania kodu frontendu.
@@ -143,10 +142,10 @@ i przygotowaniem środowiska uruchomieniowego:
     \item Zastąpienie bazy danych działającej w pamięci (in-memory)
     instancją uruchamianą w kontenerze \texttt{Docker},
     co urealniło środowisko deweloperskie i testowe.
-    \item Dostosowanie potoku CI/CD backendu tak,
+    \item Dostosowanie potoku \gls{cicd} backendu tak,
     aby uwzględniał uruchamianie bazy danych w kontenerze
     podczas wykonywania testów.
-    \item Dokończenie konfiguracji potoku CI/CD dla frontendu.
+    \item Dokończenie konfiguracji potoku \gls{cicd} dla frontendu.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
@@ -157,8 +156,8 @@ i przygotowaniem środowiska uruchomieniowego:
 
 \begin{zadaniaosoby}{Zespół frontendowy}
     \item Implementacja przycisków na stronie logowania,
-    umożliwiających logowanie i rejestrację z wykorzystaniem OAuth
-    (GitHub i Google) po stronie frontendu.
+    umożliwiających logowanie i rejestrację z wykorzystaniem
+    \gls{oauth} (GitHub i Google) po stronie frontendu.
     TODO: doprecyzować osobę odpowiedzialną za implementację.
 \end{zadaniaosoby}
 
@@ -178,14 +177,14 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
     \item Poprawa konfiguracji CORS na backendzie, tak aby aplikacja
     frontendowa mogła komunikować się z serwerem w sposób bezpieczny
     i zgodny z przeglądarkowymi ograniczeniami.
-    \item Zmiana sposobu przechowywania tokena JWT – umieszczenie go
+    \item Zmiana sposobu przechowywania tokena \gls{jwt} – umieszczenie go
     w ciasteczku \texttt{HttpOnly}, co poprawiło bezpieczeństwo
     aplikacji.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Implementacja logowania OAuth z wykorzystaniem Google i GitHub
-    po stronie backendu oraz integracja z frontem.
+    \item Implementacja logowania \gls{oauth} z wykorzystaniem Google
+    i GitHub po stronie backendu oraz integracja z frontem.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
@@ -251,7 +250,7 @@ TODO: odwołanie do rozdziału z analizą wymagań.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Dodanie biblioteki Redux do frontendu i wstępna
+    \item Dodanie biblioteki \gls{redux} do frontendu i wstępna
     konfiguracja store.
     \item Implementacja automatycznego wylogowywania użytkownika
     po wygaśnięciu tokena JWT.
@@ -279,16 +278,16 @@ TODO: odwołanie do rozdziału z analizą wymagań.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Rozszerzenie stanu Redux o informację o tym,
+    \item Rozszerzenie stanu \gls{redux} o informację o tym,
     czy użytkownik jest aktualnie zalogowany.
     \item Implementacja testów E2E dla procesów logowania
     i rejestracji użytkownika.
-    \item Dodanie uruchamiania testów frontendu do potoku CI/CD.
+    \item Dodanie uruchamiania testów frontendu do potoku \gls{cicd}.
     \item Poprawa sposobu wyświetlania szczegółów spota na froncie.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Poprawki logowania i rejestracji z wykorzystaniem OAuth
+    \item Poprawki logowania i rejestracji z wykorzystaniem \gls{oauth}
     (Google/GitHub) – dopracowanie scenariuszy brzegowych.
     \item Implementacja logiki filtrowania spotów na mapie
     po różnych kryteriach (np. nazwa) po stronie backendu.
@@ -326,7 +325,7 @@ z założeniami funkcjonalnymi.
     \item Poprawa wyglądu strony logowania, w tym dopracowanie stylistyki
     komponentów oraz zachowania w trybie ciemnym i jasnym.
     \item Poprawa logiki wylogowywania użytkownika na froncie
-    (m.in. czyszczenie stanu Redux, przekierowania).
+    (m.in. czyszczenie stanu \gls{redux}, przekierowania).
     \item Poprawa logiki dodawania komentarzy do spotów na mapie
     po stronie frontendu.
 \end{zadaniaosoby}
@@ -369,8 +368,74 @@ TODO: do uzupełnienia – opis prac wykonanych w sierpniu 2025 roku.
 
 \subsection*{Wrzesień 2025}
 
-TODO: do uzupełnienia – opis prac wykonanych we wrześniu 2025 roku
-oraz podsumowanie Etapu 2.
+We wrześniu 2025 roku skoncentrowano się na dalszym rozwijaniu
+funkcjonalności wyszukiwania spotów, modułu pogody, systemu
+powiadomień, części społecznościowej oraz czatu, a także na
+uporządkowaniu struktury dokumentacji pracy inżynierskiej.
+
+\begin{zadaniaosoby}{Adam Langmesser}
+    \item Wprowadzenie możliwości rozpoczynania lub kontynuowania
+    prywatnych rozmów czatowych bezpośrednio z list znajomych
+    i obserwujących poprzez dodanie przycisku
+    \textit{„Wiadomość”} na kartach społecznościowych oraz integrację
+    z logiką wyszukiwania i tworzenia czatów prywatnych.
+    \item Dodanie nowoczesnej obsługi emoji w komunikatorze – integracja
+    komponentu wyboru emoji z polem wpisywania wiadomości oraz
+    uporządkowanie wyglądu okna wyboru animowanych obrazów (GIF),
+    co poprawiło ergonomię korzystania z czatu.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Mateusz Redosz}
+    \item Refaktoryzacja systemu powiadomień na froncie, umożliwiająca
+    jednoczesne wyświetlanie wielu komunikatów oraz zwiększająca
+    modularność i możliwość ponownego wykorzystania komponentów
+    powiadomień.
+    \item Wprowadzenie stronicowania (paginacji) dla endpointów
+    wyszukiwania spotów na backendzie oraz dostosowanie komponentów
+    stron głównych i list wyników wyszukiwania do pracy
+    w trybie nieskończonego przewijania (\gls{infinite-scroll})
+    z mechanizmem \textit{„load more”}, z wykorzystaniem obserwatora
+    przecięcia oraz przekazywaniem referencji i stanów ładowania.
+    \item Dodanie walidacji formularza dodawania spota
+    w oparciu o schemat walidacyjny, w tym sprawdzanie kompletności
+    danych, wymaganego zestawu multimediów oraz punktów poligonu,
+    a także wyświetlanie komunikatów błędów bezpośrednio pod sekcjami
+    mediów i obszaru na mapie.
+    \item Rozszerzenie komponentu przesyłania multimediów o podgląd
+    wybranych obrazów i materiałów wideo oraz poprawę zarządzania
+    cyklem życia adresów URL podglądu; jednocześnie podniesiono
+    priorytet wyświetlania listy powiadomień (warstwa \textit{z-index}),
+    aby były lepiej widoczne.
+    \item Wprowadzenie pełnej obsługi zmiany zdjęcia profilowego
+    użytkownika, obejmującej wysyłanie plików do backendu, usuwanie
+    poprzednich zdjęć z magazynu obiektowego oraz aktualizację adresu
+    zdjęcia w profilu użytkownika.
+    \item Refaktoryzacja struktury projektu \LaTeX: zastąpienie
+    dotychczasowej treści demonstracyjnej rzeczywistymi rozdziałami
+    opisującymi projekt \textit{„spoty-na-drony.pl”}, aktualizacja
+    metadanych (tytuł, autorzy, promotor, cele projektu) oraz dodanie
+    osobnych plików rozdziałów dla głównych części pracy
+    (wstęp, opis problemu, kontekst projektu, analiza wymagań,
+    decyzje projektowe, projekt, planowanie, implementacja, testowanie,
+    prezentacja systemu, podsumowanie) i włączenie ich do pliku głównego.
+    \item Rozszerzenie zaawansowanych możliwości wyszukiwania spotów
+    o sortowanie wyników według popularności lub oceny oraz filtrowanie
+    po minimalnej ocenie, wraz z odpowiednimi listami rozwijanymi
+    w interfejsie użytkownika i obsługą nowych parametrów
+    po stronie backendu.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
+    \item Implementacja kompletnej funkcjonalności pogody dla spotów:
+    dodanie podstawowego i szczegółowego modalu pogodowego oraz
+    zestawu komponentów interfejsu prezentujących m.in. temperaturę,
+    prędkość wiatru, opady oraz dodatkowe parametry meteorologiczne.
+    \item Przebudowa obsługi pogody tak, aby zamiast bezpośrednich
+    wywołań publicznego API wykorzystywany był backend jako warstwa
+    pośrednia, z wprowadzeniem dedykowanych struktur DTO oraz
+    dostosowaniem komponentów prezentujących dane pogodowe
+    do nowego modelu danych i wymagań responsywności.
+\end{zadaniaosoby}
 
 \section{Etap 3 (październik 2025 – styczeń 2026)}
 \label{sec:etap3}
@@ -452,12 +517,13 @@ opiekunem był promotor pracy, mgr inż. Adam Urbanowicz.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
-    \item Wprowadzenie dużego refaktoryzacji funkcjonalności forum,
+    \item Przeprowadzenie dużej refaktoryzacji funkcjonalności forum,
     obejmującej obsługę komentarzy do postów (dodawanie, edycję,
     usuwanie oraz głosowanie) po stronie backendu i frontendu.
-    \item Przebudowa stron forum w kierunku architektury z nieskończonym
-    przewijaniem (infinite scroll), z wykorzystaniem mechanizmów
-    stronicowania i sortowania postów po stronie klienta i serwera.
+    \item Przebudowa stron forum w kierunku architektury
+    z nieskończonym przewijaniem (\gls{infinite-scroll}),
+    z wykorzystaniem mechanizmów stronicowania i sortowania postów
+    po stronie klienta i serwera.
     \item Zastąpienie klasycznych wskaźników ładowania (spinnerów)
     loaderami typu „skeleton” dla listy postów oraz paneli
     kategorii i tagów, co poprawiło odbiór interfejsu w trakcie
