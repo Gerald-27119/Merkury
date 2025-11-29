@@ -338,40 +338,337 @@ z założeniami funkcjonalnymi.
     dla danego spota.
 \end{zadaniaosoby}
 
+\begin{zadaniaosoby}{Adam Langmesser}
+    \item Dalsze poprawki konfiguracji \gls{spring-security} na backendzie,
+    obejmujące doprecyzowanie reguł autoryzacji i konfiguracji filtrów.
+    \item Poprawa konfiguracji pliku \texttt{.gitignore} w repozytorium,
+    tak aby obejmował również nowe katalogi i pliki generowane przez
+    narzędzia deweloperskie.
+\end{zadaniaosoby}
+
 TODO: uzupełnić nazwę i dostawcę API pogodowego
 oraz odwołać się do kart usług zewnętrznych i bibliografii.
 
 \subsection*{Marzec 2025}
 
-TODO: do uzupełnienia – opis prac wykonanych w marcu 2025 roku
-(np. rozwój forum, pierwsza wersja czatu, dalsze prace nad mapą).
+W marcu 2025 roku skoncentrowano się na dopracowaniu systemu
+powiadomień e-mail oraz rozbudowie komentarzy, a także na
+ułatwieniu startu środowiska deweloperskiego.
+
+\begin{zadaniaosoby}{Kacper Badek}
+    \item Refaktoryzacja szablonów wiadomości e-mail związanych
+    z rejestracją i resetowaniem hasła – zastąpienie układu
+    opartego na \textit{flexboxie} layoutem tabelarycznym
+    z \textit{inline-stylami}, ujednolicenie struktury HTML,
+    metadanych oraz stylu logo, co poprawiło kompatybilność
+    z różnymi klientami pocztowymi.
+    \item Rozbudowa systemu komentarzy do spotów: dodanie możliwości
+    edycji, usuwania i głosowania na komentarze, wydzielenie
+    dedykowanego kontrolera po stronie backendu oraz lepsza integracja
+    z widokiem szczegółów spota (paginacja, powiadomienia,
+    prezentacja ocen).
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
+    \item Przygotowanie skryptu uruchamiającego wszystkie wymagane
+    kontenery \gls{docker} (bazy danych i usługi pomocnicze) na potrzeby
+    środowiska deweloperskiego, co uprościło proces uruchamiania
+    projektu na nowych stanowiskach.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Mateusz Redosz}
+    \item Migracja wszystkich adresów obrazów (galerie spotów oraz logotypy
+    w szablonach e-mail) z usługi Google Drive do \gls{cdn} ucarecdn.com,
+    co ujednoliciło sposób serwowania grafik i poprawiło niezawodność
+    ich wczytywania.
+\end{zadaniaosoby}
 
 \subsection*{Kwiecień 2025}
 
-TODO: do uzupełnienia – opis prac wykonanych w kwietniu 2025 roku.
+W kwietniu 2025 roku uporządkowano projekt \LaTeX{} pracy dyplomowej
+oraz znacząco wzmocniono integrację aplikacji z \gls{type-script}
+i \gls{tailwind-css}, jednocześnie przebudowując layout i wdrażając
+pierwszą pełną wersję modułu czatu.
+
+\begin{zadaniaosoby}{Adam Langmesser}
+    \item Konfiguracja projektu dokumentacji w \LaTeX{}: dodanie pliku
+    \texttt{.gitignore} z typowymi plikami pomocniczymi \LaTeX{}a,
+    przygotowanie \texttt{Makefile} automatyzującego proces budowania,
+    utworzenie pliku bibliografii oraz głównego dokumentu
+    \texttt{engineer.tex} z przykładową strukturą rozdziałów
+    i klasą \texttt{sprz.cls}.
+    \item Implementacja pełnej funkcjonalności czatu w warstwie
+    backendowej i frontendowej (podstawowe API, integracja z \gls{redux},
+    widoki ekranów czatu), a także dostosowanie layoutu i paska bocznego
+    do nowej sekcji.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Mateusz Redosz}
+    \item Wzmocnienie integracji projektu z \gls{type-script}:
+    aktualizacja wersji kompilatora, dodanie pliku \texttt{tsconfig},
+    zdefiniowanie typowanego store Redux oraz pomocniczych hooków
+    \texttt{useDispatchTyped} i \texttt{useSelectorTyped}, a także
+    przygotowanie zestawu interfejsów modelu dla komentarzy, spotów
+    i użytkowników (wraz z odpowiadającymi im typami wyliczeniowymi).
+    \item Integracja \gls{tailwind-css} z projektem frontendu, w tym
+    konfiguracja pluginów i ustawień Prettiera, aktualizacja zależności,
+    zastąpienie dotychczasowych klas i styli komponentów utilitami
+    Tailwinda oraz usunięcie starej konfiguracji \texttt{PostCSS}.
+    \item Przebudowa layoutu aplikacji: zastąpienie nagłówka
+    (\textit{Header}) nowym panelem bocznym (\textit{Sidebar}) z
+    linkami nawigacyjnymi, opcjami konta oraz przełącznikiem trybu
+    ciemnego, a także aktualizacja testów integracyjnych i jednostkowych
+    tak, aby obejmowały nowy układ i zachowanie sidebaru.
+    \item Integracja API profilu użytkownika z nową stroną
+    \textit{Profile} (statystyki oraz najpopularniejsze zdjęcia) oraz
+    przepisanie komponentów \textit{Sidebar} i \textit{Layout}
+    na \gls{type-script} z lepszą obsługą urządzeń mobilnych (m.in.
+    komponent \textit{MobileBar} i typowane selektory).
+\end{zadaniaosoby}
 
 \subsection*{Maj 2025}
 
-TODO: do uzupełnienia – opis prac wykonanych w maju 2025 roku.
+W maju 2025 roku kluczowe prace dotyczyły migracji mapy do MapLibre,
+rozwoju forum oraz panelu konta użytkownika, a także uporządkowania
+warstwy API i formularzy.
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
+    \item Migracja mapy z biblioteki \gls{leaflet} na \gls{maplibre},
+    w tym dostosowanie komponentów frontendu, routingów oraz obsługi
+    interakcji ze spotami.
+    \item Zmiana wyglądu znacznika lokalizacji użytkownika na mapie,
+    co poprawiło czytelność i spójność z nową paletą kolorów oraz
+    warstwami mapy.
+    \item Migracja funkcji API związanych ze spotami do \gls{type-script},
+    rozszerzenie modelu szczegółów spota o dodatkowe informacje
+    lokalizacyjne i statystyczne (np. kraj, miasto, tagi, liczniki ocen)
+    oraz refaktoryzacja logiki interakcji z markerami MapLibre
+    (wygodniejsze otwieranie modali ze szczegółami, dopracowany wygląd
+    markerów oraz layout sekcji ulubionych spotów).
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Mateusz Redosz}
+    \item Reorganizacja panelu bocznego (\textit{Sidebar}) do zestawu
+    modularnych komponentów z dynamicznie generowanymi linkami,
+    dodanie ogólnych hooków do zarządzania stanem (w tym trybem
+    ciemnym) oraz wprowadzenie zależności do biblioteki \texttt{motion}
+    na potrzeby animacji.
+    \item Przeniesienie kluczowych komponentów formularzy
+    (\textit{FormContainer}, \textit{FormInput}, \textit{OauthButton},
+    \textit{OauthForm}) z JavaScriptu na \gls{type-script}, zastąpienie
+    starego komponentu \textit{Input} nowym \textit{FormInput}
+    z lepszą walidacją i stylami, poprawa zmiennych CSS oraz
+    responsywności widoków formularzy.
+    \item Dodanie sekcji \textit{„Znajomi”} w panelu konta, obejmującej
+    obsługę znajomych, obserwowanych i obserwujących, wprowadzenie
+    nowych modeli i endpointów do zarządzania relacjami oraz dodanie
+    testów jednostkowych dla komponentu \textit{FriendCard}.
+    \item Refaktoryzacja endpointów użytkownika tak, aby login był
+    pobierany z kontekstu uwierzytelnienia zamiast z parametru
+    ścieżki, dostosowanie do tego wywołań na froncie oraz przeniesienie
+    slice'a konta na \gls{type-script} z uproszczonym stanem i
+    uporządkowanymi importami.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Adam Langmesser}
+    \item Wprowadzenie usprawnień w potokach \gls{cicd} backendu,
+    obejmujących optymalizację czasu budowania oraz doprecyzowanie
+    kroków uruchamiania testów, co zwiększyło niezawodność procesu
+    wdrażania.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Kacper Badek}
+    \item Dodanie pełnoprawnego forum po stronie frontendu, obejmującego
+    obsługę postów, kategorii, tagów i paginacji, oraz integracja
+    backendu z usługą \gls{azure-blob-storage} do uploadu i
+    przechowywania mediów, wraz z dostosowaniem layoutu, routingu
+    i podstawowych styli.
+\end{zadaniaosoby}
 
 \subsection*{Czerwiec 2025}
 
-TODO: do uzupełnienia – opis prac wykonanych w czerwcu 2025 roku.
+W czerwcu 2025 roku rozwijano przede wszystkim panel konta użytkownika,
+w tym ulubione spoty, oraz refaktoryzowano sekcję komentarzy do spotów.
+
+\begin{zadaniaosoby}{Mateusz Redosz}
+    \item Przeniesienie stanu sidebaru do osobnego slice'a w \gls{redux},
+    co poprawiło spójność zachowania panelu bocznego między różnymi
+    widokami i na urządzeniach o różnej rozdzielczości.
+    \item Przebudowa profilu użytkownika poprzez rozdzielenie widoków
+    własnego profilu i profili innych użytkowników (nowe endpointy
+    \textit{public/private profile}, rozszerzony model danych), dodanie
+    przycisków akcji (follow/unfollow, zaproszenie do znajomych),
+    usprawnienie nawigacji z kart znajomych i sidebaru oraz aktualizacja
+    routingu i testów do nowego podziału.
+    \item Dodanie sekcji \textit{„Ulubione spoty”} w panelu konta
+    (lista, filtrowanie, usuwanie oraz podgląd na mapie), wprowadzenie
+    współdzielonych komponentów i modeli dla tej funkcji oraz
+    uporządkowanie przestarzałego kodu i modeli współrzędnych.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
+    \item Refaktoryzacja komentarzy do spotów – zastąpienie ogólnego
+    modelu szczegółowym, spot-specyficznym typowaniem i nowymi
+    komponentami UI, uporządkowanie warstwy API oraz poprawa wyglądu
+    i układu sekcji komentarzy.
+\end{zadaniaosoby}
 
 \subsection*{Lipiec 2025}
 
-TODO: do uzupełnienia – opis prac wykonanych w lipcu 2025 roku.
+W lipcu 2025 roku intensywnie rozwijano część społecznościową,
+panel konta oraz czat, a także usprawniano obsługę mapy
+i mediów w systemie.
+
+\begin{zadaniaosoby}{Mateusz Redosz}
+    \item Przebudowa funkcjonalności społecznościowej: rozdzielenie
+    widoków sekcji \textit{social} dla właściciela profilu i osoby
+    oglądającej, aktualizacja modelu danych i routingu oraz dodanie
+    nawigacji z liczników profilu do odpowiednich list (friends,
+    followers, followed), wraz z wprowadzeniem osobnego slice'a Redux
+    do zarządzania aktywnym typem listy social.
+    \item Dodanie nowej sekcji \textit{„Zdjęcia”} w panelu użytkownika,
+    z możliwością sortowania i filtrowania po dacie, wyodrębnienie
+    wspólnego wrappera layoutu dla podstron konta, aktualizacja
+    routingu i styli oraz dopisanie testów dla wyboru daty.
+    \item Dodanie sekcji komentarzy w panelu konta (z grupowaniem
+    po dacie i spocie oraz filtrowaniem/sortowaniem po dacie),
+    co ułatwiło użytkownikom przeglądanie własnej aktywności.
+    \item Dodanie strony ustawień konta umożliwiającej edycję nazwy
+    użytkownika, adresu e-mail i hasła (z walidacją w oparciu
+    o \texttt{zod} i \texttt{react-hook-form}), aktualizacja routingu
+    i modeli (nowe enumy/interfejsy, wariant przycisku), usunięcie
+    starych endpointów edycji danych z \textit{AccountController}
+    oraz dodanie zależności potrzebnych do obsługi formularzy.
+    \item Ujednolicenie obsługi zdjęć i filmów do wspólnego modelu
+    \textit{media}, dodanie nowej sekcji \textit{„Filmy”}
+    w panelu użytkownika (routing, endpointy, komponenty UI) oraz
+    refaktoryzacja istniejących widoków i DTO tak, aby korzystały
+    z nowych, współdzielonych struktur.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Adam Langmesser}
+    \item Rozbudowa funkcjonalności czatu – dodanie szczegółowego
+    pobierania danych czatu i wysyłania wiadomości po \gls{websocket},
+    odświeżenie interfejsu (spinner, skeletony list, okno rozmowy
+    z separatorami dat i pustym stanem) oraz wprowadzenie nowych
+    zależności i zmian w stylach poprawiających UX.
+    \item Uporządkowanie formatowania kodu z wykorzystaniem
+    narzędzia \gls{prettier}, dodanie skryptu \texttt{format:check}
+    oraz sprawdzania formatowania w potokach \gls{cicd}.
+    \item Przeprowadzenie dużej refaktoryzacji czatu: ujednolicenie
+    modelu danych do jednego \textit{ChatDto}, uproszczenie powiązanego
+    API i struktury store'a Redux, dostosowanie komponentów czatu
+    do nowego modelu oraz poprawa wyglądu (tło, paski przewijania),
+    połączona z czyszczeniem i formatowaniem kodu.
+    \item Poprawa danych deweloperskich w bazie (m.in. przykładowych
+    spotów i użytkowników), tak aby lepiej odzwierciedlały realistyczne
+    scenariusze działania systemu.
+    \item Usprawnienie mechanizmu nieskończonego przewijania i nazewnictwa
+    listy czatów oraz redukcja drobnego długu technicznego
+    (lepsze wartości domyślne, uproszczone typy).
+    \item Stworzenie ogólnej logiki i komponentów pomocniczych
+    umożliwiających wszystkim członkom zespołu wygodne korzystanie
+    z \gls{websocket}ów na froncie (uogólnione hooki i funkcje
+    narzędziowe).
+    \item Poprawa UX czatu poprzez dodanie grupowania wiadomości
+    w czasie z podpowiedzią pełnej daty, wielowierszowego pola tekstowego
+    z obsługą Enter/Shift+Enter, uproszczonych klas ikon oraz
+    dodatkowych poprawek layoutu i efektów najechania.
+    \item Wprowadzenie drobnych poprawek w potokach \gls{cicd}
+    (konfiguracja kroków, stabilność zadań).
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
+    \item Przebudowa wyszukiwania spotów na mapie – zastąpienie
+    dotychczasowych filtrów nowym paskiem wyszukiwania po nazwie
+    z bocznym panelem wyników i paginacją oraz dopracowanie interfejsu
+    (gwiazdki ocen, warstwy sidebarów) i logiki cache'owania zapytań.
+    \item Ujednolicenie obsługi mediów dla spotów i komentarzy
+    (wspólny model dla zdjęć i wideo), aktualizacja powiązanych
+    struktur danych i galerii w UI oraz dodanie zależności i styli
+    potrzebnych do odtwarzania oraz wygodnego wyświetlania multimediów.
+    \item Refaktoryzacja struktury plików na backendzie związanych
+    z modułem mapy, co uprościło nawigację po kodzie i ułatwiło
+    dalszy rozwój funkcjonalności.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Kacper Badek}
+    \item Ujednolicenie modelu tagów dla spotów i forum, rozbudowa
+    funkcjonalności postów na forum, aktualizacja API kategorii
+    i tagów oraz dodanie edytora typu \textit{rich text}
+    i lepiej wystylizowanych komponentów wyboru, a także usprawnienie
+    hooka do wykrywania kliknięć poza aktywnymi elementami.
+\end{zadaniaosoby}
 
 \subsection*{Sierpień 2025}
 
-TODO: do uzupełnienia – opis prac wykonanych w sierpniu 2025 roku.
+W sierpniu 2025 roku kontynuowano rozwój czatu, wyszukiwania
+oraz panelu użytkownika, a także rozbudowano stronę główną
+i usprawniono forum.
+
+\begin{zadaniaosoby}{Adam Langmesser}
+    \item Dodanie do czatu możliwości wyszukiwania i wysyłania animowanych
+    obrazów (GIF) oraz wstawiania emoji z dedykowanego okna przy polu
+    wpisywania wiadomości, co znacząco poprawiło komfort rozmowy.
+    \item Usprawnienie czatu poprzez wprowadzenie optymistycznego
+    wysyłania wiadomości z natychmiastową aktualizacją okna rozmowy
+    i listy czatów, paginację oraz wygodniejsze wybieranie konwersacji
+    (z obsługą nieprzeczytanych), dodanie nowych endpointów
+    do stronicowanego pobierania wiadomości, wzmocnienie typowania
+    i refaktoryzacja komponentów oraz przygotowanie zależności
+    pod wirtualizowane listy i \gls{infinite-scroll}.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
+    \item Uporządkowanie tematu współrzędnych spotów: dodanie
+    jednoznacznego „punktu środka” spota i konsekwentne wykorzystywanie
+    go w backendzie i frontendzie, co poprawiło dokładność
+    pozycjonowania markerów na mapie.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Mateusz Redosz}
+    \item Rozbudowa strony głównej: dodanie karuzeli z najpopularniejszymi
+    spotami, wyszukiwarki po lokalizacji (kraj/region/miasto)
+    z listą wyników i dystansem od użytkownika, wprowadzenie
+    odpowiednich endpointów i modeli danych po stronie API oraz
+    poprawa zachowania i wyglądu sidebaru, co ułatwiło odkrywanie
+    nowych miejsc do latania dronem.
+    \item Dodanie zaawansowanego wyszukiwania spotów na stronie głównej
+    (osobny widok z filtrami po mieście i tagach oraz przełącznik
+    między prostym a zaawansowanym trybem), dostosowanie modeli
+    i endpointów API (m.in. obsługa sugestii tagów i pól opcjonalnych)
+    oraz dopracowanie interfejsu listy wyników, w tym komunikatu
+    o braku dopasowanych spotów.
+    \item Wprowadzenie paginacji do endpointów panelu użytkownika
+    i przebudowa powiązanych komponentów frontendu na nieskończone
+    przewijanie oparte na \gls{react-query} i \gls{intersection-observer},
+    dzięki czemu listy (znajomi, obserwujący, ulubione spoty, media,
+    komentarze) ładują się porcjami z poprawioną obsługą stanów
+    ładowania i pustych wyników.
+    \item Dodanie sekcji \textit{„Zdjęcia”} w panelu społecznościowym
+    użytkownika (ze zdjęciami pogrupowanymi po dacie i stronicowaniem),
+    uogólnienie i uproszczenie logiki nieskończonego przewijania
+    dla różnych zakładek social (friends/followers/followed/photos)
+    oraz poprawa drobnych błędów w backendzie i kontraktach komponentów.
+    \item Dodanie do panelu użytkownika funkcji dodawania własnych
+    spotów (z adresem, multimediami i wielokątem na mapie) wraz
+    z nowymi endpointami i modelami danych oraz widokiem listy
+    dodanych spotów z formularzem w modalu i nieskończonym przewijaniem.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Kacper Badek}
+    \item Ujednolicenie modelu tagów dla spotów i forum oraz dalsza
+    rozbudowa funkcjonalności postów forum, aktualizacja API kategorii
+    i tagów, dodanie edytora typu \textit{rich text} oraz lepiej
+    wystylizowanych pól wyboru, a także usprawnienie hooka do
+    wykrywania kliknięć poza aktywnymi elementami.
+    \item Usprawnienie forum poprzez wprowadzenie czytelniejszych
+    adresów URL postów opartych na slugach tytułów, lepszą walidację
+    tytułu oraz wygodniejszą nawigację (m.in. łatwe przejście z posta
+    do profilu autora).
+\end{zadaniaosoby}
 
 \subsection*{Wrzesień 2025}
-
-We wrześniu 2025 roku skoncentrowano się na dalszym rozwijaniu
-funkcjonalności wyszukiwania spotów, modułu pogody, systemu
-powiadomień, części społecznościowej oraz czatu, a także na
-uporządkowaniu struktury dokumentacji pracy inżynierskiej.
 
 \begin{zadaniaosoby}{Adam Langmesser}
     \item Wprowadzenie możliwości rozpoczynania lub kontynuowania
@@ -514,7 +811,7 @@ opiekunem był promotor pracy, mgr inż. Adam Urbanowicz.
     oraz dodatkowych akcji (np. udostępnianie odnośnika do zasobu).
     \item Dostosowanie modułu mapy oraz widoku szczegółów spotów
     pod kątem responsywności i skalowania na dużych ekranach,
-    w tym korekty wysokości komponentów, układu galerii multimediów
+    w tym korekta wysokości komponentów, układu galerii multimediów
     oraz przewijania list komentarzy.
 \end{zadaniaosoby}
 
@@ -538,6 +835,17 @@ opiekunem był promotor pracy, mgr inż. Adam Urbanowicz.
     \item Opracowanie rozdziału \textit{Analiza wymagań} – przygotowanie
     listy aktorów systemu, diagramu przypadków użycia oraz scenariuszy
     przypadków użycia.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
+    \item Ujednolicenie logiki dodawania spota do ulubionych na froncie
+    oraz dodanie API do sprawdzania, czy dany spot znajduje się
+    już w ulubionych, co pozwoliło usunąć stare, rozproszone funkcje.
+    \item Rozszerzenie obsługi dodawania mediów do spotów po stronie
+    backendu i frontendu oraz aktualizacja walidacji i kontraktów API.
+    \item Aktualizacja konfiguracji narzędzia \gls{eslint} pod kątem
+    obsługi \gls{type-script}, co poprawiło jakość statycznej analizy
+    kodu frontendu.
 \end{zadaniaosoby}
 
 TODO: odwołanie do odpowiedniego rozdziału i podrozdziałów
