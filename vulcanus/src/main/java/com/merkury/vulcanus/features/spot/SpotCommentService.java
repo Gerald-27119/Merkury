@@ -1,10 +1,13 @@
 package com.merkury.vulcanus.features.spot;
 
+import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.account.UserDataService;
+import com.merkury.vulcanus.features.azure.AzureBlobService;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentAddDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentDto;
@@ -13,20 +16,29 @@ import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentMediaDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentUserVoteInfoDto;
 import com.merkury.vulcanus.model.entities.spot.SpotComment;
 import com.merkury.vulcanus.model.entities.spot.Spot;
+import com.merkury.vulcanus.model.entities.spot.SpotCommentMedia;
+import com.merkury.vulcanus.model.entities.spot.SpotMedia;
+import com.merkury.vulcanus.model.enums.AzureBlobFileValidatorType;
+import com.merkury.vulcanus.model.enums.GenericMediaType;
+import com.merkury.vulcanus.model.mappers.UserMapper;
 import com.merkury.vulcanus.model.mappers.spot.SpotCommentMapper;
 import com.merkury.vulcanus.model.mappers.spot.SpotCommentMediaMapper;
 import com.merkury.vulcanus.model.repositories.SpotCommentMediaRepository;
 import com.merkury.vulcanus.model.repositories.SpotCommentRepository;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
+import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,6 +51,8 @@ public class SpotCommentService {
     private final VoteService voteService;
     private final SpotCommentMediaRepository spotCommentMediaRepository;
     private final CustomUserDetailsService customUserDetailsService;
+    private final AzureBlobService azureBlobService;
+    private final UserEntityRepository userEntityRepository;
 
     public Page<SpotCommentDto> getCommentsBySpotId(HttpServletRequest request, Long spotId, Pageable pageable) throws UserNotFoundException {
         Page<SpotComment> commentsPage = spotCommentRepository.findBySpotIdOrderByPublishDateDescIdAsc(spotId, pageable);
@@ -48,14 +62,31 @@ public class SpotCommentService {
     }
 
     public List<SpotCommentMediaDto> getRestOfSpotCommentMedia(Long spotId, Long commentId) {
-        return spotCommentMediaRepository.findBySpotCommentIdAndSpotCommentSpotId(spotId,commentId).stream().map(SpotCommentMediaMapper::toDto).toList();
+        return spotCommentMediaRepository.findBySpotCommentIdAndSpotCommentSpotId(spotId, commentId).stream().map(SpotCommentMediaMapper::toDto).toList();
     }
 
-    public void addComment(HttpServletRequest request, SpotCommentAddDto dto, Long spotId) throws SpotNotFoundException, UserNotFoundException {
-        var user = userDataService.getUserFromRequest(request);
+    public void addComment(SpotCommentAddDto dto, Long spotId, List<MultipartFile> mediaFiles) throws SpotNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, UserNotFoundException {
+        var user = customUserDetailsService.loadUserDetailsFromSecurityContext();
         var spot = spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
+        //TODO: check if media size is max 20
+        var author = userEntityRepository.findByUsername(user.getUsername())
+                .orElseThrow(() -> new UserNotFoundException(String.format("User with %s not found", user.getUsername())));
+        List<SpotCommentMedia> mediaEntities = new ArrayList<>();
+        if (mediaFiles != null) {
+            for (MultipartFile file : mediaFiles) {
+                String blobUrl = azureBlobService.upload("mapa", file, AzureBlobFileValidatorType.DEFAULT);
 
-        spotCommentRepository.save(SpotCommentMapper.toEntity(dto, spot, user));
+                SpotCommentMedia spotCommentMedia = SpotCommentMedia.builder()
+                        .url(blobUrl)
+                        .genericMediaType(getMediaType(file))
+                        .build();
+                mediaEntities.add(spotCommentMedia);
+            }
+        }
+
+        var spotCommentEntity = SpotCommentMapper.toEntity(dto, spot, author);
+        spotCommentEntity.setMedia(mediaEntities);
+        spotCommentRepository.save(spotCommentEntity);
         updateSpotRating(spot);
     }
 
@@ -109,5 +140,11 @@ public class SpotCommentService {
 
         voteService.vote(comment, user, isUpvote);
         spotCommentRepository.save(comment);
+    }
+
+    private GenericMediaType getMediaType(MultipartFile file) {
+        var contentType = file.getContentType();
+        if (contentType != null && contentType.startsWith("image")) return GenericMediaType.PHOTO;
+        return GenericMediaType.VIDEO;
     }
 }

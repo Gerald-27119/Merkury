@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -43,8 +44,8 @@ public class SpotCommentController {
     }
 
     @PostMapping("/spot/{spotId}/comments")
-    public ResponseEntity<Void> addComment(HttpServletRequest request, @PathVariable Long spotId, @Valid @RequestBody SpotCommentAddDto spotCommentAddDto) throws SpotNotFoundException, UserNotFoundException {
-        spotCommentService.addComment(request, spotCommentAddDto, spotId);
+    public ResponseEntity<Void> addComment(@PathVariable Long spotId, @Valid @RequestBody SpotCommentAddDto spotCommentAddDto, List<MultipartFile> mediaFiles) throws SpotNotFoundException, UserNotFoundException {
+        spotCommentService.addComment(spotCommentAddDto, spotId, mediaFiles);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
