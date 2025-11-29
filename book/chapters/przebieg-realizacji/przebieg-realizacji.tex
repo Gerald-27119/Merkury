@@ -1,3 +1,4 @@
+
 %! Author = Adam
 %! Date = 10/01/2025
 
@@ -23,6 +24,21 @@ wymagań funkcjonalnych.
 TODO: odwołanie do rozdziału dotyczącego testów i jakości
 oprogramowania.
 
+Dla przejrzystości opisu, w ramach każdego miesiąca przedstawiono
+zadania w podziale na poszczególnych członków zespołu.
+Najpierw podawane jest krótkie podsumowanie prac w danym miesiącu,
+a następnie – w postaci list punktowanych – wyszczególniono działania
+zrealizowane przez konkretne osoby.
+
+\newenvironment{zadaniaosoby}[1]{%
+    \par\medskip
+    \noindent\textbf{#1}\par
+    \vspace{-0.4\baselineskip}
+    \begin{itemize}
+}{%
+    \end{itemize}
+}
+
 \section{Faza przedprojektowa (czerwiec–wrzesień 2024)}
 \label{sec:faza-przedprojektowa}
 
@@ -46,92 +62,105 @@ w rozdziale wstępnym.
 
 W czerwcu 2024 roku wykonano następujące działania przygotowawcze:
 
-\begin{itemize}
-    \item Przygotowanie szkieletu projektu backendu w technologii
-    Spring Boot – utworzono podstawowe pakiety, konfigurację aplikacji
-    oraz minimalną strukturę modułów (\textbf{cały zespół}).
-    \item Konfiguracja narzędzia \texttt{Jira}:
-    zespół zapoznał się z typowym podziałem na epiki, taski i podtaski,
-    zdefiniował statusy przepływu pracy oraz utworzył tablicę
-    w stylu Kanban (\textbf{Kacper Badek}).
+\begin{zadaniaosoby}{Adam Langmesser}
     \item Utworzenie repozytorium w serwisie \texttt{GitHub}
-    i skonfigurowanie podstawowych reguł pracy z repozytorium
-    (\textbf{Adam Langmesser}).
+    i skonfigurowanie podstawowych reguł pracy z repozytorium.
     \item Przygotowanie pierwszego potoku CI/CD dla backendu –
     automatyczne budowanie projektu i uruchamianie testów jednostkowych
-    na serwerze ciągłej integracji (\textbf{Adam Langmesser}).
-\end{itemize}
+    na serwerze ciągłej integracji.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Kacper Badek}
+    \item Konfiguracja narzędzia \texttt{Jira}:
+    zapoznanie się z typowym podziałem na epiki, taski i podtaski,
+    zdefiniowanie statusów przepływu pracy oraz utworzenie tablicy
+    w stylu Kanban.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Cały zespół}
+    \item Przygotowanie szkieletu projektu backendu w technologii
+    Spring Boot – utworzono podstawowe pakiety, konfigurację aplikacji
+    oraz minimalną strukturę modułów.
+\end{zadaniaosoby}
 
 \subsection*{Lipiec 2024}
 
 W lipcu 2024 roku skupiono się na warstwie frontendowej
 i pierwszych funkcjonalnościach związanych z kontami użytkowników:
 
-\begin{itemize}
-    \item Przygotowanie szkieletu aplikacji frontendowej
-    (React + TypeScript) wraz z podstawową strukturą komponentów
-    i konfiguracją narzędzi budujących (\textbf{cały zespół}).
+\begin{zadaniaosoby}{Adam Langmesser}
     \item Rozpoczęcie prac nad potokiem CI/CD dla frontendu,
-    którego konfigurację finalnie ukończono we wrześniu 2024 roku
-    (\textbf{Adam Langmesser}).
+    którego konfigurację finalnie ukończono we wrześniu 2024 roku.
     \item Implementacja podstawowej logiki logowania
     i rejestracji użytkownika zarówno po stronie backendu
     (endpointy REST/GraphQL), jak i frontendu
-    (formularze oraz obsługa żądań)
-    (\textbf{Adam Langmesser}).
-\end{itemize}
+    (formularze oraz obsługa żądań).
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Cały zespół}
+    \item Przygotowanie szkieletu aplikacji frontendowej
+    (React + TypeScript) wraz z podstawową strukturą komponentów
+    i konfiguracją narzędzi budujących.
+\end{zadaniaosoby}
 
 \subsection*{Sierpień 2024}
 
 W sierpniu 2024 roku zespół skupił się na zagadnieniach bezpieczeństwa
 oraz na dopracowaniu pierwszych ekranów aplikacji:
 
-\begin{itemize}
+\begin{zadaniaosoby}{Adam Langmesser}
     \item Dodanie Spring Security i implementacja logiki
-    uwierzytelniania oraz autoryzacji użytkownika po stronie backendu
-    (\textbf{Adam Langmesser}).
+    uwierzytelniania oraz autoryzacji użytkownika po stronie backendu.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Mateusz Redosz}
     \item Konfiguracja biblioteki Tailwind CSS na froncie,
-    umożliwiająca spójne i responsywne stylowanie komponentów
-    (\textbf{Mateusz Redosz}).
+    umożliwiająca spójne i responsywne stylowanie komponentów.
     \item Konfiguracja narzędzia \texttt{Prettier}
-    do automatycznego formatowania kodu frontendu
-    (\textbf{Mateusz Redosz}).
+    do automatycznego formatowania kodu frontendu.
     \item Stworzenie formularza rejestracji użytkownika
-    wraz z podstawową walidacją po stronie frontendu
-    (\textbf{Mateusz Redosz}).
+    wraz z podstawową walidacją po stronie frontendu.
     \item Dodanie i konfiguracja biblioteki TanStack Query
-    do obsługi komunikacji z backendem i cachowania danych
-    (\textbf{Mateusz Redosz}).
-    \item Implementacja strony logowania użytkownika
-    po stronie frontendu (\textbf{Kacper Badek}).
+    do obsługi komunikacji z backendem i cachowania danych.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
     \item Implementacja logiki resetowania hasła
-    (proces „zapomniałem hasła”) po stronie frontendu
-    (\textbf{Stanisław Oziemczuk}).
-\end{itemize}
+    (proces „zapomniałem hasła”) po stronie frontendu.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Kacper Badek}
+    \item Implementacja strony logowania użytkownika
+    po stronie frontendu.
+\end{zadaniaosoby}
 
 \subsection*{Wrzesień 2024}
 
 We wrześniu 2024 roku kontynuowano prace nad bezpieczeństwem
 i przygotowaniem środowiska uruchomieniowego:
 
-\begin{itemize}
-    \item Implementacja przycisków na stronie logowania
-    umożliwiających logowanie i rejestrację z wykorzystaniem OAuth
-    (GitHub i Google) po stronie frontendu.
+\begin{zadaniaosoby}{Adam Langmesser}
     \item Zastąpienie bazy danych działającej w pamięci (in-memory)
     instancją uruchamianą w kontenerze \texttt{Docker},
-    co urealniło środowisko deweloperskie i testowe
-    (\textbf{Adam Langmesser}).
+    co urealniło środowisko deweloperskie i testowe.
     \item Dostosowanie potoku CI/CD backendu tak,
     aby uwzględniał uruchamianie bazy danych w kontenerze
-    podczas wykonywania testów (\textbf{Adam Langmesser}).
+    podczas wykonywania testów.
+    \item Dokończenie konfiguracji potoku CI/CD dla frontendu.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Kacper Badek}
     \item Implementacja logiki resetowania hasła po stronie backendu –
     generowanie tokenów, ich weryfikacja oraz integracja
-    z istniejącym procesem resetowania na froncie
-    (\textbf{Kacper Badek}).
-    \item Dokończenie konfiguracji potoku CI/CD dla frontendu
-    (\textbf{Adam Langmesser}).
-\end{itemize}
+    z istniejącym procesem resetowania na froncie.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Zespół frontendowy}
+    \item Implementacja przycisków na stronie logowania,
+    umożliwiających logowanie i rejestrację z wykorzystaniem OAuth
+    (GitHub i Google) po stronie frontendu.
+    TODO: doprecyzować osobę odpowiedzialną za implementację.
+\end{zadaniaosoby}
 
 \section{Etap 1 (październik 2024 – styczeń 2025)}
 \label{sec:etap1}
@@ -145,106 +174,134 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
 
 \subsection*{Październik 2024}
 
-\begin{itemize}
+\begin{zadaniaosoby}{Mateusz Redosz}
     \item Poprawa konfiguracji CORS na backendzie, tak aby aplikacja
     frontendowa mogła komunikować się z serwerem w sposób bezpieczny
-    i zgodny z przeglądarkowymi ograniczeniami
-    (\textbf{Mateusz Redosz}).
+    i zgodny z przeglądarkowymi ograniczeniami.
     \item Zmiana sposobu przechowywania tokena JWT – umieszczenie go
-    w ciasteczku \texttt{HttpOnly}, co poprawiło bezpieczeństwo aplikacji
-    (\textbf{Mateusz Redosz}).
-    \item Uporządkowanie pliku \texttt{.gitignore}
-    oraz struktury repozytorium (\textbf{Kacper Badek}).
+    w ciasteczku \texttt{HttpOnly}, co poprawiło bezpieczeństwo
+    aplikacji.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
     \item Implementacja logowania OAuth z wykorzystaniem Google i GitHub
-    po stronie backendu oraz integracja z frontem
-    (\textbf{Stanisław Oziemczuk}).
-    \item Formalny wybór tematu projektu inżynierskiego przez zespół.
-\end{itemize}
+    po stronie backendu oraz integracja z frontem.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Kacper Badek}
+    \item Uporządkowanie pliku \texttt{.gitignore}
+    oraz struktury repozytorium.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Cały zespół}
+    \item Formalny wybór tematu projektu inżynierskiego.
+\end{zadaniaosoby}
 
 \subsection*{Listopad 2024}
 
-\begin{itemize}
-    \item Opracowanie harmonogramu projektu w formie opisowej
-    oraz w postaci wykresu Gantta (\textbf{cały zespół}).
-    TODO: odwołanie do rozdziału z harmonogramem projektu.
-    \item Przygotowanie wstępnych założeń i wymagań
-    w ramach przedmiotu PRO (\textbf{cały zespół}).
-    TODO: odwołanie do rozdziału z analizą wymagań.
+\begin{zadaniaosoby}{Adam Langmesser}
     \item Implementacja demonstracyjnej mapy z wykorzystaniem
     biblioteki Leaflet – prototyp miał na celu pokazanie zespołowi
-    możliwości interaktywnej mapy (\textbf{Adam Langmesser}).
+    możliwości interaktywnej mapy.
     Ze względu na ograniczone możliwości customizacji wyglądu
     biblioteki zdecydowano się później na zmianę dostawcy
-    kafelków mapowych na usługę \textit{TODO: uzupełnić nazwę
-    docelowej usługi mapowej}.
+    kafelków mapowych na usługę
+    TODO: uzupełnić nazwę docelowej usługi mapowej.
     \item Poprawki konfiguracji narzędzia \texttt{ESLint}
-    po stronie frontendu (\textbf{Adam Langmesser}).
-    \item Implementacja logiki cyklicznego usuwania przeterminowanych
-    tokenów resetu hasła (\textbf{Kacper Badek}).
+    po stronie frontendu.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Mateusz Redosz}
+    \item Dalsze poprawki obsługi JWT na backendzie oraz logowania
+    błędów związanych z procesem logowania i rejestracji.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
     \item Poprawki działania logowania użytkownika po stronie backendu
     i frontendu, obejmujące obsługę błędów oraz komunikaty
-    dla użytkownika (\textbf{Stanisław Oziemczuk}).
-    \item Dalsze poprawki obsługi JWT na backendzie oraz logowania
-    błędów związanych z procesem logowania i rejestracji
-    (\textbf{Mateusz Redosz}).
-\end{itemize}
+    dla użytkownika.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Kacper Badek}
+    \item Implementacja logiki cyklicznego usuwania przeterminowanych
+    tokenów resetu hasła.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Cały zespół}
+    \item Opracowanie harmonogramu projektu w formie opisowej
+    oraz w postaci wykresu Gantta.
+    \item Przygotowanie wstępnych założeń i wymagań
+    w ramach przedmiotu PRO.
+\end{zadaniaosoby}
+
+TODO: odwołanie do rozdziału z harmonogramem projektu.\\
+TODO: odwołanie do rozdziału z analizą wymagań.
 
 \subsection*{Grudzień 2024}
 
-\begin{itemize}
+\begin{zadaniaosoby}{Adam Langmesser}
     \item Dalsze poprawki konfiguracji Spring Security na backendzie,
-    w tym doprecyzowanie ról i uprawnień (\textbf{Adam Langmesser}).
-    \item Poprawa logowania błędów związanych z resetowaniem hasła
-    użytkownika po stronie backendu (\textbf{Kacper Badek}).
+    w tym doprecyzowanie ról i uprawnień.
     \item Rozszerzenie encji użytkownika o dane deweloperskie
     oraz przygotowanie inicjalnych danych w bazie
-    (np. konta testowe) (\textbf{Adam Langmesser}).
-    \item Dodanie biblioteki Redux do frontendu i wstępna
-    konfiguracja store (\textbf{Mateusz Redosz}).
-    \item Implementacja automatycznego wylogowywania użytkownika
-    po wygaśnięciu tokena JWT (\textbf{Mateusz Redosz}).
-    \item Stworzenie komponentu frontendu odpowiedzialnego
-    za wyświetlanie szczegółów pojedynczego spota
-    (\textbf{Stanisław Oziemczuk}).
-    \item Stworzenie komponentu odpowiedzialnego za prezentację błędów
-    systemowych użytkownikowi (globalny mechanizm powiadomień)
-    (\textbf{Mateusz Redosz}).
-    \item Dostosowanie wyglądu i treści wiadomości e-mail wysyłanych
-    przez system (np. w procesie resetu hasła)
-    (\textbf{Kacper Badek}).
+    (np. konta testowe).
     \item Implementacja testów automatycznych związanych
-    z bezpieczeństwem (scenariusze logowania i rejestracji użytkownika
-    po stronie backendu) (\textbf{Adam Langmesser}).
-\end{itemize}
+    z bezpieczeństwem (scenariusze logowania i rejestracji
+    użytkownika po stronie backendu).
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Mateusz Redosz}
+    \item Dodanie biblioteki Redux do frontendu i wstępna
+    konfiguracja store.
+    \item Implementacja automatycznego wylogowywania użytkownika
+    po wygaśnięciu tokena JWT.
+    \item Stworzenie komponentu odpowiedzialnego za prezentację błędów
+    systemowych użytkownikowi (globalny mechanizm powiadomień).
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
+    \item Stworzenie komponentu frontendu odpowiedzialnego
+    za wyświetlanie szczegółów pojedynczego spota.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Kacper Badek}
+    \item Poprawa logowania błędów związanych z resetowaniem hasła
+    użytkownika po stronie backendu.
+    \item Dostosowanie wyglądu i treści wiadomości e-mail wysyłanych
+    przez system (np. w procesie resetu hasła).
+\end{zadaniaosoby}
 
 \subsection*{Styczeń 2025}
 
-\begin{itemize}
-    \item Dodanie danych deweloperskich dla mapy
-    (przykładowe spoty, dane do prezentacji i testów)
-    (\textbf{Kacper Badek}).
-    \item Rozszerzenie stanu Redux o informację o tym,
-    czy użytkownik jest aktualnie zalogowany
-    (\textbf{Mateusz Redosz}).
-    \item Implementacja testów E2E dla procesów logowania
-    i rejestracji użytkownika (\textbf{Mateusz Redosz}).
-    \item Poprawki logowania i rejestracji z wykorzystaniem OAuth
-    (Google/GitHub) – dopracowanie scenariuszy brzegowych
-    (\textbf{Stanisław Oziemczuk}).
-    \item Dodanie uruchamiania testów frontendu do potoku CI/CD
-    (\textbf{Mateusz Redosz}).
+\begin{zadaniaosoby}{Adam Langmesser}
     \item Poprawa testów logowania i rejestracji na backendzie
-    oraz ujednolicenie asercji (\textbf{Adam Langmesser}).
+    oraz ujednolicenie asercji.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Mateusz Redosz}
+    \item Rozszerzenie stanu Redux o informację o tym,
+    czy użytkownik jest aktualnie zalogowany.
+    \item Implementacja testów E2E dla procesów logowania
+    i rejestracji użytkownika.
+    \item Dodanie uruchamiania testów frontendu do potoku CI/CD.
+    \item Poprawa sposobu wyświetlania szczegółów spota na froncie.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
+    \item Poprawki logowania i rejestracji z wykorzystaniem OAuth
+    (Google/GitHub) – dopracowanie scenariuszy brzegowych.
     \item Implementacja logiki filtrowania spotów na mapie
-    po różnych kryteriach (np. nazwa) po stronie backendu
-    (\textbf{Stanisław Oziemczuk}).
-    \item Poprawa sposobu wyświetlania szczegółów spota na froncie
-    (\textbf{Mateusz Redosz}).
+    po różnych kryteriach (np. nazwa) po stronie backendu.
     \item Dalsze dopracowanie logiki filtrowania spotów po nazwie
-    po stronie backendu (\textbf{Stanisław Oziemczuk}).
+    po stronie backendu.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Kacper Badek}
+    \item Dodanie danych deweloperskich dla mapy
+    (przykładowe spoty, dane do prezentacji i testów).
     \item Implementacja logiki dodawania spota do ulubionych
-    po stronie backendu (\textbf{Kacper Badek}).
-\end{itemize}
+    po stronie backendu.
+\end{zadaniaosoby}
 
 \section{Etap 2 (luty 2025 – wrzesień 2025)}
 \label{sec:etap2}
@@ -257,26 +314,33 @@ doświadczeń zespołu.
 TODO: odwołanie do rozdziału z analizą wymagań
 oraz do rozdziału opisującego projekt architektury.
 
+Równolegle, w ramach przedmiotu PRZ~1 opracowano projekt interfejsu
+użytkownika, konsultowany z prowadzącym zajęcia, mgr inż. Adamem
+Urbanowiczem, który na bieżąco przekazywał zespołowi uwagi i
+rekomendacje dotyczące ergonomii oraz spójności interfejsu
+z założeniami funkcjonalnymi.
+
 \subsection*{Luty 2025}
 
-\begin{itemize}
+\begin{zadaniaosoby}{Mateusz Redosz}
     \item Poprawa wyglądu strony logowania, w tym dopracowanie stylistyki
-    komponentów oraz zachowania w trybie ciemnym i jasnym
-    (\textbf{Mateusz Redosz}).
+    komponentów oraz zachowania w trybie ciemnym i jasnym.
     \item Poprawa logiki wylogowywania użytkownika na froncie
-    (m.in. czyszczenie stanu Redux, przekierowania)
-    (\textbf{Mateusz Redosz}).
+    (m.in. czyszczenie stanu Redux, przekierowania).
     \item Poprawa logiki dodawania komentarzy do spotów na mapie
-    po stronie frontendu (\textbf{Mateusz Redosz}).
+    po stronie frontendu.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
     \item Implementacja logiki dodawania spota do ulubionych
-    po stronie frontendu oraz integracja z backendem
-    (\textbf{Stanisław Oziemczuk}).
+    po stronie frontendu oraz integracja z backendem.
     \item Implementacja integracji z zewnętrznym API pogodowym
     służącym do pobierania podstawowych danych pogodowych
-    dla danego spota (\textbf{Stanisław Oziemczuk}).
-    TODO: uzupełnić nazwę i dostawcę API pogodowego
-    oraz odwołać się do kart usług zewnętrznych i bibliografii.
-\end{itemize}
+    dla danego spota.
+\end{zadaniaosoby}
+
+TODO: uzupełnić nazwę i dostawcę API pogodowego
+oraz odwołać się do kart usług zewnętrznych i bibliografii.
 
 \subsection*{Marzec 2025}
 
@@ -318,40 +382,117 @@ W tym czasie większość nowych funkcjonalności była już zaimplementowana,
 a nacisk położono na stabilizację, testy oraz spójny opis
 w dokumentacji.
 
+W ramach przedmiotu PSEM, prowadzonego przez dr. inż. Marka
+Bednarczyka, postępy w przygotowywaniu dokumentacji były na bieżąco
+konsultowane, a na podstawie uzyskiwanej informacji zwrotnej wprowadzano
+kolejne poprawki i uzupełnienia.
+Analogiczny tryb pracy przyjęto w ramach przedmiotu PRZ~2, którego
+opiekunem był promotor pracy, mgr inż. Adam Urbanowicz.
+
 \subsection*{Październik 2025}
 
-TODO: do uzupełnienia – opis prac wykonanych w październiku 2025 roku
-(np. domykanie brakujących funkcjonalności, porządki w kodzie,
-stabilizacja środowiska).
+\begin{zadaniaosoby}{Adam Langmesser}
+    \item Wprowadzenie możliwości tworzenia czatów grupowych,
+    w tym obsługi wyboru uczestników, komunikacji z backendem
+    oraz integracji z istniejącą listą czatów.
+    \item Dodanie funkcjonalności wysyłania i wyświetlania załączników
+    w wiadomościach czatu (pliki oraz obrazy), wraz z logiką wyboru,
+    podglądu i wysyłania samych plików bez treści tekstowej.
+    \item Rozszerzenie istniejącej funkcjonalności czatów grupowych
+    o możliwość edycji ich parametrów (zmiana nazwy oraz obrazu czatu)
+    po stronie backendu i frontendu.
+    \item Dodanie możliwości dołączania nowych użytkowników
+    do istniejących czatów grupowych, wraz z odpowiednimi
+    endpointami HTTP i modyfikacją interfejsu użytkownika.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Mateusz Redosz}
+    \item Rozbudowa systemu statusów znajomych w części społecznościowej
+    aplikacji, w tym rozróżnienie zaproszeń wysłanych, otrzymanych
+    oraz relacji zakończonych, a także dostosowanie interfejsu
+    do prezentacji odpowiednich komunikatów i akcji.
+    \item Wprowadzenie zaawansowanego zarządzania zaproszeniami
+    do znajomych: dodanie modalnego widoku listy zaproszeń, obsługi
+    akceptowania i odrzucania oraz integracji z dedykowanymi
+    endpointami backendowymi.
+    \item Dodanie funkcji \textit{„Dodaj znajomego”} w sekcji
+    społecznościowej, obejmującej wyszukiwarkę użytkowników
+    (paginacja, wyszukiwanie po nazwie użytkownika) oraz spójny
+    wygląd modalnego okna wyszukiwania.
+    \item Rozbudowa komponentu przycisku przesyłania plików
+    o możliwość podglądu wielu plików, nadawania im unikalnych
+    identyfikatorów oraz usuwania pojedynczych plików przed wysłaniem.
+    \item Przebudowa struktury rozdziału \textit{Implementacja}:
+    wydzielenie osobnych sekcji dla backendu, frontendu i CI/CD,
+    uzupełnienie dokumentacji backendu o listę endpointów z przykładami
+    odpowiedzi oraz przygotowanie miejsc na opis implementacji
+    pozostałych części.
+    \item Przygotowanie struktury rozdziału \textit{Analiza wymagań},
+    w tym włączenie plików dotyczących przypadków użycia, wymagań
+    funkcjonalnych i pozafunkcjonalnych oraz wymagań dotyczących
+    środowiska docelowego.
+    \item Przygotowanie struktury rozdziału  \textit{Nakład pracy} wraz
+    z podrozdziałami opisującymi indywidualny wkład każdego członka
+    zespołu oraz włączenie go do głównej struktury dokumentu.
+    \item Przebudowa i uporządkowanie struktury dokumentacji
+    (m.in. „Ogólny nakład pracy”, „Indywidualne nakłady pracy”
+    oraz „Aspekty społeczne i biznesowe”) poprzez wydzielenie ich
+    do osobnych plików, usunięcie przestarzałych fragmentów
+    oraz ujednolicenie poziomów nagłówków i oznaczeń sekcji.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
+    \item Wprowadzenie rozszerzonej galerii multimediów dla spotów,
+    obejmującej obsługę paginacji, podglądu w trybie pełnoekranowym
+    oraz dodatkowych akcji (np. udostępnianie odnośnika do zasobu).
+    \item Dostosowanie modułu mapy oraz widoku szczegółów spotów
+    pod kątem responsywności i skalowania na dużych ekranach,
+    w tym korekty wysokości komponentów, układu galerii multimediów
+    oraz przewijania list komentarzy.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Kacper Badek}
+    \item Wprowadzenie dużego refaktoryzacji funkcjonalności forum,
+    obejmującej obsługę komentarzy do postów (dodawanie, edycję,
+    usuwanie oraz głosowanie) po stronie backendu i frontendu.
+    \item Przebudowa stron forum w kierunku architektury z nieskończonym
+    przewijaniem (infinite scroll), z wykorzystaniem mechanizmów
+    stronicowania i sortowania postów po stronie klienta i serwera.
+    \item Zastąpienie klasycznych wskaźników ładowania (spinnerów)
+    loaderami typu „skeleton” dla listy postów oraz paneli
+    kategorii i tagów, co poprawiło odbiór interfejsu w trakcie
+    ładowania danych.
+\end{zadaniaosoby}
 
 \subsection*{Listopad 2025}
 
-\begin{itemize}
+\begin{zadaniaosoby}{Adam Langmesser}
     \item Opracowanie rozdziału \textit{Analiza wymagań} – przygotowanie
     listy aktorów systemu, diagramu przypadków użycia oraz scenariuszy
-    przypadków użycia (\textbf{Adam Langmesser}).
-    TODO: odwołanie do odpowiedniego rozdziału i podrozdziałów
-    poświęconych analizie wymagań.
-\end{itemize}
+    przypadków użycia.
+\end{zadaniaosoby}
+
+TODO: odwołanie do odpowiedniego rozdziału i podrozdziałów
+poświęconych analizie wymagań.\\
+TODO: dokończenie
 
 \subsection*{Grudzień 2025}
 
-\begin{itemize}
+\begin{zadaniaosoby}{Adam Langmesser}
     \item Opracowanie podrozdziału poświęconego wymaganiom
     dla modułu czatu, w tym wymagań funkcjonalnych
-    i pozafunkcjonalnych (\textbf{Adam Langmesser}).
-    TODO: odwołanie do numeru podrozdziału z wymaganiami dla czatu.
+    i pozafunkcjonalnych.
     \item Dopracowanie kart usług zewnętrznych (m.in. usług mapowych,
-    pogodowych, poczty e-mail) wykorzystywanych przez system
-    (\textbf{Adam Langmesser}).
-    TODO: odwołanie do sekcji z kartami usług zewnętrznych.
-\end{itemize}
+    pogodowych, poczty e-mail) wykorzystywanych przez system.
+\end{zadaniaosoby}
+
+TODO: odwołanie do numeru podrozdziału z wymaganiami dla czatu.\\
+TODO: odwołanie do sekcji z kartami usług zewnętrznych.\\
+TODO: dokończenie
 
 \subsection*{Styczeń 2026}
 
-TODO: do uzupełnienia – szczegółowy opis ostatnich prac wykonanych
-w styczniu 2026 roku (np. końcowe testy, poprawki kosmetyczne,
-formatowanie pracy).
+TODO: do uzupełnienia
 
 Na zakończenie prac projektowych przyjęto datę
 \textbf{10 stycznia 2026 roku}.
