@@ -1,6 +1,6 @@
 export default interface AddSpotCommentDto {
     text: string;
     rating: number;
-    formData: FormData;
+    mediaFiles: File[];
     spotId: number;
 }

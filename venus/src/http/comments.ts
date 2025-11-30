@@ -26,15 +26,26 @@ export async function getSpotCommentsMedia(spotId: number, commentId: number) {
 }
 
 export async function addSpotComment(addSpotCommentDto: AddSpotCommentDto) {
-    const { spotId, text, rating, formData } = addSpotCommentDto;
-    return await axios.post(
-        `${BASE_URL}/spot/${spotId}/comments`,
-        { text, rating, formData },
-        {
-            withCredentials: true,
-            headers: { "Content-Type": "multipart/form-data" },
-        },
+    const { spotId, text, rating, mediaFiles } = addSpotCommentDto;
+    const formData = new FormData();
+
+    for (const file of mediaFiles) {
+        formData.append("mediaFiles", file);
+    }
+
+    formData.append(
+        "spotComment",
+        JSON.stringify({
+            text,
+            rating,
+        }),
     );
+    console.log(formData);
+    return (
+        await axios.post(`${BASE_URL}/spot/${spotId}/comments`, formData, {
+            withCredentials: true,
+        })
+    ).data;
 }
 
 //TODO: other task, delete?

@@ -9,6 +9,7 @@ import { notificationAction } from "../../../../redux/notification";
 import { addSpotCommentSchema } from "./validation-schema/addSpotCommentSchema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addSpotComment } from "../../../../http/comments";
+import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinner";
 
 const slideVariants = {
     hidden: { opacity: 0 },
@@ -49,6 +50,9 @@ export default function AddSpotCommentModal() {
             await queryClient.invalidateQueries({
                 queryKey: ["spot-comments", spotId],
             });
+            await queryClient.invalidateQueries({
+                queryKey: ["spotDetails", spotId],
+            });
             setSpotRating(0);
             setCommentText("");
             setMediaFiles([]);
@@ -63,15 +67,8 @@ export default function AddSpotCommentModal() {
         },
     });
 
-    const handleAddSpotComment = () => {
-        if (mediaFiles.length === 0) {
-            dispatch(
-                notificationAction.addError({
-                    message: "Please add at least one media.",
-                }),
-            );
-            return;
-        } else if (mediaFiles.length > 20) {
+    const handleAddSpotComment = async () => {
+        if (mediaFiles.length > 20) {
             dispatch(
                 notificationAction.addError({
                     message: "Maximum amount of media id 20.",
@@ -91,12 +88,12 @@ export default function AddSpotCommentModal() {
             return;
         }
 
-        const fd = new FormData();
-        for (const file of mediaFiles) {
-            fd.append("mediaFiles", file);
-        }
-
-        //TODO: send data
+        await mutateAsync({
+            text: commentText,
+            spotId: spotId!,
+            mediaFiles: mediaFiles,
+            rating: spotRating,
+        });
     };
 
     return (
@@ -141,17 +138,23 @@ export default function AddSpotCommentModal() {
                 </div>
                 <div className="flex items-center justify-center space-x-5 text-xl">
                     <button
+                        disabled={isPending}
                         onClick={handleCancelAddSpotComment}
                         className="bg-violetDarker border-violetLightDarker hover:bg-violetLightDarker cursor-pointer rounded-xl border px-3 py-1.5"
                     >
                         Cancel
                     </button>
-                    <button
-                        onClick={handleAddSpotComment}
-                        className="bg-violetBrighter hover:bg-violetBright cursor-pointer rounded-xl px-3 py-1.5"
-                    >
-                        Publish
-                    </button>
+                    {isPending ? (
+                        <LoadingSpinner />
+                    ) : (
+                        <button
+                            disabled={isPending}
+                            onClick={handleAddSpotComment}
+                            className="bg-violetBrighter hover:bg-violetBright cursor-pointer rounded-xl px-3 py-1.5"
+                        >
+                            Publish
+                        </button>
+                    )}
                 </div>
             </div>
         </motion.div>

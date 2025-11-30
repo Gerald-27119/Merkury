@@ -48,8 +48,8 @@ public class SpotCommentController {
     }
 
     @PostMapping("/spot/{spotId}/comments")
-    public ResponseEntity<Void> addComment(@PathVariable Long spotId, @Valid @RequestBody SpotCommentAddDto spotCommentAddDto, List<MultipartFile> mediaFiles) throws SpotNotFoundException, UserNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, SpotMediaNumberOfMediaExceeded {
-        spotCommentService.addComment(spotCommentAddDto, spotId, mediaFiles);
+    public ResponseEntity<Void> addComment(@PathVariable Long spotId, @RequestPart("spotComment") String spotCommentJson, @RequestPart(value = "mediaFiles", required = false) List<MultipartFile> mediaFiles) throws SpotNotFoundException, UserNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, SpotMediaNumberOfMediaExceeded {
+        spotCommentService.addComment(spotCommentJson, mediaFiles, spotId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
