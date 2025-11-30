@@ -5,6 +5,8 @@ import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
+import com.merkury.vulcanus.exception.exceptions.SpotCommentRatingOutOfBoundariesException;
+import com.merkury.vulcanus.exception.exceptions.SpotCommentTextOutOfBoundariesException;
 import com.merkury.vulcanus.exception.exceptions.SpotMediaNumberOfMediaExceeded;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
@@ -69,11 +71,17 @@ public class SpotCommentService {
         return spotCommentMediaRepository.findBySpotCommentIdAndSpotCommentSpotId(spotId, commentId).stream().map(SpotCommentMediaMapper::toDto).toList();
     }
 
-    public void addComment(String spotCommentJson, List<MultipartFile> mediaFiles, Long spotId) throws SpotNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, UserNotFoundException, SpotMediaNumberOfMediaExceeded {
+    public void addComment(String spotCommentJson, List<MultipartFile> mediaFiles, Long spotId) throws SpotNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, UserNotFoundException, SpotMediaNumberOfMediaExceeded, SpotCommentTextOutOfBoundariesException, SpotCommentRatingOutOfBoundariesException {
         var user = customUserDetailsService.loadUserDetailsFromSecurityContext();
         var spot = spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
         var mapper = new ObjectMapper();
         var spotComment = mapper.readValue(spotCommentJson, SpotCommentAddDto.class);
+        if (spotComment.text().length() > 1000 || spotComment.text().isEmpty()) {
+            throw new SpotCommentTextOutOfBoundariesException();
+        }
+        if (spotComment.rating() < 0 || spotComment.rating() > 5) {
+            throw new SpotCommentRatingOutOfBoundariesException();
+        }
         if (mediaFiles != null && mediaFiles.size() > 20) {
             throw new SpotMediaNumberOfMediaExceeded();
         }

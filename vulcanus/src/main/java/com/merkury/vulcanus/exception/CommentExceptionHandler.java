@@ -2,6 +2,8 @@ package com.merkury.vulcanus.exception;
 
 import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.SpotCommentRatingOutOfBoundariesException;
+import com.merkury.vulcanus.exception.exceptions.SpotCommentTextOutOfBoundariesException;
 import com.merkury.vulcanus.exception.exceptions.SpotMediaNumberOfMediaExceeded;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,8 +25,10 @@ public class CommentExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
 
-    @ExceptionHandler
-    public ResponseEntity<String> handleNumberOfMediaInSpotCommentExceeded(SpotMediaNumberOfMediaExceeded ex) {
+    @ExceptionHandler({SpotMediaNumberOfMediaExceeded.class,
+            SpotCommentRatingOutOfBoundariesException.class,
+            SpotCommentTextOutOfBoundariesException.class})
+    public ResponseEntity<String> handleNumberOfMediaInSpotCommentExceeded(Exception ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

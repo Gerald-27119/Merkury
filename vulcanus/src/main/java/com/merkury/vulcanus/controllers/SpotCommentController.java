@@ -4,6 +4,8 @@ import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
+import com.merkury.vulcanus.exception.exceptions.SpotCommentRatingOutOfBoundariesException;
+import com.merkury.vulcanus.exception.exceptions.SpotCommentTextOutOfBoundariesException;
 import com.merkury.vulcanus.exception.exceptions.SpotMediaNumberOfMediaExceeded;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
@@ -48,7 +50,7 @@ public class SpotCommentController {
     }
 
     @PostMapping("/spot/{spotId}/comments")
-    public ResponseEntity<Void> addComment(@PathVariable Long spotId, @RequestPart("spotComment") String spotCommentJson, @RequestPart(value = "mediaFiles", required = false) List<MultipartFile> mediaFiles) throws SpotNotFoundException, UserNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, SpotMediaNumberOfMediaExceeded {
+    public ResponseEntity<Void> addComment(@PathVariable Long spotId, @RequestPart("spotComment") String spotCommentJson, @RequestPart(value = "mediaFiles", required = false) List<MultipartFile> mediaFiles) throws SpotNotFoundException, UserNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, SpotMediaNumberOfMediaExceeded, SpotCommentTextOutOfBoundariesException, SpotCommentRatingOutOfBoundariesException {
         spotCommentService.addComment(spotCommentJson, mediaFiles, spotId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
