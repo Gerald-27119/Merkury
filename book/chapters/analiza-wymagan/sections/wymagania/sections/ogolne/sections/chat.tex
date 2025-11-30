@@ -52,31 +52,39 @@
 \multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
 
 
-% #1 – label
-% #2 – nazwa
-% #3 – numer / sufiks kodu (np. 01 → WOCZAT-01)
-% #4 – priorytet (MoSCoW: M, S, C, W)
-% #5 – reszta pól: \woczdesc, \woczaccept, ...
 \newcommand{\woczatcard}[5]{%
     \refstepcounter{woczat}%
-    \begin{center}
-    \begin{tabular}{|>{\columncolor{lightgray}}l|
-    l|
+    {\centering
+    \begin{longtable}{|
+            >{\columncolor{lightgray}}l|
+        l|
             >{\columncolor{lightgray}}l|
         p{0.15\textwidth}|}
     \hline
-    \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA FUNKCJONALNEGO DLA CZATU}} \\ \hline
+    \rowcolor{lightgray}\multicolumn{4}{|c|}
+    {\textbf{KARTA WYMAGANIA FUNKCJONALNEGO DLA CZATU}} \\ \hline
+    \endfirsthead
+
+    \hline
+    \rowcolor{lightgray}\multicolumn{4}{|c|}
+    {\textbf{KARTA WYMAGANIA FUNKCJONALNEGO DLA CZATU (cd.)}} \\ \hline
+    \endhead
+
+    % właściwa treść karty
     \woczpriority{#3}{#4}
     \woczname{#2}
     #5
-    \end{tabular}
+
+    \end{longtable}
+    \par} % koniec centrowania
+
     \vspace{3pt}
+    \textbf{Tabela \thewoczat:}
+    Karta wymagania funkcjonalnego dla czatu: #2\label{#1}
 
-    \textbf{Tabela \thewoczat:} Karta wymagania funkcjonalnego dla czatu: #2\label{#1}
-    \end{center}%
-    \addcontentsline{lot}{table}{Tabela \thewoczat: Karta wymagania funkcjonalnego dla czatu: #2}%
+    \addcontentsline{lot}{table}
+    {Tabela \thewoczat: Karta wymagania funkcjonalnego dla czatu: #2}%
 }
-
 
 \woczatcard
 {woczat:send-message}

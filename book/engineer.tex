@@ -10,14 +10,12 @@
 \usepackage{enumitem} % dla lepszej kontroli list
 \usepackage[utf8]{inputenc}
 
-% POCZĄTEK - dodanie 4-tego poziomu zagnieżdżenia rozdziału
-\setcounter{secnumdepth}{4}
-\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
 \usepackage{titlesec}
 \titleformat{\paragraph}[block]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
 \titlespacing*{\paragraph}{0pt}{1ex}{0.8ex}
 \newcommand{\subsubsubsection}[1]{\paragraph{#1}}
-% KONIEC
 
 %nowe pakiety do tabel:
 \usepackage{booktabs}
