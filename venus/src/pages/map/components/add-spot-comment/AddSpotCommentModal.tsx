@@ -6,6 +6,7 @@ import { addSpotCommentModalInfoActions } from "../../../../redux/add-spot-comme
 import { motion } from "framer-motion";
 import UploadButton from "../../../account/add-spot/components/UploadButton";
 import { notificationAction } from "../../../../redux/notification";
+import { addSpotCommentSchema } from "./validation-schema/addSpotCommentSchema";
 
 const slideVariants = {
     hidden: { opacity: 0 },
@@ -46,7 +47,17 @@ export default function AddSpotCommentModal() {
             );
             return;
         }
-        //TODO: validate
+        const validationResult = addSpotCommentSchema.safeParse({
+            commentText,
+            spotRating,
+        });
+
+        if (!validationResult.success) {
+            validationResult.error.issues.forEach((i) => {
+                dispatch(notificationAction.addError({ message: i.message }));
+            });
+            return;
+        }
     };
 
     return (
@@ -96,7 +107,10 @@ export default function AddSpotCommentModal() {
                     >
                         Cancel
                     </button>
-                    <button onClick={handleAddSpotComment} className="bg-violetBrighter hover:bg-violetBright cursor-pointer rounded-xl px-3 py-1.5">
+                    <button
+                        onClick={handleAddSpotComment}
+                        className="bg-violetBrighter hover:bg-violetBright cursor-pointer rounded-xl px-3 py-1.5"
+                    >
                         Publish
                     </button>
                 </div>
