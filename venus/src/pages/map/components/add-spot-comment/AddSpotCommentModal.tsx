@@ -105,7 +105,7 @@ export default function AddSpotCommentModal() {
             transition={{ duration: 0.3 }}
             className="absolute top-0 z-[4] flex h-full w-full items-center justify-center bg-black/80"
         >
-            <div className="bg-darkBgSoft text-darkText flex flex-col items-center space-y-5 rounded-2xl p-8">
+            <div className="bg-darkBgSoft text-darkText flex w-[40rem] flex-col items-center space-y-5 rounded-2xl p-8">
                 <h1 className="mb-4 text-3xl">{spotName}</h1>
                 <ConfigProvider
                     theme={{
