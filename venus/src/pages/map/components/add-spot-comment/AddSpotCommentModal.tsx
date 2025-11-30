@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import UploadButton from "../../../account/add-spot/components/UploadButton";
 import { notificationAction } from "../../../../redux/notification";
 import { addSpotCommentSchema } from "./validation-schema/addSpotCommentSchema";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addSpotComment } from "../../../../http/comments";
 
 const slideVariants = {
     hidden: { opacity: 0 },
@@ -21,6 +23,8 @@ export default function AddSpotCommentModal() {
 
     const { spotName } = useSelectorTyped((state) => state.addSpotCommentModal);
 
+    const { spotId } = useSelectorTyped((state) => state.spotDetails);
+
     const dispatch = useDispatchTyped();
 
     const handleCancelAddSpotComment = () => {
@@ -30,6 +34,34 @@ export default function AddSpotCommentModal() {
     const handleFileSelect = (files: File[]) => {
         setMediaFiles(files);
     };
+
+    const queryClient = useQueryClient();
+
+    const { mutateAsync, isPending } = useMutation({
+        mutationKey: ["addSpotComment", spotId],
+        mutationFn: addSpotComment,
+        onSuccess: async () => {
+            dispatch(
+                notificationAction.addSuccess({
+                    message: "Spot comment added successfully!",
+                }),
+            );
+            await queryClient.invalidateQueries({
+                queryKey: ["spot-comments", spotId],
+            });
+            setSpotRating(0);
+            setCommentText("");
+            setMediaFiles([]);
+            dispatch(addSpotCommentModalInfoActions.closeAddSpotCommentModal());
+        },
+        onError: () => {
+            dispatch(
+                notificationAction.addError({
+                    message: "Failed to add spot comment.",
+                }),
+            );
+        },
+    });
 
     const handleAddSpotComment = () => {
         if (mediaFiles.length === 0) {
@@ -58,6 +90,13 @@ export default function AddSpotCommentModal() {
             });
             return;
         }
+
+        const fd = new FormData();
+        for (const file of mediaFiles) {
+            fd.append("mediaFiles", file);
+        }
+
+        //TODO: send data
     };
 
     return (

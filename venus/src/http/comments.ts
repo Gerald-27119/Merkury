@@ -1,6 +1,7 @@
 import axios from "axios";
 import SpotCommentPage from "../model/interface/spot/comment/spotCommentPage";
 import SpotCommentVoteInfoDto from "../model/interface/spot/comment/spotCommentVoteInfoDto";
+import AddSpotCommentDto from "../model/interface/spot/comment/AddSpotCommentDto";
 
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
@@ -24,21 +25,26 @@ export async function getSpotCommentsMedia(spotId: number, commentId: number) {
     ).data;
 }
 
-//TODO:other task
-export async function addComment({ spotId, newComment }) {
-    return await axios.post(`${BASE_URL}/spot/${spotId}/comments`, newComment, {
-        withCredentials: true,
-    });
+export async function addSpotComment(addSpotCommentDto: AddSpotCommentDto) {
+    const { spotId, text, rating, formData } = addSpotCommentDto;
+    return await axios.post(
+        `${BASE_URL}/spot/${spotId}/comments`,
+        { text, rating, formData },
+        {
+            withCredentials: true,
+            headers: { "Content-Type": "multipart/form-data" },
+        },
+    );
 }
 
-//TODO: other task
+//TODO: other task, delete?
 export async function deleteComment(commentId) {
     return await axios.delete(`${BASE_URL}/spot/comments/${commentId}`, {
         withCredentials: true,
     });
 }
 
-//TODO: other task
+//TODO: other task, delete?
 export async function editComment({ commentId, editedComment }) {
     return await axios.patch(
         `${BASE_URL}/spot/comments/${commentId}`,
