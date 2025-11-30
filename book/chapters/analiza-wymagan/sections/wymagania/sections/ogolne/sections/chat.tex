@@ -13,61 +13,70 @@
 \newcounter{woczat}[chapter]
 \renewcommand{\thewoczat}{\thechapter.\arabic{woczat}}
 
-% Pola karty (lewa kolumna)
+% Szerokość części z treścią (3 prawe kolumny zlane w jedną)
+\newlength{\woczContentWidth}
+\setlength{\woczContentWidth}{0.7\textwidth}
+
+% --------- Pola karty (wiersze) ---------
+
+% Id + priorytet – 4 kolumny
 \newcommand{\woczpriority}[2]{%
-    \textbf{Identyfikator:} &
-    WOCZAT-#1\hspace{0.75em}%
-    \begingroup
-    \setlength{\fboxsep}{1pt}%
-    \colorbox{lightgray}{\strut\textbf{P:}}~#2%
-    \endgroup
-    \\ \hline
+    \textbf{Identyfikator:} & WOCZAT-#1 &
+    \textbf{Priorytet:} & #2 \\ \hline
 }
-\newcommand{\woczname}[1]{\textbf{Nazwa:} & #1 \\ \hline}
-\newcommand{\woczdesc}[1]{\textbf{Opis:} & #1 \\ \hline}
-\newcommand{\woczaccept}[1]{\textbf{Kryteria akceptacji:} & #1 \\ \hline}
-\newcommand{\woczinput}[1]{\textbf{Dane wejściowe:} & #1 \\ \hline}
-\newcommand{\woczpre}[1]{\textbf{Warunki początkowe:} & #1 \\ \hline}
-\newcommand{\woczpost}[1]{\textbf{Warunki końcowe:} & #1 \\ \hline}
-\newcommand{\woczexceptions}[1]{\textbf{Sytuacje wyjątkowe:} & #1 \\ \hline}
-\newcommand{\woczimpl}[1]{\textbf{Szczegóły implementacji:} & #1 \\ \hline}
-\newcommand{\woczstakeholder}[1]{\textbf{Udziałowiec:} & #1 \\ \hline}
-\newcommand{\woczresponsible}[1]{\textbf{Realizator:} & #1 \\ \hline}
-\newcommand{\woczstatus}[1]{\textbf{Status:} & #1 \\ \hline}
-\newcommand{\wocznote}[1]{\textbf{Notatka:} & #1 \\ \hline}
 
-% (opcjonalne, nieużywane w tych kartach, zostawione na przyszłość)
-\newcommand{\woczarea}[1]{\textbf{Obszar systemu:} & #1 \\ \hline}
-\newcommand{\woczbusiness}[1]{\textbf{Uzasadnienie biznesowe:} & #1 \\ \hline}
-\newcommand{\woczconstraints}[1]{\textbf{Ograniczenia / założenia:} & #1 \\ \hline}
-\newcommand{\woczrelated}[1]{\textbf{Wymagania powiązane:} & #1 \\ \hline}
+% Wiersze z etykietą + treścią na 3 kolumny
+\newcommand{\woczname}[1]{\textbf{Nazwa:}              &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+\newcommand{\woczdesc}[1]{\textbf{Opis:}               &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+\newcommand{\woczaccept}[1]{\textbf{Kryteria akceptacji:} &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+\newcommand{\woczinput}[1]{\textbf{Dane wejściowe:}    &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+\newcommand{\woczpre}[1]{\textbf{Warunki początkowe:}  &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+\newcommand{\woczpost}[1]{\textbf{Warunki końcowe:}    &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+\newcommand{\woczexceptions}[1]{\textbf{Sytuacje wyjątkowe:} &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+\newcommand{\woczimpl}[1]{\textbf{Szczegóły implementacji:} &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+\newcommand{\woczstakeholder}[1]{\textbf{Udziałowiec:} &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+\newcommand{\woczresponsible}[1]{\textbf{Realizator:}  &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+\newcommand{\woczstatus}[1]{\textbf{Status:}           &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+\newcommand{\wocznote}[1]{\textbf{Notatka:}            &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
 
-% Karta wymagania ogólnego dla czatu
+
 % #1 – label
 % #2 – nazwa
 % #3 – numer / sufiks kodu (np. 01 → WOCZAT-01)
 % #4 – priorytet (MoSCoW: M, S, C, W)
-% #5 – reszta pól: \woczdesc, \woczaccept, \woczinput, ...
+% #5 – reszta pól: \woczdesc, \woczaccept, ...
 \newcommand{\woczatcard}[5]{%
     \refstepcounter{woczat}%
-    \par\begin{center}
-    \renewcommand{\arraystretch}{1.15}%
-    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.22\textwidth}|X|}
-    \rowcolor{lightgray}
-    \multicolumn{2}{|c|}{\textbf{KARTA WYMAGANIA FUNKCJONALNEGO DLA CZATU}} \\ \hline
+    \begin{center}
+    \begin{tabular}{|>{\columncolor{lightgray}}l|
+    l|
+            >{\columncolor{lightgray}}l|
+        p{0.15\textwidth}|}
+    \hline
+    \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA FUNKCJONALNEGO DLA CZATU}} \\ \hline
     \woczpriority{#3}{#4}
     \woczname{#2}
     #5
-    \end{tabularx}
+    \end{tabular}
     \vspace{3pt}
+
     \textbf{Tabela \thewoczat:} Karta wymagania funkcjonalnego dla czatu: #2\label{#1}
     \end{center}%
     \addcontentsline{lot}{table}{Tabela \thewoczat: Karta wymagania funkcjonalnego dla czatu: #2}%
 }
 
-% ---------------------------------------------
-% WOCZAT-01 – Wysyłanie wiadomości na czacie
-% ---------------------------------------------
 
 \woczatcard
 {woczat:send-message}
@@ -105,10 +114,6 @@
     \wocznote{\textemdash\ brak}
 }
 
-% ---------------------------------------------
-% WOCZAT-02 – Edycja czatu
-% ---------------------------------------------
-
 \woczatcard
 {woczat:edit-chat}
 {Edycja czatu}
@@ -145,10 +150,6 @@
 
     \wocznote{\textemdash\ brak}
 }
-
-% ---------------------------------------------
-% WOCZAT-03 – Przeglądanie historii czatu
-% ---------------------------------------------
 
 \woczatcard
 {woczat:browse-history}
@@ -188,9 +189,6 @@
     \wocznote{\textemdash\ brak}
 }
 
-% ---------------------------------------------
-% WOCZAT-04 – Tworzenie czatu
-% ---------------------------------------------
 
 \woczatcard
 {woczat:create-chat}
