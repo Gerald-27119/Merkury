@@ -27,6 +27,7 @@ import com.merkury.vulcanus.model.mappers.spot.SpotCommentMapper;
 import com.merkury.vulcanus.model.mappers.spot.SpotCommentMediaMapper;
 import com.merkury.vulcanus.model.repositories.SpotCommentMediaRepository;
 import com.merkury.vulcanus.model.repositories.SpotCommentRepository;
+import com.merkury.vulcanus.model.repositories.SpotMediaRepository;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
@@ -55,6 +56,7 @@ public class SpotCommentService {
     private final CustomUserDetailsService customUserDetailsService;
     private final AzureBlobService azureBlobService;
     private final UserEntityRepository userEntityRepository;
+    private final SpotMediaRepository spotMediaRepository;
 
     public Page<SpotCommentDto> getCommentsBySpotId(HttpServletRequest request, Long spotId, Pageable pageable) throws UserNotFoundException {
         Page<SpotComment> commentsPage = spotCommentRepository.findBySpotIdOrderByPublishDateDescIdAsc(spotId, pageable);
@@ -79,7 +81,8 @@ public class SpotCommentService {
                 .orElseThrow(() -> new UserNotFoundException(String.format("User with %s not found", user.getUsername())));
 
         var spotCommentEntity = SpotCommentMapper.toEntity(spotComment, spot, author);
-        List<SpotCommentMedia> mediaEntities = new ArrayList<>();
+        List<SpotCommentMedia> spotCommentMediaEntities = new ArrayList<>();
+        List<SpotMedia> spotMediaEntities = new ArrayList<>();
         if (mediaFiles != null) {
             for (MultipartFile file : mediaFiles) {
                 String blobUrl = azureBlobService.upload("mapa", file, AzureBlobFileValidatorType.DEFAULT);
@@ -89,12 +92,22 @@ public class SpotCommentService {
                         .genericMediaType(getMediaType(file))
                         .spotComment(spotCommentEntity)
                         .build();
-                mediaEntities.add(spotCommentMedia);
+                SpotMedia mediaEntity = SpotMedia.builder()
+                        .url(blobUrl)
+                        .alt(file.getOriginalFilename())
+                        .description("")
+                        .genericMediaType(getMediaType(file))
+                        .author(author)
+                        .spot(spot)
+                        .build();
+                spotCommentMediaEntities.add(spotCommentMedia);
+                spotMediaEntities.add(mediaEntity);
             }
         }
 
-        spotCommentEntity.setMedia(mediaEntities);
+        spotCommentEntity.setMedia(spotCommentMediaEntities);
         spotCommentRepository.save(spotCommentEntity);
+        spotMediaRepository.saveAll(spotMediaEntities);
         updateSpotRating(spot);
     }
 
