@@ -4,7 +4,7 @@
 \noindent\textbf{Forum – posty}
 
 \cardendpoint
-{EP57}
+{EP20}
 {/public/post/\{postId\}}
 {Pobierz szczegółowe informacje o poście}
 {%
@@ -38,40 +38,7 @@
 }
 
 \cardendpoint
-{EP58}
-{/public/post}
-{Pobierz stronicowaną listę postów forum}
-{Brak}
-{%
-    \begin{tabitemize}
-        \item \textbf{page}: Integer (numer strony, domyślnie 0)
-        \item \textbf{size}: Integer (rozmiar strony, domyślnie 10)
-        \item \textbf{sortBy}: PostSortField (pole sortowania, domyślnie \texttt{PUBLISH\_DATE})
-        \item \textbf{sortDirection}: SortDirection (kierunek sortowania, domyślnie \texttt{DESC})
-    \end{tabitemize}
-}
-{200 OK}
-{%
-    \begin{tabitemize}
-        \item \textbf{Page<PostGeneralDto>}, każdy element zawiera:
-        \begin{itemize}
-            \item \textbf{id}: Long
-            \item \textbf{title}: String
-            \item \textbf{slugTitle}: String (wersja tytułu w URL)
-            \item \textbf{summaryContent}: String (skrócona treść)
-            \item \textbf{content}: String (pełna treść)
-            \item \textbf{category}: ForumCategoryDto
-            \item \textbf{tags}: List<ForumTagDto>
-            \item \textbf{views}: Integer
-            \item \textbf{commentsCount}: Integer
-            \item \textbf{isAuthor}: Boolean
-            \item \textbf{isFollowed}: Boolean
-        \end{itemize}
-    \end{tabitemize}
-}
-
-\cardendpoint
-{EP59}
+{EP21}
 {/post}
 {Dodaj nowy post na forum}
 {%
@@ -84,7 +51,7 @@
 {Brak (pusta odpowiedź)}
 
 \cardendpoint
-{EP60}
+{EP22}
 {/post/\{postId\}}
 {Usuń wybrany post}
 {%
@@ -97,21 +64,7 @@
 {Brak (pusta odpowiedź)}
 
 \cardendpoint
-{EP61}
-{/post/\{postId\}}
-{Edytuj istniejący post}
-{%
-    \begin{tabitemize}
-        \item \textbf{postId}: Long (ID posta w ścieżce URL)
-        \item \textbf{body}: PostDto (JSON z nową treścią/tytułem/kategorią/tagami)
-    \end{tabitemize}
-}
-{Brak}
-{200 OK, 400 Bad Request, 401 Unauthorized, 404 Not Found, 409 Conflict, 422 Unprocessable Entity}
-{Brak (pusta odpowiedź)}
-
-\cardendpoint
-{EP62}
+{EP23}
 {/post/\{postId\}/vote}
 {Oddaj głos na post (góra/dół)}
 {%
@@ -128,34 +81,7 @@
 {Brak (pusta odpowiedź)}
 
 \cardendpoint
-{EP63}
-{/post/\{postId\}/follow}
-{Rozpocznij lub zakończ obserwowanie posta}
-{%
-    \begin{tabitemize}
-        \item \textbf{postId}: Long (ID posta w ścieżce URL)
-    \end{tabitemize}
-}
-{Brak}
-{200 OK, 401 Unauthorized, 404 Not Found, 409 Conflict}
-{Brak (pusta odpowiedź)}
-
-\cardendpoint
-{EP64}
-{/post/\{postId\}/report}
-{Zgłoś post do moderacji}
-{%
-    \begin{tabitemize}
-        \item \textbf{postId}: Long (ID posta w ścieżce URL)
-        \item \textbf{body}: ForumReportDto (JSON z danymi zgłoszenia, np. typ powodu, opis)
-    \end{tabitemize}
-}
-{Brak}
-{200 OK, 400 Bad Request, 401 Unauthorized, 404 Not Found, 409 Conflict, 422 Unprocessable Entity}
-{Brak (pusta odpowiedź)}
-
-\cardendpoint
-{EP65}
+{EP24}
 {/public/categories-tags}
 {Pobierz listę wszystkich kategorii i tagów forum}
 {Brak}
@@ -170,7 +96,7 @@
                 \item \textbf{id}: Long
                 \item \textbf{name}: String
                 \item \textbf{description}: String
-                \item \textbf{colour}: String (np. kolor kategorii w UI)
+                \item \textbf{colour}: String (kolor kategorii)
             \end{itemize}
             \item \textbf{tags}: List<ForumTagDto>, gdzie każdy element zawiera:
             \begin{itemize}

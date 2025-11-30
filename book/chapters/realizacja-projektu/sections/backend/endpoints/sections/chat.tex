@@ -4,7 +4,7 @@
 \noindent\textbf{GIF-y (Tenor) – integracja czatu}
 
 \cardendpoint
-{EP81}
+{EP35}
 {/gifs/trending}
 {Pobierz listę trendujących kategorii GIF-ów z Tenor}
 {Brak}
@@ -15,14 +15,14 @@
         \item \textbf{items}: List<TenorGifCategoryDto>, każdy element zawiera:
         \begin{itemize}
             \item \textbf{searchTerm}: String (fraza wyszukiwania powiązana z kategorią)
-            \item \textbf{path}: String (ścieżka/slug kategorii w Tenor)
-            \item \textbf{gifUrl}: String (URL przykładowego GIF-a z kategorii)
+            \item \textbf{path}: String (ścieżka kategorii w Tenor)
+            \item \textbf{gifUrl}: String
         \end{itemize}
     \end{tabitemize}
 }
 
 \cardendpoint
-{EP82}
+{EP36}
 {/gifs/search}
 {Wyszukaj GIF-y po frazie tekstowej}
 {Brak}
@@ -49,7 +49,7 @@
 \noindent\textbf{Czat – komunikacja w czasie rzeczywistym (STOMP)}
 
 \cardendpoint
-{EP83}
+{EP37}
 {/app/send/\{chatId\}/message}
 {Wyślij wiadomość czatu (WebSocket/STOMP)}
 {%
@@ -74,7 +74,7 @@
 \noindent\textbf{Czat – REST API}
 
 \cardendpoint
-{EP84}
+{EP38}
 {/chats/\{chatId\}/messages}
 {Pobierz stronicowane wiadomości dla wybranego czatu}
 {%
@@ -100,7 +100,7 @@
                 \item \textbf{sentAt}: LocalDateTime
                 \item \textbf{content}: String (treść wiadomości; dla wiadomości plikowych może być pusty)
                 \item \textbf{chatId}: Long
-                \item \textbf{attachedFiles}: List<ChatMessageAttachedFileDto>
+                \item \textbf{attachedFiles}: \newline List<ChatMessageAttachedFileDto>
             \end{itemize}
             \item \textbf{hasNextSlice}: Boolean (czy istnieje kolejna „strona” wiadomości)
             \item \textbf{numberOfMessages}: Integer (liczba wiadomości w tej odpowiedzi)
@@ -110,34 +110,7 @@
 }
 
 \cardendpoint
-{EP85}
-{/chats/user-chats}
-{Pobierz listę czatów użytkownika z ostatnimi wiadomościami}
-{Brak}
-{%
-    \begin{tabitemize}
-        \item \textbf{pageNumber}: Integer (numer strony listy czatów, domyślnie 0)
-        \item \textbf{numberOfChatsPerPage}: Integer (liczba czatów na stronę, domyślnie 10)
-    \end{tabitemize}
-}
-{200 OK, 401 Unauthorized}
-{%
-    \begin{tabitemize}
-        \item \textbf{items}: List<ChatDto>, każdy element:
-        \begin{itemize}
-            \item \textbf{id}: Long
-            \item \textbf{name}: String (nazwa czatu; dla prywatnych może być nazwą drugiego użytkownika)
-            \item \textbf{lastMessage}: ChatMessageDto (ostatnia wiadomość na czacie)
-            \item \textbf{imgUrl}: String (URL avatara czatu / rozmówcy)
-            \item \textbf{messages}: List<ChatMessageDto> (ostatnie wiadomości, do wyświetlenia szczegółów)
-            \item \textbf{chatType}: ChatType (np. PRIVATE, GROUP)
-            \item \textbf{participants}: List<ChatParticipantDto> (uczestnicy czatu)
-        \end{itemize}
-    \end{tabitemize}
-}
-
-\cardendpoint
-{EP86}
+{EP39}
 {/chats/get-or-create-private-chat}
 {Pobierz istniejący lub utwórz nowy prywatny czat z użytkownikiem}
 {Brak}
@@ -150,18 +123,28 @@
 {200 OK, 401 Unauthorized, 404 Not Found}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: ChatDto (szczegóły czatu prywatnego – patrz EP85)
+        \item \textbf{body}: ChatDto, zawiera m.in.:
+        \begin{itemize}
+            \item \textbf{id}: Long (identyfikator czatu)
+            \item \textbf{name}: String (nazwa czatu – np. nazwa grupy lub rozmówcy)
+            \item \textbf{lastMessage}: ChatMessageDto (ostatnia wiadomość w czacie;
+            struktura jak w EP38)
+            \item \textbf{imgUrl}: String (URL obrazka/avatara czatu)
+            \item \textbf{messages}: List<ChatMessageDto> (lista wiadomości zwróconych
+            razem z czatem)
+            \item \textbf{chatType}: ChatType (typ czatu, np. \texttt{PRIVATE}, \texttt{GROUP})
+            \item \textbf{participants}: List<ChatParticipantDto> (lista uczestników czatu)
+        \end{itemize}
     \end{tabitemize}
 }
-
 \cardendpoint
-{EP87}
+{EP40}
 {/chats/\{chatId\}/send-files}
 {Wyślij jeden lub wiele plików w ramach czatu}
 {%
     \begin{tabitemize}
         \item \textbf{chatId}: Long (identyfikator czatu w ścieżce)
-        \item \textbf{media}: List<MultipartFile> (pole formularza \texttt{media} – lista załączanych plików)
+        \item \textbf{media}: List<MultipartFile> (lista załączanych plików)
     \end{tabitemize}
 }
 {Brak}
@@ -173,7 +156,7 @@
 }
 
 \cardendpoint
-{EP88}
+{EP41}
 {/chats/create/group}
 {Utwórz nowy czat grupowy}
 {%
@@ -185,12 +168,23 @@
 {201 Created, 400 Bad Request, 401 Unauthorized}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: ChatDto (nowo utworzony czat grupowy – patrz EP85)
+        \item \textbf{body}: ChatDto, zawiera m.in.:
+        \begin{itemize}
+            \item \textbf{id}: Long (identyfikator czatu)
+            \item \textbf{name}: String (nazwa czatu – np. nazwa grupy lub rozmówcy)
+            \item \textbf{lastMessage}: ChatMessageDto (ostatnia wiadomość w czacie;
+            struktura jak w EP38)
+            \item \textbf{imgUrl}: String (URL obrazka/avatara czatu)
+            \item \textbf{messages}: List<ChatMessageDto> (lista wiadomości zwróconych
+            razem z czatem)
+            \item \textbf{chatType}: ChatType (typ czatu, np. \texttt{PRIVATE}, \texttt{GROUP})
+            \item \textbf{participants}: List<ChatParticipantDto> (lista uczestników czatu)
+        \end{itemize}
     \end{tabitemize}
 }
 
 \cardendpoint
-{EP89}
+{EP42}
 {/chats/\{chatId\}}
 {Zaktualizuj dane czatu grupowego (np. nazwa, zdjęcie)}
 {%
@@ -212,7 +206,7 @@
 }
 
 \cardendpoint
-{EP90}
+{EP43}
 {/chats/group-chat/add/search/\{chatId\}}
 {Wyszukaj potencjalnych użytkowników do dodania do czatu grupowego}
 {%
@@ -239,23 +233,5 @@
                 \item \textbf{profileImg}: String (URL zdjęcia profilowego)
             \end{itemize}
         \end{itemize}
-    \end{tabitemize}
-}
-
-\cardendpoint
-{EP91}
-{/chats/add/users/\{chatId\}}
-{Dodaj użytkowników do istniejącego czatu grupowego}
-{%
-    \begin{tabitemize}
-        \item \textbf{chatId}: Long (identyfikator czatu grupowego)
-        \item \textbf{body}: AddUsersToExistingGroupChatDto (JSON, zawiera listę nazw użytkowników do dodania)
-    \end{tabitemize}
-}
-{Brak}
-{200 OK, 401 Unauthorized, 404 Not Found, 409 Conflict}
-{%
-    \begin{tabitemize}
-        \item \textbf{body}: ChatDto (zaktualizowany czat grupowy z nową listą uczestników)
     \end{tabitemize}
 }

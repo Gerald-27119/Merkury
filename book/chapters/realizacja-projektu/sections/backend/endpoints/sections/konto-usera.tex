@@ -4,16 +4,16 @@
 \noindent\textbf{Konto użytkownika – rejestracja, logowanie, hasło}
 
 \cardendpoint
-{EP75}
+{EP30}
 {/public/account/register}
 {Zarejestruj nowego użytkownika}
 {%
     \begin{tabitemize}
         \item \textbf{body}: UserRegisterDto (JSON), zawiera:
         \begin{itemize}
-            \item \textbf{username}: String (3–16 znaków, litery/cyfry/\_)
-            \item \textbf{email}: String (poprawny adres e-mail)
-            \item \textbf{password}: String (8–16 znaków, min. jedna cyfra, mała i duża litera oraz znak specjalny)
+            \item \textbf{username}: String
+            \item \textbf{email}: String
+            \item \textbf{password}: String
         \end{itemize}
     \end{tabitemize}
 }
@@ -21,13 +21,13 @@
 {201 Created, 401 Unauthorized, 409 Conflict, 422 Unprocessable Entity, 500 Internal Server Error}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: String (komunikat, np. \texttt{"User registered successfully"})
-        \item JWT tokeny ustawione w ciasteczkach HTTP-only (automatyczne zalogowanie)
+        \item \textbf{body}: String (komunikat)
+        \item JWT tokeny ustawione w ciasteczkach HTTP-only
     \end{tabitemize}
 }
 
 \cardendpoint
-{EP76}
+{EP31}
 {/public/account/login}
 {Zaloguj użytkownika}
 {%
@@ -49,20 +49,7 @@
 }
 
 \cardendpoint
-{EP77}
-{/account/login-success}
-{Obsłuż pomyślne logowanie OAuth2 i przekieruj użytkownika}
-{Brak}
-{Brak}
-{302 Found, 404 Not Found, 409 Conflict, 422 Unprocessable Entity, 500 Internal Server Error}
-{%
-    \begin{tabitemize}
-        \item \textbf{Redirect}: przekierowanie na stronę po zalogowaniu (\texttt{afterLoginPageUrl} z konfiguracji)
-    \end{tabitemize}
-}
-
-\cardendpoint
-{EP78}
+{EP32}
 {/public/account/forgot-password}
 {Rozpocznij procedurę resetu hasła (wyślij link na e-mail)}
 {%
@@ -74,13 +61,13 @@
 {200 OK, 404 Not Found, 422 Unprocessable Entity, 500 Internal Server Error}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: String (komunikat, np. \texttt{"Password reset link sent to: user@example.com"})
+        \item \textbf{body}: String (komunikat)
         \item Link resetujący hasło wysłany na podany adres e-mail
     \end{tabitemize}
 }
 
 \cardendpoint
-{EP79}
+{EP33}
 {/public/account/set-new-password}
 {Ustaw nowe hasło użytkownika na podstawie tokenu resetującego}
 {%
@@ -88,7 +75,7 @@
         \item \textbf{body}: UserPasswordResetDto (JSON), zawiera:
         \begin{itemize}
             \item \textbf{token}: String (UUID – token resetu hasła)
-            \item \textbf{password}: String (8–16 znaków, min. jedna cyfra, mała i duża litera oraz znak specjalny)
+            \item \textbf{password}: String
         \end{itemize}
     \end{tabitemize}
 }
@@ -96,12 +83,12 @@
 {200 OK, 400 Bad Request, 404 Not Found, 422 Unprocessable Entity}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: String (komunikat, np. \texttt{"Password set successfully!"})
+        \item \textbf{body}: String (komunikat)
     \end{tabitemize}
 }
 
 \cardendpoint
-{EP80}
+{EP34}
 {/account/check}
 {Sprawdź, czy użytkownik jest uwierzytelniony}
 {Brak}

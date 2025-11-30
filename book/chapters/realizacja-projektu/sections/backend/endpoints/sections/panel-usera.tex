@@ -3,26 +3,7 @@
 
 \noindent\textbf{Panel użytkownika}
 
-\cardendpoint
-{EP01}
-{/user-dashboard/profile}
-{Pobierz własny profil użytkownika}
-{Brak}
-{Brak}
-{200 OK, 404 Not Found, 401 Unauthorized}
-{%
-    \begin{tabitemize}
-        \item \textbf{username}: String
-        \item \textbf{profilePhoto}: String (URL)
-        \item \textbf{followersCount}: Integer
-        \item \textbf{followedCount}: Integer
-        \item \textbf{friendsCount}: Integer
-        \item \textbf{photosCount}: Integer
-        \item \textbf{mostPopularPhotos}: List<ImageDto>
-    \end{tabitemize}
-}
-
-\cardendpoint {EP02} {/public/user-dashboard/profile/\{targetUsername\}} {Pobierz profil innego użytkownika (widok publiczny)} {%
+\cardendpoint {EP01} {/public/user-dashboard/profile/\{targetUsername\}} {Pobierz profil innego użytkownika (widok publiczny)} {%
     \begin{tabitemize}
         \item \textbf{targetUsername}: String (nazwa użytkownika w ścieżce URL)
     \end{tabitemize}
@@ -44,150 +25,7 @@
     \end{tabitemize}
 }
 
-\cardendpoint {EP03} {/user-dashboard/profile} {Zmień zdjęcie profilowe użytkownika} {%
-    \begin{tabitemize}
-        \item \textbf{profilePhoto}: MultipartFile (nowe zdjęcie profilowe)
-    \end{tabitemize}
-} {Brak} {200 OK, 404 Not Found, 401 Unauthorized} {Brak (pusta odpowiedź)}
-
-\cardendpoint {EP04} {/user-dashboard/friends} {Pobierz listę znajomych zalogowanego użytkownika} {Brak} {%
-    \begin{tabitemize}
-        \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
-        \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
-    \end{tabitemize}
-} {200 OK, 404 Not Found, 401 Unauthorized} {%
-    \begin{tabitemize}
-        \item \textbf{items}: List<SocialDto>, gdzie każdy element zawiera:
-        \begin{itemize}
-            \item \textbf{username}: String
-            \item \textbf{profilePhoto}: String (URL)
-            \item \textbf{commonPrivateChatId}: Long (opcjonalne)
-            \item \textbf{isUserFriend}: boolean
-            \item \textbf{status}: UserFriendStatus
-        \end{itemize}
-        \item \textbf{hasNext}: boolean (czy istnieje kolejna strona wyników)
-    \end{tabitemize}
-}
-
-\cardendpoint {EP05} {/public/user-dashboard/friends/\{targetUsername\}} {Pobierz listę znajomych innego użytkownika (widok publiczny)} {%
-    \begin{tabitemize}
-        \item \textbf{targetUsername}: String (nazwa użytkownika w ścieżce URL)
-    \end{tabitemize}
-} {%
-    \begin{tabitemize}
-        \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
-        \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
-    \end{tabitemize}
-} {200 OK, 404 Not Found} {%
-    \begin{tabitemize}
-        \item \textbf{items}: List<SocialDto>
-        \item \textbf{hasNext}: boolean
-    \end{tabitemize}
-}
-
-\cardendpoint {EP06} {/user-dashboard/friends} {Edytuj relację znajomości z użytkownikiem} {Brak} {%
-    \begin{tabitemize}
-        \item \textbf{friendUsername}: String (nazwa użytkownika)
-        \item \textbf{type}: UserRelationEditType (typ operacji, np. dodanie/wycofanie zaproszenia, usunięcie znajomego)
-    \end{tabitemize}
-} {200 OK, 400 Bad Request, 404 Not Found, 409 Conflict, 401 Unauthorized} {Brak (pusta odpowiedź)}
-
-\cardendpoint {EP07} {/user-dashboard/friends/change-status} {Zmień status znajomego} {Brak} {%
-    \begin{tabitemize}
-        \item \textbf{friendUsername}: String (nazwa użytkownika)
-        \item \textbf{status}: UserFriendStatus (nowy status relacji)
-    \end{tabitemize}
-} {200 OK, 400 Bad Request, 404 Not Found, 401 Unauthorized} {Brak (pusta odpowiedź)}
-
-\cardendpoint {EP08} {/user-dashboard/followers} {Pobierz obserwujących zalogowanego użytkownika} {Brak} {%
-    \begin{tabitemize}
-        \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
-        \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
-    \end{tabitemize}
-} {200 OK, 404 Not Found, 401 Unauthorized} {%
-    \begin{tabitemize}
-        \item \textbf{items}: List<SocialDto>
-        \item \textbf{hasNext}: boolean
-    \end{tabitemize}
-}
-
-\cardendpoint {EP09} {/public/user-dashboard/followers/\{targetUsername\}} {Pobierz obserwujących wybranego użytkownika (widok publiczny)} {%
-    \begin{tabitemize}
-        \item \textbf{targetUsername}: String
-    \end{tabitemize}
-} {%
-    \begin{tabitemize}
-        \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
-        \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
-    \end{tabitemize}
-} {200 OK, 404 Not Found} {%
-    \begin{tabitemize}
-        \item \textbf{items}: List<SocialDto>
-        \item \textbf{hasNext}: boolean
-    \end{tabitemize}
-}
-
-\cardendpoint {EP10} {/user-dashboard/followed} {Pobierz obserwowanych przez zalogowanego użytkownika} {Brak} {%
-    \begin{tabitemize}
-        \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
-        \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
-    \end{tabitemize}
-} {200 OK, 404 Not Found, 401 Unauthorized} {%
-    \begin{tabitemize}
-        \item \textbf{items}: List<SocialDto>
-        \item \textbf{hasNext}: boolean
-    \end{tabitemize}
-}
-
-\cardendpoint {EP11} {/public/user-dashboard/followed/\{targetUsername\}} {Pobierz obserwowanych wybranego użytkownika (widok publiczny)} {%
-    \begin{tabitemize}
-        \item \textbf{targetUsername}: String
-    \end{tabitemize}
-} {%
-    \begin{tabitemize}
-        \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
-        \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
-    \end{tabitemize}
-} {200 OK, 404 Not Found} {%
-    \begin{tabitemize}
-        \item \textbf{items}: List<SocialDto>
-        \item \textbf{hasNext}: boolean
-    \end{tabitemize}
-}
-
-\cardendpoint {EP12} {/user-dashboard/friends/find} {Wyszukaj użytkowników po nazwie użytkownika} {Brak} {%
-    \begin{tabitemize}
-        \item \textbf{query}: String (fraza wyszukiwania)
-        \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
-        \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
-    \end{tabitemize}
-} {200 OK, 404 Not Found, 401 Unauthorized} {%
-    \begin{tabitemize}
-        \item \textbf{items}: List<SocialDto>
-        \item \textbf{hasNext}: boolean
-    \end{tabitemize}
-}
-
-\cardendpoint {EP13} {/user-dashboard/friends/invites} {Pobierz wszystkie zaproszenia do znajomych} {Brak} {%
-    \begin{tabitemize}
-        \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
-        \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
-    \end{tabitemize}
-} {200 OK, 404 Not Found, 401 Unauthorized} {%
-    \begin{tabitemize}
-        \item \textbf{items}: List<SocialDto>
-        \item \textbf{hasNext}: boolean
-    \end{tabitemize}
-}
-
-\cardendpoint {EP14} {/user-dashboard/followed} {Edytuj listę obserwowanych użytkowników} {Brak} {%
-    \begin{tabitemize}
-        \item \textbf{followedUsername}: String (nazwa użytkownika)
-        \item \textbf{type}: UserRelationEditType (typ operacji)
-    \end{tabitemize}
-} {200 OK, 400 Bad Request, 404 Not Found, 409 Conflict, 401 Unauthorized} {Brak (pusta odpowiedź)}
-
-\cardendpoint {EP15} {/user-dashboard/favorite-spots} {Pobierz listę ulubionych spotów użytkownika} {Brak} {%
+\cardendpoint {EP02} {/user-dashboard/favorite-spots} {Pobierz listę ulubionych spotów użytkownika} {Brak} {%
     \begin{tabitemize}
         \item \textbf{type}: FavoriteSpotsListType (typ listy, np. ulubione/odwiedzone)
         \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
@@ -213,35 +51,7 @@
     \end{tabitemize}
 }
 
-\cardendpoint {EP16} {/user-dashboard/favorite-spots} {Modyfikuj listę ulubionych spotów użytkownika} {Brak} {%
-    \begin{tabitemize}
-        \item \textbf{type}: FavoriteSpotsListType
-        \item \textbf{spotId}: Long (identyfikator spotu)
-        \item \textbf{operationType}: FavouriteSpotListOperationType (typ operacji, np. dodanie/usunięcie)
-    \end{tabitemize}
-} {200 OK, 404 Not Found, 401 Unauthorized} {Brak (pusta odpowiedź)}
-
-\cardendpoint {EP17} {/user-dashboard/add-spot-media} {Dodaj media do istniejącego spotu użytkownika} {%
-    \begin{tabitemize}
-        \item \textbf{mediaFiles}: List<MultipartFile> (lista plików multimedialnych)
-    \end{tabitemize}
-} {%
-    \begin{tabitemize}
-        \item \textbf{spotId}: Long (identyfikator spotu)
-    \end{tabitemize}
-} {200 OK, 404 Not Found, 401 Unauthorized} {Brak (pusta odpowiedź)}
-
-\cardendpoint {EP18} {/user-dashboard/is-spot-favourite} {Sprawdź, czy spot jest w ulubionych użytkownika} {Brak} {%
-    \begin{tabitemize}
-        \item \textbf{spotId}: Long (identyfikator spotu)
-    \end{tabitemize}
-} {200 OK, 401 Unauthorized} {%
-    \begin{tabitemize}
-        \item \textbf{isFavouriteSpot}: boolean
-    \end{tabitemize}
-}
-
-\cardendpoint {EP19} {/user-dashboard/photos} {Pobierz posortowane zdjęcia użytkownika} {Brak} {%
+\cardendpoint {EP03} {/user-dashboard/photos} {Pobierz posortowane zdjęcia użytkownika} {Brak} {%
     \begin{tabitemize}
         \item \textbf{type}: DateSortType (typ sortowania po dacie)
         \item \textbf{from}: LocalDate (opcjonalnie, data od)
@@ -256,7 +66,7 @@
             \item \textbf{date}: LocalDate (data grupy)
             \item \textbf{media}: List<MediaDto>, każdy element:
             \begin{itemize}
-                \item \textbf{src}: String (URL/ścieżka do pliku)
+                \item \textbf{src}: String (URL)
                 \item \textbf{heartsCount}: Integer
                 \item \textbf{viewsCount}: Integer
                 \item \textbf{id}: Long
@@ -266,78 +76,7 @@
     \end{tabitemize}
 }
 
-\cardendpoint {EP20} {/user-dashboard/comments} {Pobierz posortowane komentarze użytkownika} {Brak} {%
-    \begin{tabitemize}
-        \item \textbf{type}: DateSortType (typ sortowania po dacie)
-        \item \textbf{from}: LocalDate (opcjonalnie, data od)
-        \item \textbf{to}: LocalDate (opcjonalnie, data do)
-        \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
-        \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
-    \end{tabitemize}
-} {200 OK, 400 Bad Request, 401 Unauthorized} {%
-    \begin{tabitemize}
-        \item \textbf{items}: List<DatedCommentsGroupDto>, gdzie:
-        \begin{itemize}
-            \item \textbf{date}: LocalDate (data)
-            \item \textbf{spotName}: String (nazwa spotu)
-            \item \textbf{comments}: List<CommentDto>, każdy element:
-            \begin{itemize}
-                \item \textbf{addTime}: LocalTime (HH:mm)
-                \item \textbf{id}: Long
-                \item \textbf{text}: String
-                \item \textbf{spotName}: String
-            \end{itemize}
-        \end{itemize}
-        \item \textbf{hasNext}: boolean
-    \end{tabitemize}
-}
-
-\cardendpoint {EP21} {/user-dashboard/settings} {Edytuj ustawienia konta użytkownika} {%
-    \begin{tabitemize}
-        \item \textbf{UserEditDataDto}: JSON z danymi do zmiany (np. nazwa użytkownika, e-mail, hasło itd.)
-    \end{tabitemize}
-} {Brak} {200 OK, 400 Bad Request, 403 Forbidden, 404 Not Found, 409 Conflict, 401 Unauthorized} {Brak (pusta odpowiedź)}
-
-\cardendpoint {EP22} {/user-dashboard/settings} {Pobierz dane konta użytkownika} {Brak} {Brak} {200 OK, 404 Not Found, 401 Unauthorized} {%
-    \begin{tabitemize}
-        \item \textbf{username}: String
-        \item \textbf{email}: String
-        \item \textbf{provider}: Provider (np. lokalny, Google)
-    \end{tabitemize}
-}
-
-\cardendpoint {EP23} {/user-dashboard/movies} {Pobierz posortowane filmy użytkownika} {Brak} {%
-    \begin{tabitemize}
-        \item \textbf{type}: DateSortType (typ sortowania po dacie)
-        \item \textbf{from}: LocalDate (opcjonalnie, data od)
-        \item \textbf{to}: LocalDate (opcjonalnie, data do)
-        \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
-        \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
-    \end{tabitemize}
-} {200 OK, 400 Bad Request, 401 Unauthorized} {%
-    \begin{tabitemize}
-        \item \textbf{items}: List<DatedMediaGroupDto>
-        \item \textbf{hasNext}: boolean
-    \end{tabitemize}
-}
-
-\cardendpoint {EP24} {/user-dashboard/photos/\{targetUsername\}} {Pobierz wszystkie zdjęcia wybranego użytkownika} {%
-    \begin{tabitemize}
-        \item \textbf{targetUsername}: String
-    \end{tabitemize}
-} {%
-    \begin{tabitemize}
-        \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
-        \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
-    \end{tabitemize}
-} {200 OK, 400 Bad Request, 401 Unauthorized} {%
-    \begin{tabitemize}
-        \item \textbf{items}: List<DatedMediaGroupDto>
-        \item \textbf{hasNext}: boolean
-    \end{tabitemize}
-}
-
-\cardendpoint {EP25} {/user-dashboard/add-spot} {Pobierz listę spotów dodanych przez użytkownika} {Brak} {%
+\cardendpoint {EP04} {/user-dashboard/add-spot} {Pobierz listę spotów dodanych przez użytkownika} {Brak} {%
     \begin{tabitemize}
         \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
         \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
@@ -360,20 +99,9 @@
     \end{tabitemize}
 }
 
-\cardendpoint {EP26} {/user-dashboard/add-spot} {Dodaj nowy spot użytkownika} {%
+\cardendpoint {EP05} {/user-dashboard/add-spot} {Dodaj nowy spot użytkownika} {%
     \begin{tabitemize}
         \item \textbf{spot}: String (część multipart, JSON z danymi nowego spotu)
         \item \textbf{media}: List<MultipartFile> (część multipart, pliki multimedialne spotu)
     \end{tabitemize}
 } {Brak} {200 OK, 404 Not Found, 401 Unauthorized} {Brak (pusta odpowiedź)}
-
-\cardendpoint {EP27} {/user-dashboard/add-spot/coordinates} {Wyszukaj koordynaty lokalizacji na podstawie zapytania tekstowego} {Brak} {%
-    \begin{tabitemize}
-        \item \textbf{query}: String (opis lokalizacji, np. adres, nazwa miejsca)
-    \end{tabitemize}
-} {200 OK, 401 Unauthorized} {%
-    \begin{tabitemize}
-        \item \textbf{x}: Double (szerokość/długość geograficzna – składnik 1)
-        \item \textbf{y}: Double (szerokość/długość geograficzna – składnik 2)
-    \end{tabitemize}
-}

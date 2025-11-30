@@ -5,7 +5,7 @@
 \noindent\textbf{Komentarze do spotów}
 
 \cardendpoint
-{EP50}
+{EP15}
 {/public/spot/\{spotId\}/comments}
 {Pobierz stronicowaną listę komentarzy dla wskazanego spotu}
 {%
@@ -24,22 +24,22 @@
         \item \textbf{Page<SpotCommentDto>}: stronicowana lista komentarzy, każdy element zawiera:
         \begin{itemize}
             \item \textbf{id}: Long (ID komentarza)
-            \item \textbf{author}: SpotCommentAuthorDto (dane autora komentarza)
+            \item \textbf{author}: SpotCommentAuthorDto (dane autora)
             \item \textbf{text}: String (treść komentarza)
             \item \textbf{rating}: Double (ocena komentarza/spotu, 0--5)
             \item \textbf{upvotes}: Integer (liczba głosów pozytywnych)
             \item \textbf{downvotes}: Integer (liczba głosów negatywnych)
-            \item \textbf{publishDate}: LocalDateTime (data publikacji; przeszłość/teraźniejszość)
+            \item \textbf{publishDate}: LocalDateTime (data publikacji;)
             \item \textbf{isUpVoted}: Boolean (czy bieżący użytkownik zagłosował w górę)
             \item \textbf{isDownVoted}: Boolean (czy bieżący użytkownik zagłosował w dół)
-            \item \textbf{numberOfMedia}: Integer (liczba dołączonych mediów)
-            \item \textbf{mediaList}: List<SpotCommentMediaDto> (lista pierwszych mediów komentarza, jeśli dostępne)
+            \item \textbf{numberOfMedia}: Integer (liczba dołączonych plków)
+            \item \textbf{mediaList}: List<SpotCommentMediaDto> (lista pierwszych plików komentarza)
         \end{itemize}
     \end{tabitemize}
 }
 
 \cardendpoint
-{EP51}
+{EP16}
 {/public/spot/\{spotId\}/comments/\{commentId\}}
 {Pobierz pełną listę mediów powiązanych z komentarzem}
 {%
@@ -54,15 +54,15 @@
     \begin{tabitemize}
         \item \textbf{List<SpotCommentMediaDto>}: lista mediów komentarza, każdy element:
         \begin{itemize}
-            \item \textbf{id}: Long (ID media)
+            \item \textbf{id}: Long (ID pliku)
             \item \textbf{url}: String (URL pliku)
-            \item \textbf{genericMediaType}: GenericMediaType (typ media, np. \texttt{PHOTO}, \texttt{VIDEO})
+            \item \textbf{genericMediaType}: GenericMediaType (typ pliku, \texttt{PHOTO}, \texttt{VIDEO})
         \end{itemize}
     \end{tabitemize}
 }
 
 \cardendpoint
-{EP52}
+{EP17}
 {/spot/\{spotId\}/comments}
 {Dodaj nowy komentarz do wskazanego spotu}
 {%
@@ -76,34 +76,7 @@
 {Brak (pusta odpowiedź)}
 
 \cardendpoint
-{EP53}
-{/spot/comments/\{commentId\}}
-{Usuń komentarz użytkownika}
-{%
-    \begin{tabitemize}
-        \item \textbf{commentId}: Long (ID komentarza w ścieżce URL)
-    \end{tabitemize}
-}
-{Brak}
-{204 No Content, 401 Unauthorized, 404 Not Found}
-{Brak (pusta odpowiedź)}
-
-\cardendpoint
-{EP54}
-{/spot/comments/\{commentId\}}
-{Edytuj istniejący komentarz użytkownika}
-{%
-    \begin{tabitemize}
-        \item \textbf{commentId}: Long (ID komentarza w ścieżce URL)
-        \item \textbf{body}: SpotCommentEditDto (JSON z danymi do edycji komentarza)
-    \end{tabitemize}
-}
-{Brak}
-{200 OK, 401 Unauthorized, 404 Not Found, 422 Unprocessable Entity}
-{Brak (pusta odpowiedź)}
-
-\cardendpoint
-{EP55}
+{EP18}
 {/spot/comments/\{commentId\}/vote}
 {Oddaj głos na komentarz (góra/dół)}
 {%
@@ -120,7 +93,7 @@
 {Brak (pusta odpowiedź)}
 
 \cardendpoint
-{EP56}
+{EP19}
 {/spot/comments/vote-type}
 {Pobierz informację, jak bieżący użytkownik zagłosował na komentarz}
 {Brak}
@@ -132,6 +105,6 @@
 {200 OK, 404 Not Found, 401 Unauthorized}
 {%
     \begin{tabitemize}
-        \item \textbf{voteInfo}: SpotCommentVoteType (typ oddanego głosu, np. \texttt{UPVOTE}, \texttt{DOWNVOTE}, \texttt{NONE})
+        \item \textbf{voteInfo}: SpotCommentVoteType (typ oddanego głosu, \texttt{UPVOTE}, \texttt{DOWNVOTE}, \texttt{NONE})
     \end{tabitemize}
 }
