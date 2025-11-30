@@ -2,5 +2,231 @@
 %! Date = 24/11/2025
 
 \subsubsection{Wymagania ogólne dla czatu}
+\label{subsubsec:wymagania-ogolne-dla-chatu}
 
-Kocham czat
+% ============================
+% WYMAGANIA OGÓLNE DLA CZATU
+% Identyfikatory: WOCZAT-XX
+% ============================
+
+% Licznik tabel wymagań ogólnych dla czatu (resetowany na rozdział)
+\newcounter{woczat}[chapter]
+\renewcommand{\thewoczat}{\thechapter.\arabic{woczat}}
+
+% Pola karty (lewa kolumna)
+\newcommand{\woczpriority}[2]{%
+    \textbf{Identyfikator:} &
+    WOCZAT-#1\hspace{0.75em}%
+    \begingroup
+    \setlength{\fboxsep}{1pt}%
+    \colorbox{lightgray}{\strut\textbf{P:}}~#2%
+    \endgroup
+    \\ \hline
+}
+\newcommand{\woczname}[1]{\textbf{Nazwa:} & #1 \\ \hline}
+\newcommand{\woczdesc}[1]{\textbf{Opis:} & #1 \\ \hline}
+\newcommand{\woczaccept}[1]{\textbf{Kryteria akceptacji:} & #1 \\ \hline}
+\newcommand{\woczinput}[1]{\textbf{Dane wejściowe:} & #1 \\ \hline}
+\newcommand{\woczpre}[1]{\textbf{Warunki początkowe:} & #1 \\ \hline}
+\newcommand{\woczpost}[1]{\textbf{Warunki końcowe:} & #1 \\ \hline}
+\newcommand{\woczexceptions}[1]{\textbf{Sytuacje wyjątkowe:} & #1 \\ \hline}
+\newcommand{\woczimpl}[1]{\textbf{Szczegóły implementacji:} & #1 \\ \hline}
+\newcommand{\woczstakeholder}[1]{\textbf{Udziałowiec:} & #1 \\ \hline}
+\newcommand{\woczresponsible}[1]{\textbf{Realizator:} & #1 \\ \hline}
+\newcommand{\woczstatus}[1]{\textbf{Status:} & #1 \\ \hline}
+\newcommand{\wocznote}[1]{\textbf{Notatka:} & #1 \\ \hline}
+
+% (opcjonalne, nieużywane w tych kartach, zostawione na przyszłość)
+\newcommand{\woczarea}[1]{\textbf{Obszar systemu:} & #1 \\ \hline}
+\newcommand{\woczbusiness}[1]{\textbf{Uzasadnienie biznesowe:} & #1 \\ \hline}
+\newcommand{\woczconstraints}[1]{\textbf{Ograniczenia / założenia:} & #1 \\ \hline}
+\newcommand{\woczrelated}[1]{\textbf{Wymagania powiązane:} & #1 \\ \hline}
+
+% Karta wymagania ogólnego dla czatu
+% #1 – label
+% #2 – nazwa
+% #3 – numer / sufiks kodu (np. 01 → WOCZAT-01)
+% #4 – priorytet (MoSCoW: M, S, C, W)
+% #5 – reszta pól: \woczdesc, \woczaccept, \woczinput, ...
+\newcommand{\woczatcard}[5]{%
+    \refstepcounter{woczat}%
+    \par\begin{center}
+    \renewcommand{\arraystretch}{1.15}%
+    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.22\textwidth}|X|}
+    \rowcolor{lightgray}
+    \multicolumn{2}{|c|}{\textbf{KARTA WYMAGANIA FUNKCJONALNEGO DLA CZATU}} \\ \hline
+    \woczpriority{#3}{#4}
+    \woczname{#2}
+    #5
+    \end{tabularx}
+    \vspace{3pt}
+    \textbf{Tabela \thewoczat:} Karta wymagania funkcjonalnego dla czatu: #2\label{#1}
+    \end{center}%
+    \addcontentsline{lot}{table}{Tabela \thewoczat: Karta wymagania funkcjonalnego dla czatu: #2}%
+}
+
+% ---------------------------------------------
+% WOCZAT-01 – Wysyłanie wiadomości na czacie
+% ---------------------------------------------
+
+\woczatcard
+{woczat:send-message}
+{Wysyłanie wiadomości na czacie}
+{01}
+{M}
+{
+    \woczdesc{System umożliwia użytkownikowi wysyłanie wiadomości w ramach wybranego
+    czatu, tak aby uczestnicy mogli przekazywać sobie informacje w kontekście platformy Merkury.}
+
+    \woczaccept{Wymaganie uznaje się za spełnione, jeżeli zalogowany użytkownik może
+    wybrać czat, wprowadzić treść wiadomości i zobaczyć ją jako kolejną pozycję w rozmowie,
+        a pozostali uczestnicy czatu widzą tę wiadomość po swojej stronie.}
+
+    \woczinput{Zalogowany użytkownik, identyfikator wybranego czatu, treść wiadomości.}
+
+    \woczpre{Użytkownik jest poprawnie zalogowany i posiada dostęp do danego czatu.}
+
+    \woczpost{Nowo wysłana wiadomość staje się częścią historii danego czatu i jest
+    dostępna dla wszystkich uprawnionych uczestników rozmowy.}
+
+    \woczexceptions{Brak dostępu do czatu, problemy z połączeniem sieciowym,
+        niepoprawne lub puste dane wejściowe.}
+
+    \woczimpl{Ogólna obsługa wysyłania wiadomości w module czatu; szczegółowe rozwiązania
+        (np. obsługa załączników, rodzaje wiadomości) zostaną doprecyzowane w wymaganiach
+        szczegółowych.}
+
+    \woczstakeholder{UO3}
+
+    \woczresponsible{Adam Langmesser}
+
+    \woczstatus{Zrealizowano}
+
+    \wocznote{\textemdash\ brak}
+}
+
+% ---------------------------------------------
+% WOCZAT-02 – Edycja czatu
+% ---------------------------------------------
+
+\woczatcard
+{woczat:edit-chat}
+{Edycja czatu}
+{02}
+{M}
+{
+    \woczdesc{System umożliwia użytkownikowi z odpowiednimi uprawnieniami wprowadzanie
+    podstawowych zmian w konfiguracji czatu, takich jak nazwa czatu czy skład uczestników.}
+
+    \woczaccept{Wymaganie uznaje się za spełnione, jeżeli uprawniony użytkownik może
+    zmienić kluczowe parametry czatu, a zaktualizowane informacje są widoczne dla
+    pozostałych uczestników podczas korzystania z modułu czatu.}
+
+    \woczinput{Zalogowany użytkownik, identyfikator czatu, zestaw nowych wartości
+    konfiguracyjnych (np. nowa nazwa, lista uczestników).}
+
+    \woczpre{Użytkownik jest zalogowany i posiada uprawnienia do zarządzania danym czatem.}
+
+    \woczpost{Parametry czatu są zapisane w systemie w nowej postaci, a użytkownicy
+    korzystają z odświeżonych informacji podczas dalszej komunikacji.}
+
+    \woczexceptions{Próba edycji przez użytkownika bez wymaganych uprawnień,
+        niepoprawne dane wejściowe, konflikt zmian, problemy z zapisem danych.}
+
+    \woczimpl{Ogólna obsługa edycji ustawień czatu w module czatu; konkretne operacje
+        (np. edycja nazwy, avatara, listy uczestników) będą doprecyzowane w wymaganiach
+        szczegółowych.}
+
+    \woczstakeholder{UO3}
+
+    \woczresponsible{Adam Langmesser}
+
+    \woczstatus{Zrealizowano}
+
+    \wocznote{\textemdash\ brak}
+}
+
+% ---------------------------------------------
+% WOCZAT-03 – Przeglądanie historii czatu
+% ---------------------------------------------
+
+\woczatcard
+{woczat:browse-history}
+{Przeglądanie historii czatu}
+{03}
+{M}
+{
+    \woczdesc{System udostępnia użytkownikowi możliwość przeglądania wcześniejszych
+    wiadomości na czacie, tak aby mógł wracać do poprzednich rozmów i ustaleń.}
+
+    \woczaccept{Wymaganie uznaje się za spełnione, jeżeli użytkownik po otwarciu
+    czatu widzi fragment historii rozmowy i może w prosty sposób docierać do starszych
+    wiadomości zgodnie z przyjętym sposobem przeglądania (np. przewijanie).}
+
+    \woczinput{Zalogowany użytkownik, identyfikator czatu, ewentualne ogólne parametry
+    zakresu historii (np. kierunek przeglądania).}
+
+    \woczpre{Użytkownik jest zalogowany i posiada dostęp do danego czatu, a w systemie
+    istnieją zapisane wiadomości dla tego czatu lub ich brak.}
+
+    \woczpost{Użytkownik ma dostęp do historii rozmowy w takim zakresie, w jakim
+    przewidziano to dla danego typu konta i konfiguracji systemu.}
+
+    \woczexceptions{Brak uprawnień do danego czatu, tymczasowy problem z odczytem danych,
+        brak jakiejkolwiek historii dla wskazanego czatu.}
+
+    \woczimpl{Ogólny mechanizm udostępniania historii konwersacji w module czatu;
+    szczegóły dotyczące paginacji, filtrów i limitów zostaną określone w wymaganiach
+    szczegółowych.}
+
+    \woczstakeholder{UO3}
+
+    \woczresponsible{Adam Langmesser}
+
+    \woczstatus{Zrealizowano}
+
+    \wocznote{\textemdash\ brak}
+}
+
+% ---------------------------------------------
+% WOCZAT-04 – Tworzenie czatu
+% ---------------------------------------------
+
+\woczatcard
+{woczat:create-chat}
+{Tworzenie czatu}
+{04}
+{M}
+{
+    \woczdesc{System umożliwia użytkownikowi inicjowanie nowych rozmów poprzez
+    tworzenie czatów prywatnych (1:1) lub grupowych z wybranymi uczestnikami.}
+
+    \woczaccept{Wymaganie uznaje się za spełnione, jeżeli zalogowany użytkownik może
+    zainicjować nowy czat, wskazać podstawowe informacje oraz uczestników, a nowy czat
+    pojawia się na liście czatów i jest gotowy do użycia.}
+
+    \woczinput{Zalogowany użytkownik, typ tworzonego czatu (np. 1:1, grupowy),
+        podstawowe informacje opisujące czat oraz lista uczestników.}
+
+    \woczpre{Użytkownik jest zalogowany i posiada uprawnienia do inicjowania nowych
+    czatów w systemie.}
+
+    \woczpost{Nowy czat jest dodany do systemu i widoczny na listach czatów
+    odpowiednich użytkowników, a dalsza komunikacja może odbywać się w jego ramach.}
+
+    \woczexceptions{Próba utworzenia czatu z nieprawidłowymi danymi (np. nieistniejący
+    użytkownik), przekroczenie ogólnych limitów systemowych, problem z zapisem nowego
+    czatu.}
+
+    \woczimpl{Ogólna obsługa zakładania nowych czatów w module czatu; szczegóły
+    dotyczące rodzajów czatów, limitów i dodatkowych ustawień zostaną doprecyzowane
+    w wymaganiach szczegółowych.}
+
+    \woczstakeholder{UO3}
+
+    \woczresponsible{Adam Langmesser}
+
+    \woczstatus{Zrealizowano}
+
+    \wocznote{\textemdash\ brak}
+}

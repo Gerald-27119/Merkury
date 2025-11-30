@@ -4,6 +4,42 @@
 \chapter{Analiza wymagań}
 \label{ch:analiza-wymagan}
 
-\input{./chapters/analiza-wymagan/sections/przypadki-uzycia/przypadki-uzycia}
-\import{chapters/analiza-wymagan/sections/wymagania/}{wymagania.tex}
+Niniejszy rozdział zawiera analizę wymagań postawionych systemowi.
 
+Do określenia priorytetów realizacji wymagań skorzystano z metody MoSCoW.
+Metoda MoSCoW jest techniką priorytetyzacji wymagań. Polega ona na przypisaniu każdemu wymaganiu jednej
+z czterech kategorii priorytetu, określających jego znaczenie dla
+minimalnie użytecznej wersji systemu.
+
+W niniejszej pracy przyjęto następującą interpretację priorytetów MoSCoW:
+\begin{description}
+    \item[M -- \emph{Must have}] wymagania krytyczne dla systemu.
+    Muszą zostać zrealizowane w bieżącej wersji, aby system mógł zostać
+    uznany za ukończony i spełniał podstawowe cele biznesowe.
+
+    \item[S -- \emph{Should have}] wymagania bardzo ważne.
+    Powinny zostać zrealizowane, jeśli pozwolą na to dostępne zasoby
+    (czas, zespół), jednak w sytuacji konieczności ograniczenia zakresu
+    mogą zostać przesunięte do kolejnego wydania.
+
+    \item[C -- \emph{Could have}] wymagania opcjonalne, „mile widziane”.
+    Zwiększają wygodę, kompletność lub atrakcyjność systemu, ale ich brak
+    nie uniemożliwia osiągnięcia głównych celów projektu.
+
+    \item[W -- \emph{Won't have this time}] wymagania świadomie odłożone.
+    Zostały zidentyfikowane, jednak nie będą realizowane w obecnym
+    zakresie projektu (bieżącej wersji systemu); mogą stanowić bazę
+    dla przyszłego rozwoju rozwiązania.
+\end{description}
+
+W dalszej części rozdziału każdy opis wymagania zawiera przypisany
+priorytet MoSCoW zgodnie z powyższą klasyfikacją.
+
+Ponadto wymagania mogą mieć jeden z dwóch statusów realizacji:
+\begin{description}
+    \item[\emph{Zrealizowano}] -- zadanie zostało zrealizowane.
+    \item[\emph{Anulowano}] -- zadanie zostało anulowane.
+\end{description}
+
+\input{chapters/analiza-wymagan/sections/przypadki-uzycia/przypadki-uzycia}
+\import{chapters/analiza-wymagan/sections/wymagania/}{wymagania.tex}

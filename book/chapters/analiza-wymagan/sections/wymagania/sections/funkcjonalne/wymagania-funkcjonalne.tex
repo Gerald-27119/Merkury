@@ -7,50 +7,6 @@
 Niniejszy rozdział zawiera wymagania funkcjonalne postawione systemowi.
 Został on podzielony tematycznie.
 
-% --- Licznik kart wymagań funkcjonalnych ---
-\newcounter{funcreq}[chapter]
-\renewcommand{\thefuncreq}{\thechapter.\arabic{funcreq}}
-
-% --- Pola karty wymagania funkcjonalnego (lewa kolumna) ---
-\newcommand{\fridpriority}[2]{%
-    \textbf{Identyfikator:} &
-    #1\hfill
-    \begingroup
-    \setlength{\fboxsep}{1pt}%
-    \colorbox{lightgray}{\strut\textbf{Priorytet:}}~#2%
-    \endgroup
-    \\ \hline
-}
-\newcommand{\frname}[1]{\textbf{Nazwa:} & #1 \\ \hline}
-\newcommand{\frdesc}[1]{\textbf{Opis:} & #1 \\ \hline}
-\newcommand{\fraccept}[1]{\textbf{Kryteria akceptacji:} & #1 \\ \hline}
-\newcommand{\frinput}[1]{\textbf{Dane wejściowe:} & #1 \\ \hline}
-\newcommand{\frpre}[1]{\textbf{Warunki początkowe:} & #1 \\ \hline}
-\newcommand{\frpost}[1]{\textbf{Warunki końcowe:} & #1 \\ \hline}
-\newcommand{\frexceptions}[1]{\textbf{Sytuacje wyjątkowe:} & #1 \\ \hline}
-\newcommand{\frimpl}[1]{\textbf{Szczegóły implementacji:} & #1 \\ \hline}
-\newcommand{\frstakeholders}[1]{\textbf{Udziałowiec:} & #1 \\ \hline}
-\newcommand{\frrelated}[1]{\textbf{Wymagania powiązane:} & #1 \\ \hline}
-
-% --- Karta wymagania funkcjonalnego ---
-% #1 = label, #2 = Nazwa, #3 = Identyfikator, #4 = Priorytet, #5 = reszta pól (makra fr*)
-\newcommand{\funcreqcard}[5]{%
-    \refstepcounter{funcreq}%
-    \par\begin{center}
-    \renewcommand{\arraystretch}{1.15}%
-    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.19\textwidth}|X|}
-    \rowcolor{lightgray}
-    \multicolumn{2}{|c|}{\textbf{KARTA WYMAGANIA FUNKCJONALNEGO}} \\ \hline
-    \fridpriority{#3}{#4}
-    \frname{#2}
-    #5
-    \end{tabularx}
-    \vspace{3pt}
-    \textbf{Tabela \thefuncreq:} Wymaganie funkcjonalne: #2\label{#1}
-    \end{center}%
-    \addcontentsline{lot}{table}{Tabela \thefuncreq: Wymaganie funkcjonalne: #2}%
-}
-
 
 \subimport{subimports/}{funkcjonalnosci-dla-mapy.tex}
 \subimport{subimports/}{funkcjonalnosci-dla-chatu.tex}
