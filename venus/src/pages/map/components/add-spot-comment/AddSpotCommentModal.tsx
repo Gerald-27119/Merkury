@@ -136,7 +136,7 @@ export default function AddSpotCommentModal() {
                         onChange={(e) => setCommentText(e.target.value)}
                     />
                 </div>
-                <div className="flex items-center justify-center space-x-5 text-xl">
+                <div className="flex items-center justify-center space-x-5 text-xl h-28">
                     <button
                         disabled={isPending}
                         onClick={handleCancelAddSpotComment}
