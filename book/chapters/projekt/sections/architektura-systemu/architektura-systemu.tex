@@ -1,9 +1,44 @@
-%! Author = mateusz
-%! Date = 17/10/2025
+%! Author = Mateusz
+%! Date = 23/11/2025
+
 
 \section{Architektura systemu}
 \label{sec:architektura-systemu}
 
+W niniejszym rozdziale przedstawiona zostanie architektura systemu, czyli sposób,
+w jaki poszczególne komponenty komunikują się między sobą, a także technologie,
+za pomocą których zostały stworzone.
+
+Jednym z kluczowych etapów realizacji projektu był wybór odpowiedniej architektury systemowej.
+Ostatecznie przyjęto oddzielenie poszczególnych warstw aplikacji, co zapewnia większą
+elastyczność, skalowalność oraz ułatwia rozwój w przyszłości.
+Przyjęte komponenty prezentują się następująco:
+
+\begin{itemize}
+    \item \glslink{frontend}{frontend} – \gls{react} z wykorzystaniem \glslink{type-script}{TypeScriptu},
+    \item \glslink{backend}{backend} – Java Spring Boot,
+    \item \glslink{baza-danych}{baza danych} – PostgreSQL,
+    \item \glslink{redis}{redis} – wykorzystywany jako \glslink{baza-danych}{baza danych} klucz–wartość pełniąca rolę warstwy \glslink{cache}{cache}.
+\end{itemize}
+
+Jest to podejście, w którym zespół projektowy posiada największe doświadczenie, dlatego zostało ono zastosowane.
+Pozwala ono również na tworzenie aplikacji responsywnej, dostępnej zarówno na komputerach,
+jak i urządzeniach mobilnych.
+Warstwa wizualna została przygotowana przy użyciu \gls{react} w wersji z \glslink{type-script}{TypeScriptem} oraz
+\glslink{biblioteka}{biblioteki} Tailwind CSS, zapewniającej szybkie i wygodne stylowanie komponentów.
+Z kolei za komunikację oraz logikę biznesową odpowiada \glslink{backend}{backend} oparty
+na \glslink{framework}{frameworku} Spring Boot, realizujący założenia architektury
+\glslink{rest_api}{REST API}.
+Jako system zarządzania danymi wybrano relacyjną bazę danych PostgreSQL, z którą zespół posiada największe doświadczenie.
+Relacyjny model danych doskonale sprawdza się w tym projekcie, zapewniając integralność danych,
+możliwość tworzenia złożonych zapytań oraz wysoką stabilność.
+
+\glslink{redis}{Redis} został wykorzystany jako warstwa \glslink{cache}{cache}, której zadaniem jest przyspieszenie działania aplikacji
+poprzez ograniczenie liczby odwołań do głównej \glslink{baza-danych}{bazy danych}.
+Dzięki przechowywaniu często wykorzystywanych danych w pamięci operacyjnej znacznie skraca się czas
+odpowiedzi systemu, co pozytywnie wpływa na wydajność oraz skalowalność rozwiązania.
+Zastosowanie \glslink{redis}{Redisa} okazało się szczególnie korzystne w przypadku operacji powtarzalnych i odczytowych,
+które nie wymagają każdorazowego dostępu do relacyjnej \glslink{baza-danych}{bazy danych}.
 
 \subimport{chapters/projekt/sections/architektura-systemu/}{diagram-architektury.tex}
 \subimport{chapters/projekt/sections/architektura-systemu/}{komponenty-systemu.tex}
