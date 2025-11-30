@@ -40,7 +40,7 @@ export async function addSpotComment(addSpotCommentDto: AddSpotCommentDto) {
             rating,
         }),
     );
-    console.log(formData);
+
     return (
         await axios.post(`${BASE_URL}/spot/${spotId}/comments`, formData, {
             withCredentials: true,

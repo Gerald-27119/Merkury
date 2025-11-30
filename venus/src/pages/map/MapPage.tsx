@@ -145,7 +145,7 @@ export default function MapPage() {
                     <SpotAddMediaModal key="spot-add-media-modal" />
                 )}
                 {isLogged && showAddSpotCommentModal && (
-                    <AddSpotCommentModal key="add=spot-comment-modal" />
+                    <AddSpotCommentModal key="add-spot-comment-modal" />
                 )}
             </AnimatePresence>
             <div className="absolute right-1 bottom-1 flex flex-col items-center space-y-2 sm:right-2 sm:bottom-2 xl:right-5 xl:bottom-5">

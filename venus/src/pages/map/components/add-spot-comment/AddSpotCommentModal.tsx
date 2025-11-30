@@ -29,6 +29,9 @@ export default function AddSpotCommentModal() {
     const dispatch = useDispatchTyped();
 
     const handleCancelAddSpotComment = () => {
+        setSpotRating(0);
+        setCommentText("");
+        setMediaFiles([]);
         dispatch(addSpotCommentModalInfoActions.closeAddSpotCommentModal());
     };
 
@@ -71,7 +74,7 @@ export default function AddSpotCommentModal() {
         if (mediaFiles.length > 20) {
             dispatch(
                 notificationAction.addError({
-                    message: "Maximum amount of media id 20.",
+                    message: "Maximum amount of media is 20.",
                 }),
             );
             return;
@@ -133,6 +136,7 @@ export default function AddSpotCommentModal() {
                     <textarea
                         className="placeholder-darkText h-40 w-full text-sm focus:outline-0"
                         placeholder="Type here..."
+                        value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
                     />
                 </div>

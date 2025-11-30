@@ -76,7 +76,7 @@ public class SpotCommentService {
         var spot = spotRepository.findById(spotId).orElseThrow(() -> new SpotNotFoundException(spotId));
         var mapper = new ObjectMapper();
         var spotComment = mapper.readValue(spotCommentJson, SpotCommentAddDto.class);
-        if (spotComment.text().length() > 1000 || spotComment.text().isEmpty()) {
+        if (spotComment.text().length() > 1000 || spotComment.text().trim().isEmpty()) {
             throw new SpotCommentTextOutOfBoundariesException();
         }
         if (spotComment.rating() < 0 || spotComment.rating() > 5) {
@@ -172,9 +172,15 @@ public class SpotCommentService {
         spotCommentRepository.save(comment);
     }
 
-    private GenericMediaType getMediaType(MultipartFile file) {
+    private GenericMediaType getMediaType(MultipartFile file) throws InvalidFileTypeException {
         var contentType = file.getContentType();
-        if (contentType != null && contentType.startsWith("image")) return GenericMediaType.PHOTO;
-        return GenericMediaType.VIDEO;
+        if (contentType != null) {
+            if (contentType.startsWith("image")) {
+                return GenericMediaType.PHOTO;
+            } else if (contentType.startsWith("video")) {
+                return GenericMediaType.VIDEO;
+            }
+        }
+        throw new InvalidFileTypeException("Unsupported media type: " + contentType);
     }
 }
