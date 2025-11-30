@@ -6,7 +6,7 @@
 
 W niniejszym rozdziale przedstawiono przebieg realizacji
 projektu w kolejnych Etapach zdefiniowanych w harmonogramie.
-Sposób realizacji projektu odzwierciedla sposób pracy zespołu zgodny z metodyką
+Sposób realizacji projektu odzwierciedla model pracy zespołu zgodny z metodyką
 \gls{DAD_LLC}, w której prace deweloperskie, planowanie
 i doprecyzowywanie wymagań przebiegają iteracyjnie i równolegle.
 
@@ -33,114 +33,98 @@ zadania w podziale na poszczególnych członków zespołu.
 \section{Faza przedprojektowa (lipiec–wrzesień 2024)}
 \label{sec:faza-przedprojektowa}
 
-Faza przedprojektowa obejmowała okres od czerwca do września 2024 roku
-i poprzedzała formalne zatwierdzenie tematu pracy oraz opracowanie
-harmonogramu.
+Faza przedprojektowa, wyróżniona w harmonogramie jako okres od lipca do
+września 2024 roku, poprzedzała formalne zatwierdzenie tematu pracy
+oraz opracowanie szczegółowego harmonogramu.
 
-Zespół rozpoczął prace deweloperskie w czerwcu 2024 roku,
-co było możliwe dzięki temu, że niezależnie od ostatecznego tematu
-zakładano stworzenie aplikacji webowej(TODO) wymagającej kont
-użytkowników.
-Wynikało to bezpośrednio ze specyfiki specjalizacji
-„Aplikacje Internetowe”, na której studiują wszyscy członkowie zespołu.
-W efekcie część prac technicznych została wykonana jeszcze przed
-formalnym wyborem tematu projektu.
-
-\subsection*{Czerwiec 2024}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Utworzenie repozytorium w serwisie \gls{github}
-    i skonfigurowanie podstawowych reguł pracy z repozytorium.
-    \item Przygotowanie pierwszego potoku \gls{cicd} dla backendu –
-    automatyczne budowanie projektu i uruchamianie testów jednostkowych
-    na serwerze ciągłej integracji.
-    \item Przygotowanie szkieletu projektu backendu w technologii
-    \gls{spring-boot} – utworzono podstawowe pakiety,
-    konfigurację aplikacji oraz minimalną strukturę modułów.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Kacper Badek}
-    \item Konfiguracja narzędzia \gls{jira}:
-    zapoznanie się z typowym podziałem na epiki, taski i podtaski,
-    zdefiniowanie statusów przepływu pracy oraz utworzenie
-    \gls{tablica_kanban}.
-\end{zadaniaosoby}
+Na początku fazy przedprojektowej doprecyzowano koncepcję systemu
+i wybrano główny stos technologiczny, co umożliwiło szybkie przejście do
+bardziej zaawansowanych działań opisanych w kolejnych podsekcjach.
+Niezależnie od ostatecznego sformułowania tematu zakładano stworzenie
+aplikacji webowej wymagającej kont użytkowników, co wynikało wprost
+ze specyfiki specjalizacji „Aplikacje Internetowe”, na której studiują
+wszyscy członkowie zespołu.
 
 \subsection*{Lipiec 2024}
 
 \begin{zadaniaosoby}{Cały zespół}
-    \item Przygotowanie szkieletu aplikacji frontendowej
-    (\gls{react} + \gls{type-script}) wraz z podstawową strukturą
-    komponentów i konfiguracją narzędzi budujących.
+    \item Określenie struktury plików na \gls{backend}
+    \item Wstępny wybór stosu technologicznego:
+    \gls{backend} w \gls{spring-boot}, \gls{frontend} w \gls{react} z wykorzystaniem
+    \gls{type-script} oraz system kontroli wersji oparty na \gls{github},
+    a także ogólne założenia dotyczące dalszego rozwoju architektury.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Adam Langmesser}
-    \item Rozpoczęcie prac nad potokiem \gls{cicd} dla frontendu,
-    którego konfigurację finalnie ukończono we wrześniu 2024 roku.
-    \item Implementacja podstawowej logiki logowania
-    i rejestracji użytkownika zarówno po stronie backendu
-    (endpointy \gls{rest_api}), jak i frontendu
-    (formularze oraz obsługa żądań).
+    \item Przygotowanie lokalnego środowiska deweloperskiego dla \gls{backend}u
+    i \gls{frontend}u (konfiguracja \gls{ide}, testowe projekty, podstawowe
+    ustawienia narzędzi budujących), co ułatwiło płynne przejście
+    do właściwych prac w kolejnych miesiącach.
 \end{zadaniaosoby}
-
 
 \subsection*{Sierpień 2024}
 
-W sierpniu 2024 roku zespół skupił się na zagadnieniach bezpieczeństwa
-oraz na dopracowaniu pierwszych ekranów aplikacji:
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Dodanie \gls{spring-security} i implementacja logiki
-    uwierzytelniania oraz autoryzacji użytkownika po stronie backendu.
+\begin{zadaniaosoby}{Cały zespół}
+    \item Utworzenie projektu w narzędziu \gls{jira}, zdefiniowanie
+    typów zgłoszeń (epik, zadanie, podzadanie) oraz przygotowanie
+    podstawowego workflow z wykorzystaniem \gls{tablica_kanban}.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Konfiguracja biblioteki \gls{tailwind-css} na froncie,
-    umożliwiająca spójne i responsywne stylowanie komponentów.
-    \item Konfiguracja narzędzia \gls{prettier}
-    do automatycznego formatowania kodu frontendu.
-    \item Stworzenie formularza rejestracji użytkownika
-    wraz z podstawową walidacją po stronie frontendu.
+    \item Konfiguracja biblioteki \gls{tailwind-css} w aplikacji
+    frontendowej, co umożliwiło spójne i responsywne stylowanie
+    komponentów.
+    \item Konfiguracja narzędzia \gls{prettier} do automatycznego
+    formatowania kodu frontendu i ujednolicenia stylu zapisu.
+    \item Implementacja logiki rejestracji użytkownika po stronie
+    backendu, obejmującej walidację danych wejściowych oraz obsługę
+    błędów na poziomie API.
     \item Dodanie i konfiguracja biblioteki \gls{tanstack-query}
-    do obsługi komunikacji z backendem i cachowania danych.
+    do obsługi komunikacji z backendem i cachowania danych po stronie
+    frontendu.
 \end{zadaniaosoby}
 
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Implementacja logiki resetowania hasła
-    (proces „zapomniałem hasła”) po stronie frontendu.
+\begin{zadaniaosoby}{Adam Langmesser}
+    \item Rozpoczęcie prac nad modułem logowania i rejestracji
+    użytkownika po stronie backendu; logika ta była następnie
+    kilkukrotnie rozwijana i refaktoryzowana w kolejnych etapach
+    projektu.
+    \item Implementacja obsługi przypadku, w którym podczas rejestracji
+    wybrana nazwa użytkownika jest już zajęta (walidacja unikalności
+    loginu oraz odpowiednie komunikaty błędów).
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
-    \item Implementacja strony logowania użytkownika
-    po stronie frontendu.
+    \item Stworzenie formularza logowania użytkownika po stronie
+    frontendu oraz jego integracja z przygotowanym backendowym
+    API logowania.
+\end{zadaniaosoby}
+
+\begin{zadaniaosoby}{Stanisław Oziemczuk}
+    \item Integracja systemu z zewnętrzną usługą wysyłania wiadomości
+    e-mail oraz implementacja wysyłania wiadomości powitalnej do
+    nowo zarejestrowanego użytkownika.
 \end{zadaniaosoby}
 
 \subsection*{Wrzesień 2024}
 
-We wrześniu 2024 roku kontynuowano prace nad bezpieczeństwem
-i przygotowaniem środowiska uruchomieniowego:
+\begin{zadaniaosoby}{Cały zespół}
+    \item Stabilizacja modułu uwierzytelniania oraz środowiska
+    uruchomieniowego na podstawie doświadczeń z pierwszych wdrożeń
+    i testów funkcjonalnych.
+\end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Adam Langmesser}
-    \item Zastąpienie bazy danych działającej w pamięci (in-memory)
-    instancją uruchamianą w kontenerze \gls{docker},
-    co urealniło środowisko deweloperskie i testowe.
-    \item Dostosowanie potoku \gls{cicd} backendu tak,
-    aby uwzględniał uruchamianie bazy danych w kontenerze
-    podczas wykonywania testów.
-    \item Dokończenie konfiguracji potoku \gls{cicd} dla frontendu.
+    \item Dodanie cyklicznego testu sprawdzającego, czy backend
+    uruchamiany w środowisku \texttt{docker-compose} działa poprawnie
+    i odpowiada na podstawowe żądania, co ułatwiło wczesne wykrywanie
+    problemów konfiguracyjnych.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
-    \item Implementacja logiki resetowania hasła po stronie backendu –
-    generowanie tokenów, ich weryfikacja oraz integracja
-    z istniejącym procesem resetowania na froncie.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Zespół frontendowy}
-    \item Implementacja przycisków na stronie logowania,
-    umożliwiających logowanie i rejestrację z wykorzystaniem
-    \gls{oauth} (GitHub i Google) po stronie frontendu.
-    TODO: doprecyzować osobę odpowiedzialną za implementację.
+    \item Implementacja funkcjonalności resetowania hasła użytkownika,
+    obejmującej generowanie i weryfikację tokenów resetu oraz
+    formularz zmiany hasła.
 \end{zadaniaosoby}
 
 \section{Etap 1 (październik 2024 – styczeń 2025)}
@@ -188,7 +172,6 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
     Ze względu na ograniczone możliwości customizacji wyglądu
     biblioteki zdecydowano się później na zmianę dostawcy
     kafelków mapowych na usługę
-    TODO: uzupełnić nazwę docelowej usługi mapowej.
     \item Poprawki konfiguracji narzędzia \gls{eslint}
     po stronie frontendu.
 \end{zadaniaosoby}
@@ -213,11 +196,8 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
     \item Opracowanie harmonogramu projektu w formie opisowej
     oraz w postaci wykresu Gantta.
     \item Przygotowanie wstępnych założeń i wymagań
-    w ramach przedmiotu PRO.
+    w ramach przedmiotu \gls{pro}.
 \end{zadaniaosoby}
-
-TODO: odwołanie do rozdziału z harmonogramem projektu.\\
-TODO: odwołanie do rozdziału z analizą wymagań.
 
 \subsection*{Grudzień 2024}
 
@@ -293,10 +273,8 @@ W tym okresie rozwijano kolejne moduły (mapa, forum, czat,
 panel użytkownika), równolegle doprecyzowując dokumentację oraz
 weryfikując i aktualizując wymagania na podstawie bieżących
 doświadczeń zespołu.
-TODO: odwołanie do rozdziału z analizą wymagań
-oraz do rozdziału opisującego projekt architektury.
 
-Równolegle, w ramach przedmiotu PRZ~1 opracowano projekt interfejsu
+Równolegle, w ramach przedmiotu \gls{prz1} opracowano projekt interfejsu
 użytkownika, konsultowany z prowadzącym zajęcia, mgr inż. Adamem
 Urbanowiczem, który na bieżąco przekazywał zespołowi uwagi i
 rekomendacje dotyczące ergonomii oraz spójności interfejsu
@@ -328,9 +306,6 @@ z założeniami funkcjonalnymi.
     tak aby obejmował również nowe katalogi i pliki generowane przez
     narzędzia deweloperskie.
 \end{zadaniaosoby}
-
-TODO: uzupełnić nazwę i dostawcę API pogodowego
-oraz odwołać się do kart usług zewnętrznych i bibliografii.
 
 \subsection*{Marzec 2025}
 
@@ -729,11 +704,11 @@ W tym czasie większość nowych funkcjonalności była już zaimplementowana,
 a nacisk położono na stabilizację, testy oraz spójny opis
 w dokumentacji.
 
-W ramach przedmiotu PSEM, prowadzonego przez dr. inż. Marka
+W ramach przedmiotu \gls{psem}, prowadzonego przez dr. inż. Marka
 Bednarczyka, postępy w przygotowywaniu dokumentacji były na bieżąco
 konsultowane, a na podstawie uzyskiwanej informacji zwrotnej wprowadzano
 kolejne poprawki i uzupełnienia.
-Analogiczny tryb pracy przyjęto w ramach przedmiotu PRZ~2, którego
+Analogiczny tryb pracy przyjęto w ramach przedmiotu \gls{prz2}, którego
 opiekunem był promotor pracy, mgr inż. Adam Urbanowicz.
 
 \subsection*{Październik 2025}
@@ -815,8 +790,8 @@ opiekunem był promotor pracy, mgr inż. Adam Urbanowicz.
 \subsection*{Listopad 2025}
 
 \begin{zadaniaosoby}{Adam Langmesser}
-    \item Opracowanie rozdziału \textit{Analiza wymagań} – przygotowanie
-    listy aktorów systemu, diagramu przypadków użycia oraz scenariuszy
+    \item Opracowanie rozdziału~\ref{ch:analiza-wymagan} – przygotowanie
+    listy aktorów systemu, diagramów przypadków użycia oraz scenariuszy
     przypadków użycia.
 \end{zadaniaosoby}
 
@@ -826,32 +801,20 @@ opiekunem był promotor pracy, mgr inż. Adam Urbanowicz.
     już w ulubionych, co pozwoliło usunąć stare, rozproszone funkcje.
     \item Rozszerzenie obsługi dodawania mediów do spotów po stronie
     backendu i frontendu oraz aktualizacja walidacji i kontraktów API.
-    \item Aktualizacja konfiguracji narzędzia \gls{eslint} pod kątem
-    obsługi \gls{type-script}, co poprawiło jakość statycznej analizy
-    kodu frontendu.
 \end{zadaniaosoby}
 
-TODO: odwołanie do odpowiedniego rozdziału i podrozdziałów
-poświęconych analizie wymagań.\\
-TODO: dokończenie
+%TODO: do uzupełnienia w grudniu
+TODO: do uzupełnienia w grudniu
 
 \subsection*{Grudzień 2025}
 
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Opracowanie podrozdziału poświęconego wymaganiom
-    dla modułu czatu, w tym wymagań funkcjonalnych
-    i pozafunkcjonalnych.
-    \item Dopracowanie kart usług zewnętrznych (m.in. usług mapowych,
-    pogodowych, poczty e-mail) wykorzystywanych przez system.
-\end{zadaniaosoby}
-
-TODO: odwołanie do numeru podrozdziału z wymaganiami dla czatu.\\
-TODO: odwołanie do sekcji z kartami usług zewnętrznych.\\
-TODO: dokończenie
+%TODO: do uzupełnienia w styczniu
+TODO: do uzupełnienia w styczniu
 
 \subsection*{Styczeń 2026}
 
-TODO: do uzupełnienia
+%TODO: do uzupełnienia na koniec
+TODO: do uzupełnienia na koniec
 
 Na zakończenie prac projektowych przyjęto datę
 \textbf{10 stycznia 2026 roku}.
