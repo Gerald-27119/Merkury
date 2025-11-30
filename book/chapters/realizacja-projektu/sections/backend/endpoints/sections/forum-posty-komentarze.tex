@@ -1,0 +1,156 @@
+%! Author = Mateusz
+%! Date = 30/11/2025
+
+\noindent\textbf{Forum – komentarze do postów}
+
+\cardendpoint
+{EP66}
+{/public/post/\{postId\}/comments}
+{Pobierz stronicowaną listę komentarzy posta}
+{%
+    \begin{tabitemize}
+        \item \textbf{postId}: Long (ID posta w ścieżce URL)
+    \end{tabitemize}
+}
+{%
+    \begin{tabitemize}
+        \item \textbf{page}: Integer (numer strony, domyślnie 0)
+        \item \textbf{size}: Integer (liczba komentarzy na stronie, domyślnie 10)
+        \item \textbf{sortBy}: PostCommentSortField (pole sortowania, domyślnie \texttt{PUBLISH\_DATE})
+        \item \textbf{sortDirection}: SortDirection (kierunek sortowania, domyślnie \texttt{DESC})
+    \end{tabitemize}
+}
+{200 OK, 404 Not Found}
+{%
+    \begin{tabitemize}
+        \item \textbf{Page<PostCommentGeneralDto>}, każdy element zawiera:
+        \begin{itemize}
+            \item \textbf{id}: Long
+            \item \textbf{content}: String (treść komentarza)
+            \item \textbf{upVotes}: Integer (liczba głosów w górę)
+            \item \textbf{downVotes}: Integer (liczba głosów w dół)
+            \item \textbf{repliesCount}: Integer (liczba odpowiedzi)
+            \item \textbf{publishDate}: LocalDateTime (data publikacji)
+            \item \textbf{author}: AuthorDto (dane autora)
+            \item \textbf{isAuthor}: Boolean (czy bieżący użytkownik jest autorem)
+            \item \textbf{isUpVoted}: Boolean (czy użytkownik zagłosował w górę)
+            \item \textbf{isDownVoted}: Boolean (czy użytkownik zagłosował w dół)
+            \item \textbf{isReply}: Boolean (czy komentarz jest odpowiedzią)
+            \item \textbf{isDeleted}: Boolean (czy komentarz został usunięty logicznie)
+        \end{itemize}
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP67}
+{/public/comments/\{commentId\}/replies}
+{Pobierz stronicowaną listę odpowiedzi na komentarz}
+{%
+    \begin{tabitemize}
+        \item \textbf{commentId}: Long (ID komentarza nadrzędnego w ścieżce URL)
+    \end{tabitemize}
+}
+{%
+    \begin{tabitemize}
+        \item \textbf{lastDate}: LocalDateTime (opcjonalnie; data ostatniego pobranego komentarza dla paginacji kursorowej)
+        \item \textbf{lastId}: Long (opcjonalnie; ID ostatniego pobranego komentarza)
+        \item \textbf{size}: Integer (liczba odpowiedzi do pobrania, domyślnie 10)
+    \end{tabitemize}
+}
+{200 OK, 404 Not Found}
+{%
+    \begin{tabitemize}
+        \item \textbf{ForumPostCommentReplyPageDto}:
+        \begin{itemize}
+            \item \textbf{comments}: List<PostCommentGeneralDto> (odpowiedzi na komentarz)
+            \item \textbf{nextCursorId}: Long (ID komentarza do następnego pobrania; może być \texttt{null})
+            \item \textbf{nextCursorDate}: LocalDateTime (data kursora; może być \texttt{null})
+        \end{itemize}
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP68}
+{/post/\{postId\}/comments}
+{Dodaj nowy komentarz do posta}
+{%
+    \begin{tabitemize}
+        \item \textbf{postId}: Long (ID posta w ścieżce URL)
+        \item \textbf{body}: PostCommentDto (JSON z danymi komentarza, np. treść)
+    \end{tabitemize}
+}
+{Brak}
+{201 Created, 400 Bad Request, 404 Not Found, 422 Unprocessable Entity}
+{Brak (pusta odpowiedź)}
+
+\cardendpoint
+{EP69}
+{/post/comments/\{commentId\}}
+{Usuń komentarz do posta}
+{%
+    \begin{tabitemize}
+        \item \textbf{commentId}: Long (ID komentarza w ścieżce URL)
+    \end{tabitemize}
+}
+{Brak}
+{204 No Content, 401 Unauthorized, 403 Forbidden, 404 Not Found}
+{Brak (pusta odpowiedź)}
+
+\cardendpoint
+{EP70}
+{/post/comments/\{commentId\}}
+{Edytuj istniejący komentarz do posta}
+{%
+    \begin{tabitemize}
+        \item \textbf{commentId}: Long (ID komentarza w ścieżce URL)
+        \item \textbf{body}: PostCommentDto (JSON z nową treścią komentarza)
+    \end{tabitemize}
+}
+{Brak}
+{200 OK, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 422 Unprocessable Entity}
+{Brak (pusta odpowiedź)}
+
+\cardendpoint
+{EP71}
+{/post/comments/\{commentId\}/vote}
+{Oddaj głos na komentarz (góra/dół)}
+{%
+    \begin{tabitemize}
+        \item \textbf{commentId}: Long (ID komentarza w ścieżce URL)
+    \end{tabitemize}
+}
+{%
+    \begin{tabitemize}
+        \item \textbf{isUpvote}: boolean (true = głos w górę, false = głos w dół)
+    \end{tabitemize}
+}
+{200 OK, 403 Forbidden, 404 Not Found}
+{Brak (pusta odpowiedź)}
+
+\cardendpoint
+{EP72}
+{/post/comments/\{commentId\}/report}
+{Zgłoś komentarz do moderacji}
+{%
+    \begin{tabitemize}
+        \item \textbf{commentId}: Long (ID komentarza w ścieżce URL)
+        \item \textbf{body}: ForumReportDto (JSON z informacjami o zgłoszeniu: typ powodu, opis itd.)
+    \end{tabitemize}
+}
+{Brak}
+{200 OK, 400 Bad Request, 404 Not Found, 409 Conflict, 422 Unprocessable Entity}
+{Brak (pusta odpowiedź)}
+
+\cardendpoint
+{EP73}
+{/comments/\{commentId\}/replies}
+{Dodaj odpowiedź na komentarz}
+{%
+    \begin{tabitemize}
+        \item \textbf{commentId}: Long (ID komentarza nadrzędnego w ścieżce URL)
+        \item \textbf{body}: PostCommentDto (JSON z treścią odpowiedzi)
+    \end{tabitemize}
+}
+{Brak}
+{201 Created, 400 Bad Request, 404 Not Found, 409 Conflict, 422 Unprocessable Entity}
+{Brak (pusta odpowiedź)}

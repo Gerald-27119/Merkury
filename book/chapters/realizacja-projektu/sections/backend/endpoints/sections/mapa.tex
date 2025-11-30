@@ -1,0 +1,486 @@
+%! Author = Mateusz
+%! Date = 30/11/2025
+
+\noindent\textbf{Spoty, wyszukiwarka i pogoda}
+
+\cardendpoint
+{EP28}
+{/public/spot/gallery}
+{Pobierz stronę galerii mediów dla spotu}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{spotId}: Long (identyfikator spotu)
+        \item \textbf{mediaType}: String (typ mediów, wartość enum \texttt{GenericMediaType}, np. \texttt{PHOTO}, \texttt{VIDEO})
+        \item \textbf{sorting}: String (kryterium sortowania, np. po dacie / popularności)
+        \item \textbf{page}: Integer (numer strony, domyślnie 0)
+        \item \textbf{size}: Integer (rozmiar strony, domyślnie 6)
+    \end{tabitemize}
+}
+{200 OK, 404 Not Found}
+{%
+    \begin{tabitemize}
+        \item \textbf{Page<SpotSidebarMediaGalleryDto>}: stronicowana lista elementów galerii, gdzie każdy element zawiera:
+        \begin{itemize}
+            \item \textbf{id}: Long (ID media)
+            \item \textbf{url}: String (URL pliku)
+            \item \textbf{mediaType}: GenericMediaType (typ media)
+        \end{itemize}
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP29}
+{/public/spot/gallery-media-position}
+{Pobierz numer strony galerii, na której znajduje się dane medium}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{spotId}: Long (ID spotu)
+        \item \textbf{mediaId}: Long (ID media)
+        \item \textbf{mediaType}: String (typ media, \texttt{GenericMediaType})
+        \item \textbf{sorting}: String (kryterium sortowania używane w galerii)
+        \item \textbf{pageSize}: Integer (rozmiar strony, domyślnie 6)
+    \end{tabitemize}
+}
+{200 OK, 404 Not Found}
+{%
+    \begin{tabitemize}
+        \item \textbf{mediaPagePosition}: Integer (numer strony, na której znajduje się medium)
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP30}
+{/public/spot/gallery-fullscreen-media}
+{Pobierz dane media do wyświetlenia w trybie pełnoekranowym}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{spotId}: Long (ID spotu)
+        \item \textbf{mediaId}: Long (ID media)
+        \item \textbf{mediaType}: String (typ media, \texttt{GenericMediaType})
+    \end{tabitemize}
+}
+{200 OK, 404 Not Found}
+{%
+    \begin{tabitemize}
+        \item \textbf{id}: Long (ID media)
+        \item \textbf{url}: String (URL pliku)
+        \item \textbf{mediaType}: GenericMediaType
+        \item \textbf{likesNumber}: Integer (liczba polubień)
+        \item \textbf{publishDate}: LocalDate (data publikacji)
+        \item \textbf{authorName}: String (nazwa autora)
+        \item \textbf{authorProfilePhotoUrl}: String (URL zdjęcia profilowego autora)
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP31}
+{/public/spot/current-view}
+{Pobierz listę spotów w aktualnym widoku mapy}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{swLng}: double (długość geograficzna lewego dolnego rogu)
+        \item \textbf{swLat}: double (szerokość geograficzna lewego dolnego rogu)
+        \item \textbf{neLng}: double (długość geograficzna prawego górnego rogu)
+        \item \textbf{neLat}: double (szerokość geograficzna prawego górnego rogu)
+        \item \textbf{name}: String (fragment nazwy spotu, domyślnie pusty)
+        \item \textbf{sorting}: String (tryb sortowania, domyślnie \texttt{none})
+        \item \textbf{ratingFrom}: double (minimalna ocena, domyślnie 0.0)
+        \item \textbf{page}: Integer (numer strony, domyślnie 0)
+    \end{tabitemize}
+}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{Page<SearchSpotDto>}: stronicowana lista spotów, gdzie każdy element zawiera:
+        \begin{itemize}
+            \item \textbf{id}: Long
+            \item \textbf{name}: String
+            \item \textbf{rating}: Double (0--5)
+            \item \textbf{ratingCount}: Integer (liczba ocen)
+            \item \textbf{firstPhoto}: String (URL pierwszego zdjęcia)
+            \item \textbf{tags}: Set<SpotTagDto> (tagi spotu)
+            \item \textbf{centerPoint}: BorderPoint (środek obszaru spotu)
+        \end{itemize}
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP32}
+{/public/spot/current-view/spot-names}
+{Pobierz nazwy spotów w aktualnym widoku mapy}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{swLng}: double
+        \item \textbf{swLat}: double
+        \item \textbf{neLng}: double
+        \item \textbf{neLat}: double
+        \item \textbf{name}: String (filtr po nazwie, domyślnie pusty)
+    \end{tabitemize}
+}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{List<String>}: lista nazw spotów znajdujących się w widoku mapy
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP33}
+{/public/spot/\{spotId\}}
+{Pobierz szczegóły spotu na podstawie ID}
+{%
+    \begin{tabitemize}
+        \item \textbf{spotId}: Long (ID spotu w ścieżce URL)
+    \end{tabitemize}
+}
+{Brak}
+{200 OK, 404 Not Found}
+{%
+    \begin{tabitemize}
+        \item \textbf{id}: Long
+        \item \textbf{name}: String
+        \item \textbf{country}: String
+        \item \textbf{city}: String
+        \item \textbf{street}: String
+        \item \textbf{description}: String
+        \item \textbf{rating}: Double (0--5)
+        \item \textbf{ratingCount}: Integer
+        \item \textbf{media}: List<SpotMediaDto> (lista mediów powiązanych ze spotem)
+        \item \textbf{centerPoint}: SpotCoordinatesDto (koordynaty środka)
+        \item \textbf{tags}: Set<SpotTagDto> (tagi spotu)
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP34}
+{/public/spot/increase-view-count}
+{Zwiększ licznik wyświetleń spotu}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{spotId}: Long (ID spotu)
+    \end{tabitemize}
+}
+{200 OK, 404 Not Found}
+{Brak (pusta odpowiedź)}
+
+\cardendpoint
+{EP35}
+{/public/spot/search/map}
+{Wyszukaj spoty na mapie (prosta wyszukiwarka)}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{name}: String (fragment nazwy, domyślnie pusty)
+    \end{tabitemize}
+}
+{200 OK, 404 Not Found}
+{%
+    \begin{tabitemize}
+        \item \textbf{items}: List<GeneralSpotDto>, każdy element zawiera:
+        \begin{itemize}
+            \item \textbf{id}: Long
+            \item \textbf{areaColor}: String (kolor obszaru na mapie)
+            \item \textbf{name}: String
+            \item \textbf{region}: String
+            \item \textbf{city}: String
+            \item \textbf{rating}: Double (0--5)
+            \item \textbf{contourCoordinates}: List<Double[]> (lista punktów konturu)
+            \item \textbf{centerPoint}: BorderPoint
+            \item \textbf{area}: Double (powierzchnia obszaru)
+        \end{itemize}
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP36}
+{/public/spot/search/list}
+{Wyszukaj spoty i zwróć stronę wyników w formie listy}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{name}: String (fragment nazwy, domyślnie pusty)
+        \item \textbf{sorting}: String (tryb sortowania, domyślnie \texttt{none})
+        \item \textbf{page}: Integer (numer strony, domyślnie 0)
+    \end{tabitemize}
+}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{Page<SearchSpotDto>}: stronicowana lista spotów (jak w EP31)
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP37}
+{/public/spot/names}
+{Pobierz listę nazw spotów pasujących do podanego tekstu}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{text}: String (fragment nazwy, domyślnie pusty)
+    \end{tabitemize}
+}
+{200 OK, 404 Not Found}
+{%
+    \begin{tabitemize}
+        \item \textbf{List<String>}: lista pasujących nazw spotów
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP38}
+{/public/spot/most-popular}
+{Pobierz 18 najpopularniejszych spotów}
+{Brak}
+{Brak}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{items}: List<TopRatedSpotDto>, każdy element zawiera:
+        \begin{itemize}
+            \item \textbf{id}: Long
+            \item \textbf{name}: String
+            \item \textbf{city}: String
+            \item \textbf{imageUrl}: String (URL głównego zdjęcia)
+        \end{itemize}
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP39}
+{/public/spot/search/home-page}
+{Wyszukaj spoty na stronie głównej na podstawie lokalizacji}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{country}: String (opcjonalnie, kraj)
+        \item \textbf{region}: String (opcjonalnie, region)
+        \item \textbf{city}: String (opcjonalnie, miasto)
+        \item \textbf{userLongitude}: Double (opcjonalnie, długość geograficzna użytkownika)
+        \item \textbf{userLatitude}: Double (opcjonalnie, szerokość geograficzna użytkownika)
+        \item \textbf{page}: Integer (numer strony, domyślnie 0)
+        \item \textbf{size}: Integer (rozmiar strony, domyślnie 20)
+    \end{tabitemize}
+}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{items}: List<HomePageSpotDto>, każdy element:
+        \begin{itemize}
+            \item \textbf{id}: Long
+            \item \textbf{name}: String
+            \item \textbf{rating}: Double
+            \item \textbf{ratingCount}: Integer
+            \item \textbf{firstPhoto}: String (URL zdjęcia)
+            \item \textbf{tags}: Set<SpotTagDto>
+            \item \textbf{centerPoint}: BorderPoint
+            \item \textbf{city}: String
+            \item \textbf{distanceToUser}: Double (odległość od użytkownika, jeśli dostępna)
+        \end{itemize}
+        \item \textbf{hasNext}: boolean (czy istnieje kolejna strona wyników)
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP40}
+{/public/spot/search/home-page/locations}
+{Pobierz listę podpowiedzi lokalizacji dla wyszukiwarki na stronie głównej}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{query}: String (fraza wyszukiwania)
+        \item \textbf{type}: String (typ lokalizacji, np. kraj/region/miasto)
+    \end{tabitemize}
+}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{List<String>}: lista podpowiedzi (nazwy lokalizacji)
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP41}
+{/public/spot/search/home-page/advance}
+{Wyszukaj spoty na stronie głównej (zaawansowane filtrowanie)}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{city}: String (opcjonalnie, miasto)
+        \item \textbf{tags}: List<String> (opcjonalnie, lista tagów)
+        \item \textbf{userLongitude}: Double (opcjonalnie, długość geograficzna użytkownika)
+        \item \textbf{userLatitude}: Double (opcjonalnie, szerokość geograficzna użytkownika)
+        \item \textbf{sort}: SpotSortType (opcjonalnie, typ sortowania)
+        \item \textbf{filter}: SpotRatingFilterType (opcjonalnie, filtr po ocenie)
+        \item \textbf{page}: Integer (numer strony, domyślnie 0)
+        \item \textbf{size}: Integer (rozmiar strony, domyślnie 20)
+    \end{tabitemize}
+}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{HomePageSpotPageDto}: tak jak w EP39 (items + hasNext)
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP42}
+{/public/spot/get-spot-basic-weather}
+{Pobierz podstawowe informacje pogodowe dla wskazanej lokalizacji}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{latitude}: double (szerokość geograficzna)
+        \item \textbf{longitude}: double (długość geograficzna)
+    \end{tabitemize}
+}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{temperature}: Double (temperatura)
+        \item \textbf{weatherCode}: int (kod warunków pogodowych)
+        \item \textbf{windSpeed}: Double (prędkość wiatru)
+        \item \textbf{isDay}: boolean (czy jest dzień)
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP43}
+{/public/spot/get-spot-detailed-weather}
+{Pobierz szczegółowe informacje pogodowe dla wskazanej lokalizacji}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{latitude}: double
+        \item \textbf{longitude}: double
+    \end{tabitemize}
+}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{temperature}: Double
+        \item \textbf{weatherCode}: int
+        \item \textbf{precipitationProbability}: Double (prawdopodobieństwo opadów)
+        \item \textbf{dewPoint}: Double (punkt rosy)
+        \item \textbf{relativeHumidity}: Double (wilgotność względna)
+        \item \textbf{isDay}: boolean
+        \item \textbf{uvIndexMax}: Double (maksymalny indeks UV)
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP44}
+{/public/spot/get-spot-wind-speeds}
+{Pobierz prędkości wiatru dla spotu na różnych wysokościach}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{latitude}: double
+        \item \textbf{longitude}: double
+        \item \textbf{spotId}: long (ID spotu)
+    \end{tabitemize}
+}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{windSpeeds100m}: Double
+        \item \textbf{windSpeeds200m}: Double
+        \item \textbf{windSpeeds300m}: Double
+        \item \textbf{windSpeeds500m}: Double
+        \item \textbf{windSpeeds750m}: Double
+        \item \textbf{windSpeeds1000m}: Double
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP45}
+{/public/spot/get-spot-weather-timeline-plot-data}
+{Pobierz dane pogodowe w czasie do wykresu dla spotu}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{latitude}: double
+        \item \textbf{longitude}: double
+        \item \textbf{spotId}: long
+    \end{tabitemize}
+}
+{200 OK, 404 Not Found}
+{%
+    \begin{tabitemize}
+        \item \textbf{List<SpotWeatherTimelinePlotDataDto>}: lista punktów na osi czasu, każdy element:
+        \begin{itemize}
+            \item \textbf{time}: String (znacznik czasu)
+            \item \textbf{temperature}: Double
+            \item \textbf{weatherCode}: Integer
+            \item \textbf{precipitationProbability}: Double
+            \item \textbf{isDay}: Boolean
+            \item \textbf{timeZone}: String (strefa czasowa)
+        \end{itemize}
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP46}
+{/public/spot/increase-spot-media-views-count}
+{Zwiększ licznik wyświetleń konkretnego media spotu}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{spotMediaId}: long (ID media)
+    \end{tabitemize}
+}
+{200 OK, 404 Not Found}
+{Brak (pusta odpowiedź)}
+
+\cardendpoint
+{EP47}
+{/public/spot/edit-spot-media-likes}
+{Przełącz polubienie media spotu przez aktualnego użytkownika}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{spotMediaId}: long (ID media)
+    \end{tabitemize}
+}
+{200 OK, 404 Not Found}
+{Brak (pusta odpowiedź)}
+
+\cardendpoint
+{EP48}
+{/spot/check-is-spot-media-liked}
+{Sprawdź, czy media spotu jest polubione przez zalogowanego użytkownika}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{spotMediaId}: long (ID media)
+    \end{tabitemize}
+}
+{200 OK, 404 Not Found, 401 Unauthorized}
+{%
+    \begin{tabitemize}
+        \item \textbf{isSpotMediaLiked}: boolean (czy aktualny użytkownik polubił to media)
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP49}
+{/public/spot/get-spot-time-zone}
+{Pobierz strefę czasową spotu}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{spotId}: long (ID spotu)
+    \end{tabitemize}
+}
+{200 OK, 404 Not Found}
+{%
+    \begin{tabitemize}
+        \item \textbf{timeZone}: String (identyfikator strefy czasowej, np. \texttt{Europe/Warsaw})
+    \end{tabitemize}
+}

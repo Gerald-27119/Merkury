@@ -1,0 +1,222 @@
+%! Author = Mateusz
+%! Date = 26/11/2025
+
+\subsection{Endpointy systemu}
+\label{subsec:endpointy-systemu}
+
+\newcounter{endpoint}[chapter]
+\renewcommand{\theendpoint}{\thechapter.\arabic{endpoint}}
+
+\newcommand{\epid}[1]{\textbf{ID endpointu:} & #1 \\ \hline}
+\newcommand{\epurl}[1]{\textbf{URL:} & #1 \\ \hline}
+\newcommand{\epname}[1]{\textbf{Nazwa:} & #1 \\ \hline}
+\newcommand{\epinput}[1]{\textbf{Co przyjmuje:} & #1 \\ \hline}
+\newcommand{\epquery}[1]{\textbf{Query params:} & #1 \\ \hline}
+\newcommand{\epresponse}[1]{\textbf{Response codes:} & #1 \\ \hline}
+\newcommand{\epoutput}[1]{\textbf{Co zwraca:} & #1 \\ \hline}
+
+\newenvironment{tabitemize}[1][]{%
+    \begin{itemize}[
+        leftmargin=*,
+        nosep,
+        topsep=0pt,
+        partopsep=0pt,
+        parsep=0pt,
+        itemsep=0pt,
+        before=\vspace*{-0.6\baselineskip},
+        #1
+    ]
+}{%
+    \end{itemize}
+}
+
+\newcommand{\cardendpoint}[7]{%
+    \refstepcounter{endpoint}%
+    \par\begin{center}
+    \renewcommand{\arraystretch}{1.15}%
+    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.2\textwidth}|X|}
+    \rowcolor{lightgray}
+    \multicolumn{2}{|c|}{\textbf{ENDPOINT API}} \\ \hline
+    \epid{#1}
+    \epurl{#2}
+    \epname{#3}
+    \epinput{#4}
+    \epquery{#5}
+    \epresponse{#6}
+    \epoutput{#7}
+    \end{tabularx}
+    \vspace{3pt}
+    \textbf{Tabela \theendpoint:} Karta endpointu: #2\label{#1}
+    \end{center}%
+    \addcontentsline{lot}{table}{Tabela \theendpoint: Karta endpointu: #2}%
+}
+
+\begin{longtable}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.18\textwidth}|p{0.72\textwidth}|}
+%    \caption{Zestawienie wszystkich endpointów HTTP systemu}
+%    \label{tab:all-endpoints} \\
+    \rowcolor{lightgray}
+    \multicolumn{2}{|c|}{\textbf{Zestawienie wszystkich endpointów HTTP systemu}} \\ \hline
+    \hline
+    \rowcolor{lightgray}
+    \textbf{HTTP Method} & \textbf{URL} \\
+    \hline
+    \endfirsthead
+
+    \hline
+    \rowcolor{lightgray}
+    \textbf{HTTP Method} & \textbf{URL} \\
+    \hline
+    \endhead
+
+% ================= PANEL UŻYTKOWNIKA =================
+    \rowcolor{lightgray}
+    \multicolumn{2}{|l|}{\textbf{Panel użytkownika}} \\
+    \hline
+    GET   & /user-dashboard/profile \\ \hline
+    GET   & /public/user-dashboard/profile/\{targetUsername\} \\ \hline
+    PATCH & /user-dashboard/profile \\ \hline
+    GET   & /user-dashboard/friends \\ \hline
+    GET   & /public/user-dashboard/friends/\{targetUsername\} \\ \hline
+    PATCH & /user-dashboard/friends \\ \hline
+    PATCH & /user-dashboard/friends/change-status \\ \hline
+    GET   & /user-dashboard/followers \\ \hline
+    GET   & /public/user-dashboard/followers/\{targetUsername\} \\ \hline
+    GET   & /user-dashboard/followed \\ \hline
+    GET   & /public/user-dashboard/followed/\{targetUsername\} \\ \hline
+    GET   & /user-dashboard/friends/find \\ \hline
+    GET   & /user-dashboard/friends/invites \\ \hline
+    PATCH & /user-dashboard/followed \\ \hline
+    GET   & /user-dashboard/favorite-spots \\ \hline
+    PATCH & /user-dashboard/favorite-spots \\ \hline
+    POST  & /user-dashboard/add-spot-media \\ \hline
+    GET   & /user-dashboard/is-spot-favourite \\ \hline
+    GET   & /user-dashboard/photos \\ \hline
+    GET   & /user-dashboard/comments \\ \hline
+    PATCH & /user-dashboard/settings \\ \hline
+    GET   & /user-dashboard/settings \\ \hline
+    GET   & /user-dashboard/movies \\ \hline
+    GET   & /user-dashboard/photos/\{targetUsername\} \\ \hline
+    GET   & /user-dashboard/add-spot \\ \hline
+    POST  & /user-dashboard/add-spot \\ \hline
+    GET   & /user-dashboard/add-spot/coordinates \\ \hline
+
+% ================= SPOTY =================
+    \rowcolor{lightgray}
+    \multicolumn{2}{|l|}{\textbf{Spoty}} \\
+    \hline
+    GET   & /public/spot/gallery \\ \hline
+    GET   & /public/spot/gallery-media-position \\ \hline
+    GET   & /public/spot/gallery-fullscreen-media \\ \hline
+    GET   & /public/spot/current-view \\ \hline
+    GET   & /public/spot/current-view/spot-names \\ \hline
+    GET   & /public/spot/\{spotId\} \\ \hline
+    PATCH & /public/spot/increase-view-count \\ \hline
+    GET   & /public/spot/search/map \\ \hline
+    GET   & /public/spot/search/list \\ \hline
+    GET   & /public/spot/names \\ \hline
+    GET   & /public/spot/most-popular \\ \hline
+    GET   & /public/spot/search/home-page \\ \hline
+    GET   & /public/spot/search/home-page/locations \\ \hline
+    GET   & /public/spot/search/home-page/advance \\ \hline
+    GET   & /public/spot/get-spot-basic-weather \\ \hline
+    GET   & /public/spot/get-spot-detailed-weather \\ \hline
+    GET   & /public/spot/get-spot-wind-speeds \\ \hline
+    GET   & /public/spot/get-spot-weather-timeline-plot-data \\ \hline
+    PATCH & /public/spot/increase-spot-media-views-count \\ \hline
+    PATCH & /public/spot/edit-spot-media-likes \\ \hline
+    GET   & /spot/check-is-spot-media-liked \\ \hline
+    GET   & /public/spot/get-spot-time-zone \\ \hline
+
+% ================= KOMENTARZE DO SPOTÓW =================
+    \rowcolor{lightgray}
+    \multicolumn{2}{|l|}{\textbf{Komentarze do spotów}} \\
+    \hline
+    GET    & /public/spot/\{spotId\}/comments \\ \hline
+    GET    & /public/spot/\{spotId\}/comments/\{commentId\} \\ \hline
+    POST   & /spot/\{spotId\}/comments \\ \hline
+    DELETE & /spot/comments/\{commentId\} \\ \hline
+    PATCH  & /spot/comments/\{commentId\} \\ \hline
+    PATCH  & /spot/comments/\{commentId\}/vote \\ \hline
+    GET    & /spot/comments/vote-type \\ \hline
+
+% ================= POSTY FORUM =================
+    \rowcolor{lightgray}
+    \multicolumn{2}{|l|}{\textbf{Posty forum}} \\
+    \hline
+    GET    & /public/post/\{postId\} \\ \hline
+    GET    & /public/post \\ \hline
+    POST   & /post \\ \hline
+    DELETE & /post/\{postId\} \\ \hline
+    PATCH  & /post/\{postId\} \\ \hline
+    PATCH  & /post/\{postId\}/vote \\ \hline
+    PATCH  & /post/\{postId\}/follow \\ \hline
+    PATCH  & /post/\{postId\}/report \\ \hline
+    GET    & /public/categories-tags \\ \hline
+
+% ================= KOMENTARZE FORUM =================
+    \rowcolor{lightgray}
+    \multicolumn{2}{|l|}{\textbf{Komentarze forum}} \\
+    \hline
+    GET    & /public/post/\{postId\}/comments \\ \hline
+    GET    & /public/comments/\{commentId\}/replies \\ \hline
+    POST   & /post/\{postId\}/comments \\ \hline
+    DELETE & /post/comments/\{commentId\} \\ \hline
+    PATCH  & /post/comments/\{commentId\} \\ \hline
+    PATCH  & /post/comments/\{commentId\}/vote \\ \hline
+    PATCH  & /post/comments/\{commentId\}/report \\ \hline
+    POST   & /comments/\{commentId\}/replies \\ \hline
+
+% ================= KONTO UŻYTKOWNIKA / AUTORYZACJA =================
+    \rowcolor{lightgray}
+    \multicolumn{2}{|l|}{\textbf{Konto użytkownika / autoryzacja}} \\
+    \hline
+    POST & /public/account/register \\ \hline
+    POST & /public/account/login \\ \hline
+    GET  & /account/login-success \\ \hline
+    POST & /public/account/forgot-password \\ \hline
+    POST & /public/account/set-new-password \\ \hline
+    GET  & /account/check \\ \hline
+
+% ================= PRZESYŁANIE PLIKÓW =================
+    \rowcolor{lightgray}
+    \multicolumn{2}{|l|}{\textbf{Przesyłanie plików}} \\
+    \hline
+    POST & /public/upload/media \\ \hline
+
+% ================= GIF-Y =================
+    \rowcolor{lightgray}
+    \multicolumn{2}{|l|}{\textbf{GIF-y (Tenor)}} \\
+    \hline
+    GET & /gifs/trending \\ \hline
+    GET & /gifs/search \\ \hline
+
+% ================= CZAT =================
+    \rowcolor{lightgray}
+    \multicolumn{2}{|l|}{\textbf{Czat}} \\
+    \hline
+    GET   & /chats/\{chatId\}/messages \\ \hline
+    GET   & /chats/user-chats \\ \hline
+    POST  & /chats/get-or-create-private-chat \\ \hline
+    POST  & /chats/\{chatId\}/send-files \\ \hline
+    POST  & /chats/create/group \\ \hline
+    PATCH & /chats/\{chatId\} \\ \hline
+    GET   & /chats/group-chat/add/search/\{chatId\} \\ \hline
+    PUT   & /chats/add/users/\{chatId\} \\ \hline
+
+\end{longtable}%
+
+\refstepcounter{endpoint}%
+\par\noindent
+\textbf{Tabela \theendpoint:} Zestawienie wszystkich endpointów HTTP systemu\label{tab:all-endpoints}
+
+\addcontentsline{lot}{table}{Tabela \theendpoint: Zestawienie wszystkich endpointów HTTP systemu}%
+
+
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/panel-usera}
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/mapa}
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/komentarze-spot}
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/forum-posty}
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/forum-posty-komentarze}
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/konto-usera}
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/azure}
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/chat}

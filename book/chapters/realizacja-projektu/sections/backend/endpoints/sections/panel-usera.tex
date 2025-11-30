@@ -1,55 +1,5 @@
 %! Author = Mateusz
-%! Date = 26/11/2025
-
-\subsection{Endpointy systemu}
-\label{subsec:endpointy-systemu}
-
-\newcounter{endpoint}[chapter]
-\renewcommand{\theendpoint}{\thechapter.\arabic{endpoint}}
-
-\newcommand{\epid}[1]{\textbf{ID endpointu:} & #1 \\ \hline}
-\newcommand{\epurl}[1]{\textbf{URL:} & #1 \\ \hline}
-\newcommand{\epname}[1]{\textbf{Nazwa:} & #1 \\ \hline}
-\newcommand{\epinput}[1]{\textbf{Co przyjmuje:} & #1 \\ \hline}
-\newcommand{\epquery}[1]{\textbf{Query params:} & #1 \\ \hline}
-\newcommand{\epresponse}[1]{\textbf{Response codes:} & #1 \\ \hline}
-\newcommand{\epoutput}[1]{\textbf{Co zwraca:} & #1 \\ \hline}
-
-\newenvironment{tabitemize}[1][]{%
-    \begin{itemize}[
-        leftmargin=*,
-        nosep,
-        topsep=0pt,
-        partopsep=0pt,
-        parsep=0pt,
-        itemsep=0pt,
-        before=\vspace*{-0.6\baselineskip},
-        #1
-    ]
-}{%
-    \end{itemize}
-}
-
-\newcommand{\cardendpoint}[7]{%
-    \refstepcounter{endpoint}%
-    \par\begin{center}
-    \renewcommand{\arraystretch}{1.15}%
-    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.2\textwidth}|X|}
-    \rowcolor{lightgray}
-    \multicolumn{2}{|c|}{\textbf{ENDPOINT API}} \\ \hline
-    \epid{#1}
-    \epurl{#2}
-    \epname{#3}
-    \epinput{#4}
-    \epquery{#5}
-    \epresponse{#6}
-    \epoutput{#7}
-    \end{tabularx}
-    \vspace{3pt}
-    \textbf{Tabela \theendpoint:} Karta endpointu: #2\label{#1}
-    \end{center}%
-    \addcontentsline{lot}{table}{Tabela \theendpoint: Karta endpointu: #2}%
-}
+%! Date = 30/11/2025
 
 \noindent\textbf{Panel użytkownika}
 
@@ -393,7 +343,7 @@
         \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
     \end{tabitemize}
 } {200 OK, 401 Unauthorized} {%
-    \begin{itemize}
+    \begin{tabitemize}
         \item \textbf{items}: List<AddSpotDto>, każdy element:
         \begin{itemize}
             \item \textbf{id}: Long
@@ -407,7 +357,7 @@
             \item \textbf{firstPhotoUrl}: String (URL)
         \end{itemize}
         \item \textbf{hasNext}: boolean
-    \end{itemize}
+    \end{tabitemize}
 }
 
 \cardendpoint {EP26} {/user-dashboard/add-spot} {Dodaj nowy spot użytkownika} {%
@@ -427,52 +377,3 @@
         \item \textbf{y}: Double (szerokość/długość geograficzna – składnik 2)
     \end{tabitemize}
 }
-
-
-%\begin{tabitemize}
-%\item \lstinline{GET /user-dashboard/profile}
-%\item \lstinline{GET /public/user-dashboard/profile/"targetUsername"}
-%\item \lstinline{PATCH /user-dashboard/profile}
-%\item \lstinline{GET /user-dashboard/friends}
-%\item \lstinline{GET /public/user-dashboard/friends/"targetUsername"}
-%\item \lstinline{PATCH /user-dashboard/friends}
-%\item \lstinline{PATCH /user-dashboard/friends/change-status}
-%\item \lstinline{GET /user-dashboard/followers}
-%\item \lstinline{GET /public/user-dashboard/followers/"targetUsername"}
-%\item \lstinline{GET /user-dashboard/followed}
-%\item \lstinline{GET /public/user-dashboard/followed/"targetUsername"}
-%\item \lstinline{GET /user-dashboard/friends/find}
-%\item \lstinline{GET /user-dashboard/friends/invites}
-%\item \lstinline{PATCH /user-dashboard/followed}
-%\item \lstinline{GET /user-dashboard/favorite-spots}
-%\item \lstinline{PATCH /user-dashboard/favorite-spots}
-%\item \lstinline{GET /user-dashboard/photos}
-%\item \lstinline{GET /user-dashboard/comments}
-%\item \lstinline{PATCH /user-dashboard/settings}
-%\item \lstinline{GET /user-dashboard/settings}
-%\item \lstinline{GET /user-dashboard/movies}
-%\item \lstinline{GET /user-dashboard/photos/"targetUsername"}
-%\item \lstinline{GET /user-dashboard/add-spot}
-%\item \lstinline{POST /user-dashboard/add-spot}
-%\item \lstinline{GET /user-dashboard/add-spot/coordinates}
-%\end{tabitemize}
-%
-%\noindent\textbf{Strona główna}
-%
-%\begin{tabitemize}
-%  \item \lstinline{GET /public/spot/most-popular}
-%  \item \lstinline{GET /public/spot/search/home-page}
-%  \item \lstinline{GET /public/spot/search/home-page/locations}
-%  \item \lstinline{GET /public/spot/search/home-page/advance}
-%\end{tabitemize}
-%
-%\noindent\textbf{Konto użytkownika}
-%
-%\begin{tabitemize}
-%  \item \lstinline{POST /public/account/register}
-%  \item \lstinline{POST /public/account/login}
-%  \item \lstinline{GET /account/login-success}
-%  \item \lstinline{POST /public/account/forgot-password}
-%  \item \lstinline{POST /public/account/set-new-password}
-%  \item \lstinline{GET /account/check}
-%\end{tabitemize}
