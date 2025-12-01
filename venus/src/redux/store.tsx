@@ -22,6 +22,7 @@ import { expandedSpotMediaGalleryFullscreenSizeSlice } from "./expanded-spot-med
 import { expandedSpotGalleryCurrentMediaSlice } from "./expanded-spot-gallery-current-media";
 import { forumModalSlice } from "./forumModal";
 import { forumReportModalSlice } from "./forumReportModal";
+import { addSpotCommentModalInfoSlice } from "./add-spot-comment-modal-info";
 
 const store = configureStore({
     reducer: {
@@ -49,6 +50,7 @@ const store = configureStore({
         expandedSpotGalleryCurrentMedia:
             expandedSpotGalleryCurrentMediaSlice.reducer,
         spotAddMediaModal: addSpotMediaModalSlice.reducer,
+        addSpotCommentModal: addSpotCommentModalInfoSlice.reducer,
         forum: forumModalSlice.reducer,
         forumReport: forumReportModalSlice.reducer,
     },
