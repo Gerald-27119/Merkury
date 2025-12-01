@@ -7,13 +7,13 @@
 \newcounter{endpoint}[chapter]
 \renewcommand{\theendpoint}{\thechapter.\arabic{endpoint}}
 
-\newcommand{\epid}[1]{\textbf{ID endpointu:} & #1 \\ \hline}
-\newcommand{\epurl}[1]{\textbf{URL:} & #1 \\ \hline}
+\newcommand{\epid}[1]{\textbf{Identyfikator:} & #1 \\ \hline}
+\newcommand{\epurl}[1]{\textbf{Ścieżka:} & #1 \\ \hline}
 \newcommand{\epname}[1]{\textbf{Nazwa:} & #1 \\ \hline}
-\newcommand{\epinput}[1]{\textbf{Co przyjmuje:} & #1 \\ \hline}
+\newcommand{\epinput}[1]{\textbf{Parametry wejściowe:} & #1 \\ \hline}
 \newcommand{\epquery}[1]{\textbf{Query params:} & #1 \\ \hline}
-\newcommand{\epresponse}[1]{\textbf{Response codes:} & #1 \\ \hline}
-\newcommand{\epoutput}[1]{\textbf{Co zwraca:} & #1 \\ \hline}
+\newcommand{\epresponse}[1]{\textbf{Kod(y) statusu odpowiedzi:} & #1 \\ \hline}
+\newcommand{\epoutput}[1]{\textbf{Dane zwracane:} & #1 \\ \hline}
 
 \newenvironment{tabitemize}[1][]{%
     \begin{itemize}[
@@ -36,7 +36,7 @@
     \renewcommand{\arraystretch}{1.15}%
     \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.2\textwidth}|X|}
     \rowcolor{lightgray}
-    \multicolumn{2}{|c|}{\textbf{ENDPOINT API}} \\ \hline
+    \multicolumn{2}{|c|}{\textbf{KARTA ENDPOINTU API}} \\ \hline
     \epid{#1}
     \epurl{#2}
     \epname{#3}
@@ -52,19 +52,17 @@
 }
 
 \begin{longtable}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.18\textwidth}|p{0.72\textwidth}|}
-%    \caption{Zestawienie wszystkich endpointów HTTP systemu}
-%    \label{tab:all-endpoints} \\
     \rowcolor{lightgray}
     \multicolumn{2}{|c|}{\textbf{Zestawienie wszystkich endpointów HTTP systemu}} \\ \hline
     \hline
     \rowcolor{lightgray}
-    \textbf{HTTP Method} & \textbf{URL} \\
+    \textbf{Metoda HTTP} & \textbf{Ścieżka} \\
     \hline
     \endfirsthead
 
     \hline
     \rowcolor{lightgray}
-    \textbf{HTTP Method} & \textbf{URL} \\
+    \textbf{Metoda HTTP} & \textbf{Ścieżka} \\
     \hline
     \endhead
 
