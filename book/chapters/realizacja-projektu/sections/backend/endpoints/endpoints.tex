@@ -11,7 +11,7 @@
 \newcommand{\epurl}[1]{\textbf{Ścieżka:} & #1 \\ \hline}
 \newcommand{\epname}[1]{\textbf{Nazwa:} & #1 \\ \hline}
 \newcommand{\epinput}[1]{\textbf{Parametry wejściowe:} & #1 \\ \hline}
-\newcommand{\epquery}[1]{\textbf{Query params:} & #1 \\ \hline}
+\newcommand{\epquery}[1]{\textbf{\glslink{query-params}{Query params:}} & #1 \\ \hline}
 \newcommand{\epresponse}[1]{\textbf{Kod(y) statusu odpowiedzi:} & #1 \\ \hline}
 \newcommand{\epoutput}[1]{\textbf{Dane zwracane:} & #1 \\ \hline}
 
@@ -50,6 +50,20 @@
     \end{center}%
     \addcontentsline{lot}{table}{Tabela \theendpoint: Karta endpointu: #2}%
 }
+
+Na potrzeby niniejszej pracy przez \emph{endpoint API} rozumiany będzie
+konkretny punkt dostępu do systemu, zdefiniowany jako para:
+\[
+    \text{metoda HTTP} + \text{ścieżka URL}
+\]
+pod którym aplikacja udostępnia określoną funkcjonalność lub zasób.
+Przykładowo, endpoint \texttt{GET /public/spot/\{spotId\}} służy do
+pobierania informacji o wybranym spocie.
+
+W dalszej części rozdziału przedstawiono zestawienie wszystkich
+endpointów HTTP systemu, a następnie szczegółowe karty wybranych
+endpointów, opisujące m.in. parametry wejściowe, \glslink{query-params}{Query params}
+oraz strukturę odpowiedzi.
 
 \begin{longtable}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.18\textwidth}|p{0.72\textwidth}|}
     \rowcolor{lightgray}
