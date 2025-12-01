@@ -68,7 +68,12 @@
 {%
     \begin{tabitemize}
         \item \textbf{spotId}: Long (ID spotu w ścieżce URL)
-        \item \textbf{body}: SpotCommentAddDto (JSON z danymi nowego komentarza: tekst, ocena, media itp.)
+        \item \textbf{body}: SpotCommentAddDto, zawiera:
+        \begin{itemize}
+            \item \textbf{text}: String
+            \item \textbf{rating}: Double
+            \item \textbf{mediaFiles}: List<MultipartFile>
+        \end{itemize}
     \end{tabitemize}
 }
 {Brak}

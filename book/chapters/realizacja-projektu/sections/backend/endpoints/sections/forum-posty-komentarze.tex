@@ -48,7 +48,10 @@
 {%
     \begin{tabitemize}
         \item \textbf{postId}: Long (ID posta w ścieżce URL)
-        \item \textbf{body}: PostCommentDto (JSON z danymi komentarza, np. treść)
+        \item \textbf{body}: PostCommentDto, zawiera:
+        \begin{itemize}
+            \item \textbf{content}: String
+        \end{itemize}
     \end{tabitemize}
 }
 {Brak}
@@ -62,7 +65,10 @@
 {%
     \begin{tabitemize}
         \item \textbf{commentId}: Long (ID komentarza w ścieżce URL)
-        \item \textbf{body}: PostCommentDto (JSON z nową treścią komentarza)
+        \item \textbf{body}: PostCommentDto, zawiera:
+        \begin{itemize}
+            \item \textbf{content}: String
+        \end{itemize}
     \end{tabitemize}
 }
 {Brak}
@@ -93,7 +99,10 @@
 {%
     \begin{tabitemize}
         \item \textbf{commentId}: Long (ID komentarza nadrzędnego w ścieżce URL)
-        \item \textbf{body}: PostCommentDto (JSON z treścią odpowiedzi)
+        \item \textbf{body}: PostCommentDto, zawiera:
+        \begin{itemize}
+            \item \textbf{content}: String
+        \end{itemize}
     \end{tabitemize}
 }
 {Brak}

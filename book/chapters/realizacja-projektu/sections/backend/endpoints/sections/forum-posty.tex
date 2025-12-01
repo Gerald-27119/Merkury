@@ -16,7 +16,7 @@
 {200 OK, 404 Not Found}
 {%
     \begin{tabitemize}
-        \item \textbf{PostDetailsDto}, zawiera m.in.:
+        \item \textbf{PostDetailsDto}, zawiera:
         \begin{itemize}
             \item \textbf{id}: Long
             \item \textbf{title}: String (tytuł posta)
@@ -43,7 +43,13 @@
 {Dodaj nowy post na forum}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: PostDto (JSON z danymi posta: tytuł, treść, kategoria, tagi itp.)
+        \item \textbf{body}: PostDto, zawiera:
+        \begin{itemize}
+            \item \textbf{title}: String (tytuł posta)
+            \item \textbf{content}: String (pełna treść posta)
+            \item \textbf{category}: String
+            \item \textbf{tags}: List<String>
+        \end{itemize}
     \end{tabitemize}
 }
 {Brak}

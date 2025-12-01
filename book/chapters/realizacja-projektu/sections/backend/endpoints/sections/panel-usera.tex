@@ -9,7 +9,7 @@
     \end{tabitemize}
 } {Brak} {200 OK, 404 Not Found} {%
     \begin{tabitemize}
-        \item \textbf{profile}: UserProfileDto, zawiera m.in.:
+        \item \textbf{profile}: UserProfileDto, zawiera:
         \begin{itemize}
             \item \textbf{username}: String
             \item \textbf{profilePhoto}: String (URL)
@@ -27,7 +27,7 @@
 
 \cardendpoint {EP02} {/user-dashboard/favorite-spots} {Pobierz listę ulubionych spotów użytkownika} {Brak} {%
     \begin{tabitemize}
-        \item \textbf{type}: FavoriteSpotsListType (typ listy, np. ulubione/odwiedzone)
+        \item \textbf{type}: FavoriteSpotsListType (typ listy: ulubione, odwiedzone oraz do odwiedzenia)
         \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
         \item \textbf{size}: Integer (opcjonalnie, domyślnie 10)
     \end{tabitemize}
@@ -42,7 +42,7 @@
             \item \textbf{description}: String
             \item \textbf{rating}: Double
             \item \textbf{viewsCount}: Integer
-            \item \textbf{imageUrl}: String (URL)
+            \item \textbf{imageUrl}: String
             \item \textbf{type}: FavoriteSpotsListType
             \item \textbf{coords}: SpotCoordinatesDto
             \item \textbf{tags}: Set<SpotTagDto>
@@ -93,7 +93,7 @@
             \item \textbf{city}: String
             \item \textbf{street}: String
             \item \textbf{borderPoints}: List<BorderPoint> (x, y)
-            \item \textbf{firstPhotoUrl}: String (URL)
+            \item \textbf{firstPhotoUrl}: String
         \end{itemize}
         \item \textbf{hasNext}: boolean
     \end{tabitemize}
