@@ -3,3 +3,35 @@
 
 \subsection{Konteneryzacja}
 \label{subsec:konteneryzacja}
+W celu zapewnienia łatwego uruchamiania aplikacji oraz możliwości jej skalowania zastosowano
+konteneryzację z wykorzystaniem Dockera.
+Zarówno relacyjna baza danych PostgreSQL, jak i magazyn klucz–wartość Redis zostały uruchomione
+w odseparowanych kontenerach.
+Do uruchamiania wielu kontenerów jednocześnie wykorzystano narzędzie
+Docker Compose (rys. \ref{img:docker-compose}), dzięki czemu wystarczy uruchomić jeden
+plik konfiguracyjny, a wszystkie wymagane usługi są automatycznie uruchamiane z odpowiednimi ustawieniami.
+
+Poniżej opisano skonteneryzowane bazy danych:
+\newline
+\textbf{PostgreSQL} – usługa uruchamiana jest na podstawie obrazu \texttt{postgres:latest},
+pobieranego ze zdalnego repozytorium Docker Hub.
+Kontener odpowiada za działanie relacyjnej bazy danych systemu.
+Parametry połączenia, takie jak nazwa użytkownika, hasło oraz nazwa bazy danych,
+określono za pomocą zmiennych środowiskowych zdefiniowanych w pliku \texttt{postgres.env}.
+Baza danych jest udostępniana lokalnie na porcie \texttt{5432}.
+\newline
+\textbf{Redis} – usługa uruchamiana jest na podstawie obrazu \texttt{redis:latest},
+pobieranego ze zdalnego repozytorium Docker Hub.
+Kontener odpowiada za działanie bazy typu in-memory wykorzystywanej do krótkoterminowego
+przechowywania danych oraz mechanizmów cache’owania.
+Usługa jest udostępniana lokalnie na porcie \texttt{6379}.
+Zastosowanie Dockera i Docker Compose umożliwia łatwe odtworzenie środowiska na
+dowolnej maszynie, ogranicza liczbę ręcznych kroków konfiguracyjnych oraz ułatwia dalsze
+skalowanie i automatyzację procesu wdrażania aplikacji.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.78\textwidth]{attachments/implementacja-backendu/docker-compose}
+    \caption{Plik konfiguracyjny docker-compose}
+    \label{img:docker-compose}
+\end{figure}
