@@ -11,6 +11,7 @@ import { MemoryRouter } from "react-router-dom";
 import { describe } from "vitest";
 import Photos from "../../../../pages/account/photos/Photos";
 import { act } from "react";
+import Movies from "../../../../pages/account/movies/Movies.tsx";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,15 @@ vi.mock("@tanstack/react-query", async () => {
         useInfiniteQuery: vi.fn(),
     };
 });
+
+vi.mock("react-player", () => ({
+    __esModule: true,
+    default: vi.fn((props) => (
+        <div data-testid="user-movie" {...props}>
+            Mocked ReactPlayer
+        </div>
+    )),
+}));
 
 const renderPhotos = () => {
     const store = configureStore({
@@ -35,7 +45,7 @@ const renderPhotos = () => {
         <Provider store={store}>
             <MemoryRouter>
                 <QueryClientProvider client={queryClient}>
-                    <Photos />
+                    <Movies />
                 </QueryClientProvider>
             </MemoryRouter>
         </Provider>,
@@ -76,8 +86,8 @@ const mockPhotosData = [
     },
 ];
 
-describe("Photos component unit tests", () => {
-    describe("Photos display photos data correctly", () => {
+describe("Movies component unit tests", () => {
+    describe("Movies display Movies data correctly", () => {
         beforeEach(async () => {
             global.IntersectionObserver = class {
                 constructor(callback) {
@@ -111,7 +121,7 @@ describe("Photos component unit tests", () => {
         });
 
         test("Should render h1 text", () => {
-            expect(screen.getByText(/photos/i)).toBeInTheDocument();
+            expect(screen.getByText(/movies/i)).toBeInTheDocument();
         });
 
         describe("Should display two date", () => {
@@ -123,19 +133,19 @@ describe("Photos component unit tests", () => {
             });
         });
 
-        test("Should render all photos", () => {
-            const images = screen.getAllByTestId("user-photo");
-            expect(images).toHaveLength(3);
+        test("Should render all movies", () => {
+            const movies = screen.getAllByTestId("user-movie");
+            expect(movies).toHaveLength(3);
 
-            expect(images[0]).toHaveAttribute(
+            expect(movies[0]).toHaveAttribute(
                 "src",
                 "https://example.com/photo1.jpg",
             );
-            expect(images[1]).toHaveAttribute(
+            expect(movies[1]).toHaveAttribute(
                 "src",
                 "https://example.com/photo2.jpg",
             );
-            expect(images[2]).toHaveAttribute(
+            expect(movies[2]).toHaveAttribute(
                 "src",
                 "https://example.com/photo3.jpg",
             );
