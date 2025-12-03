@@ -38,3 +38,71 @@ Poniżej przedstawiono stos technologiczny zastosowany w projekcie.
         Często jest wykorzystywany do tworzenia aplikacji typu SPA.
     \end{itemize}
 \end{itemize}
+
+%\newcounter{integrationcard}[chapter]
+%\renewcommand{\thetechnologies}{\thesubsection.\arabic{technologie}}
+
+
+\begin{longtable}{|
+        >{\columncolor{lightgray}}p{0.25\textwidth}|
+    p{0.65\textwidth}|
+}
+    \hline
+    \rowcolor{lightgray}
+    \multicolumn{2}{|c|}{\textbf{Zestawienie używanych bibliotek / pakietów}} \\ \hline
+    \hline
+    \rowcolor{lightgray}
+    \textbf{Biblioteka / pakiet} & \textbf{Opis / przeznaczenie} \\ \hline
+    \endfirsthead
+
+    \hline
+    \rowcolor{lightgray}
+    \textbf{Biblioteka / pakiet} & \textbf{Opis / przeznaczenie} \\ \hline
+    \endhead
+
+
+    @ferrucc-io/emoji-picker & Komponent do wyboru emoji — pozwala użytkownikowi wybierać emotki w interfejsie. \\ \hline
+    @hookform/resolvers & Współpracuje z \texttt{react-hook-form} — ułatwia walidację formularzy. \\ \hline
+    @reduxjs/toolkit & Uproszczona konfiguracja stanu globalnego w aplikacji React + Redux — ułatwia zarządzanie store, reducery, akcje itp. \\ \hline
+    @stomp/stompjs & Biblioteka do komunikacji WebSocket / STOMP — umożliwia komunikację w czasie rzeczywistym między klientem a serwerem. \\ \hline
+    @tailwindcss/vite & Integracja stylów \texttt{Tailwind CSS} z bundlerem Vite — ułatwia stosowanie Tailwinda w projekcie. \\ \hline
+    @tanstack/react-query & (dawniej React Query) — zarządzanie danymi z API: fetch, cache, synchronizacja, obsługa loadingu i błędów. \\ \hline
+    @tiptap/extension-file-handler & Rozszerzenie edytora tekstu: obsługa plików (np. dodawanie lub wstawianie plików). \\ \hline
+    @tiptap/extension-image & Rozszerzenie edytora — umożliwia wstawianie i obsługę obrazów. \\ \hline
+    @tiptap/extension-placeholder & Rozszerzenie edytora — placeholder przy pustym polu edycji. \\ \hline
+    @tiptap/extension-text-align & Rozszerzenie edytora — umożliwia wyrównywanie tekstu (np. do lewej, środka, prawej). \\ \hline
+    @tiptap/pm & Silnik edytora tekstów (np. ProseMirror) używany przez Tiptap. \\ \hline
+    @tiptap/react & Integracja edytora Tiptap z Reactem — edytor jako komponent Reactowy. \\ \hline
+    @tiptap/starter-kit & Podstawowy zestaw wtyczek/ustawień do edytora Tiptap — szybki start. \\ \hline
+    @vis.gl/react-maplibre & React-owe wiązanie do map — pozwala wyświetlać i obsługiwać mapy w aplikacji. \\ \hline
+    antd & Biblioteka komponentów UI (przyciski, formularze, kafelki itp.) dla React — ułatwia budowę interfejsu. \\ \hline
+    axios & Klient HTTP — umożliwia wysyłanie zapytań do API (GET, POST itd.) i obsługę odpowiedzi/błędów. \\ \hline
+    date-fns & Obsługa dat i czasu — formatowanie, porównywanie, manipulacja datami/czasem. \\ \hline
+    dotenv & Zarządzanie zmiennymi środowiskowymi (np. klucze API, ustawienia środowiska). \\ \hline
+    maplibre-gl & Biblioteka do renderowania map — wykorzystywana przy mapach i warstwach geograficznych. \\ \hline
+    media-chrome & Komponenty multimedialne — do obsługi odtwarzania mediów w przeglądarce. \\ \hline
+    motion & Biblioteka animacji / efektów UI — pozwala dodawać animacje do komponentów interfejsu. \\ \hline
+    openmeteo & Klient lub wrapper API pogodowego — prawdopodobnie do pobierania danych meteorologicznych. \\ \hline
+    query-string & Parsowanie i generowanie parametrów zapytań w URL (np. GET, query params). \\ \hline
+    react & Biblioteka do budowy UI — komponenty, stan komponentów, renderowanie interfejsu. \\ \hline
+    react-dom & Biblioteka do „renderowania” Reacta w DOM przeglądarki — podstawa działania React. \\ \hline
+    react-hook-form & Ułatwia obsługę formularzy w React: stan formularza, walidacje, obsługa submitów. \\ \hline
+    react-icons & Zestaw ikon jako komponentów Reactowych (“ikonografika” w UI). \\ \hline
+    react-intersection-observer & Hook / narzędzie do obserwowania, kiedy komponent wchodzi/wychodzi z widoku — przydatne np. do lazy-loading lub animacji przy scrollu. \\ \hline
+    react-player & Komponent do odtwarzania mediów (wideo/audio) w React — odtwarzacze osadzone w interfejsie. \\ \hline
+    react-redux & Integracja React + Redux — pozwala użyć globalnego store Redux w aplikacji React. \\ \hline
+    react-router-dom & Routing / nawigacja w aplikacji React — definiowanie ścieżek URL i odpowiadających im “stron” / komponentów. \\ \hline
+    react-select & Komponent zaawansowanego selecta / dropdownu — lepszy niż natywny `<select>`, z opcjami, wyszukiwaniem, stylizacją. \\ \hline
+    sockjs-client & Klient WebSocket / komunikacji w czasie rzeczywistym — np. używany razem z STOMP. \\ \hline
+    tailwindcss & CSS‑framework typu utility-first — stylowanie komponentów interfejsu za pomocą klas, szybkie budowanie UI. \\ \hline
+    uuid & Generowanie unikalnych identyfikatorów — przydatne np. przy kluczach elementów list, ID obiektów itp. \\ \hline
+    victory / victory-chart & Biblioteka do rysowania wykresów / diagramów w React — wykresy liniowe, słupkowe, kołowe itp. \\ \hline
+    zod & Biblioteka do walidacji danych i schematów — sprawdzanie kształtu obiektów danych (np. z formularzy/API). \\ \hline
+\end{longtable}
+
+\refstepcounter{integrationcard}%
+\par\noindent
+\textbf{Tabela \theintegrationcard:} Zestawienie wszystkich bibliotek i pakietów użytych w projekcie.\label{tab:all-technologies}
+
+\addcontentsline{lot}{table}{Tabela \theintegrationcard: Zestawienie wszystkich bibliotek i pakietów użytych w projekcie.}%
+
