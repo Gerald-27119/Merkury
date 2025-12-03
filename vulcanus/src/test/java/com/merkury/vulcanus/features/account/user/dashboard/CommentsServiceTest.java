@@ -82,7 +82,7 @@ class CommentsServiceTest {
     }
 
     @Test
-    void shouldReturnFilteredAndSortedPCommentsForUserWithinGivenDateRange() throws UnsupportedDateSortTypeException {
+    void shouldReturnFilteredAndSortedCommentsForUserWithinGivenDateRange() throws UnsupportedDateSortTypeException {
         var user = UserEntity.builder().username("user1").build();
 
         var spot = new Spot();

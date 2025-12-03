@@ -110,7 +110,7 @@ describe("Comments component unit tests", () => {
             expect(screen.getByText("Comments")).toBeInTheDocument();
         });
 
-        describe("Should display two date", () => {
+        describe("Should display two dates", () => {
             test("First date", () => {
                 expect(screen.getByText("25.06.2025")).toBeInTheDocument();
             });
@@ -129,9 +129,6 @@ describe("Comments component unit tests", () => {
 
             expect(screen.getByText("spot name 1")).toBeInTheDocument();
             expect(screen.getByText("spot name 2")).toBeInTheDocument();
-
-            expect(screen.getByText("25.06.2025")).toBeInTheDocument();
-            expect(screen.getByText("24.06.2025")).toBeInTheDocument();
         });
     });
 });
