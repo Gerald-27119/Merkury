@@ -605,44 +605,23 @@ i usprawniono forum.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Refaktoryzacja systemu powiadomień na froncie, umożliwiająca
+    \item Refaktoryzacja systemu powiadomień na frontendzie, umożliwiająca
     jednoczesne wyświetlanie wielu komunikatów oraz zwiększająca
     modularność i możliwość ponownego wykorzystania komponentów
     powiadomień.
-    \item Wprowadzenie stronicowania (paginacji) dla endpointów
-    wyszukiwania spotów na backendzie oraz dostosowanie komponentów
-    stron głównych i list wyników wyszukiwania do pracy
-    w trybie nieskończonego przewijania (\gls{infinite-scroll})
-    z mechanizmem \textit{„load more”}, z wykorzystaniem tzw.
-    obserwatora przecięcia (\gls{intersection-observer}) oraz
-    przekazywaniem referencji i stanów ładowania.
-    \item Dodanie walidacji formularza dodawania spota
-    w oparciu o schemat walidacyjny, w tym sprawdzanie kompletności
-    danych, wymaganego zestawu multimediów oraz punktów poligonu,
-    a także wyświetlanie komunikatów błędów bezpośrednio pod sekcjami
-    mediów i obszaru na mapie.
+    \item Wprowadzenie paginacji dla wyszukiwarki spotów.
+    \item Dodanie walidacji formularza dodawania spota,
+    a także wyświetlanie komunikatów błędów.
     \item Rozszerzenie komponentu przesyłania multimediów o podgląd
-    wybranych obrazów i materiałów wideo oraz poprawę zarządzania
-    cyklem życia adresów URL podglądu; jednocześnie podniesiono
-    priorytet wyświetlania listy powiadomień (warstwa \gls{z-index}),
-    aby były lepiej widoczne.
-    \item Wprowadzenie pełnej obsługi zmiany zdjęcia profilowego
-    użytkownika, obejmującej wysyłanie plików do backendu, usuwanie
-    poprzednich zdjęć z magazynu obiektowego oraz aktualizację adresu
-    zdjęcia w profilu użytkownika.
-    \item Refaktoryzacja struktury projektu \LaTeX{} (\gls{latex}):
+    wybranych obrazów i materiałów wideo.
+    \item Wprowadzenie obsługi zmiany zdjęcia profilowego
+    użytkownika.
+    \item Refaktoryzacja struktury projektu \LaTeX{} (\gls{latex}) -
     zastąpienie dotychczasowej treści demonstracyjnej rzeczywistymi
-    rozdziałami opisującymi projekt \textit{„spoty-na-drony.pl”},
-    aktualizacja metadanych (tytuł, autorzy, promotor, cele projektu)
-    oraz dodanie osobnych plików rozdziałów dla głównych części pracy
-    (wstęp, opis problemu, kontekst projektu, analiza wymagań,
-    decyzje projektowe, projekt, planowanie, implementacja, testowanie,
-    prezentacja systemu, podsumowanie) i włączenie ich do pliku głównego.
+    rozdziałami opisującymi projekt.
     \item Rozszerzenie zaawansowanych możliwości wyszukiwania spotów
     o sortowanie wyników według popularności lub oceny oraz filtrowanie
-    po minimalnej ocenie, wraz z odpowiednimi listami rozwijanymi
-    w interfejsie użytkownika i obsługą nowych parametrów
-    po stronie backendu.
+    po minimalnej ocenie.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
@@ -653,9 +632,7 @@ i usprawniono forum.
     parametry meteorologiczne.
     \item Przebudowa obsługi pogody tak, aby zamiast bezpośrednich
     wywołań publicznego API wykorzystywany był backend jako warstwa
-    pośrednia, z wprowadzeniem dedykowanych struktur \gls{dto} oraz
-    dostosowaniem komponentów prezentujących dane pogodowe
-    do nowego modelu danych i wymagań responsywności.
+    pośrednia.
     \item Implementacja wyświetlania zdjęcia profilowego użytkownika w komentarzach spota.
 \end{zadaniaosoby}
 
@@ -697,8 +674,7 @@ opiekunem był promotor pracy, mgr. inż. Adam Urbanowicz.
     o możliwość edycji ich parametrów (zmiana nazwy oraz obrazu czatu)
     po stronie backendu i frontendu.
     \item Dodanie możliwości dołączania nowych użytkowników
-    do istniejących czatów grupowych, wraz z odpowiednimi
-    endpointami HTTP i modyfikacją interfejsu użytkownika.
+    do istniejących czatów grupowych.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
