@@ -25,6 +25,10 @@ export default function TrendingPostsPanel({
         return <Error error={error} />;
     }
 
+    if (!data || data.length === 0) {
+        return null;
+    }
+
     return (
         <div className="dark:bg-darkBgSoft bg-lightBgSoft mt-4 inline-block w-full rounded-2xl wrap-anywhere shadow-lg">
             <TrendingPostsList posts={data} />

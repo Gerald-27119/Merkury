@@ -35,8 +35,8 @@ public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificat
     @Query("""
             SELECT p 
             FROM posts p
-            WHERE p.publishDate >= :monthAgo
+            WHERE p.publishDate >= :weekAgo
             ORDER BY (p.views + p.upVotes * 2 - p.downVotes) DESC
             """)
-    List<Post> findTopTrendingPosts(@Param("monthAgo") LocalDateTime monthAgo, Pageable pageable);
+    List<Post> findTopTrendingPosts(@Param("weekAgo") LocalDateTime weekAgo, Pageable pageable);
 }

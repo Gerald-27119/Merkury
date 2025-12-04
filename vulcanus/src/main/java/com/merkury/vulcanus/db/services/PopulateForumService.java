@@ -135,7 +135,7 @@ public class PopulateForumService {
                 .tags(Set.of(tag1, tag2))
                 .views(254)
                 .author(forumUsers.get(random.nextInt(forumUsers.size())))
-                .publishDate(LocalDateTime.now().minusDays(10))
+                .publishDate(LocalDateTime.now().minusDays(2))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -163,7 +163,7 @@ public class PopulateForumService {
                 .tags(Set.of(tag3))
                 .views(189)
                 .author(forumUsers.get(random.nextInt(forumUsers.size())))
-                .publishDate(LocalDateTime.now().minusDays(13))
+                .publishDate(LocalDateTime.now().minusDays(3))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -178,7 +178,7 @@ public class PopulateForumService {
                 .tags(new HashSet<>())
                 .views(327)
                 .author(forumUsers.get(random.nextInt(forumUsers.size())))
-                .publishDate(LocalDateTime.now().minusDays(17))
+                .publishDate(LocalDateTime.now().minusDays(6))
                 .comments(new ArrayList<>())
                 .build();
 

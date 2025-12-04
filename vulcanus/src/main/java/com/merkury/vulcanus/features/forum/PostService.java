@@ -93,8 +93,8 @@ public class PostService {
     }
 
     public List<TrendingPostDto> getTrendingPosts(Pageable pageable) {
-        LocalDateTime monthAgo = LocalDateTime.now().minusMonths(1);
-        List<Post> trending = postRepository.findTopTrendingPosts(monthAgo, pageable);
+        LocalDateTime weekAgo = LocalDateTime.now().minusWeeks(1);
+        List<Post> trending = postRepository.findTopTrendingPosts(weekAgo, pageable);
 
         return trending.stream().map(PostMapper::toTrendingDto).toList();
     }
