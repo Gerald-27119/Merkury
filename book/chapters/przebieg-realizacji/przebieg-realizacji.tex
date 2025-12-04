@@ -273,7 +273,7 @@ weryfikując i aktualizując wymagania na podstawie bieżących
 doświadczeń zespołu.
 
 Równolegle, w ramach przedmiotu \gls{prz1} opracowano projekt interfejsu
-użytkownika, konsultowany z prowadzącym zajęcia, mgr inż. Adamem
+użytkownika, konsultowany z prowadzącym zajęcia, mgr. inż. Adamem
 Urbanowiczem, który na bieżąco przekazywał zespołowi uwagi i
 rekomendacje dotyczące ergonomii oraz spójności interfejsu
 z założeniami funkcjonalnymi.
@@ -281,12 +281,12 @@ z założeniami funkcjonalnymi.
 \subsection*{Luty 2025}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Poprawa wyglądu strony logowania, w tym dopracowanie stylistyki
-    komponentów oraz zachowania w trybie ciemnym i jasnym.
-    \item Poprawa logiki wylogowywania użytkownika na froncie
-    (m.in. czyszczenie stanu \gls{redux}, przekierowania).
-    \item Poprawa logiki dodawania komentarzy do spotów na mapie
-    po stronie frontendu.
+    \item Poprawa wyglądu strony logowania, w tym dopracowanie trybu jasnego tejże strony.
+    \item Implementacja automatycznego wylogowania użytkownika.
+    \item Implementacja obsługi błędów \gls{jakarta-validation}.
+    \item Refactor wyglądu komponentu pogodowego na \glslink{frontend}{frontendzie}.
+    \item Poprawa działa \gls{cicd}.
+    \item Wypracowanie propozycji palety kolorystycznej interfejsu użytkownika.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
@@ -307,9 +307,9 @@ z założeniami funkcjonalnymi.
 
 \subsection*{Marzec 2025}
 
-W marcu 2025 roku skoncentrowano się na dopracowaniu systemu
-powiadomień e-mail oraz rozbudowie komentarzy, a także na
-ułatwieniu startu środowiska deweloperskiego.
+\begin{zadaniaosoby}{Cały Zespół}
+    \item Wypracowanie wstępnej wersji wyglądu interfejsu użytkownika w ramach \gls{prz1}.
+\end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
     \item Refaktoryzacja szablonów wiadomości e-mail związanych
@@ -333,18 +333,15 @@ ułatwieniu startu środowiska deweloperskiego.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Migracja wszystkich adresów obrazów (galerie spotów oraz logotypy
-    w szablonach e-mail) z usługi Google Drive do \gls{cdn} ucarecdn.com,
-    co ujednoliciło sposób serwowania grafik i poprawiło niezawodność
-    ich wczytywania.
+    \item Migracja wszystkich adresów obrazów (galerie zdjęć spotów oraz logotypy
+    w szablonach e-mail) z usługi Google Drive do \gls{cdn} ucarecdn.com
 \end{zadaniaosoby}
 
 \subsection*{Kwiecień 2025}
 
-W kwietniu 2025 roku uporządkowano projekt \LaTeX{} pracy dyplomowej
-oraz znacząco wzmocniono integrację aplikacji z \gls{type-script}
-i \gls{tailwind-css}, jednocześnie przebudowując layout i wdrażając
-pierwszą pełną wersję modułu czatu.
+\begin{zadaniaosoby}{Cały Zespół}
+    \item Wypracowanie finalnej wersji wyglądu interfejsu użytkownika w ramach \gls{prz1}.
+\end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Adam Langmesser}
     \item Konfiguracja projektu dokumentacji w \LaTeX{}: dodanie pliku
@@ -360,33 +357,14 @@ pierwszą pełną wersję modułu czatu.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Wzmocnienie integracji projektu z \gls{type-script}:
-    aktualizacja wersji kompilatora, dodanie pliku \texttt{tsconfig},
-    zdefiniowanie typowanego store Redux oraz pomocniczych hooków
-    \texttt{useDispatchTyped} i \texttt{useSelectorTyped}, a także
-    przygotowanie zestawu interfejsów modelu dla komentarzy, spotów
-    i użytkowników (wraz z odpowiadającymi im typami wyliczeniowymi).
-    \item Integracja \gls{tailwind-css} z projektem frontendu, w tym
-    konfiguracja pluginów i ustawień Prettiera, aktualizacja zależności,
-    zastąpienie dotychczasowych klas i styli komponentów utilitami
-    Tailwinda oraz usunięcie starej konfiguracji \texttt{PostCSS}.
-    \item Przebudowa layoutu aplikacji: zastąpienie nagłówka
-    (\textit{Header}) nowym panelem bocznym (\textit{Sidebar}) z
-    linkami nawigacyjnymi, opcjami konta oraz przełącznikiem trybu
-    ciemnego, a także aktualizacja testów integracyjnych i jednostkowych
-    tak, aby obejmowały nowy układ i zachowanie sidebaru.
-    \item Integracja API profilu użytkownika z nową stroną
-    \textit{Profile} (statystyki oraz najpopularniejsze zdjęcia) oraz
-    przepisanie komponentów \textit{Sidebar} i \textit{Layout}
-    na \gls{type-script} z lepszą obsługą urządzeń mobilnych (m.in.
-    komponent \textit{MobileBar} i typowane selektory).
+    \item Integracja \glslink{frontend}{frontendu} z \gls{type-script}.
+    \item Integracja \gls{tailwind-css} z projektem \glslink{frontend}{frontendu} oraz dodanie
+    predefiniowanych kolorów zgodnych z nową szatą kolorystyczną interfejsu użytkownika
+    \item Poprawa i rozbudowa \glslink{sidebar}{sidebara}.
+    \item Implementacja strony profilu użytkownika.
 \end{zadaniaosoby}
 
 \subsection*{Maj 2025}
-
-W maju 2025 roku kluczowe prace dotyczyły migracji mapy do MapLibre,
-rozwoju forum oraz panelu konta użytkownika, a także uporządkowania
-warstwy API i formularzy.
 
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
     \item Migracja mapy z biblioteki \gls{leaflet} na \gls{maplibre},
@@ -409,12 +387,6 @@ warstwy API i formularzy.
     dodanie ogólnych hooków do zarządzania stanem (w tym trybem
     ciemnym) oraz wprowadzenie zależności do biblioteki \texttt{motion}
     na potrzeby animacji.
-    \item Przeniesienie kluczowych komponentów formularzy
-    (\textit{FormContainer}, \textit{FormInput}, \textit{OauthButton},
-    \textit{OauthForm}) z JavaScriptu na \gls{type-script}, zastąpienie
-    starego komponentu \textit{Input} nowym \textit{FormInput}
-    z lepszą walidacją i stylami, poprawa zmiennych CSS oraz
-    responsywności widoków formularzy.
     \item Dodanie sekcji \textit{„Znajomi”} w panelu konta, obejmującej
     obsługę znajomych, obserwowanych i obserwujących, wprowadzenie
     nowych modeli i endpointów do zarządzania relacjami oraz dodanie
@@ -424,6 +396,8 @@ warstwy API i formularzy.
     ścieżki, dostosowanie do tego wywołań na froncie oraz przeniesienie
     slice'a konta na \gls{type-script} z uproszczonym stanem i
     uporządkowanymi importami.
+    \item poprawa wyglądu formularzy logowania i rejestracji
+    \item Poprawa zarządzania stanem sidebara.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Adam Langmesser}
@@ -447,9 +421,6 @@ W czerwcu 2025 roku rozwijano przede wszystkim panel konta użytkownika,
 w tym ulubione spoty, oraz refaktoryzowano sekcję komentarzy do spotów.
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Przeniesienie stanu sidebaru do osobnego slice'a w \gls{redux},
-    co poprawiło spójność zachowania panelu bocznego między różnymi
-    widokami i na urządzeniach o różnej rozdzielczości.
     \item Przebudowa profilu użytkownika poprzez rozdzielenie widoków
     własnego profilu i profili innych użytkowników (nowe endpointy
     \textit{public/private profile}, rozszerzony model danych), dodanie
@@ -460,6 +431,12 @@ w tym ulubione spoty, oraz refaktoryzowano sekcję komentarzy do spotów.
     (lista, filtrowanie, usuwanie oraz podgląd na mapie), wprowadzenie
     współdzielonych komponentów i modeli dla tej funkcji oraz
     uporządkowanie przestarzałego kodu i modeli współrzędnych.
+    \item Przebudowa funkcjonalności społecznościowej: rozdzielenie
+    widoków sekcji \textit{social} dla właściciela profilu i osoby
+    oglądającej, aktualizacja modelu danych i routingu oraz dodanie
+    nawigacji z liczników profilu do odpowiednich list (friends,
+    followers, followed), wraz z wprowadzeniem osobnego slice'a Redux
+    do zarządzania aktywnym typem listy social.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
@@ -476,12 +453,6 @@ panel konta oraz czat, a także usprawniano obsługę mapy
 i mediów w systemie.
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Przebudowa funkcjonalności społecznościowej: rozdzielenie
-    widoków sekcji \textit{social} dla właściciela profilu i osoby
-    oglądającej, aktualizacja modelu danych i routingu oraz dodanie
-    nawigacji z liczników profilu do odpowiednich list (friends,
-    followers, followed), wraz z wprowadzeniem osobnego slice'a Redux
-    do zarządzania aktywnym typem listy social.
     \item Dodanie nowej sekcji \textit{„Zdjęcia”} w panelu użytkownika,
     z możliwością sortowania i filtrowania po dacie, wyodrębnienie
     wspólnego wrappera layoutu dla podstron konta, aktualizacja
@@ -743,21 +714,8 @@ opiekunem był promotor pracy, mgr inż. Adam Urbanowicz.
     \item Rozbudowa komponentu przycisku przesyłania plików
     o możliwość podglądu wielu plików, nadawania im unikalnych
     identyfikatorów oraz usuwania pojedynczych plików przed wysłaniem.
-    \item Przebudowa struktury rozdziału \textit{Implementacja}:
-    wydzielenie osobnych sekcji dla backendu, frontendu i \gls{cicd},
-    uzupełnienie dokumentacji backendu o listę endpointów z przykładami
-    odpowiedzi oraz przygotowanie miejsc na opis implementacji
-    pozostałych części.
-    \item Przygotowanie struktury rozdziału \textit{Analiza wymagań},
-    w tym włączenie plików dotyczących przypadków użycia, wymagań
-    funkcjonalnych i pozafunkcjonalnych oraz wymagań dotyczących
-    środowiska docelowego.
-    \item Przygotowanie struktury rozdziału  \textit{Nakład pracy}
-    \item Przebudowa i uporządkowanie struktury dokumentacji
-    (m.in. „Ogólny nakład pracy”, „Indywidualne nakłady pracy”
-    oraz „Aspekty społeczne i biznesowe”) poprzez wydzielenie ich
-    do osobnych plików, usunięcie przestarzałych fragmentów
-    oraz ujednolicenie poziomów nagłówków i oznaczeń sekcji.
+    \item Przygotowanie struktury rozdziałów w \glslink{latex}{latexie}.
+    \item Opracowanie rozdziału ~\ref{subsec:mateusz-redosz} \textit{\nameref{subsec:mateusz-redosz}}.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
