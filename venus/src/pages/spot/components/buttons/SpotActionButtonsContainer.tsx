@@ -163,7 +163,7 @@ export default function SpotActionButtonsContainer({
     };
 
     return (
-        <ul className="mt-3 flex items-center justify-center space-x-3">
+        <ul className="mt-3 flex items-center justify-center space-x-3 dark:text-darkText text-violetDarker">
             <li key={0}>
                 <SpotActionButton onClickHandler={clickNavigateHandler}>
                     <MdOutlineNavigation data-testid="navigate-to-spot-button-icon" />

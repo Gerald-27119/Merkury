@@ -9,6 +9,7 @@ type PhotoGalleryProps = {
     media: SpotMediaDto[];
 };
 
+// TODO: in gallery selected dot does not change color
 export default function SpotDetailsGallery({ media }: PhotoGalleryProps) {
     const [current, setCurrent] = useState<number>(0);
 
