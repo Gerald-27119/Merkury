@@ -4,13 +4,13 @@ import React from "react";
 import PostGeneral from "../../../model/interface/forum/post/postGeneral";
 import { PostSortOption } from "../../../model/enum/forum/postSortOption";
 import SearchResults from "../post-search/SearchResults";
-import { ForumSearchFilters } from "../../../model/interface/forum/forumSearchFilters";
+import {PostSearchRequestDto} from "../../../model/interface/forum/post/postSearchRequestDto";
 
 interface ForumPostListProps {
     posts?: PostGeneral[];
     sortOption: PostSortOption;
     onSortChange: (option: PostSortOption) => void;
-    searchFilters?: ForumSearchFilters;
+    searchFilters?: PostSearchRequestDto;
     totalSearchResults?: number;
 }
 
@@ -31,7 +31,7 @@ export default function ForumPostList({
     totalSearchResults,
 }: ForumPostListProps) {
     const {
-        phrase = "",
+        searchPhrase = "",
         category = "",
         tags = [],
         fromDate = "",
@@ -40,7 +40,7 @@ export default function ForumPostList({
     } = searchFilters;
 
     const hasFilters =
-        phrase || category || tags.length > 0 || fromDate || toDate || author;
+        searchPhrase || category || tags.length > 0 || fromDate || toDate || author;
 
     return (
         <div>

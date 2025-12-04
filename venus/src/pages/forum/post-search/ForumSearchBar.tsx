@@ -11,6 +11,8 @@ import SearchDateFieldInput from "./SearchDateFieldInput";
 import HintedSearchField from "./HintedSearchField";
 import { searchUsers } from "../../../http/user";
 import { FaSearch } from "react-icons/fa";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import {notificationAction} from "../../../redux/notification";
 
 interface ForumSearchBarProps {
     categories: PostCategoryDto[];
@@ -42,6 +44,7 @@ export default function ForumSearchBar({
     const [isMenuOpen, openMenu, closeMenu] = useBoolean();
 
     const navigate = useNavigate();
+    const dispatch = useDispatchTyped();
 
     const categoryOptions = categories.map((category) => ({
         value: category.name,
@@ -52,6 +55,22 @@ export default function ForumSearchBar({
         value: tag.name,
         label: tag.name,
     }));
+
+    const validateDate = () => {
+        if (
+            searchState.fromDate &&
+            searchState.toDate &&
+            new Date(searchState.toDate) < new Date(searchState.fromDate)
+        ) {
+            dispatch(
+                notificationAction.addError({
+                    message: '"To" Date cannot be before "From" Date',
+                })
+            );
+            return false;
+        }
+        return true;
+    }
 
     const handleChange = <T extends keyof SearchState>(
         key: T,
@@ -73,6 +92,7 @@ export default function ForumSearchBar({
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (!validateDate()) return;
 
         const params = new URLSearchParams();
         if (searchState.searchPhrase) params.set("q", searchState.searchPhrase);

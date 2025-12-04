@@ -1,14 +1,14 @@
 import { formatNumber } from "../../../utils/forum/numberFormatter";
-import { ForumSearchFilters } from "../../../model/interface/forum/forumSearchFilters";
+import {PostSearchRequestDto} from "../../../model/interface/forum/post/postSearchRequestDto";
 
 interface SearchResultsProps {
     data?: number;
-    filters: ForumSearchFilters;
+    filters: PostSearchRequestDto;
 }
 
 export default function SearchResults({ data, filters }: SearchResultsProps) {
     const {
-        phrase = "",
+        searchPhrase = "",
         category = "",
         tags = [],
         fromDate = "",
@@ -27,15 +27,15 @@ export default function SearchResults({ data, filters }: SearchResultsProps) {
     if (fromDate) filterParts.push(`from: ${fromDate}`);
     if (toDate) filterParts.push(`to: ${toDate}`);
 
-    const hasPhrase = phrase?.trim().length > 0;
+    const hasPhrase = searchPhrase?.trim().length > 0;
     const hasFilters = filterParts.length > 0;
 
     let message = "";
 
     if (hasPhrase && hasFilters) {
-        message = `${formattedCount} ${resultWord} for "${phrase}" filtered by ${filterParts.join(", ")}`;
+        message = `${formattedCount} ${resultWord} for "${searchPhrase}" filtered by ${filterParts.join(", ")}`;
     } else if (hasPhrase) {
-        message = `${formattedCount} ${resultWord} for "${phrase}"`;
+        message = `${formattedCount} ${resultWord} for "${searchPhrase}"`;
     } else if (hasFilters) {
         message = `${formattedCount} ${resultWord} filtered by ${filterParts.join(", ")}`;
     } else {

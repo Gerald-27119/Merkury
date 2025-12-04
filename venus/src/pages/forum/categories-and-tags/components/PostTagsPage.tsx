@@ -8,7 +8,7 @@ import React from "react";
 
 export default function PostTagsPage() {
     const { data, isLoading, isError, error } = useQuery({
-        queryKey: ["postCategories"],
+        queryKey: ["postTags"],
         queryFn: () => fetchAllTagsAlphabetically(),
     });
 

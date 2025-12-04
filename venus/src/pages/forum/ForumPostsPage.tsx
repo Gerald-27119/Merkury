@@ -4,14 +4,14 @@ import ForumPostList from "./components/ForumPostList";
 import React from "react";
 import InfiniteScroll from "./components/InfiniteScroll";
 import LoadingState from "../../model/interface/forum/loadingState";
-import { ForumSearchFilters } from "../../model/interface/forum/forumSearchFilters";
+import {PostSearchRequestDto} from "../../model/interface/forum/post/postSearchRequestDto";
 
 interface ForumPostsPageProps {
     posts?: PostGeneral[];
     sortOption: PostSortOption;
     onSortChange: (option: PostSortOption) => void;
     loadingState: LoadingState;
-    searchFilters?: ForumSearchFilters;
+    searchFilters?: PostSearchRequestDto;
     totalSearchResults?: number;
 }
 

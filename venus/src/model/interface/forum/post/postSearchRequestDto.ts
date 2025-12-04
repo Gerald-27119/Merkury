@@ -1,5 +1,5 @@
-export interface ForumSearchFilters {
-    phrase?: string;
+export interface PostSearchRequestDto {
+    searchPhrase?: string;
     category?: string;
     tags?: string[];
     fromDate?: string;

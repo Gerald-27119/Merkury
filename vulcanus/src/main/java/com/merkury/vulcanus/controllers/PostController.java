@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -55,14 +54,11 @@ public class PostController {
                                                                      @RequestParam(defaultValue = "10") int size,
                                                                      @RequestParam(defaultValue = "PUBLISH_DATE") PostSortField sortBy,
                                                                      @RequestParam(defaultValue = "DESC") SortDirection sortDirection,
-                                                                     @RequestParam(required = false) String searchPhrase,
-                                                                     @RequestParam(required = false) String category,
-                                                                     @RequestParam(required = false) List<String> tags,
-                                                                     @RequestParam(required = false) LocalDate fromDate,
-                                                                     @RequestParam(required = false) LocalDate toDate,
-                                                                     @RequestParam(required = false) String author
+                                                                     @Valid PostSearchRequestDto request
     ) throws UserNotFoundByUsernameException {
-        Page<PostGeneralDto> posts = postService.getSearchedPostsPage(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())), searchPhrase, category, tags, fromDate, toDate, author);
+        Page<PostGeneralDto> posts = postService.getSearchedPostsPage(
+                PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())),
+                request.searchPhrase(), request.category(), request.tags(), request.fromDate(), request.toDate(), request.author());
 
         return ResponseEntity.ok(posts);
     }

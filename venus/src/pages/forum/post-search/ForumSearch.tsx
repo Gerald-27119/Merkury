@@ -1,29 +1,34 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import {useInfiniteQuery} from "@tanstack/react-query";
 import ForumPostPage from "../../../model/interface/forum/forumPostPage";
-import { fetchSearchedPosts } from "../../../http/posts";
-import React, { useEffect, useRef, useState } from "react";
-import { PostSortOption } from "../../../model/enum/forum/postSortOption";
-import { useSearchParams } from "react-router-dom";
+import {fetchSearchedPosts} from "../../../http/posts";
+import React, {useEffect, useRef, useState} from "react";
+import {PostSortOption} from "../../../model/enum/forum/postSortOption";
+import {useSearchParams} from "react-router-dom";
 import ForumPostsPage from "../ForumPostsPage";
 import LoadingState from "../../../model/interface/forum/loadingState";
-import Error from "../../../components/error/Error";
 import SkeletonListedForumPost from "../components/SkeletonListedForumPost";
-import { ForumSearchFilters } from "../../../model/interface/forum/forumSearchFilters";
+import {PostSearchRequestDto} from "../../../model/interface/forum/post/postSearchRequestDto";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import {notificationAction} from "../../../redux/notification";
 
 export default function ForumSearch() {
     const [params] = useSearchParams();
-    const phrase = params.get("q") ?? "";
-    const category = params.get("category") ?? "";
-    const tags = params.getAll("tags") ?? "";
-    const fromDate = params.get("from") ?? "";
-    const toDate = params.get("to") ?? "";
-    const author = params.get("author") ?? "";
+    const dispatch = useDispatchTyped();
     const loadMoreRef = useRef<HTMLDivElement>(null);
     const [sortOption, setSortOption] = useState<PostSortOption>({
         name: "Newest",
         sortBy: "PUBLISH_DATE",
         sortDirection: "DESC",
     });
+
+    const request: PostSearchRequestDto = {
+        searchPhrase: params.get("q") ?? "",
+        category: params.get("category") ?? "",
+        tags: params.getAll("tags"),
+        fromDate: params.get("from") ?? "",
+        toDate: params.get("to") ?? "",
+        author: params.get("author") ?? "",
+    };
 
     const {
         data: searchPostPage,
@@ -37,30 +42,21 @@ export default function ForumSearch() {
         queryKey: [
             "searchedPosts",
             sortOption,
-            phrase,
-            category,
-            tags,
-            fromDate,
-            toDate,
-            author,
+            request,
         ],
-        queryFn: ({ pageParam }) =>
+        queryFn: ({pageParam}) =>
             fetchSearchedPosts(
                 pageParam as number,
                 10,
-                phrase,
-                category,
-                tags,
-                fromDate,
-                toDate,
-                author,
+                request,
                 sortOption,
             ),
         getNextPageParam: (lastPage: ForumPostPage) => {
-            const { number, totalPages } = lastPage.page;
+            const {number, totalPages} = lastPage.page;
             return number + 1 < totalPages ? number + 1 : undefined;
         },
         initialPageParam: 0,
+        retry: false,
     });
 
     useEffect(() => {
@@ -73,7 +69,7 @@ export default function ForumSearch() {
                     fetchNextPage();
                 }
             },
-            { rootMargin: "50px", threshold: 0 },
+            {rootMargin: "50px", threshold: 0},
         );
         observer.observe(target);
         return () => {
@@ -95,27 +91,22 @@ export default function ForumSearch() {
         (page: ForumPostPage) => page.content ?? [],
     );
 
-    const searchFilters: ForumSearchFilters = {
-        phrase,
-        category,
-        tags,
-        fromDate,
-        toDate,
-        author,
-    };
-
     if (isSearchPostPageLoading) {
         return (
             <div className="mt-14 w-md md:w-2xl">
-                {Array.from({ length: 10 }).map((_, i) => (
-                    <SkeletonListedForumPost key={i} />
+                {Array.from({length: 10}).map((_, i) => (
+                    <SkeletonListedForumPost key={i}/>
                 ))}
             </div>
         );
     }
 
     if (isSearchPostPageError) {
-        return <Error error={searchPostPageError} />;
+        dispatch(
+            notificationAction.addError({
+                message: searchPostPageError.message,
+            })
+        );
     }
 
     return (
@@ -126,7 +117,7 @@ export default function ForumSearch() {
                 sortOption={sortOption}
                 onSortChange={setSortOption}
                 loadingState={loadingState}
-                searchFilters={searchFilters}
+                searchFilters={request}
                 totalSearchResults={
                     searchPostPage?.pages?.[0]?.page.totalElements ?? 0
                 }

@@ -8,6 +8,7 @@ import ForumReportDto from "../model/interface/forum/forumReportDto";
 import TrendingPostDto from "../model/interface/forum/trendingPostDto";
 import PostCategoryDto from "../model/interface/forum/postCategoryDto";
 import TagDto from "../model/interface/tagDto";
+import {PostSearchRequestDto} from "../model/interface/forum/post/postSearchRequestDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function fetchPaginatedPosts(
@@ -49,15 +50,12 @@ export async function fetchFollowedPosts(
 export async function fetchSearchedPosts(
     page: number,
     size: number,
-    searchPhrase: string,
-    category: string,
-    tags: string[],
-    fromDate: string,
-    toDate: string,
-    author: string,
+    request: PostSearchRequestDto,
     sortType: PostSortOption,
 ): Promise<ForumPostPage> {
     const { sortBy, sortDirection } = sortType;
+    const { tags, ...rest } = request;
+
     return (
         await axios.get(`${BASE_URL}/public/post/search`, {
             params: {
@@ -65,12 +63,8 @@ export async function fetchSearchedPosts(
                 size,
                 sortBy,
                 sortDirection,
-                searchPhrase,
-                category,
-                tags: tags.join(","),
-                fromDate,
-                toDate,
-                author,
+                tags: tags?.join(","),
+                ...rest,
             },
             withCredentials: true,
         })

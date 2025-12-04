@@ -41,7 +41,7 @@ export default function HintedSearchField({
         if (debouncedPhrase.trim().length === 0) {
             hideHints();
         }
-    }, [debouncedPhrase]);
+    }, [debouncedPhrase, hideHints]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e.target.value);
