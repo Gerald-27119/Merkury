@@ -12,6 +12,7 @@ export default function Photo({ photo }: PhotoProps) {
                 className="aspect-square h-64 w-full rounded-md object-cover drop-shadow-md"
                 src={photo.src}
                 data-testid="user-photo"
+                alt="user-photo"
             />
             <div className="group-hover:bg-lightBg/70 dark:group-hover:bg-darkBg/60 absolute bottom-0 left-0 flex w-full justify-center gap-4 rounded-b-md py-2 text-xl transition duration-300">
                 <span className="flex items-center gap-2">
