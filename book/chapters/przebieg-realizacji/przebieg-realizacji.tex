@@ -44,7 +44,7 @@ i wybrano główny stos technologiczny, co umożliwiło szybkie przejście do
 bardziej zaawansowanych działań opisanych w kolejnych podsekcjach.
 Niezależnie od ostatecznego sformułowania tematu zakładano stworzenie
 aplikacji webowej wymagającej kont użytkowników, co wynikało wprost
-ze specyfiki specjalizacji „Aplikacje Internetowe”, na której studiują
+ze specyfiki specjalizacji „Aplikacje Internetowe”, na której studiowali
 wszyscy członkowie zespołu.
 
 \subsection*{Lipiec 2024}
@@ -58,7 +58,7 @@ wszyscy członkowie zespołu.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Adam Langmesser}
-    \item Przygotowanie lokalnego środowiska deweloperskiego dla \gls{backend}u
+    \item Przygotowanie lokalnego środowiska deweloperskiego dla \glslink{backend}{backendu}
     i \gls{frontend}u (konfiguracja \gls{ide}, testowe projekty, podstawowe
     ustawienia narzędzi budujących), co ułatwiło płynne przejście
     do właściwych prac w kolejnych miesiącach.
@@ -69,21 +69,17 @@ wszyscy członkowie zespołu.
 \begin{zadaniaosoby}{Cały zespół}
     \item Utworzenie projektu w narzędziu \gls{jira}, zdefiniowanie
     typów zgłoszeń (epik, zadanie, podzadanie) oraz przygotowanie
-    podstawowego workflow z wykorzystaniem \gls{tablica_kanban}.
+    podstawowego workflow z wykorzystaniem \glslink{tablica_kanban}{tablicy kanban}.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Konfiguracja biblioteki \gls{tailwind-css} w aplikacji
-    frontendowej, co umożliwiło spójne i responsywne stylowanie
-    komponentów.
+    \item Konfiguracja biblioteki \gls{tailwind-css} w części
+    frontendowej.
     \item Konfiguracja narzędzia \gls{prettier} do automatycznego
-    formatowania kodu frontendu i ujednolicenia stylu zapisu.
-    \item Implementacja logiki rejestracji użytkownika po stronie
-    backendu, obejmującej walidację danych wejściowych oraz obsługę
-    błędów na poziomie API.
-    \item Dodanie i konfiguracja biblioteki \gls{tanstack-query}
-    do obsługi komunikacji z backendem i cachowania danych po stronie
-    frontendu.
+    formatowania kodu \glslink{frontend}{frontendu}.
+    \item Implementacja rejestracji użytkownika zarówno na \glslink{backend}{backendzie} jak i \glslink{frontend}{frotendzie}
+    \item Dodanie i konfiguracja biblioteki \gls{tanstack-query}.
+    \item Stworzenie wstępnej struktury \glslink{routing}{routingu} na \glslink{frontend}{frontendzie}.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Adam Langmesser}
@@ -243,9 +239,10 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
 \begin{zadaniaosoby}{Mateusz Redosz}
     \item Rozszerzenie stanu \gls{redux} o informację o tym,
     czy użytkownik jest aktualnie zalogowany.
-    \item Implementacja testów \gls{e2e-tests} dla procesów logowania
+    \item Implementacja \glslink{e2e-tests}{testów E2E} dla procesów logowania
     i rejestracji użytkownika.
-    \item Dodanie uruchamiania testów frontendu do potoku \gls{cicd}.
+    \item Implementacja \glslink{integraion-tests}{testów integracyjnych} i \glslink{unit-tests}{testów jednostkowych} dla \glslink{sidebar}{sidebara}.
+    \item Dodanie uruchamiania testów frontendu do \gls{cicd}.
     \item Poprawa sposobu wyświetlania szczegółów spota na froncie.
 \end{zadaniaosoby}
 
@@ -600,7 +597,7 @@ i usprawniono forum.
     o braku dopasowanych spotów.
     \item Wprowadzenie paginacji do endpointów panelu użytkownika
     i przebudowa powiązanych komponentów frontendu na nieskończone
-    przewijanie oparte na \gls{react-query} i \gls{intersection-observer},
+    przewijanie oparte na \gls{tanstack-query} i \gls{intersection-observer},
     dzięki czemu listy (znajomi, obserwujący, ulubione spoty, media,
     komentarze) ładują się porcjami z poprawioną obsługą stanów
     ładowania i pustych wyników.
