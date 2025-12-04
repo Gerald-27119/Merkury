@@ -1,7 +1,12 @@
 package com.merkury.vulcanus.controllers;
 
+import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
+import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
+import com.merkury.vulcanus.exception.exceptions.SpotCommentRatingOutOfBoundariesException;
+import com.merkury.vulcanus.exception.exceptions.SpotCommentTextOutOfBoundariesException;
+import com.merkury.vulcanus.exception.exceptions.SpotMediaNumberOfMediaExceeded;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.spot.SpotCommentService;
@@ -19,7 +24,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -43,8 +50,8 @@ public class SpotCommentController {
     }
 
     @PostMapping("/spot/{spotId}/comments")
-    public ResponseEntity<Void> addComment(HttpServletRequest request, @PathVariable Long spotId, @Valid @RequestBody SpotCommentAddDto spotCommentAddDto) throws SpotNotFoundException, UserNotFoundException {
-        spotCommentService.addComment(request, spotCommentAddDto, spotId);
+    public ResponseEntity<Void> addComment(@PathVariable Long spotId, @RequestPart("spotComment") String spotCommentJson, @RequestPart(value = "mediaFiles", required = false) List<MultipartFile> mediaFiles) throws SpotNotFoundException, UserNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, SpotMediaNumberOfMediaExceeded, SpotCommentTextOutOfBoundariesException, SpotCommentRatingOutOfBoundariesException {
+        spotCommentService.addComment(spotCommentJson, mediaFiles, spotId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

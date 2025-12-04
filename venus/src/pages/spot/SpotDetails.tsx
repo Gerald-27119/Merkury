@@ -100,7 +100,10 @@ export default function SpotDetails() {
                             spotId={spotId!}
                             centerPoint={data.centerPoint}
                         />
-                        <SpotCommentsList spotId={data.id} />
+                        <SpotCommentsList
+                            spotId={data.id}
+                            spotName={data.name}
+                        />
                     </div>
                 )}
             </motion.div>
