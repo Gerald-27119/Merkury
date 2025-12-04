@@ -9,7 +9,7 @@
 {Pobierz stronicowaną listę komentarzy posta}
 {%
     \begin{tabitemize}
-        \item \textbf{postId}: Long (ID posta w ścieżce URL)
+        \item \textbf{postId}: Long (identyfikator posta w ścieżce URL)
     \end{tabitemize}
 }
 {%
@@ -25,7 +25,7 @@
     \begin{tabitemize}
         \item \textbf{Page<PostCommentGeneralDto>}, każdy element zawiera:
         \begin{itemize}
-            \item \textbf{id}: Long
+            \item \textbf{id}: Long (identyfikator komentarza)
             \item \textbf{content}: String (treść komentarza)
             \item \textbf{upVotes}: Integer (liczba głosów w górę)
             \item \textbf{downVotes}: Integer (liczba głosów w dół)
@@ -47,10 +47,10 @@
 {Dodaj nowy komentarz do posta}
 {%
     \begin{tabitemize}
-        \item \textbf{postId}: Long (ID posta w ścieżce URL)
+        \item \textbf{postId}: Long (identyfikator posta w ścieżce URL)
         \item \textbf{body}: PostCommentDto, zawiera:
         \begin{itemize}
-            \item \textbf{content}: String
+            \item \textbf{content}: String (treść komentarza)
         \end{itemize}
     \end{tabitemize}
 }
@@ -64,10 +64,10 @@
 {Edytuj istniejący komentarz do posta}
 {%
     \begin{tabitemize}
-        \item \textbf{commentId}: Long (ID komentarza w ścieżce URL)
+        \item \textbf{commentId}: Long (identyfikator komentarza w ścieżce URL)
         \item \textbf{body}: PostCommentDto, zawiera:
         \begin{itemize}
-            \item \textbf{content}: String
+            \item \textbf{content}: String (treść komentarza)
         \end{itemize}
     \end{tabitemize}
 }
@@ -81,7 +81,7 @@
 {Oddaj głos na komentarz (góra/dół)}
 {%
     \begin{tabitemize}
-        \item \textbf{commentId}: Long (ID komentarza w ścieżce URL)
+        \item \textbf{commentId}: Long (identyfikator komentarza w ścieżce URL)
     \end{tabitemize}
 }
 {%
@@ -98,10 +98,10 @@
 {Dodaj odpowiedź na komentarz}
 {%
     \begin{tabitemize}
-        \item \textbf{commentId}: Long (ID komentarza nadrzędnego w ścieżce URL)
+        \item \textbf{commentId}: Long (identyfikator komentarza nadrzędnego w ścieżce URL)
         \item \textbf{body}: PostCommentDto, zawiera:
         \begin{itemize}
-            \item \textbf{content}: String
+            \item \textbf{content}: String (treść komentarza)
         \end{itemize}
     \end{tabitemize}
 }

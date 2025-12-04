@@ -9,7 +9,7 @@
 {Pobierz szczegółowe informacje o poście}
 {%
     \begin{tabitemize}
-        \item \textbf{postId}: Long (ID posta w ścieżce URL)
+        \item \textbf{postId}: Long (identyfikator posta w ścieżce URL)
     \end{tabitemize}
 }
 {Brak}
@@ -18,21 +18,21 @@
     \begin{tabitemize}
         \item \textbf{PostDetailsDto}, zawiera:
         \begin{itemize}
-            \item \textbf{id}: Long
+            \item \textbf{id}: Long (identyfikator posta)
             \item \textbf{title}: String (tytuł posta)
             \item \textbf{content}: String (pełna treść posta)
-            \item \textbf{category}: ForumCategoryDto
-            \item \textbf{tags}: List<ForumTagDto>
-            \item \textbf{author}: AuthorDto (dane autora)
-            \item \textbf{isAuthor}: Boolean (czy bieżący użytkownik jest autorem)
-            \item \textbf{isFollowed}: Boolean (czy bieżący użytkownik obserwuje post)
-            \item \textbf{publishDate}: LocalDateTime (data publikacji)
-            \item \textbf{views}: Integer (liczba wyświetleń)
-            \item \textbf{upVotes}: Integer
-            \item \textbf{downVotes}: Integer
-            \item \textbf{isUpVoted}: Boolean (czy użytkownik oddał głos w górę)
-            \item \textbf{isDownVoted}: Boolean (czy użytkownik oddał głos w dół)
-            \item \textbf{commentsCount}: Integer (liczba komentarzy)
+            \item \textbf{category}: ForumCategoryDto (kategoria forum, do której należy post)
+            \item \textbf{tags}: List<ForumTagDto> (lista tagów przypisanych do posta)
+            \item \textbf{author}: AuthorDto (dane autora posta)
+            \item \textbf{isAuthor}: Boolean (czy bieżący użytkownik jest autorem posta)
+            \item \textbf{isFollowed}: Boolean (czy bieżący użytkownik obserwuje ten post)
+            \item \textbf{publishDate}: LocalDateTime (data i godzina publikacji posta)
+            \item \textbf{views}: Integer (liczba wyświetleń posta)
+            \item \textbf{upVotes}: Integer (liczba głosów w górę na post)
+            \item \textbf{downVotes}: Integer (liczba głosów w dół na post)
+            \item \textbf{isUpVoted}: Boolean (czy bieżący użytkownik oddał głos w górę na post)
+            \item \textbf{isDownVoted}: Boolean (czy bieżący użytkownik oddał głos w dół na post)
+            \item \textbf{commentsCount}: Integer (łączna liczba komentarzy pod postem)
         \end{itemize}
     \end{tabitemize}
 }
@@ -43,12 +43,12 @@
 {Dodaj nowy post na forum}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: PostDto, zawiera:
+        \item \textbf{body}: PostDto (dane nowego posta), zawiera:
         \begin{itemize}
             \item \textbf{title}: String (tytuł posta)
             \item \textbf{content}: String (pełna treść posta)
-            \item \textbf{category}: String
-            \item \textbf{tags}: List<String>
+            \item \textbf{category}: String (nazwa kategorii forum, do której ma trafić post)
+            \item \textbf{tags}: List<String> (lista nazw tagów przypisanych do posta)
         \end{itemize}
     \end{tabitemize}
 }
@@ -62,7 +62,7 @@
 {Usuń wybrany post}
 {%
     \begin{tabitemize}
-        \item \textbf{postId}: Long (ID posta w ścieżce URL)
+        \item \textbf{postId}: Long (identyfikator posta w ścieżce URL)
     \end{tabitemize}
 }
 {Brak}
@@ -75,7 +75,7 @@
 {Oddaj głos na post (góra/dół)}
 {%
     \begin{tabitemize}
-        \item \textbf{postId}: Long (ID posta w ścieżce URL)
+        \item \textbf{postId}: Long (identyfikator posta w ścieżce URL)
     \end{tabitemize}
 }
 {%
@@ -95,19 +95,19 @@
 {200 OK}
 {%
     \begin{tabitemize}
-        \item \textbf{ForumCategoriesAndTagsDto}:
+        \item \textbf{ForumCategoriesAndTagsDto} (zestaw kategorii i tagów forum), zawiera:
         \begin{itemize}
-            \item \textbf{categories}: List<ForumCategoryDto>, gdzie każdy element zawiera:
+            \item \textbf{categories}: List<ForumCategoryDto> (lista dostępnych kategorii), gdzie każdy element zawiera:
             \begin{itemize}
-                \item \textbf{id}: Long
-                \item \textbf{name}: String
-                \item \textbf{description}: String
+                \item \textbf{id}: Long (identyfikator kategorii)
+                \item \textbf{name}: String (nazwa kategorii)
+                \item \textbf{description}: String (opis kategorii)
                 \item \textbf{colour}: String (kolor kategorii)
             \end{itemize}
-            \item \textbf{tags}: List<ForumTagDto>, gdzie każdy element zawiera:
+            \item \textbf{tags}: List<ForumTagDto> (lista dostępnych tagów), gdzie każdy element zawiera:
             \begin{itemize}
-                \item \textbf{id}: Long
-                \item \textbf{name}: String
+                \item \textbf{id}: Long (identyfikator tagu)
+                \item \textbf{name}: String (nazwa tagu)
             \end{itemize}
         \end{itemize}
     \end{tabitemize}
