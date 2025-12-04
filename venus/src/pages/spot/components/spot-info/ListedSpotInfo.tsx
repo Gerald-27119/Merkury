@@ -22,7 +22,7 @@ export default function ListedSpotInfo({ spot }: SearchedSpotInfoProps) {
     };
     return (
         <div
-            className="dark:bg-darkBgSoft bg-white hover:bg-whiteSmoke dark:hover:bg-darkBg flex cursor-pointer rounded-2xl drop-shadow-md dark:drop-shadow-none"
+            className="dark:bg-darkBgSoft hover:bg-whiteSmoke dark:hover:bg-darkBg flex cursor-pointer rounded-2xl bg-white drop-shadow-md dark:drop-shadow-none"
             onClick={() => handleClickSpot(spot.centerPoint)}
         >
             <img

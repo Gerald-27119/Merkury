@@ -35,7 +35,7 @@ export default function RatingFromForm() {
     };
 
     return (
-        <div className="dark:bg-violetLight bg-whiteSmoke flex items-center rounded-2xl px-2 py-1 dark:text-white text-violetDark drop-shadow-md dark:drop-shadow-none z-10">
+        <div className="dark:bg-violetLight bg-whiteSmoke text-violetDark z-10 flex items-center rounded-2xl px-2 py-1 drop-shadow-md dark:text-white dark:drop-shadow-none">
             <label className="mr-3 text-lg font-semibold">Rating from:</label>
             <ConfigProvider
                 theme={{

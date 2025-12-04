@@ -133,10 +133,10 @@ export default function CurrentViewSpotsList() {
             >
                 <HiX
                     data-testid="current-view-spots-modal-close-btn"
-                    className="mt-1 ml-auto cursor-pointer text-2xl dark:text-darkText text-violetDark"
+                    className="dark:text-darkText text-violetDark mt-1 ml-auto cursor-pointer text-2xl"
                     onClick={handleClickCloseList}
                 />
-                <h1 className="mb-6 text-xl font-semibold dark:text-white text-violetBrightText">
+                <h1 className="text-violetBrightText mb-6 text-xl font-semibold dark:text-white">
                     Nearby Spots
                 </h1>
                 <CurrentViewSpotsFormsContainer />

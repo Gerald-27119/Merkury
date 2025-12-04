@@ -136,7 +136,7 @@ export default function CurrentViewSpotsNameSearchBar() {
                         {spotsNames.map((name) => (
                             <li
                                 key={name}
-                                className="dark:hover:bg-violetLighter hover:bg-white cursor-pointer p-2 pl-4"
+                                className="dark:hover:bg-violetLighter cursor-pointer p-2 pl-4 hover:bg-white"
                                 onMouseDown={() => handleHintClick(name)}
                             >
                                 {name}
