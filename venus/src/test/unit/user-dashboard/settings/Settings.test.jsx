@@ -51,7 +51,7 @@ const mockClassicUserData = {
     provider: OauthProvider.NONE,
 };
 
-const mockOauthUserData = {
+const mockOAuthUserData = {
     username: "OauthUser",
     email: "oauth@example.com",
     provider: OauthProvider.GOOGLE,
@@ -110,7 +110,7 @@ describe("Settings component unit tests", () => {
     describe("Settings display data correctly for OAuth account", () => {
         beforeEach(() => {
             useQuery.mockReturnValue({
-                data: mockOauthUserData,
+                data: mockOAuthUserData,
                 isLoading: false,
                 error: null,
             });

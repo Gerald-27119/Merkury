@@ -291,7 +291,6 @@ class SettingsServiceTest {
 
         var oldPassword = "Oldpass1!";
         var newPassword = "Newpass1!";
-        var confirmPassword = "Newpass1!";
 
         when(passwordEncoder.matches(newPassword, "encodedOld")).thenReturn(false);
         when(passwordEncoder.matches(oldPassword, "encodedOld")).thenReturn(true);
@@ -303,7 +302,7 @@ class SettingsServiceTest {
                 null,
                 null,
                 oldPassword,
-                confirmPassword,
+                newPassword,
                 UserSettingsType.PASSWORD
         );
 
@@ -396,11 +395,11 @@ class SettingsServiceTest {
         when(passwordEncoder.matches(oldPassword, "encodedOld")).thenReturn(false);
 
         var editData = new UserEditDataDto(
-                oldPassword,
-                null,
-                null,
-                null,
                 newPassword,
+                null,
+                null,
+                null,
+                oldPassword,
                 newPassword,
                 UserSettingsType.PASSWORD
         );
