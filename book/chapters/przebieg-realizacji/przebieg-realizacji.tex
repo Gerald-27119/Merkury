@@ -520,11 +520,7 @@ i mediów w systemie.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
-    \item Ujednolicenie modelu tagów dla spotów i forum, rozbudowa
-    funkcjonalności postów na forum, aktualizacja API kategorii
-    i tagów oraz dodanie edytora typu \textit{rich text}
-    i lepiej wystylizowanych komponentów wyboru, a także usprawnienie
-    hooka do wykrywania kliknięć poza aktywnymi elementami.
+    \item Zapoznanie sie z dokumentacją tinyMce richTextEditor.
 \end{zadaniaosoby}
 
 \subsection*{Sierpień 2025}
@@ -584,15 +580,8 @@ i usprawniono forum.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
-    \item Ujednolicenie modelu tagów dla spotów i forum oraz dalsza
-    rozbudowa funkcjonalności postów forum, aktualizacja API kategorii
-    i tagów, dodanie edytora typu \textit{rich text} oraz lepiej
-    wystylizowanych pól wyboru, a także usprawnienie hooka do
-    wykrywania kliknięć poza aktywnymi elementami.
-    \item Usprawnienie forum poprzez wprowadzenie czytelniejszych
-    adresów URL postów opartych na slugach tytułów, lepszą walidację
-    tytułu oraz wygodniejszą nawigację (m.in. łatwe przejście z posta
-    do profilu autora).
+    \item Przygotowanie formularza dodawania postów z wykorzystaniem edytora TinyMCE.
+    \item Skonfigurowanie biblioteki jsoup na backendzie.
 \end{zadaniaosoby}
 
 \subsection*{Wrzesień 2025}
@@ -663,6 +652,13 @@ i usprawniono forum.
     do nowego modelu danych i wymagań responsywności.
 \end{zadaniaosoby}
 
+\begin{zadaniaosoby}{Kacper Badek}
+    \item Zamiana edytora TinyMCE na Tiptap.
+    \item Implementacja przeglądania postów na forum oraz ich sortowania.
+    \item wprowadzenie czytelniejszych adresów URL opartych na slugach,
+    poprawa walidacji dodawania nowego posta.
+    \item Poprawa ergonomii poruszania się po forum.
+\end{zadaniaosoby}
 
 \section{Etap 3 (październik 2025 – styczeń 2026)}
 \label{sec:etap3}
@@ -679,7 +675,7 @@ Bednarczyka, postępy w przygotowywaniu dokumentacji były na bieżąco
 konsultowane, a na podstawie uzyskiwanej informacji zwrotnej wprowadzano
 kolejne poprawki i uzupełnienia.
 Analogiczny tryb pracy przyjęto w ramach przedmiotu \gls{prz2}, którego
-opiekunem był promotor pracy, mgr inż. Adam Urbanowicz.
+opiekunem był promotor pracy, mgr. inż. Adam Urbanowicz.
 
 \subsection*{Październik 2025}
 
@@ -729,46 +725,30 @@ opiekunem był promotor pracy, mgr inż. Adam Urbanowicz.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
-    \item Przeprowadzenie dużej refaktoryzacji funkcjonalności forum,
-    obejmującej obsługę komentarzy do postów (dodawanie, edycję,
-    usuwanie oraz głosowanie) po stronie backendu i frontendu.
-    \item Przebudowa stron forum w kierunku architektury
-    z nieskończonym przewijaniem (\gls{infinite-scroll}),
-    z wykorzystaniem mechanizmów stronicowania i sortowania postów
-    po stronie klienta i serwera.
-    \item Zastąpienie klasycznych wskaźników ładowania (spinnerów)
+    \item Dodanie obsługi komentarzy do postów (dodawanie, edycję,
+    usuwanie oraz głosowanie).
+    \item Zastąpienie klasycznych wskaźników ładowania
     loaderami typu \gls{skeleton-loader} dla listy postów oraz paneli
-    kategorii i tagów, co poprawiło odbiór interfejsu w trakcie
-    ładowania danych.
+    kategorii i tagów.
+    \item Poprawa działania stanu formularza dodawania postów.
+    \item Dodanie możliwości zgłaszania postów i komentarzy.
+    \item Implementacja możliwości obserwowania postów.
 \end{zadaniaosoby}
 
 \subsection*{Listopad 2025}
 
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Opracowanie rozdziału~\hyperref[ch:analiza-wymagan]{\ref*{ch:analiza-wymagan}\ \textit{\nameref*{ch:analiza-wymagan}}}
-    – przygotowanie listy aktorów systemu, diagramów przypadków użycia oraz scenariuszy przypadków użycia.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Ujednolicenie logiki dodawania spota do ulubionych na froncie
-    oraz dodanie API do sprawdzania, czy dany spot znajduje się
-    już w ulubionych, co pozwoliło usunąć stare, rozproszone funkcje.
-    \item Rozszerzenie obsługi dodawania mediów do spotów po stronie
-    backendu i frontendu oraz aktualizacja walidacji i kontraktów API.
-\end{zadaniaosoby}
-
-%TODO: do uzupełnienia w grudniu
-TODO: do uzupełnienia w grudniu
+%TODO: do uzupełnienia
+TODO: do uzupełnienia
 
 \subsection*{Grudzień 2025}
 
-%TODO: do uzupełnienia w styczniu
-TODO: do uzupełnienia w styczniu
+%TODO: do uzupełnienia
+TODO: do uzupełnienia
 
 \subsection*{Styczeń 2026}
 
-%TODO: do uzupełnienia na koniec
-TODO: do uzupełnienia na koniec
+%TODO: do uzupełnienia
+TODO: do uzupełnienia
 
 Na zakończenie prac projektowych przyjęto datę
 \textbf{10 stycznia 2026 roku}.
