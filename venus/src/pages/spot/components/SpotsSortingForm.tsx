@@ -76,7 +76,7 @@ export default function SpotsSortingForm({
             className={mainWrapperClasses}
             data-testid="searched-spots-sorting-form"
         >
-            <div className="relative flex flex-col dark:text-darkText text-violetDark drop-shadow-md dark:drop-shadow-none z-10">
+            <div className="dark:text-darkText text-violetDark relative z-10 flex flex-col drop-shadow-md dark:drop-shadow-none">
                 <div
                     className={`${bgContainerClasses} ${isDropdownOpen ? openedDropdownClasses : "rounded-2xl"}`}
                 >
@@ -112,7 +112,7 @@ export default function SpotsSortingForm({
                                 <li
                                     key={opt.value}
                                     value={opt.value}
-                                    className="dark:hover:bg-violetBright hover:bg-white cursor-pointer px-3 last:pb-2"
+                                    className="dark:hover:bg-violetBright cursor-pointer px-3 last:pb-2 hover:bg-white"
                                     onClick={() => handleSelectSorting(opt)}
                                 >
                                     {opt.label}
