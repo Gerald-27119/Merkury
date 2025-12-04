@@ -14,8 +14,6 @@ public class UserEntityService {
     private final UserEntityRepository userRepository;
 
     public List<String> searchUsers(String username) {
-        List<UserEntity> users = userRepository.findTop10ByUsernameContainingIgnoreCase(username);
-
-        return users.stream().map(UserEntity::getUsername).toList();
+        return userRepository.findTop10ByUsernameContainingIgnoreCase(username).stream().map(UserEntity::getUsername).toList();
     }
 }

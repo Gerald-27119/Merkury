@@ -149,7 +149,7 @@ public class PostService {
             throw new InvalidPostOperationException("You can't follow your own post.");
         }
 
-        toggleFollower(post, user);
+        toggleFollowedPost(post, user);
         userRepository.save(user);
     }
 
@@ -175,13 +175,11 @@ public class PostService {
     }
 
     public List<PostCategoryDto> getAllCategoriesAlphabetically() {
-        var categories = postCategoryRepository.findAllByOrderByNameAsc();
-        return categories.stream().map(CategoryMapper::toDto).toList();
+        return postCategoryRepository.findAllByOrderByNameAsc().stream().map(CategoryMapper::toDto).toList();
     }
 
     public List<PostTagDto> getAllTagsAlphabetically() {
-        var tags = postTagRepository.findAllByOrderByNameAsc();
-        return tags.stream().map(TagMapper::toDto).toList();
+        return postTagRepository.findAllByOrderByNameAsc().stream().map(TagMapper::toDto).toList();
     }
 
     private PostCategory getCategoryByName(String name) throws CategoryNotFoundException {
@@ -210,7 +208,7 @@ public class PostService {
         return viewerUsername;
     }
 
-    private void toggleFollower(Post post, UserEntity user) {
+    private void toggleFollowedPost(Post post, UserEntity user) {
         var followed = user.getFollowedPosts();
 
         if (followed.contains(post)) {
