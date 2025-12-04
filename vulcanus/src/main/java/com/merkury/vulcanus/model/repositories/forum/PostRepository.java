@@ -30,13 +30,17 @@ public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificat
     @Query("update posts p set p.commentsCount = p.commentsCount + 1 where p.id = :id")
     int incrementCommentsCount(@Param("id") Long postId);
 
+    @Modifying
+    @Query("UPDATE posts p SET p.trendingScore = p.views + p.upVotes * 2 - p.downVotes WHERE p.id = :postId")
+    void updateTrendingScore(@Param("postId") Long postId);
+
     List<Post> findTop10ByTitleContainingIgnoreCase(String phrase);
 
     @Query("""
             SELECT p 
             FROM posts p
-            WHERE p.publishDate >= :weekAgo
-            ORDER BY (p.views + p.upVotes * 2 - p.downVotes) DESC
+            WHERE p.publishDate >= :monthAgo
+            ORDER BY p.trendingScore DESC
             """)
-    List<Post> findTopTrendingPosts(@Param("weekAgo") LocalDateTime weekAgo, Pageable pageable);
+    List<Post> findTopTrendingPosts(@Param("monthAgo") LocalDateTime monthAgo, Pageable pageable);
 }

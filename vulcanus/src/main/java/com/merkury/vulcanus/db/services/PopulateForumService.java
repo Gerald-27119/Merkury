@@ -194,7 +194,7 @@ public class PopulateForumService {
                 .tags(Set.of(tag4))
                 .views(518)
                 .author(forumUsers.get(random.nextInt(forumUsers.size())))
-                .publishDate(LocalDateTime.now().minusDays(2))
+                .publishDate(LocalDateTime.now().minusDays(1))
                 .comments(new ArrayList<>())
                 .build();
 

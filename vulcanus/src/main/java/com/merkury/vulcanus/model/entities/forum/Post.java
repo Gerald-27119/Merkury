@@ -52,6 +52,9 @@ public class Post implements Votable {
     private Integer commentsCount = 0;
 
     @Builder.Default
+    private Integer trendingScore = 0;
+
+    @Builder.Default
     @ManyToMany
     @JoinTable(
             name = "post_upVotes",

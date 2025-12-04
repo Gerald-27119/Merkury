@@ -93,8 +93,8 @@ public class PostService {
     }
 
     public List<TrendingPostDto> getTrendingPosts(Pageable pageable) {
-        LocalDateTime weekAgo = LocalDateTime.now().minusWeeks(1);
-        List<Post> trending = postRepository.findTopTrendingPosts(weekAgo, pageable);
+        LocalDateTime monthAgo = LocalDateTime.now().minusMonths(1);
+        List<Post> trending = postRepository.findTopTrendingPosts(monthAgo, pageable);
 
         return trending.stream().map(PostMapper::toTrendingDto).toList();
     }
@@ -133,12 +133,14 @@ public class PostService {
         postRepository.save(post);
     }
 
+    @Transactional
     public void votePost(Long postId, boolean isUpvote) throws PostNotFoundException, UserNotFoundByUsernameException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
 
         voteService.vote(post, user, isUpvote);
         postRepository.save(post);
+        updateTrendingScore(postId);
     }
 
     public void followPost(Long postId) throws PostNotFoundException, UserNotFoundByUsernameException, InvalidPostOperationException {
@@ -164,6 +166,7 @@ public class PostService {
     public void increasePostViews(Long postId) throws PostNotFoundException {
         int updated = postRepository.incrementViews(postId);
         if (updated == 0) throw new PostNotFoundException(postId);
+        updateTrendingScore(postId);
     }
 
 
@@ -216,6 +219,10 @@ public class PostService {
         } else {
             followed.add(post);
         }
+    }
+
+    private void updateTrendingScore(Long postId){
+        postRepository.updateTrendingScore(postId);
     }
 
 }
