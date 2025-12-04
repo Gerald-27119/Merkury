@@ -4,7 +4,7 @@ import ForumPostList from "./components/ForumPostList";
 import React from "react";
 import InfiniteScroll from "./components/InfiniteScroll";
 import LoadingState from "../../model/interface/forum/loadingState";
-import {PostSearchRequestDto} from "../../model/interface/forum/post/postSearchRequestDto";
+import { PostSearchRequestDto } from "../../model/interface/forum/post/postSearchRequestDto";
 
 interface ForumPostsPageProps {
     posts?: PostGeneral[];

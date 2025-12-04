@@ -12,7 +12,7 @@ import HintedSearchField from "./HintedSearchField";
 import { searchUsers } from "../../../http/user";
 import { FaSearch } from "react-icons/fa";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
-import {notificationAction} from "../../../redux/notification";
+import { notificationAction } from "../../../redux/notification";
 
 interface ForumSearchBarProps {
     categories: PostCategoryDto[];
@@ -65,12 +65,12 @@ export default function ForumSearchBar({
             dispatch(
                 notificationAction.addError({
                     message: '"To" Date cannot be before "From" Date',
-                })
+                }),
             );
             return false;
         }
         return true;
-    }
+    };
 
     const handleChange = <T extends keyof SearchState>(
         key: T,

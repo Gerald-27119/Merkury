@@ -8,7 +8,7 @@ import ForumReportDto from "../model/interface/forum/forumReportDto";
 import TrendingPostDto from "../model/interface/forum/trendingPostDto";
 import PostCategoryDto from "../model/interface/forum/postCategoryDto";
 import TagDto from "../model/interface/tagDto";
-import {PostSearchRequestDto} from "../model/interface/forum/post/postSearchRequestDto";
+import { PostSearchRequestDto } from "../model/interface/forum/post/postSearchRequestDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function fetchPaginatedPosts(

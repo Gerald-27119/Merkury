@@ -4,7 +4,7 @@ import React from "react";
 import PostGeneral from "../../../model/interface/forum/post/postGeneral";
 import { PostSortOption } from "../../../model/enum/forum/postSortOption";
 import SearchResults from "../post-search/SearchResults";
-import {PostSearchRequestDto} from "../../../model/interface/forum/post/postSearchRequestDto";
+import { PostSearchRequestDto } from "../../../model/interface/forum/post/postSearchRequestDto";
 
 interface ForumPostListProps {
     posts?: PostGeneral[];
@@ -40,7 +40,12 @@ export default function ForumPostList({
     } = searchFilters;
 
     const hasFilters =
-        searchPhrase || category || tags.length > 0 || fromDate || toDate || author;
+        searchPhrase ||
+        category ||
+        tags.length > 0 ||
+        fromDate ||
+        toDate ||
+        author;
 
     return (
         <div>

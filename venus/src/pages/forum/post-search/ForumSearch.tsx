@@ -1,15 +1,15 @@
-import {useInfiniteQuery} from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import ForumPostPage from "../../../model/interface/forum/forumPostPage";
-import {fetchSearchedPosts} from "../../../http/posts";
-import React, {useEffect, useRef, useState} from "react";
-import {PostSortOption} from "../../../model/enum/forum/postSortOption";
-import {useSearchParams} from "react-router-dom";
+import { fetchSearchedPosts } from "../../../http/posts";
+import React, { useEffect, useRef, useState } from "react";
+import { PostSortOption } from "../../../model/enum/forum/postSortOption";
+import { useSearchParams } from "react-router-dom";
 import ForumPostsPage from "../ForumPostsPage";
 import LoadingState from "../../../model/interface/forum/loadingState";
 import SkeletonListedForumPost from "../components/SkeletonListedForumPost";
-import {PostSearchRequestDto} from "../../../model/interface/forum/post/postSearchRequestDto";
+import { PostSearchRequestDto } from "../../../model/interface/forum/post/postSearchRequestDto";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
-import {notificationAction} from "../../../redux/notification";
+import { notificationAction } from "../../../redux/notification";
 
 export default function ForumSearch() {
     const [params] = useSearchParams();
@@ -39,20 +39,11 @@ export default function ForumSearch() {
         hasNextPage,
         isFetchingNextPage,
     } = useInfiniteQuery<ForumPostPage>({
-        queryKey: [
-            "searchedPosts",
-            sortOption,
-            request,
-        ],
-        queryFn: ({pageParam}) =>
-            fetchSearchedPosts(
-                pageParam as number,
-                10,
-                request,
-                sortOption,
-            ),
+        queryKey: ["searchedPosts", sortOption, request],
+        queryFn: ({ pageParam }) =>
+            fetchSearchedPosts(pageParam as number, 10, request, sortOption),
         getNextPageParam: (lastPage: ForumPostPage) => {
-            const {number, totalPages} = lastPage.page;
+            const { number, totalPages } = lastPage.page;
             return number + 1 < totalPages ? number + 1 : undefined;
         },
         initialPageParam: 0,
@@ -69,7 +60,7 @@ export default function ForumSearch() {
                     fetchNextPage();
                 }
             },
-            {rootMargin: "50px", threshold: 0},
+            { rootMargin: "50px", threshold: 0 },
         );
         observer.observe(target);
         return () => {
@@ -94,8 +85,8 @@ export default function ForumSearch() {
     if (isSearchPostPageLoading) {
         return (
             <div className="mt-14 w-md md:w-2xl">
-                {Array.from({length: 10}).map((_, i) => (
-                    <SkeletonListedForumPost key={i}/>
+                {Array.from({ length: 10 }).map((_, i) => (
+                    <SkeletonListedForumPost key={i} />
                 ))}
             </div>
         );
@@ -105,7 +96,7 @@ export default function ForumSearch() {
         dispatch(
             notificationAction.addError({
                 message: searchPostPageError.message,
-            })
+            }),
         );
     }
 

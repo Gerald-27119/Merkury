@@ -1,5 +1,5 @@
 import { formatNumber } from "../../../utils/forum/numberFormatter";
-import {PostSearchRequestDto} from "../../../model/interface/forum/post/postSearchRequestDto";
+import { PostSearchRequestDto } from "../../../model/interface/forum/post/postSearchRequestDto";
 
 interface SearchResultsProps {
     data?: number;
