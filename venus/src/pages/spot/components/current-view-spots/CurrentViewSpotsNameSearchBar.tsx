@@ -98,15 +98,15 @@ export default function CurrentViewSpotsNameSearchBar() {
 
     return (
         <div
-            className="dark:text-darkText mt-2 flex w-full items-end justify-center space-x-3"
+            className="dark:text-darkText text-violetLight mt-2 flex w-full items-end justify-center space-x-3"
             data-testid="current-view-spots-name-search-bar"
         >
-            <div className="relative flex w-full items-center">
+            <div className="relative flex w-full items-center overflow-visible">
                 <div
-                    className={`dark:bg-violetLight flex w-full items-center justify-between ${isShowHints && spotsNames?.length ? "rounded-t-3xl" : "rounded-3xl"} px-5 py-2 text-lg font-semibold`}
+                    className={`dark:bg-violetLight bg-whiteSmoke flex w-full items-center justify-between ${isShowHints && spotsNames?.length ? "rounded-t-3xl" : "rounded-3xl"} px-5 py-2 text-lg font-semibold drop-shadow-md dark:drop-shadow-none`}
                 >
                     <input
-                        className="dark:placeholder-darkText w-full focus:outline-none"
+                        className="dark:placeholder-darkText placeholder-violetLight w-full focus:outline-none"
                         id="name"
                         data-testid="search-input"
                         autoComplete="off"
@@ -132,11 +132,11 @@ export default function CurrentViewSpotsNameSearchBar() {
                     </button>
                 </div>
                 {isShowHints && spotsNames.length > 0 && (
-                    <ul className="dark:bg-violetLight absolute top-full left-0 z-20 w-full overflow-hidden rounded-b-3xl text-base font-semibold">
+                    <ul className="dark:bg-violetLight bg-whiteSmoke absolute top-full left-0 z-50 w-full overflow-hidden rounded-b-3xl text-base font-semibold">
                         {spotsNames.map((name) => (
                             <li
                                 key={name}
-                                className="dark:hover:bg-violetLighter cursor-pointer p-2 pl-4"
+                                className="dark:hover:bg-violetLighter hover:bg-white cursor-pointer p-2 pl-4"
                                 onMouseDown={() => handleHintClick(name)}
                             >
                                 {name}
