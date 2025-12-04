@@ -136,7 +136,7 @@ describe("Added spots component unit tests", () => {
                         screen.getByText(/Passeig Marítim 1/i),
                     ).toBeInTheDocument();
                 });
-                test("Render spot name", () => {
+                test("Render spot image", () => {
                     const images = screen.getAllByAltText("spot-image");
                     expect(images[0]?.getAttribute("src")).toBe(
                         "sunny_beach.jpg",
@@ -165,7 +165,7 @@ describe("Added spots component unit tests", () => {
             test("Render spot street", () => {
                 expect(screen.getByText(/Bergstrasse 5/i)).toBeInTheDocument();
             });
-            test("Render spot name", () => {
+            test("Render spot image", () => {
                 const images = screen.getAllByAltText("spot-image");
                 expect(images[1]?.getAttribute("src")).toBe(
                     "mountain_peak.jpg",
