@@ -102,6 +102,7 @@ wszyscy członkowie zespołu.
     \item Integracja systemu z zewnętrzną usługą wysyłania wiadomości
     e-mail oraz implementacja wysyłania wiadomości powitalnej do
     nowo zarejestrowanego użytkownika.
+    \item Dodanie pliku konfiguracyjnego do formatowania kodu w Intellij IDEA.
 \end{zadaniaosoby}
 
 \subsection*{Wrzesień 2024}
@@ -253,6 +254,7 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
     po różnych kryteriach (np. nazwa) po stronie backendu.
     \item Dalsze dopracowanie logiki filtrowania spotów po nazwie
     po stronie backendu.
+    \item Implementacja logiki zmiany danych konta użytkownika.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
@@ -295,6 +297,12 @@ z założeniami funkcjonalnymi.
     \item Implementacja integracji z zewnętrznym \gls{api} pogodowym
     służącym do pobierania podstawowych danych pogodowych
     dla danego spota.
+    \item Drobna refaktoryzacja kodu na frontendzie.
+    \item Obsługa błędów przy wysyłaniu maili.
+    \item Zmiana dostawy usługi do wysyłania maili.
+    \item Optymalizacja zapytań do bazy danych.
+    \item Testy Integracyjne logiki logowania i rejestracji OAuth2 na backendzie oraz filtrowania spotów.
+    \item Poprawa plików Dockerfile oraz docker-compose.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Adam Langmesser}
@@ -330,6 +338,7 @@ z założeniami funkcjonalnymi.
     kontenery \gls{docker} (bazy danych i usługi pomocnicze) na potrzeby
     środowiska deweloperskiego, co uprościło proces uruchamiania
     projektu na nowych stanowiskach.
+    \item Przygotowanie instrukcji uruchamiania projektu w README.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
@@ -368,11 +377,8 @@ z założeniami funkcjonalnymi.
 
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
     \item Migracja mapy z biblioteki \gls{leaflet} na \gls{maplibre},
-    w tym dostosowanie komponentów frontendu, routingów oraz obsługi
-    interakcji ze spotami.
-    \item Zmiana wyglądu znacznika lokalizacji użytkownika na mapie,
-    co poprawiło czytelność i spójność z nową paletą kolorów oraz
-    warstwami mapy.
+    oraz implementacja od nowa podstaw wyświetlania spotów i interakcji użytkownika z mapą.
+    \item Zmiana wyglądu znacznika lokalizacji użytkownika na mapie.
     \item Migracja funkcji API związanych ze spotami do \gls{type-script},
     rozszerzenie modelu szczegółów spota o dodatkowe informacje
     lokalizacyjne i statystyczne (np. kraj, miasto, tagi, liczniki ocen)
@@ -650,6 +656,7 @@ i usprawniono forum.
     pośrednia, z wprowadzeniem dedykowanych struktur \gls{dto} oraz
     dostosowaniem komponentów prezentujących dane pogodowe
     do nowego modelu danych i wymagań responsywności.
+    \item Implementacja wyświetlania zdjęcia profilowego użytkownika w komentarzach spota.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
