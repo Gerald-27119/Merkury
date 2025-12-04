@@ -84,19 +84,19 @@ export default function SpotAddMediaModal() {
                 onClick={handleCloseModal}
                 className="text-darkText mt-2 ml-auto cursor-pointer text-2xl"
             />
-            <div className="bg-darkBgSoft my-auto flex flex-col items-center rounded-2xl p-10">
+            <div className="dark:bg-darkBgSoft bg-fifth my-auto flex flex-col items-center rounded-2xl p-10">
                 <UploadButton onFileSelect={handleFileSelect} />
-                <div className="text-darkText mt-10 flex space-x-3 text-xl">
+                <div className="dark:text-darkText text-violetDark mt-10 flex space-x-3 text-xl">
                     <button
                         onClick={handleCloseModal}
-                        className="hover:bg-darkBgMuted w-44 cursor-pointer rounded-xl px-2.5 py-1"
+                        className="dark:hover:bg-darkBgMuted bg-whiteSmoke hover:bg-lightGrayishViolet w-44 cursor-pointer rounded-xl px-2.5 py-1 drop-shadow-md dark:drop-shadow-none"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={handleSubmit}
                         disabled={isPending}
-                        className="hover:bg-darkBgMuted w-44 cursor-pointer rounded-xl px-2.5 py-1"
+                        className="dark:hover:bg-darkBgMuted bg-whiteSmoke hover:bg-lightGrayishViolet w-44 cursor-pointer rounded-xl px-2.5 py-1 drop-shadow-md dark:drop-shadow-none"
                     >
                         {isPending ? "Uploading…" : "Submit"}
                     </button>
