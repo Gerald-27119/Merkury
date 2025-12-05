@@ -99,3 +99,24 @@
         \item Brak (pusta odpowiedź; sam status informuje o uwierzytelnieniu)
     \end{tabitemize}
 }
+
+\cardendpoint
+{EP35}
+{/account/login-success}
+{Obsłuż użytkownika zalogowanego przez OAuth2 i przekieruj go do aplikacji}
+{%
+    \begin{tabitemize}
+        \item Brak klasycznego body – endpoint wywoływany jest jako redirect callback
+        po poprawnym logowaniu przez dostawcę OAuth2.
+        \item Kontekst użytkownika przekazywany jest w obiekcie
+        \texttt{OAuth2AuthenticationToken}.
+    \end{tabitemize}
+}
+{Brak}
+{302 Found (redirect), 404 Not Found, 409 Conflict, 422 Unprocessable Entity, 500 Internal Server Error}
+{%
+    \begin{tabitemize}
+        \item Przekierowanie użytkownika na stronę frontendową skonfigurowaną w
+        \texttt{UrlsProperties.afterLoginPageUrl}.
+    \end{tabitemize}
+}
