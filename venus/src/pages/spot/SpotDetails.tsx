@@ -69,7 +69,7 @@ export default function SpotDetails() {
                 exit="exit"
                 variants={slideVariants}
                 transition={{ duration: 0.3 }}
-                className="dark:bg-violetDarker bg-fifth text-violetDark dark:text-darkText absolute top-10 left-0 z-[2] flex h-full w-[20rem] overflow-y-auto p-2 text-lg drop-shadow-md xl:top-0 xl:left-17 xl:w-[35rem] xl:overflow-y-hidden xl:text-xl dark:drop-shadow-none"
+                className="dark:bg-violetDarker bg-fifth text-violetDark dark:text-darkText 3xl:w-[35rem] 3xl:overflow-y-hidden absolute top-10 left-0 z-[2] flex h-full w-[20rem] overflow-y-auto p-2 text-lg drop-shadow-md xl:top-0 xl:left-17 xl:w-[30rem] xl:text-xl dark:drop-shadow-none"
             >
                 {isLoading && <LoadingSpinner />}
                 {data && (

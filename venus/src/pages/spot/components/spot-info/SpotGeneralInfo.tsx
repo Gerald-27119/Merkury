@@ -1,6 +1,9 @@
 import { ConfigProvider, Rate } from "antd";
 import SpotTag from "../tag/SpotTag";
 import TagDto from "../../../../model/interface/tagDto";
+import useScreenSize from "../../../../hooks/useScreenSize";
+import { useEffect, useState } from "react";
+import { calculateRateStarSize } from "../../../../utils/spot-utils";
 
 type SpotGeneralInfoProps = {
     name: string;
@@ -17,6 +20,16 @@ export default function SpotGeneralInfo({
     ratingCount,
     tags,
 }: SpotGeneralInfoProps) {
+    const { height, width } = useScreenSize();
+
+    const [rateStarSize, setRateStarSize] = useState<number>(
+        calculateRateStarSize(width, height),
+    );
+
+    useEffect(() => {
+        setRateStarSize(calculateRateStarSize(width, height));
+    }, [height, width]);
+
     return (
         <div className="mt-5 mb-2 flex-col space-y-6">
             <div className="flex flex-col items-center space-y-2 xl:flex-row xl:justify-between">
@@ -32,7 +45,7 @@ export default function SpotGeneralInfo({
                                         starBg: "#ffffff",
                                         starColor:
                                             "var(--color-ratingStarColor)",
-                                        starSize: 27,
+                                        starSize: rateStarSize,
                                         starHoverScale: "scale(1,1)",
                                     },
                                 },

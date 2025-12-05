@@ -59,7 +59,7 @@ export default function ExpandedMediaDisplay() {
                         publishDate={currentMedia.publishDate}
                     />
                     <div className="relative">
-                        <div className="absolute top-0 left-1/2">
+                        <div className="absolute top-0 3xl:left-1/2 left-11/24">
                             <MediaDisplayFilterPanel />
                         </div>
                         {currentMedia.mediaType === MediaType.PHOTO ? (

@@ -32,7 +32,7 @@ export default function ExpandedSpotMediaGallery() {
             >
                 <ExpandedGallerySidebar />
                 <div className="relative z-[3] flex h-full w-full items-center justify-center bg-black">
-                    <div className="3xl:right-75 absolute top-8 xl:right-28">
+                    <div className="3xl:right-75 absolute 2xl:top-4 top-8 xl:right-28">
                         <ExpandedMediaGalleryActions />
                     </div>
                     <ExpandedMediaDisplay />
