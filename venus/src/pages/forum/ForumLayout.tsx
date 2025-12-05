@@ -1,11 +1,11 @@
 import React, { ReactNode } from "react";
 import AddPostButton from "./components/AddPostButton";
-import ForumCategoriesTagsPanel from "./categories-and-tags/components/ForumCategoriesTagsPanel";
-import ForumSearchBar from "./components/ForumSearchBar";
-import RightPanel from "./components/RightPanel";
+import PostCategoriesTagsPanel from "./categories-and-tags/components/PostCategoriesTagsPanel";
+import ForumSearchBar from "./post-search/ForumSearchBar";
+import TrendingPostsPanel from "./components/TrendingPostsPanel";
 import ForumAddPostModal from "./components/ForumAddPostModal";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCategoriesAndTags } from "../../http/posts";
+import { fetchCategoriesAndTags, fetchTrendingPosts } from "../../http/posts";
 import { notificationAction } from "../../redux/notification";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -38,6 +38,16 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
         queryFn: () => fetchCategoriesAndTags(),
     });
 
+    const {
+        data: trendingPosts,
+        isLoading: isTrendingPostsLoading,
+        isError: isTrendingPostsError,
+        error: trendingPostsError,
+    } = useQuery({
+        queryKey: ["trendingPosts"],
+        queryFn: () => fetchTrendingPosts(),
+    });
+
     const handleAddPostClick = () => {
         if (isLogged) {
             dispatch(forumModalAction.openCreateModal());
@@ -52,11 +62,11 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
 
     return (
         <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg min-h-screen w-full">
-            <div className="mx-auto mt-8 flex w-full max-w-6xl flex-row gap-4">
+            <div className="mx-auto mt-16 flex w-full max-w-6xl flex-row gap-4 xl:mt-8">
                 <div className="sticky-forum-panel">
                     <AddPostButton onClick={handleAddPostClick} />
 
-                    <ForumCategoriesTagsPanel
+                    <PostCategoriesTagsPanel
                         data={categoriesAndTags}
                         isLoading={isCatTagsLoading}
                         isError={isCatTagsError}
@@ -66,9 +76,17 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
 
                 <div>{children}</div>
 
-                <div className="sticky-forum-panel">
-                    <ForumSearchBar />
-                    <RightPanel />
+                <div className="sticky-forum-panel w-64 min-w-64">
+                    <ForumSearchBar
+                        categories={categoriesAndTags?.categories ?? []}
+                        tags={categoriesAndTags?.tags ?? []}
+                    />
+                    <TrendingPostsPanel
+                        data={trendingPosts}
+                        isLoading={isTrendingPostsLoading}
+                        isError={isTrendingPostsError}
+                        error={trendingPostsError}
+                    />
                 </div>
                 <ForumAddPostModal
                     onClose={() => dispatch(forumModalAction.closeModal())}

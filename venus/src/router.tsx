@@ -22,6 +22,12 @@ import HomePage from "./pages/home-page/HomePage";
 import Movies from "./pages/account/movies/Movies";
 import AdvanceHomePage from "./pages/home-page/AdvanceHomePage";
 import AddedSpot from "./pages/account/add-spot/AddedSpot";
+import ForumSearch from "./pages/forum/post-search/ForumSearch";
+import PostTagsPage from "./pages/forum/categories-and-tags/components/PostTagsPage";
+import PostCategoriesPage from "./pages/forum/categories-and-tags/components/PostCategoriesPage";
+import ForumLayoutRoute from "./layout/forum/ForumLayoutRoute";
+import ForumFollowed from "./pages/forum/ForumFollowed";
+import ForumGuidelines from "./pages/forum/components/ForumGuidelines";
 
 const router = createBrowserRouter([
     {
@@ -136,11 +142,41 @@ const router = createBrowserRouter([
             },
             {
                 path: "forum",
-                element: <Forum />,
-            },
-            {
-                path: "forum/:postId/:slugTitle?",
-                element: <ForumThread />,
+                element: <ForumLayoutRoute />,
+                children: [
+                    {
+                        index: true,
+                        element: <Forum />,
+                    },
+                    {
+                        path: ":postId/:slugTitle?",
+                        element: <ForumThread />,
+                    },
+                    {
+                        path: "search",
+                        element: <ForumSearch />,
+                    },
+                    {
+                        path: "categories",
+                        element: <PostCategoriesPage />,
+                    },
+                    {
+                        path: "tags",
+                        element: <PostTagsPage />,
+                    },
+                    {
+                        path: "guidelines",
+                        element: <ForumGuidelines />,
+                    },
+                    {
+                        path: "followed",
+                        element: (
+                            <ProtectedRoute>
+                                <ForumFollowed />
+                            </ProtectedRoute>
+                        ),
+                    },
+                ],
             },
             {
                 path: "map",

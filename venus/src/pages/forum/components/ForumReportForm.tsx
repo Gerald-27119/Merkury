@@ -35,7 +35,7 @@ export default function ForumReportForm({
     };
 
     return (
-        <div className="dark:bg-darkBgSoft dark:text-darkText bg-lightBgSoft text-lightText fixed top-35 left-1/2 z-50 w-full max-w-xl min-w-sm -translate-x-1/2 rounded-md p-8 shadow-md">
+        <div className="dark:bg-darkBgSoft dark:text-darkText bg-lightBg text-lightText fixed top-35 left-1/2 z-50 w-full max-w-xl min-w-sm -translate-x-1/2 rounded-md p-8 shadow-md">
             <button
                 className="absolute top-0 right-3 cursor-pointer text-4xl font-bold text-gray-500 hover:text-red-500"
                 onClick={onClose}
@@ -70,7 +70,7 @@ export default function ForumReportForm({
                     <textarea
                         {...register("details")}
                         placeholder="Provide details"
-                        className="dark:bg-darkBg dark:placeholder-darkText/50 placeholder-lightText/60 mt-1 h-24 resize-none rounded-lg p-2 shadow-lg outline-none"
+                        className="dark:bg-darkBg bg-lightBgSoft dark:placeholder-darkText/50 placeholder-lightText/60 mt-1 h-24 resize-none rounded-lg p-2 shadow-lg outline-none"
                     />
                     {errors.details && (
                         <p className="mt-1 text-xs font-bold break-words text-red-500">
