@@ -106,33 +106,33 @@ body {
 }
 
 html.dark
-.custom-rate
-.ant-rate-star:not(.ant-rate-star-full)
-.ant-rate-star-second,
+    .custom-rate
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second,
 html.dark
-.custom-rate-spot-comment
-.ant-rate-star:not(.ant-rate-star-full)
-.ant-rate-star-second,
+    .custom-rate-spot-comment
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second,
 html.dark
-.custom-rate-searched-spot
-.ant-rate-star:not(.ant-rate-star-full)
-.ant-rate-star-second {
+    .custom-rate-searched-spot
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
     color: #ffffff;
     text-shadow: none;
 }
 
 html:not(.dark)
-.custom-rate
-.ant-rate-star:not(.ant-rate-star-full)
-.ant-rate-star-second,
+    .custom-rate
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second,
 html:not(.dark)
-.custom-rate-spot-comment
-.ant-rate-star:not(.ant-rate-star-full)
-.ant-rate-star-second,
+    .custom-rate-spot-comment
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second,
 html:not(.dark)
-.custom-rate-searched-spot
-.ant-rate-star:not(.ant-rate-star-full)
-.ant-rate-star-second {
+    .custom-rate-searched-spot
+    .ant-rate-star:not(.ant-rate-star-full)
+    .ant-rate-star-second {
     color: #cacaca;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
