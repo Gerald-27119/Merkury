@@ -1,9 +1,39 @@
-%! Author = mateusz
-%! Date = 20/09/2025
-
+%! Author = Adam
+%! Date = 27/11/2025
 
 \chapter{Analiza wymagań}
 \label{ch:analiza-wymagan}
+
+W niniejszym rozdziale przedstawiono analizę wymagań stawianych aplikacji.
+Punktem wyjścia była identyfikacja i opracowanie przypadków użycia systemu
+(zarówno w postaci diagramów, jak i szczegółowych scenariuszy),
+które stanowią podstawę do dalszej specyfikacji zachowania systemu.
+
+Na tej podstawie zdefiniowano kolejno:
+\begin{itemize}
+    \item wymagania ogólne oraz dziedzinowe,
+    \item wymagania funkcjonalne,
+    \item wymagania pozafunkcjonalne,
+    \item wymagania dotyczące interfejsu z otoczeniem,
+    \item wymagania na środowisko docelowe.
+\end{itemize}
+
+Do określania priorytetów realizacji poszczególnych wymagań wykorzystano technikę
+\gls{moscow}. Metoda ta wyróżnia cztery kategorie:
+\begin{description}
+    \item[M (Must have)] wymagania kluczowe, które muszą zostać zrealizowane,
+    aby system mógł zostać uznany za działający poprawnie;
+    \item[S (Should have)] wymagania bardzo istotne, jednak niewpływające
+    bezpośrednio na minimalną zdolność operacyjną systemu;
+    \item[C (Could have)] wymagania opcjonalne, podnoszące wygodę
+    użytkowania lub wartość biznesową rozwiązania;
+    \item[W (Won't have this time)] wymagania odłożone na przyszłość,
+    które w bieżącej iteracji nie będą realizowane.
+\end{description}
+
+Tak przeprowadzona analiza pozwala w sposób uporządkowany opisać zarówno
+zakres funkcjonalny systemu, jak i ograniczenia oraz oczekiwania
+niefunkcjonalne, a także zewnętrzne uwarunkowania jego działania.
 
 \input{./chapters/analiza-wymagan/sections/przypadki-uzycia/przypadki-uzycia}
 \input{./chapters/analiza-wymagan/sections/wymagania-ogolne-i-dziedzinowe}

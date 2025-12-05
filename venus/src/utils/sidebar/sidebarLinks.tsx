@@ -6,7 +6,7 @@ import { FaRegBell, FaRegUser } from "react-icons/fa";
 import { TbLogin2, TbLogout2 } from "react-icons/tb";
 import { LuMoon, LuSun } from "react-icons/lu";
 
-export const staticLinks: SidebarItemType[] = [
+export const staticLinks = (isLogged: boolean): SidebarItemType[] => [
     {
         to: "/",
         icon: <BiHome aria-label="home" />,
@@ -23,7 +23,28 @@ export const staticLinks: SidebarItemType[] = [
         to: "/forum",
         icon: <MdOutlineForum aria-label="forum" />,
         name: "forum",
-        type: "link",
+        type: "submenu",
+        children: [
+            {
+                to: "/forum",
+                name: "home page",
+                type: "link",
+            },
+            {
+                to: "/forum/guidelines",
+                name: "guidelines",
+                type: "link",
+            },
+            ...(isLogged
+                ? [
+                      {
+                          to: "/forum/followed",
+                          name: "followed posts",
+                          type: "link",
+                      } as const,
+                  ]
+                : []),
+        ],
     },
 ];
 

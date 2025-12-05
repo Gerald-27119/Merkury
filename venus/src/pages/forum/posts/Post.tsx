@@ -30,7 +30,7 @@ export default function Post({ post }: PostProps) {
             ? "Post is no longer being followed!"
             : "Post is now being followed!",
         loginToAccessMessage: "Login to follow posts.",
-        invalidateKeys: [["posts"]],
+        invalidateKeys: [["posts"], ["followedPosts"]],
     });
 
     const handleEditClick = (post: PostGeneral) => {
@@ -78,7 +78,7 @@ export default function Post({ post }: PostProps) {
     };
 
     return (
-        <div className="dark:bg-darkBgSoft mx-auto my-4 max-w-md rounded-xl shadow-md md:max-w-2xl">
+        <div className="dark:bg-darkBgSoft bg-lightBgSoft mx-auto my-4 max-w-md rounded-xl shadow-md md:max-w-2xl">
             <div className="p-6">
                 <PostHeader
                     post={post}

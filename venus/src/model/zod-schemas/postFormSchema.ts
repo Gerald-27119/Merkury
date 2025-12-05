@@ -31,7 +31,6 @@ export const PostFormSchema = z.object({
                 label: z.string(),
             }),
         )
-        .max(3, "You can't select more than 3 tags")
         .optional(),
     content: z
         .string()

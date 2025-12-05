@@ -3,6 +3,7 @@ package com.merkury.vulcanus.model.mappers.forum;
 import com.merkury.vulcanus.model.dtos.forum.PostDetailsDto;
 import com.merkury.vulcanus.model.dtos.forum.PostDto;
 import com.merkury.vulcanus.model.dtos.forum.PostGeneralDto;
+import com.merkury.vulcanus.model.dtos.forum.TrendingPostDto;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.forum.PostCategory;
 import com.merkury.vulcanus.model.entities.forum.Post;
@@ -54,6 +55,18 @@ public class PostMapper {
                 .commentsCount(post.getCommentsCount())
                 .isAuthor(currentUser != null && post.getAuthor().getId().equals(currentUser.getId()))
                 .isFollowed(currentUser != null && post.getFollowers().contains(currentUser))
+                .build();
+    }
+
+    public static TrendingPostDto toTrendingDto(@NotNull Post post) {
+        var slug = generateSlugTitle(post.getTitle());
+
+        return TrendingPostDto.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .slugTitle(slug)
+                .author(AuthorMapper.toDto(post.getAuthor()))
+                .publishDate(post.getPublishDate())
                 .build();
     }
 
