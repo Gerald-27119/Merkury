@@ -132,7 +132,7 @@ export default function CurrentViewSpotsNameSearchBar() {
                     </button>
                 </div>
                 {isShowHints && spotsNames.length > 0 && (
-                    <ul className="dark:bg-violetLight bg-whiteSmoke absolute top-full left-0 z-50 w-full overflow-hidden rounded-b-3xl text-base font-semibold">
+                    <ul className="dark:bg-violetLight bg-whiteSmoke absolute top-full left-0 z-20 w-full overflow-hidden rounded-b-3xl text-base font-semibold">
                         {spotsNames.map((name) => (
                             <li
                                 key={name}
