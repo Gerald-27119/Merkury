@@ -9,7 +9,7 @@ interface PostFormProps<T extends FieldValues> {
     variant: RichTextEditorVariantType;
 }
 
-const baseClassName = "dark:bg-darkBg mx-auto rounded-lg p-4";
+const baseClassName = "dark:bg-darkBg bg-lightBgSoft mx-auto rounded-lg p-4";
 const variantClasses = {
     default: "border-1 border-solid border-black dark:border-white",
     modal: "h-60 shadow-lg",

@@ -1,0 +1,189 @@
+%! Author = Adam
+%! Date = 22/11/2025
+
+\subsubsection{Scenariusze przypadków użycia dla czatu}
+
+\usecasecard{tab:pu18-czat-prywatny}{Utworzenie prywatnego czatu}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik tworzy prywatną konwersację z innym użytkownikiem.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w zakładce społeczność.}
+    \ucpost{Nowy czat prywatny został utworzony i wyświetlony użytkownikowi.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję utworzenia nowego czatu.
+            \item System tworzy nowy czat (jeśli nie istnieje).
+            \item System otwiera widok nowego czatu.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[1a.] Taki czat już istnieje – system zamiast tworzyć nowy, otwiera istniejącą konwersację.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu-chat-otworz}{Otworzenie czatu}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik otwiera wybrany czat, aby wyświetlić historię rozmowy i móc wysyłać kolejne wiadomości.}
+    \ucpre{Użytkownik jest zalogowany i widzi listę swoich czatów lub otrzymał powiadomienie prowadzące do czatu.}
+    \ucpost{Wybrany czat został otworzony, a historia rozmowy jest widoczna dla użytkownika.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera czat z listy czatów lub z powiadomienia.
+            \item System pobiera dane czatu (uczestników, ostatnie wiadomości).
+            \item System oznacza nieprzeczytane wiadomości na czacie jako przeczytane.
+            \item System wyświetla widok czatu wraz z historią rozmowy.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Czat nie jest już dostępny (np. został usunięty lub użytkownik utracił do niego dostęp) – system wyświetla komunikat o braku dostępu i powraca do listy czatów.
+            \item[2b.] Wystąpił błąd podczas pobierania danych czatu – system wyświetla komunikat o błędzie i umożliwia ponowną próbę.
+        \end{enumerate}
+    }
+}
+
+
+\usecasecard{tab:pu19-czat-grupowy}{Utworzenie czatu grupowego}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik tworzy nowy czat grupowy z kilkoma uczestnikami.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się na dowolnym czacie prywatnym.}
+    \ucpost{Czat grupowy został utworzony i wyświetlony na ekranie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję utworzenia czatu grupowego.
+            \item Użytkownik wybiera uczestników grupy.
+            \item Użytkownik zatwierdza utworzenie czatu.
+            \item System tworzy czat grupowy i dodaje do niego wskazanych użytkowników.
+            \item System otwiera widok nowego czatu grupowego.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] System nie może utworzyć czatu – aplikacja informuje o błędzie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu20-lista-czatow}{Przeglądanie listy czatów}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda listę swoich czatów prywatnych i grupowych.}
+    \ucpre{Użytkownik jest zalogowany i otwiera moduł czatu.}
+    \ucpost{Lista czatów użytkownika została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item System pobiera listę czatów użytkownika.
+            \item System wyświetla listę czatów z podstawowymi informacjami.
+            \item Użytkownik wybiera czat z listy.
+            \item System otwiera widok wybranego czatu.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu20-wyslij-wiadomosc}{Wysyłanie wiadomości na czacie}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik wysyła wiadomość tekstową na czacie.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w widoku konkretnego czatu.}
+    \ucpost{Nowa wiadomość jest zapisana i widoczna w historii czatu.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wpisuje treść wiadomości.
+            \item Użytkownik wysyła wiadomość.
+            \item System zapisuje wiadomość i dostarcza ją do uczestników czatu.
+            \item System wyświetla wiadomość na liście wiadomości.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Treść wiadomości jest pusta – system blokuje wysłanie i pozostaje w tym samym widoku.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu21-wyslij-gifa}{Wysyłanie GIF-a na czacie}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany, Usługa GIF-ów}
+    \ucdesc{Użytkownik wysyła animację GIF w konwersacji czatowej.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w widoku czatu.}
+    \ucpost{Wybrany GIF został dodany jako wiadomość w czacie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję dodania GIF-a.
+            \item System otwiera okno wyszukiwarki GIF-ów.
+            \item Użytkownik wybiera lub wyszukuje GIF-a.
+            \item Użytkownik zatwierdza wysłanie GIF-a.
+            \item System dodaje GIF-a jako wiadomość na czacie.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Usługa GIF-ów jest niedostępna – system informuje o braku możliwości wysłania GIF-a.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu22-wyslij-plik}{Wysyłanie pliku na czacie}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany, Usługa do przechowywania plików w chmurze}
+    \ucdesc{Użytkownik wysyła plik (np. zdjęcie, film) na czacie.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w widoku czatu.}
+    \ucpost{Plik został zapisany w chmurze i powiązany z wiadomością na czacie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję dodania pliku.
+            \item Użytkownik wybiera plik z urządzenia.
+            \item System przesyła plik do usługi przechowywania w chmurze.
+            \item System tworzy wiadomość z odnośnikiem do pliku.
+            \item System wyświetla wiadomość na liście czatu.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Przesyłanie pliku nie powiodło się – system informuje użytkownika i umożliwia ponowną próbę.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu23-edycja-czatu}{Edycja ustawień czatu}{%
+    \ucpriority{Niski}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik modyfikuje ustawienia czatu (np. nazwę, avatar, tryb powiadomień).}
+    \ucpre{Użytkownik jest zalogowany i ma uprawnienia do edycji danego czatu.}
+    \ucpost{Zaktualizowane ustawienia czatu są zapisane i widoczne dla uczestników.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera panel ustawień czatu.
+            \item Użytkownik wprowadza zmiany (np. nazwę, opis, avatar).
+            \item Użytkownik zapisuje zmiany.
+            \item System waliduje dane i aktualizuje konfigurację czatu.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów poza walidacją pól.}
+}
+
+\usecasecard{tab:pu24-dodaj-czlonka}{Dodanie członka do czatu grupowego}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik dodaje nowego uczestnika do czatu grupowego.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w czacie grupowym.}
+    \ucpost{Nowy uczestnik został dodany do czatu grupowego.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera listę uczestników czatu grupowego.
+            \item Użytkownik wybiera opcję dodania nowego członka.
+            \item Użytkownik wskazuje użytkownika do dodania i zatwierdza wybór.
+            \item System dodaje wskazanego użytkownika do czatu grupowego.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Operacja nie powiodła się – system informuje o błędzie.
+        \end{enumerate}
+    }
+}

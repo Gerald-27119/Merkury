@@ -10,9 +10,11 @@ import com.merkury.vulcanus.model.entities.forum.Tag;
 import com.merkury.vulcanus.model.mappers.forum.CategoryMapper;
 import com.merkury.vulcanus.model.mappers.forum.TagMapper;
 import com.merkury.vulcanus.model.mappers.forum.PostMapper;
+import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.forum.PostCategoryRepository;
 import com.merkury.vulcanus.model.repositories.forum.PostRepository;
 import com.merkury.vulcanus.model.repositories.forum.PostTagRepository;
+import com.merkury.vulcanus.model.specification.PostSpecification;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
 import com.merkury.vulcanus.utils.ForumContentValidator;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
@@ -20,10 +22,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,6 +38,7 @@ import java.util.Set;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UserEntityRepository userRepository;
     private final PostCategoryRepository postCategoryRepository;
     private final PostTagRepository postTagRepository;
     private final VoteService voteService;
@@ -56,6 +62,41 @@ public class PostService {
         var user = userName != null ? userEntityFetcher.getByUsername(userName) : null;
 
         return postsPage.map(post -> PostMapper.toGeneralDto(post, user));
+    }
+
+    public Page<PostGeneralDto> getFollowedPostsPage(Pageable pageable) throws UserNotFoundByUsernameException {
+        var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
+        var posts = postRepository.findAllFollowedPosts(user.getId(), pageable);
+
+        return posts.map(post -> PostMapper.toGeneralDto(post, user));
+    }
+
+    public Page<PostGeneralDto> getSearchedPostsPage(Pageable pageable, String phrase, String category, List<String> tags, LocalDate fromDate, LocalDate toDate, String author) throws UserNotFoundByUsernameException {
+        Specification<Post> spec = Specification.where(PostSpecification.hasPhrase(phrase))
+                .and(PostSpecification.hasCategory(category))
+                .and(PostSpecification.hasTags(tags))
+                .and(PostSpecification.hasFromDate(fromDate))
+                .and(PostSpecification.hasToDate(toDate))
+                .and(PostSpecification.hasAuthor(author));
+
+        Page<Post> postsPage = postRepository.findAll(spec, pageable);
+        var userName = getAuthenticatedUsernameOrNull();
+        var user = userName != null ? userEntityFetcher.getByUsername(userName) : null;
+
+        return postsPage.map(post -> PostMapper.toGeneralDto(post, user));
+    }
+
+    public List<String> searchPosts(String phrase) {
+        List<Post> searchResults = postRepository.findTop10ByTitleContainingIgnoreCase(phrase);
+
+        return searchResults.stream().map(Post::getTitle).toList();
+    }
+
+    public List<TrendingPostDto> getTrendingPosts(Pageable pageable) {
+        LocalDateTime monthAgo = LocalDateTime.now().minusMonths(1);
+        List<Post> trending = postRepository.findTopTrendingPosts(monthAgo, pageable);
+
+        return trending.stream().map(PostMapper::toTrendingDto).toList();
     }
 
     public void addPost(PostDto dto) throws CategoryNotFoundException, TagNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
@@ -92,12 +133,14 @@ public class PostService {
         postRepository.save(post);
     }
 
+    @Transactional
     public void votePost(Long postId, boolean isUpvote) throws PostNotFoundException, UserNotFoundByUsernameException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
 
         voteService.vote(post, user, isUpvote);
         postRepository.save(post);
+        updateTrendingScore(postId);
     }
 
     public void followPost(Long postId) throws PostNotFoundException, UserNotFoundByUsernameException, InvalidPostOperationException {
@@ -108,8 +151,8 @@ public class PostService {
             throw new InvalidPostOperationException("You can't follow your own post.");
         }
 
-        toggleFollower(post, user);
-        postRepository.save(post);
+        toggleFollowedPost(post, user);
+        userRepository.save(user);
     }
 
     public void reportPost(Long postId, ForumReportDto report) throws PostNotFoundException, UserNotFoundByUsernameException, ContentAlreadyReportedException, OwnContentReportException {
@@ -123,6 +166,7 @@ public class PostService {
     public void increasePostViews(Long postId) throws PostNotFoundException {
         int updated = postRepository.incrementViews(postId);
         if (updated == 0) throw new PostNotFoundException(postId);
+        updateTrendingScore(postId);
     }
 
 
@@ -131,6 +175,14 @@ public class PostService {
         var tags = postTagRepository.findAll();
 
         return new ForumCategoriesAndTagsDto(categories.stream().map(CategoryMapper::toDto).toList(), tags.stream().map(TagMapper::toDto).toList());
+    }
+
+    public List<PostCategoryDto> getAllCategoriesAlphabetically() {
+        return postCategoryRepository.findAllByOrderByNameAsc().stream().map(CategoryMapper::toDto).toList();
+    }
+
+    public List<PostTagDto> getAllTagsAlphabetically() {
+        return postTagRepository.findAllByOrderByNameAsc().stream().map(TagMapper::toDto).toList();
     }
 
     private PostCategory getCategoryByName(String name) throws CategoryNotFoundException {
@@ -159,14 +211,18 @@ public class PostService {
         return viewerUsername;
     }
 
-    private void toggleFollower(Post post, UserEntity user) {
-        var followers = post.getFollowers();
+    private void toggleFollowedPost(Post post, UserEntity user) {
+        var followed = user.getFollowedPosts();
 
-        if (followers.contains(user)) {
-            followers.remove(user);
+        if (followed.contains(post)) {
+            followed.remove(post);
         } else {
-            followers.add(user);
+            followed.add(post);
         }
+    }
+
+    private void updateTrendingScore(Long postId){
+        postRepository.updateTrendingScore(postId);
     }
 
 }

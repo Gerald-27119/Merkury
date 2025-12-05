@@ -1,0 +1,198 @@
+%! Author = Adam
+%! Date = 22/11/2025
+
+\subsubsection{Scenariusze przypadków użycia dla forum}
+
+\usecasecard{tab:pu14-posty-forum}{Przeglądanie postów na forum}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany, Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda listę postów na forum z możliwością sortowania wyników.}
+    \ucpre{Użytkownik znajduje się w module forum.}
+    \ucpost{Lista postów forum jest wyświetlona, a użytkownik może przechodzić do szczegółów wybranego posta.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do widoku listy postów forum.
+            \item System pobiera listę postów i domyślnie wyświetla je w kolejności od najnowszych.
+            \item Użytkownik wybiera sposób sortowania listy.
+            \item System aktualizuje listę postów zgodnie z wybranym kryterium sortowania.
+            \item Użytkownik wybiera post, który chce przeczytać.
+            \item System otwiera szczegółowy widok wybranego posta.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[6a.] System nie może pobrać szczegółów posta – system wyświetla komunikat o błędzie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu-forum-wyszukiwanie-postow}{Wyszukiwanie postów na forum}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik niezalogowany, Użytkownik zalogowany}
+    \ucdesc{Użytkownik wyszukuje posty na forum na podstawie tytułu, kategorii, tagów oraz autora.}
+    \ucpre{Użytkownik znajduje się w module forum lub na stronie wyszukiwarki postów.}
+    \ucpost{Lista postów spełniających zadane kryteria wyszukiwania jest wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera panel wyszukiwania postów na forum.
+            \item Użytkownik określa kryteria wyszukiwania (np. tytuł, kategoria, tagi, autor).
+            \item Użytkownik uruchamia wyszukiwanie.
+            \item System filtruje posty zgodnie z podanymi kryteriami i wyświetla listę wyników.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[4a.] Brak postów spełniających zadane kryteria – system wyświetla informację o braku wyników.
+            \item[4b.] Wystąpił błąd podczas wyszukiwania – system wyświetla komunikat o błędzie i umożliwia ponowną próbę.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu15-dodaj-post}{Dodanie posta na forum}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany, Usługa do przechowywania plików w chmurze}
+    \ucdesc{Użytkownik publikuje nowy post na forum, określając jego treść, kategorię, tagi oraz opcjonalne załączniki.}
+    \ucpre{Użytkownik znajduje się w module forum.}
+    \ucpost{Nowy post jest poprawnie zapisany i widoczny na forum.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję dodania nowego posta.
+            \item Użytkownik wpisuje tytuł i treść posta.
+            \item Użytkownik wybiera kategorię posta.
+            \item (Opcjonalnie) Użytkownik wybiera tagi przypisane do posta.
+            \item (Opcjonalnie) Użytkownik dodaje załączniki (zdjęcia/filmy) do posta.
+            \item Użytkownik publikuje posta.
+            \item System zapisuje posta (oraz poprawne załączniki w chmurze) i wyświetla go na liście postów.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[6a.] Załącznik nie może zostać zapisany lub nie spełnia wymagań (np. zbyt duży rozmiar, nieobsługiwany format) – system informuje użytkownika o błędzie, blokuje publikację posta i wymaga usunięcia lub podmiany problematycznego pliku.
+            \item[6b.] Formularz zawiera błędne lub niekompletne dane (np. brak tytułu lub treści) – system wyświetla komunikat i prosi o poprawę danych przed publikacją.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu16-dodaj-komentarz}{Dodanie komentarza na forum}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik dodaje komentarz pod postem na forum, opcjonalnie z załącznikami (zdjęcia/filmy).}
+    \ucpre{Użytkownik jest zalogowany i widzi szczegóły posta.}
+    \ucpost{Nowy komentarz został zapisany i jest widoczny pod postem.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wpisuje treść komentarza w formularzu pod postem.
+            \item (Opcjonalnie) Użytkownik dodaje załączniki (zdjęcia/filmy) do komentarza.
+            \item Użytkownik publikuje komentarz.
+            \item System zapisuje komentarz (oraz poprawne załączniki) i odświeża listę komentarzy.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Treść komentarza lub załączniki są niepoprawne (np. naruszają walidację) – system wyświetla komunikat o błędzie i blokuje publikację do czasu poprawy danych.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu17-historia-postow}{Przeglądanie historii interakcji z postami}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda historię swoich aktywności na forum (dodane posty, komentarze, reakcje).}
+    \ucpre{Użytkownik jest zalogowany.}
+    \ucpost{Lista interakcji użytkownika z postami jest wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik przechodzi do sekcji historii aktywności.
+            \item System pobiera historię interakcji użytkownika.
+            \item System wyświetla listę interakcji z możliwością filtrowania.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu33-zarzadzaj-komentarzami-forum}{Zarządzanie komentarzami na forum}{%
+    \ucpriority{Niski}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik zarządza komentarzami pod postami forum (edycja, usuwanie, zgłaszanie komentarzy innych użytkowników).}
+    \ucpre{Użytkownik jest zalogowany i ma dostęp do danego wątku forum.}
+    \ucpost{Komentarze zostały zaktualizowane zgodnie z działaniami użytkownika.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera widok komentarzy pod postem.
+            \item Użytkownik wybiera komentarz i odpowiednią akcję (edycja, usunięcie, zgłoszenie).
+            \item System weryfikuje uprawnienia użytkownika oraz zgodność akcji z jego rolą.
+            \item System wykonuje wybraną akcję (np. zapisuje zmiany, usuwa komentarz lub przygotowuje zgłoszenie) i aktualizuje widok.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Użytkownik próbuje zgłosić własny komentarz – system blokuje operację i informuje, że nie można zgłaszać własnych treści.
+            \item[3a.] Użytkownik nie ma wymaganych uprawnień do wykonania wybranej akcji – system blokuje operację i informuje o braku uprawnień.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu35-zglos-komentarz}{Zgłoszenie komentarza naruszającego regulamin}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik zgłasza komentarz na forum jako naruszający regulamin.}
+    \ucpre{Użytkownik widzi komentarz w aplikacji.}
+    \ucpost{Zgłoszenie komentarza zostało zapisane i trafiło do kolejki moderacyjnej.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję „Zgłoś komentarz”.
+            \item Użytkownik wybiera kategorię naruszenia, podaje szczegóły i potwierdza zgłoszenie.
+            \item System zapisuje zgłoszenie i wiąże je z komentarzem oraz zgłaszającym użytkownikiem.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[1a.] Użytkownik próbuje zgłosić własny komentarz – system blokuje operację i wyświetla komunikat, że nie można zgłaszać własnych treści.
+            \item[3a.] Komentarz został już wcześniej zgłoszony – system informuje użytkownika, że komentarz znajduje się już w kolejce moderacyjnej i nie zapisuje kolejnego zgłoszenia.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu36-zglos-posta}{Zgłoszenie posta na forum}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik zgłasza post forum jako naruszający regulamin lub tematykę.}
+    \ucpre{Wyświetlony jest widok posta na forum.}
+    \ucpost{Zgłoszenie posta zostało zapisane}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję „Zgłoś post”.
+            \item Użytkownik wybiera kategorię naruszenia, podaje szczegóły i potwierdza zgłoszenie.
+            \item System zapisuje zgłoszenie i oznacza post jako zgłoszony.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[1a.] Użytkownik próbuje zgłosić własny post – system blokuje operację i wyświetla komunikat, że nie można zgłaszać własnych treści.
+            \item[3a.] Post został już wcześniej zgłoszony – system informuje użytkownika, że post jest już zgłoszony i nie zapisuje kolejnego zgłoszenia.
+        \end{enumerate}
+    }
+}
+
+
+\usecasecard{tab:pu-forum-przegladaj-komentarze}{Przeglądanie komentarzy pod postem}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik niezalogowany, Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda komentarze dodane pod wybranym postem na forum z możliwością zmiany kolejności ich wyświetlania.}
+    \ucpre{Wyświetlany jest szczegółowy widok posta na forum.}
+    \ucpost{Lista komentarzy powiązanych z postem została wyświetlona zgodnie z wybranym kryterium sortowania.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item System pobiera komentarze powiązane z wybranym postem i domyślnie wyświetla je w kolejności od najnowszych.
+            \item Użytkownik wybiera sposób sortowania komentarzy.
+            \item System aktualizuje listę komentarzy zgodnie z wybranym kryterium sortowania.
+            \item Użytkownik przewija listę komentarzy i zapoznaje się z ich treścią.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[1a.] Post nie ma jeszcze komentarzy – system wyświetla informację o braku komentarzy.
+            \item[1b.] Wystąpił błąd podczas pobierania komentarzy – system wyświetla komunikat o błędzie i umożliwia ponowną próbę.
+        \end{enumerate}
+    }
+}

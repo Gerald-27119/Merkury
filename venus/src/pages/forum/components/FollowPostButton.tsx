@@ -14,7 +14,7 @@ export default function FollowPostButton({
     return (
         <div
             onClick={() => onClick(postId!)}
-            className="dark:bg-violetDark bg-violetLight/80 dark:hover:bg-violetDarker hover:bg-violetLight mb-4 flex cursor-pointer items-center gap-1 rounded-full p-2 shadow-lg select-none"
+            className="dark:bg-violetDark bg-violetLight text-darkText dark:hover:bg-violetDarker hover:bg-violetLight mb-4 flex cursor-pointer items-center gap-1 rounded-full p-2 shadow-lg select-none"
         >
             {isFollowed ? (
                 <>

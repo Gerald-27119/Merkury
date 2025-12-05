@@ -1,0 +1,106 @@
+%! Author = Adam
+%! Date = 22/11/2025
+
+\subsubsection{Scenariusze przypadków użycia dla mapy}
+
+\usecasecard{tab:pu8-mapa}{Przeglądanie mapy spotów}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany, Usługa do wyświetlania mapy}
+    \ucdesc{Użytkownik przegląda mapę spotów.}
+    \ucpre{Użytkownik znajduje się w module mapy.}
+    \ucpost{Mapa ze spotami została wyświetlona, a użytkownik może przybliżać, oddalać i przesuwać widok.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item System inicjuje widok mapy z domyślnym obszarem.
+            \item System pobiera listę spotów.
+            \item System rysuje znaczniki spotów na mapie.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Usługa mapy jest niedostępna – system wyświetla komunikat o błędzie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu11-szczegoly-spota}{Otwarcie szczegółów spota}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany, Użytkownik zalogowany}
+    \ucdesc{Użytkownik otwiera widok szczegółów wybranego spota.}
+    \ucpre{Użytkownik widzi mapę spotów.}
+    \ucpost{Wyświetlony został widok szczegółów spota z podstawowymi informacjami oraz jego lokalizacją na mapie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera spota z mapy.
+            \item System pobiera dane szczegółowe spota (informacje opisowe, lokalizacja).
+            \item System otwiera widok szczegółów spota.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Spot nie istnieje (został usunięty lub ukryty) – system informuje użytkownika i powraca do poprzedniego widoku.
+            \item[2b.] Wystąpił błąd podczas pobierania danych spota – system wyświetla komunikat o błędzie i umożliwia ponowną próbę.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu12-komentarze-spota}{Przeglądanie komentarzy do spota}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik niezalogowany}
+    \ucdesc{Użytkownik czyta komentarze pod wybranym spotem.}
+    \ucpre{Wyświetlany jest widok szczegółów spota.}
+    \ucpost{Lista komentarzy do spota została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item System pobiera komentarze powiązane ze spotem.
+            \item System wyświetla komentarze w kolejności chronologicznej lub według popularności.
+            \item Użytkownik przewija listę komentarzy.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[1a.] Spot nie ma jeszcze komentarzy – system wyświetla odpowiednią informację.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu13-pogoda}{Przeglądanie pogody na spocie}{%
+    \ucpriority{Średni}
+    \ucactors{Użytkownik niezalogowany, Usługa danych pogodowych}
+    \ucdesc{Użytkownik sprawdza prognozę pogody dla lokalizacji spota.}
+    \ucpre{Wyświetlany jest widok szczegółów spota.}
+    \ucpost{Prognoza pogody dla spota została wyświetlona.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera zakładkę pogody.
+            \item System wysyła zapytanie do usługi pogodowej z lokalizacją spota.
+            \item System odbiera prognozę i prezentuje ją (temperatura, prędkość wiatru, opady).
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Usługa pogodowa jest niedostępna – system wyświetla komunikat o braku danych pogodowych.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu9-szukaj-na-mapie}{Wyszukiwanie spota na mapie}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany}
+    \ucdesc{Użytkownik wyszukuje spota po nazwie korzystając z pola wyszukiwania na mapie.}
+    \ucpre{Użytkownik widzi mapę spotów.}
+    \ucpost{Mapa zostaje ustawiona na wybranego spota lub listę dopasowań.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wpisuje frazę w polu wyszukiwania na mapie.
+            \item System podpowiada listę pasujących spotów.
+            \item Użytkownik wybiera spota z listy.
+            \item System przenosi użytkownika na mapie do wybranego spota.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Brak wyników dla podanej frazy – system informuje użytkownika o braku dopasowań.
+        \end{enumerate}
+    }
+}

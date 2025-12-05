@@ -1,5 +1,5 @@
 import { createPortal } from "react-dom";
-import ForumCategoryDto from "../../../model/interface/forum/forumCategoryDto";
+import PostCategoryDto from "../../../model/interface/forum/postCategoryDto";
 import PostForm from "../posts/components/PostForm";
 import PostDto from "../../../model/interface/forum/post/postDto";
 import { addPost, editPost } from "../../../http/posts";
@@ -12,7 +12,7 @@ interface ForumAddPostModalProps {
     onClose: () => void;
     isOpen: boolean;
     mode: "create" | "edit";
-    categories: ForumCategoryDto[];
+    categories: PostCategoryDto[];
     tags: TagDto[];
     postToEdit?: PostToEdit | null;
 }
