@@ -33,7 +33,7 @@ export default function SpotGeneralInfo({
     return (
         <div className="mt-5 mb-2 flex-col space-y-6">
             <div className="flex flex-col items-center space-y-2 xl:flex-row xl:justify-between">
-                <p className="text-violetBrightText dark:text-darkText text-2xl">
+                <p className="text-violetBrightText dark:text-darkText 3xl:text-2xl 2xl:text-xl">
                     {name}
                 </p>
                 <div className="flex justify-end space-x-2">
