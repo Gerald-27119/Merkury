@@ -9,8 +9,8 @@ import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import { describe } from "vitest";
-import Photos from "../../../../pages/account/photos/Photos";
 import { act } from "react";
+import Movies from "../../../../pages/account/movies/Movies.tsx";
 
 const queryClient = new QueryClient();
 
@@ -21,7 +21,16 @@ vi.mock("@tanstack/react-query", async () => {
     };
 });
 
-const renderPhotos = () => {
+vi.mock("react-player", () => ({
+    __esModule: true,
+    default: vi.fn((props) => (
+        <div data-testid="user-movie" {...props}>
+            Mocked ReactPlayer
+        </div>
+    )),
+}));
+
+const renderMovies = () => {
     const store = configureStore({
         reducer: {
             account: accountSlice.reducer,
@@ -35,27 +44,27 @@ const renderPhotos = () => {
         <Provider store={store}>
             <MemoryRouter>
                 <QueryClientProvider client={queryClient}>
-                    <Photos />
+                    <Movies />
                 </QueryClientProvider>
             </MemoryRouter>
         </Provider>,
     );
 };
 
-const mockPhotosData = [
+const mockMoviesData = [
     {
         date: "2025-06-25",
         media: [
             {
                 id: 1,
-                src: "https://example.com/photo1.jpg",
+                src: "https://example.com/movie1.jpg",
                 heartsCount: 10,
                 viewsCount: 100,
                 addDate: "2025-06-25",
             },
             {
                 id: 2,
-                src: "https://example.com/photo2.jpg",
+                src: "https://example.com/movie2.jpg",
                 heartsCount: 5,
                 viewsCount: 80,
                 addDate: "2025-06-25",
@@ -67,7 +76,7 @@ const mockPhotosData = [
         media: [
             {
                 id: 3,
-                src: "https://example.com/photo3.jpg",
+                src: "https://example.com/movie3.jpg",
                 heartsCount: 8,
                 viewsCount: 90,
                 addDate: "2025-06-24",
@@ -76,8 +85,8 @@ const mockPhotosData = [
     },
 ];
 
-describe("Photos component unit tests", () => {
-    describe("Photos display photos data correctly", () => {
+describe("Movies component unit tests", () => {
+    describe("Movies display Movies data correctly", () => {
         beforeEach(async () => {
             global.IntersectionObserver = class {
                 constructor(callback) {
@@ -93,7 +102,7 @@ describe("Photos component unit tests", () => {
                 data: {
                     pages: [
                         {
-                            items: mockPhotosData,
+                            items: mockMoviesData,
                             hasNext: false,
                         },
                     ],
@@ -106,38 +115,38 @@ describe("Photos component unit tests", () => {
             });
 
             await act(async () => {
-                renderPhotos();
+                renderMovies();
             });
         });
 
         test("Should render h1 text", () => {
-            expect(screen.getByText(/photos/i)).toBeInTheDocument();
+            expect(screen.getByText(/movies/i)).toBeInTheDocument();
         });
 
         describe("Should display two date", () => {
             test("First date", () => {
                 expect(screen.getByText("25.06.2025")).toBeInTheDocument();
             });
-            test("First date", () => {
+            test("Second date", () => {
                 expect(screen.getByText("24.06.2025")).toBeInTheDocument();
             });
         });
 
-        test("Should render all photos", () => {
-            const images = screen.getAllByTestId("user-photo");
-            expect(images).toHaveLength(3);
+        test("Should render all movies", () => {
+            const movies = screen.getAllByTestId("user-movie");
+            expect(movies).toHaveLength(3);
 
-            expect(images[0]).toHaveAttribute(
+            expect(movies[0]).toHaveAttribute(
                 "src",
-                "https://example.com/photo1.jpg",
+                "https://example.com/movie1.jpg",
             );
-            expect(images[1]).toHaveAttribute(
+            expect(movies[1]).toHaveAttribute(
                 "src",
-                "https://example.com/photo2.jpg",
+                "https://example.com/movie2.jpg",
             );
-            expect(images[2]).toHaveAttribute(
+            expect(movies[2]).toHaveAttribute(
                 "src",
-                "https://example.com/photo3.jpg",
+                "https://example.com/movie3.jpg",
             );
         });
     });
