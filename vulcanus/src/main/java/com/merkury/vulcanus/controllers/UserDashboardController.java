@@ -5,7 +5,6 @@ import com.merkury.vulcanus.features.account.user.dashboard.UserDashboardService
 import com.merkury.vulcanus.model.dtos.account.add.spot.AddSpotPageDto;
 import com.merkury.vulcanus.model.dtos.account.comments.DatedCommentsGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
-import com.merkury.vulcanus.model.dtos.account.media.IsSpotMediaLikedByUserDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
@@ -185,7 +184,7 @@ public class UserDashboardController {
         return ResponseEntity.ok(userDashboardService.getSortedUserMovies(type, from, to, page, size));
     }
 
-    @GetMapping("/user-dashboard/photos/{targetUsername}")
+    @GetMapping("/public/user-dashboard/photos/{targetUsername}")
     public ResponseEntity<DatedMediaGroupPageDto> getAllUserPhotos(@PathVariable String targetUsername,
                                                                    @RequestParam(defaultValue = "0") int page,
                                                                    @RequestParam(defaultValue = "20") int size) throws UnsupportedDateSortTypeException {
