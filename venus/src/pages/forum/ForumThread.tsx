@@ -2,7 +2,6 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import DetailedPost from "./posts/DetailedPost";
 import ReturnButton from "./components/ReturnButton";
-import ForumLayout from "./ForumLayout";
 import { addComment, getCommentsByPostId } from "../../http/post-comments";
 import React, { useEffect, useRef, useState } from "react";
 import { PostCommentSortOption } from "../../model/enum/forum/postCommentSortOption";
@@ -78,7 +77,7 @@ export default function ForumThread({}) {
     const { mutateAsync: followPostMutate } = useAppMutation(followPost, {
         successMessage: "Post is now being followed!",
         loginToAccessMessage: "Login to follow posts",
-        invalidateKeys: [["post", parsedPostId]],
+        invalidateKeys: [["post", parsedPostId], ["followedPosts"]],
     });
 
     const handleAddComment = async (newComment: PostCommentDto) => {
@@ -128,52 +127,47 @@ export default function ForumThread({}) {
     );
 
     return (
-        <ForumLayout>
-            <div className="mx-auto w-xl md:w-2xl lg:w-3xl">
-                <div className="flex justify-between">
-                    <ReturnButton />
-                    {!isPostDetailsLoading && !postDetails?.isAuthor && (
-                        <FollowPostButton
-                            onClick={handlePostFollow}
-                            postId={postDetails?.id}
-                            isFollowed={postDetails?.isFollowed}
-                        />
-                    )}
-                </div>
-
-                <DetailedPost
-                    post={postDetails!}
-                    isLoading={isPostDetailsLoading}
-                    isError={isPostDetailsError}
-                    error={postDetailsError}
-                    onAddCommentClick={handleAddCommentClick}
-                    handleFollow={handlePostFollow}
-                />
-
-                {isCommentFormVisible && (
-                    <PostCommentForm
-                        handleComment={handleAddComment}
-                        onClose={hideCommentForm}
+        <div className="mx-auto w-xl md:w-2xl lg:w-3xl">
+            <div className="flex justify-between">
+                <ReturnButton />
+                {!isPostDetailsLoading && !postDetails?.isAuthor && (
+                    <FollowPostButton
+                        onClick={handlePostFollow}
+                        postId={postDetails?.id}
+                        isFollowed={postDetails?.isFollowed}
                     />
                 )}
-
-                <PostCommentList
-                    postId={postDetails?.id}
-                    comments={comments}
-                    sortOption={sortOption}
-                    onSortChange={setSortOption}
-                    isLoading={isForumCommentPageLoading}
-                    isError={isForumCommentPageError}
-                    error={forumCommentPageError}
-                    areReplies={false}
-                />
-                <div
-                    ref={loadMoreRef}
-                    className="flex items-center justify-center"
-                >
-                    {isFetchingNextPage && <LoadingSpinner />}
-                </div>
             </div>
-        </ForumLayout>
+
+            <DetailedPost
+                post={postDetails!}
+                isLoading={isPostDetailsLoading}
+                isError={isPostDetailsError}
+                error={postDetailsError}
+                onAddCommentClick={handleAddCommentClick}
+                handleFollow={handlePostFollow}
+            />
+
+            {isCommentFormVisible && (
+                <PostCommentForm
+                    handleComment={handleAddComment}
+                    onClose={hideCommentForm}
+                />
+            )}
+
+            <PostCommentList
+                postId={postDetails?.id}
+                comments={comments}
+                sortOption={sortOption}
+                onSortChange={setSortOption}
+                isLoading={isForumCommentPageLoading}
+                isError={isForumCommentPageError}
+                error={forumCommentPageError}
+                areReplies={false}
+            />
+            <div ref={loadMoreRef} className="flex items-center justify-center">
+                {isFetchingNextPage && <LoadingSpinner />}
+            </div>
+        </div>
     );
 }

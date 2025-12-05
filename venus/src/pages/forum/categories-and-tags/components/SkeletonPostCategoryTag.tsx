@@ -1,4 +1,4 @@
-export default function SkeletonForumCategoryTag() {
+export default function SkeletonPostCategoryTag() {
     return (
         <div className="dark:bg-darkBgSoft w-52 rounded-2xl shadow-lg">
             <div className="p-4">
