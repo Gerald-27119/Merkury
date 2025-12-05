@@ -134,8 +134,8 @@ public class PopulateForumService {
                 .postCategory(postCategory1)
                 .tags(Set.of(tag1, tag2))
                 .views(254)
-                .author(forumUser)
-                .publishDate(LocalDateTime.of(2024, 7, 3, 12, 15))
+                .author(forumUsers.get(random.nextInt(forumUsers.size())))
+                .publishDate(LocalDateTime.now().minusDays(2))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -148,8 +148,8 @@ public class PopulateForumService {
                 .postCategory(postCategory1)
                 .tags(Set.of(tag1))
                 .views(403)
-                .author(forumUser)
-                .publishDate(LocalDateTime.of(2024, 8, 22, 10, 20))
+                .author(forumUsers.get(random.nextInt(forumUsers.size())))
+                .publishDate(LocalDateTime.now().minusDays(5))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -162,8 +162,8 @@ public class PopulateForumService {
                 .postCategory(postCategory6)
                 .tags(Set.of(tag3))
                 .views(189)
-                .author(forumUser)
-                .publishDate(LocalDateTime.of(2024, 6, 5, 9, 10))
+                .author(forumUsers.get(random.nextInt(forumUsers.size())))
+                .publishDate(LocalDateTime.now().minusDays(3))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -177,8 +177,8 @@ public class PopulateForumService {
                 .postCategory(postCategory6)
                 .tags(new HashSet<>())
                 .views(327)
-                .author(forumUser)
-                .publishDate(LocalDateTime.of(2024, 9, 19, 14, 35))
+                .author(forumUsers.get(random.nextInt(forumUsers.size())))
+                .publishDate(LocalDateTime.now().minusDays(6))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -193,8 +193,8 @@ public class PopulateForumService {
                 .postCategory(postCategory4)
                 .tags(Set.of(tag4))
                 .views(518)
-                .author(forumUser)
-                .publishDate(LocalDateTime.of(2024, 10, 30, 17, 5))
+                .author(forumUsers.get(random.nextInt(forumUsers.size())))
+                .publishDate(LocalDateTime.now().minusDays(1))
                 .comments(new ArrayList<>())
                 .build();
 

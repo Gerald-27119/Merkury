@@ -36,4 +36,6 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, Long> {
 
     Slice<UserEntity> findAllByUsernameContainingIgnoreCaseAndUsernameNotIn(String usernamePart, Pageable pageable, List<String> usernames);
 
+    List<UserEntity> findTop10ByUsernameContainingIgnoreCase(String usernamePart);
+
 }

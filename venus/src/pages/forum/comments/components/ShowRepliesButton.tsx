@@ -14,7 +14,7 @@ export default function ShowRepliesButton({
 }: ShowRepliesButtonProps) {
     return (
         <div
-            className="flex cursor-pointer items-center p-2 text-lg text-blue-400 hover:underline"
+            className="flex cursor-pointer items-center p-2 text-lg text-blue-400 select-none hover:underline"
             onClick={onClick}
         >
             <MdKeyboardArrowDown

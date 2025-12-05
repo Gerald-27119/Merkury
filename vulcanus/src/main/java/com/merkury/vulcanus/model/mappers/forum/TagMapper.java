@@ -1,6 +1,6 @@
 package com.merkury.vulcanus.model.mappers.forum;
 
-import com.merkury.vulcanus.model.dtos.forum.ForumTagDto;
+import com.merkury.vulcanus.model.dtos.forum.PostTagDto;
 import com.merkury.vulcanus.model.entities.forum.Tag;
 import jakarta.validation.constraints.NotNull;
 
@@ -10,8 +10,8 @@ public class TagMapper {
 
     }
 
-    public static ForumTagDto toDto(@NotNull Tag tag) {
-        return ForumTagDto.builder()
+    public static PostTagDto toDto(@NotNull Tag tag) {
+        return PostTagDto.builder()
                 .id(tag.getId())
                 .name(tag.getName())
                 .build();
