@@ -10,7 +10,7 @@ export function calculateRateStarSize(
     screenWidth: number,
     screenHeight: number,
 ): number {
-    if (screenHeight < 1080 && screenWidth < 1920) return 21;
+    if (screenHeight <= 1080 && screenWidth <= 1920) return 21;
     else if (screenHeight < 1440 && screenWidth < 2560) return 25;
     else return 27;
 }
