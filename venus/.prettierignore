@@ -1,0 +1,5 @@
+node_modules
+dist
+build
+
+src/model/interface/spot/expanded-media-gallery/spotExpandedMediaGalleryPage.ts

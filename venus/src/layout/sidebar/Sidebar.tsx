@@ -22,8 +22,8 @@ export default function Sidebar() {
     const isStickyLayoutPage = isAccountPage || isChatPage || isHomePage;
 
     const allLinks = isLogged
-        ? [...staticLinks, ...userLoggedLinks]
-        : [...staticLinks];
+        ? [...staticLinks(isLogged), ...userLoggedLinks]
+        : [...staticLinks(isLogged)];
 
     const optionsLinks = getOptionsLinks(isLogged, isDark);
 
