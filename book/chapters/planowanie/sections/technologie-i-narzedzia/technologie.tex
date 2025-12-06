@@ -112,10 +112,18 @@ Poniżej przedstawiono stos technologiczny zastosowany w projekcie.
     \end{itemize}
     \item \textbf{Konteneryzacja}
     \begin{itemize}
-        \item \textbf{Docker}
+        \item \textbf{Docker} \textendash \space to silinik do konteneryzacji oprogramowania.
+        Tworzy środowisko oddzielone od systemu hosta, w którym na podstawie obrazów programów tworzone są ich kontenery,
+        czyli niezależne ich instancje.
+        Docker pobiera wszystkie niezbędne dependnecje dla danego kontenera, bez potrzeby uruchamiania osobnego systemu operacyjnego,
+        dzięki czemu kontenery są znacznie lżejsze niż maszyny wirtualne.
+        Konteneryzacja pozwala na uruchomienie oprogramowania na różnych komputerach dokładnie w taki sam sposób, rozwiązuje to
+        problem \enquote{na mojej maszynie działa}.
+        Członkowie zespołu zapoznali się tą technologią w trakcie realizacji specjalizacji Aplikacje Internetowe.
     \end{itemize}
     \item \textbf{Baza danych}
     \begin{itemize}
         \item \textbf{PostgreSQL} \textendash \space system zarządzania relacyjnymi baz danych, zgodny ze standarden SQL.
+        Wybrano relacyjną bazę danych, ponieważ doskonale wpisuje się ona w planowaną strukturę danych.
     \end{itemize}
 \end{itemize}
