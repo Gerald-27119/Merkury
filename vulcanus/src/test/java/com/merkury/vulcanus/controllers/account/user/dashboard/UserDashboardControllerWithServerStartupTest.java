@@ -6,6 +6,7 @@ import com.merkury.vulcanus.model.dtos.account.media.DatedMediaGroupPageDto;
 import com.merkury.vulcanus.model.dtos.account.profile.ExtendedUserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.profile.UserProfileDto;
 import com.merkury.vulcanus.model.dtos.account.settings.UserDataDto;
+import com.merkury.vulcanus.model.dtos.account.settings.UserEditDataDto;
 import com.merkury.vulcanus.model.dtos.account.social.SocialPageDto;
 import com.merkury.vulcanus.model.dtos.account.spots.FavoriteSpotPageDto;
 import com.merkury.vulcanus.model.dtos.user.UserLoginDto;
@@ -21,6 +22,7 @@ import com.merkury.vulcanus.model.enums.Provider;
 import com.merkury.vulcanus.model.enums.UserRole;
 import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
+import com.merkury.vulcanus.model.enums.user.dashboard.UserSettingsType;
 import com.merkury.vulcanus.model.repositories.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,9 +31,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.util.LinkedMultiValueMap;
 
 import java.util.List;
 
@@ -113,10 +117,18 @@ class UserDashboardControllerWithServerStartupTest {
                 .userRole(UserRole.ROLE_USER)
                 .build();
 
+        var friend4 = UserEntity.builder()
+                .username("friend4")
+                .email("friend4@example.com")
+                .password(passwordEncoder.encode("pass4"))
+                .userRole(UserRole.ROLE_USER)
+                .build();
+
         mainUser = userEntityRepository.save(mainUser);
         friend1 = userEntityRepository.save(friend1);
         friend2 = userEntityRepository.save(friend2);
         friend3 = userEntityRepository.save(friend3);
+        friend4 = userEntityRepository.save(friend4);
 
         spot1 = Spot.builder()
                 .name("Spot 1")
@@ -253,6 +265,21 @@ class UserDashboardControllerWithServerStartupTest {
                         .status(UserFriendStatus.ACCEPTED)
                         .build()
         );
+        friendshipRepository.save(
+                Friendship.builder()
+                        .user(mainUser)
+                        .friend(friend4)
+                        .status(UserFriendStatus.PENDING_SENT)
+                        .build()
+        );
+        friendshipRepository.save(
+                Friendship.builder()
+                        .user(friend4)
+                        .friend(mainUser)
+                        .status(UserFriendStatus.PENDING_RECEIVED)
+                        .build()
+        );
+
 
         var loginDto = new UserLoginDto("testuser", "testpass");
         HttpHeaders headers = new HttpHeaders();
@@ -273,7 +300,7 @@ class UserDashboardControllerWithServerStartupTest {
 
     @Test
     @DisplayName("GET /user-dashboard/profile - should return own user profile")
-    void getUserOwnProfile_shouldReturnOwnProfile() throws Exception {
+    void getUserOwnProfile_shouldReturnOwnProfile() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", jwtCookieHeader);
         var entity = new HttpEntity<Void>(headers);
@@ -315,14 +342,74 @@ class UserDashboardControllerWithServerStartupTest {
 
     @Test
     @DisplayName("PATCH /user-dashboard/profile - should change user profile photo")
-    void changeUserProfilePhoto_shouldUpdateProfilePhoto() throws Exception {
+    void changeUserProfilePhoto_shouldUpdateProfilePhoto() {
+        HttpHeaders getHeaders = new HttpHeaders();
+        getHeaders.add("Cookie", jwtCookieHeader);
+        var getEntity = new HttpEntity<Void>(getHeaders);
+
+        var initialResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/profile",
+                HttpMethod.GET,
+                getEntity,
+                UserProfileDto.class
+        );
+
+        var initialBody = initialResponse.getBody();
+
+        assertAll(() -> assertThat(initialResponse.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(initialBody).isNotNull());
+
+        var oldPhotoUrl = initialBody.profilePhoto();
+
+        var fakeImageBytes = "fake image content".getBytes();
+
+        var multipartBody = new LinkedMultiValueMap<String, Object>();
+        multipartBody.add("profilePhoto",
+                new ByteArrayResource(fakeImageBytes) {
+                    @Override
+                    public String getFilename() {
+                        return "avatar.png";
+                    }
+                }
+        );
+
+        HttpHeaders patchHeaders = new HttpHeaders();
+        patchHeaders.add("Cookie", jwtCookieHeader);
+        patchHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        var patchEntity = new HttpEntity<>(multipartBody, patchHeaders);
+
+        var patchResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/profile",
+                HttpMethod.PATCH,
+                patchEntity,
+                Void.class
+        );
+
+        assertThat(patchResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        var finalResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/profile",
+                HttpMethod.GET,
+                getEntity,
+                UserProfileDto.class
+        );
+
+        var finalBody = finalResponse.getBody();
+
+        assertAll(
+                () -> assertThat(finalResponse.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(finalBody).isNotNull(),
+                () -> assertThat(finalBody.profilePhoto()).isNotNull(),
+                () -> assertThat(finalBody.profilePhoto()).isNotEqualTo(oldPhotoUrl)
+        );
     }
 
     // ---------- FRIENDS / FOLLOWERS / FOLLOWED ----------
 
     @Test
     @DisplayName("GET /user-dashboard/friends - should return own friends page")
-    void getUserOwnFriends_shouldReturnFriendsPage() throws Exception {
+    void getUserOwnFriends_shouldReturnFriendsPage() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", jwtCookieHeader);
         var entity = new HttpEntity<Void>(headers);
@@ -338,13 +425,13 @@ class UserDashboardControllerWithServerStartupTest {
 
         assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                 () -> assertThat(body.items()).isNotNull(),
-                () -> assertThat(body.items().size()).isEqualTo(3),
+                () -> assertThat(body.items()).hasSize(3),
                 () -> assertThat(body.items().getFirst().username()).isEqualTo("friend1"));
     }
 
     @Test
     @DisplayName("GET /public/user-dashboard/friends/{targetUsername} - should return friends for viewer")
-    void getUserFriendsForViewer_shouldReturnFriendsForTargetUser() throws Exception {
+    void getUserFriendsForViewer_shouldReturnFriendsForTargetUser() {
         HttpHeaders headers = new HttpHeaders();
         var entity = new HttpEntity<Void>(headers);
 
@@ -360,23 +447,77 @@ class UserDashboardControllerWithServerStartupTest {
 
         assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                 () -> assertThat(body.items()).isNotNull(),
-                () -> assertThat(body.items().size()).isEqualTo(3),
+                () -> assertThat(body.items()).hasSize(3),
                 () -> assertThat(body.items().getFirst().username()).isEqualTo("friend1"));
     }
 
     @Test
     @DisplayName("PATCH /user-dashboard/friends - should edit user friends relation")
-    void editUserFriends_shouldEditFriendRelation() throws Exception {
+    void editUserFriends_shouldEditFriendRelation() {
+        var before = friendshipRepository.findByUserAndFriend(mainUser,
+                userEntityRepository.findByUsername("friend1").orElseThrow());
+        assertThat(before).isPresent();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cookie", jwtCookieHeader);
+        var entity = new HttpEntity<Void>(headers);
+
+        String url = "http://localhost:" + port
+                + "/user-dashboard/friends"
+                + "?friendUsername=friend1"
+                + "&type=REMOVE";
+
+        var response = restTemplate.exchange(
+                url,
+                HttpMethod.PATCH,
+                entity,
+                Void.class
+        );
+
+        var after = friendshipRepository.findByUserAndFriend(mainUser,
+                userEntityRepository.findByUsername("friend1").orElseThrow());
+
+        assertAll(
+                () -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(after).isEmpty()
+        );
     }
 
     @Test
     @DisplayName("PATCH /user-dashboard/friends/change-status - should change friend status")
-    void changeUserFriendsStatus_shouldChangeFriendStatus() throws Exception {
+    void changeUserFriendsStatus_shouldChangeFriendStatus() {
+        var before = friendshipRepository.findByUserAndFriend(mainUser,
+                userEntityRepository.findByUsername("friend4").orElseThrow());
+        assertThat(before).isPresent();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cookie", jwtCookieHeader);
+        var entity = new HttpEntity<Void>(headers);
+
+        String url = "http://localhost:" + port
+                + "/user-dashboard/friends/change-status"
+                + "?friendUsername=friend4"
+                + "&status=ACCEPTED";
+
+        var response = restTemplate.exchange(
+                url,
+                HttpMethod.PATCH,
+                entity,
+                Void.class
+        );
+
+        var after = friendshipRepository.findByUserAndFriend(mainUser,
+                userEntityRepository.findByUsername("friend4").orElseThrow());
+
+        assertAll(
+                () -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(after.get().getStatus()).isEqualTo(UserFriendStatus.ACCEPTED)
+        );
     }
 
     @Test
     @DisplayName("GET /user-dashboard/followers - should return own followers page")
-    void getUserOwnFollowers_shouldReturnFollowersPage() throws Exception {
+    void getUserOwnFollowers_shouldReturnFollowersPage() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", jwtCookieHeader);
         var entity = new HttpEntity<Void>(headers);
@@ -392,12 +533,12 @@ class UserDashboardControllerWithServerStartupTest {
 
         assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                 () -> assertThat(body.items()).isNotNull(),
-                () -> assertThat(body.items().size()).isEqualTo(0));
+                () -> assertThat(body.items()).isEmpty());
     }
 
     @Test
     @DisplayName("GET /public/user-dashboard/followers/{targetUsername} - should return followers for viewer")
-    void getUserFollowersForViewer_shouldReturnFollowersForTargetUser() throws Exception {
+    void getUserFollowersForViewer_shouldReturnFollowersForTargetUser() {
         HttpHeaders headers = new HttpHeaders();
         var entity = new HttpEntity<Void>(headers);
 
@@ -413,12 +554,12 @@ class UserDashboardControllerWithServerStartupTest {
 
         assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                 () -> assertThat(body.items()).isNotNull(),
-                () -> assertThat(body.items().size()).isEqualTo(0));
+                () -> assertThat(body.items()).isEmpty());
     }
 
     @Test
     @DisplayName("GET /user-dashboard/followed - should return own followed users page")
-    void getUserOwnFollowed_shouldReturnFollowedPage() throws Exception {
+    void getUserOwnFollowed_shouldReturnFollowedPage() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", jwtCookieHeader);
         var entity = new HttpEntity<Void>(headers);
@@ -434,12 +575,12 @@ class UserDashboardControllerWithServerStartupTest {
 
         assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                 () -> assertThat(body.items()).isNotNull(),
-                () -> assertThat(body.items().size()).isEqualTo(0));
+                () -> assertThat(body.items()).isEmpty());
     }
 
     @Test
     @DisplayName("GET /public/user-dashboard/followed/{targetUsername} - should return followed for viewer")
-    void getUserFollowedForViewer_shouldReturnFollowedForTargetUser() throws Exception {
+    void getUserFollowedForViewer_shouldReturnFollowedForTargetUser() {
         HttpHeaders headers = new HttpHeaders();
         var entity = new HttpEntity<Void>(headers);
 
@@ -455,29 +596,97 @@ class UserDashboardControllerWithServerStartupTest {
 
         assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                 () -> assertThat(body.items()).isNotNull(),
-                () -> assertThat(body.items().size()).isEqualTo(0));
+                () -> assertThat(body.items()).isEmpty());
     }
 
     @Test
     @DisplayName("GET /user-dashboard/friends/find - should search users by username")
-    void searchUsersByUsername_shouldReturnSearchResults() throws Exception {
+    void searchUsersByUsername_shouldReturnSearchResults() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cookie", jwtCookieHeader);
+        var entity = new HttpEntity<Void>(headers);
+
+        var response = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/friends/find?query=friend",
+                HttpMethod.GET,
+                entity,
+                SocialPageDto.class
+        );
+
+        var body = response.getBody();
+
+        assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(body.items()).isNotNull(),
+                () -> assertThat(body.items()).hasSize(4),
+                () -> assertThat(body.items().getFirst().username()).isEqualTo("friend1"));
     }
 
     @Test
     @DisplayName("GET /user-dashboard/friends/invites - should return all friend invites")
-    void getAllFriendInvites_shouldReturnInvitesPage() throws Exception {
+    void getAllFriendInvites_shouldReturnInvitesPage() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cookie", jwtCookieHeader);
+        var entity = new HttpEntity<Void>(headers);
+
+        var response = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/friends/invites",
+                HttpMethod.GET,
+                entity,
+                SocialPageDto.class
+        );
+
+        var body = response.getBody();
+
+        assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(body.items()).isEmpty());
     }
 
     @Test
     @DisplayName("PATCH /user-dashboard/followed - should edit followed users")
-    void editUserFollowed_shouldEditFollowedRelation() throws Exception {
+    void editUserFollowed_shouldEditFollowedRelation() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cookie", jwtCookieHeader);
+        var entity = new HttpEntity<Void>(headers);
+
+        var beforeResp = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/followed",
+                HttpMethod.GET,
+                entity,
+                SocialPageDto.class
+        );
+        assertAll(() -> assertThat(beforeResp.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(beforeResp.getBody().items()).isEmpty());
+
+        String url = "http://localhost:" + port
+                + "/user-dashboard/followed"
+                + "?followedUsername=friend1"
+                + "&type=ADD";
+
+        var patchResp = restTemplate.exchange(
+                url,
+                HttpMethod.PATCH,
+                entity,
+                Void.class
+        );
+        assertThat(patchResp.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        var afterResp = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/followed",
+                HttpMethod.GET,
+                entity,
+                SocialPageDto.class
+        );
+        assertAll(() -> assertThat(afterResp.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(afterResp.getBody().items())
+                        .extracting("username")
+                        .contains("friend1"));
     }
 
     // ---------- FAVORITE SPOTS ----------
 
     @Test
     @DisplayName("GET /user-dashboard/favorite-spots - should return favorite spots page")
-    void getAllUserFavoritesSpots_shouldReturnFavoriteSpots() throws Exception {
+    void getAllUserFavoritesSpots_shouldReturnFavoriteSpots() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", jwtCookieHeader);
         var entity = new HttpEntity<Void>(headers);
@@ -493,20 +702,69 @@ class UserDashboardControllerWithServerStartupTest {
 
         assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                 () -> assertThat(body.items()).isNotNull(),
-                () -> assertThat(body.items().size()).isEqualTo(2),
-                ()-> assertThat(body.items().getFirst().name()).isEqualTo("Spot 1"));
+                () -> assertThat(body.items()).hasSize(2),
+                () -> assertThat(body.items().getFirst().name()).isEqualTo("Spot 1"));
     }
 
     @Test
     @DisplayName("PATCH /user-dashboard/favorite-spots - should edit favorite spot list")
-    void editFavoriteSpotList_shouldEditFavoriteSpots() throws Exception {
+    void editFavoriteSpotList_shouldEditFavoriteSpots() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cookie", jwtCookieHeader);
+        var entity = new HttpEntity<Void>(headers);
+
+        var beforeResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/favorite-spots?type=FAVORITE",
+                HttpMethod.GET,
+                entity,
+                FavoriteSpotPageDto.class
+        );
+
+        var beforeBody = beforeResponse.getBody();
+
+        assertAll(
+                () -> assertThat(beforeResponse.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(beforeBody).isNotNull(),
+                () -> assertThat(beforeBody.items()).hasSize(2)
+        );
+
+        String url = "http://localhost:" + port
+                + "/user-dashboard/favorite-spots"
+                + "?type=FAVORITE"
+                + "&spotId=" + spot2.getId()
+                + "&operationType=REMOVE";
+
+        var patchResponse = restTemplate.exchange(
+                url,
+                HttpMethod.PATCH,
+                entity,
+                Void.class
+        );
+
+        assertThat(patchResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        var afterResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/favorite-spots?type=FAVORITE",
+                HttpMethod.GET,
+                entity,
+                FavoriteSpotPageDto.class
+        );
+
+        var afterBody = afterResponse.getBody();
+
+        assertAll(
+                () -> assertThat(afterResponse.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(afterBody).isNotNull(),
+                () -> assertThat(afterBody.items()).hasSize(1),
+                () -> assertThat(afterBody.items().getFirst().name()).isEqualTo("Spot 1")
+        );
     }
 
     // ---------- MEDIA (PHOTOS / MOVIES / COMMENTS) ----------
 
     @Test
     @DisplayName("GET /user-dashboard/photos - should return sorted user photos")
-    void getSortedUserPhotos_shouldReturnPhotosByDateSortType() throws Exception {
+    void getSortedUserPhotos_shouldReturnPhotosByDateSortType() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", jwtCookieHeader);
         var entity = new HttpEntity<Void>(headers);
@@ -522,13 +780,13 @@ class UserDashboardControllerWithServerStartupTest {
 
         assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                 () -> assertThat(body.items()).isNotNull(),
-                () -> assertThat(body.items().size()).isEqualTo(1),
-                ()-> assertThat(body.items().getFirst().media().getFirst().heartsCount()).isEqualTo(0));
+                () -> assertThat(body.items()).hasSize(1),
+                () -> assertThat(body.items().getFirst().media().getFirst().heartsCount()).isZero());
     }
 
     @Test
     @DisplayName("GET /user-dashboard/movies - should return sorted user movies")
-    void getSortedUserMovies_shouldReturnMoviesByDateSortType() throws Exception {
+    void getSortedUserMovies_shouldReturnMoviesByDateSortType() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", jwtCookieHeader);
         var entity = new HttpEntity<Void>(headers);
@@ -544,12 +802,12 @@ class UserDashboardControllerWithServerStartupTest {
 
         assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                 () -> assertThat(body.items()).isNotNull(),
-                () -> assertThat(body.items().size()).isEqualTo(0));
+                () -> assertThat(body.items()).isEmpty());
     }
 
     @Test
     @DisplayName("GET /user-dashboard/comments - should return sorted user comments")
-    void getSortedUserComments_shouldReturnCommentsByDateSortType() throws Exception {
+    void getSortedUserComments_shouldReturnCommentsByDateSortType() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", jwtCookieHeader);
         var entity = new HttpEntity<Void>(headers);
@@ -565,13 +823,13 @@ class UserDashboardControllerWithServerStartupTest {
 
         assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                 () -> assertThat(body.items()).isNotNull(),
-                () -> assertThat(body.items().size()).isEqualTo(2),
-                ()-> assertThat(body.items().getFirst().comments().getFirst().spotName()).isEqualTo("Spot 1"));
+                () -> assertThat(body.items()).hasSize(2),
+                () -> assertThat(body.items().getFirst().comments().getFirst().spotName()).isEqualTo("Spot 2"));
     }
 
     @Test
     @DisplayName("GET /public/user-dashboard/photos/{targetUsername} - should return all user photos for viewer")
-    void getAllUserPhotos_shouldReturnPhotosForTargetUser() throws Exception {
+    void getAllUserPhotos_shouldReturnPhotosForTargetUser() {
         HttpHeaders headers = new HttpHeaders();
         var entity = new HttpEntity<Void>(headers);
 
@@ -587,20 +845,74 @@ class UserDashboardControllerWithServerStartupTest {
 
         assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                 () -> assertThat(body.items()).isNotNull(),
-                () -> assertThat(body.items().size()).isEqualTo(1),
-                ()-> assertThat(body.items().getFirst().media().getFirst().heartsCount()).isEqualTo(0));
+                () -> assertThat(body.items()).hasSize(1),
+                () -> assertThat(body.items().getFirst().media().getFirst().heartsCount()).isZero());
     }
 
     // ---------- SETTINGS ----------
 
     @Test
     @DisplayName("PATCH /user-dashboard/settings - should edit user settings")
-    void editUserSettings_shouldUpdateSettings() throws Exception {
+    void editUserSettings_shouldUpdateSettings() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cookie", jwtCookieHeader);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        var editDto = new UserEditDataDto(
+                null,
+                null,
+                "newusername",
+                Provider.NONE,
+                null,
+                null,
+                UserSettingsType.USERNAME
+        );
+
+        var patchEntity = new HttpEntity<>(editDto, headers);
+
+        var patchResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/settings",
+                HttpMethod.PATCH,
+                patchEntity,
+                Void.class
+        );
+
+        assertThat(patchResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        var setCookieHeaders = patchResponse.getHeaders().get(HttpHeaders.SET_COOKIE);
+        assertThat(setCookieHeaders).isNotNull();
+
+        String newJwtCookie = setCookieHeaders.stream()
+                .filter(c -> c.contains("JWT_token="))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("JWT_token cookie not found in Set-Cookie headers"));
+
+        HttpHeaders getHeaders = new HttpHeaders();
+        getHeaders.add("Cookie", newJwtCookie);
+        var getEntity = new HttpEntity<Void>(getHeaders);
+
+        var getResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/settings",
+                HttpMethod.GET,
+                getEntity,
+                UserDataDto.class
+        );
+
+        var body = getResponse.getBody();
+
+        assertAll(
+                () -> assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(body).isNotNull(),
+                () -> assertThat(body.username()).isEqualTo("newusername"),
+                () -> assertThat(body.email()).isEqualTo("test@example.com"),
+                () -> assertThat(body.provider()).isEqualTo(Provider.NONE)
+        );
     }
+
 
     @Test
     @DisplayName("GET /user-dashboard/settings - should return user data")
-    void getUserData_shouldReturnUserSettingsData() throws Exception {
+    void getUserData_shouldReturnUserSettingsData() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", jwtCookieHeader);
         var entity = new HttpEntity<Void>(headers);
@@ -625,7 +937,7 @@ class UserDashboardControllerWithServerStartupTest {
 
     @Test
     @DisplayName("GET /user-dashboard/add-spot - should return page of spots added by user")
-    void getAllSpotsAddedByUser_shouldReturnAddedSpotsPage() throws Exception {
+    void getAllSpotsAddedByUser_shouldReturnAddedSpotsPage() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", jwtCookieHeader);
         var entity = new HttpEntity<Void>(headers);
@@ -641,20 +953,101 @@ class UserDashboardControllerWithServerStartupTest {
 
         assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                 () -> assertThat(body).isNotNull(),
-                () -> assertThat(body.items().size()).isEqualTo(3),
+                () -> assertThat(body.items()).hasSize(3),
                 () -> assertThat(body.items().getFirst().name()).isEqualTo("Spot 3"));
     }
 
     @Test
     @DisplayName("POST /user-dashboard/add-spot - should add new spot with media")
-    void addSpot_shouldCreateNewSpotWithMedia() throws Exception {
+    void addSpot_shouldCreateNewSpotWithMedia() {
+        HttpHeaders beforeHeaders = new HttpHeaders();
+        beforeHeaders.add("Cookie", jwtCookieHeader);
+        var beforeEntity = new HttpEntity<Void>(beforeHeaders);
+
+        var beforeResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/add-spot",
+                HttpMethod.GET,
+                beforeEntity,
+                AddSpotPageDto.class
+        );
+
+        var beforeBody = beforeResponse.getBody();
+
+        assertAll(
+                () -> assertThat(beforeResponse.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(beforeBody).isNotNull(),
+                () -> assertThat(beforeBody.items()).hasSize(3)
+        );
+
+        String spotJson = """
+            {
+              "name": "New Test Spot",
+              "description": "Test description",
+              "country": "Country X",
+              "region": "Region X",
+              "city": "City X",
+              "street": "Street X",
+              "borderPoints": [
+                { "x": 40.790000, "y": -73.980000 },
+                { "x": 40.791000, "y": -73.981000 }
+              ]
+            }
+            """;
+
+        var fakeImageBytes = "fake image content for new spot".getBytes();
+
+        var multipartBody = new LinkedMultiValueMap<String, Object>();
+
+        multipartBody.add("spot", spotJson);
+
+        multipartBody.add("media",
+                new ByteArrayResource(fakeImageBytes) {
+                    @Override
+                    public String getFilename() {
+                        return "new-spot-photo.png";
+                    }
+                }
+        );
+
+        HttpHeaders postHeaders = new HttpHeaders();
+        postHeaders.add("Cookie", jwtCookieHeader);
+        postHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        var postEntity = new HttpEntity<>(multipartBody, postHeaders);
+
+        var postResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/add-spot",
+                HttpMethod.POST,
+                postEntity,
+                Void.class
+        );
+
+        assertThat(postResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        var afterResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/add-spot",
+                HttpMethod.GET,
+                beforeEntity,
+                AddSpotPageDto.class
+        );
+
+        var afterBody = afterResponse.getBody();
+
+        assertAll(
+                () -> assertThat(afterResponse.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(afterBody).isNotNull(),
+                () -> assertThat(afterBody.items()).hasSize(4),
+                () -> assertThat(afterBody.items())
+                        .extracting("name")
+                        .contains("New Test Spot")
+        );
     }
 
     // ---------- COORDINATES ----------
 
     @Test
     @DisplayName("GET /user-dashboard/add-spot/coordinates - should return coordinates for query")
-    void getCoordinates_shouldReturnBorderPointMono() throws Exception {
+    void getCoordinates_shouldReturnBorderPointMono() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", jwtCookieHeader);
         var entity = new HttpEntity<Void>(headers);
