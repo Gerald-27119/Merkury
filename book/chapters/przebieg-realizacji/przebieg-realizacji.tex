@@ -83,13 +83,11 @@ wszyscy członkowie zespołu.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Adam Langmesser}
-    \item Rozpoczęcie prac nad modułem logowania i rejestracji
-    użytkownika po stronie backendu; logika ta była następnie
-    kilkukrotnie rozwijana i refaktoryzowana w kolejnych etapach
-    projektu.
-    \item Implementacja obsługi przypadku, w którym podczas rejestracji
-    wybrana nazwa użytkownika jest już zajęta (walidacja unikalności
-    loginu oraz odpowiednie komunikaty błędów).
+    \item Implementacja podstawowej strony powitalnej na frontendzie.
+    \item Implementacja podstaw logiki logowania i rejestracji
+    użytkownika po stronie backendu.
+    \item Dodanie obsługi przypadku, w którym podczas rejestracji
+    wybrana nazwa użytkownika jest już zajęta.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
@@ -108,14 +106,15 @@ wszyscy członkowie zespołu.
 \subsection*{Wrzesień 2024}
 
 \begin{zadaniaosoby}{Adam Langmesser}
+    \item Dodanie docker-compose dla backendu i bazy danych.
     \item Dodanie cyklicznego testu sprawdzającego, czy backend
     uruchamiany w środowisku \texttt{docker-compose} działa poprawnie
-    i odpowiada na podstawowe żądania, co ułatwiło wczesne wykrywanie
-    problemów konfiguracyjnych.
+    i odpowiada na podstawowe żądania.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
     \item Dodanie przycisków na frontendzie do rejestracji kontem Google lub Github
+    \item Poprawa logiki obsługi JWT.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
@@ -141,6 +140,10 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
     \item Formalny wybór tematu projektu inżynierskiego.
 \end{zadaniaosoby}
 
+\begin{zadaniaosoby}{Adam Langmesser}
+    \item Zaprezentowanie zespołowi przykłądowych testów integracyjnych oraz E2E na backendzie.
+\end{zadaniaosoby}
+
 \begin{zadaniaosoby}{Mateusz Redosz}
     \item Poprawa konfiguracji \gls{cors} na backendzie, tak aby aplikacja
     frontendowa mogła komunikować się z serwerem w sposób bezpieczny
@@ -152,7 +155,8 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
 
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
     \item Implementacja logowania \gls{oauth} z wykorzystaniem Google
-    i GitHub po stronie backendu oraz integracja z frontem.
+    i GitHub po stronie backendu oraz integracja z frontendem.
+    \item Napisanie testów na backendzie do \gls{oauth}.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
@@ -166,22 +170,18 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
     \item Implementacja demonstracyjnej mapy z wykorzystaniem
     biblioteki \gls{leaflet} – prototyp miał na celu pokazanie zespołowi
     możliwości interaktywnej mapy.
-    Ze względu na ograniczone możliwości customizacji wyglądu
-    biblioteki zdecydowano się później na zmianę dostawcy
-    kafelków mapowych na usługę
     \item Poprawki konfiguracji narzędzia \gls{eslint}
     po stronie frontendu.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
-    \item Dalsze poprawki obsługi \gls{jwt} na backendzie oraz logowania
+    \item Dalsze poprawki obsługi \gls{jwt} na backendzie oraz dodanie logowania
     błędów związanych z procesem logowania i rejestracji.
+    \item Implementacja przykładowych testów E2E na frontendzie.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Poprawki działania logowania użytkownika po stronie backendu
-    i frontendu, obejmujące obsługę błędów oraz komunikaty
-    dla użytkownika.
+    \item Poprawa logiki logowania użytkownika po stronie backendu i frontendu.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
@@ -201,8 +201,7 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
 \begin{zadaniaosoby}{Adam Langmesser}
     \item Dalsze poprawki konfiguracji \gls{spring-security} na backendzie,
     w tym doprecyzowanie ról i uprawnień.
-    \item Rozszerzenie encji użytkownika o dane deweloperskie
-    oraz przygotowanie inicjalnych danych w bazie danych.
+    \item Dodanie nowych użytkowników do bazy danych, w celach deweloperskich.
     \item Implementacja testów automatycznych związanych
     z bezpieczeństwem (scenariusze logowania i rejestracji
     użytkownika po stronie backendu).
@@ -232,8 +231,10 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
 \subsection*{Styczeń 2025}
 
 \begin{zadaniaosoby}{Adam Langmesser}
+    \item Zaprezentowanie zespołowi działania testów integracyjnych oraz E2E na backendzie.
     \item Poprawa testów logowania i rejestracji na backendzie
     oraz ujednolicenie asercji.
+    \item Rozwiązanie problemu z relacjami między obiektami w testach integracyjnych.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Mateusz Redosz}
@@ -243,7 +244,7 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
     i rejestracji użytkownika.
     \item Implementacja \glslink{integraion-tests}{testów integracyjnych} i \glslink{unit-tests}{testów jednostkowych} dla \glslink{sidebar}{sidebara}.
     \item Dodanie uruchamiania testów frontendu do \gls{cicd}.
-    \item Poprawa sposobu wyświetlania szczegółów spota na froncie.
+    \item Poprawa sposobu wyświetlania szczegółów spota.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
@@ -253,7 +254,7 @@ oraz wymagań w ramach przedmiotów projektowych na uczelni).
     po różnych kryteriach (np. nazwa) po stronie backendu.
     \item Dalsze dopracowanie logiki filtrowania spotów po nazwie
     po stronie backendu.
-    \item Implementacja logiki zmiany danych konta użytkownika.
+    \item Implementacja logiki zmiany danych konta użytkownika zarówno na backendzie jak i na frontendzie.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
@@ -300,7 +301,7 @@ z założeniami funkcjonalnymi.
     \item Obsługa błędów przy wysyłaniu maili.
     \item Zmiana dostawy usługi do wysyłania maili.
     \item Optymalizacja zapytań do bazy danych.
-    \item Testy Integracyjne logiki logowania i rejestracji OAuth2 na backendzie oraz filtrowania spotów.
+    \item Testy Integracyjne logiki logowania i rejestracji oauth na backendzie oraz filtrowania spotów.
     \item Poprawa plików Dockerfile oraz docker-compose.
 \end{zadaniaosoby}
 
@@ -310,6 +311,10 @@ z założeniami funkcjonalnymi.
     \item Poprawa konfiguracji pliku \texttt{.gitignore} w repozytorium,
     tak aby obejmował również nowe katalogi i pliki generowane przez
     narzędzia deweloperskie.
+    \item Poprawa działania ci/cd dla backendu.
+    \item Poprawa struktury plików na backendzie.
+    \item Dodanie cachowania na backendzie w postaci Redis.
+    \item Poprawa konfiguracji poziomów logowania o błędach na backendzie.
 \end{zadaniaosoby}
 
 \subsection*{Marzec 2025}
@@ -349,8 +354,7 @@ z założeniami funkcjonalnymi.
 
 \begin{zadaniaosoby}{Adam Langmesser}
     \item Konfiguracja projektu dokumentacji w LaTeX,
-    utworzenie pliku bibliografii oraz głównego dokumentu
-    \texttt{engineer.tex} z przykładową strukturą rozdziałów.
+    utworzenie pliku bibliografii oraz głównego dokumentu z przykładową strukturą rozdziałów.
     \item Implementacja podstaw funkcjonalności czatu w warstwie
     backendowej i frontendowej, a także dostosowanie layoutu i paska bocznego
     do nowej sekcji.
@@ -393,7 +397,7 @@ z założeniami funkcjonalnymi.
     \item Poprawa wyglądu formularzy logowania i rejestracji.
     \item Poprawa zarządzania stanem sidebara.
 \end{zadaniaosoby}
-%TODO: doatkowo srpawdz swoje zadnaia i stachowe
+
 \begin{zadaniaosoby}{Adam Langmesser}
     \item Wprowadzenie usprawnień w potokach \gls{cicd} backendu,
     obejmujących optymalizację czasu budowania oraz doprecyzowanie
@@ -454,7 +458,7 @@ z założeniami funkcjonalnymi.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Adam Langmesser}
-    \item Dodanie szczegółowego pobierania danych czatu i wysyłania wiadomości po \gls{websocket}.
+    \item Dodanie pobierania danych czatu i wysyłania wiadomości po \gls{websocket}.
     \item Uporządkowanie formatowania kodu z wykorzystaniem
     narzędzia \gls{prettier}, dodanie skryptu \texttt{format:check}
     oraz sprawdzania formatowania w potokach \gls{cicd}.
@@ -469,11 +473,8 @@ z założeniami funkcjonalnymi.
     umożliwiających wszystkim członkom zespołu wygodne korzystanie
     z \gls{websocket}ów na froncie.
     \item Dodanie grupowania wiadomości na czacie po ich dacie wysłania.
-    Implementacja wielowierszowego pola tekstowego
-    z obsługą Enter/Shift+Enter, uproszczonych klas ikon oraz
-    dodatkowych poprawek ergonomii.
-    \item Wprowadzenie drobnych poprawek w potokach \gls{cicd}
-    (konfiguracja kroków, stabilność zadań).
+    Implementacja wielowierszowego pola tekstowego.
+    \item Wprowadzenie drobnych poprawek w potokach \gls{cicd}.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
@@ -485,6 +486,7 @@ z założeniami funkcjonalnymi.
     \item Refaktoryzacja struktury plików na backendzie związanych
     z modułem mapy.
     \item Dodanie możliwości wyszukiwania spotów na mapie w obecnie widocznym dla użytkownika obszarze.
+    \item Dodanie zdjęć i filmów do spotów w celach deweloperskich.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
@@ -498,7 +500,7 @@ z założeniami funkcjonalnymi.
     obrazów (GIF) oraz wysyłania emoji.
     \item Usprawnienie czatu poprzez wprowadzenie optymistycznego
     wysyłania wiadomości, dodanie nowych endpointów
-    do stronicowanego pobierania wiadomości.
+    do stronicowanego pobierania starszych wiadomości.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Stanisław Oziemczuk}
@@ -583,7 +585,7 @@ W tym czasie większość nowych funkcjonalności była już zaimplementowana,
 a nacisk położono na stabilizację, testy oraz spójny opis
 w dokumentacji.
 
-W ramach przedmiotu \gls{psem}, prowadzonego przez dr. inż. Marka
+W ramach przedmiotu \gls{psem}, prowadzonego przez dr. hab. Marka
 Bednarczyka, postępy w przygotowywaniu dokumentacji były na bieżąco
 konsultowane, a na podstawie uzyskiwanej informacji zwrotnej wprowadzano
 kolejne poprawki i uzupełnienia.
@@ -600,7 +602,7 @@ opiekunem był promotor pracy, mgr. inż. Adam Urbanowicz.
     w wiadomościach czatu (pliki oraz obrazy), wraz z logiką wyboru,
     podglądu i wysyłania samych plików bez treści tekstowej.
     \item Rozszerzenie istniejącej funkcjonalności czatów grupowych
-    o możliwość edycji ich parametrów (zmiana nazwy oraz obrazu czatu)
+    o możliwość edycji nazwy oraz obrazu czatu
     po stronie backendu i frontendu.
     \item Dodanie możliwości dołączania nowych użytkowników
     do istniejących czatów grupowych.
@@ -631,9 +633,8 @@ opiekunem był promotor pracy, mgr. inż. Adam Urbanowicz.
     obejmującej obsługę paginacji, podglądu w trybie pełnoekranowym
     oraz dodatkowych akcji (np. udostępnianie odnośnika do zasobu).
     \item Dostosowanie modułu mapy oraz widoku szczegółów spotów
-    pod kątem responsywności i skalowania na dużych ekranach,
-    w tym korekta wysokości komponentów, układu galerii multimediów
-    oraz przewijania list komentarzy.
+    pod kątem responsywności i skalowania na dużych ekranach.
+    \item Poprawa responsywności panelu pogodowego.
 \end{zadaniaosoby}
 
 \begin{zadaniaosoby}{Kacper Badek}
