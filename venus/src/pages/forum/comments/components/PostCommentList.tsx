@@ -5,6 +5,7 @@ import LoadingSpinner from "../../../../components/loading-spinner/LoadingSpinne
 import Error from "../../../../components/error/Error";
 import ForumSortDropdown from "../../components/ForumSortDropdown";
 import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
 interface ForumCommentListProps {
     postId?: number;
@@ -35,6 +36,24 @@ export default function PostCommentList({
         { name: "Most UpVoted", sortBy: "UP_VOTES", sortDirection: "DESC" },
         { name: "Most DownVoted", sortBy: "DOWN_VOTES", sortDirection: "DESC" },
     ];
+
+    const [activeForm, setActiveForm] = useState<number | null>(null);
+    const [activeFormType, setActiveFormType] = useState<
+        "edit" | "reply" | null
+    >(null);
+
+    const handleActiveFormChange = (
+        commentId: number,
+        type: "edit" | "reply",
+    ) => {
+        if (activeForm === commentId && activeFormType === type) {
+            setActiveForm(null);
+            setActiveFormType(null);
+        } else {
+            setActiveForm(commentId);
+            setActiveFormType(type);
+        }
+    };
 
     if (isError) {
         return <Error error={error} />;
@@ -78,6 +97,11 @@ export default function PostCommentList({
                                         comment={comment}
                                         postId={postId}
                                         parentCommentId={parentCommentId}
+                                        activeForm={activeForm}
+                                        activeFormType={activeFormType}
+                                        onActiveFormChange={
+                                            handleActiveFormChange
+                                        }
                                     />
                                 </li>
                             ))}

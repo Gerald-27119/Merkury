@@ -6,7 +6,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import MenuBar from "./MenuBar";
 import TextAlign from "@tiptap/extension-text-align";
 import { RichTextEditorVariantType } from "../../../model/enum/forum/richTextEditorVariantType";
-import { forumMediaAction } from "../../../redux/forumMedia";
+import { FormId, forumMediaAction } from "../../../redux/forumMedia";
 import useDispatchTyped from "../../../hooks/useDispatchTyped";
 
 interface TiptapProps {
@@ -15,6 +15,7 @@ interface TiptapProps {
     onChange: (value: string) => void;
     onBlur: () => void;
     variant: RichTextEditorVariantType;
+    formId: FormId;
 }
 
 export default function Tiptap({
@@ -23,6 +24,7 @@ export default function Tiptap({
     onChange,
     onBlur,
     variant = RichTextEditorVariantType.DEFAULT,
+    formId,
 }: TiptapProps) {
     const dispatch = useDispatchTyped();
 
@@ -56,7 +58,12 @@ export default function Tiptap({
                 onDrop: (currentEditor, files, pos) => {
                     files.forEach((file) => {
                         const id = crypto.randomUUID();
-                        dispatch(forumMediaAction.addImage({ id, file }));
+                        dispatch(
+                            forumMediaAction.addImage({
+                                formId: formId,
+                                image: { id, file },
+                            }),
+                        );
 
                         const fileReader = new FileReader();
                         fileReader.readAsDataURL(file);
@@ -82,7 +89,12 @@ export default function Tiptap({
                         }
 
                         const id = crypto.randomUUID();
-                        dispatch(forumMediaAction.addImage({ id, file }));
+                        dispatch(
+                            forumMediaAction.addImage({
+                                formId: formId,
+                                image: { id, file },
+                            }),
+                        );
 
                         const fileReader = new FileReader();
                         fileReader.readAsDataURL(file);
@@ -129,7 +141,7 @@ export default function Tiptap({
     return (
         <>
             <div className={`${wrapperVariants[variant]}`}>
-                <MenuBar editor={editor} />
+                <MenuBar editor={editor} formId={formId} />
                 <EditorContent
                     editor={editor}
                     onBlur={onBlur}

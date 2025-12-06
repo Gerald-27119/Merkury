@@ -5,28 +5,45 @@ interface LocalImage {
     file: File;
 }
 
+export type FormId = "post" | "comment" | "reply";
+
 interface ForumMediaInitialState {
-    images: LocalImage[];
+    forms: Record<FormId, { images: LocalImage[] }>;
 }
 
 const initialState: ForumMediaInitialState = {
-    images: [],
+    forms: {
+        post: { images: [] },
+        comment: { images: [] },
+        reply: { images: [] },
+    },
 };
 
 export const forumMediaSlice = createSlice({
     name: "forumMedia",
     initialState,
     reducers: {
-        addImage: (state, action: PayloadAction<LocalImage>) => {
-            state.images.push(action.payload);
+        addImage: (
+            state,
+            action: PayloadAction<{ formId: FormId; image: LocalImage }>,
+        ) => {
+            const { formId, image } = action.payload;
+            state.forms[formId].images.push(image);
         },
-        removeImage: (state, action: PayloadAction<string>) => {
-            state.images = state.images.filter(
-                (img) => img.id !== action.payload,
+
+        removeImage: (
+            state,
+            action: PayloadAction<{ formId: FormId; id: string }>,
+        ) => {
+            const { formId, id } = action.payload;
+            state.forms[formId].images = state.forms[formId].images.filter(
+                (img) => img.id !== id,
             );
         },
-        clearImages: (state) => {
-            state.images = [];
+
+        clearImages: (state, action: PayloadAction<FormId>) => {
+            const formId = action.payload;
+            state.forms[formId].images = [];
         },
     },
 });

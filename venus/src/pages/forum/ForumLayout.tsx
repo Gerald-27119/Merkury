@@ -20,9 +20,6 @@ interface ForumLayoutProps {
 }
 
 export default function ForumLayout({ children }: ForumLayoutProps) {
-    const localImages = useSelector(
-        (state: RootState) => state.forumMedia.images,
-    );
     const isLogged = useSelector((state: RootState) => state.account.isLogged);
     const dispatch = useDispatchTyped();
     const { isOpen, mode, postToEdit } = useSelector(
@@ -66,7 +63,7 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
 
     const handleCloseAddPostForm = () => {
         dispatch(forumModalAction.closeModal());
-        dispatch(forumMediaAction.clearImages());
+        dispatch(forumMediaAction.clearImages("post"));
     };
 
     return (

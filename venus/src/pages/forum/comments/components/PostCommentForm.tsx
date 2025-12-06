@@ -1,4 +1,4 @@
-import PostFormEditor from "../../posts/components/PostFormEditor";
+import ControlledEditor from "../../posts/components/ControlledEditor";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -14,12 +14,15 @@ import { replaceLocalImagesWithUploadedUrls } from "../../../../utils/forum/repl
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
+import { forumMediaAction } from "../../../../redux/forumMedia";
+import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 
 interface ForumCommentFormProps {
     handleComment: (newComment: PostCommentDto) => void;
     onClose: () => void;
     commentToEdit?: PostCommentGeneral;
     className?: string;
+    isReply?: boolean;
 }
 
 export default function PostCommentForm({
@@ -27,10 +30,12 @@ export default function PostCommentForm({
     onClose,
     commentToEdit,
     className,
+    isReply,
 }: ForumCommentFormProps) {
     const localImages = useSelector(
-        (state: RootState) => state.forumMedia.images,
+        (state: RootState) => state.forumMedia.forms.comment.images,
     );
+    const dispatch = useDispatchTyped();
 
     const {
         handleSubmit,
@@ -56,17 +61,20 @@ export default function PostCommentForm({
         handleComment({
             content: finalContent,
         });
+
+        dispatch(forumMediaAction.clearImages(isReply ? "reply" : "comment"));
         onClose();
     };
 
     return (
         <div className={`mb-4 ${className}`}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <PostFormEditor<PostCommentFormFields>
+                <ControlledEditor<PostCommentFormFields>
                     name="content"
                     control={control}
                     error={errors.content?.message}
                     variant={RichTextEditorVariantType.DEFAULT}
+                    formId={isReply ? "reply" : "comment"}
                 />
 
                 <FormActionButtons

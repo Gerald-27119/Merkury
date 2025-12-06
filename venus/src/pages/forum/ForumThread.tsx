@@ -99,7 +99,7 @@ export default function ForumThread({}) {
 
     const handleCloseComment = () => {
         hideCommentForm();
-        dispatch(forumMediaAction.clearImages());
+        dispatch(forumMediaAction.clearImages("comment"));
     };
 
     const handlePostFollow = async (postId: number) => {

@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Option from "../../../../model/interface/forum/selectOption";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PostFormInput from "./PostFormInput";
-import PostFormEditor from "./PostFormEditor";
+import ControlledEditor from "./ControlledEditor";
 import {
     PostFormFields,
     PostFormSchema,
@@ -32,7 +32,7 @@ export default function PostForm({
     postToEdit,
 }: FormProps) {
     const localImages = useSelector(
-        (state: RootState) => state.forumMedia.images,
+        (state: RootState) => state.forumMedia.forms.post.images,
     );
 
     const {
@@ -120,11 +120,12 @@ export default function PostForm({
                     error={errors.tags?.message}
                 />
 
-                <PostFormEditor<PostFormFields>
+                <ControlledEditor<PostFormFields>
                     name="content"
                     control={control}
                     error={errors.content?.message}
                     variant={RichTextEditorVariantType.MODAL}
+                    formId="post"
                 />
 
                 <FormActionButtons

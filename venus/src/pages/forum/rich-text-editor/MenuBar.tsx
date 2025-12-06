@@ -5,12 +5,14 @@ import LinkFormButton from "./LinkFormButton";
 import { LuLink, LuImage } from "react-icons/lu";
 import EditorIconButton from "./EditorIconButton";
 import FileUploadButton from "./FileUploadButton";
+import { FormId } from "../../../redux/forumMedia";
 
 interface MenuBarProps {
     editor: Editor | null;
+    formId: FormId;
 }
 
-export default function MenuBar({ editor }: MenuBarProps) {
+export default function MenuBar({ editor, formId }: MenuBarProps) {
     if (!editor) {
         return null;
     }
@@ -70,7 +72,12 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onSubmit={handleLinkSubmission}
             />
 
-            <FileUploadButton editor={editor} icon={LuImage} size={18} />
+            <FileUploadButton
+                editor={editor}
+                formId={formId}
+                icon={LuImage}
+                size={18}
+            />
         </div>
     );
 }
