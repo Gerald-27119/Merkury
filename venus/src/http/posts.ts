@@ -1,10 +1,14 @@
 import axios from "axios";
 import PostDto from "../model/interface/forum/post/postDto";
 import PostDetails from "../model/interface/forum/post/postDetails";
-import ForumCategoryAndTagsDto from "../model/interface/forum/forumCategoryAndTagsDto";
+import PostCategoryAndTagsDto from "../model/interface/forum/postCategoryAndTagsDto";
 import ForumPostPage from "../model/interface/forum/forumPostPage";
 import { PostSortOption } from "../model/enum/forum/postSortOption";
 import ForumReportDto from "../model/interface/forum/forumReportDto";
+import TrendingPostDto from "../model/interface/forum/trendingPostDto";
+import PostCategoryDto from "../model/interface/forum/postCategoryDto";
+import TagDto from "../model/interface/tagDto";
+import { PostSearchRequestDto } from "../model/interface/forum/post/postSearchRequestDto";
 const BASE_URL = import.meta.env.VITE_MERKURY_BASE_URL;
 
 export async function fetchPaginatedPosts(
@@ -29,8 +33,68 @@ export async function fetchDetailedPost(postId: number): Promise<PostDetails> {
     ).data;
 }
 
-export async function fetchCategoriesAndTags(): Promise<ForumCategoryAndTagsDto> {
-    return (await axios.get(`${BASE_URL}/public/categories-tags`)).data;
+export async function fetchFollowedPosts(
+    page: number,
+    size: number,
+    sortType: PostSortOption,
+): Promise<ForumPostPage> {
+    const { sortBy, sortDirection } = sortType;
+    return (
+        await axios.get(`${BASE_URL}/posts/followed`, {
+            params: { page, size, sortBy, sortDirection },
+            withCredentials: true,
+        })
+    ).data;
+}
+
+export async function fetchSearchedPosts(
+    page: number,
+    size: number,
+    request: PostSearchRequestDto,
+    sortType: PostSortOption,
+): Promise<ForumPostPage> {
+    const { sortBy, sortDirection } = sortType;
+    const { tags, ...rest } = request;
+
+    return (
+        await axios.get(`${BASE_URL}/public/post/search`, {
+            params: {
+                page,
+                size,
+                sortBy,
+                sortDirection,
+                tags: tags?.join(","),
+                ...rest,
+            },
+            withCredentials: true,
+        })
+    ).data;
+}
+
+export async function searchPosts(searchPhrase: string): Promise<string[]> {
+    return (
+        await axios.get(
+            `${BASE_URL}/public/post/search/hints/${encodeURIComponent(searchPhrase)}`,
+        )
+    ).data;
+}
+
+export async function fetchTrendingPosts(): Promise<TrendingPostDto[]> {
+    return (await axios.get(`${BASE_URL}/public/post/trending`)).data;
+}
+
+export async function fetchCategoriesAndTags(): Promise<PostCategoryAndTagsDto> {
+    return (await axios.get(`${BASE_URL}/public/post/categories-tags`)).data;
+}
+
+export async function fetchAllCategoriesAlphabetically(): Promise<
+    PostCategoryDto[]
+> {
+    return (await axios.get(`${BASE_URL}/public/post/categories`)).data;
+}
+
+export async function fetchAllTagsAlphabetically(): Promise<TagDto[]> {
+    return (await axios.get(`${BASE_URL}/public/post/tags`)).data;
 }
 
 export async function addPost(newPost: PostDto) {

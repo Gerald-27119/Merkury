@@ -90,7 +90,9 @@ public class UserEntity implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "post_id")
     )
-    private List<Post> followedPosts = new ArrayList<>();
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Post> followedPosts = new HashSet<>();
 
     @Builder.Default
     @Enumerated(value = EnumType.STRING)

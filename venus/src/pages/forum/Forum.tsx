@@ -4,10 +4,9 @@ import { fetchPaginatedPosts } from "../../http/posts";
 import React, { useEffect, useRef, useState } from "react";
 import ForumPostPage from "../../model/interface/forum/forumPostPage";
 import { PostSortOption } from "../../model/enum/forum/postSortOption";
-import ForumPostList from "./components/ForumPostList";
-import ForumLayout from "./ForumLayout";
 import SkeletonListedForumPost from "./components/SkeletonListedForumPost";
-import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
+import LoadingState from "../../model/interface/forum/loadingState";
+import ForumPostsPage from "./ForumPostsPage";
 
 export default function Forum() {
     const loadMoreRef = useRef<HTMLDivElement>(null);
@@ -54,19 +53,24 @@ export default function Forum() {
         };
     }, [hasNextPage, fetchNextPage, sortOption, isFetchingNextPage]);
 
+    const loadingState: LoadingState = {
+        isFetchingNextPage,
+        hasNextPage,
+        loadMoreRef,
+        message: "Congratulations! You've reached the end!",
+    };
+
     const posts = postPage?.pages.flatMap(
         (page: ForumPostPage) => page.content ?? [],
     );
 
     if (isPostPageLoading) {
         return (
-            <ForumLayout>
-                <div className="mt-14 min-w-2xl">
-                    {Array.from({ length: 10 }).map((_, i) => (
-                        <SkeletonListedForumPost key={i} />
-                    ))}
-                </div>
-            </ForumLayout>
+            <div className="mt-14 w-md md:w-2xl">
+                {Array.from({ length: 10 }).map((_, i) => (
+                    <SkeletonListedForumPost key={i} />
+                ))}
+            </div>
         );
     }
 
@@ -75,20 +79,11 @@ export default function Forum() {
     }
 
     return (
-        <ForumLayout>
-            <ForumPostList
-                posts={posts}
-                sortOption={sortOption}
-                onSortChange={setSortOption}
-            />
-            <div ref={loadMoreRef} className="flex items-center justify-center">
-                {isFetchingNextPage && <LoadingSpinner />}
-                {!hasNextPage && (
-                    <p className="pb-4 font-bold">
-                        Congratulations! You've reached the end!
-                    </p>
-                )}
-            </div>
-        </ForumLayout>
+        <ForumPostsPage
+            posts={posts}
+            sortOption={sortOption}
+            onSortChange={setSortOption}
+            loadingState={loadingState}
+        />
     );
 }
