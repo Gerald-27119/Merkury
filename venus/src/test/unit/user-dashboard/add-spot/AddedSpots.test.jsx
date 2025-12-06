@@ -203,7 +203,7 @@ describe("Added spots component unit tests", () => {
         renderAddedSpots();
 
         expect(
-            screen.getByText(/You didn't add any spots yet./i),
+            screen.getByText(/You haven't added any spots yet./i),
         ).toBeInTheDocument();
     });
 });
