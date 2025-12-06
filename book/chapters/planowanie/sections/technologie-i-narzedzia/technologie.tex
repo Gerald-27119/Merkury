@@ -118,68 +118,67 @@ Poniżej przedstawiono stos technologiczny zastosowany w projekcie.
     \textbf{Biblioteka / plugin} & \textbf{Opis / przeznaczenie} \\ \hline
     \endhead
 
-    @ferrucc-io/emoji-picker & Komponent umożliwiający wybór emotikon; udostępnia interfejs wyboru emoji w aplikacji. \\ \hline
-    @hookform/resolvers & Adaptery walidatorów dla \texttt{react-hook-form} — ułatwia integrację z bibliotekami walidacji (np. Zod, Yup). \\ \hline
-    @reduxjs/toolkit & Oficjalne narzędzie do upraszczania konfiguracji i używania Redux: reducery, slice’y, middleware i helpery. \\ \hline
-    @stomp/stompjs & Klient protokołu STOMP do komunikacji poprzez WebSocket — obsługa sesji, subskrypcji i wymiany komunikatów. \\ \hline
-    @tailwindcss/vite & Wtyczka integrująca Tailwind CSS z bundlerem Vite — ułatwia kompilację i użycie klasy narzędziowych Tailwind. \\ \hline
+    @ferrucc-io/emoji-picker & Komponent umożliwiający wybór emotikon w aplikacji. \\ \hline
+    @hookform/resolvers & Adaptery walidatorów dla \texttt{react-hook-form} \textendash \space ułatwia integrację z bibliotekami walidacji (np. Zod, Yup). \\ \hline
+    @reduxjs/toolkit & Narzędzie do upraszczania konfiguracji i używania Redux. \\ \hline
+    @stomp/stompjs & Klient protokołu STOMP do komunikacji poprzez WebSocket \textendash \space obsługa sesji, subskrypcji i wymiany komunikatów. \\ \hline
+    @tailwindcss/vite & Wtyczka integrująca Tailwind CSS z bundlerem Vite. \\ \hline
     @tanstack/react-query & Zarządzanie asynchronicznymi danymi: pobieranie, cache’owanie, synchronizacja i obsługa błędów zapytań HTTP. \\ \hline
     @tiptap/extension-file-handler & Rozszerzenie edytora Tiptap dodające obsługę wstawiania i zarządzania plikami. \\ \hline
     @tiptap/extension-image & Rozszerzenie Tiptap pozwalające na wstawianie i obsługę obrazów w edytorze. \\ \hline
-    @tiptap/extension-placeholder & Rozszerzenie Tiptap dodające placeholder (tekst pomocniczy) w pustych polach edytora. \\ \hline
-    @tiptap/extension-text-align & Rozszerzenie Tiptap umożliwiające wyrównywanie tekstu (lewy, środek, prawy). \\ \hline
-    @tiptap/pm & Silnik edytora (ProseMirror) używany wewnętrznie przez Tiptap — obsługa modelu dokumentu i transformacji. \\ \hline
-    @tiptap/react & Integracja edytora Tiptap z Reactem — komponenty i hooki do osadzania edytora w aplikacji. \\ \hline
+    @tiptap/extension-placeholder & Rozszerzenie Tiptap dodające placeholder w polach edytora. \\ \hline
+    @tiptap/extension-text-align & Rozszerzenie Tiptap umożliwiające wyrównywanie tekstu. \\ \hline
+    @tiptap/pm & Silnik edytora (ProseMirror) używany wewnętrznie przez Tiptap \textendash \space obsługa modelu dokumentu i transformacji. \\ \hline
+    @tiptap/react & Integracja edytora Tiptap z Reactem \textendash \space komponenty i hooki do osadzania edytora w aplikacji. \\ \hline
     @tiptap/starter-kit & Zestaw podstawowych rozszerzeń i konfiguracji dla szybkiego startu z Tiptap. \\ \hline
-    @vis.gl/react-maplibre & Wiązania React do MapLibre — komponenty i helpery do osadzania map w aplikacji React. \\ \hline
-    antd & Biblioteka komponentów UI dla React (gotowe komponenty: formularze, przyciski, tabele itp.) o ustandaryzowanym wyglądzie. \\ \hline
-    axios & Obiektowy klient HTTP do wykonywania zapytań (GET, POST itd.) oraz obsługi odpowiedzi i błędów. \\ \hline
-    date-fns & Zestaw funkcji do manipulacji i formatowania dat — lekka alternatywa dla bibliotek typu Moment. \\ \hline
-    dotenv & Ładowanie zmiennych środowiskowych z pliku \texttt{.env} — ułatwia konfigurację środowiska. \\ \hline
-    maplibre-gl & Silnik renderowania map (WebGL) — warstwy map, kafelki i interakcje geograficzne. \\ \hline
+    @vis.gl/react-maplibre & Komponenty i helpery do implementacji map w aplikacji React. \\ \hline
+    antd & Biblioteka komponentów UI dla React o ustandaryzowanym wyglądzie. \\ \hline
+    axios & Obiektowy klient HTTP do wykonywania zapytań oraz obsługi odpowiedzi i błędów. \\ \hline
+    date-fns & Zestaw funkcji do manipulacji i formatowania dat. \\ \hline
+    dotenv & Ładowanie zmiennych środowiskowych z pliku \texttt{.env}. \\ \hline
+    maplibre-gl & Silnik renderowania map (WebGL) \textendash \space warstwy map, kafelki i interakcje geograficzne. \\ \hline
     media-chrome & Zestaw elementów UI do obsługi odtwarzania multimediów w przeglądarce. \\ \hline
-    motion & Biblioteka/dostawca narzędzi do animacji interfejsu użytkownika (efekty przejść i animacje komponentów). \\ \hline
-    openmeteo & Klient lub wrapper API serwisu pogodowego Open-Meteo — pobieranie prognoz i danych meteorologicznych. \\ \hline
-    query-string & Narzędzia do parsowania i generowania parametrów zapytań w URL (query params). \\ \hline
+    motion & Narzędzia do animacji interfejsu użytkownika. \\ \hline
+    query-string & Narzędzia do parsowania i generowania parametrów zapytań w URL. \\ \hline
     react & Biblioteka do budowy deklaratywnych interfejsów użytkownika oparta na komponentach. \\ \hline
     react-dom & Pakiet odpowiedzialny za renderowanie elementów React w przeglądarkowym DOM. \\ \hline
-    react-hook-form & Lekka biblioteka do obsługi formularzy w React: zarządzanie stanem, walidacje i wydajność. \\ \hline
-    react-icons & Zbiór ikon udostępnionych jako komponenty React — łatwe osadzanie ikon w UI. \\ \hline
-    react-intersection-observer & Hook i API do obserwowania wejścia/wyjścia elementów z pola widzenia (lazy-loading, animacje). \\ \hline
+    react-hook-form & Obsługa formularzy w React: zarządzanie stanem, walidacje i wydajność. \\ \hline
+    react-icons & Zbiór ikon udostępnionych jako komponenty React. \\ \hline
+    react-intersection-observer & Obserwowanie wejścia/wyjścia elementów z pola widzenia (lazy-loading, animacje). \\ \hline
     react-paginate & Komponent pomocniczy do paginacji list i tabel w aplikacji React. \\ \hline
-    react-player & Uniwersalny komponent odtwarzacza multimediów wspierający wiele źródeł (YouTube, pliki lokalne itd.). \\ \hline
-    react-redux & Oficjalne wiązania umożliwiające użycie store Redux w aplikacji React. \\ \hline
-    react-router-dom & Biblioteka do routingu w aplikacjach React: definicja ścieżek, nawigacja i parametry URL. \\ \hline
+    react-player & Odtwarzanie multimediów w aplikacji. \\ \hline
+    react-redux & Integracja Redux i Reacta. \\ \hline
+    react-router-dom & Biblioteka do routingu w aplikacjach React. \\ \hline
     react-select & Rozszerzony komponent \texttt{select} z opcjami wyszukiwania, grupowania i stylizacji. \\ \hline
-    sockjs-client & Klient WebSocket z fallbackami (SockJS) — stabilniejsza komunikacja w różnych środowiskach sieciowych. \\ \hline
-    tailwindcss & Framework CSS typu utility-first — definiowanie wyglądu przy pomocy klas narzędziowych. \\ \hline
-    uuid & Generator unikalnych identyfikatorów (UUID) wykorzystywany m.in. do kluczy komponentów i ID obiektów. \\ \hline
-    victory & Biblioteka do tworzenia wykresów i wizualizacji danych w React. \\ \hline
+    sockjs-client & Klient WebSocket z fallbackami umożliwiający stabilniejszą komunikację w czasie rzeczywistym. \\ \hline
+    tailwindcss & Definiowanie wyglądu przy pomocy gotowych klas. \\ \hline
+    uuid & Generator unikalnych identyfikatorów. \\ \hline
+    victory & Tworzenie wykresów i wizualizacji danych w React. \\ \hline
     victory-chart & Moduł biblioteki Victory zawierający komponenty i narzędzia do rysowania wykresów. \\ \hline
-    zod & Biblioteka do deklaratywnej walidacji schematów danych i ich typowania w TypeScript. \\ \hline
-    @testing-library/jest-dom & Rozszerzenia matcherów dla Jesta ułatwiające asercje DOM w testach. \\ \hline
-    @testing-library/react & Narzędzia do testowania komponentów React w środowisku DOM. \\ \hline
-    @testing-library/user-event & Symulacja zdarzeń użytkownika (kliknięcia, wpisywanie) w testach integracyjnych. \\ \hline
+    zod & Typowana walidacja danych. \\ \hline
+    @testing-library/jest-dom & Rozszerzenia matcherów dla Jesta do asercji DOM. \\ \hline
+    @testing-library/react & Narzędzia do testowania komponentów React. \\ \hline
+    @testing-library/user-event & Symulacja zdarzeń użytkownika (np. kliknięcie) w testach integracyjnych. \\ \hline
     @types/react & Typy TypeScript dla biblioteki React. \\ \hline
     @types/react-dom & Typy TypeScript dla \texttt{react-dom}. \\ \hline
     @types/sockjs-client & Typy TypeScript dla klienta SockJS. \\ \hline
-    @typescript-eslint/eslint-plugin & Zestaw reguł ESLint specyficznych dla TypeScript i praktyk TS. \\ \hline
+    @typescript-eslint/eslint-plugin & Zestaw reguł ESLint specyficznych dla TypeScript. \\ \hline
     @typescript-eslint/parser & Parser ESLint umożliwiający analizę kodu TypeScript. \\ \hline
     @vitejs/plugin-react & Wtyczka Vite zapewniająca obsługę JSX/React Fast Refresh i optymalizacje. \\ \hline
-    cypress & Narzędzie do end-to-end testów przeglądarkowych — automatyzacja testów funkcjonalnych. \\ \hline
-    eslint & Narzędzie do analizy statycznej kodu i egzekwowania reguł stylu/bezpieczeństwa. \\ \hline
+    cypress & Narzędzie do testów end-to-end. \\ \hline
+    eslint & Narzędzie do analizy statycznej kodu na podstawie zdefiniowanych reguł. \\ \hline
     eslint-plugin-react & Wtyczka ESLint z regułami dedykowanymi dla aplikacji React. \\ \hline
-    eslint-plugin-react-hooks & Reguły ESLint dotyczące poprawnego użycia hooków React. \\ \hline
-    eslint-plugin-react-refresh & Wtyczka wspomagająca integrację z React Fast Refresh podczas developmentu. \\ \hline
-    jest & Framework do uruchamiania testów jednostkowych i asercji JavaScript. \\ \hline
+    eslint-plugin-react-hooks & Reguły ESLint dotyczące poprawnego hooków React. \\ \hline
+    eslint-plugin-react-refresh & Wtyczka wspomagająca integrację z React Fast Refresh. \\ \hline
+    jest & Tworzenie testów jednostkowych JavaScript. \\ \hline
     jsdoc & Narzędzie do generowania dokumentacji API z adnotacji w kodzie źródłowym. \\ \hline
     jsdom & Implementacja DOM w Node.js używana w testach do symulacji środowiska przeglądarki. \\ \hline
-    prettier & Formatowanie kodu automatyzujące styl i ujednolicające składnię. \\ \hline
-    prettier-plugin-tailwindcss & Wtyczka Prettiera sortująca klasy Tailwind CSS zgodnie z konwencją. \\ \hline
+    prettier & Formatowanie i ujednolicenie stylu kodu. \\ \hline
+    prettier-plugin-tailwindcss & Wtyczka Prettiera sortująca klasy Tailwind CSS. \\ \hline
     tailwind-scrollbar & Plugin Tailwind CSS dodający klasy pomocnicze do stylizacji pasków przewijania. \\ \hline
-    typescript & Nadzbiór JavaScript z systemem typów statycznych — kompilacja do JS. \\ \hline
-    vite & Szybki bundler i serwer deweloperski zoptymalizowany pod nowoczesne aplikacje webowe. \\ \hline
-    vitest & Lekki runner testowy kompatybilny z Vite — szybkie testy jednostkowe i integracyjne. \\ \hline
+    typescript & Nakładka JavaScript z systemem typów. \\ \hline
+    vite & Bundler zoptymalizowany pod nowoczesne aplikacje webowe. \\ \hline
+    vitest & Lekki runner testowy kompatybilny z Vite \textendash \space szybkie testy jednostkowe i integracyjne, obsługa TypeScript. \\ \hline
 
 \end{longtable}
 
