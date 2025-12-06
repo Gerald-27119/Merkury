@@ -12,6 +12,5 @@ public record PostDto(@NotBlank(message = "Title cannot be empty.")
                       String content,
                       @NotBlank(message = "Category cannot be empty")
                       String category,
-                      @Size(max = 3, message = "Max 3 tags are allowed")
                       List<String> tags) {
 }

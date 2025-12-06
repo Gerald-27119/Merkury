@@ -4,10 +4,10 @@
 \subsection{Integracja z bazą danych}
 \label{subsec:integracja-z-baza-danych}
 
-W aplikacji wykorzystano relacyjną bazę danych PostgreSQL, która w środowisku deweloperskim uruchamiana
+W aplikacji wykorzystano relacyjną \glslink{baza-danych}{bazę danych} PostgreSQL, która w środowisku deweloperskim uruchamiana
 jest jako kontener w aplikacji Docker.
-Komunikacja backendu z bazą danych odbywa się z wykorzystaniem wzorca Repository
-oraz bibliotek oferowanych przez Spring Boot, co umożliwia efektywne zarządzanie danymi oraz utrzymanie spójności
+Komunikacja \glslink{backend}{backendu} z bazą danych odbywa się z wykorzystaniem wzorca Repository
+oraz \glslink{biblioteka}{bibliotek} oferowanych przez Spring Boot, co umożliwia efektywne zarządzanie danymi oraz utrzymanie spójności
 warstwy dostępu do danych.
 
 W systemie zaimplementowano zestaw najistotniejszych tabel, które opisano poniżej:
@@ -39,7 +39,7 @@ W systemie zaimplementowano zestaw najistotniejszych tabel, które opisano poni�
     \item \textbf{spot-media} — pliki multimedialne związane z konkretnymi spotami.
     \item \textbf{spots} — baza spotów w systemie.
     \item \textbf{spots-tags} — tagi przypisane do poszczególnych spotów.
-    \item \textbf{tags-od-spots} — alternatywna tabela z tagami dla spotów.
+    \item \textbf{tags-of-spots} — alternatywna tabela z tagami dla spotów.
     \item \textbf{user-followed-posts} — lista postów śledzonych przez użytkowników.
     \item \textbf{user-followers} — relacje obserwujących użytkowników.
     \item \textbf{user-liked-spot-media} — informacja o polubieniach mediów powiązanych ze spotami.

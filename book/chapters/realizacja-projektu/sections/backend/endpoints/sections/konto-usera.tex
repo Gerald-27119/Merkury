@@ -9,7 +9,7 @@
 {Zarejestruj nowego użytkownika}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: UserRegisterDto (JSON), zawiera:
+        \item \textbf{body}: UserRegisterDto, zawiera:
         \begin{itemize}
             \item \textbf{username}: String
             \item \textbf{email}: String
@@ -32,7 +32,7 @@
 {Zaloguj użytkownika}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: UserLoginDto (JSON), zawiera:
+        \item \textbf{body}: UserLoginDto, zawiera:
         \begin{itemize}
             \item \textbf{username}: String
             \item \textbf{password}: String
@@ -72,7 +72,7 @@
 {Ustaw nowe hasło użytkownika na podstawie tokenu resetującego}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: UserPasswordResetDto (JSON), zawiera:
+        \item \textbf{body}: UserPasswordResetDto, zawiera:
         \begin{itemize}
             \item \textbf{token}: String (UUID – token resetu hasła)
             \item \textbf{password}: String
@@ -97,5 +97,26 @@
 {%
     \begin{tabitemize}
         \item Brak (pusta odpowiedź; sam status informuje o uwierzytelnieniu)
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP35}
+{/account/login-success}
+{Obsłuż użytkownika zalogowanego przez OAuth2 i przekieruj go do aplikacji}
+{%
+    \begin{tabitemize}
+        \item Brak klasycznego body – endpoint wywoływany jest jako redirect callback
+        po poprawnym logowaniu przez dostawcę OAuth2.
+        \item Kontekst użytkownika przekazywany jest w obiekcie
+        \texttt{OAuth2AuthenticationToken}.
+    \end{tabitemize}
+}
+{Brak}
+{302 Found (redirect), 404 Not Found, 409 Conflict, 422 Unprocessable Entity, 500 Internal Server Error}
+{%
+    \begin{tabitemize}
+        \item Przekierowanie użytkownika na stronę frontendową skonfigurowaną w
+        \texttt{UrlsProperties.afterLoginPageUrl}.
     \end{tabitemize}
 }

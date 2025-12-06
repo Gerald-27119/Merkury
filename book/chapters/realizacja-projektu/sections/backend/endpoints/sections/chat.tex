@@ -4,7 +4,7 @@
 \noindent\textbf{GIF-y (Tenor) – integracja czatu}
 
 \cardendpoint
-{EP35}
+{EP36}
 {/gifs/trending}
 {Pobierz listę trendujących kategorii GIF-ów z Tenor}
 {Brak}
@@ -16,57 +16,32 @@
         \begin{itemize}
             \item \textbf{searchTerm}: String (fraza wyszukiwania powiązana z kategorią)
             \item \textbf{path}: String (ścieżka kategorii w Tenor)
-            \item \textbf{gifUrl}: String
+            \item \textbf{gifUrl}: String (URL GIF-a)
         \end{itemize}
     \end{tabitemize}
 }
 
 \cardendpoint
-{EP36}
+{EP37}
 {/gifs/search}
 {Wyszukaj GIF-y po frazie tekstowej}
 {Brak}
 {%
     \begin{tabitemize}
-        \item \textbf{searchPhrase}: String (fraza wyszukiwania, np. \texttt{surf}, \texttt{windy})
+        \item \textbf{searchPhrase}: String (fraza wyszukiwania)
         \item \textbf{next}: String (token paginacji zwrócony z poprzedniego wywołania; dla pierwszego zapytania może być pusty)
     \end{tabitemize}
 }
 {200 OK, 500 Internal Server Error}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: TenorGifSearchWrapperDto, zawiera:
+        \item \textbf{body}: TenorGifSearchWrapperDto (wyniki wyszukiwania GIF-ów), zawiera:
         \begin{itemize}
-            \item \textbf{gifs}: List<TenorGifSearchDto>, każdy element:
+            \item \textbf{gifs}: List<TenorGifSearchDto> (lista pasujących GIF-ów), każdy element:
             \begin{itemize}
                 \item \textbf{url}: String (URL GIF-a)
             \end{itemize}
             \item \textbf{next}: String (token do pobrania kolejnej strony wyników)
-        \end{itemize}
-    \end{tabitemize}
-}
-
-\noindent\textbf{Czat – komunikacja w czasie rzeczywistym (STOMP)}
-
-\cardendpoint
-{EP37}
-{/app/send/\{chatId\}/message}
-{Wyślij wiadomość czatu (WebSocket/STOMP)}
-{%
-    \begin{tabitemize}
-        \item \textbf{chatId}: String (identyfikator czatu w ścieżce STOMP)
-        \item \textbf{body}: IncomingChatMessageDto (JSON z danymi wiadomości, m.in. treść, nadawca, UUID optymistycznej wiadomości)
-    \end{tabitemize}
-}
-{Brak}
-{Brak klasycznego kodu HTTP (komunikacja STOMP)}
-{%
-    \begin{tabitemize}
-        \item Brak bezpośredniej odpowiedzi – wiadomość jest:
-        \begin{itemize}
-            \item zapisywana przez \textbf{ChatService}
-            \item rozsyłana do wszystkich uczestników czatu
-            \item do nadawcy wysyłana jest wersja ACK z potwierdzeniem (z wykorzystaniem \textbf{optimisticMessageUUID})
         \end{itemize}
     \end{tabitemize}
 }
@@ -93,18 +68,18 @@
     \begin{tabitemize}
         \item \textbf{body}: ChatMessageDtoSlice, zawiera:
         \begin{itemize}
-            \item \textbf{messages}: List<ChatMessageDto>, każdy element m.in.:
+            \item \textbf{messages}: List<ChatMessageDto>, każdy element:
             \begin{itemize}
-                \item \textbf{id}: Long
-                \item \textbf{sender}: ChatMessageSenderDto
-                \item \textbf{sentAt}: LocalDateTime
+                \item \textbf{id}: Long (identyfikator wiadomości)
+                \item \textbf{sender}: ChatMessageSenderDto (dane nadawcy wiadomości)
+                \item \textbf{sentAt}: LocalDateTime (data i godzina wysłania wiadomości)
                 \item \textbf{content}: String (treść wiadomości; dla wiadomości plikowych może być pusty)
-                \item \textbf{chatId}: Long
-                \item \textbf{attachedFiles}: \newline List<ChatMessageAttachedFileDto>
+                \item \textbf{chatId}: Long (identyfikator czatu, do którego należy wiadomość)
+                \item \textbf{attachedFiles}: \newline List<ChatMessageAttachedFileDto> (lista załączonych plików)
             \end{itemize}
-            \item \textbf{hasNextSlice}: Boolean (czy istnieje kolejna „strona” wiadomości)
-            \item \textbf{numberOfMessages}: Integer (liczba wiadomości w tej odpowiedzi)
-            \item \textbf{sliceNumber}: Integer (numer bieżącej „porcji”)
+            \item \textbf{hasNextSlice}: Boolean (czy istnieje kolejna „strona” / porcja wiadomości)
+            \item \textbf{numberOfMessages}: Integer (liczba wiadomości zwróconych w tej odpowiedzi)
+            \item \textbf{sliceNumber}: Integer (numer bieżącej porcji wiadomości)
         \end{itemize}
     \end{tabitemize}
 }
@@ -116,26 +91,26 @@
 {Brak}
 {%
     \begin{tabitemize}
-        \item \textbf{receiverUsername}: String (nazwa użytkownika, z którym chcemy rozmawiać)
-        \item \textbf{chatId}: Long (opcjonalnie, ID istniejącego czatu – jeśli znany)
+        \item \textbf{receiverUsername}: String (nazwa użytkownika, z którym chcemy rozpocząć lub kontynuować rozmowę)
+        \item \textbf{chatId}: Long (opcjonalnie, identyfikator istniejącego czatu – jeśli jest już znany)
     \end{tabitemize}
 }
 {200 OK, 401 Unauthorized, 404 Not Found}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: ChatDto, zawiera m.in.:
+        \item \textbf{body}: ChatDto (szczegóły czatu), zawiera:
         \begin{itemize}
             \item \textbf{id}: Long (identyfikator czatu)
-            \item \textbf{name}: String (nazwa czatu – np. nazwa grupy lub rozmówcy)
-            \item \textbf{lastMessage}: ChatMessageDto (ostatnia wiadomość w czacie)
-            \item \textbf{imgUrl}: String (URL obrazka/avatara czatu)
-            \item \textbf{messages}: List<ChatMessageDto> (lista wiadomości zwróconych
-            razem z czatem)
-            \item \textbf{chatType}: ChatType (typ czatu, np. \texttt{PRIVATE}, \texttt{GROUP})
+            \item \textbf{name}: String (nazwa czatu – nazwa grupy lub nazwa rozmówcy)
+            \item \textbf{lastMessage}: ChatMessageDto (ostatnia wiadomość w czacie, jeśli istnieje)
+            \item \textbf{imgUrl}: String (URL avatara czatu lub rozmówcy)
+            \item \textbf{messages}: List<ChatMessageDto> (lista wiadomości zwróconych razem z czatem)
+            \item \textbf{chatType}: ChatType (typ czatu: \texttt{PRIVATE} lub \texttt{GROUP})
             \item \textbf{participants}: List<ChatParticipantDto> (lista uczestników czatu)
         \end{itemize}
     \end{tabitemize}
 }
+
 \cardendpoint
 {EP40}
 {/chats/\{chatId\}/send-files}
@@ -143,7 +118,7 @@
 {%
     \begin{tabitemize}
         \item \textbf{chatId}: Long (identyfikator czatu w ścieżce)
-        \item \textbf{media}: List<MultipartFile> (lista załączanych plików)
+        \item \textbf{media}: List<MultipartFile> (lista załączanych plików do wysłania w wiadomości)
     \end{tabitemize}
 }
 {Brak}
@@ -160,22 +135,25 @@
 {Utwórz nowy czat grupowy}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: CreateGroupChatDto (JSON z danymi nowej grupy, np. nazwa, uczestnicy, opcjonalny avatar)
+        \item \textbf{body}: CreateGroupChatDto (dane nowego czatu grupowego), zawiera:
+        \begin{itemize}
+            \item \textbf{usermes}: List<String> (lista nazw użytkowników, którzy mają zostać uczestnikami czatu)
+            \item \textbf{ownerUsername}: String (nazwa właściciela / twórcy czatu)
+        \end{itemize}
     \end{tabitemize}
 }
 {Brak}
 {201 Created, 400 Bad Request, 401 Unauthorized}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: ChatDto, zawiera m.in.:
+        \item \textbf{body}: ChatDto (utworzony czat grupowy), zawiera:
         \begin{itemize}
             \item \textbf{id}: Long (identyfikator czatu)
-            \item \textbf{name}: String (nazwa czatu – np. nazwa grupy lub rozmówcy)
-            \item \textbf{lastMessage}: ChatMessageDto (ostatnia wiadomość w czacie)
-            \item \textbf{imgUrl}: String (URL obrazka/avatara czatu)
-            \item \textbf{messages}: List<ChatMessageDto> (lista wiadomości zwróconych
-            razem z czatem)
-            \item \textbf{chatType}: ChatType (typ czatu, np. \texttt{PRIVATE}, \texttt{GROUP})
+            \item \textbf{name}: String (nazwa czatu – nazwa grupy)
+            \item \textbf{lastMessage}: ChatMessageDto (ostatnia wiadomość w czacie, jeśli istnieje)
+            \item \textbf{imgUrl}: String (URL avatara czatu)
+            \item \textbf{messages}: List<ChatMessageDto> (lista wiadomości zwróconych razem z czatem)
+            \item \textbf{chatType}: ChatType (typ czatu, \texttt{PRIVATE} lub \texttt{GROUP})
             \item \textbf{participants}: List<ChatParticipantDto> (lista uczestników czatu)
         \end{itemize}
     \end{tabitemize}
@@ -184,21 +162,21 @@
 \cardendpoint
 {EP42}
 {/chats/\{chatId\}}
-{Zaktualizuj dane czatu grupowego (np. nazwa, zdjęcie)}
+{Zaktualizuj dane czatu grupowego (nazwa, zdjęcie)}
 {%
     \begin{tabitemize}
         \item \textbf{chatId}: Long (identyfikator czatu grupowego)
-        \item \textbf{updateGroupChatDto}: UpdateGroupChatDto (wysyłany jako \texttt{multipart/form-data}, zawiera dane do zmiany, np. nowa nazwa, nowe zdjęcie)
+        \item \textbf{updateGroupChatDto}: UpdateGroupChatDto (wysyłany jako \texttt{multipart/form-data}, zawiera dane do zmiany, nowa nazwa, nowe zdjęcie)
     \end{tabitemize}
 }
 {Brak}
 {200 OK, 401 Unauthorized, 404 Not Found, 413 Payload Too Large, 415 Unsupported Media Type, 500 Internal Server Error}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: UpdatedGroupChatDto, zawiera:
+        \item \textbf{body}: UpdatedGroupChatDto (zaktualizowane dane czatu grupowego), zawiera:
         \begin{itemize}
-            \item \textbf{newName}: String (aktualna nazwa czatu)
-            \item \textbf{newImgUrl}: String (aktualny URL obrazka grupy)
+            \item \textbf{newName}: String (aktualna nazwa czatu po zmianie)
+            \item \textbf{newImgUrl}: String (aktualny URL obrazka grupy po zmianie)
         \end{itemize}
     \end{tabitemize}
 }
@@ -209,26 +187,26 @@
 {Wyszukaj potencjalnych użytkowników do dodania do czatu grupowego}
 {%
     \begin{tabitemize}
-        \item \textbf{chatId}: Long (identyfikator czatu grupowego)
+        \item \textbf{chatId}: Long (identyfikator czatu grupowego, do którego chcemy dodać użytkowników)
     \end{tabitemize}
 }
 {%
     \begin{tabitemize}
         \item \textbf{query}: String (fraza wyszukiwania po nazwie użytkownika)
-        \item \textbf{page}: Integer (numer strony, domyślnie 0)
+        \item \textbf{page}: Integer (numer strony wyników, domyślnie 0)
         \item \textbf{size}: Integer (liczba wyników na stronę, domyślnie 20)
     \end{tabitemize}
 }
 {200 OK, 401 Unauthorized, 404 Not Found}
 {%
     \begin{tabitemize}
-        \item \textbf{body}: SimpleSliceDto<PotentialChatMemberDto>, zawiera:
+        \item \textbf{body}: SimpleSliceDto<PotentialChatMemberDto> (stronicowana lista potencjalnych uczestników czatu), zawiera:
         \begin{itemize}
             \item \textbf{hasNext}: boolean (czy istnieje kolejna „strona” wyników)
-            \item \textbf{collection}: Collection<PotentialChatMemberDto>, każdy element:
+            \item \textbf{collection}: Collection<PotentialChatMemberDto> (kolekcja potencjalnych użytkowników), każdy element:
             \begin{itemize}
                 \item \textbf{username}: String (nazwa użytkownika)
-                \item \textbf{profileImg}: String (URL zdjęcia profilowego)
+                \item \textbf{profileImg}: String (URL zdjęcia profilowego użytkownika)
             \end{itemize}
         \end{itemize}
     \end{tabitemize}

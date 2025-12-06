@@ -6,13 +6,13 @@
 \cardendpoint
 {EP06}
 {/public/spot/gallery}
-{Pobierz stronę galerii mediów dla spotu}
+{Pobierz stronę galerii mediów dla spota}
 {Brak}
 {%
     \begin{tabitemize}
-        \item \textbf{spotId}: Long (identyfikator spotu)
+        \item \textbf{spotId}: Long (identyfikator spota)
         \item \textbf{mediaType}: String (typ plików, wartość enum \texttt{GenericMediaType}, \texttt{PHOTO}, \texttt{VIDEO})
-        \item \textbf{sorting}: String (kryterium sortowania, np. po dacie / popularności)
+        \item \textbf{sorting}: String (kryterium sortowania, po dacie / popularności)
         \item \textbf{page}: Integer (numer strony, domyślnie 0)
         \item \textbf{size}: Integer (rozmiar strony, domyślnie 6)
     \end{tabitemize}
@@ -22,7 +22,7 @@
     \begin{tabitemize}
         \item \textbf{Page<SpotSidebarMediaGalleryDto>}: stronicowana lista elementów galerii, gdzie każdy element zawiera:
         \begin{itemize}
-            \item \textbf{id}: Long (ID media)
+            \item \textbf{id}: Long (identyfikator media)
             \item \textbf{url}: String (URL pliku)
             \item \textbf{mediaType}: GenericMediaType (typ pliku)
         \end{itemize}
@@ -51,13 +51,13 @@
     \begin{tabitemize}
         \item \textbf{Page<SearchSpotDto>}: stronicowana lista spotów, gdzie każdy element zawiera:
         \begin{itemize}
-            \item \textbf{id}: Long
-            \item \textbf{name}: String
+            \item \textbf{id}: Long (identyfikator spota)
+            \item \textbf{name}: String (nazwa spota)
             \item \textbf{rating}: Double (0--5)
             \item \textbf{ratingCount}: Integer (liczba ocen)
             \item \textbf{firstPhoto}: String (URL pierwszego zdjęcia)
-            \item \textbf{tags}: Set<SpotTagDto> (tagi spotu)
-            \item \textbf{centerPoint}: BorderPoint (środek obszaru spotu)
+            \item \textbf{tags}: Set<SpotTagDto> (tagi spota)
+            \item \textbf{centerPoint}: BorderPoint (środek obszaru spota)
         \end{itemize}
     \end{tabitemize}
 }
@@ -90,19 +90,19 @@
 {Brak}
 {%
     \begin{tabitemize}
-        \item \textbf{latitude}: double
-        \item \textbf{longitude}: double
+        \item \textbf{latitude}: double (szerokość geograficzna)
+        \item \textbf{longitude}: double (długość geograficzna)
     \end{tabitemize}
 }
 {200 OK}
 {%
     \begin{tabitemize}
-        \item \textbf{temperature}: Double
-        \item \textbf{weatherCode}: int
+        \item \textbf{temperature}: Double (temperatura)
+        \item \textbf{weatherCode}: int (kod warunków pogodowych)
         \item \textbf{precipitationProbability}: Double (prawdopodobieństwo opadów)
         \item \textbf{dewPoint}: Double (punkt rosy)
         \item \textbf{relativeHumidity}: Double (wilgotność względna)
-        \item \textbf{isDay}: boolean
+        \item \textbf{isDay}: boolean (czy jest dzień)
         \item \textbf{uvIndexMax}: Double (maksymalny indeks UV)
     \end{tabitemize}
 }
@@ -114,19 +114,19 @@
 {Brak}
 {%
     \begin{tabitemize}
-        \item \textbf{latitude}: double
-        \item \textbf{longitude}: double
-        \item \textbf{spotId}: long
+        \item \textbf{latitude}: double (szerokość geograficzna)
+        \item \textbf{longitude}: double (długość geograficzna)
+        \item \textbf{spotId}: long (identyfikator spota)
     \end{tabitemize}
 }
 {200 OK}
 {%
     \begin{tabitemize}
-        \item \textbf{windSpeeds100m}: Double
-        \item \textbf{windSpeeds200m}: Double
-        \item \textbf{windSpeeds300m}: Double
-        \item \textbf{windSpeeds500m}: Double
-        \item \textbf{windSpeeds750m}: Double
-        \item \textbf{windSpeeds1000m}: Double
+        \item \textbf{windSpeeds100m}: Double (prędkość wiatru na wysokości 100 metrów)
+        \item \textbf{windSpeeds200m}: Double (prędkość wiatru na wysokości 200 metrów)
+        \item \textbf{windSpeeds300m}: Double (prędkość wiatru na wysokości 300 metrów)
+        \item \textbf{windSpeeds500m}: Double (prędkość wiatru na wysokości 500 metrów)
+        \item \textbf{windSpeeds750m}: Double (prędkość wiatru na wysokości 750 metrów)
+        \item \textbf{windSpeeds1000m}: Double (prędkość wiatru na wysokości 1000 metrów)
     \end{tabitemize}
 }

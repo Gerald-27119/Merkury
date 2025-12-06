@@ -51,7 +51,28 @@
     \addcontentsline{lot}{table}{Tabela \theendpoint: Karta endpointu: #2}%
 }
 
-Na potrzeby niniejszej pracy przez \emph{endpoint API} rozumiany będzie
+\newcommand{\summarytableendpoint}[4]{%
+    \refstepcounter{endpoint}%
+    \par\begin{center}
+    \renewcommand{\arraystretch}{1.15}%
+    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.18\textwidth}|X|}
+    \rowcolor{lightgray}
+    \multicolumn{2}{|>{\centering\arraybackslash}p{\dimexpr\textwidth-2\tabcolsep\relax}|}{\textbf{#1}} \\ \hline
+    \rowcolor{lightgray}
+    \textbf{Metoda HTTP} & \textbf{Ścieżka} \\
+    \hline
+    #4
+    \end{tabularx}
+    \vspace{3pt}
+    \textbf{Tabela \theendpoint:} Zestawienie endpointów: #3\label{#2}
+    \end{center}%
+    \addcontentsline{lot}{table}{Tabela \theendpoint: Zestawienie endpointów: #3}%
+}
+
+Projektowany system udostępnia \glslink{rest_api}{REST-owe API} HTTP, za pomocą którego
+klienci komunikują się z serwerem.
+
+Na potrzeby niniejszej pracy przez \emph{endpoint \glslink{rest_api}{REST API}} rozumiany będzie
 konkretny punkt dostępu do systemu, zdefiniowany jako para:
 \[
     \text{metoda HTTP} + \text{ścieżka URL}
@@ -65,25 +86,12 @@ endpointów HTTP systemu, a następnie szczegółowe karty wybranych
 endpointów, opisujące m.in. parametry wejściowe, \glslink{query-params}{Query params}
 oraz strukturę odpowiedzi.
 
-\begin{longtable}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.18\textwidth}|p{0.72\textwidth}|}
-    \rowcolor{lightgray}
-    \multicolumn{2}{|c|}{\textbf{Zestawienie wszystkich endpointów HTTP systemu}} \\ \hline
-    \hline
-    \rowcolor{lightgray}
-    \textbf{Metoda HTTP} & \textbf{Ścieżka} \\
-    \hline
-    \endfirsthead
-
-    \hline
-    \rowcolor{lightgray}
-    \textbf{Metoda HTTP} & \textbf{Ścieżka} \\
-    \hline
-    \endhead
-
 % ================= PANEL UŻYTKOWNIKA =================
-    \rowcolor{lightgray}
-    \multicolumn{2}{|l|}{\textbf{Panel użytkownika}} \\
-    \hline
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP panelu użytkownika}
+{tab:endpoints-user-dashboard}
+{panelu użytkownika}
+{
     GET   & /user-dashboard/profile \\ \hline
     GET   & /public/user-dashboard/profile/\{targetUsername\} \\ \hline
     PATCH & /user-dashboard/profile \\ \hline
@@ -111,11 +119,14 @@ oraz strukturę odpowiedzi.
     GET   & /user-dashboard/add-spot \\ \hline
     POST  & /user-dashboard/add-spot \\ \hline
     GET   & /user-dashboard/add-spot/coordinates \\ \hline
+}
 
 % ================= SPOTY =================
-    \rowcolor{lightgray}
-    \multicolumn{2}{|l|}{\textbf{Spoty}} \\
-    \hline
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP modułu spotów}
+{tab:endpoints-spots}
+{modułu spotów}
+{
     GET   & /public/spot/gallery \\ \hline
     GET   & /public/spot/gallery-media-position \\ \hline
     GET   & /public/spot/gallery-fullscreen-media \\ \hline
@@ -138,11 +149,14 @@ oraz strukturę odpowiedzi.
     PATCH & /public/spot/edit-spot-media-likes \\ \hline
     GET   & /spot/check-is-spot-media-liked \\ \hline
     GET   & /public/spot/get-spot-time-zone \\ \hline
+}
 
 % ================= KOMENTARZE DO SPOTÓW =================
-    \rowcolor{lightgray}
-    \multicolumn{2}{|l|}{\textbf{Komentarze do spotów}} \\
-    \hline
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP komentarzy do spotów}
+{tab:endpoints-spot-comments}
+{komentarzy do spotów}
+{
     GET    & /public/spot/\{spotId\}/comments \\ \hline
     GET    & /public/spot/\{spotId\}/comments/\{commentId\} \\ \hline
     POST   & /spot/\{spotId\}/comments \\ \hline
@@ -150,11 +164,14 @@ oraz strukturę odpowiedzi.
     PATCH  & /spot/comments/\{commentId\} \\ \hline
     PATCH  & /spot/comments/\{commentId\}/vote \\ \hline
     GET    & /spot/comments/vote-type \\ \hline
+}
 
 % ================= POSTY FORUM =================
-    \rowcolor{lightgray}
-    \multicolumn{2}{|l|}{\textbf{Posty forum}} \\
-    \hline
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP postów forum}
+{tab:endpoints-forum-posts}
+{postów forum}
+{
     GET    & /public/post/\{postId\} \\ \hline
     GET    & /public/post \\ \hline
     POST   & /post \\ \hline
@@ -164,11 +181,14 @@ oraz strukturę odpowiedzi.
     PATCH  & /post/\{postId\}/follow \\ \hline
     PATCH  & /post/\{postId\}/report \\ \hline
     GET    & /public/categories-tags \\ \hline
+}
 
 % ================= KOMENTARZE FORUM =================
-    \rowcolor{lightgray}
-    \multicolumn{2}{|l|}{\textbf{Komentarze forum}} \\
-    \hline
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP komentarzy forum}
+{tab:endpoints-forum-comments}
+{komentarzy forum}
+{
     GET    & /public/post/\{postId\}/comments \\ \hline
     GET    & /public/comments/\{commentId\}/replies \\ \hline
     POST   & /post/\{postId\}/comments \\ \hline
@@ -177,35 +197,38 @@ oraz strukturę odpowiedzi.
     PATCH  & /post/comments/\{commentId\}/vote \\ \hline
     PATCH  & /post/comments/\{commentId\}/report \\ \hline
     POST   & /comments/\{commentId\}/replies \\ \hline
+}
 
 % ================= KONTO UŻYTKOWNIKA / AUTORYZACJA =================
-    \rowcolor{lightgray}
-    \multicolumn{2}{|l|}{\textbf{Konto użytkownika / autoryzacja}} \\
-    \hline
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP konta użytkownika i autoryzacji}
+{tab:endpoints-account-auth}
+{konta użytkownika i autoryzacji}
+{
     POST & /public/account/register \\ \hline
     POST & /public/account/login \\ \hline
     GET  & /account/login-success \\ \hline
     POST & /public/account/forgot-password \\ \hline
     POST & /public/account/set-new-password \\ \hline
     GET  & /account/check \\ \hline
+}
 
-% ================= PRZESYŁANIE PLIKÓW =================
-    \rowcolor{lightgray}
-    \multicolumn{2}{|l|}{\textbf{Przesyłanie plików}} \\
-    \hline
-    POST & /public/upload/media \\ \hline
-
-% ================= GIF-Y =================
-    \rowcolor{lightgray}
-    \multicolumn{2}{|l|}{\textbf{GIF-y (Tenor)}} \\
-    \hline
+% ================= GIF-Y (TENOR) =================
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP integracji GIF-ów (Tenor)}
+{tab:endpoints-gifs}
+{integracji GIF-ów}
+{
     GET & /gifs/trending \\ \hline
     GET & /gifs/search \\ \hline
+}
 
 % ================= CZAT =================
-    \rowcolor{lightgray}
-    \multicolumn{2}{|l|}{\textbf{Czat}} \\
-    \hline
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP modułu czatu}
+{tab:endpoints-chat}
+{modułu czatu}
+{
     GET   & /chats/\{chatId\}/messages \\ \hline
     GET   & /chats/user-chats \\ \hline
     POST  & /chats/get-or-create-private-chat \\ \hline
@@ -214,15 +237,7 @@ oraz strukturę odpowiedzi.
     PATCH & /chats/\{chatId\} \\ \hline
     GET   & /chats/group-chat/add/search/\{chatId\} \\ \hline
     PUT   & /chats/add/users/\{chatId\} \\ \hline
-
-\end{longtable}%
-
-\refstepcounter{endpoint}%
-\par\noindent
-\textbf{Tabela \theendpoint:} Zestawienie wszystkich endpointów HTTP systemu\label{tab:all-endpoints}
-
-\addcontentsline{lot}{table}{Tabela \theendpoint: Zestawienie wszystkich endpointów HTTP systemu}%
-
+}
 
 \input{chapters/realizacja-projektu/sections/backend/endpoints/sections/panel-usera}
 \input{chapters/realizacja-projektu/sections/backend/endpoints/sections/mapa}
@@ -231,5 +246,4 @@ oraz strukturę odpowiedzi.
 \input{chapters/realizacja-projektu/sections/backend/endpoints/sections/forum-posty}
 \input{chapters/realizacja-projektu/sections/backend/endpoints/sections/forum-posty-komentarze}
 \input{chapters/realizacja-projektu/sections/backend/endpoints/sections/konto-usera}
-\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/azure}
 \input{chapters/realizacja-projektu/sections/backend/endpoints/sections/chat}
