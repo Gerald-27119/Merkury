@@ -35,53 +35,47 @@ Poniżej przedstawiono stos technologiczny zastosowany w projekcie.
     \multicolumn{2}{|c|}{\textbf{Zestawienie używanych bibliotek na backendzie}} \\ \hline
     \hline
     \rowcolor{lightgray}
-    \textbf{Biblioteka} & \textbf{Opis / przeznaczenie} \\ \hline
+    \textbf{Biblioteka} & \textbf{Opis} \\ \hline
     \endfirsthead
 
     \hline
     \rowcolor{lightgray}
-    \textbf{Biblioteka} & \textbf{Opis / przeznaczenie} \\ \hline
+    \textbf{Biblioteka} & \textbf{Opis} \\ \hline
     \endhead
 
-    spring-boot-starter-websocket & Wsparcie Spring Boot dla komunikacji WebSocket (w tym STOMP) — konfiguracja i zależności umożliwiające dwukierunkową komunikację w aplikacjach webowych. \\ \hline
-    spring-security-messaging & Integracja Spring Security z warstwą messaging (np. STOMP/WebSocket) — uwierzytelnianie i autoryzacja komunikatów. \\ \hline
-    testcontainers & Uruchamianie izolowanych kontenerów Docker w testach integracyjnych — ułatwia testowanie zależności infrastrukturalnych. \\ \hline
-    GeographicLib-Java & Biblioteka do precyzyjnych obliczeń geodezyjnych i konwersji współrzędnych (np. obliczenia geodetyczne). \\ \hline
-    junit-jupiter & Moduł integracyjny Testcontainers dla JUnit 5 — ułatwia użycie Testcontainers w testach JUnit Jupiter. \\ \hline
-    spring-boot-starter-cache & Abstrakcje i automatyczna konfiguracja cache w Spring Boot — ułatwia włączenie mechanizmów cache'owania. \\ \hline
-    spring-boot-starter-data-redis & Integracja Spring Data Redis — klient Redis, repozytoria i konfiguracje dla współpracy z Redis. \\ \hline
-    spring-boot-starter-data-jpa & Spring Data JPA (Hibernate) — warstwa dostępu do relacyjnej bazy danych przez JPA. \\ \hline
-    spring-boot-starter-web & Podstawowy starter webowy Spring Boot: Spring MVC, Jackson, wbudowany serwer aplikacyjny dla REST/HTTP. \\ \hline
-    spring-boot-starter-validation & Wsparcie walidacji Bean Validation (Jakarta Validation / Hibernate Validator) dla danych wejściowych. \\ \hline
-    postgresql & JDBC driver dla PostgreSQL — umożliwia połączenie i komunikację z serwerem PostgreSQL. \\ \hline
-    spring-boot-starter-aop & Obsługa programowania aspektowego (AOP) w Springu — aspekty, przechwytywanie wywołań, transakcyjne przekrojowe zachowania. \\ \hline
-    spring-boot-starter-actuator & Endpoints monitorujące, metryki i narzędzia operacyjne dla aplikacji Spring Boot. \\ \hline
-    micrometer-core & Podstawowy moduł Micrometer do zbierania metryk aplikacji. \\ \hline
-    micrometer-registry-prometheus & Rejestrator/metody eksportu metryk Micrometer do systemu Prometheus. \\ \hline
-    spring-boot-starter-data-mongodb & Spring Data MongoDB — integracja z bazą dokumentową MongoDB, repozytoria i mapowanie dokumentów. \\ \hline
-    h2 & Lekka wbudowana baza danych H2 używana w testach jako zastępstwo relacyjnej bazy. \\ \hline
-    de.flapdoodle.embed.mongo & Wbudowany (embedded) serwer MongoDB do testów integracyjnych — uruchamianie lokalnej instancji MongoDB. \\ \hline
-    de.flapdoodle.embed.mongo.spring3x & Integracja Flapdoodle Embedded Mongo z aplikacjami Spring 3.x — ułatwienia konfiguracji w środowisku Spring. \\ \hline
-    lombok & Narzędzia generujące kod na etapie kompilacji (adnotacje) — redukcja boilerplate w klasach Java. \\ \hline
-    spring-boot-starter-oauth2-resource-server & Wsparcie serwera zasobów OAuth2 w Spring Boot — walidacja tokenów i konfiguracja zabezpieczeń zasobów. \\ \hline
-    jjwt-api & Interfejsy i API biblioteki JJWT do tworzenia i parsowania JWT. \\ \hline
+    angus-mail & Wysyłanie i odbiór wiadomości e-mail w aplikacjach Java. \\ \hline
+    azure-storage-blob & Operacje na blobach w Microsoft Azure Blob Storage, np. upload, download. \\ \hline
+    GeographicLib-Java & Precyzyjne obliczenia geodezyjne i konwersja współrzędnych. \\ \hline
+    h2 & Lekka baza danych H2 uruchamiana w pamięci RAM używana w testach jako zastępstwo prawdziwej. \\ \hline
+    httpclient5 & Zaawansowany klient HTTP do wykonywania żądań i obsługi odpowiedzi. \\ \hline
+    httpcore5 & Niskopoziomowe elementy HTTP wykorzystywane przez httpclient. \\ \hline
+    jjwt-api & Tworzenir i parsowanie JWT. \\ \hline
     jjwt-impl & Implementacja funkcjonalna biblioteki JJWT — konkretne mechanizmy tworzenia/parowania JWT. \\ \hline
     jjwt-jackson & Integracja JJWT z Jacksonem dla serializacji i deserializacji zawartości JWT. \\ \hline
+    jsoup & Parsowanie, manipulacja i ekstrakcja danych z dokumentów HTML. \\ \hline
+    junit-jupiter & Integracja biblioteki Testcontainers z frameworkiem testowym JUnit — ułatwia pisanie testów integracyjnych z użyciem kontenerów. \\ \hline
+    lombok & Biblioteka ułatwiająca generowanie kodu (gettery, settery, buildery, konstruktor itp.) przez adnotacje — zmniejsza ilość boilerplate’u w kodzie. \\ \hline
+    postgresql & Umożliwia połączenie i komunikację z bazą danych PostgreSQL. \\ \hline
+    shedlock-spring & Zarządzanie zadaniami okresowymi (cron/scheduled). \\ \hline
+    spring-boot-starter-websocket & Wsparcie Spring Boot dla komunikacji WebSocket — konfiguracja i zależności umożliwiające dwukierunkową komunikację w czasie rzeczywistym w aplikacjach webowych. \\ \hline
+    spring-security-messaging & Integracja Spring Security z warstwą messaging (np. STOMP/WebSocket) — uwierzytelnianie i autoryzacja komunikatów. \\ \hline
+    spring-boot-starter-cache & Abstrakcje i automatyczna konfiguracja cache w Spring Boot — ułatwia włączenie mechanizmów cache'owania. \\ \hline
+    spring-boot-starter-data-redis & Integracja Spring Data Redis — klient Redis, repozytoria i konfiguracje dla współpracy z Redis. \\ \hline
+    spring-boot-starter-data-jpa & Warstwa dostępu do relacyjnej bazy danych przez JPA. \\ \hline
+    spring-boot-starter-web & Podstawowy starter webowy Spring Boot: Spring MVC, Jackson, wbudowany serwer aplikacyjny dla REST/HTTP. \\ \hline
+    spring-boot-starter-validation & Wsparcie walidacji Bean Validation (Jakarta Validation / Hibernate Validator) dla danych wejściowych. \\ \hline
+    spring-boot-starter-aop & Obsługa programowania aspektowego (AOP) w Springu — aspekty, przechwytywanie wywołań, transakcyjne przekrojowe zachowania. \\ \hline
+    spring-boot-starter-actuator & Monitoring, zbieranie metryk aplikacji Spring Boot. \\ \hline
+    spring-boot-starter-oauth2-resource-server & Wsparcie serwera zasobów OAuth2 w Spring Boot — walidacja tokenów i konfiguracja zabezpieczeń zasobów. \\ \hline
     spring-boot-configuration-processor & Procesor adnotacji dla konfiguracji Spring Boot — generacja metadanych dla właściwości konfiguracyjnych. \\ \hline
     spring-boot-starter-test & Zestaw narzędzi testowych (JUnit, Mockito, AssertJ itp.) do testów jednostkowych i integracyjnych. \\ \hline
     spring-security-test & Narzędzia pomocnicze i rozszerzenia do testowania konfiguracji Spring Security. \\ \hline
-    httpclient5 & Apache HttpClient 5 — zaawansowany klient HTTP do wykonywania żądań i obsługi odpowiedzi. \\ \hline
-    httpcore5 & Rdzeń Apache HttpComponents — niskopoziomowe elementy HTTP wykorzystywane przez httpclient. \\ \hline
-    angus-mail & Implementacja JavaMail (Angus) — wysyłanie i odbiór wiadomości e-mail w aplikacjach Java. \\ \hline
     spring-boot-starter-oauth2-client & Wsparcie klienta OAuth2 w Spring Boot — logowanie/połączenie z zewnętrznymi providerami OAuth2/OIDC. \\ \hline
     spring-boot-starter-security & Podstawowe komponenty Spring Security do zabezpieczania aplikacji. \\ \hline
-    spring-boot-starter-webflux & Reaktywny stos webowy (Spring WebFlux) — programowanie reaktywne oraz serwery oparte na Netty. \\ \hline
-    shedlock-spring & ShedLock dla Spring — mechanizm rozproszonego blokowania zadań zadaniowych (cron/scheduled). \\ \hline
-    shedlock-provider-mongo & Implementacja dostawcy blokad ShedLock wykorzystująca MongoDB jako magazyn blokad. \\ \hline
-    spring-retry & Biblioteka do automatycznego ponawiania operacji (retry) z konfiguracją i adnotacjami. \\ \hline
+    spring-boot-starter-webflux & Budowanie reaktywnych (asynchronicznych / nieblokujących) aplikacji webowych. \\ \hline
+    spring-retry & Biblioteka do automatycznego ponawiania operacji z konfiguracją i adnotacjami. \\ \hline
     spring-boot-starter-thymeleaf & Integracja Thymeleaf z Spring Boot — silnik szablonów do generowania widoków HTML po stronie serwera. \\ \hline
-    azure-storage-blob & Klient Microsoft Azure Blob Storage — operacje na blobach (upload, download, zarządzanie kontenerami). \\ \hline
-    jsoup & Biblioteka do parsowania, manipulacji i ekstrakcji danych z dokumentów HTML. \\ \hline
+    testcontainers & Uruchamianie izolowanych kontenerów Docker w testach integracyjnych. \\ \hline
 
 \end{longtable}
 
