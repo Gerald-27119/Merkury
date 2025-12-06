@@ -180,7 +180,7 @@
 \newglossaryentry{spot}
 {
     name={Spot},
-    description={Spotkanie zespołu projektowego, zazwyczaj krótkie i regularne, służące omówieniu postępów prac, problemów oraz planów na najbliższy okres}
+    description={Potencjalne miejsce do latania dronem, zaznaczone na mapie.}
 }
 
 \newglossaryentry{sidebar}
@@ -434,9 +434,9 @@
     opóźnienia i odciąża serwer aplikacji}
 }
 
-\newglossaryentry{maplibre}
+\newglossaryentry{react-maplibre}
 {
-    name={MapLibre},
+    name={React-MapLibre},
     description={Otwartoźródłowa biblioteka do renderowania interaktywnych map
     wektorowych w przeglądarce, rozwijana jako niezależna kontynuacja Mapbox GL JS.
     Umożliwia wyświetlanie kafelków mapowych, znaczników i warstw z danymi
@@ -449,7 +449,7 @@
     description={Protokół komunikacyjny umożliwiający dwukierunkową komunikację
     w czasie rzeczywistym między przeglądarką a serwerem po pojedynczym,
     utrzymywanym połączeniu TCP. Często wykorzystywany m.in. w czatach i aplikacjach
-    działających „na żywo”}
+    działających w czasie rzeczywistym.}
 }
 
 \newglossaryentry{docker-compose}
@@ -521,3 +521,100 @@
     name={jakarta validation},
     description={Jakarta Validation to specyfikacja (i zestaw adnotacji, typu @NotNull, @Size itd.) służąca do automatycznego sprawdzania poprawności danych w aplikacjach stworzonych za pomocą Java/Jakarta EE/Spring, np. przy walidacji pól DTO, encji czy parametrów metod.}
 }
+\newglossaryentry{intellij-idea}
+{
+    name={IntelliJ IDEA},
+    description={Zintegrowane środowisko programistyczne (IDE) firmy JetBrains, szeroko stosowane przy tworzeniu aplikacji backendowych w ekosystemie Spring. Oferuje m.in. podpowiedzi składni, refaktoryzację kodu, debugger oraz integrację z systemami kontroli wersji}
+}
+
+\newglossaryentry{dockerfile}
+{
+    name={Dockerfile},
+    description={Plik tekstowy zawierający instrukcje opisujące, jak zbudować obraz Dockera (jakiej podstawy użyć, jakie pliki skopiować, jakie polecenia uruchomić). Na jego podstawie narzędzie Docker tworzy gotowy obraz kontenera}
+}
+
+\newglossaryentry{redis}
+{
+    name={Redis},
+    description={Szybka baza danych typu klucz–wartość przechowywana głównie w pamięci operacyjnej. Często wykorzystywana jako pamięć podręczna (cache), magazyn sesji lub prosty mechanizm komunikatów między usługami}
+}
+
+\newglossaryentry{gif}
+{
+    name={GIF},
+    description={Format graficzny \textit{Graphics Interchange Format} obsługujący krótkie, zapętlone animacje. W aplikacjach czatowych wykorzystywany do wysyłania „reakcji” w postaci ruchomych obrazków}
+}
+
+\newglossaryentry{emoji}{
+    name={emoji},
+    description={Małe graficzne ikonki używane do wyrażania emocji
+    lub pojęć w komunikacji cyfrowej (np. uśmiechnięta buźka, kciuk w górę,
+    symbol serca).}
+}
+
+
+\newglossaryentry{url}
+{
+    name={URL},
+    description={Adres zasobu w internecie (ang. \textit{Uniform Resource Locator}), np. adres strony, widoku w aplikacji webowej lub konkretnego posta na forum}
+}
+
+\newglossaryentry{slug}
+{
+    name={Slug},
+    description={Przyjazny dla użytkownika fragment adresu URL, zwykle oparty na tytule (np. \texttt{/post/jak-zaczac-latac-dronem}), ułatwiający identyfikację treści i pozycjonowanie w wyszukiwarkach}
+}
+
+\newglossaryentry{tinymce}
+{
+    name={TinyMCE},
+    description={Popularny edytor \textit{rich text} osadzany w przeglądarce. Pozwala użytkownikowi formatować tekst (pogrubienia, listy, nagłówki, linki) w sposób przypominający klasyczny edytor tekstu, zapisując wynik zwykle w HTML}
+}
+
+\newglossaryentry{rich-text-editor}
+{
+    name={Rich text editor},
+    description={Edytor treści, który zamiast „surowego” tekstu umożliwia stosowanie formatowania (np. pogrubienie, kursywa, listy, nagłówki, linki), dzięki czemu użytkownik może tworzyć czytelne, sformatowane wpisy}
+}
+
+\newglossaryentry{tiptap}
+{
+    name={Tiptap},
+    description={Nowoczesny, rozszerzalny edytor \textit{rich text} dla aplikacji webowych oparty na silniku ProseMirror. Umożliwia budowanie rozbudowanych, modularnych edytorów treści, np. do postów na forum}
+}
+
+\newglossaryentry{integration-tests}
+{
+    name={Testy integracyjne},
+    description={Testy sprawdzające, czy połączone ze sobą moduły lub usługi współpracują poprawnie — na przykład czy warstwa backendowa poprawnie komunikuje się z bazą danych, warstwą sieciową i pozostałymi komponentami systemu}
+}
+\newglossaryentry{endpoint}
+{
+    name={endpoint},
+    description={Endpoint to konkretny adres (np. \gls{url}) i metoda protokołu HTTP
+    w \gls{api}, które razem odpowiadają za realizację jednej, dobrze zdefiniowanej
+    operacji (np. pobrania listy spotów, dodania komentarza, wyszukania spotów).}
+}
+
+\newglossaryentry{redux-slice}
+{
+    name={slice Redux},
+    description={Slice Redux to wydzielona część globalnego stanu w \gls{redux},
+    wraz z powiązanymi akcjami i reduktorami, odpowiedzialna za jeden obszar domeny
+    (np. konto użytkownika, czat, mapę czy listę znajomych).}
+}
+\newglossaryentry{jsoup}{
+    name={jsoup},
+    description={Biblioteka \textit{Java} do przetwarzania dokumentów HTML,
+    umożliwiająca parsowanie, przeszukiwanie i modyfikowanie struktury dokumentu
+    w sposób zbliżony do pracy z DOM-em i selektorami CSS.}
+}
+\newglossaryentry{paginacja}
+{
+    name={paginacja},
+    description={Mechanizm dzielenia dużych zbiorów danych
+    (np. list postów, wyników wyszukiwania, komentarzy)
+    na mniejsze strony, które są pobierane i wyświetlane stopniowo,
+    zamiast ładowania wszystkich elementów jednocześnie.}
+}
+
