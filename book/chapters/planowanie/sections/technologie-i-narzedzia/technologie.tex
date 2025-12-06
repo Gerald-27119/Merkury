@@ -50,31 +50,31 @@ Poniżej przedstawiono stos technologiczny zastosowany w projekcie.
     httpclient5 & Zaawansowany klient HTTP do wykonywania żądań i obsługi odpowiedzi. \\ \hline
     httpcore5 & Niskopoziomowe elementy HTTP wykorzystywane przez httpclient. \\ \hline
     jjwt-api & Tworzenir i parsowanie JWT. \\ \hline
-    jjwt-impl & Implementacja funkcjonalna biblioteki JJWT — konkretne mechanizmy tworzenia/parowania JWT. \\ \hline
+    jjwt-impl & Implementacja funkcjonalna biblioteki JJWT \textendash \space konkretne mechanizmy tworzenia/parowania JWT. \\ \hline
     jjwt-jackson & Integracja JJWT z Jacksonem dla serializacji i deserializacji zawartości JWT. \\ \hline
     jsoup & Parsowanie, manipulacja i ekstrakcja danych z dokumentów HTML. \\ \hline
-    junit-jupiter & Integracja biblioteki Testcontainers z frameworkiem testowym JUnit — ułatwia pisanie testów integracyjnych z użyciem kontenerów. \\ \hline
-    lombok & Biblioteka ułatwiająca generowanie kodu (gettery, settery, buildery, konstruktor itp.) przez adnotacje — zmniejsza ilość boilerplate’u w kodzie. \\ \hline
+    junit-jupiter & Integracja biblioteki Testcontainers z frameworkiem testowym JUnit \textendash \space ułatwia pisanie testów integracyjnych z użyciem kontenerów. \\ \hline
+    lombok & Biblioteka ułatwiająca generowanie kodu (gettery, settery, buildery, konstruktor itp.) przez adnotacje \textendash \space zmniejsza ilość boilerplate’u w kodzie. \\ \hline
     postgresql & Umożliwia połączenie i komunikację z bazą danych PostgreSQL. \\ \hline
     shedlock-spring & Zarządzanie zadaniami okresowymi (cron/scheduled). \\ \hline
-    spring-boot-starter-websocket & Wsparcie Spring Boot dla komunikacji WebSocket — konfiguracja i zależności umożliwiające dwukierunkową komunikację w czasie rzeczywistym w aplikacjach webowych. \\ \hline
-    spring-security-messaging & Integracja Spring Security z warstwą messaging (np. STOMP/WebSocket) — uwierzytelnianie i autoryzacja komunikatów. \\ \hline
-    spring-boot-starter-cache & Abstrakcje i automatyczna konfiguracja cache w Spring Boot — ułatwia włączenie mechanizmów cache'owania. \\ \hline
-    spring-boot-starter-data-redis & Integracja Spring Data Redis — klient Redis, repozytoria i konfiguracje dla współpracy z Redis. \\ \hline
+    spring-boot-starter-websocket & Wsparcie Spring Boot dla komunikacji WebSocket \textendash \space konfiguracja i zależności umożliwiające dwukierunkową komunikację w czasie rzeczywistym w aplikacjach webowych. \\ \hline
+    spring-security-messaging & Integracja Spring Security z warstwą messaging (np. STOMP/WebSocket) \textendash \space uwierzytelnianie i autoryzacja komunikatów. \\ \hline
+    spring-boot-starter-cache & Abstrakcje i automatyczna konfiguracja cache w Spring Boot \textendash \space ułatwia włączenie mechanizmów cache'owania. \\ \hline
+    spring-boot-starter-data-redis & Integracja Spring Data Redis \textendash \space klient Redis, repozytoria i konfiguracje dla współpracy z Redis. \\ \hline
     spring-boot-starter-data-jpa & Warstwa dostępu do relacyjnej bazy danych przez JPA. \\ \hline
     spring-boot-starter-web & Podstawowy starter webowy Spring Boot: Spring MVC, Jackson, wbudowany serwer aplikacyjny dla REST/HTTP. \\ \hline
     spring-boot-starter-validation & Wsparcie walidacji Bean Validation (Jakarta Validation / Hibernate Validator) dla danych wejściowych. \\ \hline
-    spring-boot-starter-aop & Obsługa programowania aspektowego (AOP) w Springu — aspekty, przechwytywanie wywołań, transakcyjne przekrojowe zachowania. \\ \hline
+    spring-boot-starter-aop & Obsługa programowania aspektowego (AOP) w Springu \textendash \space aspekty, przechwytywanie wywołań, transakcyjne przekrojowe zachowania. \\ \hline
     spring-boot-starter-actuator & Monitoring, zbieranie metryk aplikacji Spring Boot. \\ \hline
-    spring-boot-starter-oauth2-resource-server & Wsparcie serwera zasobów OAuth2 w Spring Boot — walidacja tokenów i konfiguracja zabezpieczeń zasobów. \\ \hline
-    spring-boot-configuration-processor & Procesor adnotacji dla konfiguracji Spring Boot — generacja metadanych dla właściwości konfiguracyjnych. \\ \hline
+    spring-boot-starter-oauth2-resource-server & Wsparcie serwera zasobów OAuth2 w Spring Boot \textendash \space walidacja tokenów i konfiguracja zabezpieczeń zasobów. \\ \hline
+    spring-boot-configuration-processor & Procesor adnotacji dla konfiguracji Spring Boot \textendash \space generacja metadanych dla właściwości konfiguracyjnych. \\ \hline
     spring-boot-starter-test & Zestaw narzędzi testowych (JUnit, Mockito, AssertJ itp.) do testów jednostkowych i integracyjnych. \\ \hline
     spring-security-test & Narzędzia pomocnicze i rozszerzenia do testowania konfiguracji Spring Security. \\ \hline
-    spring-boot-starter-oauth2-client & Wsparcie klienta OAuth2 w Spring Boot — logowanie/połączenie z zewnętrznymi providerami OAuth2/OIDC. \\ \hline
+    spring-boot-starter-oauth2-client & Wsparcie klienta OAuth2 w Spring Boot \textendash \space logowanie/połączenie z zewnętrznymi providerami OAuth2/OIDC. \\ \hline
     spring-boot-starter-security & Podstawowe komponenty Spring Security do zabezpieczania aplikacji. \\ \hline
     spring-boot-starter-webflux & Budowanie reaktywnych (asynchronicznych / nieblokujących) aplikacji webowych. \\ \hline
     spring-retry & Biblioteka do automatycznego ponawiania operacji z konfiguracją i adnotacjami. \\ \hline
-    spring-boot-starter-thymeleaf & Integracja Thymeleaf z Spring Boot — silnik szablonów do generowania widoków HTML po stronie serwera. \\ \hline
+    spring-boot-starter-thymeleaf & Integracja Thymeleaf z Spring Boot \textendash \space silnik szablonów do generowania widoków HTML po stronie serwera. \\ \hline
     testcontainers & Uruchamianie izolowanych kontenerów Docker w testach integracyjnych. \\ \hline
 
 \end{longtable}
@@ -107,62 +107,87 @@ Poniżej przedstawiono stos technologiczny zastosowany w projekcie.
 }
     \hline
     \rowcolor{lightgray}
-    \multicolumn{2}{|c|}{\textbf{Zestawienie używanych bibliotek / pakietów na frontendzie}} \\ \hline
+    \multicolumn{2}{|c|}{\textbf{Zestawienie używanych bibliotek na frontendzie}} \\ \hline
     \hline
     \rowcolor{lightgray}
-    \textbf{Biblioteka / pakiet} & \textbf{Opis / przeznaczenie} \\ \hline
+    \textbf{Biblioteka / plugin} & \textbf{Opis / przeznaczenie} \\ \hline
     \endfirsthead
 
     \hline
     \rowcolor{lightgray}
-    \textbf{Biblioteka / pakiet} & \textbf{Opis / przeznaczenie} \\ \hline
+    \textbf{Biblioteka / plugin} & \textbf{Opis / przeznaczenie} \\ \hline
     \endhead
 
+    @ferrucc-io/emoji-picker & Komponent umożliwiający wybór emotikon; udostępnia interfejs wyboru emoji w aplikacji. \\ \hline
+    @hookform/resolvers & Adaptery walidatorów dla \texttt{react-hook-form} — ułatwia integrację z bibliotekami walidacji (np. Zod, Yup). \\ \hline
+    @reduxjs/toolkit & Oficjalne narzędzie do upraszczania konfiguracji i używania Redux: reducery, slice’y, middleware i helpery. \\ \hline
+    @stomp/stompjs & Klient protokołu STOMP do komunikacji poprzez WebSocket — obsługa sesji, subskrypcji i wymiany komunikatów. \\ \hline
+    @tailwindcss/vite & Wtyczka integrująca Tailwind CSS z bundlerem Vite — ułatwia kompilację i użycie klasy narzędziowych Tailwind. \\ \hline
+    @tanstack/react-query & Zarządzanie asynchronicznymi danymi: pobieranie, cache’owanie, synchronizacja i obsługa błędów zapytań HTTP. \\ \hline
+    @tiptap/extension-file-handler & Rozszerzenie edytora Tiptap dodające obsługę wstawiania i zarządzania plikami. \\ \hline
+    @tiptap/extension-image & Rozszerzenie Tiptap pozwalające na wstawianie i obsługę obrazów w edytorze. \\ \hline
+    @tiptap/extension-placeholder & Rozszerzenie Tiptap dodające placeholder (tekst pomocniczy) w pustych polach edytora. \\ \hline
+    @tiptap/extension-text-align & Rozszerzenie Tiptap umożliwiające wyrównywanie tekstu (lewy, środek, prawy). \\ \hline
+    @tiptap/pm & Silnik edytora (ProseMirror) używany wewnętrznie przez Tiptap — obsługa modelu dokumentu i transformacji. \\ \hline
+    @tiptap/react & Integracja edytora Tiptap z Reactem — komponenty i hooki do osadzania edytora w aplikacji. \\ \hline
+    @tiptap/starter-kit & Zestaw podstawowych rozszerzeń i konfiguracji dla szybkiego startu z Tiptap. \\ \hline
+    @vis.gl/react-maplibre & Wiązania React do MapLibre — komponenty i helpery do osadzania map w aplikacji React. \\ \hline
+    antd & Biblioteka komponentów UI dla React (gotowe komponenty: formularze, przyciski, tabele itp.) o ustandaryzowanym wyglądzie. \\ \hline
+    axios & Obiektowy klient HTTP do wykonywania zapytań (GET, POST itd.) oraz obsługi odpowiedzi i błędów. \\ \hline
+    date-fns & Zestaw funkcji do manipulacji i formatowania dat — lekka alternatywa dla bibliotek typu Moment. \\ \hline
+    dotenv & Ładowanie zmiennych środowiskowych z pliku \texttt{.env} — ułatwia konfigurację środowiska. \\ \hline
+    maplibre-gl & Silnik renderowania map (WebGL) — warstwy map, kafelki i interakcje geograficzne. \\ \hline
+    media-chrome & Zestaw elementów UI do obsługi odtwarzania multimediów w przeglądarce. \\ \hline
+    motion & Biblioteka/dostawca narzędzi do animacji interfejsu użytkownika (efekty przejść i animacje komponentów). \\ \hline
+    openmeteo & Klient lub wrapper API serwisu pogodowego Open-Meteo — pobieranie prognoz i danych meteorologicznych. \\ \hline
+    query-string & Narzędzia do parsowania i generowania parametrów zapytań w URL (query params). \\ \hline
+    react & Biblioteka do budowy deklaratywnych interfejsów użytkownika oparta na komponentach. \\ \hline
+    react-dom & Pakiet odpowiedzialny za renderowanie elementów React w przeglądarkowym DOM. \\ \hline
+    react-hook-form & Lekka biblioteka do obsługi formularzy w React: zarządzanie stanem, walidacje i wydajność. \\ \hline
+    react-icons & Zbiór ikon udostępnionych jako komponenty React — łatwe osadzanie ikon w UI. \\ \hline
+    react-intersection-observer & Hook i API do obserwowania wejścia/wyjścia elementów z pola widzenia (lazy-loading, animacje). \\ \hline
+    react-paginate & Komponent pomocniczy do paginacji list i tabel w aplikacji React. \\ \hline
+    react-player & Uniwersalny komponent odtwarzacza multimediów wspierający wiele źródeł (YouTube, pliki lokalne itd.). \\ \hline
+    react-redux & Oficjalne wiązania umożliwiające użycie store Redux w aplikacji React. \\ \hline
+    react-router-dom & Biblioteka do routingu w aplikacjach React: definicja ścieżek, nawigacja i parametry URL. \\ \hline
+    react-select & Rozszerzony komponent \texttt{select} z opcjami wyszukiwania, grupowania i stylizacji. \\ \hline
+    sockjs-client & Klient WebSocket z fallbackami (SockJS) — stabilniejsza komunikacja w różnych środowiskach sieciowych. \\ \hline
+    tailwindcss & Framework CSS typu utility-first — definiowanie wyglądu przy pomocy klas narzędziowych. \\ \hline
+    uuid & Generator unikalnych identyfikatorów (UUID) wykorzystywany m.in. do kluczy komponentów i ID obiektów. \\ \hline
+    victory & Biblioteka do tworzenia wykresów i wizualizacji danych w React. \\ \hline
+    victory-chart & Moduł biblioteki Victory zawierający komponenty i narzędzia do rysowania wykresów. \\ \hline
+    zod & Biblioteka do deklaratywnej walidacji schematów danych i ich typowania w TypeScript. \\ \hline
+    @testing-library/jest-dom & Rozszerzenia matcherów dla Jesta ułatwiające asercje DOM w testach. \\ \hline
+    @testing-library/react & Narzędzia do testowania komponentów React w środowisku DOM. \\ \hline
+    @testing-library/user-event & Symulacja zdarzeń użytkownika (kliknięcia, wpisywanie) w testach integracyjnych. \\ \hline
+    @types/react & Typy TypeScript dla biblioteki React. \\ \hline
+    @types/react-dom & Typy TypeScript dla \texttt{react-dom}. \\ \hline
+    @types/sockjs-client & Typy TypeScript dla klienta SockJS. \\ \hline
+    @typescript-eslint/eslint-plugin & Zestaw reguł ESLint specyficznych dla TypeScript i praktyk TS. \\ \hline
+    @typescript-eslint/parser & Parser ESLint umożliwiający analizę kodu TypeScript. \\ \hline
+    @vitejs/plugin-react & Wtyczka Vite zapewniająca obsługę JSX/React Fast Refresh i optymalizacje. \\ \hline
+    cypress & Narzędzie do end-to-end testów przeglądarkowych — automatyzacja testów funkcjonalnych. \\ \hline
+    eslint & Narzędzie do analizy statycznej kodu i egzekwowania reguł stylu/bezpieczeństwa. \\ \hline
+    eslint-plugin-react & Wtyczka ESLint z regułami dedykowanymi dla aplikacji React. \\ \hline
+    eslint-plugin-react-hooks & Reguły ESLint dotyczące poprawnego użycia hooków React. \\ \hline
+    eslint-plugin-react-refresh & Wtyczka wspomagająca integrację z React Fast Refresh podczas developmentu. \\ \hline
+    jest & Framework do uruchamiania testów jednostkowych i asercji JavaScript. \\ \hline
+    jsdoc & Narzędzie do generowania dokumentacji API z adnotacji w kodzie źródłowym. \\ \hline
+    jsdom & Implementacja DOM w Node.js używana w testach do symulacji środowiska przeglądarki. \\ \hline
+    prettier & Formatowanie kodu automatyzujące styl i ujednolicające składnię. \\ \hline
+    prettier-plugin-tailwindcss & Wtyczka Prettiera sortująca klasy Tailwind CSS zgodnie z konwencją. \\ \hline
+    tailwind-scrollbar & Plugin Tailwind CSS dodający klasy pomocnicze do stylizacji pasków przewijania. \\ \hline
+    typescript & Nadzbiór JavaScript z systemem typów statycznych — kompilacja do JS. \\ \hline
+    vite & Szybki bundler i serwer deweloperski zoptymalizowany pod nowoczesne aplikacje webowe. \\ \hline
+    vitest & Lekki runner testowy kompatybilny z Vite — szybkie testy jednostkowe i integracyjne. \\ \hline
 
-    @ferrucc-io/emoji-picker & Komponent do wyboru emoji — pozwala użytkownikowi wybierać emotki w interfejsie. \\ \hline
-    @hookform/resolvers & Współpracuje z \texttt{react-hook-form} — ułatwia walidację formularzy. \\ \hline
-    @reduxjs/toolkit & Uproszczona konfiguracja stanu globalnego w aplikacji React + Redux — ułatwia zarządzanie store, reducery, akcje itp. \\ \hline
-    @stomp/stompjs & Biblioteka do komunikacji WebSocket / STOMP — umożliwia komunikację w czasie rzeczywistym między klientem a serwerem. \\ \hline
-    @tailwindcss/vite & Integracja stylów \texttt{Tailwind CSS} z bundlerem Vite — ułatwia stosowanie Tailwinda w projekcie. \\ \hline
-    @tanstack/react-query & (dawniej React Query) — zarządzanie danymi z API: fetch, cache, synchronizacja, obsługa loadingu i błędów. \\ \hline
-    @tiptap/extension-file-handler & Rozszerzenie edytora tekstu: obsługa plików (np. dodawanie lub wstawianie plików). \\ \hline
-    @tiptap/extension-image & Rozszerzenie edytora — umożliwia wstawianie i obsługę obrazów. \\ \hline
-    @tiptap/extension-placeholder & Rozszerzenie edytora — placeholder przy pustym polu edycji. \\ \hline
-    @tiptap/extension-text-align & Rozszerzenie edytora — umożliwia wyrównywanie tekstu (np. do lewej, środka, prawej). \\ \hline
-    @tiptap/pm & Silnik edytora tekstów (np. ProseMirror) używany przez Tiptap. \\ \hline
-    @tiptap/react & Integracja edytora Tiptap z Reactem — edytor jako komponent Reactowy. \\ \hline
-    @tiptap/starter-kit & Podstawowy zestaw wtyczek/ustawień do edytora Tiptap — szybki start. \\ \hline
-    @vis.gl/react-maplibre & React-owe wiązanie do map — pozwala wyświetlać i obsługiwać mapy w aplikacji. \\ \hline
-    antd & Biblioteka komponentów UI (przyciski, formularze, kafelki itp.) dla React — ułatwia budowę interfejsu. \\ \hline
-    axios & Klient HTTP — umożliwia wysyłanie zapytań do API (GET, POST itd.) i obsługę odpowiedzi/błędów. \\ \hline
-    date-fns & Obsługa dat i czasu — formatowanie, porównywanie, manipulacja datami/czasem. \\ \hline
-    dotenv & Zarządzanie zmiennymi środowiskowymi (np. klucze API, ustawienia środowiska). \\ \hline
-    maplibre-gl & Biblioteka do renderowania map — wykorzystywana przy mapach i warstwach geograficznych. \\ \hline
-    media-chrome & Komponenty multimedialne — do obsługi odtwarzania mediów w przeglądarce. \\ \hline
-    motion & Biblioteka animacji / efektów UI — pozwala dodawać animacje do komponentów interfejsu. \\ \hline
-    openmeteo & Klient lub wrapper API pogodowego — prawdopodobnie do pobierania danych meteorologicznych. \\ \hline
-    query-string & Parsowanie i generowanie parametrów zapytań w URL (np. GET, query params). \\ \hline
-    react & Biblioteka do budowy UI — komponenty, stan komponentów, renderowanie interfejsu. \\ \hline
-    react-dom & Biblioteka do „renderowania” Reacta w DOM przeglądarki — podstawa działania React. \\ \hline
-    react-hook-form & Ułatwia obsługę formularzy w React: stan formularza, walidacje, obsługa submitów. \\ \hline
-    react-icons & Zestaw ikon jako komponentów Reactowych (“ikonografika” w UI). \\ \hline
-    react-intersection-observer & Hook / narzędzie do obserwowania, kiedy komponent wchodzi/wychodzi z widoku — przydatne np. do lazy-loading lub animacji przy scrollu. \\ \hline
-    react-player & Komponent do odtwarzania mediów (wideo/audio) w React — odtwarzacze osadzone w interfejsie. \\ \hline
-    react-redux & Integracja React + Redux — pozwala użyć globalnego store Redux w aplikacji React. \\ \hline
-    react-router-dom & Routing / nawigacja w aplikacji React — definiowanie ścieżek URL i odpowiadających im “stron” / komponentów. \\ \hline
-    react-select & Komponent zaawansowanego selecta / dropdownu — lepszy niż natywny `<select>`, z opcjami, wyszukiwaniem, stylizacją. \\ \hline
-    sockjs-client & Klient WebSocket / komunikacji w czasie rzeczywistym — np. używany razem z STOMP. \\ \hline
-    tailwindcss & CSS‑framework typu utility-first — stylowanie komponentów interfejsu za pomocą klas, szybkie budowanie UI. \\ \hline
-    uuid & Generowanie unikalnych identyfikatorów — przydatne np. przy kluczach elementów list, ID obiektów itp. \\ \hline
-    victory / victory-chart & Biblioteka do rysowania wykresów / diagramów w React — wykresy liniowe, słupkowe, kołowe itp. \\ \hline
-    zod & Biblioteka do walidacji danych i schematów — sprawdzanie kształtu obiektów danych (np. z formularzy/API). \\ \hline
 \end{longtable}
 
 \refstepcounter{integrationcard}%
 \par\noindent
-\textbf{Tabela \theintegrationcard:} Zestawienie wszystkich bibliotek i pakietów użytych na frontendzie.\label{tab:all-technologies-frontend}
+\textbf{Tabela \theintegrationcard:} Zestawienie wszystkich bibliotek i pluginów użytych na frontendzie.\label{tab:all-technologies-frontend}
 
-\addcontentsline{lot}{table}{Tabela \theintegrationcard: Zestawienie wszystkich bibliotek i pakietów użytych na frontendzie.}%
+\addcontentsline{lot}{table}{Tabela \theintegrationcard: Zestawienie wszystkich bibliotek i pluginów użytych na frontendzie.}%
 
 \begin{itemize}
     \item \textbf{\gls{cache}}
