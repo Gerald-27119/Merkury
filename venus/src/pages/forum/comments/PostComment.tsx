@@ -26,6 +26,7 @@ import PostCommentDto from "../../../model/interface/forum/postComment/postComme
 import PostCommentReplyPage from "../../../model/interface/forum/postComment/postCommentReplyPage";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import { forumReportModalAction } from "../../../redux/forumReportModal";
+import { forumMediaAction } from "../../../redux/forumMedia";
 
 interface ForumCommentProps {
     comment: PostCommentGeneral;
@@ -133,6 +134,11 @@ export default function PostComment({
         await replyCommentMutate({ commentId, replyData });
     };
 
+    const handleCloseForm = () => {
+        setActiveForm(null);
+        dispatch(forumMediaAction.clearImages());
+    };
+
     const handleReport = async (commentId: number) => {
         if (isLogged) {
             dispatch(
@@ -217,7 +223,7 @@ export default function PostComment({
                     handleComment={(data) =>
                         handleEdit(activeForm.comment.id, data)
                     }
-                    onClose={() => setActiveForm(null)}
+                    onClose={handleCloseForm}
                     commentToEdit={activeForm.comment}
                     className="mt-4"
                 />
@@ -228,7 +234,7 @@ export default function PostComment({
                     handleComment={(data) =>
                         handleReply(activeForm.parentCommentId, data)
                     }
-                    onClose={() => setActiveForm(null)}
+                    onClose={handleCloseForm}
                     className="mt-4"
                 />
             )}

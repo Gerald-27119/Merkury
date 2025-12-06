@@ -6,6 +6,8 @@ import Placeholder from "@tiptap/extension-placeholder";
 import MenuBar from "./MenuBar";
 import TextAlign from "@tiptap/extension-text-align";
 import { RichTextEditorVariantType } from "../../../model/enum/forum/richTextEditorVariantType";
+import { forumMediaAction } from "../../../redux/forumMedia";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
 
 interface TiptapProps {
     placeholder: string;
@@ -22,6 +24,8 @@ export default function Tiptap({
     onBlur,
     variant = RichTextEditorVariantType.DEFAULT,
 }: TiptapProps) {
+    const dispatch = useDispatchTyped();
+
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -40,9 +44,67 @@ export default function Tiptap({
             }),
             Image.configure({
                 inline: false,
-                allowBase64: true,
+                allowBase64: false,
             }),
-            FileHandler.configure(),
+            FileHandler.configure({
+                allowedMimeTypes: [
+                    "image/png",
+                    "image/jpeg",
+                    "image/gif",
+                    "image/webp",
+                ],
+                onDrop: (currentEditor, files, pos) => {
+                    files.forEach((file) => {
+                        const id = crypto.randomUUID();
+                        dispatch(forumMediaAction.addImage({ id, file }));
+
+                        const fileReader = new FileReader();
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = () => {
+                            currentEditor
+                                .chain()
+                                .insertContentAt(pos, {
+                                    type: "image",
+                                    attrs: {
+                                        src: fileReader.result,
+                                        alt: id,
+                                    },
+                                })
+                                .focus()
+                                .run();
+                        };
+                    });
+                },
+                onPaste: (currentEditor, files, htmlContent) => {
+                    files.forEach((file) => {
+                        if (htmlContent) {
+                            return false;
+                        }
+
+                        const id = crypto.randomUUID();
+                        dispatch(forumMediaAction.addImage({ id, file }));
+
+                        const fileReader = new FileReader();
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = () => {
+                            currentEditor
+                                .chain()
+                                .insertContentAt(
+                                    currentEditor.state.selection.anchor,
+                                    {
+                                        type: "image",
+                                        attrs: {
+                                            src: fileReader.result,
+                                            alt: id,
+                                        },
+                                    },
+                                )
+                                .focus()
+                                .run();
+                        };
+                    });
+                },
+            }),
         ],
         content: value,
         onUpdate: ({ editor }) => {

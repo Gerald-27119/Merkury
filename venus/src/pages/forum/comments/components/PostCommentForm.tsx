@@ -9,6 +9,11 @@ import PostCommentDto from "../../../../model/interface/forum/postComment/postCo
 import { RichTextEditorVariantType } from "../../../../model/enum/forum/richTextEditorVariantType";
 import PostCommentGeneral from "../../../../model/interface/forum/postComment/postCommentGeneral";
 import FormActionButtons from "../../components/FormActionButtons";
+import { uploadToAzure } from "../../../../http/forum-file-upload";
+import { replaceLocalImagesWithUploadedUrls } from "../../../../utils/forum/replaceLocalImagesWithUploadedUrls";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
 
 interface ForumCommentFormProps {
     handleComment: (newComment: PostCommentDto) => void;
@@ -23,6 +28,10 @@ export default function PostCommentForm({
     commentToEdit,
     className,
 }: ForumCommentFormProps) {
+    const localImages = useSelector(
+        (state: RootState) => state.forumMedia.images,
+    );
+
     const {
         handleSubmit,
         control,
@@ -37,9 +46,15 @@ export default function PostCommentForm({
               },
     });
 
-    const onSubmit: SubmitHandler<PostCommentFormFields> = (data) => {
+    const onSubmit: SubmitHandler<PostCommentFormFields> = async (data) => {
+        const finalContent = await replaceLocalImagesWithUploadedUrls(
+            data.content,
+            localImages,
+            (file) => uploadToAzure(file, "forum"),
+        );
+
         handleComment({
-            content: data.content,
+            content: finalContent,
         });
         onClose();
     };

@@ -23,6 +23,7 @@ import { expandedSpotGalleryCurrentMediaSlice } from "./expanded-spot-gallery-cu
 import { forumModalSlice } from "./forumModal";
 import { forumReportModalSlice } from "./forumReportModal";
 import { addSpotCommentModalInfoSlice } from "./add-spot-comment-modal-info";
+import { forumMediaSlice } from "./forumMedia";
 
 const store = configureStore({
     reducer: {
@@ -53,6 +54,7 @@ const store = configureStore({
         addSpotCommentModal: addSpotCommentModalInfoSlice.reducer,
         forum: forumModalSlice.reducer,
         forumReport: forumReportModalSlice.reducer,
+        forumMedia: forumMediaSlice.reducer,
     },
 });
 

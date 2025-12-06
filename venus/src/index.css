@@ -163,6 +163,10 @@ body {
     white-space: pre-wrap;
 }
 
+/*.tiptap img {*/
+/*    @apply max-w-96 max-h-96 h-auto w-auto;*/
+/*}*/
+
 .tiptap a {
     @apply cursor-pointer text-blue-500 underline;
 }
@@ -208,10 +212,10 @@ body {
     margin: 0;
 }
 
-.tiptap p:empty::before {
-    content: "";
-    display: inline-block;
-}
+/*.tiptap p:empty::before {*/
+/*    content: "";*/
+/*    display: inline-block;*/
+/*}*/
 
 .tiptap li {
     display: flex;

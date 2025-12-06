@@ -13,12 +13,16 @@ import useDispatchTyped from "../../hooks/useDispatchTyped";
 import { forumModalAction } from "../../redux/forumModal";
 import ForumReportModal from "./components/ForumReportModal";
 import { forumReportModalAction } from "../../redux/forumReportModal";
+import { forumMediaAction } from "../../redux/forumMedia";
 
 interface ForumLayoutProps {
     children: ReactNode;
 }
 
 export default function ForumLayout({ children }: ForumLayoutProps) {
+    const localImages = useSelector(
+        (state: RootState) => state.forumMedia.images,
+    );
     const isLogged = useSelector((state: RootState) => state.account.isLogged);
     const dispatch = useDispatchTyped();
     const { isOpen, mode, postToEdit } = useSelector(
@@ -60,6 +64,11 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
         }
     };
 
+    const handleCloseAddPostForm = () => {
+        dispatch(forumModalAction.closeModal());
+        dispatch(forumMediaAction.clearImages());
+    };
+
     return (
         <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg min-h-screen w-full">
             <div className="mx-auto mt-16 flex w-full max-w-6xl flex-row gap-4 xl:mt-8">
@@ -89,7 +98,7 @@ export default function ForumLayout({ children }: ForumLayoutProps) {
                     />
                 </div>
                 <ForumAddPostModal
-                    onClose={() => dispatch(forumModalAction.closeModal())}
+                    onClose={handleCloseAddPostForm}
                     isOpen={isOpen}
                     mode={mode}
                     postToEdit={postToEdit}

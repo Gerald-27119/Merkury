@@ -11,6 +11,10 @@ import ControlledSelect from "../../components/ControlledSelect";
 import PostDto from "../../../../model/interface/forum/post/postDto";
 import { RichTextEditorVariantType } from "../../../../model/enum/forum/richTextEditorVariantType";
 import FormActionButtons from "../../components/FormActionButtons";
+import { uploadToAzure } from "../../../../http/forum-file-upload";
+import { replaceLocalImagesWithUploadedUrls } from "../../../../utils/forum/replaceLocalImagesWithUploadedUrls";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
 
 interface FormProps {
     handlePost: (data: PostDto) => void;
@@ -27,6 +31,10 @@ export default function PostForm({
     tags,
     postToEdit,
 }: FormProps) {
+    const localImages = useSelector(
+        (state: RootState) => state.forumMedia.images,
+    );
+
     const {
         register,
         handleSubmit,
@@ -56,10 +64,16 @@ export default function PostForm({
               },
     });
 
-    const onSubmit: SubmitHandler<PostFormFields> = (data) => {
+    const onSubmit: SubmitHandler<PostFormFields> = async (data) => {
+        const finalContent = await replaceLocalImagesWithUploadedUrls(
+            data.content,
+            localImages,
+            (file) => uploadToAzure(file, "forum"),
+        );
+
         let newPost = {
             title: data.title,
-            content: data.content,
+            content: finalContent,
             category: data.category!.value,
             tags: data.tags ? data.tags.map((tag) => tag.value) : [],
         };
