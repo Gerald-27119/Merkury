@@ -1,4 +1,4 @@
-Cypress.on("uncaught:exception", (err, runnable) => {
+Cypress.on("uncaught:exception", (err) => {
     if (
         err.message.includes(
             "Cannot read properties of null (reading 'document')",
@@ -12,7 +12,7 @@ describe("Account E2E tests", () => {
     it("Login", () => {
         cy.visit("http://localhost:5173/");
 
-        cy.get("#login").click();
+        cy.get("#sidebar-link-login").click();
 
         cy.url().should("include", "/login");
 
@@ -25,7 +25,7 @@ describe("Account E2E tests", () => {
     it("Register", () => {
         cy.visit("http://localhost:5173/");
 
-        cy.get("#login").click();
+        cy.get("#sidebar-link-login").click();
         cy.contains("Don't have an account?").click();
 
         cy.url().should("include", "/register");

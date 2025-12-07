@@ -32,7 +32,7 @@ export default function SidebarItemLink({
     return (
         <NavLink
             to={link.to}
-            id={link.name}
+            id={`sidebar-link-${link.name}`}
             end
             onClick={handleClose}
             onMouseEnter={showTooltip}
