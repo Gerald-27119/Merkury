@@ -22,7 +22,7 @@ export default function Post({ post }: PostProps) {
     const { mutateAsync: deletePostMutate } = useAppMutation(deletePost, {
         successMessage: "Post deleted successfully!",
         loginToAccessMessage: "Login to delete posts",
-        invalidateKeys: [["posts"]],
+        invalidateKeys: [["posts"], ["trendingPosts"]],
     });
 
     const { mutateAsync: followPostMutate } = useAppMutation(followPost, {
