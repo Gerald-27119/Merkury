@@ -19,8 +19,7 @@ describe("Account E2E tests", () => {
         cy.get("#username").type("user");
         cy.get("#password").type("password");
 
-        cy.get("#sign-in").click();
-        cy.get("#sign-in").click();
+        cy.get('button[type="submit"]').click();
     });
 
     it("Register", () => {
@@ -36,7 +35,6 @@ describe("Account E2E tests", () => {
         cy.get("#password").type("Password1@3");
         cy.get("#confirm-password").type("Password1@3");
 
-        cy.get("#sign-up").click();
-        cy.get("#sign-up").click();
+        cy.get('button[type="submit"]').click();
     });
 });
