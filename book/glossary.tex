@@ -168,7 +168,15 @@
 \newglossaryentry{commit}
 {
     name={Commit},
-    @@ -60,7 +180,7 @@
+    description={Zapis zmian w repozytorium systemu kontroli wersji, który dokumentuje stan projektu w określonym momencie}
+}
+
+\newglossaryentry{push}
+{
+    name={Push},
+    description={Operacja w systemie kontroli wersji polegająca na wysłaniu lokalnych zmian (commitów) do zdalnego repozytorium}
+}
+
 \newglossaryentry{spot}
 {
     name={Spot},
@@ -176,9 +184,241 @@
 }
 
 \newglossaryentry{sidebar}
-@@ -300,7 +420,197 @@
-description={(ang. \textit{Business Process Model and Notation});
-standardowa notacja graficzna, która umożliwia szczegółowe przedstawienie i dokumentowanie procesów biznesowych.}
+{
+    name={Sidebar},
+    description={Boczny panel w interfejsie użytkownika, zawierający menu nawigacyjne lub dodatkowe opcje funkcjonalne aplikacji}
+}
+
+\newglossaryentry{design}
+{
+    name={Design},
+    description={Etap lub proces projektowania wyglądu i funkcjonalności aplikacji, obejmujący zarówno aspekty wizualne, jak i użytkowe (UX/UI)}
+}
+
+\newglossaryentry{folder-by-type}
+{
+    name={Folder by type},
+    description={Sposób organizowania struktury katalogów w projekcie, w którym pliki są grupowane według rodzaju (typu) zasobu, a nie według funkcjonalności. Na przykład wszystkie komponenty trafiają do jednego folderu, wszystkie style do innego itd}
+}
+
+\newglossaryentry{biblioteka}
+{
+    name={Biblioteka},
+    description={Zewnętrzny lub wewnętrzny zestaw gotowych funkcji, klas, komponentów lub modułów, który można wielokrotnie wykorzystywać w projekcie zamiast pisać wszystko od zera}
+}
+
+\newglossaryentry{protected-route}
+{
+    name={Protected route},
+    description={Trasa w aplikacji, do której dostęp jest ograniczony, zwykle tylko dla zalogowanych użytkowników lub użytkowników z odpowiednimi uprawnieniami. Jeżeli użytkownik nie spełnia warunków, jest przekierowywany (np. na stronę główną)}
+}
+
+\newglossaryentry{wzorzec}
+{
+    name={Wzorzec},
+    description={Powtarzalne, sprawdzone rozwiązanie typowego problemu projektowego lub architektonicznego. Wzorzec opisuje \emph{jak} coś organizować lub implementować, żeby było czytelne, skalowalne i łatwe w utrzymaniu}
+}
+
+\newglossaryentry{DAD_LLC}
+{
+    name={Disciplined Agile Delivery - Lean Life Cycle},
+    description={
+        Disciplined Agile Delivery w wariancie Lean Life Cycle to sposób prowadzenia projektu,
+        który łączy elastyczność Agile z przewidywalnością Waterfalla,
+        ale bez stałych sprintów — praca toczy się w ciągłym przepływie.
+        Na starcie zakłada mocniejszą fazę przygotowawczą: doprecyzowanie zakresu,
+        szkic architektury, identyfikację ryzyk i kryteria jakości.
+        W realizacji następuje ciągłe doprecyzowywanie wymagań
+        i backlogu, oparte na regularnym feedbacku udziałowców.
+        Całość opiera się na praktykach Lean oraz lekkim governance:
+        code review i regularnych przeglądach postępów.
+    }
+}
+
+\newglossaryentry{operator-drona}
+{
+    name={Operator drona},
+    description={Osoba lub podmiot będący właścicielem floty dronów. Może posiadać jeden lub wiele dronów. Droniarz rekreacyjny jest zazwyczaj jednocześnie operatorem floty oraz pilotem.}
+}
+
+\newglossaryentry{pilot-drona}
+{
+    name={Pilot drona},
+    description={Osoba posiadająca uprawnienia do pilotowania drona (jeżeli są wymagane) i wykonująca loty dronem. Droniarz rekreacyjny jest zazwyczaj jednocześnie pilotem oraz operatorem floty.}
+}
+
+\newglossaryentry{droniarz}
+{
+    name={Droniarz},
+    plural={droniarze},
+    description={Potoczne określenie osoby, która jest jednocześnie pilotem oraz operatorem drona. Zwykle entuzjasta dronów.}
+}
+
+\newglossaryentry{PANSA}
+{
+    name={PANSA},
+    description={
+        Polish Air Navigation Services Agency, pol. Polska Agencja Żeglugi Powietrznej.
+        Instytucja ta zapewnia m.in. mapę z zaznaczonymi strefami lotów.
+        Każda strefa ma swoje właściwości prawne.
+    }
+}
+
+\newglossaryentry{pilot-fpv}
+{
+    name={Pilot FPV},
+    description={Pilot drona latający w trybie \textit{First Person View} (FPV),
+    korzystający z gogli przekazujących obraz z kamery pokładowej.}
+}
+
+\newglossaryentry{droniarz-fpv}
+{
+    name={Droniarz FPV},
+    description={\glsentrydesc{pilot-fpv}}
+}
+
+\newglossaryentry{droniarz-foto-video}
+{
+    name={Droniarz foto/video},
+    description={Pilot wykorzystujący drony fotograficzne/filmowe do rejestracji materiałów wizualnych
+    (zdjęcia, wideo), zwykle z naciskiem na stabilizację i jakość obrazu.},
+    user1={droniarzem foto/video}
+}
+
+\newglossaryentry{droniarz-foto}
+{
+    name={Droniarz foto},
+    description={\glsentrydesc{droniarz-foto-video}}
+}
+
+\newglossaryentry{droniarz-fotograf}
+{
+    name={Droniarz fotograf},
+    description={\glsentrydesc{droniarz-foto-video}}
+}
+
+\newglossaryentry{pilot-foto}
+{
+    name={Pilot foto},
+    description={\glsentrydesc{droniarz-foto-video}}
+}
+
+\newglossaryentry{azure-blob-storage}
+{
+    name={Azure Blob Storage},
+    description={Usługa magazynu obiektowego w chmurze Microsoft Azure do przechowywania
+    nieustrukturyzowanych danych (\textit{blobs}) takich jak obrazy, wideo i pliki.
+    Udostępnia kontenery, warstwy dostępu, wersjonowanie oraz tokeny SAS; często używana
+    do hostowania multimediów w aplikacjach webowych.}
+}
+
+\newglossaryentry{stan}{
+    name={Stan},
+    description={Aktualny zestaw danych przechowywanych przez aplikację lub komponent, na podstawie którego renderowany jest interfejs użytkownika. Stan może być lokalny (utrzymywany w pojedynczym komponencie) albo globalny (wspólny dla wielu komponentów).}
+}
+
+\newglossaryentry{ui}{
+    name={UI},
+    description={Interfejs użytkownika (ang. \textit{User Interface}); warstwa prezentacji odpowiedzialna za sposób wyświetlania danych oraz interakcji użytkownika z aplikacją.}
+}
+
+\newglossaryentry{hook}{
+    name={Hook (React)},
+    description={Prosta funkcja w React, która „dodaje” możliwości do elementu interfejsu — np. pozwala mu coś zapamiętać (stan) albo zrobić coś po zmianie/załadowaniu. Wszystkie hooki zaczynają się od \texttt{use...} (np. \texttt{useState}, \texttt{useEffect}).}
+}
+
+\newglossaryentry{css}{
+    name={CSS},
+    description={Kaskadowe arkusze stylów (Cascading Style Sheets) — język opisu prezentacji dokumentów (np. HTML). Definiuje wygląd interfejsu: układ, kolory, typografię, odstępy, animacje i zachowania responsywne, oddzielając warstwę treści od warstwy prezentacji.}
+}
+
+\newglossaryentry{responsywnosc}{
+    name={Responsywność},
+    description={Określenie związane z projektowaniem responsywnym (Responsive Web Design, RWD), czyli dostosowywaniem interfejsu do różnych rozmiarów i parametrów ekranów. Obejmuje m.in. elastyczne siatki, grafiki i \gls{media-queries}, tak aby układ i czytelność były zachowane na telefonach, tabletach i desktopach.}
+}
+
+\newglossaryentry{props}{
+    name={Props},
+    description={Właściwości przekazywane do komponentu React przez komponent nadrzędny; służą do konfiguracji i przekazywania danych. Powinny być traktowane jako tylko do odczytu (read-only) wewnątrz komponentu potomnego.}
+}
+
+\newglossaryentry{react}{
+    name={React},
+    description={Biblioteka JavaScript do budowy interfejsów użytkownika w oparciu o komponenty deklaratywne i wirtualny DOM. Zapewnia jednokierunkowy przepływ danych oraz zarządzanie stanem komponentów.}
+}
+
+\newglossaryentry{type-script}{
+    name={TypeScript},
+    description={Rozszerzenie do języka JavaScript dodający statyczne typowanie, interfejsy i narzędzia do większych projektów. Kompiluje się do czystego JavaScript, ułatwiając wykrywanie błędów w czasie kompilacji i refaktoryzację.}
+}
+
+\newglossaryentry{redux}{
+    name={Redux},
+    description={Biblioteka do przewidywalnego zarządzania stanem aplikacji. Opiera się na jednym \emph{store}, akcjach i czystych \emph{reducerach}, promuje niemutowalność i jednokierunkowy przepływ danych. Często używana z Reactem, ale niezależna od niego.}
+}
+
+\newglossaryentry{media-queries}{
+    name={Media queries},
+    description={Konstrukcja CSS pozwalająca stosować reguły stylów w zależności od cech urządzenia/okna (np. szerokości ekranu, orientacji, preferencji użytkownika). Podstawa responsywnego projektowania (\emph{responsive design}).}
+}
+
+\newglossaryentry{backlog}{
+    name={Backlog},
+    description={Lista zadań, które należy wykonać w ramach projektu, używane w metodykach zwinnych.}
+}
+
+\newglossaryentry{tablica_kanban}{
+    name={Tablica Kanban},
+    description={Narzędzie do zarządzania przepływem pracy, które pomaga zespołom śledzić zadania oraz ich postępy.
+    Składa się z kolumn reprezentujących stan etapu prac, na przykład „Do zrobienia” lub „W trakcie”.}
+}
+
+\newglossaryentry{ide}{
+    name={IDE},
+    description={(ang. \textit{integrated development environment}); to zintegrowane środowisko programistyczne, służące do
+    tworzenia, modyfikowania, testowania i konserwacji oprogramowania}
+}
+
+\newglossaryentry{api}{
+    name={API},
+    description={(ang. \textit{application programming interface}); zbiór reguł i operacji do komunikacji z oprogramowaniem.}
+}
+
+\longnewglossaryentry{rest_api}{
+    name={REST API}
+}{
+    Architektura budowania usług sieciowych komunikujących się poprzez metody protokołu HTTP (GET, PUT, POST, DELETE, PATCH).
+    Wymiana danych występuje często w formacie JSON lub XML.
+    \\REST API musi spełniać następujące reguły:
+    \begin{enumerate}[nosep]
+        \item \textbf{Rozdzielenie klient-serwer} \textemdash \space klient i serwer są od siebie niezależne, komunikują się poprzez interfejs.
+        \item \textbf{Bezstanowość} \textemdash \space każde żądanie przez klienta zawiera wszystkie informacje niezbędne do jego obsłużenia.
+        Po otrzymaniu żądania serwer nie przechowuje o nim żadnych informacji.
+        \item \textbf{Buforowalność (cache)} \textemdash \space odpowiedzi z API powinny informować, czy dane można cache’ować.
+        Jeśli tak, to przy kolejnym żądaniu mogą być zwrócone z cache’a.
+        \item \textbf{Jednolity interfejs}:
+        \begin{itemize}[nosep]
+            \item \textbf{Identyfikacja zasobów} \textemdash \space każdy zasób musi być jednoznacznie zidentyfikowany w interakcji klient-serwer.
+            \item \textbf{Manipulacja zasobów poprzez reprezentację} \textemdash \space po otrzymaniu reprezentacji klient może zmienić stan zasobu przesyłając zmodyfikowaną reprezentację.
+            \item \textbf{Samoopisujące się wiadomości} \textemdash \space każde żądanie i odpowiedź powinny zawierać informacje do jego poprawnego przetworzenia.
+            \item \textbf{Hypermedia jako silnik stanu aplikacji (HATEOAS)} \textemdash \space po otrzymaniu odpowiedzi klient powinien móc dynamicznie poznać inne interakcje przez linki.
+        \end{itemize}
+        \item \textbf{Warstwowość} \textemdash \space klient nie wie czy komunikuje się bezpośrednio z serwerem, czy poprzez pośrednika
+        (np. proxy) oraz nie wie z czym komunikuje się obsługująca go warstwa.
+        \item \textbf{Kod na żądanie (opcjonalnie)} \textemdash \space serwer może przesłać fragment kodu, który zostanie wykonany przez klienta.
+    \end{enumerate}
+}
+
+\newglossaryentry{uml}{
+    name={UML},
+    description={(ang. \textit{Unified Modeling Language});
+    graficzny język wizualizacji, specyfikowania oraz dokumentowania składników systemów informatycznych. }
+}
+
+\newglossaryentry{bpmn}{
+    name={BPMN},
+    description={(ang. \textit{Business Process Model and Notation});
+    standardowa notacja graficzna, która umożliwia szczegółowe przedstawienie i dokumentowanie procesów biznesowych.}
 }
 
 \newglossaryentry{infinite-scroll}{
@@ -372,4 +612,22 @@ standardowa notacja graficzna, która umożliwia szczegółowe przedstawienie i 
     (np. list postów, wyników wyszukiwania, komentarzy)
     na mniejsze strony, które są pobierane i wyświetlane stopniowo,
     zamiast ładowania wszystkich elementów jednocześnie.}
+}
+
+\newglossaryentry{moscow}{
+    name={MoSCoW},
+    description={Metoda nadawania priorytetów wymaganiom, wyróżniająca kategorie:
+    \emph{Must have}, \emph{Should have}, \emph{Could have} oraz
+    \emph{Won't have this time}}
+}
+
+\newglossaryentry{cache}{
+    name={Cache},
+    description={Mechanizm przechowywania danych w celu przyspieszenia ich ponownego odczytu}
+}
+
+
+\newglossaryentry{query-params}{
+    name={Parametry zapytania (query params)},
+    description={Pary \texttt{klucz=wartość} przekazywane w części adresu URL po znaku zapytania \texttt{?}, służące m.in. do filtrowania, sortowania, paginacji wyników lub przekazywania dodatkowych opcji żądania do serwera, np. \texttt{?param1=val1\&param2=val2}}
 }
