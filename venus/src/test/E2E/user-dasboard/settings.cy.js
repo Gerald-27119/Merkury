@@ -95,7 +95,7 @@ describe("Account settings page", () => {
 
         cy.wait("@editSettings");
 
-        cy.contains("Successfully change your username").should("be.visible");
+        cy.contains("Successfully changed your username").should("be.visible");
     });
 
     it("submits email change successfully", () => {
@@ -134,7 +134,7 @@ describe("Account settings page", () => {
 
         cy.wait("@editSettings");
 
-        cy.contains("Successfully change your email").should("be.visible");
+        cy.contains("Successfully changed your email").should("be.visible");
     });
 
     it("submits password change successfully", () => {
@@ -177,7 +177,7 @@ describe("Account settings page", () => {
 
         cy.wait("@editSettings");
 
-        cy.contains("Successfully change your password").should("be.visible");
+        cy.contains("Successfully changed your password").should("be.visible");
     });
 
     it("shows limited settings for oauth provider", () => {
@@ -269,7 +269,7 @@ describe("Account settings page", () => {
 
         cy.contains("button", "Save").click();
 
-        cy.contains("Successfully change your password").should("be.visible");
+        cy.contains("Successfully changed your password").should("be.visible");
 
         cy.clearLocalStorage();
         cy.reload();

@@ -214,7 +214,7 @@ describe("Account added spots page", () => {
         cy.wait("@addSpotReal");
         cy.wait("@getAddedSpotsReal");
 
-        cy.contains("Successfully add spot.").should("be.visible");
+        cy.contains("Successfully added spot.").should("be.visible");
         cy.contains("Test Spot").should("be.visible");
         cy.contains("Poland, Gdańsk, Targ Drzewny 9").should("be.visible");
         cy.get('img[alt="spot-image"]').should("exist");
