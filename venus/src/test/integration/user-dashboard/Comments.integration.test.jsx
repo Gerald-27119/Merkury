@@ -176,7 +176,7 @@ describe("Comments – integration tests", () => {
         expect(getAllUserComments).toHaveBeenCalledTimes(1);
     });
 
-    test("loads the next page after sentinel intersection (infinite scroll) – real useInfiniteQuery", async () => {
+    test("loads the next page after sentinel intersection (infinite scroll)", async () => {
         getAllUserComments
             .mockResolvedValueOnce(firstPageHasNext)
             .mockResolvedValueOnce(secondPage);

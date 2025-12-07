@@ -12,7 +12,6 @@ import { accountSlice } from "../../../redux/account.tsx";
 import Movies from "../../../pages/account/movies/Movies.tsx";
 import { getSortedUserMovies } from "../../../http/user-dashboard";
 
-// mock ReactPlayer, żeby mieć pewne data-testid w DOM
 vi.mock("react-player", () => ({
     __esModule: true,
     default: (props) => <div data-testid="user-movie" {...props} />,
@@ -152,11 +151,8 @@ describe("Movies – integration tests", () => {
 
         expect(screen.getByText("Movies")).toBeInTheDocument();
 
-        const firstDate = new Date("2025-06-25").toLocaleDateString("pl-PL");
-        const secondDate = new Date("2025-06-24").toLocaleDateString("pl-PL");
-
-        expect(screen.getByText(firstDate)).toBeInTheDocument();
-        expect(screen.getByText(secondDate)).toBeInTheDocument();
+        expect(screen.getByText("25.06.2025")).toBeInTheDocument();
+        expect(screen.getByText("24.06.2025")).toBeInTheDocument();
 
         expect(
             screen.queryByText("You haven't added any movies."),
