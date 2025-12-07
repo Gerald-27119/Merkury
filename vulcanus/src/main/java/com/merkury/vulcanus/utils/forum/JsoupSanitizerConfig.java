@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.utils;
+package com.merkury.vulcanus.utils.forum;
 
 import org.jsoup.safety.Safelist;
 import org.springframework.stereotype.Component;
@@ -15,9 +15,8 @@ public class JsoupSanitizerConfig {
 
     public Safelist forumSafeList() {
         Safelist safelist = Safelist.basic()
-                .addTags("u", "a", "img", "video")
+                .addTags("u", "a", "img")
                 .addAttributes("img", "src", "alt")
-                .addAttributes("video", "src", "controls")
                 .addEnforcedAttribute("a", "target", "_blank")
                 .addEnforcedAttribute("a", "rel", "noopener noreferrer nofollow");
 

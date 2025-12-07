@@ -54,7 +54,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
             ))}
             <HeadingDropdown editor={editor} size={18} />
 
-            {options.slice(2).map((option, index) => (
+            {options.slice(2).map((option) => (
                 <EditorIconButton
                     key={option.id}
                     icon={option.icon}

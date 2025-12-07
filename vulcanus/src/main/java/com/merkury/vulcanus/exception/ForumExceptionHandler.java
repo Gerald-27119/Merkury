@@ -38,4 +38,9 @@ public class ForumExceptionHandler {
     public ResponseEntity<String> handleInvalidPostOperationException(Exception ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
+
+    @ExceptionHandler(ForumMediaNotFoundException.class)
+    public ResponseEntity<String> handleForumMediaNotFoundException(ForumMediaNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }

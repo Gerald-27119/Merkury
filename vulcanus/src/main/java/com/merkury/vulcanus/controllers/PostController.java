@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 
@@ -81,13 +82,13 @@ public class PostController {
     }
 
     @DeleteMapping("post/{postId}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long postId) throws UnauthorizedPostAccessException, UserNotFoundByUsernameException {
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId) throws UnauthorizedPostAccessException, UserNotFoundByUsernameException, BlobContainerNotFoundException, URISyntaxException {
         postService.deletePost(postId);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("post/{postId}")
-    public ResponseEntity<Void> editPost(@PathVariable Long postId, @Valid @RequestBody PostDto post) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
+    public ResponseEntity<Void> editPost(@PathVariable Long postId, @Valid @RequestBody PostDto post) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException, BlobContainerNotFoundException, URISyntaxException {
         postService.editPost(postId, post);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
