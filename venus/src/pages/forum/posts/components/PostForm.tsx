@@ -34,6 +34,8 @@ export default function PostForm({
         handleSubmit,
         control,
         formState: { errors },
+        setError,
+        clearErrors,
     } = useForm<PostFormFields>({
         resolver: zodResolver(PostFormSchema),
         mode: "onBlur",
@@ -118,6 +120,8 @@ export default function PostForm({
                     control={control}
                     error={errors.content?.message}
                     variant={RichTextEditorVariantType.MODAL}
+                    setError={setError}
+                    clearErrors={clearErrors}
                 />
 
                 <FormActionButtons

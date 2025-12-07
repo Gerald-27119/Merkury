@@ -1,18 +1,21 @@
 import React, { useRef } from "react";
 import { Editor } from "@tiptap/react";
+import { forumAllowedMimeTypes } from "../../../model/interface/forum/forumAllowedMimeTypes";
 
 interface FileUploadButtonProps {
     editor: Editor | null;
     icon: React.ElementType;
     size: number;
+    onFileError?: (msg: string) => void;
+    onFileSuccess?: () => void;
 }
-
-const allowedMimeTypes = ["image/png", "image/jpeg", "image/gif", "image/webp"];
 
 export default function FileUploadButton({
     editor,
     icon: Icon,
     size,
+    onFileError,
+    onFileSuccess,
 }: FileUploadButtonProps) {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -26,18 +29,21 @@ export default function FileUploadButton({
         if (!files) return;
 
         Array.from(files).forEach((file) => {
-            if (!allowedMimeTypes.includes(file.type)) {
+            if (!forumAllowedMimeTypes.includes(file.type)) {
+                onFileError?.(
+                    "File type not allowed. Only PNG, JPEG, GIF, WEBP are supported.",
+                );
                 return;
             }
 
-            const id = crypto.randomUUID();
-            const reader = new FileReader();
+            onFileSuccess?.();
 
+            const reader = new FileReader();
             reader.onload = () => {
                 editor
                     .chain()
                     .focus()
-                    .setImage({ src: reader.result as string, alt: id })
+                    .setImage({ src: reader.result as string, alt: "image" })
                     .run();
             };
 
@@ -60,7 +66,7 @@ export default function FileUploadButton({
                 ref={fileInputRef}
                 type="file"
                 onChange={handleFileChange}
-                accept={allowedMimeTypes.join(",")}
+                accept={forumAllowedMimeTypes.join(",")}
                 className="hidden"
                 multiple
             />

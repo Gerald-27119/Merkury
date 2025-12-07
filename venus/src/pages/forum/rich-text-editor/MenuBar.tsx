@@ -8,9 +8,15 @@ import FileUploadButton from "./FileUploadButton";
 
 interface MenuBarProps {
     editor: Editor | null;
+    onFileError?: (msg: string) => void;
+    onFileSuccess?: () => void;
 }
 
-export default function MenuBar({ editor }: MenuBarProps) {
+export default function MenuBar({
+    editor,
+    onFileError,
+    onFileSuccess,
+}: MenuBarProps) {
     if (!editor) {
         return null;
     }
@@ -70,7 +76,13 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onSubmit={handleLinkSubmission}
             />
 
-            <FileUploadButton editor={editor} icon={LuImage} size={18} />
+            <FileUploadButton
+                editor={editor}
+                icon={LuImage}
+                size={18}
+                onFileError={onFileError}
+                onFileSuccess={onFileSuccess}
+            />
         </div>
     );
 }

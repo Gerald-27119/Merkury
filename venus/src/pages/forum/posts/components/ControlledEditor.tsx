@@ -1,12 +1,21 @@
-import { Control, Controller, FieldValues, Path } from "react-hook-form";
+import {
+    Control,
+    Controller,
+    FieldValues,
+    Path,
+    UseFormClearErrors,
+    UseFormSetError,
+} from "react-hook-form";
 import Tiptap from "../../rich-text-editor/Tiptap";
 import { RichTextEditorVariantType } from "../../../../model/enum/forum/richTextEditorVariantType";
 
-interface PostFormProps<T extends FieldValues> {
+interface ControlledEditorProps<T extends FieldValues> {
     name: Path<T>;
     control: Control<T>;
     error?: string;
     variant: RichTextEditorVariantType;
+    setError: UseFormSetError<T>;
+    clearErrors: UseFormClearErrors<T>;
 }
 
 const baseClassName = "dark:bg-darkBg bg-lightBgSoft mx-auto rounded-lg p-4";
@@ -20,7 +29,9 @@ export default function ControlledEditor<T extends FieldValues>({
     control,
     error,
     variant,
-}: PostFormProps<T>) {
+    setError,
+    clearErrors,
+}: ControlledEditorProps<T>) {
     return (
         <div className="w-full">
             <Controller
@@ -37,6 +48,13 @@ export default function ControlledEditor<T extends FieldValues>({
                                 onChange={field.onChange}
                                 onBlur={field.onBlur}
                                 variant={variant}
+                                onFileError={(msg: string) => {
+                                    setError(name, {
+                                        type: "manual",
+                                        message: msg,
+                                    });
+                                }}
+                                onFileSuccess={() => clearErrors(name)}
                             />
                         </div>
                         {error && (

@@ -29,6 +29,8 @@ export default function PostCommentForm({
         handleSubmit,
         control,
         formState: { errors },
+        setError,
+        clearErrors,
     } = useForm<PostCommentFormFields>({
         resolver: zodResolver(PostCommentFormSchema),
         mode: "onBlur",
@@ -60,6 +62,8 @@ export default function PostCommentForm({
                     control={control}
                     error={errors.content?.message}
                     variant={RichTextEditorVariantType.DEFAULT}
+                    setError={setError}
+                    clearErrors={clearErrors}
                 />
 
                 <FormActionButtons
