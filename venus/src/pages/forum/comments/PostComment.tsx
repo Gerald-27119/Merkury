@@ -196,7 +196,6 @@ export default function PostComment({
                 isReply={comment.isReply}
                 onAuthorClick={handleNavigateToAuthorProfile}
             />
-            {comment.id}
 
             {activeForm?.type !== "edit" && (
                 <div>

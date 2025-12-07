@@ -61,7 +61,7 @@ export default function PostForm({
     const onSubmit: SubmitHandler<PostFormFields> = async (data) => {
         const finalContent = await extractAndUploadImages(
             data.content,
-            (file) => uploadToAzure(file, "forum"),
+            (file) => uploadToAzure(file),
         );
 
         let newPost = {

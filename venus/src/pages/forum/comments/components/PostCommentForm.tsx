@@ -42,7 +42,7 @@ export default function PostCommentForm({
     const onSubmit: SubmitHandler<PostCommentFormFields> = async (data) => {
         const finalContent = await extractAndUploadImages(
             data.content,
-            (file) => uploadToAzure(file, "forum"),
+            (file) => uploadToAzure(file),
         );
 
         handleComment({

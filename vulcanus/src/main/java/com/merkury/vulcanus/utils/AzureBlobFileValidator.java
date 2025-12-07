@@ -5,6 +5,7 @@ import com.merkury.vulcanus.model.enums.AllowedFileType;
 import com.merkury.vulcanus.model.enums.AzureBlobFileValidatorType;
 import com.merkury.vulcanus.model.enums.chat.ChatMessageAttachedFileType;
 import com.merkury.vulcanus.model.enums.chat.GroupChatProfileImgType;
+import com.merkury.vulcanus.model.enums.forum.FormMediaAttachedFileType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +18,7 @@ public class AzureBlobFileValidator {
             case DEFAULT -> validateContentTypeDefault(contentType);
             case CHAT -> validateContentTypeChat(contentType);
             case GROUP_CHAT_PROFILE_IMG -> validateGroupChatProfileImgType(contentType);
+            case FORUM -> validateContentTypeForum(contentType);
             default -> validateContentTypeDefault(contentType);
         }
         validateFileName(file.getOriginalFilename());
@@ -30,6 +32,12 @@ public class AzureBlobFileValidator {
 
     private void validateContentTypeDefault(String contentType) throws InvalidFileTypeException {
         if (AllowedFileType.isInvalid(contentType)) {
+            throw new InvalidFileTypeException(contentType);
+        }
+    }
+
+    private void validateContentTypeForum(String contentType) throws InvalidFileTypeException {
+        if (FormMediaAttachedFileType.isInvalid(contentType)) {
             throw new InvalidFileTypeException(contentType);
         }
     }
