@@ -25,11 +25,6 @@ describe("Account settings page", () => {
             statusCode: 200,
             body: { authenticated: true },
         }).as("accountCheck");
-
-        cy.intercept("GET", "**/public/spot/most-popular", {
-            statusCode: 200,
-            body: [],
-        }).as("mostPopular");
     });
 
     it("shows account details for a normal account and opens username edit form", () => {
@@ -235,5 +230,62 @@ describe("Account settings page", () => {
         cy.contains("Account details").should("be.visible");
         cy.get("#disabled-your-information").should("exist");
         cy.get("#disabled-email").should("exist");
+    });
+
+    it("allows real user to change password, logout and login again with new password", () => {
+        const originalPassword = "password";
+        const newPassword = "NewPassword1!";
+
+        cy.visit("http://localhost:5173/");
+
+        cy.get("#sidebar-link-login").click();
+        cy.url().should("include", "/login");
+
+        cy.get("#username").type("user");
+        cy.get("#password").type(originalPassword);
+        cy.get('button[type="submit"]').click();
+
+        cy.url().should("not.include", "/login");
+
+        cy.intercept("GET", "**/user-dashboard/settings*").as(
+            "getSettingsRealChange",
+        );
+
+        cy.visit(SETTINGS_URL);
+
+        cy.wait("@getSettingsRealChange");
+
+        cy.get("#disabled-password")
+            .parent()
+            .find("button")
+            .contains("Edit")
+            .click();
+
+        cy.contains("Change password").should("be.visible");
+
+        cy.get("#oldPassword").type(originalPassword);
+        cy.get("#newPassword").type(newPassword);
+        cy.get("#confirmPassword").type(newPassword);
+
+        cy.contains("button", "Save").click();
+
+        cy.contains("Successfully change your password").should("be.visible");
+
+        cy.clearLocalStorage();
+        cy.reload();
+
+        cy.get("#sidebar-link-login").click();
+        cy.url().should("include", "/login");
+
+        cy.get("#username").type("user");
+        cy.get("#password").type(newPassword);
+        cy.get('button[type="submit"]').click();
+
+        cy.url().should("not.include", "/login");
+
+        cy.visit(SETTINGS_URL);
+
+        cy.contains("Settings").should("be.visible");
+        cy.contains("Account details").should("be.visible");
     });
 });
