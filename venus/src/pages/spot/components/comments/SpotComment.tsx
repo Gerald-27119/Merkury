@@ -12,7 +12,7 @@ type SpotCommentProps = {
 
 export default function SpotComment({ comment, spotId }: SpotCommentProps) {
     return (
-        <div className="dark:bg-second flex min-h-fit flex-col items-center rounded-2xl px-4 lg:py-2">
+        <div className="dark:bg-second text-second dark:text-darkText bg-fifth flex min-h-fit flex-col items-center rounded-2xl px-4 drop-shadow-md lg:py-2 dark:drop-shadow-none">
             <div className="my-3 flex w-full flex-col items-start">
                 <SpotCommentAuthor author={comment.author} />
                 <div className="flex 2xl:items-baseline">

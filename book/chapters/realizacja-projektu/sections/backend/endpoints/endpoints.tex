@@ -1,0 +1,249 @@
+%! Author = Mateusz
+%! Date = 26/11/2025
+
+\subsection{Endpointy systemu}
+\label{subsec:endpointy-systemu}
+
+\newcounter{endpoint}[chapter]
+\renewcommand{\theendpoint}{\thechapter.\arabic{endpoint}}
+
+\newcommand{\epid}[1]{\textbf{Identyfikator:} & #1 \\ \hline}
+\newcommand{\epurl}[1]{\textbf{Ścieżka:} & #1 \\ \hline}
+\newcommand{\epname}[1]{\textbf{Nazwa:} & #1 \\ \hline}
+\newcommand{\epinput}[1]{\textbf{Parametry wejściowe:} & #1 \\ \hline}
+\newcommand{\epquery}[1]{\textbf{\glslink{query-params}{Query params:}} & #1 \\ \hline}
+\newcommand{\epresponse}[1]{\textbf{Kod(y) statusu odpowiedzi:} & #1 \\ \hline}
+\newcommand{\epoutput}[1]{\textbf{Dane zwracane:} & #1 \\ \hline}
+
+\newenvironment{tabitemize}[1][]{%
+    \begin{itemize}[
+        leftmargin=*,
+        nosep,
+        topsep=0pt,
+        partopsep=0pt,
+        parsep=0pt,
+        itemsep=0pt,
+        before=\vspace*{-0.6\baselineskip},
+        #1
+    ]
+}{%
+    \end{itemize}
+}
+
+\newcommand{\cardendpoint}[7]{%
+    \refstepcounter{endpoint}%
+    \par\begin{center}
+    \renewcommand{\arraystretch}{1.15}%
+    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.2\textwidth}|X|}
+    \rowcolor{lightgray}
+    \multicolumn{2}{|c|}{\textbf{KARTA ENDPOINTU API}} \\ \hline
+    \epid{#1}
+    \epurl{#2}
+    \epname{#3}
+    \epinput{#4}
+    \epquery{#5}
+    \epresponse{#6}
+    \epoutput{#7}
+    \end{tabularx}
+    \vspace{3pt}
+    \textbf{Tabela \theendpoint:} Karta endpointu: #2\label{#1}
+    \end{center}%
+    \addcontentsline{lot}{table}{Tabela \theendpoint: Karta endpointu: #2}%
+}
+
+\newcommand{\summarytableendpoint}[4]{%
+    \refstepcounter{endpoint}%
+    \par\begin{center}
+    \renewcommand{\arraystretch}{1.15}%
+    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.18\textwidth}|X|}
+    \rowcolor{lightgray}
+    \multicolumn{2}{|>{\centering\arraybackslash}p{\dimexpr\textwidth-2\tabcolsep\relax}|}{\textbf{#1}} \\ \hline
+    \rowcolor{lightgray}
+    \textbf{Metoda HTTP} & \textbf{Ścieżka} \\
+    \hline
+    #4
+    \end{tabularx}
+    \vspace{3pt}
+    \textbf{Tabela \theendpoint:} Zestawienie endpointów: #3\label{#2}
+    \end{center}%
+    \addcontentsline{lot}{table}{Tabela \theendpoint: Zestawienie endpointów: #3}%
+}
+
+Projektowany system udostępnia \glslink{rest_api}{REST-owe API} HTTP, za pomocą którego
+klienci komunikują się z serwerem.
+
+Na potrzeby niniejszej pracy przez \emph{endpoint \glslink{rest_api}{REST API}} rozumiany będzie
+konkretny punkt dostępu do systemu, zdefiniowany jako para:
+\[
+    \text{metoda HTTP} + \text{ścieżka URL}
+\]
+pod którym aplikacja udostępnia określoną funkcjonalność lub zasób.
+Przykładowo, endpoint \texttt{GET /public/spot/\{spotId\}} służy do
+pobierania informacji o wybranym spocie.
+
+W dalszej części rozdziału przedstawiono zestawienie wszystkich
+endpointów HTTP systemu, a następnie szczegółowe karty wybranych
+endpointów, opisujące m.in. parametry wejściowe, \glslink{query-params}{Query params}
+oraz strukturę odpowiedzi.
+
+% ================= PANEL UŻYTKOWNIKA =================
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP panelu użytkownika}
+{tab:endpoints-user-dashboard}
+{panelu użytkownika}
+{
+    GET   & /user-dashboard/profile \\ \hline
+    GET   & /public/user-dashboard/profile/\{targetUsername\} \\ \hline
+    PATCH & /user-dashboard/profile \\ \hline
+    GET   & /user-dashboard/friends \\ \hline
+    GET   & /public/user-dashboard/friends/\{targetUsername\} \\ \hline
+    PATCH & /user-dashboard/friends \\ \hline
+    PATCH & /user-dashboard/friends/change-status \\ \hline
+    GET   & /user-dashboard/followers \\ \hline
+    GET   & /public/user-dashboard/followers/\{targetUsername\} \\ \hline
+    GET   & /user-dashboard/followed \\ \hline
+    GET   & /public/user-dashboard/followed/\{targetUsername\} \\ \hline
+    GET   & /user-dashboard/friends/find \\ \hline
+    GET   & /user-dashboard/friends/invites \\ \hline
+    PATCH & /user-dashboard/followed \\ \hline
+    GET   & /user-dashboard/favorite-spots \\ \hline
+    PATCH & /user-dashboard/favorite-spots \\ \hline
+    POST  & /user-dashboard/add-spot-media \\ \hline
+    GET   & /user-dashboard/is-spot-favourite \\ \hline
+    GET   & /user-dashboard/photos \\ \hline
+    GET   & /user-dashboard/comments \\ \hline
+    PATCH & /user-dashboard/settings \\ \hline
+    GET   & /user-dashboard/settings \\ \hline
+    GET   & /user-dashboard/movies \\ \hline
+    GET   & /user-dashboard/photos/\{targetUsername\} \\ \hline
+    GET   & /user-dashboard/add-spot \\ \hline
+    POST  & /user-dashboard/add-spot \\ \hline
+    GET   & /user-dashboard/add-spot/coordinates \\ \hline
+}
+
+% ================= SPOTY =================
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP modułu spotów}
+{tab:endpoints-spots}
+{modułu spotów}
+{
+    GET   & /public/spot/gallery \\ \hline
+    GET   & /public/spot/gallery-media-position \\ \hline
+    GET   & /public/spot/gallery-fullscreen-media \\ \hline
+    GET   & /public/spot/current-view \\ \hline
+    GET   & /public/spot/current-view/spot-names \\ \hline
+    GET   & /public/spot/\{spotId\} \\ \hline
+    PATCH & /public/spot/increase-view-count \\ \hline
+    GET   & /public/spot/search/map \\ \hline
+    GET   & /public/spot/search/list \\ \hline
+    GET   & /public/spot/names \\ \hline
+    GET   & /public/spot/most-popular \\ \hline
+    GET   & /public/spot/search/home-page \\ \hline
+    GET   & /public/spot/search/home-page/locations \\ \hline
+    GET   & /public/spot/search/home-page/advance \\ \hline
+    GET   & /public/spot/get-spot-basic-weather \\ \hline
+    GET   & /public/spot/get-spot-detailed-weather \\ \hline
+    GET   & /public/spot/get-spot-wind-speeds \\ \hline
+    GET   & /public/spot/get-spot-weather-timeline-plot-data \\ \hline
+    PATCH & /public/spot/increase-spot-media-views-count \\ \hline
+    PATCH & /public/spot/edit-spot-media-likes \\ \hline
+    GET   & /spot/check-is-spot-media-liked \\ \hline
+    GET   & /public/spot/get-spot-time-zone \\ \hline
+}
+
+% ================= KOMENTARZE DO SPOTÓW =================
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP komentarzy do spotów}
+{tab:endpoints-spot-comments}
+{komentarzy do spotów}
+{
+    GET    & /public/spot/\{spotId\}/comments \\ \hline
+    GET    & /public/spot/\{spotId\}/comments/\{commentId\} \\ \hline
+    POST   & /spot/\{spotId\}/comments \\ \hline
+    DELETE & /spot/comments/\{commentId\} \\ \hline
+    PATCH  & /spot/comments/\{commentId\} \\ \hline
+    PATCH  & /spot/comments/\{commentId\}/vote \\ \hline
+    GET    & /spot/comments/vote-type \\ \hline
+}
+
+% ================= POSTY FORUM =================
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP postów forum}
+{tab:endpoints-forum-posts}
+{postów forum}
+{
+    GET    & /public/post/\{postId\} \\ \hline
+    GET    & /public/post \\ \hline
+    POST   & /post \\ \hline
+    DELETE & /post/\{postId\} \\ \hline
+    PATCH  & /post/\{postId\} \\ \hline
+    PATCH  & /post/\{postId\}/vote \\ \hline
+    PATCH  & /post/\{postId\}/follow \\ \hline
+    PATCH  & /post/\{postId\}/report \\ \hline
+    GET    & /public/categories-tags \\ \hline
+}
+
+% ================= KOMENTARZE FORUM =================
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP komentarzy forum}
+{tab:endpoints-forum-comments}
+{komentarzy forum}
+{
+    GET    & /public/post/\{postId\}/comments \\ \hline
+    GET    & /public/comments/\{commentId\}/replies \\ \hline
+    POST   & /post/\{postId\}/comments \\ \hline
+    DELETE & /post/comments/\{commentId\} \\ \hline
+    PATCH  & /post/comments/\{commentId\} \\ \hline
+    PATCH  & /post/comments/\{commentId\}/vote \\ \hline
+    PATCH  & /post/comments/\{commentId\}/report \\ \hline
+    POST   & /comments/\{commentId\}/replies \\ \hline
+}
+
+% ================= KONTO UŻYTKOWNIKA / AUTORYZACJA =================
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP konta użytkownika i autoryzacji}
+{tab:endpoints-account-auth}
+{konta użytkownika i autoryzacji}
+{
+    POST & /public/account/register \\ \hline
+    POST & /public/account/login \\ \hline
+    GET  & /account/login-success \\ \hline
+    POST & /public/account/forgot-password \\ \hline
+    POST & /public/account/set-new-password \\ \hline
+    GET  & /account/check \\ \hline
+}
+
+% ================= GIF-Y (TENOR) =================
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP integracji GIF-ów (Tenor)}
+{tab:endpoints-gifs}
+{integracji GIF-ów}
+{
+    GET & /gifs/trending \\ \hline
+    GET & /gifs/search \\ \hline
+}
+
+% ================= CZAT =================
+\summarytableendpoint
+{Zestawienie wszystkich endpointów HTTP modułu czatu}
+{tab:endpoints-chat}
+{modułu czatu}
+{
+    GET   & /chats/\{chatId\}/messages \\ \hline
+    GET   & /chats/user-chats \\ \hline
+    POST  & /chats/get-or-create-private-chat \\ \hline
+    POST  & /chats/\{chatId\}/send-files \\ \hline
+    POST  & /chats/create/group \\ \hline
+    PATCH & /chats/\{chatId\} \\ \hline
+    GET   & /chats/group-chat/add/search/\{chatId\} \\ \hline
+    PUT   & /chats/add/users/\{chatId\} \\ \hline
+}
+
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/panel-usera}
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/mapa}
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/wyszukiwarka-spotow}
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/komentarze-spot}
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/forum-posty}
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/forum-posty-komentarze}
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/konto-usera}
+\input{chapters/realizacja-projektu/sections/backend/endpoints/sections/chat}

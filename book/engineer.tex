@@ -9,6 +9,9 @@
 \usepackage{minted}
 \usepackage{enumitem} % dla lepszej kontroli list
 \usepackage[utf8]{inputenc}
+\usepackage[table]{xcolor} % kolory w tabelach
+\usepackage[T1]{fontenc}
+\usepackage{longtable}
 
 %nowe pakiety do tabel:
 \usepackage{booktabs}
@@ -19,6 +22,9 @@
 \newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
 \newcolumntype{Y}{>{\hspace{0.6em}}X<{\hspace{0.6em}}}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\setlist[description]{leftmargin=0pt,labelindent=0pt}
+
 
 \hypersetup{
     colorlinks=true,

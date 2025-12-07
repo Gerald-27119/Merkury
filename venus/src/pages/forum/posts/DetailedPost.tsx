@@ -118,7 +118,7 @@ export default function DetailedPost({
     }
 
     return (
-        <div className="dark:bg-darkBgSoft mx-auto mb-4 rounded-xl p-6 shadow-lg">
+        <div className="dark:bg-darkBgSoft bg-lightBgSoft mx-auto mb-4 rounded-xl p-6 shadow-lg">
             <ForumContentHeader
                 author={post.author}
                 publishDate={post.publishDate}

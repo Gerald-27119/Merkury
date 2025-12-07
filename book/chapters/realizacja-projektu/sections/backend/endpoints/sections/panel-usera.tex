@@ -1,0 +1,107 @@
+%! Author = Mateusz
+%! Date = 30/11/2025
+
+\noindent\textbf{Panel użytkownika}
+
+\cardendpoint {EP01} {/public/user-dashboard/profile/\{targetUsername\}} {Pobierz profil innego użytkownika (widok publiczny)} {%
+    \begin{tabitemize}
+        \item \textbf{targetUsername}: String (nazwa użytkownika w ścieżce URL)
+    \end{tabitemize}
+} {Brak} {200 OK, 404 Not Found} {%
+    \begin{tabitemize}
+        \item \textbf{profile}: UserProfileDto, zawiera:
+        \begin{itemize}
+            \item \textbf{username}: String
+            \item \textbf{profilePhoto}: String (URL)
+            \item \textbf{followersCount}: Integer
+            \item \textbf{followedCount}: Integer
+            \item \textbf{friendsCount}: Integer
+            \item \textbf{photosCount}: Integer
+            \item \textbf{mostPopularPhotos}: List<ImageDto>
+        \end{itemize}
+        \item \textbf{friendStatus}: UserFriendStatus
+        \item \textbf{isFollowing}: Boolean
+        \item \textbf{isOwnProfile}: Boolean
+    \end{tabitemize}
+}
+
+\cardendpoint {EP02} {/user-dashboard/favorite-spots} {Pobierz listę ulubionych spotów użytkownika} {Brak} {%
+    \begin{tabitemize}
+        \item \textbf{type}: FavoriteSpotsListType (typ listy: ulubione, odwiedzone oraz do odwiedzenia)
+        \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
+        \item \textbf{size}: Integer (opcjonalnie, domyślnie 10)
+    \end{tabitemize}
+} {200 OK, 401 Unauthorized} {%
+    \begin{tabitemize}
+        \item \textbf{items}: List<FavoriteSpotDto>, gdzie każdy element zawiera:
+        \begin{itemize}
+            \item \textbf{id}: Long
+            \item \textbf{name}: String
+            \item \textbf{country}: String
+            \item \textbf{city}: String
+            \item \textbf{description}: String
+            \item \textbf{rating}: Double
+            \item \textbf{viewsCount}: Integer
+            \item \textbf{imageUrl}: String
+            \item \textbf{type}: FavoriteSpotsListType
+            \item \textbf{coords}: SpotCoordinatesDto
+            \item \textbf{tags}: Set<SpotTagDto>
+        \end{itemize}
+        \item \textbf{hasNext}: boolean
+    \end{tabitemize}
+}
+
+\cardendpoint {EP03} {/user-dashboard/photos} {Pobierz posortowane zdjęcia użytkownika} {Brak} {%
+    \begin{tabitemize}
+        \item \textbf{type}: DateSortType (typ sortowania po dacie)
+        \item \textbf{from}: LocalDate (opcjonalnie, data od)
+        \item \textbf{to}: LocalDate (opcjonalnie, data do)
+        \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
+        \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
+    \end{tabitemize}
+} {200 OK, 400 Bad Request, 401 Unauthorized} {%
+    \begin{tabitemize}
+        \item \textbf{items}: List<DatedMediaGroupDto>, gdzie:
+        \begin{itemize}
+            \item \textbf{date}: LocalDate (data grupy)
+            \item \textbf{media}: List<MediaDto>, każdy element:
+            \begin{itemize}
+                \item \textbf{src}: String (URL)
+                \item \textbf{heartsCount}: Integer
+                \item \textbf{viewsCount}: Integer
+                \item \textbf{id}: Long
+            \end{itemize}
+        \end{itemize}
+        \item \textbf{hasNext}: boolean
+    \end{tabitemize}
+}
+
+\cardendpoint {EP04} {/user-dashboard/add-spot} {Pobierz listę spotów dodanych przez użytkownika} {Brak} {%
+    \begin{tabitemize}
+        \item \textbf{page}: Integer (opcjonalnie, domyślnie 0)
+        \item \textbf{size}: Integer (opcjonalnie, domyślnie 20)
+    \end{tabitemize}
+} {200 OK, 401 Unauthorized} {%
+    \begin{tabitemize}
+        \item \textbf{items}: List<AddSpotDto>, każdy element:
+        \begin{itemize}
+            \item \textbf{id}: Long
+            \item \textbf{name}: String
+            \item \textbf{description}: String
+            \item \textbf{country}: String
+            \item \textbf{region}: String
+            \item \textbf{city}: String
+            \item \textbf{street}: String
+            \item \textbf{borderPoints}: List<BorderPoint> (x, y)
+            \item \textbf{firstPhotoUrl}: String
+        \end{itemize}
+        \item \textbf{hasNext}: boolean
+    \end{tabitemize}
+}
+
+\cardendpoint {EP05} {/user-dashboard/add-spot} {Dodaj nowy spot użytkownika} {%
+    \begin{tabitemize}
+        \item \textbf{spot}: String (część multipart, JSON z danymi nowego spotu)
+        \item \textbf{media}: List<MultipartFile> (część multipart, pliki multimedialne spota)
+    \end{tabitemize}
+} {Brak} {200 OK, 404 Not Found, 401 Unauthorized} {Brak (pusta odpowiedź)}

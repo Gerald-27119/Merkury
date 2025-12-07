@@ -14,6 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+
 @RestController
 @RequiredArgsConstructor
 public class PostController {
@@ -34,6 +37,41 @@ public class PostController {
         Page<PostGeneralDto> posts = postService.getPostsPage(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())));
 
         return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/posts/followed")
+    public ResponseEntity<Page<PostGeneralDto>> getFollowedPostsPage(@RequestParam(defaultValue = "0") int page,
+                                                                     @RequestParam(defaultValue = "10") int size,
+                                                                     @RequestParam(defaultValue = "PUBLISH_DATE") PostSortField sortBy,
+                                                                     @RequestParam(defaultValue = "DESC") SortDirection sortDirection) throws UserNotFoundByUsernameException {
+        Page<PostGeneralDto> posts = postService.getFollowedPostsPage(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())));
+
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/public/post/search")
+    public ResponseEntity<Page<PostGeneralDto>> getSearchedPostsPage(@RequestParam(defaultValue = "0") int page,
+                                                                     @RequestParam(defaultValue = "10") int size,
+                                                                     @RequestParam(defaultValue = "PUBLISH_DATE") PostSortField sortBy,
+                                                                     @RequestParam(defaultValue = "DESC") SortDirection sortDirection,
+                                                                     @Valid PostSearchRequestDto request
+    ) throws UserNotFoundByUsernameException {
+        Page<PostGeneralDto> posts = postService.getSearchedPostsPage(
+                PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection.name()), sortBy.getField())),
+                request.searchPhrase(), request.category(), request.tags(), request.fromDate(), request.toDate(), request.author());
+
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/public/post/search/hints/{searchPhrase}")
+    public ResponseEntity<List<String>> searchPosts(@PathVariable String searchPhrase) {
+        return ResponseEntity.ok(postService.searchPosts(searchPhrase));
+    }
+
+    @GetMapping("/public/post/trending")
+    public ResponseEntity<List<TrendingPostDto>> getTrendingPosts(
+            @RequestParam(defaultValue = "3") int size) {
+        return ResponseEntity.ok(postService.getTrendingPosts(PageRequest.of(0, size)));
     }
 
     @PostMapping("/post")
@@ -72,8 +110,18 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/public/categories-tags")
+    @GetMapping("/public/post/categories-tags")
     public ResponseEntity<ForumCategoriesAndTagsDto> getAllCategoriesAndTags() {
         return ResponseEntity.ok(postService.getAllCategoriesAndTags());
+    }
+
+    @GetMapping("/public/post/categories")
+    public ResponseEntity<List<PostCategoryDto>> getAllCategoriesAlphabetically() {
+        return ResponseEntity.ok(postService.getAllCategoriesAlphabetically());
+    }
+
+    @GetMapping("/public/post/tags")
+    public ResponseEntity<List<PostTagDto>> getAllTagsAlphabetically() {
+        return ResponseEntity.ok(postService.getAllTagsAlphabetically());
     }
 }
