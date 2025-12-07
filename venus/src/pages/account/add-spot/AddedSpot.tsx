@@ -96,7 +96,7 @@ export default function AddedSpot() {
                           ))
                         : !isLoading && (
                               <p className="mt-10 text-center text-gray-500">
-                                  You didn't add any spots yet.
+                                  You haven't added any spots yet.
                               </p>
                           )}
                 </div>
