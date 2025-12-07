@@ -8,7 +8,7 @@
 \renewcommand{\thewfczat}{\thechapter.\arabic{wfczat}}
 
 \newlength{\wfczLabelWidth}
-\setlength{\wfczLabelWidth}{0.22\textwidth}
+\setlength{\wfczLabelWidth}{0.19\textwidth}
 
 \newlength{\wfczColTwoWidth}
 \setlength{\wfczColTwoWidth}{0.24\textwidth}
@@ -80,11 +80,6 @@
     \wfczthreecolcell{#1} \\ \hline
 }
 
-\newcommand{\wfczstatus}[1]{%
-    \textbf{Status:} &
-    \wfczthreecolcell{#1} \\ \hline
-}
-
 \newcommand{\wfczresponsible}[1]{%
     \textbf{Realizator:} &
     \wfczthreecolcell{#1} \\ \hline
@@ -137,38 +132,34 @@
 {01}
 {S}
 {
-    \wfczdesc{System umożliwia wysyłanie w wiadomościach animowanych obrazów GIF
+    \wfczdesc{System umożliwia wysyłanie w wiadomościach animowanych obrazów \gls{gif}
     w ramach wybranego czatu (1:1 lub grupowego).}
 
     \wfczaccept{%
         \begin{itemize}
-            \item Użytkownik może wybrać animowany obraz GIF z dysku lub z wbudowanego pickera i dołączyć go do wiadomości.
-            \item Po wysłaniu GIF wyświetla się poprawnie w treści czatu u wszystkich uczestników.
-            \item Błędne lub zbyt duże pliki GIF są odrzucane z czytelnym komunikatem o błędzie.
+            \item Użytkownik może wybrać animowany obraz \gls{gif} z wbudowanego okna wyboru i dołączyć go do wiadomości.
+            \item Po wysłaniu \gls{gif} wyświetla się poprawnie w treści czatu u wszystkich uczestników.
         \end{itemize}
     }
 
-    \wfczinput{Identyfikator czatu, identyfikator nadawcy, wybrany GIF
-        (plik lub identyfikator z usługi zewnętrznej).}
+    \wfczinput{Identyfikator czatu, identyfikator nadawcy, wybrany \gls{gif}
+    (identyfikator z usługi zewnętrznej).}
 
-    \wfczpre{Użytkownik jest zalogowany i jest członkiem danego czatu;
-    połączenie z serwerem jest aktywne.}
+    \wfczpre{Użytkownik jest zalogowany i jest członkiem danego czatu.}
 
-    \wfczpost{Wiadomość z GIF-em jest zapisana w historii czatu i widoczna
+    \wfczpost{Wiadomość z \gls{gif}em jest zapisana w historii czatu i widoczna
     dla wszystkich uprawnionych uczestników.}
 
     \wfczexceptions{Brak połączenia z serwerem, przekroczony limit rozmiaru pliku,
         nieobsługiwany format, brak uprawnień do czatu.}
 
-    \wfczstakeholder{Użytkownik zalogowany.}
-
-    \wfczstatus{Zrealizowano}
+    \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
 
     \wfcznote{\textemdash\ brak}
 
-    \wfczrelated{\textemdash\ brak}
+    \wfczrelated{Wymaganie ogólne WOCZAT-01 (\ref{woczat:send-message}).}
 }
 
 % =========================================
@@ -187,7 +178,7 @@
     \wfczaccept{%
         \begin{itemize}
             \item Użytkownik może wybrać jeden lub wiele plików z dysku i dołączyć je do wiadomości.
-            \item Odbiorca widzi w czacie element reprezentujący plik (nazwa, rozmiar, ikona typu).
+            \item Odbiorca widzi w czacie element reprezentujący plik.
             \item Kliknięcie w załącznik umożliwia pobranie lub otwarcie pliku.
         \end{itemize}
     }
@@ -204,15 +195,13 @@
     \wfczexceptions{Przekroczony limit rozmiaru, nieobsługiwany typ pliku,
         błąd przesyłania, brak miejsca w magazynie plików.}
 
-    \wfczstakeholder{Użytkownik zalogowany.}
-
-    \wfczstatus{Zrealizowano}
+    \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
 
     \wfcznote{\textemdash\ brak}
 
-    \wfczrelated{\textemdash\ brak}
+    \wfczrelated{Wymaganie ogólne WOCZAT-01 (\ref{woczat:send-message}).}
 }
 
 % =========================================
@@ -226,7 +215,7 @@
 {S}
 {
     \wfczdesc{System umożliwia prowadzenie prywatnych rozmów 1:1
-    pomiędzy dwoma użytkownikami platformy Merkury.}
+    pomiędzy dwoma użytkownikami.}
 
     \wfczaccept{%
         \begin{itemize}
@@ -239,23 +228,20 @@
     \wfczinput{Identyfikator nadawcy, identyfikator odbiorcy,
         treść wiadomości oraz ewentualne załączniki.}
 
-    \wfczpre{Obaj użytkownicy posiadają aktywne konta i nie zablokowali się nawzajem.}
+    \wfczpre{Obaj użytkownicy posiadają aktywne konta.}
 
     \wfczpost{Wiadomości prywatne są zapisane w historii czatu 1:1 i dostępne
     po ponownym otwarciu rozmowy.}
 
-    \wfczexceptions{Brak uprawnień (np.\ zablokowany użytkownik),
-        brak połączenia z serwerem, błąd walidacji treści.}
+    \wfczexceptions{Brak połączenia z serwerem, błąd walidacji treści.}
 
-    \wfczstakeholder{Użytkownik zalogowany.}
-
-    \wfczstatus{Zrealizowano}
+    \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
 
     \wfcznote{\textemdash\ brak}
 
-    \wfczrelated{\textemdash\ brak}
+    \wfczrelated{Wymaganie ogólne WOCZAT-01 (\ref{woczat:send-message}).}
 }
 
 % =========================================
@@ -274,8 +260,8 @@
     \wfczaccept{%
         \begin{itemize}
             \item Wiadomość wysłana w czacie grupowym jest dostarczana wszystkim jego członkom.
-            \item Interfejs wyraźnie wskazuje, że rozmowa to czat grupowy (np.\ nazwa, avatar, liczba uczestników).
-            \item Nowi uczestnicy dołączeni do czatu widzą historię rozmowy zgodnie z przyjętą polityką prywatności.
+            \item \gls{ui} wyraźnie wskazuje, że rozmowa to czat grupowy (np.\ nazwa, avatar, liczba uczestników).
+            \item Nowi uczestnicy dołączeni do czatu widzą historię rozmowy.
         \end{itemize}
     }
 
@@ -290,19 +276,17 @@
     \wfczexceptions{Brak członkostwa nadawcy w czacie, błąd autoryzacji,
         przekroczenie limitu użytkowników w czacie.}
 
-    \wfczstakeholder{Użytkownik zalogowany.}
-
-    \wfczstatus{Zrealizowano}
+    \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
 
     \wfcznote{\textemdash\ brak}
 
-    \wfczrelated{\textemdash\ brak}
+    \wfczrelated{Wymaganie ogólne WOCZAT-01 (\ref{woczat:send-message}).}
 }
 
 % =========================================
-% WFCZAT-05 – Rozpoczynanie nowego czatu (Dodawanie do czatu)
+% WFCZAT-05 – Rozpoczynanie nowego czatu
 % =========================================
 
 \wfczatcard
@@ -317,31 +301,27 @@
     \wfczaccept{%
         \begin{itemize}
             \item Użytkownik może zainicjować nowy czat z widoku listy czatów lub profilu innego użytkownika.
-            \item Po utworzeniu czat pojawia się na liście czatów wszystkich jego członków.
-            \item Uczestnicy mogą natychmiast rozpocząć wymianę wiadomości.
+            \item Po wysłaniu pierwszej wiadomości przez twórcę, czat pojawia się na liście czatów wszystkich jego członków.
         \end{itemize}
     }
 
-    \wfczinput{Typ czatu (prywatny/grupowy), nazwa czatu (dla grup),
-        lista identyfikatorów uczestników, identyfikator tworzącego użytkownika.}
+    \wfczinput{Typ czatu (prywatny/grupowy), lista identyfikatorów uczestników, identyfikator tworzącego użytkownika.}
 
     \wfczpre{Użytkownik jest zalogowany i ma uprawnienia do zakładania nowych czatów.}
 
-    \wfczpost{Nowy czat jest zapisany w bazie danych, powiązany z uczestnikami
+    \wfczpost{Nowy czat jest zapisany w \glslink{baza-danych}{bazie danych}, powiązany z uczestnikami
     i widoczny w ich listach czatów.}
 
     \wfczexceptions{Próba utworzenia czatu z nieistniejącym użytkownikiem,
-        przekroczenie maksymalnej liczby uczestników, błąd zapisu w bazie.}
+        przekroczenie maksymalnej liczby uczestników, błąd zapisu w \glslink{baza-danych}{bazie danych}.}
 
-    \wfczstakeholder{Użytkownik zalogowany.}
-
-    \wfczstatus{Zrealizowano}
+    \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
 
     \wfcznote{\textemdash\ brak}
 
-    \wfczrelated{\textemdash\ brak}
+    \wfczrelated{Wymaganie ogólne WOCZAT-04 (\ref{woczat:create-chat}).}
 }
 
 % =========================================
@@ -354,37 +334,33 @@
 {06}
 {S}
 {
-    \wfczdesc{System umożliwia wysyłanie emotikonów (emoji) w treści wiadomości
+    \wfczdesc{System umożliwia wysyłanie emotikonów (\gls{emoji}) w treści wiadomości
     na czacie.}
 
     \wfczaccept{%
         \begin{itemize}
-            \item Użytkownik może wstawiać emotikony z wbudowanego pickera emoji.
-            \item Emotikony są poprawnie renderowane na różnych urządzeniach (desktop, mobile).
-            \item Kopiowanie lub edycja wiadomości zachowuje wstawione emotikony.
+            \item Użytkownik może wstawiać emotikony z wbudowanego panelu wyboru \gls{emoji}.
         \end{itemize}
     }
 
     \wfczinput{Identyfikator czatu, identyfikator nadawcy, treść wiadomości
-    zawierająca emoji.}
+    zawierająca \gls{emoji}.}
 
     \wfczpre{Użytkownik jest zalogowany i ma dostęp do czatu.}
 
     \wfczpost{Wiadomość z emotikonami jest zapisana w historii czatu i
     wyświetlana u wszystkich uczestników.}
 
-    \wfczexceptions{Problemy z kodowaniem znaków, brak wsparcia dla części emoji
+    \wfczexceptions{Problemy z kodowaniem znaków, brak wsparcia dla części \gls{emoji}
     w danej przeglądarce lub systemie.}
 
-    \wfczstakeholder{Użytkownik zalogowany.}
-
-    \wfczstatus{Zrealizowano}
+    \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
 
     \wfcznote{\textemdash\ brak}
 
-    \wfczrelated{\textemdash\ brak}
+    \wfczrelated{Wymaganie ogólne WOCZAT-01 (\ref{woczat:send-message}).}
 }
 
 % =========================================
@@ -405,7 +381,6 @@
             \item Utworzone czaty pojawiają się na liście czatów użytkownika.
             \item Po ponownym zalogowaniu użytkownik może otworzyć istniejący czat
             i zobaczyć jego historię.
-            \item Usunięcie użytkownika z czatu powoduje usunięcie go z jego listy czatów.
         \end{itemize}
     }
 
@@ -416,18 +391,16 @@
     \wfczpost{Lista czatów użytkownika prezentuje wszystkie czaty, do których
     ma on dostęp.}
 
-    \wfczexceptions{Błąd autoryzacji (sesja wygasła), błąd bazy danych podczas
+    \wfczexceptions{Błąd autoryzacji, błąd \glslink{baza-danych}{bazy danych} podczas
     pobierania listy czatów.}
 
-    \wfczstakeholder{Użytkownik zalogowany.}
-
-    \wfczstatus{Zrealizowano}
+    \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
 
     \wfcznote{\textemdash\ brak}
 
-    \wfczrelated{\textemdash\ brak}
+    \wfczrelated{Wymaganie ogólne WOCZAT-03 (\ref{woczat:browse-history}).}
 }
 
 % =========================================
@@ -441,11 +414,11 @@
 {S}
 {
     \wfczdesc{System umożliwia zmianę nazwy istniejącego czatu grupowego
-    przez jego właściciela lub uprawnionego administratora.}
+    przez członka czatu.}
 
     \wfczaccept{%
         \begin{itemize}
-            \item Uprawniony użytkownik może edytować nazwę z poziomu ustawień czatu.
+            \item Użytkownik może edytować nazwę z poziomu ustawień czatu.
             \item Nowa nazwa jest natychmiast widoczna na liście czatów u wszystkich uczestników.
             \item Historia wiadomości pozostaje niezmieniona po zmianie nazwy czatu.
         \end{itemize}
@@ -454,23 +427,20 @@
     \wfczinput{Identyfikator czatu grupowego, nowa nazwa czatu, identyfikator użytkownika
     wykonującego operację.}
 
-    \wfczpre{Użytkownik posiada uprawnienia właściciela/administratora
-    w danym czacie grupowym.}
+    \wfczpre{Użytkownik jest członkiem czatu.}
 
-    \wfczpost{Nazwa czatu jest zaktualizowana w bazie danych i w interfejsie użytkownika.}
+    \wfczpost{Nazwa czatu jest zaktualizowana w \glslink{baza-danych}{bazie danych} i w \glslink{ui}{interfejsie użytkownika}.}
 
-    \wfczexceptions{Brak uprawnień do edycji, zbyt długa lub pusta nazwa,
-        błąd zapisu w bazie danych.}
+    \wfczexceptions{Błąd walidacji nowej nazwy,
+        błąd zapisu w \glslink{baza-danych}{bazie danych}.}
 
-    \wfczstakeholder{Właściciel i uczestnicy czatu grupowego.}
-
-    \wfczstatus{Zrealizowano}
+    \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
 
     \wfcznote{\textemdash\ brak}
 
-    \wfczrelated{\textemdash\ brak}
+    \wfczrelated{Wymaganie ogólne WOCZAT-02 (\ref{woczat:edit-chat}).}
 }
 
 % =========================================
@@ -487,7 +457,7 @@
 
     \wfczaccept{%
         \begin{itemize}
-            \item Właściciel lub administrator może wgrać nowe zdjęcie czatu grupowego.
+            \item Członek czatu może wgrać nowe zdjęcie czatu grupowego.
             \item Zmienione zdjęcie jest widoczne na liście czatów i w nagłówku rozmowy.
             \item Niepoprawne formaty lub zbyt duże pliki są odrzucane z informacją o błędzie.
         \end{itemize}
@@ -498,20 +468,18 @@
 
     \wfczpre{Użytkownik posiada uprawnienia do edycji ustawień czatu grupowego.}
 
-    \wfczpost{Nowe zdjęcie czatu jest zapisane w systemie i używane w interfejsie.}
+    \wfczpost{Nowe zdjęcie czatu jest zapisane w systemie i używane w \glslink{ui}{interfejsie użytkownika}.}
 
     \wfczexceptions{Nieobsługiwany format obrazu, przekroczony limit rozmiaru,
         błąd przesyłania lub zapisu w magazynie plików.}
 
-    \wfczstakeholder{Właściciel i uczestnicy czatu grupowego.}
-
-    \wfczstatus{Zrealizowano}
+    \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
 
     \wfcznote{\textemdash\ brak}
 
-    \wfczrelated{\textemdash\ brak}
+    \wfczrelated{Wymaganie ogólne WOCZAT-02 (\ref{woczat:edit-chat}).}
 }
 
 % =========================================
@@ -522,7 +490,7 @@
 {wfczat:edit-message}
 {Edycja wysłanej wiadomości}
 {10}
-{S}
+{W}
 {
     \wfczdesc{System umożliwia użytkownikowi edycję treści wcześniej wysłanej
     wiadomości na czacie (np.\ poprawa literówki).}
@@ -542,76 +510,29 @@
     \wfczpre{Użytkownik jest autorem wiadomości i mieści się w dozwolonym
     oknie czasowym edycji.}
 
-    \wfczpost{Treść wiadomości w bazie danych zostaje zaktualizowana, a widok
+    \wfczpost{Treść wiadomości w \glslink{baza-danych}{bazie danych} zostaje zaktualizowana, a widok
     czatu odświeżony u wszystkich uczestników.}
 
     \wfczexceptions{Próba edycji cudzej wiadomości, przekroczony limit czasu,
         błąd walidacji treści, brak połączenia z serwerem.}
 
-    \wfczstakeholder{Użytkownik zalogowany oraz odbiorcy wiadomości.}
-
-    \wfczstatus{Zrealizowano}
+    \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
 
-    \wfcznote{\textemdash\ brak}
+    \wfcznote{\textemdash\ Ze względu na konieczność priorytetyzacji pracy zespół zdecydował się zrezygnować z danego wymagania.}
 
-    \wfczrelated{\textemdash\ brak}
+    \wfczrelated{Wymaganie ogólne WOCZAT-01 (\ref{woczat:send-message}).}
 }
 
 % =========================================
-% WFCZAT-11 – Usunięcie wysłanej wiadomości
-% =========================================
-
-\wfczatcard
-{wfczat:delete-message}
-{Usunięcie wysłanej wiadomości}
-{11}
-{S}
-{
-    \wfczdesc{System umożliwia usunięcie wysłanej wiadomości z czatu
-        (dla siebie lub dla wszystkich uczestników, zgodnie z konfiguracją).}
-
-    \wfczaccept{%
-        \begin{itemize}
-            \item Autor wiadomości może ją usunąć w dozwolonym przedziale czasowym.
-            \item W miejscu usuniętej wiadomości może pojawić się informacja
-            typu „Wiadomość usunięta”.
-            \item Usunięcie jednej wiadomości nie narusza integralności pozostałej historii czatu.
-        \end{itemize}
-    }
-
-    \wfczinput{Identyfikator wiadomości, tryb usunięcia (dla siebie / dla wszystkich),
-        identyfikator użytkownika.}
-
-    \wfczpre{Użytkownik jest autorem wiadomości lub posiada uprawnienia
-    moderacyjne w czacie.}
-
-    \wfczpost{Wiadomość jest oznaczona jako usunięta i nie jest prezentowana
-    w pierwotnej treści uczestnikom czatu.}
-
-    \wfczexceptions{Próba usunięcia cudzej wiadomości bez uprawnień,
-        przekroczony limit czasu, błąd zapisu w bazie danych.}
-
-    \wfczstakeholder{Użytkownik zalogowany oraz moderatorzy czatu.}
-
-    \wfczstatus{Zrealizowano}
-
-    \wfczresponsible{Adam Langmesser}
-
-    \wfcznote{\textemdash\ brak}
-
-    \wfczrelated{\textemdash\ brak}
-}
-
-% =========================================
-% WFCZAT-12 – Dodawanie użytkowników do istniejącego czatu
+% WFCZAT-11 – Dodawanie użytkowników do istniejącego czatu
 % =========================================
 
 \wfczatcard
 {wfczat:add-users-existing-chat}
 {Dodawanie użytkowników do istniejącego czatu}
-{12}
+{11}
 {S}
 {
     \wfczdesc{System umożliwia dodawanie nowych użytkowników do już istniejącego
@@ -622,74 +543,66 @@
             \item Właściciel lub uprawniony użytkownik może wyszukać i dodać nowe osoby do czatu.
             \item Nowo dodani użytkownicy pojawiają się na liście uczestników
             i mogą od razu brać udział w rozmowie.
-            \item Dodanie uczestnika jest widoczne dla pozostałych w formie komunikatu systemowego.
         \end{itemize}
     }
 
     \wfczinput{Identyfikator czatu grupowego, lista identyfikatorów użytkowników do dodania,
         identyfikator użytkownika wykonującego operację.}
 
-    \wfczpre{Czat typu grupowego istnieje; użytkownik wykonujący operację ma odpowiednie
-    uprawnienia.}
+    \wfczpre{Czat istnieje.}
 
     \wfczpost{Lista uczestników czatu jest zaktualizowana; nowe osoby są powiązane
-    z czatem w bazie danych.}
+    z czatem w \glslink{baza-danych}{bazie danych}.}
 
-    \wfczexceptions{Dodanie użytkownika, który nie ma konta, został zablokowany
-    lub jest już członkiem czatu; przekroczenie maksymalnej liczby uczestników.}
+    \wfczexceptions{Dodanie użytkownika, który jest już członkiem czatu; przekroczenie maksymalnej liczby uczestników.}
 
-    \wfczstakeholder{Właściciel czatu grupowego oraz jego uczestnicy.}
-
-    \wfczstatus{Zrealizowano}
+    \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
 
     \wfcznote{\textemdash\ brak}
 
-    \wfczrelated{\textemdash\ brak}
+    \wfczrelated{Wymaganie ogólne WOCZAT-02 (\ref{woczat:edit-chat}).}
 }
 
 % =========================================
-% WFCZAT-13 – Wyświetlanie starszych wiadomości
+% WFCZAT-12 – Wyświetlanie starszych wiadomości
 % =========================================
 
 \wfczatcard
 {wfczat:load-older-messages}
 {Wyświetlanie starszych wiadomości}
-{13}
+{12}
 {S}
 {
     \wfczdesc{System powinien domyślnie wyświetlać co najmniej ostatnie 20
-    wiadomości w czacie, a starsze wiadomości dociągać na bieżąco podczas
+    wiadomości w czacie, a starsze wiadomości pobierać na bieżąco podczas
     przewijania historii przez użytkownika.}
 
     \wfczaccept{%
         \begin{itemize}
             \item Po wejściu na czat użytkownik widzi minimum 20 ostatnich wiadomości.
             \item Przewijanie historii w górę automatycznie pobiera starsze wiadomości
-            (mechanizm \emph{infinite scroll}).
+            (mechanizm \gls{infinite-scroll}).
             \item Dociąganie wiadomości nie powoduje zauważalnych opóźnień interfejsu.
         \end{itemize}
     }
 
-    \wfczinput{Identyfikator czatu, parametry paginacji (np.\ kursor, znacznik czasu).}
+    \wfczinput{Identyfikator czatu, parametry \glslink{paginacja}{paginacji}.}
 
     \wfczpre{Użytkownik jest zalogowany i posiada dostęp do czatu;
-    w bazie istnieje historia rozmowy.}
+    w \glslink{baza-danych}{bazie danych} istnieje historia rozmowy.}
 
-    \wfczpost{Użytkownik ma możliwość przeglądania pełnej historii czatu w zakresie
-    swoich uprawnień.}
+    \wfczpost{Użytkownik ma możliwość przeglądania pełnej historii czatu.}
 
-    \wfczexceptions{Brak połączenia z serwerem, błąd paginacji,
-        przekroczenie limitu zapytań do API.}
+    \wfczexceptions{Brak połączenia z serwerem, błąd \glslink{paginacja}{paginacji},
+        przekroczenie limitu zapytań do \gls{api}.}
 
-    \wfczstakeholder{Użytkownik zalogowany.}
-
-    \wfczstatus{Zrealizowano}
+    \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
 
     \wfcznote{\textemdash\ brak}
 
-    \wfczrelated{\textemdash\ brak}
+    \wfczrelated{Wymaganie ogólne WOCZAT-03 (\ref{woczat:browse-history}).}
 }

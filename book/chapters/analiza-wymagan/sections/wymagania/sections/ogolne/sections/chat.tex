@@ -30,8 +30,6 @@
 \newcommand{\woczrelated}[1]{\textbf{Wymagania powiązane:} &
 \multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
 
-% (Pozostałe stare makra możesz skasować albo zostawić – i tak nie są używane)
-
 \newcommand{\woczatcard}[5]{%
     \refstepcounter{woczat}%
     {\centering
@@ -74,11 +72,17 @@
 {S}
 {
     \woczdesc{System umożliwia użytkownikowi wysyłanie wiadomości w ramach wybranego
-    czatu, tak aby uczestnicy mogli przekazywać sobie wiedzę na temat dronów lub umawiać się na wspólne spotkania w danym spocie.}
+    czatu, tak aby uczestnicy mogli przekazywać sobie wiedzę na temat dronów lub umawiać się na wspólne spotkania w danym \glslink{spot}{spocie}.}
 
     \woczstakeholder{UO3}
 
-    \woczrelated{\textemdash\ brak}
+    \woczrelated{Wymagania funkcjonalne dla czatu:
+    WFCZAT-01 (\ref{wfczat:send-gif}),
+        WFCZAT-02 (\ref{wfczat:send-files}),
+        WFCZAT-03 (\ref{wfczat:private-messages}),
+        WFCZAT-04 (\ref{wfczat:group-messages}),
+        WFCZAT-06 (\ref{wfczat:emoticons}),
+        WFCZAT-10 (\ref{wfczat:edit-message}).}
 }
 
 \woczatcard
@@ -92,7 +96,10 @@
 
     \woczstakeholder{UO3}
 
-    \woczrelated{\textemdash\ brak}
+    \woczrelated{Wymagania funkcjonalne dla czatu:
+    WFCZAT-08 (\ref{wfczat:edit-group-name}),
+        WFCZAT-09 (\ref{wfczat:edit-group-avatar}),
+        WFCZAT-11 (\ref{wfczat:add-users-existing-chat}).}
 }
 
 \woczatcard
@@ -106,7 +113,9 @@
 
     \woczstakeholder{UO3}
 
-    \woczrelated{\textemdash\ brak}
+    \woczrelated{Wymagania funkcjonalne dla czatu:
+    WFCZAT-07 (\ref{wfczat:chat-availability}),
+        WFCZAT-12 (\ref{wfczat:load-older-messages}).}
 }
 
 \woczatcard
@@ -120,5 +129,6 @@
 
     \woczstakeholder{UO3}
 
-    \woczrelated{\textemdash\ brak}
+    \woczrelated{Wymaganie funkcjonalne dla czatu:
+    WFCZAT-05 (\ref{wfczat:create-chat}).}
 }
