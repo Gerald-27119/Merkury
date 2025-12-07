@@ -432,8 +432,9 @@ describe("FriendInvitesList – integration tests", () => {
 
         expect(await screen.findByText("Invites")).toBeInTheDocument();
 
-        expect(await screen.findByText("You don't have any invites yet"))
-            .toBeInTheDocument;
+        expect(
+            await screen.findByText("You don't have any invites yet"),
+        ).toBeInTheDocument();
     });
 
     test("calls accept and reject handlers (closes modal)", async () => {
