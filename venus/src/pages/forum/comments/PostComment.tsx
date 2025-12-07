@@ -25,26 +25,27 @@ import PostCommentDto from "../../../model/interface/forum/postComment/postComme
 import PostCommentReplyPage from "../../../model/interface/forum/postComment/postCommentReplyPage";
 import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
 import { forumReportModalAction } from "../../../redux/forumReportModal";
+import { useState } from "react";
 
 interface ForumCommentProps {
     comment: PostCommentGeneral;
     postId?: number;
     parentCommentId?: number;
-    activeForm: number | null;
-    activeFormType: "edit" | "reply" | null;
-    onActiveFormChange: (commentId: number, type: "edit" | "reply") => void;
 }
+
+type ActiveForm =
+    | { type: "edit"; comment: PostCommentGeneral }
+    | { type: "reply"; parentCommentId: number }
+    | null;
 
 export default function PostComment({
     comment,
     postId,
     parentCommentId,
-    activeForm,
-    activeFormType,
-    onActiveFormChange,
 }: ForumCommentProps) {
     const navigate = useNavigate();
     const [areRepliesOpen, openReplies, closeReplies] = useBoolean(false);
+    const [activeForm, setActiveForm] = useState<ActiveForm>(null);
     const dispatch = useDispatchTyped();
     const isLogged = useSelector((state: RootState) => state.account.isLogged);
 
@@ -93,7 +94,7 @@ export default function PostComment({
     });
 
     const handleCommentEditClick = (comment: PostCommentGeneral) => {
-        onActiveFormChange(comment.id, "edit");
+        setActiveForm({ type: "edit", comment });
     };
 
     const handleEdit = async (
@@ -117,7 +118,7 @@ export default function PostComment({
 
     const handleCommentReplyClick = (commentId: number) => {
         if (isLogged) {
-            onActiveFormChange(comment.id, "reply");
+            setActiveForm({ type: "reply", parentCommentId: commentId });
         } else {
             dispatch(
                 notificationAction.addInfo({ message: "Login to reply." }),
@@ -195,33 +196,40 @@ export default function PostComment({
                 isReply={comment.isReply}
                 onAuthorClick={handleNavigateToAuthorProfile}
             />
+            {comment.id}
 
-            <div>
-                <PostCommentContent content={comment.content} />
+            {activeForm?.type !== "edit" && (
+                <div>
+                    <PostCommentContent content={comment.content} />
 
-                <PostCommentActions
-                    comment={comment}
-                    onDelete={handleDelete}
-                    onEdit={handleCommentEditClick}
-                    onVote={handleVote}
-                    onReport={handleReport}
-                    onReply={handleCommentReplyClick}
-                />
-            </div>
+                    <PostCommentActions
+                        comment={comment}
+                        onDelete={handleDelete}
+                        onEdit={handleCommentEditClick}
+                        onVote={handleVote}
+                        onReport={handleReport}
+                        onReply={handleCommentReplyClick}
+                    />
+                </div>
+            )}
 
-            {activeForm === comment.id && activeFormType === "edit" && (
+            {activeForm?.type === "edit" && activeForm.comment && (
                 <PostCommentForm
-                    handleComment={(data) => handleEdit(comment.id, data)}
-                    onClose={() => onActiveFormChange(comment.id, "edit")}
-                    commentToEdit={comment}
+                    handleComment={(data) =>
+                        handleEdit(activeForm.comment.id, data)
+                    }
+                    onClose={() => setActiveForm(null)}
+                    commentToEdit={activeForm.comment}
                     className="mt-4"
                 />
             )}
 
-            {activeForm === comment.id && activeFormType === "reply" && (
+            {activeForm?.type === "reply" && (
                 <PostCommentForm
-                    handleComment={(data) => handleReply(comment.id, data)}
-                    onClose={() => onActiveFormChange(comment.id, "reply")}
+                    handleComment={(data) =>
+                        handleReply(activeForm.parentCommentId, data)
+                    }
+                    onClose={() => setActiveForm(null)}
                     className="mt-4"
                 />
             )}

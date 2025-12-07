@@ -151,7 +151,7 @@ export default function ForumThread({}) {
             {isCommentFormVisible && (
                 <PostCommentForm
                     handleComment={handleAddComment}
-                    onClose={() => hideCommentForm}
+                    onClose={hideCommentForm}
                 />
             )}
 
