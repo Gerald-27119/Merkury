@@ -178,7 +178,7 @@ describe("AddedSpot – integration tests", () => {
         renderAddedSpot();
 
         expect(
-            await screen.findByText("You didn't add any spots yet."),
+            await screen.findByText("You haven't added any spots yet."),
         ).toBeInTheDocument();
     });
 
