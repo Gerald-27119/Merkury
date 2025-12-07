@@ -3,3 +3,4 @@ import SpotExpandedGallerySidebarMediaDto from "./spotExpandedGallerySidebarMedi
 
 export default interface SpotExpandedMediaGalleryPage
     extends Pageable<SpotExpandedGallerySidebarMediaDto> {}
+

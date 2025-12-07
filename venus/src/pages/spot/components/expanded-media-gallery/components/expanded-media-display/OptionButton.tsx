@@ -12,7 +12,7 @@ export default function OptionButton({
     return (
         <button
             onClick={onClick}
-            className={`${isSelected ? "bg-violetLightDarker" : "bg-violetDarker"} ring-violetLight hover:bg-violetLightDarker cursor-pointer rounded-2xl px-2 py-1 text-lg ring-1`}
+            className={`${isSelected ? "dark:bg-violetLightDarker bg-warmerWhiteSmoke" : "dark:bg-violetDarker bg-lightBorder"} dark:ring-violetLight hover:bg-warmerWhiteSmoke dark:hover:bg-violetLightDarker cursor-pointer rounded-2xl px-2 py-1 text-lg ring-1`}
         >
             {label}
         </button>

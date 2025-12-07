@@ -28,11 +28,11 @@ export default function ExpandedSpotMediaGallery() {
                 exit="exit"
                 variants={slideVariants}
                 transition={{ duration: 0.3 }}
-                className="dark:text-darkText absolute top-10 left-0 z-[3] flex h-full w-full overflow-y-auto text-lg xl:top-0 xl:left-17 xl:text-xl"
+                className="text-darkText absolute top-10 left-0 z-[3] flex h-full w-full overflow-y-auto text-lg xl:top-0 xl:left-17 xl:text-xl"
             >
                 <ExpandedGallerySidebar />
                 <div className="relative z-[3] flex h-full w-full items-center justify-center bg-black">
-                    <div className="3xl:right-75 absolute top-8 xl:right-28">
+                    <div className="3xl:right-75 absolute top-8 xl:right-28 2xl:top-4">
                         <ExpandedMediaGalleryActions />
                     </div>
                     <ExpandedMediaDisplay />

@@ -1,0 +1,155 @@
+%! Author = Adam
+%! Date = 22/11/2025
+
+\subsubsection{Scenariusze przypadków użycia – funkcje ogólne}
+
+\usecasecard{tab:pu1-rejestracja}{Rejestracja użytkownika}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany}
+    \ucdesc{Użytkownik zakłada konto poprzez formularz rejestracji.}
+    \ucpre{Użytkownik znajduje się na stronie z formularzem rejestracji.}
+    \ucpost{Użytkownik posiada konto w systemie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wypełnia formularz rejestracyjny.
+            \item Użytkownik naciska przycisk rejestracji.
+            \item System tworzy konto użytkownika.
+            \item System loguje użytkownika i przenosi go na ostatnio dowiedzoną podstronę.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[1a.] Podane dane są niepoprawne – system wyświetla
+            komunikat o błędzie oraz podświetla pola wymagające poprawy.
+            \item[2a.] Nazwa użytkownika jest już zajęta – system wyświetla
+            komunikat o błędzie.
+            \item[2b.] Adres email jest już zajęty – system wyświetla
+            komunikat o błędzie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu2-logowanie}{Logowanie użytkownika}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany}
+    \ucdesc{Użytkownik loguje się do systemu, podając login i hasło.}
+    \ucpre{Użytkownik znajduje się na stronie logowania.}
+    \ucpost{Użytkownik jest zalogowany i przeniesiony na ostatnio dowiedzoną podstronę.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wypełnia formularz logowania.
+            \item Użytkownik naciska przycisk logowania.
+            \item System loguje użytkownika i przenosi go na ostatnio dowiedzoną podstronę.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Podane dane są niepoprawne – system wyświetla komunikat o błędzie.
+        \end{enumerate}
+    }
+}
+
+
+\usecasecard{tab:pu7-subskrypcja}{Wykupienie subskrypcji premium}{%
+    \ucpriority{Niski}
+    \ucactors{Użytkownik zalogowany, Bramka płatnicza, System finansowo-księgowy}
+    \ucdesc{Użytkownik opłaca subskrypcję premium w celu uzyskania dodatkowych funkcji.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w module subskrypcji.}
+    \ucpost{Subskrypcja premium jest aktywna, a użytkownik ma dostęp do funkcji premium.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera plan subskrypcji.
+            \item Użytkownik przechodzi do bramki płatniczej.
+            \item Użytkownik podaje dane płatnicze i zatwierdza transakcję.
+            \item Bramka płatnicza przetwarza płatność i zwraca wynik do systemu.
+            \item System zapisuje informację o opłaconej subskrypcji i aktualizuje uprawnienia.
+            \item System generuje wpis w systemie finansowo-księgowym.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[4a.] Płatność nie powiodła się – system informuje użytkownika i umożliwia ponowną próbę.
+            \item[5a.] W czasie aktualizacji subskrypcji wystąpił błąd – system cofa zmiany i wyświetla komunikat o problemie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu3-reset-hasla}{Resetowanie hasła}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik niezalogowany, Usługa SMTP}
+    \ucdesc{Użytkownik inicjuje reset hasła, aby odzyskać dostęp do konta.}
+    \ucpre{Użytkownik znajduje się na ekranie resetu hasła.}
+    \ucpost{Użytkownik otrzymuje wiadomość e-mail z linkiem do ustawienia nowego hasła.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wpisuje adres e-mail powiązany z kontem.
+            \item Użytkownik zatwierdza żądanie resetu hasła.
+            \item System generuje token resetu hasła.
+            \item System wysyła e-mail z linkiem do zmiany hasła.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Nie istnieje konto dla podanego adresu – system wyświetla komunikat o błędzie.
+            \item[4a.] Występuje błąd połączenia z usługą SMTP – system informuje użytkownika o problemie technicznym.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu4-zmiana-hasla}{Zmiana hasła w ustawieniach konta}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik zmienia hasło do konta z poziomu ustawień profilu.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się na ekranie zmiany danych konta.}
+    \ucpost{Hasło do konta użytkownika zostało zaktualizowane.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wpisuje aktualne hasło.
+            \item Użytkownik wpisuje nowe hasło i powtarza je.
+            \item Użytkownik zatwierdza formularz zmiany hasła.
+            \item System zapisuje nowe hasło i informuje o powodzeniu operacji.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Aktualne hasło jest nieprawidłowe – system wyświetla komunikat i nie zapisuje zmian.
+            \item[3b.] Nowe hasło nie spełnia wymagań bezpieczeństwa – system informuje o błędzie i podświetla pola do poprawy.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu5-wylogowanie}{Wylogowanie użytkownika}{%
+    \ucpriority{Wysoki}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik wylogowuje się z aplikacji.}
+    \ucpre{Użytkownik jest zalogowany.}
+    \ucpost{Sesja użytkownika została zakończona, użytkownik widzi stronę główną dla niezalogowanych.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik wybiera opcję wylogowania z menu.
+            \item System unieważnia token dostępu użytkownika.
+            \item System przenosi użytkownika na stronę główną aplikacji.
+        \end{enumerate}
+    }
+    \ucalt{Brak istotnych alternatywnych przepływów.}
+}
+
+\usecasecard{tab:pu6-powiadomienia}{Przeglądanie powiadomień}{%
+    \ucpriority{Niski}
+    \ucactors{Użytkownik zalogowany}
+    \ucdesc{Użytkownik przegląda listę powiadomień.}
+    \ucpre{Użytkownik jest na ekranie centra powiadomień.}
+    \ucpost{Powiadomienia zostały wyświetlone, a wybrane oznaczone jako przeczytane.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item System wyświetla powiadomienia w odwróconym porządku chronologicznym.
+            \item Użytkownik otwiera wybrane powiadomienie.
+            \item System oznacza powiadomienie jako przeczytane i ewentualnie przenosi użytkownika do powiązanego widoku.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[1a.] System nie może pobrać powiadomień (błąd serwera) – użytkownik otrzymuje komunikat o błędzie i może spróbować ponownie.
+        \end{enumerate}
+    }
+}
