@@ -16,6 +16,17 @@ describe("Account photos page", () => {
             onBeforeLoad(win) {
                 win.localStorage.setItem("is_logged_in", "true");
                 win.localStorage.setItem("username", "user");
+
+                win.IntersectionObserver = class {
+                    constructor(cb) {
+                        this.cb = cb;
+                    }
+                    observe(element) {
+                        this.cb([{ isIntersecting: true, target: element }]);
+                    }
+                    unobserve() {}
+                    disconnect() {}
+                };
             },
         });
     };

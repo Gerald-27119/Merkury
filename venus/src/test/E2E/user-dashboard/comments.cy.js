@@ -16,11 +16,6 @@ describe("Account comments page", () => {
             statusCode: 200,
             body: { authenticated: true },
         }).as("accountCheck");
-
-        cy.intercept("GET", "**/public/spot/most-popular", {
-            statusCode: 200,
-            body: [],
-        }).as("mostPopular");
     });
 
     it("shows empty state message when there are no comments", () => {
