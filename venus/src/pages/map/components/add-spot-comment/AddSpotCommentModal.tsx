@@ -108,7 +108,7 @@ export default function AddSpotCommentModal() {
             transition={{ duration: 0.3 }}
             className="absolute top-0 z-[4] flex h-full w-full items-center justify-center bg-black/80"
         >
-            <div className="bg-darkBgSoft text-darkText flex w-[40rem] flex-col items-center space-y-5 rounded-2xl p-8">
+            <div className="dark:bg-darkBgSoft bg-fifth dark:text-darkText text-violetDark flex w-[40rem] flex-col items-center space-y-5 rounded-2xl p-8">
                 <h1 className="mb-4 text-3xl">{spotName}</h1>
                 <ConfigProvider
                     theme={{
@@ -128,23 +128,23 @@ export default function AddSpotCommentModal() {
                         onChange={(value) => setSpotRating(value)}
                     />
                 </ConfigProvider>
-                <div className="bg-darkBg mt-5 flex w-full flex-col items-center rounded-md px-4 py-1.5">
+                <div className="dark:bg-darkBg mt-5 flex w-full flex-col items-center rounded-md bg-white px-4 py-1.5">
                     <div className="h-96 max-w-56">
                         <UploadButton onFileSelect={handleFileSelect} />
                     </div>
                     <hr className="w-full" />
                     <textarea
-                        className="placeholder-darkText h-40 w-full text-sm focus:outline-0"
+                        className="dark:placeholder-darkText placeholder-violetDark h-40 w-full text-sm focus:outline-0"
                         placeholder="Type here..."
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
                     />
                 </div>
-                <div className="flex h-28 items-center justify-center space-x-5 text-xl">
+                <div className="text-darkText flex h-28 items-center justify-center space-x-5 text-xl">
                     <button
                         disabled={isPending}
                         onClick={handleCancelAddSpotComment}
-                        className="bg-violetDarker border-violetLightDarker hover:bg-violetLightDarker cursor-pointer rounded-xl border px-3 py-1.5"
+                        className="bg-violetDarker hover:bg-violetDark border-violetLightDarker dark:hover:bg-violetLightDarker cursor-pointer rounded-xl border px-3 py-1.5"
                     >
                         Cancel
                     </button>

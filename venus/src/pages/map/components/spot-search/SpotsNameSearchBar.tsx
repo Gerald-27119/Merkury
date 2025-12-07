@@ -72,13 +72,13 @@ export default function SpotsNameSearchBar() {
     };
 
     return (
-        <div className="dark:text-darkText mt-2 flex items-end justify-center space-x-3">
+        <div className="dark:text-darkText text-violetLight mt-2 flex items-end justify-center space-x-3">
             <div className="relative flex items-center">
                 <div
-                    className={`dark:bg-violetDarker flex w-96 items-center justify-between ${isShowHints && spotsNames?.length ? "rounded-t-3xl" : "rounded-3xl"} px-5 py-2 text-lg font-semibold`}
+                    className={`dark:bg-violetDarker bg-fifth flex w-96 items-center justify-between ${isShowHints && spotsNames?.length ? "rounded-t-3xl" : "rounded-3xl"} px-5 py-2 text-lg font-semibold drop-shadow-md dark:drop-shadow-none`}
                 >
                     <input
-                        className="dark:placeholder-darkText w-full focus:outline-none"
+                        className="dark:placeholder-darkText placeholder-violetLight w-full focus:outline-none"
                         id="name"
                         data-testid="search-input"
                         autoComplete="off"
@@ -104,11 +104,11 @@ export default function SpotsNameSearchBar() {
                     </button>
                 </div>
                 {isShowHints && spotsNames.length > 0 && (
-                    <ul className="dark:bg-violetDarker absolute top-full left-0 w-full overflow-hidden rounded-b-3xl text-base font-semibold">
+                    <ul className="dark:bg-violetDarker bg-fifth absolute top-full left-0 w-full overflow-hidden rounded-b-3xl text-base font-semibold">
                         {spotsNames.map((name) => (
                             <li
                                 key={name}
-                                className="dark:hover:bg-violetDark cursor-pointer p-2 pl-4"
+                                className="dark:hover:bg-violetDark hover:bg-whiteSmoke cursor-pointer p-2 pl-4"
                                 onMouseDown={() => handleHintClick(name)}
                             >
                                 {name}
