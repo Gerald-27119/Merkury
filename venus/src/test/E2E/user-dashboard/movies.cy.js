@@ -206,4 +206,43 @@ describe("Account movies page", () => {
 
         cy.get('[data-testid="user-movie-li"]').should("have.length", 16);
     });
+
+    it("loads movies page with real backend after real login", () => {
+        cy.visit("http://localhost:5173/");
+
+        cy.get("#sidebar-link-login").click();
+        cy.url().should("include", "/login");
+
+        cy.get("#username").type("user");
+        cy.get("#password").type("password");
+        cy.get('button[type="submit"]').click();
+
+        cy.url().should("eq", "http://localhost:5173/");
+
+        cy.window().should((win) => {
+            expect(win.localStorage.getItem("is_logged_in")).to.eq("true");
+            expect(win.localStorage.getItem("username")).to.eq("user");
+        });
+
+        cy.intercept("GET", "**/user-dashboard/movies*").as("getMoviesReal");
+
+        cy.visit(MOVIES_URL);
+
+        cy.wait("@accountCheck");
+        cy.wait("@getMoviesReal").then((interception) => {
+            expect(interception.response?.statusCode).to.eq(200);
+            expect(interception.response?.body).to.have.property("items");
+            expect(interception.response?.body).to.have.property("hasNext");
+        });
+
+        cy.contains("Movies").should("be.visible");
+
+        cy.get("body").then(($body) => {
+            if ($body.find('[data-testid="user-movie-li"]').length) {
+                cy.get('[data-testid="user-movie-li"]')
+                    .its("length")
+                    .should("be.greaterThan", 0);
+            }
+        });
+    });
 });

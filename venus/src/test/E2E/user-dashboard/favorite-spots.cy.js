@@ -196,4 +196,46 @@ describe("Account favorite spots page", () => {
 
         cy.get('[data-testid^="spot-rating-"]').should("have.length", 16);
     });
+
+    it("loads favorite spots page with real backend after real login", () => {
+        cy.visit("http://localhost:5173/");
+
+        cy.get("#sidebar-link-login").click();
+        cy.url().should("include", "/login");
+
+        cy.get("#username").type("user");
+        cy.get("#password").type("password");
+        cy.get('button[type="submit"]').click();
+
+        cy.url().should("eq", "http://localhost:5173/");
+
+        cy.window().should((win) => {
+            expect(win.localStorage.getItem("is_logged_in")).to.eq("true");
+            expect(win.localStorage.getItem("username")).to.eq("user");
+        });
+
+        cy.intercept("GET", "**/user-dashboard/favorite-spots*").as(
+            "getFavoriteReal",
+        );
+
+        cy.visit(FAVORITE_SPOTS_URL);
+
+        cy.wait("@accountCheck");
+        cy.wait("@getFavoriteReal").then((interception) => {
+            expect(interception.response?.statusCode).to.eq(200);
+            expect(interception.response?.body).to.have.property("items");
+            expect(interception.response?.body).to.have.property("hasNext");
+        });
+
+        cy.contains("spots lists").should("be.visible");
+
+        cy.get("body").then(($body) => {
+            const count = $body.find('[data-testid^="spot-rating-"]').length;
+            if (count > 0) {
+                cy.get('[data-testid^="spot-rating-"]')
+                    .its("length")
+                    .should("be.greaterThan", 0);
+            }
+        });
+    });
 });

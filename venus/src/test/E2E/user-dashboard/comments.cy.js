@@ -16,6 +16,11 @@ describe("Account comments page", () => {
             statusCode: 200,
             body: { authenticated: true },
         }).as("accountCheck");
+
+        cy.intercept("GET", "**/public/spot/most-popular", {
+            statusCode: 200,
+            body: [],
+        }).as("mostPopular");
     });
 
     it("shows empty state message when there are no comments", () => {
@@ -118,6 +123,7 @@ describe("Account comments page", () => {
                 win.localStorage.setItem("username", "user");
             },
         });
+
         cy.wait("@accountCheck");
         cy.wait("@getComments");
 
@@ -147,5 +153,36 @@ describe("Account comments page", () => {
             .should("contain", "Newest comment");
 
         cy.contains("button", "Date ascending").should("be.visible");
+    });
+
+    it("loads comments page with real backend after real login", () => {
+        cy.visit("http://localhost:5173/");
+
+        cy.get("#sidebar-link-login").click();
+        cy.url().should("include", "/login");
+
+        cy.get("#username").type("user");
+        cy.get("#password").type("password");
+        cy.get('button[type="submit"]').click();
+
+        cy.window().should((win) => {
+            expect(win.localStorage.getItem("is_logged_in")).to.eq("true");
+            expect(win.localStorage.getItem("username")).to.eq("user");
+        });
+
+        cy.intercept("GET", "**/user-dashboard/comments*").as(
+            "getCommentsReal",
+        );
+
+        cy.visit(COMMENTS_URL);
+
+        cy.wait("@accountCheck");
+        cy.wait("@getCommentsReal").then((interception) => {
+            expect(interception.response?.statusCode).to.eq(200);
+            expect(interception.response?.body).to.have.property("items");
+            expect(interception.response?.body).to.have.property("hasNext");
+        });
+
+        cy.contains("Comments").should("be.visible");
     });
 });

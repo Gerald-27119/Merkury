@@ -53,7 +53,7 @@ describe("Account photos page", () => {
                     media: [
                         {
                             id: 1,
-                            src: "https://example.com/photo-1.mp4",
+                            src: "https://example.com/photo-1.jpg",
                             heartsCount: 10,
                             viewsCount: 100,
                             addDate: "2025-01-02T10:00:00",
@@ -65,7 +65,7 @@ describe("Account photos page", () => {
                     media: [
                         {
                             id: 2,
-                            src: "https://example.com/photo-2.mp4",
+                            src: "https://example.com/photo-2.jpg",
                             heartsCount: 5,
                             viewsCount: 50,
                             addDate: "2025-01-01T09:00:00",
@@ -83,7 +83,7 @@ describe("Account photos page", () => {
                     media: [
                         {
                             id: 2,
-                            src: "https://example.com/photo-2.mp4",
+                            src: "https://example.com/photo-2.jpg",
                             heartsCount: 5,
                             viewsCount: 50,
                             addDate: "2025-01-01T09:00:00",
@@ -95,7 +95,7 @@ describe("Account photos page", () => {
                     media: [
                         {
                             id: 1,
-                            src: "https://example.com/photo-1.mp4",
+                            src: "https://example.com/photo-1.jpg",
                             heartsCount: 10,
                             viewsCount: 100,
                             addDate: "2025-01-02T10:00:00",
@@ -143,7 +143,7 @@ describe("Account photos page", () => {
     it("loads next page when scrolling to bottom", () => {
         const firstPageMedia = Array.from({ length: 15 }, (_, i) => ({
             id: i + 1,
-            src: `https://example.com/photo-${i + 1}.mp4`,
+            src: `https://example.com/photo-${i + 1}.jpg`,
             heartsCount: 10 + i,
             viewsCount: 100 + i * 10,
             addDate: `2025-01-01T10:${String(i).padStart(2, "0")}:00`,
@@ -166,7 +166,7 @@ describe("Account photos page", () => {
                     media: [
                         {
                             id: 100,
-                            src: "https://example.com/photo-100.mp4",
+                            src: "https://example.com/photo-100.jpg",
                             heartsCount: 5,
                             viewsCount: 50,
                             addDate: "2025-01-02T11:00:00",
@@ -205,5 +205,34 @@ describe("Account photos page", () => {
         cy.wait("@getPhotosScroll");
 
         cy.get('[data-testid="user-photo"]').should("have.length", 16);
+    });
+
+    it("shows photos for real user after real login", () => {
+        cy.visit("http://localhost:5173/");
+
+        cy.get("#sidebar-link-login").click();
+        cy.url().should("include", "/login");
+
+        cy.get("#username").type("user");
+        cy.get("#password").type("password");
+        cy.get('button[type="submit"]').click();
+
+        cy.window().should((win) => {
+            expect(win.localStorage.getItem("is_logged_in")).to.eq("true");
+            expect(win.localStorage.getItem("username")).to.eq("user");
+        });
+
+        cy.intercept("GET", "**/user-dashboard/photos*").as("getPhotosReal");
+
+        cy.visit(PHOTOS_URL);
+
+        cy.wait("@accountCheck");
+        cy.wait("@getPhotosReal");
+
+        cy.contains("Photos").should("be.visible");
+
+        cy.get('[data-testid="user-photo"]')
+            .its("length")
+            .should("be.greaterThan", 0);
     });
 });
