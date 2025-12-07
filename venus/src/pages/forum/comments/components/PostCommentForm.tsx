@@ -10,19 +10,13 @@ import { RichTextEditorVariantType } from "../../../../model/enum/forum/richText
 import PostCommentGeneral from "../../../../model/interface/forum/postComment/postCommentGeneral";
 import FormActionButtons from "../../components/FormActionButtons";
 import { uploadToAzure } from "../../../../http/forum-file-upload";
-import { replaceLocalImagesWithUploadedUrls } from "../../../../utils/forum/replaceLocalImagesWithUploadedUrls";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import { forumMediaAction } from "../../../../redux/forumMedia";
-import useDispatchTyped from "../../../../hooks/useDispatchTyped";
+import { extractAndUploadImages } from "../../../../utils/forum/extractAndUploadImages";
 
 interface ForumCommentFormProps {
     handleComment: (newComment: PostCommentDto) => void;
     onClose: () => void;
     commentToEdit?: PostCommentGeneral;
     className?: string;
-    isReply?: boolean;
 }
 
 export default function PostCommentForm({
@@ -30,13 +24,7 @@ export default function PostCommentForm({
     onClose,
     commentToEdit,
     className,
-    isReply,
 }: ForumCommentFormProps) {
-    const localImages = useSelector(
-        (state: RootState) => state.forumMedia.forms.comment.images,
-    );
-    const dispatch = useDispatchTyped();
-
     const {
         handleSubmit,
         control,
@@ -52,9 +40,8 @@ export default function PostCommentForm({
     });
 
     const onSubmit: SubmitHandler<PostCommentFormFields> = async (data) => {
-        const finalContent = await replaceLocalImagesWithUploadedUrls(
+        const finalContent = await extractAndUploadImages(
             data.content,
-            localImages,
             (file) => uploadToAzure(file, "forum"),
         );
 
@@ -62,7 +49,6 @@ export default function PostCommentForm({
             content: finalContent,
         });
 
-        dispatch(forumMediaAction.clearImages(isReply ? "reply" : "comment"));
         onClose();
     };
 
@@ -74,7 +60,6 @@ export default function PostCommentForm({
                     control={control}
                     error={errors.content?.message}
                     variant={RichTextEditorVariantType.DEFAULT}
-                    formId={isReply ? "reply" : "comment"}
                 />
 
                 <FormActionButtons

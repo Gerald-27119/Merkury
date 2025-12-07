@@ -195,7 +195,7 @@ export default function PostComment({
                 isReply={comment.isReply}
                 onAuthorClick={handleNavigateToAuthorProfile}
             />
-            {comment.id}
+
             <div>
                 <PostCommentContent content={comment.content} />
 
@@ -222,7 +222,6 @@ export default function PostComment({
                 <PostCommentForm
                     handleComment={(data) => handleReply(comment.id, data)}
                     onClose={() => onActiveFormChange(comment.id, "reply")}
-                    isReply={true}
                     className="mt-4"
                 />
             )}

@@ -6,8 +6,6 @@ import Placeholder from "@tiptap/extension-placeholder";
 import MenuBar from "./MenuBar";
 import TextAlign from "@tiptap/extension-text-align";
 import { RichTextEditorVariantType } from "../../../model/enum/forum/richTextEditorVariantType";
-import { FormId, forumMediaAction } from "../../../redux/forumMedia";
-import useDispatchTyped from "../../../hooks/useDispatchTyped";
 
 interface TiptapProps {
     placeholder: string;
@@ -15,7 +13,6 @@ interface TiptapProps {
     onChange: (value: string) => void;
     onBlur: () => void;
     variant: RichTextEditorVariantType;
-    formId: FormId;
 }
 
 export default function Tiptap({
@@ -24,10 +21,7 @@ export default function Tiptap({
     onChange,
     onBlur,
     variant = RichTextEditorVariantType.DEFAULT,
-    formId,
 }: TiptapProps) {
-    const dispatch = useDispatchTyped();
-
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -57,14 +51,6 @@ export default function Tiptap({
                 ],
                 onDrop: (currentEditor, files, pos) => {
                     files.forEach((file) => {
-                        const id = crypto.randomUUID();
-                        dispatch(
-                            forumMediaAction.addImage({
-                                formId: formId,
-                                image: { id, file },
-                            }),
-                        );
-
                         const fileReader = new FileReader();
                         fileReader.readAsDataURL(file);
                         fileReader.onload = () => {
@@ -74,7 +60,7 @@ export default function Tiptap({
                                     type: "image",
                                     attrs: {
                                         src: fileReader.result,
-                                        alt: id,
+                                        alt: "image",
                                     },
                                 })
                                 .focus()
@@ -88,14 +74,6 @@ export default function Tiptap({
                             return false;
                         }
 
-                        const id = crypto.randomUUID();
-                        dispatch(
-                            forumMediaAction.addImage({
-                                formId: formId,
-                                image: { id, file },
-                            }),
-                        );
-
                         const fileReader = new FileReader();
                         fileReader.readAsDataURL(file);
                         fileReader.onload = () => {
@@ -107,7 +85,7 @@ export default function Tiptap({
                                         type: "image",
                                         attrs: {
                                             src: fileReader.result,
-                                            alt: id,
+                                            alt: "image",
                                         },
                                     },
                                 )
@@ -141,7 +119,7 @@ export default function Tiptap({
     return (
         <>
             <div className={`${wrapperVariants[variant]}`}>
-                <MenuBar editor={editor} formId={formId} />
+                <MenuBar editor={editor} />
                 <EditorContent
                     editor={editor}
                     onBlur={onBlur}

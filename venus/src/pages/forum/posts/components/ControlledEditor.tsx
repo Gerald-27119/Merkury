@@ -1,14 +1,12 @@
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import Tiptap from "../../rich-text-editor/Tiptap";
 import { RichTextEditorVariantType } from "../../../../model/enum/forum/richTextEditorVariantType";
-import { FormId } from "../../../../redux/forumMedia";
 
 interface PostFormProps<T extends FieldValues> {
     name: Path<T>;
     control: Control<T>;
     error?: string;
     variant: RichTextEditorVariantType;
-    formId: FormId;
 }
 
 const baseClassName = "dark:bg-darkBg bg-lightBgSoft mx-auto rounded-lg p-4";
@@ -22,7 +20,6 @@ export default function ControlledEditor<T extends FieldValues>({
     control,
     error,
     variant,
-    formId,
 }: PostFormProps<T>) {
     return (
         <div className="w-full">
@@ -40,7 +37,6 @@ export default function ControlledEditor<T extends FieldValues>({
                                 onChange={field.onChange}
                                 onBlur={field.onBlur}
                                 variant={variant}
-                                formId={formId}
                             />
                         </div>
                         {error && (

@@ -18,7 +18,6 @@ import { useAppMutation } from "../../hooks/useAppMutation";
 import PostCommentPage from "../../model/interface/forum/postComment/postCommentPage";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
 import FollowPostButton from "./components/FollowPostButton";
-import { forumMediaAction } from "../../redux/forumMedia";
 
 export default function ForumThread({}) {
     const { postId } = useParams<{ postId: string }>();
@@ -97,11 +96,6 @@ export default function ForumThread({}) {
         }
     };
 
-    const handleCloseComment = () => {
-        hideCommentForm();
-        dispatch(forumMediaAction.clearImages("comment"));
-    };
-
     const handlePostFollow = async (postId: number) => {
         await followPostMutate(postId);
     };
@@ -157,7 +151,7 @@ export default function ForumThread({}) {
             {isCommentFormVisible && (
                 <PostCommentForm
                     handleComment={handleAddComment}
-                    onClose={handleCloseComment}
+                    onClose={() => hideCommentForm}
                 />
             )}
 

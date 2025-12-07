@@ -1,11 +1,8 @@
 import React, { useRef } from "react";
 import { Editor } from "@tiptap/react";
-import useDispatchTyped from "../../../hooks/useDispatchTyped";
-import { FormId, forumMediaAction } from "../../../redux/forumMedia";
 
 interface FileUploadButtonProps {
     editor: Editor | null;
-    formId: FormId;
     icon: React.ElementType;
     size: number;
 }
@@ -16,9 +13,7 @@ export default function FileUploadButton({
     editor,
     icon: Icon,
     size,
-    formId,
 }: FileUploadButtonProps) {
-    const dispatch = useDispatchTyped();
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const handleClick = () => {
@@ -44,13 +39,6 @@ export default function FileUploadButton({
                     .focus()
                     .setImage({ src: reader.result as string, alt: id })
                     .run();
-
-                dispatch(
-                    forumMediaAction.addImage({
-                        formId: formId,
-                        image: { id, file },
-                    }),
-                );
             };
 
             reader.readAsDataURL(file);
