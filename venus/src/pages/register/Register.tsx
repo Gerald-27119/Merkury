@@ -72,7 +72,6 @@ export default function Register() {
                     />
                 ))}
                 <SubmitFormButton
-                    id="sign-up"
                     label="sign up"
                     fields={signUpFields}
                     didEdit={didEdit}
