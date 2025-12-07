@@ -12,7 +12,7 @@ export default function SpotActionButton({
     return (
         <button
             onClick={onClickHandler}
-            className="dark:ring-darbVioletBtnOutline/50 dark:hover:bg-violetLight cursor-pointer rounded-full p-1.5 text-center text-2xl ring-2"
+            className="dark:ring-darkVioletBtnOutline/50 ring-violetDark/50 dark:hover:bg-violetLight dark:bg-violetDarker hover:bg-whiteSmoke cursor-pointer rounded-full bg-white p-1.5 text-center text-2xl ring-2"
         >
             {children}
         </button>
