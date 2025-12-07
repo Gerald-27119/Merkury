@@ -78,6 +78,7 @@ function Login() {
                     </Link>
                 </div>
                 <SubmitFormButton
+                    id="sign-in"
                     label="sign in"
                     fields={signInFields}
                     didEdit={didEdit}
