@@ -8,9 +8,11 @@
 \newcounter{woczat}[chapter]
 \renewcommand{\thewoczat}{\thechapter.\arabic{woczat}}
 
-% Szerokość części z treścią (3 prawe kolumny zlane w jedną)
 \newlength{\woczContentWidth}
-\setlength{\woczContentWidth}{0.7\textwidth}
+\setlength{\woczContentWidth}{0.74\textwidth}
+
+\newlength{\woczLabelWidth}
+\setlength{\woczLabelWidth}{0.2\textwidth}
 
 % --------- Pola karty (wiersze) ---------
 
@@ -34,10 +36,11 @@
     \refstepcounter{woczat}%
     {\centering
     \begin{longtable}{|
-            >{\columncolor{lightgray}}l|
-        l|
-            >{\columncolor{lightgray}}l|
-        p{0.15\textwidth}|}
+            >{\columncolor{lightgray}}p{\woczLabelWidth}|
+        p{0.22\textwidth}|
+            >{\columncolor{lightgray}}p{0.18\textwidth}|
+        p{0.24\textwidth}|}
+
     \hline
     \rowcolor{lightgray}\multicolumn{4}{|c|}
     {\textbf{KARTA WYMAGANIA OGÓLNEGO DLA CZATU}} \\ \hline
@@ -63,7 +66,6 @@
     {Tabela \thewoczat: Karta wymagania ogólnego dla czatu: #2}%
 }
 
-% --------- KARTY ---------
 
 \woczatcard
 {woczat:send-message}
@@ -76,20 +78,19 @@
 
     \woczstakeholder{UO3}
 
-    \woczrelated{Wymagania funkcjonalne dla czatu:
-    WFCZAT-01 (\ref{wfczat:send-gif}),
-        WFCZAT-02 (\ref{wfczat:send-files}),
-        WFCZAT-03 (\ref{wfczat:private-messages}),
-        WFCZAT-04 (\ref{wfczat:group-messages}),
-        WFCZAT-06 (\ref{wfczat:emoticons}),
-        WFCZAT-10 (\ref{wfczat:edit-message}).
-        Wymagania pozafunkcjonalne dla czatu:
-        WPCZAT-01 (\ref{wpczat:visibility-members}),
-        WPCZAT-02 (\ref{wpczat:login-required}),
-        WPCZAT-04 (\ref{wpczat:sender-and-time}),
-        WPCZAT-06 (\ref{wpczat:send-immediately}).}
+    \woczrelated{%
+        \hyperref[wfczat:send-gif]{WFCZAT-01},
+        \hyperref[wfczat:send-files]{WFCZAT-02},
+        \hyperref[wfczat:private-messages]{WFCZAT-03},
+        \hyperref[wfczat:group-messages]{WFCZAT-04},
+        \hyperref[wfczat:emoticons]{WFCZAT-06},
+        \hyperref[wfczat:edit-message]{WFCZAT-10},
+        \hyperref[wpczat:visibility-members]{WPCZAT-01},
+        \hyperref[wpczat:login-required]{WPCZAT-02},
+        \hyperref[wpczat:sender-and-time]{WPCZAT-04},
+        \hyperref[wpczat:send-immediately]{WPCZAT-06}%
+    }
 }
-
 
 \woczatcard
 {woczat:edit-chat}
@@ -102,15 +103,14 @@
 
     \woczstakeholder{UO3}
 
-    \woczrelated{Wymagania funkcjonalne dla czatu:
-    WFCZAT-08 (\ref{wfczat:edit-group-name}),
-        WFCZAT-09 (\ref{wfczat:edit-group-avatar}),
-        WFCZAT-11 (\ref{wfczat:add-users-existing-chat}).
-        Wymagania pozafunkcjonalne dla czatu:
-        WPCZAT-01 (\ref{wpczat:visibility-members}),
-        WPCZAT-02 (\ref{wpczat:login-required}).}
+    \woczrelated{%
+        \hyperref[wfczat:edit-group-name]{WFCZAT-08},
+        \hyperref[wfczat:edit-group-avatar]{WFCZAT-09},
+        \hyperref[wfczat:add-users-existing-chat]{WFCZAT-11},
+        \hyperref[wpczat:visibility-members]{WPCZAT-01},
+        \hyperref[wpczat:login-required]{WPCZAT-02}%
+    }
 }
-
 
 \woczatcard
 {woczat:browse-history}
@@ -123,14 +123,14 @@
 
     \woczstakeholder{UO3}
 
-    \woczrelated{Wymagania funkcjonalne dla czatu:
-    WFCZAT-07 (\ref{wfczat:chat-availability}),
-        WFCZAT-12 (\ref{wfczat:load-older-messages}).
-        Wymagania pozafunkcjonalne dla czatu:
-        WPCZAT-01 (\ref{wpczat:visibility-members}),
-        WPCZAT-02 (\ref{wpczat:login-required}),
-        WPCZAT-03 (\ref{wpczat:group-by-date}),
-        WPCZAT-05 (\ref{wpczat:load-older-under-10s}).}
+    \woczrelated{%
+        \hyperref[wfczat:chat-availability]{WFCZAT-07},
+        \hyperref[wfczat:load-older-messages]{WFCZAT-12},
+        \hyperref[wpczat:visibility-members]{WPCZAT-01},
+        \hyperref[wpczat:login-required]{WPCZAT-02},
+        \hyperref[wpczat:group-by-date]{WPCZAT-03},
+        \hyperref[wpczat:load-older-under-10s]{WPCZAT-05}%
+    }
 }
 
 \woczatcard
@@ -144,9 +144,10 @@
 
     \woczstakeholder{UO3}
 
-    \woczrelated{Wymaganie funkcjonalne dla czatu:
-    WFCZAT-05 (\ref{wfczat:create-chat}).
-    Wymagania pozafunkcjonalne dla czatu:
-    WPCZAT-01 (\ref{wpczat:visibility-members}),
-        WPCZAT-02 (\ref{wpczat:login-required}).}
+    \woczrelated{%
+        \hyperref[wfczat:create-chat]{WFCZAT-05},
+        \hyperref[wpczat:visibility-members]{WPCZAT-01},
+        \hyperref[wpczat:login-required]{WPCZAT-02}%
+    }
 }
+

@@ -14,7 +14,7 @@
 
 % Szerokość części z treścią (3 prawe kolumny zlane w jedną)
 \newlength{\wpczContentWidth}
-\setlength{\wpczContentWidth}{0.8\textwidth}
+\setlength{\wpczContentWidth}{0.7\textwidth}
 
 % --------- Pola karty (wiersze) ---------
 
@@ -105,9 +105,10 @@
 
     \wpczstatus{Zrealizowano}
 
-    \wpczrelated{Wymagania ogólne dla czatu:
-    WOCZAT-01 (\ref{woczat:send-message}),
-        WOCZAT-03 (\ref{woczat:browse-history}).}
+    \wpczrelated{%
+        \hyperref[woczat:send-message]{WOCZAT-01},
+        \hyperref[woczat:browse-history]{WOCZAT-03}.%
+    }
 }
 
 % =========================================================
@@ -142,11 +143,12 @@
 
     \wpczstatus{Zrealizowano}
 
-    \wpczrelated{Wymagania ogólne dla czatu:
-    WOCZAT-01 (\ref{woczat:send-message}),
-        WOCZAT-02 (\ref{woczat:edit-chat}),
-        WOCZAT-03 (\ref{woczat:browse-history}),
-        WOCZAT-04 (\ref{woczat:create-chat}).}
+    \wpczrelated{%
+        \hyperref[woczat:send-message]{WOCZAT-01},
+        \hyperref[woczat:edit-chat]{WOCZAT-02},
+        \hyperref[woczat:browse-history]{WOCZAT-03},
+        \hyperref[woczat:create-chat]{WOCZAT-04}.%
+    }
 }
 
 % =========================================================
@@ -180,9 +182,10 @@
 
     \wpczstatus{Zrealizowano}
 
-    \wpczrelated{Wymagania ogólne dla czatu:
-    WOCZAT-01 (\ref{woczat:send-message}),
-        WOCZAT-03 (\ref{woczat:browse-history}).}
+    \wpczrelated{%
+        \hyperref[woczat:send-message]{WOCZAT-01},
+        \hyperref[woczat:browse-history]{WOCZAT-03}.%
+    }
 }
 
 % =========================================================
@@ -199,7 +202,7 @@
     \wpcztype{Użyteczność}
 
     \wpczdesc{Każda wiadomość na czacie jest opatrzona wyraźną informacją,
-        kto jest jej nadawcą oraz kiedy została wysłan. Informacje
+        kto jest jej nadawcą oraz kiedy została wysłana. Informacje
         te są łatwo zauważalne i spójne wizualnie.}
 
     \wpczaccept{%
@@ -215,9 +218,10 @@
 
     \wpczstatus{Zrealizowano}
 
-    \wpczrelated{Wymagania ogólne dla czatu:
-    WOCZAT-01 (\ref{woczat:send-message}),
-        WOCZAT-03 (\ref{woczat:browse-history}).}
+    \wpczrelated{%
+        \hyperref[woczat:send-message]{WOCZAT-01},
+        \hyperref[woczat:browse-history]{WOCZAT-03}.%
+    }
 }
 
 % =========================================================
@@ -251,8 +255,9 @@
 
     \wpczstatus{Zrealizowano}
 
-    \wpczrelated{Wymagania ogólne dla czatu:
-    WOCZAT-03 (\ref{woczat:browse-history}).}
+    \wpczrelated{%
+        \hyperref[woczat:browse-history]{WOCZAT-03}.%
+    }
 }
 
 % =========================================================
@@ -286,6 +291,8 @@
 
     \wpczstatus{Zrealizowano}
 
-    \wpczrelated{Wymagania ogólne dla czatu:
-    WOCZAT-01 (\ref{woczat:send-message}).}
+    \wpczrelated{%
+        \hyperref[woczat:send-message]{WOCZAT-01}.%
+    }
 }
+
