@@ -1,4 +1,4 @@
-import PostFormEditor from "../../posts/components/PostFormEditor";
+import ControlledEditor from "../../posts/components/ControlledEditor";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -9,6 +9,8 @@ import PostCommentDto from "../../../../model/interface/forum/postComment/postCo
 import { RichTextEditorVariantType } from "../../../../model/enum/forum/richTextEditorVariantType";
 import PostCommentGeneral from "../../../../model/interface/forum/postComment/postCommentGeneral";
 import FormActionButtons from "../../components/FormActionButtons";
+import { uploadToAzure } from "../../../../http/forum-file-upload";
+import { extractAndUploadImages } from "../../../../utils/forum/extractAndUploadImages";
 
 interface ForumCommentFormProps {
     handleComment: (newComment: PostCommentDto) => void;
@@ -26,7 +28,9 @@ export default function PostCommentForm({
     const {
         handleSubmit,
         control,
-        formState: { errors },
+        formState: { errors, isSubmitting },
+        setError,
+        clearErrors,
     } = useForm<PostCommentFormFields>({
         resolver: zodResolver(PostCommentFormSchema),
         mode: "onBlur",
@@ -37,26 +41,44 @@ export default function PostCommentForm({
               },
     });
 
-    const onSubmit: SubmitHandler<PostCommentFormFields> = (data) => {
-        handleComment({
-            content: data.content,
-        });
-        onClose();
+    const onSubmit: SubmitHandler<PostCommentFormFields> = async (data) => {
+        try {
+            const finalContent = await extractAndUploadImages(
+                data.content,
+                (file) => uploadToAzure(file),
+            );
+
+            handleComment({
+                content: finalContent,
+            });
+
+            onClose();
+        } catch {
+            setError("content", {
+                type: "manual",
+                message:
+                    "One of the images couldn't be uploaded, please try again.",
+            });
+            return;
+        }
     };
 
     return (
         <div className={`mb-4 ${className}`}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <PostFormEditor<PostCommentFormFields>
+                <ControlledEditor<PostCommentFormFields>
                     name="content"
                     control={control}
                     error={errors.content?.message}
                     variant={RichTextEditorVariantType.DEFAULT}
+                    setError={setError}
+                    clearErrors={clearErrors}
                 />
 
                 <FormActionButtons
                     onCancel={onClose}
                     submitLabel={commentToEdit ? "Edit" : "Comment"}
+                    isSubmitting={isSubmitting}
                 />
             </form>
         </div>

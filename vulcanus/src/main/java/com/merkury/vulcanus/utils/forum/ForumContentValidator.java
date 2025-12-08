@@ -1,4 +1,4 @@
-package com.merkury.vulcanus.utils;
+package com.merkury.vulcanus.utils.forum;
 
 import com.merkury.vulcanus.exception.exceptions.InvalidForumContentException;
 import com.merkury.vulcanus.features.jsoup.JsoupSanitizer;

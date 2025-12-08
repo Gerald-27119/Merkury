@@ -19,9 +19,9 @@ public class AzureBlobMediaUploadController {
 
     private final AzureBlobService azureBlobService;
 
-    @PostMapping("/public/upload/media")
-    public ResponseEntity<String> uploadMedia(@RequestParam("file") MultipartFile file, @RequestParam String containerName) throws IOException, InvalidFileTypeException, BlobContainerNotFoundException {
-        String url = azureBlobService.upload(containerName, file, AzureBlobFileValidatorType.DEFAULT);
+    @PostMapping("/upload/media")
+    public ResponseEntity<String> uploadForumMedia(@RequestParam("file") MultipartFile file) throws IOException, InvalidFileTypeException, BlobContainerNotFoundException {
+        String url = azureBlobService.upload("forum", file, AzureBlobFileValidatorType.FORUM);
         return ResponseEntity.ok(url);
     }
 }
