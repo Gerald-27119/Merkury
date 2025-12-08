@@ -28,7 +28,6 @@
 \newcommand{\wpcztype}[1]{\textbf{Typ:} &
 \multicolumn{3}{|p{\wpczContentWidth}|}{#1} \\ \hline}
 
-% Wiersze z etykietą + treścią na 3 kolumny
 \newcommand{\wpczname}[1]{\textbf{Nazwa:}              &
 \multicolumn{3}{|p{\wpczContentWidth}|}{#1} \\ \hline}
 \newcommand{\wpczdesc}[1]{\textbf{Opis:}               &
@@ -42,16 +41,12 @@
 \newcommand{\wpczstatus}[1]{\textbf{Status:}           &
 \multicolumn{3}{|p{\wpczContentWidth}|}{#1} \\ \hline}
 
-% (opcjonalnie, gdyby kiedyś były potrzebne)
 \newcommand{\wpcznote}[1]{\textbf{Notatka:}            &
 \multicolumn{3}{|p{\wpczContentWidth}|}{#1} \\ \hline}
 
-% Karta wymagania pozafunkcjonalnego dla czatu
-% #1 – label
-% #2 – nazwa
-% #3 – numer / sufiks kodu (np. 01 → WPCZAT-01)
-% #4 – priorytet (MoSCoW: M, S, C, W)
-% #5 – reszta pól: \wpcztype, \wpczdesc, \wpczaccept, ...
+\newcommand{\wpczrelated}[1]{\textbf{Wymagania powiązane:} &
+\multicolumn{3}{|p{\wpczContentWidth}|}{#1} \\ \hline}
+
 \newcommand{\wpczatcard}[5]{%
     \refstepcounter{wpczat}%
     {%
@@ -87,7 +82,7 @@
 {wpczat:visibility-members}
 {Dostęp do czatów ograniczony do uczestników (autoryzacja)}
 {01}
-{M}
+{S}
 {
     \wpcztype{Bezpieczeństwo}
 
@@ -109,6 +104,10 @@
     \wpczresponsible{Adam Langmesser}
 
     \wpczstatus{Zrealizowano}
+
+    \wpczrelated{Wymagania ogólne dla czatu:
+    WOCZAT-01 (\ref{woczat:send-message}),
+        WOCZAT-03 (\ref{woczat:browse-history}).}
 }
 
 % =========================================================
@@ -120,7 +119,7 @@
 {wpczat:login-required}
 {Korzystanie z czatu wymaga zalogowania (uwierzytelnienie)}
 {02}
-{M}
+{S}
 {
     \wpcztype{Bezpieczeństwo}
 
@@ -142,6 +141,12 @@
     \wpczresponsible{Adam Langmesser}
 
     \wpczstatus{Zrealizowano}
+
+    \wpczrelated{Wymagania ogólne dla czatu:
+    WOCZAT-01 (\ref{woczat:send-message}),
+        WOCZAT-02 (\ref{woczat:edit-chat}),
+        WOCZAT-03 (\ref{woczat:browse-history}),
+        WOCZAT-04 (\ref{woczat:create-chat}).}
 }
 
 % =========================================================
@@ -153,7 +158,7 @@
 {wpczat:group-by-date}
 {Grupowanie wiadomości według daty wysłania}
 {03}
-{M}
+{S}
 {
     \wpcztype{Użyteczność}
 
@@ -174,6 +179,10 @@
     \wpczresponsible{Adam Langmesser}
 
     \wpczstatus{Zrealizowano}
+
+    \wpczrelated{Wymagania ogólne dla czatu:
+    WOCZAT-01 (\ref{woczat:send-message}),
+        WOCZAT-03 (\ref{woczat:browse-history}).}
 }
 
 % =========================================================
@@ -185,7 +194,7 @@
 {wpczat:sender-and-time}
 {Wyraźne oznaczenie nadawcy i czasu wysłania}
 {04}
-{M}
+{S}
 {
     \wpcztype{Użyteczność}
 
@@ -205,6 +214,10 @@
     \wpczresponsible{Adam Langmesser}
 
     \wpczstatus{Zrealizowano}
+
+    \wpczrelated{Wymagania ogólne dla czatu:
+    WOCZAT-01 (\ref{woczat:send-message}),
+        WOCZAT-03 (\ref{woczat:browse-history}).}
 }
 
 % =========================================================
@@ -216,7 +229,7 @@
 {wpczat:load-older-under-10s}
 {Czas załadowania starszych wiadomości poniżej 10 sekund}
 {05}
-{M}
+{S}
 {
     \wpcztype{Wydajność}
 
@@ -237,6 +250,9 @@
     \wpczresponsible{Adam Langmesser}
 
     \wpczstatus{Zrealizowano}
+
+    \wpczrelated{Wymagania ogólne dla czatu:
+    WOCZAT-03 (\ref{woczat:browse-history}).}
 }
 
 % =========================================================
@@ -248,7 +264,7 @@
 {wpczat:send-immediately}
 {Natychmiastowe wysyłanie wiadomości}
 {06}
-{M}
+{S}
 {
     \wpcztype{Wydajność}
 
@@ -269,5 +285,7 @@
     \wpczresponsible{Adam Langmesser}
 
     \wpczstatus{Zrealizowano}
-}
 
+    \wpczrelated{Wymagania ogólne dla czatu:
+    WOCZAT-01 (\ref{woczat:send-message}).}
+}
