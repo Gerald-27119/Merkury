@@ -28,7 +28,7 @@ export default function PostCommentForm({
     const {
         handleSubmit,
         control,
-        formState: { errors },
+        formState: { errors, isSubmitting },
         setError,
         clearErrors,
     } = useForm<PostCommentFormFields>({
@@ -78,6 +78,7 @@ export default function PostCommentForm({
                 <FormActionButtons
                     onCancel={onClose}
                     submitLabel={commentToEdit ? "Edit" : "Comment"}
+                    isSubmitting={isSubmitting}
                 />
             </form>
         </div>

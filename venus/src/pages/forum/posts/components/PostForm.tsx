@@ -33,7 +33,7 @@ export default function PostForm({
         register,
         handleSubmit,
         control,
-        formState: { errors },
+        formState: { errors, isSubmitting },
         setError,
         clearErrors,
     } = useForm<PostFormFields>({
@@ -136,6 +136,7 @@ export default function PostForm({
                 <FormActionButtons
                     onCancel={onClose}
                     submitLabel={postToEdit ? "Edit" : "Post"}
+                    isSubmitting={isSubmitting}
                 />
             </form>
         </div>

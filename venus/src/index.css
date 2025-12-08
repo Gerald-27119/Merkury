@@ -174,7 +174,7 @@ html:not(.dark) .ant-carousel .slick-dots li.slick-active button {
 }
 
 .tiptap img {
-    @apply max-h-128 max-w-full h-auto w-auto;
+    @apply h-auto max-h-128 w-auto max-w-full;
 }
 
 .tiptap a {
