@@ -107,6 +107,7 @@ jobs:
       - name: Test vulcanus
         env:
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+          MERKURY_LOCATIONQ_PROVIDER_API_KEY: ${{ secrets.MERKURY_LOCATIONQ_PROVIDER_API_KEY }}
         run: mvn -B test --file vulcanus/pom.xml
 
       - name: Shut down services
