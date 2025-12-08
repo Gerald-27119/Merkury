@@ -10,7 +10,7 @@ import java.util.List;
 public interface PostCommentMediaRepository extends JpaRepository<PostCommentMedia, Long> {
     List<PostCommentMedia> findByPostCommentId(Long commentId);
 
-    void deleteByUrl(String url);
+    void deleteAllByUrlIn(List<String> urls);
 
     void deleteByPostCommentId(Long commentId);
 }

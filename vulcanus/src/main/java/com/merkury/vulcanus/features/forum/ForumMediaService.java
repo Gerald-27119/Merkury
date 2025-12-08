@@ -29,6 +29,9 @@ public class ForumMediaService {
     private final ForumMediaExtractor forumMediaExtractor;
     private final AzureBlobService azureBlobService;
 
+    private static final String FORUM_CONTAINER = "forum";
+
+
     public void savePostMedia(String cleanContent, Post post) {
         var urls = forumMediaExtractor.extractImageUrls(cleanContent);
         var media = createPostMediaEntities(urls, post);
@@ -56,7 +59,7 @@ public class ForumMediaService {
         var toDelete = getUrlsToDelete(newUrls, oldUrls);
         var toAdd = getUrlsToAdd(newUrls, oldUrls);
 
-        deleteUrls(toDelete, postMediaRepository::deleteByUrl);
+        deleteUrls(toDelete, postMediaRepository::deleteAllByUrlIn);
         var newMediaEntities = createPostMediaEntities(toAdd, post);
 
         postMediaRepository.saveAll(newMediaEntities);
@@ -75,7 +78,7 @@ public class ForumMediaService {
         var toDelete = getUrlsToDelete(newUrls, oldUrls);
         var toAdd = getUrlsToAdd(newUrls, oldUrls);
 
-        deleteUrls(toDelete, postCommentMediaRepository::deleteByUrl);
+        deleteUrls(toDelete, postCommentMediaRepository::deleteAllByUrlIn);
         var newMediaEntities = createCommentMediaEntities(toAdd, comment);
 
         postCommentMediaRepository.saveAll(newMediaEntities);
@@ -83,17 +86,13 @@ public class ForumMediaService {
 
     public void deletePostMedia(Long postId) throws BlobContainerNotFoundException, URISyntaxException {
         var existingMedia = postMediaRepository.findByPostId(postId).stream().map(PostMedia::getUrl).toList();
-        for (String url : existingMedia) {
-            azureBlobService.delete("forum", url);
-        }
+        azureBlobService.deleteBatch(FORUM_CONTAINER, existingMedia);
     }
 
     @Transactional
     public void deletePostCommentMedia(Long commentId) throws BlobContainerNotFoundException, URISyntaxException {
         var existingMedia = postCommentMediaRepository.findByPostCommentId(commentId).stream().map(PostCommentMedia::getUrl).toList();
-        for (String url : existingMedia) {
-            azureBlobService.delete("forum", url);
-        }
+        azureBlobService.deleteBatch(FORUM_CONTAINER, existingMedia);
         //this line is required since comments only get "soft deleted"
         postCommentMediaRepository.deleteByPostCommentId(commentId);
     }
@@ -131,11 +130,8 @@ public class ForumMediaService {
                 .toList();
     }
 
-    private void deleteUrls(List<String> urls, Consumer<String> deleteFromRepo) throws BlobContainerNotFoundException, URISyntaxException {
-        for (String url : urls) {
-            azureBlobService.delete("forum", url);
-            deleteFromRepo.accept(url);
-        }
+    private void deleteUrls(List<String> urls, Consumer<List<String>> deleteBatch) throws BlobContainerNotFoundException, URISyntaxException {
+        azureBlobService.deleteBatch(FORUM_CONTAINER, urls);
+        deleteBatch.accept(urls);
     }
-
 }

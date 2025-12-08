@@ -10,5 +10,5 @@ import java.util.List;
 public interface PostMediaRepository extends JpaRepository<PostMedia, Long> {
     List<PostMedia> findByPostId(Long postId);
 
-    void deleteByUrl(String url);
+    void deleteAllByUrlIn(List<String> urls);
 }
