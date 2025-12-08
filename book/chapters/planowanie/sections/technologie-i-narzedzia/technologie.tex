@@ -1,5 +1,214 @@
-%! Author = mateusz
-%! Date = 18/10/2025
+%! Author = Stanisław Oziemczuk
+%! Date = 02/12/2025
 
 \subsection{Technologie}
 \label{subsec:technologie}
+
+Do realizacji projektu zespół wspólnie wytypował główne technologie części \glslink{backend}{backendowej}, \glslink{frontend}{frontendowej} oraz dokumentacji.
+Natomiast poszczególne biblioteki i rozwiązania były wybierane indywidualnie lub po konsultacjach przez osobę wykonującą dane zadanie.
+Poniżej przedstawiono stos technologiczny zastosowany w projekcie.
+
+\begin{itemize}
+    \item \textbf{\gls{backend}}
+
+    Na główny \glslink{framework}{framework} został wybrany SpringBoot, ponieważ spośród innych dostępnych opcji, członkowie zespołu mieli z nim
+    największe doświadczenie nabyte zarówno podczas studiów, jak i później pracę komercyjną.
+    Językiem programowania wykorzystywanym w SpringBoot'cie jest Java, z którym zespół zapoznał się w ramach programu nauczania.
+
+    \begin{itemize}
+        \item \textbf{Java} \textendash \space obiektowy język programowania, cechujący się silnym typowaniem.
+        Programy napisane w Javie są uruchamiane na maszynie wirtualnej Java (\gls{jvm}), dzięki czemu można je bezproblemowo
+        przenosić między różnymi platformami wyposażonymi w to środowisko.
+        \item \textbf{SpringBoot} \textendash \space \glslink{framework}{framework} służący do tworzenia aplikacji opartych na \glslink{spring-framework}{Spring Framework}.
+        Wykorzystuje strategię \glslink{convention-over-configuration}{Convention Over Configuration}, która zmniejsza czas na konfigurowanie Springa, pozwalając skupić się na
+        implementacji logiki.
+        Służy do tworzenia między innymi aplikacji internetowych czy mikroserwisów.
+    \end{itemize}
+\end{itemize}
+
+\begin{longtable}{|
+        >{\columncolor{lightgray}}p{0.25\textwidth}|
+    p{0.65\textwidth}|
+}
+    \hline
+    \rowcolor{lightgray}
+    \multicolumn{2}{|c|}{\textbf{Zestawienie używanych bibliotek na backendzie}} \\ \hline
+    \hline
+    \rowcolor{lightgray}
+    \textbf{Biblioteka} & \textbf{Opis} \\ \hline
+    \endfirsthead
+
+    \hline
+    \rowcolor{lightgray}
+    \textbf{Biblioteka} & \textbf{Opis} \\ \hline
+    \endhead
+
+    angus-mail & Wysyłanie i odbiór wiadomości e-mail w aplikacjach Java. \\ \hline
+    azure-storage-blob & Operacje na blobach w Microsoft Azure Blob Storage, np. upload, download. \\ \hline
+    GeographicLib-Java & Precyzyjne obliczenia geodezyjne i konwersja współrzędnych. \\ \hline
+    h2 & Lekka baza danych H2 uruchamiana w pamięci RAM używana w testach jako zastępstwo prawdziwej. \\ \hline
+    httpclient5 & Zaawansowany klient HTTP do wykonywania żądań i obsługi odpowiedzi. \\ \hline
+    httpcore5 & Niskopoziomowe elementy HTTP wykorzystywane przez httpclient. \\ \hline
+    jjwt-api & Tworzenie i parsowanie JWT. \\ \hline
+    jjwt-impl & Implementacja funkcjonalna biblioteki JJWT. \\ \hline
+    jjwt-jackson & Integracja JJWT z Jacksonem dla serializacji i deserializacji zawartości JWT. \\ \hline
+    jsoup & Parsowanie, manipulacja i ekstrakcja danych z dokumentów HTML. \\ \hline
+    junit-jupiter & Integracja biblioteki Testcontainers z frameworkiem testowym JUnit ułatwiająca pisanie testów integracyjnych z użyciem kontenerów. \\ \hline
+    lombok & Biblioteka ułatwiająca generowanie kodu (gettery, settery, buildery, konstruktor itp.) przez adnotacje zmniejszające ilość boilerplate’u w kodzie. \\ \hline
+    postgresql & Umożliwia połączenie i komunikację z bazą danych PostgreSQL. \\ \hline
+    shedlock-spring & Zarządzanie zadaniami okresowymi (cron/scheduled). \\ \hline
+    spring-boot-starter-websocket & Wsparcie Spring Boot dla komunikacji WebSocket \textendash \space konfiguracja i zależności umożliwiające dwukierunkową komunikację w czasie rzeczywistym w aplikacjach webowych. \\ \hline
+    spring-security-messaging & Integracja Spring Security z warstwą messaging (STOMP/WebSocket) \textendash \space uwierzytelnianie i autoryzacja komunikatów. \\ \hline
+    spring-boot-starter-cache & Abstrakcje i automatyczna konfiguracja cache w Spring Boot ułatwiające włączenie mechanizmów cache'owania. \\ \hline
+    spring-boot-starter-data-redis & Integracja Spring Data Redis dodające kliena, repozytoria i konfiguracje do współpracy z Redis. \\ \hline
+    spring-boot-starter-data-jpa & Warstwa dostępu do relacyjnej bazy danych przez JPA. \\ \hline
+    spring-boot-starter-web & Podstawowy starter webowy Spring Boot: Spring MVC, Jackson, wbudowany serwer aplikacyjny dla REST/HTTP. \\ \hline
+    spring-boot-starter-validation & Wsparcie walidacji Bean Validation (Jakarta Validation / Hibernate Validator) dla danych wejściowych. \\ \hline
+    spring-boot-starter-aop & Obsługa programowania aspektowego (AOP) w Springu \textendash \space aspekty, przechwytywanie wywołań, transakcyjne zachowania. \\ \hline
+    spring-boot-starter-actuator & Monitoring, zbieranie metryk aplikacji Spring Boot. \\ \hline
+    spring-boot-starter-oauth2-resource-server & Wsparcie serwera zasobów OAuth2 w Spring Boot \textendash \space walidacja tokenów i konfiguracja zabezpieczeń zasobów. \\ \hline
+    spring-boot-configuration-processor & Procesor adnotacji dla konfiguracji Spring Boot \textendash \space generacja metadanych dla właściwości konfiguracyjnych. \\ \hline
+    spring-boot-starter-test & Zestaw narzędzi testowych (JUnit, Mockito, AssertJ itp.) do testów jednostkowych i integracyjnych. \\ \hline
+    spring-security-test & Narzędzia pomocnicze i rozszerzenia do testowania konfiguracji Spring Security. \\ \hline
+    spring-boot-starter-oauth2-client & Wsparcie klienta OAuth2 w Spring Boot \textendash \space logowanie/połączenie z zewnętrznymi providerami OAuth2/OIDC. \\ \hline
+    spring-boot-starter-security & Podstawowe komponenty Spring Security do zabezpieczania aplikacji. \\ \hline
+    spring-boot-starter-webflux & Budowanie reaktywnych (asynchronicznych / nieblokujących) aplikacji webowych. \\ \hline
+    spring-retry & Biblioteka do automatycznego ponawiania operacji z konfiguracją i adnotacjami. \\ \hline
+    spring-boot-starter-thymeleaf & Integracja Thymeleaf z Spring Boot \textendash \space silnik szablonów do generowania widoków HTML po stronie serwera. \\ \hline
+    testcontainers & Uruchamianie izolowanych kontenerów Docker w testach integracyjnych. \\ \hline
+
+\end{longtable}
+
+\refstepcounter{integrationcard}%
+\par\noindent
+\textbf{Tabela \theintegrationcard:} Zestawienie wszystkich bibliotek użytych na backendzie.\label{tab:all-technologies-backend}
+
+\addcontentsline{lot}{table}{Tabela \theintegrationcard: Zestawienie wszystkich bibliotek użytych na backendzie.}%
+
+
+\begin{itemize}
+    \item \textbf{\gls{frontend}}
+
+    Do realizacji tej części projektu wybrano \glslink{biblioteka}{bibliotekę} \gls{react} JavaScript, którą wszyscy członkowie zespołu poznali w trakcie studiów
+    w ramach wybranej specjalizacji Aplikacje Internetowe.
+
+    \begin{itemize}
+        \item \textbf{\gls{react}} \textendash \space \glslink{biblioteka}{biblioteka} JavaScript służąca do budowania interaktywnych interfejsów użytkownika (\gls{ui}).
+        Polega na programowaniu deklaratywnym oraz tworzeniu komponentów wielokrotnego użytku.
+        Nie manipuluje bezpośrednio \gls{dom}, lecz tworzy swój wirtualny \gls{dom} i porównuje jego wersje.
+        Po wykryciu zmian aktualizuje tylko te części \gls{dom}, które tego wymagają, co przekłada się na wydajną interakcję z aplikacją.
+        Często jest wykorzystywany do tworzenia aplikacji typu \gls{spa}.
+    \end{itemize}
+\end{itemize}
+
+\begin{longtable}{|
+        >{\columncolor{lightgray}}p{0.25\textwidth}|
+    p{0.65\textwidth}|
+}
+    \hline
+    \rowcolor{lightgray}
+    \multicolumn{2}{|c|}{\textbf{Zestawienie używanych bibliotek na frontendzie}} \\ \hline
+    \hline
+    \rowcolor{lightgray}
+    \textbf{Biblioteka / plugin} & \textbf{Opis / przeznaczenie} \\ \hline
+    \endfirsthead
+
+    \hline
+    \rowcolor{lightgray}
+    \textbf{Biblioteka / plugin} & \textbf{Opis / przeznaczenie} \\ \hline
+    \endhead
+
+    @ferrucc-io/emoji-picker & Komponent umożliwiający wybór emotikon w aplikacji. \\ \hline
+    @hookform/resolvers & Adaptery walidatorów dla \texttt{react-hook-form} \textendash \space ułatwia integrację z bibliotekami walidacji (Zod, Yup). \\ \hline
+    @reduxjs/toolkit & Narzędzie upraszczające konfigurację i używanie Reduxa. \\ \hline
+    @stomp/stompjs & Klient protokołu STOMP do komunikacji poprzez WebSocket obsługujący sesje, subskrypcje i wymiany komunikatów. \\ \hline
+    @tailwindcss/vite & Wtyczka integrująca Tailwind CSS z bundlerem Vite. \\ \hline
+    @tanstack/react-query & Zarządzanie asynchronicznymi danymi: pobieranie, cache’owanie, synchronizacja i obsługa błędów zapytań HTTP. \\ \hline
+    @tiptap/extension-file-handler & Rozszerzenie edytora Tiptap dodające obsługę wstawiania i zarządzania plikami. \\ \hline
+    @tiptap/extension-image & Rozszerzenie Tiptap pozwalające na wstawianie i obsługę obrazów w edytorze. \\ \hline
+    @tiptap/extension-placeholder & Rozszerzenie Tiptap dodające placeholder w polach edytora. \\ \hline
+    @tiptap/extension-text-align & Rozszerzenie Tiptap umożliwiające wyrównywanie tekstu. \\ \hline
+    @tiptap/pm & Silnik edytora (ProseMirror) używany wewnętrznie przez Tiptap obsługujący model dokumentu i transformacji. \\ \hline
+    @tiptap/react & Integracja edytora Tiptap z Reactem dodająca komponenty i hooki edytora. \\ \hline
+    @tiptap/starter-kit & Podstawowe rozszerzenia i konfiguracja Tiptap. \\ \hline
+    @vis.gl/react-maplibre & Narzędia do implementacji map. \\ \hline
+    antd & Komponenty UI dla React o ustandaryzowanym wyglądzie. \\ \hline
+    axios & Obiektowy klient HTTP służący do wykonywania zapytań oraz obsługi odpowiedzi i błędów. \\ \hline
+    date-fns & Funkcje do manipulacji i formatowania dat. \\ \hline
+    dotenv & Ładowanie zmiennych środowiskowych z pliku \texttt{.env}. \\ \hline
+    maplibre-gl & Silnik renderowania map \textendash \space warstwy, kafelki i interakcje geograficzne. \\ \hline
+    media-chrome & Elementy UI obsługujące odtwarzanie multimediów w przeglądarce. \\ \hline
+    motion & Narzędzia służące do animacji interfejsu użytkownika. \\ \hline
+    query-string & Narzędzia do parsowania i generowania parametrów zapytań w URL. \\ \hline
+    react & Biblioteka do budowy deklaratywnych interfejsów użytkownika oparta na komponentach. \\ \hline
+    react-dom & Pakiet odpowiedzialny za renderowanie elementów React w przeglądarkowym DOM. \\ \hline
+    react-hook-form & Obsługa formularzy: zarządzanie stanem, walidacje i wydajność. \\ \hline
+    react-icons & Zbiór ikon udostępnionych jako komponenty React. \\ \hline
+    react-intersection-observer & Obserwowanie wejścia/wyjścia elementów z pola widzenia. \\ \hline
+    react-paginate & Komponent pomocniczy do paginacji list i tabel w aplikacji React. \\ \hline
+    react-player & Odtwarzanie multimediów w aplikacji. \\ \hline
+    react-redux & Integracja Redux i Reacta. \\ \hline
+    react-router-dom & Routing w aplikacjach React. \\ \hline
+    react-select & Rozszerzony komponent \texttt{select} z opcjami wyszukiwania, grupowania i stylizacji. \\ \hline
+    sockjs-client & Klient WebSocket z fallbackami umożliwiający stabilniejszą komunikację w czasie rzeczywistym. \\ \hline
+    tailwindcss & Definiowanie wyglądu przy pomocy gotowych klas. \\ \hline
+    uuid & Generator unikalnych identyfikatorów. \\ \hline
+    victory & Tworzenie wykresów i wizualizacji danych w React. \\ \hline
+    victory-chart & Moduł biblioteki Victory zawierający komponenty i narzędzia do rysowania wykresów. \\ \hline
+    zod & Typowana walidacja danych. \\ \hline
+    @testing-library/jest-dom & Rozszerzenia matcherów dla Jesta do asercji DOM. \\ \hline
+    @testing-library/react & Narzędzia do testowania komponentów React. \\ \hline
+    @testing-library/user-event & Symulacja zdarzeń użytkownika (np. kliknięcie) w testach integracyjnych. \\ \hline
+    @types/react & Typy TypeScript dla biblioteki React. \\ \hline
+    @types/react-dom & Typy TypeScript dla \texttt{react-dom}. \\ \hline
+    @types/sockjs-client & Typy TypeScript dla klienta SockJS. \\ \hline
+    @typescript-eslint/eslint-plugin & Zestaw reguł ESLint specyficznych dla TypeScript. \\ \hline
+    @typescript-eslint/parser & Parser ESLint umożliwiający analizę kodu TypeScript. \\ \hline
+    @vitejs/plugin-react & Wtyczka Vite zapewniająca obsługę JSX/React Fast Refresh i optymalizacje. \\ \hline
+    cypress & Narzędzie do testów end-to-end. \\ \hline
+    eslint & Narzędzie do analizy statycznej kodu na podstawie zdefiniowanych reguł. \\ \hline
+    eslint-plugin-react & Wtyczka ESLint z regułami dedykowanymi dla aplikacji React. \\ \hline
+    eslint-plugin-react-hooks & Reguły ESLint dotyczące hooków React. \\ \hline
+    eslint-plugin-react-refresh & Wtyczka wspomagająca integrację z React Fast Refresh. \\ \hline
+    jest & Tworzenie testów jednostkowych JavaScript. \\ \hline
+    jsdoc & Narzędzie do generowania dokumentacji API z adnotacji w kodzie źródłowym. \\ \hline
+    jsdom & Implementacja DOM w Node.js używana w testach do symulacji środowiska przeglądarki. \\ \hline
+    prettier & Formatowanie i ujednolicenie stylu kodu. \\ \hline
+    prettier-plugin-tailwindcss & Wtyczka Prettiera sortująca klasy Tailwind CSS. \\ \hline
+    tailwind-scrollbar & Plugin Tailwind CSS dodający klasy pomocnicze do stylizacji pasków przewijania. \\ \hline
+    typescript & Nakładka JavaScript z systemem typów. \\ \hline
+    vite & Bundler zoptymalizowany pod nowoczesne aplikacje webowe. \\ \hline
+    vitest & Narzędzie do uruchamiania testów zoptymalizowane pod bundler Vite. \\ \hline
+
+\end{longtable}
+
+\refstepcounter{integrationcard}%
+\par\noindent
+\textbf{Tabela \theintegrationcard:} Zestawienie wszystkich bibliotek i pluginów użytych na frontendzie.\label{tab:all-technologies-frontend}
+
+\addcontentsline{lot}{table}{Tabela \theintegrationcard: Zestawienie wszystkich bibliotek i pluginów użytych na frontendzie.}%
+
+\begin{itemize}
+    \item \textbf{\gls{cache}}
+    \begin{itemize}
+        \item \textbf{\gls{redis}} \textendash \space z ang. REmote DIctionary Server, nierelacyjna (NoSQL) baza danych
+        przechowująca dane jako pary klucz - wartość.
+        Działa w pamięci RAM, dzięki czemu pozwala na bardzo szybki odczyt danych.
+    \end{itemize}
+    \item \textbf{Konteneryzacja}
+    \begin{itemize}
+        \item \textbf{Docker} \textendash \space to silnik do konteneryzacji oprogramowania.
+        Tworzy środowisko oddzielone od systemu hosta, w którym na podstawie obrazów programów tworzone są ich kontenery,
+        czyli niezależne ich instancje.
+        Docker pobiera wszystkie niezbędne dependencje dla danego kontenera, bez potrzeby uruchamiania osobnego systemu operacyjnego,
+        dzięki czemu kontenery są znacznie lżejsze niż maszyny wirtualne.
+        Konteneryzacja pozwala na uruchomienie oprogramowania na różnych komputerach dokładnie w taki sam sposób, rozwiązuje to
+        problem \enquote{na mojej maszynie działa}.
+        Członkowie zespołu zapoznali się tą z technologią w trakcie realizacji specjalizacji Aplikacje Internetowe.
+    \end{itemize}
+    \item \textbf{Baza danych}
+    \begin{itemize}
+        \item \textbf{PostgreSQL} \textendash \space system zarządzania relacyjnymi bazami danych, zgodny ze standardem SQL.
+        Wybrano relacyjną bazę danych, ponieważ doskonale wpisuje się ona w planowaną strukturę danych.
+    \end{itemize}
+\end{itemize}
