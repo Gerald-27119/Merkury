@@ -124,7 +124,7 @@ describe("Photos component unit tests", () => {
         });
 
         test("Should render all photos", () => {
-            const images = screen.getAllByAltText("user-photo");
+            const images = screen.getAllByTestId("user-photo");
             expect(images).toHaveLength(3);
 
             expect(images[0]).toHaveAttribute(

@@ -19,6 +19,8 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { spotDetailsModalAction } from "../../redux/spot-modal";
 import SpotAddMediaModal from "./components/spot-add-media/SpotAddMediaModal";
+import { spotWeatherActions } from "../../redux/spot-weather";
+import AddSpotCommentModal from "./components/add-spot-comment/AddSpotCommentModal";
 
 type Position = {
     longitude: number;
@@ -39,10 +41,31 @@ export default function MapPage() {
     const { isLogged } = useSelectorTyped((state) => state.account);
 
     useEffect(() => {
-        const spotId = searchParams.get("spotId");
-        if (spotId) {
-            dispatch(spotDetailsModalAction.setSpotId(Number(spotId)));
+        const spotId = Number(searchParams.get("spotId"));
+        const longitude = Number(searchParams.get("longitude"));
+        const latitude = Number(searchParams.get("latitude"));
+        const region = searchParams.get("region");
+        const city = searchParams.get("city");
+        if (
+            Number.isInteger(spotId) &&
+            Number.isFinite(longitude) &&
+            Number.isFinite(latitude) &&
+            region &&
+            region.trim().length > 0 &&
+            city &&
+            city.trim().length > 0
+        ) {
+            dispatch(spotDetailsModalAction.setSpotId(spotId));
+            dispatch(
+                spotWeatherActions.setSpotCoordinates({
+                    latitude,
+                    longitude,
+                    region,
+                    city,
+                }),
+            );
             dispatch(spotDetailsModalAction.handleShowModal());
+            dispatch(spotWeatherActions.openBasicWeatherModal());
         }
     }, []);
 
@@ -78,6 +101,10 @@ export default function MapPage() {
         (state) => state.spotAddMediaModal,
     );
 
+    const { showAddSpotCommentModal } = useSelectorTyped(
+        (state) => state.addSpotCommentModal,
+    );
+
     return (
         <Map
             initialViewState={{
@@ -91,7 +118,7 @@ export default function MapPage() {
                 height: "100vh",
                 overflow: "hidden",
             }}
-            mapStyle="/map_style1.json"
+            mapStyle="/map_style.json"
             attributionControl={false}
             onZoomEnd={handleZoomEnd}
         >
@@ -116,6 +143,9 @@ export default function MapPage() {
                 )}
                 {isLogged && showAddMediaModal && (
                     <SpotAddMediaModal key="spot-add-media-modal" />
+                )}
+                {isLogged && showAddSpotCommentModal && (
+                    <AddSpotCommentModal key="add-spot-comment-modal" />
                 )}
             </AnimatePresence>
             <div className="absolute right-1 bottom-1 flex flex-col items-center space-y-2 sm:right-2 sm:bottom-2 xl:right-5 xl:bottom-5">

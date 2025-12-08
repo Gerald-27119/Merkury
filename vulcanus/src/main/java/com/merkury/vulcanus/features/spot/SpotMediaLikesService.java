@@ -36,6 +36,7 @@ public class SpotMediaLikesService {
         spotMediaRepository.save(spotMedia);
     }
 
+
     public boolean checkIsSpotMediaLikedByUser(long spotMediaId, String username) throws UserIdByUsernameNotFoundException {
         var userId = userEntityRepository.findByUsername(username).orElseThrow(() -> new UserIdByUsernameNotFoundException(username)).getId();
         return spotMediaRepository.existsByIdAndLikedBy_Id(spotMediaId, userId);

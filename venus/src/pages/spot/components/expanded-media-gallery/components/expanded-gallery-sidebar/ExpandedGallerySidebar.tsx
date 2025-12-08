@@ -1,7 +1,7 @@
 import { IoClose } from "react-icons/io5";
 import SortingAndFilterPanel from "./SortingAndFilterPanel";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useSelectorTyped from "../../../../../../hooks/useSelectorTyped";
 import { getPaginatedExpandedSpotMediaGallery } from "../../../../../../http/spots-data";
 import SpotExpandedMediaGalleryPage from "../../../../../../model/interface/spot/expanded-media-gallery/spotExpandedMediaGalleryPage";
@@ -279,16 +279,16 @@ export default function ExpandedGallerySidebar() {
                             }
                             transition={{ duration: 0.4, ease: "easeInOut" }}
                             ref={containerRef}
-                            className="dark:bg-violetHeavyDark 3xl:w-[30rem] h-full w-[20rem] overflow-y-auto p-2 xl:w-[25rem] xl:overflow-y-hidden"
+                            className="dark:bg-violetHeavyDark bg-fifth 3xl:w-[30rem] h-full w-[20rem] overflow-y-auto p-2 xl:w-[25rem] xl:overflow-y-hidden"
                         >
                             <div className="mt-1 grid w-full grid-cols-3 items-center">
                                 <div></div>
-                                <h2 className="text-center text-2xl">
+                                <h2 className="dark:text-darkText text-violetBrightText text-center text-2xl">
                                     Gallery
                                 </h2>
                                 <IoClose
                                     onClick={handleCloseSidebar}
-                                    className="ml-auto cursor-pointer justify-self-end text-2xl"
+                                    className="dark:text-darkText text-violetLight ml-auto cursor-pointer justify-self-end text-2xl"
                                 />
                             </div>
                             <SortingAndFilterPanel />
@@ -315,7 +315,7 @@ export default function ExpandedGallerySidebar() {
                                             MediaType.PHOTO ? (
                                                 <li
                                                     key={media.id}
-                                                    className="cursor-pointer overflow-hidden first:rounded-t-2xl last:rounded-b-2xl"
+                                                    className="flex h-72 w-[28rem] cursor-pointer items-center justify-center overflow-hidden bg-zinc-800 first:rounded-t-2xl last:rounded-b-2xl"
                                                     onClick={() =>
                                                         handleClickSetCurrentMedia(
                                                             media,
@@ -323,7 +323,7 @@ export default function ExpandedGallerySidebar() {
                                                     }
                                                 >
                                                     <img
-                                                        className="h-72 w-[28rem]"
+                                                        className="max-h-full max-w-full object-contain"
                                                         src={media.url}
                                                         alt={media.url}
                                                     />
@@ -380,7 +380,7 @@ export default function ExpandedGallerySidebar() {
                     className="flex h-full items-center bg-black"
                 >
                     <div
-                        className="bg-violetLightDark hover:bg-violetLightDarker w-fit cursor-pointer rounded-r-2xl py-3.5"
+                        className="dark:bg-violetLightDark hover:bg-darkText bg-fifth dark:hover:bg-violetLightDarker w-fit cursor-pointer rounded-r-2xl py-3.5"
                         onClick={handleClickToggleSidebar}
                     >
                         <motion.div
@@ -392,7 +392,9 @@ export default function ExpandedGallerySidebar() {
                             variants={arrowVariants}
                             transition={{ duration: 0.3 }}
                         >
-                            <FaChevronLeft className={`text-3xl text-black`} />
+                            <FaChevronLeft
+                                className={`text-darkBorder text-3xl dark:text-black`}
+                            />
                         </motion.div>
                     </div>
                 </motion.div>

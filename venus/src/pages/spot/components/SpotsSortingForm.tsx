@@ -38,9 +38,9 @@ export default function SpotsSortingForm({
     const isSearchVariant: boolean =
         variant === SpotSortingFormVariantType.SEARCH;
     const mainWrapperClasses: string = `relative ${isSearchVariant && "mb-6"} inline-block`;
-    const bgContainerClasses: string = `bg-violetLight flex ${isSearchVariant ? "w-86 px-5" : "w-36 pl-2.5"} justify-between py-1 text-lg`;
+    const bgContainerClasses: string = `dark:bg-violetLight bg-whiteSmoke flex ${isSearchVariant ? "w-86 px-5" : "w-36 pl-2.5"} justify-between py-1 text-lg`;
     const openedDropdownClasses: string = `${isSearchVariant ? "rounded-t-2xl rounded-l-2xl" : "rounded-t-2xl"}`;
-    const paragraphLabelClasses: string = `mr-2 font-semibold text-white ${!isSearchVariant && "ml-0"}`;
+    const paragraphLabelClasses: string = `mr-2 font-semibold dark:text-white text-violetDark ${!isSearchVariant && "ml-0"}`;
     const wrapperContainerClasses: string = `flex ${!isSearchVariant && "overflow-hidden"} cursor-pointer items-center`;
     const valueClasses: string = `${isSearchVariant ? "mr-1" : "mr-2.5 h-7 w-1/2"}`;
 
@@ -76,7 +76,7 @@ export default function SpotsSortingForm({
             className={mainWrapperClasses}
             data-testid="searched-spots-sorting-form"
         >
-            <div className="relative flex flex-col">
+            <div className="dark:text-darkText text-violetDark relative z-10 flex flex-col drop-shadow-md dark:drop-shadow-none">
                 <div
                     className={`${bgContainerClasses} ${isDropdownOpen ? openedDropdownClasses : "rounded-2xl"}`}
                 >
@@ -106,13 +106,13 @@ export default function SpotsSortingForm({
                             exit="exit"
                             variants={slideVariants}
                             transition={{ duration: 0.2 }}
-                            className="bg-violetLight absolute top-[2.25rem] right-0 z-10 mb-auto ml-auto w-fit overflow-hidden rounded-b-2xl pt-2 text-lg"
+                            className="dark:bg-violetLight bg-whiteSmoke absolute top-[2.25rem] right-0 z-20 mb-auto ml-auto w-fit overflow-hidden rounded-b-2xl pt-2 text-lg"
                         >
                             {options.map((opt: SpotSortingOption) => (
                                 <li
                                     key={opt.value}
                                     value={opt.value}
-                                    className="hover:bg-violetBright cursor-pointer px-3 last:pb-2"
+                                    className="dark:hover:bg-violetBright cursor-pointer px-3 last:pb-2 hover:bg-white"
                                     onClick={() => handleSelectSorting(opt)}
                                 >
                                     {opt.label}

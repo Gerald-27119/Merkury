@@ -46,10 +46,10 @@ export default function SearchCurrentViewButton() {
 
     return (
         <button
-            className="dark:bg-violetLight dark:text-darkText hover:dark:bg-violetLighter absolute bottom-4 left-1/2 -translate-x-1/2 cursor-pointer rounded-3xl px-14 py-1.5 text-xl font-semibold"
+            className="dark:bg-violetLight bg-fifth hover:bg-whiteSmoke text-violetBrightText dark:text-darkText hover:dark:bg-violetLighter absolute bottom-4 left-1/2 -translate-x-1/2 cursor-pointer rounded-3xl px-14 py-1.5 text-xl font-semibold drop-shadow-md dark:drop-shadow-none"
             onClick={handleClickSearchCurrentView}
         >
-            Search current view
+            Search this area
         </button>
     );
 }

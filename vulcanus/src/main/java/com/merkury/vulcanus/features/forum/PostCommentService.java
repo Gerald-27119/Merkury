@@ -11,7 +11,7 @@ import com.merkury.vulcanus.model.mappers.forum.PostCommentMapper;
 import com.merkury.vulcanus.model.repositories.forum.PostCommentRepository;
 import com.merkury.vulcanus.model.repositories.forum.PostRepository;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
-import com.merkury.vulcanus.utils.ForumContentValidator;
+import com.merkury.vulcanus.utils.forum.ForumContentValidator;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +21,7 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
 
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 
 @Service
@@ -32,6 +33,7 @@ public class PostCommentService {
     private final UserEntityFetcher userEntityFetcher;
     private final VoteService voteService;
     private final ReportService reportService;
+    private final ForumMediaService forumMediaService;
     private final ForumContentValidator forumContentValidator;
 
     public Page<PostCommentGeneralDto> getPaginatedCommentsByPostId(Pageable pageable, Long postId) throws UserNotFoundByUsernameException {
@@ -75,20 +77,22 @@ public class PostCommentService {
         var commentEntity = PostCommentMapper.toEntity(cleanContent, post, user);
 
         postCommentRepository.save(commentEntity);
+        forumMediaService.savePostCommentMedia(cleanContent, commentEntity);
         updateCommentsCount(post.getId());
     }
 
-    public void deleteComment(Long commentId) throws CommentAccessException, UserNotFoundByUsernameException, CommentDeletedException {
+    public void deleteComment(Long commentId) throws CommentAccessException, UserNotFoundByUsernameException, CommentDeletedException, BlobContainerNotFoundException, URISyntaxException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var comment = postCommentRepository.findByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("delete"));
 
         throwIfCommentDeleted(comment);
         comment.setContent("<p>Comment was deleted by the user.</p>");
         comment.setIsDeleted(true);
+        forumMediaService.deletePostCommentMedia(commentId);
         postCommentRepository.save(comment);
     }
 
-    public void editComment(Long commentId, PostCommentDto dto) throws CommentAccessException, InvalidForumContentException, UserNotFoundByUsernameException, CommentDeletedException {
+    public void editComment(Long commentId, PostCommentDto dto) throws CommentAccessException, InvalidForumContentException, UserNotFoundByUsernameException, CommentDeletedException, BlobContainerNotFoundException, URISyntaxException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var comment = postCommentRepository.findByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("edit"));
 
@@ -96,6 +100,7 @@ public class PostCommentService {
         var cleanContent = forumContentValidator.sanitizeAndValidateContent(dto.content());
         comment.setContent(cleanContent);
 
+        forumMediaService.editPostCommentMedia(cleanContent, comment);
         postCommentRepository.save(comment);
     }
 

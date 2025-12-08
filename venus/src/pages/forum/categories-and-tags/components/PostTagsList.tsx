@@ -1,0 +1,36 @@
+import PostTag from "../PostTag";
+import TagDto from "../../../../model/interface/tagDto";
+import ExpansionButton from "./ExpansionButton";
+import { useNavigate } from "react-router-dom";
+
+interface ForumTagsListProps {
+    tags?: TagDto[];
+}
+
+export default function PostTagsList({ tags }: ForumTagsListProps) {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate("/forum/tags");
+    };
+
+    return (
+        <div className="p-4">
+            <span>Tags</span>
+            {tags?.length ? (
+                <div>
+                    <ul className="mt-4 mb-2 flex flex-wrap gap-2 gap-y-3">
+                        {tags.map((tag) => (
+                            <li key={tag.id}>
+                                <PostTag tag={tag} />
+                            </li>
+                        ))}
+                    </ul>
+                    <ExpansionButton label="All tags" onClick={handleClick} />
+                </div>
+            ) : (
+                <span className="flex items-center">No tags found</span>
+            )}
+        </div>
+    );
+}

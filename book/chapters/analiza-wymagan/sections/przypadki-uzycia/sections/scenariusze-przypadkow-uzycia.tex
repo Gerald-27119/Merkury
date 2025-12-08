@@ -1,5 +1,45 @@
-%! Author = mateusz
-%! Date = 18/10/2025
+%! Author = Adam
+%! Date = 22/11/2025
 
-\subsection{Scenariusz przypadków użycia}
+\subsection{Scenariusze przypadków użycia}
 \label{subsec:scenariusz-przypadkow-uzycia}
+
+
+% --- Licznik dla scenariuszy przypadków użycia ---
+\newcounter{usecase}[chapter]
+\renewcommand{\theusecase}{\thechapter.\arabic{usecase}}
+
+\newcommand{\ucpriority}[1]{\textbf{Priorytet:} & #1 \\ \hline}
+\newcommand{\ucactors}[1]{\textbf{Aktorzy:} & #1 \\ \hline}
+\newcommand{\ucdesc}[1]{\textbf{Opis:} & #1 \\ \hline}
+\newcommand{\ucpre}[1]{\textbf{Warunki\newline wstępne:} & #1 \\ \hline}
+\newcommand{\ucpost}[1]{\textbf{Warunki\newline końcowe:} & #1 \\ \hline}
+\newcommand{\ucmain}[1]{\textbf{Główny\newline przepływ\newline zdarzeń:} & #1 \\ \hline}
+\newcommand{\ucalt}[1]{\textbf{Alternatywne\newline przepływy\newline zdarzeń:} & #1 \\ \hline}
+
+% --- Karta scenariusza PU ---
+\newcommand{\usecasecard}[3]{%
+    \refstepcounter{usecase}%
+    \edef\ucid{PU\arabic{usecase}}%
+    \begin{center}
+    \renewcommand{\arraystretch}{1.15}%
+    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}}p{0.20\textwidth}|X|}
+    \rowcolor{lightgray}
+    \multicolumn{2}{|c|}{\textbf{KARTA SCENARIUSZA PRZYPADKU UŻYCIA}} \\ \hline
+    \textbf{Identyfikator:} & \ucid \\ \hline
+    \textbf{Nazwa:}         & #2 \\ \hline
+    #3
+    \end{tabularx}
+    \vspace{3pt}
+    \textbf{Tabela \theusecase:} Scenariusz przypadku użycia: #2\label{#1}
+    \end{center}%
+    \addcontentsline{lot}{table}{Tabela \theusecase: Scenariusz przypadku użycia: #2}%
+}
+
+\input{./chapters/analiza-wymagan/sections/przypadki-uzycia/sections/scenariusze/ogolne}
+\input{./chapters/analiza-wymagan/sections/przypadki-uzycia/sections/scenariusze/premium}
+\input{./chapters/analiza-wymagan/sections/przypadki-uzycia/sections/scenariusze/wyszukiwarka}
+\input{./chapters/analiza-wymagan/sections/przypadki-uzycia/sections/scenariusze/mapa}
+\input{./chapters/analiza-wymagan/sections/przypadki-uzycia/sections/scenariusze/chat}
+\input{./chapters/analiza-wymagan/sections/przypadki-uzycia/sections/scenariusze/forum}
+\input{./chapters/analiza-wymagan/sections/przypadki-uzycia/sections/scenariusze/panel}

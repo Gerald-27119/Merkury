@@ -78,7 +78,7 @@ export default function Photo({ photo, ...props }: PhotoProps) {
     }, [data, photo]);
 
     return (
-        <div className="h-fit">
+        <div className="3xl:h-68 flex h-40 items-center justify-center overflow-hidden bg-black xl:h-60">
             {isLoading && <LoadingSpinner />}
             {photo ? (
                 <img
@@ -86,7 +86,7 @@ export default function Photo({ photo, ...props }: PhotoProps) {
                     src={photo.url}
                     alt={photo.title}
                     onLoad={handleImageLoad}
-                    className="3xl:h-68 h-40 cursor-pointer xl:h-60"
+                    className="max-h-full max-w-full cursor-pointer object-contain"
                     onClick={handleClickPhoto}
                 />
             ) : (

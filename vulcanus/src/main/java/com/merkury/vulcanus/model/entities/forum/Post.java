@@ -52,6 +52,9 @@ public class Post implements Votable {
     private Integer commentsCount = 0;
 
     @Builder.Default
+    private Integer trendingScore = 0;
+
+    @Builder.Default
     @ManyToMany
     @JoinTable(
             name = "post_upVotes",
@@ -69,14 +72,11 @@ public class Post implements Votable {
     )
     private Set<UserEntity> downVotedBy = new HashSet<>();
 
+
     @Builder.Default
-    @ManyToMany
-    @JoinTable(
-            name = "post_followers",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+    @ManyToMany(mappedBy = "followedPosts")
     private Set<UserEntity> followers = new HashSet<>();
+
 
     @Builder.Default
     @ManyToMany
@@ -86,4 +86,9 @@ public class Post implements Votable {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags = new HashSet<>();
+
+    @Builder.Default
+    @ToString.Exclude
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostMedia> media = new ArrayList<>();
 }

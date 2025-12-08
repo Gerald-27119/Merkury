@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Option from "../../../../model/interface/forum/selectOption";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PostFormInput from "./PostFormInput";
-import PostFormEditor from "./PostFormEditor";
+import ControlledEditor from "./ControlledEditor";
 import {
     PostFormFields,
     PostFormSchema,
@@ -11,6 +11,8 @@ import ControlledSelect from "../../components/ControlledSelect";
 import PostDto from "../../../../model/interface/forum/post/postDto";
 import { RichTextEditorVariantType } from "../../../../model/enum/forum/richTextEditorVariantType";
 import FormActionButtons from "../../components/FormActionButtons";
+import { uploadToAzure } from "../../../../http/forum-file-upload";
+import { extractAndUploadImages } from "../../../../utils/forum/extractAndUploadImages";
 
 interface FormProps {
     handlePost: (data: PostDto) => void;
@@ -31,7 +33,9 @@ export default function PostForm({
         register,
         handleSubmit,
         control,
-        formState: { errors },
+        formState: { errors, isSubmitting },
+        setError,
+        clearErrors,
     } = useForm<PostFormFields>({
         resolver: zodResolver(PostFormSchema),
         mode: "onBlur",
@@ -56,20 +60,34 @@ export default function PostForm({
               },
     });
 
-    const onSubmit: SubmitHandler<PostFormFields> = (data) => {
-        let newPost = {
-            title: data.title,
-            content: data.content,
-            category: data.category!.value,
-            tags: data.tags ? data.tags.map((tag) => tag.value) : [],
-        };
+    const onSubmit: SubmitHandler<PostFormFields> = async (data) => {
+        try {
+            const finalContent = await extractAndUploadImages(
+                data.content,
+                (file) => uploadToAzure(file),
+            );
 
-        handlePost(newPost);
-        onClose();
+            let newPost = {
+                title: data.title,
+                content: finalContent,
+                category: data.category!.value,
+                tags: data.tags ? data.tags.map((tag) => tag.value) : [],
+            };
+
+            handlePost(newPost);
+            onClose();
+        } catch {
+            setError("content", {
+                type: "manual",
+                message:
+                    "One of the images couldn't be uploaded, please try again.",
+            });
+            return;
+        }
     };
 
     return (
-        <div className="dark:bg-darkBgSoft dark:text-darkText bg-lightBgSoft text-lightText fixed top-35 left-1/2 z-50 w-full max-w-xl min-w-sm -translate-x-1/2 rounded-md p-8 shadow-md">
+        <div className="dark:bg-darkBgSoft dark:text-darkText bg-lightBg text-lightText fixed top-35 left-1/2 z-50 w-full max-w-xl min-w-sm -translate-x-1/2 rounded-md p-8 shadow-md">
             <button
                 className="absolute top-0 right-3 cursor-pointer text-4xl font-bold text-gray-500 hover:text-red-500"
                 onClick={onClose}
@@ -106,16 +124,19 @@ export default function PostForm({
                     error={errors.tags?.message}
                 />
 
-                <PostFormEditor<PostFormFields>
+                <ControlledEditor<PostFormFields>
                     name="content"
                     control={control}
                     error={errors.content?.message}
                     variant={RichTextEditorVariantType.MODAL}
+                    setError={setError}
+                    clearErrors={clearErrors}
                 />
 
                 <FormActionButtons
                     onCancel={onClose}
                     submitLabel={postToEdit ? "Edit" : "Post"}
+                    isSubmitting={isSubmitting}
                 />
             </form>
         </div>

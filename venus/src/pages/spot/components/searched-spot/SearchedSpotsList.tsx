@@ -108,14 +108,14 @@ export default function SearchedSpotsList() {
                 exit="exit"
                 variants={slideVariants}
                 transition={{ duration: 0.3 }}
-                className="dark:bg-violetDarker dark:text-darkText absolute top-10 left-0 z-1 flex h-full w-[20rem] flex-col items-center px-6 py-2 text-lg xl:top-0 xl:left-17 xl:w-[30rem] xl:text-xl"
+                className="dark:bg-violetDarker bg-fifth dark:text-darkText absolute top-10 left-0 z-1 flex h-full w-[20rem] flex-col items-center px-6 py-2 text-lg xl:top-0 xl:left-17 xl:w-[30rem] xl:text-xl"
             >
                 <HiX
                     data-testid="search-spots-modal-close-btn"
-                    className="mt-1 ml-auto cursor-pointer text-2xl"
+                    className="dark:text-darkText text-violetDark mt-1 ml-auto cursor-pointer text-2xl"
                     onClick={handleClickCloseList}
                 />
-                <h1 className="mb-6 text-xl font-semibold text-white">
+                <h1 className="text-violetBrightText mb-6 text-xl font-semibold dark:text-white">
                     Spots matching criteria
                 </h1>
                 <SpotsSortingForm
@@ -135,7 +135,7 @@ export default function SearchedSpotsList() {
                 />
                 <div
                     ref={containerRef}
-                    className="dark:scrollbar-track-violetDark dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex w-full flex-col items-center overflow-y-auto rounded-b-xl lg:h-[80rem] [@media(max-height:1080px)]:h-[50rem]"
+                    className="dark:scrollbar-track-violetDark scrollbar-track-lightGrayishBlue hover:scrollbar-thumb-second dark:hover:scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin flex w-full flex-col items-center overflow-y-auto rounded-b-xl lg:h-[80rem] [@media(max-height:1080px)]:h-[50rem]"
                 >
                     {isLoading && <LoadingSpinner />}
                     {isError && <p>Failed to load searched spots data.</p>}

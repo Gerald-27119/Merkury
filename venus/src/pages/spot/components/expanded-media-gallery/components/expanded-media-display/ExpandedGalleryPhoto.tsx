@@ -15,14 +15,14 @@ export default function ExpandedGalleryPhoto({
     };
 
     return (
-        <div className="h-fit">
+        <div className="3xl:h-[60rem] 3xl:w-[90rem] 3xl:mr-0 flex items-center justify-center overflow-hidden rounded-2xl bg-neutral-900 xl:h-[30rem] xl:w-[55rem] 2xl:mr-20 2xl:h-[50rem] 2xl:w-[70rem]">
             {isLoading && <LoadingSpinner />}
             {url ? (
                 <img
                     src={url}
                     alt={url}
                     onLoad={handleImageLoad}
-                    className="3xl:h-[60rem] 3xl:w-[90rem] rounded-2xl xl:h-[30rem] xl:w-[55rem] 2xl:h-[50rem] 2xl:w-[80rem]"
+                    className="max-h-full max-w-full rounded-2xl object-contain"
                 />
             ) : (
                 <p>No photo to display</p>

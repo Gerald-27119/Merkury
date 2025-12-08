@@ -10,7 +10,7 @@ export default function MediaInfoDisplay({
     publishDate,
 }: MediaInfoDisplayProps) {
     return (
-        <div className="mb-2 flex w-full justify-end space-x-3 text-lg">
+        <div className="3xl:mb-2 3xl:mr-0 flex w-full justify-end space-x-3 text-lg 2xl:mr-38 2xl:mb-3">
             <img
                 src={authorProfilePhotoUrl}
                 alt={`${authorName}_profile_photo`}
