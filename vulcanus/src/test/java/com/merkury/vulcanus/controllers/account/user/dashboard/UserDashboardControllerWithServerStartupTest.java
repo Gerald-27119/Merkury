@@ -24,7 +24,6 @@ import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserSettingsType;
 import com.merkury.vulcanus.model.repositories.*;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -455,42 +454,62 @@ class UserDashboardControllerWithServerStartupTest {
     @Test
     @DisplayName("PATCH /user-dashboard/friends - should edit user friends relation")
     void editUserFriends_shouldEditFriendRelation() {
-        var before = friendshipRepository.findByUserAndFriend(mainUser,
-                userEntityRepository.findByUsername("friend1").orElseThrow());
-        assertThat(before).isPresent();
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", jwtCookieHeader);
         var entity = new HttpEntity<Void>(headers);
+
+        var beforeResp = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/friends",
+                HttpMethod.GET,
+                entity,
+                SocialPageDto.class
+        );
+
+        var beforeBody = beforeResp.getBody();
+
+        assertAll(
+                () -> assertThat(beforeResp.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(beforeBody).isNotNull(),
+                () -> assertThat(beforeBody.items())
+                        .extracting("username")
+                        .contains("friend1")
+        );
 
         String url = "http://localhost:" + port
                 + "/user-dashboard/friends"
                 + "?friendUsername=friend1"
                 + "&type=REMOVE";
 
-        var response = restTemplate.exchange(
+        var patchResp = restTemplate.exchange(
                 url,
                 HttpMethod.PATCH,
                 entity,
                 Void.class
         );
 
-        var after = friendshipRepository.findByUserAndFriend(mainUser,
-                userEntityRepository.findByUsername("friend1").orElseThrow());
+        assertThat(patchResp.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        var afterResp = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/friends",
+                HttpMethod.GET,
+                entity,
+                SocialPageDto.class
+        );
+
+        var afterBody = afterResp.getBody();
 
         assertAll(
-                () -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
-                () -> assertThat(after).isEmpty()
+                () -> assertThat(afterResp.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(afterBody).isNotNull(),
+                () -> assertThat(afterBody.items())
+                        .extracting("username")
+                        .doesNotContain("friend1")
         );
     }
 
     @Test
     @DisplayName("PATCH /user-dashboard/friends/change-status - should change friend status")
     void changeUserFriendsStatus_shouldChangeFriendStatus() {
-        var before = friendshipRepository.findByUserAndFriend(mainUser,
-                userEntityRepository.findByUsername("friend4").orElseThrow());
-        assertThat(before).isPresent();
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", jwtCookieHeader);
         var entity = new HttpEntity<Void>(headers);
@@ -507,12 +526,23 @@ class UserDashboardControllerWithServerStartupTest {
                 Void.class
         );
 
-        var after = friendshipRepository.findByUserAndFriend(mainUser,
-                userEntityRepository.findByUsername("friend4").orElseThrow());
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        var afterResp = restTemplate.exchange(
+                "http://localhost:" + port + "/user-dashboard/friends",
+                HttpMethod.GET,
+                entity,
+                SocialPageDto.class
+        );
+
+        var afterBody = afterResp.getBody();
 
         assertAll(
-                () -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
-                () -> assertThat(after.get().getStatus()).isEqualTo(UserFriendStatus.ACCEPTED)
+                () -> assertThat(afterResp.getStatusCode()).isEqualTo(HttpStatus.OK),
+                () -> assertThat(afterBody).isNotNull(),
+                () -> assertThat(afterBody.items())
+                        .extracting("username")
+                        .contains("friend4")
         );
     }
 
