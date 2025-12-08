@@ -7,7 +7,7 @@ W celu zapewnienia łatwego uruchamiania aplikacji oraz możliwości jej skalowa
 konteneryzację z wykorzystaniem \glslink{docker}{Dockera}.
 Zarówno relacyjna \glslink{baza-danych}{baza danych} PostgreSQL, jak i \glslink{redis}{Redis} zostały uruchomione
 w odseparowanych \glslink{kontener}{kontenerach}.
-Do uruchamiania wielu kontenerów jednocześnie wykorzystano narzędzie
+Do włączenia wielu kontenerów jednocześnie wykorzystano narzędzie
 \glslink{docker-compose}{Docker Compose} (rys. \ref{img:docker-compose}), dzięki czemu wystarczy uruchomić jeden
 plik konfiguracyjny, a wszystkie wymagane usługi są automatycznie uruchamiane z odpowiednimi ustawieniami.
 
@@ -25,6 +25,7 @@ pobieranego ze zdalnego repozytorium \glslink{docker-hub}{Docker Hub}.
 \glslink{kontener}{Kontener} odpowiada za działanie bazy typu in-memory wykorzystywanej do krótkoterminowego
 przechowywania danych oraz mechanizmów \glslink{cache}{cache’owania}.
 Usługa jest udostępniana lokalnie na porcie \texttt{6379}.
+
 Zastosowanie \glslink{docker}{Dockera} i \glslink{docker-compose}{Docker Compose} umożliwia łatwe odtworzenie środowiska na
 dowolnej maszynie, ogranicza liczbę ręcznych kroków konfiguracyjnych oraz ułatwia dalsze
 skalowanie i automatyzację procesu wdrażania aplikacji.
