@@ -1,5 +1,5 @@
 %! Author = Adam
-%! Date = 30/11/2025
+%! Date = 08/11/2025
 
 \subsubsection{Wymagania funkcjonalne dla czatu}
 \label{subsubsec:wymagania-funkcjonalne-dla-chatu}
@@ -8,7 +8,7 @@
 \renewcommand{\thewfczat}{\thechapter.\arabic{wfczat}}
 
 \newlength{\wfczLabelWidth}
-\setlength{\wfczLabelWidth}{0.17\textwidth}
+\setlength{\wfczLabelWidth}{0.19\textwidth}
 
 \newlength{\wfczColTwoWidth}
 \setlength{\wfczColTwoWidth}{0.21\textwidth}
@@ -17,18 +17,23 @@
 \setlength{\wfczColThreeWidth}{0.13\textwidth}
 
 \newlength{\wfczColFourWidth}
-\setlength{\wfczColFourWidth}{0.29\textwidth}
+\setlength{\wfczColFourWidth}{0.28\textwidth}
 
 \newlength{\wfczContentWidth}
-\setlength{\wfczContentWidth}{0.78\textwidth}
+\setlength{\wfczContentWidth}{0.60\textwidth}
 
 \newcommand{\wfczthreecolcell}[1]{%
-    \multicolumn{3}{|p{\wfczContentWidth}|}{%
-        \begin{minipage}[t]{\wfczContentWidth}%
-        #1%
-        \end{minipage}%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfczContentWidth}|}{#1}%
+}
+
+\newcommand{\wfczthreecolcellpadded}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfczContentWidth}|}{%
+        \vspace{0.4ex}%
+        #1\par\vspace{0.4ex}%
     }%
 }
+
+% --- pola karty ---
 
 \newcommand{\wfczpriority}[2]{%
     \textbf{Identyfikator:} & WFCZAT-#1 &
@@ -47,12 +52,18 @@
 
 \newcommand{\wfczaccept}[1]{%
     \textbf{Kryteria akceptacji:} &
-    \wfczthreecolcell{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfczContentWidth}|}{%
         \begingroup
-        \setlength{\leftmargini}{1.5em}%
+        \setlength{\leftmargini}{1.2em}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\itemsep}{0.2ex}%
+        \setlength{\parsep}{0pt}%
+        \vspace*{-1.8ex}
         #1%
+        \vspace*{-1.4ex}
         \endgroup
-    } \\ \hline
+    }\\ \hline
 }
 
 \newcommand{\wfczinput}[1]{%
@@ -95,6 +106,8 @@
     \wfczthreecolcell{#1} \\ \hline
 }
 
+% --- szablon karty wymagania funkcjonalnego ---
+
 \newcommand{\wfczatcard}[5]{%
     \refstepcounter{wfczat}%
     {%
@@ -120,8 +133,6 @@
     \textbf{Tabela \thewfczat:} Wymaganie funkcjonalne dla czatu: #2\label{#1}%
     \addcontentsline{lot}{table}{Tabela \thewfczat: Wymaganie funkcjonalne dla czatu: #2}%
 }
-
-
 % =========================================
 % WFCZAT-01 – Wysyłanie GIF-ów
 % =========================================
@@ -334,7 +345,7 @@
 {06}
 {S}
 {
-    \wfczdesc{System umożliwia wysyłanie emotikonów (\gls{emoji}) w treści wiadomości
+    \wfczdesc{System umożliwia wysyłanie \gls{emoji} w treści wiadomości
     na czacie.}
 
     \wfczaccept{%
