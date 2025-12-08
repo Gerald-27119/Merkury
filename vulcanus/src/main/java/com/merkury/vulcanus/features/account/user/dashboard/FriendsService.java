@@ -65,15 +65,17 @@ public class FriendsService {
 
     private void addUserFriends(String username, String friendUsername) throws UserNotFoundByUsernameException, FriendshipAlreadyExistException {
         var user = userEntityFetcher.getByUsername(username);
-        var userFriend = userEntityFetcher.getByUsername(friendUsername);
-        var isFriends = friendshipRepository.findByUserAndFriend(user, userFriend).isPresent();
+        var friendUser = userEntityFetcher.getByUsername(friendUsername);
+        var isFriends = user.getFriendships()
+                .stream()
+                .anyMatch(f -> f.getFriend().equals(friendUser));
 
         if (!isFriends) {
-            user.getFriendships().add(new Friendship(null, user, userFriend, PENDING_SENT, null));
-            userFriend.getFriendships().add(new Friendship(null, userFriend, user, PENDING_RECEIVED, null));
+            user.getFriendships().add(new Friendship(null, user, friendUser, PENDING_SENT, null));
+            friendUser.getFriendships().add(new Friendship(null, friendUser, user, PENDING_RECEIVED, null));
 
             userEntityRepository.save(user);
-            userEntityRepository.save(userFriend);
+            userEntityRepository.save(friendUser);
         } else {
             throw new FriendshipAlreadyExistException();
         }
@@ -82,7 +84,9 @@ public class FriendsService {
     private void removeUserFriends(String username, String friendUsername) throws UserNotFoundByUsernameException, FriendshipNotExistException {
         var user = userEntityFetcher.getByUsername(username);
         var userFriend = userEntityFetcher.getByUsername(friendUsername);
-        var isFriends = friendshipRepository.findByUserAndFriend(user, userFriend).isPresent();
+        var isFriends = user.getFriendships()
+                .stream()
+                .anyMatch(f -> f.getFriend().equals(userFriend));
 
         if (isFriends) {
             user.getFriendships().removeIf(f -> f.getFriend().equals(userFriend));
@@ -97,18 +101,22 @@ public class FriendsService {
 
     public void changeUserFriendsStatus(String username, String friendUsername, UserFriendStatus status) throws UserNotFoundByUsernameException, FriendshipNotExistException, UnsupportedUserFriendStatusException {
         var user = userEntityFetcher.getByUsername(username);
-        var userFriend = userEntityFetcher.getByUsername(friendUsername);
+        var friendUser = userEntityFetcher.getByUsername(friendUsername);
 
-        var uf = friendshipRepository.findByUserAndFriend(user, userFriend)
+        var uf = user.getFriendships().stream()
+                .filter(f -> f.getFriend().equals(friendUser))
+                .findFirst()
                 .orElseThrow(FriendshipNotExistException::new);
 
-        var fu = friendshipRepository.findByUserAndFriend(userFriend, user)
+        var fu = friendUser.getFriendships().stream()
+                .filter(f -> f.getFriend().equals(user))
+                .findFirst()
                 .orElseThrow(FriendshipNotExistException::new);
 
         switch (status) {
             case REJECTED -> {
                 user.getFriendships().remove(uf);
-                userFriend.getFriendships().remove(fu);
+                friendUser.getFriendships().remove(fu);
                 friendshipRepository.deleteAll(List.of(uf, fu));
             }
             case ACCEPTED -> {
@@ -119,7 +127,7 @@ public class FriendsService {
         }
 
         userEntityRepository.save(user);
-        userEntityRepository.save(userFriend);
+        userEntityRepository.save(friendUser);
     }
 
     public SocialPageDto searchUsersByUsername(String username, String query, int page, int size) throws UserNotFoundByUsernameException {
