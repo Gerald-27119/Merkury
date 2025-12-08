@@ -7,19 +7,26 @@ export async function extractAndUploadImages(
     const doc = new DOMParser().parseFromString(html, "text/html");
     const imageElements = Array.from(doc.querySelectorAll("img"));
 
-    for (const img of imageElements) {
-        const src = img.getAttribute("src");
-        if (!src?.startsWith("data:")) continue;
+    await Promise.all(
+        imageElements.map(async (img) => {
+            const src = img.getAttribute("src");
+            if (!src?.startsWith("data:")) return;
 
-        const [, meta, base64] = src.match(/^data:(.*?);base64,(.*)$/) || [];
-        if (!meta || !base64) continue;
+            const match = src.match(/^data:(.*?);base64,(.*)$/);
+            if (!match) throw new Error("Invalid base64 image format");
 
-        const mime = meta;
-        const filename = `image-${crypto.randomUUID()}.${mime.split("/")[1]}`;
+            const [, mime, base64] = match;
+            const extension = mime.split("/")[1] || "png";
+            const filename = `image-${crypto.randomUUID()}.${extension}`;
 
-        const file = base64ToFile(base64, filename, mime);
-        img.src = await uploadFn(file);
-    }
+            const file = base64ToFile(base64, filename, mime);
+            try {
+                img.src = await uploadFn(file);
+            } catch (e) {
+                throw new Error("Image upload failed");
+            }
+        }),
+    );
 
     return doc.body.innerHTML;
 }

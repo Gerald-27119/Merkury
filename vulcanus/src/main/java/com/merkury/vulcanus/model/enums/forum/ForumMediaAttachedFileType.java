@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
-public enum FormMediaAttachedFileType {
+public enum ForumMediaAttachedFileType {
     JPEG("image/jpeg"),
     PNG("image/png"),
     GIF("image/gif"),

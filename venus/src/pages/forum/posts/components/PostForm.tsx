@@ -61,20 +61,29 @@ export default function PostForm({
     });
 
     const onSubmit: SubmitHandler<PostFormFields> = async (data) => {
-        const finalContent = await extractAndUploadImages(
-            data.content,
-            (file) => uploadToAzure(file),
-        );
+        try {
+            const finalContent = await extractAndUploadImages(
+                data.content,
+                (file) => uploadToAzure(file),
+            );
 
-        let newPost = {
-            title: data.title,
-            content: finalContent,
-            category: data.category!.value,
-            tags: data.tags ? data.tags.map((tag) => tag.value) : [],
-        };
+            let newPost = {
+                title: data.title,
+                content: finalContent,
+                category: data.category!.value,
+                tags: data.tags ? data.tags.map((tag) => tag.value) : [],
+            };
 
-        handlePost(newPost);
-        onClose();
+            handlePost(newPost);
+            onClose();
+        } catch {
+            setError("content", {
+                type: "manual",
+                message:
+                    "One of the images couldn't be uploaded, please try again.",
+            });
+            return;
+        }
     };
 
     return (

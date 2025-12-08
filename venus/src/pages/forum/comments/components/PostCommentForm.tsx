@@ -42,16 +42,25 @@ export default function PostCommentForm({
     });
 
     const onSubmit: SubmitHandler<PostCommentFormFields> = async (data) => {
-        const finalContent = await extractAndUploadImages(
-            data.content,
-            (file) => uploadToAzure(file),
-        );
+        try {
+            const finalContent = await extractAndUploadImages(
+                data.content,
+                (file) => uploadToAzure(file),
+            );
 
-        handleComment({
-            content: finalContent,
-        });
+            handleComment({
+                content: finalContent,
+            });
 
-        onClose();
+            onClose();
+        } catch {
+            setError("content", {
+                type: "manual",
+                message:
+                    "One of the images couldn't be uploaded, please try again.",
+            });
+            return;
+        }
     };
 
     return (

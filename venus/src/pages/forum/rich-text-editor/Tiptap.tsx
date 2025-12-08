@@ -49,7 +49,7 @@ export default function Tiptap({
             }),
             Image.configure({
                 inline: false,
-                allowBase64: false,
+                allowBase64: true,
             }),
             FileHandler.configure({
                 onDrop: (currentEditor, files, pos) => {
@@ -80,8 +80,8 @@ export default function Tiptap({
                     });
                 },
                 onPaste: (currentEditor, files, htmlContent) => {
+                    if (htmlContent) return false;
                     files.forEach((file) => {
-                        if (htmlContent) return false;
                         if (!isAllowedFile(file)) {
                             onFileError?.(
                                 "File type not allowed. Only PNG, JPEG, GIF, WEBP are supported.",
