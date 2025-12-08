@@ -13,7 +13,13 @@ Poniżej przedstawiono listę zastosowanych rozwiązań.
 \begin{itemize}
     \item \textbf{\glslink{backend}{Backend}}
     \begin{itemize}
-        \item \textbf{MVC}
+        \item \textbf{MVC} \textendash \space Model View Controller, jest głównie wykorzystywany przy aplikacjach webowych.
+        Polega na podzieleniu projektu na trzy główne części odpowiedzialne za:
+        \begin{itemize}
+            \item \textbf{Model} \textendash \space reprezentację danych i logikę biznesową.
+            \item \textbf{View} \textendash \space prezentację danych użytkownikowi.
+            \item \textbf{Controller} \textendash \space reagowanie na działania użytkownika poprzez uruchomienie logiki w Model i odświeżenie View.
+        \end{itemize}
         \item \textbf{Chain of Responsibility}
         \item \textbf{Proxy}
         \item \textbf{Inversion of Control}
