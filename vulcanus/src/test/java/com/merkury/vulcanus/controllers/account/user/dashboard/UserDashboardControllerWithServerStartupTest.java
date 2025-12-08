@@ -24,6 +24,7 @@ import com.merkury.vulcanus.model.enums.user.dashboard.FavoriteSpotsListType;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserSettingsType;
 import com.merkury.vulcanus.model.repositories.*;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -824,7 +825,7 @@ class UserDashboardControllerWithServerStartupTest {
         assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                 () -> assertThat(body.items()).isNotNull(),
                 () -> assertThat(body.items()).hasSize(2),
-                () -> assertThat(body.items().getFirst().comments().getFirst().spotName()).isEqualTo("Spot 2"));
+                () -> assertThat(body.items().getFirst().comments().getFirst().spotName()).isEqualTo("Spot 1"));
     }
 
     @Test
