@@ -16,7 +16,7 @@ import com.merkury.vulcanus.model.repositories.forum.PostRepository;
 import com.merkury.vulcanus.model.repositories.forum.PostTagRepository;
 import com.merkury.vulcanus.model.specification.PostSpecification;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
-import com.merkury.vulcanus.utils.ForumContentValidator;
+import com.merkury.vulcanus.utils.forum.ForumContentValidator;
 import com.merkury.vulcanus.utils.user.dashboard.UserEntityFetcher;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +27,7 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Service;
 
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -44,6 +45,7 @@ public class PostService {
     private final VoteService voteService;
     private final ReportService reportService;
     private final CustomUserDetailsService customUserDetailsService;
+    private final ForumMediaService forumMediaService;
     private final UserEntityFetcher userEntityFetcher;
     private final ForumContentValidator forumContentValidator;
 
@@ -108,16 +110,18 @@ public class PostService {
         var postEntity = PostMapper.toEntity(dto, cleanContent, user, category, tags);
 
         postRepository.save(postEntity);
+        forumMediaService.savePostMedia(cleanContent, postEntity);
     }
 
-    public void deletePost(Long postId) throws UnauthorizedPostAccessException, UserNotFoundByUsernameException {
+    public void deletePost(Long postId) throws UnauthorizedPostAccessException, UserNotFoundByUsernameException, BlobContainerNotFoundException, URISyntaxException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("delete"));
 
+        forumMediaService.deletePostMedia(postId);
         postRepository.delete(post);
     }
 
-    public void editPost(Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException {
+    public void editPost(Long postId, PostDto dto) throws UnauthorizedPostAccessException, CategoryNotFoundException, TagNotFoundException, InvalidForumContentException, UserNotFoundByUsernameException, BlobContainerNotFoundException, URISyntaxException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("edit"));
         var category = getCategoryByName(dto.category());
@@ -130,6 +134,7 @@ public class PostService {
         post.setPostCategory(category);
         post.setTags(tags);
 
+        forumMediaService.editPostMedia(cleanContent, post);
         postRepository.save(post);
     }
 
@@ -221,7 +226,7 @@ public class PostService {
         }
     }
 
-    private void updateTrendingScore(Long postId){
+    private void updateTrendingScore(Long postId) {
         postRepository.updateTrendingScore(postId);
     }
 

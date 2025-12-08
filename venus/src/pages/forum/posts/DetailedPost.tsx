@@ -39,7 +39,7 @@ export default function DetailedPost({
     const { mutateAsync: deletePostMutate } = useAppMutation(deletePost, {
         successMessage: "Post deleted successfully!",
         loginToAccessMessage: "Login to delete posts",
-        invalidateKeys: [["posts"]],
+        invalidateKeys: [["posts"], ["trendingPosts"]],
     });
 
     const { mutateAsync: votePostMutate } = useAppMutation(votePost, {

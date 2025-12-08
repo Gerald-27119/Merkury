@@ -173,6 +173,10 @@ html:not(.dark) .ant-carousel .slick-dots li.slick-active button {
     white-space: pre-wrap;
 }
 
+.tiptap img {
+    @apply h-auto max-h-128 w-auto max-w-full;
+}
+
 .tiptap a {
     @apply cursor-pointer text-blue-500 underline;
 }
@@ -216,11 +220,6 @@ html:not(.dark) .ant-carousel .slick-dots li.slick-active button {
 .tiptap li p {
     display: inline;
     margin: 0;
-}
-
-.tiptap p:empty::before {
-    content: "";
-    display: inline-block;
 }
 
 .tiptap li {
