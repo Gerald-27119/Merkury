@@ -13,7 +13,7 @@ Poniżej przedstawiono listę zastosowanych rozwiązań.
 \begin{itemize}
     \item \textbf{\glslink{backend}{Backend}}
     \begin{itemize}
-        \item \textbf{MVC} \textendash \space Model View Controller, jest głównie wykorzystywany przy aplikacjach webowych.
+        \item \textbf{MVC} \textemdash \space Model View Controller, jest głównie wykorzystywany przy aplikacjach webowych.
         Polega na podzieleniu projektu na trzy główne części odpowiedzialne za:
         \begin{itemize}
             \item \textbf{Model} \textendash \space reprezentację danych i logikę biznesową.
@@ -21,15 +21,21 @@ Poniżej przedstawiono listę zastosowanych rozwiązań.
             \item \textbf{Controller} \textendash \space reagowanie na działania użytkownika poprzez uruchomienie logiki w Model i odświeżenie View.
         \end{itemize}
         \item \textbf{Chain of Responsibility}
-        \item \textbf{Proxy} \textendash \space to strukturalny \glslink{wzorzec}{wzorzec} projektowy
+        \item \textbf{Proxy} \textemdash \space to strukturalny \glslink{wzorzec}{wzorzec} projektowy
         zakładający stworzenie obiektu pośredniczącego, który ma taki sam interfejs jak obiekt właściwy.
         Obiekt ten może zawierać dodatkową logikę, taką jak kontrola dostępu do zasobu, sprawdzenie uprawnień do wykonania zadanej operacji,
         utworzenie oryginalnego obiektu czy \glslink{cache}{cache'owanie}.
         Dla klienta korzystanie z takiego pośrednika jest identyczne jakby był to oryginalny zasób.
         \item \textbf{Inversion of Control}
         \item \textbf{Dependency Injection}
-        \item \textbf{Singleton}
-        \item \textbf{Builder} \textendash \space kreacyjny \glslink{wzorzec}{wzorzec} projektowy, który ułatwia tworzenie
+        \item \textbf{Singleton} \textemdash \space to kreacyjny \glslink{wzorzec}{wzorzec} projektowy zapewniający
+        istnienie dokładnie jednej instancji danego obiektu, która jest dostępna globalnie.
+        Kontruktor takiego obiektu jest prywatny, a dostęp do niego odbywa się poprzez statyczną metodę zwracającą
+        istniejącą instancję lub jeśli jej nie ma, tworzącą nową.
+        Używany jest między innymi do zarządzania konfiguracjami czy połączeniami do bazy danych.
+        \glslink{wzorzec}{Wzorzec} Singleton łamie zasadę \glslink{srp}{Single Responsibilty}, ponieważ taki obiekt oprócz wykonywania swojej logiki,
+        dba o swoją unikatowość.
+        \item \textbf{Builder} \textemdash \space kreacyjny \glslink{wzorzec}{wzorzec} projektowy, który ułatwia tworzenie
         skomplikowanych obiektów poprzez rozbicie tego procesu na mniejsze, konfigurowalne etapy.
         Eliminuje potrzebę korzystania z kontruktorów zawierjących wiele parametrów.
         Stworzony zostaje obiekt budujący (Budowniczy), który implemnetuje poszczególne kroki kontrukcji obiektu, a na końcu
