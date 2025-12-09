@@ -21,10 +21,11 @@ Poniżej przedstawiono listę zastosowanych rozwiązań.
             \item \textbf{Controller} \textendash \space reagowanie na działania użytkownika poprzez uruchomienie logiki w Model i odświeżenie View.
         \end{itemize}
         \item \textbf{Chain of Responsibility}
-        \item \textbf{Proxy} \textendash \space stosując ten \glslink{wzorzec}{wzorzec} należy stworzyć obiekt, który
-        kontroluje dostęp do drogiego lub niemożliwego do duplikcji zasobu.
-        Jest używany przez klienta, który chce wykonać na nim operacje.
-        Obiekt poxy może zawierać dodatkową logikę, np. autoryzację klienta.
+        \item \textbf{Proxy} \textendash \space to strukturalny \glslink{wzorzec}{wzorzec} projektowy
+        zakładający stworzenie obiektu pośredniczącego, który ma taki sam interfejs jak obiekt właściwy.
+        Obiekt ten może zawierać dodatkową logikę, taką jak kontrola dostępu do zasobu, sprawdzenie uprawnień do wykonania zadanej operacji,
+        utworzenie oryginalnego obiektu czy \glslink{cache}{cache'owanie}.
+        Dla klienta korzystanie z takiego pośrednika jest identyczne jakby był to oryginalny zasób.
         \item \textbf{Inversion of Control}
         \item \textbf{Dependency Injection}
         \item \textbf{Singleton}
