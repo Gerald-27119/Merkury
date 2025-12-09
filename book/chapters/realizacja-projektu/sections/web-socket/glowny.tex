@@ -1,0 +1,82 @@
+%! Author = Adam Langmesser
+%! Date = 09.12.2025
+
+\section{Zastosowanie WebSocket}
+\label{sec:zastosowanie-websocket}
+
+\subsection{Charakterystyka protokołu WebSocket}
+\label{subsec:definicja-websocket}
+
+Na podstawie specyfikacji RFC 6455, opracowanej przez IETF, protokół WebSocket można opisać
+jako mechanizm komunikacji pomiędzy aplikacją działającą w przeglądarce a serwerem,
+który umożliwia dwukierunkową wymianę danych w czasie zbliżonym do rzeczywistego.
+Przeglądarka utrzymuje stałe połączenie z serwerem, dzięki czemu może na bieżąco wysyłać dane,
+a serwer w dowolnym momencie przesyłać odpowiedzi, bez konieczności ciągłego odświeżania strony
+ani inicjowania wielu osobnych zapytań HTTP. Tego typu komunikacja jest możliwa wyłącznie z serwerami,
+które świadomie ją dopuszczają, co zwiększa kontrolę nad bezpieczeństwem.
+Przeglądarka w dalszym ciągu stosuje model bezpieczeństwa oparty na pochodzeniu (origin),
+weryfikując domenę, z której pochodzi kod. Technologia WebSocket została zaprojektowana
+z myślą o aplikacjach webowych, takich jak czaty, powiadomienia w czasie rzeczywistym,
+aplikacje giełdowe czy gry sieciowe, które wymagają stałego kanału komunikacji z serwerem,
+zamiast opierać się na wielu tradycyjnych połączeniach HTTP i okresowym odpytywaniu serwera.
+
+[https://datatracker.ietf.org/doc/html/rfc6455]
+
+\subsection{Zastosowanie protokołu WebSocket w naszym projekcie}
+\label{subsec:zastosowanie-w-naszym-przypadku}
+
+Główną metodą komunikacji między backendem a frontendem w naszej aplikacji jest REST API oparte na protokole HTTP.
+Tego typu interfejs bardzo dobrze sprawdza się w typowych scenariuszach, 
+w których klient (frontend) inicjuje żądanie, a serwer (backend) zwraca odpowiedź,
+np. podczas logowania użytkownika, pobierania listy spotów czy dodawania komentarza na forum.
+Każda operacja ma wówczas postać pojedynczego, niezależnego wywołania HTTP, po którym połączenie jest zamykane. 
+
+Problem pojawia się jednak wtedy, gdy konieczna jest ciągła wymiana danych w czasie zbliżonym do rzeczywistego,
+a więc nie tylko na żądanie klienta, lecz także z inicjatywy serwera.
+W naszej aplikacji taka potrzeba wystąpiła przy implementacji modułu czatu.
+Teoretycznie czat można zrealizować wyłącznie w oparciu o REST API,
+na przykład poprzez cykliczne odpytywanie serwera (polling) – klient co kilka sekund wysyłałby 
+zapytanie o nowe wiadomości, a serwer zwracałby aktualny stan konwersacji. 
+Można również stosować tzw. long polling, w którym żądanie jest utrzymywane dłużej, 
+aż pojawi się nowa wiadomość. 
+
+Takie podejście ma jednak istotne wady. Częste odpytywanie serwera generuje 
+dużą liczbę żądań HTTP, obciążając zarówno serwer, jak i sieć, mimo 
+że w wielu przypadkach odpowiedzi nie zawierają żadnych nowych danych. 
+Dodatkowo wprowadza to opóźnienia – użytkownik zobaczy nową wiadomość dopiero przy kolejnym odpytywaniu, 
+a nie w momencie jej wysłania. Rozwiązania oparte na long pollingu są 
+z kolei bardziej złożone w implementacji i wciąż nie zapewniają tak naturalnego, 
+dwukierunkowego kanału komunikacji, jakiego oczekuje się od współczesnego czatu. 
+
+Z tego powodu wszędzie tam, gdzie potrzebna jest stała, dwukierunkowa komunikacja 
+w czasie rzeczywistym, stosuje się protokół WebSocket. W naszej aplikacji został 
+on wykorzystany właśnie w module czatu, co pozwala na utrzymanie jednego,
+trwałego połączenia pomiędzy klientem a serwerem i natychmiastowe dostarczanie 
+wiadomości do wszystkich uczestników konwersacji, bez konieczności ciągłego odpytywania serwera za pomocą REST API.
+
+
+\subsection{Implementacja na backendzie}
+\label{subsec:implementacja-na-backendzie}
+
+Platforma Spring udostępnia dwa komplementarne sposoby obsługi komunikacji
+w oparciu o protokół WebSocket. Pierwsze podejście to niskopoziomowa integracja
+z tzw. „surowym” WebSocketem, oparta na interfejsie WebSocketHandler oraz
+konfiguracji przez @EnableWebSocket. Umożliwia ono pełną kontrolę nad formatem wiadomości
+i cyklem życia połączenia, ale wymaga samodzielnego zdefiniowania protokołu komunikacji
+i mechanizmów dystrybucji wiadomości między klientami.
+(https://docs.spring.io/spring-framework/reference/web/websocket.html)
+
+Drugie podejście wykorzystuje protokół STOMP jako podprotokół warstwy aplikacyjnej
+działający „nad” WebSocketem i jest konfigurowane w Springu
+za pomocą @EnableWebSocketMessageBroker. W tym wariancie aplikacja korzysta
+z modelu komunikatów (messaging), tematów i kolejek, a Spring udostępnia
+bogatszy model programowania oparty m.in. na adnotacjach @MessageMapping
+oraz wbudowanym brokerze wiadomości. Zastosowanie STOMPa eliminuje konieczność
+tworzenia własnego formatu komunikatów i ułatwia implementację wzorca publish–subscribe.
+(https://docs.spring.io/spring-framework/reference/web/websocket.html)
+
+W niniejszym projekcie, ze względu na charakter modułu czatu tekstowego,
+zdecydowano się na wykorzystanie drugiego podejścia, tj. komunikacji WebSocket z warstwą STOMP.
+Pozwala to traktować poszczególne pokoje czatowe jako osobne „ścieżki” (np. /topic/chat/{id})(TODO: tu popraw na realną),
+uprościć logikę rozsyłania wiadomości oraz skorzystać z gotowego, dojrzałego modelu
+messagingowego Spring Framework zamiast implementować od podstaw własny protokół na bazie surowych ramek WebSocket.
