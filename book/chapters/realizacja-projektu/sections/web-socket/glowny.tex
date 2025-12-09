@@ -26,32 +26,32 @@ zamiast opierać się na wielu tradycyjnych połączeniach HTTP i okresowym odpy
 \label{subsec:zastosowanie-w-naszym-przypadku}
 
 Główną metodą komunikacji między backendem a frontendem w naszej aplikacji jest REST API oparte na protokole HTTP.
-Tego typu interfejs bardzo dobrze sprawdza się w typowych scenariuszach, 
+Tego typu interfejs bardzo dobrze sprawdza się w typowych scenariuszach,
 w których klient (frontend) inicjuje żądanie, a serwer (backend) zwraca odpowiedź,
 np. podczas logowania użytkownika, pobierania listy spotów czy dodawania komentarza na forum.
-Każda operacja ma wówczas postać pojedynczego, niezależnego wywołania HTTP, po którym połączenie jest zamykane. 
+Każda operacja ma wówczas postać pojedynczego, niezależnego wywołania HTTP, po którym połączenie jest zamykane.
 
 Problem pojawia się jednak wtedy, gdy konieczna jest ciągła wymiana danych w czasie zbliżonym do rzeczywistego,
 a więc nie tylko na żądanie klienta, lecz także z inicjatywy serwera.
 W naszej aplikacji taka potrzeba wystąpiła przy implementacji modułu czatu.
 Teoretycznie czat można zrealizować wyłącznie w oparciu o REST API,
-na przykład poprzez cykliczne odpytywanie serwera (polling) – klient co kilka sekund wysyłałby 
-zapytanie o nowe wiadomości, a serwer zwracałby aktualny stan konwersacji. 
-Można również stosować tzw. long polling, w którym żądanie jest utrzymywane dłużej, 
-aż pojawi się nowa wiadomość. 
+na przykład poprzez cykliczne odpytywanie serwera (polling) – klient co kilka sekund wysyłałby
+zapytanie o nowe wiadomości, a serwer zwracałby aktualny stan konwersacji.
+Można również stosować tzw. long polling, w którym żądanie jest utrzymywane dłużej,
+aż pojawi się nowa wiadomość.
 
-Takie podejście ma jednak istotne wady. Częste odpytywanie serwera generuje 
-dużą liczbę żądań HTTP, obciążając zarówno serwer, jak i sieć, mimo 
-że w wielu przypadkach odpowiedzi nie zawierają żadnych nowych danych. 
-Dodatkowo wprowadza to opóźnienia – użytkownik zobaczy nową wiadomość dopiero przy kolejnym odpytywaniu, 
-a nie w momencie jej wysłania. Rozwiązania oparte na long pollingu są 
-z kolei bardziej złożone w implementacji i wciąż nie zapewniają tak naturalnego, 
-dwukierunkowego kanału komunikacji, jakiego oczekuje się od współczesnego czatu. 
+Takie podejście ma jednak istotne wady. Częste odpytywanie serwera generuje
+dużą liczbę żądań HTTP, obciążając zarówno serwer, jak i sieć, mimo
+że w wielu przypadkach odpowiedzi nie zawierają żadnych nowych danych.
+Dodatkowo wprowadza to opóźnienia – użytkownik zobaczy nową wiadomość dopiero przy kolejnym odpytywaniu,
+a nie w momencie jej wysłania. Rozwiązania oparte na long pollingu są
+z kolei bardziej złożone w implementacji i wciąż nie zapewniają tak naturalnego,
+dwukierunkowego kanału komunikacji, jakiego oczekuje się od współczesnego czatu.
 
-Z tego powodu wszędzie tam, gdzie potrzebna jest stała, dwukierunkowa komunikacja 
-w czasie rzeczywistym, stosuje się protokół WebSocket. W naszej aplikacji został 
+Z tego powodu wszędzie tam, gdzie potrzebna jest stała, dwukierunkowa komunikacja
+w czasie rzeczywistym, stosuje się protokół WebSocket. W naszej aplikacji został
 on wykorzystany właśnie w module czatu, co pozwala na utrzymanie jednego,
-trwałego połączenia pomiędzy klientem a serwerem i natychmiastowe dostarczanie 
+trwałego połączenia pomiędzy klientem a serwerem i natychmiastowe dostarczanie
 wiadomości do wszystkich uczestników konwersacji, bez konieczności ciągłego odpytywania serwera za pomocą REST API.
 
 
@@ -80,3 +80,25 @@ zdecydowano się na wykorzystanie drugiego podejścia, tj. komunikacji WebSocket
 Pozwala to traktować poszczególne pokoje czatowe jako osobne „ścieżki” (np. /topic/chat/{id})(TODO: tu popraw na realną),
 uprościć logikę rozsyłania wiadomości oraz skorzystać z gotowego, dojrzałego modelu
 messagingowego Spring Framework zamiast implementować od podstaw własny protokół na bazie surowych ramek WebSocket.
+
+Konfiguracja:
+WebsocketConfig.java
+
+Serwis:
+ChatStompCommunicationService.java
+
+TODO Wazne aby powiedziec ze serwis jest uzywany zarowno przez controller jak i przez rozne serwisy i tu je wymienic
+ale juz nie dawac ich kodu (napsiac dlaczego uzywaja)
+
+Controller:
+ChatStompCommunicationController.java
+
+\subsection{Implementacja na frontendzie}
+\label{subsec:implementacja-na-frontendzie}
+
+\subsection{Przebieg komunikacji}
+\label{subsec:przebieg-komunikacji}
+
+Pelen diagram komunikacji od ustanowniea poalczenia do przeslaniaw iadomsoci
+w strone backendu ale tez w strone frontendu
+
