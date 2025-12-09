@@ -119,6 +119,39 @@ oraz \textit{Photos} (rys. \ref{img:photos}).
 
 \subsubsection{Spots list}
 
+Lista spotów stanowi część panelu użytkownika, w której gromadzone są miejsca
+oznaczone przez użytkownika jako: ulubione, planowane do odwiedzenia,
+odwiedzone i ocenione pozytywnie, odwiedzone i ocenione negatywnie
+oraz skomentowane (rys. \ref{img:spot-list}).
+
+W górnej części widoku umieszczono nagłówek informujący, w jakiej sekcji
+panelu znajduje się użytkownik.
+Poniżej znajduje się zestaw sześciu przycisków służących do przełączania
+się między wymienionymi kategoriami list.
+Dzięki temu możliwe jest szybkie filtrowanie zawartości bez konieczności
+zmiany podstrony.
+
+Niżej prezentowana jest lista spotów należących do aktualnie wybranej kategorii.
+Każdy kafelek reprezentujący miejsce zawiera następujące informacje:
+\begin{itemize}
+    \item liczbę wyświetleń,
+    \item średnią ocenę,
+    \item nazwę spota,
+    \item przypisane tagi,
+    \item krótki opis,
+    \item nazwę miasta, w którym znajduje się spot,
+    \item przycisk wyświetlenia szczegółów spota,
+    \item przycisk wyświetlenia spota na mapie.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/spot-lists}
+    \caption{Projekt widoku listy spotów}
+    \label{img:spot-list}
+\end{figure}
+
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/spot-lists}
@@ -128,6 +161,18 @@ oraz \textit{Photos} (rys. \ref{img:photos}).
 
 \subsubsection{Photos list}
 
+Kolejnym widokiem jest lista zdjęć (rys. \ref{img:photos}), które użytkownik dodał do systemu.
+Podobnie jak w liście spotów, na górze strony znajduje się nagłówek informujący,
+w jakiej sekcji aktualnie znajduje się użytkownik.
+Tuż obok umieszczono panel wyszukiwania interesujących go zdjęć, na który składają się:
+panel sortowania, wyszukiwarka po nazwie spota oraz panel filtrowania po dacie dodania.
+
+Poniżej wyświetlane są listy zdjęć zgrupowane według daty dodania
+(każda grupa poprzedzona jest paskiem z informacją o dacie dodania).
+W ramach grupy prezentowane są miniatury zdjęć; po najechaniu kursorem
+na wybrane zdjęcie (rys. \ref{img:photos-hover}) pojawiają się informacje o liczbie polubień
+i niepolubień danego zdjęcia.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/photos}
@@ -135,7 +180,28 @@ oraz \textit{Photos} (rys. \ref{img:photos}).
     \label{img:photos}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/photos-hover}
+    \caption{Projekt strony z listą dodanych zdjęć po najechaniu kursorem}
+    \label{img:photos-hover}
+\end{figure}
+
 \subsubsection{Movies list}
+
+Kolejnym widokiem jest lista filmów (rys. \ref{img:movies}), które zostały
+dodane do systemu przez użytkownika.
+Podobnie jak w pozostałych widokach,w górnej części strony znajduje się
+nagłówek informujący, w jakiej sekcji panelu aktualnie znajduje się użytkownik.
+Zaraz obok umieszczono panel wyszukiwania filmów, obejmujący:
+panel sortowania, wyszukiwarkę po nazwie spota oraz filtry zakresu dat
+dodania materiału.
+
+Niżej prezentowane są listy filmów zgrupowane według daty dodania
+(każda grupa poprzedzona jest paskiem z informacją o dacie).
+W obrębie grupy wyświetlane są miniatury filmów; po najechaniu kursorem
+na wybraną miniaturę pojawiają się dodatkowe informacje, między innymi
+liczba polubień oraz liczba oznaczeń typu „nie lubię” danego filmu.
 
 \begin{figure}[H]
     \centering
@@ -146,6 +212,19 @@ oraz \textit{Photos} (rys. \ref{img:photos}).
 
 \subsubsection{Friends}
 
+Kolejnym widokiem jest lista znajomych użytkownika (rys. \ref{img:friends}).
+W górnej części strony umieszczono nagłówek informujący, że wyświetlana
+jest sekcja listy znajomych.
+Poniżej prezentowane są kafelki z profilami osób dodanych do znajomych.
+
+Każdy kafelek zawiera: zdjęcie profilowe użytkownika, jego nazwę oraz
+zestaw trzech przycisków:
+\begin{itemize}
+    \item pierwszy służy do przejścia do profilu danego znajomego,
+    \item drugi umożliwia otwarcie konwersacji z wybraną osobą,
+    \item trzeci pozwala na usunięcie użytkownika z listy znajomych.
+\end{itemize}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/friends}
@@ -154,6 +233,29 @@ oraz \textit{Photos} (rys. \ref{img:photos}).
 \end{figure}
 
 \subsubsection{Add spot}
+
+Kolejnym widokiem jest strona służąca do dodawania spotów przez użytkownika (rys. \ref{img:add-spot-list}).
+Podobnie jak w poprzednich sekcjach, w górnej części umieszczono nagłówek
+z nazwą sekcji.
+Dodatkowo w prawym górnym rogu znajduje się przycisk otwierający okno modalne
+z formularzem dodawania nowego spota (rys. \ref{img:add-spot-modal}).
+Poniżej wyświetlana jest lista spotów, które zostały dodane przez
+użytkownika w aplikacji; każdy kafelek zawiera: pierwsze zdjęcie z danego
+miejsca, małą mapę z zaznaczoną lokalizacją spota, nazwę, krótki opis,
+adres (miasto i ulicę) oraz przycisk wyświetlenia szczegółowych informacji.
+
+Formularz dodawania nowego spota umieszczono w oknie modalnym.
+Na jego górze znajduje się nagłówek określający wykonywaną akcję.
+Cały modal podzielono na dwie części.
+Pierwsza zawiera pola formularza do wprowadzania informacji o spocie,
+takich jak: nazwa, opis oraz adres (miasto, ulica, numer budynku
+i kod pocztowy).
+Na dole tej części umieszczono przycisk umożliwiający dodanie materiałów
+multimedialnych (zdjęć oraz filmów).
+Druga część służy do określenia lokalizacji spota na mapie, z możliwością
+wyszukania miejsca i zaznaczenia jego obszaru.
+Na dole okna modalnego znajduje się przycisk potwierdzający dodanie
+nowego spota do systemu.
 
 \begin{figure}[H]
     \centering
@@ -165,7 +267,7 @@ oraz \textit{Photos} (rys. \ref{img:photos}).
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/add-spot-modal}
-    \caption{Projekt strony z formularzem do dodania nowego spota}
+    \caption{Projekt formularza do dodawania nowego spota}
     \label{img:add-spot-modal}
 \end{figure}
 
