@@ -85,18 +85,86 @@ Wyświetla on zdjęcie a na nim za pomocą klasy relative wyświetla liczbę pol
 wyświetleń zdjęcia wraz z odpowiednimi ikonkami.
 
 \subsubsection{Spots}
-Listy z zapisanymi spotami użytkownika.
-Wydzielono 4 takie listy:
-\begin{itemize}
-    \item Favorites - lista z ulubionymi,
-    \item Plan to visit - lista ze spotami planowanymi do odwiedzenia,
-    \item Visited liked it - lista z spotami które użytkownik odwiedził i mu się spodobały,
-    \item Visited didn't like it - lista z spotami które użytkownik odwiedził i mu się nie spodobały.
-\end{itemize}
+KOmponent Spots składa się z 3 głównych komponentów:
+- FavoriteSpots
+- FavoriteSpotTile
+- FavoriteSpotTags
 
+\texttt{FavoriteSpots} - Jest to główny komponent tej sekcji który składa wszystko w jedno.
+Na samej górze znajduje się lista "menuTypes" która służy do wyśweitlenia przycisków nawigacyjnych
+do przełaczania różnego typu list;
+Wybarany aktualnie typ listy jest przechowywany w tym tomponencie za pomocą hooka useState.
+Do pobrania danych z backendu użyto hooka useInfinityQuery z biblioteki Tanstack Query,
+co pozowliło w łatwy sposób zaimplementować infinity scrolla.
+TAk jak w Profilu cały ten komponent jest opakowany w komponent AccountWrapper,
+ale tutaj jest jeszcze dodatakowo AccountTitle który wyświetla nagłówek danej podstorny.
+Nastęnie wyśwetlane są przyciski służące do zmiany typu listy za pomocą komponentu Button.
+Przy pierwszym ładowaniu strony oraz przy ładowaniu kolejnych stron danych pokazuje się Loading spinner.
+Jeżeli użytkownik nie posiada żadnych dodanych spotów poajwia się komunikat:
+"You don't have any spots in your list." w przeciwnym razie zostaną wyświetlnone
+kafelki spotów za pomocą komponentu FavoriteSpotTile.
 
+\texttt{FavoriteSpotTile} - Przyjmuje on dwa parametry:
+-spot
+- selectedType
+Do usnięcia danego spota z którejkolwiek listy wykorzystano hook useMutatnion
+przyjmuje ona funkcję "editFavoriteSpotList" która przyjmuje następujące parametry:
+- type - typ listy
+- spotId - identyfikator spota
+- operationType - typ operacji (dodanie lub usunięcie).
+Wyśweitlają się na nim następujące informacje:
+- zdjęcie
+- liczba wyświetleń
+- lokaalizacja
+- śrenia ocen
+- nazwa spota
+- tagi spota (numer komponentu)
+- przycisk do zobaczenia spota na mapie
+- przycisk do usunięcia spota z listy
+Wyśwetla się tu również okno modalne które służy do potwierdznei usunięcia spota z danej listy,
+informacja czy modal jest otwarty przechowuje się w stanie hooka useBoolean.
+
+\texttt{FavoriteSpotTags} - przyjmuje on tylko listę tagów które, wyśwetla tylko ich nazwę w liście
 
 \subsubsection{Photos}
+Zdjęcia składają się z trzech głównych komponentów:
+- Photos
+- Media
+- Photo
+
+\texttt{Photos} - Bardzo prosty komponent który wyświetla komponent Media,
+dane są pobierane za pomocą useInfiniteQuery dzięki czemu korzysta z infinite scrolla.
+W useEffect za pomocą dispatcha z biblioteki redux ustawiany jest komunikat o błędzie,
+jeżeli takowy się pokaże.
+
+\texttt{Photo} - przyjmuje on tylko jeden parametr: photo czyli zdjęcie z listy.
+Wyśwetla on zdjęcie z listy a na zdjęciu za pomocą klas relative i absolute
+ukazuje pasek z informacją o liczbie polubień oraz liczbie wyświetleń wraz
+z odpowiednimi ikonami.
+
+\texttt{Media} - Jest to uniwersalny komponent dla zdjęć oraz filmów użytkownika.
+Przyjmuje on osiem parametrów:
+- variant - używany do komponentu AccountWrapper
+- searchDate - obiekt który przetrzymuje dane do filtrowania po dacie
+- onSortChange - funkcja używana do sortowania
+- onDateChange - funckja używana do ustawienia filtrowania po dacie
+- isLoading - informuje czy dane sę pobierane
+- mediaList - typ który określa czy są to zdjęcia czy filmy
+- loadMoreRef
+- isFetchingNextPage - informuje czy pobiera kolejną stronę z danych użytkownika
+Tak jak w pozostałych sekcjach korzysta on z AccountWrapper do opakowania całego widoku w identyczny wygkląd.
+Korzysta również z komponentu AccountTitle wyświetla on albo "Photos" albo "Movies"
+w zależności od typu wariantu.
+NAstępnie wyświetla komponent SortAndDateFilters które wyświetlają panel sortowania
+oraz kormularze do wyboru daty od oraz do służące do filtrowania.
+Wtedy jest wyśweitlana jest lista filmów lub zdjęć które są zgrupowne po
+dacie Za pomocą komponentu DateBadge który przyjmuje datę i ją wyświetla.
+Wtedy w liście w zależności od tego czy variat to zdjęcia czy filmy wyświetla odwpowieni
+komponent (Photos lub Movies).
+Jeżeli użytkownik nie posiada żadnych mediów wyświetla się komunikat:
+"You haven't added any (photos lub movies)".
+Jak dane się ładują albo ładuje się kolejna strona danych pokazuje sie komponent LoadingSpinner.
+
 \subsubsection{Movies}
 \subsubsection{Social}
 \subsubsection{Add spot}
