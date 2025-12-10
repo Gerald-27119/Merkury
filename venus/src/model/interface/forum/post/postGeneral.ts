@@ -1,4 +1,4 @@
-import ForumCategoryDto from "../forumCategoryDto";
+import PostCategoryDto from "../postCategoryDto";
 import TagDto from "../../tagDto";
 
 export default interface PostGeneral {
@@ -7,7 +7,7 @@ export default interface PostGeneral {
     slugTitle: string;
     summaryContent: string;
     content: string;
-    category: ForumCategoryDto;
+    category: PostCategoryDto;
     tags: TagDto[];
     views: number;
     commentsCount: number;

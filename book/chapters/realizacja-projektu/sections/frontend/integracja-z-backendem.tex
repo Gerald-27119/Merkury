@@ -4,45 +4,47 @@
 \subsection{Integracja i komunikacja z backendem}
 \label{subsec:integracja-i-komunikacja-z-backendem}
 
+W niniejszym podrozdziale opisano sposób integracji aplikacji \glslink{frontend}{frontendowej} z \glslink{backend}{backendem} oraz
+mechanizmy odpowiedzialne za bezpieczną i efektywną komunikację z serwerem. \newline
+
 Jest to kluczowy element aplikacji, ponieważ wymaga bezpiecznego przesyłania danych użytkownika.
-W celu uproszczenia komunikacji z serwerem skorzystaliśmy z
-biblioteki \texttt{axios}~\cite{axios} oraz \glslink{biblioteka}{Biblioteki} \texttt{TanStack Query}~\cite{tanstack-query}.
-We wszystkich ścieżkach, które wymagają aby użytkownik był zalogowany, do zapytania dołączany jest token
-\gls{jwt}. Token jest przekazywany w ciasteczku dzięki ustawieniu parametru \texttt{withCredentials} na wartość \texttt{true}.
+W celu uproszczenia komunikacji z serwerem zdecydowano się na wykorzystanie
+biblioteki \texttt{axios}~\cite{axios} oraz \glslink{biblioteka}{biblioteki} \texttt{TanStack Query}~\cite{tanstack-query}.
+We wszystkich ścieżkach wymagających zalogowania użytkownika do zapytania dołączany jest token \gls{jwt}.
+Token przekazywany jest w ciasteczku dzięki ustawieniu parametru \texttt{withCredentials} na wartość \texttt{true}.
 Przykładem pliku odpowiedzialnego za taką komunikację jest \texttt{account.js}
-(rys. \ref{img:account-axios1} i \ref{img:account-axios2}), który obsługuje operacje związane z logowaniem,
+(rys. \ref{img:account-axios1} i \ref{img:account-axios2}), który obsługuje operacje związane z logowaniem
 rejestracją, zmianą hasła oraz wylogowaniem.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/account-axios1}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/account-axios1}
     \caption{Implementacja modułu \texttt{account} (1)}
     \label{img:account-axios1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/account-axios2}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/account-axios2}
     \caption{Implementacja modułu \texttt{account} (2)}
     \label{img:account-axios2}
 \end{figure}
-Funkcje odpowiedzialne za komunikację z backendem zostały umieszczone w katalogu \texttt{/http}.
+
+Funkcje odpowiedzialne za komunikację z backendem umieszczono w katalogu \texttt{/http}.
 Dzięki temu są one scentralizowane i mogą być w prosty sposób wykorzystywane w różnych częściach aplikacji.
-Zastosowaliśmy TanStack Query, ponieważ znacząco ogranicza on powtarzalny kod oraz upraszcza obsługę błędów i
-stanów zapytania (takich jak ładowanie danych, błąd, sukces). \glslink{biblioteka} udostępnia m.in.
-wartość \texttt{isLoading},
-dzięki czemu komponent może łatwo wyświetlić ekran ładowania bez ręcznego zarządzania własnym stanem.
-Dodatkowo \gls{hook} \texttt{useQuery} z tej \glslink{biblioteka}{Biblioteki} umożliwia automatyczne pobieranie danych po wejściu na daną podstronę.
-Oznacza to, że komponent deklaruje jedynie „jakie dane są mu potrzebne”, a TanStack Query zajmuje się ich pobraniem,
-cache’owaniem oraz odświeżaniem.
-Do operacji, które wymagają wywołania akcji po stronie użytkownika (np. wysłania formularza logowania),
-wykorzystujemy \gls{hook} \texttt{useMutation} z TanStack Query.
-Przykład użycia tego rozwiązania w procesie
-logowania został przedstawiony na rys. \ref{img:login-tanstack}.
+Zastosowanie TanStack Query umożliwiło znaczące ograniczenie powtarzalnego kodu oraz uprościło obsługę błędów i
+stanów zapytania (takich jak ładowanie danych, błąd czy sukces).
+Biblioteka udostępnia m.in. wartość \texttt{isLoading}, dzięki czemu komponent może łatwo wyświetlić ekran ładowania
+bez konieczności ręcznego zarządzania własnym stanem.
+Dodatkowo \glslink{hook}{hook} \texttt{useQuery} pozwala na automatyczne pobieranie danych po wejściu na daną podstronę.
+Komponent deklaruje jedynie, jakie dane są mu potrzebne, a TanStack Query realizuje ich pobranie, cache’owanie oraz odświeżanie.
+Do operacji wymagających wywołania akcji po stronie użytkownika (np. wysłania formularza logowania)
+wykorzystywany jest \glslink{hook}{hook} \texttt{useMutation} z TanStack Query.
+Przykład użycia tego rozwiązania w procesie logowania przedstawiono na rys. \ref{img:login-tanstack}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/login-tanstack}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/login-tanstack}
     \caption{Wykorzystanie TanStack Query przy logowaniu użytkownika}
     \label{img:login-tanstack}
 \end{figure}

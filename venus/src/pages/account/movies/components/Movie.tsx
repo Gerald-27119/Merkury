@@ -24,7 +24,7 @@ export default function Movie({ movie }: MovieProps) {
         useBoolean();
 
     return (
-        <li className="group relative">
+        <li className="group relative" data-testid="user-movie-li">
             <MediaController
                 style={{
                     aspectRatio: "16/9",
@@ -32,6 +32,7 @@ export default function Movie({ movie }: MovieProps) {
                 className="media-controller relative h-64 w-full overflow-hidden rounded-2xl drop-shadow-md"
             >
                 <ReactPlayer
+                    data-testid="user-movie"
                     playing={isVideoPlaying}
                     slot="media"
                     src={movie.src}

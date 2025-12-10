@@ -4,12 +4,19 @@ import HeadingDropdown from "./HeadingDropdown";
 import LinkFormButton from "./LinkFormButton";
 import { LuLink, LuImage } from "react-icons/lu";
 import EditorIconButton from "./EditorIconButton";
+import FileUploadButton from "./FileUploadButton";
 
 interface MenuBarProps {
     editor: Editor | null;
+    onFileError?: (msg: string) => void;
+    onFileSuccess?: () => void;
 }
 
-export default function MenuBar({ editor }: MenuBarProps) {
+export default function MenuBar({
+    editor,
+    onFileError,
+    onFileSuccess,
+}: MenuBarProps) {
     if (!editor) {
         return null;
     }
@@ -40,11 +47,6 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 .run();
         }
     };
-    const handleImageLinkSubmission = (href: string) => {
-        if (href) {
-            editor.chain().focus().setImage({ src: href, alt: "image" }).run();
-        }
-    };
 
     return (
         <div className="mb-1 flex w-full flex-wrap space-x-2">
@@ -58,7 +60,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
             ))}
             <HeadingDropdown editor={editor} size={18} />
 
-            {options.slice(2).map((option, index) => (
+            {options.slice(2).map((option) => (
                 <EditorIconButton
                     key={option.id}
                     icon={option.icon}
@@ -74,11 +76,12 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onSubmit={handleLinkSubmission}
             />
 
-            <LinkFormButton
-                placeholder="image.jpg"
+            <FileUploadButton
+                editor={editor}
                 icon={LuImage}
                 size={18}
-                onSubmit={handleImageLinkSubmission}
+                onFileError={onFileError}
+                onFileSuccess={onFileSuccess}
             />
         </div>
     );

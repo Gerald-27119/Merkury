@@ -3,6 +3,9 @@ package com.merkury.vulcanus.features.azure;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.batch.BlobBatch;
+import com.azure.storage.blob.batch.BlobBatchClient;
+import com.azure.storage.blob.batch.BlobBatchClientBuilder;
 import com.azure.storage.blob.models.BlobStorageException;
 import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.FileUploadFailedException;
@@ -18,6 +21,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -54,6 +58,27 @@ public class AzureBlobService {
         BlobClient blobClient = blobContainerClient.getBlobClient(blobName);
         if (Boolean.TRUE.equals(blobClient.exists())) {
             blobClient.delete();
+        }
+    }
+
+    public void deleteBatch(String containerName, List<String> fileUrls) throws BlobContainerNotFoundException, URISyntaxException {
+        BlobContainerClient blobContainerClient = blobServiceClient.getBlobContainerClient(containerName);
+        validateContainerName(blobContainerClient, containerName);
+
+        BlobBatchClient blobBatchClient = new BlobBatchClientBuilder(blobServiceClient).buildClient();
+
+        // Azure Blob batch supports max 256 subrequests and total body size up to 4 MB per batch
+        int batchSize = 256;
+        for (int i = 0; i < fileUrls.size(); i += batchSize) {
+            List<String> batch = fileUrls.subList(i, Math.min(i + batchSize, fileUrls.size()));
+            BlobBatch blobBatch = blobBatchClient.getBlobBatch();
+
+            for (String fileUrl : batch) {
+                String blobName = Paths.get(new URI(fileUrl).getPath()).getFileName().toString();
+                blobBatch.deleteBlob(containerName, blobName);
+            }
+
+            blobBatchClient.submitBatch(blobBatch);
         }
     }
 

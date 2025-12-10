@@ -59,4 +59,8 @@ public class PostComment extends Comment {
     @Builder.Default
     private Set<UserEntity> downVotedBy = new HashSet<>();
 
+    @Builder.Default
+    @ToString.Exclude
+    @OneToMany(mappedBy = "postComment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostCommentMedia> media = new ArrayList<>();
 }

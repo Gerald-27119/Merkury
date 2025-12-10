@@ -85,7 +85,7 @@ public class Spot {
     @Builder.Default
     @EqualsAndHashCode.Exclude
     @ManyToMany
-    @JoinTable(name= "tags_od_spots",
+    @JoinTable(name= "tags_of_spots",
     joinColumns = @JoinColumn(name = "spot_id"),
     inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<SpotTag> tags = new HashSet<>();

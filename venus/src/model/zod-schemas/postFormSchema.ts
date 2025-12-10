@@ -12,8 +12,8 @@ export const PostFormSchema = z.object({
         .min(3, "Title must be at least 3 characters long.")
         .max(100, "Title must be less than 100 characters long")
         .regex(
-            /^[a-zA-Z0-9?!():',.\s]+$/,
-            "Allowed special characters: ?!():',.",
+            /^[a-zA-ZąćęłńóśżźĄĆĘŁŃÓŚŻŹ0-9?!():',.\s]+$/,
+            "Allowed special characters: ?!():',. and Polish letters",
         ),
     category: z
         .object({
@@ -31,7 +31,6 @@ export const PostFormSchema = z.object({
                 label: z.string(),
             }),
         )
-        .max(3, "You can't select more than 3 tags")
         .optional(),
     content: z
         .string()

@@ -14,7 +14,6 @@ export async function registerUser(user) {
 }
 
 export async function sentEmailWithNewPasswordLink(email) {
-    console.log("sending email...");
     return await axios.post(
         `${BASE_URL}/public/account/forgot-password`,
         email,

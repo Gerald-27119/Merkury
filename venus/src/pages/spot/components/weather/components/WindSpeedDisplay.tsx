@@ -20,14 +20,14 @@ export default function WindSpeedDisplay({ value }: { value: number }) {
             </div>
             <div className="mt-4 flex w-full items-center justify-center">
                 <button
-                    className={`${speedUnit === "m/s" ? "bg-paleBlueGray/30" : "bg-lightGrayishBlue"} rounded-l-2xl px-4 ${buttonBaseClasses}`}
+                    className={`${speedUnit === "m/s" ? "bg-paleBlueGray/30 dark:bg-violetBright" : "bg-lightGrayishBlue dark:bg-violetBrighter/80"} rounded-l-2xl px-4 ${buttonBaseClasses}`}
                     onClick={() => setSpeedUnit("m/s")}
                 >
                     m/s
                 </button>
                 <hr className="absolute left-28 z-50 h-5 w-1 rounded-full bg-white" />
                 <button
-                    className={`${speedUnit === "km/h" ? "bg-paleBlueGray/30" : "bg-lightGrayishBlue"} rounded-r-2xl px-3 ${buttonBaseClasses}`}
+                    className={`${speedUnit === "km/h" ? "bg-paleBlueGray/30 dark:bg-violetBright" : "bg-lightGrayishBlue dark:bg-violetBrighter/80"} rounded-r-2xl px-3 ${buttonBaseClasses}`}
                     onClick={() => setSpeedUnit("km/h")}
                 >
                     km/h

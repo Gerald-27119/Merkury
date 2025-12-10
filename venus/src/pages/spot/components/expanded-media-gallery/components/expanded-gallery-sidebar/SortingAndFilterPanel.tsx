@@ -29,7 +29,7 @@ export default function SortingAndFilterPanel() {
     );
 
     return (
-        <ul className="my-4 flex flex-wrap justify-center space-y-3 space-x-3">
+        <ul className="dark:text-darkText text-violetDark my-4 flex flex-wrap justify-center space-y-3 space-x-3">
             <li>
                 <OptionButton
                     label={"Images"}

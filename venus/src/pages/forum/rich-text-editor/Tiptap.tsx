@@ -6,6 +6,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import MenuBar from "./MenuBar";
 import TextAlign from "@tiptap/extension-text-align";
 import { RichTextEditorVariantType } from "../../../model/enum/forum/richTextEditorVariantType";
+import { forumAllowedMimeTypes } from "../../../model/interface/forum/forumAllowedMimeTypes";
 
 interface TiptapProps {
     placeholder: string;
@@ -13,6 +14,8 @@ interface TiptapProps {
     onChange: (value: string) => void;
     onBlur: () => void;
     variant: RichTextEditorVariantType;
+    onFileError?: (msg: string) => void;
+    onFileSuccess?: () => void;
 }
 
 export default function Tiptap({
@@ -21,7 +24,13 @@ export default function Tiptap({
     onChange,
     onBlur,
     variant = RichTextEditorVariantType.DEFAULT,
+    onFileError,
+    onFileSuccess,
 }: TiptapProps) {
+    const isAllowedFile = (file: File) => {
+        return forumAllowedMimeTypes.includes(file.type);
+    };
+
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -42,7 +51,66 @@ export default function Tiptap({
                 inline: false,
                 allowBase64: true,
             }),
-            FileHandler.configure(),
+            FileHandler.configure({
+                onDrop: (currentEditor, files, pos) => {
+                    files.forEach((file) => {
+                        if (!isAllowedFile(file)) {
+                            onFileError?.(
+                                "File type not allowed. Only PNG, JPEG, GIF, WEBP are supported.",
+                            );
+                            return;
+                        }
+                        onFileSuccess?.();
+
+                        const fileReader = new FileReader();
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = () => {
+                            currentEditor
+                                .chain()
+                                .insertContentAt(pos, {
+                                    type: "image",
+                                    attrs: {
+                                        src: fileReader.result,
+                                        alt: "image",
+                                    },
+                                })
+                                .focus()
+                                .run();
+                        };
+                    });
+                },
+                onPaste: (currentEditor, files, htmlContent) => {
+                    if (htmlContent) return false;
+                    files.forEach((file) => {
+                        if (!isAllowedFile(file)) {
+                            onFileError?.(
+                                "File type not allowed. Only PNG, JPEG, GIF, WEBP are supported.",
+                            );
+                            return;
+                        }
+                        onFileSuccess?.();
+
+                        const fileReader = new FileReader();
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = () => {
+                            currentEditor
+                                .chain()
+                                .insertContentAt(
+                                    currentEditor.state.selection.anchor,
+                                    {
+                                        type: "image",
+                                        attrs: {
+                                            src: fileReader.result,
+                                            alt: "image",
+                                        },
+                                    },
+                                )
+                                .focus()
+                                .run();
+                        };
+                    });
+                },
+            }),
         ],
         content: value,
         onUpdate: ({ editor }) => {
@@ -67,7 +135,11 @@ export default function Tiptap({
     return (
         <>
             <div className={`${wrapperVariants[variant]}`}>
-                <MenuBar editor={editor} />
+                <MenuBar
+                    editor={editor}
+                    onFileError={onFileError}
+                    onFileSuccess={onFileSuccess}
+                />
                 <EditorContent
                     editor={editor}
                     onBlur={onBlur}

@@ -10,6 +10,7 @@ export default function CommentsList({ comments }: CommentsListProps) {
             {comments.map((c) => (
                 <li
                     key={c.id}
+                    data-testid="comment"
                     className="dark:bg-darkBgSoft bg-lightBgSoft flex flex-col rounded-md px-2 py-1.5"
                 >
                     <p className="dark:text-darkBorder text-lightText/70">

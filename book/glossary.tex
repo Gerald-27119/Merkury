@@ -621,3 +621,93 @@
 }
 
 
+
+\newglossaryentry{redis}{
+    name={Redis},
+    description={Baza danych typu klucz–wartość wykorzystywana jako szybka warstwa \glslink{cache}{cache}}
+}
+
+\newglossaryentry{moscow}{
+    name={MoSCoW},
+    description={Metoda nadawania priorytetów wymaganiom, wyróżniająca kategorie:
+    \emph{Must have}, \emph{Should have}, \emph{Could have} oraz
+    \emph{Won't have this time}}
+}
+
+\newglossaryentry{cache}{
+    name={Cache},
+    description={Mechanizm przechowywania danych w celu przyspieszenia ich ponownego odczytu}
+}
+
+\newglossaryentry{jvm}{
+    name={JVM},
+    description={(ang. \textit{Java Virtual Machine}); maszyna wirtualna oraz środowisko do wykonywania kodu bajtowego Javy}
+}
+
+\newglossaryentry{spring-framework}{
+    name={Spring Framework},
+    description={Framework, który służy do tworzenia aplikacji w Javie.
+    Zajmuje się między innymi ustawianiem konfiguracji oraz zarządzaniem zależnośćiami,
+    np.: wstrzykiwaniem (ang. \textit{Dependency Injection}), odwróceniem kontroli (ang. \textit{Inversion of Control}).
+    Oferuje wiele modułów wspierających, które ułatwiają rozwój projektów}
+}
+
+\newglossaryentry{convention-over-configuration}{
+    name={Convention Over Configuration},
+    description={Zasada programowania polegająca na przyjmowaniu domyślnych, bazowych regół, zamiast ręcznego implementowania konfiguracji}
+}
+
+\newglossaryentry{dom}{
+    name={DOM},
+    description={(ang. \textit{Document Object Model}); interfejs reprezentacji stron internetowych jako węzły i obiekty.
+    Dzięki temu skrypty, np. napisane w JavaScript, mogą wchodzić w interakcje ze stroną
+    (np. modyfikować strukturę, treść lub styl)}
+}
+
+\newglossaryentry{query-params}{
+    name={Parametry zapytania (query params)},
+    description={Pary \texttt{klucz=wartość} przekazywane w części adresu URL po znaku zapytania \texttt{?}, służące m.in. do filtrowania, sortowania, paginacji wyników lub przekazywania dodatkowych opcji żądania do serwera, np. \texttt{?param1=val1\&param2=val2}}
+}
+
+\newglossaryentry{docker}{
+    name={Docker},
+    description={Platforma do konteneryzacji aplikacji wykorzystująca wirtualizację na poziomie systemu operacyjnego.
+    Umożliwia uruchamianie oprogramowania w lekkich, odizolowanych kontenerach wraz z wszystkimi zależnościami,
+    co ułatwia przenoszenie i powtarzalne odtwarzanie środowisk uruchomieniowych}
+}
+
+\newglossaryentry{docker-compose}{
+    name={Docker Compose},
+    description={Narzędzie służące do definiowania i uruchamiania aplikacji składających się z wielu kontenerów Docker.
+    Konfiguracja usług (m.in. obrazy, porty, wolumeny i sieci) opisywana jest w pliku YAML (np. \texttt{docker-compose.yml}),
+    a następnie uruchamiana jednym poleceniem}
+}
+
+\newglossaryentry{docker-hub}{
+    name={Docker Hub},
+    description={Publiczne repozytorium (rejestr) obrazów kontenerów Docker,
+    umożliwiające przechowywanie, udostępnianie oraz dystrybucję obrazów.
+    Użytkownicy mogą korzystać z oficjalnych obrazów przygotowanych przez społeczność
+    i dostawców oprogramowania lub publikować własne obrazy}
+}
+
+\newglossaryentry{kontener}{
+    name={kontener},
+    description={Lekka, odizolowana jednostka uruchomieniowa, w której umieszczana jest aplikacja wraz z jej zależnościami
+    (bibliotekami, konfiguracją itp.). Kontenery współdzielą jądro systemu operacyjnego, ale posiadają własną
+    przestrzeń procesów, systemu plików i sieci, co zapewnia powtarzalne i przenośne środowisko uruchomieniowe,
+    najczęściej zarządzane przez platformę taką jak \glslink{docker}{docker}}
+}
+
+
+\newglossaryentry{spa}{
+    name={SPA},
+    description={(ang. \textit{Single Page Application}); aplikacja webowa, która zawiera jeden plik HTML.
+    Po jednorazowym wczytaniu jej zawartość jest zmieniana bez ponownego przeładowania}
+}
+
+\newglossaryentry{wolumen}{
+    name={Wolumen},
+    description={Zarządzane przez Dockera magazyny danych dla kontenerów, które
+    są odizolowane od maszyny hosta.}
+}

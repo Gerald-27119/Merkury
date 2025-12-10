@@ -29,9 +29,11 @@ export default function ControlledSelect<T extends FieldValues>({
                     isMultiChoice={isMultiChoice}
                     options={options}
                     value={field.value}
+                    isClearable={true}
                     onChange={field.onChange}
                     onBlur={field.onBlur}
                     error={error}
+                    variant="form"
                 />
             )}
         />
