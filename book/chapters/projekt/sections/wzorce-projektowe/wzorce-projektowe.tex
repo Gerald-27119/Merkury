@@ -33,8 +33,6 @@ Poniżej przedstawiono wybrane rozwiązania.
             \label{fig:diagram-proxy}
         \end{figure}
         \noindent
-        \item \textbf{Inversion of Control}
-        \item \textbf{Dependency Injection}
         \item \textbf{Singleton} \textemdash \space to kreacyjny \glslink{wzorzec}{wzorzec} projektowy zapewniający
         istnienie dokładnie jednej instancji danego obiektu, która jest dostępna globalnie.
         Kontruktor takiego obiektu jest prywatny, a dostęp do niego odbywa się poprzez statyczną metodę zwracającą
@@ -55,6 +53,13 @@ Poniżej przedstawiono wybrane rozwiązania.
         Stworzony zostaje obiekt budujący (Budowniczy), który implemnetuje poszczególne kroki kontrukcji obiektu, a na końcu
         wywoływana jest metoda inicjalizująca go.
         Nie jest wymagane wywołanie wszystkich kroków, ponadto można stworzyć wielu Budowniczych, kreujących różne warianty obiektu.
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/builder}
+            \caption{Diagram klas wzorca projektowego Builder}
+            \label{fig:diagram-builder}
+        \end{figure}
+        \noindent
     \end{itemize}
     \item \textbf{\glslink{frontend}{Frontend}}
     \begin{itemize}
