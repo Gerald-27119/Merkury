@@ -26,6 +26,13 @@ Poniżej przedstawiono wybrane rozwiązania.
         Obiekt ten może zawierać dodatkową logikę, taką jak kontrola dostępu do zasobu, sprawdzenie uprawnień do wykonania zadanej operacji,
         utworzenie oryginalnego obiektu czy \glslink{cache}{cache'owanie}.
         Dla klienta korzystanie z takiego pośrednika jest identyczne jakby był to oryginalny zasób.
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/proxy}
+            \caption{Diagram klas wzorca projektowego Proxy}
+            \label{fig:diagram-proxy}
+        \end{figure}
+        \noindent
         \item \textbf{Inversion of Control}
         \item \textbf{Dependency Injection}
         \item \textbf{Singleton} \textemdash \space to kreacyjny \glslink{wzorzec}{wzorzec} projektowy zapewniający
@@ -50,3 +57,6 @@ Poniżej przedstawiono wybrane rozwiązania.
         \item \textbf{Protected route}
     \end{itemize}
 \end{itemize}
+
+Opisy \glslink{wzorzec}{wzorców} projektowych użytych na \glslink{backend}{backendzie} (oprócz MVC) zostały
+wykonane na podstawie treści zawartych w książce \cite{wzorce-projektowe}.
