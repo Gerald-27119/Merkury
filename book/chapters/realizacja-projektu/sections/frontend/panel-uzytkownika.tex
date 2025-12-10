@@ -1,5 +1,6 @@
 %! Author = Mateusz
 %! Date = 19/11/2025
+%!TEX root = ../../sprz.tex
 
 \subsection{Panel użytkownika}
 \label{subsec:panel-uzytkownika-frontend}
@@ -166,7 +167,173 @@ Jeżeli użytkownik nie posiada żadnych mediów wyświetla się komunikat:
 Jak dane się ładują albo ładuje się kolejna strona danych pokazuje sie komponent LoadingSpinner.
 
 \subsubsection{Movies}
+Filmy składają się z trzech głównych komponentów:
+- Movies
+- Media
+- Movie
+
+\texttt{Movies} - Komponent który wyświetla komponent Media wygląda niemal identycznie jak
+komponent photos różni się tylko przyjmowaną metodą,
+dane są pobierane za pomocą useInfiniteQuery dzięki czemu korzysta z infinite scrolla.
+W useEffect za pomocą dispatcha z biblioteki redux ustawiany jest komunikat o błędzie,
+jeżeli takowy się pokaże.
+
+\texttt{Movie} - przyjmuje on tylko jeden parametr: movie czyli zdjęcie z listy.
+Wyśwetla on film wraz z możliwością odtworzenia takowego
+z listy a na zdjęciu za pomocą klas relative i absolute ukazuje pasek z informacją
+o liczbie polubień oraz liczbie wyświetleń wraz z odpowiednimi ikonami.
+Do odtwarzania filmów wykorzystano bibliotkę "react-player".
+
 \subsubsection{Social}
+
+
 \subsubsection{Add spot}
+Sekcja z dodanymi spotami składa się z siedmiu głównych komponentów:
+- AddedSpot
+- UploadButton
+- SpotMap
+- PolygonDrawer
+- AddSpotModal
+- AddSpotInput
+- AddSpotTile
+
+\texttt{AddedSpot} - Jest to główny komponent tej sekcji służy on do wyświetlenia listy spotów
+oraz otworzenia okna modlanego do dodania nowego spota, stan do tego jest zarządzany przez hooka useBoolean.
+Na początku pobierane dane są za pomocą useInfinityQuery dzięki czemu jest tu zaimplementowany mechanizm
+infinity scroll.
+Tak jak w pozostałych sekcjach użyto tutaj komponentów AccountWrapper oraz AccountTitle.
+Dodano tutaj też przycisk do otwarcia okna modalnego do dodania nowego spota, okno to
+otworzy się tylko na ekranach których szerokość jest większa od 900px.
+Jeżeli użytkownik dodał jakiekolwiek spoty wyśweitli się lista komponentów
+AddedSpotTile lecz jeżeli nie dodał żadnego wyśweitli się następujący komunikat  "You haven't added any spots yet."
+Przy pierwszym ładowaniu strony oraz przy scrolowaniu w dół i ładowaniu kolejych
+elementów listy pokaże się LoadingSpinner.
+
+\texttt{UploadButton} - przyjmuje on tylko jeden parametr, onFileSelect jest to funkcja
+która służy do ustawienia listy zdjęć oraz filmów które użytkownik dodaje do spota.
+W komponencie trzymany jest stan z dodanymi mediami.
+Użytkownik może też tu usunąć zdjęcie lub film które dodał.
+Wyśweilane są tu przycisk do dodania multimediów oraz ich lista jako miniaturowe
+zdjęcia oraz filmy po najechaniu i naciśnięciu na taką miniaturkę zostaje ona usunięta.
+
+\texttt{SpotMap} - Jest to komponent który przymuje dwie współżędne szerokość i wysokość geograficzną
+położenia spota.
+Wyświetla ona lokalizację spota na małej mapie za pomocą pineski.
+Do wyświetlenia mapy wykorzystano bibliotekę maplibregl
+
+\texttt{PolygonDrawer} - Jest to mapa służąca do zaznaczenia konturów dodawanego spota.
+Przyjmuje ona trzy parametry:
+- onPolygonComplete - funkcja służąca do potwierdznia konturów
+- initialPosition - pozycja na mapie
+- borderPointsError - komunikaty błędów
+Ustawione koordynaty spota są trzymane w useState w tym komponencie.
+Przy zmianie danych w parametrze initialPosition użytkownik zostaje automatycznie przeniesiony w nowe miejsce.
+Po kliknięciu w dane miejsce na mapie jego współżedne sa oddawane do listy w useState,
+po dodaniu trzeciego pokazuje się również pole danego spota.
+Głównym komponentem jest mapa z maplibregl która za pomocą inych komponentów
+wyświetla odpowiednie pole.
+Poniżej znajdują się dwa przycsiki jeden do cofnięcia dodania ostaniego punktu,
+drugi do zatwierdznie punktów.
+
+\texttt{AddSpotModal} - Komponent ten służy do dodawania nowego spota przez użytkownika.
+Przyjmuje on dwa parametry:
+- onClose - funkcja do zamykania modala
+- isOpen - informacja czy okno modalne jest otwarte
+Zawiera on stany do błędów walidacji oraz dane dodawanego spota.
+Po wpisaniu wszystkich danych adresowych mapka zostanie automatycznie przeniesiona
+na daną lokalizację.
+Do dodania nowego spota wykorzystno hooka useMutation który obsługuje również komunikaty o
+pozytywnym zapisie oraz o błędach.
+Do płynnego pojawienia się okna modalnego wykorzystano komponent AnimateProsence z biblioteki motion
+wraz z motion.div z ustawionymi odpowiednimi wartościami.
+Komponent ten wyświetla nagłówek który mówi gdzie użytkownik się znajduje oraz w prawym górnum roku przycisk
+do zamknięcia.
+Jest podzielony rownież na dwie części po lewej wyświetlają się formularze
+do podania podstawowych danych o spocie oraz adresie (komponent AddSpotInput),
+oraz komponent do dadania multimediów.
+Po prawej natomiast znajduje się mapa (komponent PolygonDrawer).
+Na samym dole są dwa przyciski (komponenty Button) jeden do zamknięcia okna modalnego
+drugi do dodania spota.
+Do wyświetlenia modala użyto hooka createPortal dzięki czemu można w łatwy i szybki
+sposób określić gdzie w drzewie DOM ma się on znaleść.
+
+\texttt{AddSpotInput} - Jest to komponent do wyświetlenia i obsługi listy pól formularza
+posaiada stan błędów do walidacji w hooku useState.
+Przyjmuje on trzy parametry
+- config - lista pól do wyświetlenia
+- spot - dane do wyświetlenia w polach
+- onChange - funkcja do obsługi pól
+Wyświetla on listę komponentów FormInput jest to ogólny komponent do pola formularzu
+używany w wielu miejscach aplikacji.
+Do walidacji wykorzystano tu bibliotekę zod a schemat walidacji znajduje się w plik spotSchema.
+
+\texttt{AddedSpotTile} - Jest to kafelek do wyświetlnia daych o dodanym spocie w komponencie AddedSpot,
+przyjmuje on tylko parametr spot.
+Wyśwwietla on:
+- zdjęcie spota,
+- małą mapke (komponent SpotMap) z informacją o jego lokalizacji,
+- nazwę spota,
+- opis spota,
+- adres ( kraj, miast i ulicę)
+
+
 \subsubsection{Comments}
+Komentarze składają się z dwóch głównych komponentów:
+- Comments
+- CommentsList
+
+\texttt{Comments} - wyglądem i budową przypomina bardzo sekcję filmów i zdjęć;
+Tylko tutaj do sortowania i filrtowania stworzono customowy hook useDateSortFilter.
+Do pobierania danych użyto hooka useIfinityQuery dzięki czemu skorzystano z infinity scrolla.
+W hooku useEffect z pomocą dispatch ustawiono komunikat o błędzie który jest wyświetlany w komponencie notification.
+Tak jak w pozostałych sekcjach tuttaj również skorzystano z AccountWrapper oraz AccountTitle,
+dodatkowo jak w filmach i zdjęciach użyto komponentu SortAndDateFilters.
+Następenie wyśwetla się lista komentarzy jeżeli użytkownik posiada jakieś,
+została ona pogrupowana po dacie oraz spocie i obie te inforamcje wyśweitlajane są za pomocą
+komponentu DateBadge data jest przesyłana za pomocą parametru date, a komunikat do jakiego
+spota został dodany ten komentarz za pomocą parametru children.
+Same komentarze są wyświetlane za pomocą komponentu CommentsList.
+Jeżeli uzytkownik nie posiada żadnych dodanych komentarzy wyświetli się komunikat
+"You haven't added any comments.".
+Przy pierwszym ładowaniu stron oraz przy scrolowaniu w dół pokazuje się Loading spinner.
+
+\texttt{CommentsList} - przyjmuje on tylko jeden parametr czyli listę komentarzy które ma wyświetlić.
+Każdy komentarz posiada godzinę dodania oraz jego treść.
+
 \subsubsection{Settings}
+
+Do ustawień stworzono dwa główne komponenty:
+- Settings
+- DisableInput
+
+\texttt{Settings} - Jest to główny komponent do ustawień zarządza on którą informację
+użytkownik planuje zmienić oraz wyświetleniem odpowiednich pól formularzy.
+Typ danych które uzytkonik planuje edytować jest przetrzymuwany w useState.
+Na początku za pomocą hooka useQuery pobierane są dane użytkownik i wyśweitlane w
+komponentach DisableInput.
+Po wyborze danych które użytkownik chce zmienić po prawej stronie ukazuje się sekcja z
+z odpowiednimi polami.
+Po wpisaniu zmienionych danych i kliknięciu przycisku dane są wysyłane za pomocą
+hooka useMutation jeżeli pojawi się błądą zostaje on wyśwetlony w komponencie Notification,
+jeżeli wszystko zakończy się sukcesem ukazany sotanie komunikat o pozytywnej zmianie.
+Ten komponent również korzysta z AccountWrapper oraz AccountTitle,
+Jeżeli użytkownik założył konto za pomocą formularza rejestracji może zmienić dane
+i wyświetlą się podane wyżej pola formularzy.
+Lecz jeżeli użytkownik zalogował się za pomocą Google lub Github pojawi się komunikat
+"Your account was created via (Google lub Github)" w zależniści czym zalogował się,
+oraz "Your email address is (...) and cannot be changed.".
+Dla zmieny nazwy użytkownika oraz e-maila pokaże się tylko jedno pole,
+natomiast jeżeli użytkownik planuje zmienić hasło pokażą się trzy pola
+do starego hasła, nowego hasła i powtórzenia nowego hasła.
+Wszytkie pola są odpowiednio walidowane za pomocą biblioteki zod jego schamat
+znajdujje się w pliku validationSchema.
+
+\texttt{DisableInput} - przyjmuje on pięć parametrów:
+- label - nazwę pola
+- value - jego wartość
+- type - password lub text
+- id - identyfikator pola
+- onEdit - funkcję do ustawienia co użytkownik chce edytować
+Komponent ten wyświetla tylko informacje o nazwie oraz pole z wypisanymi wartościami
+dla hasła wyświetlane są gwiazdki, oraz przycisk edit który słóży do wybrania co
+użytkownik planuje edytować.
