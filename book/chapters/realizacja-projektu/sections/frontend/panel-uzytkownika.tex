@@ -21,15 +21,68 @@ Został on podzielony na 8 zakładek:
 \end{itemize}
 
 \subsubsection{Profile}
-Profil użytkownika został zbudowany z dwóch głównych komponentów (ProfileForViewer oraz UserOwnProfile).
-W obu jest używany reużywalny komponent Profile dzięki czemu widok w większości jest identyczny, własnego profilu
-oraz profilu innego użytkownika, na profilu innego użytkownika dodatkowo wyświetlają się dwa przyciski
-jeden do dodania bądź usunięcia ze znajomych, drugi do obserwowania oraz usunięcia z obserwowanych.
-W komponencie Profile znajduje się zdjęcie użytkownika, po najechaniu na zdjęcie pojawia się przycisk do zmiany zdjęcia.
-Są również cztery przyciski wraz z liczbą statystyk.
-Słóżą one do przejścia do znajomych, obserwowanych, obserwujących oraz zdjęć danego użytkownika.
-Na samym dole znajduje się lista czterach najpopularniejszych zdjęć danego użytkownika
-wraz z informacją o jego.
+Profil użytkownika został zbudowany z pięciu komponentów:
+- UserOwnProfile
+- ProfileForViewer
+- Profile
+- ProfileStats
+- MostPopularImage
+
+\texttt{UserOwnProfile} - Jest to komponent używany do wyświetlenia własnego profilu uzytkownika.
+JEst on bardzo prosto zbudowany korzysta tylko z komponentu Profile (numer) który jest uniwersalny
+dla obu widoków.
+Dodatkowo znajduje się tam pasek ładowania informujący o postępie ładowania.
+Całe dane są pobierane za pomocą hooka useQuery z bibiloteki tanstack query,
+korzysta on z funkcji "getUserOwnProfile" która nie przyjmuje rzadnych parametrów.
+
+\texttt{ProfileForViewer} - Ten komponent jest używany do wyśwetlenia profilu innego użytkownika.
+Poza tym co zawiera komponet USerOwnProfile ten zawera dodatkowo komponenty:
+-Button - który jest przekazywany do Profil za pomocą propu children,
+-Modal.
+Znajdują się tam dwa przyciski które w zależności od tego czy użytkownik jest zalogowany
+i czy obserwuje bądź ma go w znajomych wyśwetlają stosowne informacje na przyciskach.
+Komponent modal wyśwetla się jeżeli użytkownik chce usunąć znajomego lub przestać obserwować,
+wyśwetla się wtedy komunikat czy napewno chce to zrobić.
+Jeżeli profil o danej nazwie użytkownika nie istnieje wyśwetla się komunikat "No profile data available".
+Do pobrania informacji o profilu tutaj również wykorzystano hook useQuery, nazwa uśytkownika jest pobierana z
+ścieżki URL za pomocą hooka useParams.
+Jeżeli pobrane dane zawieraja informację że jest to profil własny użytkownika to za
+pomocą hooka useNavigate w useEffect zostaje on przeniesiony na adres "/account/profile"
+Natomiast do edycji danych:
+- edycji statusu znajomego - funkcja "changeUserFriendsStatus"
+- edycji stnu obserwacji - funckja "editUserFollowed"
+- edycji stanu znajomego - funkcja "editUserFriends"
+wykorzystano hook useMutation.
+Przy błędzie wyświetlana jest stosowna informacja w zalezności czego ten błąd dotyczy i za pomocą
+dispatcha z reduxa wyświetlany w komponencie Notification.
+
+\texttt{Profile} - jest to główny komponent używany w tej sekcji panelu użytkownika
+ponieważ jest używany w obu wariantach.
+Jest tutaj używany hook useMutation do zmiany zdjęcia profilowego ale
+tylko i wyłacznie jeżeli jest to profil własny użytkownika, wtedy po najechaniu
+na zjęcie profilowe pojawi się komunikat "Change profile photo." a po kliknięciu w
+ten komunikat wyświetli się okno do wyboru nowego zdjęcia profilowego.
+Komponent ten korzysta również z uniwersalnego komponentu AccountWrapper który jest używany w każdej
+sekcji panelu uzytkownika dzięki czemu widok jest powtarzalny bez powtarzania tych samych komponentów.
+Następnie wyśwetlają się cztery komponenty ProfileStat które wyśwetlają informacje o liczbie
+danych rzeczy w panelu użytkownika.
+Na samym dole wyśwetla się komunikat "most popular photos" a pod nim
+albo komunikat "This user hasn't added any photos." jezeli jest to konto innego użytkownika albo
+"You haven't added any photos" jeżeli jest to konto własne.
+Jeżeli użytkownik posiada liste zdjęć to za pomocą komponentu MostPopularImage wyśweitlą się cztery
+najpopularniajesze zdjęcia użytkownika.
+
+\texttt{ProfileStat} - komponent ten służy do wyświetlania informacji o liczbie
+obserwowanych, obserwujacych, znajomych oraz djeć danego użytkownika.
+przyjmuje on 3 propy:
+- value - liczbę
+- label - nazwę kategorii
+- onClick - funkcję która uruchomi się po kliknieciu w ten element
+
+\texttt{MostPopularImage} - komponent służy do wyświetlenia zdjęć wraz z jego statystykami.
+Przyjmuje on tylko jednego propa: image - zjęcie z listy czterach najpopularniajeszych zdjęć.
+Wyświetla on zdjęcie a na nim za pomocą klasy relative wyświetla liczbę polubień oraz
+wyświetleń zdjęcia wraz z odpowiednimi ikonkami.
 
 \subsubsection{Spots}
 Listy z zapisanymi spotami użytkownika.
