@@ -37,6 +37,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.LinkedMultiValueMap;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -224,6 +225,7 @@ class UserDashboardControllerWithServerStartupTest {
                 .spot(spot1)
                 .text("Świetne miejsce na spacer!")
                 .rating(4.5)
+                .publishDate(LocalDateTime.now())
                 .build();
 
         var comment2 = SpotComment.builder()
@@ -231,6 +233,7 @@ class UserDashboardControllerWithServerStartupTest {
                 .spot(spot2)
                 .text("Fajne, ale w weekendy tłoczno.")
                 .rating(3.5)
+                .publishDate(LocalDateTime.now().minusDays(3))
                 .build();
 
         var comment3 = SpotComment.builder()
@@ -238,6 +241,7 @@ class UserDashboardControllerWithServerStartupTest {
                 .spot(spot1)
                 .text("Byłem tu z rodziną, bardzo polecam.")
                 .rating(5.0)
+                .publishDate(LocalDateTime.now().minusDays(2))
                 .build();
 
         spotCommentRepository.save(comment1);
