@@ -306,15 +306,16 @@
     description={Wzorzec interfejsu użytkownika, w którym kolejne porcje treści są automatycznie doładowywane podczas przewijania strony w dół, zamiast być podzielone na odrębne, ręcznie przełączane strony}
 }
 
+\newglossaryentry{redis}{
+    name={Redis},
+    description={Baza danych typu klucz–wartość wykorzystywana jako szybka warstwa \glslink{cache}{cache}}
+}
+
 \newglossaryentry{moscow}{
     name={MoSCoW},
     description={Metoda nadawania priorytetów wymaganiom, wyróżniająca kategorie:
     \emph{Must have}, \emph{Should have}, \emph{Could have} oraz
     \emph{Won't have this time}}
-}
-\newglossaryentry{redis}{
-    name={Redis},
-    description={Baza danych typu klucz–wartość wykorzystywana jako szybka warstwa \glslink{cache}{cache}}
 }
 
 \newglossaryentry{cache}{
@@ -322,6 +323,30 @@
     description={Mechanizm przechowywania danych w celu przyspieszenia ich ponownego odczytu}
 }
 
+\newglossaryentry{jvm}{
+    name={JVM},
+    description={(ang. \textit{Java Virtual Machine}); maszyna wirtualna oraz środowisko do wykonywania kodu bajtowego Javy}
+}
+
+\newglossaryentry{spring-framework}{
+    name={Spring Framework},
+    description={Framework, który służy do tworzenia aplikacji w Javie.
+    Zajmuje się między innymi ustawianiem konfiguracji oraz zarządzaniem zależnośćiami,
+    np.: wstrzykiwaniem (ang. \textit{Dependency Injection}), odwróceniem kontroli (ang. \textit{Inversion of Control}).
+    Oferuje wiele modułów wspierających, które ułatwiają rozwój projektów}
+}
+
+\newglossaryentry{convention-over-configuration}{
+    name={Convention Over Configuration},
+    description={Zasada programowania polegająca na przyjmowaniu domyślnych, bazowych regół, zamiast ręcznego implementowania konfiguracji}
+}
+
+\newglossaryentry{dom}{
+    name={DOM},
+    description={(ang. \textit{Document Object Model}); interfejs reprezentacji stron internetowych jako węzły i obiekty.
+    Dzięki temu skrypty, np. napisane w JavaScript, mogą wchodzić w interakcje ze stroną
+    (np. modyfikować strukturę, treść lub styl)}
+}
 
 \newglossaryentry{query-params}{
     name={Parametry zapytania (query params)},
@@ -358,3 +383,15 @@
     najczęściej zarządzane przez platformę taką jak \glslink{docker}{docker}}
 }
 
+
+\newglossaryentry{spa}{
+    name={SPA},
+    description={(ang. \textit{Single Page Application}); aplikacja webowa, która zawiera jeden plik HTML.
+    Po jednorazowym wczytaniu jej zawartość jest zmieniana bez ponownego przeładowania}
+}
+
+\newglossaryentry{wolumen}{
+    name={Wolumen},
+    description={Zarządzane przez Dockera magazyny danych dla kontenerów, które
+    są odizolowane od maszyny hosta.}
+}

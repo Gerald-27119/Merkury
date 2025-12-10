@@ -11,16 +11,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//TODO: Not sure if class is needed, discuss with others later
-public class Media {
+public class PostCommentMedia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Post post;
-
     private String url;
-    //enum mediaType gif, video, image...
+
     private String type;
+
+    @ManyToOne
+    @JoinColumn(name = "post_comment_id")
+    private PostComment postComment;
 }

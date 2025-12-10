@@ -28,7 +28,7 @@ export default function WeatherTimelinePlot() {
 
     useEffect(() => {
         if (screenSize.height <= 1080 || screenSize.width <= 1920) {
-            setPlotSize({ width: 5000, height: 360 });
+            setPlotSize({ width: 5000, height: 460 });
         }
     }, [screenSize]);
 

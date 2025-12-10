@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 
 @RestController
@@ -51,13 +52,13 @@ public class PostCommentController {
     }
 
     @DeleteMapping("/post/comments/{commentId}")
-    public ResponseEntity<Void> deletePostComment(@PathVariable Long commentId) throws CommentAccessException, UserNotFoundByUsernameException, CommentDeletedException {
+    public ResponseEntity<Void> deletePostComment(@PathVariable Long commentId) throws CommentAccessException, UserNotFoundByUsernameException, CommentDeletedException, BlobContainerNotFoundException, URISyntaxException {
         postCommentService.deleteComment(commentId);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/post/comments/{commentId}")
-    public ResponseEntity<Void> editPostComment(@PathVariable Long commentId, @Valid @RequestBody PostCommentDto dto) throws CommentAccessException, InvalidForumContentException, UserNotFoundByUsernameException, CommentDeletedException {
+    public ResponseEntity<Void> editPostComment(@PathVariable Long commentId, @Valid @RequestBody PostCommentDto dto) throws CommentAccessException, InvalidForumContentException, UserNotFoundByUsernameException, CommentDeletedException, BlobContainerNotFoundException, URISyntaxException {
         postCommentService.editComment(commentId, dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
