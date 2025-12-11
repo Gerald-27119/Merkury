@@ -185,7 +185,104 @@ o liczbie polubień oraz liczbie wyświetleń wraz z odpowiednimi ikonami.
 Do odtwarzania filmów wykorzystano bibliotkę "react-player".
 
 \subsubsection{Social}
+Sekcja z znajomymi składa się z dzewięciu głównych rozdziałów:
+- UserOwnSocial
+- SocialForViewer
+- Social
+- SocialCardList
+- SocialCard
+- SocialButton
+- SearchFriendsList
+- PhotosList
+- FriendsInvitesList
 
+\texttt{SocialForViewer} - Jest to komponent do wyśweitlenia list innych użytkowników.
+Skorzystano tutaj  uniwersalnego Recordu żeby nie powielać hooka useInfiniteQuery, stworzono
+record który zawiera typ listy, a w wartości obiekt który zaweira klucz oraz funkcję służącą
+do pobrania daych z backendu.
+Typ listy jest pobierany za pomocą customowego hooka useSelectorTyped, ich wartość jest
+przechowywana w store w redux i dsotępna w odpwowiednich miejscach.
+Jedyne co ten komponent zwraca to uniwersalny komponent Social.
+
+\texttt{UserOwnSocial} - Jest to komponent do wyśweitlania list które posiada zalogowany użytkownik.
+Tak jak w komponencie SocailForViewer skorzystano tu z rekorda w celu
+obniżenia powtarzalności kodu.
+Ten komponent rówierz zwraca tylko uniwersalny komponent Social z odpwiedniemi wartościam.
+
+\texttt{Social} -Jest to główny kompoent który jest uniwersalny dla obu widoków, publicznego i
+własnego dla widoku publicznego dodano tu również listę zdjęć użytkownika.
+Zaweira on dwa stany jeden do zarządzania oknem modalnym do wyszukiwania znajmoych, drugi
+do zarządzania oknem modalnym z listą zaproszeń.
+Tak jak pozostoałe sekcje ten również zawiera AccountWrapper oraz AccountTitle.
+Jeżeli jest to widok prywatny po po prawej pojawią się dodatkowo dwa przyciski do
+wyszukania nowych znajomych oraz do zobaczenia listy oczekujących zaproszeń.
+Następnie za pomocą funkcji mpa na liście wyswietlane są trzy albo cztery przyciski w zależności od tego
+czy jest o widok publiczny czy prywatny.
+Poniżej wświetla się lista która została wybara czyli: znajmomi, obserwujący, obserowwani lub zdjęcia.
+Przy pierwszym ładowaniu oraz przy scrolowaniu w dół pokazuje się komponent LoadnigSpinner.
+
+\texttt{SocialCardList} - Jest to komponent który wyświetla listę SocialCard oraz wyśweitla odpowiednie komunikaty
+jeżeli któraś lista jest pusta, w zależności która jest to lista i czy jest to prowfil własy czy kogoś innego.
+
+\texttt{SocialCard} - Kompoennt ten słóży do wyświetlenia poszczególengo kafelka z użytkownikiem.
+Posiada stan do otwarcia okna modalnego za pomocą hooka useBoolean, który jest używany
+do wyświetlenia potwierdznia czy użytkownik na pewno chce usunąć znajomego z znajomych albo
+przestać kogoś obserowować.
+W tym komponencie wykorzystano trzy hookie useMutation do dodania lub usunięcia z listy znajomych,
+przestania obserwowania kogoś, oraz do pobrania lub stworzenia nowego chatu.
+W zależności od tego czy użytkownik jest naszym znajomym albo wysląliśmy mu zaproszenie albo go nie dodaliśmy
+pojawiają się inne ikonki, tak samo jeżeli obserwujemy kogoś.
+Wyglądowo składa się z następujących elementów:
+zdjęcia na samej górze oraz nazwa używkownika a podnimi od dwóch do trzech przycisków, w zależności od tego
+gdzie używany jest ten kafelek.
+Jeżeli jest to profil innego użytkownika i patrzymy na jego znajomych albo są to nasi obserwujący pojawią
+się tylko przyciski do przejścia do profilu oraz do otwarcai chatu z danym użytkonikiem.
+Jeżeli są to nasi obserwowwani albo znajmoi to wyświetli się trzeci przycki sł¨żący do dodania lub usunięcia z danej listy.
+Przy próbie usunięcia pojawi się komunikat "Are you sure you want to remove (...) as (a friend lub a follower)" w
+zalezności czy chcemy usunąć znajmomego czy przestać kogoś obserowwać.
+
+\texttt{SocialButton} - Jest to guzik używany do nawigacji po tej sekcji oraz w komponencie SocialCard.
+Przyjmuje on sześć parametrów:
+- children
+- onClick - funkcja która wywołuje się przy wciśnięciu w przycisk
+- isActive - wartość true/false czy przycisk jest aktualnie aktywny
+- isWidthFit - określa która klasa z tailwind powinna zostać użyta
+- className - przyjmuje dodatkowe klasy tailwind jeżeli potrzebne
+- disabled - czy przycisk ma być wyłączony
+
+\texttt{SearchFriendsList} - Jest to komponent do wyszukiwania potencjalnych znajomych.
+Przyjmuje on tylko jedną funkcję onClose która słózy do zamknięcia tego okna modalnego.
+Tytaj dane również są pobierane za pomocą useInfiniteQuery, dzięki czemu zaimplementowano
+infinite scrolla.
+Na samej górze znajduje się przycisk z krzyżywkiem do zamknięcia okna modalnego,
+ponizej jest nagłówek mówiący w jakim miejscu alikacji się znajdujemy.
+Do wyszukiwania znajomych wykorzystano pole tekstowe po wpisaniu conajmniej 3 znaków po 0.5 sekundize
+od ostanieko wcieśnięcia klawisza wysyłany jest request który zwraca lsitę użytkowników
+których nazwa użytkownika zaczyna się od podanej.
+Następnie wyswetlana jest lista tych osób za pomocą komponentu SocialCardList.
+
+\texttt{PhotosList} - Komponent ten jesst używany do wyświetlenia zdjęć innego użytkownika
+gdy wejdzeniemy do profilu innego użytkownika to po kliknięciu w przycisk z liczbą zdjęć zostaniemy przniesieni
+na tą stronę.
+Przyjmuje on tylko jeden parametr photos czyli listę zdjeć.
+Zbudowany zostł bardzo podobnie do komponentu Photos z profilu uzytkownika
+tak jak tam są tutaj wyświetlana zdjęcia zgrupowane po dacie wraz z paskiem informacyjnym
+kiedy dane zdjęcia zostały dodane, a ponieżej każdego paska wyśwetlają się zdjęcia.
+Jeżeli użytkoenik nie posiada zdjęć wyśwetli się komunikat "This user hasn't added any photos."
+
+\texttt{FriendsInvitesList} - Jest to komponent do wyświetlania listy zaproszeń do znajomych które otrzymano od
+innych użytkowników, przyjmuje on tylkko jeden parametr funkcję onClose która służy do zamknięcia tego okna modalneggo.
+Wykorzystano tutaj mechanizm useInfiniteQuery dzięki czemu zaimplementowano równierz mechanizm infinite scroll.
+Do zatwoerdzenia lub odrzucenia zaproszenia skorzystano z hooka useMutation.
+W górnym prawym rogu znajduje się przycisk z ikonką krzyżyka do zakmnięcia okna.
+A podnim na środku znajduje się nagłówkek.
+Na początku i podczasł scrolowania w dół pokazano Loading spinner.
+Jeżeli użytkownik nie posiada żadnych zaproszeń dostaje komunikat "You don't have any invites yet",
+lecz gdy posiadfa jakieś zaproszenia pojawią się one w liście jeden pod drugim.
+KAżde zaproszenie składa się z zdjęcia użytkownika, jego nazwy oraz dwóch przysków
+do potwierdzenia i odrzucenia zaproszenia.
+Po kliknięciu w tło zaproszenia zaostaniemy przeniesieni do profilu danego użytkownika za pomocą
+hooka useNavigation.
 
 \subsubsection{Add spot}
 Sekcja z dodanymi spotami składa się z siedmiu głównych komponentów:
@@ -275,7 +372,6 @@ Wyśwwietla on:
 - nazwę spota,
 - opis spota,
 - adres ( kraj, miast i ulicę)
-
 
 \subsubsection{Comments}
 Komentarze składają się z dwóch głównych komponentów:
