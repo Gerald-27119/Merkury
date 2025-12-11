@@ -1,137 +1,55 @@
 %! Author = Adam
-%! Date = 30/10/2025
-
+%! Date = 23/11/2025
 
 \section{Harmonogram projektu}
 \label{sec:harmonogram-projektu}
 
-W poniższym harmonogramie przedstawiono plan prac nad poszczególnymi częściami projektu, rozłożony na miesiące.
+W poniższym harmonogramie przedstawiono plan prac nad poszczególnymi częściami projektu.
 
-\subsection*{Rok 2024}
-\begin{description}
-    \item[Czerwiec]
+\bigskip
+
+\noindent
+\resizebox{\textwidth}{!}{%
+    \begin{ganttchart}[
+        time slot format=isodate,
+        time slot unit=month,
+        x unit=0.55cm,
+        y unit chart=0.9cm,
+        y unit title=0.8cm,
+        bar height=0.6,
+        vgrid, hgrid,
+        bar label font=\bfseries\footnotesize,
+        bar label node/.append style={align=center}
+    ]{2024-09-01}{2026-02-01}
+        \gantttitlecalendar{year, month} \\
+
+        \ganttbar[inline]{Etap 1}{2024-10-01}{2025-01-31} \\
+        \ganttbar[inline]{Etap 2}{2025-02-01}{2025-09-30} \\
+        \ganttbar[inline]{Etap 3}{2025-10-01}{2026-01-31}
+    \end{ganttchart}
+}
+
+
+\begin{itemize}
+    \item \textbf{Etap 1 (październik 2024 – styczeń 2025)}
     \begin{itemize}
-        \item Zebranie zespołu.
-        \item Rozważenie potencjalnych pomysłów.
+        \item Wybór tematu projektu.
+        \item Analiza grupy docelowej.
+        \item Wstępne opracowanie wymagań.
+        \item Rozpoczęcie prac deweloperskich.
     \end{itemize}
 
-    \item[Lipiec]
+    \item \textbf{Etap 2 (luty 2025 – wrzesień 2025)}
     \begin{itemize}
-        \item Wybór technologii.
-        \item Wstępne założenia architektoniczne.
+        \item Prace deweloperskie nad aplikacją.
+        \item Ciągła weryfikacja oraz korekcja wymagań postawionych systemowi.
+        \item Prace nad dokumentacją.
     \end{itemize}
 
-    \item[Sierpień]
+    \item \textbf{Etap 3 (październik 2025 – styczeń 2026)}
     \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
+        \item Finalizacja prac deweloperskich.
+        \item Implementacja testów automatycznych głównych funkcjonalności.
+        \item Ukończenie dokumentacji.
     \end{itemize}
-
-    \item[Wrzesień]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-
-    \item[Październik]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-
-    \item[Listopad]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-
-    \item[Grudzień]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-\end{description}
-
-\subsection*{Rok 2025}
-\begin{description}
-    \item[Styczeń]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-
-    \item[Luty]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-
-    \item[Marzec]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-
-    \item[Kwiecień]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-
-    \item[Maj]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-
-    \item[Czerwiec]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-
-    \item[Lipiec]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-
-    \item[Sierpień]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-
-    \item[Wrzesień]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-
-    \item[Październik]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-
-    \item[Listopad]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-
-    \item[Grudzień]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-\end{description}
-
-\subsection*{Rok 2026}
-\begin{description}
-    \item[Styczeń]
-    \begin{itemize}
-        \item \emph{(do uzupełnienia)}
-        \item \emph{(do uzupełnienia)}
-    \end{itemize}
-\end{description}
+\end{itemize}
