@@ -1,435 +1,535 @@
 %! Author = Mateusz
 %! Date = 19/11/2025
-%!TEX root = ../../sprz.tex
 
 \subsection{Panel użytkownika}
 \label{subsec:panel-uzytkownika-frontend}
 
-W niniejszym rozdziale przedstawiono implementację panelu użytkownika na frontendzie.\newline
+W niniejszym rozdziale przedstawiono implementację panelu użytkownika po stronie frontendowej.
 
-Kolejnym z głównych modółów aplikacji jest panel użytkownika.
-Został on podzielony na 8 zakładek:
+Jednym z głównych modułów aplikacji jest panel użytkownika.
+Został on podzielony na osiem zakładek:
 
 \begin{itemize}
-    \item Profile - profil użytkownika wraz z możliwością zmiany zdjęcia profilowego,
-    \item Spots - lista z spotami dodanymi do list (np. ulubionych, do ponownego odwiedzenia),
-    \item Photos - lista zdjęć które użytkownik doddał do spotów, komentarzy pod spotami oraz na forum,
-    \item Movies - lista filmów które użytkownik doddał do spotów, komentarzy pod spotami oraz na forum,
-    \item Social - listy z znajomymi, obserwowanymi i obserwującymi,
-    \item Add spot - lista ze spotami które dodał użytkownik oraz formularz do dodania nowego spota,
-    \item Comments - lista komentarzy które użytkownik dodał pod spotami,
-    \item Settings - ustawienia użytkownika (zmiana: nazwy użytkownika, e-mail, hasła),
+    \item \textbf{Profile} -- profil użytkownika wraz z możliwością zmiany zdjęcia profilowego;
+    \item \textbf{Spots} -- listy spotów dodanych do różnych kategorii (np. ulubione, do ponownego odwiedzenia);
+    \item \textbf{Photos} -- lista zdjęć dodanych przez użytkownika do spotów, komentarzy pod spotami oraz na forum;
+    \item \textbf{Movies} -- lista filmów dodanych przez użytkownika do spotów, komentarzy pod spotami oraz na forum;
+    \item \textbf{Social} -- listy znajomych, obserwowanych i obserwujących;
+    \item \textbf{Add spot} -- lista spotów dodanych przez użytkownika oraz formularz dodawania nowego spota;
+    \item \textbf{Comments} -- lista komentarzy dodanych przez użytkownika pod spotami;
+    \item \textbf{Settings} -- ustawienia konta użytkownika (zmiana nazwy użytkownika, adresu e-mail oraz hasła).
 \end{itemize}
 
+Wszystkie zakładki korzystają z uniwersalnego komponentu \texttt{AccountWrapper}, który zapewnia spójny układ i styl
+widoków (por. sekcja~\ref{subsubsec:common-components}).
+
+%-----------------------------------
 \subsubsection{Profile}
-Profil użytkownika został zbudowany z pięciu komponentów:
-- UserOwnProfile
-- ProfileForViewer
-- Profile
-- ProfileStats
-- MostPopularImage
+\label{subsubsec:profile}
 
-\texttt{UserOwnProfile} - Jest to komponent używany do wyświetlenia własnego profilu uzytkownika.
-JEst on bardzo prosto zbudowany korzysta tylko z komponentu Profile (numer) który jest uniwersalny
-dla obu widoków.
-Dodatkowo znajduje się tam pasek ładowania informujący o postępie ładowania.
-Całe dane są pobierane za pomocą hooka useQuery z bibiloteki tanstack query,
-korzysta on z funkcji "getUserOwnProfile" która nie przyjmuje rzadnych parametrów.
+Zakładka \texttt{Profile} odpowiada za prezentację profilu użytkownika.
+Została zbudowana z pięciu podstawowych komponentów:
 
-\texttt{ProfileForViewer} - Ten komponent jest używany do wyśwetlenia profilu innego użytkownika.
-Poza tym co zawiera komponet USerOwnProfile ten zawera dodatkowo komponenty:
--Button - który jest przekazywany do Profil za pomocą propu children,
--Modal.
-Znajdują się tam dwa przyciski które w zależności od tego czy użytkownik jest zalogowany
-i czy obserwuje bądź ma go w znajomych wyśwetlają stosowne informacje na przyciskach.
-Komponent modal wyśwetla się jeżeli użytkownik chce usunąć znajomego lub przestać obserwować,
-wyśwetla się wtedy komunikat czy napewno chce to zrobić.
-Jeżeli profil o danej nazwie użytkownika nie istnieje wyśwetla się komunikat "No profile data available".
-Do pobrania informacji o profilu tutaj również wykorzystano hook useQuery, nazwa uśytkownika jest pobierana z
-ścieżki URL za pomocą hooka useParams.
-Jeżeli pobrane dane zawieraja informację że jest to profil własny użytkownika to za
-pomocą hooka useNavigate w useEffect zostaje on przeniesiony na adres "/account/profile"
-Natomiast do edycji danych:
-- edycji statusu znajomego - funkcja "changeUserFriendsStatus"
-- edycji stnu obserwacji - funckja "editUserFollowed"
-- edycji stanu znajomego - funkcja "editUserFriends"
-wykorzystano hook useMutation.
-Przy błędzie wyświetlana jest stosowna informacja w zalezności czego ten błąd dotyczy i za pomocą
-dispatcha z reduxa wyświetlany w komponencie Notification.
+\begin{itemize}
+    \item \texttt{UserOwnProfile},
+    \item \texttt{ProfileForViewer},
+    \item \texttt{Profile},
+    \item \texttt{ProfileStat},
+    \item \texttt{MostPopularImage}.
+\end{itemize}
 
-\texttt{Profile} - jest to główny komponent używany w tej sekcji panelu użytkownika
-ponieważ jest używany w obu wariantach.
-Jest tutaj używany hook useMutation do zmiany zdjęcia profilowego ale
-tylko i wyłacznie jeżeli jest to profil własny użytkownika, wtedy po najechaniu
-na zjęcie profilowe pojawi się komunikat "Change profile photo." a po kliknięciu w
-ten komunikat wyświetli się okno do wyboru nowego zdjęcia profilowego.
-Komponent ten korzysta również z uniwersalnego komponentu AccountWrapper który jest używany w każdej
-sekcji panelu uzytkownika dzięki czemu widok jest powtarzalny bez powtarzania tych samych komponentów.
-Następnie wyśwetlają się cztery komponenty ProfileStat które wyśwetlają informacje o liczbie
-danych rzeczy w panelu użytkownika.
-Na samym dole wyśwetla się komunikat "most popular photos" a pod nim
-albo komunikat "This user hasn't added any photos." jezeli jest to konto innego użytkownika albo
-"You haven't added any photos" jeżeli jest to konto własne.
-Jeżeli użytkownik posiada liste zdjęć to za pomocą komponentu MostPopularImage wyśweitlą się cztery
-najpopularniajesze zdjęcia użytkownika.
+\textbf{\texttt{UserOwnProfile}}
+Ten komponent służy do wyświetlania profilu zalogowanego użytkownika.
+Dane profilu są pobierane za pomocą hooka \texttt{useQuery} z biblioteki TanStack Query, który odwołuje
+się do odpowiedniego endpointu backendu.
+Na czas pobierania danych wyświetlany jest komponent \texttt{LoadingSpinner}, a po poprawnym załadowaniu
+profilu renderowany jest komponent \texttt{Profile} z przekazanym obiektem \texttt{userData}.
 
-\texttt{ProfileStat} - komponent ten służy do wyświetlania informacji o liczbie
-obserwowanych, obserwujacych, znajomych oraz djeć danego użytkownika.
-przyjmuje on 3 propy:
-- value - liczbę
-- label - nazwę kategorii
-- onClick - funkcję która uruchomi się po kliknieciu w ten element
+\textbf{\texttt{ProfileForViewer}}
+Komponent wyświetla profil innego użytkownika.
+Nazwa użytkownika pobierana jest ze ścieżki URL za pomocą hooka \texttt{useParams}, a dane profilu -- za
+pomocą \texttt{useQuery}, które wysyła zapytanie do backendu z przekazaną nazwą.
 
-\texttt{MostPopularImage} - komponent służy do wyświetlenia zdjęć wraz z jego statystykami.
-Przyjmuje on tylko jednego propa: image - zjęcie z listy czterach najpopularniajeszych zdjęć.
-Wyświetla on zdjęcie a na nim za pomocą klasy relative wyświetla liczbę polubień oraz
-wyświetleń zdjęcia wraz z odpowiednimi ikonkami.
+Oprócz wspólnej części logicznej z widokiem własnego profilu wykorzystywane są:
+\begin{itemize}
+    \item przyciski \texttt{Button} przekazywane do \texttt{Profile} jako \texttt{children}, obsługujące
+    akcje \textit{follow} oraz zarządzanie znajomymi;
+    \item komponent \texttt{Modal} do potwierdzania usunięcia znajomego lub zaprzestania obserwowania.
+\end{itemize}
 
+Zachowanie przycisków zależy od tego, czy użytkownik jest zalogowany, czy obserwuje dany profil oraz czy osoba
+ta znajduje się na liście znajomych.
+W przypadku błędu autoryzacji wyświetlany jest komunikat zachęcający do zalogowania, a inne błędy są mapowane
+na komunikaty w komponencie \texttt{Notification}.
+
+Relacje społecznościowe modyfikowane są przy użyciu kilku mutacji po stronie API, odpowiadających za dodawanie
+lub usuwanie znajomych, zarządzanie listą obserwowanych oraz akceptowanie lub odrzucanie zaproszeń.
+Po powodzeniu mutacji odświeżane są dane profilu użytkownika.
+Jeżeli z backendu zwrócona zostanie informacja, że jest to profil zalogowanego użytkownika, w hooku \texttt{useEffect}
+następuje przekierowanie na adres \texttt{/account/profile}.
+W sytuacji, gdy profil o podanej nazwie użytkownika nie istnieje, renderowany jest komunikat:
+\texttt{"No profile data available"}.
+
+\textbf{\texttt{Profile}}
+Jest to główny komponent odpowiedzialny za prezentację profilu i wykorzystywany zarówno w widoku własnym, jak i
+w widoku innego użytkownika.
+Cały widok opakowany jest w \texttt{AccountWrapper} z wariantem \texttt{PROFILE} (por. sekcja~\ref{subsubsec:common-components}).
+
+Po lewej stronie wyświetlane jest zdjęcie profilowe.
+Dla własnego profilu wykorzystano hook \texttt{useMutation}, który umożliwia zmianę zdjęcia.
+Po najechaniu kursorem na zdjęcie pojawia się półprzezroczysty overlay z ikoną edycji i napisem
+\texttt{"Change profile photo."}, a kliknięcie uruchamia wybór nowego pliku.
+Po udanej aktualizacji zdjęcia odświeżane są dane profilu oraz wyświetlany jest komunikat sukcesu; w przypadku
+błędu prezentowany jest odpowiedni komunikat informujący o niepowodzeniu aktualizacji.
+
+Po prawej stronie wyświetlana jest nazwa użytkownika oraz cztery kafelki \newline \texttt{ProfileStat},
+przedstawiające liczbę znajomych, obserwowanych, obserwujących oraz zdjęć.
+Kliknięcie w wybraną statystykę powoduje przejście do odpowiedniej sekcji społecznościowej (por. sekcja~\ref{subsubsec:social});
+nawigacja realizowana jest przez \texttt{useNavigate} oraz akcję \texttt{socialAction.setType}.
+
+Pod główną częścią profilu wyświetlany jest nagłówek \texttt{"most popular photos"}.
+Jeżeli użytkownik posiada popularne zdjęcia, wyświetlane są maksymalnie cztery miniatury za pomocą komponentu \texttt{MostPopularImage}.
+W przeciwnym razie prezentowany jest komunikat:
+\texttt{"This user hasn't added any photos."} (dla profilu innego użytkownika) lub
+\texttt{"You haven't added any photos."} (dla własnego profilu).
+
+\textbf{\texttt{ProfileStat}}
+Komponent prezentuje pojedynczą statystykę profilu (np. liczbę znajomych) w formie kafelka,
+który pełni rolę przycisku nawigacyjnego do odpowiedniej listy społecznościowej (por. sekcja~\ref{subsubsec:social}).
+
+\textbf{\texttt{MostPopularImage}}
+Komponent odpowiada za wyświetlenie pojedynczego zdjęcia wraz z liczbą polubień i wyświetleń.
+Informacje umieszczone są na półprzezroczystym pasku w dolnej części kafelka.
+
+%-----------------------------------
 \subsubsection{Spots}
-KOmponent Spots składa się z 3 głównych komponentów:
-- FavoriteSpots
-- FavoriteSpotTile
-- FavoriteSpotTags
+\label{subsubsec:spots}
 
-\texttt{FavoriteSpots} - Jest to główny komponent tej sekcji który składa wszystko w jedno.
-Na samej górze znajduje się lista "menuTypes" która służy do wyśweitlenia przycisków nawigacyjnych
-do przełaczania różnego typu list;
-Wybarany aktualnie typ listy jest przechowywany w tym tomponencie za pomocą hooka useState.
-Do pobrania danych z backendu użyto hooka useInfinityQuery z biblioteki Tanstack Query,
-co pozowliło w łatwy sposób zaimplementować infinity scrolla.
-TAk jak w Profilu cały ten komponent jest opakowany w komponent AccountWrapper,
-ale tutaj jest jeszcze dodatakowo AccountTitle który wyświetla nagłówek danej podstorny.
-Nastęnie wyśwetlane są przyciski służące do zmiany typu listy za pomocą komponentu Button.
-Przy pierwszym ładowaniu strony oraz przy ładowaniu kolejnych stron danych pokazuje się Loading spinner.
-Jeżeli użytkownik nie posiada żadnych dodanych spotów poajwia się komunikat:
-"You don't have any spots in your list." w przeciwnym razie zostaną wyświetlnone
-kafelki spotów za pomocą komponentu FavoriteSpotTile.
+Zakładka \texttt{Spots} odpowiada za prezentację list spotów przypisanych do różnych kategorii
+(ulubione, planowane do odwiedzenia, odwiedzone itp.).
+Składa się z trzech głównych komponentów:
 
-\texttt{FavoriteSpotTile} - Przyjmuje on dwa parametry:
--spot
-- selectedType
-Do usnięcia danego spota z którejkolwiek listy wykorzystano hook useMutatnion
-przyjmuje ona funkcję "editFavoriteSpotList" która przyjmuje następujące parametry:
-- type - typ listy
-- spotId - identyfikator spota
-- operationType - typ operacji (dodanie lub usunięcie).
-Wyśweitlają się na nim następujące informacje:
-- zdjęcie
-- liczba wyświetleń
-- lokaalizacja
-- śrenia ocen
-- nazwa spota
-- tagi spota (numer komponentu)
-- przycisk do zobaczenia spota na mapie
-- przycisk do usunięcia spota z listy
-Wyśwetla się tu również okno modalne które służy do potwierdznei usunięcia spota z danej listy,
-informacja czy modal jest otwarty przechowuje się w stanie hooka useBoolean.
+\begin{itemize}
+    \item \texttt{FavoriteSpots},
+    \item \texttt{FavoriteSpotTile},
+    \item \texttt{FavoriteSpotTags}.
+\end{itemize}
 
-\texttt{FavoriteSpotTags} - przyjmuje on tylko listę tagów które, wyśwetla tylko ich nazwę w liście
+\textbf{\texttt{FavoriteSpots}}
+Jest to główny komponent zakładki.\newline
+Wykorzystuje tablicę \texttt{menuTypes}, która definiuje dostępne typy list
+(np. wszystkie, ulubione, planowane do odwiedzenia),
+a aktualnie wybrany typ przechowywany jest w stanie za pomocą hooka \texttt{useState}.
 
+Dane spotów są pobierane za pomocą hooka \texttt{useInfiniteQuery}, który wysyła zapytania do
+backendu z uwzględnieniem wybranego typu listy.
+Mechanizm \textit{infinite scrolla} realizowany jest przy użyciu \texttt{IntersectionObserver},
+który nasłuchuje na element powiązany z referencją.
+Widok opakowany jest w \texttt{AccountWrapper} z wariantem \texttt{FAVORITE\_SPOTS} oraz nagłówek
+\texttt{AccountTitle} z tekstem \texttt{"spots lists"}.
+Pod nagłówkiem renderowane są przyciski (komponent \texttt{Button}) do zmiany typu listy.
+
+Podczas ładowania danych wyświetlany jest \texttt{LoadingSpinner}.
+Jeżeli użytkownik nie posiada żadnych spotów w wybranej liście, prezentowany jest komunikat:
+\texttt{"You don't have any spots in your list."},
+w przeciwnym razie renderowana jest lista kafelków \texttt{FavoriteSpotTile}.
+
+\textbf{\texttt{FavoriteSpotTile}}
+Komponent reprezentuje pojedynczy kafelek spota.
+Wyświetlane są: zdjęcie, liczba wyświetleń, lokalizacja, średnia ocena
+(komponent \texttt{Rate}), nazwa, tagi (komponent \texttt{FavoriteSpotTags}), krótki opis oraz przyciski
+otwarcia spota na mapie i usunięcia z listy.
+
+Do modyfikacji listy wykorzystywana jest mutacja obsługująca dodawanie i usuwanie spotów z danej kategorii.
+Po powodzeniu odświeżane są dane listy, tak aby kafelek został usunięty z widoku.
+Przed usunięciem wyświetlany jest modal potwierdzenia (komponent \texttt{Modal}), którego stan widoczności
+kontrolowany jest za pomocą hooka \texttt{useBoolean}.
+
+\textbf{\texttt{FavoriteSpotTags}}
+Komponent prezentuje listę tagów spota jako niewielkie etykiety z nazwą tagu.
+
+%-----------------------------------
 \subsubsection{Photos}
-Zdjęcia składają się z trzech głównych komponentów:
-- Photos
-- Media
-- Photo
+\label{subsubsec:photos}
 
-\texttt{Photos} - Bardzo prosty komponent który wyświetla komponent Media,
-dane są pobierane za pomocą useInfiniteQuery dzięki czemu korzysta z infinite scrolla.
-W useEffect za pomocą dispatcha z biblioteki redux ustawiany jest komunikat o błędzie,
-jeżeli takowy się pokaże.
+Zakładka \texttt{Photos} odpowiada za prezentację zdjęć dodanych przez użytkownika.
+Korzysta z następujących głównych komponentów:
 
-\texttt{Photo} - przyjmuje on tylko jeden parametr: photo czyli zdjęcie z listy.
-Wyśwetla on zdjęcie z listy a na zdjęciu za pomocą klas relative i absolute
-ukazuje pasek z informacją o liczbie polubień oraz liczbie wyświetleń wraz
-z odpowiednimi ikonami.
+\begin{itemize}
+    \item \texttt{Photos},
+    \item \texttt{Media},
+    \item \texttt{Photo}.
+\end{itemize}
 
-\texttt{Media} - Jest to uniwersalny komponent dla zdjęć oraz filmów użytkownika.
-Przyjmuje on osiem parametrów:
-- variant - używany do komponentu AccountWrapper
-- searchDate - obiekt który przetrzymuje dane do filtrowania po dacie
-- onSortChange - funkcja używana do sortowania
-- onDateChange - funckja używana do ustawienia filtrowania po dacie
-- isLoading - informuje czy dane sę pobierane
-- mediaList - typ który określa czy są to zdjęcia czy filmy
-- loadMoreRef
-- isFetchingNextPage - informuje czy pobiera kolejną stronę z danych użytkownika
-Tak jak w pozostałych sekcjach korzysta on z AccountWrapper do opakowania całego widoku w identyczny wygkląd.
-Korzysta również z komponentu AccountTitle wyświetla on albo "Photos" albo "Movies"
-w zależności od typu wariantu.
-NAstępnie wyświetla komponent SortAndDateFilters które wyświetlają panel sortowania
-oraz kormularze do wyboru daty od oraz do służące do filtrowania.
-Wtedy jest wyśweitlana jest lista filmów lub zdjęć które są zgrupowne po
-dacie Za pomocą komponentu DateBadge który przyjmuje datę i ją wyświetla.
-Wtedy w liście w zależności od tego czy variat to zdjęcia czy filmy wyświetla odwpowieni
-komponent (Photos lub Movies).
-Jeżeli użytkownik nie posiada żadnych mediów wyświetla się komunikat:
-"You haven't added any (photos lub movies)".
-Jak dane się ładują albo ładuje się kolejna strona danych pokazuje sie komponent LoadingSpinner.
+\textbf{\texttt{Photos}}
+Komponent pełni rolę warstwy konfigurującej widok zdjęć.
+Do zarządzania sortowaniem i filtrowaniem po dacie wykorzystywany jest customowy hook \texttt{useDateSortFilter},
+który zwraca typ sortowania oraz zakres dat.
+Dane są pobierane za pomocą \texttt{useInfiniteQuery}, które wysyła zapytania do backendu z uwzględnieniem aktualnych filtrów.
+Mechanizm \textit{infinite scroll} zrealizowano przy użyciu \texttt{IntersectionObserver}.
 
+W przypadku błędu podczas pobierania zdjęć w hooku \texttt{useEffect} ustawiany jest komunikat błędu w komponencie \texttt{Notification}.
+Na końcu komponent przekazuje dane do \texttt{Media} z wariantem \texttt{AccountWrapperType.PHOTOS}.
+
+\textbf{\texttt{Photo}}
+Komponent reprezentuje pojedyncze zdjęcie użytkownika.
+Zdjęcie prezentowane jest jako kwadratowy kafelek z cieniem, a w dolnej części na półprzezroczystym pasku wyświetlana
+jest liczba polubień i wyświetleń wraz z odpowiednimi ikonami.
+
+\textbf{\texttt{Media}}
+Jest to uniwersalny komponent używany zarówno w zakładce \texttt{Photos}, jak i \texttt{Movies} (por. sekcja~\ref{subsubsec:movies}).
+Widok jest opakowany w \texttt{AccountWrapper}, a nagłówek sekcji wyświetlany przez \texttt{AccountTitle} z tekstem zależnym od wariantu.
+
+Poniżej nagłówka znajduje się panel \texttt{SortAndDateFilters} (por. sekcja~\ref{subsubsec:common-components})
+umożliwiający zmianę sortowania oraz zakresu dat.
+Lista mediów grupowana jest po dacie; dla każdej grupy wyświetlany jest \texttt{DateBadge} z datą, a poniżej siatka miniatur.
+W zależności od wariantu wykorzystywany jest komponent \texttt{Photo} lub \texttt{Movie}.
+
+Jeżeli użytkownik nie posiada żadnych mediów, wyświetlany jest komunikat:
+\texttt{"You haven't added any photos."} lub
+\texttt{"You haven't added any movies."}.
+Podczas ładowania danych początkowych oraz kolejnych stron prezentowany jest \newline \texttt{LoadingSpinner}.
+
+%-----------------------------------
 \subsubsection{Movies}
-Filmy składają się z trzech głównych komponentów:
-- Movies
-- Media
-- Movie
+\label{subsubsec:movies}
 
-\texttt{Movies} - Komponent który wyświetla komponent Media wygląda niemal identycznie jak
-komponent photos różni się tylko przyjmowaną metodą,
-dane są pobierane za pomocą useInfiniteQuery dzięki czemu korzysta z infinite scrolla.
-W useEffect za pomocą dispatcha z biblioteki redux ustawiany jest komunikat o błędzie,
-jeżeli takowy się pokaże.
+Zakładka \texttt{Movies} odpowiada za prezentację filmów dodanych przez użytkownika.
+Pod względem struktury jest bardzo podobna do zakładki \texttt{Photos} (por. sekcja~\ref{subsubsec:photos}) i
+korzysta z tych samych komponentów ogólnych:
 
-\texttt{Movie} - przyjmuje on tylko jeden parametr: movie czyli zdjęcie z listy.
-Wyśwetla on film wraz z możliwością odtworzenia takowego
-z listy a na zdjęciu za pomocą klas relative i absolute ukazuje pasek z informacją
-o liczbie polubień oraz liczbie wyświetleń wraz z odpowiednimi ikonami.
-Do odtwarzania filmów wykorzystano bibliotkę "react-player".
+\begin{itemize}
+    \item \texttt{Movies},
+    \item \texttt{Media},
+    \item \texttt{Movie}.
+\end{itemize}
 
+\textbf{\texttt{Movies}}
+Komponent konfiguruje widok filmów i przekazuje dane do \texttt{Media} z wariantem \texttt{AccountWrapperType.MOVIES}.
+Ponownie wykorzystywany jest hook \texttt{useDateSortFilter}, a dane pobierane są za pomocą \texttt{useInfiniteQuery}
+z uwzględnieniem wybranego sortowania i zakresu dat.
+W przypadku błędu ustawiany jest komunikat w komponencie \texttt{Notification}.
+
+\textbf{\texttt{Movie}}
+Komponent reprezentuje pojedynczy film.
+Do odtwarzania wykorzystano bibliotekę \texttt{react-player} oraz zestaw komponentów kontrolnych z biblioteki \texttt{media-chrome}.
+Stan odtwarzania i ewentualnego błędu zarządzany jest za pomocą customowego hooka \texttt{useBoolean}.
+Po zakończeniu odtwarzania film jest zatrzymywany, a w razie problemu z odczytem wyświetlany jest komunikat:
+\texttt{"Failed to load the video. Please try again later."}.
+Na filmie wyświetlany jest także pasek z liczbą polubień i wyświetleń.
+
+%-----------------------------------
 \subsubsection{Social}
-Sekcja z znajomymi składa się z dzewięciu głównych rozdziałów:
-- UserOwnSocial
-- SocialForViewer
-- Social
-- SocialCardList
-- SocialCard
-- SocialButton
-- SearchFriendsList
-- PhotosList
-- FriendsInvitesList
+\label{subsubsec:social}
 
-\texttt{SocialForViewer} - Jest to komponent do wyśweitlenia list innych użytkowników.
-Skorzystano tutaj  uniwersalnego Recordu żeby nie powielać hooka useInfiniteQuery, stworzono
-record który zawiera typ listy, a w wartości obiekt który zaweira klucz oraz funkcję służącą
-do pobrania daych z backendu.
-Typ listy jest pobierany za pomocą customowego hooka useSelectorTyped, ich wartość jest
-przechowywana w store w redux i dsotępna w odpwowiednich miejscach.
-Jedyne co ten komponent zwraca to uniwersalny komponent Social.
+Zakładka \texttt{Social} odpowiada za obsługę funkcji społecznościowych: znajomych, obserwowanych, obserwujących
+oraz (w widoku innego użytkownika) zdjęć tego użytkownika.
+Składa się z następujących głównych komponentów:
 
-\texttt{UserOwnSocial} - Jest to komponent do wyśweitlania list które posiada zalogowany użytkownik.
-Tak jak w komponencie SocailForViewer skorzystano tu z rekorda w celu
-obniżenia powtarzalności kodu.
-Ten komponent rówierz zwraca tylko uniwersalny komponent Social z odpwiedniemi wartościam.
+\begin{itemize}
+    \item \texttt{UserOwnSocial},
+    \item \texttt{SocialForViewer},
+    \item \texttt{Social},
+    \item \texttt{SocialCardList},
+    \item \texttt{SocialCard},
+    \item \texttt{SocialButton},
+    \item \texttt{SearchFriendsList},
+    \item \texttt{PhotosList},
+    \item \texttt{FriendInvitesList}.
+\end{itemize}
 
-\texttt{Social} -Jest to główny kompoent który jest uniwersalny dla obu widoków, publicznego i
-własnego dla widoku publicznego dodano tu również listę zdjęć użytkownika.
-Zaweira on dwa stany jeden do zarządzania oknem modalnym do wyszukiwania znajmoych, drugi
-do zarządzania oknem modalnym z listą zaproszeń.
-Tak jak pozostoałe sekcje ten również zawiera AccountWrapper oraz AccountTitle.
-Jeżeli jest to widok prywatny po po prawej pojawią się dodatkowo dwa przyciski do
-wyszukania nowych znajomych oraz do zobaczenia listy oczekujących zaproszeń.
-Następnie za pomocą funkcji mpa na liście wyswietlane są trzy albo cztery przyciski w zależności od tego
-czy jest o widok publiczny czy prywatny.
-Poniżej wświetla się lista która została wybara czyli: znajmomi, obserwujący, obserowwani lub zdjęcia.
-Przy pierwszym ładowaniu oraz przy scrolowaniu w dół pokazuje się komponent LoadnigSpinner.
+\textbf{\texttt{UserOwnSocial}}
+Komponent odpowiada za wyświetlanie list społecznościowych zalogowanego użytkownika.
+\newline Aktualnie wybrany typ listy (\texttt{FRIENDS}, \texttt{FOLLOWED}, \texttt{FOLLOWERS}) jest pobierany ze store Reduxa
+za pomocą \texttt{useSelectorTyped}.
+W celu uniknięcia powielania logiki zapytań użyto mapowania \texttt{queryConfigMap}, które łączy typ listy z odpowiednią
+funkcją pobierającą.
 
-\texttt{SocialCardList} - Jest to komponent który wyświetla listę SocialCard oraz wyśweitla odpowiednie komunikaty
-jeżeli któraś lista jest pusta, w zależności która jest to lista i czy jest to prowfil własy czy kogoś innego.
+Dane pobierane są za pomocą \texttt{useInfiniteQuery}, a kolejne strony ładowane przy wykorzystaniu \texttt{IntersectionObserver}.
+Po zebraniu wszystkich stron dane są spłaszczane i przekazywane do uniwersalnego komponentu \texttt{Social}
+z parametrem \texttt{isSocialForViewer = false}.
 
-\texttt{SocialCard} - Kompoennt ten słóży do wyświetlenia poszczególengo kafelka z użytkownikiem.
-Posiada stan do otwarcia okna modalnego za pomocą hooka useBoolean, który jest używany
-do wyświetlenia potwierdznia czy użytkownik na pewno chce usunąć znajomego z znajomych albo
-przestać kogoś obserowować.
-W tym komponencie wykorzystano trzy hookie useMutation do dodania lub usunięcia z listy znajomych,
-przestania obserwowania kogoś, oraz do pobrania lub stworzenia nowego chatu.
-W zależności od tego czy użytkownik jest naszym znajomym albo wysląliśmy mu zaproszenie albo go nie dodaliśmy
-pojawiają się inne ikonki, tak samo jeżeli obserwujemy kogoś.
-Wyglądowo składa się z następujących elementów:
-zdjęcia na samej górze oraz nazwa używkownika a podnimi od dwóch do trzech przycisków, w zależności od tego
-gdzie używany jest ten kafelek.
-Jeżeli jest to profil innego użytkownika i patrzymy na jego znajomych albo są to nasi obserwujący pojawią
-się tylko przyciski do przejścia do profilu oraz do otwarcai chatu z danym użytkonikiem.
-Jeżeli są to nasi obserwowwani albo znajmoi to wyświetli się trzeci przycki sł¨żący do dodania lub usunięcia z danej listy.
-Przy próbie usunięcia pojawi się komunikat "Are you sure you want to remove (...) as (a friend lub a follower)" w
-zalezności czy chcemy usunąć znajmomego czy przestać kogoś obserowwać.
+\textbf{\texttt{SocialForViewer}}
+Komponent realizuje analogiczną funkcjonalność, ale dla profilu innego użytkownika.
+Nazwa użytkownika pobierana jest z parametrów ścieżki (\texttt{useParams}), a dane list społecznościowych oraz zdjęć
+tego użytkownika -- z odpowiednich endpointów powiązanych w rozszerzonym \texttt{queryConfigMap}.
 
-\texttt{SocialButton} - Jest to guzik używany do nawigacji po tej sekcji oraz w komponencie SocialCard.
-Przyjmuje on sześć parametrów:
-- children
-- onClick - funkcja która wywołuje się przy wciśnięciu w przycisk
-- isActive - wartość true/false czy przycisk jest aktualnie aktywny
-- isWidthFit - określa która klasa z tailwind powinna zostać użyta
-- className - przyjmuje dodatkowe klasy tailwind jeżeli potrzebne
-- disabled - czy przycisk ma być wyłączony
+W zależności od typu listy pobierane są dane użytkowników (\texttt{SocialDto}) lub zdjęć (\texttt{DatedMediaGroup}).
+Po spłaszczeniu danych całość przekazywana jest do komponentu \texttt{Social} z parametrem \texttt{isSocialForViewer = true}.
 
-\texttt{SearchFriendsList} - Jest to komponent do wyszukiwania potencjalnych znajomych.
-Przyjmuje on tylko jedną funkcję onClose która słózy do zamknięcia tego okna modalnego.
-Tytaj dane również są pobierane za pomocą useInfiniteQuery, dzięki czemu zaimplementowano
-infinite scrolla.
-Na samej górze znajduje się przycisk z krzyżywkiem do zamknięcia okna modalnego,
-ponizej jest nagłówek mówiący w jakim miejscu alikacji się znajdujemy.
-Do wyszukiwania znajomych wykorzystano pole tekstowe po wpisaniu conajmniej 3 znaków po 0.5 sekundize
-od ostanieko wcieśnięcia klawisza wysyłany jest request który zwraca lsitę użytkowników
-których nazwa użytkownika zaczyna się od podanej.
-Następnie wyswetlana jest lista tych osób za pomocą komponentu SocialCardList.
+\textbf{\texttt{Social}}
+Jest to główny, uniwersalny komponent wykorzystywany zarówno dla widoku własnego, jak i cudzego profilu.
+Widok opakowany jest w \texttt{AccountWrapper} z wariantem \texttt{SOCIAL}, a nagłówek sekcji wyświetlany
+przez \texttt{AccountTitle} z tekstem \texttt{"social list"}.
 
-\texttt{PhotosList} - Komponent ten jesst używany do wyświetlenia zdjęć innego użytkownika
-gdy wejdzeniemy do profilu innego użytkownika to po kliknięciu w przycisk z liczbą zdjęć zostaniemy przniesieni
-na tą stronę.
-Przyjmuje on tylko jeden parametr photos czyli listę zdjeć.
-Zbudowany zostł bardzo podobnie do komponentu Photos z profilu uzytkownika
-tak jak tam są tutaj wyświetlana zdjęcia zgrupowane po dacie wraz z paskiem informacyjnym
-kiedy dane zdjęcia zostały dodane, a ponieżej każdego paska wyśwetlają się zdjęcia.
-Jeżeli użytkoenik nie posiada zdjęć wyśwetli się komunikat "This user hasn't added any photos."
+W przypadku widoku własnego i wybranego typu \texttt{FRIENDS} po prawej stronie nagłówka pojawiają się dwa przyciski:
+\begin{itemize}
+    \item \texttt{"See friend invites"} -- otwiera modal z listą zaproszeń \newline (\texttt{FriendInvitesList});
+    \item \texttt{"Add new friend"} -- otwiera modal z wyszukiwarką znajomych \newline (\texttt{SearchFriendsList}).
+\end{itemize}
 
-\texttt{FriendsInvitesList} - Jest to komponent do wyświetlania listy zaproszeń do znajomych które otrzymano od
-innych użytkowników, przyjmuje on tylkko jeden parametr funkcję onClose która służy do zamknięcia tego okna modalneggo.
-Wykorzystano tutaj mechanizm useInfiniteQuery dzięki czemu zaimplementowano równierz mechanizm infinite scroll.
-Do zatwoerdzenia lub odrzucenia zaproszenia skorzystano z hooka useMutation.
-W górnym prawym rogu znajduje się przycisk z ikonką krzyżyka do zakmnięcia okna.
-A podnim na środku znajduje się nagłówkek.
-Na początku i podczasł scrolowania w dół pokazano Loading spinner.
-Jeżeli użytkownik nie posiada żadnych zaproszeń dostaje komunikat "You don't have any invites yet",
-lecz gdy posiadfa jakieś zaproszenia pojawią się one w liście jeden pod drugim.
-KAżde zaproszenie składa się z zdjęcia użytkownika, jego nazwy oraz dwóch przysków
-do potwierdzenia i odrzucenia zaproszenia.
-Po kliknięciu w tło zaproszenia zaostaniemy przeniesieni do profilu danego użytkownika za pomocą
-hooka useNavigation.
+Poniżej wyświetlane jest menu z przyciskami \texttt{SocialButton}, które pozwalają przełączać się pomiędzy
+listą znajomych, obserwowanych, obserwujących oraz (w widoku innego użytkownika) listą zdjęć.
+Zmiana typu listy zapisywana jest w store Reduxa za pomocą akcji \texttt{socialAction.setType}.
 
+Dalsza część widoku zależy od typu listy:
+\begin{itemize}
+    \item dla \texttt{PHOTOS} używany jest komponent \texttt{PhotosList};
+    \item dla pozostałych typów -- komponent \texttt{SocialCardList}.
+\end{itemize}
+Na dole listy znajduje się element powiązany z \texttt{loadMoreRef}, obsługujący \textit{infinite scroll}, oraz
+\texttt{LoadingSpinner} wyświetlany podczas pobierania kolejnych stron.
+
+\textbf{\texttt{SocialCardList}}
+Komponent wyświetla listę kafelków \texttt{SocialCard} oraz prezentuje odpowiednie komunikaty w przypadku pustych list.
+Treść komunikatu zależy od typu listy oraz tego, czy jest to profil własny, czy innego użytkownika.
+Dla trybu wyszukiwania znajomych (\texttt{isSearchFriend}) wyświetlany jest komunikat:
+\texttt{"We can't find a user with this username."}.
+W przypadku typu \texttt{POTENTIAL\_GROUP\_CHAT\_MEMBER} stosowany jest komunikat:
+\texttt{"There are no other people in the world besides you."}.
+
+\textbf{\texttt{SocialCard}}
+Komponent reprezentuje pojedynczego użytkownika na listach społecznościowych.
+Wyświetlane są: zdjęcie profilowe, nazwa użytkownika oraz zestaw przycisków akcji, m.in. przejście do profilu,
+otwarcie prywatnego czatu oraz dodanie lub usunięcie z listy znajomych bądź obserwowanych.
+
+Relacje znajomości i obserwowania modyfikowane są za pomocą mutacji po stronie API, odpowiedzialnych za zarządzanie
+listą znajomych oraz obserwowanych.
+Po ich powodzeniu odświeżane są odpowiednie listy.
+Otwarcie lub utworzenie prywatnego czatu realizowane jest przez osobną mutację, która zwraca obiekt czatu; następnie
+jest on zapisywany w store Reduxa, ustawiany jako aktualnie wybrany, a aplikacja przełącza widok na \texttt{/chat}.
+
+Przed usunięciem znajomego lub zakończeniem obserwowania wyświetlany jest modal potwierdzenia, którego stan zarządzany
+jest przez hook \texttt{useBoolean}.
+Treść komunikatu ma postać:
+\texttt{"Are you sure you want to remove \{username\} as a friend?"} lub \newline
+\texttt{"Are you sure you want to remove \{username\} as a follower?"}.
+
+\textbf{\texttt{SocialButton}}
+Jest to uniwersalny przycisk wykorzystywany jako element nawigacji w \texttt{Social} oraz jako przycisk akcji w \texttt{SocialCard}.
+Umożliwia m.in. wyróżnienie przycisku aktywnego oraz dostosowanie szerokości do treści.
+
+\textbf{\texttt{SearchFriendsList}}
+Komponent odpowiada za wyszukiwanie potencjalnych znajomych.
+Wykorzystywany jest w modalu otwieranym z poziomu sekcji \texttt{Social}.
+Zapytanie tekstowe jest debouncowane za pomocą hooka \texttt{useDebounce}, a dane pobierane są z użyciem
+\texttt{useInfiniteQuery}, które wysyła zapytania wyszukujące użytkowników po nazwie.
+Interfejs zawiera przycisk zamknięcia, nagłówek, pole wyszukiwania oraz listę wyników w postaci \texttt{SocialCardList}.
+
+\textbf{\texttt{PhotosList}}
+Komponent wyświetla zdjęcia innego użytkownika, gdy z widoku profilu następuje przejście do listy jego zdjęć
+(por. sekcja~\ref{subsubsec:profile}).
+Zdjęcia grupowane są po dacie; dla każdej daty wyświetlany jest \texttt{DateBadge}, a poniżej siatka zdjęć z
+wykorzystaniem komponentu \texttt{Photo}.
+W przypadku braku zdjęć wyświetlany jest komunikat:
+\texttt{"This user hasn't added any photos."}.
+
+\textbf{\texttt{FriendInvitesList}}
+Komponent służy do wyświetlania listy zaproszeń do znajomych otrzymanych przez użytkownika. \newline
+Dane pobierane są za pomocą \texttt{useInfiniteQuery}, a kolejne strony ładowane są przy użyciu \texttt{IntersectionObserver}.
+Zmiana statusu zaproszenia (zaakceptowanie lub odrzucenie) realizowana jest przez mutację, która wysyła odpowiednie żądanie do backendu.
+Interfejs zawiera przycisk zamknięcia, nagłówek, listę zaproszeń oraz przyciski akceptacji i odrzucenia dla każdego elementu.
+Kliknięcie w awatar użytkownika powoduje przejście do jego profilu.
+Jeżeli brak zaproszeń, wyświetlany jest komunikat:
+\texttt{"You don't have any invites yet"}.
+
+%-----------------------------------
 \subsubsection{Add spot}
-Sekcja z dodanymi spotami składa się z siedmiu głównych komponentów:
-- AddedSpot
-- UploadButton
-- SpotMap
-- PolygonDrawer
-- AddSpotModal
-- AddSpotInput
-- AddSpotTile
+\label{subsubsec:add-spot}
 
-\texttt{AddedSpot} - Jest to główny komponent tej sekcji służy on do wyświetlenia listy spotów
-oraz otworzenia okna modlanego do dodania nowego spota, stan do tego jest zarządzany przez hooka useBoolean.
-Na początku pobierane dane są za pomocą useInfinityQuery dzięki czemu jest tu zaimplementowany mechanizm
-infinity scroll.
-Tak jak w pozostałych sekcjach użyto tutaj komponentów AccountWrapper oraz AccountTitle.
-Dodano tutaj też przycisk do otwarcia okna modalnego do dodania nowego spota, okno to
-otworzy się tylko na ekranach których szerokość jest większa od 900px.
-Jeżeli użytkownik dodał jakiekolwiek spoty wyśweitli się lista komponentów
-AddedSpotTile lecz jeżeli nie dodał żadnego wyśweitli się następujący komunikat  "You haven't added any spots yet."
-Przy pierwszym ładowaniu strony oraz przy scrolowaniu w dół i ładowaniu kolejych
-elementów listy pokaże się LoadingSpinner.
+Zakładka \texttt{Add spot} służy do zarządzania spotami dodanymi przez użytkownika oraz do dodawania nowych spotów.
+Składa się z następujących komponentów:
 
-\texttt{UploadButton} - przyjmuje on tylko jeden parametr, onFileSelect jest to funkcja
-która służy do ustawienia listy zdjęć oraz filmów które użytkownik dodaje do spota.
-W komponencie trzymany jest stan z dodanymi mediami.
-Użytkownik może też tu usunąć zdjęcie lub film które dodał.
-Wyśweilane są tu przycisk do dodania multimediów oraz ich lista jako miniaturowe
-zdjęcia oraz filmy po najechaniu i naciśnięciu na taką miniaturkę zostaje ona usunięta.
+\begin{itemize}
+    \item \texttt{AddedSpot},
+    \item \texttt{UploadButton},
+    \item \texttt{SpotMap},
+    \item \texttt{PolygonDrawer},
+    \item \texttt{AddSpotModal},
+    \item \texttt{AddSpotInput},
+    \item \texttt{AddedSpotTile}.
+\end{itemize}
 
-\texttt{SpotMap} - Jest to komponent który przymuje dwie współżędne szerokość i wysokość geograficzną
-położenia spota.
-Wyświetla ona lokalizację spota na małej mapie za pomocą pineski.
-Do wyświetlenia mapy wykorzystano bibliotekę maplibregl
+Dodatkowo wykorzystywany jest schemat walidacji \texttt{spotSchema} utworzony z użyciem biblioteki \texttt{zod}.
 
-\texttt{PolygonDrawer} - Jest to mapa służąca do zaznaczenia konturów dodawanego spota.
-Przyjmuje ona trzy parametry:
-- onPolygonComplete - funkcja służąca do potwierdznia konturów
-- initialPosition - pozycja na mapie
-- borderPointsError - komunikaty błędów
-Ustawione koordynaty spota są trzymane w useState w tym komponencie.
-Przy zmianie danych w parametrze initialPosition użytkownik zostaje automatycznie przeniesiony w nowe miejsce.
-Po kliknięciu w dane miejsce na mapie jego współżedne sa oddawane do listy w useState,
-po dodaniu trzeciego pokazuje się również pole danego spota.
-Głównym komponentem jest mapa z maplibregl która za pomocą inych komponentów
-wyświetla odpowiednie pole.
-Poniżej znajdują się dwa przycsiki jeden do cofnięcia dodania ostaniego punktu,
-drugi do zatwierdznie punktów.
+\textbf{\texttt{AddedSpot}}
+Jest to główny komponent zakładki.
+Odpowiada za wyświetlenie listy spotów dodanych przez użytkownika oraz za otwieranie okna modalnego
+\texttt{AddSpotModal} służącego do dodania nowego spota.
+Dane pobierane są za pomocą \texttt{useInfiniteQuery}, które pobiera kolejne strony wyników z backendu,
+a mechanizm \textit{infinite scroll} zaimplementowano przy użyciu \texttt{IntersectionObserver}.
 
-\texttt{AddSpotModal} - Komponent ten służy do dodawania nowego spota przez użytkownika.
-Przyjmuje on dwa parametry:
-- onClose - funkcja do zamykania modala
-- isOpen - informacja czy okno modalne jest otwarte
-Zawiera on stany do błędów walidacji oraz dane dodawanego spota.
-Po wpisaniu wszystkich danych adresowych mapka zostanie automatycznie przeniesiona
-na daną lokalizację.
-Do dodania nowego spota wykorzystno hooka useMutation który obsługuje również komunikaty o
-pozytywnym zapisie oraz o błędach.
-Do płynnego pojawienia się okna modalnego wykorzystano komponent AnimateProsence z biblioteki motion
-wraz z motion.div z ustawionymi odpowiednimi wartościami.
-Komponent ten wyświetla nagłówek który mówi gdzie użytkownik się znajduje oraz w prawym górnum roku przycisk
-do zamknięcia.
-Jest podzielony rownież na dwie części po lewej wyświetlają się formularze
-do podania podstawowych danych o spocie oraz adresie (komponent AddSpotInput),
-oraz komponent do dadania multimediów.
-Po prawej natomiast znajduje się mapa (komponent PolygonDrawer).
-Na samym dole są dwa przyciski (komponenty Button) jeden do zamknięcia okna modalnego
-drugi do dodania spota.
-Do wyświetlenia modala użyto hooka createPortal dzięki czemu można w łatwy i szybki
-sposób określić gdzie w drzewie DOM ma się on znaleść.
+Stan widoczności modala zarządzany jest przez hook \texttt{useBoolean}.
+Dodatkowo sprawdzana jest szerokość okna przeglądarki; formularz dodawania spota dostępny jest tylko
+na ekranach o szerokości co najmniej 900~px.
+W przypadku niespełnienia tego warunku wyświetlany jest komunikat informacyjny w komponencie \texttt{Notification}.
 
-\texttt{AddSpotInput} - Jest to komponent do wyświetlenia i obsługi listy pól formularza
-posaiada stan błędów do walidacji w hooku useState.
-Przyjmuje on trzy parametry
-- config - lista pól do wyświetlenia
-- spot - dane do wyświetlenia w polach
-- onChange - funkcja do obsługi pól
-Wyświetla on listę komponentów FormInput jest to ogólny komponent do pola formularzu
-używany w wielu miejscach aplikacji.
-Do walidacji wykorzystano tu bibliotekę zod a schemat walidacji znajduje się w plik spotSchema.
+Widok opakowany jest w \texttt{AccountWrapper} z wariantem \texttt{ADD\_SPOT} oraz nagłówek \texttt{AccountTitle}.
+Jeżeli użytkownik nie dodał żadnych spotów, wyświetlany jest komunikat:
+\texttt{"You haven't added any spots yet."},
+w przeciwnym razie renderowana jest lista kafelków \texttt{AddedSpotTile}.
+Podczas ładowania danych prezentowany jest \texttt{LoadingSpinner}.
 
-\texttt{AddedSpotTile} - Jest to kafelek do wyświetlnia daych o dodanym spocie w komponencie AddedSpot,
-przyjmuje on tylko parametr spot.
-Wyśwwietla on:
-- zdjęcie spota,
-- małą mapke (komponent SpotMap) z informacją o jego lokalizacji,
-- nazwę spota,
-- opis spota,
-- adres ( kraj, miast i ulicę)
+\textbf{\texttt{UploadButton}}
+Komponent służy do wyboru i podglądu multimediów (zdjęć i filmów) dodawanych do spota.
+W lokalnym stanie utrzymywana jest lista wybranych plików wraz z tymczasowymi adresami tworzonymi za pomocą
+\newline \texttt{URL.createObjectURL}.
+Użytkownik może usuwać pojedyncze elementy listy, a przy usuwaniu zwalniane są zasoby (\texttt{URL.revokeObjectURL}).
+Dozwolone są wybrane typy plików graficznych oraz wideo.
 
+\textbf{\texttt{SpotMap}}
+Komponent wyświetla miniaturową mapę z zaznaczoną lokalizacją spota.
+Wykorzystywana jest biblioteka \texttt{maplibregl} oraz przygotowany styl mapy \texttt{/map\_style1.json}.
+Na mapie umieszczany jest marker w pozycji spota.
+
+\textbf{\texttt{PolygonDrawer}}
+Komponent umożliwia interaktywne narysowanie konturu spota na mapie.
+Zbudowany jest w oparciu o \texttt{@vis.gl/react-maplibre}.
+Kliknięcia w mapę dodają kolejne wierzchołki, a po dodaniu co najmniej trzech punktów prezentowany jest zamknięty wielokąt.
+Użytkownik może cofnąć ostatni punkt lub zatwierdzić wielokąt, przekazując współrzędne do komponentu nadrzędnego.
+W razie błędu walidacji konturu wyświetlany jest komunikat pod mapą.
+
+\textbf{\texttt{AddSpotModal}}
+Komponent odpowiada za dodawanie nowego spota.
+W stanie przechowywany jest obiekt z danymi spota, komunikaty błędów walidacyjnych oraz aktualna pozycja mapy.
+Adres budowany jest z pól formularza (ulica, miasto, region, kraj) i debouncowany za pomocą hooka \texttt{useDebounce}.
+Na podstawie pełnego adresu hook \texttt{useQuery} pobiera współrzędne geograficzne, a mapa przesuwana
+jest do odpowiedniej lokalizacji.
+
+Walidacja danych formularza realizowana jest przy użyciu \texttt{spotSchema}.
+W przypadku niepowodzenia walidacji wypełniane są pola błędów oraz wyświetlany jest komunikat:
+\texttt{"Please fill in all fields correctly"}.
+Po poprawnej walidacji wywoływana jest mutacja odpowiedzialna za dodanie spota po stronie backendu.
+Po jej powodzeniu modal jest zamykany, formularz resetowany, dane listy odświeżane, a użytkownik otrzymuje
+komunikat o poprawnym dodaniu spota.
+
+Wyświetlenie modala zrealizowano za pomocą \texttt{createPortal}, co umożliwia umieszczenie go w dedykowanym elemencie
+DOM (\texttt{<div id="modal">}).
+Za animacje otwierania i zamykania odpowiadają komponenty \texttt{AnimatePresence} oraz
+\texttt{motion.div} z biblioteki motion.
+
+\textbf{\texttt{AddSpotInput}}
+Komponent odpowiada za wyświetlanie i obsługę listy pól formularza.
+Korzysta z lokalnego stanu błędów oraz schematu \texttt{spotSchema} (za pomocą \texttt{pick}) do walidacji pojedynczych pól.
+Do prezentacji pól wykorzystuje uniwersalny komponent \texttt{FormInput}.
+
+\textbf{\texttt{AddedSpotTile}}
+Komponent wyświetla pojedynczy kafelek z informacjami o dodanym spocie.
+Prezentowane są: zdjęcie spota, mini mapa (\texttt{SpotMap}) z lokalizacją, nazwa, opis oraz adres (kraj, miasto, ulica).
+
+%-----------------------------------
 \subsubsection{Comments}
-Komentarze składają się z dwóch głównych komponentów:
-- Comments
-- CommentsList
+\label{subsubsec:comments}
 
-\texttt{Comments} - wyglądem i budową przypomina bardzo sekcję filmów i zdjęć;
-Tylko tutaj do sortowania i filrtowania stworzono customowy hook useDateSortFilter.
-Do pobierania danych użyto hooka useIfinityQuery dzięki czemu skorzystano z infinity scrolla.
-W hooku useEffect z pomocą dispatch ustawiono komunikat o błędzie który jest wyświetlany w komponencie notification.
-Tak jak w pozostałych sekcjach tuttaj również skorzystano z AccountWrapper oraz AccountTitle,
-dodatkowo jak w filmach i zdjęciach użyto komponentu SortAndDateFilters.
-Następenie wyśwetla się lista komentarzy jeżeli użytkownik posiada jakieś,
-została ona pogrupowana po dacie oraz spocie i obie te inforamcje wyśweitlajane są za pomocą
-komponentu DateBadge data jest przesyłana za pomocą parametru date, a komunikat do jakiego
-spota został dodany ten komentarz za pomocą parametru children.
-Same komentarze są wyświetlane za pomocą komponentu CommentsList.
-Jeżeli uzytkownik nie posiada żadnych dodanych komentarzy wyświetli się komunikat
-"You haven't added any comments.".
-Przy pierwszym ładowaniu stron oraz przy scrolowaniu w dół pokazuje się Loading spinner.
+Zakładka \texttt{Comments} wyświetla wszystkie komentarze dodane przez użytkownika pod spotami.
+Składa się z dwóch głównych komponentów:
 
-\texttt{CommentsList} - przyjmuje on tylko jeden parametr czyli listę komentarzy które ma wyświetlić.
-Każdy komentarz posiada godzinę dodania oraz jego treść.
+\begin{itemize}
+    \item \texttt{Comments},
+    \item \texttt{CommentsList}.
+\end{itemize}
 
+\textbf{\texttt{Comments}}
+Komponent korzysta z hooka \texttt{useDateSortFilter}, analogicznie jak zakładki \texttt{Photos} i \texttt{Movies}.
+Dane pobierane są za pomocą \texttt{useInfiniteQuery}, które pobiera kolejne strony komentarzy z backendu,
+a \textit{infinite scroll} realizowany jest przez \texttt{IntersectionObserver}.
+
+W przypadku błędu podczas pobierania komentarzy w hooku \texttt{useEffect} ustawiany jest komunikat błędu,
+wyświetlany przez \texttt{Notification}.
+Widok opakowany jest w \texttt{AccountWrapper} z wariantem \texttt{COMMENTS} i nagłówek \texttt{AccountTitle}.
+Poniżej znajduje się panel filtrów \texttt{SortAndDateFilters}, a następnie lista komentarzy pogrupowanych po dacie i nazwie spota.
+
+Dla każdej grupy wyświetlany jest \texttt{DateBadge} z datą oraz informacją o spocie, a poniżej lista komentarzy
+renderowana przez \texttt{CommentsList}.
+Jeżeli użytkownik nie dodał żadnych komentarzy, wyświetlany jest komunikat:
+\texttt{"You haven't added any comments."}.
+Podczas ładowania danych oraz kolejnych stron prezentowany jest \texttt{LoadingSpinner}.
+
+\textbf{\texttt{CommentsList}}
+Komponent otrzymuje listę komentarzy i wyświetla je w postaci kafelków zawierających godzinę dodania oraz treść komentarza.
+
+%-----------------------------------
 \subsubsection{Settings}
+\label{subsubsec:settings}
 
-Do ustawień stworzono dwa główne komponenty:
-- Settings
-- DisableInput
+Zakładka \texttt{Settings} umożliwia użytkownikowi edycję podstawowych danych konta.
+Została zrealizowana za pomocą dwóch głównych komponentów:
 
-\texttt{Settings} - Jest to główny komponent do ustawień zarządza on którą informację
-użytkownik planuje zmienić oraz wyświetleniem odpowiednich pól formularzy.
-Typ danych które uzytkonik planuje edytować jest przetrzymuwany w useState.
-Na początku za pomocą hooka useQuery pobierane są dane użytkownik i wyśweitlane w
-komponentach DisableInput.
-Po wyborze danych które użytkownik chce zmienić po prawej stronie ukazuje się sekcja z
-z odpowiednimi polami.
-Po wpisaniu zmienionych danych i kliknięciu przycisku dane są wysyłane za pomocą
-hooka useMutation jeżeli pojawi się błądą zostaje on wyśwetlony w komponencie Notification,
-jeżeli wszystko zakończy się sukcesem ukazany sotanie komunikat o pozytywnej zmianie.
-Ten komponent również korzysta z AccountWrapper oraz AccountTitle,
-Jeżeli użytkownik założył konto za pomocą formularza rejestracji może zmienić dane
-i wyświetlą się podane wyżej pola formularzy.
-Lecz jeżeli użytkownik zalogował się za pomocą Google lub Github pojawi się komunikat
-"Your account was created via (Google lub Github)" w zależniści czym zalogował się,
-oraz "Your email address is (...) and cannot be changed.".
-Dla zmieny nazwy użytkownika oraz e-maila pokaże się tylko jedno pole,
-natomiast jeżeli użytkownik planuje zmienić hasło pokażą się trzy pola
-do starego hasła, nowego hasła i powtórzenia nowego hasła.
-Wszytkie pola są odpowiednio walidowane za pomocą biblioteki zod jego schamat
-znajdujje się w pliku validationSchema.
+\begin{itemize}
+    \item \texttt{Settings},
+    \item \texttt{DisableInput}.
+\end{itemize}
 
-\texttt{DisableInput} - przyjmuje on pięć parametrów:
-- label - nazwę pola
-- value - jego wartość
-- type - password lub text
-- id - identyfikator pola
-- onEdit - funkcję do ustawienia co użytkownik chce edytować
-Komponent ten wyświetla tylko informacje o nazwie oraz pole z wypisanymi wartościami
-dla hasła wyświetlane są gwiazdki, oraz przycisk edit który słóży do wybrania co
-użytkownik planuje edytować.
+\textbf{\texttt{Settings}}
+Komponent zarządza procesem zmiany danych użytkownika oraz wyświetlaniem odpowiednich formularzy.
+Typ danych podlegających edycji (\texttt{USERNAME}, \texttt{EMAIL}, \texttt{PASSWORD}) przechowywany jest w stanie (\texttt{editType}).
+
+Na początku, za pomocą hooka \texttt{useQuery}, pobierane są dane użytkownika (nazwa, e-mail, dostawca logowania).
+Dopóki dane są ładowane, wyświetlany jest \texttt{LoadingSpinner}.
+Podstawowe informacje prezentowane są przez komponenty \newline \texttt{DisableInput}, które wyświetlają aktualne wartości
+oraz przycisk \texttt{"Edit"}.
+
+Po wyborze rodzaju edycji po prawej stronie pojawia się formularz dopasowany do aktualnego \texttt{editType}.
+Walidacja realizowana jest przy użyciu schematów \texttt{baseSchemas} zdefiniowanych w bibliotece \texttt{zod}, a
+obsługę formularza zapewnia \texttt{react-hook-form} w połączeniu z \texttt{zodResolver}.
+Dane wysyłane są do backendu za pomocą mutacji, która aktualizuje odpowiednie ustawienia użytkownika.
+W przypadku błędu prezentowany jest komunikat z odpowiedzi backendu; po sukcesie wyświetlany jest komunikat o
+poprawnej zmianie ustawień oraz odświeżane są dane użytkownika.
+
+Dla kont utworzonych przez formularz rejestracji (\texttt{Provider.NONE}) dostępna jest edycja nazwy użytkownika,
+adresu e-mail oraz hasła.
+Jeżeli konto zostało utworzone za pomocą zewnętrznego dostawcy (np. Google, GitHub), wyświetlany jest komunikat:
+\texttt{"Your account was created via (Google/Github)"} oraz \newline
+\texttt{"Your email address is (...) and cannot be changed."},
+a formularze edycyjne są wówczas ukryte.
+
+\textbf{\texttt{DisableInput}}
+Komponent prezentuje pojedyncze pole z aktualną wartością danej informacji (np. nazwy użytkownika) w trybie
+tylko do odczytu oraz przyciskiem \texttt{"Edit"}.
+Dla pola hasła wyświetlane są jedynie gwiazdki.
+Logika wyboru rodzaju edycji pozostaje w komponencie nadrzędnym.
+
+%-----------------------------------
+\subsubsection{Komponenty wspólne}
+\label{subsubsec:common-components}
+
+Panel użytkownika wykorzystuje także zestaw komponentów uniwersalnych, z których część była już wspomniana w
+poprzednich sekcjach.
+Dla przejrzystości poniżej zebrano ich krótkie opisy.
+
+\textbf{\texttt{AccountWrapper}}
+Komponent odpowiada za wspólny układ i podstawowe stylowanie poszczególnych zakładek panelu.
+Przyjmuje wariant widoku i na jego podstawie stosuje odpowiednie klasy Tailwind, dzięki czemu zachowana jest
+spójność wizualna przy jednoczesnej możliwości dostosowania przestrzeni danej sekcji.
+
+\textbf{\texttt{AccountTitle}}
+Komponent wyświetla nagłówek danej sekcji jako element \texttt{h1}.
+Dodatkowo ustawia atrybut \texttt{data-testid}, co ułatwia testowanie widoków.
+
+\textbf{\texttt{SortDropdown}}
+Komponent udostępnia możliwość wyboru typu sortowania po dacie (malejąco/rosnąco).
+Stan rozwinięcia listy zarządzany jest przez hook \texttt{useBoolean}, a animacje zrealizowano za pomocą
+biblioteki \texttt{framer-motion}.
+Komponent używany jest pośrednio poprzez \texttt{SortAndDateFilters}.
+
+\textbf{\texttt{DateChooser}}
+Jest to wrapper wokół komponentu \texttt{DatePicker} z biblioteki Ant Design.
+Służy do wyboru daty w polach \texttt{"From"} oraz \texttt{"To"} w panelu filtrowania.
+
+\textbf{\texttt{SortAndDateFilters}}
+Komponent łączy \texttt{SortDropdown} oraz dwa \texttt{DateChooser}, tworząc panel sterujący sortowaniem i
+filtrowaniem po dacie.
+Wykorzystywany jest w zakładkach \texttt{Photos}, \texttt{Movies} oraz \texttt{Comments}.
+
+\textbf{\texttt{DateBadge}}
+Komponent służy do czytelnej prezentacji daty (formatowanej zgodnie z lokalizacją \texttt{"pl-PL"}) oraz
+opcjonalnej dodatkowej informacji przekazywanej jako \texttt{children}.
+Wykorzystywany jest do grupowania zdjęć, filmów oraz komentarzy po dacie.
+
+\textbf{\texttt{LoadingSpinner}}jest wspólnym komponentem informującym o
+trwającym ładowaniu danych i pojawia się
+w większości widoków w stanach \texttt{isLoading} oraz \texttt{isFetchingNextPage}.
+
+\textbf{\texttt{Notification}} (przywoływany pośrednio poprzez akcje Reduxa \newline
+\texttt{notificationAction.addSuccess}, \texttt{addError} oraz \texttt{addInfo}) odpowiada za prezentację komunikatów
+informacyjnych, błędów oraz potwierdzeń operacji.
