@@ -17,10 +17,33 @@ Poniżej przedstawiono wybrane rozwiązania.
         \item \textbf{Fasada} \textemdash \space jest strukturalnym \glslink{wzorzec}{wzorcem} projektowym, który nakłada na
         bibliotekę lub zestaw klas interfejs ułatwiający korzystanie z zawartych w nich operacji.
         \begin{figure}[H]
-                   \centering
-                   \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/facade}
-                   \caption{Diagram klas wzorca projektowego Fasada}
-                   \label{fig:diagram-facade}
+            \centering
+            \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/facade}
+            \caption{Diagram klas wzorca projektowego Fasada}
+            \label{fig:diagram-facade}
+        \end{figure}
+        \noindent
+
+        W projekcie Fasada została zastosowana zaimplementowana jako \emph{PolygonAreaCalculator}.
+        To klasa odpowiedzialna za obliczanie pola powierzchni \glslink{spot}{spota} na podstawie ograniczających go punktów.
+        Do wykonywania konkretnych obliczeń wykorzystano \glslink{biblioteka}{bibliotekę} \emph{geographiclib}, której komponenty
+        są używane podczas wywołana metody \emph{calculateArea}.
+        Dzięki zastosowaniu Fasady, gdy zajdzie potrzeba zmiany biblioteki, ponownej implementacji będzie wymagać tylko
+        metoda \emph{calculateArea} \textendash \space sposób jej wywoływania pozostanie bez zmian.
+
+        Poniżej przedstawiono implentację klasy \emph{PolygonAreaCalculator} oraz jej przykładowe użycie podczas operacji dodawania nowego \glslink{spot}{spota}.
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/facade_implementation}
+            \caption{Implementacja wzorca Fasada}
+            \label{fig:facade-implementation}
+        \end{figure}
+        \noindent
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/facade_usage}
+            \caption{Przykładowe użycie klasy PolygonAreaCalculator}
+            \label{fig:facade-usage}
         \end{figure}
         \noindent
         \item \textbf{Singleton} \textemdash \space to kreacyjny \glslink{wzorzec}{wzorzec} projektowy zapewniający
