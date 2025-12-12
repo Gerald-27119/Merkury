@@ -73,6 +73,25 @@ Poniżej przedstawiono wybrane rozwiązania.
             \label{fig:diagram-builder}
         \end{figure}
         \noindent
+        Do zaimplementowania tego \glslink{wzorzec}{wzorca} projektowego wykrzystano adnotację \emph{@Builder} z biblioteki \emph{Lombok},
+        która powoduje utworzenie Budowniczego dla danej klasy.
+        Builder został zastosowany do wszystkich klas reprezentujących encje, co poprawiło czytelność kodu przy ich tworzeniu.
+
+        Poniżej przedstawiono zastosowanie adnotacji \emph{@Builder} oraz przykładowe użycie tego wzorca podczas konstruowania encji.
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/builder_implementation}
+            \caption{Implementacja wzorca projektowego Builder}
+            \label{fig:builder-implementation}
+        \end{figure}
+        \noindent
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/builder_usage}
+            \caption{Przykładowe użycie wzorca projektowego Builder}
+            \label{fig:builder-usage}
+        \end{figure}
+        \noindent
     \end{itemize}
     \item \textbf{\glslink{frontend}{Frontend}}
     \begin{itemize}
