@@ -60,12 +60,12 @@ Poniżej przedstawiono wybrane rozwiązania.
             \label{fig:diagram-singleton}
         \end{figure}
         \noindent
-        W projekcie skorzystano z \glslink{framework}{frameworka} Spring Boot, w którym wszystkie klasy oznaczone jako Beany
+        W projekcie skorzystano z \glslink{framework}{frameworka} Spring Boot, w którym wszystkie klasy oznaczone jako \glslink{bean}{Beany}
         są Singletonami.
-        Przykładem jest nadanie klasie adnotacji \emph{@Service}.
+        Przykładem jest nadanie klasie \glslink{annotaion}{adnotacji} \emph{@Service}.
         Raz stworzony obiekt jest wykorzystywany przez wszystkie inne potrzebujące go obiekty.
 
-        Poniżej przedstawiono wykorzystanie adnotacji \emph{@Service} oraz użycie tej klasy jako zależność w innej klasie.
+        Poniżej przedstawiono wykorzystanie \glslink{annotaion}{adnotacji} \emph{@Service} oraz użycie tej klasy jako zależność w innej klasie.
         \begin{figure}[H]
                   \centering
                   \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/singleton_annotation}
@@ -93,11 +93,11 @@ Poniżej przedstawiono wybrane rozwiązania.
             \label{fig:diagram-builder}
         \end{figure}
         \noindent
-        Do zaimplementowania tego \glslink{wzorzec}{wzorca} projektowego wykrzystano adnotację \emph{@Builder} z biblioteki \emph{Lombok},
+        Do zaimplementowania tego \glslink{wzorzec}{wzorca} projektowego wykrzystano \glslink{annotaion}{adnotację} \emph{@Builder} z biblioteki \emph{Lombok},
         która powoduje utworzenie Budowniczego dla danej klasy.
         Builder został zastosowany do wszystkich klas reprezentujących encje, co poprawiło czytelność kodu przy ich tworzeniu.
 
-        Poniżej przedstawiono zastosowanie adnotacji \emph{@Builder} oraz przykładowe użycie tego wzorca podczas konstruowania encji.
+        Poniżej przedstawiono zastosowanie \glslink{annotaion}{adnotacji} \emph{@Builder} oraz przykładowe użycie tego wzorca podczas konstruowania encji.
         \begin{figure}[H]
             \centering
             \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/builder_implementation}
