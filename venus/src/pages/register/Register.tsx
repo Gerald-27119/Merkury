@@ -72,7 +72,7 @@ export default function Register() {
                     />
                 ))}
                 <SubmitFormButton
-                    label="Sign up"
+                    label="sign up"
                     fields={signUpFields}
                     didEdit={didEdit}
                     isValid={isValid}
