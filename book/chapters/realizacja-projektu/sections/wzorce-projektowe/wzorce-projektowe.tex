@@ -60,6 +60,26 @@ Poniżej przedstawiono wybrane rozwiązania.
             \label{fig:diagram-singleton}
         \end{figure}
         \noindent
+        W projekcie skorzystano z \glslink{framework}{frameworka} Spring Boot, w którym wszystkie klasy oznaczone jako Beany
+        są Singletonami.
+        Przykładem jest nadanie klasie adnotacji \emph{@Service}.
+        Raz stworzony obiekt jest wykorzystywany przez wszystkie inne potrzebujące go obiekty.
+
+        Poniżej przedstawiono wykorzystanie adnotacji \emph{@Service} oraz użycie tej klasy jako zależność w innej klasie.
+        \begin{figure}[H]
+                  \centering
+                  \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/singleton_annotation}
+                  \caption{Adnotacja frameworka Spring Boot tworząca Singleton}
+                  \label{fig:singleton-annotation}
+        \end{figure}
+        \noindent
+        \begin{figure}[H]
+                  \centering
+                  \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/singleton_dependency}
+                  \caption{Użycie Singletona jako zależności}
+                  \label{fig:singleton-dependency}
+        \end{figure}
+        \noindent
         \item \textbf{Builder} \textemdash \space kreacyjny \glslink{wzorzec}{wzorzec} projektowy, który ułatwia tworzenie
         skomplikowanych obiektów poprzez rozbicie tego procesu na mniejsze, konfigurowalne etapy.
         Eliminuje potrzebę korzystania z kontruktorów zawierjących wiele parametrów.
