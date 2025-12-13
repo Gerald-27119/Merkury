@@ -1,5 +1,51 @@
-%! Author = mateusz
-%! Date = 17/10/2025
+%! Author = Mateusz
+%! Date = 13/12/2025
 
 \section{Testy integracyjne}
 \label{sec:testy-integracyjne}
+
+Do automatycznego uruchamiania testów integracyjnych wykorzystano \gls{github-actions},
+co umożliwiło ich cykliczne wykonywanie w ramach procesu \gls{cicd}
+(przy każdym \textit{push} lub \textit{pull request}).
+Łącznie przygotowano 102 testy integracyjne, w tym 52 dla warstwy \glslink{frontend}{frontendowej}
+oraz 50 dla warstwy \glslink{backend}{backendowej}.
+Wszystkie przygotowane testy zakończyły się powodzeniem (rys.~\ref{fig:integration-tests-frontend}
+oraz rys.~\ref{fig:integration-tests-backend-suite}--\ref{fig:integration-tests-backend-summary}).
+
+W warstwie \glslink{frontend}{frontendu} utworzono łącznie 52 testy integracyjne
+(w 11 plikach testowych).
+Testy te pozwalały zweryfikować poprawną współpracę wybranych komponentów w ramach większych
+fragmentów interfejsu oraz spójność przepływu danych pomiędzy nimi.
+Dodatkowo sprawdzano poprawność zmian stanu aplikacji w odpowiedzi na interakcje użytkownika
+(kliknięcia) oraz działanie mechanizmu \glslink{infinite-scroll}{\textit{infinite scroll}},
+w tym poprawne dociąganie i prezentację kolejnych elementów listy.
+
+Przykładowy wynik uruchomienia testów integracyjnych \glslink{frontend}{frontendu} przedstawiono
+(rys.~\ref{fig:integration-tests-frontend}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/testy/integration-frontned}
+    \caption{Wynik uruchomienia testów integracyjnych warstwy frontendowej}
+    \label{fig:integration-tests-frontend}
+\end{figure}
+
+Dla \glslink{backend}{backendu} przygotowano łącznie 50 testów integracyjnych.
+Testy te służyły do potwierdzenia poprawnej współpracy kluczowych warstw aplikacji,
+w tym poprawnego uruchomienia kontekstu aplikacji.
+Zestaw uruchomionych testów \glslink{backend}{backendu} pokazano (rys.~\ref{fig:integration-tests-backend-suite}),
+natomiast podsumowanie ich wykonania przedstawiono (rys.~\ref{fig:integration-tests-backend-summary}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/testy/integration-backend}
+    \caption{Zestaw testów integracyjnych uruchomionych dla warstwy backendowej}
+    \label{fig:integration-tests-backend-suite}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/testy/integration-backend-liczba}
+    \caption{Podsumowanie uruchomienia testów integracyjnych warstwy backendowej}
+    \label{fig:integration-tests-backend-summary}
+\end{figure}

@@ -1,5 +1,30 @@
-%! Author = mateusz
-%! Date = 17/10/2025
+%! Author = Mateusz
+%! Date = 13/12/2025
 
 \section{Wyniki testów i wnioski}
 \label{sec:wyniki-testow-i-wnioski}
+
+Przeprowadzone testy jednostkowe, integracyjne oraz end-to-end potwierdziły poprawność działania
+kluczowych funkcjonalności aplikacji zarówno po stronie \glslink{frontend}{frontendu}, jak i
+\glslink{backend}{backendu}.
+Uzyskane wyniki wskazują, że zaimplementowana logika biznesowa, warstwa prezentacji oraz
+komunikacja z \gls{api} działają zgodnie z założeniami projektowymi.
+
+Testy jednostkowe pozwoliły zweryfikować poprawność działania pojedynczych komponentów i usług,
+w tym obsługę przypadków brzegowych oraz walidację danych wejściowych. Testy integracyjne
+umożliwiły potwierdzenie współpracy większych fragmentów systemu, w szczególności przepływu danych
+pomiędzy komponentami oraz reakcji aplikacji na działania użytkownika (np. zmianę stanu po interakcji).
+Z kolei testy E2E, uruchamiane w środowisku zbliżonym do rzeczywistego, potwierdziły poprawną realizację
+pełnych scenariuszy użytkownika, obejmujących m.in. logowanie, edycję ustawień konta, przeglądanie treści
+oraz dynamiczne doładowywanie danych (\glslink{infinite-scroll}{\textit{infinite scroll}})).
+
+Na podstawie wyników testów sformułowano następujące wnioski:
+\begin{itemize}
+    \item Zapewniono wysoką stabilność kluczowych modułów aplikacji dzięki szerokiemu pokryciu testami jednostkowymi.
+    \item Mechanizmy odpowiedzialne za paginację i doładowywanie danych (\glslink{infinite-scroll}{\textit{infinite scroll}}) działają poprawnie
+    w testowanych widokach oraz nie powodują błędów w interfejsie.
+    \item Integracja frontendu z backendem została potwierdzona zarówno w testach integracyjnych, jak i E2E,
+    co minimalizuje ryzyko regresji w przypadku dalszego rozwoju aplikacji.
+    \item Zastosowanie mockowania zapytań w testach ułatwiło deterministyczne odtwarzanie scenariuszy
+    oraz testowanie stanów trudnych do uzyskania w środowisku rzeczywistym (puste listy, konkretne warianty sortowania).
+\end{itemize}

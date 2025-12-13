@@ -1,5 +1,44 @@
-%! Author = mateusz
-%! Date = 17/10/2025
+%! Author = Mateusz
+%! Date = 13/12/2025
 
-\section{Testy E2E}
+\section{Testy end-to-end (E2E)}
 \label{sec:testy-e2e}
+
+Testy end-to-end (E2E) zrealizowano z wykorzystaniem narzędzia Cypress.
+W przeciwieństwie do testów jednostkowych i integracyjnych, testy E2E nie były uruchamiane w ramach
+\gls{github-actions} (procesu \gls{cicd}), lecz wykonywano je lokalnie w środowisku deweloperskim.
+Testy uruchamiano na działającej aplikacji, symulując rzeczywiste działania użytkownika w przeglądarce,
+co pozwoliło zweryfikować pełny przepływ od interfejsu \glslink{frontend}{frontendowego}
+do warstwy \glslink{backend}{backendowej}.
+
+Łącznie przygotowano 40 testów E2E (w 9 plikach \textit{spec}), a wszystkie zakończyły się powodzeniem
+(rys.~\ref{fig:e2e-tests-frontend-summary}).
+Zaimplementowane testy stanowią bezpośrednią realizację scenariuszy testowych opisanych w sekcji
+\ref{sec:scenariusze-testow-e2e}, obejmujących zarówno przypadki z użyciem danych mockowanych
+(poprzez przechwytywanie żądań HTTP), jak i scenariusze wykonywane na rzeczywistym backendzie.
+
+Testy E2E opracowano dla kluczowych obszarów aplikacji:
+\begin{itemize}
+    \item account (logowanie, rejestracja),
+    \item user-dashboard/add-spot (lista, \glslink{infinite-scroll}{\textit{infinite scroll}}, dodawanie miejsca),
+    \item user-dashboard/comments (lista, sortowanie),
+    \item user-dashboard/favorite-spots (listy, przełączanie typów, \glslink{infinite-scroll}{\textit{infinite scroll}}),
+    \item user-dashboard/movies (lista, sortowanie, \glslink{infinite-scroll}{\textit{infinite scroll}}),
+    \item user-dashboard/photos (lista, sortowanie, \glslink{infinite-scroll}{\textit{infinite scroll}}),
+    \item user-dashboard/profile (widok profilu, nawigacja, akcje społecznościowe),
+    \item user-dashboard/settings (edycja danych konta oraz ograniczenia dla kont OAuth),
+    \item user-dashboard/social (listy: friends/followed/followers, zaproszenia, \glslink{infinite-scroll}{\textit{infinite scroll}}).
+\end{itemize}
+
+W testach weryfikowano poprawność realizacji scenariuszy użytkownika, w tym nawigację pomiędzy widokami,
+wykonywanie operacji w interfejsie (kliknięcia i wypełnianie formularzy) oraz poprawną aktualizację
+stanu aplikacji po wykonanych akcjach.
+Dodatkowo sprawdzano działanie mechanizmu przewijania z dynamicznym doładowywaniem danych
+(\glslink{infinite-scroll}{\textit{infinite scroll}}) w warunkach zbliżonych do rzeczywistego użycia aplikacji.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/testy/e2e}
+    \caption{Podsumowanie uruchomienia testów end-to-end (E2E) w Cypress}
+    \label{fig:e2e-tests-frontend-summary}
+\end{figure}
