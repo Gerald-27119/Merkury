@@ -241,7 +241,7 @@ describe("Account settings page", () => {
         cy.get("#sidebar-link-login").click();
         cy.url().should("include", "/login");
 
-        cy.get("#username").type("user");
+        cy.get("#username").type("user31");
         cy.get("#password").type(originalPassword);
         cy.get('button[type="submit"]').click();
 
@@ -277,7 +277,7 @@ describe("Account settings page", () => {
         cy.get("#sidebar-link-login").click();
         cy.url().should("include", "/login");
 
-        cy.get("#username").type("user");
+        cy.get("#username").type("user31");
         cy.get("#password").type(newPassword);
         cy.get('button[type="submit"]').click();
 
