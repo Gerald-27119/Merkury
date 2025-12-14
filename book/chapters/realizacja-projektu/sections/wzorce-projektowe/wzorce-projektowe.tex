@@ -67,17 +67,17 @@ Poniżej przedstawiono wybrane rozwiązania.
 
         Poniżej przedstawiono wykorzystanie \glslink{annotaion}{adnotacji} \emph{@Service} oraz użycie tej klasy jako zależność w innej klasie.
         \begin{figure}[H]
-                  \centering
-                  \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/singleton_annotation}
-                  \caption{Adnotacja frameworka Spring Boot tworząca Singleton}
-                  \label{fig:singleton-annotation}
+            \centering
+            \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/singleton_annotation}
+            \caption{Adnotacja frameworka Spring Boot tworząca Singleton}
+            \label{fig:singleton-annotation}
         \end{figure}
         \noindent
         \begin{figure}[H]
-                  \centering
-                  \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/singleton_dependency}
-                  \caption{Użycie Singletona jako zależności}
-                  \label{fig:singleton-dependency}
+            \centering
+            \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/singleton_dependency}
+            \caption{Użycie Singletona jako zależności}
+            \label{fig:singleton-dependency}
         \end{figure}
         \noindent
         \item \textbf{Builder} \textemdash \space kreacyjny \glslink{wzorzec}{wzorzec} projektowy, który ułatwia tworzenie
@@ -115,12 +115,38 @@ Poniżej przedstawiono wybrane rozwiązania.
     \end{itemize}
     \item \textbf{\glslink{frontend}{Frontend}}
     \begin{itemize}
-        \item \textbf{Hooks Pattern}
+        \item \textbf{Hooks Pattern} \textemdash \space \glslink{wzorzec}{wzorzec} projektowy, który umożliwia korzystanie z
+        mechanizmów \glslink{react}{Reacta} takich jak \glslink{stan}{stan} czy cykl życia komponentu w komponentach funkcyjnych.
+        Przed wprowadzeniem \glslink{hook}{Hook'ów} do zarządzania tymi właściwościami trzeba było tworzyć komponenty klasowe,
+        co powodowało większe skomplikowanie kodu.
+        Hooks Pattern pozwala również na tworzenie własnych \glslink{hook}{Hook'ów} zawierających logikę używaną w wielu komponentach.
+
+        W projekcie wykorzystano ten \glslink{wzorzec}{wzorzec} do zarządzania stanem oraz efektami ubocznymi w komponentach
+        za pomocą wbudowanych \glslink{hook}{Hook'ów} \emph{useState} i \emph{useEffect}.
+        Zaimplementowano też własny \glslink{hook}{Hook} \emph{useBoolean} obługujący logikę do zarządzania zmiennymi przyjmujących wartości
+        \textit{true} lub \textit{false}.
+        Udostępniane są funckje do ustawienia wartości, a także do zmiany jej na przeciwną do poprzedniej.
+        Korzystanie z tego \glslink{hook}{Hook'a} pozwoliło uniknąć powtarzalności kodu oraz poprawiło jego czytelność.
+        Poniżej przedstawiono implementację oraz przykładowe użycie \glslink{hook}{Hooka} \emph{useBoolean}.
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/useBoolean_implementation}
+            \caption{Implementacja Hook'a useBoolean}
+            \label{fig:hooks-implementation}
+        \end{figure}
+        \noindent
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/useBoolean_usage}
+            \caption{Przykładowe użycie Hook'a useBoolean}
+            \label{fig:hooks-useBoolean-usage}
+        \end{figure}
+        \noindent
         \item \textbf{Error Boundary}
         \item \textbf{Portal}
         \item \textbf{Protected route}
     \end{itemize}
 \end{itemize}
 
-Opisy \glslink{wzorzec}{wzorców} projektowych użytych na \glslink{backend}{backendzie} (oprócz MVC) zostały
+Opisy \glslink{wzorzec}{wzorców} projektowych użytych na \glslink{backend}{backendzie} zostały
 wykonane na podstawie treści zawartych w książce \cite{wzorce-projektowe}.
