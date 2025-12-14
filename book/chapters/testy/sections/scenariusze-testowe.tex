@@ -5,24 +5,18 @@
 \label{sec:scenariusze-testow-e2e}
 
 
-% =========================
-%  KARTY SCENARIUSZY E2E
-% =========================
 \newcounter{eTOe}[chapter]
 \renewcommand{\theeTOe}{\thechapter.\arabic{eTOe}}
 
-% --- Pola karty E2E (lewa kolumna) ---
 \newcommand{\eTOeid}[1]{\textbf{Identyfikator:} & #1 \\ \hline}
 \newcommand{\eTOegoal}[1]{\textbf{Cel:} & #1 \\ \hline}
 \newcommand{\eTOetype}[1]{\textbf{Typ:} & #1 \\ \hline}
 \newcommand{\eTOepre}[1]{\textbf{Warunki wstępne:} & #1 \\ \hline}
 
-% W tabeli lepiej pakować listy do minipage (stabilniej z tabitemizeeTOe/itemize)
 \newcommand{\eTOesteps}[1]{%
     \textbf{Kroki:} & \begin{minipage}[t]{\linewidth}#1\end{minipage} \\ \hline}
 \newcommand{\eTOeexpected}[1]{\textbf{Oczekiwany rezultat:} & #1 \\ \hline}
 
-% --- Karta E2E ---
 \newcommand{\eTOecard}[3]{%
     \refstepcounter{eTOe}%
     \par\begin{center}
