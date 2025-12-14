@@ -39,13 +39,13 @@ public class PopulateMapService {
     @Transactional
     public void initMapData() {
 
-        var user = userEntityRepository.findByUsername("user").orElseThrow();
+        var user = userEntityRepository.findByUsername("mateuszRedosz").orElseThrow();
 
         Spot spot1 = Spot.builder()
                 .name("Pomnik konny Jana III Sobieskiego")
                 .city("Gdańsk")
                 .region("Pomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Targ Drzewny 9")
                 .areaColor("#A8071A")
                 .description("Brązowy posąg XVII-wiecznego polskiego króla Jana III Sobieskiego na koniu usytuowany na małym placu.")
@@ -59,7 +59,7 @@ public class PopulateMapService {
                 .name("Skwer Czesława Niemena")
                 .city("Gdańsk")
                 .region("Pomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Hucisko")
                 .areaColor("#A8071A")
                 .description("Mały park z ławkami i pomnikiem Czesława Niemena.")
@@ -73,7 +73,7 @@ public class PopulateMapService {
                 .name("Park Wałowy")
                 .city("Gdańsk")
                 .region("Pomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Pod Zrębem 1")
                 .areaColor("#A8071A")
                 .description("Mały park z ławkami")
@@ -87,7 +87,7 @@ public class PopulateMapService {
                 .name("Park księdza infułata Bogdanowicza")
                 .city("Gdańsk")
                 .region("Pomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Szeroka 8/10")
                 .areaColor("#A8071A")
                 .description("Mały park")
@@ -101,7 +101,7 @@ public class PopulateMapService {
                 .name("Jar Wilanowski")
                 .city("Gdańsk")
                 .region("Pomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Antoniego Madalińskiego")
                 .areaColor("#A8071A")
                 .description("Zielona strefa z jeziorem")
@@ -115,7 +115,7 @@ public class PopulateMapService {
                 .name("Plac imienia Dariusza Kobzdeja")
                 .city("Gdańsk")
                 .region("Pomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Podwale Staromiejskie 109/112b")
                 .areaColor("#A8071A")
                 .description("Mały, zadbany plac z ławeczkami i zielenią. Znajduje się on z jednej strony w pobliżu pomnika Jana III Sobieskiego, a z drugiej strony w pobliżu Hali Targowej.")
@@ -129,7 +129,7 @@ public class PopulateMapService {
                 .name("Plac Zabaw na Wroniej Górce")
                 .city("Gdańsk")
                 .region("Pomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Marszałka Ferdynanda Focha")
                 .areaColor("#A8071A")
                 .description("Plac zabaw")
@@ -143,7 +143,7 @@ public class PopulateMapService {
                 .name("Plaża stogi")
                 .city("Gdańsk")
                 .region("Pomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Wydmy 1")
                 .areaColor("#A8071A")
                 .description("Szeroka piaszczysta plaża.")
@@ -157,7 +157,7 @@ public class PopulateMapService {
                 .name("Park Oruński im. Emilii Hoene")
                 .city("Gdańsk")
                 .region("Pomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Raduńska 44A")
                 .areaColor("#A8071A")
                 .description("Park Oruński należy, obok Parku Oliwskiego, należy do najcenniejszych zachowanych dawnych gdańskich parków.")
@@ -171,7 +171,7 @@ public class PopulateMapService {
                 .name("Park Street Workout")
                 .city("Gdańsk")
                 .region("Pomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Związkowa")
                 .areaColor("#A8071A")
                 .description("Park, który oryginalnie był cmentarzem protestanckim, należącym dawniej do kościoła przy placu Oruńskim.")
@@ -613,13 +613,12 @@ public class PopulateMapService {
 
     @Transactional
     public void initMapData2() {
-
-        var user = userEntityRepository.findByUsername("user").orElseThrow();
+        var user = userEntityRepository.findByUsername("mateuszRedosz").orElseThrow();
         Spot spot11 = Spot.builder()
                 .name("Zamek Królewski na Wawelu")
                 .city("Kraków")
                 .region("Małopolskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Wawel 5")
                 .areaColor("#A8071A")
                 .description("Ikoniczny zamek królewski z widokiem na Wisłę – obowiązkowy punkt w Krakowie.")
@@ -646,7 +645,7 @@ public class PopulateMapService {
                 .name("Rynek Główny")
                 .city("Kraków")
                 .region("Małopolskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Rynek Główny")
                 .areaColor("#A8071A")
                 .description("Główna płyta rynku z Sukiennicami i świetnym klimatem o każdej porze roku.")
@@ -678,7 +677,7 @@ public class PopulateMapService {
                 .name("Park św. Kingi")
                 .city("Wieliczka")
                 .region("Małopolskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Daniłowicza 10")
                 .areaColor("#A8071A")
                 .description("Park obok kopalni soli")
@@ -710,7 +709,7 @@ public class PopulateMapService {
                 .name("Morskie Oko")
                 .city("Zakopane")
                 .region("Małopolskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Brak (szlak/teren)")
                 .areaColor("#A8071A")
                 .description("Jezioro w Tatrach z klasyczną trasą spacerową i genialnymi widokami.")
@@ -749,7 +748,7 @@ public class PopulateMapService {
                 .name("Plaża Dębki")
                 .city("Dębki")
                 .region("Pomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Brak")
                 .areaColor("#A8071A")
                 .description("Szeroka plaża i wydmy – dużo miejsca na spokojny lot (poza tłumem).")
@@ -774,7 +773,7 @@ public class PopulateMapService {
                 .name("Plaża Jantar")
                 .city("Jantar")
                 .region("Pomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Gdańska")
                 .areaColor("#A8071A")
                 .description("Długa, otwarta plaża – fajna do ujęć linii brzegowej i zachodów słońca.")
@@ -799,7 +798,7 @@ public class PopulateMapService {
                 .name("Klif w Jastrzębiej Górze")
                 .city("Jastrzębia Góra")
                 .region("Pomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Norwida")
                 .areaColor("#A8071A")
                 .description("Klifowe wybrzeże i morze w kadrze – efektowne ujęcia z góry")
@@ -821,7 +820,7 @@ public class PopulateMapService {
                 .name("Plaża Międzywodzie")
                 .city("Międzywodzie")
                 .region("Zachodniopomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Morska")
                 .areaColor("#A8071A")
                 .description("Szeroki pas plaży – dobre miejsce na spokojne loty o wschodzie lub poza sezonem.")
@@ -844,7 +843,7 @@ public class PopulateMapService {
                 .name("Pustynia Błędowska")
                 .city("Klucze")
                 .region("Małopolskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Bolesławska")
                 .areaColor("#A8071A")
                 .description("Szerokie, otwarte przestrzenie – jedne z najlepszych kadrów “pustynnych” w PL.")
@@ -897,7 +896,7 @@ public class PopulateMapService {
                 .name("Park Skaryszewski")
                 .city("Warszawa")
                 .region("Mazowieckie")
-                .country("Poland")
+                .country("Polska")
                 .street("al. Zieleniecka")
                 .areaColor("#A8071A")
                 .description("Sporo przestrzeni i wody w kadrach; najlepiej wcześnie rano, gdy jest mniej ludzi.")
@@ -922,7 +921,7 @@ public class PopulateMapService {
                 .name("Błonia Krakowskie")
                 .city("Kraków")
                 .region("Małopolskie")
-                .country("Poland")
+                .country("Polska")
                 .street("al. 3 Maja")
                 .areaColor("#A8071A")
                 .description("Ogromna otwarta przestrzeń – idealna do treningu i szerokich kadrów.")
@@ -944,7 +943,7 @@ public class PopulateMapService {
                 .name("Łąki Nowohuckie")
                 .city("Kraków")
                 .region("Małopolskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Biskupa Filipa Padniewskiego")
                 .areaColor("#A8071A")
                 .description("Otwarte łąki i ścieżki – świetne na krajobrazowe ujęcia bez zabudowy w kadrze.")
@@ -981,7 +980,7 @@ public class PopulateMapService {
                 .name("Pole Mokotowskie")
                 .city("Warszawa")
                 .region("Mazowieckie")
-                .country("Poland")
+                .country("Polska")
                 .street("Stefana Batorego")
                 .areaColor("#A8071A")
                 .description("Duże otwarte polany w środku miasta – dobre na spokojne, niskie przeloty i trening.")
@@ -1012,7 +1011,7 @@ public class PopulateMapService {
                 .name("Park Cytadela")
                 .city("Poznań")
                 .region("Wielkopolskie")
-                .country("Poland")
+                .country("Polska")
                 .street("al. Armii Poznań")
                 .areaColor("#A8071A")
                 .description("Spory park z otwartymi fragmentami; najlepiej w godzinach, gdy jest spokojniej.")
@@ -1058,7 +1057,7 @@ public class PopulateMapService {
                 .name("Park Śląski")
                 .city("Chorzów")
                 .region("Śląskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Różana")
                 .areaColor("#A8071A")
                 .description("Ogromny park – dużo przestrzeni, tylko omijaj tłoczne strefy atrakcji.")
@@ -1099,7 +1098,7 @@ public class PopulateMapService {
                 .name("Jasne Błonia")
                 .city("Szczecin")
                 .region("Zachodniopomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Jana Pawła II")
                 .areaColor("#A8071A")
                 .description("Szerokie aleje i otwarte fragmenty; najlepiej wcześnie rano.")
@@ -1122,7 +1121,7 @@ public class PopulateMapService {
                 .name("Park Grabiszyński")
                 .city("Wrocław")
                 .region("Dolnośląskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Grabiszyńska")
                 .areaColor("#A8071A")
                 .description("Duży park z polanami – dobre miejsce na “parkowe” ujęcia bez ścisłego centrum.")
@@ -1150,7 +1149,7 @@ public class PopulateMapService {
                 .name("Park Tysiąclecia")
                 .city("Wrocław")
                 .region("Dolnośląskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Kozanowska")
                 .areaColor("#A8071A")
                 .description("Sporo przestrzeni; koniecznie sprawdź strefy, bo to okolice lotnicze.")
@@ -1178,7 +1177,7 @@ public class PopulateMapService {
                 .name("Bulwary nad Wisłokiem")
                 .city("Rzeszów")
                 .region("Podkarpackie")
-                .country("Poland")
+                .country("Polska")
                 .street("Bulwary")
                 .areaColor("#A8071A")
                 .description("Rzeka i zieleń w kadrze – dobre do dłuższych, płynnych przelotów.")
@@ -1211,7 +1210,7 @@ public class PopulateMapService {
                 .name("Park na Zdrowiu")
                 .city("Łódź")
                 .region("Łódzkie")
-                .country("Poland")
+                .country("Polska")
                 .street("Konstantynowska")
                 .areaColor("#A8071A")
                 .description("Duży kompleks zieleni – dużo miejsca na ujęcia parkowe i trening lotu.")
@@ -1235,7 +1234,7 @@ public class PopulateMapService {
                 .name("Jezioro Tarnobrzeskie")
                 .city("Tarnobrzeg")
                 .region("Podkarpackie")
-                .country("Poland")
+                .country("Polska")
                 .street("wisłostrada")
                 .areaColor("#A8071A")
                 .description("Rozległy akwen – idealny na trening i przeloty nad wodą.")
@@ -1289,7 +1288,7 @@ public class PopulateMapService {
                 .name("Jezioro Żarnowieckie")
                 .city("Żarnowiec")
                 .region("Pomorskie")
-                .country("Poland")
+                .country("Polska")
                 .street("Długa")
                 .areaColor("#A8071A")
                 .description("Duży akwen i otwarte brzegi – dobre na panoramy i loty nad wodą.")
@@ -1341,6 +1340,119 @@ public class PopulateMapService {
                 new BorderPoint(54.796198978334616, 18.051466495265117)
         );
 
+        List<SpotMedia> spotMedia11 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/38479090-acb1-4e82-9663-deda7c0461ce.jpg", "1803-Zamek-Krolewski-na-Wawelu.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot11, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/b0cb22f8-4d95-4ad8-9dc9-136c2543320f.jpg", "Wawel_(4).jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot11, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia12 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/96d6f9b5-f742-49a5-b9e9-a516aed3c269.JPG", "Sukiennice_and_Main_Market_Square_Krakow_Poland (1).JPG", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot12, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/623cec31-9c7f-459d-b4ff-c7534075eb84.jpg", "st_marys_basilica_mariacki_by_night_church_sukiennice-264866-1.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot12, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia13 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/9db51137-8600-4b1b-9c77-84ec04491773.jpg", "2J7A2851.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot13, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/9c974fa5-da65-45fe-ba0f-274953c3bc22.jpg", "2J7A2894 (1).jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot13, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia14 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/dd9859c3-d681-4789-874e-063f52e2a684.jpg", "tlo12.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot14, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/0a6bd18e-a215-4d87-b083-1b89b37055ed.jpg", "1200px-Przelecz_pod_chlopkiem.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot14, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia15 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/faf94451-a683-4799-984d-cd796244f21e.jpg", "442723702.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot15, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/3ac1021e-23d5-42c7-82c5-63cbabc61054.jpg", "Dębki,_plaża_(HB2).jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot15, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia16 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/566850f0-bcfc-4fd8-bdcf-94aeff4dd895.jpg", "img-6286.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot16, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/6bce17c3-eb01-4963-b37b-3d15084d93ca.mp4", "[trimmed] YTDown.com_YouTube_Media_C4JdMKIZuHk_003_480p.mp4", "", 0, 0, GenericMediaType.VIDEO, LocalDate.of(2025, 12, 14), user, spot16, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia17 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/3b67b8e1-ca44-4aa5-98eb-b8cdc55f64b0.jpg", "jastrzebia3_1280x768.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot17, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/0bba408a-a4a3-4ba3-81d2-a07cf855fa02.jpg", "Zdjecie-komunikat.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot17, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia18 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/42e7f3e4-4978-4a33-bbdc-bdee09460b5c.png", "Miedzywodzie-2 (1).png", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot18, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia19 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/5bee1969-4ec5-4dbf-899d-a2a3b4ba80de.jpg", "Pustynia Błędowska, fot. M. Wróblewski, arch. UM w Dąbrowie Górniczej.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot19, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/6de52c9b-8aff-44a7-b565-c78f7d12a928.jpg", "z32223507AMP,Pustynia-Bledowska.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot19, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia20 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/744f8314-b951-4b56-90ac-c4dcf951c014.jpg", "skaryszewski-park.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot20, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d27a5182-948b-4878-bb8a-5c630b2b145d.jpg", "Warszawa,_Park_Skaryszewski_z_góry.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot20, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia21 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/297e97a9-8f8d-4785-989f-4146eb56297e.mp4", "YTDown.com_YouTube_Media_dKIZLBGOtKg_002_720p.mp4", "", 0, 2, GenericMediaType.VIDEO, LocalDate.of(2025, 12, 14), user, spot21, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/cf0653e2-b879-42d3-b9dd-12647c9ef3f0.jpg", "ee942152895ab17379319f19b18980a9_XL.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot21, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/8016dac0-2c11-4dd5-b41a-bb2297a30659.jpg", "noresize.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot21, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia22 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/8ad11f95-ced0-48dd-87d4-fc7ad704f6a8.jpg", "3666.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot22, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/58235df0-64d4-43cb-aaa6-1e6a4a1c1bcf.jpg", "Nowa_Huta_meadows,_Kraków,_Poland.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot22, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia23 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/89043a21-0f35-4dc6-ba37-3bd5192e1134.jpg", "gf-Z2No-997R-jvTt_pole-mokotowskie-wiosna-2024-1920x1080-nocrop.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot23, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/ee80bdef-271a-46e0-805e-21078286ed45.png", "409931191_10231587124130670_4259959322624058222_n.png", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot23, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/b824be9d-35b8-47d4-bf51-83b0bb38ebe0.jpg", "Pole_Mokotowskie_Pond_Warsaw_2024_aerial.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot23, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia24 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/fc958350-7b19-4772-b248-4755482851b6.jpg", "maxresdefault.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot24, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/4d97e75a-99c3-4c25-b548-7c47a223da49.jpg", "Park-Cytedela-w-Poznaniu-3.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot24, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/63f47304-1172-4073-aecf-27405f868164.jpg", "Park-Cytadela-w-Poznaniu-1.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot24, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia25 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d0c4475c-1863-4b1f-8758-8c88b4309dd0.jpg", "dronj1.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot25, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/8d863f09-160d-474a-bd13-41dc37cbfee5.jpeg", "thumb_986162_document_big.jpeg", "", 0, 6, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot25, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia26 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/bc45b310-77fe-445a-ae28-8275d6f4a4b3.jpg", "jasne-blonia-5.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot26, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/622af823-b623-4cac-abb0-088056be4184.jpg", "Szczecin_PCP_i_Jasne_Blonia_dron_(1).jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot26, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia27 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/487eb941-c1cb-4a4c-8ef6-1076ef9469c4.png", "park-grabiszynski-wroclaw-18.png", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot27, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d4453550-dbc8-4f16-890f-93a574c898d5.jpg", "Wrocław,_Cmentarz_Grabiszyński_III_-_fotopolska.eu_(209067).jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot27, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia28 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/f17f56b5-9c99-4621-8676-5c14119f2f3b.jpg", "1000yers_park_Poznan.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot28, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/2bc6bef0-4bdf-47e9-92f9-038ef4737cfd.jpg", "ParkTysiąclecia-WidokOdPółnocy-OsiedleTysiąclecia-POL,_Kraków.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot28, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia29 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/023c318d-4dcb-4b43-a50e-b91999029784.jpg", "z26357417AMP,Bulwary-nad-Wislokiem--potezny-teren--na-ktory-wci.jpg", "", 0, 6, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot29, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/9743c30f-561d-40b7-b209-daf0b6f6dd57.png", "bulwary-rzeszow .png", "", 0, 6, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot29, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia30 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/7186ef68-5f55-4aab-8c9b-c2ce4d892b77.png", "klomb-w-parku-na-zdrowiu.png", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot30, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/049b9d72-1cbb-46a2-ab46-1a42eb219ab8.JPG", "IMG_4429.JPG", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot30, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia31 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/2e9542b8-118a-4aa9-8bc9-c010b729cd4b.jpg", "jezioro-p.morawski-1.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot31, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/4732819d-4067-4220-a908-e4751bcd6d64.jpg", "7.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot31, new HashSet<>())
+        );
+
+        List<SpotMedia> spotMedia32 = Arrays.asList(
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/1ee2e8db-d251-4197-b0b2-c145e0b22796.jpg", "okolica-zamek-krokowa-jezioro-zarnowieckie-noclegi-gniewino.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot32, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d46f0993-fac7-479b-9fb8-e050aa66f1c5.png", "c6382b9c54e0183be182a0eb446847dc.png", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot32, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/68f3e432-e3a8-4150-a3af-1531bd5b78dc.jpg", "okolica-zamek-krokowa-jezioro-zarnowieckie-elektrownia-gniewino.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot32, new HashSet<>())
+        );
+
         // ===================== ZAPIS =====================
 
         var spots = new ArrayList<>(List.of(
@@ -1355,9 +1467,14 @@ public class PopulateMapService {
                 contour31, contour32
         );
 
-        for (int i = 11; i < spots.size(); i++) {
+        List<List<SpotMedia>> spotMediaList = List.of(spotMedia11, spotMedia12, spotMedia13, spotMedia14, spotMedia15, spotMedia16,
+                spotMedia17, spotMedia18, spotMedia19, spotMedia20, spotMedia21, spotMedia22, spotMedia23, spotMedia24, spotMedia25,
+                spotMedia26, spotMedia27, spotMedia28, spotMedia29, spotMedia30, spotMedia31, spotMedia32);
+
+        for (int i = 0; i < spots.size(); i++) {
             Spot spot = spots.get(i);
             spot.getBorderPoints().addAll(contours.get(i));
+            spot.setMedia(spotMediaList.get(i));
 
             spot.setArea(PolygonAreaCalculator.calculateArea(spot.getBorderPoints().toArray(new BorderPoint[0])));
             spot.setCenterPoint(PolygonCenterPointCalculator.calculateCenterPoint(spot.getBorderPoints()));
