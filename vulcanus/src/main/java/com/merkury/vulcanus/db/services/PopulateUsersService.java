@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
-import static com.merkury.vulcanus.model.enums.UserRole.ROLE_ADMIN;
-
 @Service
 @RequiredArgsConstructor
 public class PopulateUsersService {
@@ -20,24 +18,7 @@ public class PopulateUsersService {
 
     @Transactional
     public void initUserData() {
-
         var userList = new ArrayList<UserEntity>();
-
-        var admin = UserEntity.builder()
-                .username("admin")
-                .email("admin@example.com")
-                .password(passwordEncoder.encode("password"))
-                .userRole(ROLE_ADMIN)
-                .build();
-        userList.add(admin);
-
-//        var user = UserEntity.builder()
-//                .username("user")
-//                .email("user@example.com")
-//                .password(passwordEncoder.encode("password"))
-//                .profilePhoto("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
-//                .build();
-//        userList.add(user);
 
         userList.add(UserEntity.builder()
                 .username("adamLangmesser")

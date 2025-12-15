@@ -40,10 +40,7 @@ public class PopulateDbs {
     @Order(3)
     @Bean
     CommandLineRunner initMap() {
-        return args -> {
-            populateMapService.initMapData();
-            populateMapService.initMapData2();
-        };
+        return args -> populateMapService.initMapData();
     }
 
 //    @Order(4)
