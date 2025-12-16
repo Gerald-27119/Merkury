@@ -4,299 +4,176 @@
 \section{Zastosowanie WebSocket}
 \label{sec:zastosowanie-websocket}
 
-\subsection{Charakterystyka protokołu WebSocket}
+Niniejszy rozdział prezentuje implementację protokołu \glslink{websocket}{WebSocket} na potrzeby realizacji modułu czatu.
+Opis przygotowano w oparciu o specyfikację \gls{rfc}6455 oraz dokumentację \gls{spring-framework} dotyczącą \glslink{websocket}{WebSocket} i \glslink{stomp}{STOMP}% TODO:(do zrobienia potem) dodac jesze dokuemtancje do informacj o impelemtnacji na frontendzie
+\cite{rfc6455,spring-websocket,spring-stomp,sockjs-client}.
+
+\subsection{Charakterystyka protokołu \glslink{websocket}{WebSocket}}
 \label{subsec:definicja-websocket}
 
-Na podstawie specyfikacji RFC 6455, opracowanej przez IETF, protokół WebSocket można opisać
-jako mechanizm komunikacji pomiędzy aplikacją działającą w przeglądarce a serwerem,
+Na podstawie specyfikacji \gls{rfc}6455, opracowanej przez \gls{ietf}, protokół \glslink{websocket}{WebSocket} można opisać
+jako mechanizm komunikacji pomiędzy aplikacją działającą w przeglądarce a \gls{serwer},
 który umożliwia dwukierunkową wymianę danych w czasie zbliżonym do rzeczywistego.
-Przeglądarka utrzymuje stałe połączenie z serwerem, dzięki czemu może na bieżąco wysyłać dane,
-a serwer w dowolnym momencie przesyłać odpowiedzi, bez konieczności ciągłego odświeżania strony
-ani inicjowania wielu osobnych zapytań HTTP. Tego typu komunikacja jest możliwa wyłącznie z serwerami,
+Przeglądarka utrzymuje stałe połączenie z \glslink{serwer}{serwerem}, dzięki czemu może na bieżąco wysyłać dane,
+a \glslink{serwer}{serwer} w dowolnym momencie przesyłać odpowiedzi, bez konieczności ciągłego odświeżania strony
+ani inicjowania wielu osobnych zapytań \gls{http}. Tego typu komunikacja jest możliwa wyłącznie z \glslink{serwer}{serwerami},
 które świadomie ją dopuszczają, co zwiększa kontrolę nad bezpieczeństwem.
 Przeglądarka w dalszym ciągu stosuje model bezpieczeństwa oparty na pochodzeniu (origin),
-weryfikując domenę, z której pochodzi kod. Technologia WebSocket została zaprojektowana
+weryfikując domenę, z której pochodzi kod. Technologia \glslink{websocket}{WebSocket} została zaprojektowana
 z myślą o aplikacjach webowych, takich jak czaty, powiadomienia w czasie rzeczywistym,
-aplikacje giełdowe czy gry sieciowe, które wymagają stałego kanału komunikacji z serwerem,
-zamiast opierać się na wielu tradycyjnych połączeniach HTTP i okresowym odpytywaniu serwera.
+aplikacje giełdowe czy gry sieciowe, które wymagają stałego kanału komunikacji z \glslink{serwer}{serwerem},
+zamiast opierać się na wielu tradycyjnych połączeniach \gls{http} i okresowym odpytywaniu \glslink{serwer}{serwera}.
 
-Warto podkreślić, że sam protokół WebSocket definiuje przede wszystkim
-\textbf{mechanizm utrzymania stałego połączenia i przesyłania ramek danych}.
+Warto podkreślić, że sam protokół \glslink{websocket}{WebSocket} definiuje przede wszystkim
+\textbf{mechanizm utrzymania stałego połączenia i przesyłania \glslink{ramka}{ramek} danych}.
 Nie narzuca natomiast \textbf{struktury komunikatów aplikacyjnych}, sposobu ich
-adresowania, routingu ani modelu subskrypcji. Oznacza to, że po ustanowieniu połączenia
-WebSocket aplikacja musi samodzielnie ustalić, jak wygląda format wiadomości oraz w jaki sposób realizowane jest
+adresowania, routingu ani modelu \glslink{subskrypcja}{subskrypcji}. Oznacza to, że po ustanowieniu połączenia
+\glslink{websocket}{WebSocket} aplikacja musi samodzielnie ustalić, jak wygląda format wiadomości oraz w jaki sposób realizowane jest
 publikowanie i odbieranie zdarzeń.
 
 Z tego powodu często stosuje się protokoły warstwy
-aplikacyjnej działające \textbf{nad} WebSocket, np.\ \textbf{STOMP}
-(\emph{Simple/Streaming Text Oriented Messaging Protocol}). STOMP zapewnia ustandaryzowaną
+aplikacyjnej działające \textbf{nad} \glslink{websocket}{WebSocket}, np.\ \glslink{stomp}{STOMP}
+(\emph{Simple Text Oriented Messaging Protocol}). Zapewnia on ustandaryzowaną
 semantykę komunikacji w modelu wiadomościowym, w szczególności:
 \begin{itemize}
-    \item \textbf{adresowanie wiadomości} do tzw.\ destynacji (np.\ kanałów typu \texttt{/topic} lub \texttt{/queue}),
-    \item \textbf{mechanizm subskrypcji} (\texttt{SUBSCRIBE}) oraz dystrybucję wiadomości w stylu \textbf{publish--subscribe},
+    \item \textbf{adresowanie wiadomości} do tzw.\ \glslink{destynacja}{destynacji},
+    \item \textbf{mechanizm \glslink{subskrypcja}{subskrypcji}} (\texttt{SUBSCRIBE}) oraz dystrybucję wiadomości w stylu \gls{publish-subscribe},
     \item \textbf{nagłówki i metadane} wiadomości (np.\ identyfikatory, typy zdarzeń, dodatkowy kontekst),
-    \item \textbf{potwierdzanie odbioru} (ACK/NACK) i lepszą kontrolę nad niezawodnością dostarczenia,
+    \item \textbf{potwierdzanie odbioru} (\gls{ack}) i lepszą kontrolę nad niezawodnością dostarczenia,
     \item \textbf{obsługę błędów} na poziomie protokołu (ramki \texttt{ERROR}) oraz opcjonalne \textbf{heartbeat}
     do wykrywania zerwanych połączeń.
 \end{itemize}
 
-[https://docs.spring.io/spring-framework/reference/web/websocket/stomp/overview.html]
-[https://datatracker.ietf.org/doc/html/rfc6455]
-
-\subsection{Zastosowanie protokołu WebSocket w naszym projekcie}
+\subsection{Zastosowanie \glslink{websocket}{WebSocket} w naszym projekcie}
 \label{subsec:zastosowanie-w-naszym-przypadku}
 
-Główną metodą komunikacji między backendem a frontendem w naszej aplikacji jest REST API oparte na protokole HTTP.
+Główną metodą komunikacji między \glslink{backend}{backendem} a \glslink{frontend}{frontendem} w naszej aplikacji jest \gls{rest_api} oparte na protokole \gls{http}.
 Tego typu interfejs bardzo dobrze sprawdza się w typowych scenariuszach,
-w których klient (frontend) inicjuje żądanie, a serwer (backend) zwraca odpowiedź,
+w których \gls{klient} (\gls{frontend}) inicjuje żądanie, a \gls{serwer} (\gls{backend}) zwraca odpowiedź,
 np. podczas logowania użytkownika, pobierania listy spotów czy dodawania komentarza na forum.
-Każda operacja ma wówczas postać pojedynczego, niezależnego wywołania HTTP, po którym połączenie jest zamykane.
+Każda operacja ma wówczas postać pojedynczego, niezależnego wywołania \gls{http}, po którym połączenie jest zamykane.
 
 Problem pojawia się jednak wtedy, gdy konieczna jest ciągła wymiana danych w czasie zbliżonym do rzeczywistego,
-a więc nie tylko na żądanie klienta, lecz także z inicjatywy serwera.
+a więc nie tylko na żądanie \glslink{klient}{klienta}, lecz także z inicjatywy \glslink{serwer}{serwera}.
 W naszej aplikacji taka potrzeba wystąpiła przy implementacji modułu czatu.
-Teoretycznie czat można zrealizować wyłącznie w oparciu o REST API,
-na przykład poprzez cykliczne odpytywanie serwera (polling) – klient co kilka sekund wysyłałby
-zapytanie o nowe wiadomości, a serwer zwracałby aktualny stan konwersacji.
-Można również stosować tzw. long polling, w którym żądanie jest utrzymywane dłużej,
+Teoretycznie czat można zrealizować wyłącznie w oparciu o \gls{rest_api},
+na przykład poprzez \gls{polling} – \glslink{klient}{klient} co kilka sekund wysyłałby
+zapytanie o nowe wiadomości, a \glslink{serwer}{serwer} zwracałby aktualny stan konwersacji.
+Można również stosować \gls{long-polling}, w którym żądanie jest utrzymywane dłużej,
 aż pojawi się nowa wiadomość.
 
-Takie podejście ma jednak istotne wady. Częste odpytywanie serwera generuje
-dużą liczbę żądań HTTP, obciążając zarówno serwer, jak i sieć, mimo
+Takie podejście ma jednak istotne wady. Częste odpytywanie \glslink{serwer}{serwera} generuje
+dużą liczbę żądań \gls{http}, obciążając zarówno \glslink{serwer}{serwer}, jak i sieć, mimo
 że w wielu przypadkach odpowiedzi nie zawierają żadnych nowych danych.
 Dodatkowo wprowadza to opóźnienia – użytkownik zobaczy nową wiadomość dopiero przy kolejnym odpytywaniu,
-a nie w momencie jej wysłania. Rozwiązania oparte na long pollingu są
+a nie w momencie jej wysłania. Rozwiązania oparte na \glslink{long-polling}{long pollingu} są
 z kolei bardziej złożone w implementacji i wciąż nie zapewniają tak naturalnego,
 dwukierunkowego kanału komunikacji, jakiego oczekuje się od współczesnego czatu.
 
 Z tego powodu wszędzie tam, gdzie potrzebna jest stała, dwukierunkowa komunikacja
-w czasie rzeczywistym, stosuje się protokół WebSocket. W naszej aplikacji został
+w czasie rzeczywistym, stosuje się protokół \glslink{websocket}{WebSocket}. W naszej aplikacji został
 on wykorzystany właśnie w module czatu, co pozwala na utrzymanie jednego,
-trwałego połączenia pomiędzy klientem a serwerem i natychmiastowe dostarczanie
-wiadomości do wszystkich uczestników konwersacji, bez konieczności ciągłego odpytywania serwera za pomocą REST API.
+trwałego połączenia pomiędzy \glslink{klient}{klientem} a \glslink{serwer}{serwerem} i natychmiastowe dostarczanie
+wiadomości do wszystkich uczestników konwersacji, bez konieczności ciągłego odpytywania \glslink{serwer}{serwera} za pomocą \gls{rest_api}.
 
-\subsection{Implementacja na backendzie}
+\subsection{Implementacja na \gls{backend}zie}
 \label{subsec:implementacja-na-backendzie}
 
-Platforma Spring udostępnia dwa komplementarne sposoby obsługi komunikacji
-w oparciu o protokół WebSocket. Pierwsze podejście to niskopoziomowa integracja
-z tzw. „surowym” WebSocketem. Umożliwia ono pełną kontrolę nad formatem wiadomości
-i cyklem życia połączenia, ale wymaga samodzielnego zdefiniowania protokołu komunikacji
-i mechanizmów dystrybucji wiadomości między klientami.
-(https://docs.spring.io/spring-framework/reference/web/websocket.html)
+\gls{spring-framework} udostępnia dwa popularne podejścia do obsługi komunikacji \glslink{websocket}{WebSocket}.
+Pierwsze to praca na „surowych” \glslink{ramka}{ramkach} \glslink{websocket}{WebSocket} (pełna kontrola, ale konieczność
+zaprojektowania własnego formatu komunikatów i dystrybucji).
+Drugie wykorzystuje protokół \glslink{stomp}{STOMP} jako warstwę aplikacyjną nad \glslink{websocket}{WebSocket}.
+W niniejszym projekcie wybrano wariant z \glslink{stomp}{STOMP}, ponieważ upraszcza on implementację czatu:
+pozwala korzystać z gotowych \glslink{destynacja}{destynacji} (ścieżek), \glslink{subskrypcja}{subskrypcji} oraz mechanizmu publikowania wiadomości.
 
-Drugie podejście wykorzystuje protokół STOMP jako podprotokół warstwy aplikacyjnej
-działający „nad” WebSocketem i jest konfigurowane w Springu
-za pomocą @EnableWebSocketMessageBroker. W tym wariancie aplikacja korzysta
-z modelu komunikatów (messaging), tematów i kolejek, a Spring udostępnia
-bogatszy model programowania oparty m.in. na adnotacjach @MessageMapping
-oraz wbudowanym brokerze wiadomości. Zastosowanie STOMPa eliminuje konieczność
-tworzenia własnego formatu komunikatów i ułatwia implementację wzorca publish–subscribe.
-(https://docs.spring.io/spring-framework/reference/web/websocket.html)
+\subsubsection{Konfiguracja WebSocket}
+\label{subsubsec:ws-config-backend}
 
-W niniejszym projekcie, ze względu na charakter modułu czatu tekstowego,
-zdecydowano się na wykorzystanie drugiego podejścia, tj. komunikacji WebSocket z warstwą STOMP.
-Pozwala to traktować poszczególne pokoje czatowe jako osobne „ścieżki” (np. /topic/chat/{id})(TODO: tu popraw na realną),
-uprościć logikę rozsyłania wiadomości oraz skorzystać z gotowego modelu
-wiadomości oferowanego przez Spring Framework, zamiast implementować od podstaw własny protokół na bazie surowych ramek WebSocket.
-
-
-Konfiguracja:
-WebsocketConfig.java
+Na rysunku \ref{img:web-socket-config-backend} przedstawiono konfigurację \glslink{websocket}{WebSocket}.
+Definiuje ona \gls{endpoint} do zestawienia połączenia oraz dwa \glslink{prefiks}{prefiksy} \glslink{destynacja}{destynacji}:
+dla wiadomości przychodzących do aplikacji oraz dla wiadomości rozsyłanych do \glslink{klient}{klientów}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/websocket-config}
-    \caption{TODO}
+    \caption{Konfiguracja WebSocket w module czatu (plik \texttt{WebSocketConfig.java}).}
     \label{img:web-socket-config-backend}
 \end{figure}
 
-\paragraph{Opis klasy \texttt{WebSocketConfig}.}
-Klasa \texttt{WebSocketConfig} konfiguruje komunikację WebSocket z wykorzystaniem protokołu STOMP w module czatu.
-
+Najważniejsze elementy konfiguracji:
 \begin{itemize}
-    \item \texttt{@Configuration} -- oznacza klasę jako konfigurację Springa (źródło beanów).
-    \item \texttt{@EnableWebSocketMessageBroker} -- włącza obsługę WebSocket + STOMP oraz broker wiadomości w Springu.
+    \item \texttt{/connect} -- \gls{endpoint} zestawienia połączenia (tzw.\ \gls{handshake}); dodatkowo włączono \gls{sockjs}.
+    \item \texttt{/app/*} -- \glslink{prefiks}{prefiks} \glslink{destynacja}{destynacji} dla wiadomości wysyłanych \textbf{od \glslink{klient}{klienta} do \glslink{serwer}{serwera}}
+    (obsługiwanych przez metody z \texttt{@MessageMapping}).
+    \item \texttt{/subscribe/*} -- \glslink{prefiks}{prefiks} \glslink{destynacja}{destynacji} dla wiadomości wysyłanych \textbf{od \glslink{serwer}{serwera} do \glslink{klient}{klientów}}
+    (\glslink{klient}{klient} \glslink{subskrypcja}{subskrybuje} te kanały, a \glslink{serwer}{serwer} publikuje tam komunikaty).
+    \item \texttt{SecurityContextChannelInterceptor} -- zapewnia dostęp do kontekstu bezpieczeństwa dla wiadomości przychodzących
+    (backend rozpoznaje, kto wysłał wiadomość).
 \end{itemize}
 
-\paragraph{\texttt{configureMessageBroker(...)}}
-Metoda konfiguruje sposób routowania wiadomości STOMP:
-\begin{itemize}
-    \item \texttt{enableSimpleBroker("/subscribe")} uruchamia wbudowany (prosty) broker wiadomości.
-    Klienci mogą subskrybować destynacje zaczynające się od \texttt{/subscribe/*}
-    (np.\ \texttt{/subscribe/chats/\{username\}} lub \texttt{/subscribe/chats/ack/\{username\}}),
-    a serwer publikuje tam wiadomości do odbiorców.
-    \item \texttt{setApplicationDestinationPrefixes("/app")} ustawia prefiks dla wiadomości wysyłanych \textbf{od klienta do backendu}.
-    Oznacza to, że destynacje zaczynające się od \texttt{/app/*} trafiają do metod oznaczonych \texttt{@MessageMapping}
-    (np.\ \texttt{/app/send/\{chatId\}/message}).
-\end{itemize}
+\subsubsection{Kontroler przyjmujący wiadomości od \glslink{klient}{klienta}}
+\label{subsubsec:ws-controller-backend}
 
-\paragraph{\texttt{registerStompEndpoints(...)}}
-Metoda definiuje endpoint, przez który przeglądarka nawiązuje połączenie:
-\begin{itemize}
-    \item \texttt{addEndpoint("/connect")} ustawia ścieżkę handshake WebSocket na \texttt{/connect}.
-    \item \texttt{setAllowedOriginPatterns("http://localhost:*")} dopuszcza połączenia z frontendów uruchamianych lokalnie.
-    \item \texttt{withSockJS()} włącza SockJS, czyli mechanizm kompatybilności (fallback), gdy WebSocket jest niedostępny.
-\end{itemize}
-
-\paragraph{\texttt{configureClientInboundChannel(...)}}
-Metoda dodaje interceptor do kanału wiadomości \textbf{przychodzących} (od klienta):
-\begin{itemize}
-    \item \texttt{registration.interceptors(...)} rejestruje interceptor dla komunikatów wysyłanych na \texttt{/app/*}.
-\end{itemize}
-
-\paragraph{\texttt{securityContextChannelInterceptor()}}
-Metoda tworzy bean \texttt{SecurityContextChannelInterceptor}.
-Interceptor przenosi kontekst bezpieczeństwa Spring Security do obsługi wiadomości STOMP,
-dzięki czemu backend może rozpoznać użytkownika wysyłającego wiadomość (np.\ przy zapisie wiadomości i wysyłaniu ACK).
-
-
-
-Serwis:
-ChatStompCommunicationService.java
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/stomp-serwis}
-    \caption{TODO}
-    \label{img:web-socket-serwis-backend}
-\end{figure}
-
-\paragraph{Opis klasy \texttt{ChatStompCommunicationService}.}
-Klasa \texttt{ChatStompCommunicationService} jest serwisem odpowiedzialnym za
-\textbf{wysyłanie zdarzeń czasu rzeczywistego} do klientów poprzez STOMP.
-Nie zapisuje ona wiadomości w bazie danych ani nie zawiera logiki walidacji treści --
-jej zadaniem jest wyłącznie \textbf{dystrybucja} komunikatów na odpowiednie kanały
-\texttt{/subscribe/*}.
-
-\paragraph{Adnotacje i pola.}
-\begin{itemize}
-    \item \texttt{@Service} -- rejestruje klasę jako serwis Springa, możliwy do wstrzykiwania w innych komponentach.
-    \item \texttt{@RequiredArgsConstructor} -- generuje konstruktor dla pól \texttt{final}, co upraszcza wstrzykiwanie zależności.
-    \item \texttt{@Slf4j} -- umożliwia logowanie zdarzeń wysyłania wiadomości.
-
-    \item \texttt{SimpMessagingTemplate messagingTemplate} -- obiekt Springa służący do publikowania komunikatów na destynacje STOMP
-    (np.\ \texttt{/subscribe/chats/...}).
-    \item \texttt{ChatRepository chatRepository} -- pozwala pobrać uczestników czatu na podstawie \texttt{chatId}, aby wysłać wiadomość do właściwych osób.
-    \item \texttt{CustomUserDetailsService customUserDetailsService} -- pozwala pobrać aktualnie zalogowanego użytkownika z kontekstu bezpieczeństwa, aby wysłać potwierdzenie (ACK) do nadawcy.
-\end{itemize}
-
-\paragraph{Gdzie ta klasa jest używana i po co.}
-Serwis \texttt{ChatStompCommunicationService} jest wykorzystywany w kilku miejscach backendu:
-\begin{itemize}
-    \item \textbf{Kontroler STOMP} (np.\ obsługujący \texttt{/app/send/\{chatId\}/message}) wywołuje serwis, aby po zapisaniu wiadomości
-    \textbf{rozsłać ją do uczestników} oraz \textbf{odesłać ACK do nadawcy}.
-    \item \textbf{Inne serwisy domenowe modułu czatu} (np.\ serwisy odpowiedzialne za systemowe zdarzenia w czacie,
-    takie jak dodanie uczestnika, zmiana ustawień czatu, komunikaty systemowe itp.) mogą korzystać z tego serwisu,
-    aby publikować zdarzenia w czasie rzeczywistym bez duplikowania kodu wysyłki STOMP.
-\end{itemize}
-Dzięki temu cała logika „gdzie i na jakie kanały wysyłać” jest w jednym miejscu,
-co ułatwia utrzymanie oraz zmiany w formacie/ścieżkach komunikacji.
-
-\paragraph{\texttt{broadcastChatMessageToAllChatParticipants(...)}}
-Metoda rozsyła nową wiadomość do wszystkich uczestników czatu:
-\begin{itemize}
-    \item na podstawie \texttt{chatMessageDto.chatId()} pobierana jest lista uczestników z bazy (\texttt{ChatRepository}),
-    \item dla każdego uczestnika wyznaczany jest jego kanał:
-    \texttt{/subscribe/chats/\{username\}},
-    \item wiadomość typu \texttt{ChatMessageDto} jest publikowana na ten kanał poprzez
-    \texttt{messagingTemplate.convertAndSend(...)}.
-\end{itemize}
-W praktyce oznacza to, że każdy użytkownik odbiera wiadomości na swoim indywidualnym kanale subskrypcji.
-
-\paragraph{\texttt{broadcastACKVersionToSender(...)}}
-Metoda wysyła potwierdzenie (ACK) do użytkownika, który wysłał wiadomość:
-\begin{itemize}
-    \item pobierana jest nazwa aktualnego użytkownika z kontekstu bezpieczeństwa,
-    \item tworzony jest obiekt \texttt{ChatMessageAckDto}, zawierający:
-    \begin{itemize}
-        \item docelową wiadomość \texttt{ChatMessageDto} (np.\ z ID po zapisie),
-        \item \texttt{optimisticMessageUUID} -- identyfikator tymczasowy znany frontendowi.
-    \end{itemize}
-    \item ACK jest wysyłany na kanał:
-    \texttt{/subscribe/chats/ack/\{username\}}.
-\end{itemize}
-Mechanizm ten wspiera \emph{optimistic UI}: klient może natychmiast wyświetlić wiadomość, a po ACK podmienić ją
-na wersję potwierdzoną przez serwer.
-
-Controller:
-ChatStompCommunicationController.java
+Rysunek \ref{img:web-socket-controller-backend} pokazuje kontroler \glslink{stomp}{STOMP}, który jest punktem wejścia
+dla nowych wiadomości wysyłanych przez użytkownika.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/stomp-controller-backend}
-    \caption{TODO}
+    \caption{Kontroler \glslink{stomp}{STOMP} odbierający wiadomości czatu (plik \texttt{ChatStompCommunicationController.java}).}
     \label{img:web-socket-controller-backend}
 \end{figure}
 
-\paragraph{Opis klasy \texttt{ChatStompCommunicationController}.}
-Klasa \texttt{ChatStompCommunicationController} pełni rolę \textbf{punktu wejścia}
-dla wiadomości przychodzących do backendu przez WebSocket/STOMP.
-Odbiera ona komunikaty wysyłane przez klienta na destynacje \texttt{/app/*}
-i przekazuje je dalej do logiki biznesowej oraz do warstwy komunikacji czasu rzeczywistego.
-
-\paragraph{Adnotacje i zależności.}
-\begin{itemize}
-    \item \texttt{@Controller} -- oznacza klasę jako kontroler obsługujący komunikację STOMP (\texttt{@MessageMapping}).
-    \item \texttt{@RequiredArgsConstructor} -- automatycznie tworzy konstruktor dla pól \texttt{final}.
-    \item \texttt{@Slf4j} -- umożliwia logowanie zdarzeń.
-
-    \item \texttt{ChatService chatService} -- serwis domenowy odpowiedzialny za logikę czatu, w tym zapis wiadomości w bazie danych.
-    \item \texttt{ChatStompCommunicationService chatStompCommunicationService} -- serwis odpowiedzialny za rozsyłanie wiadomości i ACK do klientów.
-\end{itemize}
-
-\paragraph{Destynacja wejściowa: \texttt{/app/send/\{chatId\}/message}.}
-Metoda \texttt{sendChatMessage(...)} jest mapowana adnotacją:
-\texttt{@MessageMapping("/send/\{chatId\}/message")}. Ponieważ w konfiguracji WebSocket ustawiono prefiks aplikacyjny
-\texttt{/app}, to klient wysyła wiadomości na pełną ścieżkę:
-\[
-    \texttt{/app/send/\{chatId\}/message}.
-\]
-Jest to główny kanał, którym frontend przekazuje do backendu nową wiadomość dla konkretnego czatu.
-
-\paragraph{Parametry metody.}
-\begin{itemize}
-    \item \texttt{@DestinationVariable String chatId} -- identyfikator czatu pobrany ze ścieżki.
-    \item \texttt{@Payload IncomingChatMessageDto message} -- treść wiadomości przesyłana przez klienta (payload).
-\end{itemize}
-
-\paragraph{Przebieg obsługi wiadomości.}
-Po odebraniu komunikatu metoda wykonuje trzy kroki:
+Kontroler udostępnia wejściową \glslink{destynacja}{destynację}: \texttt{/app/send/\{chatId\}/message}.
+Jej rola jest następująca:
 \begin{enumerate}
-    \item \textbf{Logowanie} informacji o odebranej wiadomości (pomocne w diagnostyce).
-    \item \textbf{Zapis w bazie danych:} wywołanie \texttt{chatService.saveChatMessage(message)}.
-    Dzięki temu wiadomość trafia do trwałej historii czatu i otrzymuje docelowe dane (np.\ ID, timestamp).
-    \item \textbf{Wysyłka czasu rzeczywistego:}
-    \begin{itemize}
-        \item rozesłanie zapisanej wiadomości do wszystkich uczestników czatu przez
-        \texttt{broadcastChatMessageToAllChatParticipants(...)} na kanały
-        \texttt{/subscribe/chats/\{username\}},
-        \item wysłanie potwierdzenia (ACK) do nadawcy przez
-        \texttt{broadcastACKVersionToSender(...)} na kanał
-        \texttt{/subscribe/chats/ack/\{username\}}, z wykorzystaniem \texttt{optimisticMessageUUID}.
-    \end{itemize}
+    \item odebrać wiadomość od \glslink{klient}{klienta},
+    \item zlecić zapis wiadomości do \gls{baza-danych} (serwis domenowy czatu),
+    \item uruchomić rozesłanie wiadomości,
+    \item oddelegować wysłanie potwierdzenia (\gls{ack}) do nadawcy wiadomości.
 \end{enumerate}
 
-\paragraph{Rola kontrolera w architekturze.}
-Kontroler nie zawiera logiki routingu wiadomości do użytkowników ani szczegółów protokołu STOMP.
-Jego rola jest celowo prosta: \textbf{odebrać wiadomość na \texttt{/app/...}, zapisać ją przez serwis domenowy,
-    a następnie zlecić rozesłanie do klientów serwisowi komunikacji STOMP}.
-Dzięki temu odpowiedzialności są rozdzielone: zapis i reguły biznesowe są w \texttt{ChatService},
-a komunikacja czasu rzeczywistego w \texttt{ChatStompCommunicationService}.
+\subsubsection{Serwis dystrybucji wiadomości}
+\label{subsubsec:ws-service-backend}
 
-Zebrane wszystkie dostępne ścieżki (destyancje): TODO: zrobic ladniej ten napis
+Rysunek \ref{img:web-socket-serwis-backend} przedstawia serwis, który odpowiada za publikowanie komunikatów
+na kanały \glslink{subskrypcja}{subskrypcji} \texttt{/subscribe/*}. Serwis ten jest wykorzystywany zarówno przez kontroler \glslink{stomp}{STOMP},
+jak i przez inne elementy logiki modułu czatu.
 
-TODO:przerobic an liste
-\paragraph{\texttt{/connect} -- nawiązanie połączenia}
-\paragraph{\texttt{/app/*} -- wiadomości od klienta do backendu}
-\paragraph{\texttt{/app/send/\{chatId\}/message} -- wysłanie wiadomości do czatu}
-\paragraph{\texttt{/subscribe/*} -- wiadomości od backendu do klientów}
-\paragraph{\texttt{/subscribe/chats/\{username\}} -- kanał wiadomości użytkownika}
-\paragraph{\texttt{/subscribe/chats/ack/\{username\}} -- potwierdzenie (ACK) dla nadawcy}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/stomp-serwis}
+    \caption{Serwis rozsyłający wiadomości czatu i potwierdzenia \gls{ack} (plik \texttt{ChatStompCommunicationService.java}).}
+    \label{img:web-socket-serwis-backend}
+\end{figure}
 
+Serwis realizuje dwa typy wysyłki:
+\begin{itemize}
+    \item \textbf{Broadcast wiadomości do uczestników czatu} -- po zapisaniu wiadomości \glslink{serwer}{serwer} pobiera listę uczestników czatu
+    i wysyła \texttt{ChatMessageDto} do każdego z nich na jego kanał użytkownika.
+    \item \textbf{\gls{ack} do nadawcy} -- \glslink{serwer}{serwer} wysyła potwierdzenie \texttt{ChatMessageAckDto} na osobny kanał nadawcy,
+    aby \gls{frontend} mógł powiązać wiadomość zapisaną w \gls{baza-danych} z odpowiadającą jej wersją „optymistyczną”.
+\end{itemize}
 
+\subsubsection{Zestawienie wykorzystywanych \glslink{destynacja}{destynacji}}
+\label{subsubsec:ws-destynacje-backend}
 
-\subsection{Implementacja na frontendzie}
+Poniżej zestawiono wszystkie \glslink{destynacja}{destynacje} (ścieżki) używane w komunikacji \glslink{websocket}{WebSocket} w module czatu:
+
+\begin{description}
+    \item[\texttt{/connect}] \gls{endpoint} zestawienia połączenia \glslink{websocket}{WebSocket} (tzw.\ \gls{handshake}).
+    \item[\texttt{/app/send/\{chatId\}/message}] Wejście do backendu: \glslink{klient}{klient} wysyła nową wiadomość do czatu o identyfikatorze \texttt{chatId}.
+    \item[\texttt{/subscribe/chats/\{username\}}] Kanał użytkownika: \glslink{klient}{klient} \glslink{subskrypcja}{subskrybuje} i odbiera nowe wiadomości (ze wszystkich czatów, w których uczestniczy).
+    \item[\texttt{/subscribe/chats/ack/\{username\}}] Kanał potwierdzeń (\gls{ack}): \glslink{klient}{klient} (nadawca) odbiera potwierdzenie zapisania wiadomości.
+\end{description}
+
+Dodatkowo stosowane są dwa \glslink{prefiks}{prefiksy} porządkujące komunikację:
+\begin{itemize}
+    \item \texttt{/app/*} -- wiadomości od \glslink{klient}{klienta} do aplikacji,
+    \item \texttt{/subscribe/*} -- wiadomości od aplikacji do \glslink{klient}{klientów} (kanały \glslink{subskrypcja}{subskrypcji}).
+\end{itemize}
+
+\subsection{Implementacja na \gls{frontend}zie}
 \label{subsec:implementacja-na-frontendzie}
 folder stomp
 
@@ -307,6 +184,3 @@ folder stomp
 
 1. odniesienia do slwoniczka
 2. odniesienia do bibliografii
-
-
-

@@ -364,3 +364,93 @@
     description={Zarządzane przez Dockera magazyny danych dla kontenerów, które
     są odizolowane od maszyny hosta.}
 }
+
+\newglossaryentry{websocket}{
+    name={WebSocket},
+    description={Protokół komunikacyjny umożliwiający utrzymanie stałego połączenia pomiędzy \gls{klient}em a \gls{serwer}em oraz dwukierunkową wymianę danych w czasie zbliżonym do rzeczywistego.}
+}
+
+\newglossaryentry{stomp}{
+    name={STOMP},
+    description={Prosty protokół wiadomościowy działający „nad” \gls{websocket}. Wprowadza pojęcia \glslink{destynacja}{destynacji}, \glslink{subskrypcja}{subskrypcji} i wysyłania komunikatów w modelu \gls{publish-subscribe}.}
+}
+
+\newglossaryentry{http}{
+    name={HTTP},
+    description={Podstawowy protokół komunikacji w sieci WWW, wykorzystywany m.in. przez \gls{rest_api}. Zwykle działa w modelu „żądanie–odpowiedź”, bez stałego połączenia.}
+}
+
+\newglossaryentry{ietf}{
+    name={IETF},
+    description={Organizacja opracowująca i publikująca standardy internetowe, m.in. dokumenty typu \gls{rfc}.}
+}
+
+\newglossaryentry{rfc}{
+    name={RFC},
+    description={Dokument opisujący standardy i zalecenia dotyczące Internetu (ang. \textit{Request for Comments}).}
+}
+
+\newglossaryentry{handshake}{
+    name={handshake},
+    description={Etap początkowy zestawiania połączenia (np. \gls{websocket}), w którym \gls{klient} i \gls{serwer} uzgadniają parametry komunikacji.}
+}
+
+\newglossaryentry{ack}{
+    name={ACK},
+    description={Skrót od \textit{Acknowledgement}; komunikat potwierdzający odbiór lub przetworzenie wiadomości. W \gls{stomp} może służyć do potwierdzania wiadomości po stronie \gls{klient}a.}
+}
+
+\newglossaryentry{sockjs}{
+    name={SockJS},
+    description={Mechanizm kompatybilności dla \gls{websocket}: gdy przeglądarka lub sieć nie obsługuje WebSocket, SockJS może użyć alternatywnego sposobu komunikacji, aby zachować podobne zachowanie.}
+}
+
+\newglossaryentry{polling}{
+    name={polling},
+    description={Sposób komunikacji, w którym \gls{klient} cyklicznie „odpytuje” \gls{serwer} (np. co kilka sekund) o nowe dane, zwykle poprzez \gls{http}.}
+}
+
+\newglossaryentry{long-polling}{
+    name={long polling},
+    description={Odmiana \gls{polling}u: \gls{klient} wysyła żądanie, a \gls{serwer} wstrzymuje odpowiedź do momentu pojawienia się nowych danych (lub upłynięcia limitu czasu).}
+}
+
+\newglossaryentry{publish-subscribe}{
+    name={publish--subscribe},
+    description={Model komunikacji, w którym nadawca publikuje zdarzenia na kanał, a odbiorcy, którzy go \glslink{subskrypcja}{subskrybują}, automatycznie otrzymują wiadomości.}
+}
+
+\newglossaryentry{destynacja}{
+    name={destynacja},
+    description={Adres logiczny (ścieżka) w komunikacji \gls{stomp}, na który wysyła się wiadomości lub który się \glslink{subskrypcja}{subskrybuje} (np. \texttt{/app/...} albo \texttt{/subscribe/...}).}
+}
+
+\newglossaryentry{subskrypcja}{
+    name={subskrypcja},
+    description={Mechanizm „zapisania się” na kanał (\glslink{destynacja}{destynację}) w celu automatycznego odbierania wiadomości publikowanych przez \gls{serwer}.}
+}
+
+\newglossaryentry{endpoint}{
+    name={endpoint},
+    description={„Punkt wejścia” komunikacji w aplikacji: konkretny adres/ścieżka, pod którą zestawia się połączenie lub wysyła wiadomości (np. endpoint \gls{handshake} \texttt{/connect}).}
+}
+
+\newglossaryentry{prefiks}{
+    name={prefiks},
+    description={Ustalony początek ścieżki (np. \texttt{/app} lub \texttt{/subscribe}), który porządkuje i rozróżnia typy komunikacji w aplikacji.}
+}
+
+\newglossaryentry{ramka}{
+    name={ramka},
+    description={Podstawowa jednostka danych przesyłana w ramach połączenia \gls{websocket}.}
+}
+
+\newglossaryentry{serwer}{
+    name={serwer},
+    description={Część systemu (zwykle po stronie \gls{backend}u), która przetwarza żądania i udostępnia dane lub funkcje \gls{klient}om.}
+}
+
+\newglossaryentry{klient}{
+    name={klient},
+    description={Część systemu (zwykle po stronie \gls{frontend}u), która korzysta z usług \glslink{serwer}{serwera} i prezentuje dane użytkownikowi.}
+}
