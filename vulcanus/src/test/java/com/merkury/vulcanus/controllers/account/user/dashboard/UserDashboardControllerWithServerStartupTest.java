@@ -33,6 +33,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.LinkedMultiValueMap;
@@ -74,6 +75,9 @@ class UserDashboardControllerWithServerStartupTest {
     @Autowired
     private SpotCommentRepository spotCommentRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     private String jwtCookieHeader;
     private UserEntity mainUser;
     private Spot spot1;
@@ -82,6 +86,7 @@ class UserDashboardControllerWithServerStartupTest {
 
     @BeforeEach
     void setUp() {
+        jdbcTemplate.execute("DELETE FROM user_liked_spot_media");
         spotCommentRepository.deleteAll();
         spotMediaRepository.deleteAll();
         favoriteSpotRepository.deleteAll();
