@@ -43,11 +43,11 @@ public class PopulateDbs {
         return args -> populateMapService.initMapData();
     }
 
-//    @Order(4)
-//    @Bean
-//    CommandLineRunner initForum() {
-//        return args -> populateForumService.initForumData();
-//    }
+    @Order(4)
+    @Bean
+    CommandLineRunner initForum() {
+        return args -> populateForumService.initForumData();
+    }
 
     @Order(5)
     @Bean
