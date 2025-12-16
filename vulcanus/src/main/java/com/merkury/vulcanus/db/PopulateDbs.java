@@ -31,11 +31,11 @@ public class PopulateDbs {
         return args -> populateUsersService.initUserData();
     }
 
-//    @Order(2)
-//    @Bean
-//    CommandLineRunner initChats() {
-//        return args -> populateChatsService.initChatsData();
-//    }
+    @Order(2)
+    @Bean
+    CommandLineRunner initFriends() {
+        return args -> populateFriendsService.initFriendsData();
+    }
 
     @Order(3)
     @Bean
@@ -48,12 +48,12 @@ public class PopulateDbs {
 //    CommandLineRunner initForum() {
 //        return args -> populateForumService.initForumData();
 //    }
-//
-    @Order(5)
-    @Bean
-    CommandLineRunner initFriends() {
-        return args -> populateFriendsService.initFriendsData();
-    }
+
+//    @Order(5)
+//    @Bean
+//    CommandLineRunner initChats() {
+//        return args -> populateChatsService.initChatsData();
+//    }
 
     @Order(6)
     @Bean
