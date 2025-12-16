@@ -21,34 +21,6 @@ public class PopulateUsersService {
         var userList = new ArrayList<UserEntity>();
 
         userList.add(UserEntity.builder()
-                .username("adamLangmesser")
-                .email("adam.langmesser@example.com")
-                .password(passwordEncoder.encode("Password1!"))
-                .profilePhoto("https://i.pravatar.cc/150?img=5")
-                .build());
-
-        userList.add(UserEntity.builder()
-                .username("stanislawOziemczuk")
-                .email("stanislaw.oziemczuk@example.com")
-                .password(passwordEncoder.encode("Password1!"))
-                .profilePhoto("https://i.pravatar.cc/150?img=5")
-                .build());
-
-        userList.add(UserEntity.builder()
-                .username("kacperBadek")
-                .email("kacper.badek@example.com")
-                .password(passwordEncoder.encode("Password1!"))
-                .profilePhoto("https://i.pravatar.cc/150?img=5")
-                .build());
-
-        userList.add(UserEntity.builder()
-                .username("mateuszRedosz")
-                .email("mateusz.redosz@example.com")
-                .password(passwordEncoder.encode("Password1!"))
-                .profilePhoto("https://i.pravatar.cc/150?img=5")
-                .build());
-
-        userList.add(UserEntity.builder()
                 .username("annaKowalska")
                 .email("anna.kowalska@example.com")
                 .password(passwordEncoder.encode("Password1!"))

@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
@@ -38,12 +39,11 @@ public class PopulateMapService {
     @Transactional
     public void initMapData() {
 
-        var user = userEntityRepository.findByUsername("mateuszRedosz").orElseThrow();
-
         var authors = new ArrayList<>(userEntityRepository.findAll());
-        if (authors.isEmpty()) authors = new ArrayList<>(List.of(user));
 
         var rnd = new Random(20251215);
+        Supplier<UserEntity> pickAuthor = () -> authors.get(rnd.nextInt(authors.size()));
+
         var textIdx = new AtomicInteger(0);
 
 
@@ -57,7 +57,7 @@ public class PopulateMapService {
                 .description("Brązowy posąg XVII-wiecznego polskiego króla Jana III Sobieskiego na koniu usytuowany na małym placu.")
                 .rating(5.0)
                 .ratingCount(25)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -71,7 +71,7 @@ public class PopulateMapService {
                 .description("Mały park z ławkami i pomnikiem Czesława Niemena.")
                 .rating(5.0)
                 .ratingCount(25)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -85,7 +85,7 @@ public class PopulateMapService {
                 .description("Mały park z ławkami")
                 .rating(3.5)
                 .ratingCount(20)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -99,7 +99,7 @@ public class PopulateMapService {
                 .description("Mały park")
                 .rating(3.6)
                 .ratingCount(15)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -113,7 +113,7 @@ public class PopulateMapService {
                 .description("Zielona strefa z jeziorem")
                 .rating(4.6)
                 .ratingCount(8)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -127,7 +127,7 @@ public class PopulateMapService {
                 .description("Mały, zadbany plac z ławeczkami i zielenią. Znajduje się on z jednej strony w pobliżu pomnika Jana III Sobieskiego, a z drugiej strony w pobliżu Hali Targowej.")
                 .rating(4.5)
                 .ratingCount(1)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -141,7 +141,7 @@ public class PopulateMapService {
                 .description("Plac zabaw")
                 .rating(4.8)
                 .ratingCount(99)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -155,7 +155,7 @@ public class PopulateMapService {
                 .description("Szeroka piaszczysta plaża.")
                 .rating(4.6)
                 .ratingCount(25)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -169,7 +169,7 @@ public class PopulateMapService {
                 .description("Park Oruński należy, obok Parku Oliwskiego, należy do najcenniejszych zachowanych dawnych gdańskich parków.")
                 .rating(5.0)
                 .ratingCount(25)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -183,7 +183,7 @@ public class PopulateMapService {
                 .description("Park, który oryginalnie był cmentarzem protestanckim, należącym dawniej do kościoła przy placu Oruńskim.")
                 .rating(4.4)
                 .ratingCount(25)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -300,72 +300,69 @@ public class PopulateMapService {
         );
 
         List<SpotMedia> spotMedia1 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/8d00d2e1-203e-4b90-bf0b-893f77f870ee.JPG", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot1, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/1299333c-ad54-4a2a-b6dc-4578ed4327dc.jpg", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot1, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/299fd24d-2436-4b51-bfdf-cbe728890198.jpg", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot1, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/98946961-ccce-4bbc-bd78-38df283297e3.jpg", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot1, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/f87aa3e3-fbc4-4371-837d-d10a4b6878a1.jpg", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot1, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/8d00d2e1-203e-4b90-bf0b-893f77f870ee.JPG", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot1, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/1299333c-ad54-4a2a-b6dc-4578ed4327dc.jpg", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot1, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/299fd24d-2436-4b51-bfdf-cbe728890198.jpg", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot1, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/98946961-ccce-4bbc-bd78-38df283297e3.jpg", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot1, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/f87aa3e3-fbc4-4371-837d-d10a4b6878a1.jpg", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot1, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia2 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/b9744843-8cca-4e65-b677-bc89fbed9deb.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot2, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/562487b0-a975-4293-8c0f-aaa605f6cd77.JPG", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot2, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/04bfa588-77c3-4e46-bdf8-f6bb677f845d.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot2, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/b6d1364b-97d8-4bf1-b279-12664ac274fb.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot2, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/be341380-eb45-416e-bf60-0e80fed250bf.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot2, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/f5e1a392-a768-4f9e-9b30-98f1a01c48ae.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot2, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/9eeb8808-6165-4a9d-a864-9f11b5588b69.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot2, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/5f1ff331-eb5f-49a9-b57d-0aeed0d42eb7.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot2, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/f7b1009b-7762-4027-8b49-e789531e7cf4.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot2, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/32628ec1-ecc2-473a-b41d-14a9ff3e5d3d.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot2, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/b9744843-8cca-4e65-b677-bc89fbed9deb.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/562487b0-a975-4293-8c0f-aaa605f6cd77.JPG", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/04bfa588-77c3-4e46-bdf8-f6bb677f845d.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/b6d1364b-97d8-4bf1-b279-12664ac274fb.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/be341380-eb45-416e-bf60-0e80fed250bf.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/f5e1a392-a768-4f9e-9b30-98f1a01c48ae.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/9eeb8808-6165-4a9d-a864-9f11b5588b69.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia3 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/800413ea-ba4b-4b95-ae79-2bdaea17ce21.jpg", "park wałowy", "park wałowy", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot3, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/91739137-cbb4-4e1e-9f61-1b9589b7a1ca.jpg", "park wałowy", "park wałowy", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot3, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/41e751cd-7029-43cf-b9b4-bca30fa8ab90.jpg", "park wałowy", "park wałowy", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), user, spot3, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/800413ea-ba4b-4b95-ae79-2bdaea17ce21.jpg", "park wałowy", "park wałowy", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot3, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/91739137-cbb4-4e1e-9f61-1b9589b7a1ca.jpg", "park wałowy", "park wałowy", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot3, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/41e751cd-7029-43cf-b9b4-bca30fa8ab90.jpg", "park wałowy", "park wałowy", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot3, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia4 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/777e20d5-a5cc-4811-97e0-c70d2fbc3b7a.jpg", "park", "park", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), user, spot4, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/60ac5562-29af-477a-bf86-8cb798c7f51b.jpg", "park", "park", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), user, spot4, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d64b7781-b188-4d0a-af33-95268b81d751.JPG", "park", "park", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), user, spot4, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/777e20d5-a5cc-4811-97e0-c70d2fbc3b7a.jpg", "park", "park", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), pickAuthor.get(), spot4, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/60ac5562-29af-477a-bf86-8cb798c7f51b.jpg", "park", "park", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), pickAuthor.get(), spot4, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d64b7781-b188-4d0a-af33-95268b81d751.JPG", "park", "park", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), pickAuthor.get(), spot4, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia5 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/77342dd9-daab-4e05-8aed-272907d94dc8.jpg", "jar", "jar", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), user, spot5, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/6f58c6e0-1990-4855-b9ca-6418c5879e31.jpg", "jar", "jar", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), user, spot5, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/e3b361a5-4b25-41b9-a1b2-0c4d8db70afb.JPG", "jar", "jar", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), user, spot5, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/77342dd9-daab-4e05-8aed-272907d94dc8.jpg", "jar", "jar", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), pickAuthor.get(), spot5, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/6f58c6e0-1990-4855-b9ca-6418c5879e31.jpg", "jar", "jar", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), pickAuthor.get(), spot5, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/e3b361a5-4b25-41b9-a1b2-0c4d8db70afb.JPG", "jar", "jar", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), pickAuthor.get(), spot5, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia6 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/18ff9b26-feef-4a53-b4df-64eba49e0075.jpg", "plac kobzdeja", "plac kobzdeja", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), user, spot6, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/16a82ce9-d6b4-4740-8b5e-55b27919f486.jpg", "plac kobzdeja", "plac kobzdeja", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), user, spot6, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/0dbe602d-d362-4335-a5a6-4b79267980df.JPG", "plac kobzdeja", "plac kobzdeja", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), user, spot6, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/18ff9b26-feef-4a53-b4df-64eba49e0075.jpg", "plac kobzdeja", "plac kobzdeja", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), pickAuthor.get(), spot6, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/16a82ce9-d6b4-4740-8b5e-55b27919f486.jpg", "plac kobzdeja", "plac kobzdeja", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), pickAuthor.get(), spot6, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/0dbe602d-d362-4335-a5a6-4b79267980df.JPG", "plac kobzdeja", "plac kobzdeja", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), pickAuthor.get(), spot6, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia7 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/c3915c65-6cc3-466f-bf0d-0b1d7644cb84.jpg", "wrona", "wrona", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), user, spot7, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/f7dd6f39-6a64-4812-8c2c-467546dcab05.jpg", "wrona", "wrona", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), user, spot7, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/023fe242-49ef-4d6e-b4ad-b43d3ece8188.jpg", "wrona", "wrona", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), user, spot7, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/c3915c65-6cc3-466f-bf0d-0b1d7644cb84.jpg", "wrona", "wrona", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), pickAuthor.get(), spot7, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/f7dd6f39-6a64-4812-8c2c-467546dcab05.jpg", "wrona", "wrona", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), pickAuthor.get(), spot7, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/023fe242-49ef-4d6e-b4ad-b43d3ece8188.jpg", "wrona", "wrona", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), pickAuthor.get(), spot7, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia8 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/faa462f9-4582-459e-8de1-6fa8d7df34ed.jpg", "plaża", "plaża", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), user, spot8, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/c9559f6d-7a03-432b-839b-7d0875db39ff.jpg", "plaża", "plaża", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), user, spot8, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/dc0ca9b3-fecc-445f-b592-42b9ca13924c.jpg", "plaża", "plaża", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), user, spot8, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/a60e0d2a-4966-4bd5-a949-990a2babc261.jpg", "plaża", "plaża", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), user, spot8, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/faa462f9-4582-459e-8de1-6fa8d7df34ed.jpg", "plaża", "plaża", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), pickAuthor.get(), spot8, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/c9559f6d-7a03-432b-839b-7d0875db39ff.jpg", "plaża", "plaża", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), pickAuthor.get(), spot8, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/dc0ca9b3-fecc-445f-b592-42b9ca13924c.jpg", "plaża", "plaża", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), pickAuthor.get(), spot8, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/a60e0d2a-4966-4bd5-a949-990a2babc261.jpg", "plaża", "plaża", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), pickAuthor.get(), spot8, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia9 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/dc2a4d50-e450-4a2a-af97-9f96c4ea4e9a.jpg", "orunia", "orunia", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), user, spot9, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/65b0b74d-9172-4005-a699-eb01b52c3b5f.jpg", "orunia", "orunia", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), user, spot9, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/84cd9748-2ce4-466d-8ce4-a2adeb341e9c.jpg", "orunia", "orunia", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), user, spot9, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/dc2a4d50-e450-4a2a-af97-9f96c4ea4e9a.jpg", "orunia", "orunia", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), pickAuthor.get(), spot9, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/65b0b74d-9172-4005-a699-eb01b52c3b5f.jpg", "orunia", "orunia", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), pickAuthor.get(), spot9, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/84cd9748-2ce4-466d-8ce4-a2adeb341e9c.jpg", "orunia", "orunia", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 7, 5), pickAuthor.get(), spot9, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia10 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/5566b23d-a037-4b44-b98e-e4a76fc7cfe0.jpg", "workout", "workout", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 10, 10), user, spot10, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/4cc317db-8d8a-4514-9688-bd60a1f74af0.jpg", "workout", "workout", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 10, 10), user, spot10, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/5566b23d-a037-4b44-b98e-e4a76fc7cfe0.jpg", "workout", "workout", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 10, 10), pickAuthor.get(), spot10, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/4cc317db-8d8a-4514-9688-bd60a1f74af0.jpg", "workout", "workout", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 10, 10), pickAuthor.get(), spot10, new HashSet<>())
         );
 
         List<String> tagsNames = new ArrayList<>(List.of(
@@ -461,7 +458,7 @@ public class PopulateMapService {
                 .description("Ikoniczny zamek królewski z widokiem na Wisłę – obowiązkowy punkt w Krakowie.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -488,7 +485,7 @@ public class PopulateMapService {
                 .description("Główna płyta rynku z Sukiennicami i świetnym klimatem o każdej porze roku.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -520,7 +517,7 @@ public class PopulateMapService {
                 .description("Park obok kopalni soli")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -552,7 +549,7 @@ public class PopulateMapService {
                 .description("Jezioro w Tatrach z klasyczną trasą spacerową i genialnymi widokami.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -591,7 +588,7 @@ public class PopulateMapService {
                 .description("Szeroka plaża i wydmy – dużo miejsca na spokojny lot (poza tłumem).")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -616,7 +613,7 @@ public class PopulateMapService {
                 .description("Długa, otwarta plaża – fajna do ujęć linii brzegowej i zachodów słońca.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -641,7 +638,7 @@ public class PopulateMapService {
                 .description("Klifowe wybrzeże i morze w kadrze – efektowne ujęcia z góry")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -663,7 +660,7 @@ public class PopulateMapService {
                 .description("Szeroki pas plaży – dobre miejsce na spokojne loty o wschodzie lub poza sezonem.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -686,7 +683,7 @@ public class PopulateMapService {
                 .description("Szerokie, otwarte przestrzenie – jedne z najlepszych kadrów “pustynnych” w PL.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -739,7 +736,7 @@ public class PopulateMapService {
                 .description("Sporo przestrzeni i wody w kadrach; najlepiej wcześnie rano, gdy jest mniej ludzi.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -764,7 +761,7 @@ public class PopulateMapService {
                 .description("Ogromna otwarta przestrzeń – idealna do treningu i szerokich kadrów.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -786,7 +783,7 @@ public class PopulateMapService {
                 .description("Otwarte łąki i ścieżki – świetne na krajobrazowe ujęcia bez zabudowy w kadrze.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -823,7 +820,7 @@ public class PopulateMapService {
                 .description("Duże otwarte polany w środku miasta – dobre na spokojne, niskie przeloty i trening.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -854,7 +851,7 @@ public class PopulateMapService {
                 .description("Spory park z otwartymi fragmentami; najlepiej w godzinach, gdy jest spokojniej.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -900,7 +897,7 @@ public class PopulateMapService {
                 .description("Ogromny park – dużo przestrzeni, tylko omijaj tłoczne strefy atrakcji.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -941,7 +938,7 @@ public class PopulateMapService {
                 .description("Szerokie aleje i otwarte fragmenty; najlepiej wcześnie rano.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -964,7 +961,7 @@ public class PopulateMapService {
                 .description("Duży park z polanami – dobre miejsce na “parkowe” ujęcia bez ścisłego centrum.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -992,7 +989,7 @@ public class PopulateMapService {
                 .description("Sporo przestrzeni; koniecznie sprawdź strefy, bo to okolice lotnicze.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -1020,7 +1017,7 @@ public class PopulateMapService {
                 .description("Rzeka i zieleń w kadrze – dobre do dłuższych, płynnych przelotów.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -1053,7 +1050,7 @@ public class PopulateMapService {
                 .description("Duży kompleks zieleni – dużo miejsca na ujęcia parkowe i trening lotu.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -1077,7 +1074,7 @@ public class PopulateMapService {
                 .description("Rozległy akwen – idealny na trening i przeloty nad wodą.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -1131,7 +1128,7 @@ public class PopulateMapService {
                 .description("Duży akwen i otwarte brzegi – dobre na panoramy i loty nad wodą.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -1189,7 +1186,7 @@ public class PopulateMapService {
                 .description("Szerokie plaże i klimat nadmorskich miejscowości.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -1219,7 +1216,7 @@ public class PopulateMapService {
                 .description("Duży teren zieleni z polanami i lasem – dobre miejsce na spokojne ujęcia.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -1261,7 +1258,7 @@ public class PopulateMapService {
                 .description("Duży park z polanami i lasem – łatwo znaleźć miejsce z dala od ludzi.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -1300,7 +1297,7 @@ public class PopulateMapService {
                 .description("Sporo zieleni i przestrzeni – dobre na trening i krótkie przeloty.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -1346,7 +1343,7 @@ public class PopulateMapService {
                 .description("Wisła i panorama miasta – super na ujęcia rzeki i mostów.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -1376,7 +1373,7 @@ public class PopulateMapService {
                 .description("Miejski park z przestrzenią – dobry na krótsze loty i trening stabilnych ujęć.")
                 .rating(5.0)
                 .ratingCount(0)
-                .author(user)
+                .author(pickAuthor.get())
                 .timeZone("Europe/Warsaw")
                 .build();
 
@@ -1417,116 +1414,116 @@ public class PopulateMapService {
         );
 
         List<SpotMedia> spotMedia11 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/38479090-acb1-4e82-9663-deda7c0461ce.jpg", "1803-Zamek-Krolewski-na-Wawelu.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot11, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/b0cb22f8-4d95-4ad8-9dc9-136c2543320f.jpg", "Wawel_(4).jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot11, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/38479090-acb1-4e82-9663-deda7c0461ce.jpg", "1803-Zamek-Krolewski-na-Wawelu.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot11, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/b0cb22f8-4d95-4ad8-9dc9-136c2543320f.jpg", "Wawel_(4).jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot11, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia12 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/96d6f9b5-f742-49a5-b9e9-a516aed3c269.JPG", "Sukiennice_and_Main_Market_Square_Krakow_Poland (1).JPG", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot12, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/623cec31-9c7f-459d-b4ff-c7534075eb84.jpg", "st_marys_basilica_mariacki_by_night_church_sukiennice-264866-1.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot12, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/96d6f9b5-f742-49a5-b9e9-a516aed3c269.JPG", "Sukiennice_and_Main_Market_Square_Krakow_Poland (1).JPG", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot12, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/623cec31-9c7f-459d-b4ff-c7534075eb84.jpg", "st_marys_basilica_mariacki_by_night_church_sukiennice-264866-1.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot12, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia13 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/9db51137-8600-4b1b-9c77-84ec04491773.jpg", "2J7A2851.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot13, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/9c974fa5-da65-45fe-ba0f-274953c3bc22.jpg", "2J7A2894 (1).jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot13, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/9db51137-8600-4b1b-9c77-84ec04491773.jpg", "2J7A2851.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot13, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/9c974fa5-da65-45fe-ba0f-274953c3bc22.jpg", "2J7A2894 (1).jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot13, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia14 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/dd9859c3-d681-4789-874e-063f52e2a684.jpg", "tlo12.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot14, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/0a6bd18e-a215-4d87-b083-1b89b37055ed.jpg", "1200px-Przelecz_pod_chlopkiem.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot14, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/dd9859c3-d681-4789-874e-063f52e2a684.jpg", "tlo12.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot14, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/0a6bd18e-a215-4d87-b083-1b89b37055ed.jpg", "1200px-Przelecz_pod_chlopkiem.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot14, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia15 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/faf94451-a683-4799-984d-cd796244f21e.jpg", "442723702.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot15, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/3ac1021e-23d5-42c7-82c5-63cbabc61054.jpg", "Dębki,_plaża_(HB2).jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot15, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/faf94451-a683-4799-984d-cd796244f21e.jpg", "442723702.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot15, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/3ac1021e-23d5-42c7-82c5-63cbabc61054.jpg", "Dębki,_plaża_(HB2).jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot15, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia16 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/566850f0-bcfc-4fd8-bdcf-94aeff4dd895.jpg", "img-6286.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot16, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/6bce17c3-eb01-4963-b37b-3d15084d93ca.mp4", "[trimmed] YTDown.com_YouTube_Media_C4JdMKIZuHk_003_480p.mp4", "", 0, 0, GenericMediaType.VIDEO, LocalDate.of(2025, 12, 14), user, spot16, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/566850f0-bcfc-4fd8-bdcf-94aeff4dd895.jpg", "img-6286.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot16, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/6bce17c3-eb01-4963-b37b-3d15084d93ca.mp4", "[trimmed] YTDown.com_YouTube_Media_C4JdMKIZuHk_003_480p.mp4", "", 0, 0, GenericMediaType.VIDEO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot16, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia17 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/3b67b8e1-ca44-4aa5-98eb-b8cdc55f64b0.jpg", "jastrzebia3_1280x768.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot17, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/0bba408a-a4a3-4ba3-81d2-a07cf855fa02.jpg", "Zdjecie-komunikat.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot17, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/3b67b8e1-ca44-4aa5-98eb-b8cdc55f64b0.jpg", "jastrzebia3_1280x768.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot17, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/0bba408a-a4a3-4ba3-81d2-a07cf855fa02.jpg", "Zdjecie-komunikat.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot17, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia18 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/42e7f3e4-4978-4a33-bbdc-bdee09460b5c.png", "Miedzywodzie-2 (1).png", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot18, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/42e7f3e4-4978-4a33-bbdc-bdee09460b5c.png", "Miedzywodzie-2 (1).png", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot18, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia19 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/5bee1969-4ec5-4dbf-899d-a2a3b4ba80de.jpg", "Pustynia Błędowska, fot. M. Wróblewski, arch. UM w Dąbrowie Górniczej.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot19, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/6de52c9b-8aff-44a7-b565-c78f7d12a928.jpg", "z32223507AMP,Pustynia-Bledowska.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot19, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/5bee1969-4ec5-4dbf-899d-a2a3b4ba80de.jpg", "Pustynia Błędowska, fot. M. Wróblewski, arch. UM w Dąbrowie Górniczej.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot19, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/6de52c9b-8aff-44a7-b565-c78f7d12a928.jpg", "z32223507AMP,Pustynia-Bledowska.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot19, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia20 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/744f8314-b951-4b56-90ac-c4dcf951c014.jpg", "skaryszewski-park.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot20, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d27a5182-948b-4878-bb8a-5c630b2b145d.jpg", "Warszawa,_Park_Skaryszewski_z_góry.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot20, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/744f8314-b951-4b56-90ac-c4dcf951c014.jpg", "skaryszewski-park.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot20, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d27a5182-948b-4878-bb8a-5c630b2b145d.jpg", "Warszawa,_Park_Skaryszewski_z_góry.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot20, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia21 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/297e97a9-8f8d-4785-989f-4146eb56297e.mp4", "YTDown.com_YouTube_Media_dKIZLBGOtKg_002_720p.mp4", "", 0, 2, GenericMediaType.VIDEO, LocalDate.of(2025, 12, 14), user, spot21, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/cf0653e2-b879-42d3-b9dd-12647c9ef3f0.jpg", "ee942152895ab17379319f19b18980a9_XL.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot21, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/8016dac0-2c11-4dd5-b41a-bb2297a30659.jpg", "noresize.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot21, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/297e97a9-8f8d-4785-989f-4146eb56297e.mp4", "YTDown.com_YouTube_Media_dKIZLBGOtKg_002_720p.mp4", "", 0, 2, GenericMediaType.VIDEO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot21, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/cf0653e2-b879-42d3-b9dd-12647c9ef3f0.jpg", "ee942152895ab17379319f19b18980a9_XL.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot21, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/8016dac0-2c11-4dd5-b41a-bb2297a30659.jpg", "noresize.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot21, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia22 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/8ad11f95-ced0-48dd-87d4-fc7ad704f6a8.jpg", "3666.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot22, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/58235df0-64d4-43cb-aaa6-1e6a4a1c1bcf.jpg", "Nowa_Huta_meadows,_Kraków,_Poland.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot22, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/8ad11f95-ced0-48dd-87d4-fc7ad704f6a8.jpg", "3666.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot22, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/58235df0-64d4-43cb-aaa6-1e6a4a1c1bcf.jpg", "Nowa_Huta_meadows,_Kraków,_Poland.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot22, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia23 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/89043a21-0f35-4dc6-ba37-3bd5192e1134.jpg", "gf-Z2No-997R-jvTt_pole-mokotowskie-wiosna-2024-1920x1080-nocrop.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot23, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/ee80bdef-271a-46e0-805e-21078286ed45.png", "409931191_10231587124130670_4259959322624058222_n.png", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot23, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/b824be9d-35b8-47d4-bf51-83b0bb38ebe0.jpg", "Pole_Mokotowskie_Pond_Warsaw_2024_aerial.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot23, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/89043a21-0f35-4dc6-ba37-3bd5192e1134.jpg", "gf-Z2No-997R-jvTt_pole-mokotowskie-wiosna-2024-1920x1080-nocrop.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot23, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/ee80bdef-271a-46e0-805e-21078286ed45.png", "409931191_10231587124130670_4259959322624058222_n.png", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot23, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/b824be9d-35b8-47d4-bf51-83b0bb38ebe0.jpg", "Pole_Mokotowskie_Pond_Warsaw_2024_aerial.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot23, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia24 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/fc958350-7b19-4772-b248-4755482851b6.jpg", "maxresdefault.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot24, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/4d97e75a-99c3-4c25-b548-7c47a223da49.jpg", "Park-Cytedela-w-Poznaniu-3.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot24, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/63f47304-1172-4073-aecf-27405f868164.jpg", "Park-Cytadela-w-Poznaniu-1.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot24, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/fc958350-7b19-4772-b248-4755482851b6.jpg", "maxresdefault.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot24, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/4d97e75a-99c3-4c25-b548-7c47a223da49.jpg", "Park-Cytedela-w-Poznaniu-3.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot24, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/63f47304-1172-4073-aecf-27405f868164.jpg", "Park-Cytadela-w-Poznaniu-1.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot24, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia25 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d0c4475c-1863-4b1f-8758-8c88b4309dd0.jpg", "dronj1.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot25, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/8d863f09-160d-474a-bd13-41dc37cbfee5.jpeg", "thumb_986162_document_big.jpeg", "", 0, 6, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot25, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d0c4475c-1863-4b1f-8758-8c88b4309dd0.jpg", "dronj1.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot25, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/8d863f09-160d-474a-bd13-41dc37cbfee5.jpeg", "thumb_986162_document_big.jpeg", "", 0, 6, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot25, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia26 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/bc45b310-77fe-445a-ae28-8275d6f4a4b3.jpg", "jasne-blonia-5.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot26, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/622af823-b623-4cac-abb0-088056be4184.jpg", "Szczecin_PCP_i_Jasne_Blonia_dron_(1).jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot26, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/bc45b310-77fe-445a-ae28-8275d6f4a4b3.jpg", "jasne-blonia-5.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot26, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/622af823-b623-4cac-abb0-088056be4184.jpg", "Szczecin_PCP_i_Jasne_Blonia_dron_(1).jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot26, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia27 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/487eb941-c1cb-4a4c-8ef6-1076ef9469c4.png", "park-grabiszynski-wroclaw-18.png", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot27, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d4453550-dbc8-4f16-890f-93a574c898d5.jpg", "Wrocław,_Cmentarz_Grabiszyński_III_-_fotopolska.eu_(209067).jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot27, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/487eb941-c1cb-4a4c-8ef6-1076ef9469c4.png", "park-grabiszynski-wroclaw-18.png", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot27, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d4453550-dbc8-4f16-890f-93a574c898d5.jpg", "Wrocław,_Cmentarz_Grabiszyński_III_-_fotopolska.eu_(209067).jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot27, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia28 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/f17f56b5-9c99-4621-8676-5c14119f2f3b.jpg", "1000yers_park_Poznan.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot28, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/2bc6bef0-4bdf-47e9-92f9-038ef4737cfd.jpg", "ParkTysiąclecia-WidokOdPółnocy-OsiedleTysiąclecia-POL,_Kraków.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot28, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/f17f56b5-9c99-4621-8676-5c14119f2f3b.jpg", "1000yers_park_Poznan.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot28, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/2bc6bef0-4bdf-47e9-92f9-038ef4737cfd.jpg", "ParkTysiąclecia-WidokOdPółnocy-OsiedleTysiąclecia-POL,_Kraków.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot28, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia29 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/023c318d-4dcb-4b43-a50e-b91999029784.jpg", "z26357417AMP,Bulwary-nad-Wislokiem--potezny-teren--na-ktory-wci.jpg", "", 0, 6, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot29, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/9743c30f-561d-40b7-b209-daf0b6f6dd57.png", "bulwary-rzeszow .png", "", 0, 6, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot29, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/023c318d-4dcb-4b43-a50e-b91999029784.jpg", "z26357417AMP,Bulwary-nad-Wislokiem--potezny-teren--na-ktory-wci.jpg", "", 0, 6, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot29, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/9743c30f-561d-40b7-b209-daf0b6f6dd57.png", "bulwary-rzeszow .png", "", 0, 6, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot29, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia30 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/7186ef68-5f55-4aab-8c9b-c2ce4d892b77.png", "klomb-w-parku-na-zdrowiu.png", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot30, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/049b9d72-1cbb-46a2-ab46-1a42eb219ab8.JPG", "IMG_4429.JPG", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot30, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/7186ef68-5f55-4aab-8c9b-c2ce4d892b77.png", "klomb-w-parku-na-zdrowiu.png", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot30, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/049b9d72-1cbb-46a2-ab46-1a42eb219ab8.JPG", "IMG_4429.JPG", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot30, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia31 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/2e9542b8-118a-4aa9-8bc9-c010b729cd4b.jpg", "jezioro-p.morawski-1.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot31, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/4732819d-4067-4220-a908-e4751bcd6d64.jpg", "7.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot31, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/2e9542b8-118a-4aa9-8bc9-c010b729cd4b.jpg", "jezioro-p.morawski-1.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot31, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/4732819d-4067-4220-a908-e4751bcd6d64.jpg", "7.jpg", "", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot31, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia32 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/1ee2e8db-d251-4197-b0b2-c145e0b22796.jpg", "okolica-zamek-krokowa-jezioro-zarnowieckie-noclegi-gniewino.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot32, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d46f0993-fac7-479b-9fb8-e050aa66f1c5.png", "c6382b9c54e0183be182a0eb446847dc.png", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot32, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/68f3e432-e3a8-4150-a3af-1531bd5b78dc.jpg", "okolica-zamek-krokowa-jezioro-zarnowieckie-elektrownia-gniewino.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), user, spot32, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/1ee2e8db-d251-4197-b0b2-c145e0b22796.jpg", "okolica-zamek-krokowa-jezioro-zarnowieckie-noclegi-gniewino.jpg", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot32, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d46f0993-fac7-479b-9fb8-e050aa66f1c5.png", "c6382b9c54e0183be182a0eb446847dc.png", "", 0, 4, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot32, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/68f3e432-e3a8-4150-a3af-1531bd5b78dc.jpg", "okolica-zamek-krokowa-jezioro-zarnowieckie-elektrownia-gniewino.jpg", "", 0, 2, GenericMediaType.PHOTO, LocalDate.of(2025, 12, 14), pickAuthor.get(), spot32, new HashSet<>())
         );
 
         // ===================== MEDIA 33-38 (z CSV 2025-12-15) =====================
@@ -1535,64 +1532,74 @@ public class PopulateMapService {
                 new SpotMedia(null, null,
                         "https://merkurystorage.blob.core.windows.net/mapa/8be825dd-e038-4770-97cb-3dabe281031b.jpg",
                         "polwysep_helski.jpg", "", 0, 0, GenericMediaType.PHOTO,
-                        LocalDate.of(2025, 12, 15), user, spot33, new HashSet<>()),
+                        LocalDate.of(2025, 12, 15), pickAuthor.get(), spot33, new HashSet<>()),
                 new SpotMedia(null, null,
                         "https://merkurystorage.blob.core.windows.net/mapa/d2f5d5ea-028c-484c-8274-9f826601b22c.jpg",
                         "20110817-1140x650.jpg", "", 0, 0, GenericMediaType.PHOTO,
-                        LocalDate.of(2025, 12, 15), user, spot33, new HashSet<>())
+                        LocalDate.of(2025, 12, 15), pickAuthor.get(), spot33, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia34 = Arrays.asList(
                 new SpotMedia(null, null,
                         "https://merkurystorage.blob.core.windows.net/mapa/94c6e818-b5c3-4cbd-b4ef-9aba2f878bb8.jpg",
                         "Bydgoszcz_myslecinek_park.jpg", "", 0, 0, GenericMediaType.PHOTO,
-                        LocalDate.of(2025, 12, 15), user, spot34, new HashSet<>()),
+                        LocalDate.of(2025, 12, 15), pickAuthor.get(), spot34, new HashSet<>()),
                 new SpotMedia(null, null,
                         "https://merkurystorage.blob.core.windows.net/mapa/f9c71e68-efcc-4900-8ce6-592fd2d5bda9.jpg",
                         "myslecinek-jesien-m.jpg", "", 0, 0, GenericMediaType.PHOTO,
-                        LocalDate.of(2025, 12, 15), user, spot34, new HashSet<>())
+                        LocalDate.of(2025, 12, 15), pickAuthor.get(), spot34, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia35 = Arrays.asList(
                 new SpotMedia(null, null,
                         "https://merkurystorage.blob.core.windows.net/mapa/1db0cfbc-becf-4e2b-b398-ab7ce6409c0f.jpg",
                         "gf-uuge-ifBQ-nuZY_park-konstytucji-3-maja-1920x1080-nocrop.jpg", "", 0, 0, GenericMediaType.PHOTO,
-                        LocalDate.of(2025, 12, 15), user, spot35, new HashSet<>()),
+                        LocalDate.of(2025, 12, 15), pickAuthor.get(), spot35, new HashSet<>()),
                 new SpotMedia(null, null,
                         "https://merkurystorage.blob.core.windows.net/mapa/de3d2aef-a761-4b21-a98d-40c6087a5961.jpg",
                         "0x0.jpg", "", 0, 0, GenericMediaType.PHOTO,
-                        LocalDate.of(2025, 12, 15), user, spot35, new HashSet<>())
+                        LocalDate.of(2025, 12, 15), pickAuthor.get(), spot35, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia36 = Arrays.asList(
                 new SpotMedia(null, null,
                         "https://merkurystorage.blob.core.windows.net/mapa/08f85770-c429-4bf0-8406-d0686a528bf2.jpg",
                         "20210122_160246_Park_Antoniuk_in_Białystok.jpg", "", 0, 0, GenericMediaType.PHOTO,
-                        LocalDate.of(2025, 12, 15), user, spot36, new HashSet<>())
+                        LocalDate.of(2025, 12, 15), pickAuthor.get(), spot36, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia37 = Arrays.asList(
                 new SpotMedia(null, null,
                         "https://merkurystorage.blob.core.windows.net/mapa/6871dc99-076e-489f-bb28-68fef363df8e.png",
                         "torunbulwar180114.png", "", 0, 0, GenericMediaType.PHOTO,
-                        LocalDate.of(2025, 12, 15), user, spot37, new HashSet<>()),
+                        LocalDate.of(2025, 12, 15), pickAuthor.get(), spot37, new HashSet<>()),
                 new SpotMedia(null, null,
                         "https://merkurystorage.blob.core.windows.net/mapa/63e986c3-081f-499e-9bc4-ee431b1f5e1b.jpg",
                         "Toruń_(DerHexer)_2010-07-17_011.jpg", "", 0, 0, GenericMediaType.PHOTO,
-                        LocalDate.of(2025, 12, 15), user, spot37, new HashSet<>())
+                        LocalDate.of(2025, 12, 15), pickAuthor.get(), spot37, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia38 = Arrays.asList(
                 new SpotMedia(null, null,
                         "https://merkurystorage.blob.core.windows.net/mapa/7f663ac5-c252-42a3-a541-83368d6a355a.jpg",
                         "2020_05_17_parki_zielen_1000lecia_019_1.jpg.jpg", "", 0, 0, GenericMediaType.PHOTO,
-                        LocalDate.of(2025, 12, 15), user, spot38, new HashSet<>()),
+                        LocalDate.of(2025, 12, 15), pickAuthor.get(), spot38, new HashSet<>()),
                 new SpotMedia(null, null,
                         "https://merkurystorage.blob.core.windows.net/mapa/bc12919d-f8c7-4de5-bab7-f4faa5f7d17d.jpg",
                         "2020_05_17_parki_zielen_1000lecia_020_1.jpg.jpg", "", 0, 0, GenericMediaType.PHOTO,
-                        LocalDate.of(2025, 12, 15), user, spot38, new HashSet<>())
+                        LocalDate.of(2025, 12, 15), pickAuthor.get(), spot38, new HashSet<>())
         );
 
+        var from = LocalDateTime.of(2024, 1, 1, 0, 0);
+        var to = LocalDateTime.of(2025, 12, 15, 23, 59);
+
+        SpotComment spot2Comment1 = SpotComment.builder()
+                .text("Super miejsce na szybkie ujęcia – fajny klimat i sporo kadrów do wyboru.")
+                .rating(randomRating(rnd))
+                .publishDate(randomPublishDate(rnd, from, to))
+                .author(pickAuthor.get())
+                .spot(spot2)
+                .build();
 
         spot11.getTags().addAll(Set.of(city, oldTown, monument, photography));
         spot12.getTags().addAll(Set.of(city, oldTown, photography));
@@ -1645,6 +1652,12 @@ public class PopulateMapService {
                 spotMedia26, spotMedia27, spotMedia28, spotMedia29, spotMedia30, spotMedia31, spotMedia32, spotMedia33, spotMedia34,
                 spotMedia35, spotMedia36, spotMedia37, spotMedia38);
 
+        for (var medias : spotMediaList) {
+            for (var m : medias) {
+                applyRandomLikesToMedia(m, authors, rnd);
+            }
+        }
+
         for (int i = 0; i < spots.size(); i++) {
             Spot spot = spots.get(i);
             spot.getBorderPoints().addAll(contours.get(i));
@@ -1663,6 +1676,29 @@ public class PopulateMapService {
             spot.setArea(PolygonAreaCalculator.calculateArea(spot.getBorderPoints().toArray(new BorderPoint[0])));
             spot.setCenterPoint(PolygonCenterPointCalculator.calculateCenterPoint(spot.getBorderPoints()));
         }
+
+//        var firstComment = spot2.getSpotComments().getFirst();
+//
+//        firstComment.getMedia().addAll(List.of(
+//                SpotCommentMedia.builder()
+//                        .url("https://merkurystorage.blob.core.windows.net/mapa/5f1ff331-eb5f-49a9-b57d-0aeed0d42eb7.jpg")
+//                        .genericMediaType(GenericMediaType.PHOTO)
+//                        .spotComment(firstComment)
+//                        .build(),
+//                SpotCommentMedia.builder()
+//                        .url("https://merkurystorage.blob.core.windows.net/mapa/f7b1009b-7762-4027-8b49-e789531e7cf4.jpg")
+//                        .genericMediaType(GenericMediaType.PHOTO)
+//                        .spotComment(firstComment)
+//                        .build(),
+//                SpotCommentMedia.builder()
+//                        .url("https://merkurystorage.blob.core.windows.net/mapa/32628ec1-ecc2-473a-b41d-14a9ff3e5d3d.jpg")
+//                        .genericMediaType(GenericMediaType.PHOTO)
+//                        .spotComment(firstComment)
+//                        .build()
+//        ));
+//
+//        spotCommentRepository.save(firstComment);
+
 
         spotRepository.saveAll(spots);
     }
@@ -1905,17 +1941,20 @@ public class PopulateMapService {
         var to = LocalDateTime.of(2025, 12, 15, 23, 59);
 
         for (int i = 0; i < missing; i++) {
-            // jeśli puli będzie mniej niż potrzeba, to zawija (OK, bo nie musi być unikalne)
             String txt = textPool.get(Math.floorMod(textIdx.getAndIncrement(), textPool.size()));
             var author = authors.get(rnd.nextInt(authors.size()));
 
-            spot.getSpotComments().add(SpotComment.builder()
+            SpotComment comment = SpotComment.builder()
                     .text(txt)
                     .rating(randomRating(rnd))
                     .publishDate(randomPublishDate(rnd, from, to))
                     .author(author)
                     .spot(spot)
-                    .build());
+                    .build();
+
+            applyRandomVotes(comment, authors, author, rnd);
+
+            spot.getSpotComments().add(comment);
         }
     }
 
@@ -1927,5 +1966,67 @@ public class PopulateMapService {
 
         spot.setRating(BigDecimal.valueOf(avg).setScale(2, RoundingMode.HALF_UP).doubleValue());
         spot.setRatingCount(spot.getSpotComments().size());
+    }
+
+    private static void applyRandomLikesToMedia(
+            SpotMedia media,
+            List<UserEntity> allUsers,
+            Random rnd
+    ) {
+        if (media == null) return;
+        if (allUsers == null || allUsers.size() <= 1) return;
+
+        UserEntity mediaAuthor = media.getAuthor();
+        if (mediaAuthor == null) return;
+
+        List<UserEntity> pool = new ArrayList<>(allUsers);
+        pool.removeIf(u -> Objects.equals(u.getId(), mediaAuthor.getId()));
+
+        if (pool.isEmpty()) return;
+
+        Collections.shuffle(pool, rnd);
+
+        int maxLikes = Math.min(40, pool.size());
+        int likeCount = rnd.nextInt(maxLikes + 1);
+
+        Set<UserEntity> likers = new HashSet<>(pool.subList(0, likeCount));
+
+        media.getLikedBy().addAll(likers);
+        media.setLikes(media.getLikedBy().size());
+        likers.forEach(u -> u.getLikedSpotMedia().add(media));
+    }
+
+
+    private static void applyRandomVotes(
+            SpotComment comment,
+            List<UserEntity> allUsers,
+            UserEntity commentAuthor,
+            Random rnd
+    ) {
+        if (allUsers == null || allUsers.size() <= 1) return;
+
+        List<UserEntity> pool = new ArrayList<>(allUsers);
+        pool.removeIf(u -> Objects.equals(u.getId(), commentAuthor.getId()));
+
+        if (pool.isEmpty()) return;
+
+        Collections.shuffle(pool, rnd);
+
+        int maxUp = Math.min(12, pool.size());
+        int upCount = rnd.nextInt(maxUp + 1);
+
+        Set<UserEntity> upvoters = new HashSet<>(pool.subList(0, upCount));
+
+        pool.subList(0, upCount).clear();
+
+        int maxDown = Math.min(4, pool.size());
+        int downCount = rnd.nextInt(maxDown + 1);
+
+        Set<UserEntity> downvoters = new HashSet<>(pool.subList(0, downCount));
+
+        comment.getUpVotedBy().addAll(upvoters);
+        comment.getDownVotedBy().addAll(downvoters);
+        comment.setUpVotes(upvoters.size());
+        comment.setDownVotes(downvoters.size());
     }
 }
