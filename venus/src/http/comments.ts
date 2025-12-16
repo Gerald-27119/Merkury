@@ -17,10 +17,10 @@ export async function getPaginatedSpotComments(
     ).data;
 }
 
-export async function getSpotCommentsMedia(spotId: number, commentId: number) {
+export async function getSpotCommentsMedia(commentId: number) {
     return (
         await axios.get(
-            `${BASE_URL}/public/spot/${spotId}/comments/${commentId}`,
+            `${BASE_URL}/public/spot/comments-media/${commentId}`,
         )
     ).data;
 }

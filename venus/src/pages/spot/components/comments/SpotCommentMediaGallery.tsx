@@ -41,8 +41,8 @@ export default function SpotCommentMediaGallery({
         isError,
         refetch,
     } = useQuery({
-        queryKey: ["spot-comment-media", spotId, commentId],
-        queryFn: () => getSpotCommentsMedia(spotId, commentId),
+        queryKey: ["spot-comment-media", commentId],
+        queryFn: () => getSpotCommentsMedia(commentId),
         enabled: false,
     });
 
