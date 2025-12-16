@@ -121,13 +121,13 @@
     \wpczdesc{Wymaganie dotyczy \textbf{autoryzacji na poziomie pojedynczych czatów}.
     System zapewnia, że zalogowany użytkownik widzi wyłącznie listę czatów
     oraz wiadomości z czatów, których jest uczestnikiem. Informacje o innych
-    czatach nie są prezentowane w interfejsie ani dostępne poprzez API,
+    czatach nie są prezentowane w interfejsie ani dostępne poprzez \gls{api},
         nawet jeśli użytkownik zna ich identyfikatory.}
 
     \wpczaccept{%
         \begin{itemize}
             \item Dla zalogowanego użytkownika lista czatów zawiera wyłącznie czaty, w których jest on uczestnikiem.
-            \item Zapytania do API odwołujące się do czatu, którego użytkownik nie jest członkiem, są odrzucane (np.\ kodem 403) i nie zwracają żadnych danych o tym czacie ani jego wiadomościach.
+            \item Zapytania do \gls{api} odwołujące się do czatu, którego użytkownik nie jest członkiem, są odrzucane (np.\ kodem 403) i nie zwracają żadnych danych o tym czacie ani jego wiadomościach.
         \end{itemize}
     }
 
@@ -163,7 +163,7 @@
     \wpczaccept{%
         \begin{itemize}
             \item Wejście na widok czatu przez użytkownika niezalogowanego powoduje przekierowanie na ekran logowania lub wyświetlenie komunikatu o braku uprawnień.
-            \item Zapytania do API czatu wykonane bez ważnego JWT są odrzucane kodem 401 i nie zwracają żadnych danych.
+            \item Zapytania do \gls{api} czatu wykonane bez ważnego \gls{jwt} są odrzucane kodem 401 i nie zwracają żadnych danych.
         \end{itemize}
     }
 
