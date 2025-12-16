@@ -9,11 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,70 +21,90 @@ public class PopulateFriendsService {
 
     @Transactional
     public void initFriendsData() {
-        var users = userEntityRepository.findAll().subList(31,80);
+        List<String> usernames = List.of(
+                "annaKowalska",
+                "michalNowak",
+                "kasiaWisniewska",
+                "piotrZielinski",
+                "olaLewandowska",
+                "tomekWojcik",
+                "nataliaKaminska",
+                "bartekSzymanski",
+                "magdaKozlowska",
+                "krzysiekJankowski",
+                "julkaMazur",
+                "pawelKrawczyk"
+        );
 
-        users.add(userEntityRepository.findByUsername("user").orElseThrow());
+        List<UserEntity> users = usernames.stream()
+                .map(u -> userEntityRepository.findByUsername(u)
+                        .orElseThrow(() -> new IllegalStateException("Brak użytkownika w DB: " + u)))
+                .collect(Collectors.toCollection(ArrayList::new));
 
-        for (var user : users) {
-            int followCount = random.nextInt(20);
-
-            var follows = getRandomSubset(users, followCount, user);
-            user.getFollowers().addAll(follows);
+        for (UserEntity user : users) {
+            int followCount = random.nextInt(20); // 0..19
+            Set<UserEntity> followers = getRandomSubset(users, followCount, user);
+            user.getFollowers().addAll(followers);
         }
 
-        var createdPairs = new HashSet<>();
+        Set<String> createdPairs = new HashSet<>();
 
-        for (var user : users) {
-            int numberOfFriends = random.nextInt(20);
+        for (UserEntity user : users) {
+            int numberOfFriends = random.nextInt(20); // 0..19
 
             for (int i = 0; i < numberOfFriends; i++) {
-                var potentialFriend = users.get(random.nextInt(users.size()));
+                UserEntity potentialFriend = users.get(random.nextInt(users.size()));
+                if (user.equals(potentialFriend)) continue;
 
-                if (!user.equals(potentialFriend)) {
-                    var key = user.getId() + "-" + potentialFriend.getId();
-                    var reverseKey = potentialFriend.getId() + "-" + user.getId();
+                String key = user.getId() + "-" + potentialFriend.getId();
+                String reverseKey = potentialFriend.getId() + "-" + user.getId();
+                if (createdPairs.contains(key) || createdPairs.contains(reverseKey)) continue;
 
-                    if (!createdPairs.contains(key) && !createdPairs.contains(reverseKey)) {
-                        var friendship = Friendship.builder()
-                                .user(user)
-                                .friend(potentialFriend)
-                                .status(UserFriendStatus.ACCEPTED)
-                                .createdAt(LocalDateTime.now())
-                                .build();
+                LocalDateTime now = LocalDateTime.now();
 
-                        var reverse = Friendship.builder()
-                                .user(potentialFriend)
-                                .friend(user)
-                                .status(UserFriendStatus.ACCEPTED)
-                                .createdAt(LocalDateTime.now())
-                                .build();
+                Friendship friendship = Friendship.builder()
+                        .user(user)
+                        .friend(potentialFriend)
+                        .status(UserFriendStatus.ACCEPTED)
+                        .createdAt(now)
+                        .build();
 
-                        user.getFriendships().add(friendship);
-                        potentialFriend.getFriendships().add(reverse);
+                Friendship reverse = Friendship.builder()
+                        .user(potentialFriend)
+                        .friend(user)
+                        .status(UserFriendStatus.ACCEPTED)
+                        .createdAt(now)
+                        .build();
 
-                        createdPairs.add(key);
-                        createdPairs.add(reverseKey);
-                    }
-                }
+                user.getFriendships().add(friendship);
+                potentialFriend.getFriendships().add(reverse);
+
+                createdPairs.add(key);
+                createdPairs.add(reverseKey);
             }
         }
 
-        users.get(1).getFollowers().add(users.get(4));
-        users.get(1).getFollowers().add(users.get(2));
-        users.get(1).getFollowers().add(users.get(3));
+        UserEntity michal = find(users, "michalNowak");
+        michal.getFollowers().add(find(users, "olaLewandowska"));
+        michal.getFollowers().add(find(users, "kasiaWisniewska"));
+        michal.getFollowers().add(find(users, "piotrZielinski"));
+
         userEntityRepository.saveAll(users);
     }
 
-    private Set<UserEntity> getRandomSubset(List<UserEntity> allUsers, int count, UserEntity exclude) {
-        return allUsers.stream()
-                .filter(u -> !u.equals(exclude))
-                .collect(Collectors.collectingAndThen(
-                        Collectors.toList(),
-                        list -> {
-                            Collections.shuffle(list);
-                            return new HashSet<>(list.subList(0, Math.min(count, list.size())));
-                        }
-                ));
+    private UserEntity find(List<UserEntity> users, String username) {
+        return users.stream()
+                .filter(u -> username.equals(u.getUsername()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Brak na liście seedowanej: " + username));
     }
 
+    private Set<UserEntity> getRandomSubset(List<UserEntity> allUsers, int count, UserEntity exclude) {
+        List<UserEntity> list = allUsers.stream()
+                .filter(u -> !u.equals(exclude))
+                .collect(Collectors.toList());
+
+        Collections.shuffle(list, random);
+        return new HashSet<>(list.subList(0, Math.min(count, list.size())));
+    }
 }

@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PopulateFavoriteSpotsService {
@@ -18,56 +21,88 @@ public class PopulateFavoriteSpotsService {
 
     @Transactional
     public void initFavoriteSpotsData() {
-        var user = userEntityRepository.findByUsername("user").orElseThrow();
+        List<String> usernames = List.of(
+                "annaKowalska",
+                "michalNowak",
+                "kasiaWisniewska",
+                "piotrZielinski",
+                "olaLewandowska",
+                "tomekWojcik",
+                "nataliaKaminska",
+                "bartekSzymanski",
+                "magdaKozlowska",
+                "krzysiekJankowski",
+                "julkaMazur",
+                "pawelKrawczyk"
+        );
+
         var allSpots = spotRepository.findAll();
-
-        var spots1 = allSpots.subList(0, 2);
-        var spots2 = allSpots.subList(2, 4);
-        var spots3 = allSpots.subList(4, 6);
-        var spots4 = allSpots.subList(8, 10);
-
-        for (var spot : spots1) {
-            var favoriteSpot = FavoriteSpot
-                    .builder()
-                    .spot(spot)
-                    .user(user)
-                    .type(FavoriteSpotsListType.FAVORITE)
-                    .build();
-
-            favoriteSpotRepository.save(favoriteSpot);
+        if (allSpots.size() < 12) {
+            throw new IllegalStateException("Za mało spotów w DB. Potrzeba min. 12, jest: " + allSpots.size());
         }
 
-        for (var spot : spots2) {
-            var favoriteSpot = FavoriteSpot
-                    .builder()
-                    .spot(spot)
-                    .user(user)
-                    .type(FavoriteSpotsListType.PLAN_TO_VISIT)
-                    .build();
 
-            favoriteSpotRepository.save(favoriteSpot);
+        int perList = 3;
+        int totalPerUser = perList * 4;
+
+        var toSave = new ArrayList<FavoriteSpot>();
+
+        for (int i = 0; i < usernames.size(); i++) {
+            String username = usernames.get(i);
+
+            var user = userEntityRepository.findByUsername(username)
+                    .orElseThrow(() -> new IllegalStateException("Brak użytkownika w DB: " + username));
+
+            int base = Math.floorMod(i * totalPerUser, allSpots.size());
+
+            var favSpots      = pick(allSpots, base + 0 * perList, perList);
+            var planSpots     = pick(allSpots, base + 1 * perList, perList);
+            var likedSpots    = pick(allSpots, base + 2 * perList, perList);
+            var notLikedSpots = pick(allSpots, base + 3 * perList, perList);
+
+            for (var spot : favSpots) {
+                toSave.add(FavoriteSpot.builder()
+                        .spot(spot)
+                        .user(user)
+                        .type(FavoriteSpotsListType.FAVORITE)
+                        .build());
+            }
+
+            for (var spot : planSpots) {
+                toSave.add(FavoriteSpot.builder()
+                        .spot(spot)
+                        .user(user)
+                        .type(FavoriteSpotsListType.PLAN_TO_VISIT)
+                        .build());
+            }
+
+            for (var spot : likedSpots) {
+                toSave.add(FavoriteSpot.builder()
+                        .spot(spot)
+                        .user(user)
+                        .type(FavoriteSpotsListType.VISITED_LIKED_IT)
+                        .build());
+            }
+
+            for (var spot : notLikedSpots) {
+                toSave.add(FavoriteSpot.builder()
+                        .spot(spot)
+                        .user(user)
+                        .type(FavoriteSpotsListType.VISITED_NOT_LIKED_IT)
+                        .build());
+            }
         }
 
-        for (var spot : spots3) {
-            var favoriteSpot = FavoriteSpot
-                    .builder()
-                    .spot(spot)
-                    .user(user)
-                    .type(FavoriteSpotsListType.VISITED_LIKED_IT)
-                    .build();
+        favoriteSpotRepository.saveAll(toSave);
+    }
 
-            favoriteSpotRepository.save(favoriteSpot);
+    private <T> List<T> pick(List<T> list, int start, int count) {
+        int size = list.size();
+        int n = Math.min(count, size);
+        var result = new ArrayList<T>(n);
+        for (int i = 0; i < n; i++) {
+            result.add(list.get(Math.floorMod(start + i, size)));
         }
-
-        for (var spot : spots4) {
-            var favoriteSpot = FavoriteSpot
-                    .builder()
-                    .spot(spot)
-                    .user(user)
-                    .type(FavoriteSpotsListType.VISITED_NOT_LIKED_IT)
-                    .build();
-
-            favoriteSpotRepository.save(favoriteSpot);
-        }
+        return result;
     }
 }

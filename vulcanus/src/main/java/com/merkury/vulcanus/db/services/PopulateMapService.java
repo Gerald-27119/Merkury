@@ -1647,6 +1647,7 @@ public class PopulateMapService {
         for (var medias : spotMediaList) {
             for (var m : medias) {
                 applyRandomLikesToMedia(m, authors, rnd);
+                applyRandomViewsToMedia(m, rnd);
             }
         }
 
@@ -1663,28 +1664,60 @@ public class PopulateMapService {
                     rnd
             );
             recalcRatingAndCount(spot);
+            applyRandomViewsToSpot(spot, rnd);
 
 
             spot.setArea(PolygonAreaCalculator.calculateArea(spot.getBorderPoints().toArray(new BorderPoint[0])));
             spot.setCenterPoint(PolygonCenterPointCalculator.calculateCenterPoint(spot.getBorderPoints()));
         }
 
-        for (Spot spot : spots) {
-            var firstComment = spot.getSpotComments().getFirst();
-            var mediaList = spot.getMedia().stream()
-                    .map(media -> SpotCommentMedia.builder()
-                            .url(media.getUrl())
-                            .spotComment(firstComment)
-                            .genericMediaType(media.getGenericMediaType())
-                            .build())
-                    .collect(Collectors.toCollection(ArrayList::new));
-            firstComment.setMedia(mediaList);
-            spotCommentRepository.save(firstComment);
-        }
+//        for (Spot spot : spots) {
+//            var firstComment = spot.getSpotComments().getFirst();
+//            var mediaList = spot.getMedia().stream()
+//                    .map(media -> SpotCommentMedia.builder()
+//                            .url(media.getUrl())
+//                            .spotComment(firstComment)
+//                            .genericMediaType(media.getGenericMediaType())
+//                            .build())
+//                    .collect(Collectors.toCollection(ArrayList::new));
+//            firstComment.setMedia(mediaList);
+//            spotCommentRepository.save(firstComment);
+//        }
 
 
         spotRepository.saveAll(spots);
     }
+
+    private static void applyRandomViewsToMedia(SpotMedia media, Random rnd) {
+        if (media == null) return;
+
+        int likes = media.getLikes();
+        int base = 20 + rnd.nextInt(800);
+
+        int multiplier = (media.getGenericMediaType() == GenericMediaType.VIDEO) ? 300 : 120;
+
+        int views = base + likes * (10 + rnd.nextInt(multiplier));
+
+        if (views < likes) views = likes + rnd.nextInt(100);
+
+        media.setViews(views);
+    }
+
+    private static void applyRandomViewsToSpot(Spot spot, Random rnd) {
+        if (spot == null) return;
+
+        int base = 100 + rnd.nextInt(50_000);
+
+        int bonus = 0;
+        bonus += spot.getRatingCount() * 25;
+        if (spot.getMedia() != null) bonus += spot.getMedia().size() * 200;
+        if (spot.getSpotComments() != null) bonus += spot.getSpotComments().size() * 40;
+
+        int views = base + bonus;
+
+        spot.setViewsCount(views);
+    }
+
 
     private static final List<String> commentTexts = List.of(
             "Świetny spot na spokojne ujęcia z drona o świcie – mało ludzi i miękkie światło.",

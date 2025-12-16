@@ -104,6 +104,77 @@ public class PopulateUsersService {
                 .profilePhoto("https://i.pravatar.cc/150?img=3")
                 .build());
 
+        userList.add(UserEntity.builder()
+                .username("agataDabrowska")
+                .email("agata.dabrowska@example.com")
+                .password(passwordEncoder.encode("Password1!"))
+                .profilePhoto("https://i.pravatar.cc/150?img=6")
+                .build());
+
+        userList.add(UserEntity.builder()
+                .username("kamilKaczmarek")
+                .email("kamil.kaczmarek@example.com")
+                .password(passwordEncoder.encode("Password1!"))
+                .profilePhoto("https://i.pravatar.cc/150?img=18")
+                .build());
+
+        userList.add(UserEntity.builder()
+                .username("weronikaWrobel")
+                .email("weronika.wrobel@example.com")
+                .password(passwordEncoder.encode("Password1!"))
+                .profilePhoto("https://i.pravatar.cc/150?img=27")
+                .build());
+
+        userList.add(UserEntity.builder()
+                .username("mateuszPawlak")
+                .email("mateusz.pawlak@example.com")
+                .password(passwordEncoder.encode("Password1!"))
+                .profilePhoto("https://i.pravatar.cc/150?img=34")
+                .build());
+
+        userList.add(UserEntity.builder()
+                .username("zuzannaNowicka")
+                .email("zuzanna.nowicka@example.com")
+                .password(passwordEncoder.encode("Password1!"))
+                .profilePhoto("https://i.pravatar.cc/150?img=41")
+                .build());
+
+        userList.add(UserEntity.builder()
+                .username("lukaszMichalski")
+                .email("lukasz.michalski@example.com")
+                .password(passwordEncoder.encode("Password1!"))
+                .profilePhoto("https://i.pravatar.cc/150?img=52")
+                .build());
+
+        userList.add(UserEntity.builder()
+                .username("karolinaSikora")
+                .email("karolina.sikora@example.com")
+                .password(passwordEncoder.encode("Password1!"))
+                .profilePhoto("https://i.pravatar.cc/150?img=58")
+                .build());
+
+        userList.add(UserEntity.builder()
+                .username("konradBorkowski")
+                .email("konrad.borkowski@example.com")
+                .password(passwordEncoder.encode("Password1!"))
+                .profilePhoto("https://i.pravatar.cc/150?img=63")
+                .build());
+
+        userList.add(UserEntity.builder()
+                .username("dominikaCzarnecka")
+                .email("dominika.czarnecka@example.com")
+                .password(passwordEncoder.encode("Password1!"))
+                .profilePhoto("https://i.pravatar.cc/150?img=70")
+                .build());
+
+        userList.add(UserEntity.builder()
+                .username("patrykRutkowski")
+                .email("patryk.rutkowski@example.com")
+                .password(passwordEncoder.encode("Password1!"))
+                .profilePhoto("https://i.pravatar.cc/150?img=74")
+                .build());
+
+
         userEntityRepository.saveAll(userList);
     }
 }

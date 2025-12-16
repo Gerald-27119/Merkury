@@ -49,15 +49,15 @@ public class PopulateDbs {
 //        return args -> populateForumService.initForumData();
 //    }
 //
-//    @Order(5)
-//    @Bean
-//    CommandLineRunner initFriends() {
-//        return args -> populateFriendsService.initFriendsData();
-//    }
-//
-//    @Order(6)
-//    @Bean
-//    CommandLineRunner initFavoriteSpots() {
-//        return args -> populateFavoriteSpotsService.initFavoriteSpotsData();
-//    }
+    @Order(5)
+    @Bean
+    CommandLineRunner initFriends() {
+        return args -> populateFriendsService.initFriendsData();
+    }
+
+    @Order(6)
+    @Bean
+    CommandLineRunner initFavoriteSpots() {
+        return args -> populateFavoriteSpotsService.initFavoriteSpotsData();
+    }
 }
