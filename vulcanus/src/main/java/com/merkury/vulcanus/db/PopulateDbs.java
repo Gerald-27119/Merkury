@@ -49,11 +49,11 @@ public class PopulateDbs {
 //        return args -> populateForumService.initForumData();
 //    }
 
-//    @Order(5)
-//    @Bean
-//    CommandLineRunner initChats() {
-//        return args -> populateChatsService.initChatsData();
-//    }
+    @Order(5)
+    @Bean
+    CommandLineRunner initChats() {
+        return args -> populateChatsService.initChatsData();
+    }
 
     @Order(6)
     @Bean

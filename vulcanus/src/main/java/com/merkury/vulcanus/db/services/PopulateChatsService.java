@@ -4,6 +4,7 @@ import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
+import com.merkury.vulcanus.model.enums.chat.ChatParticipantRole;
 import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
@@ -51,7 +52,6 @@ public class PopulateChatsService {
                         .orElseThrow(() -> new IllegalStateException("Brak użytkownika w DB: " + u)))
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        // mapka: userId -> set(friendId) tylko ACCEPTED
         Map<Long, Set<Long>> friends = users.stream().collect(Collectors.toMap(
                 UserEntity::getId,
                 u -> u.getFriendships().stream()
@@ -61,7 +61,6 @@ public class PopulateChatsService {
                         .collect(Collectors.toSet())
         ));
 
-        // wybór grup: 2x4, 2x3, 6x2 (wszystko jako kliki znajomych)
         List<List<UserEntity>> quads = pickCliques(users, friends, 4, 2);
         List<List<UserEntity>> triples = pickCliques(users, friends, 3, 2);
         List<List<UserEntity>> pairs = pickCliques(users, friends, 2, 6);
@@ -74,13 +73,12 @@ public class PopulateChatsService {
             );
         }
 
-        List<Script> pairScripts = buildPairScripts();     // 6 * 30
-        List<Script> tripleScripts = buildTripleScripts(); // 2 * 30
-        List<Script> quadScripts = buildQuadScripts();     // 2 * 30
+        List<Script> pairScripts = buildPairScripts();
+        List<Script> tripleScripts = buildTripleScripts();
+        List<Script> quadScripts = buildQuadScripts();
 
         int p = 0, t = 0, q = 0;
 
-        // kolejność: pary, trójki, czwórki (bez znaczenia)
         for (List<UserEntity> group : pairs) {
             createChatFromScript(group, pairScripts.get(p++));
         }
@@ -103,6 +101,10 @@ public class PopulateChatsService {
         if (participants.size() > 2) {
             chat.setChatType(GROUP);
             chat.setName(participants.stream().map(UserEntity::getUsername).collect(Collectors.joining(", ")));
+
+            UserEntity owner = participants.getFirst();
+            setGroupOwner(chat, owner);
+
         }
 
         chat = chatRepository.save(chat);
@@ -120,13 +122,10 @@ public class PopulateChatsService {
         for (int i = 0; i < script.lines.size(); i++) {
             Line line = script.lines.get(i);
 
-            String content = fill(line.text, vars);
-            UserEntity sender = participants.get(line.speaker);
-
             messages.add(ChatMessage.builder()
                     .chat(chat)
-                    .sender(sender)
-                    .content(content)
+                    .sender(participants.get(line.speaker))
+                    .content(fill(line.text, vars))
                     .sentAt(start.plusMinutes(i))
                     .build());
         }
@@ -146,6 +145,13 @@ public class PopulateChatsService {
         return out;
     }
 
+    private void setGroupOwner(Chat chat, UserEntity owner) {
+        chat.getParticipants().forEach(cp -> cp.setRole(ChatParticipantRole.MEMBER));
+        chat.getParticipants().stream()
+                .filter(cp -> cp.getUser().equals(owner))
+                .findFirst()
+                .ifPresent(cp -> cp.setRole(ChatParticipantRole.OWNER));
+    }
 
     private List<List<UserEntity>> pickCliques(List<UserEntity> users, Map<Long, Set<Long>> friends, int size, int limit) {
         List<List<UserEntity>> candidates = enumerateCliques(users, friends, size);
@@ -218,8 +224,11 @@ public class PopulateChatsService {
     }
 
 
-    private record Line(int speaker, String text) {}
-    private record Script(int size, List<Line> lines) {}
+    private record Line(int speaker, String text) {
+    }
+
+    private record Script(int size, List<Line> lines) {
+    }
 
     private static Line l(int speaker, String text) {
         return new Line(speaker, text);

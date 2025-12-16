@@ -33,8 +33,6 @@ public class UserEntity implements UserDetails {
     @Version
     private Long version;
 
-    private String profileImage;
-
     @Column(unique = true, nullable = false)
     private String email;
 
