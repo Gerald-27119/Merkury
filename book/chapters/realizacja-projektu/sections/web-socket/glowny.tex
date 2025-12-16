@@ -20,6 +20,27 @@ z myślą o aplikacjach webowych, takich jak czaty, powiadomienia w czasie rzecz
 aplikacje giełdowe czy gry sieciowe, które wymagają stałego kanału komunikacji z serwerem,
 zamiast opierać się na wielu tradycyjnych połączeniach HTTP i okresowym odpytywaniu serwera.
 
+Warto podkreślić, że sam protokół WebSocket definiuje przede wszystkim
+\textbf{mechanizm utrzymania stałego połączenia i przesyłania ramek danych}.
+Nie narzuca natomiast \textbf{struktury komunikatów aplikacyjnych}, sposobu ich
+adresowania, routingu ani modelu subskrypcji. Oznacza to, że po ustanowieniu połączenia
+WebSocket aplikacja musi samodzielnie ustalić, jak wygląda format wiadomości oraz w jaki sposób realizowane jest
+publikowanie i odbieranie zdarzeń.
+
+Z tego powodu często stosuje się protokoły warstwy
+aplikacyjnej działające \textbf{nad} WebSocket, np.\ \textbf{STOMP}
+(\emph{Simple/Streaming Text Oriented Messaging Protocol}). STOMP zapewnia ustandaryzowaną
+semantykę komunikacji w modelu wiadomościowym, w szczególności:
+\begin{itemize}
+    \item \textbf{adresowanie wiadomości} do tzw.\ destynacji (np.\ kanałów typu \texttt{/topic} lub \texttt{/queue}),
+    \item \textbf{mechanizm subskrypcji} (\texttt{SUBSCRIBE}) oraz dystrybucję wiadomości w stylu \textbf{publish--subscribe},
+    \item \textbf{nagłówki i metadane} wiadomości (np.\ identyfikatory, typy zdarzeń, dodatkowy kontekst),
+    \item \textbf{potwierdzanie odbioru} (ACK/NACK) i lepszą kontrolę nad niezawodnością dostarczenia,
+    \item \textbf{obsługę błędów} na poziomie protokołu (ramki \texttt{ERROR}) oraz opcjonalne \textbf{heartbeat}
+    do wykrywania zerwanych połączeń.
+\end{itemize}
+
+[https://docs.spring.io/spring-framework/reference/web/websocket/stomp/overview.html]
 [https://datatracker.ietf.org/doc/html/rfc6455]
 
 \subsection{Zastosowanie protokołu WebSocket w naszym projekcie}
@@ -54,14 +75,12 @@ on wykorzystany właśnie w module czatu, co pozwala na utrzymanie jednego,
 trwałego połączenia pomiędzy klientem a serwerem i natychmiastowe dostarczanie
 wiadomości do wszystkich uczestników konwersacji, bez konieczności ciągłego odpytywania serwera za pomocą REST API.
 
-
 \subsection{Implementacja na backendzie}
 \label{subsec:implementacja-na-backendzie}
 
 Platforma Spring udostępnia dwa komplementarne sposoby obsługi komunikacji
 w oparciu o protokół WebSocket. Pierwsze podejście to niskopoziomowa integracja
-z tzw. „surowym” WebSocketem, oparta na interfejsie WebSocketHandler oraz
-konfiguracji przez @EnableWebSocket. Umożliwia ono pełną kontrolę nad formatem wiadomości
+z tzw. „surowym” WebSocketem. Umożliwia ono pełną kontrolę nad formatem wiadomości
 i cyklem życia połączenia, ale wymaga samodzielnego zdefiniowania protokołu komunikacji
 i mechanizmów dystrybucji wiadomości między klientami.
 (https://docs.spring.io/spring-framework/reference/web/websocket.html)
@@ -78,20 +97,204 @@ tworzenia własnego formatu komunikatów i ułatwia implementację wzorca publis
 W niniejszym projekcie, ze względu na charakter modułu czatu tekstowego,
 zdecydowano się na wykorzystanie drugiego podejścia, tj. komunikacji WebSocket z warstwą STOMP.
 Pozwala to traktować poszczególne pokoje czatowe jako osobne „ścieżki” (np. /topic/chat/{id})(TODO: tu popraw na realną),
-uprościć logikę rozsyłania wiadomości oraz skorzystać z gotowego, dojrzałego modelu
-messagingowego Spring Framework zamiast implementować od podstaw własny protokół na bazie surowych ramek WebSocket.
+uprościć logikę rozsyłania wiadomości oraz skorzystać z gotowego modelu
+wiadomości oferowanego przez Spring Framework, zamiast implementować od podstaw własny protokół na bazie surowych ramek WebSocket.
+
 
 Konfiguracja:
 WebsocketConfig.java
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/websocket-config}
+    \caption{TODO}
+    \label{img:web-socket-config-backend}
+\end{figure}
+
+\paragraph{Opis klasy \texttt{WebSocketConfig}.}
+Klasa \texttt{WebSocketConfig} konfiguruje komunikację WebSocket z wykorzystaniem protokołu STOMP w module czatu.
+
+\begin{itemize}
+    \item \texttt{@Configuration} -- oznacza klasę jako konfigurację Springa (źródło beanów).
+    \item \texttt{@EnableWebSocketMessageBroker} -- włącza obsługę WebSocket + STOMP oraz broker wiadomości w Springu.
+\end{itemize}
+
+\paragraph{\texttt{configureMessageBroker(...)}}
+Metoda konfiguruje sposób routowania wiadomości STOMP:
+\begin{itemize}
+    \item \texttt{enableSimpleBroker("/subscribe")} uruchamia wbudowany (prosty) broker wiadomości.
+    Klienci mogą subskrybować destynacje zaczynające się od \texttt{/subscribe/*}
+    (np.\ \texttt{/subscribe/chats/\{username\}} lub \texttt{/subscribe/chats/ack/\{username\}}),
+    a serwer publikuje tam wiadomości do odbiorców.
+    \item \texttt{setApplicationDestinationPrefixes("/app")} ustawia prefiks dla wiadomości wysyłanych \textbf{od klienta do backendu}.
+    Oznacza to, że destynacje zaczynające się od \texttt{/app/*} trafiają do metod oznaczonych \texttt{@MessageMapping}
+    (np.\ \texttt{/app/send/\{chatId\}/message}).
+\end{itemize}
+
+\paragraph{\texttt{registerStompEndpoints(...)}}
+Metoda definiuje endpoint, przez który przeglądarka nawiązuje połączenie:
+\begin{itemize}
+    \item \texttt{addEndpoint("/connect")} ustawia ścieżkę handshake WebSocket na \texttt{/connect}.
+    \item \texttt{setAllowedOriginPatterns("http://localhost:*")} dopuszcza połączenia z frontendów uruchamianych lokalnie.
+    \item \texttt{withSockJS()} włącza SockJS, czyli mechanizm kompatybilności (fallback), gdy WebSocket jest niedostępny.
+\end{itemize}
+
+\paragraph{\texttt{configureClientInboundChannel(...)}}
+Metoda dodaje interceptor do kanału wiadomości \textbf{przychodzących} (od klienta):
+\begin{itemize}
+    \item \texttt{registration.interceptors(...)} rejestruje interceptor dla komunikatów wysyłanych na \texttt{/app/*}.
+\end{itemize}
+
+\paragraph{\texttt{securityContextChannelInterceptor()}}
+Metoda tworzy bean \texttt{SecurityContextChannelInterceptor}.
+Interceptor przenosi kontekst bezpieczeństwa Spring Security do obsługi wiadomości STOMP,
+dzięki czemu backend może rozpoznać użytkownika wysyłającego wiadomość (np.\ przy zapisie wiadomości i wysyłaniu ACK).
+
+
+
 Serwis:
 ChatStompCommunicationService.java
 
-TODO Wazne aby powiedziec ze serwis jest uzywany zarowno przez controller jak i przez rozne serwisy i tu je wymienic
-ale juz nie dawac ich kodu (napsiac dlaczego uzywaja)
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/stomp-serwis}
+    \caption{TODO}
+    \label{img:web-socket-serwis-backend}
+\end{figure}
+
+\paragraph{Opis klasy \texttt{ChatStompCommunicationService}.}
+Klasa \texttt{ChatStompCommunicationService} jest serwisem odpowiedzialnym za
+\textbf{wysyłanie zdarzeń czasu rzeczywistego} do klientów poprzez STOMP.
+Nie zapisuje ona wiadomości w bazie danych ani nie zawiera logiki walidacji treści --
+jej zadaniem jest wyłącznie \textbf{dystrybucja} komunikatów na odpowiednie kanały
+\texttt{/subscribe/*}.
+
+\paragraph{Adnotacje i pola.}
+\begin{itemize}
+    \item \texttt{@Service} -- rejestruje klasę jako serwis Springa, możliwy do wstrzykiwania w innych komponentach.
+    \item \texttt{@RequiredArgsConstructor} -- generuje konstruktor dla pól \texttt{final}, co upraszcza wstrzykiwanie zależności.
+    \item \texttt{@Slf4j} -- umożliwia logowanie zdarzeń wysyłania wiadomości.
+
+    \item \texttt{SimpMessagingTemplate messagingTemplate} -- obiekt Springa służący do publikowania komunikatów na destynacje STOMP
+    (np.\ \texttt{/subscribe/chats/...}).
+    \item \texttt{ChatRepository chatRepository} -- pozwala pobrać uczestników czatu na podstawie \texttt{chatId}, aby wysłać wiadomość do właściwych osób.
+    \item \texttt{CustomUserDetailsService customUserDetailsService} -- pozwala pobrać aktualnie zalogowanego użytkownika z kontekstu bezpieczeństwa, aby wysłać potwierdzenie (ACK) do nadawcy.
+\end{itemize}
+
+\paragraph{Gdzie ta klasa jest używana i po co.}
+Serwis \texttt{ChatStompCommunicationService} jest wykorzystywany w kilku miejscach backendu:
+\begin{itemize}
+    \item \textbf{Kontroler STOMP} (np.\ obsługujący \texttt{/app/send/\{chatId\}/message}) wywołuje serwis, aby po zapisaniu wiadomości
+    \textbf{rozsłać ją do uczestników} oraz \textbf{odesłać ACK do nadawcy}.
+    \item \textbf{Inne serwisy domenowe modułu czatu} (np.\ serwisy odpowiedzialne za systemowe zdarzenia w czacie,
+    takie jak dodanie uczestnika, zmiana ustawień czatu, komunikaty systemowe itp.) mogą korzystać z tego serwisu,
+    aby publikować zdarzenia w czasie rzeczywistym bez duplikowania kodu wysyłki STOMP.
+\end{itemize}
+Dzięki temu cała logika „gdzie i na jakie kanały wysyłać” jest w jednym miejscu,
+co ułatwia utrzymanie oraz zmiany w formacie/ścieżkach komunikacji.
+
+\paragraph{\texttt{broadcastChatMessageToAllChatParticipants(...)}}
+Metoda rozsyła nową wiadomość do wszystkich uczestników czatu:
+\begin{itemize}
+    \item na podstawie \texttt{chatMessageDto.chatId()} pobierana jest lista uczestników z bazy (\texttt{ChatRepository}),
+    \item dla każdego uczestnika wyznaczany jest jego kanał:
+    \texttt{/subscribe/chats/\{username\}},
+    \item wiadomość typu \texttt{ChatMessageDto} jest publikowana na ten kanał poprzez
+    \texttt{messagingTemplate.convertAndSend(...)}.
+\end{itemize}
+W praktyce oznacza to, że każdy użytkownik odbiera wiadomości na swoim indywidualnym kanale subskrypcji.
+
+\paragraph{\texttt{broadcastACKVersionToSender(...)}}
+Metoda wysyła potwierdzenie (ACK) do użytkownika, który wysłał wiadomość:
+\begin{itemize}
+    \item pobierana jest nazwa aktualnego użytkownika z kontekstu bezpieczeństwa,
+    \item tworzony jest obiekt \texttt{ChatMessageAckDto}, zawierający:
+    \begin{itemize}
+        \item docelową wiadomość \texttt{ChatMessageDto} (np.\ z ID po zapisie),
+        \item \texttt{optimisticMessageUUID} -- identyfikator tymczasowy znany frontendowi.
+    \end{itemize}
+    \item ACK jest wysyłany na kanał:
+    \texttt{/subscribe/chats/ack/\{username\}}.
+\end{itemize}
+Mechanizm ten wspiera \emph{optimistic UI}: klient może natychmiast wyświetlić wiadomość, a po ACK podmienić ją
+na wersję potwierdzoną przez serwer.
 
 Controller:
 ChatStompCommunicationController.java
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/stomp-controller-backend}
+    \caption{TODO}
+    \label{img:web-socket-controller-backend}
+\end{figure}
+
+\paragraph{Opis klasy \texttt{ChatStompCommunicationController}.}
+Klasa \texttt{ChatStompCommunicationController} pełni rolę \textbf{punktu wejścia}
+dla wiadomości przychodzących do backendu przez WebSocket/STOMP.
+Odbiera ona komunikaty wysyłane przez klienta na destynacje \texttt{/app/*}
+i przekazuje je dalej do logiki biznesowej oraz do warstwy komunikacji czasu rzeczywistego.
+
+\paragraph{Adnotacje i zależności.}
+\begin{itemize}
+    \item \texttt{@Controller} -- oznacza klasę jako kontroler obsługujący komunikację STOMP (\texttt{@MessageMapping}).
+    \item \texttt{@RequiredArgsConstructor} -- automatycznie tworzy konstruktor dla pól \texttt{final}.
+    \item \texttt{@Slf4j} -- umożliwia logowanie zdarzeń.
+
+    \item \texttt{ChatService chatService} -- serwis domenowy odpowiedzialny za logikę czatu, w tym zapis wiadomości w bazie danych.
+    \item \texttt{ChatStompCommunicationService chatStompCommunicationService} -- serwis odpowiedzialny za rozsyłanie wiadomości i ACK do klientów.
+\end{itemize}
+
+\paragraph{Destynacja wejściowa: \texttt{/app/send/\{chatId\}/message}.}
+Metoda \texttt{sendChatMessage(...)} jest mapowana adnotacją:
+\texttt{@MessageMapping("/send/\{chatId\}/message")}. Ponieważ w konfiguracji WebSocket ustawiono prefiks aplikacyjny
+\texttt{/app}, to klient wysyła wiadomości na pełną ścieżkę:
+\[
+    \texttt{/app/send/\{chatId\}/message}.
+\]
+Jest to główny kanał, którym frontend przekazuje do backendu nową wiadomość dla konkretnego czatu.
+
+\paragraph{Parametry metody.}
+\begin{itemize}
+    \item \texttt{@DestinationVariable String chatId} -- identyfikator czatu pobrany ze ścieżki.
+    \item \texttt{@Payload IncomingChatMessageDto message} -- treść wiadomości przesyłana przez klienta (payload).
+\end{itemize}
+
+\paragraph{Przebieg obsługi wiadomości.}
+Po odebraniu komunikatu metoda wykonuje trzy kroki:
+\begin{enumerate}
+    \item \textbf{Logowanie} informacji o odebranej wiadomości (pomocne w diagnostyce).
+    \item \textbf{Zapis w bazie danych:} wywołanie \texttt{chatService.saveChatMessage(message)}.
+    Dzięki temu wiadomość trafia do trwałej historii czatu i otrzymuje docelowe dane (np.\ ID, timestamp).
+    \item \textbf{Wysyłka czasu rzeczywistego:}
+    \begin{itemize}
+        \item rozesłanie zapisanej wiadomości do wszystkich uczestników czatu przez
+        \texttt{broadcastChatMessageToAllChatParticipants(...)} na kanały
+        \texttt{/subscribe/chats/\{username\}},
+        \item wysłanie potwierdzenia (ACK) do nadawcy przez
+        \texttt{broadcastACKVersionToSender(...)} na kanał
+        \texttt{/subscribe/chats/ack/\{username\}}, z wykorzystaniem \texttt{optimisticMessageUUID}.
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{Rola kontrolera w architekturze.}
+Kontroler nie zawiera logiki routingu wiadomości do użytkowników ani szczegółów protokołu STOMP.
+Jego rola jest celowo prosta: \textbf{odebrać wiadomość na \texttt{/app/...}, zapisać ją przez serwis domenowy,
+    a następnie zlecić rozesłanie do klientów serwisowi komunikacji STOMP}.
+Dzięki temu odpowiedzialności są rozdzielone: zapis i reguły biznesowe są w \texttt{ChatService},
+a komunikacja czasu rzeczywistego w \texttt{ChatStompCommunicationService}.
+
+Zebrane wszystkie dostępne ścieżki (destyancje): TODO: zrobic ladniej ten napis
+
+TODO:przerobic an liste
+\paragraph{\texttt{/connect} -- nawiązanie połączenia}
+\paragraph{\texttt{/app/*} -- wiadomości od klienta do backendu}
+\paragraph{\texttt{/app/send/\{chatId\}/message} -- wysłanie wiadomości do czatu}
+\paragraph{\texttt{/subscribe/*} -- wiadomości od backendu do klientów}
+\paragraph{\texttt{/subscribe/chats/\{username\}} -- kanał wiadomości użytkownika}
+\paragraph{\texttt{/subscribe/chats/ack/\{username\}} -- potwierdzenie (ACK) dla nadawcy}
+
+
 
 \subsection{Implementacja na frontendzie}
 \label{subsec:implementacja-na-frontendzie}
@@ -100,18 +303,10 @@ folder stomp
 \subsection{Przebieg komunikacji}
 \label{subsec:przebieg-komunikacji}
 
-1. wyslanei wiadomosci
-2. po prostu otrzymanie? albo golna komuniakcja wysylanie + otrzymanie na raz?
+[diagram]
 
-Na razie mam dwa daigramy potencjalne na visual paradigm. Pytanie jak pokazac na sekwencji biderekcjoanlnosc??? da sie wogole?
-moz einny typ diagramu czy cos. Bo na razie to wygalda jak zwykle http
-
-Ten drugi diagram to przeplyw wiadomosci!
-
-Pelen diagram komunikacji od ustanowniea poalczenia do przeslaniaw iadomsoci
-w strone backendu ale tez w strone frontendu
-
-Na dole opis diagramu
+1. odniesienia do slwoniczka
+2. odniesienia do bibliografii
 
 
 
