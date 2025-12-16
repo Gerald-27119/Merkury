@@ -454,3 +454,112 @@
     name={klient},
     description={Część systemu (zwykle po stronie \gls{frontend}u), która korzysta z usług \glslink{serwer}{serwera} i prezentuje dane użytkownikowi.}
 }
+\newglossaryentry{naglowek}{
+    name={Nagłówek},
+    description={Metadane dołączane do wiadomości lub żądania (np. dodatkowe pola opisujące typ komunikatu, identyfikator, autoryzację).}
+}
+
+\newglossaryentry{broker}{
+    name={Broker},
+    description={Element pośredniczący w komunikacji wiadomościowej (np. STOMP), który odbiera wiadomości i rozsyła je do odpowiednich subskrybentów.}
+}
+
+\newglossaryentry{callback}{
+    name={Callback},
+    description={Funkcja przekazywana jako parametr, wywoływana automatycznie przy wystąpieniu zdarzenia (np. gdy nadejdzie wiadomość z WebSocket).}
+}
+
+\newglossaryentry{store}{
+    name={Store (Redux)},
+    description={Centralne miejsce przechowywania stanu aplikacji w Redux. Pozwala odczytywać aktualny stan oraz wysyłać akcje zmieniające ten stan.}
+}
+
+\newglossaryentry{kontekst}{
+    name={Kontekst (React)},
+    description={Mechanizm w React pozwalający udostępnić wspólny obiekt (np. serwis WebSocket) wielu komponentom bez przekazywania go przez propsy.}
+}
+
+\newglossaryentry{reconnect}{
+    name={Reconnect},
+    description={Automatyczne ponowne nawiązanie połączenia po jego zerwaniu (np. po chwilowej utracie internetu).}
+}
+
+\newglossaryentry{payload}{
+    name={Payload},
+    description={Właściwa „treść” wiadomości (dane), którą przesyłamy, np. obiekt wiadomości czatu zapisany jako JSON.}
+}
+
+\newglossaryentry{stomp_client}{
+    name={klient STOMP},
+    description={Biblioteka/komponent po stronie klienta realizujący protokół STOMP (subskrypcje, publikacja, ramki, nagłówki) nad transportem WebSocket/SockJS}
+}
+
+\newglossaryentry{stompjs}{
+    name={StompJS},
+    description={Biblioteka JavaScript/TypeScript (np. \texttt{@stomp/stompjs}) implementująca klienta protokołu STOMP}
+}
+
+\newglossaryentry{json}{
+    name={JSON},
+    description={Format tekstowy do wymiany danych (JavaScript Object Notation), często używany jako reprezentacja komunikatów API i wiadomości w aplikacjach webowych}
+}
+
+\newglossaryentry{serializacja}{
+    name={Serializacja},
+    description={Proces zamiany obiektu (np. w TypeScript/Java) na format przenośny, np. JSON, w celu przesłania lub zapisu}
+}
+
+\newglossaryentry{deserializacja}{
+    name={Deserializacja},
+    description={Proces odtworzenia obiektu z formatu przenośnego (np. JSON) po stronie odbiorcy}
+}
+
+\newglossaryentry{cleanup}{
+    name={cleanup},
+    description={„Sprzątanie” zasobów: usuwanie subskrypcji, rozłączanie połączeń i czyszczenie struktur pomocniczych, aby nie pozostawiać aktywnych uchwytów}
+}
+
+\newglossaryentry{cykl_zycia}{
+    name={cykl życia komponentu},
+    description={Etapy działania komponentu (np. montowanie, aktualizacja, odmontowanie) determinujące momenty inicjalizacji i zwalniania zasobów}
+}
+
+\newglossaryentry{use_effect}{
+    name={useEffect},
+    description={Hook React służący do uruchamiania efektów ubocznych po renderowaniu (oraz do definiowania funkcji sprzątającej wykonywanej przy odmontowaniu lub zmianie zależności)}
+}
+
+\newglossaryentry{montowanie}{
+    name={montowanie},
+    description={Moment „podpięcia” komponentu do drzewa UI (pierwsze wyrenderowanie i inicjalizacja)}
+}
+
+\newglossaryentry{odmontowanie}{
+    name={odmontowanie},
+    description={Usunięcie komponentu z drzewa UI (moment zwalniania zasobów i zdejmowania subskrypcji)}
+}
+
+\newglossaryentry{tablica_zaleznosci}{
+    name={tablica zależności},
+    description={Lista wartości (dependencies) sterująca ponownym uruchamianiem \texttt{useEffect} w React; zmiana zależności powoduje wykonanie sprzątania i ponowne uruchomienie efektu}
+}
+
+\newglossaryentry{zmienna_srodowiskowa}{
+    name={zmienna środowiskowa},
+    description={Parametr konfiguracyjny przekazywany aplikacji z zewnątrz (np. plik \texttt{.env} lub konfiguracja CI/CD), pozwalający zmieniać zachowanie bez modyfikacji kodu}
+}
+
+\newglossaryentry{singleton}{
+    name={Singleton},
+    description={Wzorzec projektowy gwarantujący istnienie jednej, współdzielonej instancji obiektu w aplikacji}
+}
+
+\newglossaryentry{redux_dispatch}{
+    name={dispatch (Redux)},
+    description={Funkcja w Redux służąca do wysyłania akcji, które modyfikują stan przechowywany w store}
+}
+
+\newglossaryentry{akcja_redux}{
+    name={akcja Redux},
+    description={Obiekt opisujący zdarzenie/operację zmiany stanu w Redux, obsługiwany przez reducery (np. \texttt{chatActions.setLastMessage(...)})}
+}
