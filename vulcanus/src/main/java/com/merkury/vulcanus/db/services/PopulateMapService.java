@@ -314,7 +314,10 @@ public class PopulateMapService {
                 new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/b6d1364b-97d8-4bf1-b279-12664ac274fb.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
                 new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/be341380-eb45-416e-bf60-0e80fed250bf.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
                 new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/f5e1a392-a768-4f9e-9b30-98f1a01c48ae.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/9eeb8808-6165-4a9d-a864-9f11b5588b69.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/9eeb8808-6165-4a9d-a864-9f11b5588b69.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/5f1ff331-eb5f-49a9-b57d-0aeed0d42eb7.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/f7b1009b-7762-4027-8b49-e789531e7cf4.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/32628ec1-ecc2-473a-b41d-14a9ff3e5d3d.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia3 = Arrays.asList(
@@ -1590,17 +1593,6 @@ public class PopulateMapService {
                         LocalDate.of(2025, 12, 15), pickAuthor.get(), spot38, new HashSet<>())
         );
 
-        var from = LocalDateTime.of(2024, 1, 1, 0, 0);
-        var to = LocalDateTime.of(2025, 12, 15, 23, 59);
-
-        SpotComment spot2Comment1 = SpotComment.builder()
-                .text("Super miejsce na szybkie ujęcia – fajny klimat i sporo kadrów do wyboru.")
-                .rating(randomRating(rnd))
-                .publishDate(randomPublishDate(rnd, from, to))
-                .author(pickAuthor.get())
-                .spot(spot2)
-                .build();
-
         spot11.getTags().addAll(Set.of(city, oldTown, monument, photography));
         spot12.getTags().addAll(Set.of(city, oldTown, photography));
         spot13.getTags().addAll(Set.of(city, park, photography));
@@ -1677,27 +1669,18 @@ public class PopulateMapService {
             spot.setCenterPoint(PolygonCenterPointCalculator.calculateCenterPoint(spot.getBorderPoints()));
         }
 
-//        var firstComment = spot2.getSpotComments().getFirst();
-//
-//        firstComment.getMedia().addAll(List.of(
-//                SpotCommentMedia.builder()
-//                        .url("https://merkurystorage.blob.core.windows.net/mapa/5f1ff331-eb5f-49a9-b57d-0aeed0d42eb7.jpg")
-//                        .genericMediaType(GenericMediaType.PHOTO)
-//                        .spotComment(firstComment)
-//                        .build(),
-//                SpotCommentMedia.builder()
-//                        .url("https://merkurystorage.blob.core.windows.net/mapa/f7b1009b-7762-4027-8b49-e789531e7cf4.jpg")
-//                        .genericMediaType(GenericMediaType.PHOTO)
-//                        .spotComment(firstComment)
-//                        .build(),
-//                SpotCommentMedia.builder()
-//                        .url("https://merkurystorage.blob.core.windows.net/mapa/32628ec1-ecc2-473a-b41d-14a9ff3e5d3d.jpg")
-//                        .genericMediaType(GenericMediaType.PHOTO)
-//                        .spotComment(firstComment)
-//                        .build()
-//        ));
-//
-//        spotCommentRepository.save(firstComment);
+        for (Spot spot : spots) {
+            var firstComment = spot.getSpotComments().getFirst();
+            var mediaList = spot.getMedia().stream()
+                    .map(media -> SpotCommentMedia.builder()
+                            .url(media.getUrl())
+                            .spotComment(firstComment)
+                            .genericMediaType(media.getGenericMediaType())
+                            .build())
+                    .collect(Collectors.toCollection(ArrayList::new));
+            firstComment.setMedia(mediaList);
+            spotCommentRepository.save(firstComment);
+        }
 
 
         spotRepository.saveAll(spots);
