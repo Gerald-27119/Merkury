@@ -161,6 +161,7 @@ export default function SocialCard({
 
     return (
         <li
+            data-testid="social-card"
             className={[
                 "space-y-2 rounded-md px-3 pt-3 pb-4",
                 "bg-lightBgSoft dark:bg-darkBgSoft",

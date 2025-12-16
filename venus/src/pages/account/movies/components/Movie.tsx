@@ -24,7 +24,7 @@ export default function Movie({ movie }: MovieProps) {
         useBoolean();
 
     return (
-        <li className="group relative">
+        <li className="group relative" data-testid="user-movie-li">
             <MediaController
                 style={{
                     aspectRatio: "16/9",

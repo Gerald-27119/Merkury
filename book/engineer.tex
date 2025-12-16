@@ -9,15 +9,22 @@
 \usepackage{minted}
 \usepackage{enumitem} % dla lepszej kontroli list
 \usepackage[utf8]{inputenc}
+\usepackage{pgfgantt}
 \usepackage[table]{xcolor} % kolory w tabelach
 \usepackage[T1]{fontenc}
 \usepackage{longtable}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\usepackage{titlesec}
+\titleformat{\paragraph}[block]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}{0pt}{1ex}{0.8ex}
+\newcommand{\subsubsubsection}[1]{\paragraph{#1}}
 
 %nowe pakiety do tabel:
 \usepackage{booktabs}
 \usepackage{array,ltablex}
 \keepXColumns
-
 %customowe rozmiary kolumn (do użytku ogolonego)
 \newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
 \newcolumntype{Y}{>{\hspace{0.6em}}X<{\hspace{0.6em}}}

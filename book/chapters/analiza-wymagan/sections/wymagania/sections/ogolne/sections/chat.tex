@@ -1,0 +1,153 @@
+%! Author = Adam
+%! Date = 24/11/2025
+
+\subsubsection{Wymagania ogólne dla czatu}
+\label{subsubsec:wymagania-ogolne-dla-chatu}
+
+% Licznik tabel wymagań ogólnych dla czatu (resetowany na rozdział)
+\newcounter{woczat}[chapter]
+\renewcommand{\thewoczat}{\thechapter.\arabic{woczat}}
+
+\newlength{\woczContentWidth}
+\setlength{\woczContentWidth}{0.74\textwidth}
+
+\newlength{\woczLabelWidth}
+\setlength{\woczLabelWidth}{0.2\textwidth}
+
+% --------- Pola karty (wiersze) ---------
+
+% Id + priorytet – 4 kolumny
+\newcommand{\woczpriority}[2]{%
+    \textbf{Identyfikator:} & WOCZAT-#1 &
+    \textbf{Priorytet:} & #2 \\ \hline
+}
+
+% Wiersze z etykietą + treścią na 3 kolumny
+\newcommand{\woczname}[1]{\textbf{Nazwa:}              &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+\newcommand{\woczdesc}[1]{\textbf{Opis:}               &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+\newcommand{\woczstakeholder}[1]{\textbf{Udziałowiec:} &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+\newcommand{\woczrelated}[1]{\textbf{Wymagania powiązane:} &
+\multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
+
+\newcommand{\woczatcard}[5]{%
+    \refstepcounter{woczat}%
+    {\centering
+    \begin{longtable}{|
+            >{\columncolor{lightgray}}p{\woczLabelWidth}|
+        p{0.22\textwidth}|
+            >{\columncolor{lightgray}}p{0.18\textwidth}|
+        p{0.24\textwidth}|}
+
+    \hline
+    \rowcolor{lightgray}\multicolumn{4}{|c|}
+    {\textbf{KARTA WYMAGANIA OGÓLNEGO DLA CZATU}} \\ \hline
+    \endfirsthead
+    \hline
+    \rowcolor{lightgray}\multicolumn{4}{|c|}
+    {\textbf{KARTA WYMAGANIA OGÓLNEGO DLA CZATU (cd.)}} \\ \hline
+    \endhead
+
+    % właściwa treść karty
+    \woczpriority{#3}{#4}
+    \woczname{#2}
+    #5
+
+    \end{longtable}
+    \par} % koniec centrowania
+
+    \vspace{3pt}
+    \textbf{Tabela \thewoczat:}
+    Karta wymagania ogólnego dla czatu: #2\label{#1}
+
+    \addcontentsline{lot}{table}
+    {Tabela \thewoczat: Karta wymagania ogólnego dla czatu: #2}%
+}
+
+
+\woczatcard
+{woczat:send-message}
+{Wysyłanie wiadomości na czacie}
+{01}
+{S}
+{
+    \woczdesc{System umożliwia użytkownikowi wysyłanie wiadomości w ramach wybranego
+    czatu, tak aby uczestnicy mogli przekazywać sobie wiedzę na temat dronów lub umawiać się na wspólne spotkania w danym \glslink{spot}{spocie}.}
+
+    \woczstakeholder{U3}
+
+    \woczrelated{%
+        \hyperref[wfczat:send-gif]{WFCZAT-01},
+        \hyperref[wfczat:send-files]{WFCZAT-02},
+        \hyperref[wfczat:private-messages]{WFCZAT-03},
+        \hyperref[wfczat:group-messages]{WFCZAT-04},
+        \hyperref[wfczat:emoticons]{WFCZAT-06},
+        \hyperref[wfczat:edit-message]{WFCZAT-10},
+        \hyperref[wpczat:visibility-members]{WPCZAT-01},
+        \hyperref[wpczat:login-required]{WPCZAT-02},
+        \hyperref[wpczat:sender-and-time]{WPCZAT-04},
+        \hyperref[wpczat:send-immediately]{WPCZAT-06}%
+    }
+}
+
+\woczatcard
+{woczat:edit-chat}
+{Edycja czatu}
+{02}
+{S}
+{
+    \woczdesc{System umożliwia użytkownikowi wprowadzanie
+    podstawowych zmian w konfiguracji czatu, takich jak nazwa czatu czy skład uczestników.}
+
+    \woczstakeholder{U3}
+
+    \woczrelated{%
+        \hyperref[wfczat:edit-group-name]{WFCZAT-08},
+        \hyperref[wfczat:edit-group-avatar]{WFCZAT-09},
+        \hyperref[wfczat:add-users-existing-chat]{WFCZAT-11},
+        \hyperref[wpczat:visibility-members]{WPCZAT-01},
+        \hyperref[wpczat:login-required]{WPCZAT-02}%
+    }
+}
+
+\woczatcard
+{woczat:browse-history}
+{Przeglądanie historii czatu}
+{03}
+{S}
+{
+    \woczdesc{System udostępnia użytkownikowi możliwość przeglądania wcześniejszych
+    wiadomości na czacie, tak aby mógł wracać do poprzednich rozmów.}
+
+    \woczstakeholder{U3}
+
+    \woczrelated{%
+        \hyperref[wfczat:chat-availability]{WFCZAT-07},
+        \hyperref[wfczat:load-older-messages]{WFCZAT-12},
+        \hyperref[wpczat:visibility-members]{WPCZAT-01},
+        \hyperref[wpczat:login-required]{WPCZAT-02},
+        \hyperref[wpczat:group-by-date]{WPCZAT-03},
+        \hyperref[wpczat:load-older-under-10s]{WPCZAT-05}%
+    }
+}
+
+\woczatcard
+{woczat:create-chat}
+{Tworzenie czatu}
+{04}
+{S}
+{
+    \woczdesc{System umożliwia użytkownikowi inicjowanie nowych rozmów poprzez
+    tworzenie czatów prywatnych (1:1) lub grupowych z wybranymi uczestnikami.}
+
+    \woczstakeholder{U3}
+
+    \woczrelated{%
+        \hyperref[wfczat:create-chat]{WFCZAT-05},
+        \hyperref[wpczat:visibility-members]{WPCZAT-01},
+        \hyperref[wpczat:login-required]{WPCZAT-02}%
+    }
+}
+
