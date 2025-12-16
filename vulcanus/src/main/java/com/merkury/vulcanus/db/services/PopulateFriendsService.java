@@ -42,7 +42,7 @@ public class PopulateFriendsService {
                 .collect(Collectors.toCollection(ArrayList::new));
 
         for (UserEntity user : users) {
-            int followCount = random.nextInt(20); // 0..19
+            int followCount = random.nextInt(20);
             Set<UserEntity> followers = getRandomSubset(users, followCount, user);
             user.getFollowers().addAll(followers);
         }
@@ -50,7 +50,7 @@ public class PopulateFriendsService {
         Set<String> createdPairs = new HashSet<>();
 
         for (UserEntity user : users) {
-            int numberOfFriends = random.nextInt(20); // 0..19
+            int numberOfFriends = random.nextInt(20);
 
             for (int i = 0; i < numberOfFriends; i++) {
                 UserEntity potentialFriend = users.get(random.nextInt(users.size()));

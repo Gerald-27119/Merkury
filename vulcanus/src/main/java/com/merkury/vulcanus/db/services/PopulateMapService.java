@@ -1671,18 +1671,18 @@ public class PopulateMapService {
             spot.setCenterPoint(PolygonCenterPointCalculator.calculateCenterPoint(spot.getBorderPoints()));
         }
 
-//        for (Spot spot : spots) {
-//            var firstComment = spot.getSpotComments().getFirst();
-//            var mediaList = spot.getMedia().stream()
-//                    .map(media -> SpotCommentMedia.builder()
-//                            .url(media.getUrl())
-//                            .spotComment(firstComment)
-//                            .genericMediaType(media.getGenericMediaType())
-//                            .build())
-//                    .collect(Collectors.toCollection(ArrayList::new));
-//            firstComment.setMedia(mediaList);
-//            spotCommentRepository.save(firstComment);
-//        }
+        for (Spot spot : spots) {
+            var firstComment = spot.getSpotComments().getFirst();
+            var mediaList = spot.getMedia().stream()
+                    .map(media -> SpotCommentMedia.builder()
+                            .url(media.getUrl())
+                            .spotComment(firstComment)
+                            .genericMediaType(media.getGenericMediaType())
+                            .build())
+                    .collect(Collectors.toSet());
+            firstComment.setMedia(mediaList);
+            spotCommentRepository.save(firstComment);
+        }
 
 
         spotRepository.saveAll(spots);

@@ -19,7 +19,7 @@ export default function DisableInput({
                 {label}
             </label>
             <div className="dark:bg-darkBgMuted bg-lightBgMuted flex items-center justify-between rounded-md px-2.5 py-2 shadow-md lg:w-96 dark:shadow-black/50">
-                <input id={id} type={type} disabled value={value} />
+                <input id={id} type={type} disabled value={value} className="w-96"/>
                 <button
                     className="text-violetLight cursor-pointer font-semibold"
                     onClick={onEdit}
