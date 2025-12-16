@@ -19,9 +19,7 @@ export async function getPaginatedSpotComments(
 
 export async function getSpotCommentsMedia(commentId: number) {
     return (
-        await axios.get(
-            `${BASE_URL}/public/spot/comments-media/${commentId}`,
-        )
+        await axios.get(`${BASE_URL}/public/spot/comments-media/${commentId}`)
     ).data;
 }
 
