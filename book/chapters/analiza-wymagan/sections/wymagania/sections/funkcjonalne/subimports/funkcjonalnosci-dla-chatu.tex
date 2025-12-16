@@ -66,26 +66,6 @@
     }\\ \hline
 }
 
-\newcommand{\wfczinput}[1]{%
-    \textbf{Dane wejściowe:} &
-    \wfczthreecolcell{#1} \\ \hline
-}
-
-\newcommand{\wfczpre}[1]{%
-    \textbf{Warunki początkowe:} &
-    \wfczthreecolcell{#1} \\ \hline
-}
-
-\newcommand{\wfczpost}[1]{%
-    \textbf{Warunki końcowe:} &
-    \wfczthreecolcell{#1} \\ \hline
-}
-
-\newcommand{\wfczexceptions}[1]{%
-    \textbf{Sytuacje wyjątkowe:} &
-    \wfczthreecolcell{#1} \\ \hline
-}
-
 \newcommand{\wfczstakeholder}[1]{%
     \textbf{Udziałowiec:} &
     \wfczthreecolcell{#1} \\ \hline
@@ -93,11 +73,6 @@
 
 \newcommand{\wfczresponsible}[1]{%
     \textbf{Realizator:} &
-    \wfczthreecolcell{#1} \\ \hline
-}
-
-\newcommand{\wfcznote}[1]{%
-    \textbf{Notatka:} &
     \wfczthreecolcell{#1} \\ \hline
 }
 
@@ -133,6 +108,7 @@
     \textbf{Tabela \thewfczat:} Wymaganie funkcjonalne dla czatu: #2\label{#1}%
     \addcontentsline{lot}{table}{Tabela \thewfczat: Wymaganie funkcjonalne dla czatu: #2}%
 }
+
 % =========================================
 % WFCZAT-01 – Wysyłanie GIF-ów
 % =========================================
@@ -153,22 +129,9 @@
         \end{itemize}
     }
 
-    \wfczinput{Identyfikator czatu, identyfikator nadawcy, wybrany \gls{gif}
-    (identyfikator z usługi zewnętrznej).}
-
-    \wfczpre{Użytkownik jest zalogowany i jest członkiem danego czatu.}
-
-    \wfczpost{Wiadomość z \gls{gif}em jest zapisana w historii czatu i widoczna
-    dla wszystkich uprawnionych uczestników.}
-
-    \wfczexceptions{Brak połączenia z serwerem, przekroczony limit rozmiaru pliku,
-        nieobsługiwany format, błąd usługi zewnętrznej.}
-
     \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
-
-    \wfcznote{\textemdash\ brak}
 
     \wfczrelated{\hyperref[woczat:send-message]{WOCZAT-01}.}
 }
@@ -194,23 +157,9 @@
         \end{itemize}
     }
 
-    \wfczinput{Identyfikator czatu, identyfikator nadawcy, co najmniej jeden
-    plik do wysłania.}
-
-    \wfczpre{Użytkownik jest zalogowany, należy do danego czatu; plik nie przekracza
-    ustalonego limitu rozmiaru i jest dozwolonego typu.}
-
-    \wfczpost{Wiadomość z załącznikiem jest zapisana w systemie, a plik jest
-    dostępny do pobrania dla uczestników czatu.}
-
-    \wfczexceptions{Przekroczony limit rozmiaru, nieobsługiwany typ pliku,
-        błąd przesyłania, brak miejsca w magazynie plików.}
-
     \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
-
-    \wfcznote{\textemdash\ brak}
 
     \wfczrelated{\hyperref[woczat:send-message]{WOCZAT-01}.}
 }
@@ -236,21 +185,9 @@
         \end{itemize}
     }
 
-    \wfczinput{Identyfikator nadawcy, identyfikator odbiorcy,
-        treść wiadomości oraz ewentualne załączniki.}
-
-    \wfczpre{Obaj użytkownicy posiadają aktywne konta.}
-
-    \wfczpost{Wiadomości prywatne są zapisane w historii czatu 1:1 i dostępne
-    po ponownym otwarciu rozmowy.}
-
-    \wfczexceptions{Brak połączenia z serwerem, błąd walidacji treści.}
-
     \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
-
-    \wfcznote{\textemdash\ brak}
 
     \wfczrelated{\hyperref[woczat:send-message]{WOCZAT-01}.}
 }
@@ -276,22 +213,9 @@
         \end{itemize}
     }
 
-    \wfczinput{Identyfikator czatu grupowego, identyfikator nadawcy, treść wiadomości
-    oraz ewentualne załączniki.}
-
-    \wfczpre{Czat typu grupowego istnieje, a użytkownik wysyłający wiadomość jest jego członkiem.}
-
-    \wfczpost{Wiadomość jest zapisana w historii czatu i widoczna dla wszystkich aktualnych
-    uczestników.}
-
-    \wfczexceptions{Brak członkostwa nadawcy w czacie, błąd autoryzacji,
-        przekroczenie limitu użytkowników w czacie.}
-
     \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
-
-    \wfcznote{\textemdash\ brak}
 
     \wfczrelated{\hyperref[woczat:send-message]{WOCZAT-01}.}
 }
@@ -316,21 +240,9 @@
         \end{itemize}
     }
 
-    \wfczinput{Typ czatu (prywatny/grupowy), lista identyfikatorów uczestników, identyfikator tworzącego użytkownika.}
-
-    \wfczpre{Użytkownik jest zalogowany i ma uprawnienia do zakładania nowych czatów.}
-
-    \wfczpost{Nowy czat jest zapisany w \glslink{baza-danych}{bazie danych}, powiązany z uczestnikami
-    i widoczny w ich listach czatów.}
-
-    \wfczexceptions{Próba utworzenia czatu z nieistniejącym użytkownikiem,
-        przekroczenie maksymalnej liczby uczestników, błąd zapisu w \glslink{baza-danych}{bazie danych}.}
-
     \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
-
-    \wfcznote{\textemdash\ brak}
 
     \wfczrelated{\hyperref[woczat:create-chat]{WOCZAT-04}.}
 }
@@ -354,22 +266,9 @@
         \end{itemize}
     }
 
-    \wfczinput{Identyfikator czatu, identyfikator nadawcy, treść wiadomości
-    zawierająca \gls{emoji}.}
-
-    \wfczpre{Użytkownik jest zalogowany i ma dostęp do czatu.}
-
-    \wfczpost{Wiadomość z emotikonami jest zapisana w historii czatu i
-    wyświetlana u wszystkich uczestników.}
-
-    \wfczexceptions{Problemy z kodowaniem znaków, brak wsparcia dla części \gls{emoji}
-    w danej przeglądarce lub systemie.}
-
     \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
-
-    \wfcznote{\textemdash\ brak}
 
     \wfczrelated{\hyperref[woczat:send-message]{WOCZAT-01}.}
 }
@@ -395,21 +294,9 @@
         \end{itemize}
     }
 
-    \wfczinput{Kontekst zalogowanego użytkownika oraz parametry filtrów listy czatów.}
-
-    \wfczpre{Czat został wcześniej utworzony, a użytkownik jest jego członkiem.}
-
-    \wfczpost{Lista czatów użytkownika prezentuje wszystkie czaty, do których
-    ma on dostęp.}
-
-    \wfczexceptions{Błąd autoryzacji, błąd \glslink{baza-danych}{bazy danych} podczas
-    pobierania listy czatów.}
-
     \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
-
-    \wfcznote{\textemdash\ brak}
 
     \wfczrelated{\hyperref[woczat:browse-history]{WOCZAT-03}.}
 }
@@ -435,21 +322,9 @@
         \end{itemize}
     }
 
-    \wfczinput{Identyfikator czatu grupowego, nowa nazwa czatu, identyfikator użytkownika
-    wykonującego operację.}
-
-    \wfczpre{Użytkownik jest członkiem czatu.}
-
-    \wfczpost{Nazwa czatu jest zaktualizowana w \glslink{baza-danych}{bazie danych} i w \glslink{ui}{interfejsie użytkownika}.}
-
-    \wfczexceptions{Błąd walidacji nowej nazwy,
-        błąd zapisu w \glslink{baza-danych}{bazie danych}.}
-
     \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
-
-    \wfcznote{\textemdash\ brak}
 
     \wfczrelated{\hyperref[woczat:edit-chat]{WOCZAT-02}.}
 }
@@ -474,21 +349,9 @@
         \end{itemize}
     }
 
-    \wfczinput{Identyfikator czatu grupowego, nowy plik graficzny,
-        identyfikator użytkownika wykonującego operację.}
-
-    \wfczpre{Użytkownik posiada uprawnienia do edycji ustawień czatu grupowego.}
-
-    \wfczpost{Nowe zdjęcie czatu jest zapisane w systemie i używane w \glslink{ui}{interfejsie użytkownika}.}
-
-    \wfczexceptions{Nieobsługiwany format obrazu, przekroczony limit rozmiaru,
-        błąd przesyłania lub zapisu w magazynie plików.}
-
     \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
-
-    \wfcznote{\textemdash\ brak}
 
     \wfczrelated{\hyperref[woczat:edit-chat]{WOCZAT-02}.}
 }
@@ -515,23 +378,9 @@
         \end{itemize}
     }
 
-    \wfczinput{Identyfikator wiadomości, nowa treść wiadomości,
-        identyfikator użytkownika wykonującego edycję.}
-
-    \wfczpre{Użytkownik jest autorem wiadomości i mieści się w dozwolonym
-    oknie czasowym edycji.}
-
-    \wfczpost{Treść wiadomości w \glslink{baza-danych}{bazie danych} zostaje zaktualizowana, a widok
-    czatu odświeżony u wszystkich uczestników.}
-
-    \wfczexceptions{Próba edycji cudzej wiadomości, przekroczony limit czasu,
-        błąd walidacji treści, brak połączenia z serwerem.}
-
     \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
-
-    \wfcznote{\textemdash\ Ze względu na konieczność priorytetyzacji pracy zespół zdecydował się zrezygnować z danego wymagania.}
 
     \wfczrelated{\hyperref[woczat:send-message]{WOCZAT-01}.}
 }
@@ -557,21 +406,9 @@
         \end{itemize}
     }
 
-    \wfczinput{Identyfikator czatu grupowego, lista identyfikatorów użytkowników do dodania,
-        identyfikator użytkownika wykonującego operację.}
-
-    \wfczpre{Czat istnieje.}
-
-    \wfczpost{Lista uczestników czatu jest zaktualizowana; nowe osoby są powiązane
-    z czatem w \glslink{baza-danych}{bazie danych}.}
-
-    \wfczexceptions{Dodanie użytkownika, który jest już członkiem czatu; przekroczenie maksymalnej liczby uczestników.}
-
     \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
-
-    \wfcznote{\textemdash\ brak}
 
     \wfczrelated{\hyperref[woczat:edit-chat]{WOCZAT-02}.}
 }
@@ -599,21 +436,9 @@
         \end{itemize}
     }
 
-    \wfczinput{Identyfikator czatu, parametry \glslink{paginacja}{paginacji}.}
-
-    \wfczpre{Użytkownik jest zalogowany i posiada dostęp do czatu;
-    w \glslink{baza-danych}{bazie danych} istnieje historia rozmowy.}
-
-    \wfczpost{Użytkownik ma możliwość przeglądania pełnej historii czatu.}
-
-    \wfczexceptions{Brak połączenia z serwerem, błąd \glslink{paginacja}{paginacji},
-        przekroczenie limitu zapytań do \gls{api}.}
-
     \wfczstakeholder{U3}
 
     \wfczresponsible{Adam Langmesser}
-
-    \wfcznote{\textemdash\ brak}
 
     \wfczrelated{\hyperref[woczat:browse-history]{WOCZAT-03}.}
 }

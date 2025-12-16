@@ -12,9 +12,16 @@
 \newcounter{wpczat}[chapter]
 \renewcommand{\thewpczat}{\thechapter.\arabic{wpczat}}
 
+% --- Szerokości ---
+
+\newlength{\wpczLabelWidth}
+\settowidth{\wpczLabelWidth}{\textbf{Wymagania powiązane:}}
+\addtolength{\wpczLabelWidth}{-20pt}
+
 % Szerokość części z treścią (3 prawe kolumny zlane w jedną)
 \newlength{\wpczContentWidth}
 \setlength{\wpczContentWidth}{0.7\textwidth}
+\addtolength{\wpczContentWidth}{20pt}
 
 % --------- Pola karty (wiersze) ---------
 
@@ -25,36 +32,61 @@
 }
 
 % Typ – normalny wiersz na 3 kolumny
-\newcommand{\wpcztype}[1]{\textbf{Typ:} &
-\multicolumn{3}{|p{\wpczContentWidth}|}{#1} \\ \hline}
+\newcommand{\wpcztype}[1]{%
+    \textbf{Typ:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpczContentWidth}|}{#1} \\ \hline
+}
 
-\newcommand{\wpczname}[1]{\textbf{Nazwa:}              &
-\multicolumn{3}{|p{\wpczContentWidth}|}{#1} \\ \hline}
-\newcommand{\wpczdesc}[1]{\textbf{Opis:}               &
-\multicolumn{3}{|p{\wpczContentWidth}|}{#1} \\ \hline}
-\newcommand{\wpczaccept}[1]{\textbf{Kryteria akceptacji:} &
-\multicolumn{3}{|p{\wpczContentWidth}|}{#1} \\ \hline}
-\newcommand{\wpczstakeholder}[1]{\textbf{Udziałowiec:} &
-\multicolumn{3}{|p{\wpczContentWidth}|}{#1} \\ \hline}
-\newcommand{\wpczresponsible}[1]{\textbf{Realizator:}  &
-\multicolumn{3}{|p{\wpczContentWidth}|}{#1} \\ \hline}
-\newcommand{\wpczstatus}[1]{\textbf{Status:}           &
-\multicolumn{3}{|p{\wpczContentWidth}|}{#1} \\ \hline}
+\newcommand{\wpczname}[1]{%
+    \textbf{Nazwa:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpczContentWidth}|}{#1} \\ \hline
+}
 
-\newcommand{\wpcznote}[1]{\textbf{Notatka:}            &
-\multicolumn{3}{|p{\wpczContentWidth}|}{#1} \\ \hline}
+\newcommand{\wpczdesc}[1]{%
+    \textbf{Opis:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpczContentWidth}|}{#1} \\ \hline
+}
 
-\newcommand{\wpczrelated}[1]{\textbf{Wymagania powiązane:} &
-\multicolumn{3}{|p{\wpczContentWidth}|}{#1} \\ \hline}
+% (2) Kryteria akceptacji – ustawienia list jak w wymaganiach funkcjonalnych
+\newcommand{\wpczaccept}[1]{%
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpczContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\itemsep}{0.2ex}%
+        \setlength{\parsep}{0pt}%
+        \vspace*{-1.8ex}%
+        #1%
+        \vspace*{-1.4ex}%
+        \endgroup
+    } \\ \hline
+}
+
+\newcommand{\wpczstakeholder}[1]{%
+    \textbf{Udziałowiec:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpczContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpczresponsible}[1]{%
+    \textbf{Realizator:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpczContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpczrelated}[1]{%
+    \textbf{Wymagania powiązane:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpczContentWidth}|}{#1} \\ \hline
+}
 
 \newcommand{\wpczatcard}[5]{%
     \refstepcounter{wpczat}%
     {%
         \centering
         \begin{longtable}{|
-                >{\columncolor{lightgray}}l|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpczLabelWidth}|
             l|
-                >{\columncolor{lightgray}}l|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}l|
             p{0.15\textwidth}|}
         \hline
         \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA CZATU}} \\ \hline
@@ -103,8 +135,6 @@
 
     \wpczresponsible{Adam Langmesser}
 
-    \wpczstatus{Zrealizowano}
-
     \wpczrelated{%
         \hyperref[woczat:send-message]{WOCZAT-01},
         \hyperref[woczat:browse-history]{WOCZAT-03}.%
@@ -140,8 +170,6 @@
     \wpczstakeholder{U3}
 
     \wpczresponsible{Adam Langmesser}
-
-    \wpczstatus{Zrealizowano}
 
     \wpczrelated{%
         \hyperref[woczat:send-message]{WOCZAT-01},
@@ -180,8 +208,6 @@
 
     \wpczresponsible{Adam Langmesser}
 
-    \wpczstatus{Zrealizowano}
-
     \wpczrelated{%
         \hyperref[woczat:send-message]{WOCZAT-01},
         \hyperref[woczat:browse-history]{WOCZAT-03}.%
@@ -215,8 +241,6 @@
     \wpczstakeholder{U3}
 
     \wpczresponsible{Adam Langmesser}
-
-    \wpczstatus{Zrealizowano}
 
     \wpczrelated{%
         \hyperref[woczat:send-message]{WOCZAT-01},
@@ -253,8 +277,6 @@
 
     \wpczresponsible{Adam Langmesser}
 
-    \wpczstatus{Zrealizowano}
-
     \wpczrelated{%
         \hyperref[woczat:browse-history]{WOCZAT-03}.%
     }
@@ -289,10 +311,7 @@
 
     \wpczresponsible{Adam Langmesser}
 
-    \wpczstatus{Zrealizowano}
-
     \wpczrelated{%
         \hyperref[woczat:send-message]{WOCZAT-01}.%
     }
 }
-
