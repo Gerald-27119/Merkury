@@ -137,7 +137,8 @@ Poniżej przedstawiono wybrane rozwiązania.
             \label{fig:hooks-useEffect-usage}
         \end{figure}
         \noindent
-        Zaimplementowano też własny \glslink{hook}{hook} \emph{useBoolean} obługujący logikę do zarządzania zmiennymi przyjmujących wartości
+        Zaimplementowano też własne \glslink{hook}{hooki}.
+        Jednym z nich jest \emph{useBoolean} obługujący logikę do zarządzania zmiennymi przyjmujących wartości
         \textit{true} lub \textit{false}.
         Udostępniane są funckje do ustawienia wartości, a także do zmiany jej na przeciwną do poprzedniej.
         Korzystanie z tego \glslink{hook}{hook'a} pozwoliło uniknąć powtarzalności kodu oraz poprawiło jego czytelność.
@@ -156,9 +157,10 @@ Poniżej przedstawiono wybrane rozwiązania.
             \label{fig:hooks-useBoolean-usage}
         \end{figure}
         \noindent
-        \item \textbf{Error Boundary}
-        \item \textbf{Portal}
-        \item \textbf{Protected route}
+        \item \textbf{Optimistic UI} \textemdash \space
+        \item \textbf{Portal} \textemdash \space to wyświetlanie komponentów poza drzewem \glslink{dom}{DOM} rodzica (komponentu nadrzędnego).
+        Wykorzystywane jest to, gdy komponent musi być wyświetlony "nad" innymi elementami \glslink{ui}{UI}
+        \item \textbf{Protected route} \textemdash \space
     \end{itemize}
 \end{itemize}
 
