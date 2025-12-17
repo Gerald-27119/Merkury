@@ -4,9 +4,6 @@
 \subsubsection{Wymagania ogólne dla czatu}
 \label{subsubsec:wymagania-ogolne-dla-chatu}
 
-% Licznik tabel wymagań ogólnych dla czatu (resetowany na rozdział)
-\newcounter{woczat}[chapter]
-\renewcommand{\thewoczat}{\thechapter.\arabic{woczat}}
 
 \newlength{\woczContentWidth}
 \setlength{\woczContentWidth}{0.74\textwidth}
@@ -33,7 +30,7 @@
 \multicolumn{3}{|p{\woczContentWidth}|}{#1} \\ \hline}
 
 \newcommand{\woczatcard}[5]{%
-    \refstepcounter{woczat}%
+    \refstepcounter{awc}%
     {\centering
     \begin{longtable}{|
             >{\columncolor{lightgray}}p{\woczLabelWidth}|
@@ -59,11 +56,11 @@
     \par} % koniec centrowania
 
     \vspace{3pt}
-    \textbf{Tabela \thewoczat:}
+    \textbf{Tabela \theawc:}
     Karta wymagania ogólnego dla czatu: #2\label{#1}
 
     \addcontentsline{lot}{table}
-    {Tabela \thewoczat: Karta wymagania ogólnego dla czatu: #2}%
+    {Tabela \theawc: Karta wymagania ogólnego dla czatu: #2}%
 }
 
 

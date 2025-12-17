@@ -9,8 +9,6 @@
 % Identyfikatory: WPCZAT-XX
 % ============================
 
-\newcounter{wpczat}[chapter]
-\renewcommand{\thewpczat}{\thechapter.\arabic{wpczat}}
 
 % --- Szerokości ---
 
@@ -80,7 +78,7 @@
 }
 
 \newcommand{\wpczatcard}[5]{%
-    \refstepcounter{wpczat}%
+    \refstepcounter{awc}%
     {%
         \centering
         \begin{longtable}{|
@@ -101,8 +99,8 @@
         \par
     }%
     \vspace{3pt}%
-    \textbf{Tabela \thewpczat:} Wymaganie pozafunkcjonalne dla czatu: #2\label{#1}%
-    \addcontentsline{lot}{table}{Tabela \thewpczat: Wymaganie pozafunkcjonalne dla czatu: #2}%
+    \textbf{Tabela \theawc:} Wymaganie pozafunkcjonalne dla czatu: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie pozafunkcjonalne dla czatu: #2}%
 }
 
 % =========================================================
