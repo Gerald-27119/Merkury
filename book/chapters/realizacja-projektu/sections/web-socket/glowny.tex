@@ -2,55 +2,58 @@
 %! Date = 09.12.2025
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{4}
-\section{Zastosowanie WebSocket}
-\label{sec:zastosowanie-websocket}
 
-Niniejszy rozdział prezentuje implementację protokołu \glslink{websocket}{WebSocket}
-na potrzeby realizacji modułu czatu.
-Opis przygotowano w oparciu o specyfikację \gls{rfc}6455 oraz dokumentację
-\gls{spring-framework} dotyczącą \glslink{websocket}{WebSocket} i \glslink{stomp}{STOMP}
-\cite{rfc6455,spring-websocket,spring-stomp,sockjs-client}.
 
-\subsection{Charakterystyka protokołu \glslink{websocket}{WebSocket}}
+\section{Implementacja WebSocket}
+\label{sec:implementacja-websocket}
+
+Niniejszy rozdział prezentuje implementację protokołu \glslink{websocket}{WebSocket}.
+Rozdział przygotowano w oparciu o podane źródła:
+\begin{itemize}
+    \item Specyfikacja protokołu WebSocket (RFC6455)~\cite{rfc6455}.
+    \item Dokumentacja Spring dotycząca obsługi WebSocket~\cite{spring-websocket}.
+    \item Dokumentacja Spring dotycząca integracji STOMP \cite{spring-stomp}.
+    \item Dokumentacja biblioteki klienckiej SockJS \cite{sockjs-client}.
+\end{itemize}
+
+\subsection{Charakterystyka protokołu WebSocket}
 \label{subsec:definicja-websocket}
 
-Na podstawie specyfikacji \gls{rfc}6455, opracowanej przez \gls{ietf}, protokół
+Na podstawie specyfikacji \gls{rfc}6455, opracowanej przez \gls{ietf}, protokół% to odniesienie do RFC bez glslink jest celowe
 \glslink{websocket}{WebSocket} można opisać jako mechanizm komunikacji pomiędzy aplikacją
-działającą w przeglądarce a \gls{serwer}, który umożliwia dwukierunkową wymianę danych
+działającą w przeglądarce a \glslink{serwer}{serwerem}, który umożliwia dwukierunkową wymianę danych
 w czasie zbliżonym do rzeczywistego.
 Przeglądarka utrzymuje stałe połączenie z \glslink{serwer}{serwerem}, dzięki czemu może
 na bieżąco wysyłać dane, a \glslink{serwer}{serwer} w dowolnym momencie przesyłać odpowiedzi,
 bez konieczności ciągłego odświeżania strony ani inicjowania wielu osobnych zapytań \gls{http}.
 Tego typu komunikacja jest możliwa wyłącznie z \glslink{serwer}{serwerami}, które świadomie ją dopuszczają,
 co zwiększa kontrolę nad bezpieczeństwem.
-Przeglądarka w dalszym ciągu stosuje model bezpieczeństwa oparty na pochodzeniu (origin),
-weryfikując domenę, z której pochodzi kod.
 Technologia \glslink{websocket}{WebSocket} została zaprojektowana z myślą o aplikacjach webowych,
 takich jak czaty, powiadomienia w czasie rzeczywistym, aplikacje giełdowe czy gry sieciowe,
 które wymagają stałego kanału komunikacji z \glslink{serwer}{serwerem}, zamiast opierać się na wielu tradycyjnych
-połączeniach \gls{http} i okresowym odpytywaniu \glslink{serwer}{serwera}.
+połączeniach \gls{http}.
 
 Warto podkreślić, że sam protokół \glslink{websocket}{WebSocket} definiuje przede wszystkim
-\textbf{mechanizm utrzymania stałego połączenia i przesyłania \glslink{ramka}{ramek} danych}.
-Nie narzuca natomiast \textbf{struktury komunikatów aplikacyjnych}, sposobu ich adresowania, routingu ani modelu
+mechanizm utrzymania stałego połączenia i przesyłania \glslink{ramka}{ramek} danych.
+Nie narzuca natomiast formatu treści przesyłanych wiadomości, sposobu ich adresowania, routingu ani modelu
 \glslink{subskrypcja}{subskrypcji}. Oznacza to, że po ustanowieniu połączenia \glslink{websocket}{WebSocket}
 aplikacja musi samodzielnie ustalić, jak wygląda format wiadomości oraz w jaki sposób realizowane jest publikowanie
 i odbieranie zdarzeń.
 
-Z tego powodu często stosuje się protokoły warstwy aplikacyjnej działające \textbf{nad}
+Z tego powodu często stosuje się protokoły warstwy aplikacyjnej działające nad
 \glslink{websocket}{WebSocket}, np.\ \glslink{stomp}{STOMP} (\emph{Simple Text Oriented Messaging Protocol}).
 Zapewnia on ustandaryzowaną semantykę komunikacji w modelu wiadomościowym, w szczególności:
 \begin{itemize}
     \item \textbf{adresowanie wiadomości} do tzw.\ \glslink{destynacja}{destynacji},
     \item \textbf{mechanizm \glslink{subskrypcja}{subskrypcji}} (\texttt{SUBSCRIBE}) oraz dystrybucję wiadomości
     w stylu \gls{publish-subscribe},
-    \item \textbf{nagłówki i metadane} wiadomości (np.\ identyfikatory, typy zdarzeń, dodatkowy kontekst),
+    \item \textbf{nagłówki i metadane} wiadomości (identyfikatory, typy zdarzeń, dodatkowy kontekst),
     \item \textbf{potwierdzanie odbioru} (\gls{ack}) i lepszą kontrolę nad niezawodnością dostarczenia,
     \item \textbf{obsługę błędów} na poziomie protokołu (ramki \texttt{ERROR}) oraz opcjonalne \textbf{heartbeat}
     do wykrywania zerwanych połączeń.
 \end{itemize}
 
-\subsection{Zastosowanie \glslink{websocket}{WebSocket} w naszym projekcie}
+\subsection{Zastosowanie WebSocket w naszym projekcie}
 \label{subsec:zastosowanie-w-naszym-przypadku}
 
 Główną metodą komunikacji między \glslink{backend}{backendem} a \glslink{frontend}{frontendem} w naszej aplikacji
@@ -60,9 +63,8 @@ Tego typu interfejs bardzo dobrze sprawdza się w typowych scenariuszach, w któ
 np. podczas logowania użytkownika, pobierania listy spotów czy dodawania komentarza na forum.
 Każda operacja ma wówczas postać pojedynczego, niezależnego wywołania \gls{http}, po którym połączenie jest zamykane.
 
-Problem pojawia się jednak wtedy, gdy konieczna jest ciągła wymiana danych w czasie zbliżonym do rzeczywistego,
-a więc nie tylko na żądanie \glslink{klient}{klienta}, lecz także z inicjatywy \glslink{serwer}{serwera}.
-W naszej aplikacji taka potrzeba wystąpiła przy implementacji modułu czatu.
+Problem pojawia się jednak wtedy, gdy konieczna jest ciągła wymiana danych w czasie zbliżonym do rzeczywistego, nie tylko na żądanie \glslink{klient}{klienta}, lecz także z inicjatywy \glslink{serwer}{serwera}.
+W naszej aplikacji taka potrzeba wystąpiła przy implementacji modułu czatu. %TUTAJ!
 Teoretycznie czat można zrealizować wyłącznie w oparciu o \gls{rest_api}, na przykład poprzez \gls{polling}:
 \glslink{klient}{klient} cyklicznie wysyłałby zapytanie o nowe wiadomości, a \glslink{serwer}{serwer} zwracałby
 aktualny stan konwersacji. Można również stosować \gls{long-polling}, w którym żądanie jest utrzymywane dłużej,
@@ -84,14 +86,14 @@ konwersacji, bez konieczności ciągłego odpytywania \glslink{serwer}{serwera} 
 \label{subsec:implementacja-na-backendzie}
 
 \gls{spring-framework} udostępnia dwa popularne podejścia do obsługi komunikacji \glslink{websocket}{WebSocket}.
-Pierwsze to praca na „surowych” \glslink{ramka}{ramkach} \glslink{websocket}{WebSocket}
-(pełna kontrola, ale konieczność zaprojektowania własnego formatu komunikatów i dystrybucji).
+Pierwsze to praca na „surowych” \glslink{ramka}{ramkach} \glslink{websocket}{WebSocket} co daje pełną kontrolę,
+ale wymusza konieczność zaprojektowania własnego formatu komunikatów.
 Drugie wykorzystuje protokół \glslink{stomp}{STOMP} jako warstwę aplikacyjną nad \glslink{websocket}{WebSocket}.
 W niniejszym projekcie wybrano wariant z \glslink{stomp}{STOMP}, ponieważ upraszcza on implementację czatu:
-pozwala korzystać z gotowych \glslink{destynacja}{destynacji} (ścieżek), \glslink{subskrypcja}{subskrypcji}
+pozwala korzystać z gotowych \glslink{destynacja}{destynacji}, \glslink{subskrypcja}{subskrypcji}
 oraz mechanizmu publikowania wiadomości.
 
-\subsubsection{Plik \texttt{WebSocketConfig.java} --- konfiguracja \glslink{websocket}{WebSocket}}
+\subsubsection{Konfiguracja WebSocket}
 \label{subsubsec:ws-config-backend}
 
 Na rysunku \ref{img:web-socket-config-backend} przedstawiono konfigurację \glslink{websocket}{WebSocket}.
@@ -118,7 +120,7 @@ Najważniejsze elementy konfiguracji:
     (backend rozpoznaje, kto wysłał wiadomość).
 \end{itemize}
 
-\subsubsection{Plik \texttt{ChatStompCommunicationController.java} --- kontroler \glslink{stomp}{STOMP}}
+\subsubsection{Kontroler STOMP}
 \label{subsubsec:ws-controller-backend}
 
 Rysunek \ref{img:web-socket-controller-backend} pokazuje kontroler \glslink{stomp}{STOMP}, który jest punktem wejścia
@@ -140,7 +142,7 @@ Jej rola jest następująca:
     \item oddelegować wysłanie potwierdzenia (\gls{ack}) do nadawcy wiadomości.
 \end{enumerate}
 
-\subsubsection{Plik \texttt{ChatStompCommunicationService.java} --- serwis dystrybucji wiadomości}
+\subsubsection{Serwis dystrybucji wiadomości}
 \label{subsubsec:ws-service-backend}
 
 Rysunek \ref{img:web-socket-serwis-backend} przedstawia serwis, który odpowiada za publikowanie komunikatów
@@ -192,7 +194,7 @@ udostępnianej poprzez \gls{kontekst}. Rozwiązanie składa się z:
     \item fabryk subskrypcji (np.\ \texttt{createChatSubscription}) aktualizujących \gls{stan} w \gls{redux}.
 \end{itemize}
 
-\subsubsection{Plik \texttt{WebSocketService.ts} --- klasa \texttt{WebSocketService}}
+\subsubsection{Klasa \texttt{WebSocketService}}
 \label{subsubsec:front-ws-service}
 
 \begin{figure}[H]
@@ -272,7 +274,7 @@ publikuje wiadomość tylko wtedy, gdy połączenie jest aktywne.
 Dane \texttt{payload} są poddawane \gls{serializacja} do formatu \gls{json}, a następnie wysyłane do brokera.
 Opcjonalnie dołączane są \glslink{naglowek}{nagłówki} protokołu \glslink{stomp}{STOMP}.
 
-\subsubsection{Plik \texttt{useWebSocket.ts} --- hook \texttt{useWebSocket}}
+\subsubsection{Hook \texttt{useWebSocket}}
 \label{subsubsec:front-use-websocket}
 
 \begin{figure}[H]
@@ -310,7 +312,7 @@ w \gls{react}. Zapewnia automatyczne zakładanie i zdejmowanie \glslink{subskryp
 w implementacji śledzone są tylko same \texttt{destination}. Oznacza to, że zmiana samej funkcji \texttt{callback}
 bez zmiany destynacji nie wymusi ponownego zasubskrybowania (jest to zwykle akceptowalne, ale należy o tym pamiętać).
 
-\subsubsection{Plik \texttt{WebSocketContext.tsx} --- \gls{kontekst} i provider połączenia}
+\subsubsection{Kontekst i provider połączenia}
 \label{subsubsec:front-ws-context}
 
 \begin{figure}[H]
@@ -342,7 +344,7 @@ Zapewnia to, że aplikacja utrzymuje jedno połączenie, a nie nowe połączenie
 Dodatkowo używany jest \gls{redux_dispatch} (funkcja \texttt{dispatch}), aby aktualizować \gls{stan} aplikacji w \gls{redux}
 w reakcji na wiadomości przychodzące w czasie rzeczywistym.
 
-\subsubsection{Plik \texttt{ChatSubscription.ts} --- fabryka subskrypcji czatu}
+\subsubsection{Subskrypcja czatu}
 \label{subsubsec:front-chat-subscription}
 
 \begin{figure}[H]
