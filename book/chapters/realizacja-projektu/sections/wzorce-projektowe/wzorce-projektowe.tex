@@ -116,12 +116,13 @@ Poniżej przedstawiono wybrane rozwiązania.
     \item \textbf{\glslink{frontend}{Frontend}}
     \begin{itemize}
         \item \textbf{Hooks Pattern} \textemdash \space \glslink{wzorzec}{wzorzec} projektowy, który umożliwia korzystanie z
-        mechanizmów \glslink{react}{Reacta} takich jak \glslink{stan}{stan} czy cykl życia komponentu w komponentach funkcyjnych.
-        Przed wprowadzeniem \glslink{hook}{hook'ów} do zarządzania tymi właściwościami trzeba było tworzyć komponenty klasowe,
+        mechanizmów \glslink{react}{Reacta} takich jak \glslink{stan}{stan} czy cykl życia \glslink{react-component}{komponentu} w
+        \glslink{react-component}{komponentach} funkcyjnych.
+        Przed wprowadzeniem \glslink{hook}{hook'ów} do zarządzania tymi właściwościami trzeba było tworzyć \glslink{react-component}{komponenty} klasowe,
         co powodowało większe skomplikowanie kodu.
-        Hooks Pattern pozwala również na tworzenie własnych \glslink{hook}{hook'ów} zawierających logikę używaną w wielu komponentach.
+        Hooks Pattern pozwala również na tworzenie własnych \glslink{hook}{hook'ów} zawierających logikę używaną w wielu \glslink{react-component}{komponentach}.
 
-        W projekcie wykorzystano ten \glslink{wzorzec}{wzorzec} do zarządzania stanem oraz efektami ubocznymi w komponentach
+        W projekcie wykorzystano ten \glslink{wzorzec}{wzorzec} do zarządzania stanem oraz efektami ubocznymi w \glslink{react-component}{komponentach}
         za pomocą wbudowanych \glslink{hook}{hook'ów} \emph{useState} i \emph{useEffect}.
         \begin{figure}[H]
             \centering
@@ -165,7 +166,7 @@ Poniżej przedstawiono wybrane rozwiązania.
         poprawa w płynnym jej użytkowaniu.
         W projekcie Optimistic \glslink{ui}{UI} zostało wykorzystane w module Chatu.
         Gdy użytkownik wyśle nową wiadomość, natychmiast jest ona wyświetlana w oknie konwersacji.
-        Poniżej przedstawiono implementację tego \glslink{wzorzec}{wzorca} w komponentach \textit{ChatBottomBar} oraz \textit{ChatMessagingWindow}.
+        Poniżej przedstawiono implementację tego \glslink{wzorzec}{wzorca} w \glslink{react-component}{komponentach} \textit{ChatBottomBar} oraz \textit{ChatMessagingWindow}.
         \begin{figure}[H]
             \centering
             \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/chatBottomBar_implementation1}
@@ -188,7 +189,7 @@ Poniżej przedstawiono wybrane rozwiązania.
         \end{figure}
         \noindent
 
-        Komponent ten odpowiedzialny jest za przygotowanie wiadomości, przesłanie jej do wyświetlenia komponentowi
+        \glslink{react-component}{Komponent} ten odpowiedzialny jest za przygotowanie wiadomości, przesłanie jej do wyświetlenia \glslink{react-component}{komponentowi}
         \textit{ChatMessegingWindow} oraz równoczesne wysłanie danych na odpowiedni endpoint do \glslink{backend}{backendu}.
 
         \begin{figure}[H]
@@ -220,13 +221,13 @@ Poniżej przedstawiono wybrane rozwiązania.
         \end{figure}
         \noindent
 
-        W tym komponencie sprawdzane jest czy wiadomość pochodzi z optymistycznego przebiegu realizacji oraz jest wyświetlana
+        W tym \glslink{react-component}{komponencie} sprawdzane jest czy wiadomość pochodzi z optymistycznego przebiegu realizacji oraz jest wyświetlana
         w oknie konwersacji.
-        \item \textbf{Portal} \textemdash \space to renderowanie komponentów w innym miejscu drzewa \glslink{dom}{DOM} niż wynika to
+        \item \textbf{Portal} \textemdash \space to renderowanie \glslink{react-component}{komponentów} w innym miejscu drzewa \glslink{dom}{DOM} niż wynika to
         z ich hierarchii ułożenia.
-        Mimo takiego ustawienia, propagacja zdarzeń przebiega w sposób niezmieniony, tzn. jest obsługiwana przez komponent nadrzędny.
-        Stosowane gdy komponent musi być wyświetlony nad innymi elementami \glslink{ui}{UI}, aby uniknąć ograniczeń stylów rodzica.
-        W projekcie ten \glslink{wzorzec}{wzorzec} zastosowano poprzez komponent \textit{Modal}, którego implementację oraz przykładowe
+        Mimo takiego ustawienia, propagacja zdarzeń przebiega w sposób niezmieniony, tzn. jest obsługiwana przez \glslink{react-component}{komponent} nadrzędny.
+        Stosowane gdy \glslink{react-component}{komponent} musi być wyświetlony nad innymi elementami \glslink{ui}{UI}, aby uniknąć ograniczeń stylów rodzica.
+        W projekcie ten \glslink{wzorzec}{wzorzec} zastosowano poprzez \glslink{react-component}{komponent} \textit{Modal}, którego implementację oraz przykładowe
         użycie przedstawiono poniżej.
         \begin{figure}[H]
             \centering
@@ -251,7 +252,7 @@ Poniżej przedstawiono wybrane rozwiązania.
         \noindent
         \item \textbf{Protected route} \textemdash \space \glslink{wzorzec}{wzorzec} polegający na uniemożliweniu dostępu
         do stron lub podstron aplikacji nieuwierzytelnionym użytkownikom.
-        W projekcie do realizacji tego wzorca wykorzystano komponent \textit{ProtectedRoute} oraz bibliotekę \textit{react-router-dom}.
+        W projekcie do realizacji tego wzorca wykorzystano \glslink{react-component}{komponent} \textit{ProtectedRoute} oraz bibliotekę \textit{react-router-dom}.
         Gdy użytkownik będzie próbował przejść do sekcji wymagającej wcześniejszego zalogowania bez uczynienia tego,
         zostanie automatycznie przekierowany na stronę główną aplikacji.
         \begin{figure}[H]
