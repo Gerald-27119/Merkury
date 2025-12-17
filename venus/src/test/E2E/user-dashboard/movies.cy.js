@@ -232,7 +232,9 @@ describe("Account movies page", () => {
 
         cy.window().should((win) => {
             expect(win.localStorage.getItem("is_logged_in")).to.eq("true");
-            expect(win.localStorage.getItem("username")).to.eq("magdaCzarnecka");
+            expect(win.localStorage.getItem("username")).to.eq(
+                "magdaCzarnecka",
+            );
         });
 
         cy.intercept("GET", "**/user-dashboard/movies*").as("getMoviesReal");
