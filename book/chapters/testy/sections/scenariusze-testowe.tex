@@ -51,7 +51,7 @@
 
 Poniżej przedstawiono scenariusze testowe zrealizowane w ramach testów end-to-end (E2E).
 W opisach rozróżniono przypadki z użyciem danych mockowanych (poprzez przechwytywanie żądań HTTP)
-oraz przypadki wykonywane na Rzeczywistym backendzie.
+oraz przypadki wykonywane na rzeczywistym backendzie.
 
 %------------------------------------------------
 \subsection{Account (logowanie i rejestracja)}
@@ -60,7 +60,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-ACC-01}
     \eTOegoal{Potwierdzenie możliwości zalogowania użytkownika.}
     \eTOetype{Rzeczywisty backend}
-    \eTOepre{brak}
+    \eTOepre{Konto istnieje w sytemie.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Otwarcie strony głównej aplikacji.
@@ -91,18 +91,18 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
 %------------------------------------------------
 \subsection{User dashboard -- Add spot}
 
-\eTOecard{tab:e2e:add01}{Wyświetlenie stanu pustego dla dodanych miejsc}{%
+\eTOecard{tab:e2e:add01}{Wyświetlenie stanu pustego dla dodanych spotów}{%
     \eTOeid{E2E-ADD-01}
-    \eTOegoal{Weryfikacja poprawnej obsługi pustej listy dodanych miejsc.}
+    \eTOegoal{Weryfikacja poprawnej obsługi pustej listy dodanych spotów.}
     \eTOetype{Mockowane API}
     \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Otwarcie widoku \textit{Add spot}.
-            \item Oczekiwanie na odpowiedź endpointu z listą miejsc (pusta lista).
+            \item Oczekiwanie na odpowiedź endpointu z listą spotów (pusta lista).
         \end{tabitemizeeTOe}
     }
-    \eTOeexpected{Wyświetlenie komunikatu o braku dodanych miejsc.}
+    \eTOeexpected{Wyświetlenie komunikatu o braku dodanych spotów.}
 }
 
 \eTOecard{tab:e2e:add02}{Ładowanie kolejnych elementów listy przy przewijaniu (\textit{infinite scroll})}{%
@@ -120,11 +120,11 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeexpected{Dołączenie kolejnych elementów do listy oraz ich poprawna prezentacja.}
 }
 
-\eTOecard{tab:e2e:add03}{Otwarcie modala dodawania miejsca na widoku desktop}{%
+\eTOecard{tab:e2e:add03}{Otwarcie modala dodawania spota na widoku desktop}{%
     \eTOeid{E2E-ADD-03}
-    \eTOegoal{Weryfikacja dostępności modala dodawania miejsca w trybie desktop.}
+    \eTOegoal{Weryfikacja dostępności modala dodawania spota w trybie desktop.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Ustawienie rozdzielczości okna na tryb desktop.
@@ -132,41 +132,41 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
             \item Wybranie przycisku \textit{Add spot}.
         \end{tabitemizeeTOe}
     }
-    \eTOeexpected{Wyświetlenie modala dodawania miejsca wraz z sekcjami (\textit{Basic Information}, \textit{Upload Media}).}
+    \eTOeexpected{Wyświetlenie modala dodawania spota wraz z sekcjami (\textit{Basic Information}, \textit{Upload Media}).}
 }
 
-\eTOecard{tab:e2e:add04}{Zablokowanie dodawania miejsca na małym ekranie}{%
+\eTOecard{tab:e2e:add04}{Zablokowanie dodawania spota na małym ekranie}{%
     \eTOeid{E2E-ADD-04}
-    \eTOegoal{Weryfikacja blokady dodawania miejsca dla małych rozdzielczości.}
+    \eTOegoal{Weryfikacja blokady dodawania spota dla małych rozdzielczości.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Ustawienie rozdzielczości okna na tryb mobilny.
             \item Otwarcie widoku \textit{Add spot}.
-            \item Próba otwarcia modala dodawania miejsca.
+            \item Próba otwarcia modala dodawania spota.
         \end{tabitemizeeTOe}
     }
     \eTOeexpected{Wyświetlenie komunikatu o wymaganym większym ekranie oraz brak wyświetlenia formularza dodawania.}
 }
 
-\eTOecard{tab:e2e:add05}{Dodanie nowego miejsca z użyciem rzeczywistego backendu}{%
+\eTOecard{tab:e2e:add05}{Dodanie nowego spota z użyciem rzeczywistego backendu}{%
     \eTOeid{E2E-ADD-05}
-    \eTOegoal{Weryfikacja pełnego procesu dodania miejsca (UI $\rightarrow$ backend).}
+    \eTOegoal{Weryfikacja pełnego procesu dodania spota (UI $\rightarrow$ backend).}
     \eTOetype{Rzeczywisty backend}
     \eTOepre{Użytkownik posiada konto i możliwość zalogowania.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Wykonanie logowania użytkownika.
             \item Przejście do widoku \textit{Add spot}.
-            \item Otwarcie modala dodawania miejsca.
+            \item Otwarcie modala dodawania spota.
             \item Uzupełnienie danych podstawowych.
             \item Dodanie pliku graficznego w sekcji multimediów.
             \item Wyznaczenie wielokąta na mapie oraz zakończenie rysowania.
-            \item Zatwierdzenie dodania miejsca.
+            \item Zatwierdzenie dodania spota.
         \end{tabitemizeeTOe}
     }
-    \eTOeexpected{Zapis miejsca, komunikat o powodzeniu oraz obecność nowo dodanego miejsca na liście.}
+    \eTOeexpected{Zapis spota, komunikat o powodzeniu oraz obecność nowo dodanego spota na liście.}
 }
 
 %------------------------------------------------
@@ -176,7 +176,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-COM-01}
     \eTOegoal{Weryfikacja obsługi pustej listy komentarzy.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Otwarcie widoku komentarzy.
@@ -190,7 +190,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-COM-02}
     \eTOegoal{Weryfikacja ponownego pobrania i prezentacji danych po zmianie sortowania.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Otwarcie widoku komentarzy.
@@ -220,28 +220,28 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
 %------------------------------------------------
 \subsection{User dashboard -- Favorite spots}
 
-\eTOecard{tab:e2e:fav01}{Wyświetlenie stanu pustego dla list ulubionych miejsc}{%
+\eTOecard{tab:e2e:fav01}{Wyświetlenie stanu pustego dla list ulubionych spotów}{%
     \eTOeid{E2E-FAV-01}
-    \eTOegoal{Weryfikacja obsługi pustej listy ulubionych miejsc.}
+    \eTOegoal{Weryfikacja obsługi pustej listy ulubionych spotów.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
-            \item Otwarcie widoku ulubionych miejsc.
+            \item Otwarcie widoku ulubionych spotów.
             \item Pobranie pustej listy.
         \end{tabitemizeeTOe}
     }
-    \eTOeexpected{Komunikat o braku miejsc w liście.}
+    \eTOeexpected{Komunikat o braku spotów w liście.}
 }
 
 \eTOecard{tab:e2e:fav02}{Zmiana typu listy}{%
     \eTOeid{E2E-FAV-02}
     \eTOegoal{Weryfikacja przełączania zakładek i pobrania danych dla wybranego typu listy.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
-            \item Otwarcie widoku ulubionych miejsc.
+            \item Otwarcie widoku ulubionych spotów.
             \item Weryfikacja elementów w domyślnej liście.
             \item Przełączenie zakładki listy (na \textit{Favorites}).
         \end{tabitemizeeTOe}
@@ -251,9 +251,9 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
 
 \eTOecard{tab:e2e:fav03}{Dociąganie kolejnej strony przy przewijaniu}{%
     \eTOeid{E2E-FAV-03}
-    \eTOegoal{Weryfikacja infinite scroll w liście ulubionych miejsc.}
+    \eTOegoal{Weryfikacja infinite scroll w liście ulubionych spotów.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Przewinięcie listy do dołu w celu pobrania kolejnej strony.
@@ -264,13 +264,13 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
 
 \eTOecard{tab:e2e:fav04}{Załadowanie danych z rzeczywistego backendu po logowaniu}{%
     \eTOeid{E2E-FAV-04}
-    \eTOegoal{Weryfikacja pobrania danych ulubionych miejsc z backendu po logowaniu.}
+    \eTOegoal{Weryfikacja pobrania danych ulubionych spotów z backendu po logowaniu.}
     \eTOetype{Rzeczywisty backend}
     \eTOepre{Użytkownik wykonuje logowanie w aplikacji.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Logowanie użytkownika.
-            \item Przejście do widoku ulubionych miejsc.
+            \item Przejście do widoku ulubionych spotów.
             \item Weryfikacja poprawnej odpowiedzi API.
         \end{tabitemizeeTOe}
     }
@@ -284,7 +284,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-MOV-01}
     \eTOegoal{Weryfikacja obsługi pustej listy filmów.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Otwarcie widoku filmów.
@@ -298,7 +298,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-MOV-02}
     \eTOegoal{Weryfikacja odświeżenia listy po zmianie sortowania.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Przełączenie sortowania.
@@ -312,7 +312,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-MOV-03}
     \eTOegoal{Weryfikacja dociągania kolejnych stron danych.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Przewinięcie listy do dołu w celu pobrania kolejnej strony.
@@ -343,7 +343,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-PHO-01}
     \eTOegoal{Weryfikacja obsługi pustej listy zdjęć.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Otwarcie widoku zdjęć.
@@ -357,7 +357,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-PHO-02}
     \eTOegoal{Weryfikacja odświeżenia listy po zmianie sortowania.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Przełączenie sortowania.
@@ -371,7 +371,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-PHO-03}
     \eTOegoal{Weryfikacja dociągania kolejnych stron danych w liście zdjęć.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Przewinięcie listy w celu pobrania kolejnej strony.
@@ -402,7 +402,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-PRO-01}
     \eTOegoal{Weryfikacja poprawnej prezentacji profilu użytkownika.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Otwarcie profilu własnego.
@@ -416,7 +416,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-PRO-02}
     \eTOegoal{Weryfikacja obsługi pustej listy zdjęć w profilu.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Otwarcie profilu własnego z pustą listą zdjęć.
@@ -429,7 +429,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-PRO-03}
     \eTOegoal{Weryfikacja nawigacji do widoku znajomych.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Kliknięcie statystyki \textit{Friends}.
@@ -443,7 +443,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-PRO-04}
     \eTOegoal{Weryfikacja nawigacji do widoku zdjęć.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Kliknięcie statystyki \textit{Photos}.
@@ -457,7 +457,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-PRO-05}
     \eTOegoal{Weryfikacja widoczności akcji społecznościowych na profilu innego użytkownika.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Otwarcie profilu innego użytkownika.
@@ -471,7 +471,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-PRO-06}
     \eTOegoal{Weryfikacja poprawnych żądań HTTP dla akcji follow/friends.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Kliknięcie \textit{follow}.
@@ -503,7 +503,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-SET-01}
     \eTOegoal{Weryfikacja obecności danych konta i możliwości edycji nazwy użytkownika.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Otwarcie ustawień.
@@ -518,7 +518,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-SET-02}
     \eTOegoal{Weryfikacja wysłania poprawnego żądania zmiany nazwy użytkownika.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Wprowadzenie nowej nazwy.
@@ -532,7 +532,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-SET-03}
     \eTOegoal{Weryfikacja wysłania poprawnego żądania zmiany e-mail.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Wprowadzenie nowego adresu e-mail.
@@ -546,7 +546,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-SET-04}
     \eTOegoal{Weryfikacja procesu zmiany hasła.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Wprowadzenie starego i nowego hasła (z potwierdzeniem).
@@ -606,7 +606,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-SOC-01}
     \eTOegoal{Weryfikacja obsługi pustej listy znajomych.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Otwarcie widoku listy społeczności.
@@ -620,7 +620,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-SOC-02}
     \eTOegoal{Weryfikacja przełączania zakładek i poprawnego wyświetlania danych.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Otwarcie widoku społeczności.
@@ -635,7 +635,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-SOC-03}
     \eTOegoal{Weryfikacja dociągania kolejnych stron danych w liście społeczności.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Przewinięcie listy do dołu w celu pobrania kolejnej strony danych.
@@ -648,7 +648,7 @@ oraz przypadki wykonywane na Rzeczywistym backendzie.
     \eTOeid{E2E-SOC-04}
     \eTOegoal{Weryfikacja akceptowania zaproszeń i wysyłania poprawnych żądań.}
     \eTOetype{Mockowane API}
-    \eTOepre{brak}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
     \eTOesteps{%
         \begin{tabitemizeeTOe}
             \item Otwarcie widoku społeczności.
