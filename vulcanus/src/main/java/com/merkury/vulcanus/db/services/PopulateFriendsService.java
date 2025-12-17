@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,7 +19,8 @@ import java.util.stream.Collectors;
 public class PopulateFriendsService {
 
     private final UserEntityRepository userEntityRepository;
-    private final Random random = new Random();
+
+    private static final LocalDateTime SEED_TIME = LocalDateTime.of(2025, 1, 1, 12, 0);
 
     @Transactional
     public void initFriendsData() {
@@ -36,75 +39,89 @@ public class PopulateFriendsService {
                 "pawelKrawczyk"
         );
 
-        List<UserEntity> users = usernames.stream()
-                .map(u -> userEntityRepository.findByUsername(u)
-                        .orElseThrow(() -> new IllegalStateException("Brak użytkownika w DB: " + u)))
-                .collect(Collectors.toCollection(ArrayList::new));
+        Map<String, UserEntity> u = usernames.stream()
+                .collect(Collectors.toMap(
+                        Function.identity(),
+                        username -> userEntityRepository.findByUsername(username)
+                                .orElseThrow(() -> new IllegalStateException("Brak użytkownika w DB: " + username)),
+                        (a, b) -> a,
+                        LinkedHashMap::new
+                ));
 
-        for (UserEntity user : users) {
-            int followCount = random.nextInt(20);
-            Set<UserEntity> followers = getRandomSubset(users, followCount, user);
-            user.getFollowers().addAll(followers);
-        }
+        u.values().forEach(user -> {
+            user.getFollowers().clear();
+            user.getFriendships().clear();
+        });
 
-        Set<String> createdPairs = new HashSet<>();
+        addFollowers(u, "michalNowak", "olaLewandowska", "kasiaWisniewska", "piotrZielinski");
+        addFollowers(u, "annaKowalska", "michalNowak", "julkaMazur", "pawelKrawczyk");
+        addFollowers(u, "kasiaWisniewska", "annaKowalska", "olaLewandowska");
+        addFollowers(u, "piotrZielinski", "michalNowak", "bartekSzymanski");
+        addFollowers(u, "olaLewandowska", "magdaKozlowska", "annaKowalska");
+        addFollowers(u, "tomekWojcik", "piotrZielinski", "krzysiekJankowski");
+        addFollowers(u, "nataliaKaminska", "julkaMazur");
+        addFollowers(u, "bartekSzymanski", "pawelKrawczyk");
+        addFollowers(u, "magdaKozlowska", "olaLewandowska", "kasiaWisniewska");
+        addFollowers(u, "krzysiekJankowski", "tomekWojcik");
+        addFollowers(u, "julkaMazur", "nataliaKaminska", "annaKowalska");
+        addFollowers(u, "pawelKrawczyk", "tomekWojcik", "michalNowak");
 
-        for (UserEntity user : users) {
-            int numberOfFriends = random.nextInt(20);
+        AtomicInteger idx = new AtomicInteger(0);
 
-            for (int i = 0; i < numberOfFriends; i++) {
-                UserEntity potentialFriend = users.get(random.nextInt(users.size()));
-                if (user.equals(potentialFriend)) continue;
+        addFriendship(u, "annaKowalska", "michalNowak", idx);
+        addFriendship(u, "annaKowalska", "kasiaWisniewska", idx);
+        addFriendship(u, "annaKowalska", "piotrZielinski", idx);
 
-                String key = user.getId() + "-" + potentialFriend.getId();
-                String reverseKey = potentialFriend.getId() + "-" + user.getId();
-                if (createdPairs.contains(key) || createdPairs.contains(reverseKey)) continue;
+        addFriendship(u, "michalNowak", "olaLewandowska", idx);
+        addFriendship(u, "michalNowak", "tomekWojcik", idx);
 
-                LocalDateTime now = LocalDateTime.now();
+        addFriendship(u, "kasiaWisniewska", "julkaMazur", idx);
+        addFriendship(u, "piotrZielinski", "bartekSzymanski", idx);
 
-                Friendship friendship = Friendship.builder()
-                        .user(user)
-                        .friend(potentialFriend)
-                        .status(UserFriendStatus.ACCEPTED)
-                        .createdAt(now)
-                        .build();
+        addFriendship(u, "olaLewandowska", "magdaKozlowska", idx);
+        addFriendship(u, "tomekWojcik", "pawelKrawczyk", idx);
 
-                Friendship reverse = Friendship.builder()
-                        .user(potentialFriend)
-                        .friend(user)
-                        .status(UserFriendStatus.ACCEPTED)
-                        .createdAt(now)
-                        .build();
+        addFriendship(u, "nataliaKaminska", "krzysiekJankowski", idx);
+        addFriendship(u, "bartekSzymanski", "pawelKrawczyk", idx);
+        addFriendship(u, "magdaKozlowska", "julkaMazur", idx);
 
-                user.getFriendships().add(friendship);
-                potentialFriend.getFriendships().add(reverse);
-
-                createdPairs.add(key);
-                createdPairs.add(reverseKey);
-            }
-        }
-
-        UserEntity michal = find(users, "michalNowak");
-        michal.getFollowers().add(find(users, "olaLewandowska"));
-        michal.getFollowers().add(find(users, "kasiaWisniewska"));
-        michal.getFollowers().add(find(users, "piotrZielinski"));
-
-        userEntityRepository.saveAll(users);
+        userEntityRepository.saveAll(u.values());
     }
 
-    private UserEntity find(List<UserEntity> users, String username) {
-        return users.stream()
-                .filter(u -> username.equals(u.getUsername()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Brak na liście seedowanej: " + username));
+    private void addFollowers(Map<String, UserEntity> u, String user, String... followers) {
+        UserEntity target = get(u, user);
+        for (String followerUsername : followers) {
+            target.getFollowers().add(get(u, followerUsername));
+        }
     }
 
-    private Set<UserEntity> getRandomSubset(List<UserEntity> allUsers, int count, UserEntity exclude) {
-        List<UserEntity> list = allUsers.stream()
-                .filter(u -> !u.equals(exclude))
-                .collect(Collectors.toList());
+    private void addFriendship(Map<String, UserEntity> u, String a, String b, AtomicInteger idx) {
+        UserEntity userA = get(u, a);
+        UserEntity userB = get(u, b);
 
-        Collections.shuffle(list, random);
-        return new HashSet<>(list.subList(0, Math.min(count, list.size())));
+        LocalDateTime createdAt = SEED_TIME.plusMinutes(idx.getAndIncrement());
+
+        Friendship ab = Friendship.builder()
+                .user(userA)
+                .friend(userB)
+                .status(UserFriendStatus.ACCEPTED)
+                .createdAt(createdAt)
+                .build();
+
+        Friendship ba = Friendship.builder()
+                .user(userB)
+                .friend(userA)
+                .status(UserFriendStatus.ACCEPTED)
+                .createdAt(createdAt)
+                .build();
+
+        userA.getFriendships().add(ab);
+        userB.getFriendships().add(ba);
+    }
+
+    private UserEntity get(Map<String, UserEntity> u, String username) {
+        UserEntity user = u.get(username);
+        if (user == null) throw new IllegalStateException("Brak na liście seedowanej: " + username);
+        return user;
     }
 }

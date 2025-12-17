@@ -1,11 +1,9 @@
 package com.merkury.vulcanus.db.services;
 
-import com.merkury.vulcanus.model.entities.Friendship;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.chat.Chat;
 import com.merkury.vulcanus.model.entities.chat.ChatMessage;
 import com.merkury.vulcanus.model.enums.chat.ChatParticipantRole;
-import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatMessageRepository;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
@@ -27,8 +25,6 @@ public class PopulateChatsService {
     private final ChatRepository chatRepository;
     private final ChatMessageRepository chatMessageRepository;
 
-    private final Random random = new Random();
-
     private static final List<String> USERNAMES = List.of(
             "annaKowalska",
             "michalNowak",
@@ -44,53 +40,50 @@ public class PopulateChatsService {
             "pawelKrawczyk"
     );
 
+    private static final LocalDateTime SEED_TIME = LocalDateTime.of(2025, 1, 1, 10, 0);
+
+    private record Seed(List<String> usernames, Script script) {}
 
     @Transactional
     public void initChatsData() {
-        List<UserEntity> users = USERNAMES.stream()
-                .map(u -> userEntityRepository.findByUsername(u)
-                        .orElseThrow(() -> new IllegalStateException("Brak użytkownika w DB: " + u)))
-                .collect(Collectors.toCollection(ArrayList::new));
+        Map<String, UserEntity> users = USERNAMES.stream()
+                .collect(Collectors.toMap(
+                        u -> u,
+                        u -> userEntityRepository.findByUsername(u)
+                                .orElseThrow(() -> new IllegalStateException("Brak użytkownika w DB: " + u)),
+                        (a, b) -> a,
+                        LinkedHashMap::new
+                ));
 
-        Map<Long, Set<Long>> friends = users.stream().collect(Collectors.toMap(
-                UserEntity::getId,
-                u -> u.getFriendships().stream()
-                        .filter(f -> f.getStatus() == UserFriendStatus.ACCEPTED)
-                        .map(Friendship::getFriend)
-                        .map(UserEntity::getId)
-                        .collect(Collectors.toSet())
-        ));
+        List<Seed> seeds = List.of(
+                new Seed(List.of("annaKowalska", "michalNowak"),          scriptMeetupFortBema()),
+                new Seed(List.of("kasiaWisniewska", "piotrZielinski"),   scriptBuild5Inch()),
+                new Seed(List.of("bartekSzymanski", "pawelKrawczyk"),    scriptLongRange7Inch()),
+                new Seed(List.of("olaLewandowska", "tomekWojcik"),       scriptVideoNoiseFix()),
+                new Seed(List.of("nataliaKaminska", "magdaKozlowska"),   scriptLipoCare()),
+                new Seed(List.of("krzysiekJankowski", "julkaMazur"),     scriptCrashRepairAndTune()),
 
-        List<List<UserEntity>> quads = pickCliques(users, friends, 4, 2);
-        List<List<UserEntity>> triples = pickCliques(users, friends, 3, 2);
-        List<List<UserEntity>> pairs = pickCliques(users, friends, 2, 6);
+                new Seed(List.of("annaKowalska", "piotrZielinski", "olaLewandowska"), scriptWeekendSpotPlanning3()),
+                new Seed(List.of("michalNowak", "kasiaWisniewska", "tomekWojcik"),    scriptCineWhoopIndoor3()),
 
-        if (quads.size() < 2 || triples.size() < 2 || pairs.size() < 6) {
-            throw new IllegalStateException(
-                    "Za mało klik znajomych do zrobienia 2x4, 2x3, 6x2. " +
-                            "Uruchom ponownie seeding znajomych albo zwiększ spójność relacji (Friendship ACCEPTED). " +
-                            "Znaleziono: par=" + pairs.size() + ", trojek=" + triples.size() + ", czworkek=" + quads.size()
-            );
-        }
+                new Seed(List.of("annaKowalska", "michalNowak", "kasiaWisniewska", "piotrZielinski"), scriptFilmingBikeRide4()),
+                new Seed(List.of("olaLewandowska", "tomekWojcik", "nataliaKaminska", "bartekSzymanski"), scriptRulesAndDroneRadar4())
+        );
 
-        List<Script> pairScripts = buildPairScripts();
-        List<Script> tripleScripts = buildTripleScripts();
-        List<Script> quadScripts = buildQuadScripts();
+        for (int i = 0; i < seeds.size(); i++) {
+            Seed seed = seeds.get(i);
 
-        int p = 0, t = 0, q = 0;
+            List<UserEntity> participants = seed.usernames().stream()
+                    .map(users::get)
+                    .toList();
 
-        for (List<UserEntity> group : pairs) {
-            createChatFromScript(group, pairScripts.get(p++));
-        }
-        for (List<UserEntity> group : triples) {
-            createChatFromScript(group, tripleScripts.get(t++));
-        }
-        for (List<UserEntity> group : quads) {
-            createChatFromScript(group, quadScripts.get(q++));
+            LocalDateTime start = SEED_TIME.plusHours(i * 6L);
+
+            createChatFromScript(participants, seed.script(), start);
         }
     }
 
-    private Chat createChatFromScript(List<UserEntity> participants, Script script) {
+    private Chat createChatFromScript(List<UserEntity> participants, Script script, LocalDateTime start) {
         if (participants.size() != script.size) {
             throw new IllegalArgumentException("Skrypt ma rozmiar " + script.size + ", ale grupa ma " + participants.size());
         }
@@ -98,13 +91,11 @@ public class PopulateChatsService {
         Chat chat = Chat.builder().build();
         participants.forEach(chat::addParticipant);
 
+        chat.setName(participants.stream().map(UserEntity::getUsername).collect(Collectors.joining(", ")));
+
         if (participants.size() > 2) {
             chat.setChatType(GROUP);
-            chat.setName(participants.stream().map(UserEntity::getUsername).collect(Collectors.joining(", ")));
-
-            UserEntity owner = participants.getFirst();
-            setGroupOwner(chat, owner);
-
+            setGroupOwner(chat, participants.getFirst());
         }
 
         chat = chatRepository.save(chat);
@@ -114,14 +105,9 @@ public class PopulateChatsService {
             vars.put("{u" + i + "}", participants.get(i).getUsername());
         }
 
-        LocalDateTime start = LocalDateTime.now()
-                .minusDays(random.nextInt(10))
-                .minusMinutes(random.nextInt(8 * 60));
-
         List<ChatMessage> messages = new ArrayList<>(script.lines.size());
         for (int i = 0; i < script.lines.size(); i++) {
             Line line = script.lines.get(i);
-
             messages.add(ChatMessage.builder()
                     .chat(chat)
                     .sender(participants.get(line.speaker))
@@ -153,77 +139,6 @@ public class PopulateChatsService {
                 .ifPresent(cp -> cp.setRole(ChatParticipantRole.OWNER));
     }
 
-    private List<List<UserEntity>> pickCliques(List<UserEntity> users, Map<Long, Set<Long>> friends, int size, int limit) {
-        List<List<UserEntity>> candidates = enumerateCliques(users, friends, size);
-        Collections.shuffle(candidates, random);
-
-        Set<String> used = new HashSet<>();
-        List<List<UserEntity>> out = new ArrayList<>();
-        for (List<UserEntity> g : candidates) {
-            if (out.size() >= limit) break;
-            String key = g.stream().map(UserEntity::getId).sorted().map(String::valueOf).collect(Collectors.joining("-"));
-            if (used.add(key)) out.add(g);
-        }
-        return out;
-    }
-
-    private List<List<UserEntity>> enumerateCliques(List<UserEntity> users, Map<Long, Set<Long>> friends, int size) {
-        List<List<UserEntity>> out = new ArrayList<>();
-        int n = users.size();
-
-        if (size == 2) {
-            for (int i = 0; i < n; i++) {
-                for (int j = i + 1; j < n; j++) {
-                    if (mutual(users.get(i), users.get(j), friends)) out.add(List.of(users.get(i), users.get(j)));
-                }
-            }
-            return out;
-        }
-
-        if (size == 3) {
-            for (int i = 0; i < n; i++) {
-                for (int j = i + 1; j < n; j++) {
-                    for (int k = j + 1; k < n; k++) {
-                        List<UserEntity> g = List.of(users.get(i), users.get(j), users.get(k));
-                        if (isClique(g, friends)) out.add(g);
-                    }
-                }
-            }
-            return out;
-        }
-
-        if (size == 4) {
-            for (int i = 0; i < n; i++) {
-                for (int j = i + 1; j < n; j++) {
-                    for (int k = j + 1; k < n; k++) {
-                        for (int m = k + 1; m < n; m++) {
-                            List<UserEntity> g = List.of(users.get(i), users.get(j), users.get(k), users.get(m));
-                            if (isClique(g, friends)) out.add(g);
-                        }
-                    }
-                }
-            }
-            return out;
-        }
-
-        throw new IllegalArgumentException("Obsługuję tylko rozmiary: 2,3,4");
-    }
-
-    private boolean mutual(UserEntity a, UserEntity b, Map<Long, Set<Long>> friends) {
-        return friends.getOrDefault(a.getId(), Set.of()).contains(b.getId())
-                && friends.getOrDefault(b.getId(), Set.of()).contains(a.getId());
-    }
-
-    private boolean isClique(List<UserEntity> group, Map<Long, Set<Long>> friends) {
-        for (int i = 0; i < group.size(); i++) {
-            for (int j = i + 1; j < group.size(); j++) {
-                if (!mutual(group.get(i), group.get(j), friends)) return false;
-            }
-        }
-        return true;
-    }
-
-
     private record Line(int speaker, String text) {
     }
 
@@ -232,19 +147,6 @@ public class PopulateChatsService {
 
     private static Line l(int speaker, String text) {
         return new Line(speaker, text);
-    }
-
-    // ====== 6x chat 1-na-1 (6 * 30 = 180) ======
-
-    private List<Script> buildPairScripts() {
-        return List.of(
-                scriptMeetupFortBema(),
-                scriptBuild5Inch(),
-                scriptLongRange7Inch(),
-                scriptVideoNoiseFix(),
-                scriptLipoCare(),
-                scriptCrashRepairAndTune()
-        );
     }
 
     private Script scriptMeetupFortBema() {

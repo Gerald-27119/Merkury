@@ -6,6 +6,7 @@ import com.merkury.vulcanus.model.repositories.FavoriteSpotRepository;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,11 +37,10 @@ public class PopulateFavoriteSpotsService {
                 "pawelKrawczyk"
         );
 
-        var allSpots = spotRepository.findAll();
+        var allSpots = spotRepository.findAll(Sort.by(Sort.Direction.ASC, "id")); // <- jeśli pole nazywa się inaczej, zmień "id"
         if (allSpots.size() < 12) {
             throw new IllegalStateException("Za mało spotów w DB. Potrzeba min. 12, jest: " + allSpots.size());
         }
-
 
         int perList = 3;
         int totalPerUser = perList * 4;
