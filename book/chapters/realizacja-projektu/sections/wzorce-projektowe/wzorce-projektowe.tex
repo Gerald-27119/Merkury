@@ -158,8 +158,33 @@ Poniżej przedstawiono wybrane rozwiązania.
         \end{figure}
         \noindent
         \item \textbf{Optimistic UI} \textemdash \space
-        \item \textbf{Portal} \textemdash \space to wyświetlanie komponentów poza drzewem \glslink{dom}{DOM} rodzica (komponentu nadrzędnego).
-        Wykorzystywane jest to, gdy komponent musi być wyświetlony "nad" innymi elementami \glslink{ui}{UI}
+        \item \textbf{Portal} \textemdash \space to renderowanie komponentów w innym miejscu drzewa \glslink{dom}{DOM} niż wynika to
+        z ich hierarchii ułożenia.
+        Mimo takiego ustawienia, propagacja zdarzeń przebiega w sposób niezmieniony, tzn. jest obsługiwana przez komponent nadrzędny.
+        Stosowane gdy komponent musi być wyświetlony nad innymi elementami \glslink{ui}{UI}, aby uniknąć ograniczeń stylów rodzica.
+        W projekcie ten \glslink{wzorzec}{wzorzec} zastosowano poprzez komponent \textit{Modal}, którego implementację oraz przykładowe
+        użycie przedstawiono poniżej.
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/modal_implementation1}
+            \caption{Implementacja komponentu Modal (1)}
+            \label{fig:portal-modal-implementation1}
+        \end{figure}
+        \noindent
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/modal_implementation2}
+            \caption{Implementacja komponentu Modal (2)}
+            \label{fig:portal-modal-implementation2}
+        \end{figure}
+        \noindent
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/modal_usage}
+            \caption{Przykładowe użycie komponentu Modal}
+            \label{fig:portal-modal-usage}
+        \end{figure}
+        \noindent
         \item \textbf{Protected route} \textemdash \space
     \end{itemize}
 \end{itemize}
