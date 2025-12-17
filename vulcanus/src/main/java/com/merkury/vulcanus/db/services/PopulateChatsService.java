@@ -42,7 +42,11 @@ public class PopulateChatsService {
 
     private static final LocalDateTime SEED_TIME = LocalDateTime.of(2025, 1, 1, 10, 0);
 
-    private record Seed(List<String> usernames, Script script) {}
+    private static final int BUNDLE_SIZE = 3;
+    private static final int BUNDLE_GAP_MIN = 10;
+
+    private record Seed(List<String> usernames, Script script) {
+    }
 
     @Transactional
     public void initChatsData() {
@@ -56,15 +60,15 @@ public class PopulateChatsService {
                 ));
 
         List<Seed> seeds = List.of(
-                new Seed(List.of("annaKowalska", "michalNowak"),          scriptMeetupFortBema()),
-                new Seed(List.of("kasiaWisniewska", "piotrZielinski"),   scriptBuild5Inch()),
-                new Seed(List.of("bartekSzymanski", "pawelKrawczyk"),    scriptLongRange7Inch()),
-                new Seed(List.of("olaLewandowska", "tomekWojcik"),       scriptVideoNoiseFix()),
-                new Seed(List.of("nataliaKaminska", "magdaKozlowska"),   scriptLipoCare()),
-                new Seed(List.of("krzysJankowski", "julkaMazur"),     scriptCrashRepairAndTune()),
+                new Seed(List.of("annaKowalska", "michalNowak"), scriptMeetupFortBema()),
+                new Seed(List.of("kasiaWisniewska", "piotrZielinski"), scriptBuild5Inch()),
+                new Seed(List.of("bartekSzymanski", "pawelKrawczyk"), scriptLongRange7Inch()),
+                new Seed(List.of("olaLewandowska", "tomekWojcik"), scriptVideoNoiseFix()),
+                new Seed(List.of("nataliaKaminska", "magdaKozlowska"), scriptLipoCare()),
+                new Seed(List.of("krzysJankowski", "julkaMazur"), scriptCrashRepairAndTune()),
 
                 new Seed(List.of("annaKowalska", "piotrZielinski", "olaLewandowska"), scriptWeekendSpotPlanning3()),
-                new Seed(List.of("michalNowak", "kasiaWisniewska", "tomekWojcik"),    scriptCineWhoopIndoor3()),
+                new Seed(List.of("michalNowak", "kasiaWisniewska", "tomekWojcik"), scriptCineWhoopIndoor3()),
 
                 new Seed(List.of("annaKowalska", "michalNowak", "kasiaWisniewska", "piotrZielinski"), scriptFilmingBikeRide4()),
                 new Seed(List.of("olaLewandowska", "tomekWojcik", "nataliaKaminska", "bartekSzymanski"), scriptRulesAndDroneRadar4())
@@ -108,11 +112,16 @@ public class PopulateChatsService {
         List<ChatMessage> messages = new ArrayList<>(script.lines.size());
         for (int i = 0; i < script.lines.size(); i++) {
             Line line = script.lines.get(i);
+
+            long bucket = i / BUNDLE_SIZE;
+            LocalDateTime baseTime = start.plusMinutes(bucket * BUNDLE_GAP_MIN);
+            LocalDateTime sentAt = baseTime.plusSeconds(i % BUNDLE_SIZE);
+
             messages.add(ChatMessage.builder()
                     .chat(chat)
                     .sender(participants.get(line.speaker))
                     .content(fill(line.text, vars))
-                    .sentAt(start.plusMinutes(i))
+                    .sentAt(sentAt)
                     .build());
         }
 
