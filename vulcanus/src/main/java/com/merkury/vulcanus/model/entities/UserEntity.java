@@ -108,11 +108,14 @@ public class UserEntity implements UserDetails {
      * loading of relationships.
      **/
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Friendship> friendships = new ArrayList<>();
 
     @Builder.Default
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 

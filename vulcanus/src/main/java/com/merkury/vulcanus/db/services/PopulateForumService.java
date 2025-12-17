@@ -711,6 +711,7 @@ public class PopulateForumService {
 
         for (UserEntity u : orderedUsers) {
             List<Post> pool = new ArrayList<>(orderedPosts);
+
             pool.removeIf(p -> p.getAuthor() != null && Objects.equals(p.getAuthor().getId(), u.getId()));
             if (pool.isEmpty()) continue;
 
@@ -719,10 +720,15 @@ public class PopulateForumService {
 
             int n = Math.min(perUser, pool.size());
             for (int i = 0; i < n; i++) {
-                pool.get(i).getFollowers().add(u);
+                Post p = pool.get(i);
+
+                u.getFollowedPosts().add(p);
+
+                p.getFollowers().add(u);
             }
         }
     }
+
 
 
     private Map<String, PostCategory> upsertForumCategories(List<CategorySeed> seeds) {
