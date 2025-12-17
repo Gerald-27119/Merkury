@@ -4,6 +4,19 @@
 \section{Testy integracyjne}
 \label{sec:testy-integracyjne}
 
+Testy integracyjne (ang. \textit{integration tests}) to testy automatyczne służące do weryfikacji
+poprawnej współpracy kilku modułów lub warstw aplikacji, które w testach jednostkowych były badane
+oddzielnie.
+Ich celem jest potwierdzenie, że komponenty poprawnie komunikują się ze sobą, przekazują dane, obsługują
+zależności oraz że cały fragment funkcjonalności działa spójnie w warunkach zbliżonych do rzeczywistych.
+
+W przeciwieństwie do testów jednostkowych, testy integracyjne zwykle obejmują większy zakres systemu
+i mogą wykorzystywać rzeczywiste implementacje wybranych zależności (warstwę dostępu do danych,
+konfigurację kontenera zależności lub uruchomienie kontekstu aplikacji), ewentualnie częściowo
+zastępowane atrapami w celu kontroli środowiska testowego.
+Dzięki temu umożliwiają wykrycie problemów wynikających z integracji (błędnej konfiguracji,
+niezgodnych kontraktów lub niepoprawnych interakcji pomiędzy komponentami).
+
 Do automatycznego uruchamiania testów integracyjnych wykorzystano \gls{github-actions},
 co umożliwiło ich cykliczne wykonywanie w ramach procesu \gls{cicd}
 (przy każdym \textit{push} lub \textit{pull request}).

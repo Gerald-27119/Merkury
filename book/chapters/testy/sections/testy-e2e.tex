@@ -4,6 +4,16 @@
 \section{Testy end-to-end (E2E)}
 \label{sec:testy-e2e}
 
+Testy end-to-end (E2E) (ang. \textit{end-to-end tests}) to testy automatyczne weryfikujące działanie
+aplikacji jako całości z perspektywy użytkownika.
+Obejmują one pełny przepływ realizacji funkcjonalności, od interakcji w interfejsie (nawigacja, kliknięcia,
+wypełnianie formularzy) aż po komunikację z warstwą serwerową i przetwarzanie danych, dzięki czemu pozwalają
+potwierdzić poprawność działania kluczowych scenariuszy biznesowych w warunkach zbliżonych do rzeczywistego użycia systemu.
+
+W odróżnieniu od testów jednostkowych i integracyjnych, testy E2E uruchamiane są na działającej aplikacji
+i wykorzystują rzeczywistą przeglądarkę, co zwiększa wiarygodność weryfikacji, ale jednocześnie zwykle wiąże się
+z dłuższym czasem wykonania oraz większą wrażliwością na zmiany w interfejsie.
+
 Testy end-to-end (E2E) zrealizowano z wykorzystaniem narzędzia Cypress.
 W przeciwieństwie do testów jednostkowych i integracyjnych, testy E2E nie były uruchamiane w ramach
 \gls{github-actions} (procesu \gls{cicd}), lecz wykonywano je lokalnie w środowisku deweloperskim.

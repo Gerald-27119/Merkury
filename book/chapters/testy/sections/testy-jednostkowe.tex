@@ -4,6 +4,17 @@
 \section{Testy jednostkowe}
 \label{sec:testy-jednostkowe}
 
+Testy jednostkowe (ang. \textit{unit tests}) to automatyczne testy weryfikujące poprawność działania
+najmniejszych fragmentów kodu (funkcji, metod lub pojedynczych komponentów) w możliwie pełnej izolacji
+od reszty systemu.
+Ich celem jest szybkie wykrywanie błędów logicznych, walidacja zachowania dla danych typowych i brzegowych oraz
+ułatwienie refaktoryzacji poprzez zapewnienie, że wprowadzone zmiany nie psują wcześniej działających elementów.
+
+W praktyce izolacja ta jest uzyskiwana przez zastępowanie zależności zewnętrznych (bazy danych,
+systemu plików czy usług zewnętrznych \gls{api}) atrapami lub obiektami typu \textit{mock}.
+Dzięki temu testy jednostkowe mogą być uruchamiane często i szybko, stanowiąc podstawowy element kontroli
+jakości w procesie wytwarzania oprogramowania.
+
 Do automatycznego uruchamiania testów jednostkowych wykorzystano
 \gls{github-actions}, co umożliwiło ich cykliczne wykonywanie w ramach procesu \gls{cicd}
 (przy każdym \textit{push} lub \textit{pull request}).
