@@ -35,7 +35,7 @@ public class PopulateChatsService {
             "nataliaKaminska",
             "bartekSzymanski",
             "magdaKozlowska",
-            "krzysiekJankowski",
+            "krzysJankowski",
             "julkaMazur",
             "pawelKrawczyk"
     );
@@ -61,7 +61,7 @@ public class PopulateChatsService {
                 new Seed(List.of("bartekSzymanski", "pawelKrawczyk"),    scriptLongRange7Inch()),
                 new Seed(List.of("olaLewandowska", "tomekWojcik"),       scriptVideoNoiseFix()),
                 new Seed(List.of("nataliaKaminska", "magdaKozlowska"),   scriptLipoCare()),
-                new Seed(List.of("krzysiekJankowski", "julkaMazur"),     scriptCrashRepairAndTune()),
+                new Seed(List.of("krzysJankowski", "julkaMazur"),     scriptCrashRepairAndTune()),
 
                 new Seed(List.of("annaKowalska", "piotrZielinski", "olaLewandowska"), scriptWeekendSpotPlanning3()),
                 new Seed(List.of("michalNowak", "kasiaWisniewska", "tomekWojcik"),    scriptCineWhoopIndoor3()),

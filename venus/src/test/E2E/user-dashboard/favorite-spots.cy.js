@@ -15,7 +15,7 @@ describe("Account favorite spots page", () => {
         cy.visit(FAVORITE_SPOTS_URL, {
             onBeforeLoad(win) {
                 win.localStorage.setItem("is_logged_in", "true");
-                win.localStorage.setItem("username", "user");
+                win.localStorage.setItem("username", "magdaCzarnecka");
             },
         });
     };
@@ -198,15 +198,15 @@ describe("Account favorite spots page", () => {
         cy.get("#sidebar-link-login").click();
         cy.url().should("include", "/login");
 
-        cy.get("#username").type("user");
-        cy.get("#password").type("password");
+        cy.get("#username").type("magdaCzarnecka");
+        cy.get("#password").type("Password1!");
         cy.get('button[type="submit"]').click();
 
         cy.url().should("eq", "http://localhost:5173/");
 
         cy.window().should((win) => {
             expect(win.localStorage.getItem("is_logged_in")).to.eq("true");
-            expect(win.localStorage.getItem("username")).to.eq("user");
+            expect(win.localStorage.getItem("username")).to.eq("magdaCzarnecka");
         });
 
         cy.intercept("GET", "**/user-dashboard/favorite-spots*").as(

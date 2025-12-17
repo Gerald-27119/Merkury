@@ -34,7 +34,7 @@ public class PopulateFriendsService {
                 "nataliaKaminska",
                 "bartekSzymanski",
                 "magdaKozlowska",
-                "krzysiekJankowski",
+                "krzysJankowski",
                 "julkaMazur",
                 "pawelKrawczyk"
         );
@@ -58,11 +58,11 @@ public class PopulateFriendsService {
         addFollowers(u, "kasiaWisniewska", "annaKowalska", "olaLewandowska");
         addFollowers(u, "piotrZielinski", "michalNowak", "bartekSzymanski");
         addFollowers(u, "olaLewandowska", "magdaKozlowska", "annaKowalska");
-        addFollowers(u, "tomekWojcik", "piotrZielinski", "krzysiekJankowski");
+        addFollowers(u, "tomekWojcik", "piotrZielinski", "krzysJankowski");
         addFollowers(u, "nataliaKaminska", "julkaMazur");
         addFollowers(u, "bartekSzymanski", "pawelKrawczyk");
         addFollowers(u, "magdaKozlowska", "olaLewandowska", "kasiaWisniewska");
-        addFollowers(u, "krzysiekJankowski", "tomekWojcik");
+        addFollowers(u, "krzysJankowski", "tomekWojcik");
         addFollowers(u, "julkaMazur", "nataliaKaminska", "annaKowalska");
         addFollowers(u, "pawelKrawczyk", "tomekWojcik", "michalNowak");
 
@@ -81,7 +81,7 @@ public class PopulateFriendsService {
         addFriendship(u, "olaLewandowska", "magdaKozlowska", idx);
         addFriendship(u, "tomekWojcik", "pawelKrawczyk", idx);
 
-        addFriendship(u, "nataliaKaminska", "krzysiekJankowski", idx);
+        addFriendship(u, "nataliaKaminska", "krzysJankowski", idx);
         addFriendship(u, "bartekSzymanski", "pawelKrawczyk", idx);
         addFriendship(u, "magdaKozlowska", "julkaMazur", idx);
 

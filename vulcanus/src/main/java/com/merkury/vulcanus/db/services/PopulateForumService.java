@@ -43,7 +43,7 @@ public class PopulateForumService {
             "nataliaKaminska",
             "bartekSzymanski",
             "magdaKozlowska",
-            "krzysiekJankowski",
+            "krzysJankowski",
             "julkaMazur",
             "pawelKrawczyk",
             "agataDabrowska",
@@ -54,7 +54,7 @@ public class PopulateForumService {
             "lukaszMichalski",
             "karolinaSikora",
             "konradBorkowski",
-            "dominikaCzarnecka",
+            "magdaCzarnecka",
             "patrykRutkowski"
     );
 

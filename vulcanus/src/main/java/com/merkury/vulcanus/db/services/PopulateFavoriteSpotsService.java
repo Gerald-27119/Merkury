@@ -32,7 +32,7 @@ public class PopulateFavoriteSpotsService {
                 "nataliaKaminska",
                 "bartekSzymanski",
                 "magdaKozlowska",
-                "krzysiekJankowski",
+                "krzysJankowski",
                 "julkaMazur",
                 "pawelKrawczyk"
         );
