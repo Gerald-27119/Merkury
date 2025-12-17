@@ -92,10 +92,10 @@ Cały widok opakowany jest w \texttt{AccountWrapper} z wariantem \texttt{PROFILE
 
 Po lewej stronie wyświetlane jest zdjęcie profilowe.
 Dla własnego profilu wykorzystano \glslink{hook}{hook} \texttt{useMutation}, który umożliwia zmianę zdjęcia.
-Po najechaniu kursorem na zdjęcie pojawia się półprzezroczyste tło z ikoną edycji i napisem
+Po najechaniu na nie kursorem pojawia się półprzezroczyste tło z ikoną edycji i napisem
 \texttt{"Change profile photo."}, a kliknięcie uruchamia wybór nowego pliku.
-Po udanej aktualizacji zdjęcia odświeżane są dane profilu oraz wyświetlany jest komunikat sukcesu; w przypadku
-błędu prezentowany jest odpowiedni komunikat informujący o niepowodzeniu aktualizacji.
+Po udanej aktualizacji zdjęcia odświeżane są dane profilu oraz wyświetlany jest komunikat sukcesu.
+W przypadku błędu prezentowany jest odpowiedni komunikat informujący o niepowodzeniu aktualizacji.
 
 Po prawej stronie wyświetlana jest nazwa użytkownika oraz cztery kafelki \newline \texttt{ProfileStat},
 przedstawiające liczbę znajomych, obserwowanych, obserwujących oraz zdjęć.
@@ -162,7 +162,7 @@ Wyświetlane są: zdjęcie, liczba wyświetleń, lokalizacja, średnia ocena
 (komponent \texttt{Rate}), nazwa, tagi (komponent \texttt{FavoriteSpotTags}), krótki opis oraz przyciski
 otwarcia \glslink{spot}{spota} na mapie i usunięcia z listy.
 
-Do modyfikacji listy wykorzystywana jest \glslink{mutacja}{mutacja} obsługująca dodawanie i usuwanie spotów z danej kategorii.
+Do modyfikacji listy wykorzystywana jest \glslink{mutacja}{mutacja} obsługująca usuwanie spotów z danej kategorii.
 Po powodzeniu odświeżane są dane listy, tak aby kafelek został usunięty z widoku.
 Przed usunięciem wyświetlany jest modal potwierdzenia (komponent \glslink{modal}{\texttt{Modal}}), którego stan widoczności
 kontrolowany jest za pomocą \glslink{hook}{hooka} \texttt{useBoolean}.
@@ -329,7 +329,7 @@ W przypadku widoku własnego i wybranego typu \texttt{FRIENDS} po prawej stronie
 
 Poniżej wyświetlane jest menu z przyciskami \texttt{SocialButton}, które pozwalają przełączać się pomiędzy
 listą znajomych, obserwowanych, obserwujących oraz (w widoku innego użytkownika) listą zdjęć.
-Zmiana typu listy zapisywana jest w store \glslink{redux}{Reduxa} za pomocą akcji \texttt{socialAction.setType}.
+Zmiana typu listy zapisywana jest w \glslink{store}{store} \glslink{redux}{Reduxa} za pomocą akcji \texttt{socialAction.setType}.
 
 Dalsza część widoku zależy od typu listy:
 \begin{itemize}
@@ -356,11 +356,11 @@ W przypadku typu \texttt{POTENTIAL\_GROUP\_CHAT\_MEMBER} stosowany jest komunika
 
 \textbf{\texttt{SocialCard}}
 Komponent reprezentuje pojedynczego użytkownika na listach społecznościowych.
-Wyświetlane są: zdjęcie profilowe, nazwa użytkownika oraz zestaw przycisków akcji które służą do przejście do profilu,
-otwarcie prywatnego czatu oraz dodanie lub usunięcie z listy znajomych bądź obserwowanych.
+Wyświetlane są: zdjęcie profilowe, nazwa użytkownika oraz zestaw przycisków akcji które służą do przejścia do profilu,
+otwarcia prywatnego czatu oraz dodania lub usunięcia z listy znajomych bądź obserwowanych.
 
-Relacje znajomości i obserwowania modyfikowane są za pomocą i\glslink{mutacja}{mutacji} po stronie \glslink{api}{API}, odpowiedzialnych za zarządzanie
-listą znajomych oraz obserwowanych.
+Relacje znajomości i obserwowania modyfikowane są za pomocą \glslink{mutacja}{mutacji} po stronie \glslink{api}{API},
+odpowiedzialnych za zarządzanie listą znajomych oraz obserwowanych.
 Po ich powodzeniu odświeżane są odpowiednie listy.
 Otwarcie lub utworzenie prywatnego czatu realizowane jest przez osobną \glslink{mutacja}{mutację}, która zwraca obiekt czatu; następnie
 jest on zapisywany w store \glslink{redux}{Reduxa}, ustawiany jako aktualnie wybrany, a aplikacja przełącza widok na \texttt{/chat}.
@@ -454,7 +454,7 @@ Dozwolone są wybrane typy plików graficznych oraz wideo.
 
 \textbf{\texttt{SpotMap}}
 Komponent wyświetla miniaturową mapę z zaznaczoną lokalizacją spota.
-Wykorzystywana jest \glslink{biblioteka}{biblioteka} \texttt{maplibregl} oraz przygotowany styl mapy \texttt{/map\_style1.json}.
+Wykorzystywana jest \glslink{biblioteka}{biblioteka} \texttt{maplibregl} oraz przygotowany styl mapy \texttt{map\_style.json}.
 Na mapie umieszczany jest marker w pozycji \glslink{spot}{spota}.
 
 \textbf{\texttt{PolygonDrawer}}
@@ -467,14 +467,15 @@ W razie błędu walidacji konturu wyświetlany jest komunikat pod mapą.
 \textbf{\texttt{AddSpotModal}}
 Komponent odpowiada za dodawanie nowego \glslink{spot}{spota}.
 W stanie przechowywany jest obiekt z danymi \glslink{spot}{spota}, komunikaty błędów walidacyjnych oraz aktualna pozycja mapy.
-Adres budowany jest z pól formularza (ulica, miasto, region, kraj) i debouncowany za pomocą \glslink{hook}{hooka} \texttt{useDebounce}.
+Adres budowany jest z pól formularza (ulica, miasto, region, kraj) i \glslink{debounce}{debouncowany} za pomocą
+\glslink{hook}{hooka} \texttt{useDebounce}.
 Na podstawie pełnego adresu \glslink{hook}{hook} \texttt{useQuery} pobiera współrzędne geograficzne, a mapa przesuwana
 jest do odpowiedniej lokalizacji.
 
 Walidacja danych formularza realizowana jest przy użyciu \texttt{spotSchema}.
 W przypadku niepowodzenia walidacji wypełniane są pola błędów oraz wyświetlany jest komunikat:
 \texttt{"Please fill in all fields correctly"}.
-Po poprawnej walidacji wywoływana jest a\glslink{mutacja}{mutacja} odpowiedzialna za dodanie \glslink{spot}{spota} po stronie \glslink{backend}{backendu}.
+Po poprawnej walidacji wywoływana jest \glslink{mutacja}{mutacja} odpowiedzialna za dodanie \glslink{spot}{spota} po stronie \glslink{backend}{backendu}.
 Po jej powodzeniu \glslink{modal}{modal} jest zamykany, formularz resetowany, dane listy odświeżane, a użytkownik otrzymuje
 komunikat o poprawnym dodaniu \glslink{spot}{spota}.
 
