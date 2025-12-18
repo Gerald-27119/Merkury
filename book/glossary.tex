@@ -685,7 +685,7 @@
 }
 
 \newglossaryentry{srp}{
-    name={Single Responsibilty Principle},
+    name={Single Responsibility Principle},
     description={(tłum. \textit{Zasada Pojedynczej Odpowiedzialności}); zasada należąca do wytycznych \glslink{solid}{SOLID}.
     Zgodnie z nią klasa lub funkcja powinna mieć dokładnie jeden powód do zmiany, czyli być odpowiedzalną za jedną rzecz}
 }
@@ -695,10 +695,10 @@
     description={Mnemonik zdefiniowany przez Roberta C. Martina, zawierający 5 zasad projektowania,
     które mają poprawić elastyczność i prostotę utrzymania oprogramowania.
     \begin{itemize}
-        \item \textbf{S} \textendash \space Single Responsibilty Principle (tłum. \textit{Zasada Pojedynczej Odpowiedzialności})
+        \item \textbf{S} \textendash \space Single Responsibility Principle (tłum. \textit{Zasada Pojedynczej Odpowiedzialności})
         \item \textbf{O} \textendash \space Open/Closed Principle (tłum. \textit{Zasada Otwarte/Zamknięte})
         \item \textbf{L} \textendash \space Liskov Substitution Principle (tłum. \textit{Zasada Podstawienia Liskov})
-        \item \textbf{I} \textendash \space Interaface Segregation Principle (tłum. \textit{Zasada Segregacji Interfejsów})
+        \item \textbf{I} \textendash \space Interface Segregation Principle (tłum. \textit{Zasada Segregacji Interfejsów})
         \item \textbf{D} \textendash \space Dependency Inversion Principle (tłum. \textit{Zasada Odwrócenia Zależności})
     \end{itemize}
     Definicja została napisana na podstawie treści książki \cite{wzorce-projektowe}
@@ -717,7 +717,7 @@
     który jest tworzony i zarządzany przez kontener Spring \glslink{ioc}{IoC}}
 }
 
-\newglossaryentry{annotaion}{
+\newglossaryentry{annotation}{
     name={Adnotacja},
     description={To sposób dodania metadanych do kodu Java, nie zmieniają bezpośrednio działania programu, ale są wykorzystywane przez kompilator i
     \glslink{framework}{frameworki}.
@@ -736,7 +736,7 @@
     Cykl życia komponentu ma trzy stany: montowanie (inicjalizacja i renderowanie),
     aktualizacja (reagowanie na zmiany), demontowanie (usunięcie komponentu z drzewa \glslink{dom}{DOM}),
     a ich nazwy muszą zaczynać się wielką literą.
-    Powinien być tworzony w sposób umożliwiający jego wieloktrone użycie w projekcie.
+    Powinien być tworzony w sposób umożliwiający jego wielokrotne użycie w projekcie.
     Komponenty dzielą się na dwa rodzaje:
     \begin{itemize}
         \item \textbf{Komponenty Klasowe} \textemdash \space klasy JavaScript dziedziczące po wbudowanej klasie Component.

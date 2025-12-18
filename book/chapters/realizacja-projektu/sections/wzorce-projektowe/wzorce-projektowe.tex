@@ -62,10 +62,10 @@ Poniżej przedstawiono wybrane rozwiązania.
         \noindent
         W projekcie skorzystano z \glslink{framework}{frameworka} Spring Boot, w którym wszystkie klasy oznaczone jako \glslink{bean}{Beany}
         są Singletonami.
-        Przykładem jest nadanie klasie \glslink{annotaion}{adnotacji} \emph{@Service}.
+        Przykładem jest nadanie klasie \glslink{annotation}{adnotacji} \emph{@Service}.
         Raz stworzony obiekt jest wykorzystywany przez wszystkie inne potrzebujące go obiekty.
 
-        Poniżej przedstawiono wykorzystanie \glslink{annotaion}{adnotacji} \emph{@Service} oraz użycie tej klasy jako zależność w innej klasie.
+        Poniżej przedstawiono wykorzystanie \glslink{annotation}{adnotacji} \emph{@Service} oraz użycie tej klasy jako zależność w innej klasie.
         \begin{figure}[H]
             \centering
             \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/singleton_annotation}
@@ -82,8 +82,8 @@ Poniżej przedstawiono wybrane rozwiązania.
         \noindent
         \item \textbf{Builder} \textemdash \space kreacyjny \glslink{wzorzec}{wzorzec} projektowy, który ułatwia tworzenie
         skomplikowanych obiektów poprzez rozbicie tego procesu na mniejsze, konfigurowalne etapy.
-        Eliminuje potrzebę korzystania z kontruktorów zawierjących wiele parametrów.
-        Stworzony zostaje obiekt budujący (Budowniczy), który implemnetuje poszczególne kroki kontrukcji obiektu, a na końcu
+        Eliminuje potrzebę korzystania z kontruktorów zawierających wiele parametrów.
+        Stworzony zostaje obiekt budujący (Budowniczy), który implementuje poszczególne kroki kontrukcji obiektu, a na końcu
         wywoływana jest metoda inicjalizująca go.
         Nie jest wymagane wywołanie wszystkich kroków, ponadto można stworzyć wielu Budowniczych, kreujących różne warianty obiektu.
         \begin{figure}[H]
@@ -93,11 +93,11 @@ Poniżej przedstawiono wybrane rozwiązania.
             \label{fig:diagram-builder}
         \end{figure}
         \noindent
-        Do zaimplementowania tego \glslink{wzorzec}{wzorca} projektowego wykrzystano \glslink{annotaion}{adnotację} \emph{@Builder} z biblioteki \emph{Lombok},
+        Do zaimplementowania tego \glslink{wzorzec}{wzorca} projektowego wykrzystano \glslink{annotation}{adnotację} \emph{@Builder} z biblioteki \emph{Lombok},
         która powoduje utworzenie Budowniczego dla danej klasy.
         Builder został zastosowany do wszystkich klas reprezentujących encje, co poprawiło czytelność kodu przy ich tworzeniu.
 
-        Poniżej przedstawiono zastosowanie \glslink{annotaion}{adnotacji} \emph{@Builder} oraz przykładowe użycie tego wzorca podczas konstruowania encji.
+        Poniżej przedstawiono zastosowanie \glslink{annotation}{adnotacji} \emph{@Builder} oraz przykładowe użycie tego wzorca podczas konstruowania encji.
         \begin{figure}[H]
             \centering
             \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/builder_implementation}
