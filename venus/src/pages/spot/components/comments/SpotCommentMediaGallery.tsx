@@ -164,7 +164,7 @@ export default function SpotCommentMediaGallery({
                         {idx === 2 && numberOfMedia > 3 && !isShowMoreMedia && (
                             <div
                                 onClick={handleShowMoreMedia}
-                                className="bg-darkBg/88 absolute inset-0 flex cursor-pointer items-center justify-center"
+                                className="bg-darkBg/88 absolute inset-0 z-20 flex cursor-pointer items-center justify-center"
                             >
                                 <span className="text-xs font-semibold 2xl:text-lg">
                                     see more...
