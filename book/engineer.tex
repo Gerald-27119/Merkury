@@ -14,6 +14,13 @@
 \usepackage[T1]{fontenc}
 \usepackage{longtable}
 
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\usepackage{titlesec}
+\titleformat{\paragraph}[block]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}{0pt}{1ex}{0.8ex}
+\newcommand{\subsubsubsection}[1]{\paragraph{#1}}
+
 %nowe pakiety do tabel:
 \usepackage{booktabs}
 \usepackage{array,ltablex}
