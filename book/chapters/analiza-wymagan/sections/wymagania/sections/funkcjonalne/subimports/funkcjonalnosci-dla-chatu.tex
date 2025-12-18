@@ -4,9 +4,6 @@
 \subsubsection{Wymagania funkcjonalne dla czatu}
 \label{subsubsec:wymagania-funkcjonalne-dla-chatu}
 
-\newcounter{wfczat}[chapter]
-\renewcommand{\thewfczat}{\thechapter.\arabic{wfczat}}
-
 \newlength{\wfczLabelWidth}
 \setlength{\wfczLabelWidth}{0.19\textwidth}
 
@@ -84,7 +81,7 @@
 % --- szablon karty wymagania funkcjonalnego ---
 
 \newcommand{\wfczatcard}[5]{%
-    \refstepcounter{wfczat}%
+    \refstepcounter{awc}%
     {%
         \centering
         \begin{longtable}{|
@@ -105,8 +102,8 @@
         \par
     }%
     \vspace{3pt}%
-    \textbf{Tabela \thewfczat:} Wymaganie funkcjonalne dla czatu: #2\label{#1}%
-    \addcontentsline{lot}{table}{Tabela \thewfczat: Wymaganie funkcjonalne dla czatu: #2}%
+    \textbf{Tabela \theawc:} Wymaganie funkcjonalne dla czatu: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie funkcjonalne dla czatu: #2}%
 }
 
 % =========================================
@@ -146,7 +143,7 @@
 {02}
 {S}
 {
-    \wfczdesc{System umożliwia dołączanie i wysyłanie plików (np.\ dokumentów,
+    \wfczdesc{System umożliwia dołączanie i wysyłanie plików (dokumentów,
         zdjęć, archiwów) jako załączników do wiadomości na czacie.}
 
     \wfczaccept{%
@@ -208,7 +205,7 @@
     \wfczaccept{%
         \begin{itemize}
             \item Wiadomość wysłana w czacie grupowym jest dostarczana wszystkim jego członkom.
-            \item \gls{ui} wyraźnie wskazuje, że rozmowa to czat grupowy (np.\ nazwa, avatar, liczba uczestników).
+            \item \gls{ui} wyraźnie wskazuje, że rozmowa to czat grupowy (nazwa, avatar, liczba uczestników).
             \item Nowi uczestnicy dołączeni do czatu widzą historię rozmowy.
         \end{itemize}
     }
@@ -367,7 +364,7 @@
 {W}
 {
     \wfczdesc{System umożliwia użytkownikowi edycję treści wcześniej wysłanej
-    wiadomości na czacie (np.\ poprawa literówki).}
+    wiadomości na czacie.}
 
     \wfczaccept{%
         \begin{itemize}
