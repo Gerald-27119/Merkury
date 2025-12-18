@@ -685,3 +685,29 @@
     description={Zarządzane przez Dockera magazyny danych dla kontenerów, które
     są odizolowane od maszyny hosta.}
 }
+
+\newglossaryentry{github-actions}{
+    name={GitHub Actions},
+    description={Platforma CI/CD zintegrowana z portalem GitHub, umożliwiająca automatyzację procesów takich jak
+    budowanie, testowanie i wdrażanie aplikacji w odpowiedzi na zdarzenia w repozytorium.}
+}
+
+\newglossaryentry{job}{
+    name={Job (GitHub Actions)},
+    description={Jednostka wykonawcza w GitHub Actions, składająca się z sekwencji kroków (\textit{steps}) uruchamianych
+    na tym samym runnerze. Job może zależeć od innych jobów i być wykonywany równolegle lub sekwencyjnie w ramach workflow.}
+}
+
+\newglossaryentry{workflow}{
+    name={Workflow (GitHub Actions)},
+    description={Zdefiniowany w pliku YAML proces automatyzacji w GitHub Actions, zawierający wyzwalacze uruchomienia
+    (\texttt{on:}) oraz zestaw jobów realizujących zadania CI/CD (budowanie i testowanie aplikacji).}
+}
+
+\newglossaryentry{pipeline}{
+    name={Pipeline},
+    description={Uporządkowany ciąg etapów procesu CI/CD (budowanie, testowanie, wdrażanie), uruchamiany
+    automatycznie po wystąpieniu określonych zdarzeń. W GitHub Actions pipeline jest realizowany jako workflow
+    składający się z jednego lub wielu jobów.}
+}
+
