@@ -1,0 +1,315 @@
+%! Author = Adam
+%! Date = 30/11/2025
+
+\subsubsection{Wymagania pozafunkcjonalne dla czatu}
+\label{subsubsec:wymagania-pozafunkcjonalne-dla-czatu}
+
+% ============================
+% WYMAGANIA POZAFUNKCJONALNE DLA CZATU
+% Identyfikatory: WPCZAT-XX
+% ============================
+
+
+% --- Szerokości ---
+
+\newlength{\wpczLabelWidth}
+\settowidth{\wpczLabelWidth}{\textbf{Wymagania powiązane:}}
+\addtolength{\wpczLabelWidth}{-20pt}
+
+% Szerokość części z treścią (3 prawe kolumny zlane w jedną)
+\newlength{\wpczContentWidth}
+\setlength{\wpczContentWidth}{0.7\textwidth}
+\addtolength{\wpczContentWidth}{20pt}
+
+% --------- Pola karty (wiersze) ---------
+
+% Id + priorytet – 4 kolumny
+\newcommand{\wpczpriority}[2]{%
+    \textbf{Identyfikator:} & WPCZAT-#1 &
+    \textbf{Priorytet:}     & #2 \\ \hline
+}
+
+% Typ – normalny wiersz na 3 kolumny
+\newcommand{\wpcztype}[1]{%
+    \textbf{Typ:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpczContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpczname}[1]{%
+    \textbf{Nazwa:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpczContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpczdesc}[1]{%
+    \textbf{Opis:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpczContentWidth}|}{#1} \\ \hline
+}
+
+% (2) Kryteria akceptacji – ustawienia list jak w wymaganiach funkcjonalnych
+\newcommand{\wpczaccept}[1]{%
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpczContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\itemsep}{0.2ex}%
+        \setlength{\parsep}{0pt}%
+        \vspace*{-1.8ex}%
+        #1%
+        \vspace*{-1.4ex}%
+        \endgroup
+    } \\ \hline
+}
+
+\newcommand{\wpczstakeholder}[1]{%
+    \textbf{Udziałowiec:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpczContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpczresponsible}[1]{%
+    \textbf{Realizator:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpczContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpczrelated}[1]{%
+    \textbf{Wymagania powiązane:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpczContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpczatcard}[5]{%
+    \refstepcounter{awc}%
+    {%
+        \centering
+        \begin{longtable}{|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpczLabelWidth}|
+            l|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}l|
+            p{0.15\textwidth}|}
+        \hline
+        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA CZATU}} \\ \hline
+        \endfirsthead
+        \hline
+        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA CZATU (cd.)}} \\ \hline
+        \endhead
+        \wpczpriority{#3}{#4}
+        \wpczname{#2}
+        #5
+        \end{longtable}
+        \par
+    }%
+    \vspace{3pt}%
+    \textbf{Tabela \theawc:} Wymaganie pozafunkcjonalne dla czatu: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie pozafunkcjonalne dla czatu: #2}%
+}
+
+% =========================================================
+% WPCZAT-01 – Kontrola dostępu do konkretnych czatów (autoryzacja)
+% Typ: bezpieczeństwo
+% =========================================================
+
+\wpczatcard
+{wpczat:visibility-members}
+{Dostęp do czatów ograniczony do uczestników (autoryzacja)}
+{01}
+{S}
+{
+    \wpcztype{Bezpieczeństwo}
+
+    \wpczdesc{Wymaganie dotyczy \textbf{autoryzacji na poziomie pojedynczych czatów}.
+    System zapewnia, że zalogowany użytkownik widzi wyłącznie listę czatów
+    oraz wiadomości z czatów, których jest uczestnikiem. Informacje o innych
+    czatach nie są prezentowane w interfejsie ani dostępne poprzez \gls{api},
+        nawet jeśli użytkownik zna ich identyfikatory.}
+
+    \wpczaccept{%
+        \begin{itemize}
+            \item Dla zalogowanego użytkownika lista czatów zawiera wyłącznie czaty, w których jest on uczestnikiem.
+            \item Zapytania do \gls{api} odwołujące się do czatu, którego użytkownik nie jest członkiem, są odrzucane (kodem 403) i nie zwracają żadnych danych o tym czacie ani jego wiadomościach.
+        \end{itemize}
+    }
+
+    \wpczstakeholder{U3}
+
+    \wpczresponsible{Adam Langmesser}
+
+    \wpczrelated{%
+        \hyperref[woczat:send-message]{WOCZAT-01},
+        \hyperref[woczat:browse-history]{WOCZAT-03}.%
+    }
+}
+
+% =========================================================
+% WPCZAT-02 – Korzystanie z czatu wymaga zalogowania (uwierzytelnienie)
+% Typ: bezpieczeństwo
+% =========================================================
+
+\wpczatcard
+{wpczat:login-required}
+{Korzystanie z czatu wymaga zalogowania (uwierzytelnienie)}
+{02}
+{S}
+{
+    \wpcztype{Bezpieczeństwo}
+
+    \wpczdesc{Wymaganie dotyczy \textbf{uwierzytelnienia}. Jakakolwiek próba
+    skorzystania z modułu czatu (wejście na widok czatu, pobieranie listy czatów,
+        wysyłanie lub odbieranie wiadomości, tworzenie czatów) wymaga wcześniejszego
+        zalogowania się do systemu. Użytkownik niezalogowany w ogóle nie może
+        uzyskać dostępu do danych czatu.}
+
+    \wpczaccept{%
+        \begin{itemize}
+            \item Wejście na widok czatu przez użytkownika niezalogowanego powoduje przekierowanie na ekran logowania lub wyświetlenie komunikatu o braku uprawnień.
+            \item Zapytania do \gls{api} czatu wykonane bez ważnego \gls{jwt} są odrzucane kodem 401 i nie zwracają żadnych danych.
+        \end{itemize}
+    }
+
+    \wpczstakeholder{U3}
+
+    \wpczresponsible{Adam Langmesser}
+
+    \wpczrelated{%
+        \hyperref[woczat:send-message]{WOCZAT-01},
+        \hyperref[woczat:edit-chat]{WOCZAT-02},
+        \hyperref[woczat:browse-history]{WOCZAT-03},
+        \hyperref[woczat:create-chat]{WOCZAT-04}.%
+    }
+}
+
+% =========================================================
+% WPCZAT-03 – Grupowanie wiadomości według daty wysłania
+% Typ: użyteczność
+% =========================================================
+
+\wpczatcard
+{wpczat:group-by-date}
+{Grupowanie wiadomości według daty wysłania}
+{03}
+{S}
+{
+    \wpcztype{Użyteczność}
+
+    \wpczdesc{Wiadomości na czacie są prezentowane w logicznych grupach
+    odpowiadających datom ich wysłania, co ułatwia
+    użytkownikom orientację w historii rozmowy.}
+
+    \wpczaccept{%
+        \begin{itemize}
+            \item W widoku czatu pojawiają się wizualne znaczniki dat.
+            \item Wiadomości są zawsze przypisane do poprawnej grupy daty wysłania niezależnie od strefy czasowej klienta.
+            \item Zmiana zakresu historii (scrollowanie, przeładowanie) zachowuje poprawne grupowanie dat.
+        \end{itemize}
+    }
+
+    \wpczstakeholder{U3}
+
+    \wpczresponsible{Adam Langmesser}
+
+    \wpczrelated{%
+        \hyperref[woczat:send-message]{WOCZAT-01},
+        \hyperref[woczat:browse-history]{WOCZAT-03}.%
+    }
+}
+
+% =========================================================
+% WPCZAT-04 – Wyraźne oznaczenie nadawcy i czasu wysłania
+% Typ: użyteczność
+% =========================================================
+
+\wpczatcard
+{wpczat:sender-and-time}
+{Wyraźne oznaczenie nadawcy i czasu wysłania}
+{04}
+{S}
+{
+    \wpcztype{Użyteczność}
+
+    \wpczdesc{Każda wiadomość na czacie jest opatrzona wyraźną informacją,
+        kto jest jej nadawcą oraz kiedy została wysłana. Informacje
+        te są łatwo zauważalne i spójne wizualnie.}
+
+    \wpczaccept{%
+        \begin{itemize}
+            \item Przy każdej wiadomości widoczna jest nazwa lub alias nadawcy.
+            \item Po najechaniu kursorem na daną wiadomość widoczna jest godzina jej wysłania.
+        \end{itemize}
+    }
+
+    \wpczstakeholder{U3}
+
+    \wpczresponsible{Adam Langmesser}
+
+    \wpczrelated{%
+        \hyperref[woczat:send-message]{WOCZAT-01},
+        \hyperref[woczat:browse-history]{WOCZAT-03}.%
+    }
+}
+
+% =========================================================
+% WPCZAT-05 – Załadowanie starszych wiadomości < 10 s
+% Typ: wydajność
+% =========================================================
+
+\wpczatcard
+{wpczat:load-older-under-10s}
+{Czas załadowania starszych wiadomości poniżej 10 sekund}
+{05}
+{S}
+{
+    \wpcztype{Wydajność}
+
+    \wpczdesc{Podczas przewijania historii czatu załadowanie kolejnej partii
+    starszych wiadomości powinno trwać krócej niż 10 sekundy w typowych
+    warunkach sieciowych.}
+
+    \wpczaccept{%
+        \begin{itemize}
+            \item W co najmniej 95\% pomiarów w warunkach deweloperskich czas pobrania starszych wiadomości mieści się w przedziale 0--10 s.
+            \item Interfejs wyraźnie sygnalizuje trwające ładowanie.
+            \item Brak zauważalnych „zawieszeń” interfejsu podczas operacji pobierania danych.
+        \end{itemize}
+    }
+
+    \wpczstakeholder{U3}
+
+    \wpczresponsible{Adam Langmesser}
+
+    \wpczrelated{%
+        \hyperref[woczat:browse-history]{WOCZAT-03}.%
+    }
+}
+
+% =========================================================
+% WPCZAT-06 – Wysłanie wiadomości następuje natychmiastowo
+% Typ: wydajność
+% =========================================================
+
+\wpczatcard
+{wpczat:send-immediately}
+{Natychmiastowe wysyłanie wiadomości}
+{06}
+{S}
+{
+    \wpcztype{Wydajność}
+
+    \wpczdesc{Po wysłaniu wiadomości przez użytkownika powinna ona pojawić się
+    w widoku czatu w czasie subiektywnie natychmiastowym (rzędu setek
+    milisekund), a pozostali uczestnicy powinni ją zobaczyć w czasie
+    zbliżonym do rzeczywistego.}
+
+    \wpczaccept{%
+        \begin{itemize}
+            \item W typowych warunkach sieciowych użytkownik widzi swoją nową wiadomość w czasie poniżej 1 s od wysłania.
+            \item Pozostali uczestnicy czatu otrzymują wiadomość bez konieczności ręcznego odświeżania.
+        \end{itemize}
+    }
+
+    \wpczstakeholder{U3}
+
+    \wpczresponsible{Adam Langmesser}
+
+    \wpczrelated{%
+        \hyperref[woczat:send-message]{WOCZAT-01}.%
+    }
+}
