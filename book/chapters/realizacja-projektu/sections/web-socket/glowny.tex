@@ -97,24 +97,24 @@ oraz mechanizmu publikowania wiadomości.
 \label{subsubsec:ws-config-backend}
 
 Na rysunku \ref{img:web-socket-config-backend} przedstawiono konfigurację \glslink{websocket}{WebSocket}.
-Definiuje ona \gls{endpoint} do zestawienia połączenia oraz dwa \glslink{prefiks}{prefiksy} \glslink{destynacja}{destynacji}:
+Definiuje ona \gls{endpoint} do ustanowienia połączenia oraz dwa \glslink{prefiks}{prefiksy} \glslink{destynacja}{destynacji}:
 dla wiadomości przychodzących do aplikacji oraz dla wiadomości rozsyłanych do \glslink{klient}{klientów}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/websocket-config}
-    \caption{Konfiguracja \glslink{websocket}{WebSocket} w module czatu (plik \texttt{WebSocketConfig.java}).}
+    \caption{Konfiguracja WebSocket po stronie backendu.}
     \label{img:web-socket-config-backend}
 \end{figure}
 
 Najważniejsze elementy konfiguracji:
 \begin{itemize}
-    \item \texttt{/connect} -- \gls{endpoint} zestawienia połączenia (tzw.\ \gls{handshake}); dodatkowo włączono \gls{sockjs}.
+    \item \texttt{/connect} -- \gls{endpoint} ustanowienia połączenia (tzw.\ \gls{handshake});
+    \texttt{withSockJS()} zapewnia mechanizm \gls{fallback} (emulację WebSocket po HTTP), gdy \gls{websocket} jest blokowany.
     \item \texttt{/app/*} -- \glslink{prefiks}{prefiks} \glslink{destynacja}{destynacji} dla wiadomości wysyłanych
-    \textbf{od \glslink{klient}{klienta} do \glslink{serwer}{serwera}}
-    (obsługiwanych przez metody z \texttt{@MessageMapping}).
+    od \glslink{klient}{klienta} do \glslink{serwer}{serwera}.
     \item \texttt{/subscribe/*} -- \glslink{prefiks}{prefiks} \glslink{destynacja}{destynacji} dla wiadomości wysyłanych
-    \textbf{od \glslink{serwer}{serwera} do \glslink{klient}{klientów}}
+    od \glslink{serwer}{serwera} do \glslink{klient}{klientów}
     (\glslink{klient}{klient} \glslink{subskrypcja}{subskrybuje} te kanały, a \glslink{serwer}{serwer} publikuje tam komunikaty).
     \item \texttt{SecurityContextChannelInterceptor} -- zapewnia dostęp do kontekstu bezpieczeństwa dla wiadomości przychodzących
     (backend rozpoznaje, kto wysłał wiadomość).
@@ -129,15 +129,16 @@ dla nowych wiadomości wysyłanych przez użytkownika.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/stomp-controller-backend}
-    \caption{Kontroler \glslink{stomp}{STOMP} odbierający wiadomości czatu (plik \texttt{ChatStompCommunicationController.java}).}
+    \caption{Kontroler STOMP odbierający wiadomości czatu.}
     \label{img:web-socket-controller-backend}
 \end{figure}
 
 Kontroler udostępnia wejściową \glslink{destynacja}{destynację}: \texttt{/app/send/\{chatId\}/message}.
+\newline
 Jej rola jest następująca:
 \begin{enumerate}
     \item odebrać wiadomość od \glslink{klient}{klienta},
-    \item zlecić zapis wiadomości do \gls{baza-danych} (serwis domenowy czatu),
+    \item zlecić zapis wiadomości do \glslink{baza-danych}{bazy danych} za co odpowiada serwis domenowy czatu,
     \item uruchomić rozesłanie wiadomości,
     \item oddelegować wysłanie potwierdzenia (\gls{ack}) do nadawcy wiadomości.
 \end{enumerate}
@@ -152,7 +153,7 @@ na kanały \glslink{subskrypcja}{subskrypcji} \texttt{/subscribe/*}. Serwis ten 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/stomp-serwis}
-    \caption{Serwis rozsyłający wiadomości czatu i potwierdzenia \gls{ack} (plik \texttt{ChatStompCommunicationService.java}).}
+    \caption{Serwis odpowiedzialny za komunikację za pomocą WebSocket'a.}
     \label{img:web-socket-serwis-backend}
 \end{figure}
 
@@ -170,7 +171,7 @@ Serwis realizuje dwa typy wysyłki:
 Poniżej zestawiono wszystkie \glslink{destynacja}{destynacje} używane w komunikacji \glslink{websocket}{WebSocket} w module czatu:
 
 \begin{description}
-    \item[\texttt{/connect}] \gls{endpoint} zestawienia połączenia \glslink{websocket}{WebSocket} (tzw.\ \gls{handshake}).
+    \item[\texttt{/connect}] \gls{endpoint} ustanowienia połączenia \glslink{websocket}{WebSocket} (tzw.\ \gls{handshake}).
     \item[\texttt{/app/send/\{chatId\}/message}] Wejście do backendu: \glslink{klient}{klient} wysyła nową wiadomość do czatu o identyfikatorze \texttt{chatId}.
     \item[\texttt{/subscribe/chats/\{username\}}] Kanał użytkownika: \glslink{klient}{klient} \glslink{subskrypcja}{subskrybuje} i odbiera nowe wiadomości (ze wszystkich czatów, w których uczestniczy).
     \item[\texttt{/subscribe/chats/ack/\{username\}}] Kanał potwierdzeń (\gls{ack}): \glslink{klient}{klient} (nadawca) odbiera potwierdzenie zapisania wiadomości.
@@ -190,7 +191,7 @@ udostępnianej poprzez \gls{kontekst}. Rozwiązanie składa się z:
 \begin{itemize}
     \item serwisu komunikacyjnego \texttt{WebSocketService} (utrzymanie połączenia, \glslink{subskrypcja}{subskrypcje}, publikacja),
     \item hooka \texttt{useWebSocket} (ergonomiczne użycie w komponentach),
-    \item providera \texttt{WebSocketProvider} (utrzymanie cyklu życia połączenia zależnie od logowania),
+    \item providera \texttt{WebSocketProvider} (utrzymanie cyklu życia połączenia),
     \item fabryk subskrypcji (np.\ \texttt{createChatSubscription}) aktualizujących \gls{stan} w \gls{redux}.
 \end{itemize}
 
@@ -226,7 +227,7 @@ udostępnianej poprzez \gls{kontekst}. Rozwiązanie składa się z:
 \end{figure}
 
 Klasa \texttt{WebSocketService} stanowi warstwę po stronie \glslink{frontend}{frontendu}, która zarządza jednym połączeniem
-\glslink{stomp}{STOMP} działającym nad \glslink{websocket}{WebSocket}. Do zestawienia transportu wykorzystano \gls{sockjs},
+\glslink{stomp}{STOMP} działającym nad \glslink{websocket}{WebSocket}. Do ustanowienia transportu wykorzystano \gls{sockjs},
 a właściwy protokół wiadomościowy realizuje \gls{stomp_client} z biblioteki \gls{stompjs}.
 
 \textbf{Główne odpowiedzialności} klasy:
