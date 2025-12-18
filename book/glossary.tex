@@ -781,14 +781,19 @@
     name={Store (Redux)},
     description={Centralne miejsce przechowywania stanu aplikacji w Redux. Pozwala odczytywać aktualny stan oraz wysyłać akcje zmieniające ten stan.}
 }
+\newglossaryentry{propsy}
+{
+    name={propsy},
+    description={Zestaw właściwości przekazywanych do komponentu React przez komponent nadrzędny.}
+}
 
 \newglossaryentry{kontekst}{
-    name={Kontekst (React)},
-    description={Mechanizm w React pozwalający udostępnić wspólny obiekt (np. serwis WebSocket) wielu komponentom bez przekazywania go przez propsy.}
+    name={kontekst React'a},
+    description={Mechanizm w React pozwalający udostępnić wspólny obiekt wielu komponentom bez przekazywania go przez \gls{propsy}.}
 }
 
 \newglossaryentry{reconnect}{
-    name={Reconnect},
+    name={reconnect},
     description={Automatyczne ponowne nawiązanie połączenia po jego zerwaniu (np. po chwilowej utracie internetu).}
 }
 
@@ -877,3 +882,15 @@
     name={Fallback},
     description={Mechanizm awaryjnego przełączania na alternatywny sposób działania, gdy preferowana metoda jest niedostępna. W kontekście WebSocket/SockJS oznacza automatyczne przejście z WebSocket na techniki oparte o HTTP (np. streaming lub long polling), aby utrzymać komunikację.}
 }
+
+
+\newglossaryentry{optimistic-ui}
+{
+    name={Optimistic UI},
+    description={Technika w aplikacjach klienckich polegająca na natychmiastowym zaktualizowaniu interfejsu jeszcze przed otrzymaniem potwierdzenia z serwera. Poprawia wrażenie responsywności,
+    a w przypadku błędu po stronie serwera zmiana jest cofana lub oznaczana jako nieudana. W niniejszym projekcie technikę tę zastosowano dla wysyłania wiadomości na czacie.}
+}
+
+
+
+
