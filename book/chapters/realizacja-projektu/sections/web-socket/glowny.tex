@@ -64,7 +64,7 @@ np. podczas logowania użytkownika, pobierania listy spotów czy dodawania komen
 Każda operacja ma wówczas postać pojedynczego, niezależnego wywołania \gls{http}, po którym połączenie jest zamykane.
 
 Problem pojawia się jednak wtedy, gdy konieczna jest ciągła wymiana danych w czasie zbliżonym do rzeczywistego, nie tylko na żądanie \glslink{klient}{klienta}, lecz także z inicjatywy \glslink{serwer}{serwera}.
-W naszej aplikacji taka potrzeba wystąpiła przy implementacji modułu czatu. %TUTAJ!
+W naszej aplikacji taka potrzeba wystąpiła przy implementacji modułu czatu.
 Teoretycznie czat można zrealizować wyłącznie w oparciu o \gls{rest_api}, na przykład poprzez \gls{polling}:
 \glslink{klient}{klient} cyklicznie wysyłałby zapytanie o nowe wiadomości, a \glslink{serwer}{serwer} zwracałby
 aktualny stan konwersacji. Można również stosować \gls{long-polling}, w którym żądanie jest utrzymywane dłużej,
@@ -114,7 +114,7 @@ Najważniejsze elementy konfiguracji:
     \item \texttt{/app/*} -- \glslink{prefiks}{prefiks} \glslink{destynacja}{destynacji} dla wiadomości wysyłanych
     od \glslink{klient}{klienta} do \glslink{serwer}{serwera}.
     \item \texttt{/subscribe/*} -- \glslink{prefiks}{prefiks} \glslink{destynacja}{destynacji} dla wiadomości wysyłanych
-    od \glslink{serwer}{serwera} do \glslink{klient}{klientów}
+    od \glslink{serwer}{serwer} do \glslink{klient}{klientów}
     (\glslink{klient}{klient} \glslink{subskrypcja}{subskrybuje} te kanały, a \glslink{serwer}{serwer} publikuje tam komunikaty).
     \item \texttt{SecurityContextChannelInterceptor} -- zapewnia dostęp do kontekstu bezpieczeństwa dla wiadomości przychodzących
     (backend rozpoznaje, kto wysłał wiadomość).
@@ -153,7 +153,7 @@ na kanały \glslink{subskrypcja}{subskrypcji} \texttt{/subscribe/*}. Serwis ten 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/stomp-serwis}
-    \caption{Serwis odpowiedzialny za komunikację za pomocą WebSocket'a.}
+    \caption{Serwis odpowiedzialny za komunikację za pomocą WebSocket.}
     \label{img:web-socket-serwis-backend}
 \end{figure}
 
@@ -189,25 +189,23 @@ Dodatkowo stosowane są dwa \glslink{prefiks}{prefiksy} porządkujące komunikac
 Na \glslink{frontend}{frontendzie} zastosowano podejście oparte na jednej, współdzielonej instancji serwisu komunikacji,
 udostępnianej poprzez \gls{kontekst}. Takie podejście wynikało z chęci zapewnienia,
 aby w przyszłości również inne moduły aplikacji (poza czatem) mogły w prosty sposób korzystać z
-już istniejącego połączenia \gls{websocket}, bez konieczności implementowania odrębnej logiki połączenia,
+już istniejącego połączenia \glslink{websocket}{WebSocket}, bez konieczności implementowania odrębnej logiki połączenia,
 subskrypcji i obsługi zdarzeń. Rozwiązanie składa się z:
 \begin{itemize}
     \item \texttt{WebSocketService}
-    -- zarządza pojedynczym połączeniem \glslink{stomp}{STOMP} działającym nad \glslink{websocket}{WebSocket}:
-    nawiązuje i utrzymuje połączenie, obsługuje \gls{reconnect}, rejestruje oraz usuwa \glslink{subskrypcja}{subskrypcje},
-    a także wysyła komunikaty do wskazanej \glslink{destynacja}{destynacji},
+    -- utrzymuje pojedyncze połączenie \glslink{stomp}{STOMP} działające nad \glslink{websocket}{WebSocket},
+    obsługuje \gls{reconnect}, zarządza \glslink{subskrypcja}{subskrypcjami} oraz umożliwia wysyłanie komunikatów
+    do wskazanych \glslink{destynacja}{destynacji},
     \item \texttt{useWebSocket}
-    -- udostępnia komponentom prosty interfejs do pracy z połączeniem:
-    automatycznie tworzy i usuwa \glslink{subskrypcja}{subskrypcje},
-    dostarcza funkcję do wysyłania wiadomości i zwraca status połączenia,
+    -- zapewnia warstwę użycia w komponentach: automatycznie rejestruje i usuwa \glslink{subskrypcja}{subskrypcje}
+    zgodnie z \gls{cykl_zycia} komponentu oraz udostępnia funkcję wysyłania wiadomości i status połączenia,
     \item \texttt{WebSocketProvider}
-    -- udostępnia współdzieloną instancję serwisu przez \gls{kontekst} i steruje cyklem życia połączenia na poziomie aplikacji
+    -- udostępnia instancję serwisu przez \gls{kontekst} i steruje cyklem życia połączenia na poziomie aplikacji
     (łączy po zalogowaniu i rozłącza po wylogowaniu),
     \item \texttt{createChatSubscription}
-    -- definiuje \glslink{destynacja}{destynacje} i \glslink{callback}{callback'i} obsługujące odbierane komunikaty,
-    aktualizując \gls{stan} w \gls{redux}. Rozwiązanie ma charakter rozszerzalny. Kolejne moduły mogą dostarczać własne fabryki,
-    które następnie są dodawane w \texttt{WebSocketProvider} do wspólnej listy subskrypcji, bez konieczności modyfikowania logiki połączenia.
-
+    -- definiuje \glslink{destynacja}{destynacje} oraz logikę obsługi odebranych komunikatów (\gls{callback}),
+    aktualizując \gls{stan} w \gls{redux}. Rozwiązanie ma charakter rozszerzalny: kolejne moduły mogą dostarczać własne fabryki,
+    które następnie są dodawane w \texttt{WebSocketProvider} do wspólnej listy subskrypcji, bez modyfikowania logiki połączenia.
 \end{itemize}
 
 \subsubsection{Serwis komunikacji WebSocket}
@@ -216,28 +214,28 @@ subskrypcji i obsługi zdarzeń. Rozwiązanie składa się z:
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/front/infra/ws_service_1}
-    \caption{Serwis odpowiedzialny za komunikację za pomocą WebSocket'a (część 1/4).}
+    \caption{Serwis komunikacji WebSocket po stronie frontendu (część 1/4).}
     \label{img:web-socket-service-1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/front/infra/ws_service_2}
-    \caption{Klasa \texttt{WebSocketService} w \gls{type-script} (część 2/4).}
+    \caption{Serwis komunikacji WebSocket po stronie frontendu (część 2/4).}
     \label{img:web-socket-service-2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/front/infra/ws_service_3}
-    \caption{Klasa \texttt{WebSocketService} w \gls{type-script} (część 3/4).}
+    \caption{Serwis komunikacji WebSocket po stronie frontendu (część 3/4).}
     \label{img:web-socket-service-3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/front/infra/ws_service_4}
-    \caption{Klasa \texttt{WebSocketService} w \gls{type-script} (część 4/4).}
+    \caption{Serwis komunikacji WebSocket po stronie frontendu (część 4/4).}
     \label{img:web-socket-service-4}
 \end{figure}
 
@@ -287,29 +285,29 @@ Gdy połączenie nie jest aktywne, subskrypcja trafia do bufora \texttt{pendingS
 
 \textbf{\texttt{publish(destination, payload, headers)}:}
 publikuje wiadomość tylko wtedy, gdy połączenie jest aktywne.
-Dane \texttt{payload} są poddawane \gls{serializacja} do formatu \gls{json}, a następnie wysyłane do brokera.
+Dane \texttt{payload} są poddawane \gls{serializacja} do formatu \gls{json}, a następnie wysyłane do \glslink{backend}{backendu}.
 Opcjonalnie dołączane są \glslink{naglowek}{nagłówki} protokołu \glslink{stomp}{STOMP}.
 
-\subsubsection{Obsługa subskrypcji w cyklu życia komponentu}
+\subsubsection{Mechanizm rejestrowania subskrypcji}
 \label{subsubsec:obsluga-subskrypcji-w-cyklu-zycia}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/front/infra/use_1}
-    \caption{Hook \texttt{useWebSocket} w \gls{type-script} (część 1/2).}
+    \caption{Mechanizm rejestrowania subskrypcji w cyklu życia komponentu (część 1/2).}
     \label{img:web-socket-use-1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/front/infra/use_2}
-    \caption{Hook \texttt{useWebSocket} w \gls{type-script} (część 2/2).}
+    \caption{Mechanizm rejestrowania subskrypcji w cyklu życia komponentu (część 2/2).}
     \label{img:web-socket-use-2}
 \end{figure}
 
-Hook \texttt{useWebSocket} upraszcza korzystanie z komunikacji \glslink{websocket}{WebSocket}/\glslink{stomp}{STOMP}
+Hook \texttt{useWebSocket} upraszcza korzystanie z komunikacji \glslink{websocket}{WebSocket}
 w \gls{react}. Zapewnia automatyczne zakładanie i zdejmowanie \glslink{subskrypcja}{subskrypcji} zgodnie z
-\gls{cykl_zycia} komponentu oraz udostępnia funkcję do wysyłania wiadomości.
+\glslink{cykl_zycia}{cyklem życia} komponentu oraz udostępnia funkcję do wysyłania wiadomości.
 
 \textbf{Typ \texttt{SubscriptionDef}:}
 \begin{itemize}
@@ -320,27 +318,23 @@ w \gls{react}. Zapewnia automatyczne zakładanie i zdejmowanie \glslink{subskryp
 \textbf{Działanie \texttt{useWebSocket(options)}:}
 \begin{itemize}
     \item pobiera instancję serwisu z \texttt{useWebSocketService()} (z \gls{kontekst}),
-    \item w \gls{use_effect} zakłada subskrypcje podczas \gls{montowanie} komponentu oraz usuwa je podczas \gls{odmontowanie}
+    \item w \gls{use_effect} zakłada subskrypcje podczas \glslink{montowanie}{montowania} komponentu oraz usuwa je podczas \glslink{odmontowanie}{odmontowania}
     (lub przy zmianie zależności).
 \end{itemize}
 
-\textbf{Ważna uwaga o \gls{tablica_zaleznosci}:}
-w implementacji śledzone są tylko same \texttt{destination}. Oznacza to, że zmiana samej funkcji \texttt{callback}
-bez zmiany destynacji nie wymusi ponownego zasubskrybowania (jest to zwykle akceptowalne, ale należy o tym pamiętać).
-
-\subsubsection{Zarządzanie cyklem życia połączenia}
+\subsubsection{Kontekst i zarządzanie połączeniem}
 \label{subsubsec:front-ws-context}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/front/infra/context}
-    \caption{Kontekst \texttt{WebSocketContext} oraz komponent \texttt{WebSocketProvider}.}
+    \caption{Udostępnienie serwisu komunikacji oraz zarządzanie cyklem życia połączenia po stronie frontendu.}
     \label{img:web-socket-context}
 \end{figure}
 
-Plik definiuje \gls{kontekst} React, który udostępnia w całej aplikacji jedną wspólną instancję
+Plik definiuje \gls{kontekst}, który udostępnia w całej aplikacji jedną wspólną instancję
 \texttt{WebSocketService}. Dzięki temu wiele komponentów może korzystać z jednego połączenia
-\glslink{websocket}{WebSocket}/\glslink{stomp}{STOMP}, zamiast tworzyć osobne połączenia niezależnie.
+\glslink{websocket}{WebSocket}, zamiast tworzyć osobne połączenia niezależnie.
 
 \textbf{Adres endpointu:}
 \texttt{WS\_URL} jest pobierany ze \gls{zmienna_srodowiskowa} \texttt{REACT\_APP\_WS\_URL},
@@ -354,48 +348,43 @@ Zapewnia to, że aplikacja utrzymuje jedno połączenie, a nie nowe połączenie
 \begin{itemize}
     \item po zmianie \texttt{isLogged} provider łączy się (\texttt{connect}) lub rozłącza (\texttt{disconnect}),
     \item po zalogowaniu rejestrowane są subskrypcje zależne od użytkownika (np.\ kanał czatów),
-    \item podczas sprzątania wykonywany jest \gls{cleanup} subskrypcji, aby uniknąć „wiszących” kanałów.
+    \item podczas sprzątania wykonywany jest \gls{cleanup} subskrypcji.
 \end{itemize}
 
-Dodatkowo używany jest \gls{redux_dispatch} (funkcja \texttt{dispatch}), aby aktualizować \gls{stan} aplikacji w \gls{redux}
+Dodatkowo używany jest \gls{redux_dispatch}, aby aktualizować \gls{stan} aplikacji w \gls{redux}
 w reakcji na wiadomości przychodzące w czasie rzeczywistym.
 
-\subsubsection{Subskrypcja czatu}
+\subsubsection{Definicja subskrypcji czatu}
 \label{subsubsec:front-chat-subscription}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-websocket/front/sub_chat}
-    \caption{Funkcja \texttt{createChatSubscription} tworząca definicję subskrypcji czatu.}
+    \caption{Definicja subskrypcji czatu i aktualizacja \glslink{stan}{stanu} w \gls{redux}.}
     \label{fig:web-socket-sub-czat}
 \end{figure}
 
 Plik definiuje funkcję fabrykującą obiekt typu \texttt{SubscriptionDef}, czyli pojedynczą
 \glslink{subskrypcja}{subskrypcję} \glslink{stomp}{STOMP} dla kanału wiadomości czatu danego użytkownika.
-Jej celem jest odbieranie nowych wiadomości w czasie rzeczywistym oraz aktualizacja \gls{stan}u aplikacji w \gls{redux}.
+Jej celem jest odbieranie nowych wiadomości w czasie rzeczywistym oraz aktualizacja \glslink{stan}{stanu} aplikacji w \gls{redux}.
 
 Funkcja \texttt{createChatSubscription(username, dispatch, getSelectedChatId)}:
 \begin{itemize}
     \item buduje \glslink{destynacja}{destynację} subskrypcji: \texttt{/subscribe/chats/\{username\}},
-    \item w \gls{callback} wykonuje \gls{deserializacja} wiadomości z \gls{json} (\texttt{JSON.parse}),
-    \item wysyła \gls{akcja_redux} do \gls{redux} w celu aktualizacji „ostatniej wiadomości” w danym czacie,
+    \item w \glslink{callback}{callbacku} wykonuje \glslink{deserializacja}{deserializację} wiadomości z \gls{json} (\texttt{JSON.parse}),
+    \item wysyła \glslink{akcja_redux}{akcję} do \gls{redux} w celu aktualizacji ostatniej wiadomości w danym czacie,
     \item porównuje \texttt{payload.chatId} z aktualnie wybranym czatem i odpowiednio oznacza czat jako „nowy”
     lub czyści to oznaczenie.
 \end{itemize}
 
 Zastosowanie funkcji \texttt{getSelectedChatId} (zamiast wartości przechowywanej w komponentach)
-wynika z asynchronicznego charakteru odbioru wiadomości: callback wykonuje się w chwili nadejścia komunikatu,
-dlatego odczyt bieżącego stanu bezpośrednio ze \gls{store} minimalizuje ryzyko użycia nieaktualnych danych
-(np.\ przy szybkim przełączaniu czatów przez użytkownika).
+wynika z asynchronicznego charakteru odbioru wiadomości: \gls{callback} wykonuje się w chwili nadejścia komunikatu,
+dlatego odczyt bieżącego stanu bezpośrednio ze \gls{store} minimalizuje ryzyko użycia nieaktualnych danych.
 
 \subsection{Przebieg komunikacji}
 \label{subsec:przebieg-komunikacji}
 
-[diagram]
-
-1. odniesienia do slwoniczka
-2. odniesienia do bibliografii
-3. nowe zdjecia z wiekszym przyblizeniem
+%TODO: w nastepnym zadaniu
 
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
