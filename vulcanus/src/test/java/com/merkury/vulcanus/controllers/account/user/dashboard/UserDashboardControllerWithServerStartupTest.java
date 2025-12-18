@@ -859,7 +859,7 @@ class UserDashboardControllerWithServerStartupTest {
         assertAll(() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK),
                 () -> assertThat(body.items()).isNotNull(),
                 () -> assertThat(body.items()).hasSize(2),
-                () -> assertThat(body.items().getFirst().comments().getFirst().spotName()).isEqualTo("Spot 1"));
+                () -> assertThat(body.items().getFirst().comments().getFirst().spotName()).isEqualTo("Spot 2"));
     }
 
     @Test
