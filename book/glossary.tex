@@ -108,7 +108,7 @@
 \newglossaryentry{tanstack-query}
 {
     name={TanStack Query},
-    description={Biblioteka do obsługi zapytań do serwera i cachowania danych w aplikacjach frontendowych (m.in. React). Ułatwia zarządzanie stanem danych z backendu: pobieranie, odświeżanie, invalidację i obsługę błędów}
+    description={Biblioteka do obsługi zapytań do serwera i cachowania danych w aplikacjach frontendowych (m.in. React). Ułatwia zarządzanie stanem danych z backendu: pobieranie, odświeżanie i obsługę błędów}
 }
 
 \newglossaryentry{leaflet}
@@ -358,7 +358,7 @@
 
 \newglossaryentry{backlog}{
     name={Backlog},
-    description={Lista zadań, które należy wykonać w ramach projektu, używane w metodykach zwinnych.}
+    description={Lista zadań, które należy wykonać w ramach projektu, używana w metodykach zwinnych.}
 }
 
 \newglossaryentry{tablica_kanban}{
@@ -369,7 +369,7 @@
 
 \newglossaryentry{ide}{
     name={IDE},
-    description={(ang. \textit{integrated development environment}); to zintegrowane środowisko programistyczne, służące do
+    description={(ang. \textit{integrated development environment}); zintegrowane środowisko programistyczne, służące do
     tworzenia, modyfikowania, testowania i konserwacji oprogramowania}
 }
 
@@ -397,8 +397,8 @@
             \item \textbf{Samoopisujące się wiadomości} \textemdash \space każde żądanie i odpowiedź powinny zawierać informacje do jego poprawnego przetworzenia.
             \item \textbf{Hypermedia jako silnik stanu aplikacji (HATEOAS)} \textemdash \space po otrzymaniu odpowiedzi klient powinien móc dynamicznie poznać inne interakcje przez linki.
         \end{itemize}
-        \item \textbf{Warstwowość} \textemdash \space klient nie wie czy komunikuje się bezpośrednio z serwerem, czy poprzez pośrednika
-        (np. proxy) oraz nie wie z czym komunikuje się obsługująca go warstwa.
+        \item \textbf{Warstwowość} \textemdash \space klient nie wie, czy komunikuje się bezpośrednio z serwerem, czy poprzez pośrednika
+        (np. proxy) oraz nie wie, z czym komunikuje się obsługująca go warstwa.
         \item \textbf{Kod na żądanie (opcjonalnie)} \textemdash \space serwer może przesłać fragment kodu, który zostanie wykonany przez klienta.
     \end{enumerate}
 }
@@ -406,7 +406,7 @@
 \newglossaryentry{uml}{
     name={UML},
     description={(ang. \textit{Unified Modeling Language});
-    graficzny język wizualizacji, specyfikowania oraz dokumentowania składników systemów informatycznych. }
+    graficzny język wizualizacji, specyfikowania oraz dokumentowania składników systemów informatycznych.}
 }
 
 \newglossaryentry{bpmn}{
@@ -419,6 +419,7 @@
     name={Infinite scroll},
     description={Wzorzec interfejsu użytkownika, w którym kolejne porcje treści są automatycznie doładowywane podczas przewijania strony w dół, zamiast być podzielone na odrębne, ręcznie przełączane strony}
 }
+
 \newglossaryentry{cdn}
 {
     name={CDN},
@@ -446,12 +447,19 @@
     działających w czasie rzeczywistym.}
 }
 
+\newglossaryentry{docker-compose}
+{
+    name={Docker Compose},
+    description={Narzędzie do definiowania i uruchamiania aplikacji składających się z wielu kontenerów Docker.
+    Konfiguracja usług (m.in. obrazy, porty, wolumeny i sieci) opisywana jest w pliku YAML (np. \texttt{docker-compose.yml})
+    i umożliwia jednoczesne uruchamianie powiązanych usług (np. \gls{backend}, baza danych, usługi pomocnicze) jednym poleceniem}
+}
+
 \newglossaryentry{pro}
 {
     name={PRO},
     description={Przedmiot realizowany na 5. semestrze studiów, prowadzony przez dr. inż. Martę Łabudę. W ramach przedmiotu
-    wybrano temat projektu oraz
-    wytworzono wstępną dokumentację projektu w tym m.in. wymagania.}
+    wybrano temat projektu oraz wytworzono wstępną dokumentację projektu, w tym m.in. wymagania.}
 }
 
 \newglossaryentry{prz1}
@@ -478,7 +486,7 @@
 \newglossaryentry{spa}
 {
     name={SPA},
-    description={SPA (Single Page Application) to aplikacja webowa, w której cała strona ładuje się raz,
+    description={Single Page Application to aplikacja webowa, w której cała strona ładuje się raz,
     a późniejsze zmiany widoku odbywają się dynamicznie po stronie przeglądarki bez pełnego przeładowania strony.}
 }
 
@@ -489,8 +497,6 @@
     zwykle z wykorzystaniem historii przeglądarki,
     tak aby interfejs reagował na zmianę ścieżki bez przeładowań z serwera.}
 }
-
-
 
 \newglossaryentry{unit-tests}
 {
@@ -503,6 +509,7 @@
     name={jakarta validation},
     description={Jakarta Validation to specyfikacja (i zestaw adnotacji, typu @NotNull, @Size itd.) służąca do automatycznego sprawdzania poprawności danych w aplikacjach stworzonych za pomocą Java/Jakarta EE/Spring, np. przy walidacji pól DTO, encji czy parametrów metod.}
 }
+
 \newglossaryentry{intellij-idea}
 {
     name={IntelliJ IDEA},
@@ -512,7 +519,7 @@
 \newglossaryentry{dockerfile}
 {
     name={Dockerfile},
-    description={Plik tekstowy zawierający instrukcje opisujące, jak zbudować obraz Dockera (jakiej podstawy użyć, jakie pliki skopiować, jakie polecenia uruchomić). Na jego podstawie narzędzie Docker tworzy gotowy obraz kontenera}
+    description={Plik tekstowy zawierający instrukcje opisujące, jak zbudować obraz Dockera (jakiej podstawy użyć, jakie pliki skopiować, jakie polecenia uruchomić). Na jego podstawie Docker tworzy gotowy obraz kontenera}
 }
 
 \newglossaryentry{redis}
@@ -533,7 +540,6 @@
     lub pojęć w komunikacji cyfrowej (np. uśmiechnięta buźka, kciuk w górę,
     symbol serca).}
 }
-
 
 \newglossaryentry{url}
 {
@@ -570,6 +576,7 @@
     name={Testy integracyjne},
     description={Testy sprawdzające, czy połączone ze sobą moduły lub usługi współpracują poprawnie — na przykład czy warstwa backendowa poprawnie komunikuje się z bazą danych, warstwą sieciową i pozostałymi komponentami systemu}
 }
+
 \newglossaryentry{endpoint}
 {
     name={endpoint},
@@ -585,12 +592,14 @@
     wraz z powiązanymi akcjami i reduktorami, odpowiedzialna za jeden obszar domeny
     (np. konto użytkownika, czat, mapę czy listę znajomych).}
 }
+
 \newglossaryentry{jsoup}{
     name={jsoup},
     description={Biblioteka \textit{Java} do przetwarzania dokumentów HTML,
     umożliwiająca parsowanie, przeszukiwanie i modyfikowanie struktury dokumentu
     w sposób zbliżony do pracy z DOM-em i selektorami CSS.}
 }
+
 \newglossaryentry{paginacja}
 {
     name={paginacja},
@@ -626,14 +635,14 @@
 \newglossaryentry{spring-framework}{
     name={Spring Framework},
     description={Framework, który służy do tworzenia aplikacji w Javie.
-    Zajmuje się między innymi ustawianiem konfiguracji oraz zarządzaniem zależnośćiami,
-    np.: wstrzykiwaniem (ang. \textit{Dependency Injection}), odwróceniem kontroli (ang. \textit{Inversion of Control}).
+    Zajmuje się między innymi ustawianiem konfiguracji oraz zarządzaniem zależnościami,
+    np. wstrzykiwaniem (ang. \textit{Dependency Injection}), odwróceniem kontroli (ang. \textit{Inversion of Control}).
     Oferuje wiele modułów wspierających, które ułatwiają rozwój projektów}
 }
 
 \newglossaryentry{convention-over-configuration}{
     name={Convention Over Configuration},
-    description={Zasada programowania polegająca na przyjmowaniu domyślnych, bazowych regół, zamiast ręcznego implementowania konfiguracji}
+    description={Zasada programowania polegająca na przyjmowaniu domyślnych, bazowych reguł, zamiast ręcznego implementowania konfiguracji}
 }
 
 \newglossaryentry{dom}{
@@ -653,13 +662,6 @@
     description={Platforma do konteneryzacji aplikacji wykorzystująca wirtualizację na poziomie systemu operacyjnego.
     Umożliwia uruchamianie oprogramowania w lekkich, odizolowanych kontenerach wraz z wszystkimi zależnościami,
     co ułatwia przenoszenie i powtarzalne odtwarzanie środowisk uruchomieniowych}
-}
-
-\newglossaryentry{docker-compose}{
-    name={Docker Compose},
-    description={Narzędzie służące do definiowania i uruchamiania aplikacji składających się z wielu kontenerów Docker.
-    Konfiguracja usług (m.in. obrazy, porty, wolumeny i sieci) opisywana jest w pliku YAML (np. \texttt{docker-compose.yml}),
-    a następnie uruchamiana jednym poleceniem}
 }
 
 \newglossaryentry{docker-hub}{
