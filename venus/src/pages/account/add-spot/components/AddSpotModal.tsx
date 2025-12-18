@@ -83,7 +83,7 @@ export default function AddSpotModal({ onClose, isOpen }: AddSpotModalProps) {
             onClose();
             dispatch(
                 notificationAction.addSuccess({
-                    message: "Successfully add spot.",
+                    message: "Successfully added spot.",
                 }),
             );
             setSpot(initialValue);

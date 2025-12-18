@@ -39,10 +39,124 @@
     description={Skrót od \textit{JSON Web Token}. Standard służący do bezpiecznego przekazywania informacji między stronami w formacie JSON, często używany w procesach autoryzacji użytkowników}
 }
 
+\newglossaryentry{oauth}
+{
+    name={OAuth},
+    description={Standard autoryzacji umożliwiający aplikacjom zewnętrznym uzyskanie dostępu do zasobów użytkownika bez przekazywania jego hasła, często wykorzystywany przy logowaniu za pomocą dostawców takich jak Google czy GitHub}
+}
+
 \newglossaryentry{cicd}
 {
     name={CI/CD},
     description={Skrót od \textit{Continuous Integration/Continuous Deployment}. Praktyka programistyczna polegająca na automatyzacji procesu budowania, testowania i wdrażania oprogramowania}
+}
+
+\newglossaryentry{github}
+{
+    name={GitHub},
+    description={Platforma hostingu repozytoriów \textit{Git} w chmurze, oferująca m.in. pull requesty, system zgłoszeń (issues), zarządzanie wersjami oraz integrację z narzędziami CI/CD}
+}
+
+\newglossaryentry{jira}
+{
+    name={Jira},
+    description={Narzędzie firmy Atlassian do zarządzania projektami i zadaniami, szeroko stosowane w metodykach zwinnych. Umożliwia pracę z epikami, taskami, podtaskami oraz tablicami Scrum i Kanban}
+}
+
+\newglossaryentry{spring-boot}
+{
+    name={Spring Boot},
+    description={Framework w ekosystemie Spring dla języka Java, ułatwiający tworzenie aplikacji backendowych dzięki automatycznej konfiguracji, wbudowanemu serwerowi aplikacyjnemu oraz zestawowi gotowych starterów}
+}
+
+\newglossaryentry{spring-security}
+{
+    name={Spring Security},
+    description={Moduł bezpieczeństwa w ekosystemie Spring odpowiedzialny za uwierzytelnianie i autoryzację użytkowników. Zapewnia obsługę różnych mechanizmów logowania, ról i uprawnień oraz integrację z różnymi źródłami danych}
+}
+
+\newglossaryentry{cors}
+{
+    name={CORS},
+    description={Skrót od \textit{Cross-Origin Resource Sharing}. Mechanizm bezpieczeństwa w przeglądarkach, który kontroluje, czy aplikacja z jednej domeny może wykonywać zapytania HTTP do serwera w innej domenie; konfigurowany za pomocą nagłówków HTTP}
+}
+
+\newglossaryentry{http-only-cookie}
+{
+    name={Ciasteczko HttpOnly},
+    description={Ciasteczko HTTP ustawione z flagą \texttt{HttpOnly}, dzięki czemu nie jest dostępne z poziomu JavaScriptu. Zmniejsza ryzyko kradzieży tokenów (np. JWT) w przypadku ataków typu XSS}
+}
+
+\newglossaryentry{tailwind-css}
+{
+    name={Tailwind CSS},
+    description={Framework CSS typu \textit{utility-first}, dostarczający gotowe klasy narzędziowe do określania wyglądu (kolory, odstępy, layout). Umożliwia szybkie prototypowanie i spójne stylowanie komponentów bez pisania rozbudowanych arkuszy CSS}
+}
+
+\newglossaryentry{prettier}
+{
+    name={Prettier},
+    description={Narzędzie do automatycznego formatowania kodu (np. JavaScript, TypeScript, CSS, HTML). Narzuca spójny styl formatowania, zastępując ręczne ustawianie wcięć i łamań linii}
+}
+
+\newglossaryentry{eslint}
+{
+    name={ESLint},
+    description={Statyczny analizator kodu JavaScript/TypeScript. Umożliwia wykrywanie błędów, niespójności stylu oraz potencjalnych problemów poprzez zestaw reguł, które można dostosować do projektu}
+}
+
+\newglossaryentry{tanstack-query}
+{
+    name={TanStack Query},
+    description={Biblioteka do obsługi zapytań do serwera i cachowania danych w aplikacjach frontendowych (m.in. React). Ułatwia zarządzanie stanem danych z backendu: pobieranie, odświeżanie, invalidację i obsługę błędów}
+}
+
+\newglossaryentry{leaflet}
+{
+    name={Leaflet},
+    description={Lekka biblioteka JavaScript do tworzenia interaktywnych map w przeglądarce, często używana z danymi z OpenStreetMap. Umożliwia dodawanie znaczników, warstw oraz obsługę interakcji użytkownika}
+}
+
+\newglossaryentry{e2e-tests}
+{
+    name={Testy E2E},
+    description={Testy \textit{end-to-end}, które sprawdzają działanie systemu od strony użytkownika, przechodząc przez wszystkie warstwy aplikacji (frontend, backend, baza danych) i symulując rzeczywiste scenariusze użycia}
+}
+
+\newglossaryentry{dto}
+{
+    name={DTO},
+    description={Skrót od \textit{Data Transfer Object}. Prosty obiekt przenoszący dane między warstwami systemu lub między usługami. Zawiera pola danych, zazwyczaj bez logiki biznesowej}
+}
+
+\newglossaryentry{modal}
+{
+    name={Modal},
+    description={Okno dialogowe (okno modalne), które pojawia się na wierzchu interfejsu i blokuje interakcję z resztą aplikacji, dopóki użytkownik go nie zamknie. Służy do prezentowania ważnych komunikatów lub formularzy}
+}
+
+\newglossaryentry{skeleton-loader}
+{
+    name={Skeleton loader},
+    description={Wzorzec prezentowania stanu ładowania, w którym zamiast klasycznego „spinnera” wyświetlane są szare prostokąty imitujące docelowy układ treści. Poprawia subiektywne odczucie szybkości działania aplikacji}
+}
+
+\newglossaryentry{z-index}
+{
+    name={z-index},
+    description={Właściwość CSS określająca kolejność nakładania się elementów (oś Z). Wyższa wartość powoduje wyświetlenie elementu „nad” elementami o niższych wartościach}
+}
+
+\newglossaryentry{intersection-observer}
+{
+    name={Intersection Observer},
+    description={API przeglądarkowe umożliwiające reagowanie na momenty, gdy dany element pojawia się w polu widzenia użytkownika (viewport) lub opuszcza je. Wykorzystywane m.in. do implementacji \gls{infinite-scroll} i lazy loadingu}
+}
+
+\newglossaryentry{latex}
+{
+    name={LaTeX},
+    description={System składu tekstu wykorzystywany do przygotowywania profesjonalnych dokumentów technicznych i naukowych. Umożliwia precyzyjne formatowanie, zarządzanie odwołaniami, bibliografią i wzorami matematycznymi}
 }
 
 \newglossaryentry{commit}
@@ -60,7 +174,7 @@
 \newglossaryentry{spot}
 {
     name={Spot},
-    description={Spotkanie zespołu projektowego, zazwyczaj krótkie i regularne, służące omówieniu postępów prac, problemów oraz planów na najbliższy okres}
+    description={Potencjalne miejsce do latania dronem, zaznaczone na mapie.}
 }
 
 \newglossaryentry{sidebar}
@@ -305,10 +419,191 @@
     name={Infinite scroll},
     description={Wzorzec interfejsu użytkownika, w którym kolejne porcje treści są automatycznie doładowywane podczas przewijania strony w dół, zamiast być podzielone na odrębne, ręcznie przełączane strony}
 }
+\newglossaryentry{cdn}
+{
+    name={CDN},
+    description={Skrót od \textit{Content Delivery Network}. Rozproszona sieć serwerów
+    służąca do szybkiego dostarczania statycznych zasobów (np. obrazów, arkuszy CSS,
+    skryptów JavaScript) z węzłów geograficznie najbliższych użytkownikowi, co zmniejsza
+    opóźnienia i odciąża serwer aplikacji}
+}
 
-\newglossaryentry{redis}{
+\newglossaryentry{react-maplibre}
+{
+    name={React-MapLibre},
+    description={Otwartoźródłowa biblioteka do renderowania interaktywnych map
+    wektorowych w przeglądarce, rozwijana jako niezależna kontynuacja Mapbox GL JS.
+    Umożliwia wyświetlanie kafelków mapowych, znaczników i warstw z danymi
+    geoprzestrzennymi}
+}
+
+\newglossaryentry{websocket}
+{
+    name={WebSocket},
+    description={Protokół komunikacyjny umożliwiający dwukierunkową komunikację
+    w czasie rzeczywistym między przeglądarką a serwerem po pojedynczym,
+    utrzymywanym połączeniu TCP. Często wykorzystywany m.in. w czatach i aplikacjach
+    działających w czasie rzeczywistym.}
+}
+
+\newglossaryentry{pro}
+{
+    name={PRO},
+    description={Przedmiot realizowany na 5. semestrze studiów, prowadzony przez dr. inż. Martę Łabudę. W ramach przedmiotu
+    wybrano temat projektu oraz
+    wytworzono wstępną dokumentację projektu w tym m.in. wymagania.}
+}
+
+\newglossaryentry{prz1}
+{
+    name={PRZ 1},
+    description={Przedmiot realizowany na 6. semestrze studiów, prowadzony w przypadku zespołu projektowego przez mgr. inż. Adama Urbanowicza. W ramach przedmiotu
+    wytworzono projekt interfejsu użytkownika.}
+}
+
+\newglossaryentry{prz2}
+{
+    name={PRZ 2},
+    description={Przedmiot realizowany na 7. semestrze studiów, prowadzony w przypadku zespołu projektowego przez mgr. inż. Adama Urbanowicza. W ramach przedmiotu
+    dokończono prace nad pracą inżynierską. Pan Adam Urbanowicz jako promotor doradzał zespołowi projektowemu.}
+}
+
+\newglossaryentry{psem}
+{
+    name={PSEM},
+    description={Przedmiot realizowany na 7. semestrze studiów, prowadzony w przypadku zespołu projektowego przez dr. inż. Marka Bednarczyka. W ramach przedmiotu
+    dokończono wytwarzanie dokumentacji.}
+}
+
+\newglossaryentry{spa}
+{
+    name={SPA},
+    description={SPA (Single Page Application) to aplikacja webowa, w której cała strona ładuje się raz,
+    a późniejsze zmiany widoku odbywają się dynamicznie po stronie przeglądarki bez pełnego przeładowania strony.}
+}
+
+\newglossaryentry{routing}
+{
+    name={routing},
+    description={Routing w \gls{spa} to warstwa w kliencie odpowiedzialna za zarządzanie stanem “aktualnej strony” na podstawie URL-a,
+    zwykle z wykorzystaniem historii przeglądarki,
+    tak aby interfejs reagował na zmianę ścieżki bez przeładowań z serwera.}
+}
+
+
+
+\newglossaryentry{unit-tests}
+{
+    name={testy jednostkowe},
+    description={Testy sprawdzające poprawność działania pojedynczych, małych fragmentów kodu (np. funkcji, metod, klas) w izolacji od reszty systemu.}
+}
+
+\newglossaryentry{jakarta-validation}
+{
+    name={jakarta validation},
+    description={Jakarta Validation to specyfikacja (i zestaw adnotacji, typu @NotNull, @Size itd.) służąca do automatycznego sprawdzania poprawności danych w aplikacjach stworzonych za pomocą Java/Jakarta EE/Spring, np. przy walidacji pól DTO, encji czy parametrów metod.}
+}
+\newglossaryentry{intellij-idea}
+{
+    name={IntelliJ IDEA},
+    description={Zintegrowane środowisko programistyczne (IDE) firmy JetBrains, szeroko stosowane przy tworzeniu aplikacji backendowych w ekosystemie Spring. Oferuje m.in. podpowiedzi składni, refaktoryzację kodu, debugger oraz integrację z systemami kontroli wersji}
+}
+
+\newglossaryentry{dockerfile}
+{
+    name={Dockerfile},
+    description={Plik tekstowy zawierający instrukcje opisujące, jak zbudować obraz Dockera (jakiej podstawy użyć, jakie pliki skopiować, jakie polecenia uruchomić). Na jego podstawie narzędzie Docker tworzy gotowy obraz kontenera}
+}
+
+\newglossaryentry{redis}
+{
     name={Redis},
-    description={Baza danych typu klucz–wartość wykorzystywana jako szybka warstwa \glslink{cache}{cache}}
+    description={Szybka baza danych typu klucz–wartość przechowywana głównie w pamięci operacyjnej. Często wykorzystywana jako pamięć podręczna (cache), magazyn sesji lub prosty mechanizm komunikatów między usługami}
+}
+
+\newglossaryentry{gif}
+{
+    name={GIF},
+    description={Format graficzny \textit{Graphics Interchange Format} obsługujący krótkie, zapętlone animacje. W aplikacjach czatowych wykorzystywany do wysyłania „reakcji” w postaci ruchomych obrazków}
+}
+
+\newglossaryentry{emoji}{
+    name={emoji},
+    description={Małe graficzne ikonki używane do wyrażania emocji
+    lub pojęć w komunikacji cyfrowej (np. uśmiechnięta buźka, kciuk w górę,
+    symbol serca).}
+}
+
+
+\newglossaryentry{url}
+{
+    name={URL},
+    description={Adres zasobu w internecie (ang. \textit{Uniform Resource Locator}), np. adres strony, widoku w aplikacji webowej lub konkretnego posta na forum}
+}
+
+\newglossaryentry{slug}
+{
+    name={Slug},
+    description={Przyjazny dla użytkownika fragment adresu URL, zwykle oparty na tytule (np. \texttt{/post/jak-zaczac-latac-dronem}), ułatwiający identyfikację treści i pozycjonowanie w wyszukiwarkach}
+}
+
+\newglossaryentry{tinymce}
+{
+    name={TinyMCE},
+    description={Popularny edytor \textit{rich text} osadzany w przeglądarce. Pozwala użytkownikowi formatować tekst (pogrubienia, listy, nagłówki, linki) w sposób przypominający klasyczny edytor tekstu, zapisując wynik zwykle w HTML}
+}
+
+\newglossaryentry{rich-text-editor}
+{
+    name={Rich text editor},
+    description={Edytor treści, który zamiast „surowego” tekstu umożliwia stosowanie formatowania (np. pogrubienie, kursywa, listy, nagłówki, linki), dzięki czemu użytkownik może tworzyć czytelne, sformatowane wpisy}
+}
+
+\newglossaryentry{tiptap}
+{
+    name={Tiptap},
+    description={Nowoczesny, rozszerzalny edytor \textit{rich text} dla aplikacji webowych oparty na silniku ProseMirror. Umożliwia budowanie rozbudowanych, modularnych edytorów treści, np. do postów na forum}
+}
+
+\newglossaryentry{integration-tests}
+{
+    name={Testy integracyjne},
+    description={Testy sprawdzające, czy połączone ze sobą moduły lub usługi współpracują poprawnie — na przykład czy warstwa backendowa poprawnie komunikuje się z bazą danych, warstwą sieciową i pozostałymi komponentami systemu}
+}
+\newglossaryentry{endpoint}
+{
+    name={endpoint},
+    description={Endpoint to konkretny adres (np. \gls{url}) i metoda protokołu HTTP
+    w \gls{api}, które razem odpowiadają za realizację jednej, dobrze zdefiniowanej
+    operacji (np. pobrania listy spotów, dodania komentarza, wyszukania spotów).}
+}
+
+\newglossaryentry{redux-slice}
+{
+    name={slice Redux},
+    description={Slice Redux to wydzielona część globalnego stanu w \gls{redux},
+    wraz z powiązanymi akcjami i reduktorami, odpowiedzialna za jeden obszar domeny
+    (np. konto użytkownika, czat, mapę czy listę znajomych).}
+}
+\newglossaryentry{jsoup}{
+    name={jsoup},
+    description={Biblioteka \textit{Java} do przetwarzania dokumentów HTML,
+    umożliwiająca parsowanie, przeszukiwanie i modyfikowanie struktury dokumentu
+    w sposób zbliżony do pracy z DOM-em i selektorami CSS.}
+}
+\newglossaryentry{paginacja}
+{
+    name={paginacja},
+    description={Mechanizm dzielenia dużych zbiorów danych
+    (np. list postów, wyników wyszukiwania, komentarzy)
+    na mniejsze strony, które są pobierane i wyświetlane stopniowo,
+    zamiast ładowania wszystkich elementów jednocześnie.}
+}
+
+\newglossaryentry{gantt-chart}
+{
+    name={diagram Gantta},
+    description={Graficzne narzędzie do planowania i monitorowania przebiegu projektu, przedstawiające zadania jako poziome paski na osi czasu wraz z ich początkiem, końcem oraz ewentualnymi zależnościami.}
 }
 
 \newglossaryentry{moscow}{
@@ -353,10 +648,34 @@
     description={Pary \texttt{klucz=wartość} przekazywane w części adresu URL po znaku zapytania \texttt{?}, służące m.in. do filtrowania, sortowania, paginacji wyników lub przekazywania dodatkowych opcji żądania do serwera, np. \texttt{?param1=val1\&param2=val2}}
 }
 
-\newglossaryentry{spa}{
-    name={SPA},
-    description={(ang. \textit{Single Page Application}); aplikacja webowa, która zawiera jeden plik HTML.
-    Po jednorazowym wczytaniu jej zawartość jest zmieniana bez ponownego przeładowania}
+\newglossaryentry{docker}{
+    name={Docker},
+    description={Platforma do konteneryzacji aplikacji wykorzystująca wirtualizację na poziomie systemu operacyjnego.
+    Umożliwia uruchamianie oprogramowania w lekkich, odizolowanych kontenerach wraz z wszystkimi zależnościami,
+    co ułatwia przenoszenie i powtarzalne odtwarzanie środowisk uruchomieniowych}
+}
+
+\newglossaryentry{docker-compose}{
+    name={Docker Compose},
+    description={Narzędzie służące do definiowania i uruchamiania aplikacji składających się z wielu kontenerów Docker.
+    Konfiguracja usług (m.in. obrazy, porty, wolumeny i sieci) opisywana jest w pliku YAML (np. \texttt{docker-compose.yml}),
+    a następnie uruchamiana jednym poleceniem}
+}
+
+\newglossaryentry{docker-hub}{
+    name={Docker Hub},
+    description={Publiczne repozytorium (rejestr) obrazów kontenerów Docker,
+    umożliwiające przechowywanie, udostępnianie oraz dystrybucję obrazów.
+    Użytkownicy mogą korzystać z oficjalnych obrazów przygotowanych przez społeczność
+    i dostawców oprogramowania lub publikować własne obrazy}
+}
+
+\newglossaryentry{kontener}{
+    name={kontener},
+    description={Lekka, odizolowana jednostka uruchomieniowa, w której umieszczana jest aplikacja wraz z jej zależnościami
+    (bibliotekami, konfiguracją itp.). Kontenery współdzielą jądro systemu operacyjnego, ale posiadają własną
+    przestrzeń procesów, systemu plików i sieci, co zapewnia powtarzalne i przenośne środowisko uruchomieniowe,
+    najczęściej zarządzane przez platformę taką jak \glslink{docker}{docker}}
 }
 
 \newglossaryentry{wolumen}{

@@ -82,7 +82,7 @@ export default function Settings() {
         onSuccess: () => {
             dispatch(
                 notificationAction.addSuccess({
-                    message: `Successfully change your ${editType.toLowerCase()}`,
+                    message: `Successfully changed your ${editType.toLowerCase()}`,
                 }),
                 queryClient.invalidateQueries({ queryKey: ["settings"] }),
             );
