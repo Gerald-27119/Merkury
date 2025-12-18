@@ -1,0 +1,441 @@
+%! Author = Adam
+%! Date = 08/11/2025
+
+\subsubsection{Wymagania funkcjonalne dla czatu}
+\label{subsubsec:wymagania-funkcjonalne-dla-chatu}
+
+\newlength{\wfczLabelWidth}
+\setlength{\wfczLabelWidth}{0.19\textwidth}
+
+\newlength{\wfczColTwoWidth}
+\setlength{\wfczColTwoWidth}{0.21\textwidth}
+
+\newlength{\wfczColThreeWidth}
+\setlength{\wfczColThreeWidth}{0.13\textwidth}
+
+\newlength{\wfczColFourWidth}
+\setlength{\wfczColFourWidth}{0.28\textwidth}
+
+\newlength{\wfczContentWidth}
+\setlength{\wfczContentWidth}{0.60\textwidth}
+
+\newcommand{\wfczthreecolcell}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfczContentWidth}|}{#1}%
+}
+
+\newcommand{\wfczthreecolcellpadded}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfczContentWidth}|}{%
+        \vspace{0.4ex}%
+        #1\par\vspace{0.4ex}%
+    }%
+}
+
+% --- pola karty ---
+
+\newcommand{\wfczpriority}[2]{%
+    \textbf{Identyfikator:} & WFCZAT-#1 &
+    \textbf{Priorytet:}     & #2 \\ \hline
+}
+
+\newcommand{\wfczname}[1]{%
+    \textbf{Nazwa:} &
+    \wfczthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfczdesc}[1]{%
+    \textbf{Opis:} &
+    \wfczthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfczaccept}[1]{%
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfczContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\itemsep}{0.2ex}%
+        \setlength{\parsep}{0pt}%
+        \vspace*{-1.8ex}
+        #1%
+        \vspace*{-1.4ex}
+        \endgroup
+    }\\ \hline
+}
+
+\newcommand{\wfczstakeholder}[1]{%
+    \textbf{Udziałowiec:} &
+    \wfczthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfczresponsible}[1]{%
+    \textbf{Realizator:} &
+    \wfczthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfczrelated}[1]{%
+    \textbf{Wymagania powiązane:} &
+    \wfczthreecolcell{#1} \\ \hline
+}
+
+% --- szablon karty wymagania funkcjonalnego ---
+
+\newcommand{\wfczatcard}[5]{%
+    \refstepcounter{awc}%
+    {%
+        \centering
+        \begin{longtable}{|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wfczLabelWidth}|
+            p{\wfczColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wfczColThreeWidth}|
+            p{\wfczColFourWidth}|}
+        \hline
+        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA FUNKCJONALNEGO DLA CZATU}} \\ \hline
+        \endfirsthead
+        \hline
+        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA FUNKCJONALNEGO DLA CZATU (cd.)}} \\ \hline
+        \endhead
+        \wfczpriority{#3}{#4}
+        \wfczname{#2}
+        #5
+        \end{longtable}
+        \par
+    }%
+    \vspace{3pt}%
+    \textbf{Tabela \theawc:} Wymaganie funkcjonalne dla czatu: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie funkcjonalne dla czatu: #2}%
+}
+
+% =========================================
+% WFCZAT-01 – Wysyłanie GIF-ów
+% =========================================
+
+\wfczatcard
+{wfczat:send-gif}
+{Wysyłanie GIF'ów}
+{01}
+{S}
+{
+    \wfczdesc{System umożliwia wysyłanie w wiadomościach animowanych obrazów \gls{gif}
+    w ramach wybranego czatu (1:1 lub grupowego).}
+
+    \wfczaccept{%
+        \begin{itemize}
+            \item Użytkownik może wybrać animowany obraz \gls{gif} z wbudowanego okna wyboru i dołączyć go do wiadomości.
+            \item Po wysłaniu \glslink{gif}{GIF'a} wyświetla się poprawnie w treści czatu u wszystkich uczestników.
+        \end{itemize}
+    }
+
+    \wfczstakeholder{U3}
+
+    \wfczresponsible{Adam Langmesser}
+
+    \wfczrelated{\hyperref[woczat:send-message]{WOCZAT-01}.}
+}
+
+% =========================================
+% WFCZAT-02 – Wysyłanie plików
+% =========================================
+
+\wfczatcard
+{wfczat:send-files}
+{Wysyłanie plików}
+{02}
+{S}
+{
+    \wfczdesc{System umożliwia dołączanie i wysyłanie plików (dokumentów,
+        zdjęć, archiwów) jako załączników do wiadomości na czacie.}
+
+    \wfczaccept{%
+        \begin{itemize}
+            \item Użytkownik może wybrać jeden lub wiele plików z dysku i dołączyć je do wiadomości.
+            \item Odbiorca widzi w czacie element reprezentujący plik.
+            \item Kliknięcie w załącznik umożliwia pobranie lub otwarcie pliku.
+        \end{itemize}
+    }
+
+    \wfczstakeholder{U3}
+
+    \wfczresponsible{Adam Langmesser}
+
+    \wfczrelated{\hyperref[woczat:send-message]{WOCZAT-01}.}
+}
+
+% =========================================
+% WFCZAT-03 – Wysyłanie wiadomości prywatnych
+% =========================================
+
+\wfczatcard
+{wfczat:private-messages}
+{Wysyłanie wiadomości prywatnych}
+{03}
+{S}
+{
+    \wfczdesc{System umożliwia prowadzenie prywatnych rozmów 1:1
+    pomiędzy dwoma użytkownikami.}
+
+    \wfczaccept{%
+        \begin{itemize}
+            \item Użytkownik może rozpocząć nowy czat 1:1 z innym użytkownikiem lub kontynuować istniejący.
+            \item Wiadomości z prywatnego czatu są widoczne wyłącznie dla tych dwóch użytkowników.
+            \item Nowe wiadomości pojawiają się w czasie zbliżonym do rzeczywistego bez konieczności przeładowania strony.
+        \end{itemize}
+    }
+
+    \wfczstakeholder{U3}
+
+    \wfczresponsible{Adam Langmesser}
+
+    \wfczrelated{\hyperref[woczat:send-message]{WOCZAT-01}.}
+}
+
+% =========================================
+% WFCZAT-04 – Wysyłanie wiadomości do wielu osób jednocześnie
+% =========================================
+
+\wfczatcard
+{wfczat:group-messages}
+{Wysyłanie wiadomości do wielu osób jednocześnie}
+{04}
+{S}
+{
+    \wfczdesc{System umożliwia wysyłanie jednej wiadomości do wielu użytkowników
+    w ramach czatu grupowego.}
+
+    \wfczaccept{%
+        \begin{itemize}
+            \item Wiadomość wysłana w czacie grupowym jest dostarczana wszystkim jego członkom.
+            \item \gls{ui} wyraźnie wskazuje, że rozmowa to czat grupowy (nazwa, avatar, liczba uczestników).
+            \item Nowi uczestnicy dołączeni do czatu widzą historię rozmowy.
+        \end{itemize}
+    }
+
+    \wfczstakeholder{U3}
+
+    \wfczresponsible{Adam Langmesser}
+
+    \wfczrelated{\hyperref[woczat:send-message]{WOCZAT-01}.}
+}
+
+% =========================================
+% WFCZAT-05 – Rozpoczynanie nowego czatu
+% =========================================
+
+\wfczatcard
+{wfczat:create-chat}
+{Rozpoczynanie nowego czatu}
+{05}
+{S}
+{
+    \wfczdesc{System umożliwia użytkownikowi utworzenie nowego czatu prywatnego
+    lub grupowego oraz dodanie do niego wskazanych uczestników.}
+
+    \wfczaccept{%
+        \begin{itemize}
+            \item Użytkownik może zainicjować nowy czat z widoku listy czatów lub profilu innego użytkownika.
+            \item Po wysłaniu pierwszej wiadomości przez twórcę, czat pojawia się na liście czatów wszystkich jego członków.
+        \end{itemize}
+    }
+
+    \wfczstakeholder{U3}
+
+    \wfczresponsible{Adam Langmesser}
+
+    \wfczrelated{\hyperref[woczat:create-chat]{WOCZAT-04}.}
+}
+
+% =========================================
+% WFCZAT-06 – Wysyłanie emotikonów
+% =========================================
+
+\wfczatcard
+{wfczat:emoticons}
+{Wysyłanie emotikonów}
+{06}
+{S}
+{
+    \wfczdesc{System umożliwia wysyłanie \gls{emoji} w treści wiadomości
+    na czacie.}
+
+    \wfczaccept{%
+        \begin{itemize}
+            \item Użytkownik może wstawiać emotikony z wbudowanego panelu wyboru \gls{emoji}.
+        \end{itemize}
+    }
+
+    \wfczstakeholder{U3}
+
+    \wfczresponsible{Adam Langmesser}
+
+    \wfczrelated{\hyperref[woczat:send-message]{WOCZAT-01}.}
+}
+
+% =========================================
+% WFCZAT-07 – Dostępność czatu po utworzeniu
+% =========================================
+
+\wfczatcard
+{wfczat:chat-availability}
+{Dostępność czatu po utworzeniu}
+{07}
+{S}
+{
+    \wfczdesc{Czat po utworzeniu pozostaje dostępny dla jego członków;
+    użytkownik może później odnaleźć czat i wrócić do wcześniejszej konwersacji.}
+
+    \wfczaccept{%
+        \begin{itemize}
+            \item Utworzone czaty pojawiają się na liście czatów użytkownika.
+            \item Po ponownym zalogowaniu użytkownik może otworzyć istniejący czat
+            i zobaczyć jego historię.
+        \end{itemize}
+    }
+
+    \wfczstakeholder{U3}
+
+    \wfczresponsible{Adam Langmesser}
+
+    \wfczrelated{\hyperref[woczat:browse-history]{WOCZAT-03}.}
+}
+
+% =========================================
+% WFCZAT-08 – Edytowanie nazwy czatu grupowego
+% =========================================
+
+\wfczatcard
+{wfczat:edit-group-name}
+{Edytowanie nazwy czatu grupowego}
+{08}
+{S}
+{
+    \wfczdesc{System umożliwia zmianę nazwy istniejącego czatu grupowego
+    przez członka czatu.}
+
+    \wfczaccept{%
+        \begin{itemize}
+            \item Użytkownik może edytować nazwę z poziomu ustawień czatu.
+            \item Nowa nazwa jest natychmiast widoczna na liście czatów u wszystkich uczestników.
+            \item Historia wiadomości pozostaje niezmieniona po zmianie nazwy czatu.
+        \end{itemize}
+    }
+
+    \wfczstakeholder{U3}
+
+    \wfczresponsible{Adam Langmesser}
+
+    \wfczrelated{\hyperref[woczat:edit-chat]{WOCZAT-02}.}
+}
+
+% =========================================
+% WFCZAT-09 – Edycja zdjęcia czatu grupowego
+% =========================================
+
+\wfczatcard
+{wfczat:edit-group-avatar}
+{Edycja zdjęcia czatu grupowego}
+{09}
+{S}
+{
+    \wfczdesc{System umożliwia zmianę obrazu/avatara reprezentującego czat grupowy.}
+
+    \wfczaccept{%
+        \begin{itemize}
+            \item Członek czatu może wgrać nowe zdjęcie czatu grupowego.
+            \item Zmienione zdjęcie jest widoczne na liście czatów i w nagłówku rozmowy.
+            \item Niepoprawne formaty lub zbyt duże pliki są odrzucane z informacją o błędzie.
+        \end{itemize}
+    }
+
+    \wfczstakeholder{U3}
+
+    \wfczresponsible{Adam Langmesser}
+
+    \wfczrelated{\hyperref[woczat:edit-chat]{WOCZAT-02}.}
+}
+
+% =========================================
+% WFCZAT-10 – Edycja wysłanej wiadomości
+% =========================================
+
+\wfczatcard
+{wfczat:edit-message}
+{Edycja wysłanej wiadomości}
+{10}
+{W}
+{
+    \wfczdesc{System umożliwia użytkownikowi edycję treści wcześniej wysłanej
+    wiadomości na czacie.}
+
+    \wfczaccept{%
+        \begin{itemize}
+            \item Użytkownik może edytować swoje wiadomości przez ograniczony czas
+            od momentu wysłania (konfigurowalny limit).
+            \item Zmieniona wiadomość jest oznaczona etykietą „(edytowano)”.
+            \item Odbiorcy widzą zaktualizowaną treść bez duplikowania wiadomości.
+        \end{itemize}
+    }
+
+    \wfczstakeholder{U3}
+
+    \wfczresponsible{Adam Langmesser}
+
+    \wfczrelated{\hyperref[woczat:send-message]{WOCZAT-01}.}
+}
+
+% =========================================
+% WFCZAT-11 – Dodawanie użytkowników do istniejącego czatu
+% =========================================
+
+\wfczatcard
+{wfczat:add-users-existing-chat}
+{Dodawanie użytkowników do istniejącego czatu}
+{11}
+{S}
+{
+    \wfczdesc{System umożliwia dodawanie nowych użytkowników do już istniejącego
+    czatu grupowego.}
+
+    \wfczaccept{%
+        \begin{itemize}
+            \item Właściciel lub uprawniony użytkownik może wyszukać i dodać nowe osoby do czatu.
+            \item Nowo dodani użytkownicy pojawiają się na liście uczestników
+            i mogą od razu brać udział w rozmowie.
+        \end{itemize}
+    }
+
+    \wfczstakeholder{U3}
+
+    \wfczresponsible{Adam Langmesser}
+
+    \wfczrelated{\hyperref[woczat:edit-chat]{WOCZAT-02}.}
+}
+
+% =========================================
+% WFCZAT-12 – Wyświetlanie starszych wiadomości
+% =========================================
+
+\wfczatcard
+{wfczat:load-older-messages}
+{Wyświetlanie starszych wiadomości}
+{12}
+{S}
+{
+    \wfczdesc{System powinien domyślnie wyświetlać co najmniej ostatnie 20
+    wiadomości w czacie, a starsze wiadomości pobierać na bieżąco podczas
+    przewijania historii przez użytkownika.}
+
+    \wfczaccept{%
+        \begin{itemize}
+            \item Po wejściu na czat użytkownik widzi minimum 20 ostatnich wiadomości.
+            \item Przewijanie historii w górę automatycznie pobiera starsze wiadomości
+            (mechanizm \gls{infinite-scroll}).
+            \item Dociąganie wiadomości nie powoduje zauważalnych opóźnień interfejsu.
+        \end{itemize}
+    }
+
+    \wfczstakeholder{U3}
+
+    \wfczresponsible{Adam Langmesser}
+
+    \wfczrelated{\hyperref[woczat:browse-history]{WOCZAT-03}.}
+}
