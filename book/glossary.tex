@@ -307,7 +307,7 @@
 }
 
 \newglossaryentry{stan}{
-    name={Stan},
+    name={stan},
     description={Aktualny zestaw danych przechowywanych przez aplikację lub komponent, na podstawie którego renderowany jest interfejs użytkownika. Stan może być lokalny (utrzymywany w pojedynczym komponencie) albo globalny (wspólny dla wielu komponentów).}
 }
 
@@ -679,7 +679,7 @@
 
 \newglossaryentry{websocket}{
     name={WebSocket},
-    description={Protokół komunikacyjny umożliwiający utrzymanie stałego połączenia pomiędzy \gls{klient}em a \gls{serwer}em oraz dwukierunkową wymianę danych w czasie zbliżonym do rzeczywistego.}
+    description={Protokół komunikacyjny umożliwiający utrzymanie stałego połączenia pomiędzy \glslink{klient}{klientem} a \glslink{serwer}{serwerem} oraz dwukierunkową wymianę danych w czasie zbliżonym do rzeczywistego.}
 }
 
 \newglossaryentry{stomp}{
@@ -710,7 +710,7 @@
 
 \newglossaryentry{ack}{
     name={ACK},
-    description={Skrót od \textit{Acknowledgement}; komunikat potwierdzający odbiór lub przetworzenie wiadomości. W \gls{stomp} może służyć do potwierdzania wiadomości po stronie \gls{klient}a.}
+    description={Skrót od \textit{Acknowledgement}; komunikat potwierdzający odbiór lub przetworzenie wiadomości. W \gls{stomp} może służyć do potwierdzania wiadomości po stronie \glslink{klient}{klienta}.}
 }
 
 \newglossaryentry{sockjs}{
@@ -725,7 +725,7 @@
 
 \newglossaryentry{long-polling}{
     name={long polling},
-    description={Odmiana \gls{polling}u: \gls{klient} wysyła żądanie, a \gls{serwer} wstrzymuje odpowiedź do momentu pojawienia się nowych danych (lub upłynięcia limitu czasu).}
+    description={Odmiana \glslink{polling}{polling'u}: \gls{klient} wysyła żądanie, a \gls{serwer} wstrzymuje odpowiedź do momentu pojawienia się nowych danych (lub upłynięcia limitu czasu).}
 }
 
 \newglossaryentry{publish-subscribe}{
@@ -760,15 +760,15 @@
 
 \newglossaryentry{klient}{
     name={klient},
-    description={Część systemu (zwykle po stronie \gls{frontend}u), która korzysta z usług \glslink{serwer}{serwera} i prezentuje dane użytkownikowi.}
+    description={Część systemu (zwykle po stronie \glslink{frontend}{frontendu}), która korzysta z usług \glslink{serwer}{serwera} i prezentuje dane użytkownikowi.}
 }
 \newglossaryentry{naglowek}{
-    name={Nagłówek},
+    name={nagłówek},
     description={Metadane dołączane do wiadomości lub żądania (np. dodatkowe pola opisujące typ komunikatu, identyfikator, autoryzację).}
 }
 
 \newglossaryentry{broker}{
-    name={Broker},
+    name={broker},
     description={Element pośredniczący w komunikacji wiadomościowej (np. STOMP), który odbiera wiadomości i rozsyła je do odpowiednich subskrybentów.}
 }
 
@@ -793,7 +793,7 @@
 }
 
 \newglossaryentry{payload}{
-    name={Payload},
+    name={payload},
     description={Właściwa „treść” wiadomości (dane), którą przesyłamy, np. obiekt wiadomości czatu zapisany jako JSON.}
 }
 
@@ -813,7 +813,7 @@
 }
 
 \newglossaryentry{serializacja}{
-    name={Serializacja},
+    name={serializacja},
     description={Proces zamiany obiektu (np. w TypeScript/Java) na format przenośny, np. JSON, w celu przesłania lub zapisu}
 }
 
@@ -874,7 +874,7 @@
 
 \newglossaryentry{fallback}
 {
-    name={Fallback},
+    name={fallback},
     description={Mechanizm awaryjnego przełączania na alternatywny sposób działania, gdy preferowana metoda jest niedostępna. W kontekście WebSocket/SockJS oznacza automatyczne przejście z WebSocket na techniki oparte o HTTP (np. streaming lub long polling), aby utrzymać komunikację.}
 }
 
@@ -883,7 +883,7 @@
 {
     name={Optimistic UI},
     description={Technika w aplikacjach klienckich polegająca na natychmiastowym zaktualizowaniu interfejsu jeszcze przed otrzymaniem potwierdzenia z serwera. Poprawia wrażenie responsywności,
-    a w przypadku błędu po stronie serwera zmiana jest cofana lub oznaczana jako nieudana. W niniejszym projekcie technikę tę zastosowano dla wysyłania wiadomości na czacie.}
+    a w przypadku błędu po stronie serwera zmiana jest cofana lub oznaczana jako nieudana.}
 }
 
 
