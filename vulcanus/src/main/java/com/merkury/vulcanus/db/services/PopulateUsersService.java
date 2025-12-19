@@ -162,7 +162,7 @@ public class PopulateUsersService {
 
         userList.add(UserEntity.builder()
                 .username("magdaCzarnecka")
-                .email("magdaCzarnecka.czarnecka@example.com")
+                .email("magda.czarnecka@example.com")
                 .password(passwordEncoder.encode("Password1!"))
                 .profilePhoto("https://merkurystorage.blob.core.windows.net/user-profile/3257bea1-ea05-428f-9277-4b2a91b916c1.jpg")
                 .build());
