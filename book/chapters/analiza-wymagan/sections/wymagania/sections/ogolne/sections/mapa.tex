@@ -1,0 +1,132 @@
+%! Author = Stanisław Oziemczuk
+%! Date = 19.12.2025
+
+\subsubsection{Wymagania ogólne dla mapy}
+\label{subsubsec:wymagania-ogolne-dla-mapy}
+
+
+\newlength{\womapContentWidth}
+\setlength{\womapContentWidth}{0.74\textwidth}
+
+\newlength{\womapLabelWidth}
+\setlength{\womapLabelWidth}{0.2\textwidth}
+
+\newcommand{\womappriority}[2]{%
+    \textbf{Identyfikator:} & WOMAP-#1 &
+    \textbf{Priorytet:} & #2 \\ \hline
+}
+
+\newcommand{\womapname}[1]{\textbf{Nazwa:}              &
+\multicolumn{3}{|p{\womapContentWidth}|}{#1} \\ \hline}
+\newcommand{\womapdesc}[1]{\textbf{Opis:}               &
+\multicolumn{3}{|p{\womapContentWidth}|}{#1} \\ \hline}
+\newcommand{\womapstakeholder}[1]{\textbf{Udziałowiec:} &
+\multicolumn{3}{|p{\womapContentWidth}|}{#1} \\ \hline}
+\newcommand{\womaprelated}[1]{\textbf{Wymagania powiązane:} &
+\multicolumn{3}{|p{\womapContentWidth}|}{#1} \\ \hline}
+
+\newcommand{\womapcard}[5]{%
+    \refstepcounter{awc}%
+    {\centering
+    \begin{longtable}{|
+            >{\columncolor{lightgray}}p{\womapLabelWidth}|
+        p{0.22\textwidth}|
+            >{\columncolor{lightgray}}p{0.18\textwidth}|
+        p{0.24\textwidth}|}
+
+    \hline
+    \rowcolor{lightgray}\multicolumn{4}{|c|}
+    {\textbf{KARTA WYMAGANIA OGÓLNEGO DLA MAPY}} \\ \hline
+    \endfirsthead
+    \hline
+    \rowcolor{lightgray}\multicolumn{4}{|c|}
+    {\textbf{KARTA WYMAGANIA OGÓLNEGO DLA MAPY (cd.)}} \\ \hline
+    \endhead
+
+    % właściwa treść karty
+    \womappriority{#3}{#4}
+    \womapname{#2}
+    #5
+
+    \end{longtable}
+    \par} % koniec centrowania
+
+    \vspace{3pt}
+    \textbf{Tabela \theawc:}
+    Karta wymagania ogólnego dla mapy: #2\label{#1}
+
+    \addcontentsline{lot}{table}
+    {Tabela \theawc: Karta wymagania ogólnego dla mapy: #2}%
+}
+
+\womapcard{womap:display-spots}
+{Wyświetlanie \glslink{spot}{spotów} na mapie}
+{01}
+{S}
+{
+    \womapdesc{System wyświetla mapę, na której zaznaczone są \glslink{spot}{spoty} w formie wielokątów lub markerów, tak aby były widoczne dla użytkownika.}
+    \womapstakeholder{U3}
+    \womaprelated{brak}
+}
+
+\womapcard{womap:spot-details}
+{Wyświetlanie szczegółów \glslink{spot}{spota}}
+{02}
+{S}
+{
+    \womapdesc{Po kliknięciu na \glslink{spot}{spota}, system wyświetla użytkownikowi informacje o danym \glslink{spot}{spocie}, takich
+    jak nazwa, lokalizacja, opis, zdjęcia czy komentarze.}
+    \womapstakeholder{U3}
+    \womaprelated{brak}
+}
+
+\womapcard{womap:spot-weather}
+{Wyświetlanie informacji pogodowych \glslink{spot}{spota}}
+{03}
+{S}
+{
+    \womapdesc{Po kliknięciu na \glslink{spot}{spota}, system wyświetla użytkownikowi informacje o zarówno bieżącej, jak i prognozowanej pogodzie
+    tak, aby użytkownik mógł dokładnie zapoznać się z warunkami panującymi w danym \glslink{spot}{spocie}.}
+    \womapstakeholder{U3}
+    \womaprelated{brak}
+}
+
+\womapcard{womap:spot-search}
+{Wyszukiwanie \glslink{spot}{spotów}}
+{04}
+{S}
+{
+    \womapdesc{System umożliwia użytkownikowi wyszukiwanie \glslink{spot}{spotów} na mapie oraz filtrowanie ich listy.}
+    \womapstakeholder{U3}
+    \womaprelated{brak}
+}
+
+\womapcard{womap:spot-comment}
+{Komentowanie \glslink{spot}{spotów}}
+{05}
+{S}
+{
+    \womapdesc{Użytkownik może dodać komentarz do wybranego \glslink{spot}{spota}, aby podzielić się swoją opinią i wrażeniami z innymi użytkownikami.}
+    \womapstakeholder{U3}
+    \womaprelated{brak}
+}
+
+\womapcard{womap:spot-media}
+{Dodawanie media do \glslink{spot}{spotów}}
+{06}
+{S}
+{
+    \womapdesc{System umożliwia użytkownikowi dodanie do \glslink{spot}{spota} różne media, takie jak zdjęcia i filmy.}
+    \womapstakeholder{U3}
+    \womaprelated{brak}
+}
+
+\womapcard{womap:spot-user-location}
+{Wyświetlenie lokalizacji użytkownika na mapie}
+{07}
+{S}
+{
+    \womapdesc{System wyświetla na mapie obecną lokalizację użytkownika, aby mógł sprawdzić jakie \glslink{spot}{spoty} znajdują się w pobliżu.}
+    \womapstakeholder{U3}
+    \womaprelated{brak}
+}
