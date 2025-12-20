@@ -181,3 +181,48 @@
     \wfmapresponsible{Stanisław Oziemczuk}
     \wfmaprelated{brak}
 }
+
+\wfmapcard{wfmap:spot-comments-vote}
+{Ocena komentarza \glslink{spot}{spota}}
+{05}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi ocenienie komentarza \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest komentarz dodany do wybranego \glslink{spot}{spota}.
+            \item Komentarz zawiera przyciski do wystawienia zarówno pozytywnej, jak i negatywnej oceny.
+            \item Po kliknięciu przycisku użytkownik natychmiast widzi zmianę w liczbie wystawionych opinii
+            wybranego rodzaju oraz oznaczenie, którą opcję wybrał.
+            \item Ponownie kliknięcie tego samego przycisku powoduje cofnięcie wystawienia oceny.
+            \item Kliknięcie przycisku przeciwnej operacji powoduje wykonanie jej i cofnięcie poprzedniej.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{brak}
+}
+
+\wfmapcard{wfmap:spot-comment-add}
+{Dodanie komentarza do \glslink{spot}{spota}}
+{06}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi dodanie komentarza do \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk otwierający formularz umożliwiający dodanie nowego
+            komentarza do wybranego \glslink{spot}{spota}.
+            \item Formularz zawiera następujące pola: ocena spota w gwiazdkach od 0 do 5,
+            treść komentarza, dodanie filmów i/lub zdjęć (od 0 do 20).
+            \item Po kliknięciu przycisku do publikacji komentarza, użytkownik widzi go na liście wszystkich komentarzy.
+            \item Zamknięcie formularza nie powoduje zapisu danych.
+            \item Brak zalogowania uniemożliwia otwarcie formularza, użytkownik jest o tym odpowiednio informowany.
+            \item Wpisanie niepoprawnych danych do formularza blokuje możliwość publikacji komentarza, a użytkownik
+            jest informowany o błędach.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{brak}
+}
