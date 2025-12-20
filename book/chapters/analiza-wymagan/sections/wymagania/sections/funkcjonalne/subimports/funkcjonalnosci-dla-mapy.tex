@@ -550,3 +550,57 @@
     \wfmapresponsible{Stanisław Oziemczuk}
     \wfmaprelated{brak}
 }
+
+\wfmapcard{wfmap:spot-current-view}
+{Sortowanie wyników wyszukiwania \glslink{spot}{spotów} po nazwie}
+{22}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi wyświetlenie listy \glslink{spot}{spotów} znajdujących się w widocznym
+    obszarze mapy.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk powodujący wyświetlenie listy wszystkich \glslink{spot}{spotów}
+            znajdujących się w widocznym obszarze mapy.
+            \item Po kliknięciu przycisku wyświetlana lista jest przewijalna przy użyciu \glslink{infinite-scroll}{nieskończonego przewiajania}.
+            \item Zmienienie obszaru widocznego bez ponownego kliknięcia przycisku nie powoduje pobrania nowych danych.
+            \item Ponowne kliknięcie przycisku powoduje pobranie nowych danych i zastąpienie nimi poprzednich wyników.
+            \item Gdy w widocznym obszarze mapy nie ma \glslink{spot}{spotów}, wyświetlany jest odpowiedni komunikat.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w podczas pobierania danych.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{brak}
+}
+
+\wfmapcard{wfmap:spot-name-current-view-list}
+{Zarządzanie listą wyników wyszukiwania \glslink{spot}{spotów} w widocznym obszarze mapy}
+{23}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi sortowanie oraz filtrowanie wyników zawierającą \glslink{spot}{spoty}
+    znajdujące się w widocznym obszarze mapy.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlane są przyciski umożliwiające ustawienie sortowania wyników po:
+            \begin{itemize}
+                \item ocenach rosnąco
+                \item ocenach malejąco
+                \item liczbie ocen rosnąco
+                \item liczbie ocen malejąco
+            \end{itemize}.
+            \item Po wybraniu opcji sortowania, lista jest natychmiast aktualizowana.
+            \item Użytkownik może filtrować \glslink{spot}{spoty} ustawiająć minimalną ocenę.
+            \item Użytkownik może filtrować wyniki poprzez wpiane frazy.
+            Podczas wpisywania wyświetlane są podpowiedzi w postaci listy nazw spotów zawierających wpisywany tekst.
+            Wynikiem filtrowania są \glslink{spot}{spoty}, których nazwy zawierają w sobie wpisaną frazę.
+            \item Po ustawieniu filtrowania lista jest aktualizowana, brane są pod uwagę wszystkie filtry i sortowanie.
+            \item W przypadku brak pasujących wyników wyświetlany jest odpowiedni komunikat.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w podczas pobierania danych.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{brak}
+}
