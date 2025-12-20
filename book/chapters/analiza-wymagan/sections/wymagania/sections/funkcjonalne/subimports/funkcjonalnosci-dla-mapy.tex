@@ -500,3 +500,53 @@
     \wfmapresponsible{Stanisław Oziemczuk}
     \wfmaprelated{brak}
 }
+
+\wfmapcard{wfmap:spot-name-search}
+{Wyszukiwanie \glslink{spot}{spotów} po nazwie}
+{20}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi wyszukiwanie \glslink{spot}{spotów} po nazwie.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Wyświetlane jest pole, w które użytkownik może wpisać frazę.
+            \item Gdy dane są wpisywane, wyświetlana jest lista nazw \glslink{spot}{spotów}, które zawierają w sobie
+            podany fragment.
+            \item Użytkownik może wybrać pozycję z listy, powoduje to wstawienie jej w pole wyszukiwania i pokazanie wyników.
+            \item Użytkownik może nie wybrać pozycji z listy i kliknąć przycisk do pokazania wyników, wyświetlana jest lista
+            wszystkich \glslink{spot}{spotów}, których nazwy zawierają w sobie podaną frazę.
+            \item Lista z wynikami wyszukiwania jest przewijana za pomocą \glslink{infinite-scroll}{nieskończonego przewijania}.
+            \item W przypadku braku pasujących nazw \glslink{spot}{spotów} wyświetlany jest odpowiedni komunikat.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w podczas pobierania danych.
+            \item Użytkownik ma możliwość wyczyszczenia pola do wyszukiwania i zamknięcia listy z wynikami.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{brak}
+}
+
+\wfmapcard{wfmap:spot-name-search-list}
+{Sortowanie wyników wyszukiwania \glslink{spot}{spotów} po nazwie}
+{21}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi sortowanie wyników zawierającą wyszukiwania
+    \glslink{spot}{spotów} po nazwie.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlane są przyciski umożliwiające ustawienie sortowania wyników po:
+            \begin{itemize}
+                \item ocenach rosnąco
+                \item ocenach malejąco
+                \item liczbie ocen rosnąco
+                \item liczbie ocen malejąco
+            \end{itemize}.
+            \item Po wybraniu opcji sortowania, lista jest natychmiast aktualizowana.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w podczas pobierania danych.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{brak}
+}
