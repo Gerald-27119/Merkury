@@ -5,7 +5,7 @@
 
 \usecasecard{tab:pu8-mapa}{Przeglądanie mapy spotów}{%
     \ucpriority{S}
-    \ucactors{Użytkownik niezalogowany, Usługa do wyświetlania mapy}
+    \ucactors{Użytkownik, Usługa do wyświetlania mapy}
     \ucdesc{Użytkownik przegląda mapę spotów.}
     \ucpre{Użytkownik znajduje się w module mapy.}
     \ucpost{Mapa ze spotami została wyświetlona, a użytkownik może przybliżać, oddalać i przesuwać widok.}
@@ -25,7 +25,7 @@
 
 \usecasecard{tab:pu11-szczegoly-spota}{Otwarcie szczegółów spota}{%
     \ucpriority{S}
-    \ucactors{Użytkownik niezalogowany, Użytkownik zalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik otwiera widok szczegółów wybranego spota.}
     \ucpre{Użytkownik widzi mapę spotów.}
     \ucpost{Wyświetlony został widok szczegółów spota z podstawowymi informacjami oraz jego lokalizacją na mapie.}
@@ -46,7 +46,7 @@
 
 \usecasecard{tab:pu12-komentarze-spota}{Przeglądanie komentarzy do spota}{%
     \ucpriority{S}
-    \ucactors{Użytkownik niezalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik czyta komentarze pod wybranym spotem.}
     \ucpre{Wyświetlany jest widok szczegółów spota.}
     \ucpost{Lista komentarzy do spota została wyświetlona.}
@@ -66,7 +66,7 @@
 
 \usecasecard{tab:pu13-pogoda}{Przeglądanie pogody na spocie}{%
     \ucpriority{S}
-    \ucactors{Użytkownik niezalogowany, Usługa danych pogodowych}
+    \ucactors{Użytkownik, Usługa danych pogodowych}
     \ucdesc{Użytkownik sprawdza prognozę pogody dla lokalizacji spota.}
     \ucpre{Wyświetlany jest widok szczegółów spota.}
     \ucpost{Prognoza pogody dla spota została wyświetlona.}
@@ -86,7 +86,7 @@
 
 \usecasecard{tab:pu9-szukaj-na-mapie}{Wyszukiwanie spota na mapie}{%
     \ucpriority{C}
-    \ucactors{Użytkownik niezalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik wyszukuje spota po nazwie korzystając z pola wyszukiwania na mapie.}
     \ucpre{Użytkownik widzi mapę spotów.}
     \ucpost{Mapa zostaje ustawiona na wybranego spota lub listę dopasowań.}
@@ -101,6 +101,46 @@
     \ucalt{%
         \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
             \item[2a.] Brak wyników dla podanej frazy – system informuje użytkownika o braku dopasowań.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu37-zmien-typ-mapy}{Zmiana typu mapy}{%
+    \ucpriority{W}
+    \ucactors{Użytkownik}
+    \ucdesc{Użytkownik zmienia typ mapy (np. standardowa, satelitarna, hybrydowa).}
+    \ucpre{Użytkownik jest na ekranie mapy.}
+    \ucpost{Mapa jest wyświetlana w wybranym typie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera ustawienia widoku mapy.
+            \item Użytkownik wybiera typ mapy z dostępnej listy.
+            \item System przełącza widok mapy na wybrany typ.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[3a.] Wybrany typ mapy nie jest dostępny (błąd usługi mapowej) – system przywraca poprzedni typ i informuje o błędzie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu38-strefy-pansa}{Przeglądanie stref \gls{PANSA}}{%
+    \ucpriority{W}
+    \ucactors{Użytkownik, Usługa do wyświetlania mapy}
+    \ucdesc{Użytkownik wyświetla na mapie strefy przestrzeni powietrznej \gls{PANSA}.}
+    \ucpre{Użytkownik ma otwarty moduł mapy.}
+    \ucpost{Strefy \gls{PANSA} zostały zwizualizowane na mapie.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik włącza warstwę „Strefy \gls{PANSA}”.
+            \item System pobiera dane o strefach.
+            \item System nakłada kontury stref na mapę.
+        \end{enumerate}
+    }
+    \ucalt{%
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[2a.] Dane o strefach są chwilowo niedostępne – system komunikuje problem i nie włącza warstwy.
         \end{enumerate}
     }
 }

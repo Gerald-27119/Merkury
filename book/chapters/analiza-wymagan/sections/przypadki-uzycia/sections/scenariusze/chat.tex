@@ -5,7 +5,7 @@
 
 \usecasecard{tab:pu18-czat-prywatny}{Utworzenie prywatnego czatu}{%
     \ucpriority{S}
-    \ucactors{Użytkownik zalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik tworzy prywatną konwersację z innym użytkownikiem.}
     \ucpre{Użytkownik jest zalogowany i znajduje się w zakładce społeczność.}
     \ucpost{Nowy czat prywatny został utworzony i wyświetlony użytkownikowi.}
@@ -25,7 +25,7 @@
 
 \usecasecard{tab:pu-chat-otworz}{Otworzenie czatu}{%
     \ucpriority{S}
-    \ucactors{Użytkownik zalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik otwiera wybrany czat, aby wyświetlić historię rozmowy i móc wysyłać kolejne wiadomości.}
     \ucpre{Użytkownik jest zalogowany i widzi listę swoich czatów lub otrzymał powiadomienie prowadzące do czatu.}
     \ucpost{Wybrany czat został otworzony, a historia rozmowy jest widoczna dla użytkownika.}
@@ -48,7 +48,7 @@
 
 \usecasecard{tab:pu19-czat-grupowy}{Utworzenie czatu grupowego}{%
     \ucpriority{S}
-    \ucactors{Użytkownik zalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik tworzy nowy czat grupowy z kilkoma uczestnikami.}
     \ucpre{Użytkownik jest zalogowany i znajduje się na dowolnym czacie prywatnym.}
     \ucpost{Czat grupowy został utworzony i wyświetlony na ekranie.}
@@ -70,7 +70,7 @@
 
 \usecasecard{tab:pu20-lista-czatow}{Przeglądanie listy czatów}{%
     \ucpriority{S}
-    \ucactors{Użytkownik zalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik przegląda listę swoich czatów prywatnych i grupowych.}
     \ucpre{Użytkownik jest zalogowany i otwiera moduł czatu.}
     \ucpost{Lista czatów użytkownika została wyświetlona.}
@@ -87,7 +87,7 @@
 
 \usecasecard{tab:pu20-wyslij-wiadomosc}{Wysyłanie wiadomości na czacie}{%
     \ucpriority{S}
-    \ucactors{Użytkownik zalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik wysyła wiadomość tekstową na czacie.}
     \ucpre{Użytkownik jest zalogowany i znajduje się w widoku konkretnego czatu.}
     \ucpost{Nowa wiadomość jest zapisana i widoczna w historii czatu.}
@@ -108,7 +108,7 @@
 
 \usecasecard{tab:pu21-wyslij-gifa}{Wysyłanie GIF-a na czacie}{%
     \ucpriority{S}
-    \ucactors{Użytkownik zalogowany, Usługa GIF-ów}
+    \ucactors{Użytkownik, Usługa GIF-ów}
     \ucdesc{Użytkownik wysyła animację GIF w konwersacji czatowej.}
     \ucpre{Użytkownik jest zalogowany i znajduje się w widoku czatu.}
     \ucpost{Wybrany GIF został dodany jako wiadomość w czacie.}
@@ -130,7 +130,7 @@
 
 \usecasecard{tab:pu22-wyslij-plik}{Wysyłanie pliku na czacie}{%
     \ucpriority{S}
-    \ucactors{Użytkownik zalogowany, Usługa do przechowywania plików w chmurze}
+    \ucactors{Użytkownik, Usługa do przechowywania plików w chmurze}
     \ucdesc{Użytkownik wysyła plik (np. zdjęcie, film) na czacie.}
     \ucpre{Użytkownik jest zalogowany i znajduje się w widoku czatu.}
     \ucpost{Plik został zapisany w chmurze i powiązany z wiadomością na czacie.}
@@ -152,7 +152,7 @@
 
 \usecasecard{tab:pu23-edycja-czatu}{Edycja ustawień czatu}{%
     \ucpriority{C}
-    \ucactors{Użytkownik zalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik modyfikuje ustawienia czatu (np. nazwę, avatar, tryb powiadomień).}
     \ucpre{Użytkownik jest zalogowany i ma uprawnienia do edycji danego czatu.}
     \ucpost{Zaktualizowane ustawienia czatu są zapisane i widoczne dla uczestników.}
@@ -169,7 +169,7 @@
 
 \usecasecard{tab:pu24-dodaj-czlonka}{Dodanie członka do czatu grupowego}{%
     \ucpriority{C}
-    \ucactors{Użytkownik zalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik dodaje nowego uczestnika do czatu grupowego.}
     \ucpre{Użytkownik jest zalogowany i znajduje się w czacie grupowym.}
     \ucpost{Nowy uczestnik został dodany do czatu grupowego.}
@@ -184,6 +184,27 @@
     \ucalt{%
         \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
             \item[3a.] Operacja nie powiodła się – system informuje o błędzie.
+        \end{enumerate}
+    }
+}
+
+\usecasecard{tab:pu25-historia-czatu}{Przeszukiwanie historii czatu}{%
+    \ucpriority{W}
+    \ucactors{Użytkownik}
+    \ucdesc{Użytkownik wyszukuje konkretne wiadomości w historii czatu.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w widoku czatu.}
+    \ucpost{Wiadomości spełniające kryteria wyszukiwania zostały wyświetlone.}
+    \ucmain{%
+        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
+            \item Użytkownik otwiera pole wyszukiwania historii w czacie.
+            \item Użytkownik wpisuje frazę lub filtr (np. zakres dat, autor).
+            \item System filtruje wiadomości zgodnie z kryteriami.
+            \item System prezentuje listę dopasowanych fragmentów rozmowy.
+        \end{enumerate}
+    }
+    \ucalt{
+        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
+            \item[4a.] Nie znaleziono wiadomości spełniających kryteria – system informuje o braku wyników wyszukwiania.
         \end{enumerate}
     }
 }

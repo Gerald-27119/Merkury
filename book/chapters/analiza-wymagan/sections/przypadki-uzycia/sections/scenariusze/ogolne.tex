@@ -5,7 +5,7 @@
 
 \usecasecard{tab:pu1-rejestracja}{Rejestracja użytkownika}{%
     \ucpriority{M}
-    \ucactors{Użytkownik niezalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik zakłada konto poprzez formularz rejestracji.}
     \ucpre{Użytkownik znajduje się na stronie z formularzem rejestracji.}
     \ucpost{Użytkownik posiada konto w systemie.}
@@ -31,7 +31,7 @@
 
 \usecasecard{tab:pu2-logowanie}{Logowanie użytkownika}{%
     \ucpriority{M}
-    \ucactors{Użytkownik niezalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik loguje się do systemu, podając login i hasło.}
     \ucpre{Użytkownik znajduje się na stronie logowania.}
     \ucpost{Użytkownik jest zalogowany i przeniesiony na ostatnio dowiedzoną podstronę.}
@@ -49,34 +49,9 @@
     }
 }
 
-
-\usecasecard{tab:pu7-subskrypcja}{Wykupienie subskrypcji premium}{%
-    \ucpriority{W}
-    \ucactors{Użytkownik zalogowany, Bramka płatnicza, System finansowo-księgowy}
-    \ucdesc{Użytkownik opłaca subskrypcję premium w celu uzyskania dodatkowych funkcji.}
-    \ucpre{Użytkownik jest zalogowany i znajduje się w module subskrypcji.}
-    \ucpost{Subskrypcja premium jest aktywna, a użytkownik ma dostęp do funkcji premium.}
-    \ucmain{%
-        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item Użytkownik wybiera plan subskrypcji.
-            \item Użytkownik przechodzi do bramki płatniczej.
-            \item Użytkownik podaje dane płatnicze i zatwierdza transakcję.
-            \item Bramka płatnicza przetwarza płatność i zwraca wynik do systemu.
-            \item System zapisuje informację o opłaconej subskrypcji i aktualizuje uprawnienia.
-            \item System generuje wpis w systemie finansowo-księgowym.
-        \end{enumerate}
-    }
-    \ucalt{%
-        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
-            \item[4a.] Płatność nie powiodła się – system informuje użytkownika i umożliwia ponowną próbę.
-            \item[5a.] W czasie aktualizacji subskrypcji wystąpił błąd – system cofa zmiany i wyświetla komunikat o problemie.
-        \end{enumerate}
-    }
-}
-
 \usecasecard{tab:pu3-reset-hasla}{Resetowanie hasła}{%
     \ucpriority{S}
-    \ucactors{Użytkownik niezalogowany, Usługa SMTP}
+    \ucactors{Użytkownik, Usługa SMTP}
     \ucdesc{Użytkownik inicjuje reset hasła, aby odzyskać dostęp do konta.}
     \ucpre{Użytkownik znajduje się na ekranie resetu hasła.}
     \ucpost{Użytkownik otrzymuje wiadomość e-mail z linkiem do ustawienia nowego hasła.}
@@ -98,7 +73,7 @@
 
 \usecasecard{tab:pu4-zmiana-hasla}{Zmiana hasła w ustawieniach konta}{%
     \ucpriority{S}
-    \ucactors{Użytkownik zalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik zmienia hasło do konta z poziomu ustawień profilu.}
     \ucpre{Użytkownik jest zalogowany i znajduje się na ekranie zmiany danych konta.}
     \ucpost{Hasło do konta użytkownika zostało zaktualizowane.}
@@ -120,7 +95,7 @@
 
 \usecasecard{tab:pu5-wylogowanie}{Wylogowanie użytkownika}{%
     \ucpriority{M}
-    \ucactors{Użytkownik zalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik wylogowuje się z aplikacji.}
     \ucpre{Użytkownik jest zalogowany.}
     \ucpost{Sesja użytkownika została zakończona, użytkownik widzi stronę główną dla niezalogowanych.}
@@ -136,7 +111,7 @@
 
 \usecasecard{tab:pu6-powiadomienia}{Przeglądanie powiadomień}{%
     \ucpriority{W}
-    \ucactors{Użytkownik zalogowany}
+    \ucactors{Użytkownik}
     \ucdesc{Użytkownik przegląda listę powiadomień.}
     \ucpre{Użytkownik jest na ekranie centra powiadomień.}
     \ucpost{Powiadomienia zostały wyświetlone, a wybrane oznaczone jako przeczytane.}
