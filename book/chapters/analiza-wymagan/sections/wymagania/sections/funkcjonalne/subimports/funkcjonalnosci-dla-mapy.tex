@@ -239,6 +239,8 @@
             media do wybranego \glslink{spot}{spota}.
             \item Formularz zawiera przycisk do wyboru zdjęć i filmów z urządzenia.
             \item Wybrane pliki są wyświetlane w podglądzie wraz z możliwością ich usunięcia.
+            \item Dodanie medii powoduje wyświetlenie ich w galerii mediów \glslink{spot}{spota} oraz w odpowiedniej
+            zakładce profilu użytkownika.
             \item Zamknięcie formularza nie powoduje zapisu danych.
             \item Brak zalogowania uniemożliwia otwarcie formularza, użytkownik jest o tym odpowiednio informowany.
             \item Wybranie niepoprawnych formatów plików blokuje możliwość dodania medii, użytkownik
@@ -367,8 +369,8 @@
     \wfmapaccept{
         \begin{itemize}
             \item Użytkownikowi wyświetlane jest obecnie wybrane media, które jest powięszkone.
-            \item Powiększone media zawiera: informacje o autorze, przyciski do udostępnienia, pobrania, polubienia oraz
-            powiększenia media na cały ekran.
+            \item Powiększone media zawiera: informacje o autorze, przyciski do udostępnienia, pobrania, polubienia,
+            powiększenia media na cały ekran oraz liczbę polubień.
             \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie operacji.
         \end{itemize}
     }
@@ -389,6 +391,44 @@
             \item Po kliknięciu przycisku do schowka kopiowany jest link do wybranego media.
             \item Wklejenie linku do przeglądarki powoduje pobranie media.
             \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie operacji.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{brak}
+}
+
+\wfmapcard{wfmap:spot-expanded-media-gallery-like-media}
+{Polubienie obecnie wybranego media w dużej galerii mediów \glslink{spot}{spota}}
+{15}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi polubienie obecnie wybranego media w dużej galerii mediów wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk umożliwiający polubienie obecnie wybranego media.
+            \item Po kliknięciu przycisku użytkownik natychmiast widzi aktualizację liczby polubień, a przycisk
+            zmienia wygląd oznaczający wykonanie operacji.
+            \item Gdy miedia jest polubione, kliknięcie przycisku powoduje odwrotną operację.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie operacji.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{brak}
+}
+
+\wfmapcard{wfmap:spot-expanded-media-gallery-expand-media}
+{Powiększenie na cały ekran obecnie wybranego media w dużej galerii mediów \glslink{spot}{spota}}
+{16}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi powiększenie na cały ekran obecnie wybranego media w dużej galerii mediów wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk umożliwiający powiększenie na cały ekran obecnie wybranego media.
+            \item Po kliknięciu przycisku wybrane media jest powiększone na całą szerokość i wysokość ekranu.
+            \item Powiększenie elementu nie powoduje zaburzenia jego proporcji.
         \end{itemize}
     }
     \wfmapstakeholder{U3}
