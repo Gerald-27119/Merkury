@@ -94,3 +94,59 @@
     \textbf{Tabela \theawc:} Wymaganie pozafunkcjonalne dla mapy: #2\label{#1}%
     \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie pozafunkcjonalne dla mapy: #2}%
 }
+
+\wpmapatcard{wpmap:map-server}
+{Hostowanie mapy na niezależnym serwerze}
+{01}
+{S}
+{
+    \wpmaptype{nie wiem}
+    \wpmapdesc{nie wiem}
+    \wpmapaccept{
+        \begin{itemize}
+            \item nie wiem
+        \end{itemize}
+    }
+    \wpmapstakeholder{U2}
+    \wpmapresponsible{Stanisław Oziemczuk}
+    \wpmaprelated{brak}
+}
+
+\wpmapatcard{wpmap:map-loading}
+{Czas ładowania mapy poniżej 10 sekund}
+{02}
+{S}
+{
+    \wpmaptype{Wydajność}
+    \wpmapdesc{Ładowanie kafelków mapy podczas pierwszego wejścia na stronę zajmuje maksymalnie 10 sekund przy
+    standarodwym połączeniu sieciowym.}
+    \wpmapaccept{
+        \begin{itemize}
+            \item W przynajmniej 95\% przypadków załadowanie kafelek mapy w
+            widocznym jej obszarze trwa mniej niż 10 sekund.
+        \end{itemize}
+    }
+    \wpmapstakeholder{U3}
+    \wpmapresponsible{Stanisław Oziemczuk}
+    \wpmaprelated{brak}
+}
+
+\wpmapatcard{wpmap:spot-loading}
+{Czas pobierania \glslink{spot}{spotów} poniżej 10 sekund}
+{03}
+{S}
+{
+    \wpmaptype{Wydajność}
+    \wpmapdesc{Pobieranie \glslink{spot}{spotów} z \glslink{backend}{backendu}
+    i wyświetlenie ich na mapie trwa maksymalnie 10 sekund przy
+    standarodwym połączeniu sieciowym.}
+    \wpmapaccept{
+        \begin{itemize}
+            \item W przynajmniej 95\% przypadków pobranie i wyświetlenie \glslink{spot}{spotów} zajmuje mniej niż
+            10 sekund.
+        \end{itemize}
+    }
+    \wpmapstakeholder{U3}
+    \wpmapresponsible{Stanisław Oziemczuk}
+    \wpmaprelated{brak}
+}
