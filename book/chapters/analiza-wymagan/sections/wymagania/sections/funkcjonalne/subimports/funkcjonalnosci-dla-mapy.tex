@@ -281,7 +281,7 @@
     \wfmapdesc{System umożliwia użytkownikowi udostępnienie \glslink{spot}{spota}.}
     \wfmapaccept{
         \begin{itemize}
-            \item Użytkownikowi wyświetlany jest przycisk umożliwiający udostępnienie wybranego \glslink{spot}spota .
+            \item Użytkownikowi wyświetlany jest przycisk umożliwiający udostępnienie wybranego \glslink{spot}spota.
             \item Po kliknięciu przycisku do schowka kopiowany jest link do danego \glslink{spot}{spota}.
             \item Wklejenie linku do przeglądarki powoduje otworzenie panelu ze szczegółami \glslink{spot}{spota} oraz
             przybliżenie jego lokalizacji na mapie.
@@ -301,10 +301,55 @@
     \wfmapdesc{System pokazuje użytkownikowi trasę od jego lokalizacji do wybranego \glslink{spot}{spota}.}
     \wfmapaccept{
         \begin{itemize}
-            \item Użytkownikowi wyświetlany jest przycisk umożliwiający pokazanie trasy do wybranego \glslink{spot}spota .
+            \item Użytkownikowi wyświetlany jest przycisk umożliwiający pokazanie trasy do wybranego \glslink{spot}spota.
             \item Po kliknięciu przycisku pobierana jest akutalna lokalizacja użytkownika,
             a w przeglądarce otwierana jest nowa karta z Google Maps z trasą od pozycji użytkownika do danego
             \glslink{spot}{spota}.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie operacji.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{brak}
+}
+
+\wfmapcard{wfmap:spot-expanded-media-gallery}
+{Duża galeria mediów \glslink{spot}{spota}}
+{11}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi włączenie dużej galerii mediów wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Po kliknięciu na zdjęcie w galerii mediów \glslink{spot}{spota}, użytkownikowi wyświetlana jest duża
+            galeria mediów.
+            Taka sama akcja jest wykonywana po kliknięciu zdjęcie lub film znajdujący się w komentarzu \glslink{spot}{spota}.
+            \item W dużej galerii mediów wyświetlana jest lista wszystkich lista medii wybranego typu, przewijana przy
+            użyciu \glslink{infinite-scroll}{nieskończonego przewijania}.
+            \item Wyświetlalne jest powiększone obecnie wybrane media.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie operacji.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{brak}
+}
+
+\wfmapcard{wfmap:spot-expanded-media-gallery-sidebar}
+{Zarządzanie listą medii w dużej galerii mediów \glslink{spot}{spota}}
+{12}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi sortowanie oraz filtrowanie medii w dużej galerii mediów wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlane są przyciski do filtrowania listy po typie medii (zdjęcia lub filmy) oraz
+            umożliwiające sortowanie po liczbie polubień czy dacie dodania.
+            \item Po kliknięciu przyciku lista jest aktualizowana, a obecne wybrane media jest ustawiane na
+            pierwszy element listy.
+            \item Zaznaczone opcje filtrowania oraz sortowania są oznaczone jako wybrane.
+            \item Domyślną opcją filtrowania po typie media jest ta, którą użytkownik kliknął włącząjąc dużą galerię mediów.
+            \item Domyslnie sortowanie jest po dacie dodania media, od najnowszego.
             \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie operacji.
         \end{itemize}
     }
