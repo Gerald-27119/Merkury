@@ -33,7 +33,7 @@
 % --- pola karty ---
 
 \newcommand{\wfmappriority}[2]{%
-    \textbf{Identyfikator:} & WFCZAT-#1 &
+    \textbf{Identyfikator:} & WFMAPA-#1 &
     \textbf{Priorytet:}     & #2 \\ \hline
 }
 
@@ -104,4 +104,21 @@
     \vspace{3pt}%
     \textbf{Tabela \theawc:} Wymaganie funkcjonalne dla mapy: #2\label{#1}%
     \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie funkcjonalne dla mapy: #2}%
+}
+
+\wfmapcard{wfmap:display-spots}
+{Wyświetlanie \glslink{spot}{spotów} na mapie}
+{01}
+{S}
+{
+    \wfmapdesc{System wyświetla na mapie \glslink{spot}{spoty} w formie wielokątów, a gdy widok mapy zostanie oddalony zamienia je na pinezki.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownik widzi na mapie zaznaczone \glslink{spot}{spoty} jako wielokąty.
+            \item Po oddaleniu widoku mapy, wielokąty są zamieniane na pinezki znajdujące się w tych samych miejscach.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{brak}
 }
