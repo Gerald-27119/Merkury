@@ -1,0 +1,96 @@
+%! Author = Stanisław Oziemczuk
+%! Date = 20.12.2025
+
+\subsubsection{Wymagania pozafunkcjonalne dla mapy}
+\label{subsubsec:wymagania-pozafunkcjonalne-dla-mapy}
+
+\newlength{\wpczLabelWidth}
+\settowidth{\wpczLabelWidth}{\textbf{Wymagania powiązane:}}
+\addtolength{\wpczLabelWidth}{-20pt}
+
+% Szerokość części z treścią (3 prawe kolumny zlane w jedną)
+\newlength{\wpczContentWidth}
+\setlength{\wpczContentWidth}{0.7\textwidth}
+\addtolength{\wpczContentWidth}{20pt}
+
+% --------- Pola karty (wiersze) ---------
+
+% Id + priorytet – 4 kolumny
+\newcommand{\wpmappriority}[2]{%
+    \textbf{Identyfikator:} & WPMAPA-#1 &
+    \textbf{Priorytet:}     & #2 \\ \hline
+}
+
+% Typ – normalny wiersz na 3 kolumny
+\newcommand{\wpmaptype}[1]{%
+    \textbf{Typ:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpmapContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpmapname}[1]{%
+    \textbf{Nazwa:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpmapContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpmapdesc}[1]{%
+    \textbf{Opis:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpmapContentWidth}|}{#1} \\ \hline
+}
+
+% (2) Kryteria akceptacji – ustawienia list jak w wymaganiach funkcjonalnych
+\newcommand{\wpmapaccept}[1]{%
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpmapContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\itemsep}{0.2ex}%
+        \setlength{\parsep}{0pt}%
+        \vspace*{-1.8ex}%
+        #1%
+        \vspace*{-1.4ex}%
+        \endgroup
+    } \\ \hline
+}
+
+\newcommand{\wpmapstakeholder}[1]{%
+    \textbf{Udziałowiec:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpmapContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpmapresponsible}[1]{%
+    \textbf{Realizator:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpmapContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpmaprelated}[1]{%
+    \textbf{Wymagania powiązane:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpmapContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpmapatcard}[5]{%
+    \refstepcounter{awc}%
+    {%
+        \centering
+        \begin{longtable}{|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpmapLabelWidth}|
+            l|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}l|
+            p{0.15\textwidth}|}
+        \hline
+        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA MAPY}} \\ \hline
+        \endfirsthead
+        \hline
+        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA MAPY (cd.)}} \\ \hline
+        \endhead
+        \wpmappriority{#3}{#4}
+        \wpmapname{#2}
+        #5
+        \end{longtable}
+        \par
+    }%
+    \vspace{3pt}%
+    \textbf{Tabela \theawc:} Wymaganie pozafunkcjonalne dla mapy: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie pozafunkcjonalne dla mapy: #2}%
+}
