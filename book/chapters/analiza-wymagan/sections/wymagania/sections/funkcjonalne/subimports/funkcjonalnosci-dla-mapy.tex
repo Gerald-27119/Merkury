@@ -122,3 +122,62 @@
     \wfmapresponsible{Stanisław Oziemczuk}
     \wfmaprelated{brak}
 }
+
+\wfmapcard{wfmap:spot-details}
+{Wyświetlanie szczegółów \glslink{spot}{spota}}
+{02}
+{S}
+{
+    \wfmapdesc{Po kliknięciu na wybranego \glslink{spot}{spota}, system wyświetla o nim informacje.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownik może kliknąć na mapie dowolny \glslink{spot}{spot}.
+            \item O wybranym \glslink{spot}{spocie} wyświetlane są następujące informacje:
+            nazwa, lokalizacja, ocena w gwiazdkach, liczba wyświetleń, opis, galeria z mediami (zdjęcia i filmy),
+            lista komentarzy.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{brak}
+}
+
+\wfmapcard{wfmap:spot-media-gallery}
+{Wyświetlanie interaktywnej galerii mediów \glslink{spot}{spota}}
+{03}
+{S}
+{
+    \wfmapdesc{W panelu ze szczegółami \glslink{spot}{spota} wyświetlana jest galeria mediów (zdjęć i filmów), w której użytkownik może przeglądać
+    wszystkie media dodane do wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlana jest galeria zawierająca zdjęcia oraz filmy dodane do wybranego \glslink{spot}{spota}.
+            \item Galeria umożliwia przechodzenie w sposób zapętlony między mediami za pomocą strzałek.
+            \item Pod mediami wyświetlane są znaczniki informujące o ilości elementów w galerii.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{brak}
+}
+
+\wfmapcard{wfmap:spot-comments-list}
+{Wyświetlanie przewijalnej listy komentarzy \glslink{spot}{spota}}
+{04}
+{S}
+{
+    \wfmapdesc{W panelu ze szczegółami \glslink{spot}{spota} wyświetlana jest lista wszystkich komentarzy.
+    Komentarz zawiera następujące elementy: treść, autor, data dodania, ocena w gwiazdkach, media (opcjonalnie),
+        liczbę polubień, liczbę niepolubień.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlana jest lista wszystkich komentarzy dodanych do wybranego \glslink{spot}{spota}.
+            \item Lista komentarzy jest przewijana za pomocą \glslink{infinite-scroll}{nieskończonego przewijania}.
+            \item Każdy komentarz zawiera treść, autora, ocenę w gwiazdkach, datę dodania, liczbę polubień, liczbę niepolubień.
+            \item Jeśli do komentarze są dodane media, są one wyświetlane.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{brak}
+}
