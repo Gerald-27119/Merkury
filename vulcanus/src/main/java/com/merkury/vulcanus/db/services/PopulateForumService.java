@@ -166,7 +166,7 @@ public class PopulateForumService {
                                 "<p>Spróbuj też wersji: reveal → krótki top-down na fale → odjazd wzdłuż linii brzegu. Fajnie się „zamyka” historię.</p>",
                                 "<p>Jeśli masz możliwość, nagraj ten sam ruch 2–3 razy identycznie. Potem wybierasz najczystsze ujęcie bez mikrodrgań.</p>"
                         ),
-                        new ArrayList<>()
+                        List.of("https://merkurystorage.blob.core.windows.net/forum/9e36b39d-86d0-4f8f-9006-f49b8bf5006a.jpeg")
                 ),
                 new PostSeed(
                         "Wawel i okolice: jak ułożyć 30-sekundową sekwencję ujęć bez nudy?",
@@ -183,7 +183,7 @@ public class PopulateForumService {
                                 "<p>Dobry trik: trzymaj jedną dominantę (np. ciepłe kolory) i dopasuj wszystkie klipy pod ten sam kontrast. Wtedy całość się „klei”.</p>",
                                 "<p>Dodaj jeden „oddech”: statyczny kadr 2–3 sekundy między ruchami. Montaż od razu wygląda bardziej świadomie.</p>"
                         ),
-                        new ArrayList<>()
+                        List.of("https://merkurystorage.blob.core.windows.net/forum/13be1fcb-93bf-4240-8a32-86d4c81f50ba.jpeg")
                 ),
                 new PostSeed(
                         "Pole Mokotowskie: jak uzyskać płynny „tracking” bez efektu mydła?",
