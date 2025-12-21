@@ -1,0 +1,49 @@
+%! Author = Stanisław Oziemczuk
+%! Date = 21.12.2025
+
+\subsubsection{Hooks Pattern}
+\label{subsubsec:Hooks Pattern}
+
+\textbf{Hooks Pattern} \textemdash \space \glslink{wzorzec}{wzorzec} projektowy, który umożliwia korzystanie z
+mechanizmów \glslink{react}{Reacta} takich jak \glslink{stan}{stan} czy cykl życia \glslink{react-component}{komponentu} w
+\glslink{react-component}{komponentach} funkcyjnych.
+Przed wprowadzeniem \glslink{hook}{hook'ów} do zarządzania tymi właściwościami trzeba było tworzyć \glslink{react-component}{komponenty} klasowe,
+co powodowało większe skomplikowanie kodu.
+Hooks Pattern pozwala również na tworzenie własnych \glslink{hook}{hook'ów} zawierających logikę używaną w wielu \glslink{react-component}{komponentach}.
+
+W projekcie wykorzystano ten \glslink{wzorzec}{wzorzec} do zarządzania stanem oraz efektami ubocznymi w \glslink{react-component}{komponentach}
+za pomocą wbudowanych \glslink{hook}{hook'ów} \emph{useState} i \emph{useEffect}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/useState_usage}
+    \caption{Przykładowe użycie hook'a useState}
+    \label{fig:hooks-useState-usage}
+\end{figure}
+\noindent
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/useEffect_usage}
+    \caption{Przykładowe użycie hook'a useEffect}
+    \label{fig:hooks-useEffect-usage}
+\end{figure}
+\noindent
+Zaimplementowano też własne \glslink{hook}{hooki}.
+Jednym z nich jest \emph{useBoolean} obługujący logikę do zarządzania zmiennymi przyjmujących wartości
+\textit{true} lub \textit{false}.
+Udostępniane są funckje do ustawienia wartości, a także do zmiany jej na przeciwną do poprzedniej.
+Korzystanie z tego \glslink{hook}{hook'a} pozwoliło uniknąć powtarzalności kodu oraz poprawiło jego czytelność.
+Poniżej przedstawiono implementację oraz przykładowe użycie \glslink{hook}{hooka} \emph{useBoolean}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/useBoolean_implementation}
+    \caption{Implementacja hook'a useBoolean}
+    \label{fig:hooks-implementation}
+\end{figure}
+\noindent
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/useBoolean_usage}
+    \caption{Przykładowe użycie hook'a useBoolean}
+    \label{fig:hooks-useBoolean-usage}
+\end{figure}
+\noindent
