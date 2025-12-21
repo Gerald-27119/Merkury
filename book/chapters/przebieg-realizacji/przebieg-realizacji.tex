@@ -1,5 +1,4 @@
-
-%! Author = Adam
+ %! Author = Adam
 %! Date = 10/01/2025
 
 % Informacja, kto jaki rozdział książki napisał ma być w rozdziale o pracy indywidualnej,
@@ -28,16 +27,16 @@ W całym okresie realizacji rozwijano także elementy wspólne.
 \begin{itemize}
     \item \textbf{Stos technologiczny i struktura projektu} --
     doprecyzowanie architektury rozwiązania oraz organizacji repozytorium
-    dla \gls{backend} i \gls{frontend}.%glslink z odmianą
+    dla \glslink{backend}{backendu} i \glslink{frontend}{frontendu}.
 
     \item \textbf{Podstawy warstwy klienckiej} --
     stworzenie fundamentów aplikacji \glslink{frontend}{frontendowej}
-    (routing, konfiguracja stylów, struktury projektu),
-    a także dodanie do projektu potrzebnych bibliotek m.in.: \gls{tanstack-query}, \gls{redux} oraz \gls{tailwind-css}.
+    (\glslink{routing}{routingu}, konfiguracja stylów, struktury projektu),
+    a także dodanie do projektu potrzebnych \glslink{biblioteka}{bibliotek} m.in.: \glslink{tanstack-query}{TanStack Query}, \glslink{redux}{Redux} oraz \glslink{tailwind-css}{Tailwind CSS}.
 
     \item \textbf{Uwierzytelnianie i bezpieczeństwo} --
     implementacja logowania i rejestracji, doprecyzowanie ról i uprawnień
-    w \gls{spring-security}, a także logowanie za pomocą \gls{oauth} poprzez Google oraz \gls{github}.
+    w \glslink{spring-security}{Spring Security}, a także logowanie za pomocą \glslink{oauth}{OAuth} poprzez Google oraz \glslink{github}{GitHuba}.
 
     \item \textbf{Odzyskiwanie dostępu do konta} --
     implementacja resetowania hasła.
@@ -45,15 +44,16 @@ W całym okresie realizacji rozwijano także elementy wspólne.
     \item \textbf{Komunikacja e-mail} --
     integracja z zewnętrzną usługą wysyłania wiadomości mailowych.
 
-    \item \textbf{Środowisko uruchomieniowe} --
-    konteneryzacja serwisów, na które składa się aplikacja % do slownika poejcie konteneryzacji
-    oraz przygotowanie skryptów ułatwiających uruchamianie środowiska deweloperskiego.
+    \item \textbf{Środowisko deweloperskie} --
+    konteneryzacja serwisów, na które składa się aplikacja,
+    z wykorzystaniem \glslink{docker}{Dockera}.
+    Przygotowanie skryptów ułatwiających uruchamianie środowiska deweloperskiego.
 
     \item \textbf{Jakość i automatyzacja} --
-    rozwój testów (integracyjnych, jednostkowych i E2E tam, gdzie zasadne),
-    uruchamianie testów w potokach \gls{cicd},
-    ujednolicenie formatowania (m.in. \gls{prettier})
-    i kontrola jakości w repozytorium (np. \gls{eslint}).
+    rozwój testów (\glslink{integration-tests}{integracyjnych}, \glslink{unit-tests}{jednostkowych} i \glslink{e2e-tests}{E2E}),
+    uruchamianie testów w potokach \glslink{cicd}{CI/CD},
+    ujednolicenie formatowania za pomocą \glslink{prettier}{Prettier'a}
+    i kontrola jakości kodu w repozytorium za pomocą \glslink{eslint}{ESLint}.
 
     \item \textbf{Wydajność} --
     wprowadzenie mechanizmu optymalizacji w postaci \glslink{cache}{cache'a}.
@@ -66,10 +66,10 @@ W całym okresie realizacji rozwijano także elementy wspólne.
     implementacja mechanizmu prezentacji informacji o błędach i sukcesach.
 
     \item \textbf{Dokumentacja} --
-    opracowanie dokumentacji projektu w \gls{latex}.
+    opracowanie dokumentacji projektu w \glslink{latex}{LaTeX'ie}.
 \end{itemize}
 
-Przed rozpoczęciem implementacji modułów przygotowano projekt interfejsu użytkownika,
+Przed rozpoczęciem implementacji modułów przygotowano projekt \glslink{ui}{interfejsu użytkownika (UI)},
 obejmujący kluczowe widoki.
 Stanowił on punkt odniesienia dla dalszych prac i ułatwił iteracyjne dopasowywanie
 funkcjonalności do sposobu użycia systemu.
@@ -96,7 +96,7 @@ Każdy moduł rozwijano iteracyjnie, stopniowo rozszerzając jego zakres.
     w celu weryfikacji możliwości interaktywnej prezentacji danych.
 
     \item \textbf{Migracja do rozwiązania docelowego} --
-    przejście na \gls{react-maplibre} oraz ponowna implementacja podstaw
+    przejście na \glslink{react-maplibre}{React-MapLibre} oraz ponowna implementacja podstaw
     wyświetlania \glslink{spot}{spotów}.
 
     \item \textbf{Model \glslink{spot}{spota}} --
@@ -143,14 +143,13 @@ Każdy moduł rozwijano iteracyjnie, stopniowo rozszerzając jego zakres.
     implementacja listy czatów wraz z wyświetlaniem aktualnie otwartego.
 
     \item \textbf{Komunikacja w czasie rzeczywistym} --
-    wdrożenie \gls{websocket} do pobierania i wysyłania wiadomości.
+    wdrożenie \glslink{websocket}{WebSocket} do pobierania i wysyłania wiadomości.
 
     \item \textbf{Usprawnienia UX} --
     grupowanie wiadomości po dacie, wielowierszowe pole tekstowe, dodanie mechanizmu nieskończonego przewijania wiadomości w danym czacie.
 
     \item \textbf{Emoji i GIF} --
-    dodanie obsługi emoji oraz wysyłania animowanych obrazów
-    \glslink{gif}{GIF}.
+    dodanie obsługi \glslink{emoji}{emoji} oraz wysyłania animowanych obrazów \glslink{gif}{GIF}.
 
     \item \textbf{Wydajność i niezawodność} --
     optymistyczne wysyłanie wiadomości oraz implementacja stronicowania dla
@@ -173,13 +172,13 @@ Każdy moduł rozwijano iteracyjnie, stopniowo rozszerzając jego zakres.
 
 \begin{itemize}
     \item \textbf{Podstawowa struktura forum} --
-    obsługa postów, kategorii, tagów oraz paginacji.
+    obsługa postów, kategorii, tagów oraz \glslink{paginacja}{paginacji}.
 
     \item \textbf{Edytor treści} --
-    integracja edytora rich-text na potrzeby tworzenia postów.
+    integracja \glslink{rich-text-editor}{edytora rich-text} na potrzeby tworzenia postów.
 
     \item \textbf{Media w postach} --
-    integracja z \gls{azure-blob-storage} do przesyłania
+    integracja z \glslink{azure-blob-storage}{Azure Blob Storage} do przesyłania
     i przechowywania mediów.
 
     \item \textbf{Przeglądanie i sortowanie} --
@@ -206,7 +205,7 @@ Każdy moduł rozwijano iteracyjnie, stopniowo rozszerzając jego zakres.
     dodanie karuzeli z najpopularniejszymi \glslink{spot}{spotami}.
 
     \item \textbf{Funkcje zaawansowane} --
-    paginacja wyników, sortowanie (po popularność i ocenie)
+    \glslink{paginacja}{Paginacja} wyników, sortowanie (po popularność i ocenie)
     oraz filtrowanie po minimalnej ocenie.
 
 \end{itemize}
@@ -255,4 +254,3 @@ Końcowy okres realizacji koncentrował się na domykaniu funkcjonalności
 oraz uzupełnieniu dokumentacji technicznej i tekstowej.
 Przyjętą datą zakończenia prac projektowych jest
 \textbf{10 stycznia 2026 roku}.
-
