@@ -1,10 +1,7 @@
 package com.merkury.vulcanus.db.services;
 
 import com.merkury.vulcanus.model.entities.UserEntity;
-import com.merkury.vulcanus.model.entities.forum.Post;
-import com.merkury.vulcanus.model.entities.forum.PostCategory;
-import com.merkury.vulcanus.model.entities.forum.PostComment;
-import com.merkury.vulcanus.model.entities.forum.Tag;
+import com.merkury.vulcanus.model.entities.forum.*;
 import com.merkury.vulcanus.model.interfaces.Votable;
 import com.merkury.vulcanus.model.repositories.UserEntityRepository;
 import com.merkury.vulcanus.model.repositories.forum.PostCategoryRepository;
@@ -68,7 +65,8 @@ public class PopulateForumService {
             String tagCity,
             int views,
             int daysAgo,
-            List<String> comments
+            List<String> comments,
+            List<String> imageUrls
     ) {
     }
 
@@ -109,7 +107,7 @@ public class PopulateForumService {
 
             Post p = Post.builder()
                     .title(s.title)
-                    .content(s.content)
+                    .content(withImages(s.content(), s.imageUrls()))
                     .postCategory(category)
                     .tags(Set.of(tag))
                     .views(s.views)
@@ -119,6 +117,7 @@ public class PopulateForumService {
                     .build();
 
             addCommentsDeterministic(p, users, allComments, s.comments);
+            addMediaToPost(p, s.imageUrls);
 
             posts.add(p);
         }
@@ -166,7 +165,8 @@ public class PopulateForumService {
                                 "<p>Zrób dwa podejścia: jedno dłuższe i wolniejsze, drugie krótsze i bardziej dynamiczne. W montażu łatwiej zbudować rytm.</p>",
                                 "<p>Spróbuj też wersji: reveal → krótki top-down na fale → odjazd wzdłuż linii brzegu. Fajnie się „zamyka” historię.</p>",
                                 "<p>Jeśli masz możliwość, nagraj ten sam ruch 2–3 razy identycznie. Potem wybierasz najczystsze ujęcie bez mikrodrgań.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Wawel i okolice: jak ułożyć 30-sekundową sekwencję ujęć bez nudy?",
@@ -182,7 +182,8 @@ public class PopulateForumService {
                                 "<p>Ja robię zawsze: 1) establishing wide, 2) półzbliżenie na obiekt, 3) detal (np. wieża), 4) ruch odjazdowy na koniec.</p>",
                                 "<p>Dobry trik: trzymaj jedną dominantę (np. ciepłe kolory) i dopasuj wszystkie klipy pod ten sam kontrast. Wtedy całość się „klei”.</p>",
                                 "<p>Dodaj jeden „oddech”: statyczny kadr 2–3 sekundy między ruchami. Montaż od razu wygląda bardziej świadomie.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Pole Mokotowskie: jak uzyskać płynny „tracking” bez efektu mydła?",
@@ -199,7 +200,8 @@ public class PopulateForumService {
                                 "<p>Ustaw kadr tak, żeby linie alejek „prowadziły” w głąb. Jak obiekt jest centralnie, tracking wygląda dużo spokojniej.</p>",
                                 "<p>Spróbuj lekkiego tilt down (minimalnie). Wtedy tło mniej „ucieka” i jest bardziej filmowo.</p>",
                                 "<p>Jak montujesz, utnij pierwszą i ostatnią sekundę ruchu — tam najczęściej widać mikroszarpnięcia.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Park Cytadela: kadry z „symetrią” — jak nie przestrzelić kompozycji?",
@@ -215,7 +217,8 @@ public class PopulateForumService {
                                 "<p>Najprościej: wybierz jeden stały punkt odniesienia (np. przecięcie ścieżek) i ustaw go idealnie w centrum kadru.</p>",
                                 "<p>Jak robisz top-down, pilnuj żeby kamera była naprawdę pionowo. Minimalny skos psuje cały efekt symetrii.</p>",
                                 "<p>W montażu możesz też delikatnie przyciąć i wypoziomować — ale lepiej złapać to dobrze już na nagraniu.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Park Grabiszyński jesienią: jak wydobyć kolory bez przesady?",
@@ -231,7 +234,8 @@ public class PopulateForumService {
                                 "<p>Ja zaczynam od balansu bieli i ekspozycji, a dopiero potem dotykam nasycenia. Często wystarczy +kontrast lokalny.</p>",
                                 "<p>Selektywna korekta działa najlepiej: pomarańcze lekko w górę, zieleń delikatnie w dół, wtedy wygląda naturalnie.</p>",
                                 "<p>Uważaj z dehaze — łatwo robi ciemne krawędzie drzew. Lepiej minimalnie i dołożyć clarity na środek.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
 
                 new PostSeed(
@@ -248,7 +252,8 @@ public class PopulateForumService {
                                 "<p>Najważniejsze: stały kierunek i stała wysokość. Jak wysokość „pływa”, hyperlapse wygląda nerwowo.</p>",
                                 "<p>Zostaw sobie zapas materiału na początku i końcu. W montażu łatwiej wtedy ustabilizować i przyciąć.</p>",
                                 "<p>Fajny trik: wybierz jeden punkt w oddali jako „cel” i trzymaj go cały czas w tym samym miejscu kadru.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Park na Zdrowiu: orbit wokół jeziora — jak utrzymać równe tempo obrotu?",
@@ -264,7 +269,8 @@ public class PopulateForumService {
                                 "<p>Mi pomaga myślenie „po łuku”: nie kręcę samym yaw, tylko łączę lekki skręt + delikatny ruch bokiem.</p>",
                                 "<p>Najczęściej tempo psuje się przy korekcie odległości. Ustaw sobie stały promień i trzymaj go konsekwentnie.</p>",
                                 "<p>Warto nagrać orbit dłużej niż potrzeba i wyciąć najlepsze 5–8 sekund.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Bulwary nad Wisłokiem: jak zrobić spokojny „push forward” bez efektu pływania?",
@@ -280,7 +286,8 @@ public class PopulateForumService {
                                 "<p>Zdecydowanie wolniej i dłużej. Jak jest czas na „wejście” w ujęcie, to wygląda dużo bardziej filmowo.</p>",
                                 "<p>Trzymaj horyzont idealnie prosto — nad wodą każde 0,5 stopnia jest widoczne.</p>",
                                 "<p>Dobrze działa jeden stały punkt odniesienia (most/drzewo) na osi lotu, wtedy nie „ucieka” kadr.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Bulwar Filadelfijski: jak ogarnąć nocne światła, żeby nie było przepaleń?",
@@ -296,7 +303,8 @@ public class PopulateForumService {
                                 "<p>Ja wolę lekko niedoświetlić i potem podnieść cienie w postprodukcji. Przepaleń nie odzyskasz.</p>",
                                 "<p>Pomaga też trzymać stały balans bieli — jak automatyka skacze, światła wyglądają raz żółto, raz zielono.</p>",
                                 "<p>Dodaj jedno ujęcie statyczne 6–8 sekund. Nocny klimat lepiej „oddycha”, jak nie wszystko jest w ruchu.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Myślęcinek: jak nagrać las i polany tak, żeby było widać głębię?",
@@ -312,7 +320,8 @@ public class PopulateForumService {
                                 "<p>Parallax robi cuda: leć bokiem, a drzewa w różnych odległościach zaczną „pracować” względem siebie.</p>",
                                 "<p>Dodaj jakiś mocny pierwszy plan (korona drzewa / fragment polany), wtedy tło nie jest tylko tapetą.</p>",
                                 "<p>Unikaj lotu idealnie na wprost w gęsty las — lepszy jest diagonalny kierunek, bo daje wrażenie przestrzeni.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Park Konstytucji 3 Maja: top-down, ale bez „pustego” kadru — macie patenty?",
@@ -328,7 +337,8 @@ public class PopulateForumService {
                                 "<p>Szukaj wzoru: alejki, zakręty, symetria. Top-down działa, jak jest geometria.</p>",
                                 "<p>Fajnie wygląda kontrast materiałów: jasna ścieżka + ciemna zieleń. Nawet mały fragment robi kadr.</p>",
                                 "<p>Jeśli możesz, zrób serię 3 wysokości: nisko / średnio / wysoko. Wtedy top-down jest „częścią historii”, a nie jedynym ujęciem.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Park Śląski: jak nagrać „spokojną dynamikę” — bez sportowego klimatu?",
@@ -344,7 +354,8 @@ public class PopulateForumService {
                                 "<p>Łagodne łuki zamiast ostrych skrętów. Jak tor lotu jest „okrągły”, od razu jest spokojniej.</p>",
                                 "<p>Delikatny tilt gimbala w trakcie lotu wygląda bardzo filmowo, ale musi być minimalny.</p>",
                                 "<p>Unikaj gwałtownego yaw. Lepiej przesuwać się bokiem i utrzymywać stały kadr.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Morskie Oko: jak wyciągnąć detale w niebie i w cieniu bez „HDR-owego” efektu?",
@@ -360,7 +371,8 @@ public class PopulateForumService {
                                 "<p>Najpierw kontrola świateł (highlights w dół), potem cienie delikatnie w górę. Jak cienie przesadzisz, robi się „plastik”.</p>",
                                 "<p>Ja lubię zostawić trochę kontrastu — góry tak wyglądają. Naturalność często wygrywa z „idealną” ekspozycją.</p>",
                                 "<p>Pomaga selektywnie: niebo osobno, teren osobno. Jedna krzywa na wszystko zwykle nie działa.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Park św. Kingi: pomysł na krótką rolkę „spacerową” — jak budować tempo?",
@@ -376,7 +388,8 @@ public class PopulateForumService {
                                 "<p>Rób przeplatanie: szeroko → detal → szeroko. Detal może być np. fragment ścieżki, liście, ławka.</p>",
                                 "<p>Pomaga muzyka i cięcie do rytmu: co 1–2 sekundy zmiana kadru, a raz na jakiś czas dłuższy „oddech”.</p>",
                                 "<p>Ujęcie „pull-away” na koniec działa świetnie — wygląda jak domknięcie spaceru.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Plaża Dębki: jak uchwycić wzory na piasku, żeby wyglądały „mapowo”, a nie płasko?",
@@ -392,7 +405,8 @@ public class PopulateForumService {
                                 "<p>Nie tylko top-down — spróbuj pod kątem 30–45°. Tekstura piasku i cienie robią wtedy robotę.</p>",
                                 "<p>Złota godzina daje mikrocienie na piasku. W południe wszystko się spłaszcza.</p>",
                                 "<p>Fajnie działa też ruch boczny (parallax). Wzory zaczynają „pracować” i widać głębię.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Plaża Jantar: jak zrobić czyste ujęcie odbić w wodzie przy zachodzie?",
@@ -408,7 +422,8 @@ public class PopulateForumService {
                                 "<p>Wybierz jeden mocny kierunek: albo linia brzegu jako prowadząca, albo odbicie jako główny temat. Nie wszystko naraz.</p>",
                                 "<p>U mnie najlepiej działa kadr z horyzontem na 1/3 i odbiciem na 2/3. Wtedy jest czytelnie.</p>",
                                 "<p>Zrób też wersję pionową — odbicia i linia brzegu często lepiej wyglądają w 9:16.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Półwysep Helski: jak pokazać kształt linii brzegowej w jednym ujęciu?",
@@ -424,7 +439,8 @@ public class PopulateForumService {
                                 "<p>Odjazd do tyłu jest super, jeśli zaczynasz od detalu (np. fragment plaży), a potem odkrywasz skalę.</p>",
                                 "<p>Panorama działa, ale musi mieć wyraźny „anchor” — punkt, od którego oko startuje (np. koniec mola, fragment wydm).</p>",
                                 "<p>Ja bym zrobił dwa klipy: jeden reveal/odjazd, drugi szeroki establishing. W montażu masz komplet.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Jezioro Żarnowieckie: jak podkreślić różnice koloru wody bez sztuczności?",
@@ -440,7 +456,8 @@ public class PopulateForumService {
                                 "<p>Selektywnie: podbij tylko te odcienie, które odpowiadają za przejście. Globalne nasycenie zwykle psuje naturalność.</p>",
                                 "<p>Delikatny kontrast lokalny + minimalny dehaze pomaga wyciągnąć strukturę bez „przekolorowania”.</p>",
                                 "<p>Warto zostawić trochę refleksów. Jak wszystko „wygładzisz”, woda wygląda sztucznie.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Jezioro Tarnobrzeskie: pomysł na ujęcie „pocztówkowe” — co gra najlepiej w kadrze?",
@@ -456,7 +473,8 @@ public class PopulateForumService {
                                 "<p>Na „okładkę” najlepszy jest szeroki establishing z czytelnym horyzontem i jedną prowadzącą linią (brzeg/pomost).</p>",
                                 "<p>Crane up działa świetnie jako intro: start nisko → powoli w górę → panorama. Proste i efektowne.</p>",
                                 "<p>Orbit zostawiłbym jako ujęcie wspierające. Jak nie ma mocnego obiektu, orbit potrafi być „o niczym”.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Pustynia Błędowska: jak zrobić kolor grading „pustynny”, ale bez żółtej przesady?",
@@ -472,7 +490,8 @@ public class PopulateForumService {
                                 "<p>Najpierw neutralna baza (WB i ekspozycja), potem ciepło dodawaj w światłach, a nie globalnie na cały obraz.</p>",
                                 "<p>Świetnie działa lekkie przesunięcie żółci w stronę pomarańczu, ale minimalnie — wtedy piasek wygląda „miękko”.</p>",
                                 "<p>Jak wszystko robi się żółte, to zwykle winna jest zieleń. Zbij nasycenie zieleni, a piasek automatycznie wygląda lepiej.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
 
 // --- Drone for beginners (min. 3) ---
@@ -491,7 +510,8 @@ public class PopulateForumService {
                                 "<p>Na start lepiej mniejszy — mniej kosztują błędy i łatwiej ćwiczyć podstawy bez stresu.</p>",
                                 "<p>Największa pułapka to latanie „na granicy baterii”. Lepiej kończyć lot wcześniej i mieć zapas na bezpieczny powrót.</p>",
                                 "<p>Pro tip: ćwicz stałą wysokość + stałą prędkość. Jak to opanujesz, wszystko inne wchodzi dużo łatwiej.</p>"
-                        )
+                        ),
+                        List.of("https://merkurystorage.blob.core.windows.net/forum/7cb8220b-c728-4f66-a41f-fbdf132ff32e.jpeg")
                 ),
                 new PostSeed(
                         "Checklista przed pierwszym lotem: RTH, GPS, kompas, kalibracje — co ustawić i sprawdzić?",
@@ -507,7 +527,8 @@ public class PopulateForumService {
                                 "<p>U mnie top3: home point złapany, RTH height ustawione z zapasem na drzewa/budynki, i brak ostrzeżeń kompasu.</p>",
                                 "<p>Jak coś wygląda dziwnie (GPS skacze, kompas się burzy) — lepiej nie startować. Przenieś się 50–100 m dalej.</p>",
                                 "<p>Przed lotem robię też szybki przegląd śmigieł. Mikropęknięcie potrafi zepsuć cały lot.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Jak ćwiczyć płynne ujęcia (cinematic) jako początkujący? Prosty plan treningu na 7 dni",
@@ -523,7 +544,8 @@ public class PopulateForumService {
                                 "<p>Dzień 1–2: stała wysokość + stała prędkość. Dzień 3–4: łuki. Dzień 5: orbit. Dzień 6–7: łączenie ruchów.</p>",
                                 "<p>Najbardziej pomaga „mniej ruchów drążkiem”. Jeden delikatny ruch > 10 mikro-korekt.</p>",
                                 "<p>W montażu ucinaj pierwszą i ostatnią sekundę ujęcia — tam najczęściej widać start/stop i szarpnięcia.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
 
 // --- Spots (min. 3) ---
@@ -542,7 +564,8 @@ public class PopulateForumService {
                                 "<p>Najpierw patrzę na ludzi i linie. Jak są linie lub tłum — odpuszczam, szkoda nerwów.</p>",
                                 "<p>Zawsze wybieram „korytarz ucieczki” — kierunek, w który mogę polecieć gdy coś pójdzie nie tak.</p>",
                                 "<p>Dobrze mieć jedno miejsce startu/lądowania i nie mieszać tego z trasą lotu.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Plaża i wydmy (Dębki): jak latać, żeby piasek i wiatr nie zepsuły sprzętu i ujęć?",
@@ -558,7 +581,8 @@ public class PopulateForumService {
                                 "<p>Nie startuj z sypkiego piasku. Najlepiej z twardego podłoża albo z maty/plecaka (byle stabilnie).</p>",
                                 "<p>Wiatr nad wodą potrafi się zmieniać co chwilę. Lepiej trzymać większy zapas baterii i nie lecieć „na styk”.</p>",
                                 "<p>Po locie warto obejrzeć śmigła i okolice silników — piasek lubi wejść tam, gdzie nie trzeba.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Spot nad wodą (Hel): jak planować trasę i wrócić bez stresu? (zapas baterii, RTH, wiatr)",
@@ -574,7 +598,8 @@ public class PopulateForumService {
                                 "<p>Najważniejsze: większy zapas baterii niż zwykle i żadnych „ostatnich ujęć” na końcówce.</p>",
                                 "<p>Jak wieje w twarz na powrocie, potrafi zjeść baterię dużo szybciej. Lecąc „tam”, miej to w głowie.</p>",
                                 "<p>Warto robić krótsze odcinki i wracać bliżej co jakiś czas, zamiast od razu lecieć daleko jednym ciągiem.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
 
 // --- Event (min. 3) ---
@@ -593,7 +618,8 @@ public class PopulateForumService {
                                 "<p>Ustalcie strefę startu/lądowania i prostą komunikację: kto startuje, kto ląduje, kto ma problem.</p>",
                                 "<p>Warto ograniczyć liczbę dronów w powietrzu naraz. Lepiej kolejka lotów niż chaos.</p>",
                                 "<p>Jak robi się tłoczno od postronnych ludzi — przerwa i koniec tematu. Bezpieczeństwo wygrywa.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Mini-event w Krakowie: warsztat „cinematic” — plan ujęć + feedback do materiału",
@@ -609,7 +635,8 @@ public class PopulateForumService {
                                 "<p>Super pomysł. Zadania niech będą krótkie i powtarzalne — wtedy łatwo porównać „co zadziałało”.</p>",
                                 "<p>Fajnie dodać jedno zadanie „statyczne” (bez ruchu), bo to uczy kompozycji i cierpliwości.</p>",
                                 "<p>Ustalcie limit czasu lotu na osobę, żeby każdy miał równe szanse i nie było zatorów.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Event/spotkanie w Warszawie: naprawy po kraksach + szybki serwis w terenie (toolkit)",
@@ -625,7 +652,8 @@ public class PopulateForumService {
                                 "<p>Minimum: zapas śmigieł, zipy, taśma, mały zestaw imbusów/bitów i coś do czyszczenia.</p>",
                                 "<p>Ja dorzucam koszulki termokurczliwe i kawałek przewodu — czasem to ratuje dzień.</p>",
                                 "<p>Najważniejsze i tak są śmigła. 80% „problemów po kraksie” rozwiązuje ich wymiana.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
 
 // --- Build first drone (min. 3) ---
@@ -644,7 +672,8 @@ public class PopulateForumService {
                                 "<p>Pułapka #1: śruby silników za długie — potrafią uszkodzić uzwojenie. Sprawdzaj długość!</p>",
                                 "<p>Na start lepiej popularna rama — części są dostępne i łatwiej coś dorwać po kraksie.</p>",
                                 "<p>Nie oszczędzaj na zasilaniu (kable/XT60). Złe luty i cienkie przewody to proszenie się o kłopoty.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Lutowanie w dronach: jak robić mocne luty na ESC i nie odrywać padów?",
@@ -660,7 +689,8 @@ public class PopulateForumService {
                                 "<p>Topnik + szybkie lutowanie. Jak grzejesz długo, to pad ma większą szansę się odkleić.</p>",
                                 "<p>Pocynuj pad i przewód osobno, dopiero potem łącz. To skraca czas do 1–2 sekund.</p>",
                                 "<p>Unieruchom przewody (imadło/trzecia ręka). Jak coś drgnie przy stygnięciu, lut robi się słaby.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
                 new PostSeed(
                         "Analog vs digital (HD) do pierwszego buildu: co ma więcej sensu przy kraksach?",
@@ -676,7 +706,8 @@ public class PopulateForumService {
                                 "<p>Jeśli liczysz się z kraksami, analog mniej boli finansowo i szybciej wracasz w powietrze.</p>",
                                 "<p>Digital jest mega, ale potrafi dołożyć stresu na starcie (waga, koszt, naprawy po dzwonie).</p>",
                                 "<p>Dobry kompromis: zacząć analog, nauczyć się serwisu, a potem przejść na HD w kolejnym buildzie.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 ),
 
                 new PostSeed(
@@ -693,11 +724,19 @@ public class PopulateForumService {
                                 "<p>Zawsze zaczynam od mechaniki: nowe śmigła, luzy ramy, śruby, stan silników. Soft jest na końcu.</p>",
                                 "<p>PID-ami da się czasem „przykryć” problem, ale najlepiej usunąć przyczynę wibracji u źródła.</p>",
                                 "<p>Rób zmiany po jednej rzeczy i testuj. Jak zmienisz 5 parametrów naraz, nie wiesz co zadziałało.</p>"
-                        )
+                        ),
+                        new ArrayList<>()
                 )
         );
     }
 
+    private String withImages(String content, List<String> urls) {
+        if (urls == null || urls.isEmpty()) return content;
+        String imgs = urls.stream()
+                .map(u -> "<img src=\"" + u + "\" alt=\"image\">")
+                .collect(java.util.stream.Collectors.joining("\n"));
+        return imgs + "\n" + content;
+    }
 
     private void ensureFollowedPostsPerUser(List<UserEntity> users, List<Post> posts, int perUser) {
         if (users == null || users.isEmpty() || posts == null || posts.isEmpty()) return;
@@ -729,6 +768,21 @@ public class PopulateForumService {
         }
     }
 
+    private void addMediaToPost(Post post, List<String> imageUrls) {
+        if (imageUrls == null || imageUrls.isEmpty()) return;
+
+        for (int i = 0; i < imageUrls.size(); i++) {
+            String url = imageUrls.get(i);
+
+            PostMedia media = PostMedia.builder()
+                    .post(post)
+                    .url(url)
+                    .type("image")
+                    .build();
+
+            post.getMedia().add(media);
+        }
+    }
 
 
     private Map<String, PostCategory> upsertForumCategories(List<CategorySeed> seeds) {
