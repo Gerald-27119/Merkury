@@ -1,43 +1,81 @@
 %! Author = Adam
 %! Date = 10/01/2025
 
-% Informacja, kto jaki rozdział książki napisał ma być w rozdziale o pracy indywidualnej, tutaj nie. Komentarz informacyjny.
+% Informacja, kto jaki rozdział książki napisał ma być w rozdziale o pracy indywidualnej,
+% tutaj nie. Komentarz informacyjny.
+
 \chapter{Przebieg realizacji projektu}
 \label{ch:przebieg-realizacji-projektu}
 
-W niniejszym rozdziale przedstawiono przebieg realizacji projektu w ujęciu funkcjonalnym,
-z podziałem na główne moduły aplikacji. Opis koncentruje się na tym, jakie
-elementy systemu powstawały i jak ewoluowały w czasie. Taki sposób prezentacji odzwierciedla
-iteracyjny charakter realizacji zgodny z metodyką \gls{DAD_LLC}.
+W niniejszym rozdziale przedstawiono przebieg realizacji projektu
+w ujęciu funkcjonalnym, z podziałem na główne moduły aplikacji.
+Opis koncentruje się na tym, co zostało zaimplementowane
+w ramach kolejnych obszarów systemu.
+Taki sposób ujęcia odpowiada charakterowi prac prowadzonych
+zgodnie z metodyką \gls{DAD_LLC}, gdzie rozwój funkcjonalności
+odbywał się równolegle, a zakres modułów był stopniowo doprecyzowywany.
 
-Prace nad modułami były prowadzone równolegle, a rozwój funkcjonalności był wspierany
-przez stałe \glslink{review-kodu}{review kodu}, automatyzację testów oraz rozwój infrastruktury.
+Rozwój był wspierany przez stałe \glslink{review-kodu}{review kodu},
+automatyzację testów oraz rozwój infrastruktury deweloperskiej.
 
-\section{Elementy przekrojowe (niezależne od modułu)}
-\label{sec:przekrojowe}
 
-W całym okresie realizacji rozwijano również elementy wspólne dla całego systemu, które
-stanowiły fundament dla kolejnych modułów:
+\section{Elementy niezależne od modułu}
+\label{sec:niezalezne}
+
+W całym okresie realizacji rozwijano także elementy wspólne.
 
 \begin{itemize}
-    \item \textbf{Stos technologiczny i struktura projektu} -- doprecyzowanie architektury rozwiązania oraz organizacji repozytorium dla \gls{backend} i \gls{frontend}.
-    \item \textbf{Podstawy warstwy klienckiej} -- budowa fundamentów aplikacji \glslink{frontend}{frontendowej} (routing, konfiguracja stylów, porządkowanie struktury projektu), a także wprowadzenie bibliotek wspierających rozwój (np. \gls{tanstack-query}, \gls{redux}).
-    \item \textbf{Uwierzytelnianie i bezpieczeństwo} -- rozwój logowania i rejestracji, obsługa \gls{jwt} (w tym przechowywanie w \glslink{http-only-cookie}{HttpOnly}), konfiguracja \gls{cors}, doprecyzowanie ról i uprawnień w \gls{spring-security}, a także logowanie \gls{oauth} (Google/\gls{github}).
-    \item \textbf{Odzyskiwanie dostępu do konta} -- wdrożenie procesu resetowania hasła (generowanie i weryfikacja tokenów resetu, formularz zmiany hasła) oraz mechanizmy utrzymaniowe, np. cykliczne usuwanie przeterminowanych tokenów.
-    \item \textbf{Komunikacja e-mail} -- integracja z zewnętrzną usługą wysyłania wiadomości (np. e-mail powitalny i wiadomości resetu hasła), dopracowanie szablonów HTML oraz obsługa błędów po stronie serwera; w trakcie projektu dostosowywano również sposób dostawy tej usługi.
-    \item \textbf{Środowisko uruchomieniowe} -- konteneryzacja (\gls{docker-compose}), dopracowanie plików \gls{dockerfile} oraz skryptów ułatwiających uruchomienie środowiska deweloperskiego.
-    \item \textbf{Jakość i automatyzacja} -- rozwój testów (integracyjnych, jednostkowych i E2E tam, gdzie zasadne), uruchamianie testów w potokach \gls{cicd}, ujednolicenie formatowania (m.in. \gls{prettier}) i kontrola jakości w repozytorium (np. \gls{eslint}).
-    \item \textbf{Wydajność i obserwowalność} -- dopracowanie logowania błędów oraz wprowadzenie mechanizmów optymalizacji (m.in. cache w postaci \gls{redis}).
-    \item \textbf{Dane deweloperskie} -- przygotowanie danych testowych wykorzystywanych do demonstracji i weryfikacji działania modułów (np. przykładowi użytkownicy i \glslink{spot}{spoty}).
-    \item \textbf{Dokumentacja} -- uruchomienie projektu dokumentacji w \gls{latex} (bibliografia, struktura rozdziałów) oraz iteracyjne uzupełnianie treści równolegle do rozwoju systemu.
+    \item \textbf{Stos technologiczny i struktura projektu} --
+    doprecyzowanie architektury rozwiązania oraz organizacji repozytorium
+    dla \gls{backend} i \gls{frontend}.%glslink z odmianą
+
+    \item \textbf{Podstawy warstwy klienckiej} --
+    stworzenie fundamentów aplikacji \glslink{frontend}{frontendowej}
+    (routing, konfiguracja stylów, struktury projektu),
+    a także dodanie do projektu potrzebnych bibliotek m.in.: \gls{tanstack-query}, \gls{redux} oraz \gls{tailwind-css}.
+
+    \item \textbf{Uwierzytelnianie i bezpieczeństwo} --
+    implementacja logowania i rejestracji, doprecyzowanie ról i uprawnień
+    w \gls{spring-security}, a także logowanie za pomocą \gls{oauth} poprzez Google oraz \gls{github}.
+
+    \item \textbf{Odzyskiwanie dostępu do konta} --
+    implementacja resetowania hasła.
+
+    \item \textbf{Komunikacja e-mail} --
+    integracja z zewnętrzną usługą wysyłania wiadomości mailowych.
+
+    \item \textbf{Środowisko uruchomieniowe} --
+    konteneryzacja serwisów, na które składa się aplikacja % do slownika poejcie konteneryzacji
+    oraz przygotowanie skryptów ułatwiających uruchamianie środowiska deweloperskiego.
+
+    \item \textbf{Jakość i automatyzacja} --
+    rozwój testów (integracyjnych, jednostkowych i E2E tam, gdzie zasadne),
+    uruchamianie testów w potokach \gls{cicd},
+    ujednolicenie formatowania (m.in. \gls{prettier})
+    i kontrola jakości w repozytorium (np. \gls{eslint}).
+
+    \item \textbf{Wydajność} --
+    wprowadzenie mechanizmu optymalizacji w postaci \glslink{cache}{cache'a}.
+
+    \item \textbf{Dane deweloperskie} --
+    przygotowanie danych testowych wykorzystywanych do demonstracji
+    i weryfikacji działania produktu.
+
+    \item \textbf{Komunikaty systemowe} --
+    implementacja mechanizmu prezentacji informacji o błędach i sukcesach.
+
+    \item \textbf{Dokumentacja} --
+    opracowanie dokumentacji projektu w \gls{latex}.
 \end{itemize}
 
 Przed rozpoczęciem implementacji modułów przygotowano projekt interfejsu użytkownika,
-obejmujący kluczowe widoki oraz założenia nawigacji i ergonomii. Stanowił on punkt odniesienia
-dla dalszych prac i ułatwił iteracyjne dopasowywanie funkcjonalności do sposobu użycia systemu.
+obejmujący kluczowe widoki.
+Stanowił on punkt odniesienia dla dalszych prac i ułatwił iteracyjne dopasowywanie
+funkcjonalności do sposobu użycia systemu.
 
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{4}
+
 
 \section{Moduły aplikacji}
 \label{sec:moduly-aplikacji}
@@ -46,115 +84,173 @@ dla dalszych prac i ułatwił iteracyjne dopasowywanie funkcjonalności do sposo
 \label{subsec:rozwoj-modulow}
 
 Poniżej przedstawiono rozwój funkcjonalności w kluczowych modułach aplikacji.
-Każdy moduł rozwijano iteracyjnie, stopniowo rozszerzając jego zakres oraz dopracowując
-aspekty ergonomii i spójności z pozostałymi elementami systemu.
+Każdy moduł rozwijano iteracyjnie, stopniowo rozszerzając jego zakres.
 
 \subsubsection{Mapa}
 \label{subsubsec:modul-mapa}
 
-Moduł mapy stanowił jeden z kluczowych elementów aplikacji. Jego rozwój przebiegał od
-prototypu demonstracyjnego do docelowego rozwiązania obejmującego interakcje użytkownika,
-widok szczegółów oraz integrację z pozostałymi funkcjami.
-
 \begin{itemize}
-    \item \textbf{Prototyp mapy} -- przygotowanie wstępnej wersji mapy (proof-of-concept) w celu weryfikacji możliwości interaktywnej prezentacji danych.
-    \item \textbf{Migracja i stabilizacja rozwiązania docelowego} -- przejście na \gls{react-maplibre} oraz ponowna implementacja podstaw wyświetlania \glslink{spot}{spotów} i interakcji użytkownika.
-    \item \textbf{Ergonomia mapy} -- dopracowanie interakcji z mapą (m.in. obsługa znaczników i zachowanie mapy w typowych scenariuszach użytkownika) oraz aktualizacja sposobu prezentacji lokalizacji użytkownika.
-    \item \textbf{Model \glslink{spot}{spota}} -- rozszerzanie modelu o dane lokalizacyjne i statystyczne (np. kraj/miasto, tagi, liczniki ocen) oraz ujednolicenie sposobu wyznaczania punktu reprezentującego \glslink{spot}{spota}.
-    \item \textbf{Widok szczegółów \glslink{spot}{spota}} -- rozwój prezentacji informacji o \glslink{spot}{spocie} oraz dopracowanie ergonomii interfejsu.
-    \item \textbf{Komentarze i oceny} -- rozwój mechanizmów komentarzy (w tym refaktoryzacja modelu komentarzy), dopracowanie prezentacji ocen oraz rozszerzenia UI (np. prezentacja zdjęcia profilowego autora komentarza).
-    \item \textbf{Media dla \glslink{spot}{spotów}} -- ujednolicenie obsługi zdjęć i filmów oraz implementacja prezentacji multimediów w widoku \glslink{spot}{spota}.
-    \item \textbf{Galeria multimediów} -- wprowadzenie rozszerzonej galerii (paginacja, tryb pełnoekranowy, dodatkowe akcje, np. udostępnianie odnośnika).
-    \item \textbf{Ulubione \glslink{spot}{spoty}} -- możliwość dodawania \glslink{spot}{spotów} do ulubionych oraz integracja tej funkcji z panelem użytkownika i mapą.
-    \item \textbf{Responsywność} -- dostosowanie modułu mapy i widoku szczegółów \glslink{spot}{spotów} do różnych rozmiarów ekranu, w tym skalowanie na dużych ekranach.
-    \item \textbf{Porządkowanie modułu} -- refaktoryzacja struktury plików \glslink{backend}{backendu} związanych z modułem mapy w miarę rozrastania się funkcji.
-\end{itemize}
+    \item \textbf{Prototyp mapy} --
+    przygotowanie wstępnej wersji mapy (proof-of-concept)
+    w celu weryfikacji możliwości interaktywnej prezentacji danych.
 
-\paragraph{Pogoda dla \glslink{spot}{spotów}}
-\label{par:pogoda-spoty}
+    \item \textbf{Migracja do rozwiązania docelowego} --
+    przejście na \gls{react-maplibre} oraz ponowna implementacja podstaw
+    wyświetlania \glslink{spot}{spotów}.
 
-Funkcjonalność pogody rozwijano jako element wspierający korzystanie z mapy i widoku \glslink{spot}{spotów}.
+    \item \textbf{Model \glslink{spot}{spota}} --
+    rozszerzanie modelu o dane lokalizacyjne oraz ujednolicenie sposobu wyznaczania punktu
+    reprezentującego \glslink{spot}{spota}.
 
-\begin{itemize}
-    \item \textbf{Integracja podstawowa} -- pobieranie danych pogodowych dla wybranego \glslink{spot}{spota} oraz przygotowanie panelu pogodowego w interfejsie.
-    \item \textbf{Rozszerzenie funkcjonalności} -- wprowadzenie pogody podstawowej i szczegółowej oraz dopracowanie sposobu prezentacji danych (np. w formie \gls{modal}u z zestawem parametrów meteorologicznych).
-    \item \textbf{Warstwa pośrednia w \gls{backend}zie} -- przebudowa integracji tak, aby dane pogodowe były pobierane przez \glslink{backend}{backend} (zamiast bezpośrednich wywołań z \glslink{frontend}{frontendu}).
-    \item \textbf{Dopasowanie UI} -- poprawa responsywności i ergonomii panelu pogodowego.
+    \item \textbf{Widok szczegółów \glslink{spot}{spota}} --
+    rozwój prezentacji informacji o \glslink{spot}{spocie}.
+
+    \item \textbf{Komentarze i oceny} --
+    dodanie możliwości dodawania komentarzy przez użytkownika.
+
+    \item \textbf{Media dla \glslink{spot}{spotów}} --
+    ujednolicenie obsługi zdjęć i filmów oraz implementacja prezentacji
+    multimediów w widoku \glslink{spot}{spota}.
+
+    \item \textbf{Galeria multimediów} --
+    wprowadzenie rozszerzonej galerii multimediów dla danego \glslink{spot}{spota}.
+
+    \item \textbf{Ulubione \glslink{spot}{spoty}} --
+    możliwość dodawania \glslink{spot}{spotów} do ulubionych oraz integracja
+    tej funkcji z panelem użytkownika.
+
+    \item \textbf{Responsywność} --
+    dostosowanie modułu mapy i widoku szczegółów \glslink{spot}{spotów}
+    do różnych rozmiarów ekranu.
+
+    \item \textbf{Podstawowa pogoda} --
+    pobieranie danych pogodowych dla wybranego \glslink{spot}{spota}.
+
+    \item \textbf{Rozszerzona pogoda} --
+    wprowadzenie pogody szczegółowej.
+
+    \item \textbf{Wyszukiwanie w obszarze mapy} --
+    dodanie możliwości wyszukiwania \glslink{spot}{spotów}
+    w aktualnie widocznym obszarze mapy.
 \end{itemize}
 
 \subsubsection{Czat}
 \label{subsubsec:modul-czat}
 
-Czat był rozwijany iteracyjnie: od podstaw komunikacji do rozbudowanych scenariuszy
-(rozmowy prywatne i grupowe, multimedia, usprawnienia wydajności i ergonomii).
-
 \begin{itemize}
-    \item \textbf{Podstawy komunikacji} -- implementacja fundamentów czatu w \glslink{backend}{backendzie} i \glslink{frontend}{frontendzie} oraz przygotowanie UI.
-    \item \textbf{Komunikacja w czasie rzeczywistym} -- wdrożenie \gls{websocket} do pobierania i wysyłania wiadomości; przygotowanie wspólnych komponentów/ułatwień po stronie frontendu dla obsługi websocketów.
-    \item \textbf{Usprawnienia UX} -- grupowanie wiadomości po dacie, wielowierszowe pole tekstowe, usprawnienia listy czatów oraz mechanizmu nieskończonego przewijania.
-    \item \textbf{Emoji i GIF} -- dodanie obsługi emoji oraz wysyłania animowanych obrazów (\glslink{gif}{GIF}).
-    \item \textbf{Wydajność i niezawodność} -- optymistyczne wysyłanie wiadomości oraz endpointy do stronicowanego pobierania starszych wiadomości.
-    \item \textbf{Rozmowy prywatne} -- możliwość rozpoczęcia i kontynuowania rozmów bezpośrednio z list relacji społecznościowych.
-    \item \textbf{Czaty grupowe} -- tworzenie czatów grupowych, edycja nazwy/obrazu oraz dołączanie kolejnych uczestników.
-    \item \textbf{Załączniki} -- wysyłanie i wyświetlanie plików oraz obrazów, wraz z obsługą wyboru, podglądu i wysyłania samych plików bez treści tekstowej.
+    \item \textbf{Podstawy czatu} --
+    implementacja listy czatów wraz z wyświetlaniem aktualnie otwartego.
+
+    \item \textbf{Komunikacja w czasie rzeczywistym} --
+    wdrożenie \gls{websocket} do pobierania i wysyłania wiadomości.
+
+    \item \textbf{Usprawnienia UX} --
+    grupowanie wiadomości po dacie, wielowierszowe pole tekstowe, dodanie mechanizmu nieskończonego przewijania wiadomości w danym czacie.
+
+    \item \textbf{Emoji i GIF} --
+    dodanie obsługi emoji oraz wysyłania animowanych obrazów
+    \glslink{gif}{GIF}.
+
+    \item \textbf{Wydajność i niezawodność} --
+    optymistyczne wysyłanie wiadomości oraz implementacja stronicowania dla
+    pobierania starszych wiadomości.
+
+    \item \textbf{Rozmowy prywatne} --
+    możliwość rozpoczęcia i kontynuowania rozmów bezpośrednio
+    z list relacji społecznościowych w panelu użytkownika.
+
+    \item \textbf{Czaty grupowe} --
+    tworzenie czatów grupowych, edycja nazwy/obrazu
+    oraz dodawanie kolejnych uczestników.
+
+    \item \textbf{Obsługa załączników} --
+    wysyłanie i wyświetlanie plików oraz obrazów.
 \end{itemize}
 
 \subsubsection{Forum}
 \label{subsubsec:modul-forum}
 
-Forum rozwijano jako moduł publikacji treści i dyskusji, uzupełniający funkcjonalności mapy i społeczności.
-
 \begin{itemize}
-    \item \textbf{Podstawowa struktura forum} -- obsługa postów, kategorii, tagów oraz paginacji.
-    \item \textbf{Edytor treści} -- integracja edytora rich-text na potrzeby tworzenia postów; w toku rozwoju modułu dopracowano i zmieniano zastosowane rozwiązanie edytora (np. \gls{tinymce} $\rightarrow$ \gls{tiptap}).
-    \item \textbf{Sanityzacja / przetwarzanie treści} -- wprowadzenie przetwarzania HTML po stronie \glslink{backend}{backendu} (np. z użyciem \gls{jsoup}) w celu kontroli i porządkowania treści publikowanych przez użytkowników.
-    \item \textbf{Media w postach} -- integracja z \gls{azure-blob-storage} do przesyłania i przechowywania mediów.
-    \item \textbf{Przeglądanie i sortowanie} -- rozwój listy postów i mechanizmów sortowania.
-    \item \textbf{Czytelne adresy i walidacja} -- wprowadzenie czytelniejszych adresów \gls{url} opartych na \glslink{slug}{slugach} oraz dopracowanie walidacji i ergonomii formularza dodawania postów.
-    \item \textbf{Interakcje społecznościowe} -- komentarze do postów (dodawanie/edycja/usuwanie/głosowanie), możliwość zgłaszania treści oraz obserwowanie postów.
-    \item \textbf{Usprawnienia UX} -- uspójnienie zachowania formularzy, a także poprawa sposobu komunikowania stanu ładowania (np. \gls{skeleton-loader} w listach i panelach).
+    \item \textbf{Podstawowa struktura forum} --
+    obsługa postów, kategorii, tagów oraz paginacji.
+
+    \item \textbf{Edytor treści} --
+    integracja edytora rich-text na potrzeby tworzenia postów. % dodac odniesienie do glosarisuza
+
+    \item \textbf{Media w postach} --
+    integracja z \gls{azure-blob-storage} do przesyłania
+    i przechowywania mediów.
+
+    \item \textbf{Przeglądanie i sortowanie} --
+    dodanie opcji sortowań listy postów i mechanizmów sortowania.
+
+    \item \textbf{Interakcje społecznościowe} --
+    komentarze do postów (dodawanie/edycja/usuwanie/głosowanie),
+    możliwość zgłaszania treści oraz obserwowanie postów.
 \end{itemize}
 
-\subsubsection{Wyszukiwarka \glslink{spot}{spotów}}
+\subsubsection{Wyszukiwarka spotów}
 \label{subsubsec:modul-wyszukiwarka}
 
-Wyszukiwanie \glslink{spot}{spotów} rozwijano stopniowo, przechodząc od prostych filtrów do
-zaawansowanych funkcji wspierających odkrywanie miejsc przez użytkowników.
-
 \begin{itemize}
-    \item \textbf{Filtrowanie podstawowe} -- pierwsze kryteria wyszukiwania, w tym filtrowanie po nazwie.
-    \item \textbf{Nowy pasek wyszukiwania} -- wdrożenie wyszukiwania po nazwie z panelem wyników oraz dopracowanie interfejsu (m.in. prezentacja ocen).
-    \item \textbf{Wyszukiwanie w obszarze mapy} -- dodanie możliwości wyszukiwania \glslink{spot}{spotów} w aktualnie widocznym obszarze mapy.
-    \item \textbf{Wyszukiwanie po lokalizacji} -- dodanie wyszukiwania po lokalizacji wraz z listą wyników i dystansem od użytkownika.
-    \item \textbf{Odkrywanie treści} -- dodanie elementów wspierających znajdowanie interesujących miejsc, np. karuzeli z najpopularniejszymi \glslink{spot}{spotami} na stronie głównej.
-    \item \textbf{Funkcje zaawansowane} -- paginacja wyników, sortowanie (np. popularność/ocena) oraz filtrowanie po minimalnej ocenie.
-    \item \textbf{Optymalizacja} -- dopracowanie mechanizmów cache'owania zapytań oraz uspójnienie sposobu pobierania danych.
+
+    \item \textbf{Wyszukiwanie spotów} --
+    wdrożenie wyszukiwania po nazwie z panelem wyników.
+
+    \item \textbf{Wyszukiwanie po lokalizacji} --
+    dodanie wyszukiwania po lokalizacji wraz z listą wyników
+    i dystansem od użytkownika.
+
+    \item \textbf{Najpopularniejsze spoty} --
+    dodanie karuzeli z najpopularniejszymi \glslink{spot}{spotami}.
+
+    \item \textbf{Funkcje zaawansowane} --
+    paginacja wyników, sortowanie (po popularność i ocenie)
+    oraz filtrowanie po minimalnej ocenie.
+
 \end{itemize}
 
 \subsubsection{Panel użytkownika}
 \label{subsubsec:modul-panel}
 
-Moduł panelu użytkownika rozwijano w kierunku kompletnego zestawu widoków i funkcji
-związanych z zarządzaniem kontem oraz aktywnością użytkownika w systemie.
-
 \begin{itemize}
-    \item \textbf{Profil użytkownika} -- wdrożenie profilu oraz rozdzielenie widoku własnego profilu i profilu innego użytkownika.
-    \item \textbf{Relacje społecznościowe} -- obsługa znajomych, obserwowanych i obserwujących, wraz z nawigacją oraz dedykowanymi widokami list.
-    \item \textbf{Zaproszenia do znajomych} -- statusy relacji (wysłane/otrzymane/zakończone), widok listy zaproszeń oraz akcje akceptowania i odrzucania.
-    \item \textbf{Wyszukiwanie użytkowników} -- funkcja dodawania znajomych z paginacją i wyszukiwaniem po nazwie użytkownika (np. w formie okna modalnego).
-    \item \textbf{Aktywność i zasoby} -- sekcje zdjęć i filmów, ujednolicenie modelu \textit{media}, widoki komentarzy oraz listy z filtrowaniem i sortowaniem (np. po dacie).
-    \item \textbf{Paginacja i nieskończone przewijanie} -- przebudowa wybranych widoków panelu i części społecznościowej na mechanizmy stronicowania lub nieskończonego przewijania.
-    \item \textbf{Ustawienia konta} -- edycja danych konta (np. nazwa użytkownika, e-mail, hasło) oraz obsługa zmiany zdjęcia profilowego.
-    \item \textbf{Moje \glslink{spot}{spoty} i ulubione} -- lista dodanych \glslink{spot}{spotów} oraz zarządzanie ulubionymi \glslink{spot}{spotami} z integracją z mapą.
-    \item \textbf{Komunikaty systemowe} -- rozwój mechanizmu prezentacji informacji o błędach i sukcesach w interfejsie (w tym możliwość wyświetlania wielu komunikatów), wykorzystywanego w panelu i innych częściach systemu.
+    \item \textbf{Profil użytkownika} --
+    wdrożenie profilu oraz rozdzielenie widoku własnego profilu
+    i profilu innego użytkownika.
+
+    \item \textbf{Relacje społecznościowe} --
+    obsługa znajomych, obserwowanych i obserwujących,
+    wraz z nawigacją oraz dedykowanymi widokami list.
+
+    \item \textbf{Zaproszenia do znajomych} --
+    statusy relacji (wysłane/otrzymane/zakończone),
+    widok listy zaproszeń oraz akcje akceptowania i odrzucania.
+
+    \item \textbf{Wyszukiwanie użytkowników} --
+    funkcja dodawania znajomych z paginacją i wyszukiwaniem
+    po nazwie użytkownika.
+
+    \item \textbf{Aktywność} --
+    sekcje zdjęć i filmów, widok dodanych komentarzy do spota.
+
+    \item \textbf{Ustawienia konta} --
+    edycja danych konta (nazwa użytkownika, e-mail, hasło)
+    oraz obsługa zmiany zdjęcia profilowego.
+
+    \item \textbf{Moje spoty i ulubione} --
+    lista dodanych \glslink{spot}{spotów} oraz zarządzanie ulubionymi
+    \glslink{spot}{spotami} z integracją z mapą.
+
 \end{itemize}
 
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 
+
 \section{Podsumowanie etapu finalizacji}
 \label{sec:podsumowanie-finalizacja}
 
-Końcowy okres realizacji koncentrował się na domykaniu funkcji, stabilizacji działania systemu,
-poprawie ergonomii interfejsu oraz uzupełnieniu dokumentacji technicznej i tekstowej.
-Przyjętą datą zakończenia prac projektowych był \textbf{10 stycznia 2026 roku}.
+Końcowy okres realizacji koncentrował się na domykaniu funkcjonalności
+oraz uzupełnieniu dokumentacji technicznej i tekstowej.
+Przyjętą datą zakończenia prac projektowych jest
+\textbf{10 stycznia 2026 roku}.
