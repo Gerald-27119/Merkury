@@ -120,7 +120,7 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{\hyperref[womap:display-spots]{WOMAP-01}}
 }
 
 \wfmapcard{wfmap:spot-details}
@@ -139,7 +139,10 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{
+        \hyperref[womap:display-spots]{WOMAP-01},
+        \hyperref[womap:spot-details]{WOMAP-02}
+    }
 }
 
 \wfmapcard{wfmap:spot-media-gallery}
@@ -158,7 +161,10 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{
+        \hyperref[womap:spot-details]{WOMAP-02},
+        \hyperref[womap:spot-media]{WOMAP-06}
+    }
 }
 
 \wfmapcard{wfmap:spot-comments-list}
@@ -179,7 +185,10 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{
+        \hyperref[womap:spot-details]{WOMAP-02},
+        \hyperref[womap:spot-comment]{WOMAP-05}
+    }
 }
 
 \wfmapcard{wfmap:spot-comments-vote}
@@ -196,11 +205,12 @@
             wybranego rodzaju oraz oznaczenie, którą opcję wybrał.
             \item Ponownie kliknięcie tego samego przycisku powoduje cofnięcie wystawienia oceny.
             \item Kliknięcie przycisku przeciwnej operacji powoduje wykonanie jej i cofnięcie poprzedniej.
+            \item Jeżeli użytkownik nie jest zalogowany, wyświetlany jest odpowiedni komunikat.
         \end{itemize}
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{\hyperref[womap:spot-comment]{WOMAP-05}}
 }
 
 \wfmapcard{wfmap:spot-comment-add}
@@ -224,7 +234,10 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{
+        \hyperref[womap:spot-details]{WOMAP-02},
+        \hyperref[womap:spot-comment]{WOMAP-05}
+    }
 }
 
 \wfmapcard{wfmap:spot-media-add}
@@ -249,7 +262,10 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{
+        \hyperref[womap:spot-details]{WOMAP-02},
+        \hyperref[womap:spot-media]{WOMAP-06}
+    }
 }
 
 \wfmapcard{wfmap:spot-favourites-add}
@@ -272,7 +288,7 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{\hyperref[womap:spot-details]{WOMAP-02}}
 }
 
 \wfmapcard{wfmap:spot-share}
@@ -292,7 +308,7 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{\hyperref[womap:spot-details]{WOMAP-02}}
 }
 
 \wfmapcard{wfmap:spot-naviagte}
@@ -312,7 +328,10 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{
+        \hyperref[womap:spot-details]{WOMAP-02},
+        \hyperref[womap:spot-user-location]{WOMAP-07}
+    }
 }
 
 \wfmapcard{wfmap:spot-expanded-media-gallery}
@@ -334,7 +353,10 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{
+        \hyperref[womap:spot-details]{WOMAP-02},
+        \hyperref[womap:spot-media]{WOMAP-06}
+    }
 }
 
 \wfmapcard{wfmap:spot-expanded-media-gallery-sidebar}
@@ -357,7 +379,7 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{\hyperref[womap:spot-media]{WOMAP-06}}
 }
 
 \wfmapcard{wfmap:spot-expanded-media-gallery-expanded-media}
@@ -376,7 +398,7 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{\hyperref[womap:spot-media]{WOMAP-06}}
 }
 
 \wfmapcard{wfmap:spot-expanded-media-gallery-share-media}
@@ -395,7 +417,7 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{\hyperref[womap:spot-media]{WOMAP-06}}
 }
 
 \wfmapcard{wfmap:spot-expanded-media-gallery-like-media}
@@ -410,12 +432,13 @@
             \item Po kliknięciu przycisku użytkownik natychmiast widzi aktualizację liczby polubień, a przycisk
             zmienia wygląd oznaczający wykonanie operacji.
             \item Gdy miedia jest polubione, kliknięcie przycisku powoduje odwrotną operację.
+            \item Brak zalogowania uniemożliwia wykonanie operacji.
             \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie operacji.
         \end{itemize}
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{\hyperref[womap:spot-media]{WOMAP-06}}
 }
 
 \wfmapcard{wfmap:spot-expanded-media-gallery-expand-media}
@@ -433,7 +456,7 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{\hyperref[womap:spot-media]{WOMAP-06}}
 }
 
 \wfmapcard{wfmap:spot-expanded-media-gallery-download-media}
@@ -451,7 +474,7 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{\hyperref[womap:spot-media]{WOMAP-06}}
 }
 
 \wfmapcard{wfmap:spot-weather}
@@ -470,7 +493,10 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{
+        \hyperref[womap:display-spots]{WOMAP-01},
+        \hyperref[womap:spot-weather]{WOMAP-03}
+    }
 }
 
 \wfmapcard{wfmap:spot-detailed-weather}
@@ -498,7 +524,7 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{\hyperref[womap:spot-weather]{WOMAP-03}}
 }
 
 \wfmapcard{wfmap:spot-name-search}
@@ -523,7 +549,10 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{
+        \hyperref[womap:display-spots]{WOMAP-01},
+        \hyperref[womap:spot-search]{WOMAP-04}
+    }
 }
 
 \wfmapcard{wfmap:spot-name-search-list}
@@ -548,7 +577,7 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{\hyperref[womap:spot-search]{WOMAP-04}}
 }
 
 \wfmapcard{wfmap:spot-current-view}
@@ -571,7 +600,10 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{
+        \hyperref[womap:display-spots]{WOMAP-01},
+        \hyperref[womap:spot-search]{WOMAP-04}
+    }
 }
 
 \wfmapcard{wfmap:spot-name-current-view-list}
@@ -602,7 +634,7 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{\hyperref[womap:spot-search]{WOMAP-04}}
 }
 
 \wfmapcard{wfmap:spot-lists-map-view}
@@ -620,7 +652,10 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{
+        \hyperref[womap:display-spots]{WOMAP-01},
+        \hyperref[womap:spot-search]{WOMAP-04}
+    }
 }
 
 \wfmapcard{wfmap:user-location}
@@ -639,7 +674,10 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{
+        \hyperref[womap:display-spots]{WOMAP-01},
+        \hyperref[womap:spot-user-location]{WOMAP-07}
+    }
 }
 
 \wfmapcard{wfmap:map-zoom}
@@ -657,5 +695,5 @@
     }
     \wfmapstakeholder{U3}
     \wfmapresponsible{Stanisław Oziemczuk}
-    \wfmaprelated{brak}
+    \wfmaprelated{\hyperref[womap:display-spots]{WOMAP-01}}
 }
