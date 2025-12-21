@@ -1,3 +1,4 @@
+
 %! Author = Adam
 %! Date = 10/01/2025
 
@@ -27,19 +28,16 @@ W całym okresie realizacji rozwijano także elementy wspólne.
 \begin{itemize}
     \item \textbf{Stos technologiczny i struktura projektu} --
     doprecyzowanie architektury rozwiązania oraz organizacji repozytorium
-    dla \glslink{backend}{backendu} i \glslink{frontend}{frontendu}.
+    dla \gls{backend} i \gls{frontend}.%glslink z odmianą
 
     \item \textbf{Podstawy warstwy klienckiej} --
     stworzenie fundamentów aplikacji \glslink{frontend}{frontendowej}
-    (\glslink{routing}{routingu}, konfiguracja stylów, struktury projektu),
-    a także dodanie do projektu potrzebnych \glslink{biblioteka}{bibliotek}
-    m.in.: \gls{tanstack-query}, \gls{redux} oraz \gls{tailwind-css}.
+    (routing, konfiguracja stylów, struktury projektu),
+    a także dodanie do projektu potrzebnych bibliotek m.in.: \gls{tanstack-query}, \gls{redux} oraz \gls{tailwind-css}.
 
     \item \textbf{Uwierzytelnianie i bezpieczeństwo} --
     implementacja logowania i rejestracji, doprecyzowanie ról i uprawnień
-    w \glslink{spring-security}{Spring Security},
-    a także logowanie za pomocą \glslink{oauth}{OAuth} poprzez Google
-    oraz \glslink{github}{GitHub}.
+    w \gls{spring-security}, a także logowanie za pomocą \gls{oauth} poprzez Google oraz \gls{github}.
 
     \item \textbf{Odzyskiwanie dostępu do konta} --
     implementacja resetowania hasła.
@@ -48,39 +46,33 @@ W całym okresie realizacji rozwijano także elementy wspólne.
     integracja z zewnętrzną usługą wysyłania wiadomości mailowych.
 
     \item \textbf{Środowisko uruchomieniowe} --
-    konteneryzacja z użyciem \glslink{docker}{Dockera}
-    (m.in. \gls{docker-compose} oraz pliki \gls{dockerfile})
-    oraz przygotowanie skryptów ułatwiających uruchamianie
-    środowiska deweloperskiego.
+    konteneryzacja serwisów, na które składa się aplikacja % do slownika poejcie konteneryzacji
+    oraz przygotowanie skryptów ułatwiających uruchamianie środowiska deweloperskiego.
 
     \item \textbf{Jakość i automatyzacja} --
-    rozwój testów (\glslink{integration-tests}{integracyjnych},
-    \glslink{unit-tests}{jednostkowych} i \glslink{e2e-tests}{E2E}
-    tam, gdzie zasadne),
+    rozwój testów (integracyjnych, jednostkowych i E2E tam, gdzie zasadne),
     uruchamianie testów w potokach \gls{cicd},
     ujednolicenie formatowania (m.in. \gls{prettier})
     i kontrola jakości w repozytorium (np. \gls{eslint}).
 
     \item \textbf{Wydajność} --
-    wprowadzenie mechanizmu optymalizacji w postaci \glslink{cache}{cache'a}
-    (np. z wykorzystaniem \gls{redis}).
+    wprowadzenie mechanizmu optymalizacji w postaci \glslink{cache}{cache'a}.
 
     \item \textbf{Dane deweloperskie} --
     przygotowanie danych testowych wykorzystywanych do demonstracji
-    i weryfikacji działania produktu (np. przykładowe \glslink{spot}{spoty}).
+    i weryfikacji działania produktu.
 
     \item \textbf{Komunikaty systemowe} --
-    implementacja mechanizmu prezentacji informacji o błędach i sukcesach
-    w \glslink{ui}{interfejsie użytkownika}.
+    implementacja mechanizmu prezentacji informacji o błędach i sukcesach.
 
     \item \textbf{Dokumentacja} --
     opracowanie dokumentacji projektu w \gls{latex}.
 \end{itemize}
 
-Przed rozpoczęciem implementacji modułów przygotowano projekt
-\glslink{ui}{interfejsu użytkownika}, obejmujący kluczowe widoki.
-Stanowił on punkt odniesienia dla dalszych prac i ułatwił iteracyjne
-dopasowywanie funkcjonalności do sposobu użycia systemu.
+Przed rozpoczęciem implementacji modułów przygotowano projekt interfejsu użytkownika,
+obejmujący kluczowe widoki.
+Stanowił on punkt odniesienia dla dalszych prac i ułatwił iteracyjne dopasowywanie
+funkcjonalności do sposobu użycia systemu.
 
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{4}
@@ -108,8 +100,8 @@ Każdy moduł rozwijano iteracyjnie, stopniowo rozszerzając jego zakres.
     wyświetlania \glslink{spot}{spotów}.
 
     \item \textbf{Model \glslink{spot}{spota}} --
-    rozszerzanie modelu o dane lokalizacyjne oraz ujednolicenie sposobu
-    wyznaczania punktu reprezentującego \glslink{spot}{spota}.
+    rozszerzanie modelu o dane lokalizacyjne oraz ujednolicenie sposobu wyznaczania punktu
+    reprezentującego \glslink{spot}{spota}.
 
     \item \textbf{Widok szczegółów \glslink{spot}{spota}} --
     rozwój prezentacji informacji o \glslink{spot}{spocie}.
@@ -128,7 +120,7 @@ Każdy moduł rozwijano iteracyjnie, stopniowo rozszerzając jego zakres.
     możliwość dodawania \glslink{spot}{spotów} do ulubionych oraz integracja
     tej funkcji z panelem użytkownika.
 
-    \item \textbf{\glslink{responsywnosc}{Responsywność}} --
+    \item \textbf{Responsywność} --
     dostosowanie modułu mapy i widoku szczegółów \glslink{spot}{spotów}
     do różnych rozmiarów ekranu.
 
@@ -154,17 +146,15 @@ Każdy moduł rozwijano iteracyjnie, stopniowo rozszerzając jego zakres.
     wdrożenie \gls{websocket} do pobierania i wysyłania wiadomości.
 
     \item \textbf{Usprawnienia UX} --
-    grupowanie wiadomości po dacie, wielowierszowe pole tekstowe,
-    dodanie mechanizmu \glslink{infinite-scroll}{nieskończonego przewijania}
-    wiadomości w danym czacie.
+    grupowanie wiadomości po dacie, wielowierszowe pole tekstowe, dodanie mechanizmu nieskończonego przewijania wiadomości w danym czacie.
 
     \item \textbf{Emoji i GIF} --
-    dodanie obsługi \gls{emoji} oraz wysyłania animowanych obrazów
+    dodanie obsługi emoji oraz wysyłania animowanych obrazów
     \glslink{gif}{GIF}.
 
     \item \textbf{Wydajność i niezawodność} --
-    optymistyczne wysyłanie wiadomości oraz implementacja
-    \glslink{paginacja}{paginacji} dla pobierania starszych wiadomości.
+    optymistyczne wysyłanie wiadomości oraz implementacja stronicowania dla
+    pobierania starszych wiadomości.
 
     \item \textbf{Rozmowy prywatne} --
     możliwość rozpoczęcia i kontynuowania rozmów bezpośrednio
@@ -183,11 +173,10 @@ Każdy moduł rozwijano iteracyjnie, stopniowo rozszerzając jego zakres.
 
 \begin{itemize}
     \item \textbf{Podstawowa struktura forum} --
-    obsługa postów, kategorii, tagów oraz \glslink{paginacja}{paginacji}.
+    obsługa postów, kategorii, tagów oraz paginacji.
 
     \item \textbf{Edytor treści} --
-    integracja \glslink{rich-text-editor}{edytora rich text}
-    na potrzeby tworzenia postów.
+    integracja edytora rich-text na potrzeby tworzenia postów.
 
     \item \textbf{Media w postach} --
     integracja z \gls{azure-blob-storage} do przesyłania
@@ -201,23 +190,25 @@ Każdy moduł rozwijano iteracyjnie, stopniowo rozszerzając jego zakres.
     możliwość zgłaszania treści oraz obserwowanie postów.
 \end{itemize}
 
-\subsubsection{Wyszukiwarka \glslink{spot}{spotów}}
+\subsubsection{Wyszukiwarka spotów}
 \label{subsubsec:modul-wyszukiwarka}
 
 \begin{itemize}
-    \item \textbf{Wyszukiwanie \glslink{spot}{spotów}} --
+
+    \item \textbf{Wyszukiwanie spotów} --
     wdrożenie wyszukiwania po nazwie z panelem wyników.
 
     \item \textbf{Wyszukiwanie po lokalizacji} --
     dodanie wyszukiwania po lokalizacji wraz z listą wyników
     i dystansem od użytkownika.
 
-    \item \textbf{Najpopularniejsze \glslink{spot}{spoty}} --
+    \item \textbf{Najpopularniejsze spoty} --
     dodanie karuzeli z najpopularniejszymi \glslink{spot}{spotami}.
 
     \item \textbf{Funkcje zaawansowane} --
-    \glslink{paginacja}{paginacja} wyników, sortowanie (po popularności i ocenie)
+    paginacja wyników, sortowanie (po popularność i ocenie)
     oraz filtrowanie po minimalnej ocenie.
+
 \end{itemize}
 
 \subsubsection{Panel użytkownika}
@@ -237,19 +228,20 @@ Każdy moduł rozwijano iteracyjnie, stopniowo rozszerzając jego zakres.
     widok listy zaproszeń oraz akcje akceptowania i odrzucania.
 
     \item \textbf{Wyszukiwanie użytkowników} --
-    funkcja dodawania znajomych z \glslink{paginacja}{paginacją}
-    i wyszukiwaniem po nazwie użytkownika.
+    funkcja dodawania znajomych z paginacją i wyszukiwaniem
+    po nazwie użytkownika.
 
     \item \textbf{Aktywność} --
-    sekcje zdjęć i filmów, widok dodanych komentarzy do \glslink{spot}{spota}.
+    sekcje zdjęć i filmów, widok dodanych komentarzy do spota.
 
     \item \textbf{Ustawienia konta} --
     edycja danych konta (nazwa użytkownika, e-mail, hasło)
     oraz obsługa zmiany zdjęcia profilowego.
 
-    \item \textbf{Moje \glslink{spot}{spoty} i ulubione} --
+    \item \textbf{Moje spoty i ulubione} --
     lista dodanych \glslink{spot}{spotów} oraz zarządzanie ulubionymi
     \glslink{spot}{spotami} z integracją z mapą.
+
 \end{itemize}
 
 \setcounter{secnumdepth}{3}
@@ -263,3 +255,4 @@ Końcowy okres realizacji koncentrował się na domykaniu funkcjonalności
 oraz uzupełnieniu dokumentacji technicznej i tekstowej.
 Przyjętą datą zakończenia prac projektowych jest
 \textbf{10 stycznia 2026 roku}.
+
