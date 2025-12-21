@@ -1,0 +1,127 @@
+%! Author = Mateusz
+%! Date = 21/12/2025
+
+\subsubsection{Wymagania ogólne dla wyszukiwarki spotów}
+\label{subsubsec:wymagania-ogolne-dla-wyszukiwarki-spotow}
+
+
+\newlength{\wowyszContentWidth}
+\setlength{\wowyszContentWidth}{0.74\textwidth}
+
+\newlength{\wowyszLabelWidth}
+\setlength{\wowyszLabelWidth}{0.2\textwidth}
+
+\newlength{\wopanelHeaderHeight}
+\setlength{\wopanelHeaderHeight}{12mm}
+
+% --------- Pola karty (wiersze) ---------
+
+% Id + priorytet – 4 kolumny
+\newcommand{\wowyszpriority}[2]{%
+    \textbf{Identyfikator:} & WOWYSZ-#1 &
+    \textbf{Priorytet:} & #2 \\ \hline
+}
+
+% Wiersze z etykietą + treścią na 3 kolumny
+\newcommand{\wowyszname}[1]{\textbf{Nazwa:}              &
+\multicolumn{3}{|p{\wowyszContentWidth}|}{#1} \\ \hline}
+\newcommand{\wowyszdesc}[1]{\textbf{Opis:}               &
+\multicolumn{3}{|p{\wowyszContentWidth}|}{#1} \\ \hline}
+\newcommand{\wowyszstakeholder}[1]{\textbf{Udziałowiec:} &
+\multicolumn{3}{|p{\wowyszContentWidth}|}{#1} \\ \hline}
+\newcommand{\wowyszrelated}[1]{\textbf{Wymagania powiązane:} &
+\multicolumn{3}{|p{\wowyszContentWidth}|}{#1} \\ \hline}
+
+\newcommand{\wopanelHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wopanelHeaderHeight][c]{\linewidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
+\newcommand{\wowyszatcard}[5]{%
+    \refstepcounter{awc}%
+    {\centering
+    \begin{longtable}{|
+            >{\columncolor{lightgray}}p{\wowyszLabelWidth}|
+        p{0.22\textwidth}|
+            >{\columncolor{lightgray}}p{0.18\textwidth}|
+        p{0.24\textwidth}|}
+
+    \hline
+    \wopanelHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNE DLA \\ WYSZUKIWARKI SPOTÓW}}
+    \endfirsthead
+    \hline
+    \wopanelHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNE DLA \\ WYSZUKIWARKI SPOTÓW (cd.)}}
+    \endhead
+
+    % właściwa treść karty
+    \wowyszpriority{#3}{#4}
+    \wowyszname{#2}
+    #5
+
+    \end{longtable}
+    \par} % koniec centrowania
+
+    \vspace{3pt}
+    \textbf{Tabela \theawc:}
+    Karta wymagania ogólnego dla wyszukiwarki spotów: #2\label{#1}
+
+    \addcontentsline{lot}{table}
+    {Tabela \theawc: Karta wymagania ogólnego dla wyszukiwarki spotów: #2}%
+}
+
+
+\wowyszatcard
+{wowysz:basic-search}
+{Wyszukiwanie na prostej wyszukiwarce}
+{01}
+{M}
+{
+    \wowyszdesc{System udostępnia użytkownikowi prostą wyszukiwarkę spotów na stronie głównej,
+        umożliwiającą przeglądanie listy spotów oraz wyszukiwanie wyników według lokalizacji
+        (kraj, region, miasto). Dodatkowo system prezentuje karuzelę najpopularniejszych spotów
+        dla wybranej lokalizacji wraz z podstawowymi informacjami o miejscu.}
+
+    \wowyszstakeholder{U3}
+
+    \wowyszrelated{%
+        \hyperref[wfwysz:top-spots-carousel]{WFWYSZ-01},
+        \hyperref[wfwysz:basic-location-search]{WFWYSZ-02},
+        \hyperref[wfwysz:display-search-results]{WFWYSZ-03},
+        \hyperref[wfwysz:location-autocomplete]{WFWYSZ-04},
+        \hyperref[wfwysz:spot-actions-map-details]{WFWYSZ-05},
+        \hyperref[wpwysz:load-under-10s]{WPWYSZ-01},
+        \hyperref[wpwysz:autocomplete-location]{WPWYSZ-02}.%
+    }
+}
+
+\wowyszatcard
+{wowysz:advanced-search}
+{Wyszukiwanie na zaawansowanej wyszukiwarce}
+{02}
+{M}
+{
+    \wowyszdesc{System udostępnia użytkownikowi zaawansowaną wyszukiwarkę spotów na stronie głównej,
+        umożliwiającą filtrowanie listy spotów według miasta, tagów oraz minimalnej oceny, a także
+        sortowanie wyników według oceny oraz popularności. Wyniki wyszukiwania są aktualizowane zgodnie
+        z ustawionymi filtrami i sortowaniem, a użytkownik może przejść do szczegółów wybranego spota.}
+
+    \wowyszstakeholder{U3}
+
+    \wowyszrelated{%
+        \hyperref[wfwysz:display-search-results]{WFWYSZ-03},
+        \hyperref[wfwysz:location-autocomplete]{WFWYSZ-04},
+        \hyperref[wfwysz:spot-actions-map-details]{WFWYSZ-05},
+        \hyperref[wfwysz:advanced-city-tags]{WFWYSZ-06},
+        \hyperref[wfwysz:filter-polarity-rating]{WFWYSZ-07},
+        \hyperref[wfwysz:filter-rating]{WFWYSZ-08},
+        \hyperref[wpwysz:load-under-10s]{WPWYSZ-01},
+        \hyperref[wpwysz:autocomplete-location]{WPWYSZ-02}.%
+    }
+}
