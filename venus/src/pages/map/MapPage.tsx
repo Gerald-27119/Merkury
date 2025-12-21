@@ -1,4 +1,4 @@
-import { Map, useMap } from "@vis.gl/react-maplibre";
+import { Map } from "@vis.gl/react-maplibre";
 import ZoomControlPanel from "./components/zoom-control/ZoomControlPanel";
 import UserLocationPanel from "./components/locations/UserLocationPanel";
 import Spots from "./components/spots/Spots";
