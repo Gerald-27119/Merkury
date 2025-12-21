@@ -1,4 +1,4 @@
-import { Map } from "@vis.gl/react-maplibre";
+import { Map, useMap } from "@vis.gl/react-maplibre";
 import ZoomControlPanel from "./components/zoom-control/ZoomControlPanel";
 import UserLocationPanel from "./components/locations/UserLocationPanel";
 import Spots from "./components/spots/Spots";
@@ -41,8 +41,8 @@ export default function MapPage() {
     const { isLogged } = useSelectorTyped((state) => state.account);
 
     useEffect(() => {
-        const spotId = Number(searchParams.get("spotId"));
-        const longitude = Number(searchParams.get("longitude"));
+        const spotId = Number(searchParams.get("spotId") ?? undefined);
+        const longitude = Number(searchParams.get("longitude") ?? undefined);
         const latitude = Number(searchParams.get("latitude"));
         const region = searchParams.get("region");
         const city = searchParams.get("city");
