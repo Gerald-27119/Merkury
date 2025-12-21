@@ -4,14 +4,14 @@
 \subsubsection{Wymagania pozafunkcjonalne dla mapy}
 \label{subsubsec:wymagania-pozafunkcjonalne-dla-mapy}
 
-\newlength{\wpczLabelWidth}
-\settowidth{\wpczLabelWidth}{\textbf{Wymagania powiązane:}}
-\addtolength{\wpczLabelWidth}{-20pt}
+\newlength{\wpmapLabelWidth}
+\settowidth{\wpmapLabelWidth}{\textbf{Wymagania powiązane:}}
+\addtolength{\wpmapLabelWidth}{-20pt}
 
 % Szerokość części z treścią (3 prawe kolumny zlane w jedną)
-\newlength{\wpczContentWidth}
-\setlength{\wpczContentWidth}{0.7\textwidth}
-\addtolength{\wpczContentWidth}{20pt}
+\newlength{\wpmapContentWidth}
+\setlength{\wpmapContentWidth}{0.7\textwidth}
+\addtolength{\wpmapContentWidth}{20pt}
 
 % --------- Pola karty (wiersze) ---------
 
@@ -100,11 +100,17 @@
 {01}
 {S}
 {
-    \wpmaptype{nie wiem}
-    \wpmapdesc{nie wiem}
+    \wpmaptype{Niezawodność}
+    \wpmapdesc{Mapa jest hostowana na serwerze zarządzanym przez zespół projektowy.
+    Korzystanie z własnego hosta zamiast publicznej instancji dostarczanej przez producenta mapy pozwoli
+    uniknąć jego nadmiernego obciążenia, powodującego zwiększenie czasu potrzebnego na pobranie kafelków
+    mapy.}
     \wpmapaccept{
         \begin{itemize}
-            \item nie wiem
+            \item Mapa jest hostowana na niezależnym serwerze.
+            \item Serwer jest zarządzany przez zespół projektowy.
+            \item Czas pobierania kafelków mapy z serwera jest nie większy niż z serwera dostarczanego przez
+            producenta mapy.
         \end{itemize}
     }
     \wpmapstakeholder{U2}
