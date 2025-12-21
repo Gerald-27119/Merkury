@@ -159,7 +159,7 @@
 
     \wfpanelaccept{%
         \begin{itemize}
-            \item Użytkownik może wybrać plik graficzny i zapisać nowy avatar.
+            \item Użytkownik może wybrać zdjęcie i zapisać jako nowy avatar.
             \item Po zapisaniu nowy avatar jest widoczny na profilu.
             \item W przypadku błędu zapisu lub niepoprawnego pliku system wyświetla komunikat o błędzie.
         \end{itemize}
@@ -492,85 +492,12 @@
 }
 
 % =========================================
-% WFPANEL-16 – Sortowanie komentarzy po dacie
-% =========================================
-\wfpanelatcard
-{wfpanel:comments-sort-by-date}
-{Możliwość sortowania dodanych komentarzy po dacie}
-{16}
-{M}
-{
-    \wfpaneldesc{System umożliwia użytkownikowi sortowanie listy komentarzy po dacie dodania.}
-
-    \wfpanelaccept{%
-        \begin{itemize}
-            \item Użytkownik może wybrać sortowanie rosnące lub malejące po dacie.
-            \item Po zmianie sortowania kolejność komentarzy aktualizuje się w liście.
-        \end{itemize}
-    }
-
-    \wfpanelstakeholder{U3}
-    \wfpanelresponsible{Mateusz Redosz}
-    \wfpanelrelated{%
-    }
-}
-
-% =========================================
-% WFPANEL-17 – Filtrowanie komentarzy po dacie
-% =========================================
-\wfpanelatcard
-{wfpanel:comments-filter-by-date}
-{Możliwość filtrowania dodanych komentarzy po dacie}
-{17}
-{M}
-{
-    \wfpaneldesc{System umożliwia użytkownikowi filtrowanie listy komentarzy według daty dodania.}
-
-    \wfpanelaccept{%
-        \begin{itemize}
-            \item Użytkownik może wskazać zakres dat do filtrowania.
-            \item Lista prezentuje tylko komentarze spełniające warunki filtra.
-        \end{itemize}
-    }
-
-    \wfpanelstakeholder{U3}
-    \wfpanelresponsible{Mateusz Redosz}
-    \wfpanelrelated{%
-    }
-}
-
-% =========================================
-% WFPANEL-18 – Grupowanie komentarzy po dacie i spocie
-% =========================================
-\wfpanelatcard
-{wfpanel:comments-grouped-by-date-and-spot}
-{Wyświetlenie listy komentarzy zgrupowanych po dacie oraz nazwie spota}
-{18}
-{M}
-{
-    \wfpaneldesc{System umożliwia wyświetlenie listy komentarzy użytkownika zgrupowanej po dacie
-    oraz nazwie spota.}
-
-    \wfpanelaccept{%
-        \begin{itemize}
-            \item Komentarze są pogrupowane po dacie dodania.
-            \item W ramach grupy daty komentarze są przypisane do nazw spota.
-        \end{itemize}
-    }
-
-    \wfpanelstakeholder{U3}
-    \wfpanelresponsible{Mateusz Redosz}
-    \wfpanelrelated{%
-    }
-}
-
-% =========================================
-% WFPANEL-19 – Wyświetlenie listy znajomych
+% WFPANEL-16 – Wyświetlenie listy znajomych
 % =========================================
 \wfpanelatcard
 {wfpanel:friends-list}
 {Wyświetlenie listy znajomych}
-{19}
+{16}
 {M}
 {
     \wfpaneldesc{System umożliwia użytkownikowi wyświetlenie listy znajomych w panelu konta.}
@@ -589,12 +516,12 @@
 }
 
 % =========================================
-% WFPANEL-20 – Wyświetlenie listy obserwowanych
+% WFPANEL-17 – Wyświetlenie listy obserwowanych
 % =========================================
 \wfpanelatcard
 {wfpanel:following-list}
 {Wyświetlenie listy obserwowanych}
-{20}
+{17}
 {M}
 {
     \wfpaneldesc{System umożliwia użytkownikowi wyświetlenie listy obserwowanych w panelu konta.}
@@ -612,12 +539,12 @@
 }
 
 % =========================================
-% WFPANEL-21 – Wyświetlenie listy obserwujących
+% WFPANEL-18 – Wyświetlenie listy obserwujących
 % =========================================
 \wfpanelatcard
 {wfpanel:followers-list}
 {Wyświetlenie listy obserwujących}
-{21}
+{18}
 {M}
 {
     \wfpaneldesc{System umożliwia użytkownikowi wyświetlenie listy obserwujących w panelu konta.}
@@ -635,12 +562,12 @@
 }
 
 % =========================================
-% WFPANEL-22 – Wyświetlenie listy zaproszeń
+% WFPANEL-19 – Wyświetlenie listy zaproszeń
 % =========================================
 \wfpanelatcard
 {wfpanel:invitations-list}
 {Wyświetlenie listy zaproszeń po kliknięciu przycisku}
-{22}
+{19}
 {M}
 {
     \wfpaneldesc{System umożliwia użytkownikowi wyświetlenie listy zaproszeń do znajomych po wybraniu odpowiedniej akcji w sekcji społeczności.}
@@ -659,12 +586,12 @@
 }
 
 % =========================================
-% WFPANEL-23 – Wyszukiwanie nowych znajomych (okno)
+% WFPANEL-20 – Wyszukiwanie nowych znajomych (okno)
 % =========================================
 \wfpanelatcard
 {wfpanel:search-friends-modal}
 {Okno do wyszukiwania nowych znajomych}
-{23}
+{20}
 {M}
 {
     \wfpaneldesc{System umożliwia użytkownikowi otwarcie okna wyszukiwania użytkowników w celu dodania do znajomych.}
@@ -683,12 +610,12 @@
 }
 
 % =========================================
-% WFPANEL-24 – Akcje na znajomym (usuń / profil / wiadomość)
+% WFPANEL-21 – Akcje na znajomym (usuń / profil / wiadomość)
 % =========================================
 \wfpanelatcard
 {wfpanel:friend-actions}
 {Możliwość usunięcia z listy, wejścia w profil oraz napisania wiadomości do znajomego}
-{24}
+{21}
 {M}
 {
     \wfpaneldesc{System umożliwia użytkownikowi wykonanie podstawowych akcji na użytkowniku z listy znajomych.}
@@ -708,12 +635,12 @@
 }
 
 % =========================================
-% WFPANEL-25 – Lista dodanych spotów
+% WFPANEL-22 – Lista dodanych spotów
 % =========================================
 \wfpanelatcard
 {wfpanel:added-spots-list}
 {Wyświetlenie listy dodanych spotów}
-{25}
+{22}
 {M}
 {
     \wfpaneldesc{System umożliwia użytkownikowi wyświetlenie listy spotów dodanych przez niego w panelu konta.}
@@ -732,12 +659,12 @@
 }
 
 % =========================================
-% WFPANEL-26 – Dodawanie spota formularzem
+% WFPANEL-23 – Dodawanie spota formularzem
 % =========================================
 \wfpanelatcard
 {wfpanel:add-spot-form}
 {Możliwość dodania spota za pomocą formularza}
-{26}
+{23}
 {M}
 {
     \wfpaneldesc{System umożliwia użytkownikowi dodanie nowego spota poprzez formularz w panelu konta.}
@@ -747,6 +674,79 @@
             \item Użytkownik ma dostęp do formularza dodawania spota.
             \item Użytkownik może wysłać poprawnie wypełniony formularz.
             \item W przypadku błędu walidacji lub błędu API system wyświetla komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+    }
+}
+
+% =========================================
+% WFPANEL-24 – Sortowanie komentarzy po dacie
+% =========================================
+\wfpanelatcard
+{wfpanel:comments-sort-by-date}
+{Możliwość sortowania dodanych komentarzy po dacie}
+{24}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi sortowanie listy komentarzy po dacie dodania.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może wybrać sortowanie rosnące lub malejące po dacie.
+            \item Po zmianie sortowania kolejność komentarzy aktualizuje się w liście.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+    }
+}
+
+% =========================================
+% WFPANEL-25 – Filtrowanie komentarzy po dacie
+% =========================================
+\wfpanelatcard
+{wfpanel:comments-filter-by-date}
+{Możliwość filtrowania dodanych komentarzy po dacie}
+{26}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi filtrowanie listy komentarzy według daty dodania.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może wskazać zakres dat do filtrowania.
+            \item Lista prezentuje tylko komentarze spełniające warunki filtra.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+    }
+}
+
+% =========================================
+% WFPANEL-26 – Grupowanie komentarzy po dacie i spocie
+% =========================================
+\wfpanelatcard
+{wfpanel:comments-grouped-by-date-and-spot}
+{Wyświetlenie listy komentarzy zgrupowanych po dacie oraz nazwie spota}
+{26}
+{M}
+{
+    \wfpaneldesc{System umożliwia wyświetlenie listy komentarzy użytkownika zgrupowanej po dacie
+    oraz nazwie spota.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Komentarze są pogrupowane po dacie dodania.
+            \item W ramach grupy daty komentarze są przypisane do nazw spota.
         \end{itemize}
     }
 
