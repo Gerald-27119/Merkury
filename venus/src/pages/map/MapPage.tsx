@@ -43,7 +43,7 @@ export default function MapPage() {
     useEffect(() => {
         const spotId = Number(searchParams.get("spotId") ?? undefined);
         const longitude = Number(searchParams.get("longitude") ?? undefined);
-        const latitude = Number(searchParams.get("latitude"));
+        const latitude = Number(searchParams.get("latitude") ?? undefined);
         const region = searchParams.get("region");
         const city = searchParams.get("city");
         if (
