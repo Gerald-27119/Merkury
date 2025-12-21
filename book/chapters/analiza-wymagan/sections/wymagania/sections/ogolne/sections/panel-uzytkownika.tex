@@ -11,6 +11,9 @@
 \newlength{\wopanuLabelWidth}
 \setlength{\wopanuLabelWidth}{0.2\textwidth}
 
+\newlength{\wopanelHeaderHeight}
+\setlength{\wopanelHeaderHeight}{12mm}
+
 % --------- Pola karty (wiersze) ---------
 
 % Id + priorytet – 4 kolumny
@@ -29,6 +32,18 @@
 \newcommand{\wopanurelated}[1]{\textbf{Wymagania powiązane:} &
 \multicolumn{3}{|p{\wopanuContentWidth}|}{#1} \\ \hline}
 
+\newcommand{\wopanelHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wopanelHeaderHeight][c]{\linewidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
 \newcommand{\wopanuatcard}[5]{%
     \refstepcounter{awc}%
     {\centering
@@ -39,13 +54,10 @@
         p{0.24\textwidth}|}
 
     \hline
-    \rowcolor{lightgray}\multicolumn{4}{|c|}{%
-        \textbf{\shortstack{KARTA WYMAGANIA OGÓLNEGO DLA \\ PANELU UŻYTKOWNIKA}}%
-    } \\ \hline
+    \wopanelHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNE DLA \\ PANELU UŻYTKOWNIKA}}
     \endfirsthead
     \hline
-    \rowcolor{lightgray}\multicolumn{4}{|c|}
-    {\textbf{\shortstack{KARTA WYMAGANIA OGÓLNEGO DLA \\ PANELU UŻYTKOWNIKA (cd.)}}} \\ \hline
+    \wopanelHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNE DLA \\ PANELU UŻYTKOWNIKA (cd.)}}
     \endhead
 
     % właściwa treść karty
