@@ -18,8 +18,8 @@ dotyczą danej części systemu.
 Jest on uruchamiany:
 \begin{itemize}
     \item przy zdarzeniu \glslink{push}{\texttt{push}} dla zmian w katalogu \texttt{vulcanus/**},
-    \item przy otwarciu \glslink{pull-request}{\textit{pull request}} do gałęzi \texttt{master} oraz \texttt{develop},
-    \item w trybie \glslink{merge}{\texttt{merge\_group}} (kolejka scalania) dla gałęzi \texttt{master} oraz \texttt{develop},
+    \item przy otwarciu \glslink{pull-request}{\textit{pull request}} do gałęzi \texttt{master} lub \texttt{develop},
+    \item w trybie \glslink{merge}{\texttt{merge\_group}} (kolejka scalania) dla gałęzi \texttt{master} lub \texttt{develop},
 \end{itemize}
 z jednoczesnym pomijaniem zmian w katalogu \texttt{book/**}.
 Fragment konfiguracji wyzwalaczy przedstawiono (rys. \ref{img:cicd-backend-on}).
@@ -48,7 +48,7 @@ zmiany w warunkach zbliżonych do rzeczywistego scalenia.
 
 \glslink{workflow}{Workflow} składa się z trzech jobów uruchamianych sekwencyjnie: \texttt{setup}, \texttt{build} oraz \texttt{test}.
 Zależności pomiędzy \glslink{job}{jobami} (kolejność wykonania) oraz przykładowe czasy trwania
-przedstawiono (rys. \ref{img:cicd-backend-run-summary}).
+przedstawia (rys. \ref{img:cicd-backend-run-summary}).
 
 \begin{figure}[H]
     \centering
@@ -64,7 +64,7 @@ przedstawiono (rys. \ref{img:cicd-backend-run-summary}).
 pobiera repozytorium, ustawia wersję JDK 21, inicjalizuje środowisko \glslink{docker}{Docker} oraz obsługuje
 \glslink{cache}{cache} narzędzia \glslink{docker-compose}{Docker Compose} (instalacja wykonywana jest wyłącznie w
 przypadku braku trafienia w \glslink{cache}{cache}).
-Konfigurację tego joba przedstawiono (rys. \ref{img:cicd-backend-setup-config}), a przykładowy
+Konfigurację tego joba przedstawia (rys. \ref{img:cicd-backend-setup-config}), a przykładowy
 log wykonania (rys. \ref{img:cicd-backend-setup-log}).
 
 \begin{figure}[H]
@@ -92,7 +92,7 @@ W jego ramach:
     \item uruchamiane są wymagane usługi poprzez \glslink{docker-compose}{\texttt{docker compose}},
     \item wykonywany jest build aplikacji z pominięciem testów (\texttt{-DskipTests}).
 \end{itemize}
-Konfigurację joba \texttt{build} przedstawiono (rys. \ref{img:cicd-backend-build-config}), natomiast
+Konfigurację joba \texttt{build} przedstawia (rys. \ref{img:cicd-backend-build-config}), natomiast
 przykładowy przebieg wykonania w \glslink{github-actions}{GitHub Actions} (rys. \ref{img:cicd-backend-build-log}).
 
 \begin{figure}[H]
@@ -117,7 +117,7 @@ W jego ramach przywracany jest \glslink{cache}{cache} \glslink{maven}{Mavena}, a
 są testy \glslink{backend}{backendu}.
 W \glslink{job}{jobie} wykorzystywane są również zmienne środowiskowe przekazywane z \texttt{secrets} repozytorium
 (dane dostępowe do usług zewnętrznych), co pozwala na bezpieczne wykonywanie testów bez umieszczania wrażliwych danych w kodzie.
-Konfigurację joba przedstawiono (rys. \ref{img:cicd-backend-test-config}), a przykładowy
+Konfigurację joba przedstawia (rys. \ref{img:cicd-backend-test-config}), a przykładowy
 log wykonania (rys. \ref{img:cicd-backend-test-log}).
 
 \begin{figure}[H]
@@ -141,7 +141,7 @@ log wykonania (rys. \ref{img:cicd-backend-test-log}).
 Analogicznie do backendu uruchamiany jest dla zmian w katalogu \texttt{venus/**},
 dla otwieranych \glslink{pull-request}{\textit{pull request}} do gałęzi \texttt{master} i \texttt{develop} oraz w trybie
 \glslink{merge}{\texttt{merge\_group}}, z pominięciem zmian w \texttt{book/**}.
-Fragment konfiguracji (wyzwalacze oraz \glslink{job}{job}) przedstawiono (rys. \ref{img:cicd-frontend-config}).
+Fragment konfiguracji (wyzwalacze oraz \glslink{job}{job}) przedstawia (rys. \ref{img:cicd-frontend-config}).
 
 \begin{figure}[H]
     \centering
@@ -154,7 +154,7 @@ Fragment konfiguracji (wyzwalacze oraz \glslink{job}{job}) przedstawiono (rys. \
 Najpierw pobierany jest kod i ustawiana jest odpowiednia wersja \glslink{node}{Node.js}, następnie instalowane są zależności.
 Kolejnym krokiem jest weryfikacja formatowania kodu (\glslink{prettier}{prettier}), a na końcu uruchamiane są testy
 jednostkowe oraz integracyjne.
-Podsumowanie przebiegu \glslink{workflow}{workflow} przedstawiono (rys. \ref{img:cicd-frontend-run-summary}),
+Podsumowanie przebiegu \glslink{workflow}{workflow} przedstawia (rys. \ref{img:cicd-frontend-run-summary}),
 natomiast przykładowy log wykonania \glslink{job}{joba} (rys. \ref{img:cicd-frontend-log}).
 
 \begin{figure}[H]
