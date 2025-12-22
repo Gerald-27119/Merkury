@@ -1,50 +1,180 @@
 %! Author = Mateusz
 %! Date = 03/11/2025
 
-\subsubsection{Funkcjonalności dla motywu}
-\label{subsubsec:funkcjonalnosci-dla-motywu}
+\subsubsection{Wymagania funkcjonalne dla motywu}
+\label{subsubsec:wymagania-funkcjonalne-dla-motywu}
 
-\begin{requirementstab}[label={tab:requirements:func1},caption={Ustawienia motywu (ręczna zmiana)}]
-    \id{FOXX}
-    \priority{M}
-    \name{Ustawienia motywu}
-    \descr{Jako użytkownik chcę móc zmienić motyw aplikacji.}
-    \acceptcrit{Dostępna jest opcja przełączenia motywu na \emph{jasny} lub \emph{ciemny}; zmiana następuje bez przeładowania strony; ustawienie działa we wszystkich widokach.}
-    \inputdata{Preferencje użytkownika dotyczące motywu.}
-    \preconditions{Brak.}
-    \postconditions{Zmiana motywu widoczna jest natychmiast po kliknięciu przycisku.}
-    \exceptions{Brak.}
-    \implementation{Tailwind CSS z \texttt{darkMode:\ 'class'}; motyw przełączany przez dodanie/usunięcie klasy \texttt{dark} na elemencie \texttt{<html>};}
-    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}, promotor~\ref{tab:stakeholder:promotor}, droniarze~\ref{tab:stakeholder:droniarze}.}
-    \reqrelated{}
-\end{requirementstab}
+\newlength{\wfmotywLabelWidth}
+\setlength{\wfmotywLabelWidth}{0.19\textwidth}
 
-\begin{requirementstab}[label={tab:requirements:func1},caption={Zapamiętanie preferencji motywu}]
-    \id{FOXX}
-    \priority{M}
-    \name{Zapamiętywanie preferencji motywu}
-    \descr{Jako użytkownik chcę, aby moja preferencja motywu była zapamiętana i przywracana przy kolejnym użyciu aplikacji.}
-    \acceptcrit{Wybrany motyw jest przywracany po ponownym włączeniu i odświeżeniu strony; preferencja jest zapamiętywana lokalnie w przeglądarce.}
-    \inputdata{Preferencje użytkownika zapisane lokalnie.}
-    \preconditions{FOXX dostępne.}
-    \postconditions{Motyw po uruchomieniu odpowiada ostatniej decyzji użytkownika.}
-    \exceptions{Brak dostępu do magazynu trwałego — preferencja przechowywana w local storage.}
-    \implementation{Zapis w \texttt{localStorage} pod kluczem \texttt{theme} (\texttt{dark} lub \texttt{light}); krótki skrypt umieszczony w \texttt{App.jsx} przed startem odczytuje \texttt{localStorage} i odpowiednio dodaje lub usuwa klasę \texttt{dark} na \texttt{<html>} (eliminuje mignięcie stylów).}
-    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}, promotor~\ref{tab:stakeholder:promotor}, droniarze~\ref{tab:stakeholder:droniarze}.}
-    \reqrelated{}
-\end{requirementstab}
+\newlength{\wfmotywColTwoWidth}
+\setlength{\wfmotywColTwoWidth}{0.21\textwidth}
 
-\begin{requirementstab}[label={tab:requirements:func1},caption={Szybki przełącznik motywu w interfejsie}]
-    \id{FOXX}
-    \priority{S}
-    \name{Przełącznik motywu w \gls{sidebar}}
-    \descr{Jako użytkownik chcę szybko zmieniać motyw bez wchodzenia w ustawienia.}
-    \acceptcrit{W \gls{sidebar} dostępny jest przełącznik \emph{Jasny/Ciemny}; posiada odpowiednio ikony \emph{słońca/księżyca}; zmiana następuje natychmiast.}
-    \inputdata{Bieżąca preferencja motywu.}
-    \preconditions{FOXX, FOXX dostępne.}
-    \postconditions{Motyw zmieniony; preferencja zaktualizowana.}
-    \exceptions{Brak.}
-    \implementation{Przycisk typu \emph{toggle} wywołuje funkcję, która przełącza klasę \texttt{dark} na \texttt{document.documentElement} oraz aktualizuje \texttt{localStorage} (\texttt{theme = 'dark'|'light'}); brak przeładowania strony.}
-    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}, promotor~\ref{tab:stakeholder:promotor}, droniarze~\ref{tab:stakeholder:droniarze}.}
-    \reqrelated{}
-\end{requirementstab}
+\newlength{\wfmotywColThreeWidth}
+\setlength{\wfmotywColThreeWidth}{0.13\textwidth}
+
+\newlength{\wfmotywColFourWidth}
+\setlength{\wfmotywColFourWidth}{0.28\textwidth}
+
+\newlength{\wfmotywContentWidth}
+\setlength{\wfmotywContentWidth}{0.60\textwidth}
+
+\newlength{\wfmotywHeaderHeight}
+\setlength{\wfmotywHeaderHeight}{12mm}
+
+\newcommand{\wfmotywthreecolcell}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfmotywContentWidth}|}{#1}%
+}
+
+\newcommand{\wfmotywthreecolcellpadded}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfmotywContentWidth}|}{%
+        \vspace{0.4ex}%
+        #1\par\vspace{0.4ex}%
+    }%
+}
+
+\newcommand{\wfmotywHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wfmotywHeaderHeight][c]{\linewidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
+% --- pola karty ---
+
+\newcommand{\wfmotywpriority}[2]{%
+    \textbf{Identyfikator:} & WFMOTYW-#1 &
+    \textbf{Priorytet:}     & #2 \\ \hline
+}
+
+\newcommand{\wfmotywname}[1]{%
+    \textbf{Nazwa:} &
+    \wfmotywthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfmotywdesc}[1]{%
+    \textbf{Opis:} &
+    \wfmotywthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfmotywaccept}[1]{%
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfmotywContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\itemsep}{0.2ex}%
+        \setlength{\parsep}{0pt}%
+        \vspace*{-1.8ex}
+        #1%
+        \vspace*{-1.4ex}
+        \endgroup
+    }\\ \hline
+}
+
+\newcommand{\wfmotywstakeholder}[1]{%
+    \textbf{Udziałowiec:} &
+    \wfmotywthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfmotywresponsible}[1]{%
+    \textbf{Realizator:} &
+    \wfmotywthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfmotywrelated}[1]{%
+    \textbf{Wymagania powiązane:} &
+    \wfmotywthreecolcell{#1} \\ \hline
+}
+
+% --- szablon karty wymagania funkcjonalnego ---
+
+\newcommand{\wfmotywatcard}[5]{%
+    \refstepcounter{awc}%
+    {%
+        \centering
+        \begin{longtable}{|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wfmotywLabelWidth}|
+            p{\wfmotywColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wfmotywColThreeWidth}|
+            p{\wfmotywColFourWidth}|}
+        \hline
+        \wfmotywHeaderRow{\shortstack{KARTA WYMAGANIA FUNKCJONALNEGO DLA \\ MOTYWU}}
+        \endfirsthead
+        \hline
+        \wfmotywHeaderRow{\shortstack{KARTA WYMAGANIA FUNKCJONALNEGO DLA \\ MOTYWU(cd.)}}
+        \endhead
+        \wfmotywpriority{#3}{#4}
+        \wfmotywname{#2}
+        #5
+        \end{longtable}
+        \par
+    }%
+    \vspace{3pt}%
+    \textbf{Tabela \theawc:} Wymaganie funkcjonalne dla motywu: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie funkcjonalne dla motywu: #2}%
+}
+
+% =========================================
+% WFMOTYW-01 – Zmiana motywu (jasny/ciemny)
+% =========================================
+\wfmotywatcard
+{wfmotyw:change-theme}
+{Możliwość zmiany motywu}
+{01}
+{S}
+{
+    \wfmotywdesc{System umożliwia użytkownikowi ręczne przełączenie motywu aplikacji pomiędzy trybem jasnym
+        i ciemnym, aby dopasować wygląd interfejsu do preferencji użytkownika. Zmiana motywu następuje bez
+        przeładowania strony i jest widoczna we wszystkich widokach aplikacji.}
+
+    \wfmotywaccept{%
+        \begin{itemize}
+            \item Użytkownik ma dostęp do akcji przełączenia motywu (jasny/ciemny) w interfejsie aplikacji.
+            \item Zmiana motywu następuje natychmiast po wykonaniu akcji (bez przeładowania strony).
+            \item Po zmianie motywu wszystkie widoki aplikacji są prezentowane zgodnie z wybranym trybem.
+        \end{itemize}
+    }
+
+    \wfmotywstakeholder{U3}
+    \wfmotywresponsible{Mateusz Redosz}
+    \wfmotywrelated{%
+        \hyperref[womotyw:change-theme]{WOMOTYW-01},
+        \hyperref[wpmotyw:theme-switch-under-200ms]{WPMOTYW-01},
+        \hyperref[wpmotyw:theme-consistency]{WPMOTYW-02}.%
+    }
+}
+
+% =========================================
+% WFMOTYW-02 – Zapamiętanie preferencji motywu
+% =========================================
+\wfmotywatcard
+{wfmotyw:remember-theme}
+{Zapamiętanie ustawień motywu}
+{02}
+{S}
+{
+    \wfmotywdesc{System zapamiętuje preferencję motywu użytkownika (jasny/ciemny) w przeglądarce i przywraca ją
+        przy kolejnym uruchomieniu aplikacji, aby zachować spójne doświadczenie użytkownika.}
+
+    \wfmotywaccept{%
+        \begin{itemize}
+            \item Po ustawieniu motywu preferencja jest zapisywana lokalnie w przeglądarce.
+            \item Po odświeżeniu strony wybrany wcześniej motyw pozostaje aktywny.
+            \item Po ponownym uruchomieniu aplikacji (kolejna wizyta) system automatycznie przywraca ostatnio wybrany motyw.
+        \end{itemize}
+    }
+
+    \wfmotywstakeholder{U3}
+    \wfmotywresponsible{Mateusz Redosz}
+    \wfmotywrelated{%
+        \hyperref[womotyw:change-theme]{WOMOTYW-01},
+        \hyperref[wpmotyw:no-flash-on-load]{WPMOTYW-03}.%
+    }
+}

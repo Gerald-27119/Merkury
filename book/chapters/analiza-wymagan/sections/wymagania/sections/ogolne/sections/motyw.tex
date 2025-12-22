@@ -78,16 +78,21 @@
 
 
 \womotywatcard
-{wolog:login}
-{Możliwość zalogowania się}
+{womotyw:change-theme}
+{Możliwość zmiany motywu}
 {01}
 {S}
 {
-    \womotywdesc{System udostępnia użytkownikowi mechanizm logowania do aplikacji,
-        umożliwiający uwierzytelnienie zarówno poprzez formularz logowania, jak i za pomocą zewnętrznych dostawców
-        (Google oraz GitHub), aby użytkownik mógł korzystać z funkcji wymagających konta.}
+    \womotywdesc{System udostępnia użytkownikowi możliwość zmiany motywu aplikacji pomiędzy trybem jasnym
+    i ciemnym, aby dopasować wygląd interfejsu do preferencji użytkownika oraz warunków oświetleniowych.
+    Zmiana motywu następuje bez przeładowania strony i obowiązuje we wszystkich widokach aplikacji.}
 
     \womotywstakeholder{U3}
-
-    \womotywrelated{}
+    \womotywrelated{%
+        \hyperref[wfmotyw:change-theme]{WFMOTYW-01},
+        \hyperref[wfmotyw:remember-theme]{WFMOTYW-02},
+        \hyperref[wpmotyw:theme-switch-under-200ms]{WPMOTYW-01},
+        \hyperref[wpmotyw:theme-consistency]{WPMOTYW-02},
+        \hyperref[wpmotyw:no-flash-on-load]{WPMOTYW-03}.%
+    }
 }
