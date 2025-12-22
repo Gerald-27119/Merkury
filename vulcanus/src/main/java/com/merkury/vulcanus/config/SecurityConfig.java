@@ -88,7 +88,8 @@ public class SecurityConfig {
 
     @Bean
     @Order(2)
-    public SecurityFilterChain privateSecurityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter, CustomAccessDeniedHandler customAccessDeniedHandler) throws Exception {
+    public SecurityFilterChain privateSecurityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter,
+                                                          CustomAccessDeniedHandler customAccessDeniedHandler) throws Exception {
         return http
                 .securityMatcher(privatePathsMatcher)
                 .csrf(AbstractHttpConfigurer::disable)

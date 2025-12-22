@@ -77,7 +77,7 @@ spotykanymi zagrożeniami w aplikacjach webowych.
 
 Istotną cechą Spring Security jest oparcie działania o łańcuch filtrów,
 przez który przechodzi każde żądanie HTTP trafiające do aplikacji.
-Twórcy frameworka skorzystali w tym celu ze wzorca [odniesienie do opisu CoR]. %TODO: uzupelnic potem
+Twórcy frameworka skorzystali w tym celu ze wzorca [TODO: odniesienie do opisu CoR]. %TODO: uzupelnic potem, jak wzorzec bedze opisany
 Dzięki temu możliwe jest przechwycenie żądania na wczesnym etapie,
 zbudowanie kontekstu bezpieczeństwa oraz podjęcie decyzji,
 czy żądanie może zostać przekazane dalej.
@@ -86,9 +86,172 @@ bez konieczności ręcznego powielania sprawdzeń w wielu miejscach kodu.
 
 \subsubsection{Konfiguracja Spring Security}
 \label{subsubsec:konfiguracja-spring-security}
+%TODO: za male zdjecia
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/SecurityConfig/1}
+    \caption{Konfigureacja security (1/4)}
+    \label{fig:security-config-1}
+\end{figure}
 
-diagram 1
-daigram 2
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/SecurityConfig/2}
+    \caption{Konfigureacja security (2/4)}
+    \label{fig:security-config-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/SecurityConfig/3}
+    \caption{Konfigureacja security (3/4)}
+    \label{fig:security-config-3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/SecurityConfig/4}
+    \caption{Konfigureacja security (4/4)}
+    \label{fig:security-config-4}
+\end{figure}
+
+W niniejszej sekcji opisano konfigurację zabezpieczeń po stronie backendu,
+zrealizowaną w pliku \texttt{SecurityConfig}. Konfiguracja bazuje na \gls{spring-security}
+i definiuje sposób obsługi uwierzytelniania oraz autoryzacji dla \gls{api}.
+Zastosowano podejście rozdzielające ruch na:
+(1) ścieżki publiczne, dostępne bez logowania,
+oraz (2) ścieżki prywatne, wymagające poprawnego uwierzytelnienia.
+
+\subsection{Adnotacje i rola klasy konfiguracyjnej}
+\label{subsec:adnotacje-security-config}
+
+Klasa \texttt{SecurityConfig} jest oznaczona adnotacjami:
+\begin{itemize}
+    \item \texttt{@Configuration} -- wskazuje, że klasa dostarcza definicje bean'a dla kontenera Spring.
+    \item \texttt{@EnableWebSecurity} -- aktywuje mechanizmy bezpieczeństwa na poziomie aplikacji webowej.
+    \item \texttt{@EnableMethodSecurity} -- umożliwia zabezpieczanie logiki na poziomie metod
+    (np.\ przez adnotacje typu \texttt{@PreAuthorize}).
+    \item \texttt{@RequiredArgsConstructor} -- wstrzykuje zależności poprzez konstruktor
+    (m.in.\ \texttt{UrlsProperties} oraz \texttt{CustomUserDetailsService}).
+\end{itemize}
+
+\subsection{Podział ruchu na ścieżki publiczne i prywatne}
+\label{subsec:podzial-sciezek-public-private}
+
+Konfiguracja wykorzystuje dwa obiekty typu \texttt{RequestMatcher}:
+\begin{itemize}
+    \item \texttt{publicPathsMatcher} -- złożony matcher (\texttt{OrRequestMatcher}) wskazujący ścieżki publiczne,
+    m.in.\ \texttt{/public/**}, \texttt{/login/**}, \texttt{/oauth2/**}, \texttt{/error} oraz \texttt{/actuator/**}.
+    \item \texttt{privatePathsMatcher} -- negacja matchera publicznego (\texttt{NegatedRequestMatcher}),
+    czyli „wszystko poza ścieżkami publicznymi”.
+\end{itemize}
+
+Takie podejście pozwala stosować różne zasady bezpieczeństwa dla różnych obszarów aplikacji
+bez mieszania reguł w jednym, trudnym do utrzymania łańcuchu filtrów.
+
+\subsection{Dwa niezależne łańcuchy filtrów Spring Security}
+\label{subsec:dwa-lancuchy-security-filter-chain}
+
+W pliku zdefiniowano dwa \texttt{SecurityFilterChain} z różnymi priorytetami (\texttt{@Order}),
+które są wybierane na podstawie dopasowania \texttt{securityMatcher(...)}.
+
+\subsubsection{Łańcuch dla ścieżek publicznych}
+\label{subsubsec:public-security-filter-chain}
+
+Bean \texttt{publicSecurityFilterChain} (z \texttt{@Order(1)}) obsługuje wyłącznie żądania
+pasujące do \texttt{publicPathsMatcher}. Jego główne cechy:
+\begin{itemize}
+    \item \textbf{Brak wymogu uwierzytelnienia}:
+    \texttt{authorizeHttpRequests().anyRequest().permitAll()} dopuszcza każde żądanie w tej przestrzeni URL.
+    \item \textbf{Konfiguracja CORS}:
+    poprzez \texttt{cors(...)} i \texttt{corsConfigurationSource()} dopuszcza komunikację z wybranych originów
+    (szczególnie istotne dla \gls{frontend} uruchamianego na innym porcie).
+    \item \textbf{Wyłączenie CSRF}:
+    \texttt{csrf().disable()} upraszcza obsługę wywołań \gls{api} wykonywanych przez klienta (np.\ SPA),
+    gdzie typowo stosuje się tokeny w nagłówkach zamiast klasycznych formularzy.
+    \item \textbf{Obsługa OAuth2 logowania}:
+    \texttt{oauth2Login(...)} definiuje stronę logowania oraz adresy przekierowań po sukcesie i porażce,
+    pobierane z \texttt{UrlsProperties}.
+    \item \textbf{Logout dla sesji OAuth2}:
+    \texttt{logout(...)} ustawia dedykowany URL wylogowania (\texttt{/account/oauth2/logout}),
+    czyści kontekst bezpieczeństwa, unieważnia sesję oraz usuwa cookie zawierające token
+    (nazwa cookie pochodzi z \texttt{JwtProperties}).
+    \item \textbf{Zarządzanie sesją}:
+    \texttt{SessionCreationPolicy.IF\_REQUIRED} oznacza, że sesja jest tworzona tylko wtedy, gdy jest potrzebna
+    (np.\ w scenariuszu logowania OAuth2).
+    \item \textbf{Wyłączenie HTTP Basic}:
+    \texttt{httpBasic().disable()} zapobiega używaniu mechanizmu Basic Auth.
+\end{itemize}
+
+W praktyce ten łańcuch pełni rolę „bramy” dla endpointów, które muszą pozostać dostępne bez logowania
+(np.\ zasoby publiczne, obsługa procesu OAuth2, endpointy pomocnicze).
+
+\subsubsection{Łańcuch dla ścieżek prywatnych}
+\label{subsubsec:private-security-filter-chain}
+
+Bean \texttt{privateSecurityFilterChain} (z \texttt{@Order(2)}) dotyczy wszystkich pozostałych żądań,
+czyli tych dopasowanych do \texttt{privatePathsMatcher}. Najważniejsze elementy:
+\begin{itemize}
+    \item \textbf{Wymóg uwierzytelnienia}:
+    \texttt{authorizeHttpRequests().anyRequest().authenticated()} wymusza, aby każde żądanie
+    zostało poprawnie rozpoznane jako pochodzące od zalogowanego użytkownika.
+    \item \textbf{Własna obsługa odmowy dostępu}:
+    \texttt{exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)}
+    zapewnia spójny format odpowiedzi (np.\ jednolitą strukturę błędu) przy braku uprawnień.
+    \item \textbf{Filtr JWT wpięty w łańcuch}:
+    \texttt{addFilterBefore(jwtAuthFilter, LogoutFilter.class)} powoduje, że token jest weryfikowany
+    zanim przetwarzanie dojdzie do dalszych elementów security.
+    W efekcie kontekst bezpieczeństwa może zostać zbudowany na podstawie tokenu,
+    a autoryzacja może działać dla wszystkich endpointów prywatnych.
+    \item \textbf{CORS i CSRF}:
+    podobnie jak w części publicznej włączono CORS i wyłączono CSRF.
+    \item \textbf{Zarządzanie sesją}:
+    pozostawiono \texttt{SessionCreationPolicy.IF\_REQUIRED}; w praktyce pozwala to łączyć podejście tokenowe
+    z obszarami, które ewentualnie wymagają sesji (np.\ przepływy logowania).
+    \item \textbf{Wyłączenie HTTP Basic}:
+    analogicznie jak wyżej, aby nie dopuszczać alternatywnej metody uwierzytelniania.
+\end{itemize}
+
+\subsection{Konfiguracja CORS}
+\label{subsec:cors-config}
+
+Metoda \texttt{corsConfigurationSource()} definiuje politykę \gls{cors} dla całej aplikacji (\texttt{/**}):
+\begin{itemize}
+    \item dozwolone originy: \texttt{http://localhost:5173} oraz \texttt{http://localhost:5174},
+    \item dozwolone metody: \texttt{GET, POST, PUT, DELETE, OPTIONS, PATCH},
+    \item dozwolone nagłówki: m.in.\ \texttt{Authorization} oraz \texttt{Content-Type},
+    \item \texttt{allowCredentials = true} -- dopuszcza wysyłanie cookies/poświadczeń w zapytaniach,
+    \item \texttt{maxAge = 3600} -- cache polityki CORS po stronie przeglądarki.
+\end{itemize}
+
+\subsection{Pozostałe beany: uwierzytelnianie i elementy JWT}
+\label{subsec:beany-auth-jwt}
+
+W konfiguracji zdefiniowano dodatkowe komponenty wymagane przez warstwę security:
+\begin{itemize}
+    \item \texttt{AuthenticationManager} -- pobierany z \texttt{AuthenticationConfiguration};
+    umożliwia uruchamianie procesu uwierzytelniania w sposób zgodny z konfiguracją Spring Security.
+    \item \texttt{PasswordEncoder} -- zastosowano \texttt{BCryptPasswordEncoder},
+    czyli bezpieczny mechanizm haszowania haseł.
+    \item \texttt{JwtAuthFilter} -- tworzony jako bean wraz z zależnościami
+    (\texttt{JwtGenerator}, \texttt{JwtManager}, \texttt{JwtProperties}, \texttt{CustomUserDetailsService}).
+    Filtr odpowiada za odczyt tokenu z żądania, jego walidację oraz ustawienie kontekstu bezpieczeństwa.
+\end{itemize}
+
+\subsection{Wyłączenie rejestracji filtra przez kontener servletów}
+\label{subsec:disable-filter-registration}
+
+Na końcu zdefiniowano:
+\texttt{FilterRegistrationBean<JwtAuthFilter>} z \texttt{setEnabled(false)}.
+Celem jest wyłączenie automatycznej rejestracji filtra przez warstwę servletową,
+ponieważ filtr JWT jest dodawany ręcznie do właściwego \texttt{SecurityFilterChain}.
+Zapobiega to sytuacji, w której ten sam filtr wykonałby się podwójnie (raz jako filtr security,
+a drugi raz jako filtr globalny aplikacji).
 
 
 
+
+
+
+%diagram 1
+%daigram 2
