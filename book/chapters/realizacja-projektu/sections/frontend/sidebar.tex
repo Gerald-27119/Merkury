@@ -54,7 +54,7 @@ Po kliknięciu w element następuje przejście do przypisanej podstrony (rys. \r
 \textbf{\texttt{SidebarToggleButton}} \\
 Komponent wyświetla przycisk zwijania/rozwijania paska bocznego (rys. \ref{img:sidebar-toggle-button}).
 Po kliknięciu wywoływana jest akcja \texttt{toggleSidebar} z \glslink{redux}{\texttt{Redux}}.
-Na mniejszych ekranach (poniżej \texttt{xl}) prezentowany jest również napis „Merkury”.
+Na mniejszych ekranach (poniżej \texttt{xl} czyli 1280px) prezentowany jest również napis „Merkury”.
 
 \begin{figure}[H]
     \centering
@@ -320,7 +320,7 @@ co najmniej \texttt{1280px} pasek boczny jest wówczas automatycznie rozwijany p
 \end{figure}
 
 \textbf{\texttt{MobileBar}} \\
-Wyświetlany jest wyłącznie poniżej progu \texttt{xl} (klasa \texttt{xl:hidden}).
+Wyświetlany jest wyłącznie poniżej progu \texttt{xl} (1280px) (klasa \texttt{xl:hidden}).
 Stanowi górny pasek nawigacyjny na urządzeniach mobilnych: zawiera przycisk z ikoną menu, który przełącza
 \glslink{stan}{stan} paska bocznego (\texttt{toggleSidebar}), oraz tytuł aplikacji „Merkury”.
 Dzięki umieszczeniu w części głównej (\texttt{main}) komponent pozostaje widoczny nad zawartością strony,
