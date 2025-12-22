@@ -1,35 +1,94 @@
 %! Author = Adam
-%! Date = 21/12/2025
+%! Date = 23/12/2025
 
 \subsection{Bezpieczeństwo aplikacji}
 \label{subsec:bezpieczenstwo-aplikacji}
 
-1. Po co uzylismy spring security
-2. czym jest spring security
-https://docs.spring.io/spring-security/reference/index.html
+%1. Po co uzylismy spring security
+%2. czym jest spring security
+%https://docs.spring.io/spring-security/reference/index.html
+%
+%diagramy filtry: https://docs.spring.io/spring-security/reference/servlet/architecture.html
+%
+%JwtProperties
+%UrlsProperties
+%JwtConfig
+%SecuritCOnfig
+%
+%folder security
+%
+%diagram ze springa jak dziala security? odwolania do chain of responsibility
+%diagram jak sie ansze te wpisuaj w to
 
-diagramy filtry: https://docs.spring.io/spring-security/reference/servlet/architecture.html
+Niniejszy rozdział prezentuje implementację zabezpieczeń aplikacji na backendzie.
+Rozdział przygotowano w oparciu o podane źródła:
+\begin{itemize}
+    \item https://docs.spring.io/spring-security/reference/index.html.
+    \item https://docs.spring.io/spring-security/reference/servlet/architecture.html.
+\end{itemize}
 
-JwtProperties
-UrlsProperties
-JwtConfig
-SecuritCOnfig
 
-folder security
+Podczas tworzenia aplikacji webowej opartej o serwer zapewniający \gls{api}
+kwestie bezpieczeństwa są jednym z kluczowych aspektów projektowych.
+Wystawienie usług do sieci oznacza, że system jest stale narażony na próby
+nieautoryzowanego dostępu, nadużycia mechanizmów logowania, a także ataki
+prowadzące do ujawnienia lub modyfikacji danych.
+Brak odpowiednich zabezpieczeń może skutkować przejęciem kont użytkowników,
+wyciekiem informacji lub wykorzystaniem zasobów systemu
+w sposób niezgodny z przeznaczeniem.
 
-diagram ze springa jak dziala security? odwolania do chain of responsibility
-diagram jak sie ansze te wpisuaj w to
 
-1. Nie wiem jaki tytuł
-Podczas tworzenia aplikacji webowej bardzo waznym aspejt stanowi jej bezpieczenstwo,k tóe skalda sie na pewne aspekty takie jak:
-- Uwierzytelnianie --
-- Autoryzacja --
-- Ochrona przed typowi atakami --
--
+Na bezpieczeństwo aplikacji składają się przede wszystkim następujące obszary:
 
-Spring Boot zapewnia integrację ze Spring Security.
+\begin{itemize}
+    \item \textbf{Uwierzytelnianie} -- proces potwierdzania tożsamości klienta
+    komunikującego się z systemem. Oznacza to zapewnienie, że żądanie
+    pochodzi od konkretnego, znanego użytkownika.
 
-2.Spring Security
-Spring Security is a framework, który można dodać jako zależność do projektu opartego na Spring Boot.
-Zapewnia on that provides authentication, authorization, and protection against common attacks.
+    \item \textbf{Autoryzacja} -- określenie i przestrzeganie polityki dostępu oraz operacji na zasobach,
+    do jakich dostęp ma uwierzytelniony użytkownik.
+    Nawet poprawnie uwierzytelniony klient
+    nie powinien mieć możliwości wykonania akcji, do których nie posiada uprawnień.
+
+    \item \textbf{Ochrona przed typowymi atakami} -- zestaw mechanizmów, które mają
+    na celu ograniczenie ryzyka podatności i nadużyć, takich jak ataki typu brute-force,
+    nieprawidłowa konfiguracja \gls{cors}, czy wykorzystanie luk
+    w warstwie aplikacyjnej. Istotne są również bezpieczne nagłówki HTTP,
+    poprawna obsługa błędów oraz kontrola sposobu przetwarzania danych wejściowych.
+
+    \item \textbf{Integralność i poufność komunikacji} -- zapewnienie, że dane przesyłane
+    pomiędzy klientem a serwerem nie mogą zostać łatwo podejrzane lub zmodyfikowane
+    po drodze. W kontekście aplikacji internetowych sprowadza się to głównie do
+    stosowania szyfrowania transportowego (HTTPS/TLS) oraz konsekwentnego egzekwowania
+    polityk bezpieczeństwa w warstwie serwera.
+\end{itemize}
+
+W projekcie wykorzystano ekosystem Spring Boot, który zapewnia gotową integrację
+mechanizmów bezpieczeństwa w ramach Spring Security.
+
+\subsubsection{Spring Security}
+\label{subsubsec:spring-security}
+
+Spring Security jest frameworkiem dostarczanym w ramach ekosystemu Spring'a,
+który można dołączyć do projektu jako zależność.
+Jego zadaniem jest zapewnienie kompletnego zestawu mechanizmów związanych z bezpieczeństwem
+warstwy serwerowej: od uwierzytelniania i autoryzacji, po ochronę przed najczęściej
+spotykanymi zagrożeniami w aplikacjach webowych.
+
+Istotną cechą Spring Security jest oparcie działania o łańcuch filtrów,
+przez który przechodzi każde żądanie HTTP trafiające do aplikacji.
+Twórcy frameworka skorzystali w tym celu ze wzorca [odniesienie do opisu CoR]. %TODO: uzupelnic potem
+Dzięki temu możliwe jest przechwycenie żądania na wczesnym etapie,
+zbudowanie kontekstu bezpieczeństwa oraz podjęcie decyzji,
+czy żądanie może zostać przekazane dalej.
+Oznacza to, że kontrola dostępu jest realizowana konsekwentnie i centralnie,
+bez konieczności ręcznego powielania sprawdzeń w wielu miejscach kodu.
+
+\subsubsection{Konfiguracja Spring Security}
+\label{subsubsec:konfiguracja-spring-security}
+
+diagram 1
+daigram 2
+
+
 
