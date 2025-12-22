@@ -89,12 +89,78 @@ bez konieczności ręcznego powielania sprawdzeń w wielu miejscach kodu.
 % Wewnętrzne śródtytuły (NIE trafiają do spisu treści)
 \newcommand{\innerheading}[1]{\par\medskip\noindent\textbf{#1}\par\smallskip}
 
+\innerheading{Plik UrlsProperties}
 
-1. opis pliku UrlsPropeties
-2. plik JwtProperties
-3. plik JwtCOnfig
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/UrlsProperties/1}
+    \caption{Klasa \texttt{UrlsProperties}}
+    \label{fig:urls-properties}
+\end{figure}
 
+Klasa \texttt{UrlsProperties} pełni rolę centralnego magazynu adresów URL wykorzystywanych
+w przepływach związanych z logowaniem i wylogowaniem użytkownika.
+Została oznaczona adnotacją \texttt{@ConfigurationProperties(prefix = "url")},
+dzięki czemu pola klasy mogą być w prosty sposób mapowane z pliku konfiguracyjnego
+(np.\ \texttt{application.yml} / \texttt{application.properties}).
+W praktyce oznacza to, że adresy przekierowań oraz endpointy pomocnicze nie są
+„zaszyte” na stałe w kodzie, lecz mogą zostać zmienione bez ingerencji w logikę aplikacji.
 
+Klasa jest jednocześnie komponentem Springa (\texttt{@Component}), więc może być wstrzykiwana
+do klas konfiguracyjnych lub serwisów (np.\ w \texttt{SecurityConfig}).
+Zawiera zestaw pól opisujących m.in.\ stronę po logowaniu, adres strony logowania OAuth2,
+URL sukcesu i porażki, URL wylogowania oraz URL wykorzystywany w procesie resetu hasła.
+Dodatkowo przechowywany jest adres endpointu służącego do pobrania e-maila z GitHuba
+(\texttt{githubEmailEndpoint}), co jest przydatne w scenariuszu, w którym dostawca OAuth2
+nie zwraca e-maila w podstawowym profilu użytkownika.
+
+\innerheading{Plik JwtProperties}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/JwtProperties/1}
+    \caption{Klasa \texttt{JwtProperties}}
+    \label{fig:jwt-properties}
+\end{figure}
+
+Klasa \texttt{JwtProperties} przechowuje parametry związane z obsługą tokenów JWT w aplikacji.
+Zastosowano mechanizm \texttt{@ConfigurationProperties(prefix = "jwt")},
+dzięki czemu wartości mogą pochodzić z konfiguracji środowiska (np.\ inne wartości w środowisku lokalnym i produkcyjnym).
+
+Najważniejszym elementem klasy jest pole \texttt{key} typu \texttt{SecretKey}, które reprezentuje
+klucz kryptograficzny używany do podpisywania i weryfikacji tokenów.
+Pozostałe pola opisują zachowanie tokenu i sposób jego przechowywania po stronie klienta:
+\texttt{tokenName} określa nazwę tokenu (np.\ nazwę cookie lub identyfikator używany w logice aplikacji),
+\texttt{tokenExpiration} oraz \texttt{tokenCookieExpiration} definiują czas ważności tokenu i/lub cookie,
+a \texttt{oneDayInMs} pozwala spójnie przeliczać okresy czasu (np.\ w milisekundach)
+w ramach konfiguracji.
+
+Warto zauważyć, że klasa przyjmuje \texttt{SecretKey} w konstruktorze, co pozwala wstrzyknąć
+klucz generowany lub dostarczany z zewnątrz, zamiast trzymać go jako stałą w kodzie.
+Adnotacja \texttt{@Data} (Lombok) dostarcza gettery/settery i upraszcza zapis klasy.
+
+\innerheading{Plik JwtConfig}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/JwtConfig/1}
+    \caption{Klasa \texttt{JwtConfig}}
+    \label{fig:jwt-config}
+\end{figure}
+
+Klasa \texttt{JwtConfig} jest klasą konfiguracyjną Springa (\texttt{@Configuration}),
+której zadaniem jest utworzenie beana \texttt{JwtProperties} wraz z kluczem kryptograficznym.
+W metodzie \texttt{jwtProperties()} tworzony jest nowy obiekt \texttt{JwtProperties},
+a klucz \texttt{SecretKey} generowany jest przez bibliotekę \texttt{jjwt}
+poprzez wywołanie \texttt{Jwts.SIG.HS256.key().build()}.
+
+W efekcie aplikacja otrzymuje gotowy bean z kluczem do podpisywania tokenów HS256,
+który może zostać użyty w komponentach odpowiedzialnych za generowanie i walidację JWT
+(np.\ w klasach typu \texttt{JwtGenerator}, \texttt{JwtManager} czy filtrze \texttt{JwtAuthFilter}).
+
+Z perspektywy architektury jest to świadome wydzielenie konfiguracji JWT do osobnej klasy:
+logika generowania klucza jest skupiona w jednym miejscu, a reszta aplikacji korzysta już
+z wstrzykniętego beana \texttt{JwtProperties}.
 
 % TODO: za małe zdjecia
 \begin{figure}[H]
@@ -249,10 +315,6 @@ Celem jest wyłączenie automatycznej rejestracji filtra przez warstwę servleto
 ponieważ filtr JWT jest dodawany ręcznie do właściwego \texttt{SecurityFilterChain}.
 Zapobiega to sytuacji, w której ten sam filtr wykonałby się podwójnie (raz jako filtr security,
 a drugi raz jako filtr globalny aplikacji).
-
-\subsubsection{Konfiguracja Spring Security}
-\label{subsubsec:konfiguracja-spring-security}
-
 
 %diagram 1
 %diagram 2
