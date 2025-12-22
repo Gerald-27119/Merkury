@@ -11,8 +11,8 @@
 \newlength{\wowyszLabelWidth}
 \setlength{\wowyszLabelWidth}{0.2\textwidth}
 
-\newlength{\wopanelHeaderHeight}
-\setlength{\wopanelHeaderHeight}{12mm}
+\newlength{\wowyszHeaderHeight}
+\setlength{\wowyszHeaderHeight}{12mm}
 
 % --------- Pola karty (wiersze) ---------
 
@@ -32,10 +32,10 @@
 \newcommand{\wowyszrelated}[1]{\textbf{Wymagania powiązane:} &
 \multicolumn{3}{|p{\wowyszContentWidth}|}{#1} \\ \hline}
 
-\newcommand{\wopanelHeaderRow}[1]{%
+\newcommand{\wowyszHeaderRow}[1]{%
     \rowcolor{lightgray}%
     \multicolumn{4}{|c|}{%
-        \parbox[c][\wopanelHeaderHeight][c]{\linewidth}{%
+        \parbox[c][\wowyszHeaderHeight][c]{\linewidth}{%
             \centering\bfseries
             \vspace{1.2ex}%
             #1%
@@ -54,10 +54,10 @@
         p{0.24\textwidth}|}
 
     \hline
-    \wopanelHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNE DLA \\ WYSZUKIWARKI SPOTÓW}}
+    \wowyszHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNEGO DLA \\ WYSZUKIWARKI SPOTÓW}}
     \endfirsthead
     \hline
-    \wopanelHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNE DLA \\ WYSZUKIWARKI SPOTÓW (cd.)}}
+    \wowyszHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNEGO DLA \\ WYSZUKIWARKI SPOTÓW (cd.)}}
     \endhead
 
     % właściwa treść karty

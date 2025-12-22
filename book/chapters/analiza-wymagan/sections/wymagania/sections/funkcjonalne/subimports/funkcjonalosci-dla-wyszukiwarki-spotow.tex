@@ -318,22 +318,27 @@
 }
 
 % =========================================
-% WFWYSZ-07 – Zaawansowane filtrowanie po polarności i ocenie
+% WFWYSZ-07 – Zaawansowane sortowanie po polarności i ocenie
 % =========================================
 \wfwyszatcard
 {wfwysz:filter-polarity-rating}
-{Filtrowanie po polarności oraz ocenie}
+{Sortowanie po polarności oraz ocenie}
 {07}
 {M}
 {
-    \wfwyszdesc{System umożliwia użytkownikowi filtrowanie listy spotów według polaryzacji
-        (popularność / kryterium sortowania lub typ prezentacji) oraz minimalnej oceny spota.}
+    \wfwyszdesc{System umożliwia użytkownikowi sortowanie listy spotów według popularności
+    oraz średniej z opini.}
 
     \wfwyszaccept{%
         \begin{itemize}
-            \item Użytkownik może ustawić kryterium związane z polaryzacją (zgodnie z dostępnymi opcjami w interfejsie).
-            \item Użytkownik może wskazać minimalną ocenę spota jako filtr.
-            \item Po zastosowaniu filtrów lista wyników jest aktualizowana zgodnie z ustawieniami.
+            \item Użytkownik może ustawić kryterium, wybierając jedną z następujących opcji:
+            \begin{itemize}
+                \item sortowanie według popularności rosnąco (od najmniej do najbardziej popularnych),
+                \item sortowanie według popularności malejąco (od najbardziej do najmniej popularnych),
+                \item sortowanie według średniej ocen rosnąco (od najmniej do najbardziej ocenionych),
+                \item sortowanie według średniej ocen malejąco (od najbardziej do najmniej ocenionych),
+            \end{itemize}
+            \item Po zastosowaniu sortowania lista wyników jest aktualizowana zgodnie z ustawieniami.
         \end{itemize}
     }
 
