@@ -1,20 +1,454 @@
 %! Author = Mateusz
-%! Date = 03/11/2025
+%! Date = 22/12/2025
 
-\subsubsection{Funkcjonalności dla logowania i rejestracji}
-\label{subsubsec:funkcjonalnosci-dla-logowania-i-rejestracji}
+\subsubsection{Wymagania funkcjonalne dla logowania i rejestracji}
+\label{subsubsec:wymagania-funkcjonalne-dla-logowania-rejestracji}
 
-\begin{requirementstab}[label={tab:requirements:func1},caption={Logowanie i rejestracja}]
-    \id{FOXX}
-    \priority{M}
-    \name{Logowanie i rejestracja}
-    \descr{Jako użytkownik chcę mieć możliwość zalogowania się do aplikacji, korzystając z formularza lub poprzez konto Google lub GitHub.}
-    \acceptcrit{Użytkownik może zalogować się do aplikacji zarówno za pomocą standardowego formularza, jak i przy użyciu konta w serwisie Google lub GitHub.}
-    \inputdata{Dane użytkownika: adres e-mail, hasło; przy rejestracji dodatkowo nazwa użytkownika.}
-    \preconditions{Użytkownik niezalogowany.}
-    \postconditions{Działające formularze rejestracji i logowania oraz możliwość logowania za pomocą konta Google i GitHub.}
-    \exceptions{Błędne dane logowania; przerwana lub nieudana autoryzacja u dostawcy (Google/GitHub).}
-    \implementation{Frontend: formularze w React; wysyłka żądań przez \texttt{axios} z \texttt{withCredentials}. SSO: integracja z Google i GitHub (OAuth~2.0) z przekierowaniem i ustawieniem sesji po stronie backendu (httpOnly cookie). Obsługa statusu \texttt{401} zgodnie z mechanizmem wylogowania.}
-    \sholder{Zespół projektowy~\ref{tab:stakeholder:team}, promotor~\ref{tab:stakeholder:promotor}, droniarze~\ref{tab:stakeholder:droniarze}.}
-    \reqrelated{}
-\end{requirementstab}
+\newlength{\wflogLabelWidth}
+\setlength{\wflogLabelWidth}{0.19\textwidth}
+
+\newlength{\wflogColTwoWidth}
+\setlength{\wflogColTwoWidth}{0.21\textwidth}
+
+\newlength{\wflogColThreeWidth}
+\setlength{\wflogColThreeWidth}{0.13\textwidth}
+
+\newlength{\wflogColFourWidth}
+\setlength{\wflogColFourWidth}{0.28\textwidth}
+
+\newlength{\wflogContentWidth}
+\setlength{\wflogContentWidth}{0.60\textwidth}
+
+\newlength{\wflogHeaderHeight}
+\setlength{\wflogHeaderHeight}{12mm}
+
+\newcommand{\wflogthreecolcell}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wflogContentWidth}|}{#1}%
+}
+
+\newcommand{\wflogthreecolcellpadded}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wflogContentWidth}|}{%
+        \vspace{0.4ex}%
+        #1\par\vspace{0.4ex}%
+    }%
+}
+
+\newcommand{\wflogHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wflogHeaderHeight][c]{\linewidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
+% --- pola karty ---
+
+\newcommand{\wflogpriority}[2]{%
+    \textbf{Identyfikator:} & WFLOG-#1 &
+    \textbf{Priorytet:}     & #2 \\ \hline
+}
+
+\newcommand{\wflogname}[1]{%
+    \textbf{Nazwa:} &
+    \wflogthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wflogdesc}[1]{%
+    \textbf{Opis:} &
+    \wflogthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wflogaccept}[1]{%
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wflogContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\itemsep}{0.2ex}%
+        \setlength{\parsep}{0pt}%
+        \vspace*{-1.8ex}
+        #1%
+        \vspace*{-1.4ex}
+        \endgroup
+    }\\ \hline
+}
+
+\newcommand{\wflogstakeholder}[1]{%
+    \textbf{Udziałowiec:} &
+    \wflogthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wflogresponsible}[1]{%
+    \textbf{Realizator:} &
+    \wflogthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wflogrelated}[1]{%
+    \textbf{Wymagania powiązane:} &
+    \wflogthreecolcell{#1} \\ \hline
+}
+
+% --- szablon karty wymagania funkcjonalnego ---
+
+\newcommand{\wflogatcard}[5]{%
+    \refstepcounter{awc}%
+    {%
+        \centering
+        \begin{longtable}{|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wflogLabelWidth}|
+            p{\wflogColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wflogColThreeWidth}|
+            p{\wflogColFourWidth}|}
+        \hline
+        \wflogHeaderRow{\shortstack{KARTA WYMAGANIA FUNKCJONALNEGO DLA \\ LOGOWANIA I REJESTRACJI}}
+        \endfirsthead
+        \hline
+        \wflogHeaderRow{\shortstack{KARTA WYMAGANIA FUNKCJONALNEGO DLA \\ LOGOWANIA I REJESTRACJI (cd.)}}
+        \endhead
+        \wflogpriority{#3}{#4}
+        \wflogname{#2}
+        #5
+        \end{longtable}
+        \par
+    }%
+    \vspace{3pt}%
+    \textbf{Tabela \theawc:} Wymaganie funkcjonalne dla logowania i rejestracji: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie funkcjonalne dla logowania i rejestracji: #2}%
+}
+
+
+% =========================================
+% WFLOG-01 – Logowanie e-mail + hasło
+% =========================================
+\wflogatcard
+{wflog:login-email-password}
+{Możliwość zalogowania się za pomocą adresu e-mail i hasła}
+{01}
+{S}
+{
+    \wflogdesc{System umożliwia użytkownikowi zalogowanie się do aplikacji przy użyciu formularza
+        logowania z adresem e-mail i hasłem, aby uzyskać dostęp do funkcji dostępnych dla użytkownika zalogowanego.}
+
+    \wflogaccept{%
+        \begin{itemize}
+            \item Użytkownik może wprowadzić adres e-mail oraz hasło w formularzu logowania.
+            \item Po wysłaniu formularza i poprawnej weryfikacji danych użytkownik zostaje zalogowany.
+            \item W przypadku błędnych danych logowania system wyświetla czytelny komunikat o błędzie.
+        \end{itemize}
+    }
+
+    \wflogstakeholder{U3}
+    \wflogresponsible{Kacper Badek}
+    \wflogrelated{%
+        \hyperref[wolog:login]{WOLOG-01},
+        \hyperref[wflog:forms-validation]{WFLOG-08},
+        \hyperref[wflog:auth-error-handling]{WFLOG-09},
+        \hyperref[wplog:auth-response-under-3s]{WPLOG-01},
+        \hyperref[wplog:secure-session-cookie]{WPLOG-02},
+        \hyperref[wplog:no-sensitive-error-details]{WPLOG-03},
+        \hyperref[wplog:form-validation-ux]{WPLOG-04},
+        \hyperref[wplog:network-failure-handling]{WPLOG-05},
+        \hyperref[wplog:accessibility-keyboard]{WPLOG-06}.%
+    }
+}
+
+% =========================================
+% WFLOG-02 – Logowanie przez Google/GitHub (SSO)
+% =========================================
+\wflogatcard
+{wflog:login-sso}
+{Możliwość zalogowania się za pomocą konta Google lub GitHub}
+{02}
+{S}
+{
+    \wflogdesc{System umożliwia użytkownikowi zalogowanie się do aplikacji przy użyciu konta Google lub GitHub
+        (logowanie zewnętrzne), aby uprościć proces uwierzytelniania i skrócić czas dostępu do aplikacji.}
+
+    \wflogaccept{%
+        \begin{itemize}
+            \item Użytkownik ma dostęp do przycisków logowania przez Google oraz GitHub.
+            \item Po poprawnej autoryzacji u dostawcy (Google/GitHub) użytkownik zostaje zalogowany w aplikacji.
+            \item W przypadku nieudanej lub przerwanej autoryzacji system wyświetla informację o błędzie i pozostawia użytkownika niezalogowanego.
+        \end{itemize}
+    }
+
+    \wflogstakeholder{U3}
+    \wflogresponsible{Stanisław Oziemczuk}
+    \wflogrelated{%
+        \hyperref[wolog:login]{WOLOG-01},
+        \hyperref[wflog:auth-error-handling]{WFLOG-09},
+        \hyperref[wplog:auth-response-under-3s]{WPLOG-01},
+        \hyperref[wplog:secure-session-cookie]{WPLOG-02},
+        \hyperref[wplog:no-sensitive-error-details]{WPLOG-03},
+        \hyperref[wplog:network-failure-handling]{WPLOG-05},
+        \hyperref[wplog:accessibility-keyboard]{WPLOG-06}.%
+    }
+}
+
+% =========================================
+% WFLOG-03 – Rejestracja formularzem
+% =========================================
+\wflogatcard
+{wflog:register-form}
+{Możliwość zarejestrowania się za pomocą formularza}
+{03}
+{S}
+{
+    \wflogdesc{System umożliwia użytkownikowi rejestrację konta poprzez formularz rejestracji,
+        w którym podaje adres e-mail, nazwę użytkownika oraz hasło, aby utworzyć nowe konto w aplikacji.}
+
+    \wflogaccept{%
+        \begin{itemize}
+            \item Użytkownik może wypełnić formularz rejestracji: adres e-mail, nazwa użytkownika, hasło, powtórszone hasło.
+            \item Po wysłaniu formularza i poprawnej walidacji danych konto zostaje utworzone.
+            \item W przypadku błędnych danych lub błędu po stronie API system wyświetla komunikat o błędzie.
+        \end{itemize}
+    }
+
+    \wflogstakeholder{U3}
+    \wflogresponsible{Mateusz Redosz}
+    \wflogrelated{%
+        \hyperref[wolog:register]{WOLOG-02},
+        \hyperref[wflog:forms-validation]{WFLOG-08},
+        \hyperref[wflog:auth-error-handling]{WFLOG-09},
+        \hyperref[wplog:auth-response-under-3s]{WPLOG-01},
+        \hyperref[wplog:no-sensitive-error-details]{WPLOG-03},
+        \hyperref[wplog:form-validation-ux]{WPLOG-04},
+        \hyperref[wplog:network-failure-handling]{WPLOG-05},
+        \hyperref[wplog:accessibility-keyboard]{WPLOG-06}.%
+    }
+}
+
+% =========================================
+% WFLOG-04 – Rejestracja przez Google/GitHub (SSO)
+% =========================================
+\wflogatcard
+{wflog:register-sso}
+{Możliwość zarejestrowania się za pomocą konta Google lub GitHub}
+{04}
+{S}
+{
+    \wflogdesc{System umożliwia użytkownikowi utworzenie konta w aplikacji przy użyciu konta Google lub GitHub
+        (rejestracja zewnętrzna), aby uprościć proces zakładania konta.}
+
+    \wflogaccept{%
+        \begin{itemize}
+            \item Użytkownik ma dostęp do przycisków rejestracji przez Google oraz GitHub.
+            \item Po poprawnej autoryzacji u dostawcy (Google/GitHub) konto w aplikacji zostaje utworzone, a użytkownik zostaje zalogowany.
+            \item W przypadku nieudanej lub przerwanej autoryzacji system wyświetla komunikat i nie tworzy konta.
+        \end{itemize}
+    }
+
+    \wflogstakeholder{U3}
+    \wflogresponsible{Stanisław Oziemczuk}
+    \wflogrelated{%
+        \hyperref[wolog:register]{WOLOG-02},
+        \hyperref[wflog:auth-error-handling]{WFLOG-09},
+        \hyperref[wplog:auth-response-under-3s]{WPLOG-01},
+        \hyperref[wplog:secure-session-cookie]{WPLOG-02},
+        \hyperref[wplog:no-sensitive-error-details]{WPLOG-03},
+        \hyperref[wplog:network-failure-handling]{WPLOG-05},
+        \hyperref[wplog:accessibility-keyboard]{WPLOG-06}.%
+    }
+}
+
+% =========================================
+% WFLOG-05 – Wysłanie e-maila do resetu hasła
+% =========================================
+\wflogatcard
+{wflog:password-reset-email}
+{Możliwość wysłania e-maila do resetu hasła}
+{05}
+{S}
+{
+    \wflogdesc{System umożliwia użytkownikowi zainicjowanie procedury resetu hasła poprzez wysłanie wiadomości e-mail,
+        aby użytkownik mógł odzyskać dostęp do konta w przypadku zapomnienia hasła.}
+
+    \wflogaccept{%
+        \begin{itemize}
+            \item Użytkownik może podać adres e-mail w formularzu resetu hasła.
+            \item Po wysłaniu formularza system wysyła wiadomość e-mail z linkiem do ustawienia nowego hasła.
+            \item W przypadku błędu system wyświetla czytelny komunikat o niepowodzeniu operacji.
+        \end{itemize}
+    }
+
+    \wflogstakeholder{U3}
+    \wflogresponsible{Kacper Badek}
+    \wflogrelated{%
+        \hyperref[wolog:password-reset]{WOLOG-03},
+        \hyperref[wflog:forms-validation]{WFLOG-08},
+        \hyperref[wflog:auth-error-handling]{WFLOG-09},
+        \hyperref[wflog:password-reset-confirm]{WFLOG-06},
+        \hyperref[wplog:auth-response-under-3s]{WPLOG-01},
+        \hyperref[wplog:no-sensitive-error-details]{WPLOG-03},
+        \hyperref[wplog:form-validation-ux]{WPLOG-04},
+        \hyperref[wplog:network-failure-handling]{WPLOG-05},
+        \hyperref[wplog:accessibility-keyboard]{WPLOG-06}.%
+    }
+}
+
+% =========================================
+% WFLOG-06 – Ustawienie nowego hasła z linku
+% =========================================
+\wflogatcard
+{wflog:password-reset-confirm}
+{Możliwość ustawienia nowego hasła po resecie}
+{06}
+{S}
+{
+    \wflogdesc{System umożliwia użytkownikowi ustawienie nowego hasła po przejściu z linku otrzymanego w wiadomości e-mail,
+        aby zakończyć proces resetu hasła i odzyskać dostęp do konta.}
+
+    \wflogaccept{%
+        \begin{itemize}
+            \item Użytkownik może otworzyć stronę ustawienia nowego hasła z linku w wiadomości e-mail.
+            \item Użytkownik może wprowadzić nowe hasło i potwierdzić je.
+            \item Po zapisaniu nowego hasła użytkownik otrzymuje potwierdzenie powodzenia operacji.
+            \item W przypadku niepoprawnego lub wygasłego tokenu system wyświetla komunikat o błędzie i nie zmienia hasła.
+        \end{itemize}
+    }
+
+    \wflogstakeholder{U3}
+    \wflogresponsible{Kacper Badek}
+    \wflogrelated{%
+        \hyperref[wolog:password-reset]{WOLOG-03},
+        \hyperref[wflog:forms-validation]{WFLOG-08},
+        \hyperref[wflog:auth-error-handling]{WFLOG-09},
+        \hyperref[wflog:password-reset-email]{WFLOG-05},
+        \hyperref[wplog:auth-response-under-3s]{WPLOG-01},
+        \hyperref[wplog:no-sensitive-error-details]{WPLOG-03},
+        \hyperref[wplog:form-validation-ux]{WPLOG-04},
+        \hyperref[wplog:network-failure-handling]{WPLOG-05},
+        \hyperref[wplog:accessibility-keyboard]{WPLOG-06}.%
+    }
+}
+
+% =========================================
+% WFLOG-07 – Wylogowanie użytkownika
+% =========================================
+\wflogatcard
+{wflog:logout}
+{Możliwość wylogowania się z aplikacji}
+{07}
+{M}
+{
+    \wflogdesc{System umożliwia użytkownikowi wylogowanie się z aplikacji, aby zakończyć sesję i uniemożliwić dostęp
+    do konta osobom trzecim na współdzielonym urządzeniu.}
+
+    \wflogaccept{%
+        \begin{itemize}
+            \item Użytkownik ma dostęp do akcji wylogowania w interfejsie.
+            \item Po wylogowaniu użytkownik traci dostęp do widoków wymagających zalogowania.
+            \item Po wylogowaniu aplikacja prezentuje stan użytkownika niezalogowanego.
+        \end{itemize}
+    }
+
+    \wflogstakeholder{U3}
+    \wflogresponsible{Mateusz Redosz, Kacper Badek, Stanisław Oziemczuk, Adam Langmesser}
+    \wflogrelated{%
+        \hyperref[wolog:login]{WOLOG-01},
+        \hyperref[wplog:secure-session-cookie]{WPLOG-02},
+        \hyperref[wplog:no-sensitive-error-details]{WPLOG-03},
+        \hyperref[wplog:network-failure-handling]{WPLOG-05}.%
+    }
+}
+
+% =========================================
+% WFLOG-08 – Walidacja pól formularzy logowania i rejestracji
+% =========================================
+\wflogatcard
+{wflog:forms-validation}
+{Walidacja pól formularzy logowania i rejestracji}
+{08}
+{M}
+{
+    \wflogdesc{System waliduje dane wprowadzane w formularzach logowania i rejestracji, aby ograniczyć liczbę błędów
+    oraz zapewnić poprawność danych wysyłanych do API.}
+
+    \wflogaccept{%
+        \begin{itemize}
+            \item Formularze nie pozwalają na wysłanie pustych pól wymaganych.
+            \item Każde z pól zawiera maksumalną oraz minimalą ilość znaków.
+            \item Dla hasła sprawdzana jest odwpowiednio sila kombinacja.
+            \item Dla adresu e-mail weryfikowany jest poprawny format.
+            \item W przypadku niepoprawnych danych użytkownik widzi czytelne komunikaty walidacyjne przy polach.
+        \end{itemize}
+    }
+
+    \wflogstakeholder{U3}
+    \wflogresponsible{Mateusz Redosz, Kacper Badek, Stanisław Oziemczuk}
+    \wflogrelated{%
+        \hyperref[wolog:login]{WOLOG-01},
+        \hyperref[wolog:register]{WOLOG-02},
+        \hyperref[wolog:password-reset]{WOLOG-03},
+        \hyperref[wplog:form-validation-ux]{WPLOG-04},
+        \hyperref[wplog:accessibility-keyboard]{WPLOG-06}.%
+    }
+}
+
+% =========================================
+% WFLOG-09 – Obsługa błędów logowania i rejestracji
+% =========================================
+\wflogatcard
+{wflog:auth-error-handling}
+{Obsługa błędów podczas logowania i rejestracji}
+{09}
+{M}
+{
+    \wflogdesc{System zapewnia spójną obsługę błędów podczas logowania i rejestracji, aby użytkownik rozumiał
+    przyczynę niepowodzenia i mógł podjąć dalsze działania.}
+
+    \wflogaccept{%
+        \begin{itemize}
+            \item W przypadku błędnych danych logowania użytkownik widzi komunikat o błędzie.
+            \item W przypadku błędu połączenia z API użytkownik widzi komunikat o problemie technicznym.
+            \item Komunikaty błędów nie ujawniają wrażliwych informacji (szczegółów wewnętrznych serwera).
+        \end{itemize}
+    }
+
+    \wflogstakeholder{U3}
+    \wflogresponsible{Mateusz Redosz, Kacper Badek, Stanisław Oziemczuk}
+    \wflogrelated{%
+        \hyperref[wolog:login]{WOLOG-01},
+        \hyperref[wolog:register]{WOLOG-02},
+        \hyperref[wolog:password-reset]{WOLOG-03},
+        \hyperref[wplog:no-sensitive-error-details]{WPLOG-03},
+        \hyperref[wplog:network-failure-handling]{WPLOG-05}.%
+    }
+}
+
+% =========================================
+% WFLOG-10 – Przełączanie widoków: logowanie / rejestracja / reset
+% =========================================
+\wflogatcard
+{wflog:switch-auth-views}
+{Możliwość przełączania widoków logowania, rejestracji i resetu hasła}
+{10}
+{M}
+{
+    \wflogdesc{System umożliwia użytkownikowi przechodzenie pomiędzy formularzami logowania, rejestracji oraz resetu hasła,
+        aby użytkownik mógł szybko wybrać właściwą akcję bez opuszczania modułu uwierzytelniania.}
+
+    \wflogaccept{%
+        \begin{itemize}
+            \item Użytkownik może przejść z logowania do rejestracji i odwrotnie.
+            \item Użytkownik może przejść do widoku resetu hasła z poziomu logowania.
+            \item Zmiana widoku nie wymaga przeładowania strony.
+        \end{itemize}
+    }
+
+    \wflogstakeholder{U3}
+    \wflogresponsible{Mateusz Redosz, Kacper Badek, Stanisław Oziemczuk}
+    \wflogrelated{%
+        \hyperref[wolog:login]{WOLOG-01},
+        \hyperref[wolog:register]{WOLOG-02},
+        \hyperref[wolog:password-reset]{WOLOG-03},
+        \hyperref[wplog:form-validation-ux]{WPLOG-04},
+        \hyperref[wplog:accessibility-keyboard]{WPLOG-06}.%
+    }
+}

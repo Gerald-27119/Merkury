@@ -1,0 +1,93 @@
+%! Author = Mateusz
+%! Date = 22/12/2025
+
+\subsubsection{Wymagania ogólne dla motywu}
+\label{subsubsec:wymagania-ogolne-dla-motywu}
+
+
+\newlength{\womotywContentWidth}
+\setlength{\womotywContentWidth}{0.74\textwidth}
+
+\newlength{\womotywLabelWidth}
+\setlength{\womotywLabelWidth}{0.2\textwidth}
+
+\newlength{\womotywHeaderHeight}
+\setlength{\womotywHeaderHeight}{12mm}
+
+% --------- Pola karty (wiersze) ---------
+
+% Id + priorytet – 4 kolumny
+\newcommand{\womotywpriority}[2]{%
+    \textbf{Identyfikator:} & WOLOG-#1 &
+    \textbf{Priorytet:} & #2 \\ \hline
+}
+
+% Wiersze z etykietą + treścią na 3 kolumny
+\newcommand{\womotywname}[1]{\textbf{Nazwa:}              &
+\multicolumn{3}{|p{\womotywContentWidth}|}{#1} \\ \hline}
+\newcommand{\womotywdesc}[1]{\textbf{Opis:}               &
+\multicolumn{3}{|p{\womotywContentWidth}|}{#1} \\ \hline}
+\newcommand{\womotywstakeholder}[1]{\textbf{Udziałowiec:} &
+\multicolumn{3}{|p{\womotywContentWidth}|}{#1} \\ \hline}
+\newcommand{\womotywrelated}[1]{\textbf{Wymagania powiązane:} &
+\multicolumn{3}{|p{\womotywContentWidth}|}{#1} \\ \hline}
+
+\newcommand{\womotywHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\womotywHeaderHeight][c]{\linewidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
+\newcommand{\womotywatcard}[5]{%
+    \refstepcounter{awc}%
+    {\centering
+    \begin{longtable}{|
+            >{\columncolor{lightgray}}p{\womotywLabelWidth}|
+        p{0.22\textwidth}|
+            >{\columncolor{lightgray}}p{0.18\textwidth}|
+        p{0.24\textwidth}|}
+
+    \hline
+    \womotywHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNEGO DLA \\ MOTYWU}}
+    \endfirsthead
+    \hline
+    \womotywHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNEGO DLA \\ MOTYWU (cd.)}}
+    \endhead
+
+    % właściwa treść karty
+    \womotywpriority{#3}{#4}
+    \womotywname{#2}
+    #5
+
+    \end{longtable}
+    \par} % koniec centrowania
+
+    \vspace{3pt}
+    \textbf{Tabela \theawc:}
+    Karta wymagania ogólnego dla motywu: #2\label{#1}
+
+    \addcontentsline{lot}{table}
+    {Tabela \theawc: Karta wymagania ogólnego dla motywu: #2}%
+}
+
+
+\womotywatcard
+{wolog:login}
+{Możliwość zalogowania się}
+{01}
+{S}
+{
+    \womotywdesc{System udostępnia użytkownikowi mechanizm logowania do aplikacji,
+        umożliwiający uwierzytelnienie zarówno poprzez formularz logowania, jak i za pomocą zewnętrznych dostawców
+        (Google oraz GitHub), aby użytkownik mógł korzystać z funkcji wymagających konta.}
+
+    \womotywstakeholder{U3}
+
+    \womotywrelated{}
+}

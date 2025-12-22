@@ -1,0 +1,156 @@
+%! Author = Mateusz
+%! Date = 22/12/2025
+
+\subsubsection{Wymagania ogólne dla logowania i rejestracji}
+\label{subsubsec:wymagania-ogolne-dla-logowania-i-rejestracji}
+
+
+\newlength{\wologContentWidth}
+\setlength{\wologContentWidth}{0.74\textwidth}
+
+\newlength{\wologLabelWidth}
+\setlength{\wologLabelWidth}{0.2\textwidth}
+
+\newlength{\wologHeaderHeight}
+\setlength{\wologHeaderHeight}{12mm}
+
+% --------- Pola karty (wiersze) ---------
+
+% Id + priorytet – 4 kolumny
+\newcommand{\wologpriority}[2]{%
+    \textbf{Identyfikator:} & WOLOG-#1 &
+    \textbf{Priorytet:} & #2 \\ \hline
+}
+
+% Wiersze z etykietą + treścią na 3 kolumny
+\newcommand{\wologname}[1]{\textbf{Nazwa:}              &
+\multicolumn{3}{|p{\wologContentWidth}|}{#1} \\ \hline}
+\newcommand{\wologdesc}[1]{\textbf{Opis:}               &
+\multicolumn{3}{|p{\wologContentWidth}|}{#1} \\ \hline}
+\newcommand{\wologstakeholder}[1]{\textbf{Udziałowiec:} &
+\multicolumn{3}{|p{\wologContentWidth}|}{#1} \\ \hline}
+\newcommand{\wologrelated}[1]{\textbf{Wymagania powiązane:} &
+\multicolumn{3}{|p{\wologContentWidth}|}{#1} \\ \hline}
+
+\newcommand{\wologHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wologHeaderHeight][c]{\linewidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
+\newcommand{\wologatcard}[5]{%
+    \refstepcounter{awc}%
+    {\centering
+    \begin{longtable}{|
+            >{\columncolor{lightgray}}p{\wologLabelWidth}|
+        p{0.22\textwidth}|
+            >{\columncolor{lightgray}}p{0.18\textwidth}|
+        p{0.24\textwidth}|}
+
+    \hline
+    \wologHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNEGO DLA \\ LOGOGWANIA I REJESTRACJI}}
+    \endfirsthead
+    \hline
+    \wologHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNEGO DLA \\ LOGOGWANIA I REJESTRACJI (cd.)}}
+    \endhead
+
+    % właściwa treść karty
+    \wologpriority{#3}{#4}
+    \wologname{#2}
+    #5
+
+    \end{longtable}
+    \par} % koniec centrowania
+
+    \vspace{3pt}
+    \textbf{Tabela \theawc:}
+    Karta wymagania ogólnego dla logowania i rejestracji: #2\label{#1}
+
+    \addcontentsline{lot}{table}
+    {Tabela \theawc: Karta wymagania ogólnego dla logowania i rejestracji: #2}%
+}
+
+
+\wologatcard
+{wolog:login}
+{Możliwość zalogowania się}
+{01}
+{S}
+{
+    \wologdesc{System udostępnia użytkownikowi mechanizm logowania do aplikacji,
+        umożliwiający uwierzytelnienie zarówno poprzez formularz logowania, jak i za pomocą zewnętrznych dostawców
+        (Google oraz GitHub), aby użytkownik mógł korzystać z funkcji wymagających konta.}
+
+    \wologstakeholder{U3}
+    \wologrelated{%
+        \hyperref[wflog:login-email-password]{WFLOG-01},
+        \hyperref[wflog:login-sso]{WFLOG-02},
+        \hyperref[wflog:logout]{WFLOG-07},
+        \hyperref[wflog:auth-error-handling]{WFLOG-09},
+        \hyperref[wflog:switch-auth-views]{WFLOG-10},
+        \hyperref[wplog:auth-response-under-3s]{WPLOG-01},
+        \hyperref[wplog:secure-session-cookie]{WPLOG-02},
+        \hyperref[wplog:no-sensitive-error-details]{WPLOG-03},
+        \hyperref[wplog:form-validation-ux]{WPLOG-04},
+        \hyperref[wplog:network-failure-handling]{WPLOG-05},
+        \hyperref[wplog:accessibility-keyboard]{WPLOG-06}.%
+    }
+}
+
+\wologatcard
+{wolog:register}
+{Możliwość zarejestrowania się}
+{02}
+{S}
+{
+    \wologdesc{System udostępnia użytkownikowi mechanizm rejestracji konta,
+        umożliwiający utworzenie nowego profilu na podstawie danych podanych w formularzu
+        (adres e-mail, nazwa użytkownika, hasło) lub za pomocą konta Google oraz GitHub,
+        aby użytkownik mógł uzyskać dostęp do aplikacji jako zalogowany.}
+
+    \wologstakeholder{U3}
+    \wologrelated{%
+        \hyperref[wflog:register-form]{WFLOG-03},
+        \hyperref[wflog:register-sso]{WFLOG-04},
+        \hyperref[wflog:forms-validation]{WFLOG-08},
+        \hyperref[wflog:auth-error-handling]{WFLOG-09},
+        \hyperref[wflog:switch-auth-views]{WFLOG-10},
+        \hyperref[wplog:auth-response-under-3s]{WPLOG-01},
+        \hyperref[wplog:secure-session-cookie]{WPLOG-02},
+        \hyperref[wplog:no-sensitive-error-details]{WPLOG-03},
+        \hyperref[wplog:form-validation-ux]{WPLOG-04},
+        \hyperref[wplog:network-failure-handling]{WPLOG-05},
+        \hyperref[wplog:accessibility-keyboard]{WPLOG-06}.%
+    }
+}
+
+\wologatcard
+{wolog:password-reset}
+{Możliwość resetu hasła}
+{03}
+{S}
+{
+    \wologdesc{System udostępnia użytkownikowi mechanizm resetu hasła,
+        umożliwiający odzyskanie dostępu do konta w przypadku utraty hasła,
+        poprzez uruchomienie procedury zmiany hasła dla wskazanego adresu e-mail.}
+
+    \wologstakeholder{U3}
+    \wologrelated{%
+        \hyperref[wflog:password-reset-email]{WFLOG-05},
+        \hyperref[wflog:password-reset-confirm]{WFLOG-06},
+        \hyperref[wflog:forms-validation]{WFLOG-08},
+        \hyperref[wflog:auth-error-handling]{WFLOG-09},
+        \hyperref[wflog:switch-auth-views]{WFLOG-10},
+        \hyperref[wplog:auth-response-under-3s]{WPLOG-01},
+        \hyperref[wplog:no-sensitive-error-details]{WPLOG-03},
+        \hyperref[wplog:form-validation-ux]{WPLOG-04},
+        \hyperref[wplog:network-failure-handling]{WPLOG-05},
+        \hyperref[wplog:accessibility-keyboard]{WPLOG-06}.%
+    }
+}
