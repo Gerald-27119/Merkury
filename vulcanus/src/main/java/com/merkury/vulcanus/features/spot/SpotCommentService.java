@@ -67,8 +67,8 @@ public class SpotCommentService {
         return commentsPage.map(comment -> SpotCommentMapper.toDto(comment, user));
     }
 
-    public List<SpotCommentMediaDto> getRestOfSpotCommentMedia(Long spotId, Long commentId) {
-        return spotCommentMediaRepository.findBySpotCommentIdAndSpotCommentSpotId(spotId, commentId).stream().map(SpotCommentMediaMapper::toDto).toList();
+    public List<SpotCommentMediaDto> getRestOfSpotCommentMedia(Long commentId) {
+        return spotCommentMediaRepository.findBySpotCommentId(commentId).stream().map(SpotCommentMediaMapper::toDto).toList();
     }
 
     public void addComment(String spotCommentJson, List<MultipartFile> mediaFiles, Long spotId) throws SpotNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, UserNotFoundException, SpotMediaNumberOfMediaExceeded, SpotCommentTextOutOfBoundariesException, SpotCommentRatingOutOfBoundariesException {

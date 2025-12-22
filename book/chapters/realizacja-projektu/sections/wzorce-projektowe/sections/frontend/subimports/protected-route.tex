@@ -1,0 +1,25 @@
+%! Author = Stanisław Oziemczuk
+%! Date = 21.12.2025
+
+\subsubsection{Protected route}
+\label{subsubsec:Protected route}
+
+\glslink{wzorzec}{Wzorzec} polegający na uniemożliweniu dostępu
+do stron lub podstron aplikacji nieuwierzytelnionym użytkownikom.
+W projekcie do realizacji tego wzorca wykorzystano \glslink{react-component}{komponent} \textit{ProtectedRoute} oraz bibliotekę \textit{react-router-dom}.
+Gdy użytkownik będzie próbował przejść do sekcji wymagającej wcześniejszego zalogowania bez uczynienia tego,
+zostanie automatycznie przekierowany na stronę główną aplikacji.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/protectedRoute_implementation}
+    \caption{Implementacja komponentu ProtectedRoute}
+    \label{fig:protected-route-implementation}
+\end{figure}
+\noindent
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/protectedRoute_usage}
+    \caption{Przykładowe użycie komponentu ProtectedRoute}
+    \label{fig:protected-route-usage}
+\end{figure}
+\noindent
