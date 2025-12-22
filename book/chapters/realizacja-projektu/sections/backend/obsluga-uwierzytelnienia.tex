@@ -4,199 +4,201 @@
 \subsection{Bezpieczeństwo aplikacji}
 \label{subsec:bezpieczenstwo-aplikacji}
 
-%1. Po co uzylismy spring security
-%2. czym jest spring security
-%https://docs.spring.io/spring-security/reference/index.html
+% Źródła:
+% https://docs.spring.io/spring-security/reference/index.html
+% https://docs.spring.io/spring-security/reference/servlet/architecture.html
 %
-%diagramy filtry: https://docs.spring.io/spring-security/reference/servlet/architecture.html
+% Pliki/klasy:
+% UrlsProperties
+% JwtProperties
+% JwtConfig
+% SecurityConfig
+% JwtAuthFilter
+% JwtGenerator
+% JwtManager
+% JwtService
+% CustomUserDetailsService
+% CustomAccessDeniedHandler
+% ChatSecurityService
 %
-%JwtProperties
-%UrlsProperties
-%JwtConfig
-%SecurityConfig
-%
-%folder security
-%
-%diagram ze springa jak dziala security? odwolania do chain of responsibility
-%diagram jak sie nasze wpisuja w to
+% Diagramy (do wstawienia):
+% - schemat filter chain Spring Security + nasze filtry
+% - uproszczony flow JWT (cookie -> walidacja -> SecurityContext -> controller)
+% - rozróżnienie 401 vs 403 (opcjonalnie)
 
-Niniejszy rozdział prezentuje implementację zabezpieczeń aplikacji na backendzie.
-Rozdział przygotowano w oparciu o podane źródła:
+% Wewnętrzne śródtytuły (NIE trafiają do spisu treści)
+\newcommand{\innerheading}[1]{\par\medskip\noindent\textbf{#1}\par\smallskip}
+
+Niniejszy rozdział prezentuje implementację zabezpieczeń aplikacji po stronie backendu.
+Opis przygotowano w oparciu o dokumentację Spring Security:
 \begin{itemize}
     \item \url{https://docs.spring.io/spring-security/reference/index.html}.
     \item \url{https://docs.spring.io/spring-security/reference/servlet/architecture.html}.
 \end{itemize}
 
-Podczas tworzenia aplikacji webowej opartej o serwer zapewniający \gls{api}
-kwestie bezpieczeństwa są jednym z kluczowych aspektów projektowych.
-Wystawienie usług do sieci oznacza, że system jest stale narażony na próby
-nieautoryzowanego dostępu, nadużycia mechanizmów logowania, a także ataki
-prowadzące do ujawnienia lub modyfikacji danych.
-Brak odpowiednich zabezpieczeń może skutkować przejęciem kont użytkowników,
-wyciekiem informacji lub wykorzystaniem zasobów systemu
-w sposób niezgodny z przeznaczeniem.
+Podczas tworzenia aplikacji webowej opartej o serwer udostępniający \gls{api},
+bezpieczeństwo stanowi jeden z kluczowych aspektów projektowych.
+Wystawienie usług do sieci oznacza, że system jest stale narażony na próby nieautoryzowanego dostępu,
+nadużycia mechanizmów logowania, a także ataki prowadzące do ujawnienia lub modyfikacji danych.
+Brak odpowiednich zabezpieczeń może skutkować przejęciem kont użytkowników, wyciekiem informacji
+lub wykorzystaniem zasobów systemu w sposób niezgodny z przeznaczeniem.
 
 Na bezpieczeństwo aplikacji składają się przede wszystkim następujące obszary:
-
 \begin{itemize}
-    \item \textbf{Uwierzytelnianie} -- proces potwierdzania tożsamości klienta
-    komunikującego się z systemem. Oznacza to zapewnienie, że żądanie
-    pochodzi od konkretnego, znanego użytkownika.
-
+    \item \textbf{Uwierzytelnianie} -- proces potwierdzania tożsamości klienta komunikującego się z systemem.
+    Oznacza to zapewnienie, że żądanie pochodzi od konkretnego, znanego użytkownika.
     \item \textbf{Autoryzacja} -- określenie i przestrzeganie polityki dostępu oraz operacji na zasobach,
-    do jakich dostęp ma uwierzytelniony użytkownik.
-    Nawet poprawnie uwierzytelniony klient
-    nie powinien mieć możliwości wykonania akcji, do których nie posiada uprawnień.
-
-    \item \textbf{Ochrona przed typowymi atakami} -- zestaw mechanizmów, które mają
-    na celu ograniczenie ryzyka podatności i nadużyć, takich jak ataki typu brute-force,
-    nieprawidłowa konfiguracja \gls{cors}, czy wykorzystanie luk
-    w warstwie aplikacyjnej. Istotne są również bezpieczne nagłówki HTTP,
-    poprawna obsługa błędów oraz kontrola sposobu przetwarzania danych wejściowych.
-
-    \item \textbf{Integralność i poufność komunikacji} -- zapewnienie, że dane przesyłane
-    pomiędzy klientem a serwerem nie mogą zostać łatwo podejrzane lub zmodyfikowane
-    po drodze. W kontekście aplikacji internetowych sprowadza się to głównie do
-    stosowania szyfrowania transportowego (HTTPS/TLS) oraz konsekwentnego egzekwowania
-    polityk bezpieczeństwa w warstwie serwera.
+    do jakich dostęp ma uwierzytelniony użytkownik. Nawet poprawnie uwierzytelniony klient nie powinien
+    mieć możliwości wykonania akcji, do których nie posiada uprawnień.
+    \item \textbf{Ochrona przed typowymi atakami} -- zestaw mechanizmów ograniczających ryzyko podatności i nadużyć,
+    takich jak brute-force, błędna konfiguracja \gls{cors}, czy wykorzystanie luk w warstwie aplikacyjnej.
+    Istotne są również bezpieczne nagłówki HTTP, poprawna obsługa błędów oraz kontrola sposobu przetwarzania danych wejściowych.
+    \item \textbf{Integralność i poufność komunikacji} -- zapewnienie, że dane przesyłane pomiędzy klientem a serwerem
+    nie mogą zostać łatwo podejrzane lub zmodyfikowane po drodze. W praktyce sprowadza się to głównie do stosowania HTTPS/TLS
+    oraz konsekwentnego egzekwowania polityk bezpieczeństwa w warstwie serwera.
 \end{itemize}
 
-W projekcie wykorzystano ekosystem Spring Boot, który zapewnia gotową integrację
-mechanizmów bezpieczeństwa w ramach Spring Security.
+W projekcie wykorzystano ekosystem Spring Boot, który zapewnia gotową integrację mechanizmów bezpieczeństwa
+w ramach \gls{spring-security}.
+
+% ------------------------------------------------------------
+% Spring Security - opis ogólny
+% ------------------------------------------------------------
 
 \subsubsection{Spring Security}
 \label{subsubsec:spring-security}
 
 Spring Security jest frameworkiem dostarczanym w ramach ekosystemu Springa,
 który można dołączyć do projektu jako zależność.
-Jego zadaniem jest zapewnienie kompletnego zestawu mechanizmów związanych z bezpieczeństwem
-warstwy serwerowej: od uwierzytelniania i autoryzacji, po ochronę przed najczęściej
-spotykanymi zagrożeniami w aplikacjach webowych.
+Zapewnia on komplet mechanizmów związanych z bezpieczeństwem warstwy serwerowej:
+od uwierzytelniania i autoryzacji, po ochronę przed najczęściej spotykanymi zagrożeniami w aplikacjach webowych.
 
 Istotną cechą Spring Security jest oparcie działania o łańcuch filtrów,
 przez który przechodzi każde żądanie HTTP trafiające do aplikacji.
-Twórcy frameworka skorzystali w tym celu ze wzorca \textit{Chain of Responsibility}
-[TODO: odniesienie do opisu CoR]. % TODO: uzupelnic potem, jak wzorzec bedzie opisany
+Rozwiązanie to nawiązuje do wzorca \textit{Chain of Responsibility}
+[TODO: odniesienie do opisu CoR].
 Dzięki temu możliwe jest przechwycenie żądania na wczesnym etapie,
-zbudowanie kontekstu bezpieczeństwa oraz podjęcie decyzji,
-czy żądanie może zostać przekazane dalej.
-Oznacza to, że kontrola dostępu jest realizowana konsekwentnie i centralnie,
-bez konieczności ręcznego powielania sprawdzeń w wielu miejscach kodu.
+zbudowanie kontekstu bezpieczeństwa oraz podjęcie decyzji, czy żądanie może zostać przekazane dalej.
+Kontrola dostępu jest wówczas realizowana centralnie, bez konieczności ręcznego powielania sprawdzeń w wielu miejscach kodu.
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/diagram-spring-security-chain}
+%     \caption{Schemat przetwarzania żądania w Spring Security (łańcuch filtrów)}
+%     \label{fig:spring-security-chain}
+% \end{figure}
+
+% ------------------------------------------------------------
+% Konfiguracja: properties + beany + dwa łańcuchy filtrów
+% ------------------------------------------------------------
 
 \subsubsection{Konfiguracja Spring Security}
 \label{subsubsec:konfiguracja-spring-security}
 
-% Wewnętrzne śródtytuły (NIE trafiają do spisu treści)
-\newcommand{\innerheading}[1]{\par\medskip\noindent\textbf{#1}\par\smallskip}
+Konfiguracja bezpieczeństwa została rozbita na:
+(1) klasy mapujące konfigurację z plików środowiskowych (\texttt{UrlsProperties}, \texttt{JwtProperties}),
+(2) klasę przygotowującą bean JWT (\texttt{JwtConfig}),
+oraz (3) główną konfigurację security (\texttt{SecurityConfig}),
+która definiuje reguły dostępu i buduje łańcuchy filtrów.
 
 \innerheading{Plik UrlsProperties}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/UrlsProperties/1}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/urlsProperties}
     \caption{Klasa \texttt{UrlsProperties}}
     \label{fig:urls-properties}
 \end{figure}
 
-Klasa \texttt{UrlsProperties} pełni rolę centralnego magazynu adresów URL wykorzystywanych
-w przepływach związanych z logowaniem i wylogowaniem użytkownika.
+Klasa \texttt{UrlsProperties} pełni rolę centralnego magazynu adresów URL wykorzystywanych w przepływach
+związanych z logowaniem i wylogowaniem użytkownika.
 Została oznaczona adnotacją \texttt{@ConfigurationProperties(prefix = "url")},
-dzięki czemu pola klasy mogą być w prosty sposób mapowane z pliku konfiguracyjnego
-(np.\ \texttt{application.yml} / \texttt{application.properties}).
-W praktyce oznacza to, że adresy przekierowań oraz endpointy pomocnicze nie są
-„zaszyte” na stałe w kodzie, lecz mogą zostać zmienione bez ingerencji w logikę aplikacji.
+dzięki czemu pola klasy mogą być mapowane z pliku konfiguracyjnego (np.\ \texttt{application.yml}).
+W praktyce oznacza to, że adresy przekierowań oraz endpointy pomocnicze nie są „zaszyte” w kodzie,
+lecz mogą zostać zmienione bez ingerencji w logikę aplikacji.
 
-Klasa jest jednocześnie komponentem Springa (\texttt{@Component}), więc może być wstrzykiwana
-do klas konfiguracyjnych lub serwisów (np.\ w \texttt{SecurityConfig}).
+Klasa jest jednocześnie komponentem Springa (\texttt{@Component}),
+więc może być wstrzykiwana do klas konfiguracyjnych lub serwisów.
 Zawiera zestaw pól opisujących m.in.\ stronę po logowaniu, adres strony logowania OAuth2,
 URL sukcesu i porażki, URL wylogowania oraz URL wykorzystywany w procesie resetu hasła.
 Dodatkowo przechowywany jest adres endpointu służącego do pobrania e-maila z GitHuba
-(\texttt{githubEmailEndpoint}), co jest przydatne w scenariuszu, w którym dostawca OAuth2
-nie zwraca e-maila w podstawowym profilu użytkownika.
+(\texttt{githubEmailEndpoint}), co jest użyteczne, gdy dostawca OAuth2 nie zwraca e-maila w profilu podstawowym.
 
 \innerheading{Plik JwtProperties}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/JwtProperties/1}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/jwtProperties}
     \caption{Klasa \texttt{JwtProperties}}
     \label{fig:jwt-properties}
 \end{figure}
 
 Klasa \texttt{JwtProperties} przechowuje parametry związane z obsługą tokenów JWT w aplikacji.
 Zastosowano mechanizm \texttt{@ConfigurationProperties(prefix = "jwt")},
-dzięki czemu wartości mogą pochodzić z konfiguracji środowiska (np.\ inne wartości w środowisku lokalnym i produkcyjnym).
+dzięki czemu wartości mogą pochodzić z konfiguracji środowiska
+(np.\ inne w środowisku lokalnym i produkcyjnym).
 
-Najważniejszym elementem klasy jest pole \texttt{key} typu \texttt{SecretKey}, które reprezentuje
-klucz kryptograficzny używany do podpisywania i weryfikacji tokenów.
+Najważniejszym elementem klasy jest pole \texttt{key} typu \texttt{SecretKey},
+reprezentujące klucz kryptograficzny używany do podpisywania i weryfikacji tokenów.
 Pozostałe pola opisują zachowanie tokenu i sposób jego przechowywania po stronie klienta:
-\texttt{tokenName} określa nazwę tokenu (np.\ nazwę cookie lub identyfikator używany w logice aplikacji),
+\texttt{tokenName} określa nazwę tokenu (np.\ nazwę cookie),
 \texttt{tokenExpiration} oraz \texttt{tokenCookieExpiration} definiują czas ważności tokenu i/lub cookie,
-a \texttt{oneDayInMs} pozwala spójnie przeliczać okresy czasu (np.\ w milisekundach)
-w ramach konfiguracji.
-
-Warto zauważyć, że klasa przyjmuje \texttt{SecretKey} w konstruktorze, co pozwala wstrzyknąć
-klucz generowany lub dostarczany z zewnątrz, zamiast trzymać go jako stałą w kodzie.
-Adnotacja \texttt{@Data} (Lombok) dostarcza gettery/settery i upraszcza zapis klasy.
+a \texttt{oneDayInMs} pozwala spójnie przeliczać okresy czasu (np.\ w milisekundach).
 
 \innerheading{Plik JwtConfig}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/JwtConfig/1}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/JwtConfig}
     \caption{Klasa \texttt{JwtConfig}}
     \label{fig:jwt-config}
 \end{figure}
 
 Klasa \texttt{JwtConfig} jest klasą konfiguracyjną Springa (\texttt{@Configuration}),
 której zadaniem jest utworzenie beana \texttt{JwtProperties} wraz z kluczem kryptograficznym.
-W metodzie \texttt{jwtProperties()} tworzony jest nowy obiekt \texttt{JwtProperties},
+W metodzie \texttt{jwtProperties()} tworzony jest obiekt \texttt{JwtProperties},
 a klucz \texttt{SecretKey} generowany jest przez bibliotekę \texttt{jjwt}
-poprzez wywołanie \texttt{Jwts.SIG.HS256.key().build()}.
+(np.\ poprzez \texttt{Jwts.SIG.HS256.key().build()}).
 
-W efekcie aplikacja otrzymuje gotowy bean z kluczem do podpisywania tokenów HS256,
-który może zostać użyty w komponentach odpowiedzialnych za generowanie i walidację JWT
-(np.\ w klasach typu \texttt{JwtGenerator}, \texttt{JwtManager} czy filtrze \texttt{JwtAuthFilter}).
+Dzięki temu pozostałe komponenty (generator, manager, filtr) korzystają ze spójnie dostarczonego beana,
+zamiast utrzymywać klucz w wielu miejscach.
 
-Z perspektywy architektury jest to świadome wydzielenie konfiguracji JWT do osobnej klasy:
-logika generowania klucza jest skupiona w jednym miejscu, a reszta aplikacji korzysta już
-z wstrzykniętego beana \texttt{JwtProperties}.
+\innerheading{Plik SecurityConfig}
 
-% TODO: za małe zdjecia
+% TODO: za małe zdjecia (docelowo można dać 1-2 większe zamiast 4 małych)
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/SecurityConfig/1}
-    \caption{Konfiguracja security (1/4)}
+    \caption{Konfiguracja \texttt{SecurityConfig} (1/4)}
     \label{fig:security-config-1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/SecurityConfig/2}
-    \caption{Konfiguracja security (2/4)}
+    \caption{Konfiguracja \texttt{SecurityConfig} (2/4)}
     \label{fig:security-config-2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/SecurityConfig/3}
-    \caption{Konfiguracja security (3/4)}
+    \caption{Konfiguracja \texttt{SecurityConfig} (3/4)}
     \label{fig:security-config-3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/SecurityConfig/4}
-    \caption{Konfiguracja security (4/4)}
+    \caption{Konfiguracja \texttt{SecurityConfig} (4/4)}
     \label{fig:security-config-4}
 \end{figure}
 
-W niniejszej sekcji opisano konfigurację zabezpieczeń po stronie backendu,
-zrealizowaną w pliku \texttt{SecurityConfig}. Konfiguracja bazuje na \gls{spring-security}
-i definiuje sposób obsługi uwierzytelniania oraz autoryzacji dla \gls{api}.
-Zastosowano podejście rozdzielające ruch na:
-(1) ścieżki publiczne, dostępne bez logowania,
-oraz (2) ścieżki prywatne, wymagające poprawnego uwierzytelnienia.
+W pliku \texttt{SecurityConfig} zdefiniowano docelową politykę bezpieczeństwa backendu,
+w tym sposób uwierzytelniania i autoryzacji dla \gls{api}.
+Konfiguracja rozdziela ruch na:
+(1) ścieżki publiczne dostępne bez logowania,
+oraz (2) ścieżki prywatne wymagające poprawnego uwierzytelnienia.
 
 \innerheading{Adnotacje i rola klasy konfiguracyjnej}
 
@@ -220,12 +222,12 @@ Konfiguracja wykorzystuje dwa obiekty typu \texttt{RequestMatcher}:
     czyli „wszystko poza ścieżkami publicznymi”.
 \end{itemize}
 
-Takie podejście pozwala stosować różne zasady bezpieczeństwa dla różnych obszarów aplikacji
+Takie podejście pozwala stosować różne zasady bezpieczeństwa dla różnych obszarów aplikacji,
 bez mieszania reguł w jednym, trudnym do utrzymania łańcuchu filtrów.
 
 \innerheading{Dwa niezależne łańcuchy filtrów Spring Security}
 
-W pliku zdefiniowano dwa \texttt{SecurityFilterChain} z różnymi priorytetami (\texttt{@Order}),
+W konfiguracji zdefiniowano dwa \texttt{SecurityFilterChain} z różnymi priorytetami (\texttt{@Order}),
 które są wybierane na podstawie dopasowania \texttt{securityMatcher(...)}.
 
 \medskip
@@ -233,54 +235,33 @@ które są wybierane na podstawie dopasowania \texttt{securityMatcher(...)}.
 Bean \texttt{publicSecurityFilterChain} (z \texttt{@Order(1)}) obsługuje wyłącznie żądania
 pasujące do \texttt{publicPathsMatcher}. Jego główne cechy:
 \begin{itemize}
-    \item \textbf{Brak wymogu uwierzytelnienia}:
-    \texttt{authorizeHttpRequests().anyRequest().permitAll()} dopuszcza każde żądanie w tej przestrzeni URL.
-    \item \textbf{Konfiguracja CORS}:
-    poprzez \texttt{cors(...)} i \texttt{corsConfigurationSource()} dopuszcza komunikację z wybranych originów
-    (szczególnie istotne dla \gls{frontend} uruchamianego na innym porcie).
-    \item \textbf{Wyłączenie CSRF}:
-    \texttt{csrf().disable()} upraszcza obsługę wywołań \gls{api} wykonywanych przez klienta (np.\ SPA),
-    gdzie typowo stosuje się tokeny w nagłówkach zamiast klasycznych formularzy.
-    \item \textbf{Obsługa OAuth2 logowania}:
-    \texttt{oauth2Login(...)} definiuje stronę logowania oraz adresy przekierowań po sukcesie i porażce,
-    pobierane z \texttt{UrlsProperties}.
-    \item \textbf{Logout dla sesji OAuth2}:
-    \texttt{logout(...)} ustawia dedykowany URL wylogowania (\texttt{/account/oauth2/logout}),
+    \item \textbf{Brak wymogu uwierzytelnienia}: \texttt{permitAll()} dopuszcza każde żądanie w tej przestrzeni URL.
+    \item \textbf{Konfiguracja CORS}: dopuszcza komunikację z wybranych originów (ważne dla \gls{frontend} na innym porcie).
+    \item \textbf{Wyłączenie CSRF}: upraszcza obsługę wywołań \gls{api} wykonywanych przez klienta (np.\ SPA),
+    gdzie typowo stosuje się tokeny/nagłówki zamiast klasycznych formularzy.
+    \item \textbf{Obsługa OAuth2 logowania}: \texttt{oauth2Login(...)} definiuje stronę logowania oraz adresy przekierowań
+    po sukcesie i porażce, pobierane z \texttt{UrlsProperties}.
+    \item \textbf{Logout dla sesji OAuth2}: \texttt{logout(...)} ustawia dedykowany URL wylogowania,
     czyści kontekst bezpieczeństwa, unieważnia sesję oraz usuwa cookie zawierające token
     (nazwa cookie pochodzi z \texttt{JwtProperties}).
-    \item \textbf{Zarządzanie sesją}:
-    \texttt{SessionCreationPolicy.IF\_REQUIRED} oznacza, że sesja jest tworzona tylko wtedy, gdy jest potrzebna
-    (np.\ w scenariuszu logowania OAuth2).
-    \item \textbf{Wyłączenie HTTP Basic}:
-    \texttt{httpBasic().disable()} zapobiega używaniu mechanizmu Basic Auth.
+    \item \textbf{Zarządzanie sesją}: \texttt{SessionCreationPolicy.IF\_REQUIRED} tworzy sesję tylko wtedy, gdy jest potrzebna
+    (np.\ w scenariuszu OAuth2).
+    \item \textbf{Wyłączenie HTTP Basic}: \texttt{httpBasic().disable()} nie dopuszcza Basic Auth.
 \end{itemize}
-
-W praktyce ten łańcuch pełni rolę „bramy” dla endpointów, które muszą pozostać dostępne bez logowania
-(np.\ zasoby publiczne, obsługa procesu OAuth2, endpointy pomocnicze).
 
 \medskip
 \noindent\textbf{Łańcuch dla ścieżek prywatnych.}
 Bean \texttt{privateSecurityFilterChain} (z \texttt{@Order(2)}) dotyczy wszystkich pozostałych żądań,
-czyli tych dopasowanych do \texttt{privatePathsMatcher}. Najważniejsze elementy:
+czyli dopasowanych do \texttt{privatePathsMatcher}. Najważniejsze elementy:
 \begin{itemize}
-    \item \textbf{Wymóg uwierzytelnienia}:
-    \texttt{authorizeHttpRequests().anyRequest().authenticated()} wymusza, aby każde żądanie
-    zostało poprawnie rozpoznane jako pochodzące od zalogowanego użytkownika.
-    \item \textbf{Własna obsługa odmowy dostępu}:
-    \texttt{exceptionHandling().accessDeniedHandler(customAccessDeniedHandler)}
-    zapewnia spójny format odpowiedzi (np.\ jednolitą strukturę błędu) przy braku uprawnień.
-    \item \textbf{Filtr JWT wpięty w łańcuch}:
-    \texttt{addFilterBefore(jwtAuthFilter, LogoutFilter.class)} powoduje, że token jest weryfikowany
-    zanim przetwarzanie dojdzie do dalszych elementów security.
-    W efekcie kontekst bezpieczeństwa może zostać zbudowany na podstawie tokenu,
-    a autoryzacja może działać dla wszystkich endpointów prywatnych.
-    \item \textbf{CORS i CSRF}:
-    podobnie jak w części publicznej włączono CORS i wyłączono CSRF.
-    \item \textbf{Zarządzanie sesją}:
-    pozostawiono \texttt{SessionCreationPolicy.IF\_REQUIRED}; w praktyce pozwala to łączyć podejście tokenowe
-    z obszarami, które ewentualnie wymagają sesji (np.\ przepływy logowania).
-    \item \textbf{Wyłączenie HTTP Basic}:
-    analogicznie jak wyżej, aby nie dopuszczać alternatywnej metody uwierzytelniania.
+    \item \textbf{Wymóg uwierzytelnienia}: \texttt{authenticated()} wymusza poprawne rozpoznanie użytkownika.
+    \item \textbf{Własna obsługa odmowy dostępu}: \texttt{accessDeniedHandler(...)} zapewnia spójny format odpowiedzi przy braku uprawnień.
+    \item \textbf{Filtr JWT wpięty w łańcuch}: \texttt{addFilterBefore(jwtAuthFilter, LogoutFilter.class)}
+    weryfikuje token zanim przetwarzanie przejdzie do dalszych elementów security.
+    \item \textbf{CORS i CSRF}: analogicznie jak w części publicznej włączono CORS i wyłączono CSRF.
+    \item \textbf{Zarządzanie sesją}: pozostawiono \texttt{SessionCreationPolicy.IF\_REQUIRED}, co pozwala łączyć podejście tokenowe
+    z obszarami wymagającymi sesji (np.\ przepływy logowania).
+    \item \textbf{Wyłączenie HTTP Basic}: nie dopuszcza alternatywnej metody uwierzytelniania.
 \end{itemize}
 
 \innerheading{Konfiguracja CORS}
@@ -298,23 +279,238 @@ Metoda \texttt{corsConfigurationSource()} definiuje politykę \gls{cors} dla ca�
 
 W konfiguracji zdefiniowano dodatkowe komponenty wymagane przez warstwę security:
 \begin{itemize}
-    \item \texttt{AuthenticationManager} -- pobierany z \texttt{AuthenticationConfiguration};
-    umożliwia uruchamianie procesu uwierzytelniania w sposób zgodny z konfiguracją Spring Security.
+    \item \texttt{AuthenticationManager} -- pobierany z \texttt{AuthenticationConfiguration},
+    umożliwia uruchamianie procesu uwierzytelniania zgodnie z konfiguracją Spring Security.
     \item \texttt{PasswordEncoder} -- zastosowano \texttt{BCryptPasswordEncoder},
     czyli bezpieczny mechanizm haszowania haseł.
     \item \texttt{JwtAuthFilter} -- tworzony jako bean wraz z zależnościami
     (\texttt{JwtGenerator}, \texttt{JwtManager}, \texttt{JwtProperties}, \texttt{CustomUserDetailsService}).
-    Filtr odpowiada za odczyt tokenu z żądania, jego walidację oraz ustawienie kontekstu bezpieczeństwa.
 \end{itemize}
 
 \innerheading{Wyłączenie rejestracji filtra przez kontener servletów}
 
-Na końcu zdefiniowano:
-\texttt{FilterRegistrationBean<JwtAuthFilter>} z \texttt{setEnabled(false)}.
+Na końcu zdefiniowano \texttt{FilterRegistrationBean<JwtAuthFilter>} z \texttt{setEnabled(false)}.
 Celem jest wyłączenie automatycznej rejestracji filtra przez warstwę servletową,
 ponieważ filtr JWT jest dodawany ręcznie do właściwego \texttt{SecurityFilterChain}.
-Zapobiega to sytuacji, w której ten sam filtr wykonałby się podwójnie (raz jako filtr security,
-a drugi raz jako filtr globalny aplikacji).
+Zapobiega to sytuacji, w której ten sam filtr wykonałby się podwójnie.
 
-%diagram 1
-%diagram 2
+% ------------------------------------------------------------
+% JWT - komponenty: manager/generator/filter/service
+% ------------------------------------------------------------
+
+\subsubsection{Mechanizm JWT w aplikacji}
+\label{subsubsec:mechanizm-jwt}
+
+Dla endpointów prywatnych zastosowano uwierzytelnianie oparte o tokeny JWT.
+W tym podejściu serwer odtwarza tożsamość użytkownika dla każdego żądania
+na podstawie tokenu przekazywanego przez klienta. Token jest przechowywany po stronie klienta
+w \texttt{HttpOnly cookie}, co ogranicza możliwość jego odczytu przez kod JavaScript.
+
+Implementację rozbito na cztery współpracujące komponenty:
+\begin{itemize}
+    \item \texttt{JwtGenerator} -- generuje token na podstawie aktualnego kontekstu bezpieczeństwa,
+    \item \texttt{JwtManager} -- weryfikuje token i obsługuje operacje na cookie,
+    \item \texttt{JwtAuthFilter} -- wpięty w łańcuch filtrów; buduje \texttt{Authentication} dla żądań prywatnych,
+    \item \texttt{JwtService} -- udostępnia prostszy interfejs do odświeżenia tokenu z poziomu logiki aplikacyjnej.
+\end{itemize}
+
+\innerheading{Plik JwtManager}
+
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/jwtManager}
+%    \caption{Klasa \texttt{JwtManager}}
+%    \label{fig:jwt-manager}
+%\end{figure}
+
+Klasa \texttt{JwtManager} skupia w jednym miejscu operacje techniczne związane z JWT:
+walidację podpisu, parsowanie danych z tokenu, weryfikację czasu ważności oraz obsługę cookie.
+
+Metoda \texttt{validateToken(...)} odpowiada za sprawdzenie, czy token istnieje i czy posiada poprawny podpis.
+Brak tokenu lub pusty token kończy się wyjątkiem Spring Security, natomiast niezgodny podpis
+jest raportowany poprzez wyjątek domenowy. W praktyce pozwala to jednoznacznie odróżnić sytuację
+„brak uwierzytelnienia” od „próba użycia zmodyfikowanego tokenu”.
+
+Metody \texttt{getUsernameFromJWT(...)} oraz \texttt{getExpirationDateFromToken(...)} parsują token
+i odczytują odpowiednio: identyfikator użytkownika (subject) oraz datę wygaśnięcia.
+Obsłużono również scenariusz tokenu wygasłego (\texttt{ExpiredJwtException}),
+gdzie dane z tokenu mogą być nadal wykorzystywane do spójnej obsługi błędu.
+
+Operacje na cookie są realizowane przez:
+\texttt{addTokenToCookie(...)} (zapis) oraz \texttt{getJWTFromCookie(...)} (odczyt).
+Cookie jest ustawiane jako \texttt{HttpOnly} i ma nazwę określoną w \texttt{JwtProperties.tokenName}.
+
+\innerheading{Plik JwtGenerator}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/jwtGenerator}
+    \caption{Klasa \texttt{JwtGenerator}}
+    \label{fig:jwt-generator}
+\end{figure}
+
+Klasa \texttt{JwtGenerator} odpowiada za generowanie tokenów JWT.
+Wygenerowany token zawiera podstawowe informacje wymagane do identyfikacji użytkownika:
+\begin{itemize}
+    \item \textbf{subject} -- nazwa użytkownika, pobierana z \texttt{SecurityContextHolder},
+    \item \textbf{issuedAt} -- czas wystawienia tokenu,
+    \item \textbf{expiration} -- czas wygaśnięcia obliczany na podstawie \texttt{JwtProperties.tokenExpiration}.
+\end{itemize}
+
+Token jest podpisywany kluczem symetrycznym HS256, przechowywanym w \texttt{JwtProperties.key}.
+Podpis zapewnia integralność tokenu i umożliwia serwerowi weryfikację, czy token nie został zmodyfikowany.
+
+\innerheading{Plik JwtAuthFilter}
+
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/jwtAuthFilter}
+%    \caption{Klasa \texttt{JwtAuthFilter}}
+%    \label{fig:jwt-auth-filter}
+%\end{figure}
+
+Klasa \texttt{JwtAuthFilter} dziedziczy po \texttt{OncePerRequestFilter},
+co gwarantuje wykonanie filtra maksymalnie raz dla pojedynczego żądania.
+Filtr jest dołączany do łańcucha filtrów dla endpointów prywatnych w \texttt{SecurityConfig}
+(\texttt{addFilterBefore(...)}), dzięki czemu realizuje uwierzytelnianie JWT
+w sposób scentralizowany dla całej przestrzeni URL wymagającej logowania.
+
+W metodzie \texttt{doFilterInternal(...)} filtr realizuje następujące kroki:
+\begin{itemize}
+    \item odczytuje token z cookie poprzez \texttt{JwtManager.getJWTFromCookie(...)}.
+    \item weryfikuje token (\texttt{JwtManager.validateToken(...)}); w przypadku błędu zwraca odpowiedź \texttt{401 Unauthorized}
+    w formacie JSON i nie przekazuje żądania dalej.
+    \item odczytuje identyfikator użytkownika (subject) z tokenu i ładuje dane użytkownika
+    poprzez \texttt{CustomUserDetailsService.loadUserByUsername(...)}.
+    \item buduje \texttt{UsernamePasswordAuthenticationToken} wraz z uprawnieniami użytkownika oraz zapisuje go do
+    \texttt{SecurityContextHolder}. Od tego momentu Spring Security traktuje żądanie jako uwierzytelnione.
+    \item opcjonalnie odnawia token (opis poniżej) oraz przekazuje żądanie dalej przez \texttt{filterChain.doFilter(...)}.
+\end{itemize}
+
+W filtrze zaimplementowano mechanizm odnawiania tokenu (\texttt{renewToken(...)}):
+jeżeli token jest nadal ważny, ale do jego wygaśnięcia pozostał czas krótszy niż jeden dzień
+(\texttt{JwtProperties.oneDayInMs}), generowany jest nowy token i zapisywany w cookie.
+Pozwala to utrzymać ciągłość sesji użytkownika przy regularnej aktywności,
+bez konieczności jawnego „refresh” po stronie klienta.
+
+\innerheading{Plik JwtService}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/jwtService}
+    \caption{Klasa \texttt{JwtService}}
+    \label{fig:jwt-service}
+\end{figure}
+
+Klasa \texttt{JwtService} udostępnia uproszczony interfejs do odświeżania tokenu użytkownika
+z poziomu logiki aplikacyjnej. Metoda \texttt{refreshUserToken(...)} ustawia tymczasowo
+\texttt{Authentication} w \texttt{SecurityContextHolder} na podstawie przekazanego użytkownika,
+a następnie generuje nowy token i zapisuje go w cookie.
+Takie podejście jest przydatne w miejscach, gdzie po stronie serwera następuje potwierdzenie tożsamości
+lub konieczność ponownego wystawienia tokenu.
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/diagram-jwt-flow}
+%     \caption{Uproszczony przepływ żądania dla endpointów prywatnych (JWT)}
+%     \label{fig:diagram-jwt-flow}
+% \end{figure}
+
+% ------------------------------------------------------------
+% UserDetails + 401/403
+% ------------------------------------------------------------
+
+\subsubsection{Dostarczanie danych użytkownika i obsługa błędów}
+\label{subsubsec:userdetails-i-bledy}
+
+\innerheading{Plik CustomUserDetailsService}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/customUserDetailsService}
+    \caption{Klasa \texttt{CustomUserDetailsService}}
+    \label{fig:custom-user-details-service}
+\end{figure}
+
+Klasa \texttt{CustomUserDetailsService} implementuje interfejs \texttt{UserDetailsService},
+czyli standardowy mechanizm Spring Security do pobierania danych użytkownika na podstawie identyfikatora.
+W metodzie \texttt{loadUserByUsername(...)} pobierany jest użytkownik z repozytorium,
+a następnie mapowany na obiekt \texttt{UserDetails} zawierający nazwę użytkownika, hasło oraz zestaw uprawnień.
+
+Zdefiniowano również metodę \texttt{loadUserDetailsFromSecurityContext()},
+która umożliwia bezpieczne pobranie aktualnego użytkownika już po przejściu procesu uwierzytelnienia.
+Metoda sprawdza, czy w \texttt{SecurityContextHolder} istnieje \texttt{Authentication},
+czy użytkownik nie jest anonimowy oraz czy typ principal odpowiada \texttt{UserDetails}.
+W razie braku uwierzytelnienia zgłaszany jest wyjątek,
+co upraszcza implementację logiki domenowej wymagającej identyfikacji aktualnego użytkownika.
+
+\innerheading{Plik CustomAccessDeniedHandler}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/customAccessDeniedHandler}
+    \caption{Klasa \texttt{CustomAccessDeniedHandler}}
+    \label{fig:custom-access-denied-handler}
+\end{figure}
+
+W aplikacji rozdzielono dwa scenariusze błędów bezpieczeństwa, które z perspektywy klienta mają inne znaczenie:
+\begin{itemize}
+    \item \textbf{401 Unauthorized} -- brak poprawnego uwierzytelnienia (np.\ brak tokenu lub błędny token).
+    Ten przypadek jest obsługiwany w \texttt{JwtAuthFilter}, który zwraca odpowiedź JSON z kodem 401.
+    \item \textbf{403 Forbidden} -- użytkownik jest uwierzytelniony, ale nie posiada wymaganych uprawnień do zasobu.
+    Ten przypadek jest obsługiwany przez \texttt{CustomAccessDeniedHandler}, który zwraca spójny format odpowiedzi JSON z kodem 403.
+\end{itemize}
+
+Dzięki temu frontend może rozróżniać sytuację „użytkownik nie jest zalogowany”
+od sytuacji „użytkownik jest zalogowany, ale nie ma dostępu”.
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/diagram-401-403}
+%     \caption{Rozróżnienie odpowiedzi \texttt{401 Unauthorized} i \texttt{403 Forbidden} w aplikacji}
+%     \label{fig:diagram-401-403}
+% \end{figure}
+
+% ------------------------------------------------------------
+% Autoryzacja domenowa (Method Security)
+% ------------------------------------------------------------
+
+\subsubsection{Autoryzacja domenowa na poziomie metod}
+\label{subsubsec:autoryzacja-domenowa}
+
+Oprócz reguł opartych o przestrzeń URL, aplikacja wykorzystuje również autoryzację domenową
+na poziomie metod (wspieraną przez \texttt{@EnableMethodSecurity}).
+Podejście to jest przydatne w sytuacjach, gdzie dostęp do zasobu zależy od relacji biznesowej,
+np.\ przynależności użytkownika do czatu, bycia właścicielem zasobu lub członkiem grupy.
+
+\innerheading{Plik ChatSecurityService}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/chatSecurityService}
+    \caption{Klasa \texttt{ChatSecurityService}}
+    \label{fig:chat-security-service}
+\end{figure}
+
+Serwis \texttt{ChatSecurityService} realizuje sprawdzenie, czy aktualnie zalogowany użytkownik jest uczestnikiem czatu
+o wskazanym identyfikatorze. Metoda \texttt{isUserAChatMember(...)}:
+\begin{itemize}
+    \item pobiera tożsamość aktualnego użytkownika poprzez \texttt{CustomUserDetailsService.loadUserDetailsFromSecurityContext()},
+    \item wykonuje zapytanie do repozytorium (\texttt{ChatRepository}), weryfikując istnienie czatu o danym ID
+    z użytkownikiem jako uczestnikiem (np.\ przez \texttt{existsByIdAndParticipantsUserUsername(...)}).
+\end{itemize}
+
+Tak przygotowana metoda może być następnie wykorzystywana w zabezpieczeniach metod
+(np.\ w wyrażeniach SpEL w adnotacjach autoryzacyjnych), co pozwala wyrazić regułę biznesową
+wprost przy endpointach/operacjach, bez duplikowania logiki w wielu miejscach.
+
+% ------------------------------------------------------------
+% Miejsca na diagramy zintegrowane z opisem (do uzupełnienia)
+% ------------------------------------------------------------
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/diagram-filter-chain-with-jwt}
+%     \caption{Miejsce filtra JWT w łańcuchu filtrów Spring Security dla ścieżek prywatnych}
+%     \label{fig:diagram-filter-chain-with-jwt}
+% \end{figure}
