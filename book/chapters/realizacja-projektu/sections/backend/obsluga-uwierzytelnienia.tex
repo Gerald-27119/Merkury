@@ -27,13 +27,16 @@
 % - rozróżnienie 401 vs 403 (opcjonalnie)
 
 % Wewnętrzne śródtytuły (NIE trafiają do spisu treści)
-\newcommand{\innerheading}[1]{\par\medskip\noindent\textbf{#1}\par\smallskip}
+\newcommand{\innerheading}[1]{%
+    \par\vspace{1.5\baselineskip}%
+    \noindent\textbf{#1}\par\smallskip%
+}
 
 Niniejszy rozdział prezentuje implementację zabezpieczeń aplikacji po stronie backendu.
-Opis przygotowano w oparciu o dokumentację Spring Security:
+Opis przygotowano w oparciu o dokumentację Spring'a:
 \begin{itemize}
-    \item \url{https://docs.spring.io/spring-security/reference/index.html}.
-    \item \url{https://docs.spring.io/spring-security/reference/servlet/architecture.html}.
+    \item Dokumentacja Spring Security~\cite{spring-security}.
+    \item Dokumentacja architektury Spring Security~\cite{spring-security-architecture}.
 \end{itemize}
 
 Podczas tworzenia aplikacji webowej opartej o serwer udostępniający \gls{api},
@@ -61,9 +64,7 @@ Na bezpieczeństwo aplikacji składają się przede wszystkim następujące obsz
 W projekcie wykorzystano ekosystem Spring Boot, który zapewnia gotową integrację mechanizmów bezpieczeństwa
 w ramach \gls{spring-security}.
 
-% ------------------------------------------------------------
 % Spring Security - opis ogólny
-% ------------------------------------------------------------
 
 \subsubsection{Spring Security}
 \label{subsubsec:spring-security}
@@ -81,16 +82,7 @@ Dzięki temu możliwe jest przechwycenie żądania na wczesnym etapie,
 zbudowanie kontekstu bezpieczeństwa oraz podjęcie decyzji, czy żądanie może zostać przekazane dalej.
 Kontrola dostępu jest wówczas realizowana centralnie, bez konieczności ręcznego powielania sprawdzeń w wielu miejscach kodu.
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/diagram-spring-security-chain}
-%     \caption{Schemat przetwarzania żądania w Spring Security (łańcuch filtrów)}
-%     \label{fig:spring-security-chain}
-% \end{figure}
-
-% ------------------------------------------------------------
 % Konfiguracja: properties + beany + dwa łańcuchy filtrów
-% ------------------------------------------------------------
 
 \subsubsection{Konfiguracja Spring Security}
 \label{subsubsec:konfiguracja-spring-security}
@@ -294,9 +286,7 @@ Celem jest wyłączenie automatycznej rejestracji filtra przez warstwę servleto
 ponieważ filtr JWT jest dodawany ręcznie do właściwego \texttt{SecurityFilterChain}.
 Zapobiega to sytuacji, w której ten sam filtr wykonałby się podwójnie.
 
-% ------------------------------------------------------------
-% JWT - komponenty: manager/generator/filter/service
-% ------------------------------------------------------------
+% JWT
 
 \subsubsection{Mechanizm JWT w aplikacji}
 \label{subsubsec:mechanizm-jwt}
@@ -316,12 +306,19 @@ Implementację rozbito na cztery współpracujące komponenty:
 
 \innerheading{Plik JwtManager}
 
-%\begin{figure}[H]
-%    \centering
-%    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/jwtManager}
-%    \caption{Klasa \texttt{JwtManager}}
-%    \label{fig:jwt-manager}
-%\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/jwtManager/1}
+    \caption{Klasa \texttt{JwtManager} (1/2)}
+    \label{fig:jwt-manager-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/jwtManager/2}
+    \caption{Klasa \texttt{JwtManager} (2/2)}
+    \label{fig:jwt-manager-2}
+\end{figure}
 
 Klasa \texttt{JwtManager} skupia w jednym miejscu operacje techniczne związane z JWT:
 walidację podpisu, parsowanie danych z tokenu, weryfikację czasu ważności oraz obsługę cookie.
@@ -362,12 +359,19 @@ Podpis zapewnia integralność tokenu i umożliwia serwerowi weryfikację, czy t
 
 \innerheading{Plik JwtAuthFilter}
 
-%\begin{figure}[H]
-%    \centering
-%    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/jwtAuthFilter}
-%    \caption{Klasa \texttt{JwtAuthFilter}}
-%    \label{fig:jwt-auth-filter}
-%\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/jwtAuth/1}
+    \caption{Klasa \texttt{JwtAuthFilter}}
+    \label{fig:jwt-auth-filter-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/jwtAuth/2}
+    \caption{Klasa \texttt{JwtAuthFilter}}
+    \label{fig:jwt-auth-filter-2}
+\end{figure}
 
 Klasa \texttt{JwtAuthFilter} dziedziczy po \texttt{OncePerRequestFilter},
 co gwarantuje wykonanie filtra maksymalnie raz dla pojedynczego żądania.
@@ -408,17 +412,6 @@ z poziomu logiki aplikacyjnej. Metoda \texttt{refreshUserToken(...)} ustawia tym
 a następnie generuje nowy token i zapisuje go w cookie.
 Takie podejście jest przydatne w miejscach, gdzie po stronie serwera następuje potwierdzenie tożsamości
 lub konieczność ponownego wystawienia tokenu.
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/diagram-jwt-flow}
-%     \caption{Uproszczony przepływ żądania dla endpointów prywatnych (JWT)}
-%     \label{fig:diagram-jwt-flow}
-% \end{figure}
-
-% ------------------------------------------------------------
-% UserDetails + 401/403
-% ------------------------------------------------------------
 
 \subsubsection{Dostarczanie danych użytkownika i obsługa błędów}
 \label{subsubsec:userdetails-i-bledy}
@@ -464,16 +457,8 @@ W aplikacji rozdzielono dwa scenariusze błędów bezpieczeństwa, które z pers
 Dzięki temu frontend może rozróżniać sytuację „użytkownik nie jest zalogowany”
 od sytuacji „użytkownik jest zalogowany, ale nie ma dostępu”.
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/diagram-401-403}
-%     \caption{Rozróżnienie odpowiedzi \texttt{401 Unauthorized} i \texttt{403 Forbidden} w aplikacji}
-%     \label{fig:diagram-401-403}
-% \end{figure}
 
-% ------------------------------------------------------------
-% Autoryzacja domenowa (Method Security)
-% ------------------------------------------------------------
+% Autoryzacja domenowa
 
 \subsubsection{Autoryzacja domenowa na poziomie metod}
 \label{subsubsec:autoryzacja-domenowa}
@@ -503,14 +488,3 @@ o wskazanym identyfikatorze. Metoda \texttt{isUserAChatMember(...)}:
 Tak przygotowana metoda może być następnie wykorzystywana w zabezpieczeniach metod
 (np.\ w wyrażeniach SpEL w adnotacjach autoryzacyjnych), co pozwala wyrazić regułę biznesową
 wprost przy endpointach/operacjach, bez duplikowania logiki w wielu miejscach.
-
-% ------------------------------------------------------------
-% Miejsca na diagramy zintegrowane z opisem (do uzupełnienia)
-% ------------------------------------------------------------
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/diagram-filter-chain-with-jwt}
-%     \caption{Miejsce filtra JWT w łańcuchu filtrów Spring Security dla ścieżek prywatnych}
-%     \label{fig:diagram-filter-chain-with-jwt}
-% \end{figure}

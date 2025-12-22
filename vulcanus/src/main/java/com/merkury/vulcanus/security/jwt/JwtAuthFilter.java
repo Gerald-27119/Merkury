@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.Date;
 
 
-
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -30,7 +29,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtProperties jwtProperties;
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain
+    protected void doFilterInternal(@NonNull HttpServletRequest request,
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
         String token = jwtManager.getJWTFromCookie(request);
@@ -65,12 +66,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
     }
 
-    private void handleUnauthorized(HttpServletResponse response, String errorMessage) throws IOException {
+    private void handleUnauthorized(HttpServletResponse response, String errorMessage)
+            throws IOException {
         log.error("Unauthorized access error: {}", errorMessage);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        String responseBody = String.format("{ \"message\": \"Unauthorized access\", \"error\": \"%s\" }", errorMessage);
+        String responseBody = String.format("{ \"message\": \"Unauthorized access\", \"error\": \"%s\" }"
+                , errorMessage);
         response.getWriter().write(responseBody);
         response.getWriter().flush();
     }

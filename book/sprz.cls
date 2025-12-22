@@ -7,8 +7,14 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{sprz}[2023/10/27 SPRZ]
 \LoadClass[12pt,a4paper]{report}
-\renewcommand{\baselinestretch}{1.3} 
-\RequirePackage[a4paper]{geometry}
+\renewcommand{\baselinestretch}{1.3}
+\RequirePackage[
+    a4paper,
+    top=1in,
+    bottom=1in,
+    left=1in,
+    right=1in
+]{geometry}
 \RequirePackage{listings} %Aby dało się umieszczać kody źródłowe programów
 \RequirePackage[table]{xcolor}
 \RequirePackage{algorithmic} %Aby dało się umieszczać algorytmy
@@ -23,7 +29,7 @@
 \RequirePackage[backend=biber,style=numeric,sorting=none]{biblatex}
 
 \DeclareFieldFormat[article,inbook,incollection,inproceedings,patent,thesis,
-   unpublished,techreport,misc,book]{title}{,,#1''}
+    unpublished,techreport,misc,book]{title}{,,#1''}
 % {title}{\mkbibquote{#1}}
 
 \newcommand{\@nabstract}{\@latex@error{No \noexpand\@nabstract given}\@ehc}
@@ -85,35 +91,35 @@
 \newcommand{\@authorattachment}{}
 
 \renewcommand{\author}[4]{%
-	\expandafter\g@addto@macro\expandafter\@authors\expandafter{#1 & #2 \\ \hline}
-	\expandafter\g@addto@macro\expandafter\@authorstp\expandafter{\textbf{#1} \\ Nr albumu #2 \\ Nazwa specjalizacji: #3 \\}
-	\expandafter\g@addto@macro\expandafter\@authorstablerows\expandafter{#1 & #2 & #3 & #4 \\ \hline}
-	\expandafter\g@addto@macro\expandafter\@authorattachment\expandafter{#1\_}
+    \expandafter\g@addto@macro\expandafter\@authors\expandafter{#1 & #2 \\ \hline}
+    \expandafter\g@addto@macro\expandafter\@authorstp\expandafter{\textbf{#1} \\ Nr albumu #2 \\ Nazwa specjalizacji: #3 \\}
+    \expandafter\g@addto@macro\expandafter\@authorstablerows\expandafter{#1 & #2 & #3 & #4 \\ \hline}
+    \expandafter\g@addto@macro\expandafter\@authorattachment\expandafter{#1\_}
 }
 
 \newcommand{\@consultants}{}
 \newcommand{\consultant}[1]{%
-	\expandafter\g@addto@macro\expandafter\@consultants\expandafter{\item #1
-	}
+    \expandafter\g@addto@macro\expandafter\@consultants\expandafter{\item #1
+    }
 }
 
 \newcommand{\@nkeywords}{}
 \newcommand{\@nkeywordscoma}{}
 \newcommand{\keyword}[1]{%
-	\expandafter\g@addto@macro\expandafter\@nkeywords\expandafter{\@nkeywordscoma#1}
-	\renewcommand{\@nkeywordscoma}{, }
+    \expandafter\g@addto@macro\expandafter\@nkeywords\expandafter{\@nkeywordscoma#1}
+    \renewcommand{\@nkeywordscoma}{, }
 }
 
 
 
 
 \newcommand{\putimage}[4]{%
-	\begin{figure}[h!]
-		\label{#3}
-		\centering
-		\includegraphics[width={#4}]{#2}
-		\caption{#1}
-	\end{figure}
+    \begin{figure}[h!]
+    \label{#3}
+    \centering
+    \includegraphics[width={#4}]{#2}
+    \caption{#1}
+    \end{figure}
 }
 
 
@@ -123,54 +129,54 @@
 
 % Define the new environment 'stakeholder' and custom commands for stakeholders' information
 \newenvironment{stakeholder}[1][]{%
-	\setkeys{pjatk}{#1}% Setting default key values
-	\newcommand{\id}[1]{Identyfikator: & ##1 \\ \hline}
-	\newcommand{\name}[1]{Nazwa: & ##1 \\ \hline}
-	\newcommand{\descr}[1]{Opis: & ##1 \\ \hline}
-	\newcommand{\type}[1]{Typ udziałowca: & ##1 \\ \hline}
-	\newcommand{\viewpoint}[1]{Punkt widzenia: & ##1 \\ \hline}
-	\newcommand{\limitations}[1]{Ograniczenia: & ##1 \\ \hline}
-	\newcommand{\requ}[1]{Wymagania: & ##1 \\ \hline}
-	\table[h!]
-	\centering
-	\begin{tabular}{|>{\columncolor{lightgray}}c|p{0.6\linewidth}|}
-		\hline
-		\rowcolor{lightgray}\multicolumn{2}{|c|}{\textbf{KARTA UDZIAŁOWCA}} \\
-		\hline
-		}{%
-	\end{tabular}
-	\caption{\tabcaption}
-	\label{\tablabel}
-	\endtable
+    \setkeys{pjatk}{#1}% Setting default key values
+    \newcommand{\id}[1]{Identyfikator: & ##1 \\ \hline}
+    \newcommand{\name}[1]{Nazwa: & ##1 \\ \hline}
+    \newcommand{\descr}[1]{Opis: & ##1 \\ \hline}
+    \newcommand{\type}[1]{Typ udziałowca: & ##1 \\ \hline}
+    \newcommand{\viewpoint}[1]{Punkt widzenia: & ##1 \\ \hline}
+    \newcommand{\limitations}[1]{Ograniczenia: & ##1 \\ \hline}
+    \newcommand{\requ}[1]{Wymagania: & ##1 \\ \hline}
+    \table[h!]
+    \centering
+    \begin{tabular}{|>{\columncolor{lightgray}}c|p{0.6\linewidth}|}
+    \hline
+    \rowcolor{lightgray}\multicolumn{2}{|c|}{\textbf{KARTA UDZIAŁOWCA}} \\
+    \hline
+}{%
+    \end{tabular}
+    \caption{\tabcaption}
+    \label{\tablabel}
+    \endtable
 }
 
 
 % Define the new environment 'stakeholder' and custom commands for stakeholders' information
 \newenvironment{requirementstab}[1][]{%
-\setkeys{pjatk}{#1}% Setting default key values
-\newcommand{\id}[1]{Identyfikator: & ##1 & }
-\newcommand{\priority}[1]{Priorytet: & ##1 \\ \hline}
-\newcommand{\name}[1]{Nazwa: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
-\newcommand{\descr}[1]{Opis: & \multicolumn{3}{|p{0.6\linewidth}|}{\parbox{0.99\linewidth}{##1}}  \\ \hline}
-\newcommand{\acceptcrit}[1]{Kryteria akceptacji: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
-\newcommand{\inputdata}[1]{Dane wejściowe: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
-\newcommand{\preconditions}[1]{Warunki początkowe: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
-\newcommand{\postconditions}[1]{Warunki końcowe: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
-\newcommand{\exceptions}[1]{Sytuacje wyjątkowe: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
-\newcommand{\implementation}[1]{Szczegóły implementacji: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
-\newcommand{\sholder}[1]{Udziałowiec: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
-\newcommand{\reqrelated}[1]{Wymagania powiązane: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
-\table[H]
-\centering
-\begin{tabular}{|>{\columncolor{lightgray}}l|l|>{\columncolor{lightgray}}l|p{0.1\linewidth}|}
-	\hline
-	\rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA}} \\
-	\hline
-	}{%
-\end{tabular}
-\caption{\tabcaption}
-\label{\tablabel}
-\endtable
+    \setkeys{pjatk}{#1}% Setting default key values
+    \newcommand{\id}[1]{Identyfikator: & ##1 & }
+    \newcommand{\priority}[1]{Priorytet: & ##1 \\ \hline}
+    \newcommand{\name}[1]{Nazwa: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
+    \newcommand{\descr}[1]{Opis: & \multicolumn{3}{|p{0.6\linewidth}|}{\parbox{0.99\linewidth}{##1}}  \\ \hline}
+    \newcommand{\acceptcrit}[1]{Kryteria akceptacji: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
+    \newcommand{\inputdata}[1]{Dane wejściowe: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
+    \newcommand{\preconditions}[1]{Warunki początkowe: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
+    \newcommand{\postconditions}[1]{Warunki końcowe: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
+    \newcommand{\exceptions}[1]{Sytuacje wyjątkowe: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
+    \newcommand{\implementation}[1]{Szczegóły implementacji: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
+    \newcommand{\sholder}[1]{Udziałowiec: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
+    \newcommand{\reqrelated}[1]{Wymagania powiązane: & \multicolumn{3}{|p{0.6\linewidth}|}{##1}  \\ \hline}
+    \table[H]
+    \centering
+    \begin{tabular}{|>{\columncolor{lightgray}}l|l|>{\columncolor{lightgray}}l|p{0.1\linewidth}|}
+    \hline
+    \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA}} \\
+    \hline
+}{%
+    \end{tabular}
+    \caption{\tabcaption}
+    \label{\tablabel}
+    \endtable
 }
 
 
@@ -178,215 +184,216 @@
 
 
 \newcommand{\generalrequirement}[7]{
-	\begin{table}[h!]
-		\centering
-		\begin{tabular}{|>{\columncolor{lightgray}}l|l|>{\columncolor{lightgray}}l|p{0.1\linewidth}|}
-			\hline
-			\rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA}}               \\
-			\hline
-			\hline
-			Identyfikator:       & #1                                      & Priorytet: & #2 \\
-			\hline
-			Nazwa:               & \multicolumn{3}{|p{0.6\linewidth}|}{#3}                   \\
-			\hline
-			Opis:                & \multicolumn{3}{|p{0.6\linewidth}|}{#4}                   \\
-			\hline
-			Udziałowiec:         & \multicolumn{3}{|p{0.6\linewidth}|}{#5}                   \\
-			\hline
-			Wymagania powiązane: & \multicolumn{3}{|p{0.6\linewidth}|}{#6}                   \\
-			\hline
-		\end{tabular}
-		\caption{#3}
-		\label{#7}
-	\end{table}
+    \begin{table}[h!]
+    \centering
+    \begin{tabular}{|>{\columncolor{lightgray}}l|l|>{\columncolor{lightgray}}l|p{0.1\linewidth}|}
+    \hline
+    \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA}}               \\
+    \hline
+    \hline
+    Identyfikator:       & #1                                      & Priorytet: & #2 \\
+    \hline
+    Nazwa:               & \multicolumn{3}{|p{0.6\linewidth}|}{#3}                   \\
+    \hline
+    Opis:                & \multicolumn{3}{|p{0.6\linewidth}|}{#4}                   \\
+    \hline
+    Udziałowiec:         & \multicolumn{3}{|p{0.6\linewidth}|}{#5}                   \\
+    \hline
+    Wymagania powiązane: & \multicolumn{3}{|p{0.6\linewidth}|}{#6}                   \\
+    \hline
+    \end{tabular}
+    \caption{#3}
+    \label{#7}
+    \end{table}
 }
 
 
 \newcommand{\placetextbox}[4]{% \placetextbox{<offset top>}{<offset left/right>}{<align>}{<stuff>}
-	\setbox0=\hbox{#4}% Put <stuff> in a box
-	\AddToShipoutPictureFG*{% Add <stuff> to current page foreground
-		\if#3r
-			\put(\LenToUnit{\paperwidth-#1},\LenToUnit{\paperheight-#2}){\vtop{{\null}\makebox[0pt][r]{\begin{tabular}{r}#4\end{tabular}}}}%
-		\else
-			\put(\LenToUnit{#1},\LenToUnit{\paperheight-#2}){\vtop{{\null}\makebox[0pt][l]{\begin{tabular}{l}#4\end{tabular}}}}%
-		\fi
-	}%
+    \setbox0=\hbox{#4}% Put <stuff> in a box
+    \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+        \if
+            #3r
+            \put(\LenToUnit{\paperwidth-#1},\LenToUnit{\paperheight-#2}){\vtop{{\null}\makebox[0pt][r]{\begin{tabular}{r}#4\end{tabular}}}}%
+        \else
+            \put(\LenToUnit{#1},\LenToUnit{\paperheight-#2}){\vtop{{\null}\makebox[0pt][l]{\begin{tabular}{l}#4\end{tabular}}}}%
+        \fi
+    }%
 }%
 
 
 \renewcommand{\maketitle}{%
     \renewcommand{\baselinestretch}{1.0}
-	\begin{titlepage}
-		\begin{center}
-			\includegraphics[width=1.0\textwidth]{sprz/pjatk} \\
-			~ \\
-			%\large
-			\textbf{Wydział Informatyki} \\
-			\textbf{Filia w Gdańsku} \\
-			~ \\
-			\@authorstp
-			%\large
-			\huge
-			\textbf{\@title}
-			\\
-			\normalsize
-			~ \\
-			\begin{tabularx}{\textwidth}{X l}
-				~ & Rodzaj pracy \\
-				~ & ~~inżynierska \\
-				~ & Imię i nazwisko promotora \\
-				~ & ~~\@supervisor
-			\end{tabularx}
-			\vfill{\textbf{Gdańsk, \@date}}
-\end{center}
-\newpage
-		\textbf{\\Streszczenie:}
-		\@nabstract
-		\textbf{\\Słowa kluczowe:}
-		\@nkeywords
-		\newpage
-	\end{titlepage}
-	\renewcommand{\baselinestretch}{1.0}
+    \begin{titlepage}
+        \begin{center}
+            \includegraphics[width=1.0\textwidth]{sprz/pjatk} \\
+            ~ \\
+            %\large
+            \textbf{Wydział Informatyki} \\
+            \textbf{Filia w Gdańsku} \\
+            ~ \\
+            \@authorstp
+            %\large
+            \huge
+            \textbf{\@title}
+            \\
+            \normalsize
+            ~ \\
+            \begin{tabularx}{\textwidth}{X l}
+                ~ & Rodzaj pracy \\
+                ~ & ~~inżynierska \\
+                ~ & Imię i nazwisko promotora \\
+                ~ & ~~\@supervisor
+            \end{tabularx}
+            \vfill{\textbf{Gdańsk, \@date}}
+        \end{center}
+        \newpage
+        \textbf{\\Streszczenie:}
+        \@nabstract
+        \textbf{\\Słowa kluczowe:}
+        \@nkeywords
+        \newpage
+    \end{titlepage}
+    \renewcommand{\baselinestretch}{1.0}
 }
 \newcommand{\@mysmartparbox}[2]{%
-	\parbox{#1}{\vspace{0.1cm}#2\vspace{0.1cm}}%
+    \parbox{#1}{\vspace{0.1cm}#2\vspace{0.1cm}}%
 }
 \newcommand{\makeprojectcard}{%
-	\begin{center}
-		\includegraphics[width=0.8\textwidth]{sprz/pjatk} \\
-		{
-		\large
-		\textbf{Karta projektu}
-		}
-	\end{center}
-	{
-	\small
-	\begin{center}
-		\begin{tabular}{|c|c||c|}
-			\hline
-			\multicolumn{2}{|p{0.7\linewidth}|}{\textbf{Temat projektu:}
+    \begin{center}
+    \includegraphics[width=0.8\textwidth]{sprz/pjatk} \\
+    {
+        \large
+        \textbf{Karta projektu}
+    }
+    \end{center}
+    {
+        \small
+        \begin{center}
+        \begin{tabular}{|c|c||c|}
+        \hline
+        \multicolumn{2}{|p{0.7\linewidth}|}{\textbf{Temat projektu:}
 
-			\@title
+        \@title
 
-			\textbf{Temat projektu po angielsku:}
+        \textbf{Temat projektu po angielsku:}
 
-			\@engtitle
-			} & \@mysmartparbox{0.3\linewidth}{\textbf{Akronim:}
+        \@engtitle
+        } & \@mysmartparbox{0.3\linewidth}{\textbf{Akronim:}
 
-				\@acronym
+        \@acronym
 
-				\textbf{Data ustalenia tematu}
+        \textbf{Data ustalenia tematu}
 
-				\@titledate
-			}                                                                                                     \\
-			\hline
-			\multicolumn{2}{|p{0.7\linewidth}|}{\textbf{Promotor:}}      & \@mysmartparbox{0.3\linewidth}{\textbf{Konsultanci:}} \\
-			\multicolumn{2}{|p{0.7\linewidth}|}{\@supervisor}      & \@mysmartparbox{0.3\linewidth}{\begin{enumerate}
-					\@consultants
-				\end{enumerate}}                                                                           \\
-			\hline
+        \@titledate
+        }                                                                                                     \\
+        \hline
+        \multicolumn{2}{|p{0.7\linewidth}|}{\textbf{Promotor:}}      & \@mysmartparbox{0.3\linewidth}{\textbf{Konsultanci:}} \\
+        \multicolumn{2}{|p{0.7\linewidth}|}{\@supervisor}      & \@mysmartparbox{0.3\linewidth}{\begin{enumerate}
+        \@consultants
+        \end{enumerate}}                                                                           \\
+        \hline
 
-			\multicolumn{3}{|p{1\linewidth}|}{\textbf{Cele projektu:}
+        \multicolumn{3}{|p{1\linewidth}|}{\textbf{Cele projektu:}
 
-			\@projectgoals}                                                                                       \\ \hline
+        \@projectgoals}                                                                                       \\ \hline
 
-			\multicolumn{3}{|p{1\linewidth}|}{\textbf{Rezultaty projektu:}
+        \multicolumn{3}{|p{1\linewidth}|}{\textbf{Rezultaty projektu:}
 
-			\@productsandservices
+        \@productsandservices
 
-			\@mainfunctionalities}                                                                                       \\ \hline
+        \@mainfunctionalities}                                                                                       \\ \hline
 
-			\multicolumn{3}{|p{1\linewidth}|}{\textbf{Miary sukcesu:}
+        \multicolumn{3}{|p{1\linewidth}|}{\textbf{Miary sukcesu:}
 
-			\@successmeasure}                                                                                     \\ \hline
-			\multicolumn{3}{|p{1\linewidth}|}{\textbf{Ograniczenia:}
+        \@successmeasure}                                                                                     \\ \hline
+        \multicolumn{3}{|p{1\linewidth}|}{\textbf{Ograniczenia:}
 
-			\@projlimitations}                                                                                    \\ \hline
-		\end{tabular}
-	\end{center}
+        \@projlimitations}                                                                                    \\ \hline
+        \end{tabular}
+        \end{center}
 
-	\begin{center}
-		\begin{tabular}{|p{0.3\linewidth}|p{0.17\linewidth}|p{0.27\linewidth}|p{0.2\linewidth}|}
-			\hline
-			\textbf{Wykonawcy} & \textbf{Numer albumu} & \textbf{Specjalizacja} & \textbf{Tryb studiów} \\
-			\hline
-			\@authorstablerows
-		\end{tabular}
-	\end{center}
+        \begin{center}
+        \begin{tabular}{|p{0.3\linewidth}|p{0.17\linewidth}|p{0.27\linewidth}|p{0.2\linewidth}|}
+        \hline
+        \textbf{Wykonawcy} & \textbf{Numer albumu} & \textbf{Specjalizacja} & \textbf{Tryb studiów} \\
+        \hline
+        \@authorstablerows
+        \end{tabular}
+        \end{center}
 
-	\begin{center}
-		\begin{tabular}{|p{0.4\linewidth}|p{0.6\linewidth}|}
-			\hline
-			\textbf{Data ukończenia projektu:} 
-			
-			\@finishdate & \textbf{Recenzent:} 
-			
-			\@reviewer \\
-			\hline
-		\end{tabular}
-	\end{center}
+        \begin{center}
+        \begin{tabular}{|p{0.4\linewidth}|p{0.6\linewidth}|}
+        \hline
+        \textbf{Data ukończenia projektu:}
 
-	}
-	\newpage
+        \@finishdate & \textbf{Recenzent:}
+
+        \@reviewer \\
+        \hline
+        \end{tabular}
+        \end{center}
+
+    }
+    \newpage
 }
 
 \newcommand{\makedeclaration}{%
-	\begin{center}
-		\textbf{DEPRECATED}
-		Według nowych wytycznych nie umieszczamy w pracy deklaracji. Proszę usunąć komendę \\makedeclaration
-	\end{center}
-	\newpage
+    \begin{center}
+    \textbf{DEPRECATED}
+    Według nowych wytycznych nie umieszczamy w pracy deklaracji. Proszę usunąć komendę \\makedeclaration
+    \end{center}
+    \newpage
 }
 
 
 \newcommand{\makethesisattachments}{%
-\chapter*{Załączniki}
+    \chapter*{Załączniki}
 
-Płyta CD z następującą zawartością:
-\begin{itemize}
+    Płyta CD z następującą zawartością:
+    \begin{itemize}
     \item {\em{pliki projektowe}} -- pliki składające się na całość projektu
-	\begin{itemize}
-		\item repozytorium kodu źródłowego wraz z instrukcją zbudowania i uruchomienia projektu
-		\item źródło pracy inżynierskiej.
-	\end{itemize}
+    \begin{itemize}
+    \item repozytorium kodu źródłowego wraz z instrukcją zbudowania i uruchomienia projektu
+    \item źródło pracy inżynierskiej.
+    \end{itemize}
     \item {\em{\@authorattachment%
-praca pisemna}} -- katalog zawierający plik PDF z pracą inżynierską.
-\end{itemize}
+    praca pisemna}} -- katalog zawierający plik PDF z pracą inżynierską.
+    \end{itemize}
 
-\newpage
+    \newpage
 }
 
 
 
 
 \lstset{
-belowcaptionskip=1\baselineskip,
-breaklines=true,
-xleftmargin=\parindent,
-showstringspaces=true,         % podkreślanie spacji wewnątrz łańcuchów
-numbers=left,                   % gdzie umieszczać numery linii
-numberstyle=\footnotesize,      % wielkość czcionki dla numerów linii
-captionpos=b,
-showstringspaces=false,
-basicstyle=\footnotesize\ttfamily,
-keywordstyle=\bfseries\color{green!40!black},
-commentstyle=\itshape\color{purple!40!black},
-identifierstyle=\color{blue},
-stringstyle=\color{orange},
-literate=
-	{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
-{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
-{à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
-{À}{{\`A}}1 {È}{{\`E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
-{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
-{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
-{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
-{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
-{ã}{{\~a}}1 {ẽ}{{\~e}}1 {ĩ}{{\~i}}1 {õ}{{\~o}}1 {ũ}{{\~u}}1
-{Ã}{{\~A}}1 {Ẽ}{{\~E}}1 {Ĩ}{{\~I}}1 {Õ}{{\~O}}1 {Ũ}{{\~U}}1
-{œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
-{ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
-{ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {Ø}{{\O}}1 {å}{{\r a}}1 {Å}{{\r A}}1
-{€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
-{»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1 {¡}{{!`}}1
+    belowcaptionskip=1\baselineskip,
+    breaklines=true,
+    xleftmargin=\parindent,
+    showstringspaces=true,         % podkreślanie spacji wewnątrz łańcuchów
+    numbers=left,                   % gdzie umieszczać numery linii
+    numberstyle=\footnotesize,      % wielkość czcionki dla numerów linii
+    captionpos=b,
+    showstringspaces=false,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{purple!40!black},
+    identifierstyle=\color{blue},
+    stringstyle=\color{orange},
+    literate=
+        {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+        {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+        {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+        {À}{{\`A}}1 {È}{{\`E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+        {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+        {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+        {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+        {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+        {ã}{{\~a}}1 {ẽ}{{\~e}}1 {ĩ}{{\~i}}1 {õ}{{\~o}}1 {ũ}{{\~u}}1
+        {Ã}{{\~A}}1 {Ẽ}{{\~E}}1 {Ĩ}{{\~I}}1 {Õ}{{\~O}}1 {Ũ}{{\~U}}1
+        {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+        {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+        {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {Ø}{{\O}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+        {€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
+        {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1 {¡}{{!`}}1
 }
