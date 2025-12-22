@@ -1,0 +1,40 @@
+%! Author = Stanisław Oziemczuk
+%! Date = 21.12.2025
+
+\subsubsection{Singleton}
+\label{subsubsec:Singleton}
+
+Kreacyjny \glslink{wzorzec}{wzorzec} projektowy zapewniający
+istnienie dokładnie jednej instancji danego obiektu, która jest dostępna globalnie.
+Kontruktor takiego obiektu jest prywatny, a dostęp do niego odbywa się poprzez statyczną metodę zwracającą
+istniejącą instancję lub jeśli jej nie ma, tworzącą nową.
+Używany jest między innymi do zarządzania konfiguracjami czy połączeniami do bazy danych.
+\glslink{wzorzec}{Wzorzec} Singleton łamie zasadę \glslink{srp}{Single Responsibilty}, ponieważ taki obiekt oprócz wykonywania swojej logiki,
+dba o swoją unikatowość.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/singleton}
+    \caption{Diagram klas wzorca projektowego Singleton}
+    \label{fig:diagram-singleton}
+\end{figure}
+\noindent
+W projekcie skorzystano z \glslink{framework}{frameworka} Spring Boot, w którym wszystkie klasy oznaczone jako \glslink{bean}{Beany}
+są Singletonami.
+Przykładem jest nadanie klasie \glslink{annotation}{adnotacji} \emph{@Service}.
+Raz stworzony obiekt jest wykorzystywany przez wszystkie inne potrzebujące go obiekty.
+
+Poniżej przedstawiono wykorzystanie \glslink{annotation}{adnotacji} \emph{@Service} oraz użycie tej klasy jako zależność w innej klasie.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/singleton_annotation}
+    \caption{Adnotacja frameworka Spring Boot tworząca Singleton}
+    \label{fig:singleton-annotation}
+\end{figure}
+\noindent
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/singleton_dependency}
+    \caption{Użycie Singletona jako zależności}
+    \label{fig:singleton-dependency}
+\end{figure}
+\noindent
