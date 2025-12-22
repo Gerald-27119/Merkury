@@ -15,17 +15,17 @@ Składa się z dwóch głównych części:
 \subsubsubsection{Panel z danymi ogólnymi}
 \label{subsubsec:panel-z-danymi-ogolnymi}
 
-Składa się z dwóch postawowych komponentów:
+Składa się z dwóch postawowych \glslink{react-component}{komponentów}:
 \begin{itemize}
     \item \texttt{BasicSpotWeather}
     \item \texttt{WeatherIcon}
 \end{itemize}
 
 \textbf{\texttt{BasicSpotWeather}} (rys. \ref{fig:basic-spot-weather-1} i \ref{fig:basic-spot-weather-2})
-Komponent jest odpowiedzialny za wyświetlanie następujących informacji pogodowych: temperatura, prędkość wiatru,
+\glslink{react-component}{Komponent} jest odpowiedzialny za wyświetlanie następujących informacji pogodowych: temperatura, prędkość wiatru,
 także ikony obrazującej obecny stan warunków atmosferycznych (komponent \texttt{WeatherIcon (por. sekcja~\ref{subsubsec:komponenty-wspolne})}).
 Dane pobierane są z odpowiedniego \glslink{endpoint}{endpointu} \glslink{backend}{backendu}.
-W czasie ich ładowania wyświetlany jest komponent \texttt{LoadingSpinner}.
+W czasie ich ładowania wyświetlany jest \glslink{react-component}{komponent} \texttt{LoadingSpinner}.
 Jeśli operacja zakończy się niepowodzeniem, użytkownikowi wyświetlany jest komunikat \emph{Failed to load weather for this spot!}.
 Przycisk \emph{Show more} powoduje zamknięcie obecnego panelu i otworzenie zakładki ze szczegółowymi informacjami
 (komponent \texttt{DetailedSpotWeather})
@@ -43,6 +43,57 @@ Przycisk \emph{Show more} powoduje zamknięcie obecnego panelu i otworzenie zak�
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/basic_spot_weather2}
     \caption{Implementacja komponentu BasicSpotWeather (2/2)}
     \label{fig:basic-spot-weather-2}
+\end{figure}
+\noindent
+
+\subsubsubsection{Panel z danymi szczegółowymi}
+\label{subsubsec:panel-z-danymi-szczegolowymi}
+
+Został zbudowany z x \glslink{react-component}{komponentów}:
+\begin{itemize}
+    \item \texttt{DetailedSpotWeather}
+    \item \texttt{WeatherOverview}
+    \item \texttt{WeatherDetails}
+    \item \texttt{WeatherTile}
+    \item \texttt{WindSpeeds}
+    \item \texttt{SelectHeightButton}
+    \item \texttt{WeatherTimelinePlot}
+    \item \texttt{VictoryChart}
+    \item \texttt{VictoryContainer}
+    \item \texttt{VictoryLine}
+    \item \texttt{VictoryScatter}
+    \item \texttt{CustomTickLabel}
+    \item \texttt{VictoryLabel}
+    \item \texttt{WeatherIcon}
+\end{itemize}
+
+
+
+\textbf{\texttt{DetailedSpotWeather}}
+Odpowiedzialny jest za układ wszystkich części panelu.
+Zawiera w sobie \glslink{react-component}{komponenty} \texttt{WeatherOverview}, \texttt{WeatherDetails}, \texttt{WindSpeeds}
+oraz \texttt{WeatherTimelinePlot}, które wyświetlają poszczególne częsci informacji pogodowych.
+W celu zapewnienia płynnych przejść, renderowanie i zamykanie panelu animowane jest za pomocą \glslink{biblioteka}{biblioteki} \emph{motion}.
+Dane przekazywane \glslink{react-component}{komponentom} \texttt{WeatherOverview} i \texttt{WeatherDetails} pobierane są z
+odpowiedniego \glslink{endpoint}{endpointu} \glslink{backend}{backendu} przy użyciu \glslink{hook}{hook'a} \emph{useQuery}
+z \glslink{tanstack-query}{tanstack query}.
+Podczas ich pobierania wyświetlany jest \texttt{LoadingSpinner}, a jeśli operacja zakończy się błędem, pokazywany jest
+komunikat \emph{Failed to load weather.}.
+Zamknięcie panelu spowoduje wyświetlenie \glslink{react-component}{komponentu} \texttt{BasicSpotWeather}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/detailed_spot_weather1}
+    \caption{Implementacja komponentu DetailedSpotWeather (1/2)}
+    \label{fig:detailed-spot-weather-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/detailed_spot_weather2}
+    \caption{Implementacja komponentu DetailedSpotWeather (2/2)}
+    \label{fig:detailed-spot-weather-2}
 \end{figure}
 \noindent
 

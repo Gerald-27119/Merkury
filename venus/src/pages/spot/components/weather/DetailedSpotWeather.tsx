@@ -43,7 +43,8 @@ export default function DetailedSpotWeather() {
             animate="visible"
             exit="exit"
             transition={{ duration: 0.3 }}
-            className="bg-lightGrayishViolet dark:bg-violetDark dark:text-darkText text-violetDark absolute right-0 z-[2] flex h-full w-[29rem] flex-col overflow-y-auto px-2 pt-2 pb-16 text-lg xl:top-0 xl:p-2"
+            className="bg-lightGrayishViolet dark:bg-violetDark dark:text-darkText text-violetDark absolute
+            right-0 z-[2] flex h-full w-[29rem] flex-col overflow-y-auto px-2 pt-2 pb-16 text-lg xl:top-0 xl:p-2"
         >
             <div className="mt-2 flex">
                 <HiX
