@@ -13,20 +13,19 @@
 %JwtProperties
 %UrlsProperties
 %JwtConfig
-%SecuritCOnfig
+%SecurityConfig
 %
 %folder security
 %
 %diagram ze springa jak dziala security? odwolania do chain of responsibility
-%diagram jak sie ansze te wpisuaj w to
+%diagram jak sie nasze wpisuja w to
 
 Niniejszy rozdział prezentuje implementację zabezpieczeń aplikacji na backendzie.
 Rozdział przygotowano w oparciu o podane źródła:
 \begin{itemize}
-    \item https://docs.spring.io/spring-security/reference/index.html.
-    \item https://docs.spring.io/spring-security/reference/servlet/architecture.html.
+    \item \url{https://docs.spring.io/spring-security/reference/index.html}.
+    \item \url{https://docs.spring.io/spring-security/reference/servlet/architecture.html}.
 \end{itemize}
-
 
 Podczas tworzenia aplikacji webowej opartej o serwer zapewniający \gls{api}
 kwestie bezpieczeństwa są jednym z kluczowych aspektów projektowych.
@@ -36,7 +35,6 @@ prowadzące do ujawnienia lub modyfikacji danych.
 Brak odpowiednich zabezpieczeń może skutkować przejęciem kont użytkowników,
 wyciekiem informacji lub wykorzystaniem zasobów systemu
 w sposób niezgodny z przeznaczeniem.
-
 
 Na bezpieczeństwo aplikacji składają się przede wszystkim następujące obszary:
 
@@ -69,7 +67,7 @@ mechanizmów bezpieczeństwa w ramach Spring Security.
 \subsubsection{Spring Security}
 \label{subsubsec:spring-security}
 
-Spring Security jest frameworkiem dostarczanym w ramach ekosystemu Spring'a,
+Spring Security jest frameworkiem dostarczanym w ramach ekosystemu Springa,
 który można dołączyć do projektu jako zależność.
 Jego zadaniem jest zapewnienie kompletnego zestawu mechanizmów związanych z bezpieczeństwem
 warstwy serwerowej: od uwierzytelniania i autoryzacji, po ochronę przed najczęściej
@@ -77,7 +75,8 @@ spotykanymi zagrożeniami w aplikacjach webowych.
 
 Istotną cechą Spring Security jest oparcie działania o łańcuch filtrów,
 przez który przechodzi każde żądanie HTTP trafiające do aplikacji.
-Twórcy frameworka skorzystali w tym celu ze wzorca [TODO: odniesienie do opisu CoR]. %TODO: uzupelnic potem, jak wzorzec bedze opisany
+Twórcy frameworka skorzystali w tym celu ze wzorca \textit{Chain of Responsibility}
+[TODO: odniesienie do opisu CoR]. % TODO: uzupelnic potem, jak wzorzec bedzie opisany
 Dzięki temu możliwe jest przechwycenie żądania na wczesnym etapie,
 zbudowanie kontekstu bezpieczeństwa oraz podjęcie decyzji,
 czy żądanie może zostać przekazane dalej.
@@ -86,32 +85,43 @@ bez konieczności ręcznego powielania sprawdzeń w wielu miejscach kodu.
 
 \subsubsection{Konfiguracja Spring Security}
 \label{subsubsec:konfiguracja-spring-security}
-%TODO: za male zdjecia
+
+% Wewnętrzne śródtytuły (NIE trafiają do spisu treści)
+\newcommand{\innerheading}[1]{\par\medskip\noindent\textbf{#1}\par\smallskip}
+
+
+1. opis pliku UrlsPropeties
+2. plik JwtProperties
+3. plik JwtCOnfig
+
+
+
+% TODO: za małe zdjecia
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/SecurityConfig/1}
-    \caption{Konfigureacja security (1/4)}
+    \caption{Konfiguracja security (1/4)}
     \label{fig:security-config-1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/SecurityConfig/2}
-    \caption{Konfigureacja security (2/4)}
+    \caption{Konfiguracja security (2/4)}
     \label{fig:security-config-2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/SecurityConfig/3}
-    \caption{Konfigureacja security (3/4)}
+    \caption{Konfiguracja security (3/4)}
     \label{fig:security-config-3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/SecurityConfig/4}
-    \caption{Konfigureacja security (4/4)}
+    \caption{Konfiguracja security (4/4)}
     \label{fig:security-config-4}
 \end{figure}
 
@@ -122,12 +132,11 @@ Zastosowano podejście rozdzielające ruch na:
 (1) ścieżki publiczne, dostępne bez logowania,
 oraz (2) ścieżki prywatne, wymagające poprawnego uwierzytelnienia.
 
-\subsection{Adnotacje i rola klasy konfiguracyjnej}
-\label{subsec:adnotacje-security-config}
+\innerheading{Adnotacje i rola klasy konfiguracyjnej}
 
 Klasa \texttt{SecurityConfig} jest oznaczona adnotacjami:
 \begin{itemize}
-    \item \texttt{@Configuration} -- wskazuje, że klasa dostarcza definicje bean'a dla kontenera Spring.
+    \item \texttt{@Configuration} -- wskazuje, że klasa dostarcza definicje beanów dla kontenera Spring.
     \item \texttt{@EnableWebSecurity} -- aktywuje mechanizmy bezpieczeństwa na poziomie aplikacji webowej.
     \item \texttt{@EnableMethodSecurity} -- umożliwia zabezpieczanie logiki na poziomie metod
     (np.\ przez adnotacje typu \texttt{@PreAuthorize}).
@@ -135,8 +144,7 @@ Klasa \texttt{SecurityConfig} jest oznaczona adnotacjami:
     (m.in.\ \texttt{UrlsProperties} oraz \texttt{CustomUserDetailsService}).
 \end{itemize}
 
-\subsection{Podział ruchu na ścieżki publiczne i prywatne}
-\label{subsec:podzial-sciezek-public-private}
+\innerheading{Podział ruchu na ścieżki publiczne i prywatne}
 
 Konfiguracja wykorzystuje dwa obiekty typu \texttt{RequestMatcher}:
 \begin{itemize}
@@ -149,15 +157,13 @@ Konfiguracja wykorzystuje dwa obiekty typu \texttt{RequestMatcher}:
 Takie podejście pozwala stosować różne zasady bezpieczeństwa dla różnych obszarów aplikacji
 bez mieszania reguł w jednym, trudnym do utrzymania łańcuchu filtrów.
 
-\subsection{Dwa niezależne łańcuchy filtrów Spring Security}
-\label{subsec:dwa-lancuchy-security-filter-chain}
+\innerheading{Dwa niezależne łańcuchy filtrów Spring Security}
 
 W pliku zdefiniowano dwa \texttt{SecurityFilterChain} z różnymi priorytetami (\texttt{@Order}),
 które są wybierane na podstawie dopasowania \texttt{securityMatcher(...)}.
 
-\subsubsection{Łańcuch dla ścieżek publicznych}
-\label{subsubsec:public-security-filter-chain}
-
+\medskip
+\noindent\textbf{Łańcuch dla ścieżek publicznych.}
 Bean \texttt{publicSecurityFilterChain} (z \texttt{@Order(1)}) obsługuje wyłącznie żądania
 pasujące do \texttt{publicPathsMatcher}. Jego główne cechy:
 \begin{itemize}
@@ -186,9 +192,8 @@ pasujące do \texttt{publicPathsMatcher}. Jego główne cechy:
 W praktyce ten łańcuch pełni rolę „bramy” dla endpointów, które muszą pozostać dostępne bez logowania
 (np.\ zasoby publiczne, obsługa procesu OAuth2, endpointy pomocnicze).
 
-\subsubsection{Łańcuch dla ścieżek prywatnych}
-\label{subsubsec:private-security-filter-chain}
-
+\medskip
+\noindent\textbf{Łańcuch dla ścieżek prywatnych.}
 Bean \texttt{privateSecurityFilterChain} (z \texttt{@Order(2)}) dotyczy wszystkich pozostałych żądań,
 czyli tych dopasowanych do \texttt{privatePathsMatcher}. Najważniejsze elementy:
 \begin{itemize}
@@ -212,8 +217,7 @@ czyli tych dopasowanych do \texttt{privatePathsMatcher}. Najważniejsze elementy
     analogicznie jak wyżej, aby nie dopuszczać alternatywnej metody uwierzytelniania.
 \end{itemize}
 
-\subsection{Konfiguracja CORS}
-\label{subsec:cors-config}
+\innerheading{Konfiguracja CORS}
 
 Metoda \texttt{corsConfigurationSource()} definiuje politykę \gls{cors} dla całej aplikacji (\texttt{/**}):
 \begin{itemize}
@@ -224,8 +228,7 @@ Metoda \texttt{corsConfigurationSource()} definiuje politykę \gls{cors} dla ca�
     \item \texttt{maxAge = 3600} -- cache polityki CORS po stronie przeglądarki.
 \end{itemize}
 
-\subsection{Pozostałe beany: uwierzytelnianie i elementy JWT}
-\label{subsec:beany-auth-jwt}
+\innerheading{Pozostałe beany: uwierzytelnianie i elementy JWT}
 
 W konfiguracji zdefiniowano dodatkowe komponenty wymagane przez warstwę security:
 \begin{itemize}
@@ -238,8 +241,7 @@ W konfiguracji zdefiniowano dodatkowe komponenty wymagane przez warstwę securit
     Filtr odpowiada za odczyt tokenu z żądania, jego walidację oraz ustawienie kontekstu bezpieczeństwa.
 \end{itemize}
 
-\subsection{Wyłączenie rejestracji filtra przez kontener servletów}
-\label{subsec:disable-filter-registration}
+\innerheading{Wyłączenie rejestracji filtra przez kontener servletów}
 
 Na końcu zdefiniowano:
 \texttt{FilterRegistrationBean<JwtAuthFilter>} z \texttt{setEnabled(false)}.
@@ -248,10 +250,9 @@ ponieważ filtr JWT jest dodawany ręcznie do właściwego \texttt{SecurityFilte
 Zapobiega to sytuacji, w której ten sam filtr wykonałby się podwójnie (raz jako filtr security,
 a drugi raz jako filtr globalny aplikacji).
 
-
-
-
+\subsubsection{Konfiguracja Spring Security}
+\label{subsubsec:konfiguracja-spring-security}
 
 
 %diagram 1
-%daigram 2
+%diagram 2
