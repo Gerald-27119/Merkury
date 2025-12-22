@@ -48,3 +48,30 @@ Przycisk \emph{Show more} powoduje zamknięcie obecnego panelu i otworzenie zak�
 
 \subsubsubsection{Komponenty wspólne}
 \label{subsubsec:komponenty-wspolne}
+
+W tym rozdziale przedstawiono komponenty, z których korzystają obydwie części modułu pogody.
+
+
+\textbf{\texttt{WeatherIcon}}
+To \glslink{react-component}{komponent}, którego zadaniem jest na podstawie kodu pogody (\emph{code}) i informacji czy
+jest dzień (\emph{isDay}) wybrać odpowiednią ikonę symbolizującą stan pogody.
+W przypadku braku znalezienia odpowiedniego elementu zwracana jest ikona znaku zapytania.
+Komponent opcjonalnie przyjmuje parametr określający rozmiar ikony (\emph{textSize}), będący klasą \glslink{tailwind-css}{Tailwind}.
+Jeśli nie zostanie podany, ustawiona zostanie domyślna opcja \emph{text-3xl}.
+Poniżej przedstawiono implementację tego komponentu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/weather_icon1}
+    \caption{Implementacja komponentu WeatherIcon (1/2)}
+    \label{fig:weather-icon-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/weather_icon2}
+    \caption{Implementacja komponentu WeatherIcon (2/2)}
+    \label{fig:weather-icon-2}
+\end{figure}
+\noindent
