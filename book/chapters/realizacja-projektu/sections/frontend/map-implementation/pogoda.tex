@@ -3,3 +3,48 @@
 
 \subsubsection{Panel z informacjami pogodowymi}
 \label{subsubsec:panel-z-informacjami-pogodowymi}
+
+Panel ten jest odpowiedzialny za wyświetlanie informacji pogodowych wybranego \glslink{spot}{spota}.
+Składa się z dwóch głównych części:
+\begin{itemize}
+    \item panelu z ogólnymi danymi takimi jak ikona stanu pogody, temperatura, prędkość wiatru
+    \item zakładki zawierającej szczegółowe informacje: aktualny czas, ikonę stanu pogody, prawdopodobieństwo opadów,
+    wskaźnik UV, punkt rosy, wilgotność, prędkość wiatru na różnych wysokościach, wykres z prognozowaną pogodą na trzy dni
+\end{itemize}
+
+\subsubsubsection{Panel z danymi ogólnymi}
+\label{subsubsec:panel-z-danymi-ogolnymi}
+
+Składa się z dwóch postawowych komponentów:
+\begin{itemize}
+    \item \texttt{BasicSpotWeather}
+    \item \texttt{WeatherIcon}
+\end{itemize}
+
+\textbf{\texttt{BasicSpotWeather}} (rys. \ref{fig:basic-spot-weather-1} i \ref{fig:basic-spot-weather-2})
+Komponent jest odpowiedzialny za wyświetlanie następujących informacji pogodowych: temperatura, prędkość wiatru,
+także ikony obrazującej obecny stan warunków atmosferycznych (komponent \texttt{WeatherIcon (por. sekcja~\ref{subsubsec:komponenty-wspolne})}).
+Dane pobierane są z odpowiedniego \glslink{endpoint}{endpointu} \glslink{backend}{backendu}.
+W czasie ich ładowania wyświetlany jest komponent \texttt{LoadingSpinner}.
+Jeśli operacja zakończy się niepowodzeniem, użytkownikowi wyświetlany jest komunikat \emph{Failed to load weather for this spot!}.
+Przycisk \emph{Show more} powoduje zamknięcie obecnego panelu i otworzenie zakładki ze szczegółowymi informacjami
+(komponent \texttt{DetailedSpotWeather})
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/basic_spot_weather1}
+    \caption{Implementacja komponentu BasicSpotWeather (1/2)}
+    \label{fig:basic-spot-weather-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/basic_spot_weather2}
+    \caption{Implementacja komponentu BasicSpotWeather (2/2)}
+    \label{fig:basic-spot-weather-2}
+\end{figure}
+\noindent
+
+\subsubsubsection{Komponenty wspólne}
+\label{subsubsec:komponenty-wspolne}
