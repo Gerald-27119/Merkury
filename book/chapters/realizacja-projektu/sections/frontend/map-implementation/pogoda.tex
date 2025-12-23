@@ -56,6 +56,7 @@ Został zbudowany z x \glslink{react-component}{komponentów}:
     \item \texttt{WeatherDetails}
     \item \texttt{WeatherTile}
     \item \texttt{WindSpeeds}
+    \item \texttt{WindSpeedDisplay}
     \item \texttt{SelectHeightButton}
     \item \texttt{WeatherTimelinePlot}
     \item \texttt{VictoryChart}
@@ -134,6 +135,34 @@ Indeks UV przedstawiony jest słownie poprzez funkcję \texttt{getUvIndexTextLev
 wartości liczbowej przekazywanej w jej argumencie.
 Poszczególne dane prezentowane są w formie kafelek przez \glslink{react-component}{komponenty} \texttt{WeatherTile},
 razem tworzących siatkę 2x2.
+
+\textbf{\texttt{WindSpeeds}}
+W tym \glslink{react-component}{komponencie} wyświetlane są prędkości wiatru na różnych wysokościach w \texttt{km\\h} lub \texttt{m\\s}.
+Dane pobierane są z odpowiedniego \glslink{endpoint}{endpointu} \glslink{backend}{backendu} przy użyciu
+\glslink{hook}{hook'a} \emph{useQuery}.
+W trakcie ich ładowania wyświetlany jest \texttt{LoadingSpinner}, a w razie błędu komunikat \emph{Failed to load wind speeds data}.
+W lokalnym stanie (\glslink{hook}{hook} \texttt{useState}) przechowywana jest informacja, która wysokość została wybrana.
+Natomiast za jego zmianę odpowiedzialny jest \glslink{react-component}{komponent} \texttt{SelectHeightButton}.
+Oprócz tego, przycisk ten informuje o wybranej wysokości poprzez warunkową zmianę wyglądu.
+Za obsługę zmiany jednostek prędkości wiatru oraz wyświetlanie jej wartości odpowiada \texttt{WindSpeedDisplay}.
+\glslink{react-component}{Komponent} w stanie lokalnym przechowuje informacje o wybranej jednostce, a po każdej
+jej zmianie przelicza nową wartość wyświetlaną z dokładnością do części dziesiętnej.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/wind_speeds1}
+    \caption{Implementacja komponentu WindSpeeds (1/2)}
+    \label{fig:wind-speeds-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/wind_speeds2}
+    \caption{Implementacja komponentu WindSpeeds (2/2)}
+    \label{fig:wind-speeds-2}
+\end{figure}
+\noindent
 
 
 \subsubsubsection{Komponent wspólny}
