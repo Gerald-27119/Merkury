@@ -136,7 +136,7 @@ wartości liczbowej przekazywanej w jej argumencie.
 Poszczególne dane prezentowane są w formie kafelek przez \glslink{react-component}{komponenty} \texttt{WeatherTile},
 razem tworzących siatkę 2x2.
 
-\textbf{\texttt{WindSpeeds}}
+\textbf{\texttt{WindSpeeds}} (rys. \ref{fig:wind-speeds-1} i \ref{fig:wind-speeds-2})
 W tym \glslink{react-component}{komponencie} wyświetlane są prędkości wiatru na różnych wysokościach w \texttt{km\\h} lub \texttt{m\\s}.
 Dane pobierane są z odpowiedniego \glslink{endpoint}{endpointu} \glslink{backend}{backendu} przy użyciu
 \glslink{hook}{hook'a} \emph{useQuery}.
@@ -164,6 +164,20 @@ jej zmianie przelicza nową wartość wyświetlaną z dokładnością do częśc
 \end{figure}
 \noindent
 
+\textbf{\texttt{WeatherTimelinePlot}}
+Ten \glslink{react-component}{komponent} przedstawia wykres prezentujący prognozę pogody na trzy dni.
+Zawiera informacje o temperaturze, prawdopodobieństwie opadów, godzinie oraz ikonę symbolizującą warunki atmosferyczne.
+Dane pobierane są z \glslink{endpoint}{endpointu} \glslink{backend}{backendu} poprzez \glslink{hook}{hook}
+\texttt{useQuery}.
+Pobieranie danych oznaczone jest przez \texttt{LoadingSpinner}, a błąd komunikatem \emph{Failed to load data for timeline plot.}.
+Wykres został stworzony przy użyciu elementów \glslink{biblioteka}{biblioteki} \texttt{victory}.
+Głównym \glslink{react-component}{komponentem} jest \texttt{VictoryChart}, który przyjmuje dane na osie X i Y, a także
+pozostałe elementy wykresu.
+Linia obrazująca wartości temperatury zbudowana jest przy użyciu \texttt{VictoryLine} oraz \texttt{VictoryScatter}.
+Natomiast sposób wyświetlenia osi poziomej określany jest przez \texttt{VictoryAxis}, przyjmujący \texttt{CustomTickLabel},
+w którym dokładnie poszczególne elementy opisu.
+W celu zachowania stałej wysokości obszaru wyświetlanych danych niezależnie od ich rozpiętości,
+wartości temperatur są znormalizowane do wirtualnego zakresu od 0 do 100.
 
 \subsubsubsection{Komponent wspólny}
 \label{subsubsec:komponent-wspolny}
