@@ -4,11 +4,6 @@
 \subsection{Scenariusze przypadków użycia}
 \label{subsec:scenariusz-przypadkow-uzycia}
 
-
-% --- Licznik dla scenariuszy przypadków użycia ---
-\newcounter{usecase}[chapter]
-\renewcommand{\theusecase}{\thechapter.\arabic{usecase}}
-
 \newcommand{\ucpriority}[1]{\textbf{Priorytet:} & #1 \\ \hline}
 \newcommand{\ucactors}[1]{\textbf{Aktorzy:} & #1 \\ \hline}
 \newcommand{\ucdesc}[1]{\textbf{Opis:} & #1 \\ \hline}
@@ -19,8 +14,8 @@
 
 % --- Karta scenariusza PU ---
 \newcommand{\usecasecard}[3]{%
-    \refstepcounter{usecase}%
-    \edef\ucid{PU\arabic{usecase}}%
+    \refstepcounter{awc}%
+    \edef\ucid{PU\arabic{awc}}%
     \begin{center}
     \renewcommand{\arraystretch}{1.15}%
     \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}}p{0.20\textwidth}|X|}
@@ -31,9 +26,9 @@
     #3
     \end{tabularx}
     \vspace{3pt}
-    \textbf{Tabela \theusecase:} Scenariusz przypadku użycia: #2\label{#1}
+    \textbf{Tabela \theawc:} Scenariusz przypadku użycia: #2\label{#1}
     \end{center}%
-    \addcontentsline{lot}{table}{Tabela \theusecase: Scenariusz przypadku użycia: #2}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Scenariusz przypadku użycia: #2}%
 }
 
 \input{./chapters/analiza-wymagan/sections/przypadki-uzycia/sections/scenariusze/ogolne}

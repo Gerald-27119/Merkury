@@ -11,6 +11,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,6 +46,7 @@ public class CommentsService {
                 .collect(Collectors.groupingBy(
                         comment ->
                                 new GroupKey(comment.getPublishDate().toLocalDate(), comment.getSpot().getName()),
+                        LinkedHashMap::new,
                         Collectors.mapping(CommentsMapper::toDto, Collectors.toList())
                 )).entrySet()
                 .stream()

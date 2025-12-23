@@ -69,7 +69,7 @@ public class SpotCommentService {
         return commentsPage.map(comment -> SpotCommentMapper.toDto(comment, user));
     }
 
-    public List<SpotCommentMediaDto> getRestOfSpotCommentMedia(Long spotId, Long commentId) {
+    public List<SpotCommentMediaDto> getRestOfSpotCommentMedia(Long commentId) {
         return spotCommentMediaRepository.findBySpotCommentId(commentId).stream().map(SpotCommentMediaMapper::toDto).toList();
     }
 
