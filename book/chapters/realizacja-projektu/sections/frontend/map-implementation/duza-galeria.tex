@@ -106,3 +106,12 @@ Lista może być zwijana lub rozwijana przy użyciu odpowiedniego przycisku, a p
     \label{fig:expanded-media-gallery-sidebar-8}
 \end{figure}
 \noindent
+
+
+\textbf{\texttt{SortingAndFilterPanel}}
+\glslink{react-component}{Komponent} ten odpowiedzialny jest za obsługę ustawiania filtrów i sortowania.
+Dostępne opcje wyświetlane są w \texttt{OptionButton}, a aktywne oznaczane poprzez wyróżniający się wygląd.
+Obecnie wybrane wartości pobierane są ze stanu \glslink{redux}{Redux'a}, a nowe w nim ustawiane.
+\glslink{react-component}{Komponent} umożliwia jednoczesne wybranie jednego filtru i sortowania.
+Typ początkowy filtru określany jest na podstawie klikniętego media, natomiast sortowanie ustawiane jest
+jako od najnowszych.
