@@ -300,9 +300,10 @@ public class PopulateMapService {
         );
 
         List<SpotMedia> spotMedia1 = Arrays.asList(
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/3436f7ef-1e03-492b-8dec-f2cb424daec9.jpg", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot1, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/6990d691-30d0-4bfb-86bd-cdd27441b3ea.jpg", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot1, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/65e3bd14-ec3c-4c05-b699-ff44eef4fbc7.jpg", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot1, new HashSet<>())
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/154b0e7b-1a59-4340-81f2-f3a0abdd3788.jpg", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot1, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/5e4f6d1d-4a36-44b1-81f3-b1e8d6037585.jpg", "pomnik", "pomnik", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot1, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/34b3c5eb-789c-473c-9ef2-582dfabf9a0e.mp4", "pomnik", "pomnik", 0, 0, GenericMediaType.VIDEO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot1, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/209214c0-288f-44f7-948e-33b8733b1e44.mp4", "pomnik", "pomnik", 0, 0, GenericMediaType.VIDEO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot1, new HashSet<>())
         );
 
         List<SpotMedia> spotMedia2 = Arrays.asList(

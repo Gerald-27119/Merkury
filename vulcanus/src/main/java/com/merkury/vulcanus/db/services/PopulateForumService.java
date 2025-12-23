@@ -89,27 +89,41 @@ public class PopulateForumService {
         ));
 
         List<String> cityTagNames = List.of(
-                "Gdańsk", "Kraków", "Warszawa", "Poznań", "Wrocław", "Szczecin", "Łódź", "Rzeszów",
+                "Gdańsk", "Gdynia", "Kraków", "Warszawa", "Poznań", "Wrocław", "Szczecin", "Łódź", "Rzeszów",
                 "Toruń", "Bydgoszcz", "Białystok", "Chorzów", "Zakopane", "Wieliczka", "Dębki",
                 "Jantar", "Hel", "Żarnowiec", "Tarnobrzeg", "Klucze"
         );
-        Map<String, Tag> tagByCity = upsertForumTags(cityTagNames);
 
-        List<Post> posts = new ArrayList<>();
+        List<String> topicTagNames = List.of("FPV", "Początkujący", "Gogle");
+
+        List<String> allTagNames = new ArrayList<>(cityTagNames);
+        allTagNames.addAll(topicTagNames);
+        allTagNames = allTagNames.stream().distinct().toList();
+
+        Map<String, Tag> tagByName = upsertForumTags(allTagNames);
+
+        postTagRepository.saveAll(tagByName.values());
+
+        List<Post> fixedPosts = buildFixedSafePosts(users, categoryByName, tagByName);
+        Set<String> fixedTitles = fixedPosts.stream().map(Post::getTitle).collect(Collectors.toSet());
+
         List<PostComment> allComments = new ArrayList<>();
+
+        List<Post> posts = new ArrayList<>(fixedPosts);
 
         for (PostSeed s : buildPostSeeds()) {
             PostCategory category = categoryByName.get(s.categoryName());
+            Tag primaryCityTag = tagByName.get(s.tagCity());
             if (category == null) throw new IllegalStateException("Brak kategorii: " + s.categoryName());
+            if (primaryCityTag == null) throw new IllegalStateException("Brak tagu: " + s.tagCity());
 
-            Tag tag = tagByCity.get(s.tagCity());
-            if (tag == null) throw new IllegalStateException("Brak tagu miasta: " + s.tagCity());
+            Set<Tag> tags = pickDeterministicTags(tagByName, primaryCityTag, s.title(), 3);
 
             Post p = Post.builder()
                     .title(s.title)
                     .content(withImages(s.content(), s.imageUrls()))
                     .postCategory(category)
-                    .tags(Set.of(tag))
+                    .tags(tags)
                     .views(s.views)
                     .author(authorForPost(users, s.title))
                     .publishDate(SEED_TIME.minusDays(s.daysAgo))
@@ -123,27 +137,36 @@ public class PopulateForumService {
         }
 
         for (Post post : posts) {
-            assignDeterministicVotes(post, users, "post:" + post.getTitle());
-            assignDeterministicFollowers(post, users, "post:" + post.getTitle());
+            if (!fixedTitles.contains(post.getTitle())) {
+                assignDeterministicVotes(post, users, "post:" + post.getTitle());
+                assignDeterministicFollowers(post, users, "post:" + post.getTitle());
+            } else {
+                post.setUpVotedBy(new HashSet<>());
+                post.setDownVotedBy(new HashSet<>());
+                post.setUpVotes(0);
+                post.setDownVotes(0);
+                if (post.getFollowers() != null) post.getFollowers().clear();
+            }
+
             post.setCommentsCount(post.getComments() != null ? post.getComments().size() : 0);
             post.setTrendingScore(calculateTrendingScore(post));
         }
 
-        ensureFollowedPostsPerUser(users, posts, 4);
+        List<Post> nonFixedPosts = posts.stream()
+                .filter(p -> !fixedTitles.contains(p.getTitle()))
+                .toList();
 
-        for (Post post : posts) {
-            post.setTrendingScore(calculateTrendingScore(post));
-        }
-
+        ensureFollowedPostsPerUser(users, nonFixedPosts, 4);
 
         for (int i = 0; i < allComments.size(); i++) {
             PostComment c = allComments.get(i);
             assignDeterministicVotes(c, users, "comment:" + c.getPost().getTitle() + ":" + i);
         }
 
-        postTagRepository.saveAll(tagByCity.values());
+        postTagRepository.saveAll(tagByName.values());
         postRepository.saveAll(posts);
         commentRepository.saveAll(allComments);
+
     }
 
     // ======================= SEEDS =======================
@@ -843,6 +866,108 @@ public class PopulateForumService {
         return new Random(s);
     }
 
+    private UserEntity userByUsername(List<UserEntity> users, String username) {
+        return users.stream()
+                .filter(u -> username.equals(u.getUsername()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Brak użytkownika: " + username));
+    }
+
+    private List<Post> buildFixedSafePosts(
+            List<UserEntity> users,
+            Map<String, PostCategory> categoryByName,
+            Map<String, Tag> tagByName
+    ) {
+        UserEntity u1 = userByUsername(users, "annaKowalska");
+        UserEntity u2 = userByUsername(users, "michalNowak");
+        UserEntity u3 = userByUsername(users, "kasiaWisniewska");
+        UserEntity u4 = userByUsername(users, "piotrZielinski");
+        UserEntity u5 = userByUsername(users, "olaLewandowska");
+
+        Post post1 = Post.builder()
+                .title("Rekomendacje dronów FPV dla początkujących?")
+                .content("""
+                    <p>Cześć! Dopiero wchodzę w świat FPV i chętnie przyjmę polecenia.</p>
+                    <p>Szukam czegoś w budżecie do <strong>2000 PLN (~$500)</strong>.
+                    Najlepiej, żeby było <em>łatwe w pilotażu</em>, ale nadal na tyle szybkie, żeby dało frajdę z FPV.</p>
+                    """)
+                .postCategory(categoryByName.get("Drone for beginners"))
+                .tags(new HashSet<>(Set.of(
+                        tagByName.get("FPV"),
+                        tagByName.get("Początkujący")
+                )))
+                .views(254)
+                .author(u1)
+                .publishDate(SEED_TIME.minusDays(13))
+                .comments(new ArrayList<>())
+                .build();
+
+        Post post2 = Post.builder()
+                .title("Najlepsze miejscówki FPV w Gdańsku?")
+                .content("""
+                    <p>Hej piloci! Latałem ostatnio moim customowym EX-4 (potrafi dobić do 200 km/h)
+                    i szukam fajnych miejsc w <strong>Gdańsku</strong>, gdzie nie będzie od razu telefonu na policję 😅</p>
+                    <p>Jakieś parki, nieużytki, opuszczone miejsca? Bonus, jeśli jest blisko wody!</p>
+                    """)
+                .postCategory(categoryByName.get("Spots"))
+                .tags(new HashSet<>(Set.of(tagByName.get("Gdańsk"))))
+                .views(403)
+                .author(u2)
+                .publishDate(SEED_TIME.minusDays(17))
+                .comments(new ArrayList<>())
+                .build();
+
+        Post post3 = Post.builder()
+                .title("Najlepsze gogle FPV do 700 zł?")
+                .content("""
+                    <p>Budżetowe gogle FPV – co warto kupić na start do 700 zł?
+                    Mogą być boxy, ważne żeby były wygodne i dało się w nich sensownie latać.</p>
+                    """)
+                .postCategory(categoryByName.get("FPV"))
+                .tags(new HashSet<>(Set.of(tagByName.get("Gogle"))))
+                .views(189)
+                .author(u3)
+                .publishDate(SEED_TIME.minusDays(19))
+                .comments(new ArrayList<>())
+                .build();
+
+        Post post4 = Post.builder()
+                .title("Start z FPV bez lutowania – da się?")
+                .content("""
+                    <p>Cześć! Chcę wejść w FPV, ale <strong>średnio ogarniam elektronikę</strong> i nigdy nie używałem lutownicy.</p>
+                    <p>Czy są jakieś sensowne zestawy RTF (ready-to-fly), które nie wymagają lutowania?
+                    Jakie modele/marki polecacie początkującym?</p>
+                    """)
+                .postCategory(categoryByName.get("Drone for beginners"))
+                .tags(new HashSet<>())
+                .views(327)
+                .author(u4)
+                .publishDate(SEED_TIME.minusDays(21))
+                .comments(new ArrayList<>())
+                .build();
+
+        List<String> gdyniaImg = List.of("https://plannawypad.pl/wp-content/uploads/2023/04/torpedownia-gdynia-babie-doly-7.jpg");
+        Post post5 = Post.builder()
+                .title("Jakieś fajne miejscówki do latania w Gdyni?")
+                .content(withImages("""
+                    <p>Cześć! Szukam widokowych i bezpiecznych miejsc w <strong>Gdyni</strong> do latania dronem.
+                    Najlepiej z dala od fabryk i dużych tłumów. Zależy mi też na miejscach z fajnym tłem pod <em>zdjęcia/ujęcia</em>.</p>
+                    <p>Taki klimat mam na myśli:</p>
+                    """, gdyniaImg))
+                .postCategory(categoryByName.get("Best place for media"))
+                .tags(new HashSet<>(Set.of(tagByName.get("Gdynia"))))
+                .views(518)
+                .author(u5)
+                .publishDate(SEED_TIME.minusDays(10))
+                .comments(new ArrayList<>())
+                .build();
+
+        addMediaToPost(post5, gdyniaImg);
+
+        return List.of(post1, post2, post3, post4, post5);
+    }
+
+
     private UserEntity authorForPost(List<UserEntity> users, String postTitle) {
         Random r = detRandom("postAuthor", postTitle);
         return users.get(r.nextInt(users.size()));
@@ -915,4 +1040,33 @@ public class PopulateForumService {
     private int calculateTrendingScore(Post post) {
         return post.getViews() + post.getUpVotes() * 2 - post.getDownVotes();
     }
+
+    private Set<Tag> pickDeterministicTags(
+            Map<String, Tag> tagByName,
+            Tag primary,
+            String key,
+            int maxTags
+    ) {
+        Random r = detRandom("postTags", key);
+
+        int n = r.nextInt(maxTags + 1); // 0..maxTags
+        if (n == 0) return new HashSet<>();
+
+        List<Tag> pool = new ArrayList<>(tagByName.values());
+        pool.sort(Comparator.comparing(Tag::getName));
+        Collections.shuffle(pool, r);
+
+        LinkedHashSet<Tag> out = new LinkedHashSet<>();
+
+        if (primary != null) out.add(primary);
+
+        for (Tag t : pool) {
+            if (out.size() >= n) break;
+            if (primary != null && Objects.equals(t.getName(), primary.getName())) continue;
+            out.add(t);
+        }
+
+        return new HashSet<>(out);
+    }
+
 }
