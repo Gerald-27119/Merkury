@@ -3,3 +3,56 @@
 
 \subsection{Model danych}
 \label{subsec:model-danych}
+
+Model danych został zaprojektowany w sposób modułowy, zgodnie z obszarami funkcjonalnymi systemu.
+Wyróżniono cztery główne części: użytkowników i relacje społeczne, moduł spotów, moduł forum oraz moduł czatu.
+W celu ograniczenia duplikacji zastosowano klasy bazowe (\texttt{Comment} oraz \texttt{ForumReport}),
+które agregują pola wspólne dla wielu encji.
+
+\paragraph{Użytkownicy i relacje.}
+Centralną encją systemu jest \texttt{UserEntity}, przechowująca dane identyfikacyjne użytkownika
+(e-mail, nazwa użytkownika, hasło, rola oraz informacje o stanie konta).
+Powiązane z użytkownikiem encje umożliwiają realizację funkcji społecznościowych:
+\texttt{Friendship} przechowuje informacje o relacjach pomiędzy użytkownikami (status znajomości),
+natomiast mechanizm obserwowania użytkowników realizowany jest poprzez relację wiele do wielu
+pomiędzy użytkownikami (zbiór obserwujących oraz obserwowanych).
+
+\paragraph{Moduł spotów.}
+Encja \texttt{Spot} przechowuje informacje opisujące miejsce (nazwa, lokalizacja, opis, pole obszaru,
+strefa czasowa oraz punkty graniczne definiujące obszar).
+Dla spotów przewidziano system ocen i statystyk (liczba wyświetleń).
+Komentowanie spotów realizuje encja \texttt{SpotComment}, dziedzicząca po \texttt{Comment}, co zapewnia wspólne pola
+takie jak autor, data publikacji oraz liczniki głosów.
+Dodatkowe treści multimedialne są przechowywane w \texttt{SpotMedia} (media spotu) oraz \texttt{SpotCommentMedia}
+(media komentarza).
+Funkcjonalność tagowania spotów realizuje encja \texttt{SpotTag} oraz relacja wiele do wielu pomiędzy \texttt{Spot}
+a \texttt{SpotTag}, odwzorowana przy pomocy tabeli pośredniej.
+Ulubione miejsca użytkownika przechowywane są w encji \texttt{FavoriteSpot}, która wiąże użytkownika ze spotem
+oraz określa typ listy ulubionych.
+
+\paragraph{Moduł forum.}
+Forum bazuje na encji \texttt{Post}, przechowującej treść wpisu oraz metadane (data publikacji, liczba wyświetleń,
+liczniki głosów i komentarzy).
+Wpisy są przypisywane do kategorii poprzez \texttt{PostCategory}, a system tagów realizuje encja \texttt{Tag} oraz
+relacja wiele do wielu z \texttt{Post}.
+Komentarze do wpisów odwzorowuje \texttt{PostComment}, dziedziczący po \texttt{Comment}.
+Obsługę zagnieżdżonych dyskusji realizuje relacja komentarz--rodzic (self-reference), umożliwiająca tworzenie odpowiedzi.
+Media powiązane z wpisami i komentarzami przechowywane są odpowiednio w \texttt{PostMedia} oraz \texttt{PostCommentMedia}.
+Mechanizm zgłoszeń naruszeń zrealizowano poprzez \texttt{ForumReport} jako klasę bazową oraz wyspecjalizowane encje
+\texttt{PostReport} i \texttt{PostCommentReport}, które wskazują obiekt zgłoszenia oraz przechowują powód i szczegóły.
+
+\paragraph{Moduł czatu.}
+Komunikacja użytkowników realizowana jest poprzez encję \texttt{Chat}, przechowującą informacje o konwersacji
+(typ czatu, nazwa, obraz, czas utworzenia).
+Uczestnictwo w czacie odwzorowuje encja pośrednia \texttt{ChatParticipant}, która przechowuje rolę uczestnika oraz daty
+związane z aktywnością.
+Wiadomości są przechowywane w \texttt{ChatMessage} i zawierają treść oraz metadane (czas wysłania, status przeczytania).
+Pliki dołączone do wiadomości zostały wydzielone do encji \texttt{ChatMessageAttachedFile}.
+Proces zapraszania użytkowników do czatu obsługuje \texttt{ChatInvitation}, przechowująca nadawcę, odbiorcę, czat oraz status.
+
+\paragraph{Relacje i integralność.}
+Encje połączono za pomocą kluczy obcych, zapewniając spójność referencyjną danych.
+Relacje jeden do wielu wykorzystano dla komentarzy i mediów, a relacje wiele do wielu
+zrealizowano poprzez tabele pośrednie (tagi, polubienia, obserwowanie użytkowników).
+W wybranych miejscach zastosowano kaskadowanie oraz usuwanie osieroconych rekordów,
+co upraszcza utrzymanie spójności danych podczas modyfikacji obiektów powiązanych.
