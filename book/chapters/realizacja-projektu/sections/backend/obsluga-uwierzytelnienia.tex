@@ -112,13 +112,10 @@ Została oznaczona adnotacją \texttt{@ConfigurationProperties(prefix = "url")},
 dzięki czemu pola klasy mogą być mapowane z pliku konfiguracyjnego aplikacji \texttt{application.properties}.
 Dzięki temu adresy przekierowań nie są zapisane na sztywno w kodzie.
 
-Klasa jest jednocześnie komponentem Springa (\texttt{@Component}),
-więc może być wstrzykiwana do klas konfiguracyjnych lub serwisów.
-Zawiera zestaw pól opisujących m.in.\ stronę po logowaniu, adres strony logowania OAuth2,
+Zawiera zestaw pól opisujących: stronę po logowaniu, adres strony logowania OAuth2,
 URL sukcesu i porażki, URL wylogowania oraz URL wykorzystywany w procesie resetu hasła.
-Dodatkowo przechowywany jest adres endpointu służącego do pobrania e-maila z GitHuba
-(\texttt{githubEmailEndpoint}), co jest użyteczne, gdy dostawca OAuth2 nie zwraca e-maila w profilu podstawowym.
-
+Dodatkowo przechowywany jest adres endpointu służącego do pobrania e-maila z GitHuba.
+%TODOTutaj + slowniczek
 \innerheading{Plik JwtProperties}
 
 \begin{figure}[H]
