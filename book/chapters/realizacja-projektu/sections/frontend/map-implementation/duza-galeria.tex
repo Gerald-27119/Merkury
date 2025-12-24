@@ -132,3 +132,24 @@ Zawiera dane o autorze: nazwę użytkownika i jego zdjęcie profilowe oraz datę
 \textbf{\texttt{MediaDisplayFilterPanel}}
 Służy do przełączania typu miediów (zdjęcia lub filmy), a wybrana opcja zapisywana jest
 w stanie \glslink{redux}{Redux'a}.
+
+\textbf{\texttt{ExpandedGalleryPanel}}
+\glslink{react-component}{Komponent} obsługujący akcje, które użytkownik może wykonać w stosunku do wyświetlanego
+media.
+Polubienie elementu realizowane jest poprzez funkcję \texttt{handleClickEditSpotMediaLikes}.
+Jeźeli użytkownik nie jest zalogowany, w \texttt{Notification} wyświetlany jest odpowiedni komunikat.
+W przeciwnym wypadku w zależności od tego czy polubienie jest dodawane, czy usuwane, wykonywana jest
+optymistyczna zmiana \glslink{ui}{UI} (por. sekcja~\ref{subsubsec:Optimistic UI}).
+Wysłanie odopwiedniego żądania odbywa się za pomocą mutacji z \glslink{biblioteka}{biblioteki}
+\texttt{Tanstack Query}.
+W przypadku błędu w \glslink{react-component}{komponencie} \texttt{Notification} wyświetlany jest komunikat
+\emph{Failed to edit spot media likes.}.
+W celu utrzymania aktualności danych, powodzenie operacji spowoduje unieważnienie wszystkich zapytań (queries)
+powiązanych z wybranym media, co wymusi ponowne pobranie danych.
+Funkcja \texttt{handleSetMediaFullscreen} obsługuje powiekszenie media na cały ekran poprzez
+otworzenie \glslink{modal}{modalu} \texttt{FullscreenMediaModal}.
+Kliknięcie przycisku z ikoną \texttt{BiDownload} powoduje przekierowanie do wybranego zasobu, który
+jest pobierany przez przeglądarkę.
+Montowanie \glslink{react-component}{komponentu} wykonuje kod w \texttt{useEffect}, wysyłący
+przy użyciu \texttt{mutateAsync} z \glslink{hook}{hook'a} \texttt{useMutation} asynchroniczne
+żądanie zwiększające liczbę wyświetleń media.
