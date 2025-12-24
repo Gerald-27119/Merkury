@@ -20,6 +20,7 @@ Duża galeria została zbudowana z x \glslink{react-component}{komponentów}:
     \item \texttt{ExpandedGalleryPhoto}
     \item \texttt{ExpandedGalleryVideo}
     \item \texttt{ExpandedGalleryPanel}
+    \item \texttt{FullscreenMediaModal}
 \end{itemize}
 
 \textbf{\texttt{ExpandedSpotMediaGallery}}
@@ -140,7 +141,7 @@ Polubienie elementu realizowane jest poprzez funkcję \texttt{handleClickEditSpo
 Jeźeli użytkownik nie jest zalogowany, w \texttt{Notification} wyświetlany jest odpowiedni komunikat.
 W przeciwnym wypadku w zależności od tego czy polubienie jest dodawane, czy usuwane, wykonywana jest
 optymistyczna zmiana \glslink{ui}{UI} (por. sekcja~\ref{subsubsec:Optimistic UI}).
-Wysłanie odopwiedniego żądania odbywa się za pomocą mutacji z \glslink{biblioteka}{biblioteki}
+Wysłanie odpowiedniego żądania odbywa się za pomocą mutacji z \glslink{biblioteka}{biblioteki}
 \texttt{Tanstack Query}.
 W przypadku błędu w \glslink{react-component}{komponencie} \texttt{Notification} wyświetlany jest komunikat
 \emph{Failed to edit spot media likes.}.
@@ -153,3 +154,11 @@ jest pobierany przez przeglądarkę.
 Montowanie \glslink{react-component}{komponentu} wykonuje kod w \texttt{useEffect}, wysyłący
 przy użyciu \texttt{mutateAsync} z \glslink{hook}{hook'a} \texttt{useMutation} asynchroniczne
 żądanie zwiększające liczbę wyświetleń media.
+
+\textbf{\texttt{ExpandedMediaGalleryActions}}
+Element realizujący akcje udostępnienia media oraz zamknięcia dużej galerii zdjęć i filmów.
+Udostępnienie obsługuje funkcja \texttt{handleClickShare}, która przy użyciu
+\texttt{navigator.clipboard.writeText} kopiuje link do wybranego
+elementu do pomięci podręcznej systemu użytkownika.
+Informacje o stanie zakończenia operacji wyświetlane są w \glslink{react-component}{komponencie}
+\texttt{Notification}.
