@@ -33,7 +33,7 @@
 }
 
 Niniejszy rozdział prezentuje implementację zabezpieczeń aplikacji po stronie backendu.
-Opis przygotowano w oparciu o dokumentację Spring'a:
+Opis przygotowano w oparciu o dokumentację Springa:
 \begin{itemize}
     \item Dokumentacja Spring Security~\cite{spring-security}.
     \item Dokumentacja architektury Spring Security~\cite{spring-security-architecture}.
@@ -49,16 +49,13 @@ lub wykorzystaniem zasobów systemu w sposób niezgodny z przeznaczeniem.
 Na bezpieczeństwo aplikacji składają się przede wszystkim następujące obszary:
 \begin{itemize}
     \item \textbf{Uwierzytelnianie} -- proces potwierdzania tożsamości klienta komunikującego się z systemem.
-    Oznacza to zapewnienie, że żądanie pochodzi od konkretnego, znanego użytkownika.
     \item \textbf{Autoryzacja} -- określenie i przestrzeganie polityki dostępu oraz operacji na zasobach,
-    do jakich dostęp ma uwierzytelniony użytkownik. Nawet poprawnie uwierzytelniony klient nie powinien
-    mieć możliwości wykonania akcji, do których nie posiada uprawnień.
+    do jakich dostęp ma uwierzytelniony użytkownik.
     \item \textbf{Ochrona przed typowymi atakami} -- zestaw mechanizmów ograniczających ryzyko podatności i nadużyć,
-    takich jak brute-force, błędna konfiguracja \gls{cors}, czy wykorzystanie luk w warstwie aplikacyjnej.
+    takich jak brute-force, czy wykorzystanie luk w warstwie aplikacyjnej.
     Istotne są również bezpieczne nagłówki HTTP, poprawna obsługa błędów oraz kontrola sposobu przetwarzania danych wejściowych.
     \item \textbf{Integralność i poufność komunikacji} -- zapewnienie, że dane przesyłane pomiędzy klientem a serwerem
-    nie mogą zostać łatwo podejrzane lub zmodyfikowane po drodze. W praktyce sprowadza się to głównie do stosowania HTTPS/TLS
-    oraz konsekwentnego egzekwowania polityk bezpieczeństwa w warstwie serwera.
+    nie mogą zostać łatwo podejrzane lub zmodyfikowane po drodze.
 \end{itemize}
 
 W projekcie wykorzystano ekosystem Spring Boot, który zapewnia gotową integrację mechanizmów bezpieczeństwa
@@ -82,16 +79,23 @@ Dzięki temu możliwe jest przechwycenie żądania na wczesnym etapie,
 zbudowanie kontekstu bezpieczeństwa oraz podjęcie decyzji, czy żądanie może zostać przekazane dalej.
 Kontrola dostępu jest wówczas realizowana centralnie, bez konieczności ręcznego powielania sprawdzeń w wielu miejscach kodu.
 
+Kontekst bezpieczeństwa (Security Context) w Spring Security to miejsce,
+w którym framework przechowuje informację o tym kto aktualnie wykonuje żądanie i jakie ma uprawnienia.
+
 % Konfiguracja: properties + beany + dwa łańcuchy filtrów
 
 \subsubsection{Konfiguracja Spring Security}
 \label{subsubsec:konfiguracja-spring-security}
 
 Konfiguracja bezpieczeństwa została rozbita na:
-(1) klasy mapujące konfigurację z plików środowiskowych (\texttt{UrlsProperties}, \texttt{JwtProperties}),
-(2) klasę przygotowującą bean JWT (\texttt{JwtConfig}),
-oraz (3) główną konfigurację security (\texttt{SecurityConfig}),
-która definiuje reguły dostępu i buduje łańcuchy filtrów.
+\begin{itemize}
+    \item \textbf{Klasy mapujące konfigurację z plików środowiskowych}:
+    \texttt{UrlsProperties}, \texttt{JwtProperties}.
+    \item \textbf{Klasę przygotowującą bean JWT}:
+    \texttt{JwtConfig}.
+    \item \textbf{Główną konfigurację security}:
+    \texttt{SecurityConfig} -- definiuje reguły dostępu i buduje łańcuchy filtrów.
+\end{itemize}
 
 \innerheading{Plik UrlsProperties}
 
@@ -105,9 +109,8 @@ która definiuje reguły dostępu i buduje łańcuchy filtrów.
 Klasa \texttt{UrlsProperties} pełni rolę centralnego magazynu adresów URL wykorzystywanych w przepływach
 związanych z logowaniem i wylogowaniem użytkownika.
 Została oznaczona adnotacją \texttt{@ConfigurationProperties(prefix = "url")},
-dzięki czemu pola klasy mogą być mapowane z pliku konfiguracyjnego (np.\ \texttt{application.yml}).
-W praktyce oznacza to, że adresy przekierowań oraz endpointy pomocnicze nie są „zaszyte” w kodzie,
-lecz mogą zostać zmienione bez ingerencji w logikę aplikacji.
+dzięki czemu pola klasy mogą być mapowane z pliku konfiguracyjnego aplikacji \texttt{application.properties}.
+Dzięki temu adresy przekierowań nie są zapisane na sztywno w kodzie.
 
 Klasa jest jednocześnie komponentem Springa (\texttt{@Component}),
 więc może być wstrzykiwana do klas konfiguracyjnych lub serwisów.
