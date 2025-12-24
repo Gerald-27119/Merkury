@@ -3,3 +3,42 @@
 
 \subsubsection{Panel ze szczegółami spota}
 \label{subsubsec:panel-ze-szczegolami-spota}
+
+Panel ze szczegółami \glslink{spot}{spota} zbudowany jest z czterech głównych części:
+\begin{itemize}
+    \item informacji o \glslink{spot}{spocie}
+    \item galerii zdjęć i filmów
+    \item przycisków akcji
+    \item komentarzy \glslink{spot}{spota}
+\end{itemize}
+
+\textbf{\texttt{SpotDetails}} (rys. \ref{fig:spot-details-1} - \ref{fig:spot-details-3})
+To główny \glslink{react-component}{komponent}, który ustawia ułożenie wyżej wymienionych elementów.
+Odpowiedzialny jest za pobranie danych o wybranym \glslink{spot}{spoice}.
+W trakcie ich ładowania wyświetlany jest \texttt{LoadingSpinner}, a informacja o błędzie w
+\texttt{Notification}.
+Przejścia otwarcia oraz zamknięcia panelu animowane są za pomocą \glslink{biblioteka}{biblioteki} \texttt{motion}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_details1}
+    \caption{Implementacja komponentu SpotDetails (1/3)}
+    \label{fig:spot-details-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_details2}
+    \caption{Implementacja komponentu SpotDetails (2/3)}
+    \label{fig:spot-details-2}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_details3}
+    \caption{Implementacja komponentu SpotDetails (3/3)}
+    \label{fig:spot-details-3}
+\end{figure}
+\noindent
