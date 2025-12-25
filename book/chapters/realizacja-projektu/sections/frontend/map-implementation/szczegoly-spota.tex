@@ -141,11 +141,39 @@ przyciski do odtwarzania i puzowania) zbudowany został z elementów \glslink{bi
 \subsubsubsection{Przyciski akcji}
 \label{subsubsec:przyciski-akcji}
 
-Sekcja składa się z dwóch komponentów:
+Sekcja składa się z trzech \glslink{react-component}{komponentów}:
 \begin{itemize}
     \item \texttt{SpotActionButtonsContainer}
     \item \texttt{SpotActionButton}
+    \item \texttt{SpotAddMediaModal}
 \end{itemize}
+
+\textbf{\texttt{SpotActionButtonsContainer}}
+Zawiera w sobie logikę obsługującą akcje możliwe do wykonania na danym \glslink{spot}{spocie}.
+Przyciski wyświetlane są poprzez \texttt{SpotActionButton}, którym poszczególne funkcje przekazywane są
+przez \glslink{props}{propsy}.
+Nawigacja do wybranego \glslink{spot}{spota} zrealizowana jest poprzez pobranie lokalizacji użytkownika
+(\texttt{navigator.geolocation.getCurrentPosition}), a następnie przeniesienie na \texttt{google maps}
+z wyznaczoną trasą.
+Funkcja \texttt{clickShareSpotHandler} obsługuje udostępnienie \glslink{spot}{spota} przez
+skopiowanie odpowiedniego linka do pamięci podręcznej systemu korzystając z \texttt{navigator.clipboard}.
+Dane zapisane w \glslink{query-params}{query params} pozwalają po wklejeniu linka na otworzenie
+panelu ze szczegółami \glslink{spot}{spota} oraz przybliżenie jego lokalizacji na mapie.
+Przycisk z ikoną \texttt{MdOutlineAddPhotoAlternate} sprawdza czy użytkownik jest zalogowany i w
+\glslink{react-component}{komponencie} \texttt{Notification} wyświetla odpowiedni komunikat.
+Gdy ten warunek jest spełniony, otwierany jest \glslink{modal}{modal} \texttt{SpotAddMediaModal}, zwierający
+formularz do dodawania media do \glslink{spot}{spota}.
+Poprzez \glslink{hook}{hook} \texttt{useQuery} wysyłane jest zapytanie sprawdzające czy wybrany \glslink{spot}{spot}
+znajduje się w liscię polubionych użytkownika.
+Od wyniku operacji uzależniony jest wygląd przycisku oraz typ wysyłanego żądania po jego kliknięciu
+(wysyłanego \glslink{mutacja}{mutacją}).
+Wynik operacji dodania lub usunięcia \glslink{spot}{spota} z listy ulubionych pokazywany jest w
+\glslink{react-component}{komponencie} \texttt{Notification.}
+Zapytanie dotyczące listy ulubionych \glslink{spot}{spotów} użytownika jest unieważniane w celu
+wymuszenia ponownego pobrania danych i ich aktualizacji.
+
+\textbf{\texttt{SpotAddMediaModal}}
+\glslink{react-component}{Komponent}
 
 \subsubsubsection{Komentarze spota}
 \label{subsubsec:komentarze-spota}
