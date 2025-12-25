@@ -124,13 +124,19 @@ Pozwala to na automatyczne zatrzymanie filmu po zmianie media.
 
 \textbf{\texttt{Photo}}
 Odpowiada za wyświetlenie zdjęcia oraz obsługę jego kliknięcia.
-Funkcja \texttt{handleClickPhoto} poprzez \glslink{mutacja}{mutację} wysyła na \glslink{backend}
-żądanie ustalające pozycję zdjęcia w liście wszystkich zdjęć \glslink{spot}{spota} z uwgzględnieniem sortowania.
+Funkcja \texttt{handleClickPhoto} poprzez \glslink{mutacja}{mutację} wysyła na \glslink{backend}{backend}
+żądanie ustalające pozycję zdjęcia w liście wszystkich zdjęć \glslink{spot}{spota} z uwzględnieniem sortowania.
 \glslink{hook}{Hook} \texttt{useEffect} reaguje na zmianę danych i ustawia w stanie \glslink{redux}{Redux'a}
 id zdjęcia, jego pozycję w całej liście, typ media na \emph{PHOTO} oraz otwiera \glslink{modal}{modal}
-\texttt{ExpandedSpotMediaGallery} (por. sekcja~\ref{subsubsec:duza-galeria-zdjec-i-filmow}).
+\\ \texttt{ExpandedSpotMediaGallery} (por. sekcja~\ref{subsubsec:duza-galeria-zdjec-i-filmow}).
 
 \textbf{\texttt{Video}}
+Obsługuje wyświetlanie oraz odtwarzanie filmów.
+Operacja zrealizowana jest za pomocą \glslink{react-component}{komponentu} \texttt{ReactPlayer} z
+\glslink{biblioteka}{biblioteki} \texttt{react-player}.
+Panel sterujący filmem (czas trwania wraz z możliwością przesuwania, powiększenie, ustawienie głośności,
+przyciski do odtwarzania i puzowania) zbudowany został z elementów \glslink{biblioteka}{biblioteki}
+\texttt{media-chrome}.
 
 \subsubsubsection{Przyciski akcji}
 \label{subsubsec:przyciski-akcji}
