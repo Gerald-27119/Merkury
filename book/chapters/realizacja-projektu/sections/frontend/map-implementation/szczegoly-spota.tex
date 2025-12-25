@@ -46,6 +46,45 @@ Przejścia otwarcia oraz zamknięcia panelu animowane są za pomocą \glslink{bi
 \subsubsubsection{Informacje o spocie}
 \label{subsubsec:informacje-o-spocie}
 
+Sekcja ta składa się z trzech \glslink{react-component}{komponentów}:
+\begin{itemize}
+    \item \texttt{SpotAddressInfo}
+    \item \texttt{SpotGeneralInfo}
+    \item \texttt{SpotTag}
+\end{itemize}
+
+\textbf{\texttt{SpotAddressInfo}}
+Wyświetla informacje o lokalizacji \glslink{spot}{spota}: państwo, miasto oraz nazwę ulicy.
+
+
+\textbf{\texttt{SpotGeneralInfo}} (rys. \ref{fig:spot-general-info-1} i \ref{fig:spot-general-info-2})
+\glslink{react-component}{Komponent} odpowiedzialny za wyświetlanie danych takich jak: nazwa \glslink{spot}{spota},
+opis, ocena, liczba ocen, lista tagów, które przyjmuje w \glslink{props}{propsach}.
+Do prezentacji oceny w formie gwiazdek użyto \texttt{Rate} z \glslink{biblioteka}{biblioteki} \texttt{antd},
+a jego konfiguracja ustawiana jest w \texttt{ConfigProvider}.
+\glslink{responsywnosc}{Responywność} tego \glslink{react-component}{komponentu} realizowana jest poprzez
+ustawianie wielkości gwiazdek.
+Własny \glslink{hook}{hook} \texttt{useScreenSize} podaje aktualne rozmiary ekranu, a
+\texttt{useEffect} reaguje na zmiany i za pomocą funkcji \texttt{calculateRateStarSize} ustawia
+odpowiednią wartość przechowywaną w lokalnym stanie \glslink{react-component}{komponentu}.
+Tagi wyświetlane są przez listę \texttt{SpotTag}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_general_info1}
+    \caption{Implementacja komponentu SpotGeneralInfo (1/2)}
+    \label{fig:spot-general-info-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_general_info2}
+    \caption{Implementacja komponentu SpotGeneralInfo (2/2)}
+    \label{fig:spot-general-info-2}
+\end{figure}
+\noindent
+
 \subsubsubsection{Galeria zdjęć i filmów}
 \label{subsubsec:galeria-zdjec-i-filmow}
 
