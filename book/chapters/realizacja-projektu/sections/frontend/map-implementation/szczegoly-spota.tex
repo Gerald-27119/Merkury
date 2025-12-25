@@ -88,6 +88,44 @@ Tagi wyświetlane są przez listę \texttt{SpotTag}.
 \subsubsubsection{Galeria zdjęć i filmów}
 \label{subsubsec:galeria-zdjec-i-filmow}
 
+Zbudowana jest z następujących \glslink{react-component}{komponentów}:
+\begin{itemize}
+    \item \texttt{SpotDetailsGallery}
+    \item \texttt{Photo}
+    \item \texttt{Video}
+\end{itemize}
+
+\textbf{\texttt{SpotDetailsGallery}} (rys. \ref{fig:spot-details-gallery-1} i \ref{fig:spot-details-gallery-2})
+\glslink{react-component}{Komponent} odpowiedzialny za wyświetlanie galerii zdjęć i filmów \glslink{spot}{spota}.
+Galeria w formie karuzeli została zrealizowana poprzez \texttt{Carousel}, który jest elementem
+\glslink{biblioteka}{biblioteki} \texttt{antd}.
+Poprzez \glslink{react-component}{komponent} konfiguracyjny (\texttt{ConfigProvider}) ustawiane jest położenie
+strzałek przełączających media.
+Za wyświetlanie odpowiednio zdjęć i filmów odpowiadają \texttt{Photo} i \texttt{Video}.
+W lokalnym stanie (\texttt{useState}) ustawiany jest obecny indeks elementu, poprzez porównanie go z
+indekem właściwym elementu ustalana jest jedna ze składowych określających czy video powinno być odtworzone.
+Pozwala to na automatyczne zatrzymanie filmu po zmianie media.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_details_gallery1}
+    \caption{Implementacja komponentu SpotDetailsGallery (1/2)}
+    \label{fig:spot-details-gallery-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_details_gallery2}
+    \caption{Implementacja komponentu SpotDetailsGallery (2/2)}
+    \label{fig:spot-details-gallery-2}
+\end{figure}
+\noindent
+
+\textbf{\texttt{Photo}}
+
+\textbf{\texttt{Video}}
+
 \subsubsubsection{Przyciski akcji}
 \label{subsubsec:przyciski-akcji}
 
