@@ -123,6 +123,12 @@ Pozwala to na automatyczne zatrzymanie filmu po zmianie media.
 \noindent
 
 \textbf{\texttt{Photo}}
+Odpowiada za wyświetlenie zdjęcia oraz obsługę jego kliknięcia.
+Funkcja \texttt{handleClickPhoto} poprzez \glslink{mutacja}{mutację} wysyła na \glslink{backend}
+żądanie ustalające pozycję zdjęcia w liście wszystkich zdjęć \glslink{spot}{spota} z uwgzględnieniem sortowania.
+\glslink{hook}{Hook} \texttt{useEffect} reaguje na zmianę danych i ustawia w stanie \glslink{redux}{Redux'a}
+id zdjęcia, jego pozycję w całej liście, typ media na \emph{PHOTO} oraz otwiera \glslink{modal}{modal}
+\texttt{ExpandedSpotMediaGallery} (por. sekcja~\ref{subsubsec:duza-galeria-zdjec-i-filmow}).
 
 \textbf{\texttt{Video}}
 
