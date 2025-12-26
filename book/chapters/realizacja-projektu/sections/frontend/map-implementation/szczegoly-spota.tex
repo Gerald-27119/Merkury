@@ -217,7 +217,7 @@ do dodania nowego komentarza (\texttt{AddSpotCommentModal}).
 Po jego kliknięciu jeżeli użytkownik nie jest zalogowany, w \glslink{react-component}{komponencie}
 \texttt{Notification} wyswietlany jest komunikat z odpowiednią informacją.
 
-\textbf{\texttt{AddSpotCommentModal}}
+\textbf{\texttt{AddSpotCommentModal}} (rys. \ref{fig:add-spot-comment-1} - \ref{fig:add-spot-comment-4})
 \glslink{modal}{Modal} będący formularzem do dodania nowego komentarza.
 Zawiera w sobie pola do określenia oceny w gwiazdkach, dodania tekstu oraz zdjęć i filmów.
 Ustawienie oceny \glslink{spot}{spota} jest polem obowiązkowym z domyślną wartością 0.
@@ -228,10 +228,48 @@ Innym obowiązkowym polem jest pole tekstowe, w którym użytkownik umieszcza sw
 Wartości wpisane przechodzą proces walidacji przez \texttt{addSpotCommentSchema} i funkcje
 \glslink{biblioteka}{biblioteki} \texttt{zod}.
 Informacje o błędach wyświetlane są w \texttt{Notification}.
-Dodawanie zdjęć i filmów zaimplementowane zostało za pomocą \glslink{react-component}{komponentu}
+Dodawanie zdjęć oraz filmów jest opcjonalne i zaimplementowane zostało za pomocą \glslink{react-component}{komponentu}
 \texttt{UploadButton}, który otwiera eksplorator plików i umożliwia wybranie odpowiednich plików.
 Wskazane elementy wyświetlane są w formie listy, a ich kliknięcie usuwa je z niej.
 Możliwe jest dodanie maksymalnie dwudziestu elementów, o czym użytkownik jest informowany odpowiednim
 komunikatem.
-Wartości wpsisane w poszczególne pola formularzu przechowywane są w lokalnym stanie
+Wartości wpisane w poszczególne pola formularza przechowywane są w lokalnym stanie
 \glslink{react-component}{komponentu}.
+Wysłanie danych do \glslink{backend}{backendu} odbywa się poprzez \glslink{mutacja}{mutację}, a w oczekiwaniu na
+odpowiedź wyświetlany jest \texttt{LoadingSpinner}.
+Pomyślne zakończenie operacji skutkuje unieważnieniem zapytań powiązanych z danym \glslink{spot}{spotem}
+oraz zamknięciem \glslink{modal}{modalu}.
+Kliknięcie przycisku „Cancel” powoduje wywołanie funkcji \texttt{handleCancelAddSpotComment}, która
+zamyka formularz, wpisane dane nie zostają zapisane.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add_spot_comment1}
+    \caption{Implementacja komponentu AddSpotCommentModal (1/4)}
+    \label{fig:add-spot-comment-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add_spot_comment2}
+    \caption{Implementacja komponentu AddSpotCommentModal (2/4)}
+    \label{fig:add-spot-comment-2}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add_spot_comment3}
+    \caption{Implementacja komponentu AddSpotCommentModal (3/4)}
+    \label{fig:add-spot-comment-3}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add_spot_comment4}
+    \caption{Implementacja komponentu AddSpotCommentModal (4/4)}
+    \label{fig:add-spot-comment-4}
+\end{figure}
+\noindent
