@@ -191,6 +191,7 @@ Zbudowana jest z następujących \glslink{react-component}{komponentów}:
 \begin{itemize}
     \item \texttt{SpotCommentsList}
     \item \texttt{SpotCommentHeader}
+    \item \texttt{AddSpotCommentModal}
     \item \texttt{SpotComment}
     \item \texttt{SpotCommentAuthor}
     \item \texttt{SpotCommentMediaGallery}
@@ -215,3 +216,22 @@ Zawiera w sobie nagłówek „Comments” oraz przcisk otwierający \glslink{mod
 do dodania nowego komentarza (\texttt{AddSpotCommentModal}).
 Po jego kliknięciu jeżeli użytkownik nie jest zalogowany, w \glslink{react-component}{komponencie}
 \texttt{Notification} wyswietlany jest komunikat z odpowiednią informacją.
+
+\textbf{\texttt{AddSpotCommentModal}}
+\glslink{modal}{Modal} będący formularzem do dodania nowego komentarza.
+Zawiera w sobie pola do określenia oceny w gwiazdkach, dodania tekstu oraz zdjęć i filmów.
+Ustawienie oceny \glslink{spot}{spota} jest polem obowiązkowym z domyślną wartością 0.
+Zrealizowane jest przy użyciu \glslink{react-component}{komponentu} \texttt{Rate} skonfigurowanego
+przez \texttt{ConfigProvider}.
+Oba elementy pochodzą z \glslink{biblioteka}{biblioteki} \texttt{antd}.
+Innym obowiązkowym polem jest pole tekstowe, w którym użytkownik umieszcza swoją opinię.
+Wartości wpisane przechodzą proces walidacji przez \texttt{addSpotCommentSchema} i funkcje
+\glslink{biblioteka}{biblioteki} \texttt{zod}.
+Informacje o błędach wyświetlane są w \texttt{Notification}.
+Dodawanie zdjęć i filmów zaimplementowane zostało za pomocą \glslink{react-component}{komponentu}
+\texttt{UploadButton}, który otwiera eksplorator plików i umożliwia wybranie odpowiednich plików.
+Wskazane elementy wyświetlane są w formie listy, a ich kliknięcie usuwa je z niej.
+Możliwe jest dodanie maksymalnie dwudziestu elementów, o czym użytkownik jest informowany odpowiednim
+komunikatem.
+Wartości wpsisane w poszczególne pola formularzu przechowywane są w lokalnym stanie
+\glslink{react-component}{komponentu}.
