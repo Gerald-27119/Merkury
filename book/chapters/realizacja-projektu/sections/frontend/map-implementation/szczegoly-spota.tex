@@ -209,3 +209,9 @@ Po jego kliknięciu jest ukrywany i wysyłane jest zapytanie o drugą stronę.
 Pobieranie kolejnych odbywa się w sposób opisany powyżej.
 W trakcie ładowania wyświetlany jest \texttt{LoadingSpinner}, a w razie błędu komunikat
 \emph{Failed to load comments.}.
+
+\textbf{\texttt{SpotCommentHeader}}
+Zawiera w sobie nagłówek „Comments” oraz przcisk otwierający \glslink{modal}{modal} będący formularzem
+do dodania nowego komentarza (\texttt{AddSpotCommentModal}).
+Po jego kliknięciu jeżeli użytkownik nie jest zalogowany, w \glslink{react-component}{komponencie}
+\texttt{Notification} wyswietlany jest komunikat z odpowiednią informacją.
