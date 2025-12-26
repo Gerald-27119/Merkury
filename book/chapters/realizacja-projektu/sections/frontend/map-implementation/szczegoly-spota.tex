@@ -197,3 +197,15 @@ Zbudowana jest z następujących \glslink{react-component}{komponentów}:
     \item \texttt{SpotCommentVotesPanel}
     \item \texttt{SpotCommentVoteDisplay}
 \end{itemize}
+
+\textbf{\texttt{SpotCommentsList}}
+\glslink{react-component}{Komponent} wyświetlający listę komentarzy przewijalnej przy użyciu
+\glslink{infinite-scroll}{infinite scroll}.
+Mechanizm ten jest realizowany za pomocą \texttt{IntersectionObserver}, który nasłuchuje na element powiązany
+referencją i wywołuje funkcję \texttt{fetchNextPage} z \glslink{hook}{hook'a} \texttt{useInfiniteQuery}
+(\glslink{biblioteka}{biblioteka} \texttt{tanstack query}).
+Na początku pobierana jest tylko pierwsza strona komentarzy oraz wyświetlany jest przycik \texttt{Show More}.
+Po jego kliknięciu jest ukrywany i wysyłane jest zapytanie o drugą stronę.
+Pobieranie kolejnych odbywa się w sposób opisany powyżej.
+W trakcie ładowania wyświetlany jest \texttt{LoadingSpinner}, a w razie błędu komunikat
+\emph{Failed to load comments.}.
