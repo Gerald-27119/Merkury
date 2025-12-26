@@ -273,3 +273,12 @@ zamyka formularz, wpisane dane nie zostają zapisane.
     \label{fig:add-spot-comment-4}
 \end{figure}
 \noindent
+
+\textbf{\texttt{SpotComment}}
+\glslink{react-component}{Komponent} wyświetlający pojedynczy komentarz.
+Zbudowany jest z wyspecjalizowanych komponentów odpowiedzialnych za prezentację jego poszczególnych fragmentów.
+\texttt{SpotCommentAuthor} zawiera informacje o autorze komentarza: nazwę oraz zdjęcie profilowe,
+kliknięcie go powoduje przeniesienie na stronę profilu danego użytkownika.
+Ocena komentarza zrealizowana jest poprzez \texttt{Rate} z biblioteki \texttt{antd}.
+Pozostałe dwa \glslink{react-component}{komponenty}, \texttt{SpotCommentMediaGallery}
+oraz \texttt{SpotCommentVotesPanel} zostały opisane poniżej.
