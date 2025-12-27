@@ -282,3 +282,19 @@ kliknięcie go powoduje przeniesienie na stronę profilu danego użytkownika.
 Ocena komentarza zrealizowana jest poprzez \texttt{Rate} z biblioteki \texttt{antd}.
 Pozostałe dwa \glslink{react-component}{komponenty}, \texttt{SpotCommentMediaGallery}
 oraz \texttt{SpotCommentVotesPanel} zostały opisane poniżej.
+
+\textbf{\texttt{SpotCommentMediaGallery}}
+Wyświetla zdjęcia i filmy dodane do komentarza.
+Pobieranie danych zrealizowane jest za pomocą \glslink{hook}{hook'a} \texttt{useQuery} z \glslink{biblioteka}{biblioteki}
+\texttt{tanstack query}.
+W czasie ich ładowania prezentowany jest \glslink{react-component}{komponent} \texttt{LoadingSpinner}, a o
+niepowodzeniu operacji informuje komunikat \emph{Failed to download rest of the photos!}.
+Pierwsze trzy elementy są widoczne od razu, jeżeli ich ogólna liczba jest większa
+(informacja o tym jest przesyłana z \glslink{backend}{backendu}), to na trzeci z nich nakładany jest częściowo
+przezroczysty przycisk z napisem „See more”.
+Po jego kliknięciu funkcja \texttt{handleShowMoreMedia} powoduje wysłanie zapytania i wyświetlenie wszyskich multimediów.
+Wybór elementu z listy powoduje wysłanie żądanie za pomocą \glslink{mutacja}{mutacji} ustalającej jego położenie
+pośród wszyskich multimediów \glslink{spot}{spota}.
+Na wynik operacji nasłuchuje \glslink{hook}{hook} \texttt{useEffect}, który po otrzymaniu danych w stanie
+\glslink{redux}{Redux} ustawia \texttt{ID} elementu, jego pozycję w całej liście oraz typ (zdjęcie lub film).
+Następnie otwiera dużą galerię multimediów \glslink{spot}{spota} (por. sekcja~\ref{subsubsec:duza-galeria-zdjec-i-filmow}).
