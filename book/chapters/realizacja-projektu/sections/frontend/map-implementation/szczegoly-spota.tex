@@ -298,3 +298,50 @@ pośród wszyskich multimediów \glslink{spot}{spota}.
 Na wynik operacji nasłuchuje \glslink{hook}{hook} \texttt{useEffect}, który po otrzymaniu danych w stanie
 \glslink{redux}{Redux} ustawia \texttt{ID} elementu, jego pozycję w całej liście oraz typ (zdjęcie lub film).
 Następnie otwiera dużą galerię multimediów \glslink{spot}{spota} (por. sekcja~\ref{subsubsec:duza-galeria-zdjec-i-filmow}).
+
+\textbf{\texttt{SpotCommentVotesPanel}} (rys. \ref{fig:spot-comment-vote-panel-1} - \ref{fig:spot-comment-vote-panel-3})
+\glslink{react-component}{Komponent} odpowiedzialny za wyświetlanie polubień i niepolubień komentarza oraz obsługę operacji
+oddania głosu przez użytkownika.
+Za pomocą\glslink{hook}{hook'a} \texttt{useQuery} (\glslink{biblioteka}{biblioteka} \texttt{tanstack query}) pobierana
+jest informacja czy i jaki głos oddał użytkownik.
+Na jej podstawie ustawiany jest wygląd odpowiedniej ikony.
+Kliknięcie przycisku powoduje następujące operacje:
+\begin{itemize}
+    \item jeśli użytkownił polubił komentarz, ponowwne kliknięcie przycisku usuwua je; analogicznie jest z niepolubieniami
+    \item jeśli użytkownik klika przycisk przeciwny do wcześniejszego, poprzednia operacja jest cofana na rzecz wykonania nowej
+    \item jeśli uzytkownik nie oddał wcześniej głosu na komentarz, wykonywana jest wybrana akcja
+\end{itemize}
+Zagłosowanie wymaga zalogowania, o czym informuje komunikat w \glslink{react-component}{komponencie} \texttt{Notification}.
+W powyższych operacjach zastosowano optymistyczne aktualizowane \glslink{ui}{UI} (por. sekcja~\ref{subsubsec:Optimistic UI}) poprzez
+przechowywanie liczby głosów w stanie lokalnym (\glslink{hook}{hook} \texttt{useState}) i zwiększanie lub pomniejszanie jej w
+zależności od wykonanej akcji.
+Żądanie na \glslink{backend}{backend} wysyłane jest za pomocą \glslink{mutacja}{mutacji}.
+Po pozytywnej odpowiedzi unieważniane są wszystkie zapytania powiązane z danym \glslink{spot}{spotem} i komentarzem, co
+gwarantuje pobranie aktualnych danych.
+Natomiast jeśli wystąpi błąd, informacja o tym wyświetlana jest w \texttt{Notification}.
+\glslink{react-component}{Komponent} \texttt{SpotCommentVoteDisplay} wyświetla liczbę oddanych głosów wraz z odpowiednią
+ikoną.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_comment_vote_panel1}
+    \caption{Implementacja komponentu SpotCommentVotesPanel (1/3)}
+    \label{fig:spot-comment-vote-panel-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_comment_vote_panel2}
+    \caption{Implementacja komponentu SpotCommentVotesPanel (2/3)}
+    \label{fig:spot-comment-vote-panel-2}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_comment_vote_panel3}
+    \caption{Implementacja komponentu SpotCommentVotesPanel (3/3)}
+    \label{fig:spot-comment-vote-panel-3}
+\end{figure}
+\noindent
