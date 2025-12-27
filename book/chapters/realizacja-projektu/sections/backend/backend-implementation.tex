@@ -5,11 +5,13 @@
 \section{Implementacja backendu}
 \label{sec:implementacja-backendu}
 
-W niniejszym rozdziale przedstawiono strukturę backendu aplikacji, opis implementowanych endpointów,
-integrację z bazą danych, mechanizmy uwierzytelniania oraz proces konteneryzacji systemu.
+W niniejszym rozdziale przedstawiono strukturę backendu aplikacji, opis implementowanych
+\glslink{endpoint}{endpointów}, integrację z bazą danych, mechanizmy uwierzytelniania,
+proces konteneryzacji systemu oraz sposób zaimplementowania \glslink{cache}{cache}.
 
 \subimport{chapters/realizacja-projektu/sections/backend/}{struktura-projektu.tex}
 \subimport{chapters/realizacja-projektu/sections/backend/endpoints/}{endpoints.tex}
 \subimport{chapters/realizacja-projektu/sections/backend/}{integracja-z-baza-danych.tex}
 \subimport{chapters/realizacja-projektu/sections/backend/}{obsluga-uwierzytelnienia.tex}
 \subimport{chapters/realizacja-projektu/sections/backend/}{konteneryzacja.tex}
+\input{chapters/realizacja-projektu/sections/backend/redis}
