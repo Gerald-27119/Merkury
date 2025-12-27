@@ -28,7 +28,7 @@ Zawiera w sobie \texttt{Map} z \glslink{biblioteka}{biblioteki} \texttt{react-ma
 lokalizację, na którą ustawiony jest obraz mapy oraz poziom przybliżenia.
 Przyjmuje on także inne \glslink{react-component}{komponenty}, które mają być w nim wyświetlone.
 Ustalenie, które z nich mają być widoczne realizowane jest poprzez odczytanie wartości ze stanu \glslink{redux}{Redux'a}.
-Mapa ładowana jest z linków ustawionych w pliku \texttt{map_style.json}, w nim również opisany jest jej wygląd.
+Mapa ładowana jest z linków ustawionych w pliku \texttt{map\_style.json}, w nim również opisany jest jej wygląd.
 \glslink{hook}{Hook} \texttt{useEffect} uruchamia się tylko przy pierwszej inicjalizacji \glslink{react-component}{komponentu}
 i sprawdza czy w \glslink{url}{url'u} umieszczone są parametry informujące, że link pochodzi z udostępnienia
 \glslink{spot}{spota}.
@@ -57,5 +57,55 @@ i jego pogodą (por. sekcja~\ref{subsubsec:panel-z-informacjami-pogodowymi}).
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map_page3}
     \caption{Implementacja komponentu MapPage (3/3)}
     \label{fig:map-page-3}
+\end{figure}
+\noindent
+
+\textbf{\texttt{Spots}} (rys. \ref{fig:spots-1} - \ref{fig:spots-4})
+\glslink{react-component}{Komponent} ten odpowiedzialny jest za nałożenie \glslink{spot}{spotów} na mapę.
+Z \glslink{backend}{backendu} za pomocą \glslink{hook}{hook'a} \texttt{useQuery} pobierana jest ich lista, a następnie
+zgodnie z wartością zwróconą przez funkcję \texttt{shouldRenderMarker},
+przyjmującej pole powierzchni elementu oraz poziom przybliżenia mapy, \glslink{spot}{spot} wyświetlany jest w formie
+punktu (\texttt{Marker}) lub wielokąta (\texttt{Source} oraz \texttt{Layer}).
+Wymienione \glslink{react-component}{komponenty} pochodzą z \glslink{biblioteka}{biblioteki} \texttt{react-maplibre}.
+Zawiera ona również \glslink{hook}{hook} \texttt{useMap}, który zwraca obecną instancję mapy.
+Pozwala to dodać do wyświetlanych elementów event-listener'ów obsługujących najechanie na dany element oraz funkcji
+wywoływanej po jego kliknięciu.
+Jest to funkcja \texttt{handleSpotClick}.
+Powoduje ustawienie w stanie \glslink{redux}{Redux'a} danych \glslink{spot}{spota} oraz otworzenie
+panelu z jego szczegółami (por. sekcja~\ref{subsubsec:panel-ze-szczegolami-spota})
+i pogodą (por. sekcja~\ref{subsubsec:panel-z-informacjami-pogodowymi}).
+Za pomocą \glslink{mutacja}{mutacji} zostaje również wysłane żądanie zwiększające liczbę wyświetleń elementu.
+Informacja o błędzie podczas pobierana danych wyświetlana jest w \glslink{react-component}{komponencie}
+\texttt{Notification}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/spots1}
+    \caption{Implementacja komponentu Spots (1/4)}
+    \label{fig:spots-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/spots2}
+    \caption{Implementacja komponentu Spots (2/4)}
+    \label{fig:spots-2}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/spots3}
+    \caption{Implementacja komponentu Spots (3/4)}
+    \label{fig:spots-3}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/spots4}
+    \caption{Implementacja komponentu Spots (4/4)}
+    \label{fig:spots-4}
 \end{figure}
 \noindent
