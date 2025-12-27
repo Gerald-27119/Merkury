@@ -51,54 +51,57 @@
 \title{Aplikacja webowa: spoty-na-drony.pl}
 \engtitle{Web application: spoty-na-drony.pl}
 \acronym{Merkury}
-\titledate{2023-10-10} %todo jaka data tutaj ma byc
-\supervisor{mgr Adam Urbanowicz}
-\reviewer{dr Elżbieta Puźniakowska-Gałuch}
+\titledate{2024-10-10} %todo jaka data tutaj ma byc
+\supervisor{mgr. inż. Adam Urbanowicz}
+\reviewer{dr. Elżbieta Puźniakowska-Gałuch}
 
 \author{Langmesser Adam}{s27119}{Aplikacje Internetowe}{Stacjonarny}
 \author{Redosz Mateusz}{s27094}{Aplikacje Internetowe}{Stacjonarny}
 \author{Oziemczuk Stanisław}{s26982}{Aplikacje Internetowe}{Stacjonarny}
 \author{Badek Kacper}{s29168}{Aplikacje Internetowe}{Stacjonarny}
 
-\consultant{--- brak ---} % Koniecznie trzeba podać brak, albo wpisać konsultantów tak jak przy autorach
-\projectgoals{Stworzenie w pełni funkcjonalnej aplikacji internetowej do rozwijania hobby(latania dronem).} %todo do poprawy
-\productsandservices{Aplikacja Internetowa, Dokumentacja}
+\consultant{--- brak ---}
+\projectgoals{Stworzenie w pełni funkcjonalnej aplikacji internetowej wspierającej rozwijanie hobby związanego z lataniem dronem.}
+
+\productsandservices{Aplikacja internetowa, Dokumentacja}
 
 \mainfunctionalities{
-    Interaktywna mapa z wyśiwetlanymi spotami oraz pogodą.\newline
+    Interaktywna mapa z wyświetlanymi spotami oraz danymi pogodowymi.\newline
     Zaawansowana wyszukiwarka spotów.\newline
     Forum do dzielenia się informacjami na temat dronów.\newline
-    Chat jednoosobowy oraz grupowy.\newline
-    Konto użytkownika z możliwością zapisania ulubionych spotów.
+    Czat jednoosobowy oraz grupowy.\newline
+    Konto użytkownika z możliwością zapisywania ulubionych spotów.
 }
 
 \successmeasure{
-    Gotowa do wdrożenia aplikacja.\newline
-    Realizacja w terminie zgodnym z wymaganiami.
+    W pełni działająca aplikacja.\newline
+    Realizacja projektu w terminie zgodnym z wymaganiami.
 }
 
 \projlimitations{
-    Budżetowe: brak środków na wdrożenie.\newline
-    Zawodowe: brak doświadczenia.\newline
-    Czasowe: trzy semestry (09.2024 - 02.2026).\newline
-    Ludzkie: czteroosobowy zespół.
+    Budżetowe: brak środków na komercyjne wdrożenie.\newline
+    Kompetencyjne: ograniczone wcześniejsze doświadczenie zespołu.\newline
+    Czasowe: trzy semestry (09.2024--02.2026).\newline
+    Zasobowe: czteroosobowy zespół.
 }
 
-\date{miesiąc, 2100 obrony} %todo jaka to ma być data
-\finishdate{\today}
+\date{Luty 2026}
+\finishdate{2026-01-11}
 
-%todo poprawić podejście
 \nabstract{
-    Celem niniejszej pracy było stworzenie w pełni funkcjonalnej i działającej aplikacji internetowej pozwalającej na szybkie wyszukiwanie spotów w okolicy oraz dzielenie się zdjęciami, filmami oraz doświdczeniem z innymi użytkownikami.
-    W ramach pracy stworzono system składający się z trzech komponentów: \gls{frontend}u, \gls{backend}u oraz bazy-danych.
-    Aplikacja internetowa została wykonana przy pomocy \gls{framework}a React w językach Javascript oraz Typescript, do styli został użyty Tailwind.
-    Serwis backendowy został stworzony w języku Java oraz biblioteki Spring Boot.
-    Baza danych to PostgreSql.\newline
-    Komunikacja między komponentami odbywała się zgodnie ze standardem REST.
-    Projekt został zrealizowany w podejściu ewolucyjno-przyrostowym~z~elementami Kanban.
+    Celem niniejszej pracy było stworzenie w pełni funkcjonalnej aplikacji internetowej umożliwiającej szybkie
+    wyszukiwanie spotów w okolicy oraz dzielenie się zdjęciami, filmami i doświadczeniami z innymi użytkownikami.
+    W ramach pracy opracowano system składający się z trzech komponentów: warstwy \glslink{frontend}{frontendowej},
+    warstwy \glslink{backend}{backendowej} oraz \glslink{baza-danych}{bazy danych}.
+    Aplikację internetową wykonano z wykorzystaniem \glslink{framework}{frameworka} \glslink{react}{React} w językach JavaScript
+    oraz \glslink{type-script}{TypeScript}, a do stylizacji użyto \glslink{tailwind-css}{Tailwind CSS}.
+    Serwis \glslink{backend}{backendowy} stworzono w języku Java z wykorzystaniem frameworka Spring Boot.
+    \glslink{baza-danych}{Bazę danych} oparto na systemie PostgreSQL.\newline
+    Komunikacja między komponentami odbywała się poprzez \glslink{api}{API} zgodne ze stylem architektonicznym \glslink{rest_api}{REST}.
+    Projekt zrealizowano w podejściu \textbf{Disciplined Agile Delivery}~\cite{DAD} w wariancie \textbf{Lean Life Cycle}~\cite{DAD-LLF}.
 }
 
-\keyword{--- brak ---}%todo nie wiem czy bedzie potrzebne ale zostawiam żeby było
+\keyword{spot, dron, droniarz}
 
 
 \addbibresource{bibliography.bib}
