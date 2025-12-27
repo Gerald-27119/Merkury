@@ -21,3 +21,41 @@ Mapa zbudowana jest z następujących \glslink{react-component}{komponentów}:
     \item \texttt{ListedSpotInfo}
     \item \texttt{SpotTag}
 \end{itemize}
+
+\textbf{\texttt{MapPage}} (rys. \ref{fig:map-page-1} - \ref{fig:map-page-3})
+To główny \glslink{react-component}{komponent} prezentujący mapę.
+Zawiera w sobie \texttt{Map} z \glslink{biblioteka}{biblioteki} \texttt{react-maplibre}, w którym ustawia się domyślną
+lokalizację, na którą ustawiony jest obraz mapy oraz poziom przybliżenia.
+Przyjmuje on także inne \glslink{react-component}{komponenty}, które mają być w nim wyświetlone.
+Ustalenie, które z nich mają być widoczne realizowane jest poprzez odczytanie wartości ze stanu \glslink{redux}{Redux'a}.
+Mapa ładowana jest z linków ustawionych w pliku \texttt{map_style.json}, w nim również opisany jest jej wygląd.
+\glslink{hook}{Hook} \texttt{useEffect} uruchamia się tylko przy pierwszej inicjalizacji \glslink{react-component}{komponentu}
+i sprawdza czy w \glslink{url}{url'u} umieszczone są parametry informujące, że link pochodzi z udostępnienia
+\glslink{spot}{spota}.
+Jeśli tak jest, odczytywane są odpowiednie dane, obraz mapy przekierowany jest na wskazaną lokalizację oraz
+otwierane są panel ze szczegółami \glslink{spot}{spota} (por. sekcja~\ref{subsubsec:panel-ze-szczegolami-spota})
+i jego pogodą (por. sekcja~\ref{subsubsec:panel-z-informacjami-pogodowymi}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map_page1}
+    \caption{Implementacja komponentu MapPage (1/3)}
+    \label{fig:map-page-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map_page2}
+    \caption{Implementacja komponentu MapPage (2/3)}
+    \label{fig:map-page-2}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map_page3}
+    \caption{Implementacja komponentu MapPage (3/3)}
+    \label{fig:map-page-3}
+\end{figure}
+\noindent
