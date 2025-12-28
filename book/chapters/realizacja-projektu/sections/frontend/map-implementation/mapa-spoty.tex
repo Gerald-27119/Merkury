@@ -140,3 +140,23 @@ Po kliknięciu elementu na obecnej instancji mapy zwracanej przez \glslink{hook}
 wywoływana jest funkcja \texttt{flyTo}, przenosząca w płynnym przejściu obraz mapy na lokalizację \glslink{spot}{spota}.
 
 \textbf{\texttt{SpotsSortingForm}}
+\glslink{react-component}{Komponent} realizujący ustawianie sortowania listy \glslink{spot}{spotów}.
+Do wyboru dostępne są opcje: Default, Rating ascending, Rating descending, Rating count ascending oraz Rating count descending,
+zapisane jako tablica wartości w stałej \emph{options}.
+Otworzenie i zamknięcie listy z tymi elementami animowane jest przy użyciu \glslink{react-component}{komponentu}
+\texttt{AnimatePresence} z \glslink{biblioteka}{biblioteki} \texttt{framer-motion}.
+W \glslink{props}{propsach} przyjmowane są funkcje obsługujące zmianę wyboru opcji oraz czyszczenia poprzednich wyników.
+Przekazywana jest również tablica określająca klucz zapytań wymagających unieważnienia po zmianie sortowania, a także
+opcja sortowania wybrana w danej liście.
+W celu rozróżnienia gdzie używany jest \glslink{react-component}{komponent} przez \glslink{props}{propa} \emph{variant}
+określany jest jego typ (\texttt{SEARCH} lub \texttt{CURRENT\_VIEW}).
+Wybrana opcja przechowywana jest w lokalnym stanie (\texttt{useState}), \glslink{hook}{hook} \texttt{useEffect}
+nasłuchuje na jej zmianę jeśli jest różna od opcji wybranej wcześniej (\glslink{props}{prop} \emph{sorting}), wykonuje
+przekazaną funkcję do obsługi zmiany wyboru sortowania oraz funkcję czyszczącą.
+Unieważanianie są również zapytania zawierające podany klucz.
+\glslink{hook}{Hook} \texttt{useMemo} zwraca stałą będącą „stabilnym kluczem” \textendash \space po każdym odświeżeniu
+\glslink{react-component}{komponentu} nadrzędnego tablica określająca klucz z zapytaniami wymagającymi unieważnienia jest
+przekazywana ponownie.
+\texttt{useMemo} porównuje jej wartości z poprzednią i jeśli są takie same, nie zwraca nowej wartości, która jest w
+tablicy dependecji \texttt{useEffect} wspomnianego wcześniej.
+Pozwala to na optymalizację poprzez uniknięcie niepotrzebnych uruchomień tego \glslink{hook}{hook'a}.
