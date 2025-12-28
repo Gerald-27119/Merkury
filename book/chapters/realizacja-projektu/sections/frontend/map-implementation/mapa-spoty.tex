@@ -14,6 +14,7 @@ Mapa zbudowana jest z następujących \glslink{react-component}{komponentów}:
     \item \texttt{SearchCurrentViewButton}
     \item \texttt{CurrentViewSpotsList}
     \item \texttt{CurrentViewSpotsFormsContainer}
+    \item \texttt{CurrentViewSpotsNameSearchBar}
     \item \texttt{SpotsSortingForm}
     \item \texttt{RatingFromForm}
     \item \texttt{SpotsNameSearchBar}
@@ -144,8 +145,27 @@ znalezionych elementów.
 \noindent
 
 \textbf{\texttt{CurrentViewSpotsList}}
-
-\textbf{\texttt{RatingFromForm}}
+Wyświetla listę \glslink{spot}{spotów} znajdujących się w widocznym obszarze mapy.
+Poszczególne elementy wyświetlane są przez \texttt{ListedSpotInfo} (por. sekcja~\ref{subsubsec:komponenty-wspolne-map-spots}).
+Lista przewijana jest przy użyciu mechanizmu \glslink{infinite-scroll}{infinite scroll}, zrealizowanego przez
+\texttt{IntersectionObserver} nasłuchującego na element powiązany referencją oraz \glslink{hook}{hook'a}
+\texttt{useInfiniteQuery} z \glslink{biblioteka}{biblioteki} \texttt{Tanstack Query}.
+Podczas ładowania danych wyświetlany jest \texttt{LoadingSpinner}, a o wystąpieniu błędu informuje komunikat
+\emph{Failed to load spots data.}.
+W \glslink{react-component}{komponencie} \texttt{CurrentViewSpotsFormsContainer} umieszczone są formularze
+do filtrowania i sortowania listy.
+Filtrowanie \glslink{spot}{spotów} po nazwie obsługuje \texttt{CurrentViewSpotsNameSearchBar}.
+W trakcie wpisywania nazwy wyświetlana jest lista z podpowiedziami ułatwiająca uzupełnienie pola.
+Po kliknięciu przycisku do szukania lub wyborze podpowiedzi wyświetlane są \glslink{spot}{spoty}, których nazwa
+zawiera w sobie wpisaną frazę.
+Filtrowanie po ocenie „od”, tzn. ustawienia minimalnej wartości tejże, umożliwia \glslink{react-component}{komponent}
+\texttt{RatingFromForm}.
+Za pomocą \texttt{Rate} z \glslink{biblioteka}{biblioteki} \texttt{antd} wybierana jest wartość oceny, a nstępnie
+lista wyników jest aktualizowana.
+Jeżeli żaden \glslink{spot}{spot} nie spełnia warunków ustawionych przez opisane filtry, wyświetlany jest komunikat
+\emph{No spots match criteria!}.
+Sortowanie listy realizowane jest przez \glslink{react-component}{komponent} \texttt{SpotsSortingForm}
+(por. sekcja~\ref{subsubsec:komponenty-wspolne-map-spots}).
 
 \textbf{\texttt{SpotsNameSearchBar}}
 
