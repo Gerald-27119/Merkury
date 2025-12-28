@@ -1,0 +1,71 @@
+%! Author = Stanisław Oziemczuk
+%! Date = 21.12.2025
+
+\subsubsection{Optimistic UI}
+\label{subsubsec:Optimistic UI}
+
+\glslink{wzorzec}{Wzorzec}, w którym \glslink{ui}{UI} jest aktualizowane
+natychmiast po tym gdy użytkownik wykona czynność, przy założeniu że ta akcja po przetworzniu przez \glslink{backend}{backend}
+zostanie zakończona sukcesem.
+Jeżeli operacja nie powiedzie się, użytkownik zostanie o tym poinformowany, a stan \glslink{ui}{UI} wróci do poprzedniego.
+Dzięki zastosowaniu tego \glslink{wzorzec}{wzorca} zmniejszone jest odczucie opóźnień w działaniu aplikacji oraz
+poprawa w płynnym jej użytkowaniu.
+W projekcie Optimistic \glslink{ui}{UI} zostało wykorzystane w module Chatu.
+Gdy użytkownik wyśle nową wiadomość, natychmiast jest ona wyświetlana w oknie konwersacji.
+Poniżej przedstawiono implementację tego \glslink{wzorzec}{wzorca} w \glslink{react-component}{komponentach} \textit{ChatBottomBar} oraz \textit{ChatMessagingWindow}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/chatBottomBar_implementation1}
+    \caption{Implementacja komponentu ChatBottomBar (1)}
+    \label{fig:optimistic-ui-ChatBottomBar1}
+\end{figure}
+\noindent
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/chatBottomBar_implementation2}
+    \caption{Implementacja komponentu ChatBottomBar (2)}
+    \label{fig:optimistic-ui-ChatBottomBar2}
+\end{figure}
+\noindent
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/chatBottomBar_implementation3}
+    \caption{Implementacja komponentu ChatBottomBar (3)}
+    \label{fig:optimistic-ui-ChatBottomBar3}
+\end{figure}
+\noindent
+
+\glslink{react-component}{Komponent} ten odpowiedzialny jest za przygotowanie wiadomości, przesłanie jej do wyświetlenia \glslink{react-component}{komponentowi}
+\textit{ChatMessegingWindow} oraz równoczesne wysłanie danych na odpowiedni \glslink{endpoint}{endpoint} do \glslink{backend}{backendu}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/chatMessagingWindow_implementation1}
+    \caption{Implementacja komponentu ChatMessagingWindow (1)}
+    \label{fig:optimistic-ui-ChatMessagingWindow1}
+\end{figure}
+\noindent
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/chatMessagingWindow_implementation2}
+    \caption{Implementacja komponentu ChatMessagingWindow (2)}
+    \label{fig:optimistic-ui-ChatMessagingWindow2}
+\end{figure}
+\noindent
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/chatMessagingWindow_implementation3}
+    \caption{Implementacja komponentu ChatMessagingWindow (3)}
+    \label{fig:optimistic-ui-ChatMessagingWindow3}
+\end{figure}
+\noindent
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/wzorce-projektowe/chatMessagingWindow_implementation4}
+    \caption{Implementacja komponentu ChatMessagingWindow (4)}
+    \label{fig:optimistic-ui-ChatMessagingWindow4}
+\end{figure}
+\noindent
+
+W tym \glslink{react-component}{komponencie} sprawdzane jest czy wiadomość pochodzi z optymistycznego przebiegu realizacji oraz jest wyświetlana
+w oknie konwersacji.
