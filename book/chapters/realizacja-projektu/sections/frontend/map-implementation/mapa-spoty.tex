@@ -125,7 +125,23 @@ Pochodzący z niej \glslink{hook}{hook} \texttt{useMap} zwraca aktualną instanc
 funkcja \texttt{flyTo} przenosząca płynnie obraz na wskazane koordynaty.
 Informacje o błędach podczas operacji wyświetlane są w \texttt{Notification}.
 
-\textbf{\texttt{SearchCurrentViewButton}}
+\textbf{\texttt{SearchCurrentViewButton}} (rys. \ref{fig:search-current-view-btn})
+\glslink{react-component}{Komponent} będący przyciskiem, po kliknięciu którego pokazywana jest lista \glslink{spot}{spotów}
+znajdujących się w widocznym obszarze mapy.
+Naciśnięcie wywołuje funkcję \texttt{handleClickSearchCurrentView}, która na obecnej instacji mapy zwróconej
+przez \glslink{hook}{hook} \texttt{useMap} (\glslink{biblioteka}{biblioteka} \texttt{react-maplibre}) za pomocą
+wbudowanej funkcji \texttt{getBounds} pobiera dwa punkty wyznaczające granicę szerokości i długości geograficznej
+obecnie wyświetlanego fragmentu mapy.
+Następnie na \glslink{backend}{backend} wysyłane jest odpowiednie zapytanie i otwierany jest panel z listą
+znalezionych elementów.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/search_current_view_btn}
+    \caption{Implementacja komponentu SearchCurrentViewButton}
+    \label{fig:search-current-view-btn}
+\end{figure}
+\noindent
 
 \textbf{\texttt{CurrentViewSpotsList}}
 
