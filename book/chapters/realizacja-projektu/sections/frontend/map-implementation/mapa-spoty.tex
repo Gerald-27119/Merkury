@@ -117,3 +117,10 @@ pobieranej z \glslink{hook}{hook'a} \texttt{useMap} (\glslink{biblioteka}{biblio
 wywołują na niej odpowiednio wbudowane operacje \texttt{zoomIn()} lub \texttt{zoomIn()}.
 
 \textbf{\texttt{UserLocationPanel}}
+Odpowiada za wyświetlenie na mapie aktualnej lokalizacji użytkownika.
+Po kliknięciu przycisku za pomocą \texttt{navigator.geolocation.getCurrentPosition} pobiera jego aktualną pozycję, a
+następnie zapisuje ją w lokalnym stanie \glslink{react-component}{komponentu} (\texttt{useState}).
+Na ich podstawie na mapie wyświetlany jest \texttt{Marker} z \glslink{biblioteka}{biblioteki} \texttt{react-maplibre}.
+Pochodzący z niej \glslink{hook}{hook} \texttt{useMap} zwraca aktualną instancję mapy, na której wywoływana jest
+funkcja \texttt{flyTo} przenosząca płynnie obraz na wskazane koordynaty.
+Informacje o błędach podczas operacji wyświetlane są w \texttt{Notification}.
