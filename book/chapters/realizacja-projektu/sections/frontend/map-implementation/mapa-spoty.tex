@@ -114,11 +114,11 @@ Informacja o błędzie podczas pobierana danych wyświetlana jest w \glslink{rea
 \glslink{react-component}{Komponent} obsługujący ustawianie przybliżenia przybliżenia mapy.
 Zawiera dwa przyciski wyświetlane przez \texttt{ZoomControlButton}, przyjmujące funkcje, które na instacji mapy
 pobieranej z \glslink{hook}{hook'a} \texttt{useMap} (\glslink{biblioteka}{biblioteka} \texttt{react-maplibre}),
-wywołują na niej odpowiednio wbudowane operacje \texttt{zoomIn()} lub \texttt{zoomIn()}.
+wywołują na niej odpowiednio wbudowane operacje \texttt{zoomIn()} lub \texttt{zoomOut()}.
 
 \textbf{\texttt{UserLocationPanel}}
 Odpowiada za wyświetlenie na mapie aktualnej lokalizacji użytkownika.
-Po kliknięciu przycisku za pomocą \texttt{navigator.geolocation.getCurrentPosition} pobiera jego aktualną pozycję, a
+Po kliknięciu przycisku za pomocą \\ \texttt{navigator.geolocation.getCurrentPosition} pobiera jego aktualną pozycję, a
 następnie zapisuje ją w lokalnym stanie \glslink{react-component}{komponentu} (\texttt{useState}).
 Na ich podstawie na mapie wyświetlany jest \texttt{Marker} z \glslink{biblioteka}{biblioteki} \texttt{react-maplibre}.
 Pochodzący z niej \glslink{hook}{hook} \texttt{useMap} zwraca aktualną instancję mapy, na której wywoływana jest
