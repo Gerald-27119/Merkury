@@ -179,6 +179,15 @@ Po kliknięciu przycisku wyszukiwania lub wybraniu podpowiedzi wyświetlany jest
 Kliknięcie ikony \texttt{IoClose} powoduje usunięcie filtra.
 
 \textbf{\texttt{SearchedSpotsList}}
+Wyświetla wynik wyszukiwania \glslink{spot}{spotów} po nazwie.
+Lista jest przewijalna z wykorzystaniem mechanizmu \glslink{infinite-scroll}{infinite scroll} zrealizowanego
+za pomocą \texttt{IntersectionObserver}, \glslink{hook}{hook'a} \texttt{useInfiniteQuery} (\glslink{biblioteka}{biblioteka}
+\texttt{Tanstack Query}) oraz referencji.
+Podczas pobierania danych prezentowany jest \texttt{LoadingSpinner}, a w wypadku błędu komunikat \emph{Failed to load searched spots data.}.
+Jeżeli lista wyników jest pusta, pojawia się informacja \emph{No spots match criteria!}.
+Elementy można sortować poprzez \glslink{react-component}{komponent} \texttt{SpotsSortingForm}
+(por. sekcja~\ref{subsubsec:komponenty-wspolne-map-spots}).
+Otworzenie i zamknięcie panelu animowane jest za pomocą elementów \glslink{biblioteka}{biblioteki} \texttt{motion}.
 
 \subsubsubsection{Komponenty wspólne}
 \label{subsubsec:komponenty-wspolne-map-spots}
