@@ -701,3 +701,69 @@
     name={Store (Redux)},
     description={Centralny obiekt przechowujący globalny stan aplikacji (state) w \glslink{redux}{Reduxie}.}
 }
+
+\newglossaryentry{srp}{
+    name={Single Responsibility Principle},
+    description={(tłum. \textit{Zasada Pojedynczej Odpowiedzialności}); zasada należąca do wytycznych \glslink{solid}{SOLID}.
+    Zgodnie z nią klasa lub funkcja powinna mieć dokładnie jeden powód do zmiany, czyli być odpowiedzalną za jedną rzecz}
+}
+
+\newglossaryentry{solid}{
+    name={SOLID},
+    description={Mnemonik zdefiniowany przez Roberta C. Martina, zawierający 5 zasad projektowania,
+    które mają poprawić elastyczność i prostotę utrzymania oprogramowania.
+    \begin{itemize}
+        \item \textbf{S} \textendash \space Single Responsibility Principle (tłum. \textit{Zasada Pojedynczej Odpowiedzialności})
+        \item \textbf{O} \textendash \space Open/Closed Principle (tłum. \textit{Zasada Otwarte/Zamknięte})
+        \item \textbf{L} \textendash \space Liskov Substitution Principle (tłum. \textit{Zasada Podstawienia Liskov})
+        \item \textbf{I} \textendash \space Interface Segregation Principle (tłum. \textit{Zasada Segregacji Interfejsów})
+        \item \textbf{D} \textendash \space Dependency Inversion Principle (tłum. \textit{Zasada Odwrócenia Zależności})
+    \end{itemize}
+    Definicja została napisana na podstawie treści książki \cite{wzorce-projektowe}
+    }
+}
+
+\newglossaryentry{ioc}{
+    name={IoC},
+    description={Inversion of Control (tłum. \textit{Odwrócenie kontroli}); paradygmat programowania, w którym kontrola nad
+    zarządzaniem obiektami i zależnościami przekazywana jest do zewnętrznego kontenera lub \glslink{framework}{frameworka}}
+}
+
+\newglossaryentry{bean}{
+    name={Bean},
+    description={To obiekt w \glslink{framework}{frameworku} \glslink{spring-framework}{Spring},
+    który jest tworzony i zarządzany przez kontener Spring \glslink{ioc}{IoC}}
+}
+
+\newglossaryentry{annotation}{
+    name={Adnotacja},
+    description={To sposób dodania metadanych do kodu Java, nie zmieniają bezpośrednio działania programu, ale są wykorzystywane przez kompilator i
+    \glslink{framework}{frameworki}.
+    Zaczynają się symbolem \textit{@}}
+}
+
+\newglossaryentry{jsx}{
+    name={JSX},
+    description={JavaScript XML; składnia pozwalająca pisać kod wyglądający jak HTML w plikach JavaScript.
+    Umożliwia między innymi wyświetlanie zawartości zmiennych poprzez umieszczenie ich w \{\}}
+}
+
+\newglossaryentry{react-component}{
+    name={Komponent React},
+    description={Podstawowy blok budujący aplikację React, który zwraca \glslink{jsx}{JSX}.
+    Cykl życia komponentu ma trzy stany: montowanie (inicjalizacja i renderowanie),
+    aktualizacja (reagowanie na zmiany), demontowanie (usunięcie komponentu z drzewa \glslink{dom}{DOM}),
+    a ich nazwy muszą zaczynać się wielką literą.
+    Powinien być tworzony w sposób umożliwiający jego wielokrotne użycie w projekcie.
+    Komponenty dzielą się na dwa rodzaje:
+    \begin{itemize}
+        \item \textbf{Komponenty Klasowe} \textemdash \space klasy JavaScript dziedziczące po wbudowanej klasie Component.
+        Pozwalają na zarządzanie stanem poprzez object \textit{state}, zawierający się w każdym komponencie klasowym.
+        Zarządzanie cyklem życia komponentu odbywa się za pomocą wbudowanych metod.
+        Po wprowadzeniu komponentów funkcyjnych nie zaleca się stosowania klasowych.
+        \item \textbf{Komponenty Funkcyjne} \textemdash \space definiowane jak funkcje JavaScript.
+        \glslink{props}{Propsy} są przyjmowane poprzez argumenty funkcji.
+        Zarządzanie stanem oraz cyklem życia komponentu odbywa się za pomocą \glslink{hook}{hook'ów} takich jak
+        \textit{useState}.
+    \end{itemize}}
+}
