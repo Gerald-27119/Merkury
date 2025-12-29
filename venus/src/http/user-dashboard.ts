@@ -369,10 +369,13 @@ export async function getAllUserPhotos(
     size: number,
 ): Promise<DatedMediaGroupPageDto> {
     return (
-        await axios.get(`${BASE_URL}/user-dashboard/photos/${username}`, {
-            withCredentials: true,
-            params: { page, size },
-        })
+        await axios.get(
+            `${BASE_URL}/public/user-dashboard/photos/${username}`,
+            {
+                withCredentials: true,
+                params: { page, size },
+            },
+        )
     ).data;
 }
 

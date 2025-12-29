@@ -16,7 +16,7 @@ export default function SpotMap({ lat, lng }: SpotMapProps) {
         if (!mapRef.current) {
             mapRef.current = new maplibregl.Map({
                 container: mapContainer.current,
-                style: "/map_style1.json",
+                style: "/map_style.json",
                 center: [lng, lat],
                 zoom: 14,
                 attributionControl: false,
