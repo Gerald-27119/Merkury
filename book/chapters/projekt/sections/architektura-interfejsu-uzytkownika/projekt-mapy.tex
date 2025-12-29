@@ -49,3 +49,50 @@ Prezentowane są również ogólne informacje pogodowe z możliwością otworzen
     \label{fig:map-pansa}
 \end{figure}
 \noindent
+
+\subsubsection{Panel ze szczegółami spota}
+\label{subsubsec:panel-ze-szczegolami-spota}
+
+Panel ze szczegółami \glslink{spot}{spota} (rys. \ref{fig:map-spot-details-1}) zaprojektowano jako prostokąt pojawiający się po lewej stronie ekranu, dzięki
+czemu umożliwia dalsze przeglądanie mapy.
+W górnej jego części wyświetlane są informacje o lokalizacji wybranego miesjca oznaczone ikoną markera, a po ich prawej
+stronie przycisk zamykający panel.
+Poniżej prezentowane są nazwa wraz oceną \glslink{spot}{spota} w gwiazdkach wraz z liczbą opinii, jego tagi oraz opis.
+Kolejną częścią panelu jest galeria multimediów.
+Znajdują się w niej zdjęcia i filmy przewijane w formie karuzeli.
+Pod nią umieszczone są przyciski akcji oznaczone ikonami ułatwiającymi rozpoznanie ich przeznaczenia.
+Umożlwiają nawigację do \glslink{spot}{spota}, zapisanie go do listy ulubionych, udostępnienie lub dodanie multimedii.
+Następny obszar przeznaczony jest na wyświetlanie komentarzy.
+Na jego górze znajduje się przycisk otwierający \glslink{modal}{modal} z formularzem do dodania nowego komentarza.
+Początkowo wyświetlane jest kilka pierwszych elementów, poniżej których znajduje się przycisk „Show More”.
+Po jego kliknięciu prezentowane są wszyskie komentarze w formie przewijalnej listy.
+Pojedynczy element zawiera dane o autorze (nazwę oraz zdjęcie profilowe), treść tekstową, zdjęcia i filmy oraz
+przyciski do polubienia lub niepolubienia.
+Komentarz może zawierać zero lub więcej multimedii, w przypadku gdy ich liczba nie przekracza trzech, wyświeltane są obok
+siebie.
+Natomiast jeśli jest ich więcej, widoczne są trzy pierwsze a na ostatnim z nich znajduje się przycisk „see more”
+(rys. \ref{fig:map-spot-details-2}), którego kliknięcie powoduje ukazanie pozostałych elementów (rys. \ref{fig:map-spot-details-3}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/mapa/mapa_szczegoly_spota1}
+    \caption{Panel ze szczegółami spota}
+    \label{fig:map-spot-details-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/mapa/mapa_szczegoly_spota2}
+    \caption{Panel ze szczegółami spota (przycisk do pokazania wszyskich multimediów komentarza)}
+    \label{fig:map-spot-details-2}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/mapa/mapa_szczegoly_spota3}
+    \caption{Panel szczegółów spota (widoczne są wszystkie multimedia komentarza)}
+    \label{fig:map-spot-details-3}
+\end{figure}
+\noindent
