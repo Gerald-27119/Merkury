@@ -51,7 +51,7 @@ public class ChatMapper {
         var senderDto = ChatMessageSenderDto.builder()
                 .id(chatMessage.getSender().getId())
                 .name(chatMessage.getSender().getUsername())
-                .imgUrl(chatMessage.getSender().getProfileImage())
+                .imgUrl(chatMessage.getSender().getProfilePhoto())
                 .build();
 
         var attachedFiles = chatMessage.getChatMessageAttachedFiles().stream().map(file ->
@@ -81,7 +81,7 @@ public class ChatMapper {
         return ChatMessageSenderDto.builder()
                 .id(chatMessage.getSender().getId())
                 .name(chatMessage.getSender().getUsername())
-                .imgUrl(chatMessage.getSender().getProfileImage())
+                .imgUrl(chatMessage.getSender().getProfilePhoto())
                 .build();
     }
 
@@ -115,7 +115,7 @@ public class ChatMapper {
                     return chat.getParticipants().stream()
                             .filter(cp -> !Objects.equals(cp.getUser().getId(), userId))
                             .findFirst()
-                            .map(cp -> cp.getUser().getProfileImage())
+                            .map(cp -> cp.getUser().getProfilePhoto())
                             .orElse(null);
                 }
                 case GROUP -> {
@@ -144,7 +144,7 @@ public class ChatMapper {
         var participants = chat.getParticipants().stream().map(chatParticipant ->
                         new ChatParticipantDto(
                                 chatParticipant.getUser().getUsername(),
-                                chatParticipant.getUser().getProfileImage())
+                                chatParticipant.getUser().getProfilePhoto())
                 )
                 .toList();
 
@@ -183,7 +183,7 @@ public class ChatMapper {
         var participants = chat.getParticipants().stream().map(chatParticipant ->
                         new ChatParticipantDto(
                                 chatParticipant.getUser().getUsername(),
-                                chatParticipant.getUser().getProfileImage())
+                                chatParticipant.getUser().getProfilePhoto())
                 )
                 .toList();
 

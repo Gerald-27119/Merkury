@@ -60,7 +60,7 @@ export default function PolygonDrawer({
                     zoom: 15,
                 }}
                 style={{ width: "100%", height: "100%", borderRadius: "16px" }}
-                mapStyle="/map_style1.json"
+                mapStyle="/map_style.json"
                 onClick={handleClick}
             >
                 {polygonCoords.length > 0 && (
