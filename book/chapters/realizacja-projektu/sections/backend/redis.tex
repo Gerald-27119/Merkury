@@ -10,9 +10,9 @@ Jako magazyn danych \glslink{cache}{cache} zastosowano \glslink{baza-danych}{baz
 uruchamianą w \glslink{kontener}{kontenerze Docker}, co uprościło konfigurację środowiska oraz zapewniło spójność
 między uruchomieniami lokalnymi.
 
-Do integracji ze środowiskiem Spring Boot użyto gotowego mechanizmu \texttt{Spring cache}.
+Do integracji ze środowiskiem \glslink{spring-boot}{Spring Boot} użyto gotowego mechanizmu \glslink{spring-cache}{Spring cache}.
 Konfiguracja menedżera \glslink{cache}{cache} została oparta o \texttt{RedisCacheManager}, a dla poszczególnych przestrzeni
-\glslink{cache}{cache} zdefiniowano niezależne czasy życia wpisów (TTL).
+\glslink{cache}{cache} zdefiniowano niezależne czasy życia wpisów (\gls{ttl}).
 Dodatkowo wyłączono \glslink{cache}{cachowanie} wartości pustych (\textit{null}), co zapobiega utrwalaniu błędnych
 lub niekompletnych odpowiedzi.
 
@@ -25,7 +25,7 @@ Poniżej przedstawiono konfigurację \glslink{cache}{cache} w projekcie (rys. \r
     \label{img:redis-config}
 \end{figure}
 
-\glslink{cache}{Cachowanie} danych realizowane jest adnotacją \texttt{@Cacheable}, która pozwala
+\glslink{cache}{Cachowanie} danych realizowane jest \glslink{annotation}{adnotacją} \texttt{@Cacheable}, która pozwala
 wskazać nazwę \glslink{cache}{cache} oraz sposób budowania klucza.
 W zależności od przypadku stosowane są również warunki \texttt{condition} i \texttt{unless},
 aby pomijać zapytania o niepoprawnych parametrach oraz nie zapisywać w \glslink{cache}{cache} wyników pustych.
@@ -55,8 +55,8 @@ Przykładowe użycie \glslink{cache}{cache} w projekcie przedstawiono poniżej (
     \label{img:redis-weather}
 \end{figure}
 
-Wartości TTL dobrano na podstawie charakteru danych:
+Wartości \gls{ttl} dobrano na podstawie charakteru danych:
 dla wyników wyszukiwania zastosowano krótsze czasy (częsta zmienność i większe ryzyko nieaktualności),
-natomiast dla danych pogodowych lub gifów, które zmieniają się wolniej, ustawiono dłuższe czasy przechowywania.
+natomiast dla danych pogodowych lub \glslink{gif}{gifów}, które zmieniają się wolniej, ustawiono dłuższe czasy przechowywania.
 Takie podejście pozwoliło zredukować opóźnienia odpowiedzi oraz ograniczyć liczbę wywołań usług zewnętrznych,
 przy zachowaniu akceptowalnego poziomu aktualności danych.

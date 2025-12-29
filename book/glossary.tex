@@ -767,3 +767,16 @@
         \textit{useState}.
     \end{itemize}}
 }
+
+\newglossaryentry{spring-cache}{
+    name={Spring Cache},
+    description={Mechanizm \glslink{cache}{cache'owania} w ekosystemie Spring, który pozwala przechowywać wyniki wywołań metod
+    (przez adnotacje \texttt{@Cacheable}, \texttt{@CachePut}, \texttt{@CacheEvict}) w celu przyspieszenia
+    działania aplikacji i zmniejszenia obciążenia zasobów (bazy danych).}
+}
+
+\newglossaryentry{ttl}{
+    name={TTL},
+    description={(\emph{Time To Live}) Czas życia wpisu w cache lub w innym systemie przechowywania danych —
+    po jego upływie element wygasa i jest usuwany albo uznawany za nieaktualny, co wymusza ponowne pobranie/wyliczenie danych.}
+}
