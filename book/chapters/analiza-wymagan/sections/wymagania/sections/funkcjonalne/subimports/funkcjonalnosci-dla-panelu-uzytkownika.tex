@@ -136,7 +136,7 @@
     \wfpanelaccept{%
         \begin{itemize}
             \item Użytkownik widzi podstawowe informacje o koncie (nazwa użytkownika oraz avatar).
-            \item Dane są pobierane z API i prezentowane po wejściu na podstronę profilu.
+            \item Dane są pobierane z \glslink{api}{API} i prezentowane po wejściu na podstronę profilu.
         \end{itemize}
     }
 
@@ -302,13 +302,14 @@
 {07}
 {M}
 {
-    \wfpaneldesc{System umożliwia użytkownikowi przełączanie typu listy spotów w panelu konta
+    \wfpaneldesc{System umożliwia użytkownikowi przełączanie typu listy \glslink{spot}{spotów} w panelu konta
     (polubione, odwiedzone i ocenione pozytywnie, odwiedzone i ocenione negatywnie, planowane).}
 
     \wfpanelaccept{%
         \begin{itemize}
-            \item Użytkownik może wybrać kategorię listy spotów.
+            \item Użytkownik może wybrać kategorię listy \glslink{spot}{spotów}.
             \item Po zmianie kategorii system wyświetla odpowiednie dane dla wybranej listy.
+            \item W przypadku braku \glslink{spot}{spotów} system wyświetla informację o braku wyników.
         \end{itemize}
     }
 
@@ -329,12 +330,12 @@
 {08}
 {M}
 {
-    \wfpaneldesc{System umożliwia użytkownikowi usunięcie spota z aktualnie wyświetlanej listy w panelu konta.}
+    \wfpaneldesc{System umożliwia użytkownikowi usunięcie \glslink{spot}{spota} z aktualnie wyświetlanej listy w panelu konta.}
 
     \wfpanelaccept{%
         \begin{itemize}
-            \item Użytkownik może usunąć wybrany spot z listy.
-            \item Po usunięciu spot znika z listy bez konieczności przeładowania całej strony.
+            \item Użytkownik może usunąć wybrany \glslink{spot}{spot} z listy.
+            \item Po usunięciu \glslink{spot}{spot} znika z listy bez konieczności przeładowania całej strony.
         \end{itemize}
     }
 
@@ -355,11 +356,11 @@
 {09}
 {M}
 {
-    \wfpaneldesc{System udostępnia przycisk umożliwiający wyświetlenie lokalizacji wybranego spota na mapie.}
+    \wfpaneldesc{System udostępnia przycisk umożliwiający wyświetlenie lokalizacji wybranego \glslink{spot}{spota} na mapie.}
 
     \wfpanelaccept{%
         \begin{itemize}
-            \item Dla spota na liście dostępny jest przycisk „See on map”.
+            \item Dla \glslink{spot}{spota} na liście dostępny jest przycisk „See on map”.
             \item Po kliknięciu użytkownik jest przenoszony do widoku mapy z zaznaczonym spotem.
         \end{itemize}
     }
@@ -393,7 +394,8 @@
     \wfpanelresponsible{Mateusz Redosz}
     \wfpanelrelated{%
         \hyperref[wopanu:photos]{WOPANEL-04},
-        \hyperref[wppanel:photos-group-by-date]{WPPANEL-08}.%
+        \hyperref[wppanel:photos-group-by-date]{WPPANEL-08}.
+        \hyperref[wppanel:photos-authorization]{WPPANEL-13}.%
     }
 }
 
@@ -418,7 +420,8 @@
     \wfpanelstakeholder{U3}
     \wfpanelresponsible{Mateusz Redosz}
     \wfpanelrelated{%
-        \hyperref[wopanu:photos]{WOPANEL-04}.%
+        \hyperref[wopanu:photos]{WOPANEL-04}.
+        \hyperref[wppanel:photos-authorization]{WPPANEL-13}.%
     }
 }
 
@@ -438,6 +441,7 @@
         \begin{itemize}
             \item Zdjęcia są pogrupowane w sekcje odpowiadające dacie dodania.
             \item Każde zdjęcie zawiera liczbę polubień oraz wyświetleń.
+            \item W przypadku braku zdjęć system wyświetla informację o braku wyników.
         \end{itemize}
     }
 
@@ -445,7 +449,8 @@
     \wfpanelresponsible{Mateusz Redosz}
     \wfpanelrelated{%
         \hyperref[wopanu:photos]{WOPANEL-04},
-        \hyperref[wppanel:photos-group-by-date]{WPPANEL-08}.%
+        \hyperref[wppanel:photos-group-by-date]{WPPANEL-08}.
+        \hyperref[wppanel:photos-authorization]{WPPANEL-13}.%
     }
 }
 
@@ -516,6 +521,7 @@
         \begin{itemize}
             \item Filmy są pogrupowane w sekcje odpowiadające dacie dodania.
             \item Każdy film zawiera liczbę polubień oraz wyświetleń.
+            \item W przypadku braku filmów system wyświetla informację o braku wyników.
         \end{itemize}
     }
 
@@ -541,7 +547,8 @@
     \wfpanelaccept{%
         \begin{itemize}
             \item Użytkownik widzi listę znajomych.
-            \item Lista jest pobierana z API i prezentowana w sekcji społeczności.
+            \item Lista jest pobierana z \glslink{api}{API} i prezentowana w sekcji społeczności.
+            \item W przypadku braku znajomych system wyświetla informację o braku wyników.
         \end{itemize}
     }
 
@@ -567,6 +574,7 @@
     \wfpanelaccept{%
         \begin{itemize}
             \item Użytkownik widzi listę obserwowanych.
+            \item W przypadku braku obserwowanych system wyświetla informację o braku wyników.
         \end{itemize}
     }
 
@@ -592,6 +600,7 @@
     \wfpanelaccept{%
         \begin{itemize}
             \item Użytkownik widzi listę obserwujących.
+            \item W przypadku braku obserwujących system wyświetla informację o braku wyników.
         \end{itemize}
     }
 
@@ -618,6 +627,7 @@
         \begin{itemize}
             \item Użytkownik może otworzyć listę zaproszeń poprzez przycisk w sekcji społeczności.
             \item Lista prezentuje oczekujące zaproszenia.
+            \item W przypadku braku zaproszeń system wyświetla informację o braku wyników.
         \end{itemize}
     }
 
@@ -644,6 +654,7 @@
         \begin{itemize}
             \item Użytkownik może otworzyć okno wyszukiwania.
             \item Użytkownik może wyszukać użytkownika po wprowadzonej frazie.
+            \item W przypadku braku potencjalnych znajomych system wyświetla informację o braku wyników.
         \end{itemize}
     }
 
@@ -693,12 +704,12 @@
 {22}
 {M}
 {
-    \wfpaneldesc{System umożliwia użytkownikowi wyświetlenie listy spotów dodanych przez niego w panelu konta.}
+    \wfpaneldesc{System umożliwia użytkownikowi wyświetlenie listy \glslink{spot}{spotów} dodanych przez niego w panelu konta.}
 
     \wfpanelaccept{%
         \begin{itemize}
-            \item Użytkownik widzi listę własnych dodanych spotów.
-            \item W przypadku braku spotów system wyświetla informację o braku wyników.
+            \item Użytkownik widzi listę własnych dodanych \glslink{spot}{spotów}.
+            \item W przypadku braku \glslink{spot}{spotów} system wyświetla informację o braku wyników.
         \end{itemize}
     }
 
@@ -719,13 +730,13 @@
 {23}
 {M}
 {
-    \wfpaneldesc{System umożliwia użytkownikowi dodanie nowego spota poprzez formularz w panelu konta.}
+    \wfpaneldesc{System umożliwia użytkownikowi dodanie nowego \glslink{spot}{spota} poprzez formularz w panelu konta.}
 
     \wfpanelaccept{%
         \begin{itemize}
-            \item Użytkownik ma dostęp do formularza dodawania spota.
+            \item Użytkownik ma dostęp do formularza dodawania \glslink{spot}{spota}.
             \item Użytkownik może wysłać poprawnie wypełniony formularz.
-            \item W przypadku błędu walidacji lub błędu API system wyświetla komunikat.
+            \item W przypadku błędu walidacji lub błędu \glslink{api}{API} system wyświetla komunikat.
         \end{itemize}
     }
 
@@ -800,12 +811,13 @@
 {M}
 {
     \wfpaneldesc{System umożliwia wyświetlenie listy komentarzy użytkownika zgrupowanej po dacie
-    oraz nazwie spota.}
+    oraz nazwie \glslink{spot}{spota}.}
 
     \wfpanelaccept{%
         \begin{itemize}
             \item Komentarze są pogrupowane po dacie dodania.
-            \item W ramach grupy daty komentarze są przypisane do nazw spota.
+            \item W ramach grupy daty komentarze są przypisane do nazw \glslink{spot}{spota}.
+            \item W przypadku braku komentarzy system wyświetla informację o braku wyników.
         \end{itemize}
     }
 
@@ -857,7 +869,7 @@
     \wfpanelaccept{%
         \begin{itemize}
             \item Użytkownik może zmienić adres e-mail i zapisać zmiany.
-            \item W przypadku błędnych danych lub błędu API system wyświetla komunikat.
+            \item W przypadku błędnych danych lub błędu \glslink{api}{API} system wyświetla komunikat.
         \end{itemize}
     }
 

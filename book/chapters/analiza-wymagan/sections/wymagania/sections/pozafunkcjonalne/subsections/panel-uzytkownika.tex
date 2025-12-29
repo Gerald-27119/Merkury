@@ -521,3 +521,31 @@
         \hyperref[wfpanel:added-spots-list]{WFPANEL-22}.%
     }
 }
+
+\wppanelatcard
+{wppanel:photos-authorization}
+{Dostęp tylko do własnej listy zdjęć (autoryzacja)}
+{13}
+{M}
+{
+    \wppaneltype{Bezpieczeństwo}
+
+    \wppaneldesc{System zapewnia, że użytkownik ma dostęp wyłącznie do własnej listy zdjęć
+    powiązanych z kontem i nie może odczytać zdjęć innych użytkowników poprzez panel ani \gls{api}.}
+
+    \wppanelaccept{%
+        \begin{itemize}
+            \item Lista zdjęć prezentuje wyłącznie materiały dodane przez zalogowanego użytkownika.
+            \item Zapytania do \gls{api} o listę zdjęć innego użytkownika są odrzucane (403).
+        \end{itemize}
+    }
+
+    \wppanelstakeholder{U3}
+    \wppanelresponsible{Mateusz Redosz}
+    \wppanelrelated{%
+        \hyperref[wopanel:photos]{WOPANEL-05},
+        \hyperref[wfpanel:photos-sort-by-date]{WFPANEL-10},
+        \hyperref[wfpanel:photos-filter-by-date]{WFPANEL-11},
+        \hyperref[wfpanel:photos-grouped-with-metrics]{WFPANEL-12}.%
+    }
+}
