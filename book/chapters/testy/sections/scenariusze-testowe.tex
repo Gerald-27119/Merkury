@@ -1,0 +1,660 @@
+%! Author = Mateusz
+%! Date = 13/12/2025
+
+\section{Scenariusze testów end-to-end (E2E)}
+\label{sec:scenariusze-testow-e2e}
+
+
+\newcounter{eTOe}[chapter]
+\renewcommand{\theeTOe}{\thechapter.\arabic{eTOe}}
+
+\newcommand{\eTOeid}[1]{\textbf{Identyfikator:} & #1 \\ \hline}
+\newcommand{\eTOegoal}[1]{\textbf{Cel:} & #1 \\ \hline}
+\newcommand{\eTOetype}[1]{\textbf{Typ:} & #1 \\ \hline}
+\newcommand{\eTOepre}[1]{\textbf{Warunki wstępne:} & #1 \\ \hline}
+
+\newcommand{\eTOesteps}[1]{%
+    \textbf{Kroki:} & \begin{minipage}[t]{\linewidth}#1\end{minipage} \\ \hline}
+\newcommand{\eTOeexpected}[1]{\textbf{Oczekiwany rezultat:} & #1 \\ \hline}
+
+\newcommand{\eTOecard}[3]{%
+    \refstepcounter{eTOe}%
+    \par\begin{center}
+    \renewcommand{\arraystretch}{1.15}%
+    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.19\textwidth}|X|}
+    \rowcolor{lightgray}
+    \multicolumn{2}{|c|}{\textbf{KARTA SCENARIUSZA E2E}} \\ \hline
+    #3
+    \end{tabularx}
+    \vspace{3pt}
+    \textbf{Tabela \theeTOe:} Scenariusz E2E: #2\label{#1}
+    \end{center}%
+    \addcontentsline{lot}{table}{Tabela \theeTOe: Scenariusz E2E: #2}%
+}
+
+\newenvironment{tabitemizeeTOe}[1][]{%
+    \begin{enumerate}[
+        leftmargin=*,
+        nosep,
+        topsep=0pt,
+        partopsep=0pt,
+        parsep=0pt,
+        itemsep=0pt,
+        before=\vspace*{-0.5\baselineskip},
+        after=\vspace*{0.3\baselineskip},
+        #1
+    ]
+}{%
+    \end{enumerate}
+}
+
+
+Poniżej przedstawiono scenariusze testowe zrealizowane w ramach testów end-to-end (E2E).
+W opisach rozróżniono przypadki z użyciem danych mockowanych (poprzez przechwytywanie żądań HTTP)
+oraz przypadki wykonywane na rzeczywistym backendzie.
+
+%------------------------------------------------
+\subsection{Account (logowanie i rejestracja)}
+
+\eTOecard{tab:e2e:acc01}{Logowanie użytkownika}{%
+    \eTOeid{E2E-ACC-01}
+    \eTOegoal{Potwierdzenie możliwości zalogowania użytkownika.}
+    \eTOetype{Rzeczywisty backend}
+    \eTOepre{Konto istnieje w sytemie.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie strony głównej aplikacji.
+            \item Przejście do widoku logowania.
+            \item Wprowadzenie nazwy użytkownika oraz hasła.
+            \item Wysłanie formularza.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Zakończenie procesu logowania bez błędów oraz przejście do aplikacji.}
+}
+
+\eTOecard{tab:e2e:acc02}{Rejestracja użytkownika}{%
+    \eTOeid{E2E-ACC-02}
+    \eTOegoal{Potwierdzenie możliwości założenia konta.}
+    \eTOetype{Rzeczywisty backend}
+    \eTOepre{brak}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie strony głównej aplikacji.
+            \item Przejście do widoku logowania, a następnie do widoku rejestracji.
+            \item Wprowadzenie danych rejestracyjnych (nazwa użytkownika, e-mail, hasło, potwierdzenie hasła).
+            \item Wysłanie formularza.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Zakończenie rejestracji bez błędów.}
+}
+
+%------------------------------------------------
+\subsection{User dashboard -- Add spot}
+
+\eTOecard{tab:e2e:add01}{Wyświetlenie stanu pustego dla dodanych spotów}{%
+    \eTOeid{E2E-ADD-01}
+    \eTOegoal{Weryfikacja poprawnej obsługi pustej listy dodanych spotów.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie widoku \textit{Add spot}.
+            \item Oczekiwanie na odpowiedź endpointu z listą spotów (pusta lista).
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Wyświetlenie komunikatu o braku dodanych spotów.}
+}
+
+\eTOecard{tab:e2e:add02}{Ładowanie kolejnych elementów listy przy przewijaniu (\textit{infinite scroll})}{%
+    \eTOeid{E2E-ADD-02}
+    \eTOegoal{Weryfikacja działania mechanizmu \textit{infinite scroll}.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Użytkownik jest zalogowany i znajduje się na widoku listy z włączonym nieskończonym przewijaniem; w źródle danych istnieją kolejne elementy do załadowania.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie widoku \textit{Add spot}.
+            \item Weryfikacja wyświetlenia pierwszej porcji danych.
+            \item Doprowadzenie do uruchomienia mechanizmu \textit{infinite scroll} i pobranie kolejnej strony.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Dołączenie kolejnych elementów do listy oraz ich poprawna prezentacja.}
+}
+
+\eTOecard{tab:e2e:add03}{Otwarcie modala dodawania spota na widoku desktop}{%
+    \eTOeid{E2E-ADD-03}
+    \eTOegoal{Weryfikacja dostępności modala dodawania spota w trybie desktop.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Ustawienie rozdzielczości okna na tryb desktop.
+            \item Otwarcie widoku \textit{Add spot}.
+            \item Wybranie przycisku \textit{Add spot}.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Wyświetlenie modala dodawania spota wraz z sekcjami (\textit{Basic Information}, \textit{Upload Media}).}
+}
+
+\eTOecard{tab:e2e:add04}{Zablokowanie dodawania spota na małym ekranie}{%
+    \eTOeid{E2E-ADD-04}
+    \eTOegoal{Weryfikacja blokady dodawania spota dla małych rozdzielczości.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Ustawienie rozdzielczości okna na tryb mobilny.
+            \item Otwarcie widoku \textit{Add spot}.
+            \item Próba otwarcia modala dodawania spota.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Wyświetlenie komunikatu o wymaganym większym ekranie oraz brak wyświetlenia formularza dodawania.}
+}
+
+\eTOecard{tab:e2e:add05}{Dodanie nowego spota z użyciem rzeczywistego backendu}{%
+    \eTOeid{E2E-ADD-05}
+    \eTOegoal{Weryfikacja pełnego procesu dodania spota (UI $\rightarrow$ backend).}
+    \eTOetype{Rzeczywisty backend}
+    \eTOepre{Użytkownik posiada konto i możliwość zalogowania.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Wykonanie logowania użytkownika.
+            \item Przejście do widoku \textit{Add spot}.
+            \item Otwarcie modala dodawania spota.
+            \item Uzupełnienie danych podstawowych.
+            \item Dodanie pliku graficznego w sekcji multimediów.
+            \item Wyznaczenie wielokąta na mapie oraz zakończenie rysowania.
+            \item Zatwierdzenie dodania spota.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Zapis spota, komunikat o powodzeniu oraz obecność nowo dodanego spota na liście.}
+}
+
+%------------------------------------------------
+\subsection{User dashboard -- Comments}
+
+\eTOecard{tab:e2e:com01}{Wyświetlenie stanu pustego dla komentarzy}{%
+    \eTOeid{E2E-COM-01}
+    \eTOegoal{Weryfikacja obsługi pustej listy komentarzy.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie widoku komentarzy.
+            \item Oczekiwanie na odpowiedź z pustą listą komentarzy.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Wyświetlenie komunikatu o braku komentarzy oraz brak elementów listy.}
+}
+
+\eTOecard{tab:e2e:com02}{Sortowanie komentarzy po zmianie typu sortowania}{%
+    \eTOeid{E2E-COM-02}
+    \eTOegoal{Weryfikacja ponownego pobrania i prezentacji danych po zmianie sortowania.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie widoku komentarzy.
+            \item Weryfikacja początkowego układu listy.
+            \item Zmiana sortowania.
+            \item Oczekiwanie na ponowne pobranie danych.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Aktualizacja listy zgodnie z wybranym sortowaniem.}
+}
+
+\eTOecard{tab:e2e:com03}{Załadowanie widoku komentarzy po Rzeczywistym logowaniu}{%
+    \eTOeid{E2E-COM-03}
+    \eTOegoal{Weryfikacja poprawnego pobrania danych komentarzy z backendu po logowaniu.}
+    \eTOetype{Rzeczywisty backend}
+    \eTOepre{Użytkownik posiada konto i może się na nie zalogować.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Wykonanie logowania użytkownika.
+            \item Przejście do widoku komentarzy.
+            \item Weryfikacja poprawnej odpowiedzi API (np. struktura \texttt{items} i \texttt{hasNext}).
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Poprawne załadowanie widoku komentarzy.}
+}
+
+%------------------------------------------------
+\subsection{User dashboard -- Favorite spots}
+
+\eTOecard{tab:e2e:fav01}{Wyświetlenie stanu pustego dla list ulubionych spotów}{%
+    \eTOeid{E2E-FAV-01}
+    \eTOegoal{Weryfikacja obsługi pustej listy ulubionych spotów.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie widoku ulubionych spotów.
+            \item Pobranie pustej listy.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Komunikat o braku spotów w liście.}
+}
+
+\eTOecard{tab:e2e:fav02}{Zmiana typu listy}{%
+    \eTOeid{E2E-FAV-02}
+    \eTOegoal{Weryfikacja przełączania zakładek i pobrania danych dla wybranego typu listy.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie widoku ulubionych spotów.
+            \item Weryfikacja elementów w domyślnej liście.
+            \item Przełączenie zakładki listy (na \textit{Favorites}).
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Pobranie i wyświetlenie danych odpowiadających wybranemu typowi listy.}
+}
+
+\eTOecard{tab:e2e:fav03}{Dociąganie kolejnej strony przy przewijaniu}{%
+    \eTOeid{E2E-FAV-03}
+    \eTOegoal{Weryfikacja infinite scroll w liście ulubionych spotów.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Przewinięcie listy do dołu w celu pobrania kolejnej strony.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Zwiększenie liczby elementów listy o kolejne pozycje.}
+}
+
+\eTOecard{tab:e2e:fav04}{Załadowanie danych z rzeczywistego backendu po logowaniu}{%
+    \eTOeid{E2E-FAV-04}
+    \eTOegoal{Weryfikacja pobrania danych ulubionych spotów z backendu po logowaniu.}
+    \eTOetype{Rzeczywisty backend}
+    \eTOepre{Użytkownik posiada konto i może się na nie zalogować.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Logowanie użytkownika.
+            \item Przejście do widoku ulubionych spotów.
+            \item Weryfikacja poprawnej odpowiedzi API.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Poprawne wyświetlenie widoku oraz elementów (jeśli istnieją).}
+}
+
+%------------------------------------------------
+\subsection{User dashboard -- Movies}
+
+\eTOecard{tab:e2e:mov01}{Stan pusty dla filmów}{%
+    \eTOeid{E2E-MOV-01}
+    \eTOegoal{Weryfikacja obsługi pustej listy filmów.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie widoku filmów.
+            \item Pobranie pustej listy.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Brak elementów listy oraz poprawne wyświetlenie nagłówka widoku.}
+}
+
+\eTOecard{tab:e2e:mov02}{Zmiana sortowania filmów}{%
+    \eTOeid{E2E-MOV-02}
+    \eTOegoal{Weryfikacja odświeżenia listy po zmianie sortowania.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Przełączenie sortowania.
+            \item Oczekiwanie na ponowne pobranie danych.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Odświeżenie listy zgodnie z wybranym sortowaniem.}
+}
+
+\eTOecard{tab:e2e:mov03}{\textit{Infinite scroll} w widoku filmów}{%
+    \eTOeid{E2E-MOV-03}
+    \eTOegoal{Weryfikacja dociągania kolejnych stron danych.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Przewinięcie listy do dołu w celu pobrania kolejnej strony.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Dołączenie nowych elementów do listy.}
+}
+
+\eTOecard{tab:e2e:mov04}{Załadowanie filmów po logowaniu na Rzeczywistym backendzie}{%
+    \eTOeid{E2E-MOV-04}
+    \eTOegoal{Weryfikacja pobrania filmów z backendu po logowaniu.}
+    \eTOetype{Rzeczywisty backend}
+    \eTOepre{Użytkownik posiada konto i może się na nie zalogować.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Logowanie użytkownika.
+            \item Przejście do widoku filmów.
+            \item Weryfikacja poprawnej odpowiedzi API.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Poprawne wyświetlenie widoku filmów.}
+}
+
+%------------------------------------------------
+\subsection{User dashboard -- Photos}
+
+\eTOecard{tab:e2e:pho01}{Stan pusty dla zdjęć}{%
+    \eTOeid{E2E-PHO-01}
+    \eTOegoal{Weryfikacja obsługi pustej listy zdjęć.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie widoku zdjęć.
+            \item Pobranie pustej listy.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Brak elementów listy zdjęć.}
+}
+
+\eTOecard{tab:e2e:pho02}{Zmiana sortowania zdjęć}{%
+    \eTOeid{E2E-PHO-02}
+    \eTOegoal{Weryfikacja odświeżenia listy po zmianie sortowania.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Przełączenie sortowania.
+            \item Oczekiwanie na ponowne pobranie danych.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Aktualizacja listy zdjęć.}
+}
+
+\eTOecard{tab:e2e:pho03}{\textit{Infinite scroll} w widoku zdjęć}{%
+    \eTOeid{E2E-PHO-03}
+    \eTOegoal{Weryfikacja dociągania kolejnych stron danych w liście zdjęć.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Przewinięcie listy w celu pobrania kolejnej strony.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Zwiększenie liczby elementów na liście zdjęć.}
+}
+
+\eTOecard{tab:e2e:pho04}{Widok zdjęć po logowaniu na Rzeczywistym backendzie}{%
+    \eTOeid{E2E-PHO-04}
+    \eTOegoal{Weryfikacja pobrania zdjęć z backendu po logowaniu.}
+    \eTOetype{Rzeczywisty backend}
+    \eTOepre{Użytkownik posiada konto i może się na nie zalogować.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Logowanie użytkownika.
+            \item Przejście do widoku zdjęć.
+            \item Weryfikacja obecności danych.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Poprawne wyświetlenie widoku oraz zdjęć użytkownika.}
+}
+
+%------------------------------------------------
+\subsection{User dashboard -- Profile}
+
+\eTOecard{tab:e2e:pro01}{Wyświetlenie profilu użytkownika (statystyki i popularne zdjęcia)}{%
+    \eTOeid{E2E-PRO-01}
+    \eTOegoal{Weryfikacja poprawnej prezentacji profilu użytkownika.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie profilu własnego.
+            \item Weryfikacja statystyk oraz wyświetlenia najpopularniejszych zdjęć.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Obecność zdjęcia profilowego, statystyk oraz sekcji najpopularniejszych zdjęć.}
+}
+
+\eTOecard{tab:e2e:pro02}{Komunikat o braku zdjęć w profilu}{%
+    \eTOeid{E2E-PRO-02}
+    \eTOegoal{Weryfikacja obsługi pustej listy zdjęć w profilu.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie profilu własnego z pustą listą zdjęć.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Wyświetlenie komunikatu o braku dodanych zdjęć.}
+}
+
+\eTOecard{tab:e2e:pro03}{Nawigacja do listy znajomych z poziomu profilu}{%
+    \eTOeid{E2E-PRO-03}
+    \eTOegoal{Weryfikacja nawigacji do widoku znajomych.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Kliknięcie statystyki \textit{Friends}.
+            \item Oczekiwanie na załadowanie widoku znajomych.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Przejście do \texttt{/account/friends}.}
+}
+
+\eTOecard{tab:e2e:pro04}{Nawigacja do zdjęć z poziomu profilu}{%
+    \eTOeid{E2E-PRO-04}
+    \eTOegoal{Weryfikacja nawigacji do widoku zdjęć.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Kliknięcie statystyki \textit{Photos}.
+            \item Oczekiwanie na załadowanie widoku zdjęć.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Przejście do \texttt{/account/photos}.}
+}
+
+\eTOecard{tab:e2e:pro05}{Wyświetlenie profilu innego użytkownika (akcje follow/friends)}{%
+    \eTOeid{E2E-PRO-05}
+    \eTOegoal{Weryfikacja widoczności akcji społecznościowych na profilu innego użytkownika.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie profilu innego użytkownika.
+            \item Weryfikacja dostępnych akcji.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Widoczność przycisków \textit{follow} oraz \textit{add to friends}.}
+}
+
+\eTOecard{tab:e2e:pro06}{Wysłanie żądania follow oraz zaproszenia do znajomych}{%
+    \eTOeid{E2E-PRO-06}
+    \eTOegoal{Weryfikacja poprawnych żądań HTTP dla akcji follow/friends.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Kliknięcie \textit{follow}.
+            \item Kliknięcie \textit{add to friends}.
+            \item Weryfikacja żądań HTTP.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Wysłanie żądań \texttt{PATCH} z poprawnymi parametrami.}
+}
+
+\eTOecard{tab:e2e:pro07}{Załadowanie profilu własnego po logowaniu na Rzeczywistym backendzie}{%
+    \eTOeid{E2E-PRO-07}
+    \eTOegoal{Weryfikacja poprawnego wyświetlenia profilu po logowaniu.}
+    \eTOetype{Rzeczywisty backend}
+    \eTOepre{Użytkownik posiada konto i może się na nie zalogować.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Logowanie.
+            \item Przejście do profilu własnego.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Poprawne wyświetlenie profilu oraz elementów interfejsu.}
+}
+
+%------------------------------------------------
+\subsection{User dashboard -- Settings}
+
+\eTOecard{tab:e2e:set01}{Wyświetlenie danych konta i otwarcie formularza zmiany nazwy użytkownika}{%
+    \eTOeid{E2E-SET-01}
+    \eTOegoal{Weryfikacja obecności danych konta i możliwości edycji nazwy użytkownika.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie ustawień.
+            \item Weryfikacja pól.
+            \item Wybranie opcji \textit{Edit} dla nazwy użytkownika.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Wyświetlenie formularza zmiany nazwy użytkownika.}
+}
+
+\eTOecard{tab:e2e:set02}{Zmiana nazwy użytkownika}{%
+    \eTOeid{E2E-SET-02}
+    \eTOegoal{Weryfikacja wysłania poprawnego żądania zmiany nazwy użytkownika.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Wprowadzenie nowej nazwy.
+            \item Zapisanie zmian.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Wysłanie żądania \texttt{PATCH} oraz komunikat o powodzeniu.}
+}
+
+\eTOecard{tab:e2e:set03}{Zmiana adresu e-mail}{%
+    \eTOeid{E2E-SET-03}
+    \eTOegoal{Weryfikacja wysłania poprawnego żądania zmiany e-mail.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Wprowadzenie nowego adresu e-mail.
+            \item Zapisanie zmian.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Wysłanie żądania \texttt{PATCH} oraz komunikat o powodzeniu.}
+}
+
+\eTOecard{tab:e2e:set04}{Zmiana hasła}{%
+    \eTOeid{E2E-SET-04}
+    \eTOegoal{Weryfikacja procesu zmiany hasła.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Wprowadzenie starego i nowego hasła (z potwierdzeniem).
+            \item Zapis zmian.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Wysłanie żądania \texttt{PATCH} oraz komunikat o powodzeniu.}
+}
+
+\eTOecard{tab:e2e:set05}{Ograniczone ustawienia dla konta OAuth}{%
+    \eTOeid{E2E-SET-05}
+    \eTOegoal{Weryfikacja ograniczeń edycji danych dla kont OAuth.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Użytkownik jest zalogowany kontem z providerem OAuth.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie ustawień dla użytkownika z providerem OAuth.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Brak formularzy edycji danych oraz wyświetlenie informacji o providerze.}
+}
+
+\eTOecard{tab:e2e:set06}{Wyświetlenie ustawień po logowaniu na Rzeczywistym backendzie}{%
+    \eTOeid{E2E-SET-06}
+    \eTOegoal{Weryfikacja poprawnego wyświetlenia ustawień po logowaniu.}
+    \eTOetype{Rzeczywisty backend}
+    \eTOepre{Użytkownik posiada konto i może się na nie zalogować.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Logowanie.
+            \item Przejście do ustawień.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Poprawne wyświetlenie danych konta.}
+}
+
+\eTOecard{tab:e2e:set07}{Zmiana hasła na Rzeczywistym backendzie oraz ponowne logowanie}{%
+    \eTOeid{E2E-SET-07}
+    \eTOegoal{Weryfikacja zmiany hasła i ponownego logowania.}
+    \eTOetype{Rzeczywisty backend}
+    \eTOepre{Użytkownik posiada konto lokalne (nie OAuth).}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Wykonanie logowania użytkownika.
+            \item Przejście do ustawień i zmiana hasła.
+            \item Wyczyszczenie danych sesyjnych po stronie przeglądarki.
+            \item Ponowne logowanie z nowym hasłem.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Możliwość zalogowania się nowym hasłem oraz poprawne załadowanie widoku ustawień.}
+}
+
+%------------------------------------------------
+\subsection{User dashboard -- Social (friends/followed/followers)}
+
+\eTOecard{tab:e2e:soc01}{Stan pusty listy znajomych}{%
+    \eTOeid{E2E-SOC-01}
+    \eTOegoal{Weryfikacja obsługi pustej listy znajomych.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie widoku listy społeczności.
+            \item Pobranie pustej listy znajomych.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Wyświetlenie komunikatu o braku znajomych.}
+}
+
+\eTOecard{tab:e2e:soc02}{Przełączanie zakładek friends/followed/followers}{%
+    \eTOeid{E2E-SOC-02}
+    \eTOegoal{Weryfikacja przełączania zakładek i poprawnego wyświetlania danych.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie widoku społeczności.
+            \item Weryfikacja listy znajomych.
+            \item Przełączenie zakładki na \textit{followed}, a następnie \textit{followers}.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Wyświetlenie list odpowiednich dla wybranych zakładek.}
+}
+
+\eTOecard{tab:e2e:soc03}{\textit{Infinite scroll} na liście znajomych}{%
+    \eTOeid{E2E-SOC-03}
+    \eTOegoal{Weryfikacja dociągania kolejnych stron danych w liście społeczności.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Przewinięcie listy do dołu w celu pobrania kolejnej strony danych.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Dołączenie kolejnych kart użytkowników do listy.}
+}
+
+\eTOecard{tab:e2e:soc04}{Obsługa zaproszeń do znajomych}{%
+    \eTOeid{E2E-SOC-04}
+    \eTOegoal{Weryfikacja akceptowania zaproszeń i wysyłania poprawnych żądań.}
+    \eTOetype{Mockowane API}
+    \eTOepre{Zasymulowanie zalogowania poprzez wpisy w \textit{localStorage}.}
+    \eTOesteps{%
+        \begin{tabitemizeeTOe}
+            \item Otwarcie widoku społeczności.
+            \item Przejście do widoku zaproszeń (\textit{See friend invites}).
+            \item Akceptacja wybranego zaproszenia.
+        \end{tabitemizeeTOe}
+    }
+    \eTOeexpected{Wysłanie żądania zmiany statusu zaproszenia oraz brak błędów w interfejsie.}
+}
