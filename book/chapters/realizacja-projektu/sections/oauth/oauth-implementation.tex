@@ -63,3 +63,14 @@ przekierowań, autoryzacji oraz wartości danych uwierzytelniających (rys. \ref
     \caption{Konfiguracja OAuth w Spring Boot}
     \label{fig:oauth-config}
 \end{figure}
+
+Po pomyślnej autoryzacji użytkownik przekierowywany jest na \glslink{endpoint} \glslink{backend}{backendu}
+\texttt{/account/login-success}, w którym z serwisu \texttt{accountService} wywoływana jest
+metoda \texttt{handleOAuth2User} (rys. \ref{fig:oauth-service-impl}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-oauth/oauth_service_impl}
+    \caption{Implementacja metody handleOAuth2User}
+    \label{fig:oauth-service-impl}
+\end{figure}
