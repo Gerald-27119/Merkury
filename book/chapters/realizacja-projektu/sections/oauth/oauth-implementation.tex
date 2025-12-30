@@ -26,3 +26,20 @@ Poniżej przedstawiono diagram opisujący przepływ \glslink{oauth}{OAuth'a} 2.0
     \item \texttt{Resource Server} \textendash \space serwer, na którym przechowywany jest zasób; na podstawie uprawnień
     \texttt{Client'a} przekazuje mu go lub odmawia dostępu
 \end{itemize}
+
+Opis przepływu:
+\begin{enumerate}[label=\Alph*.]
+    \item \texttt{Client} prosi \texttt{Resource Owner'a} o dostęp do zasobu określając zakres oraz typy operacji, które będzie
+    na nim wykonywać.
+    Często zapytanie zamiast trafiać bezpośrednio do \texttt{Resource Owner'a} obsługiwane jest przez serwer autentykacji, czyli
+    miejsce w którym użytkownik musi się zalogować do systemu.
+    \item \texttt{Client'owi} zwracane jest potwierdzenie przyznania dostępu, na przykład w formie tokenu.
+    \item \texttt{Client} przesyła potwierdzenie dostępu do \texttt{Authorization Server'a} uwierzytelniając się i prosząc
+    o token dostępu do zasobu z \texttt{Resource Server'a}.
+    \item \texttt{Authorization Server} sprawdza przesłane dane i jeśli proces walidacji zostanie zakończony pomyślnie,
+    przekazuje token dostępu do zasobu.
+    \item \texttt{Client} wysyła zapytanie z uzyskanym wcześniej tokenem do \texttt{Resource Server'a} prosząc o przesłanie
+    zasobu.
+    \item \texttt{Resource Server} przeprowadza walidację tokena i jeśli zakończy się ona powodzeniem, przesyła zasób
+    \texttt{Client'owi}.
+\end{enumerate}
