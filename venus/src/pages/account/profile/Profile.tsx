@@ -91,7 +91,7 @@ export default function Profile({
                     {!isProfileForViewer && (
                         <button
                             onClick={() => fileInputRef.current?.click()}
-                            className="absolute inset-0 flex cursor-pointer items-center justify-center gap-x-2 rounded-full bg-black/40 text-lg opacity-0 transition hover:opacity-100"
+                            className="absolute inset-0 flex cursor-pointer items-center justify-center gap-x-2 rounded-full bg-white/40 dark:bg-black/40 text-lg opacity-0 transition hover:opacity-100"
                         >
                             <FaEdit />
                             <p>Change profile photo.</p>
