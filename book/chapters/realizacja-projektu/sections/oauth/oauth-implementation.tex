@@ -16,3 +16,13 @@ Poniżej przedstawiono diagram opisujący przepływ \glslink{oauth}{OAuth'a} 2.0
     \caption{Diagram przedstawiający przepły OAuth 2.0; zacytowany z \cite{oauth-docs-rfc}}
     \label{fig:oauth-flow-diagram}
 \end{figure}
+
+\begin{itemize}
+    \item \texttt{Client} \textendash \space to aplikacja prosząca o dostęp do zasobu, np. adresu email, nazwy użytkownika
+    oraz określająca rodzaj dostępu (odczyt, edycja)
+    \item \texttt{Resource Owner} \textendash \space właściciel zasobu, do krórego dostęp prosi aplikacja; w tym wypadku
+    jest to użytkownik systemu
+    \item \texttt{Authorization Server} \textendash \space serwer nadający \texttt{Client'owi} uprawnienia do danego zasobu
+    \item \texttt{Resource Server} \textendash \space serwer, na którym przechowywany jest zasób; na podstawie uprawnień
+    \texttt{Client'a} przekazuje mu go lub odmawia dostępu
+\end{itemize}
