@@ -1,6 +1,7 @@
 %! Author = Stanisław Oziemczuk
 %! Date = 30/12/2025
 
+
 \section{Implementacja OAuth}
 \label{sec:implementacja-oauth}
 
@@ -43,3 +44,22 @@ Opis przepływu:
     \item \texttt{Resource Server} przeprowadza walidację tokena i jeśli zakończy się ona powodzeniem, przesyła zasób
     \texttt{Client'owi}.
 \end{enumerate}
+
+W projekcie do implementacji \glslink{oauth}{OAutha 2.0} wykorzystano \glslink{biblioteka}{bilioteki} \texttt{Spring Boot}:
+\texttt{spring-boot-starter-oauth2-resource-server} oraz \\ \texttt{spring-boot-starter-oauth2-client}.
+Zdecydowano się na umożliwienie użytkownikom logowania i rejestracji do aplikacji poprzez konta Google i \glslink{github}{GitHub},
+dalej nazywanych \emph{Provider'ami}.
+Aby móc korzystać z usługi autoryzacji, u każdego z \texttt{Provider'ów} należało zarejestrować aplikację poprzez
+utworzenie konta deweloperskiego i podanie linków aplikacji, na które użytkonicy po pomyślnym procesie będą przekierowywani.
+Od każdego z nich otrzymano parę: \texttt{CLIENT\_ID}, \texttt{CLIENT\_SECRET}, które pozwalają na uwierzytelnienie aplikacji.
+Dane te nie powinny być dostępne dla osób trzecich, dlatego ze względów bezpieczeństwa umieszczono jest w zmiennych
+środowikowych systemu.
+Wymienione wyżej biblioteki wymagają skonfigurowania dla każdego z \texttt{Provider'ów} zakresu dostępu do zasobu, linków do
+przekierowań, autoryzacji oraz wartości danych uwierzytelniających (rys. \ref{fig:oauth-config}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-oauth/oauth_konfiguracja}
+    \caption{Konfiguracja OAuth w Spring Boot}
+    \label{fig:oauth-config}
+\end{figure}
