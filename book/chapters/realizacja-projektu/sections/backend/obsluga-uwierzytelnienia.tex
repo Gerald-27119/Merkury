@@ -115,7 +115,7 @@ Dzięki temu adresy przekierowań nie są zapisane na sztywno w kodzie.
 Zawiera zestaw pól opisujących: stronę po logowaniu, adres strony logowania OAuth2,
 URL sukcesu i porażki, URL wylogowania oraz URL wykorzystywany w procesie resetu hasła.
 Dodatkowo przechowywany jest adres endpointu służącego do pobrania e-maila z GitHuba.
-%TODOTutaj + slowniczek
+
 \innerheading{Plik JwtProperties}
 
 \begin{figure}[H]
@@ -125,17 +125,17 @@ Dodatkowo przechowywany jest adres endpointu służącego do pobrania e-maila z 
     \label{fig:jwt-properties}
 \end{figure}
 
-Klasa \texttt{JwtProperties} przechowuje parametry związane z obsługą tokenów JWT w aplikacji.
-Zastosowano mechanizm \texttt{@ConfigurationProperties(prefix = "jwt")},
-dzięki czemu wartości mogą pochodzić z konfiguracji środowiska
-(np.\ inne w środowisku lokalnym i produkcyjnym).
+Klasa \texttt{JwtProperties} jest klasą konfiguracyjną mapowaną przez Spring Boot z użyciem
+\texttt{@ConfigurationProperties(prefix = "jwt")},
+co wiąże pola obiektu z wpisami \texttt{jwt.*} z konfiguracji aplikacji z pliku \texttt{application.properties}.
+Pozwala to centralnie zarządzać parametrami JWT i nadpisywać je bez modyfikacji kodu.
 
 Najważniejszym elementem klasy jest pole \texttt{key} typu \texttt{SecretKey},
 reprezentujące klucz kryptograficzny używany do podpisywania i weryfikacji tokenów.
 Pozostałe pola opisują zachowanie tokenu i sposób jego przechowywania po stronie klienta:
-\texttt{tokenName} określa nazwę tokenu (np.\ nazwę cookie),
-\texttt{tokenExpiration} oraz \texttt{tokenCookieExpiration} definiują czas ważności tokenu i/lub cookie,
-a \texttt{oneDayInMs} pozwala spójnie przeliczać okresy czasu (np.\ w milisekundach).
+\texttt{tokenName} określa nazwę tokenu,
+\texttt{tokenExpiration} oraz \texttt{tokenCookieExpiration} definiują czas ważności tokenu i ciasteczka przechowującego token,
+a \texttt{oneDayInMs} pozwala spójnie przeliczać okresy czasu.
 
 \innerheading{Plik JwtConfig}
 
@@ -150,14 +150,14 @@ Klasa \texttt{JwtConfig} jest klasą konfiguracyjną Springa (\texttt{@Configura
 której zadaniem jest utworzenie beana \texttt{JwtProperties} wraz z kluczem kryptograficznym.
 W metodzie \texttt{jwtProperties()} tworzony jest obiekt \texttt{JwtProperties},
 a klucz \texttt{SecretKey} generowany jest przez bibliotekę \texttt{jjwt}
-(np.\ poprzez \texttt{Jwts.SIG.HS256.key().build()}).
+(poprzez \texttt{Jwts.SIG.HS256.key().build()}).
 
 Dzięki temu pozostałe komponenty (generator, manager, filtr) korzystają ze spójnie dostarczonego beana,
 zamiast utrzymywać klucz w wielu miejscach.
 
 \innerheading{Plik SecurityConfig}
 
-% TODO: za małe zdjecia (docelowo można dać 1-2 większe zamiast 4 małych)
+% TODO: za małe zdjecia
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/SecurityConfig/1}
@@ -189,8 +189,10 @@ zamiast utrzymywać klucz w wielu miejscach.
 W pliku \texttt{SecurityConfig} zdefiniowano docelową politykę bezpieczeństwa backendu,
 w tym sposób uwierzytelniania i autoryzacji dla \gls{api}.
 Konfiguracja rozdziela ruch na:
-(1) ścieżki publiczne dostępne bez logowania,
-oraz (2) ścieżki prywatne wymagające poprawnego uwierzytelnienia.
+\begin{itemize}
+    \item \textbf{Ścieżki publiczne} -- dostępne bez logowania.
+    \item \textbf{Ścieżki prywatne} -- wymagające poprawnego uwierzytelnienia.
+\end{itemize}
 
 \innerheading{Adnotacje i rola klasy konfiguracyjnej}
 
@@ -199,46 +201,46 @@ Klasa \texttt{SecurityConfig} jest oznaczona adnotacjami:
     \item \texttt{@Configuration} -- wskazuje, że klasa dostarcza definicje beanów dla kontenera Spring.
     \item \texttt{@EnableWebSecurity} -- aktywuje mechanizmy bezpieczeństwa na poziomie aplikacji webowej.
     \item \texttt{@EnableMethodSecurity} -- umożliwia zabezpieczanie logiki na poziomie metod
-    (np.\ przez adnotacje typu \texttt{@PreAuthorize}).
+    (przez adnotacje typu \texttt{@PreAuthorize}).
     \item \texttt{@RequiredArgsConstructor} -- wstrzykuje zależności poprzez konstruktor
-    (m.in.\ \texttt{UrlsProperties} oraz \texttt{CustomUserDetailsService}).
+    (\texttt{UrlsProperties} oraz \texttt{CustomUserDetailsService}).
 \end{itemize}
 
 \innerheading{Podział ruchu na ścieżki publiczne i prywatne}
 
 Konfiguracja wykorzystuje dwa obiekty typu \texttt{RequestMatcher}:
 \begin{itemize}
-    \item \texttt{publicPathsMatcher} -- złożony matcher (\texttt{OrRequestMatcher}) wskazujący ścieżki publiczne,
-    m.in.\ \texttt{/public/**}, \texttt{/login/**}, \texttt{/oauth2/**}, \texttt{/error} oraz \texttt{/actuator/**}.
-    \item \texttt{privatePathsMatcher} -- negacja matchera publicznego (\texttt{NegatedRequestMatcher}),
-    czyli „wszystko poza ścieżkami publicznymi”.
+    \item \texttt{publicPathsMatcher} -- matcher wskazujący ścieżki publiczne,
+    \item \texttt{privatePathsMatcher} -- matcher wskazujący ścieżki wymagające uwierzytelnienia (negacja matchera publicznego (\texttt{NegatedRequestMatcher})).
 \end{itemize}
 
-Takie podejście pozwala stosować różne zasady bezpieczeństwa dla różnych obszarów aplikacji,
-bez mieszania reguł w jednym, trudnym do utrzymania łańcuchu filtrów.
+Takie podejście pozwala stosować różne zasady bezpieczeństwa dla różnych obszarów aplikacji.
 
 \innerheading{Dwa niezależne łańcuchy filtrów Spring Security}
 
 W konfiguracji zdefiniowano dwa \texttt{SecurityFilterChain} z różnymi priorytetami (\texttt{@Order}),
 które są wybierane na podstawie dopasowania \texttt{securityMatcher(...)}.
 
+Przyjęte ustawienia zostały przygotowane z myślą o środowisku deweloperskim.
+
 \medskip
 \noindent\textbf{Łańcuch dla ścieżek publicznych.}
 Bean \texttt{publicSecurityFilterChain} (z \texttt{@Order(1)}) obsługuje wyłącznie żądania
 pasujące do \texttt{publicPathsMatcher}. Jego główne cechy:
 \begin{itemize}
-    \item \textbf{Brak wymogu uwierzytelnienia}: \texttt{permitAll()} dopuszcza każde żądanie w tej przestrzeni URL.
-    \item \textbf{Konfiguracja CORS}: dopuszcza komunikację z wybranych originów (ważne dla \gls{frontend} na innym porcie).
-    \item \textbf{Wyłączenie CSRF}: upraszcza obsługę wywołań \gls{api} wykonywanych przez klienta (np.\ SPA),
-    gdzie typowo stosuje się tokeny/nagłówki zamiast klasycznych formularzy.
+    \item \textbf{Brak wymogu uwierzytelnienia}: \texttt{permitAll()} dopuszcza każde żądanie.
+    \item \textbf{Konfiguracja CORS}: dopuszcza komunikację z frontendem na innym porcie niż działa backend.
+    \item \textbf{Wyłączenie CSRF}: w przypadku aplikacji klienckiej typu \gls{spa}, która komunikuje się z backendem wyłącznie poprzez \gls{api},
+    mechanizm CSRF nie jest wykorzystywany.
     \item \textbf{Obsługa OAuth2 logowania}: \texttt{oauth2Login(...)} definiuje stronę logowania oraz adresy przekierowań
     po sukcesie i porażce, pobierane z \texttt{UrlsProperties}.
     \item \textbf{Logout dla sesji OAuth2}: \texttt{logout(...)} ustawia dedykowany URL wylogowania,
     czyści kontekst bezpieczeństwa, unieważnia sesję oraz usuwa cookie zawierające token
     (nazwa cookie pochodzi z \texttt{JwtProperties}).
-    \item \textbf{Zarządzanie sesją}: \texttt{SessionCreationPolicy.IF\_REQUIRED} tworzy sesję tylko wtedy, gdy jest potrzebna
-    (np.\ w scenariuszu OAuth2).
-    \item \textbf{Wyłączenie HTTP Basic}: \texttt{httpBasic().disable()} nie dopuszcza Basic Auth.
+    \item \textbf{Zarządzanie sesją}: \texttt{SessionCreationPolicy.IF\_REQUIRED} tworzy sesję tylko na potrzeby logowania lub rejestracji za pomocą OAuth2.
+    \item \textbf{Wyłączenie HTTP Basic}: \texttt{httpBasic().disable()} wyłącza mechanizm uwierzytelniania HTTP Basic,
+    w którym przeglądarka przesyła dane logowania zakodowane w nagłówku \texttt{Authorization}.
+    W projekcie nie jest on wykorzystywany, ponieważ uwierzytelnianie realizowane jest przez OAuth2 oraz tokeny JWT.
 \end{itemize}
 
 \medskip
@@ -251,9 +253,10 @@ czyli dopasowanych do \texttt{privatePathsMatcher}. Najważniejsze elementy:
     \item \textbf{Filtr JWT wpięty w łańcuch}: \texttt{addFilterBefore(jwtAuthFilter, LogoutFilter.class)}
     weryfikuje token zanim przetwarzanie przejdzie do dalszych elementów security.
     \item \textbf{CORS i CSRF}: analogicznie jak w części publicznej włączono CORS i wyłączono CSRF.
-    \item \textbf{Zarządzanie sesją}: pozostawiono \texttt{SessionCreationPolicy.IF\_REQUIRED}, co pozwala łączyć podejście tokenowe
-    z obszarami wymagającymi sesji (np.\ przepływy logowania).
-    \item \textbf{Wyłączenie HTTP Basic}: nie dopuszcza alternatywnej metody uwierzytelniania.
+    \item \textbf{Zarządzanie sesją}: \texttt{SessionCreationPolicy.IF\_REQUIRED} tworzy sesję tylko na potrzeby logowania lub rejestracji za pomocą OAuth2.
+    \item \textbf{Wyłączenie HTTP Basic}: \texttt{httpBasic().disable()} wyłącza mechanizm uwierzytelniania HTTP Basic,
+    w którym przeglądarka przesyła dane logowania zakodowane w nagłówku \texttt{Authorization}.
+    W projekcie nie jest on wykorzystywany, ponieważ uwierzytelnianie realizowane jest przez OAuth2 oraz tokeny JWT.
 \end{itemize}
 
 \innerheading{Konfiguracja CORS}
@@ -262,9 +265,10 @@ Metoda \texttt{corsConfigurationSource()} definiuje politykę \gls{cors} dla ca�
 \begin{itemize}
     \item dozwolone originy: \texttt{http://localhost:5173} oraz \texttt{http://localhost:5174},
     \item dozwolone metody: \texttt{GET, POST, PUT, DELETE, OPTIONS, PATCH},
-    \item dozwolone nagłówki: m.in.\ \texttt{Authorization} oraz \texttt{Content-Type},
-    \item \texttt{allowCredentials = true} -- dopuszcza wysyłanie cookies/poświadczeń w zapytaniach,
-    \item \texttt{maxAge = 3600} -- cache polityki CORS po stronie przeglądarki.
+    \item dozwolone nagłówki: \texttt{Authorization} oraz \texttt{Content-Type},
+    \item \texttt{allowCredentials = true} -- dopuszcza wysyłanie ciasteczek w zapytaniach,
+    \item \texttt{maxAge = 3600} -- określa czas, przez który przeglądarka może buforować wynik zapytania preflight
+    (\texttt{OPTIONS}) i nie wykonywać go ponownie dla podobnych żądań, co ogranicza liczbę zapytań wysyłanych przez klienta.
 \end{itemize}
 
 \innerheading{Pozostałe beany: uwierzytelnianie i elementy JWT}
@@ -273,8 +277,7 @@ W konfiguracji zdefiniowano dodatkowe komponenty wymagane przez warstwę securit
 \begin{itemize}
     \item \texttt{AuthenticationManager} -- pobierany z \texttt{AuthenticationConfiguration},
     umożliwia uruchamianie procesu uwierzytelniania zgodnie z konfiguracją Spring Security.
-    \item \texttt{PasswordEncoder} -- zastosowano \texttt{BCryptPasswordEncoder},
-    czyli bezpieczny mechanizm haszowania haseł.
+    \item \texttt{PasswordEncoder} -- zastosowano \texttt{BCryptPasswordEncoder} do haszowania haseł.
     \item \texttt{JwtAuthFilter} -- tworzony jako bean wraz z zależnościami
     (\texttt{JwtGenerator}, \texttt{JwtManager}, \texttt{JwtProperties}, \texttt{CustomUserDetailsService}).
 \end{itemize}
@@ -298,10 +301,10 @@ w \texttt{HttpOnly cookie}, co ogranicza możliwość jego odczytu przez kod Jav
 
 Implementację rozbito na cztery współpracujące komponenty:
 \begin{itemize}
-    \item \texttt{JwtGenerator} -- generuje token na podstawie aktualnego kontekstu bezpieczeństwa,
-    \item \texttt{JwtManager} -- weryfikuje token i obsługuje operacje na cookie,
-    \item \texttt{JwtAuthFilter} -- wpięty w łańcuch filtrów; buduje \texttt{Authentication} dla żądań prywatnych,
-    \item \texttt{JwtService} -- udostępnia prostszy interfejs do odświeżenia tokenu z poziomu logiki aplikacyjnej.
+    \item \texttt{JwtGenerator} -- generuje token,
+    \item \texttt{JwtManager} -- weryfikuje token i obsługuje operacje na ciasteczku,
+    \item \texttt{JwtAuthFilter} -- buduje \texttt{Authentication} dla żądań prywatnych,
+    \item \texttt{JwtService} -- udostępnia interfejs do odświeżenia tokenu z poziomu logiki aplikacyjnej.
 \end{itemize}
 
 \innerheading{Plik JwtManager}
@@ -321,19 +324,18 @@ Implementację rozbito na cztery współpracujące komponenty:
 \end{figure}
 
 Klasa \texttt{JwtManager} skupia w jednym miejscu operacje techniczne związane z JWT:
-walidację podpisu, parsowanie danych z tokenu, weryfikację czasu ważności oraz obsługę cookie.
+walidację podpisu, parsowanie danych z tokenu, weryfikację czasu ważności oraz obsługę ciasteczka.
 
 Metoda \texttt{validateToken(...)} odpowiada za sprawdzenie, czy token istnieje i czy posiada poprawny podpis.
 Brak tokenu lub pusty token kończy się wyjątkiem Spring Security, natomiast niezgodny podpis
-jest raportowany poprzez wyjątek domenowy. W praktyce pozwala to jednoznacznie odróżnić sytuację
-„brak uwierzytelnienia” od „próba użycia zmodyfikowanego tokenu”.
+jest raportowany poprzez wyjątek domenowy.
 
 Metody \texttt{getUsernameFromJWT(...)} oraz \texttt{getExpirationDateFromToken(...)} parsują token
 i odczytują odpowiednio: identyfikator użytkownika (subject) oraz datę wygaśnięcia.
 Obsłużono również scenariusz tokenu wygasłego (\texttt{ExpiredJwtException}),
 gdzie dane z tokenu mogą być nadal wykorzystywane do spójnej obsługi błędu.
 
-Operacje na cookie są realizowane przez:
+Operacje na ciasteczku są realizowane przez:
 \texttt{addTokenToCookie(...)} (zapis) oraz \texttt{getJWTFromCookie(...)} (odczyt).
 Cookie jest ustawiane jako \texttt{HttpOnly} i ma nazwę określoną w \texttt{JwtProperties.tokenName}.
 
@@ -355,7 +357,7 @@ Wygenerowany token zawiera podstawowe informacje wymagane do identyfikacji użyt
 \end{itemize}
 
 Token jest podpisywany kluczem symetrycznym HS256, przechowywanym w \texttt{JwtProperties.key}.
-Podpis zapewnia integralność tokenu i umożliwia serwerowi weryfikację, czy token nie został zmodyfikowany.
+Podpis umożliwia serwerowi weryfikację, czy token nie został zmodyfikowany.
 
 \innerheading{Plik JwtAuthFilter}
 
@@ -377,11 +379,11 @@ Klasa \texttt{JwtAuthFilter} dziedziczy po \texttt{OncePerRequestFilter},
 co gwarantuje wykonanie filtra maksymalnie raz dla pojedynczego żądania.
 Filtr jest dołączany do łańcucha filtrów dla endpointów prywatnych w \texttt{SecurityConfig}
 (\texttt{addFilterBefore(...)}), dzięki czemu realizuje uwierzytelnianie JWT
-w sposób scentralizowany dla całej przestrzeni URL wymagającej logowania.
+w sposób scentralizowany dla wszystkich endpointów wymagających uwierzytelnienia.
 
 W metodzie \texttt{doFilterInternal(...)} filtr realizuje następujące kroki:
 \begin{itemize}
-    \item odczytuje token z cookie poprzez \texttt{JwtManager.getJWTFromCookie(...)}.
+    \item odczytuje token z ciasteczka poprzez \texttt{JwtManager.getJWTFromCookie(...)}.
     \item weryfikuje token (\texttt{JwtManager.validateToken(...)}); w przypadku błędu zwraca odpowiedź \texttt{401 Unauthorized}
     w formacie JSON i nie przekazuje żądania dalej.
     \item odczytuje identyfikator użytkownika (subject) z tokenu i ładuje dane użytkownika
@@ -393,9 +395,9 @@ W metodzie \texttt{doFilterInternal(...)} filtr realizuje następujące kroki:
 
 W filtrze zaimplementowano mechanizm odnawiania tokenu (\texttt{renewToken(...)}):
 jeżeli token jest nadal ważny, ale do jego wygaśnięcia pozostał czas krótszy niż jeden dzień
-(\texttt{JwtProperties.oneDayInMs}), generowany jest nowy token i zapisywany w cookie.
-Pozwala to utrzymać ciągłość sesji użytkownika przy regularnej aktywności,
-bez konieczności jawnego „refresh” po stronie klienta.
+(\texttt{JwtProperties.oneDayInMs}), generowany jest nowy token i zapisywany w ciasteczku.
+Pozwala to utrzymać ciągłość zapytań użytkownika przy regularnej aktywności,
+bez konieczności ponownego logowania po stronie klienta.
 
 \innerheading{Plik JwtService}
 
@@ -409,7 +411,7 @@ bez konieczności jawnego „refresh” po stronie klienta.
 Klasa \texttt{JwtService} udostępnia uproszczony interfejs do odświeżania tokenu użytkownika
 z poziomu logiki aplikacyjnej. Metoda \texttt{refreshUserToken(...)} ustawia tymczasowo
 \texttt{Authentication} w \texttt{SecurityContextHolder} na podstawie przekazanego użytkownika,
-a następnie generuje nowy token i zapisuje go w cookie.
+a następnie generuje nowy token i zapisuje go w ciasteczku.
 Takie podejście jest przydatne w miejscach, gdzie po stronie serwera następuje potwierdzenie tożsamości
 lub konieczność ponownego wystawienia tokenu.
 
@@ -434,8 +436,7 @@ Zdefiniowano również metodę \texttt{loadUserDetailsFromSecurityContext()},
 która umożliwia bezpieczne pobranie aktualnego użytkownika już po przejściu procesu uwierzytelnienia.
 Metoda sprawdza, czy w \texttt{SecurityContextHolder} istnieje \texttt{Authentication},
 czy użytkownik nie jest anonimowy oraz czy typ principal odpowiada \texttt{UserDetails}.
-W razie braku uwierzytelnienia zgłaszany jest wyjątek,
-co upraszcza implementację logiki domenowej wymagającej identyfikacji aktualnego użytkownika.
+W razie braku uwierzytelnienia zgłaszany jest wyjątek.
 
 \innerheading{Plik CustomAccessDeniedHandler}
 
@@ -446,27 +447,23 @@ co upraszcza implementację logiki domenowej wymagającej identyfikacji aktualne
     \label{fig:custom-access-denied-handler}
 \end{figure}
 
-W aplikacji rozdzielono dwa scenariusze błędów bezpieczeństwa, które z perspektywy klienta mają inne znaczenie:
+W aplikacji rozdzielono dwa scenariusze błędów bezpieczeństwa:
 \begin{itemize}
-    \item \textbf{401 Unauthorized} -- brak poprawnego uwierzytelnienia (np.\ brak tokenu lub błędny token).
+    \item \textbf{401 Unauthorized} -- brak poprawnego uwierzytelnienia (brak tokenu lub błędny token).
     Ten przypadek jest obsługiwany w \texttt{JwtAuthFilter}, który zwraca odpowiedź JSON z kodem 401.
     \item \textbf{403 Forbidden} -- użytkownik jest uwierzytelniony, ale nie posiada wymaganych uprawnień do zasobu.
     Ten przypadek jest obsługiwany przez \texttt{CustomAccessDeniedHandler}, który zwraca spójny format odpowiedzi JSON z kodem 403.
 \end{itemize}
-
-Dzięki temu frontend może rozróżniać sytuację „użytkownik nie jest zalogowany”
-od sytuacji „użytkownik jest zalogowany, ale nie ma dostępu”.
-
 
 % Autoryzacja domenowa
 
 \subsubsection{Autoryzacja domenowa na poziomie metod}
 \label{subsubsec:autoryzacja-domenowa}
 
-Oprócz reguł opartych o przestrzeń URL, aplikacja wykorzystuje również autoryzację domenową
+Oprócz reguł opartych o ścieżki URL, aplikacja wykorzystuje również autoryzację domenową
 na poziomie metod (wspieraną przez \texttt{@EnableMethodSecurity}).
-Podejście to jest przydatne w sytuacjach, gdzie dostęp do zasobu zależy od relacji biznesowej,
-np.\ przynależności użytkownika do czatu, bycia właścicielem zasobu lub członkiem grupy.
+Podejście to jest przydatne w sytuacjach, gdzie dostęp do zasobu zależy od relacji biznesowej.
+Wykorzystano ten mechanizm w celu sprawdzenia przynależności użytkownika do czatu.
 
 \innerheading{Plik ChatSecurityService}
 
@@ -482,9 +479,7 @@ o wskazanym identyfikatorze. Metoda \texttt{isUserAChatMember(...)}:
 \begin{itemize}
     \item pobiera tożsamość aktualnego użytkownika poprzez \texttt{CustomUserDetailsService.loadUserDetailsFromSecurityContext()},
     \item wykonuje zapytanie do repozytorium (\texttt{ChatRepository}), weryfikując istnienie czatu o danym ID
-    z użytkownikiem jako uczestnikiem (np.\ przez \texttt{existsByIdAndParticipantsUserUsername(...)}).
+    z użytkownikiem jako uczestnikiem.
 \end{itemize}
 
-Tak przygotowana metoda może być następnie wykorzystywana w zabezpieczeniach metod
-(np.\ w wyrażeniach SpEL w adnotacjach autoryzacyjnych), co pozwala wyrazić regułę biznesową
-wprost przy endpointach/operacjach, bez duplikowania logiki w wielu miejscach.
+Tak przygotowana metoda może być następnie wykorzystywana w zabezpieczeniach metod w warstwie logiki biznesowej aplikacji.
