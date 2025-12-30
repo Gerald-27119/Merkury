@@ -167,27 +167,45 @@ Każdy moduł rozwijano iteracyjnie, stopniowo rozszerzając jego zakres.
     wysyłanie i wyświetlanie plików oraz obrazów.
 \end{itemize}
 
-\subsubsection{Forum}
-\label{subsubsec:modul-forum}
+ \subsubsection{Forum}
+ \label{subsubsec:modul-forum}
 
-\begin{itemize}
-    \item \textbf{Podstawowa struktura forum} --
-    obsługa postów, kategorii, tagów oraz \glslink{paginacja}{paginacji}.
+ \begin{itemize}
+     \item \textbf{Zarządzanie postami przez użytkownika} --
+     edycja, usuwanie oraz dodawanie wraz z przypisywaniem kategorii i tagów.
 
-    \item \textbf{Edytor treści} --
-    integracja \glslink{rich-text-editor}{edytora rich-text} na potrzeby tworzenia postów.
+     \item \textbf{Edytor treści} --
+     integracja \glslink{rich-text-editor}{edytora rich-text} na potrzeby tworzenia i edycji postów.
 
-    \item \textbf{Media w postach} --
-    integracja z \glslink{azure-blob-storage}{Azure Blob Storage} do przesyłania
-    i przechowywania mediów.
+     \item \textbf{Multimedia w postach} --
+     integracja z \glslink{azure-blob-storage}{Azure Blob Storage} do przesyłania
+     i przechowywania mediów.
 
-    \item \textbf{Przeglądanie i sortowanie} --
-    dodanie opcji sortowań listy postów i mechanizmów sortowania.
+     \item \textbf{Przeglądanie, sortowanie oraz wyszukiwanie} --
+     możliwość sortowania listy postów oraz wyszukiwania postów z wykorzystaniem filtrów
+     (po kategoriach i tagach).
 
-    \item \textbf{Interakcje społecznościowe} --
-    komentarze do postów (dodawanie/edycja/usuwanie/głosowanie),
-    możliwość zgłaszania treści oraz obserwowanie postów.
-\end{itemize}
+     \item \textbf{Zarządzanie komentarzami przez użytkownika} --
+     dodawanie, edycja oraz usuwanie postów przez użytkownika.
+
+     \item \textbf{Głosowanie} --
+     możliwość głosowania na posty oraz komentarze.
+
+     \item \textbf{Zgłaszanie treści} --
+     możliwość zgłaszania postów i komentarzy jako nieodpowiednich.
+
+     \item \textbf{Obserwowanie postów} --
+     możliwość obserwowania wybranych postów.
+
+     \item \textbf{Udostępnianie postów} --
+     możliwość udostępniania postów poprzez link.
+
+     \item \textbf{Top 3 posty miesiąca} --
+     prezentacja trzech najpopularniejszych postów z danego miesiąca.
+
+     \item \textbf{Regulamin forum} --
+     udostępnienie regulaminu forum.
+ \end{itemize}
 
 \subsubsection{Wyszukiwarka spotów}
 \label{subsubsec:modul-wyszukiwarka}
