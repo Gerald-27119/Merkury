@@ -74,3 +74,11 @@ metoda \texttt{handleOAuth2User} (rys. \ref{fig:oauth-service-impl}).
     \caption{Implementacja metody handleOAuth2User}
     \label{fig:oauth-service-impl}
 \end{figure}
+
+Z tokenu przesłanego przez \texttt{Provider'a} odczytywany jest jego typ (Google lub \glslink{github}{GitHub}) oraz
+obiekt zakodowanego użytkownika.
+Następnie odczytywane są nazwa i adres email użytkownika, w przypadku niepowodzenia rzucany jest odpowiedni wyjątek.
+Po sprawdzeniu czy w bazie danych istnieje użytkownik istnieje, wywoływane są odpowiednio metody do logowania lub
+rejestracji.
+Pomyślny przebieg operacji skutkuje przekierowaniem na adres części \glslink{frontend}{frontendowej} aplikacji.
+
