@@ -5,7 +5,7 @@
 \section{Implementacja OAuth}
 \label{sec:implementacja-oauth}
 
-\glslink{oauth}{OAuth} w wersji 2.0 to \glslink{framework}{framework} umożliwiający autoryzację w aplikacji poprzez serwisy
+\glslink{oauth}{OAuth} w wersji 2.0 to \glslink{framework}{framework} umożliwiający autoryzację w systemach poprzez serwisy
 stron trzecich.
 Często stosowany jest w aplikacjach internetowych dając użytkownikom opcję zalogowania lub założenia konta za pomocą
 istniejących już kont Google, Facebook, \glslink{github}{GitHub} itd..
@@ -50,11 +50,11 @@ W projekcie do implementacji \glslink{oauth}{OAutha 2.0} wykorzystano \glslink{b
 Zdecydowano się na umożliwienie użytkownikom logowania i rejestracji do aplikacji poprzez konta Google i \glslink{github}{GitHub},
 dalej nazywanych \emph{Provider'ami}.
 Aby móc korzystać z usługi autoryzacji, u każdego z \texttt{Provider'ów} należało zarejestrować aplikację poprzez
-utworzenie konta deweloperskiego i podanie linków aplikacji, na które użytkonicy po pomyślnym procesie będą przekierowywani.
+utworzenie konta deweloperskiego i podanie linków, na które użytkonicy po pomyślnym procesie będą przekierowywani.
 Od każdego z nich otrzymano parę: \texttt{CLIENT\_ID}, \texttt{CLIENT\_SECRET}, które pozwalają na uwierzytelnienie aplikacji.
 Dane te nie powinny być dostępne dla osób trzecich, dlatego ze względów bezpieczeństwa umieszczono jest w zmiennych
 środowikowych systemu.
-Wymienione wyżej biblioteki wymagają skonfigurowania dla każdego z \texttt{Provider'ów} zakresu dostępu do zasobu, linków do
+Wymienione wyżej \glslink{biblioteka}{biblioteki} wymagają skonfigurowania dla każdego z \texttt{Provider'ów} zakresu dostępu do zasobu, linków do
 przekierowań, autoryzacji oraz wartości danych uwierzytelniających (rys. \ref{fig:oauth-config}).
 
 \begin{figure}[H]
@@ -64,7 +64,10 @@ przekierowań, autoryzacji oraz wartości danych uwierzytelniających (rys. \ref
     \label{fig:oauth-config}
 \end{figure}
 
-Po pomyślnej autoryzacji użytkownik przekierowywany jest na \glslink{endpoint} \glslink{backend}{backendu}
+W formularzu rejestracji i logowania znajdują się przyciski umożliwiające skorzystanie z kont w serwisach Google lub \glslink{github}{GitHub}.
+Kliknięcie ich powoduje przekierowanie na \glslink{endpoint}{endpoint} wygenerowany przez użyte \glslink{biblioteka}{biblioteki},
+następnie użytkownik przeniesiony jest na stronę wybranego \texttt{Provider'a}.
+Po pomyślnej autoryzacji następuje przekierowanie na \glslink{endpoint}{endpoint} \glslink{backend}{backendu} aplikacji
 \texttt{/account/login-success}, w którym z serwisu \texttt{accountService} wywoływana jest
 metoda \texttt{handleOAuth2User} (rys. \ref{fig:oauth-service-impl}).
 
@@ -75,10 +78,10 @@ metoda \texttt{handleOAuth2User} (rys. \ref{fig:oauth-service-impl}).
     \label{fig:oauth-service-impl}
 \end{figure}
 
-Z tokenu przesłanego przez \texttt{Provider'a} odczytywany jest jego typ (Google lub \glslink{github}{GitHub}) oraz
+Z tokenu przesłanego przez \texttt{Provider'a} ustalany jest jego typ (Google lub \glslink{github}{GitHub}) oraz
 obiekt zakodowanego użytkownika.
 Następnie odczytywane są nazwa i adres email użytkownika, w przypadku niepowodzenia rzucany jest odpowiedni wyjątek.
-Po sprawdzeniu czy w bazie danych istnieje użytkownik istnieje, wywoływane są odpowiednio metody do logowania lub
+Po sprawdzeniu czy w bazie danych użytkownik istnieje, wywoływane są odpowiednio metody do logowania lub
 rejestracji.
 Pomyślny przebieg operacji skutkuje przekierowaniem na adres części \glslink{frontend}{frontendowej} aplikacji.
 
