@@ -1,5 +1,73 @@
-%! Author = mateusz
-%! Date = 17/10/2025
+%! Author = kacper
+%! Date = 31/12/2025
 
 \section{Analiza ryzyka}
 \label{sec:analiza-ryzyka}
+
+Analiza ryzyka stanowi kluczowy element każdego projektu inżynierskiego.
+W tabeli poniżej przedstawiono najważniejsze zidentyfikowane ryzyka wraz z ich
+możliwymi konsekwencjami oraz sposobami minimalizacji.
+
+\newcounter{riskcard}[chapter]
+\renewcommand{\theriskcard}{\thechapter.\arabic{riskcard}}
+
+\newcommand{\riskcard}[6]{%
+    \refstepcounter{riskcard}%
+    \begin{center}
+    \renewcommand{\arraystretch}{1.15}%
+    \begin{tabularx}{\textwidth}{|
+            >{\columncolor{lightgray}\raggedright\arraybackslash}p{0.19\textwidth}|X|}
+    \rowcolor{lightgray}
+    \multicolumn{2}{|c|}{\textbf{KARTA ANALIZY RYZYKA}} \\ \hline
+    \textbf{Kontekst zagrożenia:} & #2 \\ \hline
+    \textbf{Czynnik zagrożenia:} & #3 \\ \hline
+    \textbf{Prawdopodo\-bieństwo:} & #4 \\ \hline
+    \textbf{Wpływ:} & #5 \\ \hline
+    \textbf{Sposób minimalizacji:} & #6 \\ \hline
+    \end{tabularx}
+    \vspace{3pt}
+    \textbf{Tabela \theriskcard:} #2\label{#1}
+    \end{center}%
+    \addcontentsline{lot}{table}{Tabela \theriskcard: #2}%
+}
+
+\riskcard
+{tab:risk-performance}
+{Problemy z wydajnością}
+{Spadek wydajności aplikacji przy zwiększonej liczbie użytkowników.}
+{Niskie}
+{Średni}
+{Optymalizacja kodu oraz przeprowadzanie testów wydajnościowych.}
+
+\riskcard
+{tab:risk-acceptance}
+{Brak akceptacji użytkowników}
+{Niewystarczające zainteresowanie aplikacją ze strony potencjalnych użytkowników.}
+{Niskie}
+{Wysoki}
+{Projektowanie aplikacji z uwzględnieniem potrzeb użytkowników oraz analiza opinii społeczności.}
+
+\riskcard
+{tab:risk-experience}
+{Brak doświadczenia zespołu}
+{Ograniczone doświadczenie w realizacji projektów o podobnej skali i złożoności.}
+{Średnie}
+{Średni}
+{Stopniowe rozwijanie aplikacji oraz konsultacje z promotorem.}
+
+\riskcard
+{tab:risk-content}
+{Publikacja nieodpowiednich treści}
+{Ryzyko zamieszczania przez użytkowników treści niezgodnych z regulaminem.}
+{Średnie}
+{Średni}
+{Wprowadzenie mechanizmów moderacji treści oraz możliwości zgłaszania naruszeń.}
+
+\riskcard
+{tab:risk-security}
+{Błędy bezpieczeństwa}
+{Możliwość wystąpienia podatności związanych z ochroną danych użytkowników.}
+{Niskie}
+{Wysoki}
+{Stosowanie dobrych praktyk bezpieczeństwa oraz regularne testy zabezpieczeń.}
+
