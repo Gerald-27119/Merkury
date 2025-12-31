@@ -1,5 +1,21 @@
 %! Author = Stanisław Oziemczuk
 %! Date = 31/12/2025
 
+
 \section{Rieview kodu}
 \label{sec:review-kodu}
+
+W projekcie do każdego zadania była tworzona dedykowana gałąź (ang. \emph{branch}), która po jego wykonaniu była
+\glslink{merge}{mergowana} do gałęzi głównej.
+Aby proces ten był możliwy, tworzone były \glslink{pull-request}{pull requesty}, czyli mechanizm pozwalający innym członkom
+zespołu przeczytanie kodu oraz zgłaszanie ewentualnych uwag lub pytań.
+Poniżej przedstawiono przykład komentarza do kodu (rys. \ref{fig:code-review-comment}):
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.78\textwidth]{attachments/realizacja-projektu/review-kodu/review_comment}
+    \caption{Przykład komentarza w review kodu}
+    \label{fig:code-review-comment}
+\end{figure}
+
+Jeżeli autor komentarza uznał, że poruszona kwestia została poprawnie rozwiązana, zamykał go.
