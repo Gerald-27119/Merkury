@@ -1,0 +1,77 @@
+%! Author = Mateusz
+%! Date = 01/01/2026
+
+\section{Sidebar}
+\label{sec:sidebar}
+
+\glslink{sidebar}{Sidebar} jest głównym elementem nawigacyjnym aplikacji.
+Umożliwia przechodzenie pomiędzy kluczowymi modułami,
+a także szybkie wykonanie akcji takich jak logowanie/wylogowanie oraz zmiana motywu.
+
+Dostępne są dwa warianty widoku: zwinięty (ikony) oraz rozwinięty (ikony wraz z etykietami).
+W wariancie zwiniętym wyświetlane są jedynie ikony sekcji (rys. \ref{fig:sidebar-collapsed}).
+Po najechaniu kursorem na element w tym trybie prezentowana jest podpowiedź (tooltip), co ułatwia identyfikację akcji
+(rys. \ref{fig:sidebar-collapsed-hover}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.9\textheight]{attachments/prezentacja-systemu/sidebar/collapsed}
+    \caption{Sidebar w trybie zwiniętym (użytkownik niezalogowany).}
+    \label{fig:sidebar-collapsed}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.9\textheight]{attachments/prezentacja-systemu/sidebar/collapsed-hover}
+    \caption{Podpowiedź (tooltip) w trybie zwiniętym.}
+    \label{fig:sidebar-collapsed-hover}
+\end{figure}
+
+Po zalogowaniu w sidebarze pojawiają się dodatkowe pozycje nawigacyjne związane z funkcjami dostępnymi wyłącznie
+dla zalogowanego użytkownika (chat, account oraz zapisane posty na forum), a akcja logowania zastępowana jest wylogowaniem
+(rys. \ref{fig:sidebar-collapsed-logged-in}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.9\textheight]{attachments/prezentacja-systemu/sidebar/collapsed-logged-in}
+    \caption{Sidebar w trybie zwiniętym po zalogowaniu.}
+    \label{fig:sidebar-collapsed-logged-in}
+\end{figure}
+
+W trybie rozwiniętym oprócz ikon wyświetlane są także nazwy pozycji menu (rys. \ref{fig:sidebar-extended}),
+a aktualnie wybrana podstrona jest wyróżniona.
+Część sekcji może zostać rozwinięta w celu pokazania podpozycji, forum (rys. \ref{fig:sidebar-extended-forum-open})
+oraz account po zalogowaniu (rys. \ref{fig:sidebar-extended-logged-in-open}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.9\textheight]{attachments/prezentacja-systemu/sidebar/extended}
+    \caption{Sidebar w trybie rozwiniętym (użytkownik niezalogowany).}
+    \label{fig:sidebar-extended}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.9\textheight]{attachments/prezentacja-systemu/sidebar/extended-forum-open}
+    \caption{Rozwinięta sekcja \textit{Forum} w sidebarze.}
+    \label{fig:sidebar-extended-forum-open}
+\end{figure}
+
+Po zalogowaniu w trybie rozwiniętym widoczne są dodatkowe sekcje (np. \textit{Chat} oraz \textit{Account})
+oraz akcja \textit{Sign Out} (rys. \ref{fig:sidebar-extended-logged-in}).
+Dodatkowo możliwe jest rozwinięcie sekcji forum i konta w celu przejścia do szczegółowych podstron użytkownika
+(rys. \ref{fig:sidebar-extended-logged-in-open}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.9\textheight]{attachments/prezentacja-systemu/sidebar/extended-logged-in}
+    \caption{Sidebar w trybie rozwiniętym po zalogowaniu.}
+    \label{fig:sidebar-extended-logged-in}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=0.9\textheight]{attachments/prezentacja-systemu/sidebar/extended-logged-in-open}
+    \caption{Rozwinięte sekcje \textit{Forum} oraz \textit{Account} po zalogowaniu.}
+    \label{fig:sidebar-extended-logged-in-open}
+\end{figure}
