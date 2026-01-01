@@ -5,11 +5,11 @@
 \section{Rieview kodu}
 \label{sec:review-kodu}
 
-W projekcie do każdego zadania była tworzona dedykowana gałąź (ang. \emph{branch}), która po jego wykonaniu była
-\glslink{merge}{mergowana} do gałęzi głównej.
-Aby proces ten był możliwy, tworzone były \glslink{pull-request}{pull requesty}, czyli mechanizm pozwalający innym członkom
+W projekcie do każdego zadania była tworzona dedykowana gałąź (ang. \emph{branch}), którą po jego wykonaniu
+\glslink{merge}{mergowano} do gałęzi głównej.
+Aby proces ten był możliwy, tworzono \glslink{pull-request}{pull requesty}, czyli mechanizm pozwalający innym członkom
 zespołu przeczytanie kodu oraz zgłaszanie ewentualnych uwag lub pytań.
-Pozwalały one również na uruchamianie procesów \glslink{cicd}{CI/CD} (por. sekcja~\ref{sec:implementacja-ci-cd}), które między innymi
+Umożliwiały one również inicjalizację procesów \glslink{cicd}{CI/CD} (por. sekcja~\ref{sec:implementacja-ci-cd}), które między innymi
 uruchamiały testy.
 Uwagę można było zamieścić do całego pliku, jego konkretnych linii lub ogólnie (bez powiązania z plikiem).
 Poniżej przedstawiono przykład komentarza do kodu (rys. \ref{fig:code-review-comment}):
@@ -22,8 +22,7 @@ Poniżej przedstawiono przykład komentarza do kodu (rys. \ref{fig:code-review-c
 \end{figure}
 
 Jeżeli autor komentarza uznał, że poruszona kwestia została poprawnie rozwiązana, zamykał go.
-\\
-\\
+
 Uwagi mógł też zgłaszać \texttt{Copilot} (por. sekcja~\ref{subsec:narzedzia}), będący modelem sztucznej inteligencji dostarczanym
 przez \glslink{github}{GitHub'a}.
 Zespół projektowy miał do niego dostęp ze względu na posiadanie studenckiej subskrypcji konta, która umożliwia korzystanie z
@@ -40,3 +39,13 @@ Poniżej przedstawiono przykładowy komentarz do kodu napisany przez ten model s
     \caption{Przykład komentarza Copilot'a w review kodu}
     \label{fig:code-review-copilot-comment}
 \end{figure}
+
+Mając na uwadze, że modele sztucznej inteligencji mogą popełniać błędy, każda uwaga \texttt{Copilot'a} była weryfikowana
+w innych źródłach.
+Warto zaznaczyć, że mimo tego narzędzie to pozwalało skorygować nieprawidłowości, które członkowie zespołu
+przeoczyli.
+\texttt{Copilot} mając dostęp do szerokiej bazy wiedzy, proponował rozwiązania o których zespół nie wiedział ze względu
+na między innymi ograniczone doświadczenie.
+
+Po rozwiązaniu wszystkich uwag, \glslink{pull-request}{pull request} otrzymywał zatwierdzenie wprowadzonych zmian
+(ang. approval), co umożliwiało \glslink{merge}{zmergowanie} go do głównej gałęzi.
