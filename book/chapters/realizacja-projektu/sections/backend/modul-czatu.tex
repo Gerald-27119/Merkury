@@ -1,0 +1,55 @@
+%! Author = Adam
+%! Date = 01/01/2025
+
+\subsection{Moduł czatu}
+\label{subsec:modul-czatu}
+
+%TODO: wszedzeie zawsze jasny motyw, w prezentacji systemu tez na innym PRerze!
+
+Chat.java
+ChatMessage.java
+ChatMessageAttachedFile.java
+
+\subsubsection{Integracja z dostawcą GIF-ów}
+\label{subsubsec:integracja-tenor}
+
+W module czatu zaimplementowano integrację z zewnętrznym dostawcą GIF-ów w celu umożliwienia
+użytkownikom wysyłania GIF-ów na czacie.
+Jako źródło danych wykorzystano usługę Tenor, a integrację rozdzielono na trzy warstwy:
+klienta dostawcy (provider), serwis aplikacyjny oraz kontroler REST.
+
+\paragraph{Klient dostawcy --\texttt{TenorGifProviderClient}}
+Rysunek~X przedstawia klasę odpowiedzialną za bezpośrednią komunikację z API Tenor.
+Klient wykorzystuje \texttt{WebClient} (Spring WebFlux), co umożliwia wykonywanie zapytań w sposób
+nieblokujący oraz naturalnie wpisuje się w reaktywny charakter modułu (zwracanie typów \texttt{Mono}).
+W ramach integracji udostępniono dwa podstawowe scenariusze:
+pobranie listy popularnych kategorii (endpoint \texttt{/categories}) oraz wyszukiwanie GIF-ów
+dla podanej frazy (endpoint \texttt{/search}).
+
+Na poziomie budowy zapytań zastosowano parametry konfigurujące sposób zwracania wyników:
+lokalizację (\texttt{locale}) oraz limit liczby elementów na stronę.
+Mechanizm stronicowania jest obsługiwany poprzez opcjonalny parametr \texttt{pos}
+(przekazywany dalej jako \texttt{next}), dzięki czemu warstwa kliencka może pobierać kolejne porcje
+wyników bez konieczności utrzymywania stanu po stronie aplikacji.
+
+\paragraph{Warstwa serwisowa -- \texttt{GifService}}
+Rysunek~Y prezentuje serwis aplikacyjny, który stanowi pośrednią warstwę pomiędzy kontrolerem
+a klientem dostawcy. Odpowiada on za:
+\begin{itemize}
+    \item delegowanie wywołań do klienta Tenor,
+    \item mapowanie odpowiedzi z formatu dostawcy na struktury \gls{dto} wykorzystywane w aplikacji,
+    \item zastosowanie mechanizmów optymalizacyjnych po stronie serwera.
+\end{itemize}
+
+Istotnym elementem jest użycie adnotacji \texttt{@Cacheable} dla operacji pobierania popularnych kategorii.
+Zastosowanie pamięci podręcznej ogranicza liczbę wywołań do zewnętrznej usługi w przypadku danych,
+które zmieniają się relatywnie rzadko.
+
+\paragraph{Warstwa prezentacji --\texttt{GifController}}
+Rysunek~Z przedstawia kontroler REST udostępniający funkcjonalności GIF-ów na potrzeby frontendu.
+Udostępniono dwa endpointy:
+\begin{itemize}
+    \item \texttt{GET /gifs/trending} -- zwraca listę popularnych kategorii,
+    \item \texttt{GET /gifs/search} -- zwraca wyniki wyszukiwania dla podanej frazy, ze wsparciem paginacji.
+\end{itemize}
+
