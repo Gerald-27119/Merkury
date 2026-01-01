@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres-db:
     container_name: postgres-db
-    image: postgres:latest
+    image: postgres:17.4
     env_file:
       - ./postgres/postgres.env
     ports:

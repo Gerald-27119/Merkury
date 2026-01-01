@@ -16,7 +16,7 @@ import { AxiosError } from "axios";
 import { MdLocationPin } from "react-icons/md";
 import useDispatchTyped from "../../../../hooks/useDispatchTyped";
 import { spotDetailsModalAction } from "../../../../redux/spot-modal";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import SpotCoordinatesDto from "../../../../model/interface/spot/coordinates/spotCoordinatesDto";
 import { spotWeatherActions } from "../../../../redux/spot-weather";
 
@@ -28,6 +28,7 @@ export default function Spots() {
     const dispatch = useDispatchTyped();
     const { current: map } = useMap();
     const location = useLocation();
+    const [searchParams] = useSearchParams();
 
     const { mutateAsync } = useMutation({
         mutationKey: ["increase-spot-views-count"],
@@ -136,6 +137,20 @@ export default function Spots() {
         dispatch(spotWeatherActions.openBasicWeatherModal());
         mutateAsync(spotId);
     };
+
+    useEffect(() => {
+        const longitude = Number(searchParams.get("longitude") ?? undefined);
+        const latitude = Number(searchParams.get("latitude") ?? undefined);
+        if (Number.isFinite(longitude) && Number.isFinite(latitude)) {
+            map?.flyTo({
+                center: [longitude, latitude],
+                zoom: 15,
+                speed: 1.2,
+                curve: 1.42,
+                essential: true,
+            });
+        }
+    }, []);
 
     return (
         <>
