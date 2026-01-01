@@ -1,5 +1,117 @@
-%! Author = mateusz
-%! Date = 20/10/2025
+%! Author = Mateusz
+%! Date = 01/01/2026
 
-\section{Panel logowania}
-\label{ssec:panel-logowania}
+\section{Panel uwierzytelnienia}
+\label{sec:panel-uwierzytelnienia}
+
+Panel uwierzytelniania użytkownika obejmuje trzy widoki: logowanie, rejestrację oraz
+resetowanie hasła.
+Każdy z formularzy został przygotowany w spójnej stylistyce oraz posiada wariant w motywie ciemnym.
+W formularzach zastosowano etykiety pływające -- po aktywacji pola (kliknięciu lub rozpoczęciu wpisywania)
+etykieta przenosi się nad pole, co poprawia czytelność podczas uzupełniania danych (rys. \ref{fig:auth-login-focus}).
+
+\subsection{Logowanie}
+\label{ssec:logowanie}
+
+Widok logowania przedstawiono na rys. \ref{fig:auth-login}.
+Formularz składa się z pól \textit{Username} oraz \textit{Password}, przycisku \textit{Sign In} oraz
+odnośnika \textit{Forgot Password?}, który przenosi do modułu resetowania hasła
+(opisano w podrozdz. \ref{ssec:forgot-password}). Dodatkowo udostępniono logowanie z użyciem zewnętrznych
+dostawców (Google oraz GitHub), co umożliwia uwierzytelnienie bez podawania danych konta lokalnego.
+
+Zachowanie etykiet pól po aktywacji pokazano na rys. \ref{fig:auth-login-focus}.
+W przypadku próby wysłania formularza bez wymaganych danych wyświetlane są komunikaty walidacyjne bezpośrednio
+pod odpowiednimi polami (rys. \ref{fig:auth-login-errors}).
+Przygotowano również wersję w motywie ciemnym (rys. \ref{fig:auth-login-dark}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/panel-logowania/login}
+    \caption{Panel logowania -- widok podstawowy.}
+    \label{fig:auth-login}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/panel-logowania/login-hover}
+    \caption{Panel logowania -- etykiety pływające po aktywacji pól formularza.}
+    \label{fig:auth-login-focus}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/panel-logowania/login-errors}
+    \caption{Panel logowania -- komunikaty walidacyjne przy braku wymaganych danych.}
+    \label{fig:auth-login-errors}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/panel-logowania/login-dark}
+    \caption{Panel logowania -- motyw ciemny.}
+    \label{fig:auth-login-dark}
+\end{figure}
+
+\subsection{Rejestracja}
+\label{ssec:rejestracja}
+
+Widok rejestracji przedstawiono na rys. \ref{fig:auth-register}.
+Formularz zawiera pola: \textit{Username}, \textit{E-Mail}, \textit{Password} oraz \textit{Confirm Password}.
+Proces rejestracji uruchamiany jest przyciskiem \textit{Sign Up}.
+Analogicznie do logowania, dostępna jest rejestracja z użyciem zewnętrznych dostawców (Google oraz GitHub),
+co umożliwia utworzenie konta bez ręcznego uzupełniania wszystkich pól.
+
+W przypadku podania niekompletnych danych (pustych pól) wyświetlane są komunikaty walidacyjne w
+bezpośrednim sąsiedztwie pól, których dotyczy błąd (rys. \ref{fig:auth-register-errors}).
+Opracowano również wariant w motywie ciemnym (rys. \ref{fig:auth-register-dark}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/panel-logowania/register}
+    \caption{Panel rejestracji -- widok podstawowy.}
+    \label{fig:auth-register}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/panel-logowania/register-errors}
+    \caption{Panel rejestracji -- komunikaty walidacyjne przy braku wymaganych danych.}
+    \label{fig:auth-register-errors}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/panel-logowania/register-dark}
+    \caption{Panel rejestracji -- motyw ciemny.}
+    \label{fig:auth-register-dark}
+\end{figure}
+
+\subsection{Resetowanie hasła}
+\label{ssec:forgot-password}
+
+Widok resetowania hasła pokazano na rys. \ref{fig:auth-forgot}.
+Formularz składa się z pola \textit{Email} oraz przycisku \textit{Remind me}.
+Wprowadzenie adresu e-mail jest wymagane, a w przypadku próby wysłania pustego formularza
+wyświetlany jest komunikat walidacyjny (rys. \ref{fig:auth-forgot-errors}).
+Dostępny jest również wariant w motywie ciemnym (rys. \ref{fig:auth-forgot-dark}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/panel-logowania/forgot-password}
+    \caption{Panel resetowania hasła -- widok podstawowy.}
+    \label{fig:auth-forgot}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/panel-logowania/forgot-password-error}
+    \caption{Panel resetowania hasła -- komunikat walidacyjny przy braku adresu e-mail.}
+    \label{fig:auth-forgot-errors}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/panel-logowania/forgot-password-dark}
+    \caption{Panel resetowania hasła -- motyw ciemny.}
+    \label{fig:auth-forgot-dark}
+\end{figure}
