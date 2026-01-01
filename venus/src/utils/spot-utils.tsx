@@ -55,6 +55,8 @@ export function createGeoJson(spot: GeneralSpot): FeatureCollection {
 const renderConditions: RenderCondition[] = [
     { maxZoom: 14, maxArea: 70000 },
     { maxZoom: 12, maxArea: 160000 },
+    { maxZoom: 10, maxArea: 1600000 },
+    { maxZoom: 8, maxArea: 16000000 },
 ];
 
 export function shouldRenderMarker(area: number, zoomLevel: number): boolean {
