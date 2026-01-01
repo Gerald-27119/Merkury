@@ -33,8 +33,8 @@ public class PopulateDbs {
 
     @Order(2)
     @Bean
-    CommandLineRunner initChats() {
-        return args -> populateChatsService.initChatsData();
+    CommandLineRunner initFriends() {
+        return args -> populateFriendsService.initFriendsData();
     }
 
     @Order(3)
@@ -51,8 +51,8 @@ public class PopulateDbs {
 
     @Order(5)
     @Bean
-    CommandLineRunner initFriends() {
-        return args -> populateFriendsService.initFriendsData();
+    CommandLineRunner initChats() {
+        return args -> populateChatsService.initChatsData();
     }
 
     @Order(6)
