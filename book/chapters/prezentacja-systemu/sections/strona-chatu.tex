@@ -1,5 +1,5 @@
-%! Author = mateusz
-%! Date = 20/10/2025
+%! Author = Adam
+%! Date = 01/01/2025
 
 \section{Strona chatu}
 \label{sec:strona-chatu}
@@ -9,35 +9,86 @@
 \subsection{Widok bazowy modułu czatu}
 \label{subsec:widok-bazowy-czatu}
 
-EKRAN 1
-
+\paragraph{Ekran 1. Widok główny rozmów}
 Rysunek~X przedstawia główny widok modułu czatu. Interfejs zaprojektowano
-z wyraźnym podziałem na dwie strefy: listę rozmów oraz okno aktywnej konwersacji.
+z wyraźnym podziałem na dwie strefy: panel listy rozmów po lewej stronie oraz
+obszar aktywnej konwersacji w części centralnej.
 
-Bezpośrednio obok paska nawigacyjnego umieszczono panel prezentujący listę
-dostępnych konwersacji. Każdy element listy zawiera miniaturę (awatar), nazwę rozmowy,
-fragment ostatniej wiadomości oraz jej datę wysłania.
-Aktualnie wybrana rozmowa jest wyróżniona wizualnie.
+Bezpośrednio na prawo od paska nawigacyjnego znajduje się panel prezentujący listę
+dostępnych konwersacji. Każdy element listy zawiera awatar, nazwę rozmowy,
+fragment ostatniej wiadomości oraz informację o czasie wysłania.
+Aktualnie wybrana rozmowa jest wyróżniona wizualnie, co ułatwia orientację w module
+i jednoznacznie wskazuje konwersację, której treść jest prezentowana w części centralnej.
 
 Centralną część ekranu zajmuje okno aktywnej rozmowy. W górnym pasku widoczna jest nazwa
-konwersacji. W przypadku czatu prywatnego nazwę konwersacji stanowi nazwa użytkownika
-z którym obecnie prowadzona jest rozmowa. W przypadku czatu grupowego nazwę czatu stanowi
-lista nazw użytkownika członków czatu. W przypadku czatu grupowego nazwa czatu jest edytowalna. Tak samo awatar czatu.
-W przypadku rozmowy prywatnej nazwa czatu po jej nacisnieciu przenosi uzytkownika do panelu uzytkownika,
-do modulu social do konta osoby z ktora jest ta konwersacja.
-oraz zestaw akcji kontekstowych związanych z rozmową. W przypadku czatu prywatnego wyswietla sie przycisk
-umozwloiajacy stwroenie czatu grupowego z aktualnym uczestnikiem czatu prwyatnego.
-Poniżej znajduje się przewijalna historia wiadomości ułożona
-chronologicznie. Każda wiadomość prezentuje awatar nadawcy, nazwę użytkownika, znacznik czasu
-oraz treść.
+konwersacji oraz zestaw akcji kontekstowych związanych z bieżącym czatem.
+W przypadku rozmowy prywatnej nazwę konwersacji stanowi nazwa użytkownika,
+z którym prowadzona jest wymiana wiadomości. Kliknięcie nazwy przenosi użytkownika
+do profilu tej osoby w module społecznościowym.
+W przypadku czatu grupowego nazwa rozmowy oraz jej awatar mogą zostać zmodyfikowane,
+a wejście w tryb edycji jest dostępne z poziomu nagłówka konwersacji.
+Dodatkowo, dla czatu prywatnego udostępniono akcję umożliwiającą utworzenie czatu grupowego
+z udziałem aktualnego rozmówcy.
 
-W dolnej części widoku umieszczono pasek wprowadzania wiadomości z polem tekstowym
-oraz przyciskami akcji (dodawanie załącznika do wiadomości, wysylanie gifów oraz emoji) i przyciskiem wysyłania.
-Taki układ wspiera typowy scenariusz użycia: wybór rozmowy z listy po lewej stronie,
+Poniżej nagłówka znajduje się przewijalna historia wiadomości ułożona chronologicznie.
+Każda wiadomość prezentuje awatar nadawcy, nazwę użytkownika, znacznik czasu oraz treść,
+co pozwala jednoznacznie identyfikować autora wypowiedzi i kontekst czasowy rozmowy.
+
+W dolnej części widoku umieszczono pasek wprowadzania wiadomości, składający się z pola tekstowego
+oraz przycisków akcji (dodawanie załączników, wysyłanie GIF-ów oraz emoji) i przycisku wysyłania.
+Taki układ wspiera typowy scenariusz użycia modułu: wybór rozmowy z listy po lewej stronie,
 przegląd historii w części centralnej oraz tworzenie i wysyłanie kolejnych wiadomości.
 
-EKRAN 2
+\paragraph{Ekran 2. Edycja czatu grupowego}
+Rysunek~Y przedstawia okno edycji czatu grupowego, wyświetlane po kliknięciu w obszar nagłówka
+konwersacji (kafelek z awatarem i nazwą czatu). W ramach tego widoku użytkownik może zmienić
+awatar oraz nazwę czatu grupowego. Rozwiązanie to umożliwia dostosowanie identyfikacji rozmowy
+do potrzeb jej uczestników, bez konieczności opuszczania modułu czatu.
 
-Na ekranie pozakane jest okno edycji czatu grupowego. WYswietla sie ono po nacisnieciu na kafelek
-z awatarem i nazwa czatu grupwoego. Jak widac na ekranie mozna zmienic wawatar i anzw czatu.
+\paragraph{Ekran 3. Dodawanie załączników do wiadomości}
+Rysunek~Z przedstawia proces dołączania plików do wiadomości. Po użyciu przycisku
+dodawania załączników w pasku wprowadzania treści wyświetlane jest systemowe okno
+wyboru pliku, pozwalające wskazać zasób z lokalnego dysku. Po zatwierdzeniu wyboru
+plik zostaje dołączony do aktualnie tworzonej wiadomości i może zostać wysłany do pozostałych
+uczestników rozmowy jako załącznik.
 
+\paragraph{Ekran 4. Panel wyszukiwania i wysyłania GIF-ów}
+Rysunek~W prezentuje panel wyboru GIF-ów dostępny z poziomu paska edycji wiadomości.
+Panel otwierany jest w obrębie widoku konwersacji i nie wymaga opuszczania czatu.
+Użytkownik może przeszukiwać zasoby poprzez pole wyszukiwania, a wyniki prezentowane są
+w formie siatki miniatur. Wybranie elementu powoduje dodanie GIF-a do wiadomości i umożliwia
+jego wysłanie w ramach rozmowy.
+
+\paragraph{Ekran 5. Panel wyboru emoji}
+Rysunek~V przedstawia panel wyboru emoji, uruchamiany analogicznie jak panel GIF-ów.
+Emoji wybierane są z poziomu \textit{picker-a}, który udostępnia kategorie predefiniowane
+(np.\ według typu emotikon) oraz wyszukiwanie tekstowe po frazie. Zaznaczenie emoji wstawia je
+do pola tekstowego wiadomości, dzięki czemu może ono zostać wykorzystane samodzielnie lub jako
+uzupełnienie treści.
+
+\paragraph{Ekran 6. Tworzenie czatu grupowego z rozmowy prywatnej}
+Rysunek~U przedstawia okno dialogowe tworzenia czatu grupowego uruchamiane z poziomu rozmowy prywatnej
+(przycisk akcji w nagłówku konwersacji). W oknie dostępne jest pole wyszukiwania użytkowników oraz
+lista wybranych osób prezentowana w formie etykiet. Domyślnie uwzględniony jest aktualny rozmówca
+oraz użytkownik tworzący czat; możliwe jest wskazanie dodatkowych uczestników (do zdefiniowanego limitu).
+Jeżeli nie zostaną dodane kolejne osoby, tworzony jest dwuosobowy czat grupowy, który zachowuje cechy rozmowy
+grupowej (m.in.\ możliwość późniejszej rozbudowy składu oraz edycji danych czatu).
+
+\paragraph{Ekran 7. Widok czatu grupowego}
+Rysunek~T przedstawia widok aktywnej konwersacji grupowej po jej utworzeniu. Interfejs zachowuje układ znany
+z rozmów prywatnych (lista czatów po lewej stronie oraz historia wiadomości w części centralnej), natomiast w nagłówku
+prezentowana jest nazwa czatu grupowego (lub skrócona lista uczestników, zależnie od konfiguracji).
+W prawym górnym rogu dostępne są dwa przyciski: pierwszy otwiera listę uczestników czatu, natomiast drugi
+umożliwia dodawanie kolejnych osób do grupy.
+
+\paragraph{Ekran 8. Lista uczestników czatu grupowego}
+Rysunek~S przedstawia panel boczny z listą uczestników, wyświetlany po kliknięciu przycisku podglądu członków grupy.
+Panel pojawia się po prawej stronie widoku konwersacji i zawiera nagłówek z liczbą uczestników oraz listę profili
+(wraz z awatarami i nazwami użytkowników). Rozwiązanie to umożliwia szybkie zweryfikowanie składu czatu bez przerywania
+ciągłości rozmowy.
+
+\paragraph{Ekran 9. Dodawanie nowych uczestników do czatu grupowego}
+Rysunek~R przedstawia okno dialogowe dodawania użytkowników do istniejącej konwersacji grupowej.
+W oknie dostępne jest pole wyszukiwania oraz mechanizm wyboru użytkowników wraz z licznikiem określającym
+maksymalną liczbę osób możliwych do dodania w ramach jednej operacji. Po zatwierdzeniu akcją kontekstową
+nowi członkowie zostają dopisani do czatu i są widoczni na liście uczestników.
