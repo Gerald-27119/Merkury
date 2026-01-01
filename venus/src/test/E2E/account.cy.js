@@ -16,8 +16,8 @@ describe("Account E2E tests", () => {
 
         cy.url().should("include", "/login");
 
-        cy.get("#username").type("user");
-        cy.get("#password").type("password");
+        cy.get("#username").type("magdaCzarnecka");
+        cy.get("#password").type("Password1!");
 
         cy.get('button[type="submit"]').click();
     });
