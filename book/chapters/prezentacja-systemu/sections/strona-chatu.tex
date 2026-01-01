@@ -3,3 +3,41 @@
 
 \section{Strona chatu}
 \label{sec:strona-chatu}
+
+%TODO: Jak będziecie opisywać wygląd aplikacji to usuńcie na frontendzie notification z sidebara
+
+\subsection{Widok bazowy modułu czatu}
+\label{subsec:widok-bazowy-czatu}
+
+EKRAN 1
+
+Rysunek~X przedstawia główny widok modułu czatu. Interfejs zaprojektowano
+z wyraźnym podziałem na dwie strefy: listę rozmów oraz okno aktywnej konwersacji.
+
+Bezpośrednio obok paska nawigacyjnego umieszczono panel prezentujący listę
+dostępnych konwersacji. Każdy element listy zawiera miniaturę (awatar), nazwę rozmowy,
+fragment ostatniej wiadomości oraz jej datę wysłania.
+Aktualnie wybrana rozmowa jest wyróżniona wizualnie.
+
+Centralną część ekranu zajmuje okno aktywnej rozmowy. W górnym pasku widoczna jest nazwa
+konwersacji. W przypadku czatu prywatnego nazwę konwersacji stanowi nazwa użytkownika
+z którym obecnie prowadzona jest rozmowa. W przypadku czatu grupowego nazwę czatu stanowi
+lista nazw użytkownika członków czatu. W przypadku czatu grupowego nazwa czatu jest edytowalna. Tak samo awatar czatu.
+W przypadku rozmowy prywatnej nazwa czatu po jej nacisnieciu przenosi uzytkownika do panelu uzytkownika,
+do modulu social do konta osoby z ktora jest ta konwersacja.
+oraz zestaw akcji kontekstowych związanych z rozmową. W przypadku czatu prywatnego wyswietla sie przycisk
+umozwloiajacy stwroenie czatu grupowego z aktualnym uczestnikiem czatu prwyatnego.
+Poniżej znajduje się przewijalna historia wiadomości ułożona
+chronologicznie. Każda wiadomość prezentuje awatar nadawcy, nazwę użytkownika, znacznik czasu
+oraz treść.
+
+W dolnej części widoku umieszczono pasek wprowadzania wiadomości z polem tekstowym
+oraz przyciskami akcji (dodawanie załącznika do wiadomości, wysylanie gifów oraz emoji) i przyciskiem wysyłania.
+Taki układ wspiera typowy scenariusz użycia: wybór rozmowy z listy po lewej stronie,
+przegląd historii w części centralnej oraz tworzenie i wysyłanie kolejnych wiadomości.
+
+EKRAN 2
+
+Na ekranie pozakane jest okno edycji czatu grupowego. WYswietla sie ono po nacisnieciu na kafelek
+z awatarem i nazwa czatu grupwoego. Jak widac na ekranie mozna zmienic wawatar i anzw czatu.
+
