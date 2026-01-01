@@ -102,7 +102,7 @@ class GroupChatService {
         var mappedPotentialChatMembers = usersPage.getContent().stream()
                 .map(user -> new PotentialChatMemberDto(
                         user.getUsername(),
-                        user.getProfileImage()
+                        user.getProfilePhoto()
                 ))
                 .toList();
 

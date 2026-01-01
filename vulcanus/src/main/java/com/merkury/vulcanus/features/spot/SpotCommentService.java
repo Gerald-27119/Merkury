@@ -44,7 +44,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -89,7 +91,7 @@ public class SpotCommentService {
                 .orElseThrow(() -> new UserNotFoundException(String.format("User with %s not found", user.getUsername())));
 
         var spotCommentEntity = SpotCommentMapper.toEntity(spotComment, spot, author);
-        List<SpotCommentMedia> spotCommentMediaEntities = new ArrayList<>();
+        Set<SpotCommentMedia> spotCommentMediaEntities = new LinkedHashSet<>();
         List<SpotMedia> spotMediaEntities = new ArrayList<>();
         if (mediaFiles != null) {
             for (MultipartFile file : mediaFiles) {
