@@ -15,7 +15,7 @@ describe("Account social page", () => {
         cy.visit(FRIENDS_URL, {
             onBeforeLoad(win) {
                 win.localStorage.setItem("is_logged_in", "true");
-                win.localStorage.setItem("username", "user");
+                win.localStorage.setItem("username", "magdaCzarnecka");
 
                 win.IntersectionObserver = class {
                     constructor(cb) {
