@@ -110,12 +110,6 @@ export const getOptionsLinks = (
     isDark: boolean,
 ): SidebarItemType[] => {
     return [
-        {
-            icon: <FaRegBell aria-label="notification" />,
-            name: "notification",
-            actionType: "notification",
-            type: "action",
-        },
         isLogged
             ? {
                   icon: <TbLogout2 aria-label="login" />,
