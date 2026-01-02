@@ -12,6 +12,7 @@ import { useBoolean } from "../../../../hooks/useBoolean";
 import { IoClose } from "react-icons/io5";
 import { spotDetailsModalAction } from "../../../../redux/spot-modal";
 import { spotWeatherActions } from "../../../../redux/spot-weather";
+import { currentViewSpotsListModalActions } from "../../../../redux/current-view-spots-list-modal";
 
 export default function SpotsNameSearchBar() {
     const [searchSpotName, setSearchSpotName] = useState<string>("");
@@ -65,6 +66,9 @@ export default function SpotsNameSearchBar() {
         });
         dispatch(spotDetailsModalAction.handleCloseModal());
         dispatch(spotWeatherActions.closeAllWeatherModals());
+        dispatch(
+            currentViewSpotsListModalActions.closeCurrentViewSpotsListModal(),
+        );
         dispatch(searchedSpotListModalAction.handleOpenList());
         dispatch(searchedSpotsSliceActions.clearSearchedSpots());
     };
