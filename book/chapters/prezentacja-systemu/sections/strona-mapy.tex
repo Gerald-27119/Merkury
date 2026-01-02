@@ -180,7 +180,7 @@ Znajdujące się poniżej przyciski akcji pozwalają użytkowikowi na wykonanie 
     otwiera panel ze szczegółami danego miejsca;
     \item \textbf{dodanie multimediów} \textendash \space akcja ta wymaga zalogowania (w przypadku jego braku wyświetlany jest odpowiedni komunikat,
     rys. \ref{fig:spot-log-in-info}),
-    otwiera formularz umożliwiający wybranie z urządzenia zdjęć i\\lub filmów i dołączenie ich do wybranego miesjca (rys. \ref{fig:spot-add-media-form}).
+    otwiera formularz umożliwiający wybranie z urządzenia zdjęć i\textbackslash lub filmów i dołączenie ich do wybranego miejsca (rys. \ref{fig:spot-add-media-form}).
     Jeżeli żadne multimedia nie zostaną dołączone, wysłanie formularza będzie niemożliwe o zostanie wyświetlona informacja o błędzie (rys. \ref{fig:spot-add-media-form-error}).
     Wybrane pliki wyświetlane są w formie listy (rys. \ref{fig:spot-add-media-form-one-element}).
     Najechanie na jeden z nich powoduje jego przyciemienie, a kliknięcie usunięcie z listy.
@@ -337,6 +337,46 @@ Po jego kliknieciu pobierana jest strona druga (rys. \ref{fig:spot-comment-more-
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_downvote_clicked_again}
-    \caption{Załadowanie kolejnej strony komentarzy spota po kliknięciu przycisku \emph{Show More}}.
+    \caption{Załadowanie kolejnej strony komentarzy spota po kliknięciu przycisku \emph{Show More}.}
     \label{fig:spot-comment-more-loaded}
 \end{figure}
+
+\subsection{Panel z danymi pogodowymi}
+\label{subsec:panel-z-danymi-pogodowymi}
+
+Panel ze szczegółowymi danymi pogodowymi (rys. \ref{fig:spot-detailed-weather}) otwierany poprzez kliknięcie przycisku \emph{Show more}, znajdującego się
+w sekcji ogólnej pogody.
+Jest ona wyświetlana po prawej stronie ekranu w jego górnej części razem z otworzeniem panelu ze szczegółami \glslink{spot}{spota}
+(rys. \ref{fig:spot-details-1}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_detailed_weather}
+    \caption{Panel ze szczegółowymi danymi pogodowymi spota.}
+    \label{fig:spot-detailed-weather}
+\end{figure}
+
+Na samej górze przedstawione są dane ogólne: nazwa miasta i regionu, aktualny czas, temperatura oraz ikona
+wraz opisem obrazujące stan pogody.
+Poniżej w formie kafelek zaprezentowane są informacje szczegółowe: prawdopodobieństwo opadów, punkt rosy, poziom indeksu UV
+oraz wilgotność wyrażona w procentach.
+Kolejna sekcja przeznaczona jest na wyświetlanie prędkości wiatru na wybranej wysokości.
+Dostępne są dwie jednostki, \texttt{m\textbackslash s} oraz \texttt{km\textbackslash h}, które użytkownik może zmienić za pomocą przycisków z ich nazwami (rys. \ref{fig:spot-detailed-weather-wind-speeds-unit}).
+Po kliknięciu wybranego kafelku możliwa jest również zmiana wysokości, dla której wyświetlane są dane (rys. \ref{fig:spot-detailed-weather-wind-speeds-height}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_detailed_weather_wind_speed_unit}
+    \caption{Zmiana jednostki wyświetlanej prędkości wiatru.}
+    \label{fig:spot-detailed-weather-wind-speeds-unit}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_detailed_weather_wind_speed_height}
+    \caption{Zmiana wysokości, dla której wyświetlana jest prędkość wiatru.}
+    \label{fig:spot-detailed-weather-wind-speeds-height}
+\end{figure}
+
+W dolnej cześci panelu znajduje się wykres prezentujący prognozowaną pogodę na trzy kolejene dni z dokładnością do godziny.
+Zawiera prawdopodobieństwo opadów, ikonę opisującą stan pogody oraz temperaturę wraz z krzywą obrazującą zmianę jej wartości.
