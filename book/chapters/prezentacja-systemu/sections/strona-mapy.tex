@@ -157,12 +157,29 @@ także sekcja z komentarzami.
     \label{fig:spot-details-1}
 \end{figure}
 
-Galeria zdjęć i filmów pozwala na ich przeglądanie za pomocą umieszczonych na jej bokach strzałek (rys. \ref{fig:spot-details-2}).
-Natomiast kliknięcie elementu powoduje wyświetlenie go w dużej wersji galerii.
+Galeria multimediów pozwala na ich przeglądanie za pomocą umieszczonych na jej bokach strzałek (rys. \ref{fig:spot-details-2}).
+Kliknięcie zdjęcia powoduje wyświetlenie go w dużej wersji galerii, natomiast w przypadku filmu \textendash \space jego odtworzenie.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_2}
     \caption{Przełączanie multimediów w galerii zdjęć i filmów spota.}
     \label{fig:spot-details-2}
+\end{figure}
+
+Znajdujące się poniżej przyciski akcji pozwalają użytkowikowi na wykonanie czynności związanych z wybranym \glslink{spot}{spotem}:
+\begin{itemize}
+    \item \textbf{nawigację} \textendash \space po kliknięciu pierwszego przycisku od lewej w przeglądarce otwierana jest nowa karta z \texttt{Google Maps}
+    z trasą wyznaczoną od lokalizacji użytkownika do wskazanego miejsca;
+    \item \textbf{edycję listy ulubionych \glslink{spot}{spotów}} \textendash \space czynność ta wymaga zalogowania (w przypadku
+    jego braku wyświetlany jest odpowiedni komunikat) i pozwala użytkownikowi na dodanie \glslink{spot}{spota} do listy ulubionych
+    (ikona zostaje wypełniona) (rys. \ref{fig:spot-details-1}), a jej ponowne kliknięcie powoduje jego usunięcie
+    (ikona jest w środku pusta, rys. \ref{fig:spot-not-in-favourites});
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_not_in_favourites}
+    \caption{Pusta ikona (druga od lewej) wskazuje na brak spota w liście ulubionych.}
+    \label{fig:spot-not-in-favourites}
 \end{figure}
