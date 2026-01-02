@@ -1,0 +1,172 @@
+%! Author = kacper
+%! Date = 01/01/2026
+
+\subsubsection{Wymagania pozafunkcjonalne dla forum}
+\label{subsubsec:wymagania-pozafunkcjonalne-dla-forum}
+
+\newlength{\wpfLabelWidth}
+\settowidth{\wpfLabelWidth}{\textbf{Wymagania powiązane:}}
+\addtolength{\wpfLabelWidth}{-20pt}
+
+\newlength{\wpfContentWidth}
+\setlength{\wpfContentWidth}{0.7\textwidth}
+
+\newcommand{\wpfpriority}[2]{
+    \textbf{Identyfikator:} & WPFORUM-#1 &
+    \textbf{Priorytet:}     & #2 \\ \hline
+}
+
+\newcommand{\wpftype}[1]{
+    \textbf{Typ:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpfContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpfname}[1]{
+    \textbf{Nazwa:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpfContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpfdesc}[1]{
+    \textbf{Opis:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpfContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpfaccept}[1]{
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpfContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}
+        \setlength{\topsep}{0pt}
+        \setlength{\partopsep}{0pt}
+        \setlength{\itemsep}{0.2ex}
+        \setlength{\parsep}{0pt}
+        \vspace*{-1.8ex}
+        #1
+        \vspace*{-1.4ex}
+        \endgroup
+    } \\ \hline
+}
+
+\newcommand{\wpfstakeholder}[1]{
+    \textbf{Udziałowiec:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpfContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpfresponsible}[1]{
+    \textbf{Realizator:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpfContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpfrelated}[1]{
+    \textbf{Wymagania powiązane:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpfContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpforumcard}[5]{
+    \refstepcounter{awc}
+    {
+        \centering
+        \begin{longtable}{|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpfLabelWidth}|
+            l|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}l|
+            p{0.15\textwidth}|}
+        \hline
+        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA FORUM}} \\ \hline
+        \endfirsthead
+        \hline
+        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA FORUM (cd.)}} \\ \hline
+        \endhead
+        \wpfpriority{#3}{#4}
+        \wpfname{#2}
+        #5
+        \end{longtable}
+        \par
+    }
+    \vspace{3pt}
+    \textbf{Tabela \theawc:} Wymaganie pozafunkcjonalne dla forum: #2\label{#1}
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie pozafunkcjonalne dla forum: #2}
+}
+
+\wpforumcard
+{wpforum:search-effieciency}
+{Wydajność wyszukiwania}
+{01}
+{S}
+{
+    \wpftype{Wydajność}
+
+    \wpfdesc{System powinien zapewniać szybkie wyszukiwanie i filtrowanie postów.}
+
+    \wpfaccept{
+        \begin{itemize}
+            \item Wyniki wyszukiwania wyświetlane są w czasie mniejszym bądź równym 2 sekundy.
+        \end{itemize}
+    }
+
+    \wpfstakeholder{U3}
+
+    \wpfresponsible{Kacper Badek}
+
+    \wpfrelated{
+        \hyperref[wfforum:search-posts]{WFFORUM-08}
+    }
+}
+
+\wpforumcard
+{wpforum:search-effieciency}
+{Tryb tylko do odczytu}
+{02}
+{S}
+{
+    \wpftype{Bezpieczeństwo}
+
+    \wpfdesc{Niezalogowani użytkownicy powinni mieć dostęp do forum wyłącznie w trybie tylko do odczytu.}
+
+    \wpfaccept{
+        \begin{itemize}
+            \item Niezalogowany użytkownik nie ma dostępu do operacji modyfikujących treści.
+            \item Funkcje wymagające logowania są odpowiednio zablokowane lub ukryte.
+            \item Próba dostępu do niedozwolonej operacji wyświetli komunikat informujący użytkownika, że musi się zalogować.
+        \end{itemize}
+    }
+
+    \wpfstakeholder{U3}
+
+    \wpfresponsible{Kacper Badek}
+
+    \wpfrelated{
+        \hyperref[wfforum:voting]{WFFORUM-09},
+        \hyperref[wfforum:follow-posts]{WFFORUM-10},
+        \hyperref[wfforum:view-followed]{WFFORUM-11},
+        \hyperref[wfforum:manage-posts]{WFFORUM-12},
+        \hyperref[wfforum:manage-comments]{WFFORUM-13}
+    }
+}
+
+\wpforumcard
+{wpforum:search-effieciency}
+{Bezpieczeństwo operacji użytkownika}
+{03}
+{S}
+{
+    \wpftype{Bezpieczeństwo}
+
+    \wpfdesc{System powinien zabezpieczać operacje użytkownika przed nieautoryzowanym dostępem.}
+
+    \wpfaccept{
+        \begin{itemize}
+            \item Użytkownik może edytować i usuwać wyłącznie własne posty i komentarze.
+            \item Próba nieautoryzowanej operacji jest blokowana przez system.
+        \end{itemize}
+    }
+
+    \wpfstakeholder{U3}
+
+    \wpfresponsible{Kacper Badek}
+
+    \wpfrelated{
+        \hyperref[wfforum:manage-posts]{WFFORUM-12},
+        \hyperref[wfforum:manage-comments]{WFFORUM-13}
+    }
+}

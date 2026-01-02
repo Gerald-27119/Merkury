@@ -1,5 +1,515 @@
-%! Author = mateusz
-%! Date = 19/10/2025
+%! Author = kacper
+%! Date = 01/01/2026
 
-\subsubsection{Funkcjonalności dla forum}
-\label{subsubsec:funkcjonalnosci-dla-forum}
+\subsubsection{Wymagania funkcjonalne dla forum}
+\label{subsubsec:wymagania-funkcjonalne-dla-forum}
+
+\newlength{\wffLabelWidth}
+\setlength{\wffLabelWidth}{0.19\textwidth}
+
+\newlength{\wffColTwoWidth}
+\setlength{\wffColTwoWidth}{0.21\textwidth}
+
+\newlength{\wffColThreeWidth}
+\setlength{\wffColThreeWidth}{0.13\textwidth}
+
+\newlength{\wffColFourWidth}
+\setlength{\wffColFourWidth}{0.28\textwidth}
+
+\newlength{\wffContentWidth}
+\setlength{\wffContentWidth}{0.60\textwidth}
+
+\newcommand{\wffthreecolcell}[1]{
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wffContentWidth}|}{#1}
+}
+
+\newcommand{\wffthreecolcellpadded}[1]{
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wffContentWidth}|}{
+        \vspace{0.4ex}
+        #1\par\vspace{0.4ex}
+    }
+}
+
+
+\newcommand{\wffpriority}[2]{
+    \textbf{Identyfikator:} & WFFORUM-#1 &
+    \textbf{Priorytet:}     & #2 \\ \hline
+}
+
+\newcommand{\wffname}[1]{
+    \textbf{Nazwa:} &
+    \wffthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wffdesc}[1]{
+    \textbf{Opis:} &
+    \wffthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wffaccept}[1]{
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wffContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}
+        \setlength{\topsep}{0pt}
+        \setlength{\partopsep}{0pt}
+        \setlength{\itemsep}{0.2ex}
+        \setlength{\parsep}{0pt}
+        \vspace*{-1.8ex}
+        #1%
+        \vspace*{-1.4ex}
+        \endgroup
+    }\\ \hline
+}
+
+\newcommand{\wffstakeholder}[1]{
+    \textbf{Udziałowiec:} &
+    \wffthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wffresponsible}[1]{
+    \textbf{Realizator:} &
+    \wffthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wffrelated}[1]{
+    \textbf{Wymagania powiązane:} &
+    \wffthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfforumcard}[5]{
+    \refstepcounter{awc}
+    {
+        \centering
+        \begin{longtable}{|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wffLabelWidth}|
+            p{\wffColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wffColThreeWidth}|
+            p{\wffColFourWidth}|}
+        \hline
+        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA FUNKCJONALNEGO DLA FORUM}} \\ \hline
+        \endfirsthead
+        \hline
+        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA FUNKCJONALNEGO DLA FORUM (cd.)}} \\ \hline
+        \endhead
+        \wffpriority{#3}{#4}
+        \wffname{#2}
+        #5
+        \end{longtable}
+        \par
+    }
+    \vspace{3pt}
+    \textbf{Tabela \theawc:} Wymaganie funkcjonalne dla forum: #2\label{#1}
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie funkcjonalne dla forum: #2}
+}
+
+\wfforumcard
+{wfforum:view-post-list}
+{Wyświetlanie listy postów}
+{01}
+{S}
+{
+    \wffdesc{System wyświetla użytkownikowi listę dostępnych postów na forum.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Lista postów jest widoczna po wejściu na forum.
+            \item Każdy post zawiera tytuł, kategorie, 0 lub więcej tagów, pierwsze 200 liter treści, liczbę komentarzy oraz liczbę wyświetleń posta.
+            \item Posty są wyświetlane domyślnie w kolejności od najnowszego
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+
+    \wffresponsible{Kacper Badek}
+
+    \wffrelated{
+        \hyperref[woforum:browse-posts]{WOFORUM-01},
+        \hyperref[woforum:guest-access]{WOFORUM-08}
+    }
+}
+
+\wfforumcard
+{wfforum:dynamic-loading}
+{Dynamiczne ładowanie postów}
+{02}
+{S}
+{
+    \wffdesc{System automatycznie ładuje kolejne posty podczas
+    przewijania listy w dół strony.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Nowe posty są ładowane bez przeładowania strony.
+            \item Użytkownik może przeglądać wszystkie dostępne posty.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:browse-posts]{WOFORUM-01},
+        \hyperref[woforum:guest-access]{WOFORUM-08}
+    }
+}
+
+\wfforumcard
+{wfforum:sort-posts}
+{Sortowanie postów}
+{03}
+{S}
+{
+    \wffdesc{System umożliwia sortowanie postów według wybranej opcji.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Dostępne są opcje sortowania: Newest, Oldest, Most Viewed,
+            Least Viewed, Most Commented, Least Commented.
+            \item Zmiana sortowania aktualizuje listę postów.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:browse-posts]{WOFORUM-01},
+        \hyperref[woforum:guest-access]{WOFORUM-08}
+    }
+}
+
+\wfforumcard
+{wfforum:view-post-details}
+{Wyświetlanie szczegółów posta}
+{04}
+{S}
+{
+    \wffdesc{System umożliwia przejście do strony szczegółowej posta
+    i wyświetlenie jego pełnej treści.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Wyświetlana jest pełna treść posta wraz z obrazami.
+            \item Widoczne są informacje o autorze, dacie publikacji,
+            liczbie komentarzy oraz liczbie głosów posta.
+            \item Adres URL strony posta zawiera \gls{slug} oparty
+            o tytuł posta.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:view-post-details]{WOFORUM-02},
+        \hyperref[woforum:guest-access]{WOFORUM-08}
+    }
+}
+
+\wfforumcard
+{wfforum:view-comments}
+{Wyświetlanie komentarzy do posta}
+{05}
+{S}
+{
+    \wffdesc{System wyświetla listę komentarzy przypisanych do posta.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Komentarze są widoczne pod treścią posta.
+            \item Kolejne komentarze są ładowane podczas przewijania.
+            \item Zmiana sortowania aktualizuje listę komentarzy
+            bez przeładowania strony.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:browse-comments]{WOFORUM-03},
+        \hyperref[woforum:guest-access]{WOFORUM-08}
+    }
+}
+
+\wfforumcard
+{wfforum:sort-comments}
+{Sortowanie komentarzy}
+{06}
+{S}
+{
+    \wffdesc{System umożliwia sortowanie komentarzy.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Komentarze można sortować: Newest, Oldest,
+            Most UpVoted, Most DownVoted.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:browse-comments]{WOFORUM-03},
+        \hyperref[woforum:guest-access]{WOFORUM-08}
+    }
+}
+
+\wfforumcard
+{wfforum:view-replies}
+{Wyświetlanie odpowiedzi do komentarzy}
+{07}
+{S}
+{
+    \wffdesc{System wyświetla odpowiedzi do komentarzy.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Odpowiedzi do komentarzy są domyślnie zwinięte.
+            \item Po kliknięciu wyświetlana jest lista odpowiedzi.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:browse-comments]{WOFORUM-03},
+        \hyperref[woforum:guest-access]{WOFORUM-08}
+    }
+}
+
+\wfforumcard
+{wfforum:search-posts}
+{Wyszukiwanie postów}
+{08}
+{S}
+{
+    \wffdesc{System umożliwia wyszukiwanie postów na podstawie tytułu
+    i dostępnych filtrów.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Użytkownik może wprowadzić frazę wyszukiwania.
+            \item Dostępne filtry: kategoria, tagi, data od, data do, autor.
+            \item Wyświetlana jest lista znalezionych postów.
+            \item System wyświetla informację o liczbie wyników
+            i zastosowanych filtrach.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:search-posts]{WOFORUM-04},
+        \hyperref[woforum:guest-access]{WOFORUM-08}
+    }
+}
+
+\wfforumcard
+{wfforum:voting}
+{Reakcje na posty i komentarze}
+{09}
+{S}
+{
+    \wffdesc{System umożliwia zalogowanemu użytkownikowi oddawanie
+    głosów na posty i komentarze.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Użytkownik może oddać jeden głos na dany element.
+            \item Liczba głosów jest aktualizowana w czasie rzeczywistym.
+            \item Użytkownik może zmienić swój głos lub go cofnąć.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:user-interactions]{WOFORUM-05}
+    }
+}
+
+\wfforumcard
+{wfforum:follow-posts}
+{Obserwowanie postów}
+{10}
+{S}
+{
+    \wffdesc{System umożliwia zalogowanemu użytkownikowi obserwowanie
+    wybranych postów.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Użytkownik może dodać lub usunąć post z obserwowanych.
+            \item Status obserwowania jest zapamiętywany.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:user-interactions]{WOFORUM-05}
+    }
+}
+
+\wfforumcard
+{wfforum:view-followed}
+{Przeglądanie obserwowanych postów}
+{11}
+{S}
+{
+    \wffdesc{System umożliwia zalogowanemu użytkownikowi przeglądanie
+    obserwowanych postów.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Wyświetlana jest lista postów obserwowanych przez użytkownika.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:user-interactions]{WOFORUM-05}
+    }
+}
+
+\wfforumcard
+{wfforum:manage-posts}
+{Zarządzanie postami}
+{12}
+{S}
+{
+    \wffdesc{System umożliwia zalogowanemu użytkownikowi tworzenie,
+        edytowanie i usuwanie własnych postów z wykorzystaniem edytora treści.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Użytkownik może utworzyć nowy post.
+            \item Użytkownik może edytować i usuwać tylko swoje posty.
+            \item Użytkownik może dodać obrazy do treści posta.
+            \item Obrazy są poprawnie wyświetlane w widoku posta.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:manage-content]{WOFORUM-06}
+    }
+}
+
+\wfforumcard
+{wfforum:manage-comments}
+{Zarządzanie komentarzami}
+{13}
+{S}
+{
+    \wffdesc{System umożliwia zalogowanemu użytkownikowi zarządzanie
+    własnymi komentarzami.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Użytkownik może dodać, edytować i usunąć swój komentarz.
+            \item Usunięty komentarz zmienia treść na
+            ``Comment deleted by the user.''.
+            \item Użytkownik może dodać obrazy do treści komentarza.
+            \item Obrazy są poprawnie wyświetlane.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:manage-content]{WOFORUM-06}
+    }
+}
+
+\wfforumcard
+{wfforum:report-content}
+{Zgłaszanie postów i komentarzy}
+{14}
+{S}
+{
+    \wffdesc{System umożliwia zalogowanemu użytkownikowi zgłaszanie
+    postów i komentarzy naruszających regulamin.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Użytkownik może zgłosić wybrany post lub komentarz.
+            \item Zgłoszenie jest zapisywane w systemie.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:report-abuse]{WOFORUM-07}
+    }
+}
+
+\wfforumcard
+{wfforum:view-categories-tags}
+{Wyświetlanie listy kategorii i tagów postów}
+{15}
+{S}
+{
+    \wffdesc{System umożliwia użytkownikowi przeglądanie list zawierających
+    wszystkie kategorie oraz tagi postów.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Wszystkie kategorie są wyświetlane alfabetycznie.
+            \item Wszystkie tagi są wyświetlane alfabetycznie.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:browse-categories-tags]{WOFORUM-10},
+        \hyperref[woforum:guest-access]{WOFORUM-08}
+    }
+}
+
+\wfforumcard
+{wfforum:view-rules}
+{Wyświetlanie regulaminu forum}
+{16}
+{S}
+{
+    \wffdesc{System wyświetla regulamin forum użytkownikowi.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Regulamin jest dostępny na sidebarze z poziomu forum.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:view-rules]{WOFORUM-09},
+        \hyperref[woforum:guest-access]{WOFORUM-08}
+    }
+}
+
+\wfforumcard
+{wfforum:user-activity}
+{Przeglądanie historii aktywności użytkownika}
+{17}
+{W}
+{
+    \wffdesc{System umożliwia zalogowanemu użytkownikowi przeglądanie
+    historii swoich interakcji na forum.}
+
+    \wffaccept{
+        \begin{itemize}
+            \item Użytkownik widzi listę polubionych i znielubionych postów.
+            \item Użytkownik widzi listę ostatnio przeglądanych postów.
+        \end{itemize}
+    }
+
+    \wffstakeholder{U3}
+    \wffresponsible{Kacper Badek}
+    \wffrelated{
+        \hyperref[woforum:activity-history]{WOFORUM-11}
+    }
+}
