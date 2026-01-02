@@ -128,6 +128,7 @@ public class SpotService {
 
         var spotsNames = spotRepository.findByNameContainingIgnoreCase(text).stream()
                 .map(ISpotNameOnly::getName)
+                .distinct()
                 .toList();
 
         if (spotsNames.isEmpty()) {

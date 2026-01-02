@@ -27,9 +27,13 @@ public class Post implements Votable {
     private String content;
 
     @ManyToOne
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @JoinColumn(name = "author_id")
     private UserEntity author;
     @ManyToOne
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @JoinColumn(name = "category_id")
     private PostCategory postCategory;
 
@@ -45,6 +49,7 @@ public class Post implements Votable {
     @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OrderBy("publishDate DESC")
     private List<PostComment> comments = new ArrayList<>();
 
@@ -61,6 +66,8 @@ public class Post implements Votable {
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<UserEntity> upVotedBy = new HashSet<>();
 
     @Builder.Default
@@ -70,10 +77,14 @@ public class Post implements Votable {
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<UserEntity> downVotedBy = new HashSet<>();
 
 
     @Builder.Default
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @ManyToMany(mappedBy = "followedPosts")
     private Set<UserEntity> followers = new HashSet<>();
 
@@ -85,10 +96,13 @@ public class Post implements Votable {
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<Tag> tags = new HashSet<>();
 
     @Builder.Default
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostMedia> media = new ArrayList<>();
 }
