@@ -1,5 +1,46 @@
 %! Author = Stanisław Oziemczuk
 %! Date = 02/01/2026
 
+
 \section{Strona mapy}
 \label{sec:strona-mapy}
+
+Moduł mapy umożliwia przeglądanie dostępnych \glslink{spot}{spotów}.
+Został podzielony na kilka głównych części:
+\begin{itemize}
+    \item mapę ze \glslink{spot}{spotami}
+    \item panel szczegółów \glslink{spot}{spota}
+    \item panel z danymi pogodowymi
+    \item galerię multimediów
+\end{itemize}
+
+\subsection{Mapa ze spotami}
+\label{subsec:mapa-ze-spotami}
+
+W tej części modułu użytkownik może przeglądać dostępne \glslink{spot}{spoty} na mapie wyświetlane w formie wielokątów (rys. \ref{fig:mapa-spoty-wielokaty}).
+Po odpowiednim oddaleniu widoku, w zależności od pola powierzchni obszaru, zostanie ono zaprezentowane jako marker rys. \ref{fig:mapa-spoty-markery}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/mapa_spoty_wielokaty}
+    \caption{Spoty na mapie prezentowane w formie wielokątów.}
+    \label{fig:mapa-spoty-wielokaty}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/mapa_spoty_markery}
+    \caption{Spoty na mapie prezentowane w formie markerów.}
+    \label{fig:mapa-spoty-markery}
+\end{figure}
+
+Zaimplementowany został przycisk do sprawdzania aktualnej pozycji użytkownika.
+Po jego kliknięciu na mapie wyświetlane jest koło oznaczające jego pozycję rys. \ref{fig:mapa-lokalizacja-uzytkownika}, a widok mapy zostaje
+płynnie na nią przybliżony.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/mapa_spoty_markery}
+    \caption{Aktualna lokalizacja użytkownika zaznaczona na mapie.}
+    \label{fig:mapa-lokalizacja-uzytkownika}
+\end{figure}
