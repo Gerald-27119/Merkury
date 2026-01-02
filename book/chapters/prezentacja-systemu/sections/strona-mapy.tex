@@ -18,7 +18,7 @@ Został podzielony na kilka głównych części:
 \label{subsec:mapa-ze-spotami}
 
 W tej części modułu użytkownik może przeglądać dostępne \glslink{spot}{spoty} na mapie wyświetlane w formie wielokątów (rys. \ref{fig:mapa-spoty-wielokaty}).
-Po odpowiednim oddaleniu widoku, w zależności od pola powierzchni obszaru, zostanie ono zaprezentowane jako marker rys. \ref{fig:mapa-spoty-markery}.
+Po odpowiednim oddaleniu widoku, w zależności od pola powierzchni obszaru, zostanie ono zaprezentowane jako marker (rys. \ref{fig:mapa-spoty-markery}).
 
 \begin{figure}[H]
     \centering
@@ -35,7 +35,7 @@ Po odpowiednim oddaleniu widoku, w zależności od pola powierzchni obszaru, zos
 \end{figure}
 
 Zaimplementowany został przycisk do sprawdzania aktualnej pozycji użytkownika.
-Po jego kliknięciu na mapie wyświetlane jest koło oznaczające jego pozycję rys. \ref{fig:mapa-lokalizacja-uzytkownika}, a widok mapy zostaje
+Po jego kliknięciu na mapie wyświetlane jest koło oznaczające jego pozycję (rys. \ref{fig:mapa-lokalizacja-uzytkownika}), a widok mapy zostaje
 płynnie na nią przybliżony.
 
 \begin{figure}[H]
@@ -43,4 +43,61 @@ płynnie na nią przybliżony.
     \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/mapa_spoty_markery}
     \caption{Aktualna lokalizacja użytkownika zaznaczona na mapie.}
     \label{fig:mapa-lokalizacja-uzytkownika}
+\end{figure}
+
+Przycisk \texttt{Search this area} pozwala na wyświetlenie listy \glslink{spot}{spotów} znajdujących się w
+widzianym obszarze mapy (rys. \ref{fig:mapa-search-area-lista-spotow}).
+O ich braku użytkownik informowany jest odpowiednim komunikatem (rys. \ref{fig:mapa-search-area-brak-spotow}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_area_spots_list}
+    \caption{Lista spotów znajdujących się w widocznym obszarze mapy.}
+    \label{fig:mapa-search-area-lista-spotow}
+\end{figure}
+
+Na liście każdy element zawiera nazwę \glslink{spot}{spota}, jego ocene wraz z ich liczbą, listę tagów oraz zdjęcie.
+Kliknięcie jendego z wyników powoduje przubliżenie widoku mapy na jego lokalizację.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_area_no_spots}
+    \caption{Brak spotów znajdujących się w widocznym obszarze mapy.}
+    \label{fig:mapa-search-area-brak-spotow}
+\end{figure}
+
+Otrzymane wyniki można posortować po ocenie lub liczbie ocen (w każdym wypadku malejąco lub rosnąco).
+Domyślnie lista nie jest w żaden sposób sortowana.
+Dostępne opcje przedstawiono na rys. \ref{fig:mapa-search-area-sortowanie}:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_area_sorting}
+    \caption{Opcje sortowania wyników wyszukiwania spotów w widocznym obszarze mapy.}
+    \label{fig:mapa-search-area-sortowanie}
+\end{figure}
+
+Możliwe jest również ustawienie filtrów po nazwie (rys. \ref{fig:mapa-search-filtrowanie-nazwa}) \textendash \space podczas wpisywania wyświetlane są podpowiedzi \textendash \space oraz
+wegług minimalnej ocenie \glslink{spot}{spota} (rys. \ref{fig:mapa-search-filtrowanie-ocena}).
+Po ustawieniu opcji, wyświetlane są tylko elementy spełniające warunki (rys. \ref{fig:mapa-search-filtrowanie-wyniki}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_area_name_filter}
+    \caption{Opcja filtrowania wyników wyszukiwania spotów w widocznym obszarze mapy po nazwie z podpowiedziami.}
+    \label{fig:mapa-search-filtrowanie-nazwa}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_area_rating_from_filter}
+    \caption{Opcja filtrowania wyników wyszukiwania spotów w widocznym obszarze mapy według minimalnej oceny.}
+    \label{fig:mapa-search-filtrowanie-ocena}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_area_name_filter}
+    \caption{Wyniki wyszukiwania spotów w widocznym obszarze mapy po ustawionych filtrach.}
+    \label{fig:mapa-search-filtrowanie-wyniki}
 \end{figure}
