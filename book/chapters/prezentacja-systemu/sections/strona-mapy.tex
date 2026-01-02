@@ -172,14 +172,66 @@ Znajdujące się poniżej przyciski akcji pozwalają użytkowikowi na wykonanie 
     \item \textbf{nawigację} \textendash \space po kliknięciu pierwszego przycisku od lewej w przeglądarce otwierana jest nowa karta z \texttt{Google Maps}
     z trasą wyznaczoną od lokalizacji użytkownika do wskazanego miejsca;
     \item \textbf{edycję listy ulubionych \glslink{spot}{spotów}} \textendash \space czynność ta wymaga zalogowania (w przypadku
-    jego braku wyświetlany jest odpowiedni komunikat) i pozwala użytkownikowi na dodanie \glslink{spot}{spota} do listy ulubionych
+    jego braku wyświetlany jest odpowiedni komunikat, rys. \ref{fig:spot-log-in-info}) i pozwala użytkownikowi na dodanie \glslink{spot}{spota} do listy ulubionych
     (ikona zostaje wypełniona) (rys. \ref{fig:spot-details-1}), a jej ponowne kliknięcie powoduje jego usunięcie
     (ikona jest w środku pusta, rys. \ref{fig:spot-not-in-favourites});
+    \item \textbf{udostępnienie \glslink{spot}{spota}} \textendash \space kliknięcie tego przycisku powoduje skopiowanie linku do
+    pamięci podręcznej sytemu o czym informuje odpowiedni komunikat (rys. \ref{fig:spot-share}); wklejenie go w pasek przeglądarki
+    otwiera panel ze szczegółami danego miejsca;
+    \item \textbf{dodanie multimediów} \textendash \space akcja ta wymaga zalogowania (w przypadku jego braku wyświetlany jest odpowiedni komunikat,
+    rys. \ref{fig:spot-log-in-info}),
+    otwiera formularz umożliwiający wybranie z urządzenia zdjęć i\\lub filmów i dołączenie ich do wybranego miesjca (rys. \ref{fig:spot-add-media-form}).
+    Jeżeli żadne multimedia nie zostaną dołączone, wysłanie formularza będzie niemożliwe o zostanie wyświetlona informacja o błędzie (rys. \ref{fig:spot-add-media-form-error}).
+    Wybrane pliki wyświetlane są w formie listy (rys. \ref{fig:spot-add-media-form-one-element}).
+    Najechanie na jeden z nich powoduje jego przyciemienie, a kliknięcie usunięcie z listy.
+    O pomyślnym przebiegu operacji informuje powiadomienie, a nowo dodane elementy widoczne są w galerii multimediów \glslink{spot}{spota} (rys. \ref{fig:spot-add-media-form-suceess}).
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_log_in_info}
+    \caption{Komunikat informujący, że do wybranej akcji wymagane jest zalogowanie.}
+    \label{fig:spot-log-in-info}
+\end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_not_in_favourites}
     \caption{Pusta ikona (druga od lewej) wskazuje na brak spota w liście ulubionych.}
     \label{fig:spot-not-in-favourites}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_share_success_info}
+    \caption{Komunikat informujący o pomyślnym skopiowaniu linku udostępniającego.}
+    \label{fig:spot-share}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_add_media_form}
+    \caption{Formularz umożliwiający dodanie multimediów do spota.}
+    \label{fig:spot-add-media-form}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_add_media_form_error}
+    \caption{Komunikat informujący o błędzie w formularzu umożliwiającym dodanie multimediów do spota.}
+    \label{fig:spot-add-media-form-error}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_add_media_form_one_media}
+    \caption{Lista wybranych elementów w formularzu umożliwiającym dodanie multimediów do spota.}
+    \label{fig:spot-add-media-form-one-element}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_add_media_success}
+    \caption{Komunikat informujący o pomyślnym zakończeniu operacji dodania multimediów do spota.}
+    \label{fig:spot-add-media-form-suceess}
 \end{figure}
