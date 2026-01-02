@@ -264,3 +264,32 @@ O pomyślnym przebiegu operacji informuje powiadomienie, a nowy komentarz jest d
     \caption{Komunikat informujący o pomyślnym dodaniu komentarza do spota.}
     \label{fig:spot-add-comment-form-success}
 \end{figure}
+
+Każdy komentarz zawiera informacje o autorze (zdjęcie profilowe oraz nazwę), po których kliknięciu użytkownik przenoszony jest
+na widok profilu autora.
+Poniżej wyświetlane są wystawiona ocena w gwiazdkach oraz data dodania elementu.
+Komentarz może zawierać multimedia, gdy ich liczba jest mniejsza niż trzy, wyświetlane są one obok siebie (rys. \ref{fig:spot-comment-two-photos}).
+Natomiast gdy jest ich więcej, prezentowane są trzy pierwsze elementy a na ostatnie z nich nałożony jest przycisk \emph{See more}(rys. \ref{fig:spot-comment-see-more-media}).
+Po jego kliknięciu pobierane są pozostałe multimedia (rys. \ref{fig:spot-comment-all-media}).
+Naciśnięcie jednego z elementów listy powoduje otworzenie go w galerii multimediów \glslink{spot}{spota}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_gallery_two_photos}
+    \caption{Komentarz spota zawierający dwa zdjęcia.}
+    \label{fig:spot-comment-two-photos}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_gallery_see_more_btn}
+    \caption{Komentarz spota zawierający powyżej trzech multimediów \textendash \space wyświetlany jest przycisk \emph{See more}.}
+    \label{fig:spot-comment-see-more-media}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_gallery_more_loaded}
+    \caption{Komentarz spota z załadowanymi wszystkimi multimediami.}
+    \label{fig:spot-comment-all-media}
+\end{figure}
