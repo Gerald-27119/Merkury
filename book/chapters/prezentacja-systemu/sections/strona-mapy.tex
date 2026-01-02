@@ -293,3 +293,34 @@ Naciśnięcie jednego z elementów listy powoduje otworzenie go w galerii multim
     \caption{Komentarz spota z załadowanymi wszystkimi multimediami.}
     \label{fig:spot-comment-all-media}
 \end{figure}
+
+Pod treścią komentarza umieszczone są przyciski do głosowania wraz z liczbą oddanych głosów.
+W przypadku oddania głosu zostaje wypełniona odpowiednia ikona.
+Wykonanie tej akcji wymaga od użytkownika bycia zalogowanym, brak tego komunikowany jest odpowiednią informacją (rys. \ref{fig:spot-log-in-info}).
+Na rysunku \ref{fig:spot-comment-upvote} poniżej przedstawiono wygląd sekcji po polubieniu komentarza:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_upvote}
+    \caption{Komentarz spota polubiony przez użytkownika.}
+    \label{fig:spot-comment-upvote}
+\end{figure}
+
+Następnie kliknięcie niepolubienia powoduje usunięcie głosu polubienia i wykonanie przeciwnej akcji (rys. \ref{fig:spot-comment-dowvote}).
+Ponowne wykonanie tej samej czynności (oddanie negatywnego głosu) powoduje jej cofnięcie, co przedstawia rysunek \ref{fig:spot-comment-no-vote}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_downvote}
+    \caption{Komentarz spota, na który użytkownik oddał negatywny głos.}
+    \label{fig:spot-comment-dowvote}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_downvote_clicked_again}
+    \caption{Komentarz spota, użytkownik nie oddał głosu.}
+    \label{fig:spot-comment-no-vote}
+\end{figure}
+
+
