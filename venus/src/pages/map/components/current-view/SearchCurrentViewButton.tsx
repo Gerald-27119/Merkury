@@ -5,6 +5,8 @@ import { currentViewSpotsListModalActions } from "../../../../redux/current-view
 import useSelectorTyped from "../../../../hooks/useSelectorTyped";
 import { useQueryClient } from "@tanstack/react-query";
 import { currentViewSpotsActions } from "../../../../redux/current-view-spots";
+import { spotDetailsModalAction } from "../../../../redux/spot-modal";
+import { spotWeatherActions } from "../../../../redux/spot-weather";
 
 export default function SearchCurrentViewButton() {
     const { current: map } = useMap();
@@ -42,6 +44,8 @@ export default function SearchCurrentViewButton() {
         dispatch(
             currentViewSpotsListModalActions.openCurrentViewSpotsListModal(),
         );
+        dispatch(spotDetailsModalAction.handleCloseModal());
+        dispatch(spotWeatherActions.closeAllWeatherModals());
     };
 
     return (
