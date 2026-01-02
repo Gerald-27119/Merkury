@@ -323,4 +323,20 @@ Ponowne wykonanie tej samej czynności (oddanie negatywnego głosu) powoduje jej
     \label{fig:spot-comment-no-vote}
 \end{figure}
 
+Komentarze ładowane są \glslink{paginacja}{paginacyjnie}.
+Na początku ładowana jest pierwsza ich strona, jeśli jest ich więcej wyświetlany jest przycisk \emph{Show More} (rys. \ref{fig:spot-comment-show-more-btn}).
+Po jego kliknieciu pobierana jest strona druga (rys. \ref{fig:spot-comment-more-loaded}), a pozostałe zgodnie z mechanizmem \glslink{infinite-scroll}{infifnite scroll}.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_show_more_comments_btn}
+    \caption{Przycisk ładujący kolejną stronę komentarzy spota.}
+    \label{fig:spot-comment-show-more-btn}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_downvote_clicked_again}
+    \caption{Załadowanie kolejnej strony komentarzy spota po kliknięciu przycisku \emph{Show More}}.
+    \label{fig:spot-comment-more-loaded}
+\end{figure}
