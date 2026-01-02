@@ -101,3 +101,33 @@ Po ustawieniu opcji, wyświetlane są tylko elementy spełniające warunki (rys.
     \caption{Wyniki wyszukiwania spotów w widocznym obszarze mapy po ustawionych filtrach.}
     \label{fig:mapa-search-filtrowanie-wyniki}
 \end{figure}
+
+Na mapie użytkownik może przeszukiwać \glslink{spot}{spoty} po nazwie.
+W tym celu do pola \texttt{Search on map} należy wpisać frazę, a po rozpoczęciu wprowadzania danych zostaną
+wyświetlone podpowiedzi (rys. \ref{fig:mapa-search-by-name-podpowiedzi}).
+Po zatwierdzeniu filtra zostanie wyświetlony panel z listą wyników (rys. \ref{fig:mapa-search-by-name-wyniki}).
+W przypadku braku pasujących elementów pojawi się odpowiedni komunikat (rys. \ref{fig:mapa-search-by-name-brak-wynikow}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_by_name_hints}
+    \caption{Lista podpowiedzi podczas wpisywania frazy w pole \texttt{Search on map}.}
+    \label{fig:mapa-search-by-name-podpowiedzi}
+\end{figure}
+
+Każdy element na liście prezentuje nazwę \glslink{spot}{spota}, jego ocenę wraz ich liczbą, listę tagów oraz zdjęcie.
+Kliknięcie na wybraną pozycję powoduje przbliżenie widoku mapy na jej lokalizację.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_by_name_spots_list}
+    \caption{Lista wyników spotów zawierających frazę wpisaną w pole \texttt{Search on map}.}
+    \label{fig:mapa-search-by-name-wyniki}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_by_name_empty_list}
+    \caption{Komunikat informujący o braku spotów pasujących do wpisanej frazy w pole \texttt{Search on map}.}
+    \label{fig:mapa-search-by-name-brak-wynikow}
+\end{figure}
