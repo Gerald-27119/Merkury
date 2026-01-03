@@ -243,7 +243,9 @@ Klasa \texttt{WebSocketService} stanowi warstwę po stronie \glslink{frontend}{f
 \glslink{stomp}{STOMP} działającym nad \glslink{websocket}{WebSocket}. Do ustanowienia transportu wykorzystano \gls{sockjs},
 a właściwy protokół wiadomościowy realizuje \gls{stomp_client} z biblioteki \gls{stompjs}.
 
+\bigskip
 \textbf{Główne odpowiedzialności} klasy:
+
 \begin{itemize}
     \item inicjalizacja i utrzymanie połączenia (\gls{handshake} oraz automatyczny \gls{reconnect}),
     \item rejestrowanie i usuwanie \glslink{subskrypcja}{subskrypcji} \glslink{stomp}{STOMP},
@@ -251,7 +253,9 @@ a właściwy protokół wiadomościowy realizuje \gls{stomp_client} z biblioteki
     \item publikowanie wiadomości do wskazanej \glslink{destynacja}{destynacji} oraz dołączanie \glslink{naglowek}{nagłówków}.
 \end{itemize}
 
+\medskip
 \textbf{Pola klasy:}
+
 \begin{itemize}
     \item \texttt{client} -- instancja \gls{stomp_client}, która realizuje połączenie i wymianę wiadomości.
     \item \texttt{subscriptions} -- mapa aktywnych subskrypcji (klucz: \glslink{destynacja}{destynacja}, wartość: uchwyt subskrypcji).
@@ -266,10 +270,9 @@ a właściwy protokół wiadomościowy realizuje \gls{stomp_client} z biblioteki
     \item podpina obsługę zdarzeń: poprawne połączenie, błąd protokołu oraz zamknięcie połączenia.
 \end{itemize}
 
-
-
-
+\medskip
 \textbf{Metody klasy:}
+
 \textbf{\texttt{connect()}:}
 uruchamia połączenie wywołując \texttt{activate()} na kliencie \glslink{stomp}{STOMP}.
 Jeżeli klient jest już aktywny, metoda nie powoduje utworzenia drugiego połączenia.
