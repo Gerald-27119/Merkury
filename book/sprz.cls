@@ -7,14 +7,38 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{sprz}[2023/10/27 SPRZ]
 \LoadClass[12pt,a4paper]{report}
+
+\def\@makechapterhead#1{
+    \vspace*{1pt}
+    {\parindent \z@ \raggedright \normalfont
+        \ifnum \c@secnumdepth>\m@ne
+        \huge\bfseries \@chapapp\space \thechapter\par\nobreak
+        \vskip 10pt
+        \fi
+        \interlinepenalty\@M
+        \Huge\bfseries #1\par\nobreak
+        \vskip 26pt
+    }
+}
+
+\def\@makeschapterhead#1{%
+    \vspace*{1pt}
+    {\parindent \z@ \raggedright \normalfont
+    \interlinepenalty\@M
+    \Huge\bfseries #1\par\nobreak
+    \vskip 26pt
+    }
+}
+
 \renewcommand{\baselinestretch}{1.3}
 \RequirePackage[
     a4paper,
-    top=1in,
-    bottom=1in,
+    top=1.2in,
+    bottom=1.2in,
     left=1in,
     right=1in
 ]{geometry}
+
 \RequirePackage{listings} %Aby dało się umieszczać kody źródłowe programów
 \RequirePackage[table]{xcolor}
 \RequirePackage{algorithmic} %Aby dało się umieszczać algorytmy
@@ -26,6 +50,7 @@
 \RequirePackage[pscoord]{eso-pic}% The zero point of the coordinate systemis the lower left corner of the page (the default).
 \RequirePackage{multirow}
 \RequirePackage{graphicx}
+\RequirePackage{float}
 \RequirePackage[backend=biber,style=numeric,sorting=none]{biblatex}
 
 \DeclareFieldFormat[article,inbook,incollection,inproceedings,patent,thesis,
@@ -41,7 +66,6 @@
 \newcommand{\@studtype}{\@latex@error{No \noexpand\@studtype given}\@ehc}
 \newcommand{\studtype}[1]{\renewcommand{\@studtype}{#1}}
 
-
 \newcommand{\@engtitle}{\@latex@error{No \noexpand\@engtitle given}\@ehc}
 \newcommand{\engtitle}[1]{\renewcommand{\@engtitle}{#1}}
 
@@ -54,21 +78,14 @@
 \newcommand{\@reviewer}{\@latex@error{No \noexpand\@reviewer given}\@ehc}
 \newcommand{\reviewer}[1]{\renewcommand{\@reviewer}{#1}}
 
-
 \newcommand{\@finishdate}{\@latex@error{No \noexpand\@finishdate given}\@ehc}
 \newcommand{\finishdate}[1]{\renewcommand{\@finishdate}{#1}}
-
-
-
 
 \newcommand{\@productsandservices}{\@latex@error{No \noexpand\@productsandservices given}\@ehc}
 \newcommand{\productsandservices}[1]{\renewcommand{\@productsandservices}{#1}}
 
-
 \newcommand{\@mainfunctionalities}{\@latex@error{No \noexpand\@mainfunctionalities given}\@ehc}
 \newcommand{\mainfunctionalities}[1]{\renewcommand{\@mainfunctionalities}{#1}}
-
-
 
 \newcommand{\@supervisor}{\@latex@error{No \noexpand\@supervisor given}\@ehc}
 \newcommand{\supervisor}[1]{\renewcommand{\@supervisor}{#1}}
@@ -81,9 +98,6 @@
 
 \newcommand{\@projlimitations}{\@latex@error{No \noexpand\@projlimitations given}\@ehc}
 \newcommand{\projlimitations}[1]{\renewcommand{\@projlimitations}{#1}}
-
-
-
 
 \newcommand{\@authors}{}
 \newcommand{\@authorstp}{}
@@ -110,9 +124,6 @@
     \renewcommand{\@nkeywordscoma}{, }
 }
 
-
-
-
 \newcommand{\putimage}[4]{%
     \begin{figure}[h!]
     \label{#3}
@@ -121,8 +132,6 @@
     \caption{#1}
     \end{figure}
 }
-
-
 
 \define@key{pjatk}{label}{\def\tablabel{#1}}
 \define@key{pjatk}{caption}{\def\tabcaption{#1}}
@@ -150,8 +159,7 @@
     \endtable
 }
 
-
-% Define the new environment 'stakeholder' and custom commands for stakeholders' information
+% Define the new environment 'requirementstab' and custom commands for requirements information
 \newenvironment{requirementstab}[1][]{%
     \setkeys{pjatk}{#1}% Setting default key values
     \newcommand{\id}[1]{Identyfikator: & ##1 & }
@@ -179,10 +187,6 @@
     \endtable
 }
 
-
-
-
-
 \newcommand{\generalrequirement}[7]{
     \begin{table}[h!]
     \centering
@@ -207,7 +211,6 @@
     \end{table}
 }
 
-
 \newcommand{\placetextbox}[4]{% \placetextbox{<offset top>}{<offset left/right>}{<align>}{<stuff>}
     \setbox0=\hbox{#4}% Put <stuff> in a box
     \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
@@ -219,7 +222,6 @@
         \fi
     }%
 }%
-
 
 \renewcommand{\maketitle}{%
     \renewcommand{\baselinestretch}{1.0}
@@ -255,9 +257,11 @@
     \end{titlepage}
     \renewcommand{\baselinestretch}{1.0}
 }
+
 \newcommand{\@mysmartparbox}[2]{%
     \parbox{#1}{\vspace{0.1cm}#2\vspace{0.1cm}}%
 }
+
 \newcommand{\makeprojectcard}{%
     \begin{center}
     \includegraphics[width=0.8\textwidth]{sprz/pjatk} \\
@@ -345,7 +349,6 @@
     \newpage
 }
 
-
 \newcommand{\makethesisattachments}{%
     \chapter*{Załączniki}
 
@@ -362,9 +365,6 @@
 
     \newpage
 }
-
-
-
 
 \lstset{
     belowcaptionskip=1\baselineskip,
