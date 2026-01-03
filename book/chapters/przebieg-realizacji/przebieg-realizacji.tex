@@ -1,671 +1,273 @@
-%! Author = Adam
+ %! Author = Adam
 %! Date = 10/01/2025
 
+% Informacja, kto jaki rozdział książki napisał ma być w rozdziale o pracy indywidualnej,
+% tutaj nie. Komentarz informacyjny.
 
 \chapter{Przebieg realizacji projektu}
 \label{ch:przebieg-realizacji-projektu}
 
-W niniejszym rozdziale przedstawiono przebieg realizacji
-projektu w kolejnych Etapach zdefiniowanych w harmonogramie.
-Sposób realizacji projektu odzwierciedla model pracy zespołu zgodny z metodyką
-\gls{DAD_LLC}, w której prace deweloperskie, planowanie
-i doprecyzowywanie wymagań przebiegają iteracyjnie i równolegle.
-
-Warto podkreślić, że przez cały czas trwania projektu członkowie zespołu
-poświęcali znaczącą część czasu na wzajemne przeglądy kodu
-(\gls{review-kodu}) oraz ciągły feedback dotyczący implementacji
-poszczególnych funkcjonalności.
-Taki sposób pracy pozwolił na szybkie wychwytywanie błędów,
-ujednolicenie stylu implementacji oraz bieżące korygowanie
-wymagań.
-
-Dla przejrzystości opisu, w ramach każdego miesiąca przedstawiono
-zadania w podziale na poszczególnych członków zespołu.
-
-\newenvironment{zadaniaosoby}[1]{%
-    \par\medskip
-    \noindent\textbf{#1}\par
-    \vspace{-0.4\baselineskip}
-    \begin{itemize}
-}{%
-    \end{itemize}
-}
-
-
-\section{Faza przedprojektowa (lipiec–wrzesień 2024)}
-\label{sec:faza-przedprojektowa}
-
-Faza przedprojektowa, wyróżniona w harmonogramie jako okres od lipca do
-września 2024 roku, poprzedzała formalne zatwierdzenie tematu pracy
-oraz opracowanie szczegółowego harmonogramu.
-
-Na początku fazy przedprojektowej doprecyzowano koncepcję systemu
-i wybrano główny stos technologiczny, co umożliwiło szybkie przejście do
-bardziej zaawansowanych działań opisanych w kolejnych podsekcjach.
-Niezależnie od ostatecznego sformułowania tematu zakładano stworzenie
-aplikacji webowej wymagającej kont użytkowników, co wynikało wprost
-ze specyfiki specjalizacji „Aplikacje Internetowe”, na której studiowali
-wszyscy członkowie zespołu.
-
-\subsection*{Lipiec 2024}
-
-\begin{zadaniaosoby}{Cały zespół}
-    \item Określenie struktury plików na \glslink{backend}{backendzie}.
-    \item Wstępny wybór stosu technologicznego:
-    \gls{backend} w \gls{spring-boot}, \gls{frontend} w \gls{react} z wykorzystaniem
-    \gls{type-script} oraz system kontroli wersji oparty na \gls{github},
-    a także ogólne założenia dotyczące dalszego rozwoju architektury.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Przygotowanie lokalnego środowiska deweloperskiego dla \glslink{backend}{backendu}
-    i \glslink{frontend}{frontendu} (konfiguracja \gls{ide}, testowe projekty, podstawowe
-    ustawienia narzędzi budujących), co ułatwiło płynne przejście
-    do właściwych prac w kolejnych miesiącach.
-\end{zadaniaosoby}
-
-\subsection*{Sierpień 2024}
-
-\begin{zadaniaosoby}{Cały zespół}
-    \item Utworzenie projektu w narzędziu \gls{jira}, zdefiniowanie
-    typów zgłoszeń (epik, zadanie, podzadanie) oraz przygotowanie
-    podstawowego workflow z wykorzystaniem \glslink{tablica_kanban}{tablicy kanban}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Konfiguracja biblioteki \gls{tailwind-css} w części
-    \glslink{frontend}{frontendowej}.
-    \item Konfiguracja narzędzia \gls{prettier} do automatycznego
-    formatowania kodu \glslink{frontend}{frontendu}.
-    \item Implementacja rejestracji użytkownika zarówno na \glslink{backend}{backendzie} jak i \glslink{frontend}{frontendzie}.
-    \item Dodanie i konfiguracja biblioteki \gls{tanstack-query}.
-    \item Stworzenie wstępnej struktury \glslink{routing}{routingu} na \glslink{frontend}{frontendzie}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Implementacja podstawowej strony powitalnej na \glslink{frontend}{frontendzie}.
-    \item Implementacja podstaw logiki logowania i rejestracji
-    użytkownika po stronie \glslink{backend}{backendu}.
-    \item Dodanie obsługi przypadku, w którym podczas rejestracji
-    wybrana nazwa użytkownika jest już zajęta.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Kacper Badek}
-    \item Stworzenie formularza logowania użytkownika po stronie
-    \glslink{frontend}{frontendu} oraz jego integracja z przygotowanym
-    \glslink{backend}{backendowym} \gls{api} logowania.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Integracja systemu z zewnętrzną usługą wysyłania wiadomości
-    e-mail oraz implementacja wysyłania wiadomości powitalnej do
-    nowo zarejestrowanego użytkownika.
-    \item Dodanie pliku konfiguracyjnego do formatowania kodu w \gls{intellij-idea}.
-\end{zadaniaosoby}
-
-\subsection*{Wrzesień 2024}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Dodanie \gls{docker-compose} dla \glslink{backend}{backendu} i bazy danych.
-    \item Dodanie cyklicznego testu sprawdzającego, czy \glslink{backend}{backend}
-    uruchamiany w środowisku \gls{docker-compose} działa poprawnie
-    i odpowiada na podstawowe żądania.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Dodanie przycisków na \glslink{frontend}{frontendzie} do rejestracji kontem Google lub \gls{github}.
-    \item Poprawa logiki obsługi \gls{jwt}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Kacper Badek}
-    \item Implementacja funkcjonalności resetowania hasła użytkownika,
-    obejmującej generowanie i weryfikację tokenów resetu oraz
-    formularz zmiany hasła.
-\end{zadaniaosoby}
-
-
-\section{Etap 1 (październik 2024 – styczeń 2025)}
-\label{sec:etap1}
-
-Etap 1 był przede wszystkim poświęcony dopracowaniu wymagań wstępnych,
-stabilizacji modułu uwierzytelniania oraz pierwszym eksperymentom
-z mapą \glslink{spot}{spotów}.
-W tym okresie zespół łączył prace deweloperskie z działaniami
-analitycznymi i planistycznymi (opracowanie harmonogramu, założeń
-oraz wymagań w ramach przedmiotów projektowych na uczelni).
-
-\subsection*{Październik 2024}
-
-\begin{zadaniaosoby}{Cały zespół}
-    \item Formalny wybór tematu projektu inżynierskiego.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Zaprezentowanie zespołowi przykładowych \glslink{integration-tests}{testów integracyjnych}
-    oraz \glslink{e2e-tests}{testów E2E} na \glslink{backend}{backendzie}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Poprawa konfiguracji \gls{cors} na \glslink{backend}{backendzie}, tak aby aplikacja
-    \glslink{frontend}{frontendowa} mogła komunikować się z serwerem w sposób bezpieczny
-    i zgodny z przeglądarkowymi ograniczeniami.
-    \item Zmiana sposobu przechowywania tokena \gls{jwt} – umieszczenie go
-    w \glslink{http-only-cookie}{ciasteczku HttpOnly}, co poprawiło bezpieczeństwo
-    aplikacji.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Implementacja logowania \gls{oauth} z wykorzystaniem Google
-    i \gls{github} po stronie \glslink{backend}{backendu} oraz integracja z \glslink{frontend}{frontendem}.
-    \item Napisanie testów na \glslink{backend}{backendzie} do \gls{oauth}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Kacper Badek}
-    \item Uporządkowanie pliku \texttt{.gitignore}
-    oraz struktury repozytorium.
-\end{zadaniaosoby}
-
-\subsection*{Listopad 2024}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Implementacja demonstracyjnej mapy z wykorzystaniem
-    biblioteki \gls{leaflet} – prototyp miał na celu pokazanie zespołowi
-    możliwości interaktywnej mapy.
-    \item Poprawki konfiguracji narzędzia \gls{eslint}
-    po stronie \glslink{frontend}{frontendu}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Dalsze poprawki obsługi \gls{jwt} na \glslink{backend}{backendzie} oraz dodanie logowania
-    błędów związanych z procesem logowania i rejestracji.
-    \item Implementacja przykładowych \glslink{e2e-tests}{testów E2E} na \glslink{frontend}{frontendzie}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Poprawa logiki logowania użytkownika po stronie \glslink{backend}{backendu}
-    i \glslink{frontend}{frontendu}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Kacper Badek}
-    \item Implementacja logiki cyklicznego usuwania przeterminowanych
-    tokenów resetu hasła.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Cały zespół}
-    \item Opracowanie harmonogramu projektu w formie opisowej
-    oraz w postaci \glslink{gantt-chart}{diagramu Gantta}.
-    \item Przygotowanie wstępnych założeń i wymagań
-    w ramach przedmiotu \gls{pro}.
-\end{zadaniaosoby}
-
-\subsection*{Grudzień 2024}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Dalsze poprawki konfiguracji \gls{spring-security} na \glslink{backend}{backendzie},
-    w tym doprecyzowanie ról i uprawnień.
-    \item Dodanie nowych użytkowników do bazy danych, w celach deweloperskich.
-    \item Implementacja testów automatycznych związanych
-    z bezpieczeństwem (scenariusze logowania i rejestracji
-    użytkownika po stronie \glslink{backend}{backendu}).
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Dodanie biblioteki \gls{redux} do \glslink{frontend}{frontendu} i wstępna
-    konfiguracja store.
-    \item Implementacja automatycznego wylogowywania użytkownika
-    po wygaśnięciu tokena \gls{jwt}.
-    \item Stworzenie komponentu odpowiedzialnego za prezentację błędów
-    systemowych użytkownikowi (globalny mechanizm powiadomień).
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Stworzenie komponentu \glslink{frontend}{frontendu} odpowiedzialnego
-    za wyświetlanie szczegółów pojedynczego \glslink{spot}{spota}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Kacper Badek}
-    \item Poprawa logowania błędów związanych z resetowaniem hasła
-    użytkownika po stronie \glslink{backend}{backendu}.
-    \item Dostosowanie wyglądu i treści wiadomości e-mail wysyłanych
-    przez system (np. w procesie resetu hasła).
-\end{zadaniaosoby}
-
-\subsection*{Styczeń 2025}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Poprawa testów logowania i rejestracji na \glslink{backend}{backendzie}
-    oraz ujednolicenie asercji.
-    \item Rozwiązanie problemu z relacjami między obiektami w testach integracyjnych.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Rozszerzenie stanu \gls{redux} o informację o tym,
-    czy użytkownik jest aktualnie zalogowany.
-    \item Implementacja testów dla procesów logowania
-    i rejestracji użytkownika.
-    \item Implementacja \glslink{integration-tests}{testów integracyjnych} i \glslink{unit-tests}{testów jednostkowych} dla \glslink{sidebar}{sidebara}.
-    \item Dodanie uruchamiania testów \glslink{frontend}{frontendu} do \gls{cicd}.
-    \item Poprawa sposobu wyświetlania szczegółów \glslink{spot}{spota}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Poprawki logowania i rejestracji z wykorzystaniem \gls{oauth}
-    (Google/\gls{github}) – dopracowanie scenariuszy brzegowych.
-    \item Implementacja logiki filtrowania \glslink{spot}{spotów} na mapie
-    po różnych kryteriach (np. nazwa) po stronie \glslink{backend}{backendu}.
-    \item Dalsze dopracowanie logiki filtrowania \glslink{spot}{spotów} po nazwie
-    po stronie \glslink{backend}{backendu}.
-    \item Implementacja logiki zmiany danych konta użytkownika zarówno na \glslink{backend}{backendzie}
-    jak i na \glslink{frontend}{frontendzie}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Kacper Badek}
-    \item Dodanie danych deweloperskich dla mapy
-    (przykładowe \glslink{spot}{spoty}, dane do prezentacji i testów).
-    \item Implementacja logiki dodawania \glslink{spot}{spota} do ulubionych
-    po stronie \glslink{backend}{backendu}.
-\end{zadaniaosoby}
-
-
-\section{Etap 2 (luty 2025 – wrzesień 2025)}
-\label{sec:etap2}
-
-Etap 2 obejmował zasadniczą część prac deweloperskich nad aplikacją.
-W tym okresie rozwijano kolejne moduły (mapa, forum, czat,
-panel użytkownika), równolegle doprecyzowując dokumentację oraz
-weryfikując i aktualizując wymagania na podstawie bieżących
-doświadczeń zespołu.
-
-Równolegle, w ramach przedmiotu \gls{prz1} opracowano projekt interfejsu
-użytkownika, konsultowany z prowadzącym zajęcia, mgr. inż. Adamem
-Urbanowiczem, który na bieżąco przekazywał zespołowi uwagi i
-rekomendacje dotyczące ergonomii oraz spójności interfejsu
-z założeniami funkcjonalnymi.
-
-\subsection*{Luty 2025}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Poprawa wyglądu strony logowania, w tym dopracowanie trybu jasnego tejże strony.
-    \item Implementacja automatycznego wylogowania użytkownika.
-    \item Implementacja obsługi błędów \gls{jakarta-validation}.
-    \item Refactor wyglądu komponentu pogodowego na \glslink{frontend}{frontendzie}.
-    \item Poprawa działania \gls{cicd}.
-    \item Wypracowanie propozycji palety kolorystycznej interfejsu użytkownika.
-    \item Implementacja integracji z zewnętrznym \gls{api} pogodowym
-    służącym do pobierania podstawowych danych pogodowych
-    dla danego \glslink{spot}{spota}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Implementacja logiki dodawania \glslink{spot}{spota} do ulubionych
-    po stronie \glslink{frontend}{frontendu} oraz integracja z \glslink{backend}{backendem}.
-    \item Refaktoryzacja kodu na \glslink{frontend}{frontendzie}.
-    \item Obsługa błędów przy wysyłaniu maili.
-    \item Zmiana dostawy usługi do wysyłania maili.
-    \item Optymalizacja zapytań do bazy danych.
-    \item \glslink{integration-tests}{Testy integracyjne} logiki logowania i rejestracji \gls{oauth}
-    na \glslink{backend}{backendzie} oraz filtrowania \glslink{spot}{spotów}.
-    \item Poprawa plików \gls{dockerfile} oraz \gls{docker-compose}.
-    \item Przygotowanie skryptu uruchamiającego wszystkie wymagane
-    kontenery \gls{docker} (bazy danych i usługi pomocnicze) na potrzeby
-    środowiska deweloperskiego, co uprościło proces uruchamiania
-    projektu na nowych stanowiskach.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Dalsze poprawki konfiguracji \gls{spring-security} na \glslink{backend}{backendzie},
-    obejmujące doprecyzowanie reguł autoryzacji i konfiguracji filtrów.
-    \item Poprawa konfiguracji pliku \texttt{.gitignore} w repozytorium,
-    tak aby obejmował również nowe katalogi i pliki generowane przez
-    narzędzia deweloperskie.
-    \item Poprawa działania \gls{cicd} dla \glslink{backend}{backendu}.
-    \item Poprawa struktury plików na \glslink{backend}{backendzie}.
-    \item Dodanie cachowania na \glslink{backend}{backendzie} w postaci \gls{redis}.
-    \item Poprawa konfiguracji poziomów logowania o błędach na \glslink{backend}{backendzie}.
-\end{zadaniaosoby}
-
-\subsection*{Marzec 2025}
-
-\begin{zadaniaosoby}{Cały Zespół}
-    \item Wypracowanie wstępnej wersji wyglądu interfejsu użytkownika w ramach \gls{prz1}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Kacper Badek}
-    \item Refaktoryzacja szablonów wiadomości e-mail związanych
-    z rejestracją i resetowaniem hasła – ujednolicenie struktury HTML,
-    metadanych oraz stylu logo aplikacji.
-    \item Dodanie możliwości
-    edycji, usuwania i głosowania na komentarze \glslink{spot}{spota} oraz lepsza integracja
-    z widokiem szczegółów \glslink{spot}{spota} (\gls{paginacja}, powiadomienia,
-    prezentacja ocen).
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-
-    \item Przygotowanie instrukcji uruchamiania projektu w README.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Migracja wszystkich adresów obrazów (galerie zdjęć \glslink{spot}{spotów} oraz logotypy
-    w szablonach e-mail) z usługi Google Drive do \gls{cdn} ucarecdn.com.
-\end{zadaniaosoby}
-
-\subsection*{Kwiecień 2025}
-
-\begin{zadaniaosoby}{Cały Zespół}
-    \item Wypracowanie finalnej wersji wyglądu interfejsu użytkownika w ramach \gls{prz1}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Konfiguracja projektu dokumentacji w \gls{latex},
-    utworzenie pliku bibliografii oraz głównego dokumentu z przykładową strukturą rozdziałów.
-    \item Implementacja podstaw funkcjonalności czatu w warstwie
-    \glslink{backend}{backendowej} i \glslink{frontend}{frontendowej}, a także dostosowanie layoutu i paska bocznego
-    do nowej sekcji.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Integracja \glslink{frontend}{frontendu} z \gls{type-script}.
-    \item Integracja \gls{tailwind-css} z projektem \glslink{frontend}{frontendu} oraz dodanie
-    predefiniowanych kolorów zgodnych z nową szatą kolorystyczną interfejsu użytkownika.
-    \item Poprawa i rozbudowa \glslink{sidebar}{sidebara}.
-    \item Implementacja strony profilu użytkownika.
-\end{zadaniaosoby}
-
-\subsection*{Maj 2025}
-
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Migracja mapy z biblioteki \gls{leaflet} na \gls{react-maplibre},
-    oraz implementacja od nowa podstaw wyświetlania \glslink{spot}{spotów} i interakcji użytkownika z mapą.
-    \item Zmiana wyglądu znacznika lokalizacji użytkownika na mapie.
-    \item Migracja funkcji \gls{api} związanych ze \glslink{spot}{spotami} do \gls{type-script},
-    rozszerzenie modelu szczegółów \glslink{spot}{spota} o dodatkowe informacje
-    lokalizacyjne i statystyczne (np. kraj, miasto, tagi, liczniki ocen)
-    oraz refaktoryzacja logiki interakcji z markerami \gls{react-maplibre}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Refactor panelu bocznego,
-    dodanie ogólnych hooków do zarządzania stanem (w tym trybem
-    ciemnym) oraz wprowadzenie zależności do biblioteki \texttt{motion}
-    na potrzeby animacji.
-    \item Dodanie sekcji \textit{„Znajomi”} w panelu konta, obejmującej
-    obsługę znajomych, obserwowanych i obserwujących, wprowadzenie
-    nowych modeli i \glslink{endpoint}{endpointów} do zarządzania relacjami oraz dodanie
-    testów jednostkowych.
-    \item Refaktoryzacja \glslink{endpoint}{endpointów} użytkownika tak, aby login był
-    pobierany z kontekstu uwierzytelnienia zamiast z parametru
-    ścieżki, dostosowanie do tego wywołań na froncie oraz przeniesienie
-    \gls{redux-slice} odpowiedzialnego za konto użytkownika na \gls{type-script}
-    z uproszczonym stanem i uporządkowanymi importami.
-    \item Poprawa wyglądu formularzy logowania i rejestracji.
-    \item Poprawa zarządzania stanem \glslink{sidebar}{sidebara}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Wprowadzenie usprawnień w potokach \gls{cicd} \glslink{backend}{backendu},
-    obejmujących optymalizację czasu budowania oraz doprecyzowanie
-    kroków uruchamiania testów, co zwiększyło niezawodność procesu
-    wdrażania.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Kacper Badek}
-    \item Dodanie pełnoprawnego forum po stronie \glslink{frontend}{frontendu}, obejmującego
-    obsługę postów, kategorii, tagów i \glslink{paginacja}{paginacji}, oraz integracja
-    \glslink{backend}{backendu} z usługą \gls{azure-blob-storage} do uploadu i
-    przechowywania mediów.
-\end{zadaniaosoby}
-
-\subsection*{Czerwiec 2025}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Przebudowa profilu użytkownika poprzez rozdzielenie widoków
-    własnego profilu i profili innych użytkowników, dodanie
-    przycisków akcji (follow/unfollow, zaproszenie do znajomych),
-    usprawnienie nawigacji z kart znajomych i \glslink{sidebar}{sidebara} oraz aktualizacja testów.
-    \item Dodanie sekcji \textit{„Ulubione \glslink{spot}{spoty}”} w panelu konta
-    (lista, filtrowanie, usuwanie oraz podgląd na mapie), wprowadzenie
-    współdzielonych komponentów i modeli dla tej funkcji oraz
-    uporządkowanie przestarzałego kodu i modeli współrzędnych.
-    \item Przebudowa funkcjonalności społecznościowej: rozdzielenie
-    widoków sekcji \textit{social} dla właściciela profilu i osoby
-    oglądającej, aktualizacja modelu danych i routingu oraz dodanie
-    nawigacji z liczników profilu do odpowiednich list (friends,
-    followers, followed), wraz z wprowadzeniem osobnego \gls{redux-slice}
-    do zarządzania aktywnym typem listy social.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Refaktoryzacja komentarzy do \glslink{spot}{spotów} – zastąpienie ogólnego
-    modelu szczegółowym, wprowadzenie nowych
-    komponentów \gls{ui}, uporządkowanie warstwy \gls{api} oraz poprawa wyglądu
-    i układu sekcji komentarzy.
-\end{zadaniaosoby}
-
-\subsection*{Lipiec 2025}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Dodanie nowej sekcji \textit{„Zdjęcia”} w panelu użytkownika,
-    z możliwością sortowania i filtrowania po dacie, aktualizacja
-    routingu i styli oraz dopisanie testów.
-    \item Dodanie sekcji komentarzy w panelu konta (z grupowaniem
-    po dacie i \glslink{spot}{spocie} oraz filtrowaniem/sortowaniem po dacie).
-    \item Dodanie strony ustawień konta umożliwiającej edycję nazwy
-    użytkownika, adresu e-mail i hasła. Aktualizacja routingu
-    i modeli (nowe enumy/interfejsy, wariant przycisku), usunięcie
-    starych \glslink{endpoint}{endpointów} edycji danych oraz dodanie zależności potrzebnych do obsługi formularzy.
-    \item Ujednolicenie obsługi zdjęć i filmów do wspólnego modelu
-    \textit{media}, dodanie nowej sekcji \textit{„Filmy”}
-    w panelu użytkownika (routing, \glslink{endpoint}{endpointy}, komponenty UI) oraz
-    refaktoryzacja istniejących widoków i DTO tak, aby korzystały
-    z nowych, współdzielonych struktur.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Dodanie pobierania danych czatu i wysyłania wiadomości po \gls{websocket}.
-    \item Uporządkowanie formatowania kodu z wykorzystaniem
-    narzędzia \gls{prettier}, dodanie skryptu \texttt{format:check}
-    oraz sprawdzania formatowania w potokach \gls{cicd}.
-    \item Ujednolicenie modelu danych czatu, uproszczenie logiki komunikacji z
-    \gls{api} i struktury store'a \gls{redux}, dostosowanie komponentów czatu
-    do nowego modelu oraz poprawa wyglądu czatu.
-    \item Poprawa danych deweloperskich w bazie (m.in. przykładowych
-    \glslink{spot}{spotów} i użytkowników).
-    \item Usprawnienie mechanizmu nieskończonego przewijania i nazewnictwa
-    listy czatów.
-    \item Stworzenie ogólnej logiki i komponentów pomocniczych
-    umożliwiających wszystkim członkom zespołu wygodne korzystanie
-    z \glslink{websocket}{websocketów} na froncie.
-    \item Dodanie grupowania wiadomości na czacie po ich dacie wysłania,
-    implementacja wielowierszowego pola tekstowego.
-    \item Wprowadzenie drobnych poprawek w potokach \gls{cicd}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Zastąpienie dotychczasowych filtrów wyszukiwania \glslink{spot}{spotów} na mapie nowym paskiem wyszukiwania po nazwie
-    z bocznym panelem wyników i \glslink{paginacja}{paginacją} oraz dopracowanie interfejsu
-    (gwiazdki ocen) i logiki \glslink{cache}{cache'owania} zapytań.
-    \item Ujednolicenie obsługi mediów dla \glslink{spot}{spotów} i komentarzy oraz
-    implementacja wyświetlania zdjęć i filmów dla \glslink{spot}{spotów}.
-    \item Refaktoryzacja struktury plików na \glslink{backend}{backendzie} związanych
-    z modułem mapy.
-    \item Dodanie możliwości wyszukiwania \glslink{spot}{spotów} na mapie w obecnie widocznym dla użytkownika obszarze.
-    \item Dodanie zdjęć i filmów do \glslink{spot}{spotów} w celach deweloperskich.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Kacper Badek}
-    \item Zapoznanie się z dokumentacją \gls{tinymce} \gls{rich-text-editor}.
-\end{zadaniaosoby}
-
-\subsection*{Sierpień 2025}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Dodanie do czatu możliwości wyszukiwania i wysyłania animowanych
-    obrazów (\glslink{gif}{gifów}) oraz wysyłania \gls{emoji}.
-    \item Usprawnienie czatu poprzez wprowadzenie optymistycznego
-    wysyłania wiadomości, dodanie nowych \glslink{endpoint}{endpointów}
-    do stronicowanego pobierania starszych wiadomości.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Dodanie jednoznacznego „punktu środka” \glslink{spot}{spota} i konsekwentne wykorzystywanie
-    go w \glslink{backend}{backendzie} i \glslink{frontend}{frontendzie}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Dodanie na stronie głównej karuzeli z najpopularniejszymi
-    \glslink{spot}{spotami} oraz wyszukiwarki \glslink{spot}{spotów} po lokalizacji, z listą wyników i dystansem od użytkownika.
-    \item Dodanie zaawansowanego wyszukiwania \glslink{spot}{spotów} na stronie głównej.
-    \item Wprowadzenie \glslink{paginacja}{paginacji} do \glslink{endpoint}{endpointów} panelu użytkownika
-    i przebudowa powiązanych komponentów \glslink{frontend}{frontendu} na nieskończone
-    przewijanie.
-    \item Dodanie sekcji \textit{„Zdjęcia”} w panelu społecznościowym
-    użytkownika oraz uproszczenie logiki nieskończonego przewijania
-    dla różnych zakładek social.
-    \item Dodanie do panelu użytkownika funkcji dodawania własnych
-    \glslink{spot}{spotów} oraz widoku listy dodanych \glslink{spot}{spotów}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Kacper Badek}
-    \item Przygotowanie formularza dodawania postów z wykorzystaniem edytora \gls{tinymce}.
-    \item Skonfigurowanie biblioteki \gls{jsoup} na \glslink{backend}{backendzie}.
-\end{zadaniaosoby}
-
-\subsection*{Wrzesień 2025}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Wprowadzenie możliwości rozpoczynania lub kontynuowania
-    prywatnych rozmów czatowych bezpośrednio z list znajomych
-    i obserwujących w zakładce „Social”.
-    \item Dodanie obsługi \gls{emoji} na czacie oraz poprawa wyglądu okna do wysyłania \glslink{gif}{gifów}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Refaktoryzacja systemu informacji o błędach i sukcesach na \glslink{frontend}{frontendzie}, umożliwiająca
-    jednoczesne wyświetlanie wielu komunikatów oraz zwiększająca
-    modularność i możliwość ponownego wykorzystania komponentów.
-    \item Wprowadzenie \glslink{paginacja}{paginacji} dla wyszukiwarki \glslink{spot}{spotów}.
-    \item Dodanie walidacji formularza dodawania \glslink{spot}{spota},
-    a także wyświetlanie komunikatów błędów.
-    \item Rozszerzenie komponentu przesyłania multimediów o podgląd
-    wybranych obrazów i materiałów wideo.
-    \item Wprowadzenie obsługi zmiany zdjęcia profilowego
-    użytkownika.
-    \item Refaktoryzacja struktury projektu części opisowej pracy inżynierskiej –
-    zastąpienie dotychczasowej treści demonstracyjnej rzeczywistymi
-    rozdziałami opisującymi projekt.
-    \item Rozszerzenie zaawansowanych możliwości wyszukiwania \glslink{spot}{spotów}
-    o sortowanie wyników według popularności lub oceny oraz filtrowanie
-    po minimalnej ocenie.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Implementacja kompletnej funkcjonalności pogody dla \glslink{spot}{spotów}:
-    dodanie podstawowego i szczegółowego modalu pogodowego
-    (\gls{modal}) oraz zestawu komponentów interfejsu prezentujących
-    m.in. temperaturę, prędkość wiatru, opady oraz dodatkowe
-    parametry meteorologiczne.
-    \item Przebudowa obsługi pogody tak, aby zamiast bezpośrednich
-    wywołań publicznego \gls{api} wykorzystywany był \glslink{backend}{backend} jako warstwa
-    pośrednia.
-    \item Implementacja wyświetlania zdjęcia profilowego użytkownika w komentarzach \glslink{spot}{spota}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Kacper Badek}
-    \item Zamiana edytora \gls{tinymce} na \gls{tiptap}.
-    \item Implementacja przeglądania postów na forum oraz ich sortowania.
-    \item Wprowadzenie czytelniejszych adresów \gls{url} opartych na \glslink{slug}{slugach},
-    poprawa walidacji dodawania nowego posta.
-    \item Poprawa ergonomii poruszania się po forum.
-\end{zadaniaosoby}
-
-\section{Etap 3 (październik 2025 – styczeń 2026)}
-\label{sec:etap3}
-
-Etap 3 obejmował finalizację prac nad systemem,
-dopracowanie dokumentacji technicznej i tekstowej pracy inżynierskiej
-oraz przygotowanie projektu do oddania.
-W tym czasie większość nowych funkcjonalności była już zaimplementowana,
-a nacisk położono na stabilizację, testy oraz spójny opis
-w dokumentacji.
-
-W ramach przedmiotu \gls{psem}, prowadzonego przez dr. hab. Marka
-Bednarczyka, postępy w przygotowywaniu dokumentacji były na bieżąco
-konsultowane, a na podstawie uzyskiwanej informacji zwrotnej wprowadzano
-kolejne poprawki i uzupełnienia.
-Analogiczny tryb pracy przyjęto w ramach przedmiotu \gls{prz2}, którego
-opiekunem był promotor pracy, mgr. inż. Adam Urbanowicz.
-
-\subsection*{Październik 2025}
-
-\begin{zadaniaosoby}{Adam Langmesser}
-    \item Wprowadzenie możliwości tworzenia czatów grupowych,
-    w tym obsługi wyboru uczestników, komunikacji z \glslink{backend}{backendem}
-    oraz integracji z istniejącą listą czatów.
-    \item Dodanie funkcjonalności wysyłania i wyświetlania załączników
-    w wiadomościach czatu (pliki oraz obrazy), wraz z logiką wyboru,
-    podglądu i wysyłania samych plików bez treści tekstowej.
-    \item Rozszerzenie istniejącej funkcjonalności czatów grupowych
-    o możliwość edycji nazwy oraz obrazu czatu
-    po stronie \glslink{backend}{backendu} i \glslink{frontend}{frontendu}.
-    \item Dodanie możliwości dołączania nowych użytkowników
-    do istniejących czatów grupowych.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Mateusz Redosz}
-    \item Rozbudowa systemu statusów znajomych w części społecznościowej
-    aplikacji, w tym rozróżnienie zaproszeń wysłanych, otrzymanych
-    oraz relacji zakończonych, a także dostosowanie interfejsu
-    do prezentacji odpowiednich komunikatów i akcji.
-    \item Wprowadzenie zaawansowanego zarządzania zaproszeniami
-    do znajomych: dodanie modalnego widoku listy zaproszeń, obsługi
-    akceptowania i odrzucania oraz integracji z dedykowanymi
-    \glslink{endpoint}{endpointami} \glslink{backend}{backendowymi}.
-    \item Dodanie funkcji \textit{„Dodaj znajomego”} w sekcji
-    społecznościowej, obejmującej wyszukiwarkę użytkowników
-    (\gls{paginacja}, wyszukiwanie po nazwie użytkownika) oraz spójny
-    wygląd modalnego okna wyszukiwania.
-    \item Rozbudowa komponentu przycisku przesyłania plików
-    o możliwość podglądu wielu plików, nadawania im unikalnych
-    identyfikatorów oraz usuwania pojedynczych plików przed wysłaniem.
-    \item Przygotowanie struktury rozdziałów w \glslink{latex}{latexie}.
-    \item Opracowanie rozdziału ~\ref{subsec:mateusz-redosz} \textit{\nameref{subsec:mateusz-redosz}}.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Stanisław Oziemczuk}
-    \item Wprowadzenie rozszerzonej galerii multimediów dla \glslink{spot}{spotów},
-    obejmującej obsługę \glslink{paginacja}{paginacji}, podglądu w trybie pełnoekranowym
-    oraz dodatkowych akcji (np. udostępnianie odnośnika do zasobu).
-    \item Dostosowanie modułu mapy oraz widoku szczegółów \glslink{spot}{spotów}
-    pod kątem responsywności i skalowania na dużych ekranach.
-    \item Poprawa responsywności panelu pogodowego.
-\end{zadaniaosoby}
-
-\begin{zadaniaosoby}{Kacper Badek}
-    \item Dodanie obsługi komentarzy do postów (dodawanie, edycję,
-    usuwanie oraz głosowanie).
-    \item Zastąpienie klasycznych wskaźników ładowania
-    loaderami typu \gls{skeleton-loader} dla listy postów oraz paneli
-    kategorii i tagów.
-    \item Poprawa działania stanu formularza dodawania postów.
-    \item Dodanie możliwości zgłaszania postów i komentarzy.
-    \item Implementacja możliwości obserwowania postów.
-\end{zadaniaosoby}
-
-\subsection*{Listopad 2025}
-
-%TODO: do uzupełnienia
-TODO: do uzupełnienia
-
-\subsection*{Grudzień 2025}
-
-%TODO: do uzupełnienia
-TODO: do uzupełnienia
-
-\subsection*{Styczeń 2026}
-
-%TODO: do uzupełnienia
-TODO: do uzupełnienia
-
-Na zakończenie prac projektowych przyjęto datę
+W niniejszym rozdziale przedstawiono przebieg realizacji projektu
+w ujęciu funkcjonalnym, z podziałem na główne moduły aplikacji.
+Opis koncentruje się na tym, co zostało zaimplementowane
+w ramach kolejnych obszarów systemu.
+Taki sposób ujęcia odpowiada charakterowi prac prowadzonych
+zgodnie z metodyką \gls{DAD_LLC}, gdzie rozwój funkcjonalności
+odbywał się równolegle, a zakres modułów był stopniowo doprecyzowywany.
+
+Rozwój był wspierany przez stałe \glslink{review-kodu}{review kodu},
+automatyzację testów oraz rozwój infrastruktury deweloperskiej.
+
+
+\section{Elementy niezależne od modułu}
+\label{sec:niezalezne}
+
+W całym okresie realizacji rozwijano także elementy wspólne.
+
+\begin{itemize}
+    \item \textbf{Stos technologiczny i struktura projektu} --
+    doprecyzowanie architektury rozwiązania oraz organizacji repozytorium
+    dla \glslink{backend}{backendu} i \glslink{frontend}{frontendu}.
+
+    \item \textbf{Podstawy warstwy klienckiej} --
+    stworzenie fundamentów aplikacji \glslink{frontend}{frontendowej}
+    (\glslink{routing}{routingu}, konfiguracja stylów, struktury projektu),
+    a także dodanie do projektu potrzebnych \glslink{biblioteka}{bibliotek} m.in.: \glslink{tanstack-query}{TanStack Query}, \glslink{redux}{Redux} oraz \glslink{tailwind-css}{Tailwind CSS}.
+
+    \item \textbf{Uwierzytelnianie i bezpieczeństwo} --
+    implementacja logowania i rejestracji, doprecyzowanie ról i uprawnień
+    w \glslink{spring-security}{Spring Security}, a także logowanie za pomocą \glslink{oauth}{OAuth} poprzez Google oraz \glslink{github}{GitHuba}.
+
+    \item \textbf{Odzyskiwanie dostępu do konta} --
+    implementacja resetowania hasła.
+
+    \item \textbf{Komunikacja e-mail} --
+    integracja z zewnętrzną usługą wysyłania wiadomości mailowych.
+
+    \item \textbf{Środowisko deweloperskie} --
+    konteneryzacja serwisów, na które składa się aplikacja,
+    z wykorzystaniem \glslink{docker}{Dockera}.
+    Przygotowanie skryptów ułatwiających uruchamianie środowiska deweloperskiego.
+
+    \item \textbf{Jakość i automatyzacja} --
+    rozwój testów (\glslink{integration-tests}{integracyjnych}, \glslink{unit-tests}{jednostkowych} i \glslink{e2e-tests}{E2E}),
+    uruchamianie testów w \glslink{cicd}{CI/CD},
+    ujednolicenie formatowania za pomocą \glslink{prettier}{Prettier'a}
+    i kontrola jakości kodu w repozytorium za pomocą \glslink{eslint}{ESLint}.
+
+    \item \textbf{Wydajność} --
+    wprowadzenie mechanizmu optymalizacji w postaci \glslink{cache}{cache'a}.
+
+    \item \textbf{Dane deweloperskie} --
+    przygotowanie danych testowych wykorzystywanych do demonstracji
+    i weryfikacji działania produktu.
+
+    \item \textbf{Komunikaty systemowe} --
+    implementacja mechanizmu prezentacji informacji o błędach i sukcesach.
+
+    \item \textbf{Dokumentacja} --
+    opracowanie dokumentacji projektu w \glslink{latex}{LaTeX'ie}.
+\end{itemize}
+
+Przed rozpoczęciem implementacji modułów przygotowano projekt \glslink{ui}{interfejsu użytkownika (UI)},
+obejmujący kluczowe widoki.
+Stanowił on punkt odniesienia dla dalszych prac i ułatwił iteracyjne dopasowywanie
+funkcjonalności do sposobu użycia systemu.
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+
+\section{Moduły aplikacji}
+\label{sec:moduly-aplikacji}
+
+\subsection{Rozwój funkcjonalności w modułach}
+\label{subsec:rozwoj-modulow}
+
+Poniżej przedstawiono rozwój funkcjonalności w kluczowych modułach aplikacji.
+Każdy moduł rozwijano iteracyjnie, stopniowo rozszerzając jego zakres.
+
+\subsubsection{Mapa}
+\label{subsubsec:modul-mapa}
+
+\begin{itemize}
+    \item \textbf{Prototyp mapy} --
+    przygotowanie wstępnej wersji mapy (proof-of-concept)
+    w celu weryfikacji możliwości interaktywnej prezentacji danych.
+
+    \item \textbf{Migracja do rozwiązania docelowego} --
+    przejście na \glslink{react-maplibre}{React-MapLibre} oraz ponowna implementacja podstaw
+    wyświetlania \glslink{spot}{spotów}.
+
+    \item \textbf{Model \glslink{spot}{spota}} --
+    rozszerzanie modelu o dane lokalizacyjne oraz ujednolicenie sposobu wyznaczania punktu
+    reprezentującego \glslink{spot}{spota}.
+
+    \item \textbf{Widok szczegółów \glslink{spot}{spota}} --
+    rozwój prezentacji informacji o \glslink{spot}{spocie}.
+
+    \item \textbf{Komentarze i oceny} --
+    dodanie możliwości dodawania komentarzy przez użytkownika.
+
+    \item \textbf{Multimedia dla \glslink{spot}{spotów}} --
+    ujednolicenie obsługi zdjęć i filmów oraz implementacja prezentacji
+    multimediów w widoku \glslink{spot}{spota}.
+
+    \item \textbf{Galeria multimediów} --
+    wprowadzenie rozszerzonej galerii multimediów dla danego \glslink{spot}{spota}.
+
+    \item \textbf{Ulubione \glslink{spot}{spoty}} --
+    możliwość dodawania \glslink{spot}{spotów} do ulubionych oraz integracja
+    tej funkcji z panelem użytkownika.
+
+    \item \textbf{Responsywność} --
+    dostosowanie modułu mapy i widoku szczegółów \glslink{spot}{spotów}
+    do różnych rozmiarów ekranu.
+
+    \item \textbf{Podstawowa pogoda} --
+    pobieranie danych pogodowych dla wybranego \glslink{spot}{spota}.
+
+    \item \textbf{Rozszerzona pogoda} --
+    wprowadzenie pogody szczegółowej.
+
+    \item \textbf{Wyszukiwanie w obszarze mapy} --
+    dodanie możliwości wyszukiwania \glslink{spot}{spotów}
+    w aktualnie widocznym obszarze mapy.
+\end{itemize}
+
+\subsubsection{Czat}
+\label{subsubsec:modul-czat}
+
+\begin{itemize}
+    \item \textbf{Podstawy czatu} --
+    implementacja listy czatów wraz z wyświetlaniem aktualnie otwartego.
+
+    \item \textbf{Komunikacja w czasie rzeczywistym} --
+    wdrożenie \glslink{websocket}{WebSocket} do pobierania i wysyłania wiadomości.
+
+    \item \textbf{Usprawnienia UX} --
+    grupowanie wiadomości po dacie, wielowierszowe pole tekstowe, dodanie mechanizmu nieskończonego przewijania wiadomości w danym czacie.
+
+    \item \textbf{Emoji i GIF} --
+    dodanie obsługi \glslink{emoji}{emoji} oraz wysyłania animowanych obrazów \glslink{gif}{GIF}.
+
+    \item \textbf{Wydajność i niezawodność} --
+    optymistyczne wysyłanie wiadomości oraz implementacja stronicowania dla
+    pobierania starszych wiadomości.
+
+    \item \textbf{Rozmowy prywatne} --
+    możliwość rozpoczęcia i kontynuowania rozmów bezpośrednio
+    z list relacji społecznościowych w panelu użytkownika.
+
+    \item \textbf{Czaty grupowe} --
+    tworzenie czatów grupowych, edycja nazwy/obrazu
+    oraz dodawanie kolejnych uczestników.
+
+    \item \textbf{Obsługa załączników} --
+    wysyłanie i wyświetlanie plików oraz obrazów.
+\end{itemize}
+
+ \subsubsection{Forum}
+ \label{subsubsec:modul-forum}
+
+ \begin{itemize}
+     \item \textbf{Zarządzanie postami przez użytkownika} --
+     edycja, usuwanie oraz dodawanie wraz z przypisywaniem kategorii i tagów.
+
+     \item \textbf{Edytor treści} --
+     integracja \glslink{rich-text-editor}{edytora rich-text} na potrzeby tworzenia i edycji postów.
+
+     \item \textbf{Multimedia w postach} --
+     integracja z \glslink{azure-blob-storage}{Azure Blob Storage} do przesyłania
+     i przechowywania mediów.
+
+     \item \textbf{Przeglądanie, sortowanie oraz wyszukiwanie} --
+     możliwość sortowania listy postów oraz wyszukiwania postów z wykorzystaniem filtrów.
+
+     \item \textbf{Zarządzanie komentarzami przez użytkownika} --
+     dodawanie, edycja oraz usuwanie postów przez użytkownika.
+
+     \item \textbf{Głosowanie} --
+     możliwość głosowania na posty oraz komentarze.
+
+     \item \textbf{Zgłaszanie treści} --
+     możliwość zgłaszania postów i komentarzy jako nieodpowiednich.
+
+     \item \textbf{Obserwowanie postów} --
+     możliwość obserwowania wybranych postów.
+
+     \item \textbf{Udostępnianie postów} --
+     możliwość udostępniania postów poprzez link.
+
+     \item \textbf{Top 3 posty miesiąca} --
+     prezentacja trzech najpopularniejszych postów z danego miesiąca.
+
+     \item \textbf{Regulamin forum} --
+     udostępnienie regulaminu forum.
+ \end{itemize}
+
+\subsubsection{Wyszukiwarka spotów}
+\label{subsubsec:modul-wyszukiwarka}
+
+\begin{itemize}
+
+    \item \textbf{Wyszukiwanie spotów} --
+    wdrożenie wyszukiwania po nazwie z panelem wyników.
+
+    \item \textbf{Wyszukiwanie po lokalizacji} --
+    dodanie wyszukiwania po lokalizacji wraz z listą wyników
+    i dystansem od użytkownika.
+
+    \item \textbf{Najpopularniejsze spoty} --
+    dodanie karuzeli z najpopularniejszymi \glslink{spot}{spotami}.
+
+    \item \textbf{Funkcje zaawansowane} --
+    \glslink{paginacja}{Paginacja} wyników, sortowanie (po popularność i ocenie)
+    oraz filtrowanie po minimalnej ocenie.
+
+\end{itemize}
+
+\subsubsection{Panel użytkownika}
+\label{subsubsec:modul-panel}
+
+\begin{itemize}
+    \item \textbf{Profil użytkownika} --
+    wdrożenie profilu oraz rozdzielenie widoku własnego profilu
+    i profilu innego użytkownika.
+
+    \item \textbf{Relacje społecznościowe} --
+    obsługa znajomych, obserwowanych i obserwujących,
+    wraz z nawigacją oraz dedykowanymi widokami list.
+
+    \item \textbf{Zaproszenia do znajomych} --
+    statusy relacji (wysłane/otrzymane/zakończone),
+    widok listy zaproszeń oraz akcje akceptowania i odrzucania.
+
+    \item \textbf{Wyszukiwanie użytkowników} --
+    funkcja dodawania znajomych z paginacją i wyszukiwaniem
+    po nazwie użytkownika.
+
+    \item \textbf{Aktywność} --
+    sekcje zdjęć i filmów, widok dodanych komentarzy do spota.
+
+    \item \textbf{Ustawienia konta} --
+    edycja danych konta (nazwa użytkownika, e-mail, hasło)
+    oraz obsługa zmiany zdjęcia profilowego.
+
+    \item \textbf{Moje spoty i ulubione} --
+    lista dodanych \glslink{spot}{spotów} oraz zarządzanie ulubionymi
+    \glslink{spot}{spotami} z integracją z mapą.
+
+\end{itemize}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+
+\section{Podsumowanie etapu finalizacji}
+\label{sec:podsumowanie-finalizacja}
+
+Końcowy okres realizacji koncentrował się na finalizacji implementacji funkcjonalności
+oraz uzupełnieniu dokumentacji technicznej i tekstowej.
+Przyjętą datą zakończenia prac projektowych jest
 \textbf{10 stycznia 2026 roku}.
