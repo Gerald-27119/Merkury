@@ -7,10 +7,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity(name = "spot_comments")
 @SuperBuilder
@@ -38,7 +35,7 @@ public class SpotComment extends Comment {
     @Builder.Default
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private List<SpotCommentMedia> media = new ArrayList<>();
+    private Set<SpotCommentMedia> media = new LinkedHashSet<>();
 
     @ManyToMany
     @JoinTable(

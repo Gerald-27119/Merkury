@@ -15,7 +15,7 @@ describe("Account settings page", () => {
         cy.visit(SETTINGS_URL, {
             onBeforeLoad(win) {
                 win.localStorage.setItem("is_logged_in", "true");
-                win.localStorage.setItem("username", "user");
+                win.localStorage.setItem("username", "magdaCzarnecka");
             },
         });
     };
@@ -212,8 +212,8 @@ describe("Account settings page", () => {
         cy.get("#sidebar-link-login").click();
         cy.url().should("include", "/login");
 
-        cy.get("#username").type("user");
-        cy.get("#password").type("password");
+        cy.get("#username").type("konradBorkowski");
+        cy.get("#password").type("Password1!");
         cy.get('button[type="submit"]').click();
 
         cy.url().should("not.include", "/login");
@@ -233,7 +233,7 @@ describe("Account settings page", () => {
     });
 
     it("allows real user to change password, logout and login again with new password", () => {
-        const originalPassword = "password";
+        const originalPassword = "Password1!";
         const newPassword = "NewPassword1!";
 
         cy.visit("http://localhost:5173/");
@@ -241,7 +241,7 @@ describe("Account settings page", () => {
         cy.get("#sidebar-link-login").click();
         cy.url().should("include", "/login");
 
-        cy.get("#username").type("user");
+        cy.get("#username").type("magdaCzarnecka");
         cy.get("#password").type(originalPassword);
         cy.get('button[type="submit"]').click();
 
@@ -277,7 +277,7 @@ describe("Account settings page", () => {
         cy.get("#sidebar-link-login").click();
         cy.url().should("include", "/login");
 
-        cy.get("#username").type("user");
+        cy.get("#username").type("magdaCzarnecka");
         cy.get("#password").type(newPassword);
         cy.get('button[type="submit"]').click();
 
