@@ -701,3 +701,133 @@
     name={Store (Redux)},
     description={Centralny obiekt przechowujący globalny stan aplikacji (state) w \glslink{redux}{Reduxie}.}
 }
+
+\newglossaryentry{srp}{
+    name={Single Responsibility Principle},
+    description={(tłum. \textit{Zasada Pojedynczej Odpowiedzialności}); zasada należąca do wytycznych \glslink{solid}{SOLID}.
+    Zgodnie z nią klasa lub funkcja powinna mieć dokładnie jeden powód do zmiany, czyli być odpowiedzalną za jedną rzecz}
+}
+
+\newglossaryentry{solid}{
+    name={SOLID},
+    description={Mnemonik zdefiniowany przez Roberta C. Martina, zawierający 5 zasad projektowania,
+    które mają poprawić elastyczność i prostotę utrzymania oprogramowania.
+    \begin{itemize}
+        \item \textbf{S} \textendash \space Single Responsibility Principle (tłum. \textit{Zasada Pojedynczej Odpowiedzialności})
+        \item \textbf{O} \textendash \space Open/Closed Principle (tłum. \textit{Zasada Otwarte/Zamknięte})
+        \item \textbf{L} \textendash \space Liskov Substitution Principle (tłum. \textit{Zasada Podstawienia Liskov})
+        \item \textbf{I} \textendash \space Interface Segregation Principle (tłum. \textit{Zasada Segregacji Interfejsów})
+        \item \textbf{D} \textendash \space Dependency Inversion Principle (tłum. \textit{Zasada Odwrócenia Zależności})
+    \end{itemize}
+    Definicja została napisana na podstawie treści książki \cite{wzorce-projektowe}
+    }
+}
+
+\newglossaryentry{ioc}{
+    name={IoC},
+    description={Inversion of Control (tłum. \textit{Odwrócenie kontroli}); paradygmat programowania, w którym kontrola nad
+    zarządzaniem obiektami i zależnościami przekazywana jest do zewnętrznego kontenera lub \glslink{framework}{frameworka}}
+}
+
+\newglossaryentry{bean}{
+    name={Bean},
+    description={To obiekt w \glslink{framework}{frameworku} \glslink{spring-framework}{Spring},
+    który jest tworzony i zarządzany przez kontener Spring \glslink{ioc}{IoC}}
+}
+
+\newglossaryentry{annotation}{
+    name={Adnotacja},
+    description={To sposób dodania metadanych do kodu Java, nie zmieniają bezpośrednio działania programu, ale są wykorzystywane przez kompilator i
+    \glslink{framework}{frameworki}.
+    Zaczynają się symbolem \textit{@}}
+}
+
+\newglossaryentry{jsx}{
+    name={JSX},
+    description={JavaScript XML; składnia pozwalająca pisać kod wyglądający jak HTML w plikach JavaScript.
+    Umożliwia między innymi wyświetlanie zawartości zmiennych poprzez umieszczenie ich w \{\}}
+}
+
+\newglossaryentry{react-component}{
+    name={Komponent React},
+    description={Podstawowy blok budujący aplikację React, który zwraca \glslink{jsx}{JSX}.
+    Cykl życia komponentu ma trzy stany: montowanie (inicjalizacja i renderowanie),
+    aktualizacja (reagowanie na zmiany), demontowanie (usunięcie komponentu z drzewa \glslink{dom}{DOM}),
+    a ich nazwy muszą zaczynać się wielką literą.
+    Powinien być tworzony w sposób umożliwiający jego wielokrotne użycie w projekcie.
+    Komponenty dzielą się na dwa rodzaje:
+    \begin{itemize}
+        \item \textbf{Komponenty Klasowe} \textemdash \space klasy JavaScript dziedziczące po wbudowanej klasie Component.
+        Pozwalają na zarządzanie stanem poprzez object \textit{state}, zawierający się w każdym komponencie klasowym.
+        Zarządzanie cyklem życia komponentu odbywa się za pomocą wbudowanych metod.
+        Po wprowadzeniu komponentów funkcyjnych nie zaleca się stosowania klasowych.
+        \item \textbf{Komponenty Funkcyjne} \textemdash \space definiowane jak funkcje JavaScript.
+        \glslink{props}{Propsy} są przyjmowane poprzez argumenty funkcji.
+        Zarządzanie stanem oraz cyklem życia komponentu odbywa się za pomocą \glslink{hook}{hook'ów} takich jak
+        \textit{useState}.
+    \end{itemize}}
+}
+\newglossaryentry{github-actions}{
+    name={GitHub Actions},
+    description={Platforma CI/CD zintegrowana z portalem GitHub, umożliwiająca automatyzację procesów takich jak
+    budowanie, testowanie i wdrażanie aplikacji w odpowiedzi na zdarzenia w repozytorium.}
+}
+
+\newglossaryentry{job}{
+    name={Job (GitHub Actions)},
+    description={Jednostka wykonawcza w GitHub Actions, składająca się z sekwencji kroków (\textit{steps}) uruchamianych
+    na tym samym runnerze. Job może zależeć od innych jobów i być wykonywany równolegle lub sekwencyjnie w ramach workflow.}
+}
+
+\newglossaryentry{workflow}{
+    name={Workflow (GitHub Actions)},
+    description={Zdefiniowany w pliku YAML proces automatyzacji w GitHub Actions, zawierający wyzwalacze uruchomienia
+    (\texttt{on:}) oraz zestaw jobów realizujących zadania CI/CD (budowanie i testowanie aplikacji).}
+}
+
+\newglossaryentry{pipeline}{
+    name={Pipeline},
+    description={Uporządkowany ciąg etapów procesu CI/CD (budowanie, testowanie, wdrażanie), uruchamiany
+    automatycznie po wystąpieniu określonych zdarzeń. W GitHub Actions pipeline jest realizowany jako workflow
+    składający się z jednego lub wielu jobów.}
+}
+
+\newglossaryentry{pull-request}{
+    name={Pull request},
+    description={Mechanizm służący do zgłaszania propozycji zmian w kodzie i ich scalania do wybranej gałęzi.
+    Umożliwia przegląd kodu (code review), uruchamianie testów oraz dyskusję nad zmianami przed wykonaniem scalenia.}
+}
+
+\newglossaryentry{merge}{
+    name={Merge},
+    description={Proces scalania zmian z jednej gałęzi do innej. Scalenie integruje historię commitów oraz
+    może wymagać rozwiązania konfliktów, jeśli zmiany dotyczą tych samych fragmentów kodu.}
+}
+
+\newglossaryentry{node}{
+    name={Node.js},
+    description={Środowisko uruchomieniowe oparte na silniku V8, umożliwiające wykonywanie kodu JavaScript
+    poza przeglądarką. W projektach frontendowych wykorzystywane do instalacji zależności (npm) oraz
+    uruchamiania narzędzi budowania i testów.}
+}
+
+\newglossaryentry{maven}{
+    name={Maven},
+    description={Narzędzie do automatyzacji budowania projektów w języku Java, zarządzania zależnościami oraz
+    uruchamiania testów. Konfiguracja procesu budowania i zależności jest definiowana w pliku \texttt{pom.xml}.}
+}
+
+
+
+\newglossaryentry{spring-cache}{
+    name={Spring Cache},
+    description={Mechanizm \glslink{cache}{cache'owania} w ekosystemie Spring, który pozwala przechowywać wyniki wywołań metod
+    (przez adnotacje \texttt{@Cacheable}, \texttt{@CachePut}, \texttt{@CacheEvict}) w celu przyspieszenia
+    działania aplikacji i zmniejszenia obciążenia zasobów (bazy danych).}
+}
+
+\newglossaryentry{ttl}{
+    name={TTL},
+    description={(\emph{Time To Live}) Czas życia wpisu w cache lub w innym systemie przechowywania danych —
+    po jego upływie element wygasa i jest usuwany albo uznawany za nieaktualny, co wymusza ponowne pobranie/wyliczenie danych.}
+}

@@ -41,9 +41,9 @@ export default function MapPage() {
     const { isLogged } = useSelectorTyped((state) => state.account);
 
     useEffect(() => {
-        const spotId = Number(searchParams.get("spotId"));
-        const longitude = Number(searchParams.get("longitude"));
-        const latitude = Number(searchParams.get("latitude"));
+        const spotId = Number(searchParams.get("spotId") ?? undefined);
+        const longitude = Number(searchParams.get("longitude") ?? undefined);
+        const latitude = Number(searchParams.get("latitude") ?? undefined);
         const region = searchParams.get("region");
         const city = searchParams.get("city");
         if (
