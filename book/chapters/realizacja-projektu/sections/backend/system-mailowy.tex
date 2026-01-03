@@ -1,0 +1,52 @@
+%! Author = kacper
+%! Date = 03.01.2026
+
+\subsection{System wysyłania wiadomości e-mail}
+\label{subsec:system-mailowy}
+
+
+W systemie zaimplementowano mechanizm wysyłania wiadomości e-mail, wykorzystywany w procesach obsługi kont użytkowników.
+Funkcjonalność została zrealizowana z wykorzystaniem zewnętrznej usługi \gls{mail-trap}.
+
+System wysyłania wiadomości e-mail wykorzystywany jest w dwóch przypadkach:
+\begin{itemize}
+    \item po pomyślnej rejestracji nowego użytkownika,
+    \item w procesie resetowania hasła.
+\end{itemize}
+
+Do obsługi wysyłki wiadomości zastosowano bibliotekę JavaMail (Jakarta Mail).
+Treść wiadomości definiowana jest w postaci statycznych plików HTML (rys. \ref{img:template}), przechowywanych w zasobach aplikacji, co umożliwia łatwą modyfikację zawartości bez ingerencji w kod źródłowy.
+
+Konfiguracja połączenia SMTP realizowana jest dynamicznie z wykorzystaniem kilku portów komunikacyjnych.(rys. \ref{img:ports})
+W przypadku niepowodzenia wysyłki na jednym porcie system podejmuje próbę ponownej wysyłki przy użyciu kolejnych portów. Dane uwierzytelniające do serwera SMTP pobierane są z poziomu zmiennych środowiskowych, co zwiększa poziom bezpieczeństwa i eliminuje konieczność ich przechowywania w repozytorium kodu.
+
+Proces wysyłania wiadomości realizowany jest asynchronicznie oraz wspierany mechanizmem automatycznego ponawiania prób, z maksymalną liczbą trzech podejść.(rys. \ref{img:send-email-function})
+W przypadku trwałego niepowodzenia generowany jest wyjątek, a odpowiednie zdarzenie rejestrowane jest w logach systemowych w celu dalszej analizy.(rys. \ref{img:recover})
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/template}
+    \caption{Przykładowy szablon wiadomości e-mail w formacie HTML}
+    \label{img:template}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.78\textwidth]{attachments/implementacja-backendu/ports}
+    \caption{Użyte porty komunikacyjne}
+    \label{img:ports}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/send_email_function}
+    \caption{Implementacja metody odpowiedzialnej za asynchroniczną wysyłkę wiadomości e-mail}
+    \label{img:send-email-function}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/recover}
+    \caption{Metoda odpowiedzialna za logowanie błędu}
+    \label{img:recover}
+\end{figure}
