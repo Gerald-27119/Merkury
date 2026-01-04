@@ -4,29 +4,6 @@
 \subsection{Bezpieczeństwo aplikacji}
 \label{subsec:bezpieczenstwo-aplikacji}
 
-% Źródła:
-% https://docs.spring.io/spring-security/reference/index.html
-% https://docs.spring.io/spring-security/reference/servlet/architecture.html
-%
-% Pliki/klasy:
-% UrlsProperties
-% JwtProperties
-% JwtConfig
-% SecurityConfig
-% JwtAuthFilter
-% JwtGenerator
-% JwtManager
-% JwtService
-% CustomUserDetailsService
-% CustomAccessDeniedHandler
-% ChatSecurityService
-%
-% Diagramy (do wstawienia):
-% - schemat filter chain Spring Security + nasze filtry
-% - uproszczony flow JWT (cookie -> walidacja -> SecurityContext -> controller)
-% - rozróżnienie 401 vs 403 (opcjonalnie)
-
-% Wewnętrzne śródtytuły (NIE trafiają do spisu treści)
 \newcommand{\innerheading}[1]{%
     \par\vspace{1.5\baselineskip}%
     \noindent\textbf{#1}\par\smallskip%
@@ -75,6 +52,7 @@ Istotną cechą \gls{spring-security} jest oparcie działania o łańcuch filtr�
 przez który przechodzi każde żądanie HTTP trafiające do aplikacji.
 Rozwiązanie to nawiązuje do \glslink{wzorzec}{wzorca} \textit{Chain of Responsibility}
 [TODO: odniesienie do opisu CoR].
+%TODO: odniesienie do opisu CoR]
 Dzięki temu możliwe jest przechwycenie żądania na wczesnym etapie,
 zbudowanie kontekstu bezpieczeństwa oraz podjęcie decyzji, czy żądanie może zostać przekazane dalej.
 Kontrola dostępu jest wówczas realizowana centralnie, bez konieczności ręcznego powielania sprawdzeń w wielu miejscach kodu.
@@ -157,7 +135,6 @@ zamiast utrzymywać klucz w wielu miejscach.
 
 \innerheading{Plik SecurityConfig}
 
-% TODO: za małe zdjecia
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/SecurityConfig/1}
@@ -357,7 +334,7 @@ Wygenerowany token zawiera podstawowe informacje wymagane do identyfikacji użyt
     \item \textbf{expiration} -- czas wygaśnięcia obliczany na podstawie \texttt{JwtProperties.tokenExpiration}.
 \end{itemize}
 
-Token jest podpisywany algorytmem HMAC-SHA256 (HS256) z użyciem klucza symetrycznego przechowywanego w \texttt{JwtProperties.key}.
+Token jest podpisywany algorytmem HMAC-SHA256 z użyciem klucza symetrycznego przechowywanego w \texttt{JwtProperties.key}.
 Poprawny podpis pozwala serwerowi potwierdzić autentyczność tokenu oraz wykryć jakąkolwiek modyfikację jego zawartości.
 
 \innerheading{Plik JwtAuthFilter}

@@ -214,8 +214,7 @@
 \newcommand{\placetextbox}[4]{% \placetextbox{<offset top>}{<offset left/right>}{<align>}{<stuff>}
     \setbox0=\hbox{#4}% Put <stuff> in a box
     \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
-        \if
-            #3r
+        \if #3r
             \put(\LenToUnit{\paperwidth-#1},\LenToUnit{\paperheight-#2}){\vtop{{\null}\makebox[0pt][r]{\begin{tabular}{r}#4\end{tabular}}}}%
         \else
             \put(\LenToUnit{#1},\LenToUnit{\paperheight-#2}){\vtop{{\null}\makebox[0pt][l]{\begin{tabular}{l}#4\end{tabular}}}}%
