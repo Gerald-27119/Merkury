@@ -24,16 +24,20 @@ public class PostComment extends Comment {
 
     @ManyToOne
     @JoinColumn(name = "post_id")
+    @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Post post;
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
+    @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private PostComment parent;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<PostComment> replies = new ArrayList<>();
 
     @Builder.Default
@@ -48,6 +52,8 @@ public class PostComment extends Comment {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     @Builder.Default
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<UserEntity> upVotedBy = new HashSet<>();
 
     @ManyToMany
@@ -57,9 +63,12 @@ public class PostComment extends Comment {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     @Builder.Default
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<UserEntity> downVotedBy = new HashSet<>();
 
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @OneToMany(mappedBy = "postComment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostCommentMedia> media = new ArrayList<>();

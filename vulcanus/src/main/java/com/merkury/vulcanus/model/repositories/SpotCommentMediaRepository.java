@@ -7,5 +7,5 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface SpotCommentMediaRepository extends JpaRepository<SpotCommentMedia, Long> {
-    List<SpotCommentMedia> findBySpotCommentIdAndSpotCommentSpotId(@Param("spotId") Long spotId, @Param("commentId") Long commentId);
+    List<SpotCommentMedia> findBySpotCommentId(@Param("commentId") Long commentId);
 }
