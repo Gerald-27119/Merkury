@@ -4,14 +4,15 @@
 \subsubsection{Chain of Responsibility}
 \label{subsubsec:chain-of-responsibility}
 
-Łańcuch zobowiązań (ang.~\textit{Chain of Responsibility}) jest behawioralnym wzorcem projektowym,
+Łańcuch zobowiązań (ang.~\textit{Chain of Responsibility}) jest behawioralnym
+\glslink{wzorzec}{wzorcem} projektowym,
 w którym obsługa pojedynczego żądania zostaje rozbita na sekwencję niezależnych kroków realizowanych przez kolejne obiekty.
 Żądanie przepływa przez elementy łańcucha, a każdy z nich podejmuje decyzję, czy wykonać własną logikę i przekazać żądanie dalej, albo
 zakończyć obsługę na bieżącym etapie.
 Dzięki temu nadawca żądania nie musi znać konkretnego obiektu odpowiedzialnego za obsługę --
 właściwe rozstrzygnięcie następuje w trakcie przechodzenia przez kolejne ogniwa.
 
-\newcommand{\corfig}[1]{./attachments/wzorce-projektowe/cor/1}
+\newcommand{\corfig}[1]{./attachments/wzorce-projektowe/cor/#1}
 
 \begin{figure}[H]
     \centering
@@ -20,7 +21,7 @@ właściwe rozstrzygnięcie następuje w trakcie przechodzenia przez kolejne ogn
     \label{fig:cor-class-diagram}
 \end{figure}
 
-Rysunek~\ref{fig:cor-class-diagram} przedstawia diagram klas dla wzorca \textit{Chain of Responsibility}.
+Rysunek~\ref{fig:cor-class-diagram} przedstawia diagram klas dla \glslink{wzorzec}{wzorca} \textit{Chain of Responsibility}.
 Z perspektywy modelu obiektowego kluczowe elementy przedstawiono poniżej:
 
 \begin{itemize}
@@ -51,7 +52,8 @@ wymienialnych komponentów, z których każdy realizuje pojedynczą odpowiedzial
 
 \midiskip
 \paragraph{Zastosowanie w Spring Security.}
-Praktycznym przykładem wykorzystania łańcucha zobowiązań jest mechanizm \textit{filter chain} w Spring Security.
+Praktycznym przykładem wykorzystania łańcucha zobowiązań jest mechanizm \textit{filter chain}
+w \glslink{framework}{frameworku} \gls{spring-security}.
 Każde żądanie HTTP przechodzi kolejno przez zestaw filtrów, a każdy filtr może:
 
 \begin{enumerate}
@@ -87,14 +89,15 @@ Mapowanie pojęć z diagramu na implementację przedstawiono w sposób uporządk
 Działanie filtra można opisać jako sekwencję kroków realizowanych w ramach jednego ogniwa łańcucha:
 
 \begin{enumerate}
-    \item \textbf{Pobranie danych wejściowych} -- odczyt tokenu JWT z żądania.
-    \item \textbf{Walidacja} -- sprawdzenie poprawności tokenu. W przypadku błędu filtr przygotowuje odpowiedź
+    \item \textbf{Pobranie danych wejściowych} -- odczyt tokenu \glslink{jwt}{JWT} z żądania
+    (np.\ z \glslink{http-only-cookie}{ciasteczka \texttt{HttpOnly}}).
+    \item \textbf{Walidacja} -- sprawdzenie poprawności tokenu \glslink{jwt}{JWT}. W przypadku błędu filtr przygotowuje odpowiedź
     i kończy przetwarzanie (bez przekazania dalej).
     \item \textbf{Uwierzytelnienie} -- wyznaczenie identyfikatora użytkownika i wczytanie jego danych,
     a następnie utworzenie obiektu uwierzytelnienia.
     \item \textbf{Aktualizacja kontekstu bezpieczeństwa} -- umieszczenie informacji o uwierzytelnieniu w kontekście,
     aby była dostępna dla kolejnych etapów przetwarzania.
-    \item \textbf{Odświeżenie tokenu (opcjonalnie)} -- gdy czas ważności zbliża się do końca, generowany jest nowy token.
+    \item \textbf{Odświeżenie tokenu (opcjonalnie)} -- gdy czas ważności tokenu \glslink{jwt}{JWT} zbliża się do końca, generowany jest nowy token.
     \item \textbf{Przekazanie sterowania dalej} -- wywołanie \texttt{filterChain.doFilter(request, response)} deleguje żądanie
     do kolejnych filtrów.
 \end{enumerate}
