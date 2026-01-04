@@ -36,7 +36,7 @@ export default function ExpandedMediaGalleryActions() {
             );
         } catch (err) {
             dispatch(
-                notificationAction.addError({ message: "Failed to copy: " }),
+                notificationAction.addError({ message: "Failed to copy." }),
             );
         }
     };
