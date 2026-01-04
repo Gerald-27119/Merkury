@@ -1,138 +1,129 @@
 %! Author = Adam
 %! Date = 01/01/2026
 
-\subsection{Projekt chatu}
+\subsection{Projekt czatu}
 \label{subsec:projekt-chatu}
 
-ActiveChatPage
+\newcommand{\chatfig}[1]{./attachments/projekt/architektura-interfejsu-uzytkownika/czat/#1}
 
-Rysunek X przedstawia główny widok modułu czatu (ActiveChatPage),
-wyświetlany po wejściu do sekcji rozmów. Interfejs utrzymano w ciemnej kolorystyce,
-z wyraźnym podziałem na obszar nawigacyjny po lewej stronie oraz centralne okno aktualnie otwartej konwersacji.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{\chatfig{ActiveChatPage}}
+    \caption{Główny widok modułu czatu.}
+    \label{fig:chat:main-view}
+\end{figure}
 
+Rysunek \ref{fig:chat:main-view} przedstawia główny widok modułu czatu.
 Po lewej stronie widoczny jest pionowy panel z nagłówkiem \textit{Friends} oraz
 sekcją \textit{Your chats}. Panel ten prezentuje listę istniejących rozmów,
 w których użytkownik uczestniczy. Każda pozycja listy zawiera awatar
-oraz nazwę rozmowy (np. użytkownika lub grupy). Aktualnie wybrany czat jest wyróżniony
+oraz nazwę rozmowy. Aktualnie wybrany czat jest wyróżniony
 poprzez podświetlenie tła, co ułatwia orientację w kontekście prowadzonej rozmowy.
 W dolnej części panelu umieszczono obszar informacyjny dotyczący
-zalogowanego użytkownika (awatar, nazwa) wraz ze wskaźnikiem statusu aktywności.
+zalogowanego użytkownika (awatar oraz nazwa) wraz ze wskaźnikiem statusu aktywności.
 
 Centralna część ekranu przedstawia zawartość bieżącej konwersacji.
 W górnym pasku widoczne są informacje o rozmówcy (awatar i nazwa)
-oraz elementy sterujące, w tym ikona przypięcia, pole wyszukiwania
-w obrębie rozmowy oraz ikona związana z przeglądaniem lub dodawaniem materiałów graficznych.
+oraz ikona przypięcia wiadomości, pole wyszukiwania
+w obrębie rozmowy oraz ikona związana z przeglądaniem multimediów wysłanych w ramach otwartego czatu.
 Poniżej znajduje się historia wiadomości w układzie chronologicznym,
 z rozróżnieniem autorów poprzez awatary i nazwy oraz z oznaczeniami czasu wysłania.
-W widoku uwzględniono separator daty (np. \textit{27 March 2025}),
-co porządkuje dłuższą historię konwersacji.
-Przykładowa wiadomość zawiera załączony obraz wraz z tekstem,
-co wskazuje na obsługę treści multimedialnych w przebiegu rozmowy.
+W widoku uwzględniono separator daty, który porządkuje dłuższą historię konwersacji.
 
 Na dole okna czatu umieszczono pasek wprowadzania wiadomości z polem tekstowym oraz przyciskami akcji.
-Widoczne są m.in. kontrolki umożliwiające dodanie załączników, wstawienie GIF oraz użycie emotikon.
-Taki układ zapewnia szybki dostęp do podstawowych funkcji komunikacji bez opuszczania bieżącej konwersacji.
+Widoczna jest opcja umożliwiająca dodanie załączników, wstawienie GIF oraz użycie emotikon.
 
-ActiveChatPageNewNotification
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{\chatfig{ActiveChatPageNewNotification}}
+    \caption{Lista rozmów z oznaczeniem nieprzeczytanej aktywności.}
+    \label{fig:chat:unread-indicator}
+\end{figure}
 
-Rysunek X przedstawia wariant głównego widoku modułu czatu oznaczony jako
-\textit{ActiveChatPageNewNotification}. Układ ekranu pozostaje zgodny z widokiem
-podstawowym: po lewej stronie znajduje się lista rozmów, natomiast w centralnej
-części ekranu prezentowane jest okno aktualnie otwartej konwersacji. Interfejs
-utrzymano w ciemnej kolorystyce, z jasną typografią oraz subtelnymi liniami
-separującymi poszczególne obszary.
+Rysunek \ref{fig:chat:unread-indicator} przedstawia wariant głównego widoku modułu czatu,
+w którym dla jednej z wylistowanych konwersacji wyświetlono plakietkę z liczbą nowych nieprzeczytanych wiadomości.
+Oznaczenie to pozwala użytkownikowi szybko zidentyfikować nową aktywność.
 
-W porównaniu do wcześniejszego widoku, pojawia się dodatkowe
-wyróżnienie przy jednej z pozycji listy istniejacych czatow: obok nazwy rozmowy widoczna jest
-okrągła, fioletowa plakietka z liczbą „1”. Oznaczenie to sygnalizuje nową
-aktywność w danej konwersacji i pozwala użytkownikowi szybko zidentyfikować
-rozmowę wymagającą uwagi.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{\chatfig{ChatPinnedMessages}}
+    \caption{Podgląd przypiętych wiadomości w obrębie rozmowy.}
+    \label{fig:chat:pinned-messages}
+\end{figure}
 
-ChatPinnedMessages
-
-Rysunek X przedstawia widok \textit{ChatPinnedMessages}, stanowiący rozszerzenie
-głównego ekranu rozmowy o prezentację przypiętych wiadomości. Interfejs zachowuje
-ten sam układ jak w pozostałych wariantach: po lewej stronie widoczny jest panel
-z listą rozmów, natomiast w centralnej części znajduje się okno aktywnej konwersacji.
-Dodatkowo, po skrajnej lewej stronie ekranu występuje pionowy pasek nawigacyjny
-z ikonami, oddzielony wizualnie od listy czatów.
+Rysunek \ref{fig:chat:pinned-messages} przedstawia widok prezentacji przypiętych wiadomości,
+stanowiący rozszerzenie głównego ekranu rozmowy o dodatkowy panel z listą przypiętych treści.
 
 W górnej części obszaru konwersacji, na tle historii wiadomości, wyświetlono
-dodatkowy panel w formie nakładki z nagłówkiem \textit{Pinned messages}.
-Nakładka ma ciemne tło i zawiera wydzielony obszar listy przypiętych treści.
+okno modalne z nagłówkiem \textit{Pinned messages}.
+Zawiera ono wydzielony obszar listy przypiętych treści.
 W widocznym przykładzie przedstawiono pojedynczą pozycję z przypiętą wiadomością,
 zawierającą awatar autora, nazwę użytkownika oraz znacznik daty i czasu.
-Poniżej metadanych umieszczono podgląd treści wiadomości w postaci krótkiego
-fragmentu tekstu. Układ nakładki wskazuje na możliwość przeglądania przypiętych
-elementów bez opuszczania aktualnie otwartej rozmowy, przy jednoczesnym
-zachowaniu widoczności kontekstu konwersacji w tle.
+Poniżej metadanych umieszczono podgląd treści wiadomości.
 
-MessageFound
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{\chatfig{MessageFound}}
+    \caption{Wyszukiwanie wiadomości w historii rozmowy.}
+    \label{fig:chat:search-results}
+\end{figure}
 
-Rysunek X przedstawia widok wyszukiwania wiadomości w obrębie aktywnej rozmowy,
-oznaczony jako \textit{MessageFound}. Układ ekranu zachowuje podstawową strukturę
-modułu czatu (panel nawigacyjny oraz lista rozmów po lewej stronie), natomiast
-w centralnym obszarze rozmowy widoczny jest tryb przeglądania wyników wyszukiwania.
-
+Rysunek \ref{fig:chat:search-results} przedstawia widok wyszukiwania wiadomości w obrębie aktywnej rozmowy.
 W górnym pasku konwersacji pole wyszukiwania zawiera wprowadzoną frazę
-(\textit{amet}) oraz informację o liczbie dopasowań (np. \textit{99+ results}),
-co wskazuje na możliwość wyszukiwania treści w historii czatu.
+oraz informację o liczbie dopasowań.
 W treści rozmowy dopasowania są dodatkowo wyróżniane wizualnie poprzez
 podświetlenie znalezionego fragmentu w wiadomości.
 
 Widok prezentuje wyodrębniony obszar wyników po prawej stronie w formie nakładki,
-z możliwością zamknięcia (ikona \textit{X} w prawym górnym rogu).
-W obrębie tej nakładki widoczna jest lista wiadomości spełniających kryterium
+z możliwością zamknięcia.
+W obrębie tej nakładki widoczna jest lista wiadomości spełniających kryteria
 wyszukiwania, przedstawionych wraz z informacjami o autorze i czasie wysłania.
-Jedna z wiadomości jest dodatkowo podkreślona, co sugeruje aktualnie wybrane
+Jedna z wiadomości jest dodatkowo podkreślona, co obrazuje aktualnie wybrane
 dopasowanie. Równolegle, w głównym obszarze rozmowy zaznaczono odpowiadającą
 wiadomość w historii konwersacji.
 
 W dolnej części okna rozmowy widoczny jest przycisk \textit{Return to latest messages},
 umożliwiający szybki powrót do najnowszych wiadomości po zakończeniu przeglądania
-starszych wpisów. Takie rozwiązanie ułatwia odnajdywanie wcześniejszych treści
-bez utraty kontekstu aktualnie prowadzonej rozmowy.
+starszych wpisów.
 
-OptionsMessageHover
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{\chatfig{OptionsMessageHover}}
+    \caption{Podręczny pasek akcji widoczny po wskazaniu wiadomości.}
+    \label{fig:chat:message-actions-hover}
+\end{figure}
 
-Rysunek X przedstawia widok \textit{OptionsMessageHover}, ilustrujący zachowanie
-interfejsu po najechaniu kursorem na pojedynczą wiadomość w oknie konwersacji.
-Układ ekranu pozostaje zgodny z głównym widokiem czatu, jednak nad wskazaną
-wiadomością pojawia się dodatkowy, niewielki panel akcji.
+Rysunek \ref{fig:chat:message-actions-hover} przedstawia zachowanie interfejsu po najechaniu kursorem
+na pojedynczą wiadomość w oknie konwersacji.
+Pojawiający się panel ma formę poziomego paska z ikonami, umieszczonego bezpośrednio przy wiadomości.
+Zawiera zestaw działań dostępnych dla danej wiadomości: widoczna jest ikona reakcji,
+ikony związane z interakcją na wiadomości (odpowiedź/przekazanie) oraz ikona wielokropka,
+umożliwiająca dalsze operacje.
 
-Panel ma formę poziomego paska z ikonami, umieszczonego bezpośrednio przy
-wiadomości (w jej górnej części). Zawiera zestaw skrótowych działań dostępnych
-dla danej wiadomości: widoczna jest ikona reakcji (np. emotikona), ikony
-powiązane z interakcją na wiadomości (np. odpowiedź/przekazanie) oraz ikona
-menu wielokropka, sugerująca dostęp do dalszych opcji. Zastosowanie takiego
-paska umożliwia szybkie wykonanie operacji na konkretnej wiadomości bez
-zmiany kontekstu widoku i bez konieczności otwierania oddzielnych ekranów.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{\chatfig{OptionsMessageHover3DotsMenu}}
+    \caption{Menu kontekstowe dla wiadomości w rozmowie.}
+    \label{fig:chat:message-more-menu}
+\end{figure}
 
-OptionsMessageHover3DotsMenu
+Rysunek \ref{fig:chat:message-more-menu} przedstawia stan interfejsu po rozwinięciu menu oferującego więcej opcji (ikona wielokropka)
+dla wybranej wiadomości. Menu zawiera listę dostępnych działań.
+Są to: \textit{Pin message}, \textit{Copy text} oraz \textit{Report}.
+Ostatnia pozycja wyróżniona kolorem czerwonym, umożliwia zgłoszenie wiadomości do administracji aplikacji.
 
-Rysunek X przedstawia widok \textit{OptionsMessageHover3DotsMenu}, czyli stan
-interfejsu po rozwinięciu menu „więcej opcji” dla wybranej wiadomości.
-W górnej części wiadomości nadal widoczny jest podręczny pasek akcji,
-natomiast po kliknięciu ikony trzech kropek wyświetlane jest dodatkowe menu
-kontekstowe w formie niewielkiej nakładki.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{\chatfig{MyMessageHover}}
+    \caption{Opcje dostępne dla wiadomości własnej po najechaniu kursorem.}
+    \label{fig:chat:own-message-hover}
+\end{figure}
 
-Menu zawiera listę dostępnych działań opisanych tekstowo. W widocznym przykładzie
-są to: \textit{Pin message} (z ikoną pinezki), \textit{Copy text} (z ikoną kopiowania)
-oraz \textit{Report}. Ostatnia pozycja wyróżniona jest kolorem czerwonym, co
-wizualnie wskazuje na działanie o charakterze zgłoszenia/nadużycia.
-Nakładka pojawia się bezpośrednio przy miejscu interakcji, dzięki czemu użytkownik
-może szybko wykonać wybraną operację na wiadomości bez opuszczania bieżącego widoku rozmowy.
+Rysunek \ref{fig:chat:own-message-hover} przedstawia stan interfejsu po
+najechaniu kursorem na wiadomość wysłaną przez obecnego użytkownika.
 
-MyMessageHover
-
-Rysunek X przedstawia widok \textit{MyMessageHover}, czyli stan interfejsu po
-najechaniu kursorem na wiadomość wysłaną przez zalogowanego użytkownika.
-W obszarze konwersacji wyróżniona jest konkretna wiadomość (wraz z załączonym
-obrazem), a w jej pobliżu wyświetlany jest zestaw opcji dostępnych dla tej treści.
-
-Nad wiadomością widoczny jest podręczny pasek akcji w formie poziomego rzędu ikon,
-a poniżej (po prawej stronie wiadomości) rozwinięte menu kontekstowe.
-Menu prezentuje listę operacji przypisanych do wiadomości, w tym m.in.
+Nad wiadomością widoczny jest pasek akcji w formie poziomego rzędu ikon.
+Menu prezentuje listę operacji:
 \textit{Pin message} oraz \textit{Copy text}. Dodatkowo widoczne są pozycje
 wyróżnione kolorem czerwonym: \textit{Report} oraz \textit{Delete}.
 Pojawienie się opcji \textit{Delete} wskazuje na rozszerzony zakres działań
@@ -142,112 +133,131 @@ Rozwiązanie to umożliwia wykonywanie działań na wiadomości bez opuszczania
 aktualnie otwartej konwersacji, a jednocześnie zapewnia czytelne rozróżnienie
 między standardowymi operacjami a akcjami potencjalnie nieodwracalnymi.
 
-MyMessageHover3DotsMenu
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{\chatfig{MyMessageHover3DotsMenu}}
+    \caption{Menu „więcej opcji” dla wiadomości własnej.}
+    \label{fig:chat:own-message-more-menu}
+\end{figure}
 
-Rysunek X przedstawia widok \textit{MyMessageHover3DotsMenu}, czyli stan
-interfejsu po rozwinięciu menu „więcej opcji” (ikona trzech kropek) dla wiadomości
-wysłanej przez zalogowanego użytkownika. W obszarze konwersacji widoczna jest
-wiadomość własna zawierająca załączony obraz oraz fragment tekstu, a przy niej
-wyświetlony jest podręczny pasek akcji.
+Rysunek \ref{fig:chat:own-message-more-menu} przedstawia stan interfejsu po
+rozwinięciu menu „więcej opcji” (ikona trzech kropek) dla wiadomości wysłanej
+przez zalogowanego użytkownika. Nakładka zawiera operacje takie jak
+\textit{Pin message} oraz \textit{Copy text}, a także akcje wyróżnione kolorem czerwonym:
+\textit{Report} i \textit{Delete}. Umieszczenie menu bezpośrednio przy wiadomości
+umożliwia wykonanie operacji bez opuszczania bieżącego widoku rozmowy.
 
-Po aktywowaniu menu wielokropka pojawia się nakładka z listą dostępnych operacji.
-Menu zawiera pozycje takie jak \textit{Pin message} oraz \textit{Copy text}, a także
-akcje wyróżnione kolorem czerwonym: \textit{Report} i \textit{Delete}.
-Obecność opcji \textit{Delete} wskazuje na możliwość usunięcia własnej wiadomości,
-co odróżnia ten wariant od analogicznego menu dla wiadomości innych uczestników.
-Nakładka jest umieszczona bezpośrednio przy wiadomości, dzięki czemu użytkownik
-może wykonać operację bez opuszczania bieżącego widoku rozmowy.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{\chatfig{Images}}
+    \caption{Przegląd multimediów powiązanych z rozmową.}
+    \label{fig:chat:media-grid}
+\end{figure}
 
-
-Images
-
-Rysunek X przedstawia widok \textit{Images}, w którym w obrębie aktywnej rozmowy
+Rysunek \ref{fig:chat:media-grid} przedstawia widok, w którym w obrębie aktywnej rozmowy
 udostępniono podgląd materiałów wizualnych powiązanych z konwersacją.
-W centralnej części ekranu wyświetlono siatkę miniatur, obejmującą co najmniej
-dwa elementy. Pierwsza miniatura przedstawia obraz (fotografia drona), natomiast
-druga zawiera nałożony symbol odtwarzania, co wizualnie odróżnia ją od zwykłego
-obrazu. Widok pozostaje osadzony w kontekście modułu czatu: po lewej stronie
-nadal widoczna jest lista rozmów, a w górnym pasku zachowano elementy sterujące
-związane z konwersacją (w tym pole wyszukiwania) oraz wyróżnioną ikonę obrazów.
+W centralnej części ekranu wyświetlono siatkę miniatur, obejmującą co najmniej dwa elementy.
+Jedna z miniatur przedstawia obraz, natomiast druga zawiera nałożony symbol odtwarzania,
+co wizualnie odróżnia ją od zwykłej grafiki (materiał wideo).
+Widok pozostaje osadzony w kontekście modułu czatu: po lewej stronie nadal widoczna jest lista rozmów,
+a w górnym pasku zachowano elementy sterujące związane z konwersacją oraz wyróżnioną ikonę sekcji multimediów.
 
-ImageMenu
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{\chatfig{ImageMenu}}
+    \caption{Menu kontekstowe dla obrazu w wiadomości.}
+    \label{fig:chat:image-context-menu}
+\end{figure}
 
-Rysunek X przedstawia widok \textit{ImageMenu}, prezentujący menu kontekstowe
-wyświetlane dla obrazu umieszczonego w wiadomości. Menu pojawia się bezpośrednio
-przy obrazie i zawiera listę dostępnych operacji: \textit{Save image} oraz
-\textit{Copy image}. Dodatkowo widoczna jest opcja \textit{Delete}, wyróżniona
-kolorem czerwonym, co wskazuje na działanie o charakterze usunięcia.
-Rozmieszczenie menu w pobliżu wskazanego obrazu umożliwia wykonanie operacji
-bez opuszczania bieżącego widoku rozmowy.
+Rysunek \ref{fig:chat:image-context-menu} przedstawia menu kontekstowe wyświetlane dla obrazu umieszczonego w wiadomości.
+Menu pojawia się bezpośrednio przy obrazie i zawiera listę dostępnych operacji, takich jak zapis lub skopiowanie obrazu.
+Dodatkowo widoczna jest opcja usunięcia wyróżniona kolorem czerwonym, co wskazuje na działanie o charakterze destrukcyjnym.
+Rozmieszczenie menu w pobliżu wskazanego elementu umożliwia wykonanie operacji bez opuszczania bieżącego widoku rozmowy.
 
-ExpandedImage
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{\chatfig{ExpandedImage}}
+    \caption{Powiększony podgląd obrazu w rozmowie.}
+    \label{fig:chat:image-preview}
+\end{figure}
 
-Rysunek X przedstawia widok \textit{ExpandedImage}, czyli tryb powiększonego
-podglądu obrazu. Tło aplikacji zostało przyciemnione, a na pierwszym planie
-wyświetlono obraz w większym rozmiarze, umieszczony centralnie.
-W prawym górnym rogu widoczna jest ikona zamknięcia (symbol \textit{X}),
-umożliwiająca powrót do standardowego widoku konwersacji.
+Rysunek \ref{fig:chat:image-preview} przedstawia tryb powiększonego podglądu obrazu.
+Tło aplikacji zostało przyciemnione, a na pierwszym planie wyświetlono obraz w większym rozmiarze, umieszczony centralnie.
+W prawym górnym rogu widoczna jest ikona zamknięcia umożliwiająca powrót do standardowego widoku konwersacji.
 Rozwiązanie to pozwala użytkownikowi obejrzeć przesłaną grafikę w wysokiej
 czytelności bez utraty kontekstu rozmowy w tle.
 
-ReplayMessageV3
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{\chatfig{ReplayMessageV3}}
+    \caption{Wiadomość będąca odpowiedzią na wcześniejszy wpis.}
+    \label{fig:chat:reply-message}
+\end{figure}
 
-Rysunek X przedstawia widok \textit{ReplayMessageV3}, obrazujący sposób
-prezentowania odpowiedzi odnoszącej się do wcześniejszej wiadomości.
-W obszarze konwersacji, nad treścią nowej wiadomości, wyświetlony jest
-wydzielony, węższy pasek podglądu wiadomości, do której nawiązano.
-Podgląd zawiera podstawowe informacje widoczne na makiecie (awatar oraz nazwa
-autora i fragment treści), dzięki czemu użytkownik może jednoznacznie powiązać
-odpowiedź z konkretnym wpisem w historii rozmowy.
+Rysunek \ref{fig:chat:reply-message} przedstawia sposób prezentowania odpowiedzi odnoszącej się do wcześniejszej wiadomości.
+W obszarze konwersacji, nad treścią nowej wiadomości, wyświetlony jest wydzielony pasek podglądu wiadomości,
+do której nawiązano. Podgląd zawiera podstawowe informacje (np. awatar oraz nazwę autora i fragment treści),
+dzięki czemu użytkownik może jednoznacznie powiązać odpowiedź z konkretnym wpisem w historii rozmowy.
 
-CreateNewChat
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{\chatfig{CreateNewChat}}
+    \caption{Okno tworzenia nowej rozmowy lub grupy.}
+    \label{fig:chat:create-modal}
+\end{figure}
 
-Rysunek X przedstawia widok \textit{CreateNewChat}, zrealizowany w formie
-centralnie umieszczonego okna modalnego na przyciemnionym tle modułu czatu.
-W górnej części okna znajduje się nagłówek \textit{Add user(s) to create new chat or group}
-oraz pole wyszukiwania użytkowników. Poniżej zaprezentowano listę użytkowników
-wraz z awatarami i nazwami, a po prawej stronie każdej pozycji umieszczono pola
-wyboru umożliwiające zaznaczenie wybranych osób. W dolnej części okna widoczny
-jest przycisk \textit{Create new chat}, służący do utworzenia nowej rozmowy
-na podstawie dokonanych wyborów.
+Rysunek \ref{fig:chat:create-modal} przedstawia widok tworzenia nowej rozmowy w formie okna modalnego.
+W górnej części okna znajduje się nagłówek oraz pole wyszukiwania użytkowników.
+Poniżej zaprezentowano listę użytkowników wraz z awatarami i nazwami, a po prawej stronie każdej pozycji
+umieszczono pola wyboru umożliwiające zaznaczenie wybranych osób. W dolnej części okna widoczny jest przycisk
+służący do utworzenia nowej rozmowy na podstawie dokonanych wyborów.
 
-ActiveGroupChatPage
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{\chatfig{ActiveGroupChatPage}}
+    \caption{Widok rozmowy grupowej z panelem uczestników.}
+    \label{fig:chat:group-view}
+\end{figure}
 
-Rysunek X przedstawia widok \textit{ActiveGroupChatPage}, czyli ekran rozmowy
-grupowej. W centralnej części widoczna jest zawartość aktywnej konwersacji,
-natomiast w prawym panelu bocznym umieszczono listę uczestników oznaczoną
-nagłówkiem \textit{Group members}. Lista prezentuje awatary oraz nazwy członków
-grupy w układzie pionowym. W górnym pasku konwersacji widoczna jest nazwa grupy
-(oraz jej awatar), a także elementy sterujące analogiczne do rozmów prywatnych,
-w tym pole wyszukiwania w obrębie rozmowy oraz ikona związana z materiałami
-wizualnymi.
+Rysunek \ref{fig:chat:group-view} przedstawia ekran rozmowy grupowej.
+W centralnej części widoczna jest zawartość aktywnej konwersacji,
+natomiast w prawym panelu bocznym umieszczono listę uczestników oznaczoną nagłówkiem \textit{Group members}.
+Lista prezentuje awatary oraz nazwy członków grupy w układzie pionowym.
+W górnym pasku konwersacji widoczna jest nazwa grupy (oraz jej awatar),
+a także elementy sterujące analogiczne do rozmów prywatnych, w tym wyszukiwanie oraz sekcja multimediów.
 
-GroupChatMenu
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{\chatfig{GroupChatMenu}}
+    \caption{Menu opcji dla rozmowy grupowej.}
+    \label{fig:chat:group-options-menu}
+\end{figure}
 
-Rysunek X przedstawia widok \textit{GroupChatMenu}, w którym w kontekście
-rozmowy grupowej wyświetlono dodatkowe menu opcji. Menu pojawia się jako niewielka
-nakładka przy pozycji czatu grupowego i zawiera dwie operacje: \textit{Change picture}
-oraz \textit{Change name}. Każda pozycja jest opatrzona ikoną, co ułatwia szybkie
-rozpoznanie dostępnych działań bez potrzeby opuszczania widoku rozmowy.
+Rysunek \ref{fig:chat:group-options-menu} przedstawia menu opcji dostępne w kontekście rozmowy grupowej.
+Nakładka zawiera operacje związane z konfiguracją rozmowy, takie jak zmiana obrazu grupy lub jej nazwy.
+Każda pozycja jest opatrzona ikoną, co ułatwia szybkie rozpoznanie dostępnych działań bez potrzeby opuszczania widoku rozmowy.
 
-ActiveGroupChatPageUserTagged
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{\chatfig{ActiveGroupChatPageUserTagged}}
+    \caption{Oznaczanie użytkownika w wiadomości z podpowiedziami.}
+    \label{fig:chat:mention-suggestions}
+\end{figure}
 
-Rysunek X przedstawia widok \textit{ActiveGroupChatPageUserTagged}, ilustrujący
-mechanizm oznaczania użytkownika w wiadomości w ramach rozmowy grupowej.
-W treści wiadomości w obszarze konwersacji widoczny jest wyróżniony fragment
-w formacie \texttt{@Username}, oznaczony kolorem odróżniającym go od reszty tekstu.
-W dolnej części ekranu, w polu wprowadzania wiadomości, użytkownik wpisuje ciąg
-zaczynający się od znaku \texttt{@}, a nad polem wyświetlono panel podpowiedzi
-z propozycją użytkownika (awatar i nazwa), umożliwiający szybkie wybranie osoby
-do oznaczenia. Po prawej stronie ekranu zachowano listę członków grupy w panelu
-\textit{Group members}.
+Rysunek \ref{fig:chat:mention-suggestions} przedstawia mechanizm oznaczania użytkownika w wiadomości w ramach rozmowy grupowej.
+W treści wiadomości widoczny jest wyróżniony fragment w formacie \texttt{@nazwaUzytkownika}.
+W polu wprowadzania wiadomości użytkownik wpisuje ciąg rozpoczynający się od znaku \texttt{@},
+a nad polem wyświetlono panel podpowiedzi z propozycjami dopasowań (awatar i nazwa),
+umożliwiający szybkie wybranie osoby do oznaczenia. Po prawej stronie ekranu zachowano listę członków grupy.
 
-ActiveGroupChatPageGroupMemberOptions
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{\chatfig{ActiveGroupChatPageGroupMemberOptions}}
+    \caption{Menu kontekstowe dla uczestnika rozmowy grupowej.}
+    \label{fig:chat:group-member-menu}
+\end{figure}
 
-Rysunek X przedstawia widok \textit{ActiveGroupChatPageGroupMemberOptions},
-w którym dla wybranego uczestnika w panelu \textit{Group members} wyświetlono
-menu kontekstowe. Menu jest umieszczone bezpośrednio przy wskazanej pozycji
-użytkownika i zawiera dwie operacje: \textit{View profile} oraz \textit{Send message},
-każda z nich opatrzona odpowiednią ikoną. Widok ten umożliwia wykonanie działań
-względem konkretnego członka grupy bez konieczności opuszczania ekranu rozmowy.
-
+Rysunek \ref{fig:chat:group-member-menu} przedstawia menu kontekstowe dla wybranego uczestnika w panelu listy członków grupy.
+Menu jest umieszczone bezpośrednio przy wskazanej pozycji użytkownika i zawiera operacje takie jak podgląd profilu
+oraz rozpoczęcie rozmowy prywatnej. Widok ten umożliwia wykonanie działań względem konkretnego członka grupy
+bez konieczności opuszczania ekranu rozmowy.
