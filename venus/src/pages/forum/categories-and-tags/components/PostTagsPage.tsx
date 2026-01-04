@@ -38,7 +38,7 @@ export default function PostTagsPage() {
             {} as Record<string, TagDto[]>,
         ) ?? {};
 
-    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    const alphabet = "ABCĆDEFGHIJKLŁMNŃOPQRSŚTUVWXYZŹŻ".split("");
 
     return (
         <div className="w-md space-y-8 md:w-2xl">

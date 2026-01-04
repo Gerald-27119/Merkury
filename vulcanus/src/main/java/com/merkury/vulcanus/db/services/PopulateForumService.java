@@ -94,10 +94,7 @@ public class PopulateForumService {
                 "Jantar", "Hel", "Żarnowiec", "Tarnobrzeg", "Klucze"
         );
 
-        List<String> topicTagNames = List.of("FPV", "Początkujący", "Gogle");
-
         List<String> allTagNames = new ArrayList<>(cityTagNames);
-        allTagNames.addAll(topicTagNames);
         allTagNames = allTagNames.stream().distinct().toList();
 
         Map<String, Tag> tagByName = upsertForumTags(allTagNames);
@@ -758,7 +755,7 @@ public class PopulateForumService {
         String imgs = urls.stream()
                 .map(u -> "<img src=\"" + u + "\" alt=\"image\">")
                 .collect(java.util.stream.Collectors.joining("\n"));
-        return imgs + "\n" + content;
+        return content + imgs;
     }
 
     private void ensureFollowedPostsPerUser(List<UserEntity> users, List<Post> posts, int perUser) {
@@ -892,13 +889,9 @@ public class PopulateForumService {
                     Najlepiej, żeby było <em>łatwe w pilotażu</em>, ale nadal na tyle szybkie, żeby dało frajdę z FPV.</p>
                     """)
                 .postCategory(categoryByName.get("Drone for beginners"))
-                .tags(new HashSet<>(Set.of(
-                        tagByName.get("FPV"),
-                        tagByName.get("Początkujący")
-                )))
                 .views(254)
                 .author(u1)
-                .publishDate(SEED_TIME.minusDays(13))
+                .publishDate(LocalDateTime.now().minusDays(13))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -913,7 +906,7 @@ public class PopulateForumService {
                 .tags(new HashSet<>(Set.of(tagByName.get("Gdańsk"))))
                 .views(403)
                 .author(u2)
-                .publishDate(SEED_TIME.minusDays(17))
+                .publishDate(LocalDateTime.now().minusDays(17))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -924,10 +917,9 @@ public class PopulateForumService {
                     Mogą być boxy, ważne żeby były wygodne i dało się w nich sensownie latać.</p>
                     """)
                 .postCategory(categoryByName.get("FPV"))
-                .tags(new HashSet<>(Set.of(tagByName.get("Gogle"))))
                 .views(189)
                 .author(u3)
-                .publishDate(SEED_TIME.minusDays(19))
+                .publishDate(LocalDateTime.now().minusDays(19))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -942,7 +934,7 @@ public class PopulateForumService {
                 .tags(new HashSet<>())
                 .views(327)
                 .author(u4)
-                .publishDate(SEED_TIME.minusDays(21))
+                .publishDate(LocalDateTime.now().minusDays(21))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -958,7 +950,7 @@ public class PopulateForumService {
                 .tags(new HashSet<>(Set.of(tagByName.get("Gdynia"))))
                 .views(518)
                 .author(u5)
-                .publishDate(SEED_TIME.minusDays(10))
+                .publishDate(LocalDateTime.now().minusDays(10))
                 .comments(new ArrayList<>())
                 .build();
 
