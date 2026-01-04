@@ -44,9 +44,9 @@ public class SpotCommentController {
         return ResponseEntity.ok(comments);
     }
 
-    @GetMapping("/public/spot/{spotId}/comments/{commentId}")
-    public ResponseEntity<List<SpotCommentMediaDto>> getRestOfSpotCommentMedia(@PathVariable Long spotId, @PathVariable Long commentId) {
-        return ResponseEntity.ok(spotCommentService.getRestOfSpotCommentMedia(spotId, commentId));
+    @GetMapping("/public/spot/comments-media/{commentId}")
+    public ResponseEntity<List<SpotCommentMediaDto>> getRestOfSpotCommentMedia(@PathVariable Long commentId) {
+        return ResponseEntity.ok(spotCommentService.getRestOfSpotCommentMedia(commentId));
     }
 
     @PostMapping("/spot/{spotId}/comments")

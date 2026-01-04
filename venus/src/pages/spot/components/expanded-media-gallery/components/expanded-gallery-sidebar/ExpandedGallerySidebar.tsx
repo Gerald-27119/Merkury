@@ -214,6 +214,25 @@ export default function ExpandedGallerySidebar() {
     }, [mediaType]);
 
     useEffect(() => {
+        dispatch(expandedSpotGalleryMediaListAction.clearMediaList());
+        dispatch(
+            expandedSpotMediaGalleryAction.setExpandedGalleryMediaPagePosition({
+                mediaPagePosition: 0,
+            }),
+        );
+        queryClient.removeQueries({
+            queryKey: [
+                "expanded-spot-media-gallery",
+                spotId,
+                mediaType,
+                sorting,
+                0,
+            ],
+        });
+        setPageCount(0);
+    }, [sorting]);
+
+    useEffect(() => {
         if (
             isSuccess &&
             mediaType === currentMediaType &&

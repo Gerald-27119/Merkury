@@ -18,10 +18,6 @@ public class ChatStompCommunicationController {
     private final ChatStompCommunicationService chatStompCommunicationService;
     private final ChatService chatService;
 
-    /**
-     * Endpoint, który odbiera wiadomości dla konkretnego chatu.
-     * Przykład: /app/send/123/message (dla chatu o id = 123)
-     */
     @MessageMapping("/send/{chatId}/message")
     public void sendChatMessage(@DestinationVariable String chatId, @Payload IncomingChatMessageDto message) {
         log.debug("Received message for chat: {}, message: {}", chatId, message);
@@ -30,3 +26,5 @@ public class ChatStompCommunicationController {
         chatStompCommunicationService.broadcastACKVersionToSender(chatMessageDtoToBroadCast, message.optimisticMessageUUID());
     }
 }
+
+
