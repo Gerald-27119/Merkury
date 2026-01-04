@@ -2,10 +2,7 @@ package com.merkury.vulcanus.model.entities;
 
 import com.merkury.vulcanus.model.interfaces.Votable;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
@@ -29,6 +26,8 @@ public abstract class Comment implements Votable {
     private LocalDateTime publishDate = LocalDateTime.now();
 
     @ManyToOne
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @JoinColumn(name = "author_id")
     private UserEntity author;
 }
