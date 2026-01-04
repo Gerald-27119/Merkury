@@ -126,7 +126,7 @@
 \newglossaryentry{dto}
 {
     name={DTO},
-    description={Skrót od \textit{Data Transfer Object}. Prosty obiekt przenoszący dane między warstwami systemu lub między usługami. Zawiera pola danych, zazwyczaj bez logiki biznesowej}
+    description={Skrót od \textit{Data Transfer Object}. Obiekt przenoszący dane między warstwami systemu lub między usługami. Zawiera pola danych, zazwyczaj bez logiki biznesowej}
 }
 
 \newglossaryentry{modal}
@@ -192,7 +192,7 @@
 \newglossaryentry{folder-by-type}
 {
     name={Folder by type},
-    description={Sposób organizowania struktury katalogów w projekcie, w którym pliki są grupowane według rodzaju (typu) zasobu, a nie według funkcjonalności. Na przykład wszystkie komponenty trafiają do jednego folderu, wszystkie style do innego itd}
+    description={Sposób organizowania struktury katalogów w projekcie, w którym pliki są grupowane według rodzaju (typu) zasobu, a nie według funkcjonalności. Na przykład wszystkie komponenty trafiają do jednego folderu, wszystkie style do innego itd.}
 }
 
 \newglossaryentry{biblioteka}
@@ -307,7 +307,7 @@
 }
 
 \newglossaryentry{stan}{
-    name={Stan},
+    name={stan},
     description={Aktualny zestaw danych przechowywanych przez aplikację lub komponent, na podstawie którego renderowany jest interfejs użytkownika. Stan może być lokalny (utrzymywany w pojedynczym komponencie) albo globalny (wspólny dla wielu komponentów).}
 }
 
@@ -317,7 +317,7 @@
 }
 
 \newglossaryentry{hook}{
-    name={Hook (React)},
+    name={hook},
     description={Prosta funkcja w React, która „dodaje” możliwości do elementu interfejsu — np. pozwala mu coś zapamiętać (stan) albo zrobić coś po zmianie/załadowaniu. Wszystkie hooki zaczynają się od \texttt{use...} (np. \texttt{useState}, \texttt{useEffect}).}
 }
 
@@ -436,15 +436,6 @@
     wektorowych w przeglądarce, rozwijana jako niezależna kontynuacja Mapbox GL JS.
     Umożliwia wyświetlanie kafelków mapowych, znaczników i warstw z danymi
     geoprzestrzennymi}
-}
-
-\newglossaryentry{websocket}
-{
-    name={WebSocket},
-    description={Protokół komunikacyjny umożliwiający dwukierunkową komunikację
-    w czasie rzeczywistym między przeglądarką a serwerem po pojedynczym,
-    utrzymywanym połączeniu TCP. Często wykorzystywany m.in. w czatach i aplikacjach
-    działających w czasie rzeczywistym.}
 }
 
 \newglossaryentry{docker-compose}
@@ -686,6 +677,215 @@
     są odizolowane od maszyny hosta.}
 }
 
+\newglossaryentry{websocket}{
+    name={WebSocket},
+    description={Protokół komunikacyjny umożliwiający utrzymanie stałego połączenia pomiędzy \glslink{klient}{klientem} a \glslink{serwer}{serwerem} oraz dwukierunkową wymianę danych w czasie zbliżonym do rzeczywistego.}
+}
+
+\newglossaryentry{stomp}{
+    name={STOMP},
+    description={Protokół wiadomościowy działający „nad” \gls{websocket}. Wprowadza pojęcia \glslink{destynacja}{destynacji}, \glslink{subskrypcja}{subskrypcji} i wysyłania komunikatów w modelu \gls{publish-subscribe}.}
+}
+
+\newglossaryentry{http}{
+    name={HTTP},
+    description={Podstawowy protokół komunikacji w sieci WWW, wykorzystywany m.in. przez \gls{rest_api}. Zwykle działa w modelu „żądanie–odpowiedź”, bez stałego połączenia.}
+}
+
+\newglossaryentry{ietf}{
+    name={IETF},
+    description={Organizacja opracowująca i publikująca standardy internetowe, m.in. dokumenty typu \gls{rfc}.}
+}
+
+\newglossaryentry{rfc}{
+    name={RFC},
+    description={Request for Comments to numerowane publikacje opisujące ustalenia dotyczące działania Internetu — m.in. protokoły, formaty danych i dobre praktyki.
+    Są wydawane w ramach społeczności \gls{ietf}.}
+}
+
+\newglossaryentry{handshake}{
+    name={handshake},
+    description={Etap początkowy zestawiania połączenia (np. \gls{websocket}), w którym \gls{klient} i \gls{serwer} uzgadniają parametry komunikacji.}
+}
+
+\newglossaryentry{ack}{
+    name={ACK},
+    description={Skrót od \textit{Acknowledgement}; komunikat potwierdzający odbiór lub przetworzenie wiadomości. W \gls{stomp} może służyć do potwierdzania wiadomości po stronie \glslink{klient}{klienta}.}
+}
+
+\newglossaryentry{sockjs}{
+    name={SockJS},
+    description={Mechanizm kompatybilności dla \gls{websocket}: gdy przeglądarka lub sieć nie obsługuje WebSocket, SockJS może użyć alternatywnego sposobu komunikacji, aby zachować podobne zachowanie.}
+}
+
+\newglossaryentry{polling}{
+    name={polling},
+    description={Sposób komunikacji, w którym \gls{klient} cyklicznie „odpytuje” \gls{serwer} (np. co kilka sekund) o nowe dane, zwykle poprzez \gls{http}.}
+}
+
+\newglossaryentry{long-polling}{
+    name={long polling},
+    description={Odmiana \glslink{polling}{polling'u}: \gls{klient} wysyła żądanie, a \gls{serwer} wstrzymuje odpowiedź do momentu pojawienia się nowych danych (lub upłynięcia limitu czasu).}
+}
+
+\newglossaryentry{publish-subscribe}{
+    name={publish--subscribe},
+    description={Model komunikacji, w którym nadawca publikuje zdarzenia na kanał, a odbiorcy, którzy go \glslink{subskrypcja}{subskrybują}, automatycznie otrzymują wiadomości.}
+}
+
+\newglossaryentry{destynacja}{
+    name={destynacja},
+    description={Adres logiczny (ścieżka) w komunikacji \gls{stomp}, na który wysyła się wiadomości lub który się \glslink{subskrypcja}{subskrybuje} (np. \texttt{/app/...} albo \texttt{/subscribe/...}).}
+}
+
+\newglossaryentry{subskrypcja}{
+    name={subskrypcja},
+    description={Mechanizm „zapisania się” na kanał (\glslink{destynacja}{destynację}) w celu automatycznego odbierania wiadomości publikowanych przez \gls{serwer}.}
+}
+
+\newglossaryentry{prefiks}{
+    name={prefiks},
+    description={Ustalony początek ścieżki (np. \texttt{/app} lub \texttt{/subscribe}), który porządkuje i rozróżnia typy komunikacji w aplikacji.}
+}
+
+\newglossaryentry{ramka}{
+    name={ramka},
+    description={Podstawowa jednostka danych przesyłana w ramach połączenia \gls{websocket}.}
+}
+
+\newglossaryentry{serwer}{
+    name={serwer},
+    description={Część systemu (zwykle po stronie \glslink{backend}{backendu}), która przetwarza żądania i udostępnia dane lub funkcje \glslink{klient}{klientom}.}
+}
+
+\newglossaryentry{klient}{
+    name={klient},
+    description={Część systemu (zwykle po stronie \glslink{frontend}{frontendu}), która korzysta z usług \glslink{serwer}{serwera} i prezentuje dane użytkownikowi.}
+}
+\newglossaryentry{naglowek}{
+    name={nagłówek},
+    description={Metadane dołączane do wiadomości lub żądania (np. dodatkowe pola opisujące typ komunikatu, identyfikator, autoryzację).}
+}
+
+\newglossaryentry{broker}{
+    name={broker},
+    description={Element pośredniczący w komunikacji wiadomościowej (np. STOMP), który odbiera wiadomości i rozsyła je do odpowiednich subskrybentów.}
+}
+
+\newglossaryentry{callback}{
+    name={callback},
+    description={Funkcja przekazywana jako parametr, wywoływana automatycznie przy wystąpieniu zdarzenia (np. gdy nadejdzie wiadomość z WebSocket).}
+}
+
+\newglossaryentry{store}{
+    name={store},
+    description={Centralne miejsce przechowywania stanu aplikacji w Redux. Pozwala odczytywać aktualny stan oraz wysyłać akcje zmieniające ten stan.}
+}
+
+\newglossaryentry{kontekst}{
+    name={kontekst React'a},
+    description={Mechanizm w React pozwalający udostępnić wspólny obiekt wielu komponentom bez przekazywania go przez \glslink{props}{propsy}.}
+}
+
+\newglossaryentry{reconnect}{
+    name={reconnect},
+    description={Automatyczne ponowne nawiązanie połączenia po jego zerwaniu (np. po chwilowej utracie internetu).}
+}
+
+\newglossaryentry{payload}{
+    name={payload},
+    description={Właściwa „treść” wiadomości (dane), którą przesyłamy, np. obiekt wiadomości czatu zapisany jako JSON.}
+}
+
+\newglossaryentry{stomp_client}{
+    name={klient STOMP},
+    description={Biblioteka/komponent po stronie klienta realizujący protokół STOMP (subskrypcje, publikacja, ramki, nagłówki) nad transportem WebSocket/SockJS}
+}
+
+\newglossaryentry{stompjs}{
+    name={StompJS},
+    description={Biblioteka JavaScript/TypeScript (np. \texttt{@stomp/stompjs}) implementująca klienta protokołu STOMP}
+}
+
+\newglossaryentry{json}{
+    name={JSON},
+    description={Format tekstowy do wymiany danych (JavaScript Object Notation), często używany jako reprezentacja komunikatów API i wiadomości w aplikacjach webowych}
+}
+
+\newglossaryentry{serializacja}{
+    name={serializacja},
+    description={Proces zamiany obiektu (np. w TypeScript/Java) na format przenośny, np. JSON, w celu przesłania lub zapisu}
+}
+
+\newglossaryentry{deserializacja}{
+    name={deserializacja},
+    description={Proces odtworzenia obiektu z formatu przenośnego (np. JSON) po stronie odbiorcy}
+}
+
+\newglossaryentry{cleanup}{
+    name={cleanup},
+    description={„Sprzątanie” zasobów: usuwanie subskrypcji, rozłączanie połączeń i czyszczenie struktur pomocniczych, aby nie pozostawiać aktywnych uchwytów}
+}
+
+\newglossaryentry{cykl_zycia}{
+    name={cykl życia komponentu},
+    description={Etapy działania komponentu (np. montowanie, aktualizacja, odmontowanie) determinujące momenty inicjalizacji i zwalniania zasobów}
+}
+
+\newglossaryentry{use_effect}{
+    name={useEffect},
+    description={Hook React służący do uruchamiania efektów ubocznych po renderowaniu (oraz do definiowania funkcji sprzątającej wykonywanej przy odmontowaniu lub zmianie zależności)}
+}
+
+\newglossaryentry{montowanie}{
+    name={montowanie},
+    description={Moment „podpięcia” komponentu do drzewa UI.}
+}
+
+\newglossaryentry{odmontowanie}{
+    name={odmontowanie},
+    description={Usunięcie komponentu z drzewa UI.}
+}
+
+\newglossaryentry{tablica_zaleznosci}{
+    name={tablica zależności},
+    description={Lista wartości (dependencies) sterująca ponownym uruchamianiem \texttt{useEffect} w React; zmiana zależności powoduje wykonanie sprzątania i ponowne uruchomienie efektu}
+}
+
+\newglossaryentry{zmienna_srodowiskowa}{
+    name={zmienna środowiskowa},
+    description={Parametr konfiguracyjny przekazywany aplikacji z zewnątrz (np. plik \texttt{.env} lub konfiguracja CI/CD), pozwalający zmieniać zachowanie bez modyfikacji kodu}
+}
+
+\newglossaryentry{singleton}{
+    name={Singleton},
+    description={Wzorzec projektowy gwarantujący istnienie jednej, współdzielonej instancji obiektu w aplikacji}
+}
+
+\newglossaryentry{redux_dispatch}{
+    name={dispatch},
+    description={Funkcja w Redux służąca do wysyłania akcji, które modyfikują stan przechowywany w store}
+}
+
+\newglossaryentry{akcja_redux}{
+    name={akcja Redux},
+    description={Obiekt opisujący zdarzenie/operację zmiany stanu w Redux, obsługiwany przez reducery (np. \texttt{chatActions.setLastMessage(...)})}
+}
+
+\newglossaryentry{fallback}
+{
+    name={fallback},
+    description={Mechanizm awaryjnego przełączania na alternatywny sposób działania, gdy preferowana metoda jest niedostępna. W kontekście WebSocket/SockJS oznacza automatyczne przejście z WebSocket na techniki oparte o HTTP (np. streaming lub long polling), aby utrzymać komunikację.}
+}
+
+
+\newglossaryentry{optimistic-ui}
+{
+    name={Optimistic UI},
+    description={Technika w aplikacjach klienckich polegająca na natychmiastowym zaktualizowaniu interfejsu jeszcze przed otrzymaniem potwierdzenia z serwera. Poprawia wrażenie responsywności,
+    a w przypadku błędu po stronie serwera zmiana jest cofana lub oznaczana jako nieudana.}
+}
+
 \newglossaryentry{debounce}{
     name={Debounce},
     description={Technika programistyczna polegająca na ograniczaniu liczby wywołań funkcji poprzez jej uruchomienie dopiero po upływie zadanego czasu od ostatniego wywołania.}
@@ -695,11 +895,6 @@
     name={Mutacja},
     description={W TanStack Query: operacja wysyłająca żądanie zmiany (POST/PUT/PATCH/DELETE) i
     zarządzająca jego stanem (pending/success/error) oraz reakcją aplikacji, aktualizacją lub unieważnieniem cache.}
-}
-
-\newglossaryentry{store}{
-    name={Store (Redux)},
-    description={Centralny obiekt przechowujący globalny stan aplikacji (state) w \glslink{redux}{Reduxie}.}
 }
 
 \newglossaryentry{srp}{
@@ -766,4 +961,68 @@
         Zarządzanie stanem oraz cyklem życia komponentu odbywa się za pomocą \glslink{hook}{hook'ów} takich jak
         \textit{useState}.
     \end{itemize}}
+}
+\newglossaryentry{github-actions}{
+    name={GitHub Actions},
+    description={Platforma CI/CD zintegrowana z portalem GitHub, umożliwiająca automatyzację procesów takich jak
+    budowanie, testowanie i wdrażanie aplikacji w odpowiedzi na zdarzenia w repozytorium.}
+}
+
+\newglossaryentry{job}{
+    name={Job (GitHub Actions)},
+    description={Jednostka wykonawcza w GitHub Actions, składająca się z sekwencji kroków (\textit{steps}) uruchamianych
+    na tym samym runnerze. Job może zależeć od innych jobów i być wykonywany równolegle lub sekwencyjnie w ramach workflow.}
+}
+
+\newglossaryentry{workflow}{
+    name={Workflow (GitHub Actions)},
+    description={Zdefiniowany w pliku YAML proces automatyzacji w GitHub Actions, zawierający wyzwalacze uruchomienia
+    (\texttt{on:}) oraz zestaw jobów realizujących zadania CI/CD (budowanie i testowanie aplikacji).}
+}
+
+\newglossaryentry{pipeline}{
+    name={Pipeline},
+    description={Uporządkowany ciąg etapów procesu CI/CD (budowanie, testowanie, wdrażanie), uruchamiany
+    automatycznie po wystąpieniu określonych zdarzeń. W GitHub Actions pipeline jest realizowany jako workflow
+    składający się z jednego lub wielu jobów.}
+}
+
+\newglossaryentry{pull-request}{
+    name={Pull request},
+    description={Mechanizm służący do zgłaszania propozycji zmian w kodzie i ich scalania do wybranej gałęzi.
+    Umożliwia przegląd kodu (code review), uruchamianie testów oraz dyskusję nad zmianami przed wykonaniem scalenia.}
+}
+
+\newglossaryentry{merge}{
+    name={Merge},
+    description={Proces scalania zmian z jednej gałęzi do innej. Scalenie integruje historię commitów oraz
+    może wymagać rozwiązania konfliktów, jeśli zmiany dotyczą tych samych fragmentów kodu.}
+}
+
+\newglossaryentry{node}{
+    name={Node.js},
+    description={Środowisko uruchomieniowe oparte na silniku V8, umożliwiające wykonywanie kodu JavaScript
+    poza przeglądarką. W projektach frontendowych wykorzystywane do instalacji zależności (npm) oraz
+    uruchamiania narzędzi budowania i testów.}
+}
+
+\newglossaryentry{maven}{
+    name={Maven},
+    description={Narzędzie do automatyzacji budowania projektów w języku Java, zarządzania zależnościami oraz
+    uruchamiania testów. Konfiguracja procesu budowania i zależności jest definiowana w pliku \texttt{pom.xml}.}
+}
+
+
+
+\newglossaryentry{spring-cache}{
+    name={Spring Cache},
+    description={Mechanizm \glslink{cache}{cache'owania} w ekosystemie Spring, który pozwala przechowywać wyniki wywołań metod
+    (przez adnotacje \texttt{@Cacheable}, \texttt{@CachePut}, \texttt{@CacheEvict}) w celu przyspieszenia
+    działania aplikacji i zmniejszenia obciążenia zasobów (bazy danych).}
+}
+
+\newglossaryentry{ttl}{
+    name={TTL},
+    description={(\emph{Time To Live}) Czas życia wpisu w cache lub w innym systemie przechowywania danych —
+    po jego upływie element wygasa i jest usuwany albo uznawany za nieaktualny, co wymusza ponowne pobranie/wyliczenie danych.}
 }

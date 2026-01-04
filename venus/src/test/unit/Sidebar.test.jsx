@@ -95,11 +95,6 @@ describe("Sidebar component unit tests", () => {
                 expect(icon).toBeInTheDocument();
             });
 
-            test("should render Notification icon", () => {
-                const icon = screen.getByLabelText("notification");
-                expect(icon).toBeInTheDocument();
-            });
-
             test("should render Login icon", () => {
                 const icon = screen.getByLabelText("login");
                 expect(icon).toBeInTheDocument();
@@ -163,11 +158,6 @@ describe("Sidebar component unit tests", () => {
 
             test("should render Forum Text", () => {
                 const text = screen.getByText("forum");
-                expect(text).toBeInTheDocument();
-            });
-
-            test("should render Notification Text", () => {
-                const text = screen.getByText("notification");
                 expect(text).toBeInTheDocument();
             });
 

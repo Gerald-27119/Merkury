@@ -25,6 +25,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -64,6 +65,9 @@ class SpotControllerWithServerStartupTest {
     @Autowired
     private FavoriteSpotRepository favoriteSpotRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     private static final int REDIS_PORT = 6379;
     private static final String REDIS_IMAGE_NAME = "redis:6-alpine";
 
@@ -79,6 +83,7 @@ class SpotControllerWithServerStartupTest {
 
     @BeforeEach
     void setUp() {
+        jdbcTemplate.execute("DELETE FROM user_liked_spot_media");
         var borderPoints = List.of(
                 new BorderPoint(40.785091, -73.968285),
                 new BorderPoint(40.784091, -73.969285)
