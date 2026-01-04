@@ -12,11 +12,9 @@ zakończyć obsługę na bieżącym etapie.
 Dzięki temu nadawca żądania nie musi znać konkretnego obiektu odpowiedzialnego za obsługę --
 właściwe rozstrzygnięcie następuje w trakcie przechodzenia przez kolejne ogniwa.
 
-\newcommand{\corfig}[1]{./attachments/wzorce-projektowe/cor/#1}
-
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{\corfig{1}}
+    \includegraphics[width=0.75\textwidth]{./attachments/wzorce-projektowe/cor/1}
     \caption{Diagram klas wzorca projektowego Chain of Responsibility.}
     \label{fig:cor-class-diagram}
 \end{figure}
@@ -50,7 +48,7 @@ a jednocześnie istotna jest łatwa rozbudowa rozwiązania oraz możliwość zmi
 Zamiast rozbudowanych instrukcji warunkowych i silnie sprzężonych modułów, system buduje się z mniejszych,
 wymienialnych komponentów, z których każdy realizuje pojedynczą odpowiedzialność.
 
-\midiskip
+\medskip
 \paragraph{Zastosowanie w Spring Security.}
 Praktycznym przykładem wykorzystania łańcucha zobowiązań jest mechanizm \textit{filter chain}
 w \glslink{framework}{frameworku} \gls{spring-security}.
