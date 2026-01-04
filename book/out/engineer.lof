@@ -1,0 +1,197 @@
+\babel@toc {polish}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Wysokopoziomowy diagram przypadków użycia}}{30}{figure.4.1}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Ogólny diagram przypadków użycia}}{31}{figure.4.2}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Diagram przypadków użycia wyszukiwarki spotów oraz mapy}}{32}{figure.4.3}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Diagram przypadków użycia forum}}{32}{figure.4.4}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Diagram przypadków użycia czatu}}{33}{figure.4.5}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Diagram przypadków użycia profilu użytkownika}}{34}{figure.4.6}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Diagram architektury}}{129}{figure.5.1}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Projekt prostej strony głównej}}{131}{figure.5.2}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Projekt zaawansowanej strony głównej (1)}}{132}{figure.5.3}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Projekt zaawansowanej strony głównej (2)}}{133}{figure.5.4}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Projekt strony logowania}}{134}{figure.5.5}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Projekt strony rejestracji}}{135}{figure.5.6}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Widok prywatny profilu}}{137}{figure.5.7}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Widok publiczny profilu}}{137}{figure.5.8}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Lista obserwujących}}{138}{figure.5.9}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Lista obserwowanych}}{138}{figure.5.10}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Lista znajomych}}{139}{figure.5.11}%
+\contentsline {figure}{\numberline {5.12}{\ignorespaces Lista zdjęć użytkownika}}{139}{figure.5.12}%
+\contentsline {figure}{\numberline {5.13}{\ignorespaces Zaproszenie wysłane}}{140}{figure.5.13}%
+\contentsline {figure}{\numberline {5.14}{\ignorespaces Możliwość usunięcia z listy znajomych}}{140}{figure.5.14}%
+\contentsline {figure}{\numberline {5.15}{\ignorespaces Możliwość zakończenia obserwowania}}{141}{figure.5.15}%
+\contentsline {figure}{\numberline {5.16}{\ignorespaces Projekt strony z listą ulubionych \glslink {spot}{spotów}}}{142}{figure.5.16}%
+\contentsline {figure}{\numberline {5.17}{\ignorespaces Projekt strony z listą dodanych zdjęć}}{143}{figure.5.17}%
+\contentsline {figure}{\numberline {5.18}{\ignorespaces Projekt strony z listą dodanych zdjęć po najechaniu kursorem}}{143}{figure.5.18}%
+\contentsline {figure}{\numberline {5.19}{\ignorespaces Projekt strony z listą dodanych filmów}}{144}{figure.5.19}%
+\contentsline {figure}{\numberline {5.20}{\ignorespaces Projekt strony z listą znajomych}}{145}{figure.5.20}%
+\contentsline {figure}{\numberline {5.21}{\ignorespaces Projekt strony z listą dodanych \glslink {spot}{spotów}}}{146}{figure.5.21}%
+\contentsline {figure}{\numberline {5.22}{\ignorespaces Projekt formularza do dodawania nowego \glslink {spot}{spota}}}{147}{figure.5.22}%
+\contentsline {figure}{\numberline {5.23}{\ignorespaces Projekt strony z listą dodanych komentarzy}}{148}{figure.5.23}%
+\contentsline {figure}{\numberline {5.24}{\ignorespaces Projekt strony ustawień (1)}}{149}{figure.5.24}%
+\contentsline {figure}{\numberline {5.25}{\ignorespaces Projekt strony ustawień (2)}}{149}{figure.5.25}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Diagram klas wzorca projektowego Fasada}}{156}{figure.7.1}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Implementacja wzorca Fasada}}{157}{figure.7.2}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Przykładowe użycie klasy PolygonAreaCalculator}}{157}{figure.7.3}%
+\contentsline {figure}{\numberline {7.4}{\ignorespaces Diagram klas wzorca projektowego Singleton}}{158}{figure.7.4}%
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Adnotacja frameworka Spring Boot tworząca Singleton}}{158}{figure.7.5}%
+\contentsline {figure}{\numberline {7.6}{\ignorespaces Użycie Singletona jako zależności}}{159}{figure.7.6}%
+\contentsline {figure}{\numberline {7.7}{\ignorespaces Diagram klas wzorca projektowego Builder}}{160}{figure.7.7}%
+\contentsline {figure}{\numberline {7.8}{\ignorespaces Implementacja wzorca projektowego Builder}}{161}{figure.7.8}%
+\contentsline {figure}{\numberline {7.9}{\ignorespaces Przykładowe użycie wzorca projektowego Builder}}{161}{figure.7.9}%
+\contentsline {figure}{\numberline {7.10}{\ignorespaces Przykładowe użycie hook'a useState}}{162}{figure.7.10}%
+\contentsline {figure}{\numberline {7.11}{\ignorespaces Przykładowe użycie hook'a useEffect}}{162}{figure.7.11}%
+\contentsline {figure}{\numberline {7.12}{\ignorespaces Implementacja hook'a useBoolean}}{162}{figure.7.12}%
+\contentsline {figure}{\numberline {7.13}{\ignorespaces Przykładowe użycie hook'a useBoolean}}{163}{figure.7.13}%
+\contentsline {figure}{\numberline {7.14}{\ignorespaces Implementacja komponentu ChatBottomBar (1)}}{164}{figure.7.14}%
+\contentsline {figure}{\numberline {7.15}{\ignorespaces Implementacja komponentu ChatBottomBar (2)}}{165}{figure.7.15}%
+\contentsline {figure}{\numberline {7.16}{\ignorespaces Implementacja komponentu ChatBottomBar (3)}}{165}{figure.7.16}%
+\contentsline {figure}{\numberline {7.17}{\ignorespaces Implementacja komponentu ChatMessagingWindow (1)}}{166}{figure.7.17}%
+\contentsline {figure}{\numberline {7.18}{\ignorespaces Implementacja komponentu ChatMessagingWindow (2)}}{167}{figure.7.18}%
+\contentsline {figure}{\numberline {7.19}{\ignorespaces Implementacja komponentu ChatMessagingWindow (3)}}{168}{figure.7.19}%
+\contentsline {figure}{\numberline {7.20}{\ignorespaces Implementacja komponentu ChatMessagingWindow (4)}}{169}{figure.7.20}%
+\contentsline {figure}{\numberline {7.21}{\ignorespaces Implementacja komponentu ProtectedRoute}}{170}{figure.7.21}%
+\contentsline {figure}{\numberline {7.22}{\ignorespaces Przykładowe użycie komponentu ProtectedRoute}}{170}{figure.7.22}%
+\contentsline {figure}{\numberline {7.23}{\ignorespaces Implementacja komponentu Modal (1)}}{171}{figure.7.23}%
+\contentsline {figure}{\numberline {7.24}{\ignorespaces Implementacja komponentu Modal (2)}}{172}{figure.7.24}%
+\contentsline {figure}{\numberline {7.25}{\ignorespaces Przykładowe użycie komponentu Modal}}{173}{figure.7.25}%
+\contentsline {figure}{\numberline {7.26}{\ignorespaces Struktura katalogów (1)}}{174}{figure.7.26}%
+\contentsline {figure}{\numberline {7.27}{\ignorespaces Struktura katalogów (2)}}{175}{figure.7.27}%
+\contentsline {figure}{\numberline {7.28}{\ignorespaces Klasa \texttt {UrlsProperties}}}{178}{figure.7.28}%
+\contentsline {figure}{\numberline {7.29}{\ignorespaces Klasa \texttt {JwtProperties}}}{179}{figure.7.29}%
+\contentsline {figure}{\numberline {7.30}{\ignorespaces Klasa \texttt {JwtConfig}}}{179}{figure.7.30}%
+\contentsline {figure}{\numberline {7.31}{\ignorespaces Konfiguracja \texttt {SecurityConfig} (1/4)}}{180}{figure.7.31}%
+\contentsline {figure}{\numberline {7.32}{\ignorespaces Konfiguracja \texttt {SecurityConfig} (2/4)}}{181}{figure.7.32}%
+\contentsline {figure}{\numberline {7.33}{\ignorespaces Konfiguracja \texttt {SecurityConfig} (3/4)}}{181}{figure.7.33}%
+\contentsline {figure}{\numberline {7.34}{\ignorespaces Konfiguracja \texttt {SecurityConfig} (4/4)}}{182}{figure.7.34}%
+\contentsline {figure}{\numberline {7.35}{\ignorespaces Klasa \texttt {JwtManager} (1/2)}}{187}{figure.7.35}%
+\contentsline {figure}{\numberline {7.36}{\ignorespaces Klasa \texttt {JwtManager} (2/2)}}{188}{figure.7.36}%
+\contentsline {figure}{\numberline {7.37}{\ignorespaces Klasa \texttt {JwtGenerator}}}{189}{figure.7.37}%
+\contentsline {figure}{\numberline {7.38}{\ignorespaces Klasa \texttt {JwtAuthFilter}}}{190}{figure.7.38}%
+\contentsline {figure}{\numberline {7.39}{\ignorespaces Klasa \texttt {JwtAuthFilter}}}{191}{figure.7.39}%
+\contentsline {figure}{\numberline {7.40}{\ignorespaces Klasa \texttt {JwtService}}}{192}{figure.7.40}%
+\contentsline {figure}{\numberline {7.41}{\ignorespaces Klasa \texttt {CustomUserDetailsService}}}{193}{figure.7.41}%
+\contentsline {figure}{\numberline {7.42}{\ignorespaces Klasa \texttt {CustomAccessDeniedHandler}}}{194}{figure.7.42}%
+\contentsline {figure}{\numberline {7.43}{\ignorespaces Klasa \texttt {ChatSecurityService}}}{195}{figure.7.43}%
+\contentsline {figure}{\numberline {7.44}{\ignorespaces Plik konfiguracyjny \glslink {docker-compose}{Docker Compose}}}{236}{figure.7.44}%
+\contentsline {figure}{\numberline {7.45}{\ignorespaces Konfiguracja \texttt {RedisCacheManager} wraz z przypisaniem TTL do wybranych przestrzeni cache.}}{237}{figure.7.45}%
+\contentsline {figure}{\numberline {7.46}{\ignorespaces Cachowanie danych z zewnętrznego źródła z wykorzystaniem \texttt {@Cacheable} oraz synchronizacji.}}{237}{figure.7.46}%
+\contentsline {figure}{\numberline {7.47}{\ignorespaces Cachowanie wyników wyszukiwania spotów z kontrolą warunków (\texttt {condition}, \texttt {unless}).}}{238}{figure.7.47}%
+\contentsline {figure}{\numberline {7.48}{\ignorespaces Cachowanie danych pogodowych z kluczem opartym o współrzędne geograficzne.}}{238}{figure.7.48}%
+\contentsline {figure}{\numberline {7.49}{\ignorespaces Struktura katalogów (1)}}{240}{figure.7.49}%
+\contentsline {figure}{\numberline {7.50}{\ignorespaces Struktura katalogów (2)}}{241}{figure.7.50}%
+\contentsline {figure}{\numberline {7.51}{\ignorespaces Implementacja routera (1)}}{242}{figure.7.51}%
+\contentsline {figure}{\numberline {7.52}{\ignorespaces Implementacja routera (2)}}{243}{figure.7.52}%
+\contentsline {figure}{\numberline {7.53}{\ignorespaces Implementacja komponentu bramki (\texttt {ProtectedRoute})}}{244}{figure.7.53}%
+\contentsline {figure}{\numberline {7.54}{\ignorespaces Konfiguracja sklepu (\texttt {Redux store})}}{245}{figure.7.54}%
+\contentsline {figure}{\numberline {7.55}{\ignorespaces Przykładowy slice odpowiedzialny za sprawdzenie czy użytkownik jest zalogowany}}{246}{figure.7.55}%
+\contentsline {figure}{\numberline {7.56}{\ignorespaces Implementacja modułu \texttt {account} (1)}}{247}{figure.7.56}%
+\contentsline {figure}{\numberline {7.57}{\ignorespaces Implementacja modułu \texttt {account} (2)}}{248}{figure.7.57}%
+\contentsline {figure}{\numberline {7.58}{\ignorespaces Wykorzystanie TanStack Query przy logowaniu użytkownika}}{249}{figure.7.58}%
+\contentsline {figure}{\numberline {7.59}{\ignorespaces Implementacja zmiennych kolorystycznych (1)}}{250}{figure.7.59}%
+\contentsline {figure}{\numberline {7.60}{\ignorespaces Implementacja zmiennych kolorystycznych (2)}}{251}{figure.7.60}%
+\contentsline {figure}{\numberline {7.61}{\ignorespaces Przykładowe użycie klas Tailwind (w tym prefiksów responsywności)}}{252}{figure.7.61}%
+\contentsline {figure}{\numberline {7.62}{\ignorespaces Przykładowe użycie klas Tailwind (w tym wariantu \texttt {dark:})}}{252}{figure.7.62}%
+\contentsline {figure}{\numberline {7.63}{\ignorespaces Implementacja animacji z wykorzystaniem Motion}}{253}{figure.7.63}%
+\contentsline {figure}{\numberline {7.64}{\ignorespaces Implementacja prostej wersji wyszukiwarki}}{254}{figure.7.64}%
+\contentsline {figure}{\numberline {7.65}{\ignorespaces Implementacja zaawansowanej wersji wyszukiwarki}}{254}{figure.7.65}%
+\contentsline {figure}{\numberline {7.66}{\ignorespaces Implementacja komponentu do przełączania trybów}}{255}{figure.7.66}%
+\contentsline {figure}{\numberline {7.67}{\ignorespaces Implementacja karuzeli z najpopularniejszymi \glslink {spot}{spotami}}}{256}{figure.7.67}%
+\contentsline {figure}{\numberline {7.68}{\ignorespaces Implementacja prostej wyszukiwarki}}{258}{figure.7.68}%
+\contentsline {figure}{\numberline {7.69}{\ignorespaces Implementacja listy do wyświetlania \glslink {spot}{spotów}}}{259}{figure.7.69}%
+\contentsline {figure}{\numberline {7.70}{\ignorespaces Komponent \texttt {UserOwnProfile}.}}{261}{figure.7.70}%
+\contentsline {figure}{\numberline {7.71}{\ignorespaces Komponent \texttt {ProfileForViewer}.}}{263}{figure.7.71}%
+\contentsline {figure}{\numberline {7.72}{\ignorespaces Komponent \texttt {FavoriteSpots}.}}{266}{figure.7.72}%
+\contentsline {figure}{\numberline {7.73}{\ignorespaces Komponent \texttt {Photos}.}}{268}{figure.7.73}%
+\contentsline {figure}{\numberline {7.74}{\ignorespaces Komponent \texttt {Media}.}}{269}{figure.7.74}%
+\contentsline {figure}{\numberline {7.75}{\ignorespaces Komponent \texttt {Movies}.}}{270}{figure.7.75}%
+\contentsline {figure}{\numberline {7.76}{\ignorespaces Komponent \texttt {Social} (1).}}{272}{figure.7.76}%
+\contentsline {figure}{\numberline {7.77}{\ignorespaces Komponent \texttt {Social} (2).}}{273}{figure.7.77}%
+\contentsline {figure}{\numberline {7.78}{\ignorespaces Komponent \texttt {Social}.}}{274}{figure.7.78}%
+\contentsline {figure}{\numberline {7.79}{\ignorespaces Komponent \texttt {AddedSpot}.}}{277}{figure.7.79}%
+\contentsline {figure}{\numberline {7.80}{\ignorespaces Komponent \texttt {Comments}.}}{280}{figure.7.80}%
+\contentsline {figure}{\numberline {7.81}{\ignorespaces Komponent \texttt {Settings}.}}{282}{figure.7.81}%
+\contentsline {figure}{\numberline {7.82}{\ignorespaces Komponent \texttt {AccountWrapper}.}}{283}{figure.7.82}%
+\contentsline {figure}{\numberline {7.83}{\ignorespaces Komponent \texttt {AccountTitle}.}}{284}{figure.7.83}%
+\contentsline {figure}{\numberline {7.84}{\ignorespaces Wybór zakresu dat w panelu filtrowania (\texttt {DateChooser}).}}{285}{figure.7.84}%
+\contentsline {figure}{\numberline {7.85}{\ignorespaces Komponent \texttt {SortAndDateFilters}.}}{286}{figure.7.85}%
+\contentsline {figure}{\numberline {7.86}{\ignorespaces Komponent \texttt {DateBadge}.}}{287}{figure.7.86}%
+\contentsline {figure}{\numberline {7.87}{\ignorespaces Komponent \texttt {Login} (1).}}{289}{figure.7.87}%
+\contentsline {figure}{\numberline {7.88}{\ignorespaces Komponent \texttt {Login} (2).}}{290}{figure.7.88}%
+\contentsline {figure}{\numberline {7.89}{\ignorespaces Komponent \texttt {Register} (1).}}{291}{figure.7.89}%
+\contentsline {figure}{\numberline {7.90}{\ignorespaces Komponent \texttt {Register} (2).}}{292}{figure.7.90}%
+\contentsline {figure}{\numberline {7.91}{\ignorespaces Komponent \texttt {ForgotPassword}.}}{294}{figure.7.91}%
+\contentsline {figure}{\numberline {7.92}{\ignorespaces Komponent \texttt {NewPassword} (1).}}{296}{figure.7.92}%
+\contentsline {figure}{\numberline {7.93}{\ignorespaces Komponent \texttt {NewPassword} (2).}}{297}{figure.7.93}%
+\contentsline {figure}{\numberline {7.94}{\ignorespaces Komponent \texttt {FormContainer} (1).}}{299}{figure.7.94}%
+\contentsline {figure}{\numberline {7.95}{\ignorespaces Komponent \texttt {FormContainer} (2).}}{300}{figure.7.95}%
+\contentsline {figure}{\numberline {7.96}{\ignorespaces Komponent \texttt {FormInput} (1).}}{301}{figure.7.96}%
+\contentsline {figure}{\numberline {7.97}{\ignorespaces Komponent \texttt {FormInput} (2).}}{302}{figure.7.97}%
+\contentsline {figure}{\numberline {7.98}{\ignorespaces Komponent \texttt {SubmitFormButton}.}}{303}{figure.7.98}%
+\contentsline {figure}{\numberline {7.99}{\ignorespaces Fragment kodu komponentu \texttt {Sidebar}.}}{305}{figure.7.99}%
+\contentsline {figure}{\numberline {7.100}{\ignorespaces Fragment kodu komponentu \texttt {Tooltip}.}}{306}{figure.7.100}%
+\contentsline {figure}{\numberline {7.101}{\ignorespaces Fragment kodu komponentu \texttt {SidebarToggleButton}.}}{307}{figure.7.101}%
+\contentsline {figure}{\numberline {7.102}{\ignorespaces Fragment kodu komponentu \texttt {SidebarSection}.}}{308}{figure.7.102}%
+\contentsline {figure}{\numberline {7.103}{\ignorespaces Fragment kodu komponentu \texttt {SidebarList}.}}{309}{figure.7.103}%
+\contentsline {figure}{\numberline {7.104}{\ignorespaces Fragment kodu komponentu \texttt {SidebarLabel}.}}{310}{figure.7.104}%
+\contentsline {figure}{\numberline {7.105}{\ignorespaces Fragment kodu komponentu \texttt {SidebarIcon}.}}{311}{figure.7.105}%
+\contentsline {figure}{\numberline {7.106}{\ignorespaces Fragment kodu komponentu \texttt {SidebarItemSubmenuLink}.}}{312}{figure.7.106}%
+\contentsline {figure}{\numberline {7.107}{\ignorespaces Fragment kodu komponentu \texttt {SidebarItemSubmenu} (1).}}{313}{figure.7.107}%
+\contentsline {figure}{\numberline {7.108}{\ignorespaces Fragment kodu komponentu \texttt {SidebarItemSubmenu} (2).}}{314}{figure.7.108}%
+\contentsline {figure}{\numberline {7.109}{\ignorespaces Fragment kodu komponentu \texttt {SidebarItemSubmenu} (3).}}{315}{figure.7.109}%
+\contentsline {figure}{\numberline {7.110}{\ignorespaces Fragment kodu komponentu \texttt {SidebarItemLink} (1).}}{316}{figure.7.110}%
+\contentsline {figure}{\numberline {7.111}{\ignorespaces Fragment kodu komponentu \texttt {SidebarItemLink} (2).}}{317}{figure.7.111}%
+\contentsline {figure}{\numberline {7.112}{\ignorespaces Fragment kodu komponentu \texttt {SidebarItemContent}.}}{318}{figure.7.112}%
+\contentsline {figure}{\numberline {7.113}{\ignorespaces Fragment kodu komponentu \texttt {SidebarItemAction} (1).}}{319}{figure.7.113}%
+\contentsline {figure}{\numberline {7.114}{\ignorespaces Fragment kodu komponentu \texttt {SidebarItemAction} (2).}}{320}{figure.7.114}%
+\contentsline {figure}{\numberline {7.115}{\ignorespaces Fragment kodu komponentu \texttt {SidebarItem} (1).}}{321}{figure.7.115}%
+\contentsline {figure}{\numberline {7.116}{\ignorespaces Fragment kodu komponentu \texttt {SidebarItem} (2).}}{322}{figure.7.116}%
+\contentsline {figure}{\numberline {7.117}{\ignorespaces Fragment kodu pliku \texttt {functions} (funkcje typu \emph {guard}).}}{323}{figure.7.117}%
+\contentsline {figure}{\numberline {7.118}{\ignorespaces Fragment kodu pliku \texttt {sidebarLinks} (linki statyczne).}}{324}{figure.7.118}%
+\contentsline {figure}{\numberline {7.119}{\ignorespaces Fragment kodu pliku \texttt {sidebarLinks} (linki dostępne dla użytkownika zalogowanego).}}{325}{figure.7.119}%
+\contentsline {figure}{\numberline {7.120}{\ignorespaces Fragment kodu pliku \texttt {sidebarLinks} (linki opcji: logowanie/wylogowanie oraz zmiana motywu).}}{326}{figure.7.120}%
+\contentsline {figure}{\numberline {7.121}{\ignorespaces Fragment kodu pliku \texttt {link}.}}{327}{figure.7.121}%
+\contentsline {figure}{\numberline {7.122}{\ignorespaces Slice \texttt {Redux} odpowiadający za stan paska bocznego.}}{328}{figure.7.122}%
+\contentsline {figure}{\numberline {7.123}{\ignorespaces Fragment kodu komponentu \texttt {Layout}.}}{329}{figure.7.123}%
+\contentsline {figure}{\numberline {7.124}{\ignorespaces Fragment kodu komponentu \texttt {MobileBar}.}}{330}{figure.7.124}%
+\contentsline {figure}{\numberline {7.125}{\ignorespaces Fragment pliku \texttt {java-ci.yml}: konfiguracja wyzwalaczy workflow (\texttt {on:}).}}{331}{figure.7.125}%
+\contentsline {figure}{\numberline {7.126}{\ignorespaces Podsumowanie wykonania workflow backendu (\texttt {java-ci.yml}) w GitHub Actions.}}{331}{figure.7.126}%
+\contentsline {figure}{\numberline {7.127}{\ignorespaces Fragment pliku \texttt {java-ci.yml}: definicja joba \texttt {setup}.}}{332}{figure.7.127}%
+\contentsline {figure}{\numberline {7.128}{\ignorespaces Przykładowy log wykonania joba \texttt {setup} w GitHub Actions.}}{332}{figure.7.128}%
+\contentsline {figure}{\numberline {7.129}{\ignorespaces Fragment pliku \texttt {java-ci.yml}: definicja joba \texttt {build}.}}{334}{figure.7.129}%
+\contentsline {figure}{\numberline {7.130}{\ignorespaces Przykładowy log wykonania joba \texttt {build} w GitHub Actions.}}{335}{figure.7.130}%
+\contentsline {figure}{\numberline {7.131}{\ignorespaces Fragment pliku \texttt {java-ci.yml}: definicja joba \texttt {test} (wraz z użyciem \texttt {secrets}).}}{336}{figure.7.131}%
+\contentsline {figure}{\numberline {7.132}{\ignorespaces Przykładowy log wykonania joba \texttt {test} w GitHub Actions.}}{337}{figure.7.132}%
+\contentsline {figure}{\numberline {7.133}{\ignorespaces Fragment pliku \texttt {react-ci.yml}: konfiguracja workflow oraz joba \texttt {formatting-and-test}.}}{337}{figure.7.133}%
+\contentsline {figure}{\numberline {7.134}{\ignorespaces Podsumowanie wykonania workflow frontendu (\texttt {react-ci.yml}) w GitHub Actions.}}{338}{figure.7.134}%
+\contentsline {figure}{\numberline {7.135}{\ignorespaces Przykładowy log wykonania joba \texttt {formatting-and-test} w GitHub Actions.}}{338}{figure.7.135}%
+\contentsline {figure}{\numberline {7.136}{\ignorespaces Konfiguracja WebSocket po stronie backendu.}}{341}{figure.7.136}%
+\contentsline {figure}{\numberline {7.137}{\ignorespaces Kontroler STOMP odbierający wiadomości czatu.}}{342}{figure.7.137}%
+\contentsline {figure}{\numberline {7.138}{\ignorespaces Serwis odpowiedzialny za komunikację za pomocą WebSocket.}}{343}{figure.7.138}%
+\contentsline {figure}{\numberline {7.139}{\ignorespaces Serwis komunikacji WebSocket po stronie frontendu (część 1/4).}}{345}{figure.7.139}%
+\contentsline {figure}{\numberline {7.140}{\ignorespaces Serwis komunikacji WebSocket po stronie frontendu (część 2/4).}}{346}{figure.7.140}%
+\contentsline {figure}{\numberline {7.141}{\ignorespaces Serwis komunikacji WebSocket po stronie frontendu (część 3/4).}}{347}{figure.7.141}%
+\contentsline {figure}{\numberline {7.142}{\ignorespaces Serwis komunikacji WebSocket po stronie frontendu (część 4/4).}}{348}{figure.7.142}%
+\contentsline {figure}{\numberline {7.143}{\ignorespaces Mechanizm rejestrowania subskrypcji w cyklu życia komponentu (część 1/2).}}{350}{figure.7.143}%
+\contentsline {figure}{\numberline {7.144}{\ignorespaces Mechanizm rejestrowania subskrypcji w cyklu życia komponentu (część 2/2).}}{351}{figure.7.144}%
+\contentsline {figure}{\numberline {7.145}{\ignorespaces Udostępnienie serwisu komunikacji oraz zarządzanie cyklem życia połączenia po stronie frontendu.}}{352}{figure.7.145}%
+\contentsline {figure}{\numberline {7.146}{\ignorespaces Definicja subskrypcji czatu i aktualizacja \glslink {stan}{stanu} w \gls {redux}.}}{353}{figure.7.146}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {8.1}{\ignorespaces Wynik uruchomienia testów jednostkowych warstwy frontendowej}}{356}{figure.8.1}%
+\contentsline {figure}{\numberline {8.2}{\ignorespaces Zestaw testów jednostkowych uruchomionych dla warstwy backendowej}}{357}{figure.8.2}%
+\contentsline {figure}{\numberline {8.3}{\ignorespaces Podsumowanie uruchomienia testów jednostkowych warstwy backendowej}}{357}{figure.8.3}%
+\contentsline {figure}{\numberline {8.4}{\ignorespaces Wynik uruchomienia testów integracyjnych warstwy frontendowej}}{358}{figure.8.4}%
+\contentsline {figure}{\numberline {8.5}{\ignorespaces Zestaw testów integracyjnych uruchomionych dla warstwy backendowej}}{359}{figure.8.5}%
+\contentsline {figure}{\numberline {8.6}{\ignorespaces Podsumowanie uruchomienia testów integracyjnych warstwy backendowej}}{359}{figure.8.6}%
+\contentsline {figure}{\numberline {8.7}{\ignorespaces Podsumowanie uruchomienia testów end-to-end (E2E) w Cypress}}{361}{figure.8.7}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }

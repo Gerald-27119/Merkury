@@ -119,19 +119,10 @@ Ostatnia pozycja wyróżniona kolorem czerwonym, umożliwia zgłoszenie wiadomo�
     \label{fig:chat:own-message-hover}
 \end{figure}
 
-Rysunek \ref{fig:chat:own-message-hover} przedstawia stan interfejsu po
-najechaniu kursorem na wiadomość wysłaną przez obecnego użytkownika.
-
-Nad wiadomością widoczny jest pasek akcji w formie poziomego rzędu ikon.
-Menu prezentuje listę operacji:
-\textit{Pin message} oraz \textit{Copy text}. Dodatkowo widoczne są pozycje
-wyróżnione kolorem czerwonym: \textit{Report} oraz \textit{Delete}.
-Pojawienie się opcji \textit{Delete} wskazuje na rozszerzony zakres działań
-dla wiadomości własnych w porównaniu do wiadomości innych uczestników rozmowy.
-
-Rozwiązanie to umożliwia wykonywanie działań na wiadomości bez opuszczania
-aktualnie otwartej konwersacji, a jednocześnie zapewnia czytelne rozróżnienie
-między standardowymi operacjami a akcjami potencjalnie nieodwracalnymi.
+Rysunek \ref{fig:chat:own-message-hover} przedstawia podręczny pasek akcji wyświetlany po wskazaniu wiadomości
+wysłanej przez zalogowanego użytkownika. W porównaniu do analogicznego widoku dla wiadomości innych uczestników
+(rys.~\ref{fig:chat:message-actions-hover}), pasek został rozszerzony o dodatkową ikonę edycji (symbol ołówka),
+umożliwiającą modyfikację własnego wpisu. Pozostałe skróty pozostają spójne.
 
 \begin{figure}[H]
     \centering
@@ -140,12 +131,11 @@ między standardowymi operacjami a akcjami potencjalnie nieodwracalnymi.
     \label{fig:chat:own-message-more-menu}
 \end{figure}
 
-Rysunek \ref{fig:chat:own-message-more-menu} przedstawia stan interfejsu po
-rozwinięciu menu „więcej opcji” (ikona trzech kropek) dla wiadomości wysłanej
-przez zalogowanego użytkownika. Nakładka zawiera operacje takie jak
-\textit{Pin message} oraz \textit{Copy text}, a także akcje wyróżnione kolorem czerwonym:
-\textit{Report} i \textit{Delete}. Umieszczenie menu bezpośrednio przy wiadomości
-umożliwia wykonanie operacji bez opuszczania bieżącego widoku rozmowy.
+Rysunek \ref{fig:chat:own-message-more-menu} przedstawia rozwinięte menu „więcej opcji” dla wiadomości własnej.
+Względem menu dostępnego dla wiadomości innych użytkowników (rys.~\ref{fig:chat:message-more-menu}) pojawia się
+dodatkowa akcja \textit{Delete}, pozwalająca usunąć własną wiadomość z konwersacji. Pozycja ta jest wyróżniona kolorem
+czerwonym oraz ikoną kosza. Pozostałe elementy menu pozostają zgodne z wariantem
+standardowym (rys.~\ref{fig:chat:message-more-menu}).
 
 \begin{figure}[H]
     \centering
@@ -154,13 +144,8 @@ umożliwia wykonanie operacji bez opuszczania bieżącego widoku rozmowy.
     \label{fig:chat:media-grid}
 \end{figure}
 
-Rysunek \ref{fig:chat:media-grid} przedstawia widok, w którym w obrębie aktywnej rozmowy
-udostępniono podgląd materiałów wizualnych powiązanych z konwersacją.
-W centralnej części ekranu wyświetlono siatkę miniatur, obejmującą co najmniej dwa elementy.
-Jedna z miniatur przedstawia obraz, natomiast druga zawiera nałożony symbol odtwarzania,
-co wizualnie odróżnia ją od zwykłej grafiki (materiał wideo).
-Widok pozostaje osadzony w kontekście modułu czatu: po lewej stronie nadal widoczna jest lista rozmów,
-a w górnym pasku zachowano elementy sterujące związane z konwersacją oraz wyróżnioną ikonę sekcji multimediów.
+Rysunek \ref{fig:chat:media-grid} przedstawia podgląd materiałów wizualnych powiązanych z obecną konwersacją.
+W centralnej części ekranu wyświetlono siatkę miniatur plików.
 
 \begin{figure}[H]
     \centering
@@ -171,8 +156,7 @@ a w górnym pasku zachowano elementy sterujące związane z konwersacją oraz wy
 
 Rysunek \ref{fig:chat:image-context-menu} przedstawia menu kontekstowe wyświetlane dla obrazu umieszczonego w wiadomości.
 Menu pojawia się bezpośrednio przy obrazie i zawiera listę dostępnych operacji, takich jak zapis lub skopiowanie obrazu.
-Dodatkowo widoczna jest opcja usunięcia wyróżniona kolorem czerwonym, co wskazuje na działanie o charakterze destrukcyjnym.
-Rozmieszczenie menu w pobliżu wskazanego elementu umożliwia wykonanie operacji bez opuszczania bieżącego widoku rozmowy.
+Dodatkowo widoczna jest opcja usunięcia wyróżniona kolorem czerwonym.
 
 \begin{figure}[H]
     \centering
@@ -184,8 +168,6 @@ Rozmieszczenie menu w pobliżu wskazanego elementu umożliwia wykonanie operacji
 Rysunek \ref{fig:chat:image-preview} przedstawia tryb powiększonego podglądu obrazu.
 Tło aplikacji zostało przyciemnione, a na pierwszym planie wyświetlono obraz w większym rozmiarze, umieszczony centralnie.
 W prawym górnym rogu widoczna jest ikona zamknięcia umożliwiająca powrót do standardowego widoku konwersacji.
-Rozwiązanie to pozwala użytkownikowi obejrzeć przesłaną grafikę w wysokiej
-czytelności bez utraty kontekstu rozmowy w tle.
 
 \begin{figure}[H]
     \centering
@@ -196,8 +178,7 @@ czytelności bez utraty kontekstu rozmowy w tle.
 
 Rysunek \ref{fig:chat:reply-message} przedstawia sposób prezentowania odpowiedzi odnoszącej się do wcześniejszej wiadomości.
 W obszarze konwersacji, nad treścią nowej wiadomości, wyświetlony jest wydzielony pasek podglądu wiadomości,
-do której nawiązano. Podgląd zawiera podstawowe informacje (np. awatar oraz nazwę autora i fragment treści),
-dzięki czemu użytkownik może jednoznacznie powiązać odpowiedź z konkretnym wpisem w historii rozmowy.
+do której nawiązano. Podgląd zawiera podstawowe informacje (awatar oraz nazwę autora i fragment treści).
 
 \begin{figure}[H]
     \centering
@@ -224,7 +205,7 @@ W centralnej części widoczna jest zawartość aktywnej konwersacji,
 natomiast w prawym panelu bocznym umieszczono listę uczestników oznaczoną nagłówkiem \textit{Group members}.
 Lista prezentuje awatary oraz nazwy członków grupy w układzie pionowym.
 W górnym pasku konwersacji widoczna jest nazwa grupy (oraz jej awatar),
-a także elementy sterujące analogiczne do rozmów prywatnych, w tym wyszukiwanie oraz sekcja multimediów.
+a także elementy analogiczne do rozmów prywatnych, w tym wyszukiwanie oraz sekcja multimediów.
 
 \begin{figure}[H]
     \centering
@@ -234,8 +215,7 @@ a także elementy sterujące analogiczne do rozmów prywatnych, w tym wyszukiwan
 \end{figure}
 
 Rysunek \ref{fig:chat:group-options-menu} przedstawia menu opcji dostępne w kontekście rozmowy grupowej.
-Nakładka zawiera operacje związane z konfiguracją rozmowy, takie jak zmiana obrazu grupy lub jej nazwy.
-Każda pozycja jest opatrzona ikoną, co ułatwia szybkie rozpoznanie dostępnych działań bez potrzeby opuszczania widoku rozmowy.
+Okno modalne zawiera operacje związane z konfiguracją rozmowy, takie jak zmiana obrazu grupy lub jej nazwy.
 
 \begin{figure}[H]
     \centering
@@ -248,7 +228,7 @@ Rysunek \ref{fig:chat:mention-suggestions} przedstawia mechanizm oznaczania uży
 W treści wiadomości widoczny jest wyróżniony fragment w formacie \texttt{@nazwaUzytkownika}.
 W polu wprowadzania wiadomości użytkownik wpisuje ciąg rozpoczynający się od znaku \texttt{@},
 a nad polem wyświetlono panel podpowiedzi z propozycjami dopasowań (awatar i nazwa),
-umożliwiający szybkie wybranie osoby do oznaczenia. Po prawej stronie ekranu zachowano listę członków grupy.
+umożliwiający szybkie wybranie osoby do oznaczenia.
 
 \begin{figure}[H]
     \centering
