@@ -43,7 +43,7 @@ Z perspektywy modelu obiektowego kluczowe elementy przedstawiono poniżej:
     \end{itemize}
 \end{itemize}
 
-Wzorzec jest szczególnie użyteczny tam, gdzie przetwarzanie wymaga wykonania serii etapów zależnych od kontekstu,
+\glslink{wzorzec}{Wzorzec} jest szczególnie użyteczny tam, gdzie przetwarzanie wymaga wykonania serii etapów zależnych od kontekstu,
 a jednocześnie istotna jest łatwa rozbudowa rozwiązania oraz możliwość zmiany kolejności kroków bez modyfikowania nadawcy.
 Zamiast rozbudowanych instrukcji warunkowych i silnie sprzężonych modułów, system buduje się z mniejszych,
 wymienialnych komponentów, z których każdy realizuje pojedynczą odpowiedzialność.
@@ -52,7 +52,7 @@ wymienialnych komponentów, z których każdy realizuje pojedynczą odpowiedzial
 \paragraph{Zastosowanie w Spring Security.}
 Praktycznym przykładem wykorzystania łańcucha zobowiązań jest mechanizm \textit{filter chain}
 w \glslink{framework}{frameworku} \gls{spring-security}.
-Każde żądanie HTTP przechodzi kolejno przez zestaw filtrów, a każdy filtr może:
+Każde żądanie HTTP przechodzi kolejno przez zestaw filtrów, a każdy z nich może:
 
 \begin{enumerate}
     \item wykonać swój etap przetwarzania, po czym przekazać żądanie do następnego elementu,
@@ -62,7 +62,7 @@ Każde żądanie HTTP przechodzi kolejno przez zestaw filtrów, a każdy filtr m
 W tym ujęciu pojedynczy filtr pełni rolę \texttt{Handler'a}, natomiast przekazanie dalej odpowiada przejściu
 do kolejnego ogniwa łańcucha.
 
-W projekcie wzorzec wykorzystano przy implementacji klasy \texttt{JwtAuthFilter}, rozszerzającej \texttt{OncePerRequestFilter}.
+W projekcie \glslink{wzorzec}{wzorzec} wykorzystano przy implementacji klasy \texttt{JwtAuthFilter}, rozszerzającej \texttt{OncePerRequestFilter}.
 Mapowanie pojęć z diagramu na implementację przedstawiono w sposób uporządkowany:
 
 \begin{itemize}
