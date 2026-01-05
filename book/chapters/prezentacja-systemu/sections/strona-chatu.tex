@@ -253,3 +253,40 @@ Kliknięcie w wybranego członka przenosi użytkownika do profilu tej osoby, dzi
 sprawdzenie podstawowych informacji o rozmówcy bez konieczności opuszczania modułu czatu.
 Takie rozwiązanie usprawnia orientację w rozmowach grupowych, zwłaszcza gdy w konwersacji uczestniczy większa liczba osób.
 
+\subsection{Dodawanie uczestników do istniejącego czatu grupowego}
+\label{subsec:chat-group-add-existing-members}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/dg/1}
+\caption{Okno dodawania nowych uczestników do istniejącego czatu grupowego.}
+\label{fig:chat:group-add-members-modal}
+\end{figure}
+
+Rysunek~\ref{fig:chat:group-add-members-modal} przedstawia mechanizm rozszerzania składu czatu grupowego
+o kolejne osoby bez konieczności tworzenia nowej rozmowy. Funkcja uruchamiana jest z poziomu aktywnego czatu,
+z górnej części widoku (ikona dodawania użytkownika widoczna obok skrótu do panelu uczestników).
+Po użyciu tej akcji wyświetlane jest okno dialogowe w formie nakładki, a widok czatu w tle zostaje przyciemniony.
+
+W górnej części okna znajduje się pole wyszukiwania umożliwiające filtrowanie listy znajomych po nazwie
+oraz informacja o limicie liczby osób możliwych do dodania (prezentowana wraz z licznikiem wybranych pozycji).
+Wybrane osoby są pokazywane pod polem wyszukiwania w formie etykiet (\textit{chipów}) z możliwością usunięcia
+pojedynczego wyboru (ikona \textit{x}).
+
+Poniżej prezentowana jest lista kandydatów w formie kafelków z awatarem i nazwą użytkownika.
+Dodanie osoby odbywa się przyciskiem \textit{Add}, natomiast dla osób już wybranych przycisk zmienia stan na
+\textit{Added} i staje się nieaktywny, co jednoznacznie sygnalizuje przynależność do aktualnej listy.
+Zatwierdzenie operacji następuje poprzez przycisk \textit{Add users}, co skutkuje dopisaniem wskazanych osób do rozmowy.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/dg/2}
+\caption{Widok czatu grupowego po dodaniu nowych uczestników i aktualizacji listy członków.}
+\label{fig:chat:group-add-members-updated}
+\end{figure}
+
+Na rysunku~\ref{fig:chat:group-add-members-updated} pokazano efekt dodania użytkowników.
+Po zamknięciu okna dialogowego panel uczestników po prawej stronie zostaje zaktualizowany ---
+widoczna jest nowa liczba członków (\textit{Chat Participants}) oraz dopisane osoby na liście.
+Dzięki temu użytkownik może w prosty sposób rozbudowywać istniejącą rozmowę grupową wraz ze zmianą potrzeb,
+zachowując ciągłość historii wiadomości w ramach jednego czatu.
