@@ -148,3 +148,87 @@ Załącznik pozostaje dostępny w obrębie konwersacji, a użytkownik może skor
 lub bezpośrednio użyć przycisku pobierania na karcie pliku. Takie rozwiązanie wspiera typowy scenariusz
 wymiany materiałów w rozmowie (np. dokumentów i zrzutów ekranu), zapewniając szybki dostęp do plików
 również po upływie czasu od ich wysłania.
+
+\subsection{Tworzenie czatu grupowego z poziomu rozmowy prywatnej}
+\label{subsec:chat-group-create-from-private}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/cg/1}
+\caption{Okno wyboru uczestników podczas tworzenia czatu grupowego z rozmowy prywatnej.}
+\label{fig:chat:group-create-modal}
+\end{figure}
+
+Rysunek~\ref{fig:chat:group-create-modal} przedstawia okno dialogowe służące do utworzenia czatu grupowego bezpośrednio
+z poziomu rozmowy prywatnej. Funkcja uruchamiana jest poprzez przycisk w prawym górnym rogu paska nagłówka czatu
+(przy aktywnej konwersacji prywatnej). Po jego użyciu interfejs wyświetla nakładkę na bieżący widok rozmowy,
+a w tle pozostaje przyciemniony ekran czatu.
+
+W górnej części okna dostępne jest pole wyszukiwania, umożliwiające filtrowanie listy znajomych po nazwie.
+Wybrani użytkownicy prezentowani są w postaci etykiet (tzw. \textit{chipów}) umieszczonych pod polem wyszukiwania,
+z możliwością usunięcia danej osoby z listy. Istotnym elementem jest domyślne dodanie aktualnego rozmówcy
+z czatu prywatnego do nowo tworzonej rozmowy grupowej --- dzięki temu użytkownik nie musi ponownie wskazywać osoby,
+z którą już prowadzi konwersację. W interfejsie widoczna jest także informacja o limicie liczby uczestników
+(np. maksymalnie 6 osób), co zapobiega tworzeniu nadmiernie rozbudowanych grup.
+
+Lista wyników wyszukiwania prezentowana jest w formie kafelków zawierających awatar oraz nazwę użytkownika.
+Dodanie osoby odbywa się poprzez użycie przycisku z ikoną \textit{+}, natomiast dla już wybranych uczestników
+przycisk zmienia stan na nieaktywny (np. \textit{Added}), co jednoznacznie sygnalizuje przynależność do tworzonej grupy.
+Po skompletowaniu składu użytkownik zatwierdza operację przyciskiem \textit{Create Chat}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/cg/2}
+\caption{Nowo utworzony czat grupowy po zatwierdzeniu listy uczestników.}
+\label{fig:chat:group-created-view}
+\end{figure}
+
+Rysunek~\ref{fig:chat:group-created-view} pokazuje widok aplikacji po utworzeniu czatu grupowego.
+Nowa konwersacja pojawia się na liście rozmów po lewej stronie, a użytkownik zostaje automatycznie przeniesiony
+do okna aktywnego czatu grupowego. W nagłówku rozmowy prezentowana jest informacja o uczestnikach (np. w postaci listy nazw),
+co pozwala szybko rozpoznać, z kim prowadzona jest konwersacja.
+
+W początkowym stanie historia wiadomości jest pusta (widoczna jest informacja o początku rozmowy), a użytkownik może od razu
+rozpocząć wymianę wiadomości, korzystając z tego samego paska tworzenia wiadomości co w czacie prywatnym.
+Dzięki temu mechanizm tworzenia grupy stanowi naturalne rozszerzenie rozmowy 1--1 o dodatkowych uczestników,
+bez konieczności opuszczania modułu czatu.
+
+\subsection{Edycja czatu grupowego}
+\label{subsec:chat-group-edit}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/edit/1}
+\caption{Widok czatu grupowego z przyciskiem uruchamiającym edycję.}
+\label{fig:chat:group-edit-1}
+\end{figure}
+
+Rysunek~\ref{fig:chat:group-edit-1} przedstawia czat grupowy w widoku głównym, z widocznym paskiem nagłówka konwersacji.
+W nagłówku prezentowana jest nazwa czatu (lub lista uczestników w przypadku braku własnej nazwy), a po prawej stronie
+znajduje się przycisk z ikoną ołówka, służący do przejścia do edycji ustawień rozmowy. Użycie tej akcji nie wymaga
+opuszczania aktualnej konwersacji --- w kolejnym kroku wyświetlane jest okno dialogowe w formie nakładki.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/edit/2}
+\caption{Okno edycji czatu grupowego: zmiana nazwy oraz awatara.}
+\label{fig:chat:group-edit-2}
+\end{figure}
+
+Na rysunku~\ref{fig:chat:group-edit-2} pokazano okno \textit{Edit Chat}, które umożliwia zmianę podstawowych danych czatu grupowego.
+W górnej części znajduje się podgląd aktualnego awatara, a kliknięcie obszaru \textit{Change chat image} pozwala wskazać nową grafikę
+(standardowo poprzez systemowy selektor plików). Poniżej umieszczono pole tekstowe przeznaczone do edycji nazwy czatu.
+Użytkownik może zatwierdzić zmiany przyciskiem \textit{Save} lub przerwać operację przyciskiem \textit{Cancel} (bądź ikoną zamknięcia),
+co pozwala szybko wycofać się bez modyfikowania istniejących ustawień.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/edit/3}
+\caption{Widok czatu grupowego po zapisaniu zmian nazwy oraz awatara.}
+\label{fig:chat:group-edit-3}
+\end{figure}
+
+Rysunek~\ref{fig:chat:group-edit-3} przedstawia efekt zapisania zmian.
+Zaktualizowana nazwa oraz nowy awatar są prezentowane w interfejsie czatu, a także na liście konwersacji po lewej stronie,
+co ułatwia identyfikację rozmowy wśród pozostałych czatów. Dzięki temu edycja stanowi prosty mechanizm personalizacji
+czatu grupowego i porządkowania listy rozmów w przypadku większej liczby konwersacji.
