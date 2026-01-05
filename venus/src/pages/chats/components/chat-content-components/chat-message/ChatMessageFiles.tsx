@@ -56,7 +56,7 @@ export default function ChatMessageFiles({
                 ) : (
                     <div
                         key={file.url}
-                        className="dark:bg-violetLightDarker flex w-[26rem] items-center gap-2 rounded-xl p-3 border border-gray-300 dark:border-0"
+                        className="dark:bg-violetLightDarker flex w-[26rem] items-center gap-2 rounded-xl border border-gray-300 p-3 dark:border-0"
                     >
                         <FileIcon
                             size={34}

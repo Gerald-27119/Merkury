@@ -60,7 +60,7 @@ export default React.memo(function ChatMessage({
                             <p className="text-xl font-semibold">
                                 {message.sender.name}
                             </p>
-                            <p className="flex items-end text-[0.8rem] dark:text-gray-400 mb-[0.2rem]">
+                            <p className="mb-[0.2rem] flex items-end text-[0.8rem] dark:text-gray-400">
                                 {formatSentAt(message.sentAt)}
                             </p>
                         </div>
