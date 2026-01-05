@@ -72,8 +72,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        String responseBody = String.format("{ \"message\": \"Unauthorized access\", \"error\": \"%s\" }"
-                , errorMessage);
+        String responseBody = String.format("{ \"message\": \"Unauthorized access\"," +
+                " \"error\": \"%s\" }", errorMessage);
         response.getWriter().write(responseBody);
         response.getWriter().flush();
     }
