@@ -67,11 +67,11 @@ w którym \glslink{framework}{framework} przechowuje informację o tym kto aktua
 
 Konfiguracja bezpieczeństwa została rozbita na:
 \begin{itemize}
-    \item \textbf{Klasy mapujące konfigurację z plików środowiskowych}:
+    \item Klasy mapujące konfigurację z plików środowiskowych:
     \texttt{UrlsProperties}, \texttt{JwtProperties}.
-    \item \textbf{Klasę przygotowującą bean JWT}:
+    \item Klasę przygotowującą \glslink{bean}{bean} \glslink{jwt}{JWT}:
     \texttt{JwtConfig}.
-    \item \textbf{Główną konfigurację security}:
+    \item Główną konfigurację security:
     \texttt{SecurityConfig} -- definiuje reguły dostępu i buduje \glslink{lancuch-filtrow}{łańcuchy filtrów}.
 \end{itemize}
 
@@ -84,9 +84,9 @@ Konfiguracja bezpieczeństwa została rozbita na:
     \label{fig:urls-properties}
 \end{figure}
 
-Klasa \texttt{UrlsProperties} pełni rolę centralnego magazynu adresów \glslink{url}{URL-i} wykorzystywanych w przepływach
+Klasa \texttt{UrlsProperties} pełni rolę centralnego magazynu adresów \glslink{url}{URL} wykorzystywanych w przepływach
 związanych z logowaniem i wylogowaniem użytkownika.
-Została oznaczona adnotacją \texttt{@ConfigurationProperties(prefix = "url")},
+Została oznaczona \glslink{annotation}{adnotacją} \texttt{@ConfigurationProperties(prefix = "url")},
 dzięki czemu pola klasy mogą być mapowane z pliku konfiguracyjnego aplikacji \texttt{application.properties}.
 Dzięki temu adresy przekierowań nie są zapisane na sztywno w kodzie.
 
@@ -112,7 +112,7 @@ Najważniejszym elementem klasy jest pole \texttt{key} typu \texttt{SecretKey},
 reprezentujące klucz kryptograficzny używany do podpisywania i weryfikacji tokenów \glslink{jwt}{JWT}.
 Pozostałe pola opisują zachowanie \glslink{token}{tokena} i sposób jego przechowywania po stronie klienta:
 \texttt{tokenName} określa nazwę tokenu,
-\texttt{tokenExpiration} oraz \texttt{tokenCookieExpiration} definiują czas ważności tokenu i \glslink{http-only-cookie}{ciasteczka} przechowującego token,
+\texttt{tokenExpiration} oraz \texttt{tokenCookieExpiration} definiują czas ważności \glslink{token}{tokena} i \glslink{http-only-cookie}{ciasteczka} przechowującego go,
 a \texttt{oneDayInMs} pozwala spójnie przeliczać okresy czasu.
 
 \innerheading{Plik JwtConfig}
@@ -125,12 +125,12 @@ a \texttt{oneDayInMs} pozwala spójnie przeliczać okresy czasu.
 \end{figure}
 
 Klasa \texttt{JwtConfig} jest klasą konfiguracyjną Springa (\texttt{@Configuration}),
-której zadaniem jest utworzenie beana \texttt{JwtProperties} wraz z kluczem kryptograficznym.
+której zadaniem jest utworzenie \glslink{bean}{beana} \texttt{JwtProperties} wraz z kluczem kryptograficznym.
 W metodzie \texttt{jwtProperties()} tworzony jest obiekt \texttt{JwtProperties},
-a klucz \texttt{SecretKey} generowany jest przez bibliotekę \texttt{jjwt}
+a klucz \texttt{SecretKey} generowany jest przez \glslink{biblioteka}{bibliotekę} \texttt{jjwt}
 (poprzez \texttt{Jwts.SIG.HS256.key().build()}).
 
-Dzięki temu pozostałe komponenty (generator, manager, filtr) korzystają ze spójnie dostarczonego beana,
+Dzięki temu pozostałe komponenty (generator, manager, filtr) korzystają ze spójnie dostarczonego \glslink{bean}{beana},
 zamiast utrzymywać klucz w wielu miejscach.
 
 \innerheading{Plik SecurityConfig}
@@ -173,12 +173,12 @@ Konfiguracja rozdziela ruch na:
 
 \innerheading{Adnotacje i rola klasy konfiguracyjnej}
 
-Klasa \texttt{SecurityConfig} jest oznaczona adnotacjami:
+Klasa \texttt{SecurityConfig} jest oznaczona \glslink{annotation}{adnotacjami}:
 \begin{itemize}
-    \item \texttt{@Configuration} -- wskazuje, że klasa dostarcza definicje beanów dla kontenera Spring.
+    \item \texttt{@Configuration} -- wskazuje, że klasa dostarcza definicje \glslink{bean}{beanów} dla kontenera Spring.
     \item \texttt{@EnableWebSecurity} -- aktywuje mechanizmy bezpieczeństwa na poziomie aplikacji webowej.
     \item \texttt{@EnableMethodSecurity} -- umożliwia zabezpieczanie logiki na poziomie metod
-    (przez adnotacje typu \texttt{@PreAuthorize}).
+    (przez \glslink{annotation}{adnotacje} typu \texttt{@PreAuthorize}).
     \item \texttt{@RequiredArgsConstructor} -- wstrzykuje zależności poprzez konstruktor
     (\texttt{UrlsProperties} oraz \texttt{CustomUserDetailsService}).
 \end{itemize}
@@ -209,7 +209,7 @@ pasujące do \texttt{publicPathsMatcher}. Jego główne cechy:
     \item \textbf{Konfiguracja \gls{cors}}: dopuszcza komunikację z \glslink{frontend}{frontendem} uruchomionym na innym porcie
     niż \glslink{backend}{backend}.
     \item \textbf{Wyłączenie \gls{csrf}}: w przypadku aplikacji klienckiej typu \gls{spa}, która komunikuje się z \glslink{backend}{backendem}
-    wyłącznie poprzez \gls{api}, mechanizm CSRF nie jest wykorzystywany w typowym scenariuszu wywołań API.
+    wyłącznie poprzez \gls{api}, mechanizm ochrony przed \glslink{csrf}{CSRF} nie jest wykorzystywany w typowym scenariuszu wywołań \glslink{api}{API}.
     \item \textbf{Obsługa logowania \glslink{oauth}{OAuth2}}: \texttt{oauth2Login(...)} definiuje stronę logowania oraz adresy przekierowań
     po sukcesie i porażce, pobierane z \texttt{UrlsProperties}.
     \item \textbf{Logout dla sesji \glslink{oauth}{OAuth2}}: \texttt{logout(...)} ustawia dedykowany \glslink{url}{URL} wylogowania,
@@ -217,13 +217,13 @@ pasujące do \texttt{publicPathsMatcher}. Jego główne cechy:
     (nazwa ciasteczka pochodzi z \texttt{JwtProperties}).
     \item \textbf{Zarządzanie sesją}: \texttt{SessionCreationPolicy.IF\_REQUIRED} tworzy \glslink{sesja-http}{sesję HTTP} tylko na potrzeby logowania lub rejestracji za pomocą \glslink{oauth}{OAuth2}.
     \item \textbf{Wyłączenie \gls{http-basic}}: \texttt{httpBasic().disable()} wyłącza mechanizm uwierzytelniania HTTP Basic,
-    w którym przeglądarka przesyła dane logowania zakodowane w nagłówku HTTP (\gls{naglowek-http}) \texttt{Authorization}.
+    w którym przeglądarka przesyła dane logowania zakodowane w \glslink{naglowek-http}{nagłówku HTTP} \texttt{Authorization}.
     W projekcie nie jest on wykorzystywany, ponieważ uwierzytelnianie realizowane jest przez \glslink{oauth}{OAuth2} oraz tokeny \glslink{jwt}{JWT}.
 \end{itemize}
 
 \medskip
 \noindent\textbf{Łańcuch dla ścieżek prywatnych.}
-Bean \texttt{privateSecurityFilterChain} (z \texttt{@Order(2)}) dotyczy wszystkich pozostałych żądań,
+\glslink{bean}{Bean} \texttt{privateSecurityFilterChain} (z \texttt{@Order(2)}) dotyczy wszystkich pozostałych żądań,
 czyli dopasowanych do \texttt{privatePathsMatcher}. Najważniejsze elementy:
 \begin{itemize}
     \item \textbf{Wymóg \glslink{uwierzytelnianie}{uwierzytelnienia}}: \texttt{authenticated()} wymusza poprawne rozpoznanie użytkownika.
@@ -233,7 +233,7 @@ czyli dopasowanych do \texttt{privatePathsMatcher}. Najważniejsze elementy:
     \item \textbf{\gls{cors} i \gls{csrf}}: analogicznie jak w części publicznej włączono \gls{cors} i wyłączono \gls{csrf}.
     \item \textbf{Zarządzanie sesją}: \texttt{SessionCreationPolicy.IF\_REQUIRED} tworzy \glslink{sesja-http}{sesję HTTP} tylko na potrzeby logowania lub rejestracji za pomocą \glslink{oauth}{OAuth2}.
     \item \textbf{Wyłączenie \gls{http-basic}}: \texttt{httpBasic().disable()} wyłącza mechanizm uwierzytelniania HTTP Basic,
-    w którym przeglądarka przesyła dane logowania zakodowane w nagłówku HTTP (\gls{naglowek-http}) \texttt{Authorization}.
+    w którym przeglądarka przesyła dane logowania zakodowane w \glslink{naglowek-http}{nagłówku HTTP} \texttt{Authorization}.
     W projekcie nie jest on wykorzystywany, ponieważ uwierzytelnianie realizowane jest przez \glslink{oauth}{OAuth2} oraz tokeny \glslink{jwt}{JWT}.
 \end{itemize}
 
@@ -245,7 +245,7 @@ Metoda \texttt{corsConfigurationSource()} definiuje politykę \gls{cors} dla ca�
     \item dozwolone metody: \texttt{GET, POST, PUT, DELETE, OPTIONS, PATCH},
     \item dozwolone nagłówki: \texttt{Authorization} oraz \texttt{Content-Type},
     \item \texttt{allowCredentials = true} -- dopuszcza wysyłanie \glslink{http-only-cookie}{ciasteczek} w zapytaniach,
-    \item \texttt{maxAge = 3600} -- określa czas, przez który przeglądarka może buforować wynik zapytania preflight
+    \item \texttt{maxAge = 3600} -- określa czas, przez który przeglądarka może buforować wynik \glslink{zapytanie-preflight}{zapytania preflight}
     (\texttt{OPTIONS}) i nie wykonywać go ponownie dla podobnych żądań, co ogranicza liczbę zapytań wysyłanych przez klienta.
 \end{itemize}
 
@@ -256,7 +256,7 @@ W konfiguracji zdefiniowano dodatkowe komponenty wymagane przez warstwę securit
     \item \texttt{AuthenticationManager} -- pobierany z \texttt{AuthenticationConfiguration},
     umożliwia uruchamianie procesu \glslink{uwierzytelnianie}{uwierzytelniania} zgodnie z konfiguracją \gls{spring-security}.
     \item \texttt{PasswordEncoder} -- zastosowano \texttt{BCryptPasswordEncoder} do \glslink{haszowanie-hasel}{haszowania haseł} (\gls{bcrypt}).
-    \item \texttt{JwtAuthFilter} -- tworzony jako bean wraz z zależnościami
+    \item \texttt{JwtAuthFilter} -- tworzony jako \glslink{bean}{bean} wraz z zależnościami
     (\texttt{JwtGenerator}, \texttt{JwtManager}, \texttt{JwtProperties}, \texttt{CustomUserDetailsService}).
 \end{itemize}
 
@@ -272,15 +272,15 @@ Zapobiega to sytuacji, w której ten sam filtr wykonałby się podwójnie.
 \subsubsection{Mechanizm \glslink{jwt}{JWT} w aplikacji}
 \label{subsubsec:mechanizm-jwt}
 
-Dla \glslink{endpoint}{endpointów} prywatnych zastosowano \gls{uwierzytelnianie} oparte o tokeny \glslink{jwt}{JWT}.
+Dla \glslink{endpoint}{endpointów} prywatnych zastosowano \gls{uwierzytelnianie} oparte o \glslink{token}{tokeny} \glslink{jwt}{JWT}.
 W tym podejściu serwer odtwarza tożsamość użytkownika dla każdego żądania
-na podstawie \glslink{token}{tokena} przekazywanego przez klienta. Token jest przechowywany po stronie klienta
-w \gls{http-only-cookie}, co ogranicza możliwość jego odczytu przez kod JavaScript.
+na podstawie \glslink{token}{tokena} przekazywanego przez klienta. \glslink{token}{Token} jest przechowywany po stronie klienta
+w \glslink{http-only-cookie}{ciasteczku HTTP}, co ogranicza możliwość jego odczytu przez kod JavaScript.
 
 Implementację rozbito na cztery współpracujące komponenty:
 \begin{itemize}
-    \item \texttt{JwtGenerator} -- generuje token,
-    \item \texttt{JwtManager} -- weryfikuje token i obsługuje operacje na \glslink{http-only-cookie}{ciasteczku},
+    \item \texttt{JwtGenerator} -- generuje \glslink{token}{token},
+    \item \texttt{JwtManager} -- weryfikuje \glslink{token}{token} i obsługuje operacje na \glslink{http-only-cookie}{ciasteczku},
     \item \texttt{JwtAuthFilter} -- buduje \texttt{Authentication} dla żądań prywatnych,
     \item \texttt{JwtService} -- udostępnia interfejs do odświeżenia tokenu z poziomu logiki aplikacyjnej.
 \end{itemize}
@@ -302,16 +302,16 @@ Implementację rozbito na cztery współpracujące komponenty:
 \end{figure}
 
 Klasa \texttt{JwtManager} skupia w jednym miejscu operacje techniczne związane z \glslink{jwt}{JWT}:
-walidację podpisu, parsowanie danych z tokenu, weryfikację czasu ważności oraz obsługę \glslink{http-only-cookie}{ciasteczka}.
+walidację podpisu, parsowanie danych z tokenu, weryfikację czasu ważności oraz obsługę \glslink{http-only-cookie}{ciasteczka HTTP only}.
 
 Metoda \texttt{validateToken(...)} odpowiada za sprawdzenie, czy token istnieje i czy posiada poprawny podpis.
 Brak tokenu lub pusty token kończy się wyjątkiem \gls{spring-security}, natomiast niezgodny podpis
 jest raportowany poprzez wyjątek domenowy.
 
-Metody \texttt{getUsernameFromJWT(...)} oraz \texttt{getExpirationDateFromToken(...)} parsują token
+Metody \texttt{getUsernameFromJWT(...)} oraz \texttt{getExpirationDateFromToken(...)} parsują \glslink{token}{token}
 i odczytują odpowiednio: identyfikator użytkownika (subject) oraz datę wygaśnięcia.
 Obsłużono również scenariusz tokenu wygasłego (\texttt{ExpiredJwtException}),
-gdzie dane z tokenu mogą być nadal wykorzystywane do spójnej obsługi błędu.
+gdzie dane z \glslink{token}{tokenu} mogą być nadal wykorzystywane do spójnej obsługi błędu.
 
 Operacje na \glslink{http-only-cookie}{ciasteczku} są realizowane przez:
 \texttt{addTokenToCookie(...)} (zapis) oraz \texttt{getJWTFromCookie(...)} (odczyt).
@@ -334,7 +334,7 @@ Wygenerowany token zawiera podstawowe informacje wymagane do identyfikacji użyt
     \item \textbf{expiration} -- czas wygaśnięcia obliczany na podstawie \texttt{JwtProperties.tokenExpiration}.
 \end{itemize}
 
-Token jest podpisywany algorytmem HMAC-SHA256 z użyciem klucza symetrycznego przechowywanego w \texttt{JwtProperties.key}.
+\glslink{token}{Token} jest podpisywany algorytmem HMAC-SHA256 z użyciem klucza symetrycznego przechowywanego w \texttt{JwtProperties.key}.
 Poprawny podpis pozwala serwerowi potwierdzić autentyczność tokenu oraz wykryć jakąkolwiek modyfikację jego zawartości.
 
 \innerheading{Plik JwtAuthFilter}
@@ -342,14 +342,14 @@ Poprawny podpis pozwala serwerowi potwierdzić autentyczność tokenu oraz wykry
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/jwtAuth/1}
-    \caption{Klasa \texttt{JwtAuthFilter}}
+    \caption{Klasa \texttt{JwtAuthFilter} (1/2)}
     \label{fig:jwt-auth-filter-1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/security/jwtAuth/2}
-    \caption{Klasa \texttt{JwtAuthFilter}}
+    \caption{Klasa \texttt{JwtAuthFilter} (2/2)}
     \label{fig:jwt-auth-filter-2}
 \end{figure}
 
@@ -368,12 +368,12 @@ W metodzie \texttt{doFilterInternal(...)} filtr realizuje następujące kroki:
     poprzez \texttt{CustomUserDetailsService.loadUserByUsername(...)}.
     \item buduje \texttt{UsernamePasswordAuthenticationToken} wraz z uprawnieniami użytkownika oraz zapisuje go do
     \texttt{SecurityContextHolder}. Od tego momentu \gls{spring-security} traktuje żądanie jako uwierzytelnione.
-    \item opcjonalnie odnawia token (opis poniżej) oraz przekazuje żądanie dalej przez \texttt{filterChain.doFilter(...)}.
+    \item opcjonalnie odnawia \glslink{token}{token} (opis poniżej) oraz przekazuje żądanie dalej przez\newline \texttt{filterChain.doFilter(...)}.
 \end{itemize}
 
-W filtrze zaimplementowano mechanizm odnawiania tokenu (\texttt{renewToken(...)}):
+W filtrze zaimplementowano mechanizm odnawiania \glslink{token}{tokenu} (\texttt{renewToken(...)}):
 jeżeli token jest nadal ważny, ale do jego wygaśnięcia pozostał czas krótszy niż jeden dzień
-(\texttt{JwtProperties.oneDayInMs}), generowany jest nowy token i zapisywany w \glslink{http-only-cookie}{ciasteczku}.
+(\texttt{JwtProperties.oneDayInMs}), generowany jest nowy \glslink{token}{token} i zapisywany w \glslink{http-only-cookie}{ciasteczku}.
 Pozwala to utrzymać ciągłość zapytań użytkownika przy regularnej aktywności,
 bez konieczności ponownego logowania po stronie klienta.
 
@@ -386,12 +386,12 @@ bez konieczności ponownego logowania po stronie klienta.
     \label{fig:jwt-service}
 \end{figure}
 
-Klasa \texttt{JwtService} udostępnia uproszczony interfejs do odświeżania tokenu użytkownika
+Klasa \texttt{JwtService} udostępnia uproszczony interfejs do odświeżania \glslink{token}{tokenu} użytkownika
 z poziomu logiki aplikacyjnej. Metoda \texttt{refreshUserToken(...)} ustawia tymczasowo
 \texttt{Authentication} w \texttt{SecurityContextHolder} na podstawie przekazanego użytkownika,
-a następnie generuje nowy token i zapisuje go w \glslink{http-only-cookie}{ciasteczku}.
+a następnie generuje nowy \glslink{token}{token} i zapisuje go w \glslink{http-only-cookie}{ciasteczku}.
 Takie podejście jest przydatne w miejscach, gdzie po stronie serwera następuje potwierdzenie tożsamości
-lub konieczność ponownego wystawienia tokenu.
+lub konieczność ponownego wystawienia \glslink{token}{tokena}.
 
 \subsubsection{Dostarczanie danych użytkownika i obsługa błędów}
 \label{subsubsec:userdetails-i-bledy}
@@ -427,10 +427,10 @@ W razie braku uwierzytelnienia zgłaszany jest wyjątek.
 
 W aplikacji rozdzielono dwa scenariusze błędów bezpieczeństwa:
 \begin{itemize}
-    \item \textbf{\gls{http-401}} -- brak poprawnego uwierzytelnienia (brak tokenu lub błędny token).
+    \item \textbf{\gls{http-401}} -- brak poprawnego uwierzytelnienia (brak lub błędny \glslink{token}{token}).
     Ten przypadek jest obsługiwany w \texttt{JwtAuthFilter}, który zwraca odpowiedź \gls{json} z kodem 401.
     \item \textbf{\gls{http-403}} -- użytkownik jest uwierzytelniony, ale nie posiada wymaganych uprawnień do zasobu.
-    Ten przypadek jest obsługiwany przez \texttt{CustomAccessDeniedHandler}, który zwraca spójny format odpowiedzi \gls{json} z kodem 403.
+    Ten przypadek jest obsługiwany przez \newline \texttt{CustomAccessDeniedHandler}, który zwraca spójny format odpowiedzi \gls{json} z kodem 403.
 \end{itemize}
 
 % Autoryzacja domenowa
@@ -455,7 +455,7 @@ Wykorzystano ten mechanizm w celu sprawdzenia przynależności użytkownika do c
 Serwis \texttt{ChatSecurityService} realizuje sprawdzenie, czy aktualnie zalogowany użytkownik jest uczestnikiem czatu
 o wskazanym identyfikatorze. Metoda \texttt{isUserAChatMember(...)}:
 \begin{itemize}
-    \item pobiera tożsamość aktualnego użytkownika poprzez \texttt{CustomUserDetailsService.loadUserDetailsFromSecurityContext()},
+    \item pobiera tożsamość aktualnego użytkownika poprzez \newline \texttt{CustomUserDetailsService.loadUserDetailsFromSecurityContext()},
     \item wykonuje zapytanie do repozytorium (\texttt{ChatRepository}), weryfikując istnienie czatu o danym ID
     z użytkownikiem jako uczestnikiem.
 \end{itemize}

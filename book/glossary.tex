@@ -1044,7 +1044,7 @@
 
 \newglossaryentry{csrf}{
     name={CSRF},
-    description={Rodzaj ataku polegający na nakłonieniu przeglądarki zalogowanego użytkownika do wykonania niechcianego żądania. Mechanizmy CSRF ograniczają takie scenariusze}
+    description={Rodzaj ataku polegający na nakłonieniu przeglądarki zalogowanego użytkownika do wykonania niechcianego żądania. Mechanizmy ochrony przed CSRF ograniczają takie scenariusze}
 }
 
 \newglossaryentry{sesja-http}{
@@ -1096,4 +1096,11 @@
     name={Chain of Responsibility},
     description={Wzorzec projektowy polegający na przekazywaniu żądania przez kolejne obiekty w łańcuchu, aż do jego obsłużenia lub odrzucenia}
 }
+
+\newglossaryentry{zapytanie-preflight}
+{
+    name={zapytanie preflight},
+    description={Wstępne zapytanie HTTP wykonywane automatycznie przez przeglądarkę w ramach mechanizmu \gls{cors}, najczęściej metodą \texttt{OPTIONS}. Służy do sprawdzenia, czy serwer pozwala na wykonanie właściwego żądania z innego pochodzenia (origin), w tym czy akceptuje daną metodę HTTP oraz niestandardowe nagłówki. Po poprawnej odpowiedzi serwera przeglądarka wysyła właściwe żądanie.}
+}
+
 
