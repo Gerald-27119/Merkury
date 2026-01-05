@@ -1,0 +1,98 @@
+%! Author = Mateusz
+%! Date = 22/12/2025
+
+\subsubsection{Wymagania ogólne dla motywu}
+\label{subsubsec:wymagania-ogolne-dla-motywu}
+
+
+\newlength{\womotywContentWidth}
+\setlength{\womotywContentWidth}{0.74\textwidth}
+
+\newlength{\womotywLabelWidth}
+\setlength{\womotywLabelWidth}{0.2\textwidth}
+
+\newlength{\womotywHeaderHeight}
+\setlength{\womotywHeaderHeight}{12mm}
+
+% --------- Pola karty (wiersze) ---------
+
+% Id + priorytet – 4 kolumny
+\newcommand{\womotywpriority}[2]{%
+    \textbf{Identyfikator:} & WOMOTYW-#1 &
+    \textbf{Priorytet:} & #2 \\ \hline
+}
+
+% Wiersze z etykietą + treścią na 3 kolumny
+\newcommand{\womotywname}[1]{\textbf{Nazwa:}              &
+\multicolumn{3}{|p{\womotywContentWidth}|}{#1} \\ \hline}
+\newcommand{\womotywdesc}[1]{\textbf{Opis:}               &
+\multicolumn{3}{|p{\womotywContentWidth}|}{#1} \\ \hline}
+\newcommand{\womotywstakeholder}[1]{\textbf{Udziałowiec:} &
+\multicolumn{3}{|p{\womotywContentWidth}|}{#1} \\ \hline}
+\newcommand{\womotywrelated}[1]{\textbf{Wymagania powiązane:} &
+\multicolumn{3}{|p{\womotywContentWidth}|}{#1} \\ \hline}
+
+\newcommand{\womotywHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\womotywHeaderHeight][c]{\linewidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
+\newcommand{\womotywatcard}[5]{%
+    \refstepcounter{awc}%
+    {\centering
+    \begin{longtable}{|
+            >{\columncolor{lightgray}}p{\womotywLabelWidth}|
+        p{0.22\textwidth}|
+            >{\columncolor{lightgray}}p{0.18\textwidth}|
+        p{0.24\textwidth}|}
+
+    \hline
+    \womotywHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNEGO DLA \\ MOTYWU}}
+    \endfirsthead
+    \hline
+    \womotywHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNEGO DLA \\ MOTYWU (cd.)}}
+    \endhead
+
+    % właściwa treść karty
+    \womotywpriority{#3}{#4}
+    \womotywname{#2}
+    #5
+
+    \end{longtable}
+    \par} % koniec centrowania
+
+    \vspace{3pt}
+    \textbf{Tabela \theawc:}
+    Karta wymagania ogólnego dla motywu: #2\label{#1}
+
+    \addcontentsline{lot}{table}
+    {Tabela \theawc: Karta wymagania ogólnego dla motywu: #2}%
+}
+
+
+\womotywatcard
+{womotyw:change-theme}
+{Możliwość zmiany motywu}
+{01}
+{S}
+{
+    \womotywdesc{System udostępnia użytkownikowi możliwość zmiany motywu aplikacji pomiędzy trybem jasnym
+    i ciemnym, aby dopasować wygląd interfejsu do preferencji użytkownika oraz warunków oświetleniowych.
+    Zmiana motywu następuje bez przeładowania strony i obowiązuje we wszystkich widokach aplikacji.}
+
+    \womotywstakeholder{U3}
+    \womotywrelated{%
+        \hyperref[wfmotyw:change-theme]{WFMOTYW-01},
+        \hyperref[wfmotyw:remember-theme]{WFMOTYW-02},
+        \hyperref[wpmotyw:theme-switch-under-200ms]{WPMOTYW-01},
+        \hyperref[wpmotyw:theme-consistency]{WPMOTYW-02},
+        \hyperref[wpmotyw:no-flash-on-load]{WPMOTYW-03}.%
+    }
+}

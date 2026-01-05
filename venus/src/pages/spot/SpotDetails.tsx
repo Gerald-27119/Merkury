@@ -40,11 +40,7 @@ export default function SpotDetails() {
         if (axiosError?.response?.data) {
             const message =
                 axiosError.response?.data?.message || axiosError.response?.data;
-            dispatch(
-                notificationAction.addError({
-                    message,
-                }),
-            );
+            dispatch(notificationAction.addError({ message }));
         }
     }, [dispatch, error]);
 

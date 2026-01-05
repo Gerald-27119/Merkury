@@ -1,0 +1,87 @@
+%! Author = Stanisław Oziemczuk
+%! Date = 30/12/2025
+
+
+\section{Implementacja OAuth}
+\label{sec:implementacja-oauth}
+
+\glslink{oauth}{OAuth} w wersji 2.0 to \glslink{framework}{framework} umożliwiający autoryzację w systemach poprzez serwisy
+stron trzecich.
+Często stosowany jest w aplikacjach internetowych dając użytkownikom opcję zalogowania lub założenia konta za pomocą
+istniejących już kont Google, Facebook, \glslink{github}{GitHub} itd..
+\\
+Poniżej przedstawiono diagram opisujący przepływ \glslink{oauth}{OAuth'a} 2.0.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-oauth/oauth_diagram_rfc}
+    \caption{Diagram przedstawiający przepły OAuth 2.0; zacytowany z \cite{oauth-docs-rfc}}
+    \label{fig:oauth-flow-diagram}
+\end{figure}
+
+\begin{itemize}
+    \item \texttt{Client} \textendash \space to aplikacja prosząca o dostęp do zasobu, np. adresu email, nazwy użytkownika
+    oraz określająca rodzaj dostępu (odczyt, edycja)
+    \item \texttt{Resource Owner} \textendash \space właściciel zasobu, do którego dostęp prosi aplikacja; w tym wypadku
+    jest to użytkownik systemu
+    \item \texttt{Authorization Server} \textendash \space serwer nadający \texttt{Client'owi} uprawnienia do danego zasobu
+    \item \texttt{Resource Server} \textendash \space serwer, na którym przechowywany jest zasób; na podstawie uprawnień
+    \texttt{Client'a} przekazuje mu go lub odmawia dostępu
+\end{itemize}
+
+Opis przepływu:
+\begin{enumerate}[label=\Alph*.]
+    \item \texttt{Client} prosi \texttt{Resource Owner'a} o dostęp do zasobu określając zakres oraz typy operacji, które będzie
+    na nim wykonywać.
+    Często zapytanie zamiast trafiać bezpośrednio do \texttt{Resource Owner'a} obsługiwane jest przez serwer autentykacji, czyli
+    miejsce w którym użytkownik musi się zalogować do systemu.
+    \item \texttt{Client'owi} zwracane jest potwierdzenie przyznania dostępu, na przykład w formie tokenu.
+    \item \texttt{Client} przesyła potwierdzenie dostępu do \texttt{Authorization Server'a} uwierzytelniając się i prosząc
+    o token dostępu do zasobu z \texttt{Resource Server'a}.
+    \item \texttt{Authorization Server} sprawdza przesłane dane i jeśli proces walidacji zostanie zakończony pomyślnie,
+    przekazuje token dostępu do zasobu.
+    \item \texttt{Client} wysyła zapytanie z uzyskanym wcześniej tokenem do \texttt{Resource Server'a} prosząc o przesłanie
+    zasobu.
+    \item \texttt{Resource Server} przeprowadza walidację tokena i jeśli zakończy się ona powodzeniem, przesyła zasób
+    \texttt{Client'owi}.
+\end{enumerate}
+
+W projekcie do implementacji \glslink{oauth}{OAutha 2.0} wykorzystano \glslink{biblioteka}{biblioteki} \texttt{Spring Boot}:
+\texttt{spring-boot-starter-oauth2-resource-server} oraz \\ \texttt{spring-boot-starter-oauth2-client}.
+Zdecydowano się na umożliwienie użytkownikom logowania i rejestracji do aplikacji poprzez konta Google i \glslink{github}{GitHub},
+dalej nazywanych \emph{Provider'ami}.
+Aby móc korzystać z usługi autoryzacji, u każdego z \texttt{Provider'ów} należało zarejestrować aplikację poprzez
+utworzenie konta deweloperskiego i podanie linków, na które użytkownicy po pomyślnym procesie będą przekierowywani.
+Od każdego z nich otrzymano parę: \texttt{CLIENT\_ID}, \texttt{CLIENT\_SECRET}, które pozwalają na uwierzytelnienie aplikacji.
+Dane te nie powinny być dostępne dla osób trzecich, dlatego ze względów bezpieczeństwa umieszczono je w zmiennych
+środowiskowych systemu.
+Wymienione wyżej \glslink{biblioteka}{biblioteki} wymagają skonfigurowania dla każdego z \texttt{Provider'ów} zakresu dostępu do zasobu, linków do
+przekierowań, autoryzacji oraz wartości danych uwierzytelniających (rys. \ref{fig:oauth-config}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-oauth/oauth_konfiguracja}
+    \caption{Konfiguracja OAuth w Spring Boot}
+    \label{fig:oauth-config}
+\end{figure}
+
+W formularzu rejestracji i logowania znajdują się przyciski umożliwiające skorzystanie z kont w serwisach Google lub \glslink{github}{GitHub}.
+Kliknięcie ich powoduje przekierowanie na \glslink{endpoint}{endpoint} wygenerowany przez użyte \glslink{biblioteka}{biblioteki},
+następnie użytkownik przeniesiony jest na stronę wybranego \texttt{Provider'a}.
+Po pomyślnej autoryzacji następuje przekierowanie na \glslink{endpoint}{endpoint} \glslink{backend}{backendu} aplikacji
+\texttt{/account/login-success}, w którym z serwisu \texttt{accountService} wywoływana jest
+metoda \texttt{handleOAuth2User} (rys. \ref{fig:oauth-service-impl}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-oauth/oauth_service_impl}
+    \caption{Implementacja metody handleOAuth2User}
+    \label{fig:oauth-service-impl}
+\end{figure}
+
+Z tokenu przesłanego przez \texttt{Provider'a} ustalany jest jego typ (Google lub \glslink{github}{GitHub}) oraz
+obiekt zakodowanego użytkownika.
+Następnie odczytywane są nazwa i adres email użytkownika, w przypadku niepowodzenia rzucany jest odpowiedni wyjątek.
+Po sprawdzeniu czy w bazie danych użytkownik istnieje, wywoływane są odpowiednio metody do logowania lub
+rejestracji.
+Pomyślny przebieg operacji skutkuje przekierowaniem na adres części \glslink{frontend}{frontendowej} aplikacji.
+
