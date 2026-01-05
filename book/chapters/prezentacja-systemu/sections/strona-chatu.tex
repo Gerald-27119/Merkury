@@ -4,93 +4,147 @@
 \section{Strona czatu}
 \label{sec:strona-chatu}
 
-%TODO: NAPRAW grupowanie po dacie
+\subsection{Widok modułu czatu (rozmowa prywatna)}
+\label{subsec:chat-screen-1-private}
 
-%TODO: Jak będziecie opisywać wygląd aplikacji to usuńcie na frontendzie notification z sidebara
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/prywatny_1}
+    \caption{Widok modułu czatu z otwartą rozmową prywatną.}
+    \label{fig:chat:screen-1-main-view}
+\end{figure}
 
-\subsection{Widok bazowy modułu czatu}
-\label{subsec:widok-bazowy-czatu}
+Rysunek~\ref{fig:chat:screen-1-main-view} przedstawia główny widok modułu czatu w scenariuszu rozmowy prywatnej.
+Interfejs został podzielony na dwa obszary: listę dostępnych konwersacji po lewej stronie oraz okno aktywnej rozmowy
+w części centralnej.
 
-\paragraph{Ekran 1. Widok główny rozmów}
-Rysunek~X przedstawia główny widok modułu czatu. Interfejs zaprojektowano
-z wyraźnym podziałem na dwie strefy: panel listy rozmów po lewej stronie oraz
-obszar aktywnej konwersacji w części centralnej.
+Panel listy rozmów zawiera nagłówek \textit{Chats} oraz zestaw kafelków reprezentujących konwersacje.
+Każdy kafelek prezentuje awatar rozmowy, jej nazwę, podgląd ostatniej wiadomości
+oraz jej znacznik czasu. Aktualnie otwarta konwersacja jest wyróżniona wizualnie poprzez podświetlenie tła.
 
-Bezpośrednio na prawo od paska nawigacyjnego znajduje się panel prezentujący listę
-dostępnych konwersacji. Każdy element listy zawiera awatar, nazwę rozmowy,
-fragment ostatniej wiadomości oraz informację o czasie wysłania.
-Aktualnie wybrana rozmowa jest wyróżniona wizualnie, co ułatwia orientację w module
-i jednoznacznie wskazuje konwersację, której treść jest prezentowana w części centralnej.
+W górnej części obszaru rozmowy znajduje się pasek nagłówka z awatarem oraz nazwą rozmówcy.
+Kliknięcie w kafelek z nazwą użytkownika i jego awatarem przenosi do profilu tej osoby.
+W prawym górnym rogu widoczna jest ikona służąca do inicjowania utworzenia czatu grupowego.
 
-Centralną część ekranu zajmuje okno aktywnej rozmowy. W górnym pasku widoczna jest nazwa
-konwersacji oraz zestaw akcji kontekstowych związanych z bieżącym czatem.
-W przypadku rozmowy prywatnej nazwę konwersacji stanowi nazwa użytkownika,
-z którym prowadzona jest wymiana wiadomości. Kliknięcie nazwy przenosi użytkownika
-do profilu tej osoby w module społecznościowym.
-W przypadku czatu grupowego nazwa rozmowy oraz jej awatar mogą zostać zmodyfikowane,
-a wejście w tryb edycji jest dostępne z poziomu nagłówka konwersacji.
-Dodatkowo, dla czatu prywatnego udostępniono akcję umożliwiającą utworzenie czatu grupowego
-z udziałem aktualnego rozmówcy.
+Poniżej nagłówka prezentowana jest historia wiadomości w układzie chronologicznym. Każda wiadomość zawiera awatar nadawcy,
+nazwę użytkownika, znacznik czasu oraz treść wiadomości. Dodatkowo, wiadomości są grupowane według daty.
 
-Poniżej nagłówka znajduje się przewijalna historia wiadomości ułożona chronologicznie.
-Każda wiadomość prezentuje awatar nadawcy, nazwę użytkownika, znacznik czasu oraz treść,
-co pozwala jednoznacznie identyfikować autora wypowiedzi i kontekst czasowy rozmowy.
+W dolnej części widoku umieszczono pasek tworzenia wiadomości z polem tekstowym oraz zestawem przycisków akcji.
+Po lewej stronie dostępny jest przycisk dodawania załączników do wiadomości, natomiast po prawej stronie
+znajdują się skróty do wstawianie  GIFów oraz emoji. Na prawo od nich jest przycisk wysyłania wiadomości.
+W celu wysłania wiadomości oprócz przycisku można użyć klawisza Enter.
 
-W dolnej części widoku umieszczono pasek wprowadzania wiadomości, składający się z pola tekstowego
-oraz przycisków akcji (dodawanie załączników, wysyłanie GIF-ów oraz emoji) i przycisku wysyłania.
-Taki układ wspiera typowy scenariusz użycia modułu: wybór rozmowy z listy po lewej stronie,
-przegląd historii w części centralnej oraz tworzenie i wysyłanie kolejnych wiadomości.
+\subsection{Wysyłanie GIF-ów}
+\label{subsec:panel-wyszukiwania-i-wysyania-gif-ow}}
 
-\paragraph{Ekran 2. Edycja czatu grupowego}
-Rysunek~Y przedstawia okno edycji czatu grupowego, wyświetlane po kliknięciu w obszar nagłówka
-konwersacji (kafelek z awatarem i nazwą czatu). W ramach tego widoku użytkownik może zmienić
-awatar oraz nazwę czatu grupowego. Rozwiązanie to umożliwia dostosowanie identyfikacji rozmowy
-do potrzeb jej uczestników, bez konieczności opuszczania modułu czatu.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/gif/1}
+    \caption{Panel wyboru GIF-ów -- widok początkowy po otwarciu.}
+    \label{fig:chat:gif-panel-1}
+\end{figure}
 
-\paragraph{Ekran 3. Dodawanie załączników do wiadomości}
-Rysunek~Z przedstawia proces dołączania plików do wiadomości. Po użyciu przycisku
-dodawania załączników w pasku wprowadzania treści wyświetlane jest systemowe okno
-wyboru pliku, pozwalające wskazać zasób z lokalnego dysku. Po zatwierdzeniu wyboru
-plik zostaje dołączony do aktualnie tworzonej wiadomości i może zostać wysłany do pozostałych
-uczestników rozmowy jako załącznik.
+Rysunek~\ref{fig:chat:gif-panel-1} przedstawia panel wyboru GIF-ów, uruchamiany z poziomu paska tworzenia wiadomości.
+Panel wyświetlany jest jako nakładka w obrębie widoku konwersacji.
+W górnej części panelu dostępne są zakładki \textit{Gif} oraz \textit{Emoji}, umożliwiające przełączenie trybu wyboru treści.
+Poniżej umieszczono pole wyszukiwania, niżej widać predefiniowane kategorie.
 
-\paragraph{Ekran 4. Panel wyszukiwania i wysyłania GIF-ów}
-Rysunek~W prezentuje panel wyboru GIF-ów dostępny z poziomu paska edycji wiadomości.
-Panel otwierany jest w obrębie widoku konwersacji i nie wymaga opuszczania czatu.
-Użytkownik może przeszukiwać zasoby poprzez pole wyszukiwania, a wyniki prezentowane są
-w formie siatki miniatur. Wybranie elementu powoduje dodanie GIF-a do wiadomości i umożliwia
-jego wysłanie w ramach rozmowy.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/gif/2}
+    \caption{Panel wyboru GIF-ów -- wyszukiwanie po kategorii \textit{omg}.}
+    \label{fig:chat:gif-panel-2}
+\end{figure}
 
-\paragraph{Ekran 5. Panel wyboru emoji}
-Rysunek~V przedstawia panel wyboru emoji, uruchamiany analogicznie jak panel GIF-ów.
-Emoji wybierane są z poziomu \textit{picker-a}, który udostępnia kategorie predefiniowane
-(np.\ według typu emotikon) oraz wyszukiwanie tekstowe po frazie. Zaznaczenie emoji wstawia je
-do pola tekstowego wiadomości, dzięki czemu może ono zostać wykorzystane samodzielnie lub jako
-uzupełnienie treści.
+Na rysunku~\ref{fig:chat:gif-panel-2} pokazano działanie mechanizmu wyszukiwania po kategorii. Po wyborze kategorii
+lista wyników jest zawężana do pasujących elementów.
 
-\paragraph{Ekran 6. Tworzenie czatu grupowego z rozmowy prywatnej}
-Rysunek~U przedstawia okno dialogowe tworzenia czatu grupowego uruchamiane z poziomu rozmowy prywatnej
-(przycisk akcji w nagłówku konwersacji). W oknie dostępne jest pole wyszukiwania użytkowników oraz
-lista wybranych osób prezentowana w formie etykiet. Domyślnie uwzględniony jest aktualny rozmówca
-oraz użytkownik tworzący czat; możliwe jest wskazanie dodatkowych uczestników (do zdefiniowanego limitu).
-Jeżeli nie zostaną dodane kolejne osoby, tworzony jest dwuosobowy czat grupowy, który zachowuje cechy rozmowy
-grupowej (m.in.\ możliwość późniejszej rozbudowy składu oraz edycji danych czatu).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/gif/3}
+    \caption{Panel wyboru GIF-ów -- wyszukiwanie po frazie \textit{thank you}.}
+    \label{fig:chat:gif-panel-3}
+\end{figure}
 
-\paragraph{Ekran 7. Widok czatu grupowego}
-Rysunek~T przedstawia widok aktywnej konwersacji grupowej po jej utworzeniu. Interfejs zachowuje układ znany
-z rozmów prywatnych (lista czatów po lewej stronie oraz historia wiadomości w części centralnej), natomiast w nagłówku
-prezentowana jest nazwa czatu grupowego (lub skrócona lista uczestników, zależnie od konfiguracji).
-W prawym górnym rogu dostępne są dwa przyciski: pierwszy otwiera listę uczestników czatu, natomiast drugi
-umożliwia dodawanie kolejnych osób do grupy.
+Rysunek~\ref{fig:chat:gif-panel-3} przedstawia analogiczny scenariusz dla ręcznie wprowadzonej frazy.
+Użytkownik może wielokrotnie modyfikować frazę wyszukiwania, przeglądać zwrócone propozycje oraz wybrać konkretną miniaturę.
+Wybranie GIF-a powoduje natychmiastowe jego wysłanie.
 
-\paragraph{Ekran 8. Lista uczestników czatu grupowego}
-Rysunek~S przedstawia panel boczny z listą uczestników, wyświetlany po kliknięciu przycisku podglądu członków grupy.
-Panel pojawia się po prawej stronie widoku konwersacji i zawiera nagłówek z liczbą uczestników oraz listę profili
-(wraz z awatarami i nazwami użytkowników). Rozwiązanie to umożliwia szybkie zweryfikowanie składu czatu bez przerywania
-ciągłości rozmowy.
+\subsection{Wysyłanie emoji}
+\label{subsec:chat-emoji}
 
-\paragraph{Ekran 9. Dodawanie nowych uczestników do czatu grupowego}
-Rysunek~R przedstawia okno dialogowe dodawania użytkowników do istniejącej konwersacji grupowej.
-W oknie dostępne jest pole wyszukiwania oraz mechanizm wyboru użytkowników wraz z licznikiem określającym
-maksymalną liczbę osób możliwych do dodania w ramach jednej operacji. Po zatwierdzeniu akcją kontekstową
-nowi członkowie zostają dopisani do czatu i są widoczni na liście uczestników.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/emoji/1}
+\caption{Panel wyboru emoji oraz przykład wysłania wiadomości z emoji.}
+\label{fig:chat:emoji-panel}
+\end{figure}
+
+Rysunek~\ref{fig:chat:emoji-panel} przedstawia mechanizm wyboru emoji dostępny z poziomu paska tworzenia wiadomości.
+Po użyciu skrótu \textit{Emoji} w dolnej części widoku konwersacji otwierany jest panel w formie nakładki,
+wyświetlany w obrębie okna rozmowy (bez opuszczania aktualnego czatu).
+
+W górnej części panelu znajdują się zakładki \textit{Gif} oraz \textit{Emoji}, umożliwiające przełączenie trybu wyboru treści.
+Poniżej umieszczono pole wyszukiwania, które pozwala filtrować dostępne emoji po wpisanej frazie (na rysunku pokazano wyszukiwanie dla hasła \textit{cat}).
+Wyniki prezentowane są w sekcji \textit{Search results} w postaci listy ikon, które użytkownik może wybierać pojedynczo.
+
+Wybranie emoji powoduje wstawienie go do pola edycji wiadomości w dolnym pasku, dzięki czemu użytkownik może skomponować treść
+złożoną wyłącznie z emotikon lub użyć ich jako uzupełnienia tekstu. Po wysłaniu wiadomości (przyciskiem wysyłania lub klawiszem Enter)
+treść pojawia się w historii rozmowy, zgodnie z układem chronologicznym.
+
+
+\subsection{Dodawanie załączników do wiadomości}
+\label{subsec:chat-attachments}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/att/1}
+\caption{Systemowe okno wyboru pliku uruchamiane z poziomu czatu.}
+\label{fig:chat:attachments-1}
+\end{figure}
+
+Rysunek~\ref{fig:chat:attachments-1} przedstawia pierwszy etap dodawania załącznika.
+Po użyciu przycisku dodawania załączników w dolnym pasku tworzenia wiadomości aplikacja
+otwiera systemowe okno wyboru pliku. Dzięki wykorzystaniu natywnego selektora użytkownik
+może wskazać zasób z lokalnego dysku.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/att/2}
+\caption{Załącznik dodany do wiadomości -- podgląd w polu edycji przed wysłaniem.}
+\label{fig:chat:attachments-2}
+\end{figure}
+
+Na rysunku~\ref{fig:chat:attachments-2} pokazano widok czatu po wskazaniu pliku.
+Wybrany załącznik pojawia się nad polem wprowadzania treści w formie kafelka zawierającego
+ikonę typu pliku oraz jego miniaturę (o ile jest dostępna). Taki podgląd umożliwia szybkie
+zweryfikowanie, jaki plik zostanie wysłany, bez opuszczania bieżącej konwersacji.
+Użytkownik może w tym samym miejscu dopisać treść wiadomości, a następnie wysłać ją
+standardowo (przyciskiem wysyłania lub klawiszem Enter).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/att/3}
+\caption{Wiadomość z wysłanym załącznikiem w historii konwersacji.}
+\label{fig:chat:attachments-3}
+\end{figure}
+
+Rysunek~\ref{fig:chat:attachments-3} przedstawia sposób prezentacji załącznika po wysłaniu wiadomości.
+W historii rozmowy wyświetlana jest karta pliku zawierająca jego nazwę oraz rozmiar, co ułatwia
+identyfikację przesłanego zasobu. Po prawej stronie karty znajduje się ikona pobierania,
+umożliwiająca zapisanie pliku na urządzeniu odbiorcy. Dodatkowo (jeżeli jest to możliwe dla danego formatu)
+poniżej karty prezentowana jest miniatura podglądu, dzięki czemu użytkownik może rozpoznać zawartość
+bez konieczności pobierania pliku.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/att/4}
+\caption{Interakcja z załącznikiem -- podgląd miniatury oraz możliwość pobrania pliku.}
+\label{fig:chat:attachments-4}
+\end{figure}
+
+Na rysunku~\ref{fig:chat:attachments-4} pokazano interakcję z wiadomością zawierającą załącznik.
+Załącznik pozostaje dostępny w obrębie konwersacji, a użytkownik może skorzystać z miniatury podglądu
+lub bezpośrednio użyć przycisku pobierania na karcie pliku. Takie rozwiązanie wspiera typowy scenariusz
+wymiany materiałów w rozmowie (np. dokumentów i zrzutów ekranu), zapewniając szybki dostęp do plików
+również po upływie czasu od ich wysłania.
