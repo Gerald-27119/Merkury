@@ -36,3 +36,5 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         return new SecurityContextChannelInterceptor();
     }
 }
+
+

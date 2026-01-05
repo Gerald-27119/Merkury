@@ -30,7 +30,7 @@ export default function BasicSpotWeather() {
 
     if (isError) {
         return (
-            <div className="dark:bg-violetDarker dark:text-darkText rounded-2xl px-3 py-1 text-lg">
+            <div className="dark:bg-violetDarker bg-fifth text-violetDark dark:text-darkText rounded-2xl px-3 py-1 text-lg">
                 <p>Failed to load weather for this spot!</p>
             </div>
         );
