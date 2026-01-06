@@ -1,0 +1,344 @@
+%! Author = Mateusz
+%! Date = 22/12/2025
+
+\subsubsection{Wymagania pozafunkcjonalne dla logowania i rejestracji}
+\label{subsubsec:wymagania-pozafunkcjonalne-dla-wyszukiwarki-spotow}
+
+
+% --- Szerokości ---
+
+\newlength{\wplogLabelWidth}
+\settowidth{\wplogLabelWidth}{\textbf{Wymagania powiązane:}}
+\addtolength{\wplogLabelWidth}{-20pt}
+
+% Szerokość części z treścią (3 prawe kolumny zlane w jedną)
+\newlength{\wplogContentWidth}
+\setlength{\wplogContentWidth}{0.7\textwidth}
+\addtolength{\wplogContentWidth}{20pt}
+
+\newlength{\wplogHeaderHeight}
+\setlength{\wplogHeaderHeight}{12mm}
+% --------- Pola karty (wiersze) ---------
+
+\newcommand{\wplogHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wplogHeaderHeight][c]{\linewidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
+% Id + priorytet – 4 kolumny
+\newcommand{\wplogpriority}[2]{%
+    \textbf{Identyfikator:} & WPLOG-#1 &
+    \textbf{Priorytet:}     & #2 \\ \hline
+}
+
+% Typ – normalny wiersz na 3 kolumny
+\newcommand{\wplogtype}[1]{%
+    \textbf{Typ:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wplogContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wplogname}[1]{%
+    \textbf{Nazwa:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wplogContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wplogdesc}[1]{%
+    \textbf{Opis:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wplogContentWidth}|}{#1} \\ \hline
+}
+
+% (2) Kryteria akceptacji – ustawienia list jak w wymaganiach funkcjonalnych
+\newcommand{\wplogaccept}[1]{%
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wplogContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\itemsep}{0.2ex}%
+        \setlength{\parsep}{0pt}%
+        \vspace*{-1.8ex}%
+        #1%
+        \vspace*{-1.4ex}%
+        \endgroup
+    } \\ \hline
+}
+
+\newcommand{\wplogstakeholder}[1]{%
+    \textbf{Udziałowiec:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wplogContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wplogresponsible}[1]{%
+    \textbf{Realizator:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wplogContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wplogrelated}[1]{%
+    \textbf{Wymagania powiązane:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wplogContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wplogatcard}[5]{%
+    \refstepcounter{awc}%
+    {%
+        \centering
+        \begin{longtable}{|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wplogLabelWidth}|
+            l|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}l|
+            p{0.15\textwidth}|}
+        \hline
+        \wplogHeaderRow{\shortstack{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ LOGOWANIA I REJESTRACJI}}
+        \endfirsthead
+        \hline
+        \wplogHeaderRow{\shortstack{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ LOGOWANIA I REJESTRACJI (cd.)}}
+        \endhead
+        \wplogpriority{#3}{#4}
+        \wplogname{#2}
+        #5
+        \end{longtable}
+        \par
+    }%
+    \vspace{3pt}%
+    \textbf{Tabela \theawc:} Wymaganie pozafunkcjonalne dla logowania i rejestracji: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie pozafunkcjonalne dla logowania i rejestracji: #2}%
+}
+
+% =========================================================
+% WPLOG-01 – Wydajność: czas odpowiedzi logowania/rejestracji < 10 s
+% Typ: wydajność
+% =========================================================
+
+\wplogatcard
+{wplog:auth-response-under-3s}
+{Czas odpowiedzi logowania i rejestracji nie przekracza 10 sekund}
+{01}
+{S}
+{
+    \wplogtype{Wydajność}
+
+    \wplogdesc{Operacje logowania oraz rejestracji powinny być realizowane w czasie nie dłuższym niż 10 sekundy
+    w typowych warunkach sieciowych, aby użytkownik nie odczuwał opóźnień podczas uwierzytelniania.}
+
+    \wplogaccept{%
+        \begin{itemize}
+            \item W co najmniej 95\% pomiarów czas odpowiedzi \gls{api} dla logowania i rejestracji mieści się w przedziale 0--10 s.
+            \item Podczas oczekiwania system prezentuje stan ładowania.
+            \item Po zakończeniu operacji użytkownik otrzymuje jednoznaczną informację o sukcesie lub błędzie.
+        \end{itemize}
+    }
+
+    \wplogstakeholder{U3}
+    \wplogresponsible{Mateusz Redosz, Kacper Badek, Stanisław Oziemczuk}
+    \wplogrelated{%
+        \hyperref[wolog:login]{WOLOG-01},
+        \hyperref[wolog:register]{WOLOG-02},
+        \hyperref[wolog:password-reset]{WOLOG-03},
+        \hyperref[wflog:login-email-password]{WFLOG-01},
+        \hyperref[wflog:login-sso]{WFLOG-02},
+        \hyperref[wflog:register-form]{WFLOG-03},
+        \hyperref[wflog:register-sso]{WFLOG-04},
+        \hyperref[wflog:password-reset-email]{WFLOG-05},
+        \hyperref[wflog:password-reset-confirm]{WFLOG-06}.%
+    }
+}
+
+% =========================================================
+% WPLOG-02 – Bezpieczeństwo: ochrona transmisji i danych sesyjnych
+% Typ: bezpieczeństwo
+% =========================================================
+
+\wplogatcard
+{wplog:secure-session-cookie}
+{Bezpieczne utrzymanie sesji użytkownika}
+{02}
+{S}
+{
+    \wplogtype{Bezpieczeństwo}
+
+    \wplogdesc{Mechanizm uwierzytelniania powinien chronić dane sesyjne użytkownika przed przejęciem,
+        w szczególności poprzez bezpieczne przechowywanie i przesyłanie danych sesyjnych.}
+
+    \wplogaccept{%
+        \begin{itemize}
+            \item Identyfikacja sesji nie jest dostępna dla kodu JavaScript w przeglądarce (\glslink{http-only-cookie}{httpOnly cookie}).
+            \item Po wylogowaniu sesja zostaje unieważniona, a użytkownik traci dostęp do zasobów chronionych.
+        \end{itemize}
+    }
+
+    \wplogstakeholder{U3}
+    \wplogresponsible{Mateusz Redosz}
+    \wplogrelated{%
+        \hyperref[wolog:login]{WOLOG-01},
+        \hyperref[wolog:register]{WOLOG-02},
+        \hyperref[wflog:login-email-password]{WFLOG-01},
+        \hyperref[wflog:login-sso]{WFLOG-02},
+        \hyperref[wflog:register-sso]{WFLOG-04},
+        \hyperref[wflog:logout]{WFLOG-07},
+        \hyperref[wflog:auth-error-handling]{WFLOG-09}.%
+    }
+}
+
+% =========================================================
+% WPLOG-03 – Bezpieczeństwo: komunikaty błędów nie ujawniają informacji
+% Typ: bezpieczeństwo
+% =========================================================
+
+\wplogatcard
+{wplog:no-sensitive-error-details}
+{Komunikaty błędów uwierzytelniania nie ujawniają wrażliwych informacji}
+{03}
+{S}
+{
+    \wplogtype{Bezpieczeństwo}
+
+    \wplogdesc{System nie powinien ujawniać w komunikatach błędów informacji, które mogłyby ułatwić ataki.}
+
+    \wplogaccept{%
+        \begin{itemize}
+            \item W przypadku błędnych danych logowania system zwraca ogólny komunikat (bez wskazania, czy błąd dotyczy e-maila czy hasła).
+            \item W przypadku błędu serwera użytkownik widzi komunikat ogólny (bez stack trace i szczegółów technicznych).
+            \item Komunikaty są czytelne i spójne w całym module logowania/rejestracji.
+        \end{itemize}
+    }
+
+    \wplogstakeholder{U3}
+    \wplogresponsible{Mateusz Redosz, Kacper Badek, Stanisław Oziemczuk}
+    \wplogrelated{%
+        \hyperref[wolog:login]{WOLOG-01},
+        \hyperref[wolog:register]{WOLOG-02},
+        \hyperref[wolog:password-reset]{WOLOG-03},
+        \hyperref[wflog:login-email-password]{WFLOG-01},
+        \hyperref[wflog:login-sso]{WFLOG-02},
+        \hyperref[wflog:register-form]{WFLOG-03},
+        \hyperref[wflog:register-sso]{WFLOG-04},
+        \hyperref[wflog:password-reset-email]{WFLOG-05},
+        \hyperref[wflog:password-reset-confirm]{WFLOG-06},
+        \hyperref[wflog:auth-error-handling]{WFLOG-09}.%
+    }
+}
+
+% =========================================================
+% WPLOG-04 – Użyteczność: czytelna walidacja formularzy
+% Typ: użyteczność
+% =========================================================
+
+\wplogatcard
+{wplog:form-validation-ux}
+{Czytelna walidacja formularzy logowania i rejestracji}
+{04}
+{S}
+{
+    \wplogtype{Użyteczność}
+
+    \wplogdesc{Formularze logowania, rejestracji i resetu hasła powinny zapewniać czytelną walidację
+    danych wejściowych oraz jednoznaczne komunikaty o błędach, aby ograniczyć liczbę nieudanych prób.}
+
+    \wplogaccept{%
+        \begin{itemize}
+            \item System blokuje wysłanie formularza z brakującymi lub niepoprawnymi danymi wymaganymi.
+            \item Komunikaty walidacyjne są wyświetlane przy odpowiednich polach.
+            \item Komunikaty są zrozumiałe i wskazują, jak poprawić dane.
+        \end{itemize}
+    }
+
+    \wplogstakeholder{U3}
+    \wplogresponsible{Mateusz Redosz, Kacper Badek, Stanisław Oziemczuk}
+    \wplogrelated{%
+        \hyperref[wolog:login]{WOLOG-01},
+        \hyperref[wolog:register]{WOLOG-02},
+        \hyperref[wolog:password-reset]{WOLOG-03},
+        \hyperref[wflog:login-email-password]{WFLOG-01},
+        \hyperref[wflog:register-form]{WFLOG-03},
+        \hyperref[wflog:password-reset-email]{WFLOG-05},
+        \hyperref[wflog:password-reset-confirm]{WFLOG-06},
+        \hyperref[wflog:forms-validation]{WFLOG-08},
+        \hyperref[wflog:switch-auth-views]{WFLOG-10}.%
+    }
+}
+
+% =========================================================
+% WPLOG-05 – Niezawodność: odporność na błędy sieciowe
+% Typ: niezawodność
+% =========================================================
+
+\wplogatcard
+{wplog:network-failure-handling}
+{Odporność na błędy połączenia w procesie logowania}
+{05}
+{S}
+{
+    \wplogtype{Niezawodność}
+
+    \wplogdesc{W przypadku problemów sieciowych system powinien zachować przewidywalne działanie,
+        informując użytkownika o niepowodzeniu operacji i umożliwiając ponowienie próby.}
+
+    \wplogaccept{%
+        \begin{itemize}
+            \item Przy braku połączenia lub timeout użytkownik otrzymuje czytelny komunikat o problemie.
+            \item Formularz pozostaje w stanie umożliwiającym ponowienie próby (bez utraty wpisanych danych, o ile to możliwe).
+            \item System nie przechodzi do stanu „zalogowany” bez potwierdzenia sukcesu z \gls{api}.
+        \end{itemize}
+    }
+
+    \wplogstakeholder{U3}
+    \wplogresponsible{Kacper Badek, Stanisław Oziemczuk}
+    \wplogrelated{%
+        \hyperref[wolog:login]{WOLOG-01},
+        \hyperref[wolog:register]{WOLOG-02},
+        \hyperref[wolog:password-reset]{WOLOG-03},
+        \hyperref[wflog:login-email-password]{WFLOG-01},
+        \hyperref[wflog:login-sso]{WFLOG-02},
+        \hyperref[wflog:register-form]{WFLOG-03},
+        \hyperref[wflog:register-sso]{WFLOG-04},
+        \hyperref[wflog:password-reset-email]{WFLOG-05},
+        \hyperref[wflog:password-reset-confirm]{WFLOG-06},
+        \hyperref[wflog:auth-error-handling]{WFLOG-09}.%
+    }
+}
+
+% =========================================================
+% WPLOG-06 – Dostępność: obsługa klawiatury i czytelność elementów
+% Typ: użyteczność
+% =========================================================
+
+\wplogatcard
+{wplog:accessibility-keyboard}
+{Dostępność formularzy logowania i rejestracji}
+{06}
+{S}
+{
+    \wplogtype{Użyteczność}
+
+    \wplogdesc{Formularze powinny być dostępne dla użytkowników korzystających z klawiatury oraz zapewniać
+    czytelny układ i fokus elementów, aby proces logowania był możliwy dla szerokiego grona odbiorców.}
+
+    \wplogaccept{%
+        \begin{itemize}
+            \item Wszystkie pola i przyciski są osiągalne klawiszem Tab w logicznej kolejności.
+            \item Fokus elementów jest widoczny podczas nawigacji klawiaturą.
+            \item Etykiety pól są jednoznaczne (e-mail, hasło, nazwa użytkownika).
+        \end{itemize}
+    }
+
+    \wplogstakeholder{U3}
+    \wplogresponsible{Mateusz Redosz, Kacper Badek, Stanisław Oziemczuk}
+    \wplogrelated{%
+        \hyperref[wolog:login]{WOLOG-01},
+        \hyperref[wolog:register]{WOLOG-02},
+        \hyperref[wolog:password-reset]{WOLOG-03},
+        \hyperref[wflog:login-email-password]{WFLOG-01},
+        \hyperref[wflog:register-form]{WFLOG-03},
+        \hyperref[wflog:password-reset-email]{WFLOG-05},
+        \hyperref[wflog:password-reset-confirm]{WFLOG-06},
+        \hyperref[wflog:switch-auth-views]{WFLOG-10}.%
+    }
+}
