@@ -1,0 +1,908 @@
+%! Author = Mateusz
+%! Date = 01/11/2025
+
+\subsubsection{Wymagania funkcjonalne dla panelu użytkownika}
+\label{subsubsec:wymagania-funkcjonalne-dla-panelu-uzytkownika}
+
+\newlength{\wfpanelLabelWidth}
+\setlength{\wfpanelLabelWidth}{0.19\textwidth}
+
+\newlength{\wfpanelColTwoWidth}
+\setlength{\wfpanelColTwoWidth}{0.21\textwidth}
+
+\newlength{\wfpanelColThreeWidth}
+\setlength{\wfpanelColThreeWidth}{0.13\textwidth}
+
+\newlength{\wfpanelColFourWidth}
+\setlength{\wfpanelColFourWidth}{0.28\textwidth}
+
+\newlength{\wfpanelContentWidth}
+\setlength{\wfpanelContentWidth}{0.60\textwidth}
+
+\newlength{\wfpanelHeaderHeight}
+\setlength{\wfpanelHeaderHeight}{12mm}
+
+\newcommand{\wfpanelthreecolcell}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfpanelContentWidth}|}{#1}%
+}
+
+\newcommand{\wfpanelthreecolcellpadded}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfpanelContentWidth}|}{%
+        \vspace{0.4ex}%
+        #1\par\vspace{0.4ex}%
+    }%
+}
+
+\newcommand{\wfpanelHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wfpanelHeaderHeight][c]{\linewidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
+% --- pola karty ---
+
+\newcommand{\wfpanelpriority}[2]{%
+    \textbf{Identyfikator:} & WFPANEL-#1 &
+    \textbf{Priorytet:}     & #2 \\ \hline
+}
+
+\newcommand{\wfpanelname}[1]{%
+    \textbf{Nazwa:} &
+    \wfpanelthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfpaneldesc}[1]{%
+    \textbf{Opis:} &
+    \wfpanelthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfpanelaccept}[1]{%
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfpanelContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\itemsep}{0.2ex}%
+        \setlength{\parsep}{0pt}%
+        \vspace*{-1.8ex}
+        #1%
+        \vspace*{-1.4ex}
+        \endgroup
+    }\\ \hline
+}
+
+\newcommand{\wfpanelstakeholder}[1]{%
+    \textbf{Udziałowiec:} &
+    \wfpanelthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfpanelresponsible}[1]{%
+    \textbf{Realizator:} &
+    \wfpanelthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfpanelrelated}[1]{%
+    \textbf{Wymagania powiązane:} &
+    \wfpanelthreecolcell{#1} \\ \hline
+}
+
+% --- szablon karty wymagania funkcjonalnego ---
+
+\newcommand{\wfpanelatcard}[5]{%
+    \refstepcounter{awc}%
+    {%
+        \centering
+        \begin{longtable}{|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wfpanelLabelWidth}|
+            p{\wfpanelColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wfpanelColThreeWidth}|
+            p{\wfpanelColFourWidth}|}
+        \hline
+        \wfpanelHeaderRow{\shortstack{KARTA WYMAGANIA FUNKCJONALNEGO DLA \\ PANELU UŻYTKOWNIKA}}
+        \endfirsthead
+        \hline
+        \wfpanelHeaderRow{\shortstack{KARTA WYMAGANIA FUNKCJONALNEGO DLA \\ PANELU UŻYTKOWNIKA (cd.)}}
+        \endhead
+        \wfpanelpriority{#3}{#4}
+        \wfpanelname{#2}
+        #5
+        \end{longtable}
+        \par
+    }%
+    \vspace{3pt}%
+    \textbf{Tabela \theawc:} Wymaganie funkcjonalne dla panelu użytkownika: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie funkcjonalne dla panelu użytkownika: #2}%
+}
+
+
+% =========================================
+% WFPANEL-01 – Wyświetlanie podstawowych danych profilu
+% =========================================
+\wfpanelatcard
+{wfpanel:display-basic-profile}
+{Wyświetlanie podstawowych danych o użytkowniku}
+{01}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi wyświetlenie podstawowych danych profilu w panelu konta.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik widzi podstawowe informacje o koncie (nazwa użytkownika oraz avatar).
+            \item Dane są pobierane z \glslink{api}{API} i prezentowane po wejściu na podstronę profilu.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:profile]{WOPANEL-01},
+        \hyperref[wppanel:login-required]{WPPANEL-07},
+        \hyperref[wppanel:load-under-10s]{WPPANEL-11}.%
+    }
+}
+
+% =========================================
+% WFPANEL-02 – Zmiana zdjęcia profilowego
+% =========================================
+\wfpanelatcard
+{wfpanel:change-avatar}
+{Możliwość zmiany zdjęcia profilowego}
+{02}
+{S}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi zmianę zdjęcia profilowego w panelu konta.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może wybrać zdjęcie i zapisać jako nowy avatar.
+            \item Po zapisaniu nowy avatar jest widoczny na profilu.
+            \item W przypadku błędu zapisu lub niepoprawnego pliku system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:profile]{WOPANEL-01},
+        \hyperref[wppanel:login-required]{WPPANEL-07},
+        \hyperref[wppanel:load-under-10s]{WPPANEL-11}.%
+    }
+}
+
+% =========================================
+% WFPANEL-03 – Wyświetlanie statystyk społeczności
+% =========================================
+\wfpanelatcard
+{wfpanel:display-social-stats}
+{Wyświetlanie statystyk społeczności użytkownika}
+{03}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi podgląd statystyk w profilu (znajomi, obserwowani, obserwujący, zdjęcia).}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik widzi liczbę znajomych.
+            \item Użytkownik widzi liczbę obserwowanych.
+            \item Użytkownik widzi liczbę obserwujących.
+            \item Użytkownik widzi liczbę zdjęć.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:profile]{WOPANEL-01},
+        \hyperref[wppanel:login-required]{WPPANEL-07}.%
+    }
+}
+
+% =========================================
+% WFPANEL-04 – Nawigacja po kliknięciu w statystyki
+% =========================================
+\wfpanelatcard
+{wfpanel:navigate-from-stats}
+{Możliwość przejścia do odpowiedniej podstrony po kliknięciu w statystykę}
+{04}
+{M}
+{
+    \wfpaneldesc{System umożliwia przejście do odpowiedniej podstrony panelu po kliknięciu w statystyki na profilu.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Kliknięcie w liczbę znajomych przenosi do listy znajomych.
+            \item Kliknięcie w liczbę obserwowanych przenosi do listy obserwowanych.
+            \item Kliknięcie w liczbę obserwujących przenosi do listy obserwujących.
+            \item Kliknięcie w liczbę zdjęć przenosi do listy zdjęć.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:profile]{WOPANEL-01},
+        \hyperref[wopanu:community]{WOPANEL-06},
+        \hyperref[wopanu:photos]{WOPANEL-04},
+        \hyperref[wfpanel:friends-list]{WFPANEL-16},
+        \hyperref[wfpanel:following-list]{WFPANEL-17},
+        \hyperref[wfpanel:followers-list]{WFPANEL-18},
+        \hyperref[wfpanel:photos-grouped-with-metrics]{WFPANEL-12}.%
+    }
+}
+
+% =========================================
+% WFPANEL-05 – Najpopularniejsze zdjęcia (top 4)
+% =========================================
+\wfpanelatcard
+{wfpanel:top-photos}
+{Wyświetlenie listy czterech najpopularniejszych zdjęć}
+{05}
+{M}
+{
+    \wfpaneldesc{System umożliwia wyświetlenie w profilu użytkownika listy czterech najpopularniejszych zdjęć.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Na profilu wyświetlane są miniatury czterech najpopularniejszych zdjęć użytkownika.
+            \item W przypadku braku zdjęć system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:profile]{WOPANEL-01},
+        \hyperref[wopanu:photos]{WOPANEL-04}.%
+    }
+}
+
+% =========================================
+% WFPANEL-06 – Przyciski „dodaj do znajomych” i „obserwuj”
+% =========================================
+\wfpanelatcard
+{wfpanel:friend-follow-buttons}
+{Wyświetlenie przycisków do dodania do znajomych oraz do obserwacji}
+{06}
+{M}
+{
+    \wfpaneldesc{System umożliwia wykonanie akcji społecznościowych z poziomu profilu innego użytkownika
+    poprzez przyciski dodania do znajomych oraz obserwowania.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Na profilu innego użytkownika widoczne są przyciski: dodaj do znajomych oraz obserwuj.
+            \item Po kliknięciu stan relacji jest aktualizowany w interfejsie („Waiting For Confirmation”, „Unfollow”).
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:profile]{WOPANEL-01},
+        \hyperref[wopanu:community]{WOPANEL-06},
+        \hyperref[wppanel:social-authorization]{WPPANEL-05},
+        \hyperref[wppanel:login-required]{WPPANEL-07}.%
+    }
+}
+
+% =========================================
+% WFPANEL-07 – Przełączanie typu listy spotów
+% =========================================
+\wfpanelatcard
+{wfpanel:switch-spots-list-type}
+{Możliwość zmiany typu listy w liście spotów}
+{07}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi przełączanie typu listy \glslink{spot}{spotów} w panelu konta
+    (polubione, odwiedzone i ocenione pozytywnie, odwiedzone i ocenione negatywnie, planowane).}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może wybrać kategorię listy \glslink{spot}{spotów}.
+            \item Po zmianie kategorii system wyświetla odpowiednie dane dla wybranej listy.
+            \item W przypadku braku \glslink{spot}{spotów} system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:spots-lists]{WOPANEL-02},
+        \hyperref[wppanel:spots-lists-authorization]{WPPANEL-01}.%
+    }
+}
+
+% =========================================
+% WFPANEL-08 – Usuwanie spota z listy
+% =========================================
+\wfpanelatcard
+{wfpanel:remove-spot-from-list}
+{Możliwość usunięcia spota z listy}
+{08}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi usunięcie \glslink{spot}{spota} z aktualnie wyświetlanej listy w panelu konta.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może usunąć wybrany \glslink{spot}{spot} z listy.
+            \item Po usunięciu \glslink{spot}{spot} znika z listy bez konieczności przeładowania całej strony.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:spots-lists]{WOPANEL-02},
+        \hyperref[wppanel:spots-lists-authorization]{WPPANEL-01}.%
+    }
+}
+
+% =========================================
+% WFPANEL-09 – Wyświetlenie spota na mapie
+% =========================================
+\wfpanelatcard
+{wfpanel:show-spot-on-map}
+{Przycisk do wyświetlenia spota na mapie}
+{09}
+{M}
+{
+    \wfpaneldesc{System udostępnia przycisk umożliwiający wyświetlenie lokalizacji wybranego \glslink{spot}{spota} na mapie.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Dla \glslink{spot}{spota} na liście dostępny jest przycisk „See on map”.
+            \item Po kliknięciu użytkownik jest przenoszony do widoku mapy z zaznaczonym spotem.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:spots-lists]{WOPANEL-02}.%
+    }
+}
+
+% =========================================
+% WFPANEL-10 – Sortowanie zdjęć po dacie
+% =========================================
+\wfpanelatcard
+{wfpanel:photos-sort-by-date}
+{Możliwość sortowania dodanych zdjęć po dacie}
+{10}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi sortowanie listy zdjęć po dacie dodania.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może wybrać sortowanie rosnące lub malejące po dacie.
+            \item Po zmianie sortowania kolejność elementów aktualizuje się w liście.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:photos]{WOPANEL-04},
+        \hyperref[wppanel:photos-group-by-date]{WPPANEL-08}.
+        \hyperref[wppanel:photos-authorization]{WPPANEL-13}.%
+    }
+}
+
+% =========================================
+% WFPANEL-11 – Filtrowanie zdjęć po dacie
+% =========================================
+\wfpanelatcard
+{wfpanel:photos-filter-by-date}
+{Możliwość filtrowania dodanych zdjęć po dacie}
+{11}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi filtrowanie listy zdjęć według daty dodania.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może wskazać zakres dat do filtrowania.
+            \item Lista prezentuje tylko zdjęcia spełniające warunki filtra.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:photos]{WOPANEL-04}.
+        \hyperref[wppanel:photos-authorization]{WPPANEL-13}.%
+    }
+}
+
+% =========================================
+% WFPANEL-12 – Grupowanie zdjęć po dacie + metryki
+% =========================================
+\wfpanelatcard
+{wfpanel:photos-grouped-with-metrics}
+{Wyświetlenie listy zdjęć zgrupowanych po dacie wraz z metrykami}
+{12}
+{M}
+{
+    \wfpaneldesc{System umożliwia wyświetlenie listy zdjęć zgrupowanej po dacie dodania,
+    przy czym każde zdjęcie prezentuje informacje o polubieniach oraz wyświetleniach.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Zdjęcia są pogrupowane w sekcje odpowiadające dacie dodania.
+            \item Każde zdjęcie zawiera liczbę polubień oraz wyświetleń.
+            \item W przypadku braku zdjęć system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:photos]{WOPANEL-04},
+        \hyperref[wppanel:photos-group-by-date]{WPPANEL-08}.
+        \hyperref[wppanel:photos-authorization]{WPPANEL-13}.%
+    }
+}
+
+% =========================================
+% WFPANEL-13 – Sortowanie filmów po dacie
+% =========================================
+\wfpanelatcard
+{wfpanel:videos-sort-by-date}
+{Możliwość sortowania dodanych filmów po dacie}
+{13}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi sortowanie listy filmów po dacie dodania.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może wybrać sortowanie rosnące lub malejące po dacie.
+            \item Po zmianie sortowania kolejność filmów aktualizuje się w liście.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:videos]{WOPANEL-05},
+        \hyperref[wppanel:videos-group-by-date]{WPPANEL-09}.%
+    }
+}
+
+% =========================================
+% WFPANEL-14 – Filtrowanie filmów po dacie
+% =========================================
+\wfpanelatcard
+{wfpanel:videos-filter-by-date}
+{Możliwość filtrowania dodanych filmów po dacie}
+{14}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi filtrowanie listy filmów według daty dodania.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może wskazać zakres dat do filtrowania.
+            \item Lista prezentuje tylko filmy spełniające warunki filtra.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:videos]{WOPANEL-05}.%
+    }
+}
+
+% =========================================
+% WFPANEL-15 – Grupowanie filmów po dacie + metryki
+% =========================================
+\wfpanelatcard
+{wfpanel:videos-grouped-with-metrics}
+{Wyświetlenie listy filmów zgrupowanych po dacie wraz z metrykami}
+{15}
+{M}
+{
+    \wfpaneldesc{System umożliwia wyświetlenie listy filmów zgrupowanej po dacie dodania,
+    przy czym każdy film prezentuje informacje o polubieniach oraz wyświetleniach.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Filmy są pogrupowane w sekcje odpowiadające dacie dodania.
+            \item Każdy film zawiera liczbę polubień oraz wyświetleń.
+            \item W przypadku braku filmów system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:videos]{WOPANEL-05},
+        \hyperref[wppanel:videos-group-by-date]{WPPANEL-09}.%
+    }
+}
+
+% =========================================
+% WFPANEL-16 – Wyświetlenie listy znajomych
+% =========================================
+\wfpanelatcard
+{wfpanel:friends-list}
+{Wyświetlenie listy znajomych}
+{16}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi wyświetlenie listy znajomych w panelu konta.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik widzi listę znajomych.
+            \item Lista jest pobierana z \glslink{api}{API} i prezentowana w sekcji społeczności.
+            \item W przypadku braku znajomych system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:community]{WOPANEL-06},
+        \hyperref[wppanel:social-authorization]{WPPANEL-05}.%
+    }
+}
+
+% =========================================
+% WFPANEL-17 – Wyświetlenie listy obserwowanych
+% =========================================
+\wfpanelatcard
+{wfpanel:following-list}
+{Wyświetlenie listy obserwowanych}
+{17}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi wyświetlenie listy obserwowanych w panelu konta.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik widzi listę obserwowanych.
+            \item W przypadku braku obserwowanych system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:community]{WOPANEL-06},
+        \hyperref[wppanel:social-authorization]{WPPANEL-05}.%
+    }
+}
+
+% =========================================
+% WFPANEL-18 – Wyświetlenie listy obserwujących
+% =========================================
+\wfpanelatcard
+{wfpanel:followers-list}
+{Wyświetlenie listy obserwujących}
+{18}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi wyświetlenie listy obserwujących w panelu konta.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik widzi listę obserwujących.
+            \item W przypadku braku obserwujących system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:community]{WOPANEL-06},
+        \hyperref[wppanel:social-authorization]{WPPANEL-05}.%
+    }
+}
+
+% =========================================
+% WFPANEL-19 – Wyświetlenie listy zaproszeń
+% =========================================
+\wfpanelatcard
+{wfpanel:invitations-list}
+{Wyświetlenie listy zaproszeń po kliknięciu przycisku}
+{19}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi wyświetlenie listy zaproszeń do znajomych po wybraniu odpowiedniej akcji w sekcji społeczności.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może otworzyć listę zaproszeń poprzez przycisk w sekcji społeczności.
+            \item Lista prezentuje oczekujące zaproszenia.
+            \item W przypadku braku zaproszeń system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:community]{WOPANEL-06},
+        \hyperref[wppanel:invitations-authorization]{WPPANEL-06}.%
+    }
+}
+
+% =========================================
+% WFPANEL-20 – Wyszukiwanie nowych znajomych (okno)
+% =========================================
+\wfpanelatcard
+{wfpanel:search-friends-modal}
+{Okno do wyszukiwania nowych znajomych}
+{20}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi otwarcie okna wyszukiwania użytkowników w celu dodania do znajomych.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może otworzyć okno wyszukiwania.
+            \item Użytkownik może wyszukać użytkownika po wprowadzonej frazie.
+            \item W przypadku braku potencjalnych znajomych system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:community]{WOPANEL-06},
+        \hyperref[wppanel:social-authorization]{WPPANEL-05}.%
+    }
+}
+
+% =========================================
+% WFPANEL-21 – Akcje na znajomym (usuń / profil / wiadomość)
+% =========================================
+\wfpanelatcard
+{wfpanel:friend-actions}
+{Możliwość usunięcia z listy, wejścia w profil oraz napisania wiadomości do znajomego}
+{21}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi wykonanie podstawowych akcji na użytkowniku z listy znajomych.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Dla znajomego, obserwowanego oraz obserwującego dostępna jest akcja przejścia do profilu.
+            \item Dla znajomego oraz obserwowanego dostępna jest akcja usunięcia z listy.
+            \item Dla znajomego dostępna jest akcja napisania wiadomości (przejście do czatu 1:1 lub utworzenie go).
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:community]{WOPANEL-06},
+        \hyperref[wfpanel:search-friends-modal]{WFPANEL-20},
+        \hyperref[wfpanel:invitations-list]{WFPANEL-19},
+        \hyperref[wppanel:social-authorization]{WPPANEL-05}.%
+    }
+}
+
+% =========================================
+% WFPANEL-22 – Lista dodanych spotów
+% =========================================
+\wfpanelatcard
+{wfpanel:added-spots-list}
+{Wyświetlenie listy dodanych spotów}
+{22}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi wyświetlenie listy \glslink{spot}{spotów} dodanych przez niego w panelu konta.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik widzi listę własnych dodanych \glslink{spot}{spotów}.
+            \item W przypadku braku \glslink{spot}{spotów} system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:add-spot]{WOPANEL-03},
+        \hyperref[wppanel:added-spots-authorization]{WPPANEL-02}.%
+    }
+}
+
+% =========================================
+% WFPANEL-23 – Dodawanie spota formularzem
+% =========================================
+\wfpanelatcard
+{wfpanel:add-spot-form}
+{Możliwość dodania spota za pomocą formularza}
+{23}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi dodanie nowego \glslink{spot}{spota} poprzez formularz w panelu konta.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik ma dostęp do formularza dodawania \glslink{spot}{spota}.
+            \item Użytkownik może wysłać poprawnie wypełniony formularz.
+            \item W przypadku błędu walidacji lub błędu \glslink{api}{API} system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:add-spot]{WOPANEL-03},
+        \hyperref[wppanel:add-spot-immediate-update]{WPPANEL-12},
+        \hyperref[wppanel:login-required]{WPPANEL-07}.%
+    }
+}
+
+% =========================================
+% WFPANEL-24 – Sortowanie komentarzy po dacie
+% =========================================
+\wfpanelatcard
+{wfpanel:comments-sort-by-date}
+{Możliwość sortowania dodanych komentarzy po dacie}
+{24}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi sortowanie listy komentarzy po dacie dodania.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może wybrać sortowanie rosnące lub malejące po dacie.
+            \item Po zmianie sortowania kolejność komentarzy aktualizuje się w liście.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:comments]{WOPANEL-07},
+        \hyperref[wppanel:comments-authorization]{WPPANEL-04}.%
+    }
+}
+
+% =========================================
+% WFPANEL-25 – Filtrowanie komentarzy po dacie
+% =========================================
+\wfpanelatcard
+{wfpanel:comments-filter-by-date}
+{Możliwość filtrowania dodanych komentarzy po dacie}
+{25}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi filtrowanie listy komentarzy według daty dodania.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może wskazać zakres dat do filtrowania.
+            \item Lista prezentuje tylko komentarze spełniające warunki filtra.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:comments]{WOPANEL-07},
+        \hyperref[wppanel:comments-authorization]{WPPANEL-04}.%
+    }
+}
+
+% =========================================
+% WFPANEL-26 – Grupowanie komentarzy po dacie i spocie
+% =========================================
+\wfpanelatcard
+{wfpanel:comments-grouped-by-date-and-spot}
+{Wyświetlenie listy komentarzy zgrupowanych po dacie oraz nazwie spota}
+{26}
+{M}
+{
+    \wfpaneldesc{System umożliwia wyświetlenie listy komentarzy użytkownika zgrupowanej po dacie
+    oraz nazwie \glslink{spot}{spota}.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Komentarze są pogrupowane po dacie dodania.
+            \item W ramach grupy daty komentarze są przypisane do nazw \glslink{spot}{spota}.
+            \item W przypadku braku komentarzy system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:comments]{WOPANEL-07},
+        \hyperref[wppanel:comments-group-by-date-spot]{WPPANEL-10}.%
+    }
+}
+
+% =========================================
+% WFPANEL-27 – Edycja nazwy użytkownika
+% =========================================
+\wfpanelatcard
+{wfpanel:edit-username}
+{Możliwość edycji nazwy użytkownika}
+{27}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi edycję nazwy użytkownika w ustawieniach konta.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może zmienić nazwę użytkownika i zapisać zmiany.
+            \item Po zapisie nowa nazwa jest widoczna w panelu konta.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:settings]{WOPANEL-08},
+        \hyperref[wppanel:login-required]{WPPANEL-07}.%
+    }
+}
+
+% =========================================
+% WFPANEL-28 – Edycja adresu e-mail
+% =========================================
+\wfpanelatcard
+{wfpanel:edit-email}
+{Możliwość edycji adresu e-mail}
+{28}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi edycję adresu e-mail w ustawieniach konta.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może zmienić adres e-mail i zapisać zmiany.
+            \item W przypadku błędnych danych lub błędu \glslink{api}{API} system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:settings]{WOPANEL-08},
+        \hyperref[wppanel:login-required]{WPPANEL-07}.%
+    }
+}
+
+% =========================================
+% WFPANEL-29 – Zmiana hasła
+% =========================================
+\wfpanelatcard
+{wfpanel:change-password}
+{Możliwość zmiany hasła}
+{29}
+{M}
+{
+    \wfpaneldesc{System umożliwia użytkownikowi zmianę hasła w ustawieniach konta.}
+
+    \wfpanelaccept{%
+        \begin{itemize}
+            \item Użytkownik może ustawić nowe hasło zgodnie z wymaganiami walidacyjnymi.
+            \item W przypadku błędu system wyświetla odpowiedni komunikat.
+        \end{itemize}
+    }
+
+    \wfpanelstakeholder{U3}
+    \wfpanelresponsible{Mateusz Redosz}
+    \wfpanelrelated{%
+        \hyperref[wopanu:settings]{WOPANEL-08},
+        \hyperref[wppanel:login-required]{WPPANEL-07}.%
+    }
+}
