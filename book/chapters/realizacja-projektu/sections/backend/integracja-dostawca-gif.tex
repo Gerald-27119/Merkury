@@ -4,14 +4,11 @@
 \subsection{Integracja z dostawcą GIF-ów}
 \label{subsec:integracja-z-dostawca-gif-ow}
 
-\subsubsection{}
-
 W module czatu zaimplementowano integrację z zewnętrznym dostawcą GIF-ów w celu umożliwienia
 użytkownikom wysyłania GIF-ów na czacie. Jako źródło danych wykorzystano usługę Tenor,
 a integrację rozdzielono na trzy warstwy: klienta dostawcy (provider), serwis aplikacyjny oraz kontroler REST.
 
-\bigskip
-\paragraph{Klient dostawcy -- \texttt{TenorGifProviderClient}}
+\subsubsection{Klient dostawcy -- \texttt{TenorGifProviderClient}}
 
 \begin{figure}[H]
     \centering
@@ -38,8 +35,7 @@ oraz limit liczby elementów na stronę. Mechanizm stronicowania obsługiwany je
 (przekazywany dalej jako \texttt{next}), dzięki czemu warstwa kliencka może pobierać kolejne porcje wyników
 bez konieczności utrzymywania stanu po stronie aplikacji.
 
-\bigskip
-\paragraph{Warstwa serwisowa -- \texttt{GifService}}
+\subsubsection{Warstwa serwisowa -- \texttt{GifService}}
 
 \begin{figure}[H]
     \centering
@@ -60,8 +56,7 @@ Istotnym elementem jest użycie adnotacji \texttt{@Cacheable} dla operacji pobie
 Zastosowanie pamięci podręcznej ogranicza liczbę wywołań do zewnętrznej usługi w przypadku danych,
 które zmieniają się relatywnie rzadko.
 
-\bigskip
-\paragraph{Warstwa prezentacji -- \texttt{GifController}}
+\subsubsection{Warstwa prezentacji -- \texttt{GifController}}
 
 \begin{figure}[H]
     \centering
@@ -77,4 +72,3 @@ Udostępniono dwa endpointy:
     \item \texttt{GET /gifs/search} -- zwraca wyniki wyszukiwania dla podanej frazy, ze wsparciem paginacji.
 \end{itemize}
 
-\subsubsection{AAA}
