@@ -13,3 +13,4 @@
 *.out
 *.lot
 /auxil
+*.lof

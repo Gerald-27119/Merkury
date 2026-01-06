@@ -1,0 +1,234 @@
+%! Author = Stanisław Oziemczuk
+%! Date = 22.12.2025
+
+\subsubsection{Mapa z zaznaczonymi spotami}
+\label{subsubsec:mapa-z-zaznaczonymi-spotami}
+
+Mapa zbudowana jest z następujących \glslink{react-component}{komponentów}:
+\begin{itemize}
+    \item \texttt{MapPage}
+    \item \texttt{Spots}
+    \item \texttt{ZoomControlPanel}
+    \item \texttt{ZoomControlButton}
+    \item \texttt{UserLocationPanel}
+    \item \texttt{SearchCurrentViewButton}
+    \item \texttt{CurrentViewSpotsList}
+    \item \texttt{CurrentViewSpotsFormsContainer}
+    \item \texttt{CurrentViewSpotsNameSearchBar}
+    \item \texttt{SpotsSortingForm}
+    \item \texttt{RatingFromForm}
+    \item \texttt{SpotsNameSearchBar}
+    \item \texttt{SearchedSpotsList}
+    \item \texttt{ListedSpotInfo}
+    \item \texttt{SpotTag}
+\end{itemize}
+
+\textbf{\texttt{MapPage}} (rys. \ref{fig:map-page-1} - \ref{fig:map-page-3})
+To główny \glslink{react-component}{komponent} prezentujący mapę.
+Zawiera w sobie \texttt{Map} z \glslink{biblioteka}{biblioteki} \texttt{react-maplibre}, w którym ustawia się domyślną
+lokalizację, na którą ustawiony jest obraz mapy oraz poziom przybliżenia.
+Przyjmuje on także inne \glslink{react-component}{komponenty}, które mają być w nim wyświetlone.
+Ustalenie, które z nich mają być widoczne realizowane jest poprzez odczytanie wartości ze stanu \glslink{redux}{Redux'a}.
+Mapa ładowana jest z linków ustawionych w pliku \texttt{map\_style.json}, w nim również opisany jest jej wygląd.
+\glslink{hook}{Hook} \texttt{useEffect} uruchamia się tylko przy pierwszej inicjalizacji \glslink{react-component}{komponentu}
+i sprawdza czy w \glslink{url}{url'u} umieszczone są parametry informujące, że link pochodzi z udostępnienia
+\glslink{spot}{spota}.
+Jeśli tak jest, odczytywane są odpowiednie dane, obraz mapy przekierowany jest na wskazaną lokalizację oraz
+otwierane są panel ze szczegółami \glslink{spot}{spota} (por. sekcja~\ref{subsubsec:panel-ze-szczegolami-spota})
+i jego pogodą (por. sekcja~\ref{subsubsec:panel-z-informacjami-pogodowymi}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map_page1}
+    \caption{Implementacja komponentu MapPage (1/3)}
+    \label{fig:map-page-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map_page2}
+    \caption{Implementacja komponentu MapPage (2/3)}
+    \label{fig:map-page-2}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map_page3}
+    \caption{Implementacja komponentu MapPage (3/3)}
+    \label{fig:map-page-3}
+\end{figure}
+\noindent
+
+\textbf{\texttt{Spots}} (rys. \ref{fig:spots-1} - \ref{fig:spots-5})
+\glslink{react-component}{Komponent} ten odpowiedzialny jest za nałożenie \glslink{spot}{spotów} na mapę.
+Z \glslink{backend}{backendu} za pomocą \glslink{hook}{hook'a} \texttt{useQuery} pobierana jest ich lista, a następnie
+zgodnie z wartością zwróconą przez funkcję \texttt{shouldRenderMarker},
+przyjmującej pole powierzchni elementu oraz poziom przybliżenia mapy, \glslink{spot}{spot} wyświetlany jest w formie
+punktu (\texttt{Marker}) lub wielokąta (\texttt{Source} oraz \texttt{Layer}).
+Wymienione \glslink{react-component}{komponenty} pochodzą z \glslink{biblioteka}{biblioteki} \texttt{react-maplibre}.
+Zawiera ona również \glslink{hook}{hook} \texttt{useMap}, który zwraca obecną instancję mapy.
+Pozwala to dodać do wyświetlanych elementów event-listener'ów obsługujących najechanie na dany element oraz funkcji
+wywoływanej po jego kliknięciu.
+Jest to funkcja \texttt{handleSpotClick}.
+Powoduje ustawienie w stanie \glslink{redux}{Redux'a} danych \glslink{spot}{spota} oraz otworzenie
+panelu z jego szczegółami (por. sekcja~\ref{subsubsec:panel-ze-szczegolami-spota})
+i pogodą (por. sekcja~\ref{subsubsec:panel-z-informacjami-pogodowymi}).
+Za pomocą \glslink{mutacja}{mutacji} zostaje również wysłane żądanie zwiększające liczbę wyświetleń elementu.
+Informacja o błędzie podczas pobierana danych wyświetlana jest w \glslink{react-component}{komponencie}
+\texttt{Notification}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/spots1}
+    \caption{Implementacja komponentu Spots (1/5)}
+    \label{fig:spots-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/spots2}
+    \caption{Implementacja komponentu Spots (2/5)}
+    \label{fig:spots-2}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/spots3}
+    \caption{Implementacja komponentu Spots (3/5)}
+    \label{fig:spots-3}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/spots4}
+    \caption{Implementacja komponentu Spots (4/5)}
+    \label{fig:spots-4}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/spots5}
+    \caption{Implementacja komponentu Spots (5/5)}
+    \label{fig:spots-5}
+\end{figure}
+\noindent
+
+\textbf{\texttt{ZoomControlPanel}}
+\glslink{react-component}{Komponent} obsługujący ustawianie przybliżenia przybliżenia mapy.
+Zawiera dwa przyciski wyświetlane przez \texttt{ZoomControlButton}, przyjmujące funkcje, które na instacji mapy
+pobieranej z \glslink{hook}{hook'a} \texttt{useMap} (\glslink{biblioteka}{biblioteka} \texttt{react-maplibre}),
+wywołują na niej odpowiednio wbudowane operacje \texttt{zoomIn()} lub \texttt{zoomOut()}.
+
+\textbf{\texttt{UserLocationPanel}}
+Odpowiada za wyświetlenie na mapie aktualnej lokalizacji użytkownika.
+Po kliknięciu przycisku za pomocą \\ \texttt{navigator.geolocation.getCurrentPosition} pobiera jego aktualną pozycję, a
+następnie zapisuje ją w lokalnym stanie \glslink{react-component}{komponentu} (\texttt{useState}).
+Na ich podstawie na mapie wyświetlany jest \texttt{Marker} z \glslink{biblioteka}{biblioteki} \texttt{react-maplibre}.
+Pochodzący z niej \glslink{hook}{hook} \texttt{useMap} zwraca aktualną instancję mapy, na której wywoływana jest
+funkcja \texttt{flyTo} przenosząca płynnie obraz na wskazane koordynaty.
+Informacje o błędach podczas operacji wyświetlane są w \texttt{Notification}.
+
+\textbf{\texttt{SearchCurrentViewButton}} (rys. \ref{fig:search-current-view-btn})
+\glslink{react-component}{Komponent} będący przyciskiem, po kliknięciu którego pokazywana jest lista \glslink{spot}{spotów}
+znajdujących się w widocznym obszarze mapy.
+Naciśnięcie wywołuje funkcję \texttt{handleClickSearchCurrentView}, która na obecnej instacji mapy zwróconej
+przez \glslink{hook}{hook} \texttt{useMap} (\glslink{biblioteka}{biblioteka} \texttt{react-maplibre}) za pomocą
+wbudowanej funkcji \texttt{getBounds} pobiera dwa punkty wyznaczające granicę szerokości i długości geograficznej
+obecnie wyświetlanego fragmentu mapy.
+Następnie na \glslink{backend}{backend} wysyłane jest odpowiednie zapytanie i otwierany jest panel z listą
+znalezionych elementów.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/search_current_view_btn}
+    \caption{Implementacja komponentu SearchCurrentViewButton}
+    \label{fig:search-current-view-btn}
+\end{figure}
+\noindent
+
+\textbf{\texttt{CurrentViewSpotsList}}
+Wyświetla listę \glslink{spot}{spotów} znajdujących się w widocznym obszarze mapy.
+Poszczególne elementy wyświetlane są przez \texttt{ListedSpotInfo} (por. sekcja~\ref{subsubsec:komponenty-wspolne-map-spots}).
+Lista przewijana jest przy użyciu mechanizmu \glslink{infinite-scroll}{infinite scroll}, zrealizowanego przez
+\texttt{IntersectionObserver} nasłuchującego na element powiązany referencją oraz \glslink{hook}{hook'a}
+\texttt{useInfiniteQuery} z \glslink{biblioteka}{biblioteki} \texttt{Tanstack Query}.
+Podczas ładowania danych wyświetlany jest \texttt{LoadingSpinner}, a o wystąpieniu błędu informuje komunikat
+\emph{Failed to load spots data.}.
+W \glslink{react-component}{komponencie} \\ \texttt{CurrentViewSpotsFormsContainer} umieszczone są formularze
+do filtrowania i sortowania listy.
+Filtrowanie \glslink{spot}{spotów} po nazwie obsługuje \texttt{CurrentViewSpotsNameSearchBar}.
+W trakcie wpisywania nazwy wyświetlana jest lista z podpowiedziami ułatwiająca uzupełnienie pola.
+Po kliknięciu przycisku do szukania lub wyborze podpowiedzi wyświetlane są \glslink{spot}{spoty}, których nazwa
+zawiera w sobie wpisaną frazę.
+Filtrowanie po ocenie „od”, tzn. ustawienia minimalnej wartości tejże, umożliwia \glslink{react-component}{komponent}
+\texttt{RatingFromForm}.
+Za pomocą \texttt{Rate} z \glslink{biblioteka}{biblioteki} \texttt{antd} wybierana jest wartość oceny, a nstępnie
+lista wyników jest aktualizowana.
+Jeżeli żaden \glslink{spot}{spot} nie spełnia warunków ustawionych przez opisane filtry, wyświetlany jest komunikat
+\emph{No spots match criteria!}.
+Sortowanie listy realizowane jest przez \glslink{react-component}{komponent} \texttt{SpotsSortingForm}
+(por. sekcja~\ref{subsubsec:komponenty-wspolne-map-spots}).
+Otworzenie i zamknięcie panelu animowane jest przy użyciu elementów \glslink{biblioteka}{biblioteki} \texttt{motion}.
+
+\textbf{\texttt{SpotsNameSearchBar}}
+\glslink{react-component}{Komponent} umożliwiający wyszukiwanie \glslink{spot}{spotów} po nazwie.
+Podczas wpisywania frazy z \glslink{backend}{backendu} za pomocą \glslink{hook}{hook'a} \texttt{useQuery}
+(\glslink{biblioteka}{biblioteka} \texttt{Tanstack Query}) pobierane są nazwy wszystkich \glslink{spot}{spotów}
+zawierających podany tekst i wyświetlane jako lista z podpowiedziami.
+Nazwy pobierane są przy wykorzystaniu \glslink{debounce}{debounce'owania} zrealizowanego za pomocą \glslink{hook}{hook'a} \texttt{useDebounce},
+co pozwala ograniczyć liczbę wysyłanych zapytań.
+Po kliknięciu przycisku wyszukiwania lub wybraniu podpowiedzi wyświetlany jest panel z listą wyników (\texttt{SearchedSpotsList}).
+Kliknięcie ikony \texttt{IoClose} powoduje usunięcie filtra.
+
+\textbf{\texttt{SearchedSpotsList}}
+Wyświetla wynik wyszukiwania \glslink{spot}{spotów} po nazwie.
+Lista jest przewijalna z wykorzystaniem mechanizmu \glslink{infinite-scroll}{infinite scroll} zrealizowanego
+za pomocą \texttt{IntersectionObserver}, \glslink{hook}{hook'a} \texttt{useInfiniteQuery} (\glslink{biblioteka}{biblioteka}
+\texttt{Tanstack Query}) oraz referencji.
+Podczas pobierania danych prezentowany jest \texttt{LoadingSpinner}, a w wypadku błędu komunikat \emph{Failed to load searched spots data.}.
+Jeżeli lista wyników jest pusta, pojawia się informacja \emph{No spots match criteria!}.
+Elementy można sortować poprzez \glslink{react-component}{komponent} \texttt{SpotsSortingForm}
+(por. sekcja~\ref{subsubsec:komponenty-wspolne-map-spots}).
+Otworzenie i zamknięcie panelu animowane jest za pomocą elementów \glslink{biblioteka}{biblioteki} \texttt{motion}.
+
+\subsubsubsection{Komponenty wspólne}
+\label{subsubsec:komponenty-wspolne-map-spots}
+
+W niniejszym rozdziale opisano \glslink{react-component}{komponenty}, z których korzystają inne \glslink{react-component}{komponenty}
+zawarte w tej części.
+
+\textbf{\texttt{ListedSpotInfo}}
+Wyświetla pojedycznego \glslink{spot}{spota} będącego wynikiem wyszukiwania po nazwie lub w widocznym obszarze mapy.
+Zawiera jego pierwsze zdjęcie, nazwę, ocenę w gwiazdkach, liczbę ocen oraz tagi.
+Ocena zrealizowana jest za pomocą \texttt{Rate} z \glslink{biblioteka}{biblioteki} \texttt{antd}, a
+tagi prezentowane są przez listę \texttt{SpotTag}.
+Po kliknięciu elementu na obecnej instancji mapy zwracanej przez \glslink{hook}{hook} \texttt{useMap} (\texttt{react-maplibre})
+wywoływana jest funkcja \texttt{flyTo}, przenosząca w płynnym przejściu obraz mapy na lokalizację \glslink{spot}{spota}.
+
+\textbf{\texttt{SpotsSortingForm}}
+\glslink{react-component}{Komponent} realizujący ustawianie sortowania listy \glslink{spot}{spotów}.
+Do wyboru dostępne są opcje: Default, Rating ascending, Rating descending, Rating count ascending oraz Rating count descending,
+zapisane jako tablica wartości w stałej \emph{options}.
+Otworzenie i zamknięcie listy z tymi elementami animowane jest przy użyciu \glslink{react-component}{komponentu}
+\texttt{AnimatePresence} z \glslink{biblioteka}{biblioteki} \texttt{framer-motion}.
+W \glslink{props}{propsach} przyjmowane są funkcje obsługujące zmianę wyboru opcji oraz czyszczenia poprzednich wyników.
+Przekazywana jest również tablica określająca klucz zapytań wymagających unieważnienia po zmianie sortowania, a także
+opcja sortowania wybrana w danej liście.
+W celu rozróżnienia gdzie używany jest \glslink{react-component}{komponent} przez \glslink{props}{propa} \emph{variant}
+określany jest jego typ (\texttt{SEARCH} lub \texttt{CURRENT\_VIEW}).
+Wybrana opcja przechowywana jest w lokalnym stanie (\texttt{useState}), \glslink{hook}{hook} \texttt{useEffect}
+nasłuchuje na jej zmianę jeśli jest różna od opcji wybranej wcześniej (\glslink{props}{prop} \emph{sorting}), wykonuje
+przekazaną funkcję do obsługi zmiany wyboru sortowania oraz funkcję czyszczącą.
+Unieważanianie są również zapytania zawierające podany klucz.
+\glslink{hook}{Hook} \texttt{useMemo} zwraca stałą będącą „stabilnym kluczem” \textendash \space po każdym odświeżeniu
+\glslink{react-component}{komponentu} nadrzędnego tablica określająca klucz z zapytaniami wymagającymi unieważnienia jest
+przekazywana ponownie.
+\texttt{useMemo} porównuje jej wartości z poprzednią i jeśli są takie same, nie zwraca nowej wartości, która jest w
+tablicy dependecji \texttt{useEffect} wspomnianego wcześniej.
+Pozwala to na optymalizację poprzez uniknięcie niepotrzebnych uruchomień tego \glslink{hook}{hook'a}.
