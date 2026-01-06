@@ -1,0 +1,229 @@
+%! Author = Mateusz
+%! Date = 20/12/2025
+
+\subsubsection{Wymagania ogólne dla panelu użytkownika}
+\label{subsubsec:wymagania-ogolne-dla-panelu-uzytkownika}
+
+
+\newlength{\wopanuContentWidth}
+\setlength{\wopanuContentWidth}{0.74\textwidth}
+
+\newlength{\wopanuLabelWidth}
+\setlength{\wopanuLabelWidth}{0.2\textwidth}
+
+\newlength{\wopanelHeaderHeight}
+\setlength{\wopanelHeaderHeight}{12mm}
+
+% --------- Pola karty (wiersze) ---------
+
+% Id + priorytet – 4 kolumny
+\newcommand{\wopanupriority}[2]{%
+    \textbf{Identyfikator:} & WOPANEL-#1 &
+    \textbf{Priorytet:} & #2 \\ \hline
+}
+
+% Wiersze z etykietą + treścią na 3 kolumny
+\newcommand{\wopanuname}[1]{\textbf{Nazwa:}              &
+\multicolumn{3}{|p{\wopanuContentWidth}|}{#1} \\ \hline}
+\newcommand{\wopanudesc}[1]{\textbf{Opis:}               &
+\multicolumn{3}{|p{\wopanuContentWidth}|}{#1} \\ \hline}
+\newcommand{\wopanustakeholder}[1]{\textbf{Udziałowiec:} &
+\multicolumn{3}{|p{\wopanuContentWidth}|}{#1} \\ \hline}
+\newcommand{\wopanurelated}[1]{\textbf{Wymagania powiązane:} &
+\multicolumn{3}{|p{\wopanuContentWidth}|}{#1} \\ \hline}
+
+\newcommand{\wopanelHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wopanelHeaderHeight][c]{\linewidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
+\newcommand{\wopanuatcard}[5]{%
+    \refstepcounter{awc}%
+    {\centering
+    \begin{longtable}{|
+            >{\columncolor{lightgray}}p{\wopanuLabelWidth}|
+        p{0.22\textwidth}|
+            >{\columncolor{lightgray}}p{0.18\textwidth}|
+        p{0.24\textwidth}|}
+
+    \hline
+    \wopanelHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNE DLA \\ PANELU UŻYTKOWNIKA}}
+    \endfirsthead
+    \hline
+    \wopanelHeaderRow{\shortstack{KARTA WYMAGANIA OGÓLNE DLA \\ PANELU UŻYTKOWNIKA (cd.)}}
+    \endhead
+
+    % właściwa treść karty
+    \wopanupriority{#3}{#4}
+    \wopanuname{#2}
+    #5
+
+    \end{longtable}
+    \par} % koniec centrowania
+
+    \vspace{3pt}
+    \textbf{Tabela \theawc:}
+    Karta wymagania ogólnego dla panelu użytkownika: #2\label{#1}
+
+    \addcontentsline{lot}{table}
+    {Tabela \theawc: Karta wymagania ogólnego dla panelu użytkownika: #2}%
+}
+
+
+\wopanuatcard
+{wopanel:profile}
+{Profil użytkownika w panelu konta}
+{01}
+{M}
+{
+    \wopanudesc{System udostępnia zalogowanemu użytkownikowi podstronę profilu w panelu konta,
+        na której może sprawdzić informacje o swoim koncie (statystyki społeczności oraz podgląd
+        najpopularniejszych zdjęć dodanych przez użytkownika).}
+    \wopanustakeholder{U3}
+    \wopanurelated{%
+        \hyperref[wfpanel:display-basic-profile]{WFPANEL-01},
+        \hyperref[wfpanel:change-avatar]{WFPANEL-02},
+        \hyperref[wfpanel:display-social-stats]{WFPANEL-03},
+        \hyperref[wfpanel:navigate-from-stats]{WFPANEL-04},
+        \hyperref[wfpanel:top-photos]{WFPANEL-05},
+        \hyperref[wfpanel:friend-follow-buttons]{WFPANEL-06},
+        \hyperref[wppanel:login-required]{WPPANEL-07},
+        \hyperref[wppanel:load-under-10s]{WPPANEL-11}.%
+    }
+}
+
+\wopanuatcard
+{wopanel:spots-lists}
+{Listy spotów w panelu konta}
+{02}
+{M}
+{
+    \wopanudesc{System umożliwia użytkownikowi przeglądanie list \glslink{spot}{spotów} powiązanych z kontem,
+        w szczególności list w kategoriach: polubione, odwiedzone i ocenione pozytywnie,
+        odwiedzone i ocenione negatywnie, planowane.}
+    \wopanustakeholder{U3}
+    \wopanurelated{%
+        \hyperref[wfpanel:switch-spots-list-type]{WFPANEL-07},
+        \hyperref[wfpanel:remove-spot-from-list]{WFPANEL-08},
+        \hyperref[wfpanel:show-spot-on-map]{WFPANEL-09},
+        \hyperref[wppanel:spots-lists-authorization]{WPPANEL-01},
+        \hyperref[wppanel:load-under-10s]{WPPANEL-11}.%
+    }
+}
+
+\wopanuatcard
+{wopanel:add-spot}
+{Dodanie spota w panelu konta}
+{03}
+{M}
+{
+    \wopanudesc{System udostępnia w panelu konta sekcję dodawania \glslink{spot}{spota}, obejmującą formularz
+    dodania go. Po poprawnym dodaniu użytkownik może go zobaczyć na liście własnych dodanych \glslink{spot}{spotów}.}
+    \wopanustakeholder{U3}
+    \wopanurelated{%
+        \hyperref[wfpanel:added-spots-list]{WFPANEL-22},
+        \hyperref[wfpanel:add-spot-form]{WFPANEL-23},
+        \hyperref[wppanel:added-spots-authorization]{WPPANEL-02},
+        \hyperref[wppanel:add-spot-immediate-update]{WPPANEL-12}.%
+    }
+}
+
+\wopanuatcard
+{wopanel:photos}
+{Lista zdjęć użytkownika}
+{04}
+{M}
+{
+    \wopanudesc{System umożliwia użytkownikowi przeglądanie listy zdjęć dodanych przez niego
+        (na forum, w \glslink{spot}{spotach} oraz w komentarzach pod \glslink{spot}{spotami}), wraz z podglądem materiałów
+        i dostępem do kontekstu publikacji.}
+    \wopanustakeholder{U3}
+    \wopanurelated{%
+        \hyperref[wfpanel:photos-sort-by-date]{WFPANEL-10},
+        \hyperref[wfpanel:photos-filter-by-date]{WFPANEL-11},
+        \hyperref[wfpanel:photos-grouped-with-metrics]{WFPANEL-12},
+        \hyperref[wppanel:photos-group-by-date]{WPPANEL-08}.
+        \hyperref[wppanel:photos-authorization]{WPPANEL-13}.%
+    }
+}
+
+\wopanuatcard
+{wopanel:videos}
+{Lista filmów użytkownika}
+{05}
+{M}
+{
+    \wopanudesc{System umożliwia użytkownikowi przeglądanie listy filmów dodanych przez niego
+        (na forum, w \glslink{spot}{spotach} oraz w komentarzach pod \glslink{spot}{spotami}), wraz z podglądem materiałów
+        i dostępem do kontekstu publikacji.}
+    \wopanustakeholder{U3}
+    \wopanurelated{%
+        \hyperref[wfpanel:videos-sort-by-date]{WFPANEL-13},
+        \hyperref[wfpanel:videos-filter-by-date]{WFPANEL-14},
+        \hyperref[wfpanel:videos-grouped-with-metrics]{WFPANEL-15},
+        \hyperref[wppanel:videos-group-by-date]{WPPANEL-09}.%
+    }
+}
+
+\wopanuatcard
+{wopanel:community}
+{Społeczność w panelu konta}
+{06}
+{M}
+{
+    \wopanudesc{System umożliwia użytkownikowi przeglądanie sekcji społeczności w panelu konta,
+        obejmującej listy: znajomych, obserwowanych oraz obserwujących.}
+    \wopanustakeholder{U3}
+    \wopanurelated{%
+        \hyperref[wfpanel:friends-list]{WFPANEL-16},
+        \hyperref[wfpanel:following-list]{WFPANEL-17},
+        \hyperref[wfpanel:followers-list]{WFPANEL-18},
+        \hyperref[wfpanel:invitations-list]{WFPANEL-19},
+        \hyperref[wfpanel:search-friends-modal]{WFPANEL-20},
+        \hyperref[wfpanel:friend-actions]{WFPANEL-21},
+        \hyperref[wppanel:social-authorization]{WPPANEL-05},
+        \hyperref[wppanel:invitations-authorization]{WPPANEL-06}.%
+    }
+}
+
+\wopanuatcard
+{wopanel:comments}
+{Lista komentarzy użytkownika}
+{07}
+{M}
+{
+    \wopanudesc{System umożliwia użytkownikowi przeglądanie listy komentarzy, które dodał pod \glslink{spot}{spotami},
+        tak aby mógł wracać do swoich wcześniejszych wypowiedzi oraz kontekstu dyskusji.}
+    \wopanustakeholder{U3}
+    \wopanurelated{%
+        \hyperref[wfpanel:comments-sort-by-date]{WFPANEL-24},
+        \hyperref[wfpanel:comments-filter-by-date]{WFPANEL-25},
+        \hyperref[wfpanel:comments-grouped-by-date-and-spot]{WFPANEL-26},
+        \hyperref[wppanel:comments-authorization]{WPPANEL-04},
+        \hyperref[wppanel:comments-group-by-date-spot]{WPPANEL-10}.%
+    }
+}
+
+\wopanuatcard
+{wopanel:settings}
+{Ustawienia konta w panelu użytkownika}
+{08}
+{M}
+{
+    \wopanudesc{System umożliwia użytkownikowi zarządzanie ustawieniami konta, w szczególności
+    edycję wybranych danych profilu (adres e-mail, nazwa użytkownika) oraz zmianę hasła.}
+    \wopanustakeholder{U3}
+    \wopanurelated{%
+        \hyperref[wfpanel:edit-username]{WFPANEL-27},
+        \hyperref[wfpanel:edit-email]{WFPANEL-28},
+        \hyperref[wfpanel:change-password]{WFPANEL-29},
+        \hyperref[wppanel:login-required]{WPPANEL-07}.%
+    }
+}
