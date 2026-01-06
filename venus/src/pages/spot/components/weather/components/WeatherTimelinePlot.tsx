@@ -10,28 +10,12 @@ import {
     VictoryScatter,
     VictoryTheme,
 } from "victory";
-import { useEffect, useState } from "react";
 import CustomTickLabel from "./CustomTickLabel";
-import useScreenSize from "../../../../../hooks/useScreenSize";
-import ScreenSizeDto from "../../../../../model/screenSizeDto";
 
 const VIRTUAL_Y_MIN = 0;
 const VIRTUAL_Y_MAX = 100;
 
 export default function WeatherTimelinePlot() {
-    const [plotSize, setPlotSize] = useState<ScreenSizeDto>({
-        width: 5000,
-        height: 460,
-    });
-
-    const screenSize = useScreenSize();
-
-    useEffect(() => {
-        if (screenSize.height <= 1080 || screenSize.width <= 1920) {
-            setPlotSize({ width: 5000, height: 460 });
-        }
-    }, [screenSize]);
-
     const { latitude, longitude } = useSelectorTyped(
         (state) => state.spotWeather,
     );
@@ -98,8 +82,8 @@ export default function WeatherTimelinePlot() {
                         scale={{ x: "time" }}
                         theme={VictoryTheme.clean}
                         padding={{ top: 90, bottom: 60, left: 50, right: 50 }}
-                        width={plotSize.width}
-                        height={plotSize.height}
+                        width={5000}
+                        height={460}
                         containerComponent={
                             <VictoryContainer responsive={false} />
                         }
