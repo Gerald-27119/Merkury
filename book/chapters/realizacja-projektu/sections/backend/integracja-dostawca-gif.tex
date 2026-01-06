@@ -4,43 +4,44 @@
 \subsection{Integracja z dostawcą GIF-ów}
 \label{subsec:integracja-z-dostawca-gif-ow}
 
-W module czatu zaimplementowano integrację z zewnętrznym dostawcą GIF-ów w celu umożliwienia
-użytkownikom wysyłania GIF-ów na czacie. Jako źródło danych wykorzystano usługę Tenor,
-a integrację rozdzielono na trzy warstwy: klienta dostawcy (provider), serwis aplikacyjny oraz kontroler REST.
+W module czatu w warstwie \glslink{backend}{backendu} zaimplementowano integrację z zewnętrznym dostawcą
+\glslink{gif}{GIF-ów} w celu umożliwienia użytkownikom wysyłania ich na czacie.
+Jako źródło danych wykorzystano usługę Tenor, a integrację rozdzielono na trzy warstwy:
+klienta dostawcy, serwis aplikacyjny oraz kontroler \glslink{rest_api}{REST}.
 
 \subsubsection{Klient dostawcy -- \texttt{TenorGifProviderClient}}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{./attachments/implementacja-backendu/czat/gif/provider1}
-    \caption{Klient dostawcy GIF-ów \texttt{TenorGifProviderClient} -- konfiguracja oraz inicjalizacja komunikacji z API Tenor przy użyciu \texttt{WebClient}.}
+    \caption{\texttt{TenorGifProviderClient} (1/2)}
     \label{fig:gif:tenor-client-1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{./attachments/implementacja-backendu/czat/gif/provider2}
-    \caption{\texttt{TenorGifProviderClient} -- implementacja scenariuszy pobierania kategorii (\texttt{/categories}) oraz wyszukiwania GIF-ów (\texttt{/search}) wraz z obsługą paginacji.}
+    \caption{\texttt{TenorGifProviderClient} (2/2)}
     \label{fig:gif:tenor-client-2}
 \end{figure}
 
 Rysunki~\ref{fig:gif:tenor-client-1} oraz~\ref{fig:gif:tenor-client-2} przedstawiają klasę odpowiedzialną
-za bezpośrednią komunikację z API Tenor. Klient wykorzystuje \texttt{WebClient} (Spring WebFlux),
-co umożliwia wykonywanie zapytań w sposób nieblokujący oraz wpisuje się w reaktywny charakter modułu
-(zwracanie typów \texttt{Mono}). W ramach integracji udostępniono dwa podstawowe scenariusze:
-pobranie listy popularnych kategorii (\texttt{/categories}) oraz wyszukiwanie GIF-ów dla podanej frazy (\texttt{/search}).
+za bezpośrednią komunikację z \glslink{api}{API} Tenor. Klient wykorzystuje \glslink{webclient}{WebClient'a},
+co umożliwia wykonywanie zapytań w sposób nieblokujący. W ramach integracji udostępniono dwa podstawowe scenariusze:
+pobranie listy popularnych kategorii (\texttt{/categories}) oraz wyszukiwanie \glslink{gif}{GIF-ów}
+dla podanej frazy (\texttt{/search}).
 
 Na poziomie budowy zapytań zastosowano parametry konfigurujące sposób zwracania wyników, m.in. lokalizację (\texttt{locale})
 oraz limit liczby elementów na stronę. Mechanizm stronicowania obsługiwany jest poprzez opcjonalny parametr \texttt{pos}
-(przekazywany dalej jako \texttt{next}), dzięki czemu warstwa kliencka może pobierać kolejne porcje wyników
-bez konieczności utrzymywania stanu po stronie aplikacji.
+(przekazywany dalej jako \texttt{next}), dzięki czemu \glslink{klient}{klient} może pobierać kolejne porcje wyników
+bez konieczności utrzymywania \glslink{stan}{stanu} po stronie aplikacji.
 
 \subsubsection{Warstwa serwisowa -- \texttt{GifService}}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{./attachments/implementacja-backendu/czat/gif/service}
-    \caption{Warstwa serwisowa \texttt{GifService} -- delegowanie wywołań do klienta Tenor, mapowanie odpowiedzi do \gls{dto} oraz zastosowanie mechanizmu cache dla danych rzadko zmiennych.}
+    \caption{\texttt{GifService}}
     \label{fig:gif:service}
 \end{figure}
 
@@ -48,12 +49,12 @@ Rysunek~\ref{fig:gif:service} prezentuje serwis aplikacyjny, który stanowi wars
 a klientem dostawcy. Odpowiada on za:
 \begin{itemize}
     \item delegowanie wywołań do klienta Tenor,
-    \item mapowanie odpowiedzi z formatu dostawcy na struktury \gls{dto} wykorzystywane w aplikacji,
+    \item mapowanie odpowiedzi z formatu dostawcy na struktury \glslink{dto}{DTO} wykorzystywane w aplikacji,
     \item zastosowanie mechanizmów optymalizacyjnych po stronie serwera.
 \end{itemize}
 
 Istotnym elementem jest użycie adnotacji \texttt{@Cacheable} dla operacji pobierania popularnych kategorii.
-Zastosowanie pamięci podręcznej ogranicza liczbę wywołań do zewnętrznej usługi w przypadku danych,
+Zastosowanie pamięci podręcznej (\glslink{cache}{cache}) ogranicza liczbę wywołań do zewnętrznej usługi w przypadku danych,
 które zmieniają się relatywnie rzadko.
 
 \subsubsection{Warstwa prezentacji -- \texttt{GifController}}
@@ -61,14 +62,14 @@ które zmieniają się relatywnie rzadko.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{./attachments/implementacja-backendu/czat/gif/controller}
-    \caption{Kontroler REST \texttt{GifController} udostępniający endpointy dla frontendu: lista trendujących kategorii oraz wyszukiwanie GIF-ów z parametrami zapytania.}
+    \caption{\texttt{GifController}}
     \label{fig:gif:controller}
 \end{figure}
 
-Rysunek~\ref{fig:gif:controller} przedstawia kontroler REST udostępniający funkcjonalności GIF-ów na potrzeby frontendu.
-Udostępniono dwa endpointy:
+Rysunek~\ref{fig:gif:controller} przedstawia kontroler REST udostępniający funkcjonalności \glslink{gif}{GIF-ów}
+na potrzeby \glslink{frontend}{frontendu}. Udostępniono dwa \glslink{endpoint}{endpointy}:
 \begin{itemize}
     \item \texttt{GET /gifs/trending} -- zwraca listę popularnych kategorii,
-    \item \texttt{GET /gifs/search} -- zwraca wyniki wyszukiwania dla podanej frazy, ze wsparciem paginacji.
+    \item \texttt{GET /gifs/search} -- zwraca wyniki wyszukiwania dla podanej frazy, ze wsparciem \glslink{paginacja}{paginacji}.
 \end{itemize}
 
