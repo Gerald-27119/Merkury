@@ -15,7 +15,7 @@ export default function EmojiWindow({
     return (
         <div
             ref={rootRef}
-            className="emoji-picker dark:bg-violetDark/80 w-full min-w-0 grow flex-col rounded-b-xl dark:text-white"
+            className="emoji-picker dark:bg-violetDark/80 bg-whiteBg w-full min-w-0 grow flex-col rounded-b-xl dark:text-white"
         >
             <EmojiPicker
                 className="w-full rounded-b-xl border-none p-2"

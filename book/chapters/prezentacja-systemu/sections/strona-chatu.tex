@@ -1,5 +1,282 @@
-%! Author = mateusz
-%! Date = 20/10/2025
+%! Author = Adam
+%! Date = 01/01/2025
 
-\section{Strona chatu}
+\section{Strona czatu}
 \label{sec:strona-chatu}
+
+\subsection{Widok modułu czatu (rozmowa prywatna)}
+\label{subsec:chat-screen-1-private}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/prywatny_1}
+    \caption{Widok modułu czatu z otwartą rozmową prywatną.}
+    \label{fig:chat:screen-1-main-view}
+\end{figure}
+
+Rysunek~\ref{fig:chat:screen-1-main-view} przedstawia główny widok modułu czatu z otwartą rozmową prywatną.
+\glslink{ui}{Interfejs} został podzielony na dwa obszary: listę dostępnych konwersacji po lewej stronie oraz okno aktywnej rozmowy
+w części centralnej.
+
+Panel listy rozmów zawiera nagłówek \textit{Chats} oraz listę kafelków reprezentujących konwersacje.
+Każdy kafelek prezentuje awatar rozmowy, jej nazwę, podgląd ostatniej wiadomości
+oraz jej znacznik czasu. Aktualnie otwarta konwersacja jest wyróżniona wizualnie poprzez podświetlenie tła.
+
+W górnej części obszaru rozmowy znajduje się pasek nagłówka z awatarem oraz nazwą rozmówcy.
+Kliknięcie w kafelek z nazwą użytkownika i jego awatarem przenosi do profilu tej osoby.
+W prawym górnym rogu widoczna jest ikona służąca do inicjowania utworzenia czatu grupowego.
+
+Poniżej nagłówka prezentowana jest historia wiadomości w układzie chronologicznym. Każda wiadomość zawiera awatar nadawcy,
+nazwę użytkownika, znacznik czasu oraz treść wiadomości. Dodatkowo, wiadomości są grupowane według daty.
+
+W dolnej części widoku umieszczono pasek tworzenia wiadomości z polem tekstowym oraz zestawem przycisków akcji.
+Po lewej stronie dostępny jest przycisk dodawania załączników do wiadomości, natomiast po prawej stronie
+znajdują się skróty do otwarcia paneli \glslink{gif}{GIF-ów} lub \glslink{emoji}{emoji}. Na prawo od nich jest przycisk wysyłania wiadomości.
+W celu wysłania wiadomości, zamiast przycisku można użyć klawisza Enter.
+
+\subsection{Wysyłanie GIF-ów}
+\label{subsec:panel-wyszukiwania-i-wysyania-gif-ow}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/gif/1}
+    \caption{Panel wyboru GIF-ów -- widok początkowy po otwarciu.}
+    \label{fig:chat:gif-panel-1}
+\end{figure}
+
+Rysunek~\ref{fig:chat:gif-panel-1} przedstawia panel wyboru \glslink{gif}{GIF-ów}, uruchamiany z poziomu paska tworzenia wiadomości.
+Panel wyświetlany jest jako nakładka w obrębie widoku konwersacji.
+W górnej części panelu dostępne są zakładki \textit{Gif} oraz \textit{Emoji}, umożliwiające przełączenie trybu wyboru treści.
+Poniżej umieszczono pole wyszukiwania, niżej widać predefiniowane kategorie.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/gif/2}
+    \caption{Panel wyboru GIF-ów -- wyszukiwanie po kategorii \textit{omg}.}
+    \label{fig:chat:gif-panel-2}
+\end{figure}
+
+Na rysunku~\ref{fig:chat:gif-panel-2} pokazano działanie mechanizmu wyszukiwania po kategorii. Po wyborze kategorii
+lista wyników jest zawężana do pasujących elementów.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/gif/3}
+    \caption{Panel wyboru GIF-ów -- wyszukiwanie po frazie \textit{thank you}.}
+    \label{fig:chat:gif-panel-3}
+\end{figure}
+
+Rysunek~\ref{fig:chat:gif-panel-3} przedstawia analogiczny scenariusz dla ręcznie wprowadzonej frazy.
+Użytkownik może wielokrotnie modyfikować frazę wyszukiwania, przeglądać zwrócone propozycje oraz wybrać konkretną miniaturę.
+Wybranie \glslink{gif}{GIF-a} powoduje natychmiastowe jego wysłanie.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/gif/4}
+    \caption{Wysłanie GIF-a.}
+    \label{fig:chat:gif-wyslanie}
+\end{figure}
+
+Rysunek~\ref{fig:chat:gif-wyslanie} przedstawia efekt wysłania \glslink{gif}{GIF-a}.
+
+\subsection{Wysyłanie emoji}
+\label{subsec:chat-emoji}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/emoji/1}
+\caption{Panel wyboru emoji oraz przykład wysłania wiadomości z emoji.}
+\label{fig:chat:emoji-panel}
+\end{figure}
+
+Rysunek~\ref{fig:chat:emoji-panel} przedstawia mechanizm wyboru \glslink{emoji}{emoji} dostępny z poziomu paska tworzenia wiadomości.
+Po naciśnięciu ikony reprezentującej \glslink{emoji}{emoji} otwierany jest panel w formie nakładki, analogiczny do panelu wyboru \glslink{gif}{GIF-ów}.
+
+W górnej części panelu znajdują się zakładki \textit{Gif} oraz \textit{Emoji}, umożliwiające przełączenie trybu wyboru treści.
+Poniżej umieszczono pole wyszukiwania, które pozwala filtrować dostępne \glslink{emoji}{emoji} po wpisanej frazie
+(na rysunku pokazano wyszukiwanie dla hasła \textit{cat}).
+Wyniki prezentowane są w sekcji \textit{Search results} w postaci listy ikon, które użytkownik może wybierać pojedynczo.
+
+Wybranie \glslink{emoji}{emoji} powoduje wstawienie go do pola edycji wiadomości w dolnym pasku, dzięki czemu użytkownik może skomponować treść
+złożoną wyłącznie z emotikon lub użyć ich jako uzupełnienia tekstu. Po wysłaniu wiadomości
+treść pojawia się w historii rozmowy.
+
+\subsection{Dodawanie załączników do wiadomości}
+\label{subsec:chat-attachments}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/att/1}
+\caption{Systemowe okno wyboru pliku uruchamiane z poziomu czatu.}
+\label{fig:chat:attachments-1}
+\end{figure}
+
+Rysunek~\ref{fig:chat:attachments-1} przedstawia pierwszy etap dodawania załącznika.
+Po użyciu przycisku dodawania załączników aplikacja
+otwiera systemowe okno wyboru pliku. Dzięki wykorzystaniu natywnego selektora użytkownik
+może wskazać zasób z lokalnego dysku. Aplikacja umożliwia wybór wielu formatów m.in. PDF, JPG, PNG, DOCX.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/att/2}
+\caption{Załącznik dodany do wiadomości -- podgląd w polu edycji przed wysłaniem.}
+\label{fig:chat:attachments-2}
+\end{figure}
+
+Na rysunku~\ref{fig:chat:attachments-2} pokazano widok czatu po wskazaniu pliku.
+Wybrany załącznik pojawia się nad polem wprowadzania treści w formie kafelka zawierającego
+ikonę typu pliku oraz jego miniaturę (o ile jest dostępna). Taki podgląd umożliwia szybkie
+zweryfikowanie, jaki plik zostanie wysłany.
+Użytkownik może w tym samym miejscu dopisać treść wiadomości, a następnie ją wysłać.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/att/3}
+\caption{Wiadomość z wysłanym załącznikiem w historii konwersacji.}
+\label{fig:chat:attachments-3}
+\end{figure}
+
+Rysunek~\ref{fig:chat:attachments-3} przedstawia sposób prezentacji załącznika po wysłaniu wiadomości.
+W historii rozmowy wyświetlana jest karta pliku zawierająca jego nazwę oraz rozmiar, co ułatwia
+identyfikację przesłanego zasobu. Po prawej stronie karty znajduje się ikona pobierania,
+umożliwiająca zapisanie pliku na urządzeniu odbiorcy.
+Z kolei, jeżeli wysłanym załącznikiem jest plik multimedialny, prezentowana jest miniatura jego podglądu.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/att/4}
+\caption{Możliwość pobrania pliku.}
+\label{fig:chat:attachments-4}
+\end{figure}
+
+Na rysunku~\ref{fig:chat:attachments-4} pokazano interakcję z wiadomością zawierającą załącznik.
+Użytkownik może go pobrać na swoje urządzenie po naciśnięciu na odpowiednią ikonę.
+
+\subsection{Tworzenie czatu grupowego z poziomu rozmowy prywatnej}
+\label{subsec:chat-group-create-from-private}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/cg/1}
+\caption{Okno wyboru uczestników podczas tworzenia czatu grupowego z rozmowy prywatnej.}
+\label{fig:chat:group-create-modal}
+\end{figure}
+
+Rysunek~\ref{fig:chat:group-create-modal} przedstawia okno dialogowe służące do utworzenia czatu grupowego bezpośrednio
+z poziomu rozmowy prywatnej. Funkcja uruchamiana jest poprzez przycisk w prawym górnym rogu paska nagłówka czatu
+(przy aktywnej konwersacji prywatnej). Po jego użyciu \glslink{ui}{interfejs} wyświetla \glslink{modal}{okno modalne},
+a w tle pozostaje przyciemniony ekran czatu.
+
+W górnej części okna dostępne jest pole wyszukiwania, umożliwiające filtrowanie listy znajomych po nazwie.
+Wybrani użytkownicy prezentowani są w postaci kafelków z nazwą użytkownika, umieszczonych pod polem wyszukiwania,
+z możliwością usunięcia danej osoby z listy. Istotnym elementem jest domyślne dodanie aktualnego rozmówcy
+z czatu prywatnego do nowo tworzonej rozmowy grupowej --- dzięki temu użytkownik nie musi ponownie wskazywać osoby,
+z którą już prowadzi konwersację. W \glslink{ui}{interfejsie} widoczna jest także informacja o limicie liczby uczestników.
+
+Lista wyników wyszukiwania prezentowana jest w formie kafelków zawierających awatar oraz nazwę użytkownika.
+Dodanie osoby odbywa się poprzez użycie przycisku z ikoną \textit{+}, natomiast dla już wybranych uczestników
+przycisk zmienia stan na nieaktywny, co sygnalizuje przynależność do tworzonej grupy.
+Po skompletowaniu składu użytkownik zatwierdza operację przyciskiem \textit{Create Chat}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/cg/2}
+\caption{Nowo utworzony czat grupowy.}
+\label{fig:chat:group-created-view}
+\end{figure}
+
+Rysunek~\ref{fig:chat:group-created-view} pokazuje widok aplikacji po utworzeniu czatu grupowego.
+Nowa konwersacja pojawia się na liście rozmów po lewej stronie, a użytkownik zostaje automatycznie przeniesiony
+do okna aktywnego czatu grupowego.
+
+W początkowym stanie historia wiadomości jest pusta (widoczna jest informacja o początku rozmowy), a użytkownik może od razu
+rozpocząć wymianę wiadomości, korzystając z tego samego paska tworzenia wiadomości co w czacie prywatnym.
+
+\subsection{Edycja czatu grupowego}
+\label{subsec:chat-group-edit}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/eg/1}
+\caption{Widok czatu grupowego z przyciskiem uruchamiającym edycję.}
+\label{fig:chat:group-edit-1}
+\end{figure}
+
+Rysunek~\ref{fig:chat:group-edit-1} przedstawia czat grupowy, z podświetlonym po najechaniu kursorem kafelkiem z nazwą czatu oraz awatarem.
+Naciśnięcie kafelka powoduje otwarcie \glslink{modal}{okna modalnego} pozwalającego edytować czat grupowy.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/eg/2}
+\caption{Okno edycji czatu grupowego: zmiana nazwy oraz awatara.}
+\label{fig:chat:group-edit-2}
+\end{figure}
+
+Na rysunku~\ref{fig:chat:group-edit-2} pokazano okno \textit{Edit Chat}, które umożliwia zmianę podstawowych danych czatu grupowego.
+W górnej części znajduje się podgląd aktualnego awatara, a kliknięcie obszaru \textit{Change chat image} pozwala wskazać nową grafikę
+poprzez systemowy selektor plików. Poniżej umieszczono pole tekstowe przeznaczone do edycji nazwy czatu.
+Użytkownik może zatwierdzić zmiany przyciskiem \textit{Save} lub przerwać operację przyciskiem \textit{Cancel} (bądź ikoną zamknięcia).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/eg/3}
+\caption{Widok czatu grupowego po zapisaniu zmian nazwy oraz awatara.}
+\label{fig:chat:group-edit-3}
+\end{figure}
+
+Rysunek~\ref{fig:chat:group-edit-3} przedstawia efekt zapisania zmian.
+
+\subsection{Lista uczestników czatu grupowego}
+\label{subsec:chat-group-members}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/g_czlonkowie}
+\caption{Panel listy uczestników czatu grupowego oraz możliwość przejścia do profilu.}
+\label{fig:chat:group-members}
+\end{figure}
+
+Rysunek~\ref{fig:chat:group-members} przedstawia panel uczestników dostępny w widoku czatu grupowego, po naciśnięciu ikony reprezentującej grupę użytkowników.
+Panel jest wyświetlany po prawej stronie ekranu i prezentuje zestawienie członków rozmowy wraz z ich
+awatarami oraz nazwami użytkowników. W nagłówku umieszczono informację o liczbie uczestników ( \textit{Chat Participants -- 3}).
+
+Każdy element listy ma formę kafelka, który pełni jednocześnie funkcję nawigacyjną.
+Kliknięcie w wybranego członka przenosi użytkownika do profilu tej osoby.
+
+\subsection{Dodawanie uczestników do istniejącego czatu grupowego}
+\label{subsec:chat-group-add-existing-members}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/dg/1}
+\caption{Okno dodawania nowych uczestników do istniejącego czatu grupowego.}
+\label{fig:chat:group-add-members-modal}
+\end{figure}
+
+Rysunek~\ref{fig:chat:group-add-members-modal} przedstawia mechanizm rozszerzania składu czatu grupowego
+o kolejne osoby bez konieczności tworzenia nowej rozmowy. Funkcja uruchamiana jest z poziomu aktywnego czatu,
+z górnej części widoku (ikona dodawania użytkownika widoczna obok skrótu do panelu uczestników).
+Po użyciu tej akcji wyświetlane jest \glslink{modal}{okno modalne}, a widok czatu w tle zostaje przyciemniony.
+
+W górnej części okna znajduje się pole wyszukiwania umożliwiające filtrowanie po nazwie użytkownika
+oraz informacja o limicie liczby osób możliwych do dodania (prezentowana wraz z licznikiem wybranych osób).
+Wybrane osoby są pokazywane pod polem wyszukiwania w formie etykiet z możliwością usunięcia
+pojedynczego wyboru (ikona \textit{x}).
+
+Poniżej prezentowana jest lista kandydatów w formie kafelków z awatarem i nazwą użytkownika.
+Dodanie osoby odbywa się przyciskiem \textit{Add}, natomiast dla osób już wybranych przycisk zmienia stan na
+\textit{Added} i staje się nieaktywny.
+Zatwierdzenie operacji następuje poprzez przycisk \textit{Add users}, co skutkuje dopisaniem wskazanych osób do rozmowy.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{./attachments/prezentacja-systemu/czat/dg/2}
+\caption{Widok czatu grupowego po dodaniu nowych uczestników i aktualizacji listy członków.}
+\label{fig:chat:group-add-members-updated}
+\end{figure}
+
+Na rysunku~\ref{fig:chat:group-add-members-updated} pokazano efekt dodania użytkowników.
+Po zamknięciu okna dialogowego panel uczestników po prawej stronie zostaje zaktualizowany ---
+widoczna jest nowa liczba członków (\textit{Chat Participants}) oraz dopisane osoby na liście.
+Dzięki temu użytkownik może w prosty sposób rozbudowywać istniejącą rozmowę grupową,
+zachowując ciągłość historii wiadomości w ramach jednego czatu.

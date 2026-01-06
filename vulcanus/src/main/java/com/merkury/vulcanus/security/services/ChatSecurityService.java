@@ -13,7 +13,9 @@ public class ChatSecurityService {
     private final CustomUserDetailsService customUserDetailsService;
 
     public Boolean isUserAChatMember(Long chatId) {
-        return chatRepository.existsByIdAndParticipantsUserUsername(chatId, customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername());
+        return chatRepository.existsByIdAndParticipantsUserUsername(chatId,
+                customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername()
+        );
     }
 
 }

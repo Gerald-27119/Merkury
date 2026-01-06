@@ -62,7 +62,9 @@ public class JwtManager {
     }
 
     public boolean isNotTokenExpired(String token) {
-        return !getExpirationDateFromToken(token).before(new Date());
+        return !getExpirationDateFromToken(token)
+                .before(new Date()
+                );
     }
 
     public void addTokenToCookie(HttpServletResponse response, String token) {
