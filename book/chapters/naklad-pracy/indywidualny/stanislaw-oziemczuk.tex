@@ -6,7 +6,7 @@
 
 Na prace dotyczące projektu poświęciłem łącznie X godzin, w tym:
 \begin{itemize}
-    \item 37 godz. 11 min. \textendash \space utworzenie projektu modułu czatu \glslink{ui}{UI} na figmie
+    \item 37 godz. 11 min. \textendash \space zaprojektowanie \glslink{ui}{UI} modułu czatu w figmie
     \item Z \textendash \space prace deweloperskie
     \item Q \textendash \space tworzenie dokumentacji
     \item W \textendash \space spotkania zespołu projektowego oraz pomoc w rozwiązywaniu problemów związanych wykonywanymi zadaniami
@@ -18,39 +18,40 @@ Na prace dotyczące projektu poświęciłem łącznie X godzin, w tym:
 
 Jednym z moich zadań była implementacja funkcjonalności logowania i rejestracji użytkowników za pomocą kont Google i \glslink{github}{GitHub}.
 Polegało ono na integracji z serwisami autoryzacji tych provider'ów oraz ustawienia odpowiedniej
-konfiguracji \glslink{oauth}{OAuth'a} w aplikacji \glslink{SpringBoot}{Spring Boot}.
+konfiguracji \glslink{oauth}{OAuth'a} w aplikacji \glslink{spring-boot}{Spring Boot}.
 W ramach przedmiotu \glslink{pro}{PRO} wykonałem panel wyświetlający szczegóły wybranego \glslink{spot}{spota}, filtrowanie ich na mapie,
 a także zakładkę umożlwiającą użytkownikowi zmianę danych jego konta.
 Usprawniłem również plik \glslink{docker-compose}{docker-compose} oraz stworzyłem skrypty uruchamiające wszystkie niezbędne \glslink{kontener}{kontenery}.
 
 Po zaprojektowaniu inferfesju użytkownika zostałem odpowiedzialny za całościową implementację modułu mapy.
-W ramach prac wybrałem nowego dostawcę kafelków mapy, na którą następnie naniosłem \glslink{spot}{spoty}.
+W ramach prac wybrałem nowego dostawcę kafelków mapy, na którą następnie naniosłem \glslink{spot}{spoty} wraz z możliwością
+przybliżania lub oddalania widoku, a także zaznaczeniem obecnej lokalizacji użytkownika.
 Kolejnym zadaniem była implementacja panelu prezentującego informacje szczegółowe wybranego miejsca, w tym galerię
 multimediów czy listę komentarzy.
 Do każdego \glslink{spot}{spota} dodałem przyciski akcji umożliwiające nawigację, udostępnienie, dodanie do listy
-ulubionych oraz dodanie zdjęć i filmów do danego miejsca.
-Zaimplementowałem też \glslink{modal}{okno modalne} zawierające formularz umożliwiający dodadanie komentarza.
+ulubionych oraz dołączenie zdjęć i filmów.
+Zaimplementowałem również \glslink{modal}{okno modalne} zawierające formularz umożliwiający opublikowanie komentarza.
 Zadbałem o czytelne komunikaty w przypadku wprowadzenia niepoprawnych danych, a także poinformowanie użytkownika o
 pomyślnym przebiegu operacji.
 Stworzłem też panele z pogodą \glslink{spot}{spota} \textendash \space ogólną i szczegółową.
 Pierwszy z nich wyświetlany jest po kliknięciu w wybrany element i zawiera przycisk otwierający drugi.
 Do pobrania informacji pogodowych wybrałem popularne \glslink{api}{API} umożlwiające wskazanie dowolnego miejsca
 poprzez przekazanie jego koordynatów.
-W celu poprawienia wydajności zadbałem o \glslink{cache}{cache'owanie} danych na \glslink{backend}{backendzie}.
 W ramach tego zadania przygotowałem wykres prezentujący prognozę pogody na trzy kolejne dni.
-Zaimplementowełem dużą galerię multimediów \glslink{spot}{spota}, umożliwiającą wygodne przeglądanie zdjęć i filmów dodanych
+W celu poprawienia wydajności zadbałem o \glslink{cache}{cache'owanie} danych na \glslink{backend}{backendzie}.
+Oprócz tego byłem odpowiedzialny za implementację dużej galerii multimediów \glslink{spot}{spota}, umożliwiającej wygodne przeglądanie zdjęć i filmów dodanych
 poprzez komentarze lub odpowiedni formularz.
 Chowana lista po lewej daje możliwość sortowania oraz filtrowania dostępnych multimediów.
 Natomiast powiększenie wybranego elementu na pozostałej części ekranu pozwala przyjrzeć się szczegółom, a także wykonać akcje polubienia,
 pobrania, powiększenia czy udostępnienia pliku.
 Zaimplementowałem również funkcjonalności dotyczące przeszukiwania \glslink{spot}{spotów} po nazwie, a także
-znalezienie widocznych w widocznym obszarze mapy.
+znalezienie położoncyh w widocznym obszarze mapy.
 W celu ułatwienia przeglądania wyników z obydwóch wyszukiwań, ich listy mają opcje sortowania lub filtrowania.
 Skonfigurowałem również \glslink{serwer}{serwer}, na którym uruchomiłem skrypt przystosowujący go do hostowania kafelków mapy.
 
 
 Podczas wykonywania prac starałem się stosować najlepsze rozwiązania, a także dbałem o przystosowanie modułu do
-ekranów o różnych rozmiarów, a powstałe problemy czy niejasności konsultowałem z promotorem oraz członkami zespołu.
+ekranów o różnych rozmiarach, a powstałe problemy czy niejasności konsultowałem z promotorem oraz członkami zespołu.
 Wszystkie elementy interfejsu użytkownika przygotowałem w ciemnym i jasnym motywie kolorystycznym.
 
 Wyżej opisane zadania wymagały prac zarówno po stronie \glslink{frontend}{frontendu}, jak i \glslink{backend}{backendu}.
