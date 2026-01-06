@@ -109,7 +109,7 @@ co wiąże pola obiektu z wpisami \texttt{jwt.*} z konfiguracji aplikacji z plik
 Pozwala to centralnie zarządzać parametrami \glslink{jwt}{JWT} i nadpisywać je bez modyfikacji kodu.
 
 Najważniejszym elementem klasy jest pole \texttt{key} typu \texttt{SecretKey},
-reprezentujące klucz kryptograficzny używany do podpisywania i weryfikacji tokenów \glslink{jwt}{JWT}.
+reprezentujące klucz kryptograficzny używany do podpisywania i weryfikacji \glslink{token}{tokenów} \glslink{jwt}{JWT}.
 Pozostałe pola opisują zachowanie \glslink{token}{tokena} i sposób jego przechowywania po stronie klienta:
 \texttt{tokenName} określa nazwę tokenu,
 \texttt{tokenExpiration} oraz \texttt{tokenCookieExpiration} definiują czas ważności \glslink{token}{tokena} i \glslink{http-only-cookie}{ciasteczka} przechowującego go,
@@ -282,7 +282,7 @@ Implementację rozbito na cztery współpracujące komponenty:
     \item \texttt{JwtGenerator} -- generuje \glslink{token}{token},
     \item \texttt{JwtManager} -- weryfikuje \glslink{token}{token} i obsługuje operacje na \glslink{http-only-cookie}{ciasteczku},
     \item \texttt{JwtAuthFilter} -- buduje \texttt{Authentication} dla żądań prywatnych,
-    \item \texttt{JwtService} -- udostępnia interfejs do odświeżenia tokenu z poziomu logiki aplikacyjnej.
+    \item \texttt{JwtService} -- udostępnia interfejs do odświeżenia \glslink{token}{tokenu} z poziomu logiki aplikacyjnej.
 \end{itemize}
 
 \innerheading{Plik JwtManager}
@@ -302,15 +302,15 @@ Implementację rozbito na cztery współpracujące komponenty:
 \end{figure}
 
 Klasa \texttt{JwtManager} skupia w jednym miejscu operacje techniczne związane z \glslink{jwt}{JWT}:
-walidację podpisu, parsowanie danych z tokenu, weryfikację czasu ważności oraz obsługę \glslink{http-only-cookie}{ciasteczka HTTP only}.
+walidację podpisu, parsowanie danych z \glslink{token}{tokenu}, weryfikację czasu ważności oraz obsługę \glslink{http-only-cookie}{ciasteczka HTTP only}.
 
-Metoda \texttt{validateToken(...)} odpowiada za sprawdzenie, czy token istnieje i czy posiada poprawny podpis.
+Metoda \texttt{validateToken(...)} odpowiada za sprawdzenie, czy \glslink{token}{token} istnieje i czy posiada poprawny podpis.
 Brak tokenu lub pusty token kończy się wyjątkiem \gls{spring-security}, natomiast niezgodny podpis
 jest raportowany poprzez wyjątek domenowy.
 
 Metody \texttt{getUsernameFromJWT(...)} oraz \texttt{getExpirationDateFromToken(...)} parsują \glslink{token}{token}
 i odczytują odpowiednio: identyfikator użytkownika (subject) oraz datę wygaśnięcia.
-Obsłużono również scenariusz tokenu wygasłego (\texttt{ExpiredJwtException}),
+Obsłużono również scenariusz \glslink{token}{tokenu} wygasłego (\texttt{ExpiredJwtException}),
 gdzie dane z \glslink{token}{tokenu} mogą być nadal wykorzystywane do spójnej obsługi błędu.
 
 Operacje na \glslink{http-only-cookie}{ciasteczku} są realizowane przez:
@@ -326,16 +326,16 @@ Ciasteczko jest ustawiane jako \texttt{HttpOnly} i ma nazwę określoną w \text
     \label{fig:jwt-generator}
 \end{figure}
 
-Klasa \texttt{JwtGenerator} odpowiada za generowanie tokenów \glslink{jwt}{JWT}.
-Wygenerowany token zawiera podstawowe informacje wymagane do identyfikacji użytkownika:
+Klasa \texttt{JwtGenerator} odpowiada za generowanie \glslink{token}{tokenów} \glslink{jwt}{JWT}.
+Wygenerowany \glslink{token}{token} zawiera podstawowe informacje wymagane do identyfikacji użytkownika:
 \begin{itemize}
     \item \textbf{subject} -- nazwa użytkownika, pobierana z \texttt{SecurityContextHolder},
-    \item \textbf{issuedAt} -- czas wystawienia tokenu,
+    \item \textbf{issuedAt} -- czas wystawienia \glslink{token}{tokenu},
     \item \textbf{expiration} -- czas wygaśnięcia obliczany na podstawie \texttt{JwtProperties.tokenExpiration}.
 \end{itemize}
 
 \glslink{token}{Token} jest podpisywany algorytmem HMAC-SHA256 z użyciem klucza symetrycznego przechowywanego w \texttt{JwtProperties.key}.
-Poprawny podpis pozwala serwerowi potwierdzić autentyczność tokenu oraz wykryć jakąkolwiek modyfikację jego zawartości.
+Poprawny podpis pozwala serwerowi potwierdzić autentyczność \glslink{token}{tokenu} oraz wykryć jakąkolwiek modyfikację jego zawartości.
 
 \innerheading{Plik JwtAuthFilter}
 
@@ -361,10 +361,10 @@ w sposób scentralizowany dla wszystkich \glslink{endpoint}{endpointów} wymagaj
 
 W metodzie \texttt{doFilterInternal(...)} filtr realizuje następujące kroki:
 \begin{itemize}
-    \item odczytuje token z \glslink{http-only-cookie}{ciasteczka} poprzez \texttt{JwtManager.getJWTFromCookie(...)}.
-    \item weryfikuje token (\texttt{JwtManager.validateToken(...)}); w przypadku błędu zwraca odpowiedź \texttt{401 Unauthorized}
+    \item odczytuje \glslink{token}{token} z \glslink{http-only-cookie}{ciasteczka} poprzez \texttt{JwtManager.getJWTFromCookie(...)}.
+    \item weryfikuje \glslink{token}{token} (\texttt{JwtManager.validateToken(...)}); w przypadku błędu zwraca odpowiedź \texttt{401 Unauthorized}
     w formacie \gls{json} i nie przekazuje żądania dalej.
-    \item odczytuje identyfikator użytkownika (subject) z tokenu i ładuje dane użytkownika
+    \item odczytuje identyfikator użytkownika (subject) z \glslink{token}{tokenu} i ładuje dane użytkownika
     poprzez \texttt{CustomUserDetailsService.loadUserByUsername(...)}.
     \item buduje \texttt{UsernamePasswordAuthenticationToken} wraz z uprawnieniami użytkownika oraz zapisuje go do
     \texttt{SecurityContextHolder}. Od tego momentu \gls{spring-security} traktuje żądanie jako uwierzytelnione.
@@ -372,7 +372,7 @@ W metodzie \texttt{doFilterInternal(...)} filtr realizuje następujące kroki:
 \end{itemize}
 
 W filtrze zaimplementowano mechanizm odnawiania \glslink{token}{tokenu} (\texttt{renewToken(...)}):
-jeżeli token jest nadal ważny, ale do jego wygaśnięcia pozostał czas krótszy niż jeden dzień
+jeżeli \glslink{token}{token} jest nadal ważny, ale do jego wygaśnięcia pozostał czas krótszy niż jeden dzień
 (\texttt{JwtProperties.oneDayInMs}), generowany jest nowy \glslink{token}{token} i zapisywany w \glslink{http-only-cookie}{ciasteczku}.
 Pozwala to utrzymać ciągłość zapytań użytkownika przy regularnej aktywności,
 bez konieczności ponownego logowania po stronie klienta.
