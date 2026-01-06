@@ -1,0 +1,41 @@
+%! Author = Mateusz
+%! Date = 01/01/2026
+
+\section{Powiadomienia (Notification)}
+\label{sec:notification}
+
+W aplikacji zastosowano komponent powiadomień (\textit{Notification}), którego zadaniem
+jest prezentowanie krótkich komunikatów systemowych.
+Element ten informuje o błędach walidacji i błędach serwera, poprawnym wykonaniu
+akcji oraz o konieczności zalogowania się w celu uzyskania dostępu do
+wybranych funkcji.
+
+Komponent występuje w trzech wariantach:
+\begin{itemize}
+    \item \textbf{error} -- komunikat o błędzie,
+    \item \textbf{success} -- komunikat o pomyślnym wykonaniu operacji,
+    \item \textbf{info} -- komunikat informacyjny (o wymaganym zalogowaniu).
+\end{itemize}
+
+Przykładowe warianty powiadomień przedstawiono na rys. \ref{fig:notif-error}--\ref{fig:notif-info}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/nottification/error}
+    \caption{Powiadomienie w trybie \textit{error} -- informacja o błędzie.}
+    \label{fig:notif-error}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/nottification/success}
+    \caption{Powiadomienie w trybie \textit{success} -- potwierdzenie poprawnego wykonania operacji.}
+    \label{fig:notif-success}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/nottification/info}
+    \caption{Powiadomienie w trybie \textit{info} -- komunikat informacyjny.}
+    \label{fig:notif-info}
+\end{figure}
