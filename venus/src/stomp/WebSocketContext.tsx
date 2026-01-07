@@ -9,7 +9,6 @@ import store, { RootState } from "../redux/store";
 const WS_URL = process.env.REACT_APP_WS_URL || "http://localhost:8080/connect";
 const wsService = new WebSocketService(WS_URL);
 const WebSocketContext = createContext<WebSocketService>(wsService);
-
 export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
