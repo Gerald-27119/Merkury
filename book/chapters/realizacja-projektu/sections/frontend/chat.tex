@@ -15,7 +15,7 @@ Na główne \glslink{react-component}{komponenty} modułu składają się:
     \item \texttt{ChatsPage} -- główny kontener układu,
     \item \texttt{ChatList} oraz \texttt{ListedChat} -- komponenty odpowiedzialne za prezentację i obsługę listy rozmów,
     \item \texttt{ChatTopBar}, \texttt{ChatMessagingWindow}, \texttt{ChatBottomBar} -- elementy składające się na okno konwersacji,
-    \item \texttt{EmojiGifWindowWrapper} wraz z \texttt{EmojiWindow} i \texttt{GifWindow} -- panel wyboru emoji/\glslink{gif}{GIF-ów},
+    \item \texttt{EmojiGifWindowWrapper} wraz z \texttt{EmojiWindow} i \texttt{GifWindow} -- panel wyboru \glslink{emoji}{emoji}/\glslink{gif}{GIF-ów},
     \item \texttt{GroupChatParticipantsSideBar} -- panel listy uczestników rozmowy grupowej.
 \end{itemize}
 
@@ -32,7 +32,7 @@ Komponent \texttt{ChatsPage} (rys.~\ref{fig:chat:chats-page-1}) jest nadrzędnym
 Odpowiada za rozłożenie interfejsu na trzy sekcje:
 (1) lewy panel z listą rozmów, (2) centralne okno konwersacji oraz (3) opcjonalny panel boczny
 widoczny wyłącznie dla czatów grupowych.
-Stan wyboru rozmowy oraz widoczność panelu bocznego pobierane są ze stanu globalnego \glslink{redux}{Redux}.
+\glslink{stan}{Stan} wyboru rozmowy oraz widoczność panelu bocznego pobierane są ze \glslink{stan}{stanu} globalnego \glslink{redux}{Redux}.
 
 \subsubsection{Lista czatów}
 
@@ -67,7 +67,7 @@ który doładowuje kolejne strony wyników, gdy element-strażnik pojawi się na
 W tym celu użyto mechanizmu \glslink{intersection-observer}{Intersection Observer}.
 
 Po każdorazowym pobraniu strony dane są mapowane do lokalnego formatu i zapisywane w \glslink{redux}{Redux},
-dzięki czemu stan listy rozmów jest współdzielony z innymi komponentami modułu.
+dzięki czemu \glslink{stan}{stan} listy rozmów jest współdzielony z innymi komponentami modułu.
 Dodatkowo przy pierwszym renderowaniu, jeżeli użytkownik nie ma wybranego czatu,
 ustawiana jest domyślna rozmowa.
 
@@ -276,7 +276,7 @@ Po odebraniu nowej wiadomości jest ona natychmiast wyświetlana.
 \end{figure}
 
 Komponent \texttt{ChatBottomBar} (rys.~\ref{fig:chat:bottom-bar-1}--\ref{fig:chat:bottom-bar-8}) realizuje wysyłanie wiadomości tekstowych,
-załączników oraz interakcję z oknami wyboru emoji i \glslink{gif}{GIF-ów}.
+załączników oraz interakcję z oknami wyboru \glslink{emoji}{emoji} i \glslink{gif}{GIF-ów}.
 Wysyłanie wiadomości w czasie rzeczywistym odbywa się z użyciem \glslink{websocket}{WebSocket}
 oraz protokołu \glslink{stomp}{STOMP}.
 Obsługa załączników obejmuje wybór wielu plików oraz ich podgląd (jeżeli są zdjęciem).
@@ -305,9 +305,9 @@ która w zależności od aktualnego trybu wyświetla jedno z dwóch okien:
     \label{fig:chat:emoji-window-1}
 \end{figure}
 
-Komponent \texttt{EmojiWindow} (rys.~\ref{fig:chat:emoji-window-1}) integruje zewnętrzny selektor emoji
+Komponent \texttt{EmojiWindow} (rys.~\ref{fig:chat:emoji-window-1}) integruje zewnętrzny selektor \glslink{emoji}{emoji}
 i umożliwia wyszukiwanie oraz wybór emotikonów.
-Po kliknięciu emoji komponent dopisuje go do aktualnie budowanej treści wiadomości.
+Po kliknięciu \glslink{emoji}{emoji} komponent dopisuje go do aktualnie budowanej treści wiadomości.
 
 \paragraph{Komponent GifWindow}
 
@@ -347,7 +347,7 @@ Po kliknięciu emoji komponent dopisuje go do aktualnie budowanej treści wiadom
 \end{figure}
 
 Komponent \texttt{GifWindow} (rys.~\ref{fig:chat:gif-window-1}--\ref{fig:chat:gif-window-5}) umożliwia wyszukiwanie oraz wysyłanie \glslink{gif}{GIF-ów}
-z wykorzystaniem integracji z dostawcą Tenor po stronie \glslink{backend}{backendu}.
+z wykorzystaniem integracji z dostawcą \glslink{tenor}{Tenor} po stronie \glslink{backend}{backendu}.
 Widok udostępnia dwa scenariusze:
 \begin{itemize}
     \item prezentację popularnych kategorii,
@@ -355,7 +355,7 @@ Widok udostępnia dwa scenariusze:
 \end{itemize}
 
 Wyszukiwanie realizowane jest przy użyciu \texttt{useInfiniteQuery}.
-W przypadku kliknięcia w wybrany \glslink{gif}{GIF} jego adres URL jest przesyłany jako treść wiadomości
+W przypadku kliknięcia w wybrany \glslink{gif}{GIF} jego adres \glslink{url}{URL} jest przesyłany jako treść wiadomości
 przez \glslink{websocket}{WebSocket}/\glslink{stomp}{STOMP}, a okno selektora zostaje zamknięte.
 
 \subsubsection{Lista uczestników czatu grupowego}
