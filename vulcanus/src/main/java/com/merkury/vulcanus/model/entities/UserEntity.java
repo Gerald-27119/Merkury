@@ -45,18 +45,6 @@ public class UserEntity implements UserDetails {
     @Builder.Default
     private String profilePhoto = "https://ucarecdn.com/ac4ffacd-8416-4d90-9613-35fb472a932d/defaultProfilePhoto.jpg";
 
-    /**
-     * Default lazy loading: Images are not loaded immediately with the UserEntity.
-     * Implication: Accessing this collection outside an active transaction will
-     * throw a LazyInitializationException.
-     * Benefit: Improves performance by loading the collection only when needed.
-     **/
-    @Builder.Default
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<Img> images = new ArrayList<>();
-
     @Builder.Default
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude

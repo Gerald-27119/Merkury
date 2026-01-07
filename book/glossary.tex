@@ -1029,3 +1029,81 @@
     name={Kafelki mapy},
     description={To małe kwadratowe fragmenty mapy, z których budowany jest jej całościowy obraz}
 }
+
+\newglossaryentry{uwierzytelnianie}{
+    name={uwierzytelnianie},
+    description={Proces potwierdzania tożsamości użytkownika lub aplikacji, np. na podstawie hasła, logowania zewnętrznego (OAuth2) lub tokenu}
+}
+
+\newglossaryentry{autoryzacja}{
+    name={autoryzacja},
+    description={Proces sprawdzania, czy uwierzytelniony użytkownik ma prawo wykonać daną operację lub uzyskać dostęp do zasobu}
+}
+
+\newglossaryentry{token}{
+    name={token},
+    description={Ciąg znaków używany do potwierdzania tożsamości użytkownika w kolejnych żądaniach. Token jest przedstawiany serwerowi zamiast ponownego podawania hasła}
+}
+
+\newglossaryentry{csrf}{
+    name={CSRF},
+    description={Rodzaj ataku polegający na nakłonieniu przeglądarki zalogowanego użytkownika do wykonania niechcianego żądania. Mechanizmy ochrony przed CSRF ograniczają takie scenariusze}
+}
+
+\newglossaryentry{sesja-http}{
+    name={sesja HTTP},
+    description={Mechanizm utrzymywania stanu po stronie serwera pomiędzy kolejnymi żądaniami tego samego klienta (np. po zalogowaniu)}
+}
+
+\newglossaryentry{naglowek-http}{
+    name={nagłówek HTTP},
+    description={Dodatkowa informacja dołączana do żądania lub odpowiedzi HTTP (np. o autoryzacji, typie danych lub pochodzeniu żądania)}
+}
+
+\newglossaryentry{http-basic}{
+    name={HTTP Basic},
+    description={Prosty mechanizm uwierzytelniania HTTP, w którym dane logowania są przesyłane w nagłówku Authorization. Obecnie często zastępowany przez tokeny i logowanie zewnętrzne}
+}
+
+\newglossaryentry{lancuch-filtrow}{
+    name={łańcuch filtrów},
+    description={Sekwencja filtrów przetwarzających żądanie HTTP przed przekazaniem go do właściwej logiki aplikacji. Każdy filtr może np. sprawdzać uwierzytelnienie lub blokować żądanie}
+}
+
+\newglossaryentry{security-context}{
+    name={kontekst bezpieczeństwa},
+    description={Miejsce, w którym framework przechowuje informacje o aktualnie uwierzytelnionym użytkowniku i jego uprawnieniach podczas obsługi żądania}
+}
+
+\newglossaryentry{haszowanie-hasel}{
+    name={haszowanie haseł},
+    description={Sposób przechowywania haseł w formie skrótu (hashu), zamiast w postaci jawnej. Utrudnia to odczyt hasła nawet w przypadku wycieku bazy danych}
+}
+
+\newglossaryentry{bcrypt}{
+    name={BCrypt},
+    description={Popularny algorytm haszowania haseł.}
+}
+
+\newglossaryentry{http-401}{
+    name={HTTP 401 Unauthorized},
+    description={Kod odpowiedzi HTTP oznaczający, że żądanie nie może zostać wykonane, ponieważ użytkownik nie jest uwierzytelniony lub podał niepoprawne dane uwierzytelniające}
+}
+
+\newglossaryentry{http-403}{
+    name={HTTP 403 Forbidden},
+    description={Kod odpowiedzi HTTP oznaczający, że użytkownik jest uwierzytelniony, ale nie ma uprawnień do wykonania żądanej operacji}
+}
+
+\newglossaryentry{chain-of-responsibility}{
+    name={Chain of Responsibility},
+    description={Wzorzec projektowy polegający na przekazywaniu żądania przez kolejne obiekty w łańcuchu, aż do jego obsłużenia lub odrzucenia}
+}
+
+\newglossaryentry{zapytanie-preflight}
+{
+    name={zapytanie preflight},
+    description={Wstępne zapytanie HTTP wykonywane automatycznie przez przeglądarkę w ramach mechanizmu \gls{cors}, najczęściej metodą \texttt{OPTIONS}. Służy do sprawdzenia, czy serwer pozwala na wykonanie właściwego żądania z innego pochodzenia (origin), w tym czy akceptuje daną metodę HTTP oraz niestandardowe nagłówki. Po poprawnej odpowiedzi serwera przeglądarka wysyła właściwe żądanie.}
+}
+
+
