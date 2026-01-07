@@ -304,13 +304,12 @@ która w zależności od aktualnego trybu wyświetla jedno z dwóch okien:
     \caption{Implementacja komponentu \texttt{EmojiWindow}}
     \label{fig:chat:emoji-window-1}
 \end{figure}
-%%TODO:Tutaj
-Komponent \texttt{EmojiWindow} (rys.~\ref{fig:chat:emoji-window-1}) integruje zewnętrzny selektor emoji
-i umożliwia wyszukiwanie oraz wybór znaku.
-Po kliknięciu emoji komponent dopisuje go do aktualnie budowanej treści wiadomości,
-bez konieczności przełączania kontekstu użytkownika na inne widoki.
 
-\paragraph{\texttt{GifWindow}}
+Komponent \texttt{EmojiWindow} (rys.~\ref{fig:chat:emoji-window-1}) integruje zewnętrzny selektor emoji
+i umożliwia wyszukiwanie oraz wybór emotikonów.
+Po kliknięciu emoji komponent dopisuje go do aktualnie budowanej treści wiadomości.
+
+\paragraph{Komponent GifWindow}
 
 \begin{figure}[H]
     \centering
@@ -351,18 +350,17 @@ Komponent \texttt{GifWindow} (rys.~\ref{fig:chat:gif-window-1}--\ref{fig:chat:gi
 z wykorzystaniem integracji z dostawcą Tenor po stronie \glslink{backend}{backendu}.
 Widok udostępnia dwa scenariusze:
 \begin{itemize}
-    \item prezentację popularnych kategorii (trendujących),
-    \item wyszukiwanie \glslink{gif}{GIF-ów} po frazie wraz z \glslink{paginacja}{paginacją}.
+    \item prezentację popularnych kategorii,
+    \item wyszukiwanie \glslink{gif}{GIF-ów} po frazie.
 \end{itemize}
 
-Wyszukiwanie realizowane jest przy użyciu \texttt{useInfiniteQuery} (\glslink{tanstack-query}{TanStack Query}),
-a doładowywanie kolejnych wyników zaimplementowano z użyciem \glslink{intersection-observer}{Intersection Observer}.
+Wyszukiwanie realizowane jest przy użyciu \texttt{useInfiniteQuery}.
 W przypadku kliknięcia w wybrany \glslink{gif}{GIF} jego adres URL jest przesyłany jako treść wiadomości
 przez \glslink{websocket}{WebSocket}/\glslink{stomp}{STOMP}, a okno selektora zostaje zamknięte.
 
 \subsubsection{Lista uczestników czatu grupowego}
 
-\paragraph{\texttt{GroupChatParticipantsSideBar}}
+\paragraph{Komponent GroupChatParticipantsSideBar}
 
 \begin{figure}[H]
     \centering
@@ -373,7 +371,5 @@ przez \glslink{websocket}{WebSocket}/\glslink{stomp}{STOMP}, a okno selektora zo
 
 Komponent \texttt{GroupChatParticipantsSideBar} (rys.~\ref{fig:chat:group-participants-sidebar-1}) jest panelem bocznym,
 który pojawia się wyłącznie dla rozmów grupowych.
-Widoczność panelu sterowana jest flagą w \glslink{redux}{Redux} (przełączaną z poziomu \texttt{ChatTopBar}).
 Panel prezentuje listę uczestników czatu wraz z awatarem i nazwą użytkownika,
 a kliknięcie w wybraną osobę przekierowuje do jej profilu.
-Zastosowano przewijanie dla długich list, dzięki czemu komponent zachowuje czytelność także dla większych grup.
