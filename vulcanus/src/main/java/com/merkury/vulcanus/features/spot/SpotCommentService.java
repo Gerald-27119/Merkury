@@ -2,7 +2,6 @@ package com.merkury.vulcanus.features.spot;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.SpotCommentRatingOutOfBoundariesException;
@@ -15,7 +14,6 @@ import com.merkury.vulcanus.features.azure.AzureBlobService;
 import com.merkury.vulcanus.features.vote.VoteService;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentAddDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentDto;
-import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentEditDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentMediaDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentUserVoteInfoDto;
 import com.merkury.vulcanus.model.entities.spot.SpotComment;
@@ -24,7 +22,6 @@ import com.merkury.vulcanus.model.entities.spot.SpotCommentMedia;
 import com.merkury.vulcanus.model.entities.spot.SpotMedia;
 import com.merkury.vulcanus.model.enums.AzureBlobFileValidatorType;
 import com.merkury.vulcanus.model.enums.GenericMediaType;
-import com.merkury.vulcanus.model.mappers.UserMapper;
 import com.merkury.vulcanus.model.mappers.spot.SpotCommentMapper;
 import com.merkury.vulcanus.model.mappers.spot.SpotCommentMediaMapper;
 import com.merkury.vulcanus.model.repositories.SpotCommentMediaRepository;
@@ -44,7 +41,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -89,7 +88,7 @@ public class SpotCommentService {
                 .orElseThrow(() -> new UserNotFoundException(String.format("User with %s not found", user.getUsername())));
 
         var spotCommentEntity = SpotCommentMapper.toEntity(spotComment, spot, author);
-        List<SpotCommentMedia> spotCommentMediaEntities = new ArrayList<>();
+        Set<SpotCommentMedia> spotCommentMediaEntities = new LinkedHashSet<>();
         List<SpotMedia> spotMediaEntities = new ArrayList<>();
         if (mediaFiles != null) {
             for (MultipartFile file : mediaFiles) {
@@ -122,25 +121,6 @@ public class SpotCommentService {
     public SpotCommentUserVoteInfoDto getVoteInfo(long commentId) {
         var username = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
         return voteService.getVoteInfo(commentId, username);
-    }
-
-    public void deleteComment(HttpServletRequest request, Long commentId) throws CommentAccessException, UserNotFoundException {
-        var user = userDataService.getUserFromRequest(request);
-        var comment = spotCommentRepository.findCommentByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("delete"));
-
-        spotCommentRepository.delete(comment);
-        updateSpotRating(comment.getSpot());
-    }
-
-    public void editComment(HttpServletRequest request, Long commentId, SpotCommentEditDto dto) throws CommentAccessException, UserNotFoundException {
-        var user = userDataService.getUserFromRequest(request);
-        var comment = spotCommentRepository.findCommentByIdAndAuthor(commentId, user).orElseThrow(() -> new CommentAccessException("edit"));
-
-        comment.setText(dto.text());
-        comment.setRating(dto.rating());
-
-        spotCommentRepository.save(comment);
-        updateSpotRating(comment.getSpot());
     }
 
     private Double calculateSpotRating(Long spotId) {

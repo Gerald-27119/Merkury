@@ -1,0 +1,62 @@
+%! Author = Mateusz
+%! Date = 27/12/2025
+
+\subsection{Cache}
+\label{subsec:cache}
+
+W aplikacji wykorzystano mechanizm \glslink{cache}{cache} do ograniczenia liczby powtarzalnych zapytań do usług zewnętrznych
+oraz odciążenia warstwy \glslink{backend}{backendowej} w przypadku często wywoływanych \glslink{endpoint}{endpointów}.
+Jako magazyn danych \glslink{cache}{cache} zastosowano \glslink{baza-danych}{bazę} klucz--wartość \glslink{redis}{Redis},
+uruchamianą w \glslink{kontener}{kontenerze Docker}, co uprościło konfigurację środowiska oraz zapewniło spójność
+między uruchomieniami lokalnymi.
+
+Do integracji ze środowiskiem \glslink{spring-boot}{Spring Boot} użyto gotowego mechanizmu \glslink{spring-cache}{Spring cache}.
+Konfiguracja menedżera \glslink{cache}{cache} została oparta o \texttt{RedisCacheManager}, a dla poszczególnych przestrzeni
+\glslink{cache}{cache} zdefiniowano niezależne czasy życia wpisów (\gls{ttl}).
+Dodatkowo wyłączono \glslink{cache}{cachowanie} wartości pustych (\textit{null}), co zapobiega utrwalaniu błędnych
+lub niekompletnych odpowiedzi.
+
+Poniżej przedstawiono konfigurację \glslink{cache}{cache} w projekcie (rys. \ref{img:redis-config}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/redis-config}
+    \caption{Konfiguracja \texttt{RedisCacheManager} wraz z przypisaniem TTL do wybranych przestrzeni cache.}
+    \label{img:redis-config}
+\end{figure}
+
+\glslink{cache}{Cachowanie} danych realizowane jest \glslink{annotation}{adnotacją} \texttt{@Cacheable}, która pozwala
+wskazać nazwę \glslink{cache}{cache} oraz sposób budowania klucza.
+W zależności od przypadku stosowane są również warunki \texttt{condition} i \texttt{unless},
+aby pomijać zapytania o niepoprawnych parametrach oraz nie zapisywać w \glslink{cache}{cache} wyników pustych.
+Dla wybranych metod włączono tryb \texttt{sync=true}, co ogranicza zjawisko równoległego odpytywania źródła danych
+(\textit{cache stampede}) w momencie wygaśnięcia wpisu.
+
+Przykładowe użycie \glslink{cache}{cache} w projekcie przedstawiono poniżej (rys. \ref{img:redis-gif}--\ref{img:redis-weather}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/redis-gif}
+    \caption{Cachowanie danych z zewnętrznego źródła z wykorzystaniem \texttt{@Cacheable} oraz synchronizacji.}
+    \label{img:redis-gif}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/redis-spots1}
+    \caption{Cachowanie wyników wyszukiwania spotów z kontrolą warunków (\texttt{condition}, \texttt{unless}).}
+    \label{img:redis-spots}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/redis-spots2}
+    \caption{Cachowanie danych pogodowych z kluczem opartym o współrzędne geograficzne.}
+    \label{img:redis-weather}
+\end{figure}
+
+Wartości \gls{ttl} dobrano na podstawie charakteru danych:
+dla wyników wyszukiwania zastosowano krótsze czasy (częsta zmienność i większe ryzyko nieaktualności),
+natomiast dla danych pogodowych lub \glslink{gif}{gifów}, które zmieniają się wolniej, ustawiono dłuższe czasy przechowywania.
+Takie podejście pozwoliło zredukować opóźnienia odpowiedzi oraz ograniczyć liczbę wywołań usług zewnętrznych,
+przy zachowaniu akceptowalnego poziomu aktualności danych.

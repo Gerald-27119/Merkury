@@ -5,7 +5,6 @@ import LoadingSpinner from "../../../../../components/loading-spinner/LoadingSpi
 import SelectHeightButton from "./SelectHeightButton";
 import WindSpeedDisplay from "./WindSpeedDisplay";
 import { useState } from "react";
-import SpotWeatherWIndSpeedsDto from "../../../../../model/interface/spot/weather/spotWeatherWIndSpeedsDto";
 
 type windSpeedsSelectionType = {
     label: string;
