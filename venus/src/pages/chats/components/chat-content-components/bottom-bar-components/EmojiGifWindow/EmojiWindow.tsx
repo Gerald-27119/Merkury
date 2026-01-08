@@ -15,7 +15,8 @@ export default function EmojiWindow({
     return (
         <div
             ref={rootRef}
-            className="emoji-picker dark:bg-violetDark/80 bg-whiteBg w-full min-w-0 grow flex-col rounded-b-xl dark:text-white"
+            className="emoji-picker dark:bg-violetDark/80 bg-whiteBg w-full
+            min-w-0 grow flex-col rounded-b-xl dark:text-white"
         >
             <EmojiPicker
                 className="w-full rounded-b-xl border-none p-2"
@@ -28,7 +29,10 @@ export default function EmojiWindow({
                         placeholder="Search emoji"
                         autoFocus={false}
                         hideIcon={true}
-                        className="text-md bg-violetLighter/30 mt-1 mb-3 flex h-11 w-full items-start justify-start rounded-2xl text-start outline-none focus:ring-2 focus:ring-white dark:bg-white/10"
+                        className="text-md bg-violetLighter/30 mt-1 mb-3 flex h-11
+                        w-full items-start
+                        justify-start rounded-2xl text-start outline-none focus:ring-2
+                         focus:ring-white dark:bg-white/10"
                     />
                 </EmojiPicker.Header>
 
@@ -42,3 +46,4 @@ export default function EmojiWindow({
         </div>
     );
 }
+

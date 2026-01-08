@@ -17,9 +17,13 @@ import {
 } from "../../../redux/chats";
 
 export default function ChatList() {
-    const dispatch = useDispatchTyped();
-    const selectedChatId = useSelectorTyped((s) => s.chats.selectedChatId);
-    const hasNewMap = useSelectorTyped(selectHasNewMap);
+    const dispatch =
+        useDispatchTyped();
+    const selectedChatId =
+        useSelectorTyped((s) =>
+            s.chats.selectedChatId);
+    const hasNewMap =
+        useSelectorTyped(selectHasNewMap);
 
     const chats = useSelectorTyped(selectAllChats);
 
@@ -32,7 +36,8 @@ export default function ChatList() {
         isLoading,
     } = useInfiniteQuery<ChatPage>({
         queryKey: ["user-chat-list"],
-        queryFn: ({ pageParam = 0 }) =>
+        queryFn: ({ pageParam = 0 }
+        ) =>
             getChatListByPage(pageParam as number, 13),
         getNextPageParam: (last) => last.nextPage,
         initialPageParam: 0,
@@ -43,7 +48,8 @@ export default function ChatList() {
         const lastPage = data.pages[data.pages.length - 1];
         if (!lastPage?.items?.length) return;
 
-        const toRedux: ChatDto[] = lastPage.items.map((chatDto) => ({
+        const toRedux: ChatDto[] =
+            lastPage.items.map((chatDto) => ({
             id: chatDto.id,
             name: chatDto.name,
             imgUrl: chatDto.imgUrl,

@@ -41,29 +41,36 @@ widoczny wyłącznie dla czatów grupowych.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{\chatimplfig{czat_list_1}}
-    \caption{Implementacja komponentu \texttt{ChatList} (1/3)}
+    \caption{Implementacja komponentu \texttt{ChatList} (1/4)}
     \label{fig:chat:chat-list-1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{\chatimplfig{czat_list_2}}
-    \caption{Implementacja komponentu \texttt{ChatList} (2/3)}
+    \caption{Implementacja komponentu \texttt{ChatList} (2/4)}
     \label{fig:chat:chat-list-2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{\chatimplfig{czat_list_3}}
-    \caption{Implementacja komponentu \texttt{ChatList} (3/3)}
+    \caption{Implementacja komponentu \texttt{ChatList} (3/4)}
     \label{fig:chat:chat-list-3}
 \end{figure}
 
-Komponent \texttt{ChatList} (rys.~\ref{fig:chat:chat-list-1}--\ref{fig:chat:chat-list-3}) odpowiada za pobieranie oraz prezentację listy rozmów użytkownika.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_list_4}}
+    \caption{Implementacja komponentu \texttt{ChatList} (4/4)}
+    \label{fig:chat:chat-list-4}
+\end{figure}
+
+Komponent \texttt{ChatList} (rys.~\ref{fig:chat:chat-list-1}--\ref{fig:chat:chat-list-4}) odpowiada za pobieranie oraz prezentację listy rozmów użytkownika.
 Dane są ładowane z \glslink{backend}{backendu} przy użyciu \glslink{hook}{hook'a}
 \texttt{useInfiniteQuery} z \glslink{tanstack-query}{TanStack Query}.
 Zaimplementowano mechanizm \glslink{infinite-scroll}{przewijania nieskończonego},
-który doładowuje kolejne strony wyników, gdy element-strażnik pojawi się na ekranie użytkownika.
+który doładowuje kolejne strony wyników, gdy \glslink{sentinel}{element-strażnik} pojawi się na ekranie użytkownika.
 W tym celu użyto mechanizmu \glslink{intersection-observer}{Intersection Observer}.
 
 Po każdorazowym pobraniu strony dane są mapowane do lokalnego formatu i zapisywane w \glslink{redux}{Redux},
@@ -126,32 +133,46 @@ paska nagłówka (\texttt{ChatTopBar}), listy wiadomości (\texttt{ChatMessaging
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{\chatimplfig{czat_top_bar_1}}
-    \caption{Implementacja komponentu \texttt{ChatTopBar} (1/4)}
+    \caption{Implementacja komponentu \texttt{ChatTopBar} (1/6)}
     \label{fig:chat:top-bar-1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{\chatimplfig{czat_top_bar_2}}
-    \caption{Implementacja komponentu \texttt{ChatTopBar} (2/4)}
+    \caption{Implementacja komponentu \texttt{ChatTopBar} (2/6)}
     \label{fig:chat:top-bar-2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{\chatimplfig{czat_top_bar_3}}
-    \caption{Implementacja komponentu \texttt{ChatTopBar} (3/4)}
+    \caption{Implementacja komponentu \texttt{ChatTopBar} (3/6)}
     \label{fig:chat:top-bar-3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{\chatimplfig{czat_top_bar_4}}
-    \caption{Implementacja komponentu \texttt{ChatTopBar} (4/4)}
+    \caption{Implementacja komponentu \texttt{ChatTopBar} (4/6)}
     \label{fig:chat:top-bar-4}
 \end{figure}
 
-Komponent \texttt{ChatTopBar} (rys.~\ref{fig:chat:top-bar-1}--\ref{fig:chat:top-bar-4}) pełni rolę nagłówka konwersacji.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_top_bar_5}}
+    \caption{Implementacja komponentu \texttt{ChatTopBar} (5/6)}
+    \label{fig:chat:top-bar-5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_top_bar_6}}
+    \caption{Implementacja komponentu \texttt{ChatTopBar} (6/6)}
+    \label{fig:chat:top-bar-6}
+\end{figure}
+
+Komponent \texttt{ChatTopBar} (rys.~\ref{fig:chat:top-bar-1}--\ref{fig:chat:top-bar-6}) pełni rolę nagłówka konwersacji.
 W zależności od typu rozmowy (prywatna/grupowa) udostępnia różne akcje:
 dla czatu prywatnego umożliwia przejście do profilu rozmówcy, natomiast w czacie grupowym
 udostępnia przełącznik panelu bocznego oraz operacje zarządzania rozmową.
