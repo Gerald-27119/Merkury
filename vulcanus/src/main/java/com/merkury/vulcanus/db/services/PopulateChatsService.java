@@ -95,11 +95,10 @@ public class PopulateChatsService {
         Chat chat = Chat.builder().build();
         participants.forEach(chat::addParticipant);
 
-        chat.setName(participants.stream().map(UserEntity::getUsername).collect(Collectors.joining(", ")));
-
         if (participants.size() > 2) {
             chat.setChatType(GROUP);
             setGroupOwner(chat, participants.getFirst());
+            chat.setName(participants.stream().map(UserEntity::getUsername).collect(Collectors.joining(", ")));
         }
 
         chat = chatRepository.save(chat);

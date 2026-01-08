@@ -1,16 +1,23 @@
-%! Author = Mateusz
-%! Date = 20/09/2025
+%! Author = Adam
+%! Date = 04/01/2026
 
 \chapter{Prezentacja systemu}
 \label{ch:prezentacja-systemu}
 
-W niniejszym rozdziale przedstawiono końcowy wygląd aplikacji oraz opisano sposób korzystania
+W niniejszym rozdziale przedstawiono finalny wygląd aplikacji oraz opisano sposób korzystania
 z jej kluczowych funkcjonalności.
-Opis obejmuje zarówno widoki dostępne publicznie, jak i elementy wymagające uwierzytelnienia użytkownika.
+Wcześniej opracowany projekt interfejsu zaprezentowany w rozdziale
+\hyperref[sec:architektura-interfejsu-uzytkownika]{\ref*{sec:architektura-interfejsu-uzytkownika} Architektura interfejsu użytkownika}
+pełnił funkcję punktu wyjścia oraz wsparcia w procesie implementacji.
+Ostateczny kształt interfejsu został wypracowany iteracyjnie, na podstawie konsultacji
+między członkami zespołu oraz z promotorem, a także wniosków wynikających z testów manualnych.
+Z tego względu w wielu miejscach warstwa wizualna różni się od pierwotnych makiet.
 
-\subimport{chapters/prezentacja-systemu/sections/}{strona-glowna.tex}
-\subimport{chapters/prezentacja-systemu/sections/}{strona-mapy.tex}
+\input{chapters/prezentacja-systemu/sections/strona-glowna}
+\input{./chapters/prezentacja-systemu/sections/strona-mapy}
 \subimport{chapters/prezentacja-systemu/sections/}{strona-chatu.tex}
 \subimport{chapters/prezentacja-systemu/sections/}{strona-forum.tex}
-\subimport{chapters/prezentacja-systemu/sections/}{panel-logowania.tex}
+\input{chapters/prezentacja-systemu/sections/panel-logowania}
+\input{chapters/prezentacja-systemu/sections/sidebar}
+\input{chapters/prezentacja-systemu/sections/notification}
 \input{chapters/prezentacja-systemu/sections/panel-konta-uzytkownika}
