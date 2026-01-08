@@ -31,7 +31,7 @@ Jego otworzenie oraz zamknięcie jest animowane przy użyciu \glslink{biblioteka
 Wyświetla listę zdjęć lub filmów przewijalną przy użyciu \texttt{\glslink{infinite-scroll}{infinite scroll}}.
 Dane pobierane są z \glslink{paginacja}{paginacją} z \glslink{backend}{backendu} przy pomocy \glslink{hook}{hook'a}
 \texttt{useInfiniteQuery}.
-Mechanizm ten został zrealizowany za pomocą \texttt{IntersectionObserver}, który nasłuchuje na element powiązany z
+Mechanizm ten został zrealizowany za pomocą \\ \texttt{IntersectionObserver}, który nasłuchuje na element powiązany z
 referencją \texttt{containerRef}.
 Zbliżenie się do \texttt{loadNextPageRef} lub \texttt{loadPreviousPageRef} określa odpowiedni kierunek pobierania danych
 (kolejne lub poprzednie strony), który jest zapisywany w \texttt{fetchDirection}.
@@ -119,9 +119,9 @@ jako od najnowszych.
 
 
 \textbf{\texttt{ExpandedMediaDisplay}}
-Zbudowany jest z \glslink{react-component}{komponentów} \texttt{MediaInfoDisplay}, \texttt{MediaDisplayFilterPanel} oraz \texttt{ExpandedGalleryPanel}.
+Zbudowany jest z \glslink{react-component}{komponentów} \texttt{MediaInfoDisplay}, \\ \texttt{MediaDisplayFilterPanel} oraz \texttt{ExpandedGalleryPanel}.
 Pobiera wcześniej wybrane media z \glslink{backend}{backendu}, a następnie w zależności od typu
-wyświetla je w \texttt{ExpandedGalleryPhoto} (zdjęcie) lub \texttt{ExpandedGalleryVideo} (film).
+wyświetla je w \texttt{ExpandedGalleryPhoto} (zdjęcie) lub \\ \texttt{ExpandedGalleryVideo} (film).
 Obsługa video odbywa się za pomocą elementów \glslink{biblioteka}{bilbioteki} \texttt{react-player}.
 W trakcie pobierania danych wyświetlany jest \texttt{LoadingSpinner}, a błędzie informuje komunikat
 \emph{Failed to fetch media.}.
@@ -147,7 +147,7 @@ W przypadku błędu w \glslink{react-component}{komponencie} \texttt{Notificatio
 \emph{Failed to edit spot media likes.}.
 W celu utrzymania aktualności danych, powodzenie operacji spowoduje unieważnienie wszystkich zapytań (queries)
 powiązanych z wybranym media, co wymusi ponowne pobranie danych.
-Funkcja \texttt{handleSetMediaFullscreen} obsługuje powiekszenie media na cały ekran poprzez
+Funkcja \texttt{handleSetMediaFullscreen} obsługuje powiększenie media na cały ekran poprzez
 otworzenie \glslink{modal}{modalu} \texttt{FullscreenMediaModal}.
 Kliknięcie przycisku z ikoną \texttt{BiDownload} powoduje przekierowanie do wybranego zasobu, który
 jest pobierany przez przeglądarkę.

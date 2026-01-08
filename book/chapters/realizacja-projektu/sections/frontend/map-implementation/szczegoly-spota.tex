@@ -124,7 +124,7 @@ Pozwala to na automatyczne zatrzymanie filmu po zmianie media.
 
 \textbf{\texttt{Photo}}
 Odpowiada za wyświetlenie zdjęcia oraz obsługę jego kliknięcia.
-Funkcja \texttt{handleClickPhoto} poprzez \glslink{mutacja}{mutację} wysyła na \glslink{backend}{backend}
+Funkcja \\ \texttt{handleClickPhoto} poprzez \glslink{mutacja}{mutację} wysyła na \glslink{backend}{backend}
 żądanie ustalające pozycję zdjęcia w liście wszystkich zdjęć \glslink{spot}{spota} z uwzględnieniem sortowania.
 \glslink{hook}{Hook} \texttt{useEffect} reaguje na zmianę danych i ustawia w stanie \glslink{redux}{Redux'a}
 id zdjęcia, jego pozycję w całej liście, typ media na \emph{PHOTO} oraz otwiera \glslink{modal}{modal}
@@ -153,7 +153,7 @@ Zawiera w sobie logikę obsługującą akcje możliwe do wykonania na danym \gls
 Przyciski wyświetlane są poprzez \texttt{SpotActionButton}, którym poszczególne funkcje przekazywane są
 przez \glslink{props}{propsy}.
 Nawigacja do wybranego \glslink{spot}{spota} zrealizowana jest poprzez pobranie lokalizacji użytkownika
-\\ (\texttt{navigator.geolocation.getCurrentPosition}), a następnie przeniesienie na \texttt{google maps}
+\\ (\texttt{navigator.geolocation.getCurrentPosition}), a następnie przeniesienie na \\ \texttt{google maps}
 z wyznaczoną trasą.
 Funkcja \texttt{clickShareSpotHandler} obsługuje udostępnienie \glslink{spot}{spota} przez
 skopiowanie odpowiedniego linka do pamięci podręcznej systemu korzystając z \texttt{navigator.clipboard}.
@@ -276,10 +276,10 @@ zamyka formularz, wpisane dane nie zostają zapisane.
 
 \textbf{\texttt{SpotComment}}
 \glslink{react-component}{Komponent} wyświetlający pojedynczy komentarz.
-Zbudowany jest z wyspecjalizowanych komponentów odpowiedzialnych za prezentację jego poszczególnych fragmentów.
+Zbudowany jest z wyspecjalizowanych \glslink{react-component}{komponentów} odpowiedzialnych za prezentację jego poszczególnych fragmentów.
 \texttt{SpotCommentAuthor} zawiera informacje o autorze komentarza: nazwę oraz zdjęcie profilowe,
 kliknięcie go powoduje przeniesienie na stronę profilu danego użytkownika.
-Ocena komentarza zrealizowana jest poprzez \texttt{Rate} z biblioteki \texttt{antd}.
+Ocena komentarza zrealizowana jest poprzez \texttt{Rate} z \glslink{biblioteka}{biblioteki} \texttt{antd}.
 Pozostałe dwa \glslink{react-component}{komponenty}, \texttt{SpotCommentMediaGallery}
 oraz \texttt{SpotCommentVotesPanel} zostały opisane poniżej.
 
@@ -302,7 +302,7 @@ Następnie otwiera dużą galerię multimediów \glslink{spot}{spota} (por. sekc
 \textbf{\texttt{SpotCommentVotesPanel}} (rys. \ref{fig:spot-comment-vote-panel-1} - \ref{fig:spot-comment-vote-panel-3})
 \glslink{react-component}{Komponent} odpowiedzialny za wyświetlanie polubień i niepolubień komentarza oraz obsługę operacji
 oddania głosu przez użytkownika.
-Za pomocą\glslink{hook}{hook'a} \texttt{useQuery} (\glslink{biblioteka}{biblioteka} \texttt{tanstack query}) pobierana
+Za pomocą \glslink{hook}{hook'a} \texttt{useQuery} (\glslink{biblioteka}{biblioteka} \texttt{tanstack query}) pobierana
 jest informacja czy i jaki głos oddał użytkownik.
 Na jej podstawie ustawiany jest wygląd odpowiedniej ikony.
 Kliknięcie przycisku powoduje następujące operacje:
