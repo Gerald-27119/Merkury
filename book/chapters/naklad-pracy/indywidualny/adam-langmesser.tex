@@ -23,6 +23,47 @@ Ponadto wypracowałem procedury włączania nowego kodu do repozytorium, obejmuj
 
 %TODO
 
+Przygotowałem lokalne środowisko deweloperskie dla \glslink{backend}{backendu} i \glslink{frontend}{frontendu} (konfiguracja \gls{ide},
+weryfikacja narzędzi budujących oraz uruchomienie projektów testowych), co ułatwiło płynne rozpoczęcie właściwych prac implementacyjnych.
+Następnie wdrożyłem podstawową stronę powitalną po stronie \glslink{frontend}{frontendu} oraz zaimplementowałem fundamenty logiki logowania
+i rejestracji użytkownika w \glslink{backend}{backendzie}, uwzględniając scenariusze brzegowe, takie jak próba rejestracji z zajętą nazwą użytkownika.
+Rozszerzyłem też środowisko uruchomieniowe o konfigurację \gls{docker-compose} dla \glslink{backend}{backendu}
+i bazy danych oraz dodałem cykliczny test weryfikujący poprawność uruchamiania aplikacji w kontenerach i jej podstawową responsywność.
+W dalszej kolejności zaprezentowałem zespołowi przykładowe podejście do \glslink{integration-tests}{testów integracyjnych}
+oraz \glslink{e2e-tests}{testów E2E} na \glslink{backend}{backendzie}, a równolegle przygotowałem demonstracyjny prototyp mapy
+z wykorzystaniem biblioteki \gls{leaflet}, aby pokazać możliwości interaktywnego widoku mapowego,
+oraz dopracowałem konfigurację \gls{eslint} po stronie \glslink{frontend}{frontendu}.
+Kontynuowałem prace w obszarze bezpieczeństwa, doprecyzowując konfigurację \gls{spring-security} (role i uprawnienia),
+przygotowując dane deweloperskie użytkowników oraz dodając automatyczne testy obejmujące kluczowe scenariusze logowania i rejestracji,
+a następnie ustabilizowałem zestaw testów poprzez ujednolicenie asercji i rozwiązanie problemów z relacjami między
+obiektami wykorzystywanymi w testach integracyjnych. Wprowadziłem kolejne
+usprawnienia konfiguracji \gls{spring-security} (reguły autoryzacji i filtry),
+uporządkowałem plik \texttt{.gitignore} o nowe artefakty generowane przez narzędzia
+oraz poprawiłem działanie potoków \gls{cicd} dla \glslink{backend}{backendu};
+jednocześnie uporządkowałem strukturę projektu po stronie serwera,
+wdrożyłem mechanizm cachowania z użyciem \gls{redis}
+oraz doprecyzowałem konfigurację poziomów logowania błędów,
+co usprawniło diagnozowanie problemów w środowiskach deweloperskich.
+Równolegle rozpocząłem implementację modułu czatu zarówno po stronie \glslink{backend}{backendowej},
+jak i \glslink{frontend}{frontendowej}, dostosowując układ aplikacji oraz elementy nawigacyjne do nowej sekcji,
+a także rozwinąłem procesy \gls{cicd} dla serwera, optymalizując czas budowania i doprecyzowując kroki uruchamiania testów.
+Następnie znacząco rozbudowałem czat, dodając pobieranie danych i wysyłanie wiadomości z użyciem \gls{websocket},
+ujednolicając model danych, upraszczając komunikację z \gls{api} oraz przebudowując strukturę \gls{redux} i komponentów,
+co przełożyło się na czytelniejszy kod i spójniejsze działanie interfejsu; dodatkowo wdrożyłem usprawnienia narzędziowe
+w postaci formatowania przez \gls{prettier}, skryptu \texttt{format:check} oraz weryfikacji formatowania w \gls{cicd}.
+Usprawniłem mechanizm \glslink{infinite-scroll}{nieskończonego przewijania} listy czatów, przygotowałem wspólną logikę
+i komponenty pomocnicze ułatwiające zespołowi korzystanie z \glslink{websocket}{websocketów} na froncie,
+dodałem grupowanie wiadomości po dacie oraz obsługę wielowierszowego pola tekstowego,
+a także wprowadziłem drobne korekty w potokach \gls{cicd}. Kolejnym krokiem było rozszerzenie czatu o wyszukiwanie
+i wysyłanie \glslink{gif}{GIF-ów} oraz wysyłanie \gls{emoji}, a także usprawnienie komunikacji poprzez optymistyczne
+wysyłanie wiadomości i dodanie nowych \glslink{endpoint}{endpointów} do stronicowanego pobierania starszych wiadomości.
+Na koniec umożliwiłem rozpoczynanie i kontynuowanie prywatnych rozmów bezpośrednio z widoków społecznościowych
+(list znajomych oraz obserwujących), dopracowałem obsługę \gls{emoji} i ergonomię okna wyboru \glslink{gif}{GIF-ów},
+a także zaimplementowałem funkcjonalność czatów grupowych obejmującą tworzenie rozmów z wyborem uczestników,
+edycję nazwy i obrazu czatu, dodawanie nowych członków oraz pełną obsługę załączników (pliki i obrazy) wraz z logiką wyboru,
+podglądu i wysyłania plików również bez treści tekstowej.
+
+
 \subsubsection{Tworzenie dokumentacji}
 \label{subsubsec:tworzenie-dokumentacji-adam}
 
