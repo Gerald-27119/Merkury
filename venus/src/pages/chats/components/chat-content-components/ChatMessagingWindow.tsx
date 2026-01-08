@@ -171,9 +171,7 @@ export default function ChatMessagingWindow({
     return (
         <div
             ref={containerRef}
-            className="dark:scrollbar-track-violetDark scrollbar-thumb-violetLight
-             scrollbar-thumb-rounded-full scrollbar-thin dark:bg-violetDark/20
-             flex h-full flex-col-reverse overflow-y-scroll bg-gray-50 py-1"
+            className="dark:scrollbar-track-violetDark scrollbar-thumb-violetLight scrollbar-thumb-rounded-full scrollbar-thin dark:bg-violetDark/20 flex h-full flex-col-reverse overflow-y-scroll bg-gray-50 py-1"
         >
             {messages.map((message, idx) => {
                 const thisDate = new Date(message.sentAt).toDateString();
