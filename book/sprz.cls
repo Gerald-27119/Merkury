@@ -261,82 +261,108 @@
     \parbox{#1}{\vspace{0.1cm}#2\vspace{0.1cm}}%
 }
 
+% --- helper do bloków w "Rezultaty i zakres" (nagłówek + treść + linia) ---
+\newcommand{\@pcblock}[2]{%
+    \begin{tabular}[t]{@{}p{\linewidth}@{}}
+    {\centering\textbf{\textit{#1}}\par}%
+    \vspace{2pt}\hrule\vspace{6pt}%
+    \raggedright #2
+    \end{tabular}%
+}
+
 \newcommand{\makeprojectcard}{%
     \begin{center}
-    \includegraphics[width=0.8\textwidth]{sprz/pjatk} \\
-    {
-        \large
-        \textbf{Karta projektu}
-    }
+    \includegraphics[width=0.8\textwidth]{sprz/pjatk}\\[0.8ex]
+    {\large\textbf{Karta projektu}}
     \end{center}
-    {
-        \small
-        \begin{center}
-        \begin{tabular}{|c|c||c|}
-        \hline
-        \multicolumn{2}{|p{0.7\linewidth}|}{\textbf{Temat projektu:}
 
-        \@title
+    \begingroup
+    \renewcommand{\baselinestretch}{1.0}\selectfont
+    \small
+    \setlength{\tabcolsep}{6pt}
+    \renewcommand{\arraystretch}{1.25}
 
-        \textbf{Temat projektu po angielsku:}
-
+    \begin{center}
+    \begin{tabular}{|p{0.25\linewidth}|p{0.45\linewidth}|p{0.30\linewidth}|}
+    \hline
+    \multicolumn{2}{|p{0.70\linewidth}|}{%
+        \textbf{Temat projektu:}\par
+        \@title\par\medskip
+        \textbf{Temat projektu po angielsku:}\par
         \@engtitle
-        } & \@mysmartparbox{0.3\linewidth}{\textbf{Akronim:}
-
-        \@acronym
-
-        \textbf{Data ustalenia tematu}
-
+    } &
+    \parbox[t]{\linewidth}{%
+        \textbf{Akronim:}\par
+        \@acronym\par\medskip
+        \textbf{Data ustalenia tematu:}\par
         \@titledate
-        }                                                                                                     \\
-        \hline
-        \multicolumn{2}{|p{0.7\linewidth}|}{\textbf{Promotor:}}      & \@mysmartparbox{0.3\linewidth}{\textbf{Konsultanci:}} \\
-        \multicolumn{2}{|p{0.7\linewidth}|}{\@supervisor}      & \@mysmartparbox{0.3\linewidth}{\begin{enumerate}
+    }\\
+    \hline
+    \multicolumn{2}{|p{0.70\linewidth}|}{%
+        \textbf{Promotor:}\par
+        \@supervisor
+    } &
+    \parbox[t]{\linewidth}{%
+        \textbf{Konsultanci:}\par
+        \vspace{-0.5\baselineskip}
+        \begin{enumerate}\setlength{\itemsep}{0pt}
         \@consultants
-        \end{enumerate}}                                                                           \\
-        \hline
+        \end{enumerate}
+    }\\
+    \hline
 
-        \multicolumn{3}{|p{1\linewidth}|}{\textbf{Cele projektu:}
+    \multicolumn{3}{|p{\linewidth}|}{%
+        \textbf{Cele projektu:}\par
+        \@projectgoals
+    }\\
+    \hline
 
-        \@projectgoals}                                                                                       \\ \hline
-
-        \multicolumn{3}{|p{1\linewidth}|}{\textbf{Rezultaty projektu:}
-
-        \@productsandservices
-
-        \@mainfunctionalities}                                                                                       \\ \hline
-
-        \multicolumn{3}{|p{1\linewidth}|}{\textbf{Miary sukcesu:}
-
-        \@successmeasure}                                                                                     \\ \hline
-        \multicolumn{3}{|p{1\linewidth}|}{\textbf{Ograniczenia:}
-
-        \@projlimitations}                                                                                    \\ \hline
+    \multicolumn{1}{|p{0.12\linewidth}|}{%
+        \textbf{\textit{Rezultaty i zakres}}%
+    } &
+    \multicolumn{2}{p{0.88\linewidth}|}{%
+        \begin{tabular}{p{0.22\linewidth}|p{0.73\linewidth}}
+        \textit{\textbf{Oczekiwane} \newline \textbf{produkty/usługi}} &
+        \@productsandservices \\ \hline
+        \textit{\textbf{Główne} \newline \textbf{funkcjonalności} \newline \textbf{i/albo cechy}} &
+        \@mainfunctionalities
         \end{tabular}
-        \end{center}
+    }\\
+    \hline
 
-        \begin{center}
-        \begin{tabular}{|p{0.3\linewidth}|p{0.17\linewidth}|p{0.27\linewidth}|p{0.2\linewidth}|}
-        \hline
-        \textbf{Wykonawcy} & \textbf{Numer albumu} & \textbf{Specjalizacja} & \textbf{Tryb studiów} \\
-        \hline
-        \@authorstablerows
-        \end{tabular}
-        \end{center}
+    \multicolumn{3}{|p{\linewidth}|}{%
+        \textbf{Miary sukcesu:}\par
+        \@successmeasure
+    }\\
+    \hline
 
-        \begin{center}
-        \begin{tabular}{|p{0.4\linewidth}|p{0.6\linewidth}|}
-        \hline
-        \textbf{Data ukończenia projektu:}
+    \multicolumn{3}{|p{\linewidth}|}{%
+        \textbf{Ograniczenia:}\par
+        \@projlimitations
+    }\\
+    \hline
+    \end{tabular}
+    \end{center}
 
-        \@finishdate & \textbf{Recenzent:}
+    \begin{center}
+    \begin{tabular}{|p{0.30\linewidth}|p{0.17\linewidth}|p{0.27\linewidth}|p{0.20\linewidth}|}
+    \hline
+    \textbf{Wykonawcy} & \textbf{Numer} \newline \textbf{albumu} & \textbf{Specjalizacja} & \textbf{Tryb studiów}\\
+    \hline
+    \@authorstablerows
+    \end{tabular}
+    \end{center}
 
-        \@reviewer \\
-        \hline
-        \end{tabular}
-        \end{center}
+    \begin{center}
+    \begin{tabular}{|p{0.40\linewidth}|p{0.60\linewidth}|}
+    \hline
+    \textbf{Data ukończenia projektu:}\par \@finishdate &
+    \textbf{Recenzent:}\par \@reviewer\\
+    \hline
+    \end{tabular}
+    \end{center}
 
-    }
+    \endgroup
     \newpage
 }
 
