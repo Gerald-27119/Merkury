@@ -1,5 +1,396 @@
-%! Author = mateusz
-%! Date = 20/10/2025
+%! Author = Adam
+%! Date = 30/12/2025
 
-\subsection{Chat}
+\subsection{Czat}
 \label{subsec:chat-frontend}
+
+\newcommand{\chatimplfig}[1]{./attachments/implementacja-frontendu/czat/#1}
+
+W niniejszym rozdziale przedstawiono implementację modułu czatu po stronie \glslink{frontend}{frontendu}. \newline
+Czat stanowi jeden z kluczowych elementów aplikacji, zapewniając komunikację w wariancie rozmów prywatnych
+oraz grupowych.
+
+Na główne \glslink{react-component}{komponenty} modułu składają się:
+\begin{itemize}
+    \item \texttt{ChatsPage} -- główny kontener układu,
+    \item \texttt{ChatList} oraz \texttt{ListedChat} -- komponenty odpowiedzialne za prezentację i obsługę listy rozmów,
+    \item \texttt{ChatTopBar}, \texttt{ChatMessagingWindow}, \texttt{ChatBottomBar} -- elementy składające się na okno konwersacji,
+    \item \texttt{EmojiGifWindowWrapper} wraz z \texttt{EmojiWindow} i \texttt{GifWindow} -- panel wyboru \glslink{emoji}{emoji}/\glslink{gif}{GIF-ów},
+    \item \texttt{GroupChatParticipantsSideBar} -- panel listy uczestników rozmowy grupowej.
+\end{itemize}
+
+\subsubsection{ChatsPage -- główny kontener modułu}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_page}}
+    \caption{Implementacja komponentu \texttt{ChatsPage}}
+    \label{fig:chat:chats-page-1}
+\end{figure}
+
+Komponent \texttt{ChatsPage} (rys.~\ref{fig:chat:chats-page-1}) jest nadrzędnym kontenerem widoku czatu.
+Odpowiada za rozłożenie interfejsu na trzy sekcje:
+(1) lewy panel z listą rozmów, (2) centralne okno konwersacji oraz (3) opcjonalny panel boczny
+widoczny wyłącznie dla czatów grupowych.
+\glslink{stan}{Stan} wyboru rozmowy oraz widoczność panelu bocznego pobierane są ze \glslink{stan}{stanu} globalnego \glslink{redux}{Redux}.
+
+\subsubsection{Lista czatów}
+
+\paragraph{Komponent ChatList}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_list_1}}
+    \caption{Implementacja komponentu \texttt{ChatList} (1/4)}
+    \label{fig:chat:chat-list-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_list_2}}
+    \caption{Implementacja komponentu \texttt{ChatList} (2/4)}
+    \label{fig:chat:chat-list-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_list_3}}
+    \caption{Implementacja komponentu \texttt{ChatList} (3/4)}
+    \label{fig:chat:chat-list-3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_list_4}}
+    \caption{Implementacja komponentu \texttt{ChatList} (4/4)}
+    \label{fig:chat:chat-list-4}
+\end{figure}
+
+Komponent \texttt{ChatList} (rys.~\ref{fig:chat:chat-list-1}--\ref{fig:chat:chat-list-4}) odpowiada za pobieranie oraz prezentację listy rozmów użytkownika.
+Dane są ładowane z \glslink{backend}{backendu} przy użyciu \glslink{hook}{hook'a}
+\texttt{useInfiniteQuery} z \glslink{tanstack-query}{TanStack Query}.
+Zaimplementowano mechanizm \glslink{infinite-scroll}{przewijania nieskończonego},
+który doładowuje kolejne strony wyników, gdy \glslink{sentinel}{element-strażnik} pojawi się na ekranie użytkownika.
+W tym celu użyto mechanizmu \glslink{intersection-observer}{Intersection Observer}.
+
+Po każdorazowym pobraniu strony dane są mapowane do lokalnego formatu i zapisywane w \glslink{redux}{Redux},
+dzięki czemu \glslink{stan}{stan} listy rozmów jest współdzielony z innymi komponentami modułu.
+Dodatkowo przy pierwszym renderowaniu, jeżeli użytkownik nie ma wybranego czatu,
+ustawiana jest domyślna rozmowa.
+
+W trakcie ładowania wyświetlane są elementy typu \glslink{skeleton-loader}{skeleton loader},
+natomiast w przypadku doładowywania kolejnych stron prezentowany jest wskaźnik ładowania.
+
+\paragraph{Komponent ListedChat}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{listed_czat_1}}
+    \caption{Implementacja komponentu \texttt{ListedChat} (1/2)}
+    \label{fig:chat:listed-chat-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{listed_czat_2}}
+    \caption{Implementacja komponentu \texttt{ListedChat} (2/2)}
+    \label{fig:chat:listed-chat-2}
+\end{figure}
+
+Komponent \texttt{ListedChat} (rys.~\ref{fig:chat:listed-chat-1}--\ref{fig:chat:listed-chat-2}) reprezentuje pojedynczy element listy rozmów.
+Wyświetla podstawowe informacje o czacie: nazwę, awatar, treść ostatniej wiadomości oraz czas jej wysłania.
+Komponent wizualnie rozróżnia stan:
+\begin{itemize}
+    \item aktualnie wybranego czatu,
+    \item czatu posiadającego nowe, nieodczytane wiadomości,
+    \item czatu nieaktywnego.
+\end{itemize}
+
+Kliknięcie w element listy aktualizuje identyfikator wybranego czatu w \glslink{redux}{Redux} i
+jednocześnie czyści znacznik nowych wiadomości dla danej rozmowy.
+
+\subsubsection{Okno konwersacji}
+
+\paragraph{Komponent ChatContent}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_content}}
+    \caption{Implementacja komponentu \texttt{ChatContent}}
+    \label{fig:chat:chat-content-1}
+\end{figure}
+
+Komponent \texttt{ChatContent} (rys.~\ref{fig:chat:chat-content-1}) pełni rolę kontenera na komponenty okna konwersacji.
+Jego zadaniem jest pobranie z \glslink{redux}{Redux} identyfikatora aktualnie wybranego czatu, a następnie odczytanie
+pełnych danych rozmowy na podstawie selektora \texttt{selectChatById}.
+
+\texttt{ChatContent} składa okno rozmowy z trzech części:
+paska nagłówka (\texttt{ChatTopBar}), listy wiadomości (\texttt{ChatMessagingWindow}) oraz paska tworzenia wiadomości
+(\texttt{ChatBottomBar}).
+
+\paragraph{Komponent ChatTopBar}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_top_bar_1}}
+    \caption{Implementacja komponentu \texttt{ChatTopBar} (1/6)}
+    \label{fig:chat:top-bar-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_top_bar_2}}
+    \caption{Implementacja komponentu \texttt{ChatTopBar} (2/6)}
+    \label{fig:chat:top-bar-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_top_bar_3}}
+    \caption{Implementacja komponentu \texttt{ChatTopBar} (3/6)}
+    \label{fig:chat:top-bar-3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_top_bar_4}}
+    \caption{Implementacja komponentu \texttt{ChatTopBar} (4/6)}
+    \label{fig:chat:top-bar-4}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_top_bar_5}}
+    \caption{Implementacja komponentu \texttt{ChatTopBar} (5/6)}
+    \label{fig:chat:top-bar-5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_top_bar_6}}
+    \caption{Implementacja komponentu \texttt{ChatTopBar} (6/6)}
+    \label{fig:chat:top-bar-6}
+\end{figure}
+
+Komponent \texttt{ChatTopBar} (rys.~\ref{fig:chat:top-bar-1}--\ref{fig:chat:top-bar-6}) pełni rolę nagłówka konwersacji.
+W zależności od typu rozmowy (prywatna/grupowa) udostępnia różne akcje:
+dla czatu prywatnego umożliwia przejście do profilu rozmówcy, natomiast w czacie grupowym
+udostępnia przełącznik panelu bocznego oraz operacje zarządzania rozmową.
+Część funkcjonalności realizowana jest w \glslink{modal}{oknach modalnych}
+(tworzenie nowego czatu grupowego, edycja czatu lub dodawanie uczestników).
+
+\paragraph{Komponent ChatMessagingWindow}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_msg_w_1}}
+    \caption{Implementacja komponentu \texttt{ChatMessagingWindow} (1/6)}
+    \label{fig:chat:messaging-window-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_msg_w_2}}
+    \caption{Implementacja komponentu \texttt{ChatMessagingWindow} (2/6)}
+    \label{fig:chat:messaging-window-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_msg_w_3}}
+    \caption{Implementacja komponentu \texttt{ChatMessagingWindow} (3/6)}
+    \label{fig:chat:messaging-window-3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_msg_w_4}}
+    \caption{Implementacja komponentu \texttt{ChatMessagingWindow} (4/6)}
+    \label{fig:chat:messaging-window-4}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_msg_w_5}}
+    \caption{Implementacja komponentu \texttt{ChatMessagingWindow} (5/6)}
+    \label{fig:chat:messaging-window-5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_msg_w_6}}
+    \caption{Implementacja komponentu \texttt{ChatMessagingWindow} (6/6)}
+    \label{fig:chat:messaging-window-6}
+\end{figure}
+
+Komponent \texttt{ChatMessagingWindow} (rys.~\ref{fig:chat:messaging-window-1}--\ref{fig:chat:messaging-window-6}) odpowiada za wyświetlanie wiadomości
+w obrębie wybranej konwersacji. Dane pobierane z \glslink{backend}{backendu} przy użyciu
+\texttt{useInfiniteQuery}.
+Wiadomości są renderowane w układzie „od dołu” (ostatnia wiadomość na końcu),
+a doładowywanie starszych fragmentów odbywa się po przewinięciu w górę.
+
+Dodatkowo komponent porządkuje wiadomości w czytelny sposób:
+\begin{itemize}
+    \item wstawia separatory dat przy zmianie dnia,
+    \item grupuje wiadomości tego samego autora wysłane w krótkim odstępie czasu.
+\end{itemize}
+
+Okno konwersacji współpracuje również z aktualizacją danych w czasie rzeczywistym.
+Po odebraniu nowej wiadomości jest ona natychmiast wyświetlana.
+
+\paragraph{Komponent ChatBottomBar}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_bottom_bar_1}}
+    \caption{Implementacja komponentu \texttt{ChatBottomBar} (1/8)}
+    \label{fig:chat:bottom-bar-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_bottom_bar_2}}
+    \caption{Implementacja komponentu \texttt{ChatBottomBar} (2/8)}
+    \label{fig:chat:bottom-bar-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_bottom_bar_3}}
+    \caption{Implementacja komponentu \texttt{ChatBottomBar} (3/8)}
+    \label{fig:chat:bottom-bar-3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_bottom_bar_4}}
+    \caption{Implementacja komponentu \texttt{ChatBottomBar} (4/8)}
+    \label{fig:chat:bottom-bar-4}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_bottom_bar_5}}
+    \caption{Implementacja komponentu \texttt{ChatBottomBar} (5/8)}
+    \label{fig:chat:bottom-bar-5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_bottom_bar_6}}
+    \caption{Implementacja komponentu \texttt{ChatBottomBar} (6/8)}
+    \label{fig:chat:bottom-bar-6}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_bottom_bar_7}}
+    \caption{Implementacja komponentu \texttt{ChatBottomBar} (7/8)}
+    \label{fig:chat:bottom-bar-7}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{czat_bottom_bar_8}}
+    \caption{Implementacja komponentu \texttt{ChatBottomBar} (8/8)}
+    \label{fig:chat:bottom-bar-8}
+\end{figure}
+
+Komponent \texttt{ChatBottomBar} (rys.~\ref{fig:chat:bottom-bar-1}--\ref{fig:chat:bottom-bar-8}) realizuje wysyłanie wiadomości tekstowych,
+załączników oraz interakcję z oknami wyboru \glslink{emoji}{emoji} i \glslink{gif}{GIF-ów}.
+Wysyłanie wiadomości w czasie rzeczywistym odbywa się z użyciem \glslink{websocket}{WebSocket}
+oraz protokołu \glslink{stomp}{STOMP}.
+Obsługa załączników obejmuje wybór wielu plików oraz ich podgląd (jeżeli są zdjęciem).
+
+\subsubsection{Okna emoji i GIF}
+
+\paragraph{Komponent EmojiGifWindowWrapper}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{egwrapper}}
+    \caption{Implementacja komponentu \texttt{EmojiGifWindowWrapper}}
+    \label{fig:chat:emoji-gif-wrapper-1}
+\end{figure}
+
+Komponent \texttt{EmojiGifWindowWrapper} (rys.~\ref{fig:chat:emoji-gif-wrapper-1}) stanowi warstwę pośrednią,
+która w zależności od aktualnego trybu wyświetla jedno z dwóch okien:
+\texttt{EmojiWindow} lub \texttt{GifWindow}.
+
+\paragraph{Komponent EmojiWindow}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{ew}}
+    \caption{Implementacja komponentu \texttt{EmojiWindow}}
+    \label{fig:chat:emoji-window-1}
+\end{figure}
+
+Komponent \texttt{EmojiWindow} (rys.~\ref{fig:chat:emoji-window-1}) integruje zewnętrzny selektor \glslink{emoji}{emoji}
+i umożliwia wyszukiwanie oraz wybór emotikonów.
+Po kliknięciu \glslink{emoji}{emoji} komponent dopisuje go do aktualnie budowanej treści wiadomości.
+
+\paragraph{Komponent GifWindow}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{gw_1}}
+    \caption{Implementacja komponentu \texttt{GifWindow} (1/5)}
+    \label{fig:chat:gif-window-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{gw_2}}
+    \caption{Implementacja komponentu \texttt{GifWindow} (2/5)}
+    \label{fig:chat:gif-window-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{gw_3}}
+    \caption{Implementacja komponentu \texttt{GifWindow} (3/5)}
+    \label{fig:chat:gif-window-3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{gw_4}}
+    \caption{Implementacja komponentu \texttt{GifWindow} (4/5)}
+    \label{fig:chat:gif-window-4}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{gw_5}}
+    \caption{Implementacja komponentu \texttt{GifWindow} (5/5)}
+    \label{fig:chat:gif-window-5}
+\end{figure}
+
+Komponent \texttt{GifWindow} (rys.~\ref{fig:chat:gif-window-1}--\ref{fig:chat:gif-window-5}) umożliwia wyszukiwanie oraz wysyłanie \glslink{gif}{GIF-ów}
+z wykorzystaniem integracji z dostawcą \glslink{tenor}{Tenor} po stronie \glslink{backend}{backendu}.
+Widok udostępnia dwa scenariusze:
+\begin{itemize}
+    \item prezentację popularnych kategorii,
+    \item wyszukiwanie \glslink{gif}{GIF-ów} po frazie.
+\end{itemize}
+
+Wyszukiwanie realizowane jest przy użyciu \texttt{useInfiniteQuery}.
+W przypadku kliknięcia w wybrany \glslink{gif}{GIF} jego adres \glslink{url}{URL} jest przesyłany jako treść wiadomości
+przez \glslink{websocket}{WebSocket}/\glslink{stomp}{STOMP}, a okno selektora zostaje zamknięte.
+
+\subsubsection{Lista uczestników czatu grupowego}
+
+\paragraph{Komponent GroupChatParticipantsSideBar}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{\chatimplfig{gcpsb}}
+    \caption{Implementacja komponentu \texttt{GroupChatParticipantsSideBar}}
+    \label{fig:chat:group-participants-sidebar-1}
+\end{figure}
+
+Komponent \texttt{GroupChatParticipantsSideBar} (rys.~\ref{fig:chat:group-participants-sidebar-1}) jest panelem bocznym,
+który pojawia się wyłącznie dla rozmów grupowych.
+Panel prezentuje listę uczestników czatu wraz z awatarem i nazwą użytkownika,
+a kliknięcie w wybraną osobę przekierowuje do jej profilu.
