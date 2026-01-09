@@ -1,0 +1,52 @@
+%! Author = kacper
+%! Date = 08.01.2026
+
+\subsubsection{Prawy panel boczny}
+\label{subsubsec:prawy-panel-boczny}
+
+Komponent \texttt{ForumSearchBar} odpowiada za zaawansowane wyszukiwanie postów na forum i jest wykorzystywany w \texttt{ForumLayout}.
+Logika wyszukiwania oparta jest o lokalny stan komponentu, którego strukturę definiuje interfejs \texttt{SearchState}.
+Interfejs ten opisuje komplet aktywnych filtrów wyszukiwania, takich jak:
+\begin{itemize}
+    \item fraza wyszukiwania
+    \item nazwa autora
+    \item kategoria
+    \item tagi
+    \item zakres dat publikacji (od–do)
+\end{itemize}
+
+Dla wyboru kategorii i tagów wykorzystywany jest komponent \texttt{SelectWithSearch}, oparty o \glslink{react-select}{bibliotekę react-select}, umożliwiający wyszukiwanie oraz wybór pojedynczy i wielokrotny.
+
+Pola odpowiedzialne za filtrowanie po dacie („From” / „To”) zostały zaimplementowane przy użyciu komponentu \texttt{DatePicker} z \glslink{biblioteka}{biblioteki} Ant Design (\texttt{antd}), z wykorzystaniem \texttt{dayjs} do obsługi i formatowania dat.
+Komponent dat dynamicznie dostosowuje wygląd do aktualnego trybu jasnego i ciemnego aplikacji.
+
+Po zatwierdzeniu formularza dane wyszukiwania są mapowane na parametry \glslink{url}{URL} (\texttt{URLSearchParams}), a użytkownik jest przekierowywany do dedykowanego widoku wyników (\texttt{/forum/search}). Dzięki temu wyszukiwanie jest w pełni odtwarzalne na podstawie adresu URL.
+
+Dodatkowo pola tekstowe wykorzystują \texttt{HintedSearchField}, który umożliwia podpowiedzi wyszukiwania (np. postów lub użytkowników) w trakcie wpisywania.
+
+
+Komponent \texttt{ForumSearch} odpowiada za prezentację listy postów spełniających kryteria wyszukiwania przekazane w parametrach \glslink{url}{URL}.
+
+Na podstawie \texttt{useSearchParams} tworzony jest obiekt \texttt{PostSearchRequestDto}, który zawiera wszystkie aktywne filtry (fraza, kategoria, tagi, daty, autor).
+Dane te są następnie wykorzystywane w zapytaniu do API po stronie \glslink{backend}{backendu}.
+
+Pobieranie wyników wyszukiwania realizowane jest przy użyciu hooka \texttt{useInfiniteQuery}, co umożliwia stronicowanie danych oraz dynamiczne ładowanie kolejnych stron.
+Kolejne wyniki są pobierane automatycznie z wykorzystaniem mechanizmu nieskończonego przewijania.
+
+Widok obsługuje również sortowanie wyników, a wybrana opcja sortowania jest częścią klucza zapytania, co powoduje ponowne pobranie danych przy jego zmianie.
+
+Wyniki wyszukiwania są wyświetlane przy użyciu komponentu \texttt{ForumPostsPage}, który odpowiada za:
+\begin{itemize}
+    \item wyświetlanie listy postów,
+    \item obsługę sortowania,
+    \item prezentację informacji o liczbie znalezionych wyników,
+    \item komunikaty o braku dalszych rezultatów.
+\end{itemize}
+
+Po wykonaniu wyszukiwania komponent \texttt{SearchResults} prezentuje liczbę znalezionych postów oraz czytelne podsumowanie zastosowanych filtrów (np. fraza, kategoria, tagi, autor, zakres dat).
+Komponent ten znajduje się w \texttt{ForumPostList} i wyświetlany jest warunkowo, tylko gdy zapytanie wyszukiwania zawiera jakiekolwiek kryteria.
+
+W przypadku błędów zapytania użytkownik otrzymuje stosowną notyfikację, natomiast podczas ładowania wyświetlane są komponenty typu skeleton, zapewniające spójne UX.
+
+\texttt{TrendingPostPanel} wyświetla listę popularnych postów za pomocą \texttt{TrendingPostList}.
+Każdy element w liście używa komponentu \texttt{TrendingPost}.
