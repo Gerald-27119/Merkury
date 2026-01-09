@@ -56,19 +56,3 @@ a klientem dostawcy. Odpowiada on za:
 Istotnym elementem jest użycie \glslink{annotation}{adnotacji} \texttt{@Cacheable} dla operacji pobierania popularnych kategorii.
 Zastosowanie pamięci podręcznej (\glslink{cache}{cache}) ogranicza liczbę wywołań do zewnętrznej usługi w przypadku danych,
 które zmieniają się relatywnie rzadko.
-
-\subsubsection{Warstwa prezentacji -- \texttt{GifController}}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{./attachments/implementacja-backendu/czat/gif/controller}
-    \caption{\texttt{GifController}}
-    \label{fig:gif:controller}
-\end{figure}
-
-Rysunek~\ref{fig:gif:controller} przedstawia kontroler \glslink{rest_api}{REST} udostępniający funkcjonalności \glslink{gif}{GIF-ów}
-na potrzeby \glslink{frontend}{frontendu}. Udostępniono dwa \glslink{endpoint}{endpointy}:
-\begin{itemize}
-    \item \texttt{GET /gifs/trending} -- zwraca listę popularnych kategorii,
-    \item \texttt{GET /gifs/search} -- zwraca wyniki wyszukiwania dla podanej frazy, ze wsparciem \glslink{paginacja}{paginacji}.
-\end{itemize}
