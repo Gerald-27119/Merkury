@@ -4,7 +4,7 @@
 \subsubsection{Układ strony}
 \label{subsubsec:uklad-strony}
 
-\texttt{ForumLayout} jest \glslink{react-component}{komponentem} nadrzędnym wszystkich podstron forum.
+\texttt{ForumLayout} jest \glslink{react-component}{komponentem} nadrzędnym wszystkich podstron forum (rys. \ref{img:forum-layout-1}~\ref{img:forum-layout-2}).
 Zapewnia on spójną strukturę strony składającej się z trzech głównych sekcji: lewego panelu bocznego, centralnej części z główną treścią oraz prawego panelu bocznego.
 Komponent ten stanowi wspólny układ dla wszystkich tras forum i jest używany w \glslink{routing}{routingu} aplikacji.
 
@@ -26,3 +26,17 @@ Obsługa modali tworzenia posta oraz zgłaszania treści realizowana jest global
 
 \texttt{ForumLayout} zawiera również dwa modale: \texttt{ForumAddPostModal} oraz \texttt{ForumReportModal}, które są dostępne na wszystkich podstronach forum.
 Służą one do obsługi formularzy tworzenia i edycji postów oraz zgłaszania postów i komentarzy.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/forum_layout_1}
+    \caption{Komponent ForumLayout (1)}
+    \label{img:forum-layout-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/forum_layout_2}
+    \caption{Komponent ForumLayout (2)}
+    \label{img:forum-layout-2}
+\end{figure}

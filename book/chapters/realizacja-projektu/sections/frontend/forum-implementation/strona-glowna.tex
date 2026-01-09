@@ -4,7 +4,7 @@
 \subsubsection{Strona główna}
 \label{subsubsec:strona-glowna}
 
-Komponent \texttt{Forum} odpowiada za wyświetlanie strony głównej forum, zawierającej listę postów.
+Komponent \texttt{Forum} (rys. \ref{img:forum-komponent}) odpowiada za wyświetlanie strony głównej forum, zawierającej listę postów.
 Dane pobierane są z \glslink{backend}{backendu} przy użyciu \glslink{hook}{hooka} \texttt{useInfiniteQuery} z \glslink{tanstack-query}{biblioteki TanStack Query}, co umożliwia stronicowanie wyników oraz dynamiczne ładowanie kolejnych stron.
 
 Lista postów może być sortowana według wybranych kryteriów (m.in. data publikacji, liczba wyświetleń, liczba komentarzy).
@@ -12,6 +12,13 @@ Zmiana opcji sortowania powoduje ponowne wykonanie zapytania z odpowiednimi para
 Za sortowanie odpowiada komponent \texttt{ForumSortDropdown}.
 
 W trakcie początkowego ładowania danych wyświetlane są komponenty szkieletowe (\texttt{SkeletonListedForumPost}), natomiast w przypadku błędu wyświetlany jest komponent \texttt{Error}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/forum}
+    \caption{Komponent Forum}
+    \label{img:forum-komponent}
+\end{figure}
 
 Logika została wydzielona do komponentu \texttt{InfiniteScroll}, który odpowiada za:
 \begin{itemize}
@@ -21,7 +28,7 @@ Logika została wydzielona do komponentu \texttt{InfiniteScroll}, który odpowia
 
 Komponent \texttt{ForumFollowed} w analogiczny sposób wyświetla posty obserwowane dla zalogowanego użytkownika.
 
-Komponent \texttt{Post} odpowiada za prezentację pojedynczego posta na ich liście.
+Komponent \texttt{Post} (rys. \ref{img:post-komponent}) odpowiada za prezentację pojedynczego posta na ich liście.
 Otrzymuje on jego dane w postaci obiektu \texttt{PostGeneral} i wyświetla jego podstawowe informacje, takie jak tytuł, kategoria, tagi, skrócona treść, liczba wyświetleń oraz komentarzy.
 
 Komponent wykorzystuje podział na mniejsze elementy:
@@ -47,7 +54,7 @@ W przypadku braku autoryzacji użytkownika wyświetlany jest komunikat informacy
 Komponent \texttt{PostHeader} wyświetla tytuł posta oraz menu kontekstowe dostępne po kliknięciu ikony.
 Logika menu została wydzielona do komponentu \texttt{ForumContentMenu}, który jest komponentem współdzielonym i wykorzystywanym również w widokach szczegółowych postów oraz komentarzy.
 
-\texttt{ForumContentMenu} dynamicznie dostosowuje dostępne akcje w zależności od:
+\texttt{ForumContentMenu} (rys. \ref{img:forum-content-menu-1}~\ref{img:forum-content-menu-2}) dynamicznie dostosowuje dostępne akcje w zależności od:
 \begin{itemize}
     \item tego, czy zalogowany użytkownik jest autorem treści,
     \item stanu obserwowania posta,
@@ -56,3 +63,10 @@ Logika menu została wydzielona do komponentu \texttt{ForumContentMenu}, który 
 
 Menu umożliwia wykonywanie operacji takich jak obserwowanie posta, zgłaszanie treści, edycja oraz usuwanie.
 Widoczność menu kontrolowana jest lokalnym stanem komponentu oraz mechanizmem zamykania po kliknięciu poza jego obszarem, zrealizowanym przy użyciu dedykowanego \glslink{hook}{hooka} \texttt{useClickOutside}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/post}
+    \caption{Komponent Post}
+    \label{img:post-komponent}
+\end{figure}

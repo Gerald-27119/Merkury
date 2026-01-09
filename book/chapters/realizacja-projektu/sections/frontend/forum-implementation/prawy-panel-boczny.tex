@@ -20,10 +20,10 @@ Dla wyboru kategorii i tagów wykorzystywany jest komponent \texttt{SelectWithSe
 Pola odpowiedzialne za filtrowanie po dacie („From” / „To”) zostały zaimplementowane przy użyciu komponentu \texttt{DatePicker} z \glslink{biblioteka}{biblioteki} Ant Design (\texttt{antd}), z wykorzystaniem \texttt{dayjs} do obsługi i formatowania dat.
 Komponent dat dynamicznie dostosowuje wygląd do aktualnego trybu jasnego i ciemnego aplikacji.
 
-Po zatwierdzeniu formularza dane wyszukiwania są mapowane na parametry \glslink{url}{URL} (\texttt{URLSearchParams}), a użytkownik jest przekierowywany do dedykowanego widoku wyników (\texttt{/forum/search}). Dzięki temu wyszukiwanie jest w pełni odtwarzalne na podstawie adresu URL.
+Po zatwierdzeniu formularza dane wyszukiwania są mapowane na parametry \glslink{url}{URL} (\texttt{URLSearchParams}), a użytkownik jest przekierowywany do dedykowanego widoku wyników (\texttt{/forum/search}).
+Dzięki temu wyszukiwanie jest w pełni odtwarzalne na podstawie adresu \glslink{url}{URL}.
 
-Dodatkowo pola tekstowe wykorzystują \texttt{HintedSearchField}, który umożliwia podpowiedzi wyszukiwania (np. postów lub użytkowników) w trakcie wpisywania.
-
+Dodatkowo pola tekstowe wykorzystują \texttt{HintedSearchField}, który umożliwia podpowiedzi wyszukiwania w trakcie wpisywania.
 
 Komponent \texttt{ForumSearch} odpowiada za prezentację listy postów spełniających kryteria wyszukiwania przekazane w parametrach \glslink{url}{URL}.
 
@@ -37,16 +37,16 @@ Widok obsługuje również sortowanie wyników, a wybrana opcja sortowania jest 
 
 Wyniki wyszukiwania są wyświetlane przy użyciu komponentu \texttt{ForumPostsPage}, który odpowiada za:
 \begin{itemize}
-    \item wyświetlanie listy postów,
-    \item obsługę sortowania,
-    \item prezentację informacji o liczbie znalezionych wyników,
-    \item komunikaty o braku dalszych rezultatów.
+    \item wyświetlanie listy postów
+    \item obsługę sortowania
+    \item prezentację informacji o liczbie znalezionych wyników
+    \item komunikaty o braku dalszych rezultatów
 \end{itemize}
 
-Po wykonaniu wyszukiwania komponent \texttt{SearchResults} prezentuje liczbę znalezionych postów oraz czytelne podsumowanie zastosowanych filtrów (np. fraza, kategoria, tagi, autor, zakres dat).
+Po wykonaniu wyszukiwania komponent \texttt{SearchResults} prezentuje liczbę znalezionych postów oraz czytelne podsumowanie zastosowanych filtrów.
 Komponent ten znajduje się w \texttt{ForumPostList} i wyświetlany jest warunkowo, tylko gdy zapytanie wyszukiwania zawiera jakiekolwiek kryteria.
 
-W przypadku błędów zapytania użytkownik otrzymuje stosowną notyfikację, natomiast podczas ładowania wyświetlane są komponenty typu skeleton, zapewniające spójne UX.
+W przypadku błędów zapytania użytkownik otrzymuje stosowną notyfikację, natomiast podczas ładowania wyświetlane są komponenty typu skeleton, zapewniające spójne UX\@.
 
 \texttt{TrendingPostPanel} wyświetla listę popularnych postów za pomocą \texttt{TrendingPostList}.
 Każdy element w liście używa komponentu \texttt{TrendingPost}.
