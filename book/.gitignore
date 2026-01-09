@@ -5,6 +5,7 @@
 *.fdb_latexmk
 *.fls
 *.synctex.gz
+*.synctex(busy)
 *.toc
 *.glg
 *.glo
@@ -13,3 +14,5 @@
 *.out
 *.lot
 /auxil
+*.lof
+/out

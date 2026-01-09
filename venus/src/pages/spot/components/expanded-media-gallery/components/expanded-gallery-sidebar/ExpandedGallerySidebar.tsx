@@ -320,7 +320,7 @@ export default function ExpandedGallerySidebar() {
                                 />
                                 {isFetchingPreviousPage && <LoadingSpinner />}
                                 {mediaList.length === 0 ? (
-                                    <p className="text-center">
+                                    <p className="text-violetDark dark:text-darkText text-center">
                                         No{" "}
                                         {mediaType === MediaType.PHOTO
                                             ? "photos"

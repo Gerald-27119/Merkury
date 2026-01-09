@@ -13,6 +13,12 @@
 \usepackage[table]{xcolor} % kolory w tabelach
 \usepackage[T1]{fontenc}
 \usepackage{longtable}
+\usepackage{geometry}
+\usepackage{lipsum}
+\usepackage{pdflscape}
+\usepackage{caption} % daje \captionof
+
+
 
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
@@ -143,6 +149,15 @@
     \setglossarystyle{altlist}
     \vspace*{-2\baselineskip}
     \printglossary[type=\acronymtype, title={}, toctitle={}]
+
+    \begingroup
+    \hypersetup{linkcolor=black}
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Spis rysunków}
+    \renewcommand{\listfigurename}{Spis rysunków}
+    \listoffigures
+    \endgroup
 
     \begingroup
     \hypersetup{linkcolor=black}

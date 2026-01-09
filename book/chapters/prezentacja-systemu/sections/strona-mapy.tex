@@ -1,5 +1,490 @@
-%! Author = mateusz
-%! Date = 20/10/2025
+%! Author = Stanisław Oziemczuk
+%! Date = 02/01/2026
+
 
 \section{Strona mapy}
 \label{sec:strona-mapy}
+
+Moduł mapy umożliwia przeglądanie dostępnych \glslink{spot}{spotów}.
+Został podzielony na kilka głównych części:
+\begin{itemize}
+    \item mapę ze \glslink{spot}{spotami}
+    \item panel szczegółów \glslink{spot}{spota}
+    \item panel z danymi pogodowymi
+    \item galerię multimediów
+\end{itemize}
+
+\subsection{Mapa ze spotami}
+\label{subsec:mapa-ze-spotami}
+
+W tej części modułu użytkownik może przeglądać dostępne \glslink{spot}{spoty} na mapie wyświetlane w formie wielokątów (rys. \ref{fig:mapa-spoty-wielokaty}).
+Po odpowiednim oddaleniu widoku, w zależności od pola powierzchni obszaru, zostanie ono zaprezentowane jako marker (rys. \ref{fig:mapa-spoty-markery}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/mapa_spoty_wielokaty}
+    \caption{Spoty na mapie prezentowane w formie wielokątów.}
+    \label{fig:mapa-spoty-wielokaty}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/mapa_spoty_markery}
+    \caption{Spoty na mapie prezentowane w formie markerów.}
+    \label{fig:mapa-spoty-markery}
+\end{figure}
+
+Zaimplementowany został przycisk do sprawdzania aktualnej pozycji użytkownika.
+Po jego kliknięciu na mapie wyświetlane jest koło oznaczające jego pozycję (rys. \ref{fig:mapa-lokalizacja-uzytkownika}), a widok mapy zostaje
+płynnie na nią przybliżony.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/mapa_lokalizacja_uzytkownika}
+    \caption{Aktualna lokalizacja użytkownika zaznaczona na mapie.}
+    \label{fig:mapa-lokalizacja-uzytkownika}
+\end{figure}
+
+Przycisk \texttt{Search this area} pozwala na wyświetlenie listy \glslink{spot}{spotów} znajdujących się w
+widzianym obszarze mapy (rys. \ref{fig:mapa-search-area-lista-spotow}).
+O ich braku użytkownik informowany jest odpowiednim komunikatem (rys. \ref{fig:mapa-search-area-brak-spotow}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_area_spots_list}
+    \caption{Lista spotów znajdujących się w widocznym obszarze mapy.}
+    \label{fig:mapa-search-area-lista-spotow}
+\end{figure}
+
+Na liście każdy element zawiera nazwę \glslink{spot}{spota}, jego ocenę wraz z ich liczbą, listę tagów oraz zdjęcie.
+Kliknięcie jednego z wyników powoduje przybliżenie widoku mapy na jego lokalizację.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_area_no_spots}
+    \caption{Brak spotów znajdujących się w widocznym obszarze mapy.}
+    \label{fig:mapa-search-area-brak-spotow}
+\end{figure}
+
+Otrzymane wyniki można posortować po ocenie lub liczbie ocen (w każdym wypadku malejąco lub rosnąco).
+Domyślnie lista nie jest w żaden sposób sortowana.
+Dostępne opcje przedstawiono na rys. \ref{fig:mapa-search-area-sortowanie}:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_area_sorting}
+    \caption{Opcje sortowania wyników wyszukiwania spotów w widocznym obszarze mapy.}
+    \label{fig:mapa-search-area-sortowanie}
+\end{figure}
+
+Możliwe jest również ustawienie filtrów po nazwie (rys. \ref{fig:mapa-search-filtrowanie-nazwa}) \textendash \space podczas wpisywania wyświetlane są podpowiedzi \textendash \space oraz
+według minimalnej oceny \glslink{spot}{spota} (rys. \ref{fig:mapa-search-filtrowanie-ocena}).
+Po ustawieniu opcji, wyświetlane są tylko elementy spełniające warunki (rys. \ref{fig:mapa-search-filtrowanie-wyniki}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_area_name_filter}
+    \caption{Opcja filtrowania wyników wyszukiwania spotów w widocznym obszarze mapy po nazwie z podpowiedziami.}
+    \label{fig:mapa-search-filtrowanie-nazwa}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_area_rating_from_filter}
+    \caption{Opcja filtrowania wyników wyszukiwania spotów w widocznym obszarze mapy według minimalnej oceny.}
+    \label{fig:mapa-search-filtrowanie-ocena}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_area_filtered_spots}
+    \caption{Wyniki wyszukiwania spotów w widocznym obszarze mapy po ustawionych filtrach.}
+    \label{fig:mapa-search-filtrowanie-wyniki}
+\end{figure}
+
+Na mapie użytkownik może przeszukiwać \glslink{spot}{spoty} po nazwie.
+W tym celu do pola \texttt{Search on map} należy wpisać frazę, a po rozpoczęciu wprowadzania danych zostaną
+wyświetlone podpowiedzi (rys. \ref{fig:mapa-search-by-name-podpowiedzi}).
+Po zatwierdzeniu filtra zostanie wyświetlony panel z listą wyników (rys. \ref{fig:mapa-search-by-name-wyniki}).
+W przypadku braku pasujących elementów pojawi się odpowiedni komunikat (rys. \ref{fig:mapa-search-by-name-brak-wynikow}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_by_name_hints}
+    \caption{Lista podpowiedzi podczas wpisywania frazy w pole \texttt{Search on map}.}
+    \label{fig:mapa-search-by-name-podpowiedzi}
+\end{figure}
+
+Każdy element na liście prezentuje nazwę \glslink{spot}{spota}, jego ocenę wraz z ich liczbą, listę tagów oraz zdjęcie.
+Kliknięcie na wybraną pozycję powoduje przybliżenie widoku mapy na jej lokalizację.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_by_name_spots_list}
+    \caption{Lista wyników spotów zawierających frazę wpisaną w pole \texttt{Search on map}.}
+    \label{fig:mapa-search-by-name-wyniki}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_by_name_empty_list}
+    \caption{Komunikat informujący o braku spotów pasujących do wpisanej frazy w pole \texttt{Search on map}.}
+    \label{fig:mapa-search-by-name-brak-wynikow}
+\end{figure}
+
+Prezentowane wyniki można sortować po ocenie lub liczbie ocen, w obu przypadkach dostępne są warianty: malejąco i rosnąco.
+Domyślnie elementy nie są sortowane.
+Przygotowany formularz z dostępnymi opcjami przedstawiono na rysunku \ref{fig:mapa-search-by-name-sortowanie} poniżej:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_by_name_spots_list_sorting}
+    \caption{Formularz ustawiający sortowanie listy wyników spotów zawierających frazę wpisaną w pole \texttt{Search on map}.}
+    \label{fig:mapa-search-by-name-sortowanie}
+\end{figure}
+
+\subsection{Panel ze szczegółami spota}
+\label{subsec:panel-ze-szczegolami-spota}
+
+Panel ze szczegółami \glslink{spot}{spota} wyświetla o nim dokładne informacje (rys. \ref{fig:spot-details-1}).
+Widoczne są jego dane lokalizacyjne, nazwa, opis, średnia ocen oraz ich liczba, galeria multimediów, przyciski akcji, a
+także sekcja z komentarzami.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_1}
+    \caption{Panel ze szczegółami spota.}
+    \label{fig:spot-details-1}
+\end{figure}
+
+Galeria multimediów pozwala na ich przeglądanie za pomocą umieszczonych na jej bokach strzałek.
+Kliknięcie zdjęcia powoduje wyświetlenie go w dużej wersji galerii (por. sekcja~\ref{subsec:galeria-multimediow}), natomiast w przypadku filmu \textendash \space jego odtworzenie.
+
+Znajdujące się poniżej przyciski akcji pozwalają użytkownikowi na wykonanie czynności związanych z wybranym \glslink{spot}{spotem}:
+\begin{itemize}
+    \item \textbf{nawigację} \textendash \space po kliknięciu pierwszego przycisku od lewej w przeglądarce otwierana jest nowa karta z \texttt{Google Maps}
+    z trasą wyznaczoną od lokalizacji użytkownika do wskazanego miejsca;
+    \item \textbf{edycję listy ulubionych \glslink{spot}{spotów}} \textendash \space czynność ta wymaga zalogowania (w przypadku
+    jego braku wyświetlany jest odpowiedni komunikat, rys. \ref{fig:spot-log-in-info}) i pozwala użytkownikowi na dodanie \glslink{spot}{spota} do listy ulubionych
+    (ikona zostaje wypełniona) (rys. \ref{fig:spot-details-1}), a jej ponowne kliknięcie powoduje jego usunięcie
+    (ikona jest w środku pusta, rys. \ref{fig:spot-not-in-favourites});
+    \item \textbf{udostępnienie \glslink{spot}{spota}} \textendash \space kliknięcie tego przycisku powoduje skopiowanie linku do
+    pamięci podręcznej systemu o czym informuje odpowiedni komunikat (rys. \ref{fig:spot-share}); wklejenie go w pasek przeglądarki
+    otwiera panel ze szczegółami danego miejsca;
+    \item \textbf{dodanie multimediów} \textendash \space akcja ta wymaga zalogowania (w przypadku jego braku wyświetlany jest odpowiedni komunikat,
+    rys. \ref{fig:spot-log-in-info}),
+    otwiera formularz umożliwiający wybranie z urządzenia zdjęć i\textbackslash lub filmów i dołączenie ich do wybranego miejsca (rys. \ref{fig:spot-add-media-form}).
+    Jeżeli żadne multimedia nie zostaną dołączone, wysłanie formularza będzie niemożliwe i zostanie wyświetlona informacja o błędzie (rys. \ref{fig:spot-add-media-form-error}).
+    Wybrane pliki wyświetlane są w formie listy (rys. \ref{fig:spot-add-media-form-one-element}).
+    Najechanie na jeden z nich powoduje jego przyciemienie, a kliknięcie usunięcie z listy.
+    O pomyślnym przebiegu operacji informuje powiadomienie, a nowo dodane elementy widoczne są w galerii multimediów \glslink{spot}{spota} (rys. \ref{fig:spot-add-media-form-suceess}).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_log_in_info}
+    \caption{Komunikat informujący, że do wybranej akcji wymagane jest zalogowanie.}
+    \label{fig:spot-log-in-info}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_not_in_favourites}
+    \caption{Pusta ikona (druga od lewej) wskazuje na brak spota w liście ulubionych.}
+    \label{fig:spot-not-in-favourites}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_share_success_info}
+    \caption{Komunikat informujący o pomyślnym skopiowaniu linku udostępniającego.}
+    \label{fig:spot-share}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_add_media_form}
+    \caption{Formularz umożliwiający dodanie multimediów do spota.}
+    \label{fig:spot-add-media-form}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_add_media_form_error}
+    \caption{Komunikat informujący o błędzie w formularzu umożliwiającym dodanie multimediów do spota.}
+    \label{fig:spot-add-media-form-error}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_add_media_form_one_media}
+    \caption{Lista wybranych elementów w formularzu umożliwiającym dodanie multimediów do spota.}
+    \label{fig:spot-add-media-form-one-element}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_add_media_success}
+    \caption{Komunikat informujący o pomyślnym zakończeniu operacji dodania multimediów do spota.}
+    \label{fig:spot-add-media-form-suceess}
+\end{figure}
+
+Sekcja komentarzy rozpoczyna się przyciskiem do ich dodawania.
+Po jego kliknięciu jeżeli użytkownik nie jest zalogowany wyświetlany jest odpowiedni komunikat (rys. \ref{fig:spot-log-in-info}),
+a w przeciwnym wypadku otwierany jest formularz zawierający pole do wystawienia oceny, dodania multimediów oraz tekstu (rys. \ref{fig:spot-add-comment-form}).
+W polu dodawania zdjęć i filmów, wybrane pliki wyświetlane są w formie listy.
+Najechanie na jej element powoduje jego przyciemnienie, a kliknięcie \textendash \space usunięcie.
+Jeżeli pola zostaną błędnie wypełnione zaprezentowany zostanie odpowiedni komunikat, a wysłanie formularza będzie niemożliwe (rys. \ref{fig:spot-add-comment-form-error}).
+O pomyślnym przebiegu operacji informuje powiadomienie, a nowy komentarz jest dodany do wybranego \glslink{spot}{spota} (rys. \ref{fig:spot-add-comment-form-success}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_add_comment_form}
+    \caption{Formularz umożliwiający dodanie komentarza do spota.}
+    \label{fig:spot-add-comment-form}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_add_comment_form_error}
+    \caption{Komunikat informujący o błędzie w formularzu umożliwiającym dodanie komentarza do spota.}
+    \label{fig:spot-add-comment-form-error}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_add_comment_success}
+    \caption{Komunikat informujący o pomyślnym dodaniu komentarza do spota.}
+    \label{fig:spot-add-comment-form-success}
+\end{figure}
+
+Każdy komentarz zawiera informacje o autorze (zdjęcie profilowe oraz nazwę), po których kliknięciu użytkownik przenoszony jest
+na widok profilu autora.
+Poniżej wyświetlane są wystawiona ocena w gwiazdkach oraz data dodania elementu.
+Komentarz może zawierać multimedia, gdy ich liczba jest mniejsza niż trzy, wyświetlane są one obok siebie (rys. \ref{fig:spot-comment-two-photos}).
+Natomiast gdy jest ich więcej, prezentowane są trzy pierwsze elementy a na ostatnie z nich nałożony jest przycisk \emph{See more} (rys. \ref{fig:spot-comment-see-more-media}).
+Po jego kliknięciu pobierane są pozostałe multimedia (rys. \ref{fig:spot-comment-all-media}).
+Naciśnięcie jednego z elementów listy powoduje otworzenie go w galerii multimediów \glslink{spot}{spota} (por. sekcja~\ref{subsec:galeria-multimediow}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_gallery_two_photos}
+    \caption{Komentarz spota zawierający dwa zdjęcia.}
+    \label{fig:spot-comment-two-photos}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_gallery_see_more_btn}
+    \caption{Komentarz spota zawierający powyżej trzech multimediów \textendash \space wyświetlany jest przycisk \emph{See more}.}
+    \label{fig:spot-comment-see-more-media}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_gallery_more_loaded}
+    \caption{Komentarz spota z załadowanymi wszystkimi multimediami.}
+    \label{fig:spot-comment-all-media}
+\end{figure}
+
+Pod treścią komentarza umieszczone są przyciski do głosowania wraz z liczbą oddanych głosów.
+W przypadku oddania głosu zostaje wypełniona odpowiednia ikona.
+Wykonanie tej akcji wymaga od użytkownika bycia zalogowanym, brak tego komunikowany jest odpowiednią informacją (rys. \ref{fig:spot-log-in-info}).
+Na rysunku \ref{fig:spot-comment-upvote} poniżej przedstawiono wygląd sekcji po polubieniu komentarza:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_upvote}
+    \caption{Komentarz spota polubiony przez użytkownika.}
+    \label{fig:spot-comment-upvote}
+\end{figure}
+
+Następnie kliknięcie niepolubienia powoduje usunięcie głosu polubienia i wykonanie przeciwnej akcji (rys. \ref{fig:spot-comment-dowvote}).
+Ponowne wykonanie tej samej czynności (oddanie negatywnego głosu) powoduje jej cofnięcie, co przedstawia rysunek \ref{fig:spot-comment-no-vote}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_downvote}
+    \caption{Komentarz spota, na który użytkownik oddał negatywny głos.}
+    \label{fig:spot-comment-dowvote}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_downvote_clicked_again}
+    \caption{Komentarz spota, użytkownik nie oddał głosu.}
+    \label{fig:spot-comment-no-vote}
+\end{figure}
+
+Komentarze ładowane są \glslink{paginacja}{paginacyjnie}.
+Na początku ładowana jest pierwsza ich strona, jeśli jest ich więcej wyświetlany jest przycisk \emph{Show More} (rys. \ref{fig:spot-comment-show-more-btn}).
+Po jego kliknięciu pobierana jest strona druga (rys. \ref{fig:spot-comment-more-loaded}), a pozostałe zgodnie z mechanizmem \glslink{infinite-scroll}{infinite scroll}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_show_more_comments_btn}
+    \caption{Przycisk ładujący kolejną stronę komentarzy spota.}
+    \label{fig:spot-comment-show-more-btn}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_comment_downvote_clicked_again}
+    \caption{Załadowanie kolejnej strony komentarzy spota po kliknięciu przycisku \emph{Show More}.}
+    \label{fig:spot-comment-more-loaded}
+\end{figure}
+
+\subsection{Panel z danymi pogodowymi}
+\label{subsec:panel-z-danymi-pogodowymi}
+
+Panel ze szczegółowymi danymi pogodowymi (rys. \ref{fig:spot-detailed-weather}) otwierany poprzez kliknięcie przycisku \emph{Show more}, znajdującego się
+w sekcji ogólnej pogody.
+Jest ona wyświetlana po prawej stronie ekranu w jego górnej części razem z otworzeniem panelu ze szczegółami \glslink{spot}{spota}
+(rys. \ref{fig:spot-details-1}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_detailed_weather}
+    \caption{Panel ze szczegółowymi danymi pogodowymi spota.}
+    \label{fig:spot-detailed-weather}
+\end{figure}
+
+Na samej górze przedstawione są dane ogólne: nazwa miasta i regionu, aktualny czas, temperatura oraz ikona
+wraz opisem obrazujące stan pogody.
+Poniżej w formie kafelek zaprezentowane są informacje szczegółowe: prawdopodobieństwo opadów, punkt rosy, poziom indeksu UV
+oraz wilgotność wyrażona w procentach.
+Kolejna sekcja przeznaczona jest na wyświetlanie prędkości wiatru na wybranej wysokości.
+Dostępne są dwie jednostki, \texttt{m\textbackslash s} oraz \texttt{km\textbackslash h}, które użytkownik może zmienić za pomocą przycisków z ich nazwami (rys. \ref{fig:spot-detailed-weather-wind-speeds-unit}).
+Po kliknięciu wybranego kafelku możliwa jest również zmiana wysokości, dla której wyświetlane są dane (rys. \ref{fig:spot-detailed-weather-wind-speeds-height}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_detailed_weather_wind_speed_unit}
+    \caption{Zmiana jednostki wyświetlanej prędkości wiatru.}
+    \label{fig:spot-detailed-weather-wind-speeds-unit}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_detailed_weather_wind_speed_height}
+    \caption{Zmiana wysokości, dla której wyświetlana jest prędkość wiatru.}
+    \label{fig:spot-detailed-weather-wind-speeds-height}
+\end{figure}
+
+W dolnej części panelu znajduje się wykres prezentujący prognozowaną pogodę na trzy kolejne dni z dokładnością do godziny.
+Zawiera prawdopodobieństwo opadów, ikonę opisującą stan pogody oraz temperaturę wraz z krzywą obrazującą zmianę jej wartości.
+
+\subsection{Galeria multimediów}
+\label{subsec:galeria-multimediow}
+
+Galeria multimediów \glslink{spot}{spota} prezentuje jego wszystkie zdjęcia i filmy (rys. \ref{fig:spot-expanded-media-gallery}).
+Zwiększenie jej do rozmiaru ekranu pozwala na dokładne przeglądanie elementów.
+Aby ją otworzyć, należy kliknąć zdjęcie w galerii w panelu szczegółów
+\glslink{spot}{spota} lub multimedia w komentarzu (por. sekcja~\ref{subsec:panel-ze-szczegolami-spota}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_expanded_media_gallery}
+    \caption{Duża galeria zdjęć spota zawierająca jego wszystkie multimedia.}
+    \label{fig:spot-expanded-media-gallery}
+\end{figure}
+
+Galeria składa się z dwóch części, listy zdjęć lub filmów oraz powiększonego obecnie wybranego elementu.
+Na górze listy umieszczona została sekcja z filtrami oraz sortowaniem.
+Aby zmienić wyświetlany typ multimediów należy wybrać odpowiednio opcję \emph{Images} lub \emph{Films}
+\textendash \space zostanie wyróżniona poprzez zmianę wyglądu (rys. \ref{fig:spot-expanded-media-gallery-change}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_expanded_media_gallery_video}
+    \caption{Duża galeria zdjęć spota po zmianie typu wyświetlanych multimediów.}
+    \label{fig:spot-expanded-media-gallery-change}
+\end{figure}
+
+Jeżeli wybrany \glslink{spot}{spot} nie zawiera filmów, po ustawieniu filtru na \emph{Films} wyświetlany jest
+odpowiedni komunikat (rys. \ref{fig:spot-expanded-media-gallery-no-video}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_expanded_media_gallery_no_video}
+    \caption{Duża galeria zdjęć spota, komunikat o braku filmów.}
+    \label{fig:spot-expanded-media-gallery-no-video}
+\end{figure}
+
+Listę można sortować po dacie dodania (od najnowszego lub najstarszego) i według liczby polubień (od największej).
+Analogicznie do ustawienia filtrowania, wybrana opcja różni się wyglądem.
+
+Użytkownik może ukryć panel po lewej stronie ekranu poprzez kliknięcie przycisku ze strzałką
+(rys. \ref{fig:spot-expanded-media-gallery-sidebar-closed}).
+Ponowienie akcji spowoduje jego wysunięcie.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_expanded_media_gallery_sidebar_closed}
+    \caption{Duża galeria zdjęć spota ze schowanym panelem zawierającym listę multimediów.}
+    \label{fig:spot-expanded-media-gallery-sidebar-closed}
+\end{figure}
+
+Pod powiększonym elementem znajduje się panel pozwalający użytkownikowi na wykonanie następujących akcji:
+\begin{itemize}
+    \item powiększenie zdjęcia lub filmu na cały ekran;
+    \item pobranie pliku;
+    \item polubienie elementu (akcja wymaga zalogowania), po kliknięciu ikony zostaje ona wypełniona a licznik
+    zwiększony (rys. \ref{fig:spot-expanded-media-gallery-liked}).
+    Ponowne kliknięcie przycisku powoduje cofnięcie operacji.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_expanded_media_gallery_liked_photo}
+    \caption{Duża galeria zdjęć spota z polubionym elementem.}
+    \label{fig:spot-expanded-media-gallery-liked}
+\end{figure}
+
+Nad powiększonym elementem wyświetlane są informacje o jego autorze (zdjęcie profilowe oraz nazwa) wraz
+datą dodania multimedii.
+Powyżej umieszczonę są przyciski do zamknięcia galerii oraz udostępnienia zdjęcia lub filmów.
+Komunikat informuje o skopiowaniu linku do pamięci podręcznej systemu (rys. \ref{fig:spot-expanded-media-gallery-shared}).
+Po wklejeniu go w przeglądarkę plik zostanie pobrany.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_expanded_media_gallery_share}
+    \caption{Duża galeria zdjęć spota z komunikatem potwierdzającym skopiowanie linku udostępniającego.}
+    \label{fig:spot-expanded-media-gallery-shared}
+\end{figure}
+
+\subsection{Ciemny motyw}
+\label{subsec:ciemny-motyw}
+
+Prezentowane powyżej zdjęcia przedstawiały aplikację w motywie jasnym, ale również
+dla całego modułu zaimplementowano wygląd w ciemnej wersji.
+Poniżej przedstawiono wybrane ekrany zgodne z jego kolorystyką.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_details_and_weather_dark}
+    \caption{Panel ze szczegółami spota oraz danymi pogodowymi w ciemnym motywie.}
+    \label{fig:spot-details-weather-dark}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_add_comment_form_dark}
+    \caption{Formularz umożliwiający dodanie komentarz do spota w ciemnym motywie.}
+    \label{fig:spot-add-comment-form-dark}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/spot_expanded_media_gallery_dark}
+    \caption{Galeria multimediów spota w ciemnym motywie.}
+    \label{fig:spot-expanded-gallery-dark}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/mapa/search_area_dark}
+    \caption{Lista spotów znajdujących się w widocznym obszarze mapy w ciemnym motywie.}
+    \label{fig:spot-search-area-list-dark}
+\end{figure}

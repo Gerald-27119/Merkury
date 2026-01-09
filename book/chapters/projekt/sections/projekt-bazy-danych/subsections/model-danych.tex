@@ -1,0 +1,35 @@
+%! Author = Mateusz
+%! Date = 22/12/2025
+
+\subsection{Model danych}
+\label{subsec:model-danych}
+
+Poniżej zestawiono główne tabele (encje domenowe) oraz ich przeznaczenie:
+\begin{itemize}
+    \item \texttt{users} -- przechowuje dane kont użytkowników.
+    \item \texttt{friendships} -- przechowuje informacje o relacjach pomiędzy użytkownikami.
+
+    \item \texttt{spots} -- przechowuje informacje o spotach.
+    \item \texttt{spots\_tags} -- przechowuje definicje tagów przypisywanych do spotów.
+    \item \texttt{spot\_media} -- przechowuje media powiązane ze spotami.
+    \item \texttt{spot\_comments} -- przechowuje komentarze do spotów.
+    \item \texttt{spot\_comment\_media} -- przechowuje media dołączone do komentarzy spotów.
+    \item \texttt{favorite\_spots} -- przechowuje spoty zapisane przez użytkownika.
+
+    \item \texttt{posts} -- przechowuje wpisy forum.
+    \item \texttt{forum\_categories} -- przechowuje kategorie wpisów forum.
+    \item \texttt{forum\_tags} -- przechowuje tagi przypisywane do wpisów forum.
+    \item \texttt{post\_comments} -- przechowuje komentarze do wpisów forum.
+    \item \texttt{post\_reports} -- przechowuje zgłoszenia dotyczące wpisów forum.
+    \item \texttt{post\_comment\_reports} -- przechowuje zgłoszenia dotyczące komentarzy wpisów forum.
+
+    \item \texttt{chats} -- przechowuje informacje o czatach.
+    \item \texttt{chat\_participants} -- przechowuje uczestników czatu.
+    \item \texttt{chat\_messages} -- przechowuje wiadomości czatu.
+    \item \texttt{chat\_message\_attached\_file} -- przechowuje pliki dołączone do wiadomości czatu.
+    \item \texttt{chat\_invitations} -- przechowuje zaproszenia do czatów.
+\end{itemize}
+
+Relacje pomiędzy powyższymi tabelami zrealizowano za pomocą kluczy obcych.
+Relacje typu wiele do wielu (tagi, polubienia, obserwowanie) odwzorowano przy użyciu tabel pośrednich.
+Encje \texttt{Comment} oraz \texttt{ForumReport} pełnią rolę klas bazowych i nie stanowią osobnych tabel.
