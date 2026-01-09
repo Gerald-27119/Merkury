@@ -23,7 +23,7 @@ Mapa zbudowana jest z następujących \glslink{react-component}{komponentów}:
     \item \texttt{SpotTag}
 \end{itemize}
 
-\textbf{\texttt{MapPage}} (rys. \ref{fig:map-page-1} - \ref{fig:map-page-3})
+\textbf{\texttt{MapPage}} (rys. \ref{fig:map-page-1} - \ref{fig:map-page-5})
 To główny \glslink{react-component}{komponent} prezentujący mapę.
 Zawiera w sobie \texttt{Map} z \glslink{biblioteka}{biblioteki} \texttt{react-maplibre}, w którym ustawia się domyślną
 lokalizację, na którą ustawiony jest obraz mapy oraz poziom przybliżenia.
@@ -39,25 +39,41 @@ i jego pogodą (por. sekcja~\ref{subsubsec:panel-z-informacjami-pogodowymi}).
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map_page1}
-    \caption{Implementacja komponentu MapPage (1/3)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map-page-1}
+    \caption{Implementacja komponentu MapPage (1/5)}
     \label{fig:map-page-1}
 \end{figure}
 \noindent
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map_page2}
-    \caption{Implementacja komponentu MapPage (2/3)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map-page-2}
+    \caption{Implementacja komponentu MapPage (2/5)}
     \label{fig:map-page-2}
 \end{figure}
 \noindent
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map_page3}
-    \caption{Implementacja komponentu MapPage (3/3)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map-page-3}
+    \caption{Implementacja komponentu MapPage (3/5)}
     \label{fig:map-page-3}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map-page-4}
+    \caption{Implementacja komponentu MapPage (4/5)}
+    \label{fig:map-page-4}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map-page-5}
+    \caption{Implementacja komponentu MapPage (5/5)}
+    \label{fig:map-page-5}
 \end{figure}
 \noindent
 
@@ -134,7 +150,7 @@ Pochodzący z niej \glslink{hook}{hook} \texttt{useMap} zwraca aktualną instanc
 funkcja \texttt{flyTo} przenosząca płynnie obraz na wskazane koordynaty.
 Informacje o błędach podczas operacji wyświetlane są w \texttt{Notification}.
 
-\textbf{\texttt{SearchCurrentViewButton}} (rys. \ref{fig:search-current-view-btn})
+\textbf{\texttt{SearchCurrentViewButton}} (rys. \ref{fig:search-current-view-btn-1} i rys. \ref{fig:search-current-view-btn-2})
 \glslink{react-component}{Komponent} będący przyciskiem, po kliknięciu którego pokazywana jest lista \glslink{spot}{spotów}
 znajdujących się w widocznym obszarze mapy.
 Naciśnięcie wywołuje funkcję \texttt{handleClickSearchCurrentView}, która na obecnej instacji mapy zwróconej
@@ -146,9 +162,17 @@ znalezionych elementów.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/search_current_view_btn}
-    \caption{Implementacja komponentu SearchCurrentViewButton}
-    \label{fig:search-current-view-btn}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/search-current-view-btn-1}
+    \caption{Implementacja komponentu SearchCurrentViewButton (1/2)}
+    \label{fig:search-current-view-btn-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/search-current-view-btn-2}
+    \caption{Implementacja komponentu SearchCurrentViewButton (2/2)}
+    \label{fig:search-current-view-btn-2}
 \end{figure}
 \noindent
 

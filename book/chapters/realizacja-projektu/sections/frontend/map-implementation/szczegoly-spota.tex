@@ -217,7 +217,7 @@ do dodania nowego komentarza (\texttt{AddSpotCommentModal}).
 Po jego kliknięciu jeżeli użytkownik nie jest zalogowany, w \glslink{react-component}{komponencie}
 \texttt{Notification} wyswietlany jest komunikat z odpowiednią informacją.
 
-\textbf{\texttt{AddSpotCommentModal}} (rys. \ref{fig:add-spot-comment-1} - \ref{fig:add-spot-comment-4})
+\textbf{\texttt{AddSpotCommentModal}} (rys. \ref{fig:add-spot-comment-1} - \ref{fig:add-spot-comment-6})
 \glslink{modal}{Modal} będący formularzem do dodania nowego komentarza.
 Zawiera w sobie pola do określenia oceny w gwiazdkach, dodania tekstu oraz zdjęć i filmów.
 Ustawienie oceny \glslink{spot}{spota} jest polem obowiązkowym z domyślną wartością 0.
@@ -244,33 +244,49 @@ zamyka formularz, wpisane dane nie zostają zapisane.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add_spot_comment1}
-    \caption{Implementacja komponentu AddSpotCommentModal (1/4)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add-spot-comment-modal-1}
+    \caption{Implementacja komponentu AddSpotCommentModal (1/6)}
     \label{fig:add-spot-comment-1}
 \end{figure}
 \noindent
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add_spot_comment2}
-    \caption{Implementacja komponentu AddSpotCommentModal (2/4)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add-spot-comment-modal-2}
+    \caption{Implementacja komponentu AddSpotCommentModal (2/6)}
     \label{fig:add-spot-comment-2}
 \end{figure}
 \noindent
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add_spot_comment3}
-    \caption{Implementacja komponentu AddSpotCommentModal (3/4)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add-spot-comment-modal-3}
+    \caption{Implementacja komponentu AddSpotCommentModal (3/6)}
     \label{fig:add-spot-comment-3}
 \end{figure}
 \noindent
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add_spot_comment4}
-    \caption{Implementacja komponentu AddSpotCommentModal (4/4)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add-spot-comment-modal-4}
+    \caption{Implementacja komponentu AddSpotCommentModal (4/6)}
     \label{fig:add-spot-comment-4}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add-spot-comment-modal-5}
+    \caption{Implementacja komponentu AddSpotCommentModal (5/6)}
+    \label{fig:add-spot-comment-5}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add-spot-comment-modal-6}
+    \caption{Implementacja komponentu AddSpotCommentModal (6/6)}
+    \label{fig:add-spot-comment-6}
 \end{figure}
 \noindent
 
@@ -299,7 +315,7 @@ Na wynik operacji nasłuchuje \glslink{hook}{hook} \texttt{useEffect}, który po
 \glslink{redux}{Redux} ustawia \texttt{ID} elementu, jego pozycję w całej liście oraz typ (zdjęcie lub film).
 Następnie otwiera dużą galerię multimediów \glslink{spot}{spota} (por. sekcja~\ref{subsubsec:duza-galeria-zdjec-i-filmow}).
 
-\textbf{\texttt{SpotCommentVotesPanel}} (rys. \ref{fig:spot-comment-vote-panel-1} - \ref{fig:spot-comment-vote-panel-3})
+\textbf{\texttt{SpotCommentVotesPanel}} (rys. \ref{fig:spot-comment-vote-panel-0} - \ref{fig:spot-comment-vote-panel-3})
 \glslink{react-component}{Komponent} odpowiedzialny za wyświetlanie polubień i niepolubień komentarza oraz obsługę operacji
 oddania głosu przez użytkownika.
 Za pomocą \glslink{hook}{hook'a} \texttt{useQuery} (\glslink{biblioteka}{biblioteka} \texttt{tanstack query}) pobierana
@@ -324,8 +340,16 @@ ikoną.
 
 \begin{figure}[H]
     \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_comment_vote_panel0}
+    \caption{Implementacja komponentu SpotCommentVotesPanel (1/4)}
+    \label{fig:spot-comment-vote-panel-0}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_comment_vote_panel1}
-    \caption{Implementacja komponentu SpotCommentVotesPanel (1/3)}
+    \caption{Implementacja komponentu SpotCommentVotesPanel (2/4)}
     \label{fig:spot-comment-vote-panel-1}
 \end{figure}
 \noindent
@@ -333,7 +357,7 @@ ikoną.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_comment_vote_panel2}
-    \caption{Implementacja komponentu SpotCommentVotesPanel (2/3)}
+    \caption{Implementacja komponentu SpotCommentVotesPanel (3/4)}
     \label{fig:spot-comment-vote-panel-2}
 \end{figure}
 \noindent
@@ -341,7 +365,7 @@ ikoną.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_comment_vote_panel3}
-    \caption{Implementacja komponentu SpotCommentVotesPanel (3/3)}
+    \caption{Implementacja komponentu SpotCommentVotesPanel (4/4)}
     \label{fig:spot-comment-vote-panel-3}
 \end{figure}
 \noindent
