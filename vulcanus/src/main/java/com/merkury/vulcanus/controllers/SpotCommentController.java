@@ -1,7 +1,6 @@
 package com.merkury.vulcanus.controllers;
 
 import com.merkury.vulcanus.exception.exceptions.BlobContainerNotFoundException;
-import com.merkury.vulcanus.exception.exceptions.CommentAccessException;
 import com.merkury.vulcanus.exception.exceptions.CommentNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.InvalidFileTypeException;
 import com.merkury.vulcanus.exception.exceptions.SpotCommentRatingOutOfBoundariesException;
@@ -10,13 +9,10 @@ import com.merkury.vulcanus.exception.exceptions.SpotMediaNumberOfMediaExceeded;
 import com.merkury.vulcanus.exception.exceptions.SpotNotFoundException;
 import com.merkury.vulcanus.exception.exceptions.UserNotFoundException;
 import com.merkury.vulcanus.features.spot.SpotCommentService;
-import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentAddDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentDto;
-import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentEditDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentMediaDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentUserVoteInfoDto;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -53,18 +49,6 @@ public class SpotCommentController {
     public ResponseEntity<Void> addComment(@PathVariable Long spotId, @RequestPart("spotComment") String spotCommentJson, @RequestPart(value = "mediaFiles", required = false) List<MultipartFile> mediaFiles) throws SpotNotFoundException, UserNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, SpotMediaNumberOfMediaExceeded, SpotCommentTextOutOfBoundariesException, SpotCommentRatingOutOfBoundariesException {
         spotCommentService.addComment(spotCommentJson, mediaFiles, spotId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    @DeleteMapping("/spot/comments/{commentId}")
-    public ResponseEntity<Void> deleteComment(HttpServletRequest request, @PathVariable Long commentId) throws CommentAccessException, UserNotFoundException {
-        spotCommentService.deleteComment(request, commentId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PatchMapping("/spot/comments/{commentId}")
-    public ResponseEntity<SpotCommentDto> editComment(HttpServletRequest request, @PathVariable Long commentId, @Valid @RequestBody SpotCommentEditDto spotCommentEditDto) throws CommentAccessException, UserNotFoundException {
-        spotCommentService.editComment(request, commentId, spotCommentEditDto);
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/spot/comments/{commentId}/vote")

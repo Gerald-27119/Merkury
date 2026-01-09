@@ -33,7 +33,10 @@ public class GifController {
     }
 
     @GetMapping("search")
-    public Mono<ResponseEntity<TenorGifSearchWrapperDto>> getTrendingGifs(@RequestParam String searchPhrase, @RequestParam String next) {
+    public Mono<ResponseEntity<TenorGifSearchWrapperDto>> getTrendingGifs(
+            @RequestParam String searchPhrase,
+            @RequestParam String next
+    ) {
         return gifService.searchGifsBySearchPhrase(searchPhrase, next)
                 .map(ResponseEntity::ok);
     }

@@ -108,23 +108,19 @@ public class ChatMapper {
     }
 
     private static String getChatImgUrl(Chat chat, Long userId) {
-        if (chat.getImgUrl() != null) return chat.getImgUrl();
-        else {
-            switch (chat.getChatType()) {
-                case PRIVATE -> {
-                    return chat.getParticipants().stream()
-                            .filter(cp -> !Objects.equals(cp.getUser().getId(), userId))
-                            .findFirst()
-                            .map(cp -> cp.getUser().getProfilePhoto())
-                            .orElse(null);
-                }
-                case GROUP -> {
-                    return null;
-                    //TODO: implement group images
-                }
-                default -> {
-                    return null;
-                }
+        switch (chat.getChatType()) {
+            case PRIVATE -> {
+                return chat.getParticipants().stream()
+                        .filter(cp -> !Objects.equals(cp.getUser().getId(), userId))
+                        .findFirst()
+                        .map(cp -> cp.getUser().getProfilePhoto())
+                        .orElse(null);
+            }
+            case GROUP -> {
+                return chat.getImgUrl();
+            }
+            default -> {
+                return null;
             }
         }
     }
