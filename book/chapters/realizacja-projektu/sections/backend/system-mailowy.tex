@@ -14,14 +14,15 @@ System wysyłania wiadomości e-mail wykorzystywany jest w dwóch przypadkach:
     \item w procesie resetowania hasła.
 \end{itemize}
 
-Do obsługi wysyłki wiadomości zastosowano bibliotekę JavaMail (Jakarta Mail).
+Do obsługi wysyłki wiadomości zastosowano \glslink{biblioteka}{bibliotekę} JavaMail (Jakarta Mail).
 Treść wiadomości definiowana jest w postaci statycznych plików HTML (rys. \ref{img:template}), przechowywanych w zasobach aplikacji, co umożliwia łatwą modyfikację zawartości bez ingerencji w kod źródłowy.
 
-Konfiguracja połączenia SMTP realizowana jest dynamicznie z wykorzystaniem kilku portów komunikacyjnych.(rys. \ref{img:ports})
-W przypadku niepowodzenia wysyłki na jednym porcie system podejmuje próbę ponownej wysyłki przy użyciu kolejnych portów. Dane uwierzytelniające do serwera SMTP pobierane są z poziomu zmiennych środowiskowych, co zwiększa poziom bezpieczeństwa i eliminuje konieczność ich przechowywania w repozytorium kodu.
+Konfiguracja połączenia SMTP realizowana jest dynamicznie z wykorzystaniem kilku portów komunikacyjnych (rys. \ref{img:ports}).
+W przypadku niepowodzenia przesłania wiadomości na jednym porcie system podejmuje próbę ponownego wysłania przy użyciu kolejnych portów.
+Dane uwierzytelniające do serwera SMTP pobierane są z poziomu zmiennych środowiskowych, co zwiększa poziom bezpieczeństwa i eliminuje konieczność ich przechowywania w repozytorium kodu.
 
-Proces wysyłania wiadomości realizowany jest asynchronicznie oraz wspierany mechanizmem automatycznego ponawiania prób, z maksymalną liczbą trzech podejść.(rys. \ref{img:send-email-function})
-W przypadku trwałego niepowodzenia generowany jest wyjątek, a odpowiednie zdarzenie rejestrowane jest w logach systemowych w celu dalszej analizy.(rys. \ref{img:recover})
+Proces wysyłania wiadomości realizowany jest asynchronicznie oraz wspierany mechanizmem automatycznego ponawiania prób, z maksymalną liczbą trzech podejść (rys. \ref{img:send-email-function}).
+W przypadku trwałego niepowodzenia generowany jest wyjątek, a odpowiednie zdarzenie rejestrowane jest w logach systemowych w celu dalszej analizy (rys. \ref{img:recover}).
 
 \begin{figure}[H]
     \centering
