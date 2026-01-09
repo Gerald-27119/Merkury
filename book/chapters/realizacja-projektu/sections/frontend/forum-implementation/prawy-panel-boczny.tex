@@ -4,7 +4,7 @@
 \subsubsection{Prawy panel boczny}
 \label{subsubsec:prawy-panel-boczny}
 
-Komponent \texttt{ForumSearchBar} odpowiada za zaawansowane wyszukiwanie postów na forum i jest wykorzystywany w \texttt{ForumLayout}.
+Komponent \texttt{ForumSearchBar} (rys. \ref{img:searchbar-1} - \ref{img:searchbar-4}) odpowiada za zaawansowane wyszukiwanie postów na forum i jest wykorzystywany w \texttt{ForumLayout}.
 Logika wyszukiwania oparta jest o lokalny stan komponentu, którego strukturę definiuje interfejs \texttt{SearchState}.
 Interfejs ten opisuje komplet aktywnych filtrów wyszukiwania, takich jak:
 \begin{itemize}
@@ -24,6 +24,34 @@ Po zatwierdzeniu formularza dane wyszukiwania są mapowane na parametry \glslink
 Dzięki temu wyszukiwanie jest w pełni odtwarzalne na podstawie adresu \glslink{url}{URL}.
 
 Dodatkowo pola tekstowe wykorzystują \texttt{HintedSearchField}, który umożliwia podpowiedzi wyszukiwania w trakcie wpisywania.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/searchbar_1}
+    \caption{Komponent ForumSearchBar (1)}
+    \label{img:searchbar-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/searchbar_2}
+    \caption{Komponent ForumSearchBar (2)}
+    \label{img:searchbar-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/searchbar_3}
+    \caption{Komponent ForumSearchBar (3)}
+    \label{img:searchbar-3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/searchbar_4}
+    \caption{Komponent ForumSearchBar (4)}
+    \label{img:searchbar-4}
+\end{figure}
 
 Komponent \texttt{ForumSearch} odpowiada za prezentację listy postów spełniających kryteria wyszukiwania przekazane w parametrach \glslink{url}{URL}.
 
@@ -45,6 +73,13 @@ Wyniki wyszukiwania są wyświetlane przy użyciu komponentu \texttt{ForumPostsP
 
 Po wykonaniu wyszukiwania komponent \texttt{SearchResults} prezentuje liczbę znalezionych postów oraz czytelne podsumowanie zastosowanych filtrów.
 Komponent ten znajduje się w \texttt{ForumPostList} i wyświetlany jest warunkowo, tylko gdy zapytanie wyszukiwania zawiera jakiekolwiek kryteria.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/search_result}
+    \caption{Komponent SearchResults}
+    \label{img:search-results}
+\end{figure}
 
 W przypadku błędów zapytania użytkownik otrzymuje stosowną notyfikację, natomiast podczas ładowania wyświetlane są komponenty typu skeleton, zapewniające spójne UX\@.
 
