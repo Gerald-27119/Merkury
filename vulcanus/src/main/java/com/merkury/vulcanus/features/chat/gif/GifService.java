@@ -21,7 +21,8 @@ public class GifService {
         return client.getTrendingCategories();
     }
 
-    public Mono<TenorGifSearchWrapperDto> searchGifsBySearchPhrase(String searchPhrase, String next) {
+    public Mono<TenorGifSearchWrapperDto> searchGifsBySearchPhrase(String searchPhrase,
+                                                                   String next) {
         return client.searchGifsBySearchPhrase(searchPhrase, next)
                 .map(TenorMapper::mapToSearchWrapper);
     }

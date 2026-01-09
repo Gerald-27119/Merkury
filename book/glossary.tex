@@ -1,8 +1,6 @@
 %! Author = Mateusz Redosz
 %! Date = 20/09/2025
 
-% Słownik pojęć
-
 \newglossaryentry{backend}
 {
     name={Backend},
@@ -1029,6 +1027,29 @@
     name={Kafelki mapy},
     description={To małe kwadratowe fragmenty mapy, z których budowany jest jej całościowy obraz}
 }
+\newglossaryentry{tenor}
+{
+    name={Tenor},
+    description={Zewnętrzna usługa udostępniająca \glslink{api}{API} do wyszukiwania i pobierania animowanych \glslink{gif}{GIF}-ów.}
+}
+
+\newglossaryentry{spring-webflux}
+{
+    name={Spring WebFlux},
+    description={Reaktywny moduł frameworka Spring umożliwiający budowę aplikacji oraz klientów HTTP w modelu nieblokującym.}
+}
+
+\newglossaryentry{webclient}
+{
+    name={WebClient},
+    description={Reaktywny klient HTTP w ekosystemie Spring służący do wykonywania zapytań do zewnętrznych usług w sposób nieblokujący.}
+}
+
+\newglossaryentry{mono}
+{
+    name={Mono},
+    description={Typ reaktywny reprezentujący asynchroniczne obliczenie zwracające co najwyżej jeden element.}
+}
 
 \newglossaryentry{uwierzytelnianie}{
     name={uwierzytelnianie},
@@ -1082,7 +1103,7 @@
 
 \newglossaryentry{bcrypt}{
     name={BCrypt},
-    description={Popularny algorytm haszowania haseł.}
+    description={Popularny algorytm haszowania haseł}
 }
 
 \newglossaryentry{http-401}{
@@ -1103,7 +1124,10 @@
 \newglossaryentry{zapytanie-preflight}
 {
     name={zapytanie preflight},
-    description={Wstępne zapytanie HTTP wykonywane automatycznie przez przeglądarkę w ramach mechanizmu \gls{cors}, najczęściej metodą \texttt{OPTIONS}. Służy do sprawdzenia, czy serwer pozwala na wykonanie właściwego żądania z innego pochodzenia (origin), w tym czy akceptuje daną metodę HTTP oraz niestandardowe nagłówki. Po poprawnej odpowiedzi serwera przeglądarka wysyła właściwe żądanie.}
+    description={Wstępne zapytanie HTTP wykonywane automatycznie przez przeglądarkę w ramach mechanizmu \gls{cors}, najczęściej metodą \texttt{OPTIONS}. Służy do sprawdzenia, czy serwer pozwala na wykonanie właściwego żądania z innego pochodzenia (origin), w tym czy akceptuje daną metodę HTTP oraz niestandardowe nagłówki. Po poprawnej odpowiedzi serwera przeglądarka wysyła właściwe żądanie}
 }
 
-
+\newglossaryentry{sentinel}{
+    name={sentinel},
+    description={Pomocniczy element interfejsu umieszczany zwykle na końcu listy, którego pojawienie się w obszarze widocznym stanowi sygnał do wykonania akcji, najczęściej doładowania kolejnej porcji danych w mechanizmie \gls{infinite-scroll}}
+}

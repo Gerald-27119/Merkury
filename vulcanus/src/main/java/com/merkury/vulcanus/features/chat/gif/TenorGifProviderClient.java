@@ -20,8 +20,9 @@ class TenorGifProviderClient {
     private static final String locale = "pl_PL";
     private static final int limit = 10;
 
-    public TenorGifProviderClient(@Qualifier("tenorClient") WebClient webClient,
-                                  GifProviderProperties props) {
+    public TenorGifProviderClient(
+            @Qualifier("tenorClient") WebClient webClient,
+            GifProviderProperties props) {
         this.webClient = webClient;
         this.props = props;
     }
@@ -38,7 +39,8 @@ class TenorGifProviderClient {
                 .map(TenorMapper::mapToGifCategoryDtos);
     }
 
-    public Mono<TenorGifSearchResponse> searchGifsBySearchPhrase(String searchPhrase, String next) {
+    public Mono<TenorGifSearchResponse> searchGifsBySearchPhrase(String searchPhrase,
+                                                                 String next) {
 
         return webClient.get()
                 .uri(uriBuilder -> {
