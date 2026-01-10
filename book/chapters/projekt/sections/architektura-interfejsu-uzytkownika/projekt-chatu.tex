@@ -6,6 +6,9 @@
 
 \newcommand{\chatfig}[1]{./attachments/projekt/architektura-interfejsu-uzytkownika/czat/#1}
 
+\subsubsection{Główny widok modułu czatu}
+\label{subsubsec:chat-main-view}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{\chatfig{ActiveChatPage}}
@@ -33,6 +36,9 @@ W widoku uwzględniono separator daty, który porządkuje dłuższą historię k
 Na dole okna czatu umieszczono pasek wprowadzania wiadomości z polem tekstowym oraz przyciskami akcji.
 Widoczna jest opcja umożliwiająca dodanie załączników, wstawienie \glslink{gif}{GIF-a} oraz użycie \glslink{emoji}{emoji}.
 
+\subsubsection{Oznaczenie nieprzeczytanej aktywności na liście rozmów}
+\label{subsubsec:chat-unread-indicator}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{\chatfig{ActiveChatPageNewNotification}}
@@ -43,6 +49,9 @@ Widoczna jest opcja umożliwiająca dodanie załączników, wstawienie \glslink{
 Rysunek \ref{fig:chat:unread-indicator} przedstawia wariant głównego widoku modułu czatu,
 w którym dla jednej z wylistowanych konwersacji wyświetlono plakietkę z liczbą nowych nieprzeczytanych wiadomości.
 Oznaczenie to pozwala użytkownikowi szybko zidentyfikować nową aktywność.
+
+\subsubsection{Podgląd przypiętych wiadomości}
+\label{subsubsec:chat-pinned-messages}
 
 \begin{figure}[H]
     \centering
@@ -60,6 +69,9 @@ Zawiera ono wydzielony obszar listy przypiętych treści.
 W widocznym przykładzie przedstawiono pojedynczą pozycję z przypiętą wiadomością,
 zawierającą awatar autora, nazwę użytkownika oraz znacznik daty i czasu.
 Poniżej metadanych umieszczono podgląd treści wiadomości.
+
+\subsubsection{Wyszukiwanie wiadomości w historii rozmowy}
+\label{subsubsec:chat-search-messages}
 
 \begin{figure}[H]
     \centering
@@ -86,6 +98,9 @@ W dolnej części okna rozmowy widoczny jest przycisk \textit{Return to latest m
 umożliwiający szybki powrót do najnowszych wiadomości po zakończeniu przeglądania
 starszych wpisów.
 
+\subsubsection{Podręczny pasek akcji dla wiadomości}
+\label{subsubsec:chat-message-actions-hover}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{\chatfig{OptionsMessageHover}}
@@ -100,6 +115,9 @@ Zawiera zestaw działań dostępnych dla danej wiadomości: widoczna jest ikona 
 ikony związane z interakcją na wiadomości (odpowiedź/przekazanie) oraz ikona wielokropka,
 umożliwiająca dalsze operacje.
 
+\subsubsection{Menu kontekstowe dla wiadomości}
+\label{subsubsec:chat-message-more-menu}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{\chatfig{OptionsMessageHover3DotsMenu}}
@@ -112,6 +130,9 @@ dla wybranej wiadomości. Menu zawiera listę dostępnych działań.
 Są to: \textit{Pin message}, \textit{Copy text} oraz \textit{Report}.
 Ostatnia pozycja wyróżniona kolorem czerwonym, umożliwia zgłoszenie wiadomości do administracji aplikacji.
 
+\subsubsection{Dodatkowe akcje dla wiadomości własnej}
+\label{subsubsec:chat-own-message-actions}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{\chatfig{MyMessageHover3DotsMenu}}
@@ -123,6 +144,9 @@ Rysunek \ref{fig:chat:own-message-hover} przedstawia podręczny pasek akcji wyś
 wysłanej przez zalogowanego użytkownika. W porównaniu do analogicznego widoku dla wiadomości innych uczestników
 (rys.~\ref{fig:chat:message-actions-hover}), pasek został rozszerzony o dodatkową ikonę edycji (symbol ołówka),
 umożliwiającą modyfikację własnego wpisu. Pozostałe skróty pozostają spójne.
+
+\subsubsection{Menu „więcej opcji” dla wiadomości własnej}
+\label{subsubsec:chat-own-message-more-menu}
 
 \begin{figure}[H]
     \centering
@@ -137,6 +161,9 @@ dodatkowa akcja \textit{Delete}, pozwalająca usunąć własną wiadomość z ko
 czerwonym oraz ikoną kosza. Pozostałe elementy menu pozostają zgodne z wariantem
 standardowym (rys.~\ref{fig:chat:message-more-menu}).
 
+\subsubsection{Przegląd multimediów powiązanych z rozmową}
+\label{subsubsec:chat-media-grid}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{\chatfig{Images}}
@@ -146,6 +173,9 @@ standardowym (rys.~\ref{fig:chat:message-more-menu}).
 
 Rysunek \ref{fig:chat:media-grid} przedstawia podgląd materiałów wizualnych powiązanych z obecną konwersacją.
 W centralnej części ekranu wyświetlono siatkę miniatur plików.
+
+\subsubsection{Menu kontekstowe dla obrazu w wiadomości}
+\label{subsubsec:chat-image-context-menu}
 
 \begin{figure}[H]
     \centering
@@ -158,6 +188,9 @@ Rysunek \ref{fig:chat:image-context-menu} przedstawia menu kontekstowe wyświetl
 Menu pojawia się bezpośrednio przy obrazie i zawiera listę dostępnych operacji, takich jak zapis lub skopiowanie obrazu.
 Dodatkowo widoczna jest opcja usunięcia wyróżniona kolorem czerwonym.
 
+\subsubsection{Powiększony podgląd obrazu}
+\label{subsubsec:chat-image-preview}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{\chatfig{ExpandedImage}}
@@ -169,6 +202,9 @@ Rysunek \ref{fig:chat:image-preview} przedstawia tryb powiększonego podglądu o
 Tło aplikacji zostało przyciemnione, a na pierwszym planie wyświetlono obraz w większym rozmiarze, umieszczony centralnie.
 W prawym górnym rogu widoczna jest ikona zamknięcia umożliwiająca powrót do standardowego widoku konwersacji.
 
+\subsubsection{Odpowiedź na wcześniejszą wiadomość}
+\label{subsubsec:chat-reply-message}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{\chatfig{ReplayMessageV3}}
@@ -179,6 +215,9 @@ W prawym górnym rogu widoczna jest ikona zamknięcia umożliwiająca powrót do
 Rysunek \ref{fig:chat:reply-message} przedstawia sposób prezentowania odpowiedzi odnoszącej się do wcześniejszej wiadomości.
 W obszarze konwersacji, nad treścią nowej wiadomości, wyświetlony jest wydzielony pasek podglądu wiadomości,
 do której nawiązano. Podgląd zawiera podstawowe informacje (awatar oraz nazwę autora i fragment treści).
+
+\subsubsection{Tworzenie nowej rozmowy lub grupy}
+\label{subsubsec:chat-create-modal}
 
 \begin{figure}[H]
     \centering
@@ -192,6 +231,9 @@ W górnej części okna znajduje się nagłówek oraz pole wyszukiwania użytkow
 Poniżej zaprezentowano listę użytkowników wraz z awatarami i nazwami, a po prawej stronie każdej pozycji
 umieszczono pola wyboru umożliwiające zaznaczenie wybranych osób. W dolnej części okna widoczny jest przycisk
 służący do utworzenia nowej rozmowy na podstawie dokonanych wyborów.
+
+\subsubsection{Widok rozmowy grupowej}
+\label{subsubsec:chat-group-view}
 
 \begin{figure}[H]
     \centering
@@ -207,6 +249,9 @@ Lista prezentuje awatary oraz nazwy członków grupy w układzie pionowym.
 W górnym pasku konwersacji widoczna jest nazwa grupy (oraz jej awatar),
 a także elementy analogiczne do rozmów prywatnych, w tym wyszukiwanie oraz sekcja multimediów.
 
+\subsubsection{Menu opcji dla rozmowy grupowej}
+\label{subsubsec:chat-group-options-menu}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{\chatfig{GroupChatMenu}}
@@ -216,6 +261,9 @@ a także elementy analogiczne do rozmów prywatnych, w tym wyszukiwanie oraz sek
 
 Rysunek \ref{fig:chat:group-options-menu} przedstawia menu opcji dostępne w kontekście rozmowy grupowej.
 \glslink{modal}{Okno modalne} zawiera operacje związane z konfiguracją rozmowy, takie jak zmiana obrazu grupy lub jej nazwy.
+
+\subsubsection{Oznaczanie użytkownika w wiadomości}
+\label{subsubsec:chat-mention-suggestions}
 
 \begin{figure}[H]
     \centering
@@ -229,6 +277,9 @@ W treści wiadomości widoczny jest wyróżniony fragment w formacie \texttt{@na
 W polu wprowadzania wiadomości użytkownik wpisuje ciąg rozpoczynający się od znaku \texttt{@},
 a nad polem wyświetlono panel podpowiedzi z propozycjami dopasowań (awatar i nazwa),
 umożliwiający szybkie wybranie osoby do oznaczenia.
+
+\subsubsection{Menu kontekstowe dla członka grupy}
+\label{subsubsec:chat-group-member-menu}
 
 \begin{figure}[H]
     \centering
