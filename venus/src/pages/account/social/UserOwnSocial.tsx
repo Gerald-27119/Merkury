@@ -34,11 +34,18 @@ const queryConfigMap: Record<
     },
 };
 
+const isSupportedSocialType = (t: SocialListType): t is SupportedSocialType =>
+    t === SocialListType.FRIENDS ||
+    t === SocialListType.FOLLOWED ||
+    t === SocialListType.FOLLOWERS;
+
 export default function UserOwnSocial() {
-    const type = useSelectorTyped(
-        (state) => state.social.type,
-    ) as SupportedSocialType;
+    const selectedType = useSelectorTyped((state) => state.social.type);
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
+    const type = isSupportedSocialType(selectedType)
+        ? selectedType
+        : SocialListType.FRIENDS;
+
     const { key, fn } = queryConfigMap[type];
 
     const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =

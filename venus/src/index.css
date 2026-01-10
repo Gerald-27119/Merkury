@@ -271,3 +271,8 @@ html:not(.dark) .ant-carousel .slick-dots li.slick-active button {
 .scroll-grab::-webkit-scrollbar-thumb:active {
     cursor: grabbing;
 }
+
+.ant-picker .ant-picker-suffix,
+.ant-picker .ant-picker-clear {
+    color: #fff;
+}

@@ -1,11 +1,25 @@
 %! Author = Mateusz Redosz
 %! Date = 20/09/2025
 
-
 \chapter{Realizacja Projektu}
 \label{ch:realizacja}
+
+W niniejszym rozdziale przedstawiono kluczowe elementy implementacji systemu.
+Opis obejmuje realizację poszczególnych modułów aplikacji po stronie \glslink{frontend}{frontendu} oraz \glslink{backend}{backendu},
+a także zagadnienia związane z architekturą, zastosowanymi wzorcami projektowymi oraz automatyzacją
+procesu dostarczania nowego kodu.
+
+Ze względu na złożoność projektu i objętość kodu źródłowego, opis skupiono na komponentach mających
+największy wpływ na działanie systemu.
+Pominięto natomiast szczegółowe omówienie
+elementów o charakterze powtarzalnym lub wspierającym, takich jak definicje encji, klasy \gls{dto},
+mappery czy pomocnicze klasy narzędziowe, o ile nie wnosiły one istotnych informacji z perspektywy
+zaprojektowanych mechanizmów i funkcjonalności.
 
 \input{./chapters/realizacja-projektu/sections/wzorce-projektowe/wzorce-projektowe}
 \input{./chapters/realizacja-projektu/sections/backend/backend-implementation}
 \input{./chapters/realizacja-projektu/sections/frontend/frontend-implementation}
 \input{./chapters/realizacja-projektu/sections/cicd/ci-cd-implementation}
+\input{./chapters/realizacja-projektu/sections/oauth/oauth-implementation}
+\import{chapters/realizacja-projektu/sections/web-socket/}{glowny.tex}
+\input{./chapters/realizacja-projektu/sections/code-review/code-review}
