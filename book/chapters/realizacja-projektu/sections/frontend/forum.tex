@@ -5,7 +5,7 @@
 \label{subsec:forum-frontend}
 
 W niniejszym rozdziale przedstawiono implementację forum po stronie \glslink{frontend}{frontendu}.
-Opisane zostały najważniejsze komponenty dla tego modułu projektu.
+Opisane zostały najważniejsze \glslink{react-component}{komponenty} dla tego modułu projektu.
 
 \input{./chapters/realizacja-projektu/sections/frontend/forum-implementation/uklad-strony}
 \input{./chapters/realizacja-projektu/sections/frontend/forum-implementation/lewy-panel-boczny}
@@ -22,16 +22,16 @@ Po jego pojawieniu się w obszarze widoku wyzwalane jest pobranie kolejnej stron
 
 \subsubsection{Komponenty Wspólne}
 
-Forum wykorzystuje kilka komponentów uniwersalnych, o których była już mowa we wcześniejszych podrozdziałach.
+Forum wykorzystuje kilka \glslink{react-component}{komponentów} uniwersalnych, o których była już mowa we wcześniejszych podrozdziałach.
 Dla przejrzystości poniżej zebrano ich krótkie opisy:
 
 \paragraph{ForumLayout}
-Komponent odpowiadający za wspólny układ wszystkich podstron forum.
+\glslink{react-component}{Komponent} odpowiadający za wspólny układ wszystkich podstron forum.
 Zapewnia trójkolumnową strukturę widoku, obejmującą lewy i prawy panel boczny oraz centralną część z główną treścią.
-Jest wykorzystywany w \glslink{routing}{routingu} aplikacji jako komponent nadrzędny dla tras forum, co umożliwia dostęp do paneli bocznych oraz globalnych modali na każdej podstronie.
+Jest wykorzystywany w \glslink{routing}{routingu} aplikacji jako komponent nadrzędny dla tras forum, co umożliwia dostęp do paneli bocznych oraz globalnych \glslink{modal}{modali} na każdej podstronie.
 
 \paragraph{ForumSortDropdown}
-Komponent pozwalający wybrać sposób sortowania listy postów lub komentarzy (rys. \ref{img:forum-sort-dropdown}).
+\glslink{react-component}{Komponent} pozwalający wybrać sposób sortowania listy postów lub komentarzy (rys. \ref{img:forum-sort-dropdown}).
 Obsługuje zmianę kryteriów sortowania, takich jak data publikacji czy liczba interakcji i jest wykorzystywany w widokach listy postów, wyników wyszukiwania oraz komentarzy.
 
 \begin{figure}[H]
@@ -42,7 +42,7 @@ Obsługuje zmianę kryteriów sortowania, takich jak data publikacji czy liczba 
 \end{figure}
 
 \paragraph{ControlledEditor}
-Komponent stanowiący warstwę integracyjną pomiędzy React Hook Form a \glslink{rich-text-editor}{edytorem rich text} opartym o \glslink{tiptap}{bibliotekę Tiptap} (rys. \ref{img:controlled-editor}).
+\glslink{react-component}{Komponent} stanowiący warstwę integracyjną pomiędzy React Hook Form a \glslink{rich-text-editor}{edytorem rich text} opartym o \glslink{tiptap}{bibliotekę Tiptap} (rys. \ref{img:controlled-editor}).
 Umożliwia kontrolowane zarządzanie wartością pola treści, obsługę walidacji oraz przekazywanie zdarzeń edytora do formularza.
 Jest wykorzystywany w formularzach tworzenia i edycji postów oraz komentarzy.
 
@@ -54,7 +54,7 @@ Jest wykorzystywany w formularzach tworzenia i edycji postów oraz komentarzy.
 \end{figure}
 
 \paragraph{SelectWithSearch}
-Komponent oparty o \glslink{react-select}{bibliotekę react-select}, umożliwiający wybór pojedynczych lub wielu wartości z listy z obsługą wyszukiwania (rys. \ref{img:select-with-search-1}~\ref{img:select-with-search-2}).
+\glslink{react-component}{Komponent} oparty o \glslink{react-select}{bibliotekę react-select}, umożliwiający wybór pojedynczych lub wielu wartości z listy z obsługą wyszukiwania (rys. \ref{img:select-with-search-1}, \ref{img:select-with-search-2}).
 Wykorzystywany jest m.in. w formularzach tworzenia i edycji postów oraz w panelu wyszukiwania forum do wyboru kategorii i tagów.
 
 \begin{figure}[H]
@@ -72,7 +72,7 @@ Wykorzystywany jest m.in. w formularzach tworzenia i edycji postów oraz w panel
 \end{figure}
 
 \paragraph{ForumContentMenu}
-Współdzielony komponent menu kontekstowego, wykorzystywany w postach oraz komentarzach (rys. \ref{img:forum-content-menu-1}~\ref{img:forum-content-menu-2}).
+Współdzielony \glslink{react-component}{komponent} menu kontekstowego, wykorzystywany w postach oraz komentarzach (rys. \ref{img:forum-content-menu-1}, \ref{img:forum-content-menu-2}).
 Dynamicznie dostosowuje dostępne akcje w zależności od typu treści, stanu zalogowania użytkownika oraz jego uprawnień (np. autor, obserwator).
 Obsługuje operacje takie jak edycja, usuwanie, obserwowanie oraz zgłaszanie treści.
 
@@ -91,6 +91,6 @@ Obsługuje operacje takie jak edycja, usuwanie, obserwowanie oraz zgłaszanie tr
 \end{figure}
 
 \paragraph{Notification}
-Komponent odpowiedzialny za wyświetlanie komunikatów systemowych, takich jak informacje o powodzeniu lub błędzie wykonywanych operacji.
-Wykorzystywany jest globalnie w aplikacji, w szczególności w odpowiedzi na mutacje API.
+\glslink{react-component}{Komponent} odpowiedzialny za wyświetlanie komunikatów systemowych, takich jak informacje o powodzeniu lub błędzie wykonywanych operacji.
+Wykorzystywany jest globalnie w aplikacji, w szczególności w odpowiedzi na \glslink{mutacja}{mutacje} \glslink{api}{API}.
 
