@@ -11,10 +11,10 @@ możliwymi konsekwencjami oraz sposobami minimalizacji.
 \newcounter{riskcard}[chapter]
 \renewcommand{\theriskcard}{\thechapter.\arabic{riskcard}}
 
-\newcommand{\riskcard}[6]{%
-    \refstepcounter{riskcard}%
+\newcommand{\riskcard}[6]{
+    \refstepcounter{riskcard}
     \begin{center}
-    \renewcommand{\arraystretch}{1.15}%
+    \renewcommand{\arraystretch}{1.15}
     \begin{tabularx}{\textwidth}{|
             >{\columncolor{lightgray}\raggedright\arraybackslash}p{0.19\textwidth}|X|}
     \rowcolor{lightgray}
@@ -26,9 +26,9 @@ możliwymi konsekwencjami oraz sposobami minimalizacji.
     \textbf{Sposób minimalizacji:} & #6 \\ \hline
     \end{tabularx}
     \vspace{3pt}
-    \textbf{Tabela \theriskcard:} #2\label{#1}
-    \end{center}%
-    \addcontentsline{lot}{table}{Tabela \theriskcard: Karta analizy ryzyka: #2}%
+    \textbf{Tabela \theriskcard:} Karta analizy ryzyka: #2\label{#1}
+    \end{center}
+    \addcontentsline{lot}{table}{Tabela \theriskcard: Karta analizy ryzyka: #2}
 }
 
 \Needspace{12\baselineskip}
