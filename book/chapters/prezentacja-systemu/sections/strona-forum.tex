@@ -4,8 +4,8 @@
 \section{Strona forum}
 \label{sec:strona-forum}
 
-Forum jest dostępne od momentu wejścia na stronę również dla użytkowników niezalogowanych, jednak wyłącznie w trybie odczytu.
-Wszelkie próby interakcji z treściami wymagają poprawnego zalogowania.
+Forum jest dostępne od momentu wejścia na stronę również dla użytkowników niezalogowanych, jednak wyłącznie do przeglądania treści.
+Wszelkie próby interakcji z nimi wymagają poprawnego zalogowania.
 Forum składa się z sześciu podstron:
 \begin{itemize}
     \item Home Page
@@ -16,12 +16,18 @@ Forum składa się z sześciu podstron:
     \item Guidelines
 \end{itemize}
 
-Interfejs forum został zaprojektowany w wersji jasnej oraz ciemnej, przy czym większość zdjęć wyświetlana jest w trybie jasnym.
+Interfejs forum został zaprojektowany w wersji jasnej oraz ciemnej, przy czym większość zdjęć w tym rozdziale zaprezentowano w trybie jasnym.
 
 \subsection{Home Page}
 \label{subsec:home-page}
 
-Strona główna forum składa się z trzech głównych obszarów funkcjonalnych (rys. \ref{img:home-page}) (rys. \ref{img:home-page-dark}).
+Strona główna forum (rys. \ref{img:home-page}) (rys. \ref{img:home-page-dark}) składa się z trzech podstawowych obszarów funkcjonalnych:
+\begin{itemize}
+    \item centralnej listy postów
+    \item lewego panelu bocznego
+    \item prawego panelu bocznego
+\end{itemize}
+
 
 \subsubsection{Lista postów}
 
@@ -112,7 +118,7 @@ Formularz tworzenia posta (rys. \ref{img:create-post}) składa się z następuj�
     \item \textbf{title} -- tytuł posta
     \item \textbf{category} -- kategoria posta
     \item \textbf{tags} -- lista tagów
-    \item \textbf{content} -- treść posta tworzona za pomocą edytora typu \textit{rich text}
+    \item \textbf{content} -- treść posta tworzona za pomocą edytora \glslink{rich-text-editor}{typu rich text}
 \end{itemize}
 
 Na dole formularza znajdują się dwa przyciski:
@@ -123,7 +129,7 @@ Na dole formularza znajdują się dwa przyciski:
 
 Otwarcie formularza przez użytkownika niezalogowanego powoduje wyświetlenie odpowiedniego komunikatu informacyjnego (rys. \ref{img:create-post-warning}).
 W formularzu zastosowano walidację danych.
-W przypadku braku wymaganych informacji pojawia się informacja pod polem nie spełniającym wymagań (rys. \ref{img:create-post-validation}).
+W przypadku braku wymaganych danych pojawia się informacja pod polem nie spełniającym wymagań (rys. \ref{img:create-post-validation}).
 
 \begin{figure}[H]
     \centering
@@ -216,7 +222,7 @@ W dolnej części znajdują się przyciski interakcji, obejmujące:
     \item przycisk \textit{upvote} z liczbą polubień
     \item przycisk \textit{downvote} z liczbą negatywnych ocen
     \item liczbę komentarzy
-    \item przycisk \textit{share} umożliwiający skopiowanie adresu URL posta
+    \item przycisk \textit{share} umożliwiający skopiowanie adresu \glslink{url}{URL} posta
     \item menu kontekstowe służące do zarządzania postem, dodania go do obserwowanych lub zgłoszenia
     \item przycisk dodania nowego komentarza
 \end{itemize}
@@ -224,7 +230,7 @@ W dolnej części znajdują się przyciski interakcji, obejmujące:
 Przyciski \textit{upvote} oraz \textit{downvote} zmieniają kolor w przypadku oddania głosu przez zalogowanego użytkownika (rys. \ref{img:upvoted-post}).
 Naciśnięcie przycisku \textit{Add comment} spowoduje otwarcie formularza dodania komentarza (rys. \ref{img:add-comment}), natomiast w przypadku użytkownika niezalogowanego wyświetlany jest odpowiedni komunikat informujący o konieczności zalogowania (rys. \ref{img:add-comment-warning}).
 W formularzu zastosowano walidację danych.
-W przypadku braku wymaganych informacji pojawia się informacja pod polem nie spełniającym wymagań (rys. \ref{img:comment-validation}).
+W przypadku braku wymaganych danych pojawia się informacja pod polem nie spełniającym wymagań (rys. \ref{img:comment-validation}).
 
 \begin{figure}[H]
     \centering
@@ -262,10 +268,10 @@ W przypadku braku wymaganych informacji pojawia się informacja pod polem nie sp
 \end{figure}
 
 Pod kafelkiem posta wyświetlana jest lista komentarzy (rys. \ref{img:comments-replies-closed}).
-Komentarze mają formę wizualnie zbliżoną do posta, z wyłączeniem funkcji udostępniania.
-Każdy komentarz zawiera przycisk \textit{reply} umożliwiający dodanie odpowiedzi oraz menu kontekstowe pozwalające autorowi na edycję lub usunięcie treści.
+Elementy mają formę wizualnie zbliżoną do posta, z wyłączeniem funkcji udostępniania.
+Każdy z nich zawiera przycisk \textit{reply} umożliwiający dodanie odpowiedzi oraz menu kontekstowe pozwalające autorowi na edycję lub usunięcie treści.
 Usunięty komentarz pozostaje widoczny w formie komunikatu „Comment was deleted by the user.”, a wszelka interakcja z nim jest zablokowana (rys. \ref{img:deleted-comment}).
-W przypadku komentarzy posiadających odpowiedzi wyświetlana jest ikona strzałki wraz z liczbą odpowiedzi, umożliwiająca rozwinięcie ich listy (rys. \ref{img:comments-replies-open}).
+W przypadku elementów posiadających odpowiedzi wyświetlana jest ikona strzałki wraz z liczbą odpowiedzi, umożliwiająca rozwinięcie ich listy (rys. \ref{img:comments-replies-open}).
 
 Próba dodania komentarza lub odpowiedzi przez użytkownika niezalogowanego skutkuje wyświetleniem odpowiedniego komunikatu.
 
