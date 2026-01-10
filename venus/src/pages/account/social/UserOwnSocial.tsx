@@ -40,9 +40,7 @@ const isSupportedSocialType = (t: SocialListType): t is SupportedSocialType =>
     t === SocialListType.FOLLOWERS;
 
 export default function UserOwnSocial() {
-    const selectedType = useSelectorTyped(
-        (state) => state.social.type,
-    );
+    const selectedType = useSelectorTyped((state) => state.social.type);
     const loadMoreRef = useRef<HTMLDivElement | null>(null);
     const type = isSupportedSocialType(selectedType)
         ? selectedType
