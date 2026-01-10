@@ -1,27 +1,73 @@
-%! Author = Mateusz
-%! Date = 22/12/2025
-
 \subsection{Diagram ERD}
 \label{subsec:diagram-erd}
 
 Na rysunku przedstawiono diagram związków encji (ERD), ilustrujący zależności między encjami systemu.
 
-\begingroup
-\newgeometry{left=1mm,right=1mm,top=1mm,bottom=1mm}
+\newdimen\savedpdfpagewidth
+\newdimen\savedpdfpageheight
+\newdimen\savedpaperwidth
+\newdimen\savedpaperheight
+\newdimen\savedtextwidth
+\newdimen\savedoddsidemargin
+\newdimen\savedevensidemargin
+\newdimen\savedhsize
+\newdimen\savedcolumnwidth
 
-\begin{landscape}
-    \thispagestyle{plain}
+\newcommand{\BeginAThreeLandscape}{%
+    \par
+    \ifdim\pagetotal>0pt\clearpage\fi
 
-    \vspace*{\fill}
-    \begin{minipage}{\linewidth}
-        \centering
-        \includegraphics[width=0.9\linewidth,keepaspectratio]{./attachments/projekt/projekt-bazy-danych/diagram}
-        \captionof{figure}{Diagram ERD}
-    \end{minipage}
-    \vspace*{\fill}
+    \savedpdfpagewidth=\pdfpagewidth
+    \savedpdfpageheight=\pdfpageheight
+    \savedpaperwidth=\paperwidth
+    \savedpaperheight=\paperheight
+    \savedtextwidth=\textwidth
+    \savedoddsidemargin=\oddsidemargin
+    \savedevensidemargin=\evensidemargin
+    \savedhsize=\hsize
+    \savedcolumnwidth=\columnwidth
 
-\end{landscape}
+    \pdfpagewidth=420mm
+    \pdfpageheight=297mm
+    \paperwidth=420mm
+    \paperheight=297mm
 
-\restoregeometry
-\endgroup
-\clearpage
+    \oddsidemargin=0pt
+    \evensidemargin=0pt
+    \textwidth=\dimexpr\paperwidth-2in\relax
+    \hsize=\textwidth
+    \columnwidth=\textwidth
+}
+
+\newcommand{\EndAThreeLandscape}{%
+    \clearpage
+    \pdfpagewidth=\savedpdfpagewidth
+    \pdfpageheight=\savedpdfpageheight
+    \paperwidth=\savedpaperwidth
+    \paperheight=\savedpaperheight
+    \textwidth=\savedtextwidth
+    \oddsidemargin=\savedoddsidemargin
+    \evensidemargin=\savedevensidemargin
+    \hsize=\savedhsize
+    \columnwidth=\savedcolumnwidth
+}
+
+\BeginAThreeLandscape
+\thispagestyle{plain}
+
+\vspace*{\fill}
+\begin{center}
+    \includegraphics[
+        width=\textwidth,
+        height=0.9\textheight,
+        keepaspectratio,
+        trim={20mm 15mm 20mm 15mm},
+        clip
+    ]{./attachments/projekt/projekt-bazy-danych/diagram}
+    \vspace{5mm}
+    \captionof{figure}{Diagram ERD}
+\end{center}
+\vspace*{\fill}
+
+\EndAThreeLandscape
+
