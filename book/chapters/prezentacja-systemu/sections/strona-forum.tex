@@ -47,7 +47,7 @@ Każdy post prezentowany jest w formie kafelka zawierającego:
 \end{itemize}
 
 Menu kontekstowe ukryte jest pod ikoną trzech poziomych kropek i umożliwia zgłoszenie posta (rys. \ref{img:report-form}) lub dodanie go do obserwowanych (rys. \ref{img:menu-not-author}).
-Próba wykonania tych operacji przez użytkownika niezalogowanego skutkuje wyświetleniem odpowiedniego komunikatu (rys. \ref{img:follow-post-warning}) (rys. \ref{img:report-post-warning}).
+Próba wykonania tych operacji przez użytkownika niezalogowanego skutkuje wyświetleniem odpowiedniego komunikatu.
 W przypadku zalogowanego autora posta dostępne są dodatkowe opcje edycji oraz usunięcia treści (rys. \ref{img:menu-author}).
 Kliknięcie kafelka powoduje przejście do widoku szczegółów posta.
 
@@ -81,23 +81,9 @@ Kliknięcie kafelka powoduje przejście do widoku szczegółów posta.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/follow_post_warning}
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/report_form}
     \caption{Formularz zgłoszenia posta lub komentarza}
     \label{img:report-form}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/follow_post_warning}
-    \caption{Komunikat informujący o konieczności zalogowania w celu dodania posta do obserwowanych}
-    \label{img:follow-post-warning}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/report_post_warning}
-    \caption{Komunikat informujący o konieczności zalogowania w celu zgłoszenia posta}
-    \label{img:report-post-warning}
 \end{figure}
 
 \subsubsection{Lewy panel boczny}
@@ -228,7 +214,7 @@ W dolnej części znajdują się przyciski interakcji, obejmujące:
 \end{itemize}
 
 Przyciski \textit{upvote} oraz \textit{downvote} zmieniają kolor w przypadku oddania głosu przez zalogowanego użytkownika (rys. \ref{img:upvoted-post}).
-Naciśnięcie przycisku \textit{Add comment} spowoduje otwarcie formularza dodania komentarza (rys. \ref{img:add-comment}), natomiast w przypadku użytkownika niezalogowanego wyświetlany jest odpowiedni komunikat informujący o konieczności zalogowania (rys. \ref{img:add-comment-warning}).
+Naciśnięcie przycisku \textit{Add comment} spowoduje otwarcie formularza dodania komentarza (rys. \ref{img:add-comment}), natomiast w przypadku użytkownika niezalogowanego wyświetlany jest odpowiedni komunikat informujący o konieczności zalogowania.
 W formularzu zastosowano walidację danych.
 W przypadku braku wymaganych danych pojawia się informacja pod polem nie spełniającym wymagań (rys. \ref{img:comment-validation}).
 
@@ -258,13 +244,6 @@ W przypadku braku wymaganych danych pojawia się informacja pod polem nie spełn
     \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/comment_validation}
     \caption{Walidacja formularza dodawania komentarza}
     \label{img:comment-validation}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/add_comment_warning}
-    \caption{Komunikat informujący o konieczności zalogowania w celu dodania komentarza}
-    \label{img:add-comment-warning}
 \end{figure}
 
 Pod kafelkiem posta wyświetlana jest lista komentarzy (rys. \ref{img:comments-replies-closed}).
