@@ -46,22 +46,6 @@ export async function addSpotComment(addSpotCommentDto: AddSpotCommentDto) {
     ).data;
 }
 
-//TODO: other task, delete?
-export async function deleteComment(commentId) {
-    return await axios.delete(`${BASE_URL}/spot/comments/${commentId}`, {
-        withCredentials: true,
-    });
-}
-
-//TODO: other task, delete?
-export async function editComment({ commentId, editedComment }) {
-    return await axios.patch(
-        `${BASE_URL}/spot/comments/${commentId}`,
-        editedComment,
-        { withCredentials: true },
-    );
-}
-
 type voteCommentProps = {
     commentId: number;
     isUpvote: boolean;

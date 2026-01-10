@@ -19,6 +19,8 @@ import { spotDetailsModalAction } from "../../../../redux/spot-modal";
 import { useLocation, useSearchParams } from "react-router-dom";
 import SpotCoordinatesDto from "../../../../model/interface/spot/coordinates/spotCoordinatesDto";
 import { spotWeatherActions } from "../../../../redux/spot-weather";
+import { currentViewSpotsListModalActions } from "../../../../redux/current-view-spots-list-modal";
+import { searchedSpotListModalAction } from "../../../../redux/searched-spot-list-modal";
 
 const clickHandlers = new Map<number, () => void>();
 
@@ -135,6 +137,10 @@ export default function Spots() {
         );
         dispatch(spotDetailsModalAction.handleShowModal());
         dispatch(spotWeatherActions.openBasicWeatherModal());
+        dispatch(
+            currentViewSpotsListModalActions.closeCurrentViewSpotsListModal(),
+        );
+        dispatch(searchedSpotListModalAction.handleCloseList());
         mutateAsync(spotId);
     };
 

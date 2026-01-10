@@ -14,7 +14,6 @@ import com.merkury.vulcanus.model.enums.EmailTemplate;
 import com.merkury.vulcanus.model.enums.EmailTitle;
 import com.merkury.vulcanus.model.enums.EmailVariable;
 import com.merkury.vulcanus.model.dtos.EmailDto;
-import com.merkury.vulcanus.observability.counter.invocations.InvocationsCounter;
 import jakarta.servlet.http.HttpServletResponse;
 import com.merkury.vulcanus.config.properties.UrlsProperties;
 import jakarta.validation.Valid;
@@ -35,7 +34,6 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@InvocationsCounter
 public class AccountController {
     @Value("${email.sending.enabled}")
     private boolean isEmailSendingEnabled;
