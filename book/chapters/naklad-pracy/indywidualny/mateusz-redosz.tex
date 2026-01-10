@@ -1,93 +1,101 @@
-%! Author = Mateusz Redosz
+%! Author = Mateusz
 %! Date = 12/10/2025
 
 \subsection{Mateusz Redosz}
 \label{subsec:mateusz-redosz}
-Na projekt poświęciłem łącznie 324 godziny, z czego 237 przeznaczyłem na prace deweloperskie,
-111 na pisanie dokumentacji, 19 godzin na \gls{review-kodu}, 19 na spotkania dotyczące omówienia dalszych
-prac projektowych oraz przy pomocy innym członkom zespołu oraz 49 godzin poświęciłem nad stworzeniem widoków na figmie.
-Prace nad częścią deweloperską rozpocząłem 04.08.2024 a zakończyłem 08.09.2025.
-W projekcie pracowałem nad Rejestracją użytkownika, tokenenm  \gls{jwt}, częściową implementacją \gls{cicd},
-stroną główną, zaimplementowaniem \gls{sidebar}a oraz podstroną dla użytkownika.
-Moje wylistowane zadania z Jira: \newline
-\begin{enumerate}
-    \item Dokumentacja
-    \begin{itemize}
-        \item TODO
-    \end{itemize}
 
-    \item \gls{design}
-    \begin{itemize}
-        \item Ustalić paletę kolorystyczną
-        \item Propozycja wyglądu
-    \end{itemize}
+\newcommand{\linkitem}[1]{%
+    \item \hyperref[#1]{\ref*{#1}~\nameref*{#1}}%
+}
 
-    \item \gls{backend} i \gls{frontend}
-    \begin{itemize}
-        \item Formularz rejestracji
-        \item Routing
-        \item Formatowanie w React (prettier)
-        \item Obsługa JWT na frontend
-        \item oAuth Frontend
-        \item Update JWT
-        \item Refactor JWT
-        \item Stworzenie komponentu Notification i poprawa błędów
-        \item Implementacja pierwszych testów
-        \item Zaimplementowanie kolejki w komponencie notification
-        \item Dodanie reduxa do rejestracji
-        \item Zmiana sposobu pobierania danych o spotach
-        \item Obsługa customowych błędów z jakarta.validation
-        \item Obsługa auto wylogowania przy starcie
-        \item Domyślna wiadomość w notification
-        \item Poprawa headera
-        \item Ciemny motyw
-        \item Refactor pogody
-        \item Propozycja wyglądu
-        \item Przeniesienie zdjęć z google drive
-        \item Dodać Type script do Reacta
-        \item Aktualizacja tailwinda i dodanie kolorów
-        \item Podstawowy \gls{sidebar}
-        \item Strona główna z prostymi filtrami
-        \item Strona główna z zaawansowanymi filtrami
-        \item \gls{sidebar}
-        \item Strona profilu
-        \item Ustawienia
-        \item Listy spotów
-        \item Lista zdjęć
-        \item Lista filmów
-        \item Lista znajomych
-        \item Dodanie spotów
-        \item Lista komentarzy
-        \item Strona główna profilu
-        \item Listy
-        \item Poprawa \gls{sidebar}a
-        \item Zmiana kropki na przyciemnienie tła na \gls{sidebar}
-        \item Poprawa strony do logowania i rejestracji
-        \item Usunięcie username z account Redux
-        \item Dodanie zamknięcia \gls{sidebar}a na małych ekranach po kliknięciu nav linka
-        \item Poprawić tooltipa na sidebar
-        \item Zmiana sposobu pobierania username na backendzie z tokena jwt
-        \item Paginacja z infinity scrollem
-        \item  Lista zdjęć innego usera
-        \item Walidacja i responsywność w dodaniu spotów
-        \item Dodanie sortowania i filtrów na zaawansowanej stronie
-        \item Zmiana na infinity scrola
-        \item Zmiana zdjęcia profilowego użytkownika
-        \item Czyszczenie formularza w dodawaniu spota
-        \item Dodanie wyszukiwarki znajomych w Social
-        \item Zatwierdzenie przez drugiego użytkownika dodania do znajomych
-        \item Sprawdzenie czy wszystko działa i poprawki Mateusz
-    \end{itemize}
+Na realizację projektu poświęciłem łącznie XXX godzin, z czego:
+\begin{itemize}
+    \item 270 godz. \textendash \space prace deweloperskie
+    \item XXX godz. \textendash \space przygotowanie dokumentacji
+    \item XX godz. \textendash \space \glslink{review-kodu}{review kodu}
+    \item XX godz. \textendash \space spotkania dotyczące omówienia dalszych prac projektowych oraz pomocy innym członkom zespołu
+    \item 49 godz. \textendash \space przygotowanie widoków w Figmie
+\end{itemize}
 
-    \item \gls{cicd}
-    \begin{itemize}
-        \item Dodanie testów z frontendu do github actions
-        \item Poprawa github actions
-        \item Poprawa pipeline od Javy i Reacta
-    \end{itemize}
+\subsubsection{Prace deweloperskie}
+\label{subsubsec:prace-deweloperskie-mateusz}
 
-    \item Praca dyplomowa
-    \begin{itemize}
-        \item Uzupełnienie informacji o zespole i podział na rozdziały
-    \end{itemize}
-\end{enumerate}
+W ramach projektu odpowiadałem za implementację rejestracji użytkownika oraz częściową obsługę \glslink{token}{tokenu} \gls{jwt}
+w tym automatycznym wylogowaniem użytkownika z systemu.
+Pracowałem również nad wybranymi elementami \glslink{pipeline}{pipeline’u} \gls{cicd}, wspierając przygotowanie
+automatyzacji budowania oraz testowania aplikacji.
+Dużą część czasu poświęciłem na rozwój głównych modułów systemu, w szczególności wyszukiwarki \glslink{spot}{spotów} oraz panelu
+użytkownika, zarówno na \glslink{frontend}{frontendzie}, jak i \glslink{backend}{backendzie}.
+Oba moduły są \glslink{responsywnosc}{responsywne} na dużych i małych ekranach oraz zostały przygotowane w motywie jasnym i ciemnym.
+Panel użytkownika przetestowałem testami \glslink{unit-tests}{jednostkowymi},
+\glslink{integration-tests}{integracyjnymi} oraz \glslink{e2e-tests}{E2E}.
+
+Dodatkowo zaimplementowałem \glslink{sidebar}{sidebar}, dbając o \glslink{responsywnosc}{responsywność} i
+dopasowanie układu do różnych rozdzielczości, tak aby korzystanie z aplikacji było wygodne zarówno na
+urządzeniach mobilnych, jak i na komputerach.
+Na początku przedmiotu \gls{prz1} przygotowałem w Figmie projekt widoków dla panelu użytkownika,
+wyszukiwarki \glslink{spot}{spotów} oraz panelu logowania i rejestracji, dbając o spójność stylu, czytelność interfejsu
+oraz zgodność z założeniami funkcjonalnymi.
+
+W trakcie prac regularnie konsultowałem postępy z zespołem, brałem udział w spotkaniach oraz pomagałem
+innym osobom w rozwiązywaniu problemów związanych z implementacją i konfiguracją środowiska.
+Po wykonaniu kluczowych funkcjonalności wprowadzałem poprawki wynikające z testów oraz uwag z \glslink{review-kodu}{review kodu},
+skupiając się na jakości, stabilności oraz utrzymaniu jednolitego standardu kodu w projekcie.
+
+\subsubsection{Tworzenie dokumentacji}
+\label{subsubsec:tworzenie-dokumentacji-mateusz}
+
+Opracowałem następujące rozdziały i podrozdziały dokumentacji pracy inżynierskiej:
+
+\begin{itemize}
+    % --- Wymagania ogólne ---
+    \linkitem{subsubsec:wymagania-ogolne-dla-panelu-uzytkownika}
+    \linkitem{subsubsec:wymagania-ogolne-dla-wyszukiwarki-spotow}
+    \linkitem{subsubsec:wymagania-ogolne-dla-logowania-i-rejestracji}
+    \linkitem{subsubsec:wymagania-ogolne-dla-motywu}
+
+    % --- Wymagania funkcjonalne ---
+    \linkitem{subsubsec:wymagania-funkcjonalne-dla-panelu-uzytkownika}
+    \linkitem{subsubsec:wymagania-funkcjonalne-dla-wyszukiwarki-spotow}
+    \linkitem{subsubsec:wymagania-funkcjonalne-dla-logowania-rejestracji}
+    \linkitem{subsubsec:wymagania-funkcjonalne-dla-motywu}
+
+    % --- Wymagania pozafunkcjonalne ---
+    \linkitem{subsubsec:wymagania-pozafunkcjonalne-dla-panelu-uzytkownika}
+    \linkitem{subsubsec:wymagania-pozafunkcjonalne-dla-wyszukiwarki-spotow}
+    \linkitem{subsubsec:wymagania-pozafunkcjonalne-dla-panelu-logowania-i-rejestracji}
+    \linkitem{subsubsec:wymagania-pozafunkcjonalne-dla-motywu}
+
+    % --- Reszta rozdziałów/sekcji ---
+    \linkitem{sec:architektura-systemu}
+    \linkitem{sec:projekt-bazy-danych}
+    \linkitem{subsec:projekt-panelu-logowania-i-rejestracji}
+    \linkitem{subsec:projekt-strony-glownej}
+    \linkitem{subsec:projekt-panelu-uzytkownika}
+    \linkitem{subsec:struktura-projektu}
+    \linkitem{subsec:endpointy-systemu}
+    \linkitem{subsec:integracja-z-baza-danych}
+    \linkitem{subsec:konteneryzacja}
+    \linkitem{subsec:cache}
+    \linkitem{subsec:struktura-aplikacji}
+    \linkitem{subsec:zarzadzanie-stanem-i-przeplyw-danych}
+    \linkitem{subsec:integracja-i-komunikacja-z-backendem}
+    \linkitem{subsec:style}
+    \linkitem{subsec:strona-glowna-frontend}
+    \linkitem{subsec:panel-uzytkownika-frontend}
+    \linkitem{subsec:panel-logowania-frontend}
+    \linkitem{subsec:sidebar-frontend}
+    \linkitem{sec:implementacja-ci-cd}
+    \linkitem{ch:testy}
+    \linkitem{sec:wyszukiwarka-spotow}
+    \linkitem{sec:panel-logowania-i-rejestracji}
+    \linkitem{sec:sidebar}
+    \linkitem{sec:notification}
+    \linkitem{sec:panel-uzytkownika}
+    \linkitem{sec:ogolny-naklad-pracy}
+    \linkitem{subsec:mateusz-redosz}
+    \linkitem{ch:podsumowanie}
+\end{itemize}
+
+W trakcie tworzenia powyższych rozdziałów dodałem wymagane hasła do słowniczka oraz odpowiednie pozycje do
+bibliografii.
