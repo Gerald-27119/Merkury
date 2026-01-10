@@ -1,0 +1,261 @@
+%! Author = kacper
+%! Date = 01/01/2026
+
+\subsubsection{Wymagania ogólne dla forum}
+\label{subsubsec:wymagania-ogolne-dla-forum}
+
+\newlength{\wofContentWidth}
+\setlength{\wofContentWidth}{0.74\textwidth}
+\newlength{\wofLabelWidth}
+\setlength{\wofLabelWidth}{0.2\textwidth}
+
+
+\newcommand{\wofpriority}[2]{%
+    \textbf{Identyfikator:} & WOFORUM-#1 &
+    \textbf{Priorytet:} & #2 \\ \hline
+}
+
+\newcommand{\wofname}[1]{\textbf{Nazwa:} &
+\multicolumn{3}{|p{\wofContentWidth}|}{#1} \\ \hline}
+\newcommand{\wofdesc}[1]{\textbf{Opis:} &
+\multicolumn{3}{|p{\wofContentWidth}|}{#1} \\ \hline}
+\newcommand{\wofstakeholder}[1]{\textbf{Udziałowiec:} &
+\multicolumn{3}{|p{\wofContentWidth}|}{#1} \\ \hline}
+\newcommand{\wofrelated}[1]{\textbf{Wymagania powiązane:} &
+\multicolumn{3}{|p{\wofContentWidth}|}{#1} \\ \hline}
+
+
+\newcommand{\woforumcard}[5]{
+    \refstepcounter{awc}
+    {\centering
+    \begin{longtable}{|
+            >{\columncolor{lightgray}}p{\wofLabelWidth}|
+        p{0.22\textwidth}|
+            >{\columncolor{lightgray}}p{0.18\textwidth}|
+        p{0.24\textwidth}|}
+
+    \hline
+    \rowcolor{lightgray}\multicolumn{4}{|c|}
+    {\textbf{KARTA WYMAGANIA OGÓLNEGO DLA FORUM}} \\ \hline
+    \endfirsthead
+    \hline
+    \rowcolor{lightgray}\multicolumn{4}{|c|}
+    {\textbf{KARTA WYMAGANIA OGÓLNEGO DLA FORUM (cd.)}} \\ \hline
+    \endhead
+
+    \wofpriority{#3}{#4}
+    \wofname{#2}
+    #5
+
+    \end{longtable}
+    \par}
+
+    \vspace{3pt}
+    \textbf{Tabela \theawc:}
+    Karta wymagania ogólnego dla forum: #2\label{#1}
+
+    \addcontentsline{lot}{table}
+    {Tabela \theawc: Karta wymagania ogólnego dla forum: #2}
+}
+
+\woforumcard
+{woforum:browse-posts}
+{Przeglądanie postów na forum}
+{01}
+{S}
+{
+    \wofdesc{System umożliwia użytkownikowi przeglądanie treści forum,
+        w tym listy postów oraz ich podstawowych informacji.}
+
+    \wofstakeholder{U3}
+
+    \wofrelated{
+        \hyperref[wfforum:view-post-list]{WFFORUM-01},
+        \hyperref[wfforum:dynamic-loading]{WFFORUM-02},
+        \hyperref[wfforum:sort-posts]{WFFORUM-03}
+    }
+}
+
+\woforumcard
+{woforum:view-post-details}
+{Szczegółowe przeglądanie posta}
+{02}
+{S}
+{
+    \wofdesc{System umożliwia użytkownikowi przejście do widoku
+    szczegółowego posta i zapoznanie się z jego pełną treścią.}
+
+    \wofstakeholder{U3}
+
+    \wofrelated{
+        \hyperref[wfforum:view-post-details]{WFFORUM-04}
+    }
+}
+
+\woforumcard
+{woforum:browse-comments}
+{Przeglądanie komentarzy i odpowiedzi}
+{03}
+{S}
+{
+    \wofdesc{Forum umożliwia użytkownikowi przeglądanie komentarzy
+    do postów oraz odpowiedzi do komentarzy.}
+
+    \wofstakeholder{U3}
+
+    \wofrelated{
+        \hyperref[wfforum:view-comments]{WFFORUM-05},
+        \hyperref[wfforum:sort-comments]{WFFORUM-06},
+        \hyperref[wfforum:view-replies]{WFFORUM-07}
+    }
+
+}
+
+\woforumcard
+{woforum:search-posts}
+{Wyszukiwanie i filtrowanie postów}
+{04}
+{S}
+{
+    \wofdesc{System umożliwia użytkownikowi wyszukiwanie postów
+    oraz zawężanie wyników przy użyciu dostępnych opcji.}
+
+    \wofstakeholder{U3}
+
+    \wofrelated{
+        \hyperref[wfforum:search-posts]{WFFORUM-08}
+    }
+
+}
+
+\woforumcard
+{woforum:user-interactions}
+{Interakcja użytkownika z treściami forum}
+{05}
+{S}
+{
+    \wofdesc{System umożliwia zalogowanemu użytkownikowi podejmowanie
+    interakcji z treściami forum, w tym reagowanie na posty i komentarze
+    oraz zarządzanie obserwowanymi treściami.}
+
+    \wofstakeholder{U3}
+
+    \wofrelated{
+        \hyperref[wfforum:voting]{WFFORUM-09},
+        \hyperref[wfforum:follow-posts]{WFFORUM-10},
+        \hyperref[wfforum:view-followed]{WFFORUM-11}
+    }
+
+}
+
+\woforumcard
+{woforum:manage-content}
+{Zarządzanie treściami forum}
+{06}
+{S}
+{
+    \wofdesc{System umożliwia zalogowanemu użytkownikowi tworzenie,
+        edytowanie oraz usuwanie własnych treści na forum.}
+
+    \wofstakeholder{U3}
+
+    \wofrelated{
+        \hyperref[wfforum:manage-posts]{WFFORUM-12},
+        \hyperref[wfforum:manage-comments]{WFFORUM-13}
+    }
+
+}
+
+\woforumcard
+{woforum:report-abuse}
+{Zgłaszanie naruszeń}
+{07}
+{S}
+{
+    \wofdesc{System umożliwia zalogowanemu użytkownikowi zgłaszanie
+    postów oraz komentarzy naruszających regulamin forum.}
+
+    \wofstakeholder{U3}
+
+    \wofrelated{
+        \hyperref[wfforum:report-content]{WFFORUM-14}
+    }
+
+}
+
+\woforumcard
+{woforum:guest-access}
+{Dostępność forum dla niezalogowanych użytkowników}
+{08}
+{S}
+{
+    \wofdesc{Forum jest dostępne dla niezalogowanych użytkowników
+    w trybie tylko do odczytu.}
+
+    \wofstakeholder{U3}
+
+    \wofrelated{
+        \hyperref[wfforum:view-post-list]{WFFORUM-01},
+        \hyperref[wfforum:dynamic-loading]{WFFORUM-02},
+        \hyperref[wfforum:sort-posts]{WFFORUM-03},
+        \hyperref[wfforum:view-post-details]{WFFORUM-04},
+        \hyperref[wfforum:view-comments]{WFFORUM-05},
+        \hyperref[wfforum:sort-comments]{WFFORUM-06},
+        \hyperref[wfforum:view-replies]{WFFORUM-07},
+        \hyperref[wfforum:search-posts]{WFFORUM-08},
+        \hyperref[wfforum:view-categories-tags]{WFFORUM-15},
+        \hyperref[wfforum:view-rules]{WFFORUM-16}
+    }
+}
+
+\woforumcard
+{woforum:view-rules}
+{Przeglądanie regulaminu forum}
+{09}
+{S}
+{
+    \wofdesc{System umożliwia użytkownikowi zapoznanie się
+    z regulaminem forum.}
+
+    \wofstakeholder{U3}
+
+    \wofrelated{
+        \hyperref[wfforum:view-rules]{WFFORUM-16}
+    }
+
+}
+
+\woforumcard
+{woforum:browse-categories-tags}
+{Przeglądanie kategorii i tagów postów}
+{10}
+{S}
+{
+    \wofdesc{System umożliwia użytkownikowi przeglądanie kategorii
+    oraz tagów postów dostępnych na forum.}
+
+    \wofstakeholder{U3}
+
+    \wofrelated{
+        \hyperref[wfforum:view-categories-tags]{WFFORUM-15}
+    }
+
+}
+
+\woforumcard
+{woforum:activity-history}
+{Przeglądanie historii aktywności użytkownika}
+{11}
+{W}
+{
+    \wofdesc{System umożliwia zalogowanemu użytkownikowi
+    przeglądanie historii swoich interakcji na forum.}
+
+    \wofstakeholder{U3}
+
+    \wofrelated{
+        \hyperref[wfforum:user-activity]{WFFORUM-17}
+    }
+
+}
+

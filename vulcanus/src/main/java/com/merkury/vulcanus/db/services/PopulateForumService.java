@@ -94,10 +94,44 @@ public class PopulateForumService {
                 "Jantar", "Hel", "Żarnowiec", "Tarnobrzeg", "Klucze"
         );
 
-        List<String> topicTagNames = List.of("FPV", "Początkujący", "Gogle");
+        Map<String, List<String>> fixedPostComments = Map.of(
+                "Rekomendacje dronów FPV dla początkujących?",
+                List.of(
+                        "<p>Na start polecam TinyWhoopa albo coś 3.5 cala – mniej stresu i taniej w naprawach.</p>",
+                        "<p>Do 2000 zł spokojnie złożysz sensowny setup, tylko nie oszczędzaj na goglach.</p>",
+                        "<p>RTF jest OK na początek, ale custom daje dużo więcej frajdy później.</p>"
+                ),
+
+                "Najlepsze miejscówki FPV w Gdańsku?",
+                List.of(
+                        "<p>Stare fortyfikacje i okolice portu są spoko, tylko trzeba uważać na strefy.</p>",
+                        "<p>Polecam też wczesne poranki – zero ludzi i świetne światło.</p>",
+                        "<p>Nad wodą zawsze wygląda lepiej, ale wiatr potrafi zaskoczyć.</p>"
+                ),
+
+                "Najlepsze gogle FPV do 700 zł?",
+                List.of(
+                        "<p>EV800D to nadal bardzo solidny wybór w tej cenie.</p>",
+                        "<p>Boxy są OK na start, ważne żeby miały diversity.</p>",
+                        "<p>Używane gogle często są lepsze niż nowe budżetówki.</p>"
+                ),
+
+                "Start z FPV bez lutowania – da się?",
+                List.of(
+                        "<p>Da się, ale prędzej czy później lutownica i tak się przyda.</p>",
+                        "<p>Są zestawy RTF, które pozwalają polatać bez grzebania w elektronice.</p>",
+                        "<p>Na początek ważniejsze jest latanie niż perfekcyjny sprzęt.</p>"
+                ),
+
+                "Jakieś fajne miejscówki do latania w Gdyni?",
+                List.of(
+                        "<p>Babie Doły i okolice torpedowni to klasyk.</p>",
+                        "<p>Najlepiej wcześnie rano albo poza sezonem.</p>",
+                        "<p>Widoki super, tylko trzeba uważać na wiatr od morza.</p>"
+                )
+        );
 
         List<String> allTagNames = new ArrayList<>(cityTagNames);
-        allTagNames.addAll(topicTagNames);
         allTagNames = allTagNames.stream().distinct().toList();
 
         Map<String, Tag> tagByName = upsertForumTags(allTagNames);
@@ -136,17 +170,16 @@ public class PopulateForumService {
             posts.add(p);
         }
 
-        for (Post post : posts) {
-            if (!fixedTitles.contains(post.getTitle())) {
-                assignDeterministicVotes(post, users, "post:" + post.getTitle());
-                assignDeterministicFollowers(post, users, "post:" + post.getTitle());
-            } else {
-                post.setUpVotedBy(new HashSet<>());
-                post.setDownVotedBy(new HashSet<>());
-                post.setUpVotes(0);
-                post.setDownVotes(0);
-                if (post.getFollowers() != null) post.getFollowers().clear();
+        for (Post fixed : fixedPosts) {
+            List<String> comments = fixedPostComments.get(fixed.getTitle());
+            if (comments != null) {
+                addCommentsDeterministic(fixed, users, allComments, comments);
             }
+        }
+
+        for (Post post : posts) {
+            assignDeterministicVotes(post, users, "post:" + post.getTitle());
+            assignDeterministicFollowers(post, users, "post:" + post.getTitle());
 
             post.setCommentsCount(post.getComments() != null ? post.getComments().size() : 0);
             post.setTrendingScore(calculateTrendingScore(post));
@@ -758,7 +791,7 @@ public class PopulateForumService {
         String imgs = urls.stream()
                 .map(u -> "<img src=\"" + u + "\" alt=\"image\">")
                 .collect(java.util.stream.Collectors.joining("\n"));
-        return imgs + "\n" + content;
+        return content + imgs;
     }
 
     private void ensureFollowedPostsPerUser(List<UserEntity> users, List<Post> posts, int perUser) {
@@ -887,62 +920,57 @@ public class PopulateForumService {
         Post post1 = Post.builder()
                 .title("Rekomendacje dronów FPV dla początkujących?")
                 .content("""
-                    <p>Cześć! Dopiero wchodzę w świat FPV i chętnie przyjmę polecenia.</p>
-                    <p>Szukam czegoś w budżecie do <strong>2000 PLN (~$500)</strong>.
-                    Najlepiej, żeby było <em>łatwe w pilotażu</em>, ale nadal na tyle szybkie, żeby dało frajdę z FPV.</p>
-                    """)
+                        <p>Cześć! Dopiero wchodzę w świat FPV i chętnie przyjmę polecenia.</p>
+                        <p>Szukam czegoś w budżecie do <strong>2000 PLN (~$500)</strong>.
+                        Najlepiej, żeby było <em>łatwe w pilotażu</em>, ale nadal na tyle szybkie, żeby dało frajdę z FPV.</p>
+                        """)
                 .postCategory(categoryByName.get("Drone for beginners"))
-                .tags(new HashSet<>(Set.of(
-                        tagByName.get("FPV"),
-                        tagByName.get("Początkujący")
-                )))
                 .views(254)
                 .author(u1)
-                .publishDate(SEED_TIME.minusDays(13))
+                .publishDate(LocalDateTime.now().minusDays(13))
                 .comments(new ArrayList<>())
                 .build();
 
         Post post2 = Post.builder()
                 .title("Najlepsze miejscówki FPV w Gdańsku?")
                 .content("""
-                    <p>Hej piloci! Latałem ostatnio moim customowym EX-4 (potrafi dobić do 200 km/h)
-                    i szukam fajnych miejsc w <strong>Gdańsku</strong>, gdzie nie będzie od razu telefonu na policję 😅</p>
-                    <p>Jakieś parki, nieużytki, opuszczone miejsca? Bonus, jeśli jest blisko wody!</p>
-                    """)
+                        <p>Hej piloci! Latałem ostatnio moim customowym EX-4 (potrafi dobić do 200 km/h)
+                        i szukam fajnych miejsc w <strong>Gdańsku</strong>, gdzie nie będzie od razu telefonu na policję 😅</p>
+                        <p>Jakieś parki, nieużytki, opuszczone miejsca? Bonus, jeśli jest blisko wody!</p>
+                        """)
                 .postCategory(categoryByName.get("Spots"))
                 .tags(new HashSet<>(Set.of(tagByName.get("Gdańsk"))))
                 .views(403)
                 .author(u2)
-                .publishDate(SEED_TIME.minusDays(17))
+                .publishDate(LocalDateTime.now().minusDays(17))
                 .comments(new ArrayList<>())
                 .build();
 
         Post post3 = Post.builder()
                 .title("Najlepsze gogle FPV do 700 zł?")
                 .content("""
-                    <p>Budżetowe gogle FPV – co warto kupić na start do 700 zł?
-                    Mogą być boxy, ważne żeby były wygodne i dało się w nich sensownie latać.</p>
-                    """)
+                        <p>Budżetowe gogle FPV – co warto kupić na start do 700 zł?
+                        Mogą być boxy, ważne żeby były wygodne i dało się w nich sensownie latać.</p>
+                        """)
                 .postCategory(categoryByName.get("FPV"))
-                .tags(new HashSet<>(Set.of(tagByName.get("Gogle"))))
                 .views(189)
                 .author(u3)
-                .publishDate(SEED_TIME.minusDays(19))
+                .publishDate(LocalDateTime.now().minusDays(19))
                 .comments(new ArrayList<>())
                 .build();
 
         Post post4 = Post.builder()
                 .title("Start z FPV bez lutowania – da się?")
                 .content("""
-                    <p>Cześć! Chcę wejść w FPV, ale <strong>średnio ogarniam elektronikę</strong> i nigdy nie używałem lutownicy.</p>
-                    <p>Czy są jakieś sensowne zestawy RTF (ready-to-fly), które nie wymagają lutowania?
-                    Jakie modele/marki polecacie początkującym?</p>
-                    """)
+                        <p>Cześć! Chcę wejść w FPV, ale <strong>średnio ogarniam elektronikę</strong> i nigdy nie używałem lutownicy.</p>
+                        <p>Czy są jakieś sensowne zestawy RTF (ready-to-fly), które nie wymagają lutowania?
+                        Jakie modele/marki polecacie początkującym?</p>
+                        """)
                 .postCategory(categoryByName.get("Drone for beginners"))
                 .tags(new HashSet<>())
                 .views(327)
                 .author(u4)
-                .publishDate(SEED_TIME.minusDays(21))
+                .publishDate(LocalDateTime.now().minusDays(21))
                 .comments(new ArrayList<>())
                 .build();
 
@@ -950,15 +978,15 @@ public class PopulateForumService {
         Post post5 = Post.builder()
                 .title("Jakieś fajne miejscówki do latania w Gdyni?")
                 .content(withImages("""
-                    <p>Cześć! Szukam widokowych i bezpiecznych miejsc w <strong>Gdyni</strong> do latania dronem.
-                    Najlepiej z dala od fabryk i dużych tłumów. Zależy mi też na miejscach z fajnym tłem pod <em>zdjęcia/ujęcia</em>.</p>
-                    <p>Taki klimat mam na myśli:</p>
-                    """, gdyniaImg))
+                        <p>Cześć! Szukam widokowych i bezpiecznych miejsc w <strong>Gdyni</strong> do latania dronem.
+                        Najlepiej z dala od fabryk i dużych tłumów. Zależy mi też na miejscach z fajnym tłem pod <em>zdjęcia/ujęcia</em>.</p>
+                        <p>Taki klimat mam na myśli:</p>
+                        """, gdyniaImg))
                 .postCategory(categoryByName.get("Best place for media"))
                 .tags(new HashSet<>(Set.of(tagByName.get("Gdynia"))))
-                .views(518)
+                .views(20)
                 .author(u5)
-                .publishDate(SEED_TIME.minusDays(10))
+                .publishDate(LocalDateTime.now().minusDays(10))
                 .comments(new ArrayList<>())
                 .build();
 
