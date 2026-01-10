@@ -14,7 +14,7 @@ System wysyłania wiadomości e-mail wykorzystywany jest w dwóch przypadkach:
     \item w procesie resetowania hasła.
 \end{itemize}
 
-Do obsługi wysyłki wiadomości zastosowano \glslink{biblioteka}{bibliotekę} JavaMail (Jakarta Mail).
+Do obsługi wysyłania wiadomości zastosowano \glslink{biblioteka}{bibliotekę} JavaMail (Jakarta Mail).
 Treść wiadomości definiowana jest w postaci statycznych plików HTML (rys. \ref{img:template}), przechowywanych w zasobach aplikacji, co umożliwia łatwą modyfikację zawartości bez ingerencji w kod źródłowy.
 
 Konfiguracja połączenia SMTP realizowana jest dynamicznie z wykorzystaniem kilku portów komunikacyjnych (rys. \ref{img:ports}).
@@ -41,7 +41,7 @@ W przypadku trwałego niepowodzenia generowany jest wyjątek, a odpowiednie zdar
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-backendu/send_email_function}
-    \caption{Implementacja metody odpowiedzialnej za asynchroniczną wysyłkę wiadomości e-mail}
+    \caption{Implementacja metody odpowiedzialnej za asynchroniczne wysłanie wiadomości e-mail}
     \label{img:send-email-function}
 \end{figure}
 
