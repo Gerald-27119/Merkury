@@ -6,19 +6,21 @@
 
 Wygląd forum został zaprojektowany dla czterech podstron:
 \begin{itemize}
-    \item \textbf{Forum} – strona główna forum prezentująca listę postów,
-    \item \textbf{Szczegóły posta} – widok zawierający pełną treść posta wraz z obrazami i komentarzami,
+    \item \textbf{Home page} – strona główna forum prezentująca listę postów,
+    \item \textbf{Post details} – widok zawierający pełną treść posta wraz z obrazami i komentarzami,
     \item \textbf{Followed threads} – lista postów obserwowanych przez użytkownika,
     \item \textbf{Posts History} – lista ostatnio przeglądanych postów oraz postów ocenionych przez użytkownika.
 \end{itemize}
 
 Interfejs forum został zaprojektowany w ciemnym trybie kolorystycznym.
 
-\subsubsection{Strona główna}
+\subsubsection{Home page}
 Strona główna (rys. \ref{img:forum-view}) forum składa się z trzech głównych obszarów funkcjonalnych.
 
 \paragraph{Lista postów}
-Centralna część strony zawiera listę postów posortowanych według wybranej opcji. Nad listą znajduje się rozwijany przycisk umożliwiający zmianę typu sortowania. Dostępne opcje sortowania to: \textit{Date}, \textit{Comments} oraz \textit{Views}.
+Centralna część strony zawiera listę postów posortowanych według wybranej opcji.
+Nad listą znajduje się rozwijany przycisk umożliwiający zmianę typu sortowania.
+Dostępne opcje sortowania to: \textit{Date} (data), \textit{Comments} (liczba komentarzy) oraz \textit{Views} (liczba wyświetleń).
 
 Każdy post prezentowany jest w postaci kafelka zawierającego:
 \begin{itemize}
@@ -30,7 +32,8 @@ Każdy post prezentowany jest w postaci kafelka zawierającego:
     \item liczbę wyświetleń.
 \end{itemize}
 
-Dodatkowo każdy kafelek zawiera ikonę trzech poziomych kropek, która po kliknięciu wyświetla menu kontekstowe. Menu to umożliwia zgłoszenie posta, a w przypadku gdy użytkownik jest autorem posta – także jego edycję lub usunięcie.
+Dodatkowo każdy kafelek zawiera ikonę trzech poziomych kropek, która po kliknięciu wyświetla menu kontekstowe.
+Menu to umożliwia zgłoszenie posta, a w przypadku gdy użytkownik jest jego autorem – także edycję lub usunięcie.
 
 \begin{figure}[H]
     \centering
@@ -40,7 +43,7 @@ Dodatkowo każdy kafelek zawiera ikonę trzech poziomych kropek, która po klikn
 \end{figure}
 
 \paragraph{Lewy panel boczny}
-Lewy panel boczny (rys. \ref{img:left-panel}) zawiera przycisk który otwiera \gls{modal} zawierający formularz tworzenia nowego posta.
+Lewy panel boczny (rys. \ref{img:left-panel}) zawiera przycisk który otwiera \glslink{modal}{modal} zawierający formularz tworzenia nowego posta.
 Poniżej przycisku wyświetlana jest lista dostępnych kategorii oraz tagów postów.
 
 Formularz tworzenia posta (rys. \ref{img:create-discussion}) składa się z następujących pól:
@@ -93,10 +96,12 @@ Element umożliwia wyszukiwanie postów na forum. Po rozwinięciu paska (rys. \r
 \end{figure}
 
 \subparagraph{Top Posts}
-Sekcja prezentuje listę najpopularniejszych postów na forum. Każdy element listy zawiera tytuł posta, kategorię, tagi oraz skróconą treść.
+Sekcja prezentuje listę najpopularniejszych postów na forum.
+Każdy element listy zawiera tytuł posta, kategorię, tagi oraz skróconą treść.
 
 \subparagraph{Recommended Friends}
-Sekcja wyświetla listę polecanych znajomych w postaci zdjęcia profilowego oraz nazwy użytkownika. Ikona przedstawiająca sylwetkę z symbolem plusa umożliwia dodanie użytkownika do listy znajomych.
+Sekcja wyświetla listę polecanych znajomych w postaci zdjęcia profilowego oraz nazwy użytkownika.
+Ikona przedstawiająca sylwetkę z symbolem plusa umożliwia dodanie użytkownika do listy znajomych.
 
 \begin{figure}[H]
     \centering
@@ -107,26 +112,31 @@ Sekcja wyświetla listę polecanych znajomych w postaci zdjęcia profilowego ora
 
 Lewy oraz prawy panel boczny są widoczne na wszystkich podstronach forum, co zapewnia spójną i wygodną nawigację.
 
-\subsubsection{Szczegóły posta}
-Widok szczegółów posta (rys. \ref{img:post-details}) prezentuje pełną treść posta wraz z osadzonymi obrazami. Nad kafelkiem posta znajdują się dwa przyciski:
+\subsubsection{Post details}
+Widok szczegółów posta (rys. \ref{img:post-details}) prezentuje pełną treść wraz z osadzonymi obrazami.
+Nad jego kafelkiem znajdują się dwa przyciski:
 \begin{itemize}
     \item po lewej stronie – przycisk nawigacyjny umożliwiający powrót do strony głównej forum,
     \item po prawej stronie – przycisk w postaci ikony dzwonka umożliwiający dodanie posta do listy obserwowanych.
 \end{itemize}
 
-Górna część kafelka zawiera zdjęcie profilowe autora oraz jego nazwę użytkownika, a po przeciwnej stronie datę utworzenia posta. Poniżej wyświetlane są kategoria i tagi, następnie tytuł oraz pełna treść posta.
+Górna część kafelka zawiera zdjęcie profilowe autora oraz jego nazwę użytkownika, a po przeciwnej stronie datę utworzenia posta.
+Poniżej wyświetlane są kategoria i tagi, następnie tytuł oraz pełna treść posta.
 
-W dolnej części kafelka znajdują się przyciski interakcji:
+W dolnej części kafelka znajdują się elementy interakcji oraz informacje:
 \begin{itemize}
-    \item przycisk \textit{upvote} z liczbą polubień,
-    \item przycisk \textit{downvote} z liczbą negatywnych ocen,
+    \item \textit{upvote} z liczbą polubień,
+    \item \textit{downvote} z liczbą negatywnych ocen,
     \item liczba komentarzy,
-    \item przycisk \textit{share} umożliwiający skopiowanie adresu URL posta,
+    \item \textit{share} umożliwiający skopiowanie adresu URL posta,
     \item menu kontekstowe (trzy poziome kropki),
-    \item przycisk dodania nowego komentarza.
+    \item dodanie nowego komentarza.
 \end{itemize}
 
-Pod kafelkiem posta znajduje się lista komentarzy. Komentarze mają formę zbliżoną wizualnie do posta, z wyłączeniem funkcji udostępniania. Każdy komentarz zawiera przycisk \textit{reply}. W przypadku komentarzy posiadających odpowiedzi wyświetlana jest ikona strzałki wraz z liczbą odpowiedzi, która po kliknięciu rozwija ich listę.
+Pod kafelkiem posta znajduje się lista komentarzy.
+Komentarze mają formę zbliżoną wizualnie do posta, z wyłączeniem funkcji udostępniania.
+Każdy komentarz zawiera przycisk \textit{reply}.
+W przypadku komentarzy posiadających odpowiedzi wyświetlana jest ikona strzałki wraz z liczbą odpowiedzi, która po kliknięciu rozwija ich listę.
 
 \begin{figure}[H]
     \centering
@@ -136,7 +146,9 @@ Pod kafelkiem posta znajduje się lista komentarzy. Komentarze mają formę zbli
 \end{figure}
 
 \subsubsection{Followed threads}
-Podstrona \textit{Followed threads} prezentuje listę postów obserwowanych (rys. \ref{img:followed-threads}) przez użytkownika. Posty są wyświetlane w formie kafelków analogicznych do tych na stronie głównej forum. Przejście do podstrony możliwe jest poprzez wybór odpowiedniej opcji w panelu bocznym.
+Podstrona \textit{Followed threads} prezentuje listę postów obserwowanych (rys. \ref{img:followed-threads}) przez użytkownika.
+Posty są wyświetlane w formie kafelków analogicznych do tych na stronie głównej forum.
+Przejście do podstrony możliwe jest poprzez wybór odpowiedniej opcji w panelu bocznym.
 
 \begin{figure}[H]
     \centering
@@ -148,7 +160,8 @@ Podstrona \textit{Followed threads} prezentuje listę postów obserwowanych (rys
 \subsubsection{Posts History}
 Podstrona \textit{Posts history} umożliwia przeglądanie historii postów (rys. \ref{img:post-history}), z którymi użytkownik wchodził w interakcje. Dostęp do podstrony realizowany jest poprzez wybór opcji \textit{Posts history} w panelu bocznym.
 
-Posty wyświetlane są jako lista kafelków analogiczna do strony głównej. Nad listą znajduje się przycisk umożliwiający sortowanie postów według opcji:
+Posty wyświetlane są jako lista kafelków analogiczna do strony głównej.
+Nad listą znajduje się przycisk umożliwiający sortowanie postów według opcji:
 \begin{itemize}
     \item \textit{last} – ostatnio przeglądane,
     \item \textit{upvoted} – polubione,
