@@ -15,8 +15,6 @@ Komponent ten stanowi wspólny układ dla wszystkich tras forum i jest używany 
     \item prawy panel boczny, zawierający pasek wyszukiwania oraz panel popularnych postów z ostatniego miesiąca
 \end{itemize}
 
-\glslink{react-component}{Komponent} jest wykorzystywany w \glslink{routing}{routingu} aplikacji poprzez zagnieżdżenie tras forum, co umożliwia dostęp do paneli bocznych oraz modali na wszystkich podstronach forum.
-
 Dane kategorii, tagów oraz popularnych postów pobierane są przy użyciu \glslink{hook}{hooka} \texttt{useQuery} z \glslink{tanstack-query}{biblioteki TanStack Query}, który komunikuje się z odpowiednimi \glslink{endpoint}{endpointami} \glslink{backend}{backendu}.
 Stany ładowania oraz błędów przekazywane są do \glslink{react-component}{komponentów} potomnych.
 
