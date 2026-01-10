@@ -4,14 +4,14 @@
 \subsubsection{Strona główna}
 \label{subsubsec:strona-glowna}
 
-Komponent \texttt{Forum} (rys. \ref{img:forum-komponent}) odpowiada za wyświetlanie strony głównej forum, zawierającej listę postów.
+\glslink{react-component}{Komponent} \texttt{Forum} (rys. \ref{img:forum-komponent}) odpowiada za wyświetlanie strony głównej forum, zawierającej listę postów.
 Dane pobierane są z \glslink{backend}{backendu} przy użyciu \glslink{hook}{hooka} \texttt{useInfiniteQuery} z \glslink{tanstack-query}{biblioteki TanStack Query}, co umożliwia stronicowanie wyników oraz dynamiczne ładowanie kolejnych stron.
 
-Lista postów może być sortowana według wybranych kryteriów (m.in. data publikacji, liczba wyświetleń, liczba komentarzy).
+Lista postów może być sortowana według wybranych kryteriów (data publikacji, liczba wyświetleń, liczba komentarzy).
 Zmiana opcji sortowania powoduje ponowne wykonanie zapytania z odpowiednimi parametrami.
-Za sortowanie odpowiada komponent \texttt{ForumSortDropdown}.
+Za sortowanie odpowiada \glslink{react-component}{komponent} \texttt{ForumSortDropdown}.
 
-W trakcie początkowego ładowania danych wyświetlane są komponenty szkieletowe (\texttt{SkeletonListedForumPost}), natomiast w przypadku błędu wyświetlany jest komponent \texttt{Error}.
+W trakcie początkowego ładowania danych wyświetlane są \glslink{react-component}{komponenty} szkieletowe (\texttt{SkeletonListedForumPost}), natomiast w przypadku błędu wyświetlany jest \glslink{react-component}{komponent} \texttt{Error}.
 
 \begin{figure}[H]
     \centering
@@ -20,45 +20,45 @@ W trakcie początkowego ładowania danych wyświetlane są komponenty szkieletow
     \label{img:forum-komponent}
 \end{figure}
 
-Logika została wydzielona do komponentu \texttt{InfiniteScroll}, który odpowiada za:
+Logika została wydzielona do \glslink{react-component}{komponentu} \texttt{InfiniteScroll}, który odpowiada za:
 \begin{itemize}
-    \item wyświetlanie wskaźnika ładowania kolejnych danych,
-    \item prezentację komunikatu końcowego po dotarciu do ostatniej strony wyników.
+    \item wyświetlanie wskaźnika ładowania kolejnych danych
+    \item prezentację komunikatu końcowego po dotarciu do ostatniej strony wyników
 \end{itemize}
 
-Komponent \texttt{ForumFollowed} w analogiczny sposób wyświetla posty obserwowane dla zalogowanego użytkownika.
+\glslink{react-component}{Komponent} \texttt{ForumFollowed} w analogiczny sposób wyświetla posty obserwowane dla zalogowanego użytkownika.
 
-Komponent \texttt{Post} (rys. \ref{img:post-komponent}) odpowiada za prezentację pojedynczego posta na ich liście.
+\glslink{react-component}{Komponent} \texttt{Post} (rys. \ref{img:post-komponent}) odpowiada za prezentację pojedynczego posta na ich liście.
 Otrzymuje on jego dane w postaci obiektu \texttt{PostGeneral} i wyświetla jego podstawowe informacje, takie jak tytuł, kategoria, tagi, skrócona treść, liczba wyświetleń oraz komentarzy.
 
-Komponent wykorzystuje podział na mniejsze elementy:
+\glslink{react-component}{Komponent} wykorzystuje podział na mniejsze elementy:
 \begin{itemize}
-    \item \texttt{PostHeader} – nagłówek posta zawierający tytuł oraz menu kontekstowe,
-    \item \texttt{PostMetaData} – prezentacja kategorii oraz tagów,
-    \item \texttt{PostContent} – skrócona treść posta wraz z informacjami statystycznymi (liczba wyświetleń i komentarzy).
+    \item \texttt{PostHeader} – nagłówek posta zawierający tytuł oraz menu kontekstowe
+    \item \texttt{PostMetaData} – prezentacja kategorii oraz tagów
+    \item \texttt{PostContent} – skrócona treść posta wraz z informacjami statystycznymi (liczba wyświetleń i komentarzy)
 \end{itemize}
 
 Kliknięcie w tytuł posta powoduje przejście do widoku szczegółowego wątku forum, realizowane za pomocą \glslink{routing}{routingu} aplikacji.
 
 Post umożliwia wykonywanie podstawowych operacji na poście, takich jak:
 \begin{itemize}
-    \item usuwanie,
-    \item edycja,
-    \item obserwowanie (follow),
-    \item zgłaszanie treści.
+    \item usuwanie
+    \item edycja
+    \item obserwowanie (follow)
+    \item zgłaszanie treści
 \end{itemize}
 
-Operacje te realizowane są przy użyciu mutacji API zaimplementowanych z wykorzystaniem \glslink{tanstack-query}{biblioteki TanStack Query}, co umożliwia automatyczne odświeżanie danych po wykonaniu akcji.
+Operacje te realizowane są przy użyciu \glslink{mutacja}{mutacji} \glslink{api}{API} zaimplementowanych z wykorzystaniem \glslink{tanstack-query}{biblioteki TanStack Query}, co umożliwia automatyczne odświeżanie danych po wykonaniu akcji.
 W przypadku braku autoryzacji użytkownika wyświetlany jest komunikat informacyjny zachęcający do zalogowania się.
 
-Komponent \texttt{PostHeader} wyświetla tytuł posta oraz menu kontekstowe dostępne po kliknięciu ikony.
-Logika menu została wydzielona do komponentu \texttt{ForumContentMenu}, który jest komponentem współdzielonym i wykorzystywanym również w widokach szczegółowych postów oraz komentarzy.
+\glslink{react-component}{Komponent} \texttt{PostHeader} wyświetla tytuł posta oraz menu kontekstowe dostępne po kliknięciu ikony.
+Logika menu została wydzielona do \glslink{react-component}{komponentu} \texttt{ForumContentMenu}, który jest wykorzystywany również w widokach szczegółowych postów oraz komentarzy.
 
 \texttt{ForumContentMenu} (rys. \ref{img:forum-content-menu-1}~\ref{img:forum-content-menu-2}) dynamicznie dostosowuje dostępne akcje w zależności od:
 \begin{itemize}
-    \item tego, czy zalogowany użytkownik jest autorem treści,
-    \item stanu obserwowania posta,
-    \item rodzaju wyświetlanej treści.
+    \item tego, czy zalogowany użytkownik jest autorem treści
+    \item stanu obserwowania posta
+    \item rodzaju wyświetlanej treści
 \end{itemize}
 
 Menu umożliwia wykonywanie operacji takich jak obserwowanie posta, zgłaszanie treści, edycja oraz usuwanie.

@@ -4,16 +4,16 @@
 \subsubsection{Szczegóły posta}
 \label{subsubsec:szczegoly-posta}
 
-Komponent \texttt{ForumThread} (rys. \ref{img:forum_thread-1}~\ref{img:forum_thread-2}) odpowiada za wyświetlanie pełnej treści pojedynczego posta wraz z komentarzami.
+\glslink{react-component}{Komponent} \texttt{ForumThread} (rys. \ref{img:forum_thread-1}~\ref{img:forum_thread-2}) odpowiada za wyświetlanie pełnej treści pojedynczego posta wraz z komentarzami.
 Otrzymuje jego identyfikator z parametrów \glslink{url}{URL} i wykorzystuje \glslink{hook}{hooka} \texttt{useQuery} do pobrania szczegółów (\texttt{DetailedPost}) oraz \texttt{useInfiniteQuery} do stronicowanego pobierania komentarzy.
 
-\texttt{ForumThread} składa się z następujących komponentów:
+\texttt{ForumThread} składa się z następujących \glslink{react-component}{komponentów}:
 \begin{itemize}
     \item \texttt{ReturnButton} – umożliwia powrót do poprzedniej strony
     \item \texttt{FollowPostButton} – pozwala obserwować post, dostępny tylko dla użytkowników zalogowanych lub niebędących autorem
     \item \texttt{DetailedPost} – prezentuje pełną treść posta, kategorię, tagi, liczbę wyświetleń, komentarzy oraz przycisk dodawania komentarza
     \item \texttt{PostCommentForm} – formularz dodawania komentarza, otwierany po kliknięciu w przycisk w \texttt{DetailedPost}.
-    Widoczność kontrolowana jest lokalnym stanem komponentu
+    Widoczność kontrolowana jest lokalnym \glslink{stan}{stanem} \glslink{react-component}{komponentu}
     \item \texttt{PostCommentList} – lista komentarzy do posta, obsługująca sortowanie i paginację
 \end{itemize}
 
@@ -24,37 +24,37 @@ Otrzymuje jego identyfikator z parametrów \glslink{url}{URL} i wykorzystuje \gl
     \item edycję i usuwanie postów oraz zgłaszanie treści poprzez komponenty \texttt{DetailedPost} i współdzielone menu kontekstowe
 \end{itemize}
 
-Akcje te realizowane są przy użyciu mutacji API z \glslink{tanstack-query}{biblioteki TanStack Query}, z automatycznym odświeżaniem danych po wykonaniu akcji.
+Akcje te realizowane są przy użyciu \glslink{mutacja}{mutacji} \glslink{api}{API} z \glslink{tanstack-query}{biblioteki TanStack Query}, z automatycznym odświeżaniem danych po wykonaniu akcji.
 W przypadku braku autoryzacji użytkownika wyświetlane są odpowiednie komunikaty zachęcające do zalogowania się.
 
-Komponent \texttt{DetailedPost} odpowiada za prezentację pełnej treści pojedynczego posta w widoku wątku forum.
+\glslink{react-component}{Komponent} \texttt{DetailedPost} odpowiada za prezentację pełnej treści pojedynczego posta w widoku wątku forum.
 Otrzymuje obiekt \texttt{PostDetails} oraz stany ładowania i błędu, a także funkcje do obsługi akcji użytkownika (dodawanie komentarza, follow, edycja, usuwanie, zgłaszanie, głosowanie, udostępnianie).
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/forum_thread_1}
-    \caption{Komponent ForumThread (1)}
+    \caption{Komponent ForumThread (1/2)}
     \label{img:forum_thread-1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/forum_thread_2}
-    \caption{Komponent ForumThread (2)}
+    \caption{Komponent ForumThread (2/2)}
     \label{img:forum_thread-2}
 \end{figure}
 
-\texttt{DetailedPost} (rys. \ref{img:detailed-post}) składa się z następujących komponentów:
+\texttt{DetailedPost} (rys. \ref{img:detailed-post}) składa się z następujących \glslink{react-component}{komponentów}:
 \begin{itemize}
     \item \texttt{ForumContentHeader} – nagłówek posta z informacjami o autorze i dacie publikacji.
     Kliknięcie w autora przenosi do jego profilu
     \item \texttt{PostMetaData} – wyświetla kategorię i tagi posta
-    \item \texttt{DetailedPostContent} – prezentuje tytuł i treść posta.
+    \item \texttt{DetailedPostContent} – prezentuje tytuł i treść posta
     Treść (\texttt{content}) jest wyświetlana jako HTML, co pozwala na zachowanie formatowania oraz wstawianie elementów multimedialnych
     \item \texttt{DetailedPostActions} – panel akcji użytkownika, zawiera wszystkie interakcje związane z postem (głosowanie, obserwowanie, edycja, usuwanie, raportowanie, udostępnianie, dodawanie komentarza)
 \end{itemize}
 
-\texttt{DetailedPost} obsługuje akcje przy użyciu mutacji API z \glslink{tanstack-query}{biblioteki TanStack Query}, z automatycznym odświeżaniem odpowiednich zapytań.
+\texttt{DetailedPost} obsługuje akcje przy użyciu \glslink{mutacja}{mutacji} \glslink{api}{API} z \glslink{tanstack-query}{biblioteki TanStack Query}, z automatycznym odświeżaniem odpowiednich zapytań.
 Dostępność poszczególnych akcji zależy od stanu zalogowania użytkownika oraz jego uprawnień.
 W przypadku braku autoryzacji wyświetlane są komunikaty informujące o konieczności logowania.
 
@@ -65,14 +65,14 @@ W przypadku braku autoryzacji wyświetlane są komunikaty informujące o koniecz
     \label{img:detailed-post}
 \end{figure}
 
-Komponent \texttt{DetailedPostActions} (rys. \ref{img:detailed-post-actions}) wyświetla panel akcji użytkownika dla posta w widoku szczegółowym.
+\glslink{react-component}{Komponent} \texttt{DetailedPostActions} (rys. \ref{img:detailed-post-actions}) wyświetla panel akcji użytkownika dla posta w widoku szczegółowym.
 Zawiera:
 \begin{itemize}
     \item Głosy (\texttt{upvote}/\texttt{downvote}) – za pomocą komponentu \texttt{ActionIconWithCount}, pokazującego liczbę głosów i aktywność użytkownika
     \item Komentarze – licznik komentarzy z ikoną
     \item Udostępnianie – przycisk kopiujący adres \glslink{url}{URL} posta do schowka
     \item Menu kontekstowe (\texttt{ForumPostMenu}) – pozwala autorowi edytować lub usuwać post, a innym użytkownikom obserwować (\texttt{follow}) lub zgłaszać (\texttt{report})
-    \item Przycisk dodania komentarza (\texttt{AddCommentButton}) – otwiera formularz dodawania komentarza w komponencie \texttt{PostCommentForm}
+    \item Przycisk dodania komentarza (\texttt{AddCommentButton}) – otwiera formularz dodawania komentarza w \glslink{react-component}{komponencie} \texttt{PostCommentForm}
 \end{itemize}
 
 \begin{figure}[H]
@@ -85,20 +85,20 @@ Zawiera:
 Menu kontekstowe (\texttt{ForumContentMenu}) obsługuje dynamicznie dostępne akcje w zależności od tego, czy użytkownik jest autorem posta oraz czy obserwuje dany post.
 Widoczność menu i jego zamykanie po kliknięciu poza obszarem realizowane są przy użyciu \glslink{hook}{hooka} \texttt{useClickOutside}.
 
-Wszystkie akcje użytkownika, takie jak głosowanie, follow, report, edycja czy usuwanie, realizowane są za pomocą mutacji API z biblioteki TanStack Query, z automatycznym odświeżaniem odpowiednich zapytań i wyświetlaniem komunikatów o sukcesie lub braku autoryzacji.
+Wszystkie akcje użytkownika, takie jak głosowanie, follow, report, edycja czy usuwanie, realizowane są za pomocą \glslink{mutacja}{mutacji} \glslink{api}{API} z \glslink{tanstack-query}{biblioteki TanStack Query}, z automatycznym odświeżaniem odpowiednich zapytań i wyświetlaniem komunikatów o sukcesie lub braku autoryzacji.
 
-Komponent \texttt{PostCommentList} (rys. \ref{img:post-comment-list-1}~\ref{img:post-comment-list-2}) odpowiada za wyświetlanie listy komentarzy przypisanych do posta lub do innego komentarza (w przypadku odpowiedzi).
+\glslink{react-component}{Komponent} \texttt{PostCommentList} (rys. \ref{img:post-comment-list-1}, \ref{img:post-comment-list-2}) odpowiada za wyświetlanie listy komentarzy przypisanych do posta lub do innego komentarza (w przypadku odpowiedzi).
 Obsługuje zarówno komentarze główne, jak i zagnieżdżone odpowiedzi.
 
-Funkcjonalności komponentu obejmują:
+Funkcjonalności \glslink{react-component}{komponentu} obejmują:
 \begin{itemize}
-    \item wyświetlanie listy komentarzy przy użyciu komponentu \texttt{PostComment} (rys. \ref{img:post-comment-1} - \ref{img:post-comment-3})
+    \item wyświetlanie listy komentarzy przy użyciu \glslink{react-component}{komponentu} \texttt{PostComment} (rys. \ref{img:post-comment-1} - \ref{img:post-comment-3})
     \item obsługę stanów ładowania i błędu
     \item sortowanie komentarzy (tylko dla komentarzy głównych) przy użyciu \texttt{ForumSortDropdown} (rys. \ref{img:forum-sort-dropdown})
-    \item animacje przejść pomiędzy stanami (ładowanie / lista / brak danych) z wykorzystaniem \glslink{biblioteka}{biblioteki} \texttt{Framer Motion}
+    \item animacje przejść pomiędzy \glslink{stan}{stanami} (ładowanie / lista / brak danych) z wykorzystaniem \glslink{biblioteka}{biblioteki} \texttt{Framer Motion}
 \end{itemize}
 
-W zależności od wartości flagi \texttt{areReplies}, komponent:
+W zależności od wartości flagi \texttt{areReplies}, \glslink{react-component}{komponent}:
 \begin{itemize}
     \item dla komentarzy głównych – umożliwia sortowanie
     \item dla odpowiedzi – prezentuje listę bez sortowania i w uproszczonym układzie wizualnym
@@ -107,18 +107,18 @@ W zależności od wartości flagi \texttt{areReplies}, komponent:
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/post_comment_list_1}
-    \caption{Komponent PostCommentList (1)}
+    \caption{Komponent PostCommentList (1/2)}
     \label{img:post-comment-list-1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/post_comment_list_2}
-    \caption{Komponent PostCommentList (2)}
+    \caption{Komponent PostCommentList (2/2)}
     \label{img:post-comment-list-2}
 \end{figure}
 
-Komponent \texttt{PostComment} (rys. \ref{img:post-comment-1} - \ref{img:post-comment-3}) odpowiada za prezentację pojedynczego komentarza oraz obsługę wszystkich interakcji użytkownika z nim związanych.
+\glslink{react-component}{Komponent} \texttt{PostComment} (rys. \ref{img:post-comment-1} - \ref{img:post-comment-3}) odpowiada za prezentację pojedynczego komentarza oraz obsługę wszystkich interakcji użytkownika z nim związanych.
 
 Składa się z następujących elementów:
 \begin{itemize}
@@ -127,7 +127,7 @@ Składa się z następujących elementów:
     \item \texttt{PostCommentActions} – panel akcji (głosowanie, edycja, usuwanie, odpowiedź, zgłoszenie)
 \end{itemize}
 
-Komponent obsługuje również:
+\glslink{react-component}{Komponent} obsługuje również:
 \begin{itemize}
     \item edycję komentarza
     \item dodawanie odpowiedzi
@@ -136,9 +136,9 @@ Komponent obsługuje również:
     \item zgłaszanie komentarza (\texttt{report})
 \end{itemize}
 
-Wszystkie operacje modyfikujące dane realizowane są przy użyciu mutacji API z \glslink{tanstack-query}{biblioteki TanStack Query}, z odpowiednim odświeżaniem zapytań dla komentarzy głównych lub odpowiedzi.
+Wszystkie operacje modyfikujące dane realizowane są przy użyciu \glslink{mutacja}{mutacji} \glslink{api}{API} z \glslink{tanstack-query}{biblioteki TanStack Query}, z odpowiednim odświeżaniem zapytań dla komentarzy głównych lub odpowiedzi.
 
-Komentarze w systemie forum obsługują zagnieżdżone odpowiedzi, co zostało zaimplementowane w formie rekurencyjnego użycia komponentów:
+Komentarze w systemie forum obsługują zagnieżdżone odpowiedzi, co zostało zaimplementowane w formie \glslink{rekurencja}{rekurencyjnego} użycia \glslink{react-component}{komponentów}:
 \begin{itemize}
     \item \texttt{PostComment} może zawierać \texttt{PostCommentList} z odpowiedziami
     \item \texttt{PostCommentList} wyświetla kolejne komponenty \texttt{PostComment}
@@ -155,20 +155,20 @@ Odpowiedzi do komentarza:
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/post_comment_1}
-    \caption{Komponent PostComment (1)}
+    \caption{Komponent PostComment (1/3)}
     \label{img:post-comment-1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/post_comment_2}
-    \caption{Komponent PostComment (2)}
+    \caption{Komponent PostComment (2/3)}
     \label{img:post-comment-2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/post_comment_3}
-    \caption{Komponent PostComment (3)}
+    \caption{Komponent PostComment (3/3)}
     \label{img:post-comment-3}
 \end{figure}
