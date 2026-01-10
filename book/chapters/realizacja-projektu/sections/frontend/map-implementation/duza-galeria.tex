@@ -27,11 +27,11 @@ Duża galeria została zbudowana z dwunastu \glslink{react-component}{komponent�
 \glslink{react-component}{Komponent}, który jest kontenerem ustalającym położenie pozostałych elementów.
 Jego otworzenie oraz zamknięcie jest animowane przy użyciu \glslink{biblioteka}{biblioteki} \texttt{motion}.
 
-\textbf{\texttt{ExpandedGallerySidebar}} (rys. \ref{fig:expanded-media-gallery-sidebar-1} - \ref{fig:expanded-media-gallery-sidebar-8})
+\textbf{\texttt{ExpandedGallerySidebar}} (rys. \ref{fig:expanded-media-gallery-sidebar-1} - \ref{fig:expanded-media-gallery-sidebar-13})
 Wyświetla listę zdjęć lub filmów przewijalną przy użyciu \texttt{\glslink{infinite-scroll}{infinite scroll}}.
 Dane pobierane są z \glslink{paginacja}{paginacją} z \glslink{backend}{backendu} przy pomocy \glslink{hook}{hook'a}
 \texttt{useInfiniteQuery}.
-Mechanizm ten został zrealizowany za pomocą \texttt{IntersectionObserver}, który nasłuchuje na element powiązany z
+Mechanizm ten został zrealizowany za pomocą \\ \texttt{IntersectionObserver}, który nasłuchuje na element powiązany z
 referencją \texttt{containerRef}.
 Zbliżenie się do \texttt{loadNextPageRef} lub \texttt{loadPreviousPageRef} określa odpowiedni kierunek pobierania danych
 (kolejne lub poprzednie strony), który jest zapisywany w \texttt{fetchDirection}.
@@ -46,68 +46,107 @@ Lista może być zwijana lub rozwijana przy użyciu odpowiedniego przycisku, a p
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded_gallery_sidebar1}
-    \caption{Implementacja komponentu ExpandedSpotMediaGallery (1/8)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-1}
+    \caption{Implementacja komponentu ExpandedGallerySidebar (1/13)}
     \label{fig:expanded-media-gallery-sidebar-1}
 \end{figure}
 \noindent
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded_gallery_sidebar2}
-    \caption{Implementacja komponentu ExpandedSpotMediaGallery (2/8)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-2}
+    \caption{Implementacja komponentu ExpandedGallerySidebar (2/13)}
     \label{fig:expanded-media-gallery-sidebar-2}
 \end{figure}
 \noindent
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded_gallery_sidebar3}
-    \caption{Implementacja komponentu ExpandedSpotMediaGallery (3/8)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-3}
+    \caption{Implementacja komponentu ExpandedGallerySidebar (3/13)}
     \label{fig:expanded-media-gallery-sidebar-3}
 \end{figure}
 \noindent
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded_gallery_sidebar4}
-    \caption{Implementacja komponentu ExpandedSpotMediaGallery (4/8)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-4}
+    \caption{Implementacja komponentu ExpandedGallerySidebar (4/13)}
     \label{fig:expanded-media-gallery-sidebar-4}
 \end{figure}
 \noindent
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded_gallery_sidebar5}
-    \caption{Implementacja komponentu ExpandedSpotMediaGallery (5/8)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-5}
+    \caption{Implementacja komponentu ExpandedGallerySidebar (5/13)}
     \label{fig:expanded-media-gallery-sidebar-5}
 \end{figure}
 \noindent
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded_gallery_sidebar6}
-    \caption{Implementacja komponentu ExpandedSpotMediaGallery (6/8)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-6}
+    \caption{Implementacja komponentu ExpandedGallerySidebar (6/13)}
     \label{fig:expanded-media-gallery-sidebar-6}
 \end{figure}
 \noindent
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded_gallery_sidebar7}
-    \caption{Implementacja komponentu ExpandedSpotMediaGallery (7/8)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-7}
+    \caption{Implementacja komponentu ExpandedGallerySidebar (7/13)}
     \label{fig:expanded-media-gallery-sidebar-7}
 \end{figure}
 \noindent
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded_gallery_sidebar8}
-    \caption{Implementacja komponentu ExpandedSpotMediaGallery (8/8)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-8}
+    \caption{Implementacja komponentu ExpandedGallerySidebar (8/13)}
     \label{fig:expanded-media-gallery-sidebar-8}
 \end{figure}
 \noindent
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-9}
+    \caption{Implementacja komponentu ExpandedGallerySidebar (9/13)}
+    \label{fig:expanded-media-gallery-sidebar-9}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-10}
+    \caption{Implementacja komponentu ExpandedGallerySidebar (10/13)}
+    \label{fig:expanded-media-gallery-sidebar-10}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-11}
+    \caption{Implementacja komponentu ExpandedGallerySidebar (11/13)}
+    \label{fig:expanded-media-gallery-sidebar-11}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-12}
+    \caption{Implementacja komponentu ExpandedGallerySidebar (12/13)}
+    \label{fig:expanded-media-gallery-sidebar-12}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-13}
+    \caption{Implementacja komponentu ExpandedGallerySidebar (13/13)}
+    \label{fig:expanded-media-gallery-sidebar-13}
+\end{figure}
+\noindent
 
 \textbf{\texttt{SortingAndFilterPanel}}
 \glslink{react-component}{Komponent} ten odpowiedzialny jest za obsługę ustawiania filtrów i sortowania.
@@ -119,9 +158,9 @@ jako od najnowszych.
 
 
 \textbf{\texttt{ExpandedMediaDisplay}}
-Zbudowany jest z \glslink{react-component}{komponentów} \texttt{MediaInfoDisplay}, \texttt{MediaDisplayFilterPanel} oraz \texttt{ExpandedGalleryPanel}.
+Zbudowany jest z \glslink{react-component}{komponentów} \texttt{MediaInfoDisplay}, \\ \texttt{MediaDisplayFilterPanel} oraz \texttt{ExpandedGalleryPanel}.
 Pobiera wcześniej wybrane media z \glslink{backend}{backendu}, a następnie w zależności od typu
-wyświetla je w \texttt{ExpandedGalleryPhoto} (zdjęcie) lub \texttt{ExpandedGalleryVideo} (film).
+wyświetla je w \texttt{ExpandedGalleryPhoto} (zdjęcie) lub \\ \texttt{ExpandedGalleryVideo} (film).
 Obsługa video odbywa się za pomocą elementów \glslink{biblioteka}{bilbioteki} \texttt{react-player}.
 W trakcie pobierania danych wyświetlany jest \texttt{LoadingSpinner}, a błędzie informuje komunikat
 \emph{Failed to fetch media.}.
@@ -147,7 +186,7 @@ W przypadku błędu w \glslink{react-component}{komponencie} \texttt{Notificatio
 \emph{Failed to edit spot media likes.}.
 W celu utrzymania aktualności danych, powodzenie operacji spowoduje unieważnienie wszystkich zapytań (queries)
 powiązanych z wybranym media, co wymusi ponowne pobranie danych.
-Funkcja \texttt{handleSetMediaFullscreen} obsługuje powiekszenie media na cały ekran poprzez
+Funkcja \texttt{handleSetMediaFullscreen} obsługuje powiększenie media na cały ekran poprzez
 otworzenie \glslink{modal}{modalu} \texttt{FullscreenMediaModal}.
 Kliknięcie przycisku z ikoną \texttt{BiDownload} powoduje przekierowanie do wybranego zasobu, który
 jest pobierany przez przeglądarkę.

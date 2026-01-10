@@ -50,9 +50,7 @@ od \glslink{uwierzytelnianie}{uwierzytelniania} i \glslink{autoryzacja}{autoryza
 
 Istotną cechą \gls{spring-security} jest oparcie działania o \glslink{lancuch-filtrow}{łańcuch filtrów},
 przez który przechodzi każde żądanie HTTP trafiające do aplikacji.
-Rozwiązanie to nawiązuje do \glslink{wzorzec}{wzorca} \textit{Chain of Responsibility} (\gls{chain-of-responsibility})
-[TODO: odniesienie do opisu CoR].
-%TODO: odniesienie do opisu CoR]
+Rozwiązanie to nawiązuje do \glslink{wzorzec}{wzorca} \textit{Chain of Responsibility} opisanego w rozdziale ~\ref{subsubsec:chain-of-responsibility}.
 Dzięki temu możliwe jest przechwycenie żądania na wczesnym etapie,
 zbudowanie \glslink{security-context}{kontekstu bezpieczeństwa} oraz podjęcie decyzji, czy żądanie może zostać przekazane dalej.
 Kontrola dostępu jest wówczas realizowana centralnie, bez konieczności ręcznego powielania sprawdzeń w wielu miejscach kodu.

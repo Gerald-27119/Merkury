@@ -23,12 +23,12 @@ Składa się z dwóch postawowych \glslink{react-component}{komponentów}:
 
 \textbf{\texttt{BasicSpotWeather}} (rys. \ref{fig:basic-spot-weather-1} i \ref{fig:basic-spot-weather-2})
 \glslink{react-component}{Komponent} jest odpowiedzialny za wyświetlanie następujących informacji pogodowych: temperatura, prędkość wiatru,
-także ikony obrazującej obecny stan warunków atmosferycznych (komponent \texttt{WeatherIcon (por. sekcja~\ref{subsubsec:komponent-wspolny})}).
+także ikony obrazującej obecny stan warunków atmosferycznych (\glslink{react-component}{komponent} \texttt{WeatherIcon (por. sekcja~\ref{subsubsec:komponent-wspolny})}).
 Dane pobierane są z odpowiedniego \glslink{endpoint}{endpointu} \glslink{backend}{backendu}.
 W czasie ich ładowania wyświetlany jest \glslink{react-component}{komponent} \texttt{LoadingSpinner}.
 Jeśli operacja zakończy się niepowodzeniem, użytkownikowi wyświetlany jest komunikat \emph{Failed to load weather for this spot!}.
 Przycisk \emph{Show more} powoduje zamknięcie obecnego panelu i otworzenie zakładki ze szczegółowymi informacjami
-(komponent \texttt{DetailedSpotWeather})
+(\glslink{react-component}{komponent} \texttt{DetailedSpotWeather})
 
 \begin{figure}[H]
     \centering
@@ -65,7 +65,7 @@ Został zbudowany z dziesięciu \glslink{react-component}{komponentów}:
 
 
 
-\textbf{\texttt{DetailedSpotWeather}} (rys. \ref{fig:detailed-spot-weather-1} i \ref{fig:detailed-spot-weather-2})
+\textbf{\texttt{DetailedSpotWeather}} (rys. \ref{fig:detailed-spot-weather-0} i \ref{fig:detailed-spot-weather-2})
 Odpowiedzialny jest za układ wszystkich części panelu.
 Zawiera w sobie \glslink{react-component}{komponenty} \texttt{WeatherOverview}, \texttt{WeatherDetails}, \texttt{WindSpeeds}
 oraz \texttt{WeatherTimelinePlot}, które wyświetlają poszczególne częsci informacji pogodowych.
@@ -79,8 +79,16 @@ Zamknięcie panelu spowoduje wyświetlenie \glslink{react-component}{komponentu}
 
 \begin{figure}[H]
     \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/detailed_spot_weather0}
+    \caption{Implementacja komponentu DetailedSpotWeather (1/3)}
+    \label{fig:detailed-spot-weather-0}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/detailed_spot_weather1}
-    \caption{Implementacja komponentu DetailedSpotWeather (1/2)}
+    \caption{Implementacja komponentu DetailedSpotWeather (2/3)}
     \label{fig:detailed-spot-weather-1}
 \end{figure}
 \noindent
@@ -88,19 +96,19 @@ Zamknięcie panelu spowoduje wyświetlenie \glslink{react-component}{komponentu}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/detailed_spot_weather2}
-    \caption{Implementacja komponentu DetailedSpotWeather (2/2)}
+    \caption{Implementacja komponentu DetailedSpotWeather (3/3)}
     \label{fig:detailed-spot-weather-2}
 \end{figure}
 \noindent
 
 
-\textbf{\texttt{WeatherOverview}} (rys. \ref{fig:weather-overview-1} i \ref{fig:weather-overview-2})
+\textbf{\texttt{WeatherOverview}} (rys. \ref{fig:weather-overview-1} i \ref{fig:weather-overview-3})
 Wyświetla informacje ogólne informacje o \glslink{spot}{spocie} i jego pogodzie: temperaturę, aktualny czas,
 ikonę wraz ze słownym opisem, nazwę, lokalizację.
 Do poprawnego wyświetlania czasu, z \glslink{backend}{backendu} pobierana jest strefa czasowa \glslink{spot}{spota}.
 Gdy operacja zakończy się sukcesem w \glslink{hook}{hook'u} \emph{useEffect} ustawiany jest interwał czasowy, aktualizujący
 się co minutę.
-Po usunięcia \glslink{react-component}{komponentu} z drzewa renderowania, funkcja czyszcząca usunie interwał.
+Po usunięciu \glslink{react-component}{komponentu} z drzewa renderowania, funkcja czyszcząca usunie interwał.
 Obrazowanie stanu pogody realizowane jest za pomocą \texttt{WeatherIcon} (por. sekcja~\ref{subsubsec:komponent-wspolny})
 oraz funkcji \texttt{getWeatherAdjective}, która na podstawie kodu pogody oraz parametru \emph{isDay} zwraca słowny
 opis warunków atmosferycznych.
@@ -109,17 +117,25 @@ Nazwa oraz lokalizacja \glslink{spot}{spota} pobierane są ze stanu \glslink{red
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/weather_overwiev1}
-    \caption{Implementacja komponentu WeatherOverview (1/2)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/weather-overview-1}
+    \caption{Implementacja komponentu WeatherOverview (1/3)}
     \label{fig:weather-overview-1}
 \end{figure}
 \noindent
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/weather_overwiev2}
-    \caption{Implementacja komponentu WeatherOverview (2/2)}
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/weather-overview-2}
+    \caption{Implementacja komponentu WeatherOverview (2/3)}
     \label{fig:weather-overview-2}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/weather-overview-3}
+    \caption{Implementacja komponentu WeatherOverview (3/3)}
+    \label{fig:weather-overview-3}
 \end{figure}
 \noindent
 
@@ -132,7 +148,7 @@ Poszczególne dane prezentowane są w formie kafelek przez \glslink{react-compon
 razem tworzących siatkę 2x2.
 
 \textbf{\texttt{WindSpeeds}} (rys. \ref{fig:wind-speeds-1} i \ref{fig:wind-speeds-2})
-W tym \glslink{react-component}{komponencie} wyświetlane są prędkości wiatru na różnych wysokościach w \texttt{km\\h} lub \texttt{m\\s}.
+W tym \glslink{react-component}{komponencie} wyświetlane są prędkości wiatru na różnych wysokościach w \texttt{km\textbackslash h} lub \texttt{m\textbackslash s}.
 Dane pobierane są z odpowiedniego \glslink{endpoint}{endpointu} \glslink{backend}{backendu} przy użyciu
 \glslink{hook}{hook'a} \emph{useQuery}.
 W trakcie ich ładowania wyświetlany jest \texttt{LoadingSpinner}, a w razie błędu komunikat \emph{Failed to load wind speeds data}.
@@ -210,16 +226,16 @@ wartości temperatur są znormalizowane do wirtualnego zakresu od 0 do 100.
 \subsubsubsection{Komponent wspólny}
 \label{subsubsec:komponent-wspolny}
 
-W tym rozdziale przedstawiono komponent, z którego korzystają obydwie części modułu pogody.
+W tym rozdziale przedstawiono \glslink{react-component}{komponent}, z którego korzystają obydwie części modułu pogody.
 
 
 \textbf{\texttt{WeatherIcon}}
 To \glslink{react-component}{komponent}, którego zadaniem jest na podstawie kodu pogody (\emph{code}) i informacji czy
 jest dzień (\emph{isDay}) wybrać odpowiednią ikonę symbolizującą stan pogody.
 W przypadku braku znalezienia odpowiedniego elementu zwracana jest ikona znaku zapytania.
-Komponent opcjonalnie przyjmuje parametr określający rozmiar ikony (\emph{textSize}), będący klasą \glslink{tailwind-css}{Tailwind}.
+\glslink{react-component}{Komponent} opcjonalnie przyjmuje parametr określający rozmiar ikony (\emph{textSize}), będący klasą \glslink{tailwind-css}{Tailwind}.
 Jeśli nie zostanie podany, ustawiona zostanie domyślna opcja \emph{text-3xl}.
-Poniżej przedstawiono implementację tego komponentu.
+Poniżej przedstawiono implementację tego \glslink{react-component}{komponentu}.
 
 \begin{figure}[H]
     \centering
