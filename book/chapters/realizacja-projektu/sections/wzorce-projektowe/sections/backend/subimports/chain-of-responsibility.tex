@@ -38,7 +38,7 @@ Z perspektywy modelu obiektowego kluczowe elementy przedstawiono poniżej:
     \item \textbf{\texttt{ConcreteHandler}} -- konkretne implementacje etapów przetwarzania:
     \begin{itemize}
         \item realizują właściwe kroki logiki (np.\ walidację, filtrowanie, autoryzację),
-        \item w praktyce występuje wiele klas tego typu (np.\ \texttt{ConcreteHandlerA}, \texttt{ConcreteHandlerB}, \texttt{ConcreteHandlerC}),
+        \item w praktyce występuje wiele klas tego typu (np.\ \texttt{ConcreteHandlerA},\newline \texttt{ConcreteHandlerB}, \texttt{ConcreteHandlerC}),
         \item mogą być łączone w różnej kolejności, tworząc łańcuch dopasowany do danej funkcjonalności.
     \end{itemize}
 \end{itemize}
@@ -67,7 +67,7 @@ Mapowanie pojęć z diagramu na implementację przedstawiono w sposób uporządk
 
 \begin{itemize}
     \item \textbf{odpowiednik \texttt{handle(request)}}: metoda \texttt{doFilterInternal(...)} -- realizuje logikę bieżącego etapu,
-    \item \textbf{odpowiednik przekazania do \texttt{next}}: wywołanie \texttt{filterChain.doFilter(request, response)}.
+    \item \textbf{odpowiednik przekazania do \texttt{next}}: wywołanie \newline \texttt{filterChain.doFilter(request, response)}.
 \end{itemize}
 
 \begin{figure}[H]

@@ -6,15 +6,20 @@
 
 
 % --- Szerokości ---
-
 \newlength{\wplogLabelWidth}
 \settowidth{\wplogLabelWidth}{\textbf{Wymagania powiązane:}}
 \addtolength{\wplogLabelWidth}{-20pt}
 
-% Szerokość części z treścią (3 prawe kolumny zlane w jedną)
+\newlength{\wplogColTwoWidth}
+\newlength{\wplogColThreeWidth}
+\newlength{\wplogColFourWidth}
+\setlength{\wplogColTwoWidth}{0.31\textwidth}
+\setlength{\wplogColThreeWidth}{0.18\textwidth}
+\setlength{\wplogColFourWidth}{0.15\textwidth}
+
 \newlength{\wplogContentWidth}
-\setlength{\wplogContentWidth}{0.7\textwidth}
-\addtolength{\wplogContentWidth}{20pt}
+\setlength{\wplogContentWidth}{\dimexpr
+\wplogColTwoWidth+\wplogColThreeWidth+\wplogColFourWidth\relax}
 
 \newlength{\wplogHeaderHeight}
 \setlength{\wplogHeaderHeight}{12mm}
@@ -92,9 +97,9 @@
         \centering
         \begin{longtable}{|
                 >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wplogLabelWidth}|
-            l|
-                >{\columncolor{lightgray}\raggedright\arraybackslash}l|
-            p{0.15\textwidth}|}
+            p{\wplogColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wplogColThreeWidth}|
+            p{\wplogColFourWidth}|}
         \hline
         \wplogHeaderRow{\shortstack{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ LOGOWANIA I REJESTRACJI}}
         \endfirsthead

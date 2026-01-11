@@ -8,14 +8,21 @@
 
 % --- Szerokości ---
 
+% --- Szerokości ---
 \newlength{\wpmotywLabelWidth}
 \settowidth{\wpmotywLabelWidth}{\textbf{Wymagania powiązane:}}
 \addtolength{\wpmotywLabelWidth}{-20pt}
 
-% Szerokość części z treścią (3 prawe kolumny zlane w jedną)
+\newlength{\wpmotywColTwoWidth}
+\newlength{\wpmotywColThreeWidth}
+\newlength{\wpmotywColFourWidth}
+\setlength{\wpmotywColTwoWidth}{0.31\textwidth}
+\setlength{\wpmotywColThreeWidth}{0.18\textwidth}
+\setlength{\wpmotywColFourWidth}{0.15\textwidth}
+
 \newlength{\wpmotywContentWidth}
-\setlength{\wpmotywContentWidth}{0.7\textwidth}
-\addtolength{\wpmotywContentWidth}{20pt}
+\setlength{\wpmotywContentWidth}{\dimexpr
+\wpmotywColTwoWidth+\wpmotywColThreeWidth+\wpmotywColFourWidth\relax}
 
 \newlength{\wpmotywHeaderHeight}
 \setlength{\wpmotywHeaderHeight}{12mm}
@@ -93,9 +100,9 @@
         \centering
         \begin{longtable}{|
                 >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpmotywLabelWidth}|
-            l|
-                >{\columncolor{lightgray}\raggedright\arraybackslash}l|
-            p{0.15\textwidth}|}
+            p{\wpmotywColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpmotywColThreeWidth}|
+            p{\wpmotywColFourWidth}|}
         \hline
         \wpmotywHeaderRow{\shortstack{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ MOTYWU}}
         \endfirsthead

@@ -16,10 +16,34 @@
 \settowidth{\wpczLabelWidth}{\textbf{Wymagania powiązane:}}
 \addtolength{\wpczLabelWidth}{-20pt}
 
-% Szerokość części z treścią (3 prawe kolumny zlane w jedną)
+\newlength{\wpczColTwoWidth}
+\newlength{\wpczColThreeWidth}
+\newlength{\wpczColFourWidth}
+
+\setlength{\wpczColTwoWidth}{0.31\textwidth}
+\setlength{\wpczColThreeWidth}{0.18\textwidth}
+\setlength{\wpczColFourWidth}{0.15\textwidth}
+
 \newlength{\wpczContentWidth}
-\setlength{\wpczContentWidth}{0.7\textwidth}
-\addtolength{\wpczContentWidth}{20pt}
+\setlength{\wpczContentWidth}{\dimexpr
+\wpczColTwoWidth+\wpczColThreeWidth+\wpczColFourWidth\relax}
+
+\newlength{\wpczHeaderHeight}
+\setlength{\wpczHeaderHeight}{12mm}
+% --------- Pola karty (wiersze) ---------
+
+\newcommand{\wpczHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wpczHeaderHeight][c]{\linewidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
 
 % --------- Pola karty (wiersze) ---------
 
@@ -83,14 +107,14 @@
         \centering
         \begin{longtable}{|
                 >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpczLabelWidth}|
-            l|
-                >{\columncolor{lightgray}\raggedright\arraybackslash}l|
-            p{0.15\textwidth}|}
+            p{\wpczColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpczColThreeWidth}|
+            p{\wpczColFourWidth}|}
         \hline
-        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA CZATU}} \\ \hline
+        \wpczHeaderRow{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ CZATU}}
         \endfirsthead
         \hline
-        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA CZATU (cd.)}} \\ \hline
+        \wpczHeaderRow{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ CZATU (cd.)}}
         \endhead
         \wpczpriority{#3}{#4}
         \wpczname{#2}

@@ -123,7 +123,7 @@ Na tej podstawie generowana jest wiadomość e-mail zawierająca odnośnik do fo
 
 Walidacja pola adresu e-mail realizowana jest przez \texttt{useUserDataValidation}.
 Przycisk potwierdzający wysłanie wiadomości pozostaje nieaktywny, dopóki adres e-mail nie zostanie poprawnie wprowadzony.
-Układ formularza oparty jest na \texttt{FormContainer}; wewnątrz znajduje się pojedyncze pole
+Układ formularza oparty jest na \newline \texttt{FormContainer}; wewnątrz znajduje się pojedyncze pole
 \texttt{FormInput} dla adresu e-mail oraz przycisk potwierdzenia.
 Po pomyślnym wysłaniu żądania \texttt{FormContainer} wyświetla komunikat potwierdzający wysłanie wiadomości.
 
@@ -188,7 +188,7 @@ Dodatkowo obsługuje logikę związaną z sukcesem i błędami operacji:
     \item w przypadku błędu pochodzącego z żądania HTTP (np. \texttt{AxiosError}) odpowiedni komunikat jest
     pobierany z odpowiedzi \glslink{backend}{backendu} i wyświetlany poprzez system
     powiadomień (\texttt{notificationAction.addError});
-    \item po pomyślnym zakończeniu operacji wyświetlany jest komunikat sukcesu (\texttt{notificationAction.addSuccess}),
+    \item po pomyślnym zakończeniu operacji wyświetlany jest komunikat sukcesu \newline (\texttt{notificationAction.addSuccess}),
     a opcjonalnie wykonywane jest przekierowanie na wskazaną ścieżkę.
 \end{itemize}
 Komponent umożliwia również wyświetlenie dodatkowych elementów, takich jak przyciski logowania zewnętrznego

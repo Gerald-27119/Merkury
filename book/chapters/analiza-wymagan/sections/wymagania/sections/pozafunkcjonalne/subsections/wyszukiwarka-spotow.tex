@@ -6,15 +6,20 @@
 
 
 % --- Szerokości ---
-
 \newlength{\wpwyszLabelWidth}
 \settowidth{\wpwyszLabelWidth}{\textbf{Wymagania powiązane:}}
 \addtolength{\wpwyszLabelWidth}{-20pt}
 
-% Szerokość części z treścią (3 prawe kolumny zlane w jedną)
+\newlength{\wpwyszColTwoWidth}
+\newlength{\wpwyszColThreeWidth}
+\newlength{\wpwyszColFourWidth}
+\setlength{\wpwyszColTwoWidth}{0.31\textwidth}
+\setlength{\wpwyszColThreeWidth}{0.18\textwidth}
+\setlength{\wpwyszColFourWidth}{0.15\textwidth}
+
 \newlength{\wpwyszContentWidth}
-\setlength{\wpwyszContentWidth}{0.7\textwidth}
-\addtolength{\wpwyszContentWidth}{20pt}
+\setlength{\wpwyszContentWidth}{\dimexpr
+\wpwyszColTwoWidth+\wpwyszColThreeWidth+\wpwyszColFourWidth\relax}
 
 \newlength{\wpwyszHeaderHeight}
 \setlength{\wpwyszHeaderHeight}{12mm}
@@ -92,9 +97,9 @@
         \centering
         \begin{longtable}{|
                 >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpwyszLabelWidth}|
-            l|
-                >{\columncolor{lightgray}\raggedright\arraybackslash}l|
-            p{0.15\textwidth}|}
+            p{\wpwyszColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpwyszColThreeWidth}|
+            p{\wpwyszColFourWidth}|}
         \hline
         \wpwyszHeaderRow{\shortstack{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ WYSZUKIWARKI SPOTÓW}}
         \endfirsthead

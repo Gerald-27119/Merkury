@@ -144,7 +144,7 @@ Widok opakowany jest w \texttt{AccountWrapper} z wariantem \texttt{FAVORITE\_SPO
 \texttt{AccountTitle} z tekstem \texttt{"spots lists"}.
 Pod nagłówkiem renderowane są przyciski (komponent \texttt{Button}) do zmiany typu listy.
 
-Podczas ładowania danych wyświetlany jest \texttt{LoadingSpinner}.
+Podczas ładowania danych wyświetlany jest \newline \texttt{LoadingSpinner}.
 Jeżeli użytkownik nie posiada żadnych \glslink{spot}{spotów} w wybranej liście, prezentowany jest komunikat:
 \texttt{"You don't have any spots in your list."},
 w przeciwnym razie renderowana jest lista kafelków \texttt{FavoriteSpotTile}.
@@ -292,7 +292,7 @@ funkcją pobierającą.
 
 Dane pobierane są za pomocą \texttt{useInfiniteQuery}, a kolejne strony ładowane przy wykorzystaniu \texttt{IntersectionObserver}.
 Po zebraniu wszystkich stron dane są spłaszczane i przekazywane do uniwersalnego komponentu \texttt{Social}
-z parametrem \texttt{isSocialForViewer = false}.
+z parametrem \newline \texttt{isSocialForViewer = false}.
 
 \begin{figure}[H]
     \centering
@@ -314,12 +314,12 @@ Nazwa użytkownika pobierana jest z parametrów ścieżki (\texttt{useParams}), 
 tego użytkownika -- z odpowiednich \glslink{endpoint}{endpointów} powiązanych w rozszerzonym \texttt{queryConfigMap}.
 
 W zależności od typu listy pobierane są dane użytkowników (\texttt{SocialDto}) lub zdjęć (\texttt{DatedMediaGroup}).
-Po spłaszczeniu danych całość przekazywana jest do komponentu \texttt{Social} z parametrem \texttt{isSocialForViewer = true}.
+Po spłaszczeniu danych całość przekazywana jest do komponentu \texttt{Social} z parametrem \newline \texttt{isSocialForViewer = true}.
 
 \textbf{\texttt{Social}}  (rys. \ref{img:social})
 Jest to główny, uniwersalny komponent wykorzystywany zarówno dla widoku własnego, jak i cudzego profilu.
-Widok opakowany jest w \texttt{AccountWrapper} z wariantem \texttt{SOCIAL}, a nagłówek sekcji wyświetlany
-przez \texttt{AccountTitle} z tekstem \texttt{"social list"}.
+Widok opakowany jest w \newline \texttt{AccountWrapper} z wariantem \texttt{SOCIAL}, a nagłówek sekcji wyświetlany
+przez \newline \texttt{AccountTitle} z tekstem \texttt{"social list"}.
 
 W przypadku widoku własnego i wybranego typu \texttt{FRIENDS} po prawej stronie nagłówka pojawiają się dwa przyciski:
 \begin{itemize}
@@ -367,7 +367,7 @@ jest on zapisywany w store \glslink{redux}{Reduxa}, ustawiany jako aktualnie wyb
 
 Przed usunięciem znajomego lub zakończeniem obserwowania wyświetlany jest modal potwierdzenia, którego stan zarządzany
 jest przez \glslink{hook}{hook} \texttt{useBoolean}.
-Treść komunikatu ma postać:
+Treść komunikatu ma postać: \newline
 \texttt{"Are you sure you want to remove \{username\} as a friend?"} lub \newline
 \texttt{"Are you sure you want to remove \{username\} as a follower?"}.
 
@@ -454,7 +454,7 @@ Dozwolone są wybrane typy plików graficznych oraz wideo.
 
 \textbf{\texttt{SpotMap}}
 Komponent wyświetla miniaturową mapę z zaznaczoną lokalizacją spota.
-Wykorzystywana jest \glslink{biblioteka}{biblioteka} \texttt{maplibregl} oraz przygotowany styl mapy \texttt{map\_style.json}.
+Wykorzystywana jest \glslink{biblioteka}{biblioteka} \texttt{maplibregl} oraz przygotowany styl mapy \newline \texttt{map\_style.json}.
 Na mapie umieszczany jest marker w pozycji \glslink{spot}{spota}.
 
 \textbf{\texttt{PolygonDrawer}}
@@ -520,7 +520,7 @@ Dla każdej grupy wyświetlany jest \texttt{DateBadge} z datą oraz informacją 
 a poniżej lista komentarzy renderowana przez \texttt{CommentsList}.
 Jeżeli użytkownik nie dodał żadnych komentarzy, wyświetlany jest komunikat:
 \texttt{"You haven't added any comments."}.
-Podczas ładowania danych oraz kolejnych stron prezentowany jest \texttt{LoadingSpinner}.
+Podczas ładowania danych oraz kolejnych stron prezentowany jest \newline \texttt{LoadingSpinner}.
 
 \begin{figure}[H]
     \centering
@@ -549,7 +549,7 @@ Komponent zarządza procesem zmiany danych użytkownika oraz wyświetlaniem odpo
 Typ danych podlegających edycji (\texttt{USERNAME}, \texttt{EMAIL}, \texttt{PASSWORD}) przechowywany jest w stanie (\texttt{editType}).
 
 Na początku, za pomocą \glslink{hook}{hooka} \texttt{useQuery}, pobierane są dane użytkownika (nazwa, e-mail, dostawca logowania).
-Dopóki dane są ładowane, wyświetlany jest \texttt{LoadingSpinner}.
+Dopóki dane są ładowane, wyświetlany jest \newline \texttt{LoadingSpinner}.
 Podstawowe informacje prezentowane są przez komponenty \newline \texttt{DisableInput}, które wyświetlają aktualne wartości
 oraz przycisk \texttt{"Edit"}.
 
@@ -630,7 +630,7 @@ Służy do wyboru daty w polach \texttt{"From"} oraz \texttt{"To"} w panelu filt
 \end{figure}
 
 \textbf{\texttt{SortAndDateFilters}} (rys. \ref{img:sort-and-date-filters})
-Komponent łączy \texttt{SortDropdown} oraz dwa \texttt{DateChooser}, tworząc panel sterujący sortowaniem i
+Komponent łączy \texttt{SortDropdown} oraz dwa \newline \texttt{DateChooser}, tworząc panel sterujący sortowaniem i
 filtrowaniem po dacie.
 Wykorzystywany jest w zakładkach \texttt{Photos}, \texttt{Movies} oraz \texttt{Comments}.
 

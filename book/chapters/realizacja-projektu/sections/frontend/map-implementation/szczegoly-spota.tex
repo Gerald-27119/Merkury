@@ -297,7 +297,7 @@ Zbudowany jest z wyspecjalizowanych \glslink{react-component}{komponentów} odpo
 kliknięcie go powoduje przeniesienie na stronę profilu danego użytkownika.
 Ocena komentarza zrealizowana jest poprzez \texttt{Rate} z \glslink{biblioteka}{biblioteki} \texttt{antd}.
 Pozostałe dwa \glslink{react-component}{komponenty}, \texttt{SpotCommentMediaGallery}
-oraz \texttt{SpotCommentVotesPanel} zostały opisane poniżej.
+oraz \newline \texttt{SpotCommentVotesPanel} zostały opisane poniżej.
 
 \textbf{\texttt{SpotCommentMediaGallery}}
 Wyświetla zdjęcia i filmy dodane do komentarza.
@@ -327,7 +327,7 @@ Kliknięcie przycisku powoduje następujące operacje:
     \item jeśli użytkownik klika przycisk przeciwny do wcześniejszego, poprzednia operacja jest cofana na rzecz wykonania nowej
     \item jeśli użytkownik nie oddał wcześniej głosu na komentarz, wykonywana jest wybrana akcja
 \end{itemize}
-Zagłosowanie wymaga zalogowania, o czym informuje komunikat w \glslink{react-component}{komponencie} \texttt{Notification}.
+Zagłosowanie wymaga zalogowania, o czym informuje komunikat w \glslink{react-component}{komponencie} \newline \texttt{Notification}.
 W powyższych operacjach zastosowano optymistyczne aktualizowane \glslink{ui}{UI} (por. sekcja~\ref{subsubsec:Optimistic UI}) poprzez
 przechowywanie liczby głosów w stanie lokalnym (\glslink{hook}{hook} \texttt{useState}) i zwiększanie lub pomniejszanie jej w
 zależności od wykonanej akcji.

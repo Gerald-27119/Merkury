@@ -6,15 +6,20 @@
 
 
 % --- Szerokości ---
-
 \newlength{\wppanelLabelWidth}
 \settowidth{\wppanelLabelWidth}{\textbf{Wymagania powiązane:}}
 \addtolength{\wppanelLabelWidth}{-20pt}
 
-% Szerokość części z treścią (3 prawe kolumny zlane w jedną)
+\newlength{\wppanelColTwoWidth}
+\newlength{\wppanelColThreeWidth}
+\newlength{\wppanelColFourWidth}
+\setlength{\wppanelColTwoWidth}{0.31\textwidth}
+\setlength{\wppanelColThreeWidth}{0.18\textwidth}
+\setlength{\wppanelColFourWidth}{0.15\textwidth}
+
 \newlength{\wppanelContentWidth}
-\setlength{\wppanelContentWidth}{0.7\textwidth}
-\addtolength{\wppanelContentWidth}{20pt}
+\setlength{\wppanelContentWidth}{\dimexpr
+\wppanelColTwoWidth+\wppanelColThreeWidth+\wppanelColFourWidth\relax}
 
 \newlength{\wppanelHeaderHeight}
 \setlength{\wppanelHeaderHeight}{12mm}
@@ -92,9 +97,9 @@
         \centering
         \begin{longtable}{|
                 >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wppanelLabelWidth}|
-            l|
-                >{\columncolor{lightgray}\raggedright\arraybackslash}l|
-            p{0.15\textwidth}|}
+            p{\wppanelColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wppanelColThreeWidth}|
+            p{\wppanelColFourWidth}|}
         \hline
         \wppanelHeaderRow{\shortstack{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ PANELU UŻYTKOWNIKA}}
         \endfirsthead
