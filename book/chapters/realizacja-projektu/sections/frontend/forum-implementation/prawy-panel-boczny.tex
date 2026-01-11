@@ -1,0 +1,87 @@
+%! Author = kacper
+%! Date = 08.01.2026
+
+\subsubsection{Prawy panel boczny}
+\label{subsubsec:prawy-panel-boczny}
+
+\glslink{react-component}{Komponent} \texttt{ForumSearchBar} (rys. \ref{img:searchbar-1} - \ref{img:searchbar-4}) odpowiada za zaawansowane wyszukiwanie postów na forum i jest wykorzystywany w \texttt{ForumLayout}.
+Logika wyszukiwania oparta jest o lokalny \glslink{stan}{stan} \glslink{react-component}{komponentu}, którego strukturę definiuje interfejs \texttt{SearchState}.
+Interfejs ten opisuje komplet aktywnych filtrów wyszukiwania, takich jak:
+\begin{itemize}
+    \item fraza wyszukiwania
+    \item nazwa autora
+    \item kategoria
+    \item tagi
+    \item zakres dat publikacji (od–do)
+\end{itemize}
+
+Dla wyboru kategorii i tagów wykorzystywany jest \glslink{react-component}{komponent} \texttt{SelectWithSearch}, oparty o \glslink{react-select}{bibliotekę react-select}, umożliwiający wyszukiwanie oraz wybór pojedynczy i wielokrotny.
+
+Pola odpowiedzialne za filtrowanie po dacie („From” / „To”) zostały zaimplementowane przy użyciu \glslink{react-component}{komponent} \texttt{DatePicker} z \glslink{biblioteka}{biblioteki} Ant Design (\texttt{antd}), z wykorzystaniem \texttt{dayjs} do obsługi i formatowania dat.
+\glslink{react-component}{Komponent} dat dynamicznie dostosowuje wygląd do aktualnego trybu jasnego i ciemnego aplikacji.
+
+Po zatwierdzeniu formularza dane wyszukiwania są mapowane na parametry \glslink{url}{URL} (\texttt{URLSearchParams}), a użytkownik jest przekierowywany do dedykowanego widoku wyników (\texttt{/forum/search}).
+Dzięki temu wyszukiwanie jest w pełni odtwarzalne na podstawie adresu \glslink{url}{URL}.
+
+Dodatkowo pola tekstowe wykorzystują \texttt{HintedSearchField}, który umożliwia podpowiedzi wyszukiwania w trakcie wpisywania.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/searchbar_1}
+    \caption{Komponent ForumSearchBar (1/4)}
+    \label{img:searchbar-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/searchbar_2}
+    \caption{Komponent ForumSearchBar (2/4)}
+    \label{img:searchbar-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/searchbar_3}
+    \caption{Komponent ForumSearchBar (3/4)}
+    \label{img:searchbar-3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/searchbar_4}
+    \caption{Komponent ForumSearchBar (4/4)}
+    \label{img:searchbar-4}
+\end{figure}
+
+\glslink{react-component}{Komponent} \texttt{ForumSearch} odpowiada za prezentację listy postów spełniających kryteria wyszukiwania przekazane w parametrach \glslink{url}{URL}.
+
+Na podstawie \texttt{useSearchParams} tworzony jest obiekt \texttt{PostSearchRequestDto}, który zawiera wszystkie aktywne filtry (fraza, kategoria, tagi, daty, autor).
+Dane te są następnie wykorzystywane w zapytaniu do \glslink{api}{API} po stronie \glslink{backend}{backendu}.
+
+Pobieranie wyników wyszukiwania realizowane jest przy użyciu \glslink{hook}{hooka} \texttt{useInfiniteQuery}, co umożliwia stronicowanie danych oraz dynamiczne ładowanie kolejnych stron.
+Kolejne wyniki są pobierane automatycznie z wykorzystaniem mechanizmu \glslink{infinite-scroll}{nieskończonego przewijania}.
+
+Widok obsługuje również sortowanie wyników, a wybrana opcja sortowania jest częścią klucza zapytania, co powoduje ponowne pobranie danych przy jego zmianie.
+
+Wyniki wyszukiwania są wyświetlane przy użyciu \glslink{react-component}{komponentu} \texttt{ForumPostsPage}, który odpowiada za:
+\begin{itemize}
+    \item wyświetlanie listy postów
+    \item obsługę sortowania
+    \item prezentację informacji o liczbie znalezionych wyników
+    \item komunikaty o braku dalszych rezultatów
+\end{itemize}
+
+Po wykonaniu wyszukiwania \glslink{react-component}{komponent} \texttt{SearchResults} (rys. \ref{img:search-results}) prezentuje liczbę znalezionych postów oraz czytelne podsumowanie zastosowanych filtrów.
+\glslink{react-component}{Komponent} ten znajduje się w \texttt{ForumPostList} i wyświetlany jest warunkowo, tylko gdy zapytanie wyszukiwania zawiera jakiekolwiek kryteria.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/search_result}
+    \caption{Komponent SearchResults}
+    \label{img:search-results}
+\end{figure}
+
+W przypadku błędów zapytania użytkownik otrzymuje stosowną notyfikację, natomiast podczas ładowania wyświetlane są \glslink{react-component}{komponenty} typu skeleton, zapewniające spójne \glslink{ux}{UX}.
+
+\texttt{TrendingPostPanel} wyświetla listę popularnych postów za pomocą \texttt{TrendingPostList}.
+Każdy element w liście używa \glslink{react-component}{komponentu} \texttt{TrendingPost}.
