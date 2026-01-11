@@ -1,0 +1,156 @@
+%! Author = kacper
+%! Date = 08.01.2026
+
+\subsubsection{Lewy panel boczny}
+\label{subsubsec:lewy-panel-boczny}
+
+\glslink{react-component}{Komponent} \texttt{ForumAddPostModal} jest globalnym \glslink{modal}{modalem} tworzonym w ramach \texttt{ForumLayout} i odpowiada za dodawanie oraz edycję postów na forum.
+Jest dostępny na wszystkich podstronach forum i otwierany programowo (z poziomu przycisku „Add post” lub opcji edycji posta).
+
+\glslink{modal}{Modal} działa w dwóch trybach:
+\begin{itemize}
+    \item \textbf{create} – tworzenie nowego posta
+    \item \textbf{edit} – edycja istniejącego posta, z wypełnionymi danymi początkowymi
+\end{itemize}
+
+\texttt{ForumAddPostModal}:
+\begin{itemize}
+    \item wykorzystuje \glslink{react-portal}{React Portal} (\texttt{createPortal}) do umieszczania \glslink{modal}{modala} poza głównym drzewem \glslink{react-component}{komponentów}
+    \item wyświetla półprzezroczyste tło (overlay), które zamyka \glslink{modal}{modal} po kliknięciu
+    \item pokazuje \glslink{react-component}{komponent} \texttt{PostForm}, odpowiedzialny za formularz posta
+\end{itemize}
+
+\glslink{react-component}{Komponent} \texttt{PostForm} zawiera formularz dodawania i edycji posta (rys. \ref{img:post-form-1}, \ref{img:post-form-2}).
+
+Formularz został zaimplementowany z użyciem:
+\begin{itemize}
+    \item \texttt{React Hook Form} – do zarządzania stanem formularza
+    \item \texttt{Zod} – do walidacji danych wejściowych (schema \texttt{PostFormSchema}) (rys. \ref{img:zod-schema})
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/zod_schema}
+    \caption{Przykład użycia Zod schema}
+    \label{img:zod-schema}
+\end{figure}
+
+Obsługiwane pola:
+\begin{itemize}
+    \item tytuł posta
+    \item kategoria (pojedynczy wybór)
+    \item tagi (wielokrotny wybór)
+    \item treść posta (\glslink{rich-text-editor}{\texttt{richTextEditor}})
+\end{itemize}
+
+W trybie edycji formularz jest inicjalizowany danymi istniejącego posta.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/post_form_1}
+    \caption{Komponent PostForm (1/2)}
+    \label{img:post-form-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{attachments/implementacja-frontendu/forum/post_form_2}
+    \caption{Komponent PostForm (2/2)}
+    \label{img:post-form-2}
+\end{figure}
+
+Pole \texttt{content} wykorzystuje kontrolowany edytor tekstu (\texttt{ControlledEditor}) (rys. \ref{img:controlled-editor}) oparty o \glslink{tiptap}{bibliotekę Tiptap}, działający w wariancie \glslink{modal}{modalnym}.
+
+Formularz zawiera również pola wyboru kategorii i tagów zaimplementowane przy użyciu \glslink{react-component}{komponentu} \texttt{ControlledSelect}, który integruje React Hook Form z \glslink{react-select}{biblioteką react-select}, zapewniając obsługę wyszukiwania oraz wyboru pojedynczego i wielokrotnego.
+
+\glslink{react-component}{Komponenty} z prefiksem \texttt{Controlled} wykorzystują mechanizm \texttt{Controller} z \glslink{biblioteka}{biblioteki} React Hook Form, co umożliwia integrację niestandardowych \glslink{react-component}{komponentów} wejściowych (np. z zewnętrznej \glslink{biblioteka}{biblioteki}) z systemem walidacji i zarządzania stanem formularza, mimo że nie udostępniają one standardowych właściwości pól formularza.
+
+Obrazy wstawiane w edytorze są tymczasowo przechowywane w treści jako dane Base64.
+Przed wysłaniem formularza treść HTML jest analizowana, a osadzone obrazy są konwertowane do plików, asynchronicznie przesyłane do zewnętrznego storage (\glslink{azure-blob-storage}{Azure}), a następnie ich lokalne referencje są zastępowane docelowymi \glslink{url}{adresami URL}.
+
+W przypadku błędu podczas przesyłania obrazów formularz wyświetla odpowiedni komunikat walidacyjny i blokuje zapis posta.
+
+
+\glslink{react-component}{Komponent} \texttt{ControlledEditor} (rys. \ref{img:controlled-editor}) pełni rolę warstwy integracyjnej pomiędzy React Hook Form a \glslink{rich-text-editor}{edytorem rich text} opartym o \glslink{tiptap}{bibliotekę Tiptap}.
+Został zaimplementowany jako \glslink{react-component}{komponent} kontrolowany przy użyciu \texttt{Controller}, co umożliwia poprawne przekazywanie wartości, obsługę zdarzeń \texttt{onChange} / \texttt{onBlur} oraz integrację z systemem walidacji formularza.
+
+Edytor obsługuje różne warianty wizualne (\texttt{default}, \texttt{modal}), które wpływają na jego wysokość, układ oraz stylowanie, co pozwala na jego wielokrotne użycie w różnych kontekstach interfejsu.
+
+Sam \glslink{react-component}{komponent} \texttt{Tiptap} (rys. \ref{img:tiptap-1} - \ref{img:tiptap-3}) został skonfigurowany od podstaw z wykorzystaniem zestawu rozszerzeń, m.in.:
+\begin{itemize}
+    \item \texttt{StarterKit} – zapewniający podstawowe elementy edycji (akapity, listy, formatowanie tekstu)
+    \item \texttt{Placeholder} – obsługa tekstu zastępczego dla pustej treści
+    \item \texttt{TextAlign} – wyrównanie tekstu
+    \item \texttt{Image} – obsługa obrazów (z włączoną obsługą danych Base64)
+    \item \texttt{FileHandler} – umożliwiający wklejanie i przeciąganie plików graficznych bezpośrednio do edytora
+\end{itemize}
+
+Dodawanie obrazów realizowane jest poprzez przeciąganie plików, wklejanie ze schowka lub dedykowany przycisk w pasku narzędzi.
+Na etapie edycji obrazy są osadzane w treści jako dane Base64, a typ pliku jest walidowany przed dodaniem do dokumentu.
+Informacje o błędach lub poprawnym dodaniu pliku są przekazywane do formularza poprzez \glslink{callback}{callbacki} \texttt{onFileError} oraz \texttt{onFileSuccess}, co pozwala na wyświetlanie komunikatów walidacyjnych na poziomie pola formularza.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/tiptap_1}
+    \caption{Komponent Tiptap (1/3)}
+    \label{img:tiptap-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/tiptap_2}
+    \caption{Komponent Tiptap (2/3)}
+    \label{img:tiptap-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/tiptap_3}
+    \caption{Komponent Tiptap (3/3)}
+    \label{img:tiptap-3}
+\end{figure}
+
+Edytor posiada własny pasek narzędzi (\texttt{MenuBar}) (rys. \ref{img:menubar-1}, \ref{img:menubar-2}) zsynchronizowany ze stanem edytora, oferujący:
+\begin{itemize}
+    \item formatowanie tekstu (\texttt{bold}, \texttt{italic}, \texttt{underline}),
+    \item listy uporządkowane i nieuporządkowane,
+    \item nagłówki,
+    \item wyrównanie tekstu,
+    \item linki,
+    \item wstawianie obrazów.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/menubar_1}
+    \caption{Komponent Menubar (1/2)}
+    \label{img:menubar-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/menubar_2}
+    \caption{Komponent Menubar (2/2)}
+    \label{img:menubar-2}
+\end{figure}
+
+Całość stanowi w pełni kontrolowany, rozszerzalny edytor treści, spójnie zintegrowany z logiką formularza i dalszym procesem przetwarzania treści posta.
+
+
+\texttt{PostCategoriesTagsPanel} (rys. \ref{img:post-categories-tags-panel}) jest \glslink{react-component}{komponentem} lewego panelu bocznego forum, odpowiedzialnym za prezentację listy kategorii oraz tagów postów.
+\glslink{react-component}{Komponent} obsługuje stany ładowania i błędów danych pobieranych z \glslink{backend}{backendu}.
+W trakcie pobierania wyświetlany jest \glslink{react-component}{komponent} \texttt{SkeletonPostCategoryTag}, natomiast w przypadku błędu pokazywany jest \glslink{react-component}{komponent} \texttt{Error}.
+
+Po poprawnym załadowaniu danych panel wyświetla dwie sekcje: listę kategorii oraz listę tagów.
+Każda sekcja prezentuje skróconą listę elementów, wyświetlanych odpowiednio za pomocą \glslink{react-component}{komponentów} \texttt{PostCategory} oraz \texttt{PostTag}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/post_categories_tags_panel}
+    \caption{Komponent PostCategoriesTagsPanel}
+    \label{img:post-categories-tags-panel}
+\end{figure}
+
+Na końcu obu list dostępny jest przycisk \texttt{ExpansionButton}, który umożliwia przejście do dedykowanych podstron zawierających pełne, alfabetyczne listy kategorii lub tagów.
+Nawigacja realizowana jest z wykorzystaniem \glslink{hook}{hooka} \texttt{useNavigate}.
+W przypadku braku danych wyświetlany jest komunikat informujący o braku dostępnych elementów.

@@ -1,0 +1,40 @@
+%! Author = kacper
+%! Date = 08.01.2026
+
+\subsubsection{Układ strony}
+\label{subsubsec:uklad-strony}
+
+\texttt{ForumLayout} jest \glslink{react-component}{komponentem} nadrzędnym wszystkich podstron forum (rys. \ref{img:forum-layout-1}, \ref{img:forum-layout-2}).
+Zapewnia on spójną strukturę strony składającej się z trzech głównych sekcji: lewego panelu bocznego, centralnej części z główną treścią oraz prawego panelu bocznego.
+\glslink{react-component}{Komponent} ten stanowi wspólny układ dla wszystkich tras forum i jest używany w \glslink{routing}{routingu} aplikacji.
+
+\texttt{ForumLayout} obejmuje:
+\begin{itemize}
+    \item lewy panel boczny, zawierający przycisk dodawania nowego posta oraz panel kategorii i tagów
+    \item część centralną, w której wyświetlana jest właściwa zawartość podstron forum (lista postów, widok posta, wyniki wyszukiwania itp.)
+    \item prawy panel boczny, zawierający pasek wyszukiwania oraz panel popularnych postów z ostatniego miesiąca
+\end{itemize}
+
+Dane kategorii, tagów oraz popularnych postów pobierane są przy użyciu \glslink{hook}{hooka} \texttt{useQuery} z \glslink{tanstack-query}{biblioteki TanStack Query}, który komunikuje się z odpowiednimi \glslink{endpoint}{endpointami} \glslink{backend}{backendu}.
+Stany ładowania oraz błędów przekazywane są do \glslink{react-component}{komponentów} potomnych.
+
+Przycisk dodawania posta (\texttt{AddPostButton}) sprawdza stan zalogowania użytkownika.
+W przypadku braku autoryzacji wyświetlany jest komunikat informacyjny zachęcający do zalogowania się.
+Obsługa \glslink{modal}{modali} tworzenia posta oraz zgłaszania treści realizowana jest globalnie za pomocą stanu \glslink{redux}{redux}, dzięki czemu formularze te są dostępne niezależnie od aktualnie wyświetlanej podstrony forum.
+
+\texttt{ForumLayout} zawiera również dwa \glslink{modal}{modale}: \texttt{ForumAddPostModal} oraz \texttt{ForumReportModal}, które są dostępne na wszystkich podstronach forum.
+Służą one do obsługi formularzy tworzenia i edycji postów oraz zgłaszania postów i komentarzy.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/forum_layout_1}
+    \caption{Komponent ForumLayout (1/2)}
+    \label{img:forum-layout-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/forum_layout_2}
+    \caption{Komponent ForumLayout (2/2)}
+    \label{img:forum-layout-2}
+\end{figure}
