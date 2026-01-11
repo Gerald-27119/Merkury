@@ -4,52 +4,36 @@
 \subsection{Kacper Badek}
 \label{subsec:kacper-badek}
 
-Na prace związane z realizacją projektu poświęciłem łącznie X godzin, w tym:
+Na pracę nad projektem poświęciłem łącznie XXX godzin, w tym:
 \begin{itemize}
     \item 29 godzin \textendash \space zaprojektowanie interfejsu użytkownika modułu forum w figmie
-    \item B godzin \textendash \space prace deweloperskie
-    \item C godzin \textendash \space tworzenie dokumentacji
-    \item D godzin \textendash \space udział w spotkaniach zespołu projektowego oraz pomoc w rozwiązywaniu problemów związanych z realizowanymi zadaniami
-    \item E godzin \textendash \space przeprowadzanie \glslink{review-kodu}{review kodu}
+    \item 264 godzin \textendash \space prace deweloperskie
+    \item 68? godzin \textendash \space tworzenie dokumentacji
+    \item XX godzin \textendash \space udział w spotkaniach zespołu projektowego oraz pomoc w rozwiązywaniu problemów związanych z realizowanymi zadaniami
+    \item 30 godzin \textendash \space przeprowadzanie \glslink{review-kodu}{review kodu}
 \end{itemize}
 
 \subsubsection{Prace deweloperskie}
 
-Jednym z moich pierwszych zadań było przygotowanie formularza logowania użytkownika po stronie \glslink{frontend}{frontendu} oraz jego integracja z \glslink{backend}{backendowym} API odpowiedzialnym za uwierzytelnianie użytkowników.
-Następnie zaimplementowałem mechanizm resetowania hasła, obejmujący generowanie oraz weryfikację tokenów, formularz zmiany hasła, a także logikę cyklicznego usuwania przeterminowanych tokenów.
-W dalszym etapie poprawiłem obsługę błędów po stronie \glslink{backend}{backendu} oraz dostosowałem treść i wygląd wiadomości e-mail wysyłanych przez system, dbając o ich czytelność i spójność wizualną.
+Na początku projektu odpowiadałem za implementację formularza logowania po stronie \glslink{frontend}{frontendu} oraz jego integrację z \glslink{backend}{backendowym} \glslink{api}{API}.
+Następnie zaimplementowałem mechanizm resetowania hasła, obejmujący generowanie i weryfikację tokenów oraz ich cykliczne usuwanie.
+Zajmowałem się również przygotowaniem i refaktoryzacją szablonów wiadomości e-mail.
+Zmieniłem sposób wysyłania wiadomości e-mail w systemie na \glslink{asynchroniczność}{asynchroniczny}, dodając mechanizm ponawiania prób oraz logowanie błędów.
 
-Istotnym elementem projektu był również rozwój systemu mailowego.
-Zmieniłem sposób wysyłania wiadomości po rejestracji użytkownika na asynchroniczny oraz dodałem mechanizm ponawiania prób wysyłania wiadomości e-maili z ograniczoną liczbą prób i logowaniem nieudanych operacji.
-Przeprowadziłem także refaktoryzację szablonów wiadomości związanych z rejestracją i resetowaniem hasła, ujednolicając strukturę HTML oraz styl graficzny, w tym logo aplikacji.
+W ramach modułu mapy przygotowałem dane deweloperskie w postaci przykładowych spotów oraz zaimplementowałem możliwość dodawania ich do ulubionych i przeglądania zapisanych lokalizacji,
+a także \glslink{backend}{backend} i \glslink{frontend}{frontend} komentarzy do spotów z możliwością głosowania.
 
-W ramach prac nad modułem mapy przygotowałem dane deweloperskie, takie jak przykładowe \glslink{spot}{spoty} wykorzystywane do prezentacji i testów.
-Zaimplementowałem funkcjonalność dodawania \glslink{spot}{spotów} do listy ulubionych po stronie \glslink{backend}{backendu} i \glslink{frontend}{frontendu}, a także widok umożliwiający użytkownikowi przeglądanie zapisanych lokalizacji.
+Największą część projektu stanowiła praca nad modułem forum, za który byłem w pełni odpowiedzialny.
+Rozpocząłem ją od zaprojektowania interfejsu w Figmie w ramach przedmiotu \glslink{prz1}{PRZ1}, a następnie zaimplementowałem \glslink{backend}{backend} oraz \glslink{frontend}{frontend} forum.
+Zrealizowałem obsługę postów i komentarzy (\glslink{crud}{CRUD}), funkcję odpowiadania na komentarze, sortowanie i paginację, edycję treści z wykorzystaniem edytora rich text Tiptap, system głosowania, zgłaszania treści, obserwowania postów oraz wyszukiwarkę z filtrami.
+Dodałem także widok postów obserwowanych przez użytkownika, sekcję prezentującą najpopularniejsze posty z ubiegłego miesiąca oraz regulamin forum.
+Zadbałem również o obsługę jasnego i ciemnego motywu kolorystycznego.
 
-Moją największą częścią projektu była praca nad modułem forum.
-Rozpocząłem ją od przygotowania projektu interfejsu użytkownika w figmie (w ramach przedmiotu \glslink{pro}{PRO}), a następnie zaimplementowałem \glslink{backend}{backend} i \glslink{frontend}{frontend} obejmujący obsługę postów, kategorii, tagów oraz paginacji.
-
-Równolegle do rozwoju forum zintegrowałem \glslink{backend}{backend} z usługą \glslink{azure-blob-storage}{Azure Blob Storage}, przeznaczoną do uploadu i przechowywania plików multimedialnych wykorzystywanych w całym systemie.
-
-Przygotowałem formularz dodawania postów z wykorzystaniem edytora rich text TinyMCE, wraz z walidacją danych po stronie \glslink{backend}{backendu} i \glslink{frontend}{frontendu}.
-W celu zabezpieczenia aplikacji skonfigurowałem bibliotekę jsoup do walidacji przesyłanej treści HTML, ograniczając dozwolone elementy i style.
-W późniejszym etapie zdecydowałem się na zmianę edytora na Tiptap, który został skonfigurowany od podstaw, umożliwiając pełną kontrolę nad dostępnymi funkcjonalnościami edycji treści.
-
-Forum zostało rozbudowane o mechanizmy sortowania oraz paginacji w formie infinite scroll, czytelne adresy \glslink{url}{URL} oparte na slugach tytułów oraz usprawnioną nawigację.
-Wprowadzono możliwość edycji postów, a komentarze rozszerzono o funkcje dodawania, edycji i odpowiadania.
-Dodatkowo zaimplementowano system głosowania i zgłaszania treści, dostępny zarówno dla wpisów, jak i komentarzy, a także funkcjonalność obserwowania wybranych dyskusji przez użytkowników.
-
-W celu poprawy doświadczenia użytkownika dodałem struktury typu skeleton do ładowania danych, formularze dostępne globalnie poprzez stan aplikacji oraz pełne wsparcie dla jasnego i ciemnego motywu kolorystycznego.
-Forum zostało również wyposażone w wyszukiwarkę umożliwiającą filtrowanie postów według tytułu, kategorii, tagów, zakresu dat oraz autora, a także stronę prezentującą wyniki wyszukiwania wraz z informacją o liczbie znalezionych elementów.
-
-Dodatkowo przygotowałem strony listujące wszystkie kategorie i tagi alfabetycznie, stronę regulaminu forum, widok postów obserwowanych przez użytkownika oraz sekcję prezentującą najpopularniejsze posty z ubiegłego miesiąca.
-Całość została zaprojektowana z myślą o czytelności, spójności wizualnej oraz wygodnej nawigacji.
-
-Wyżej opisane zadania wymagały prac zarówno po stronie \glslink{frontend}{frontendu}, jak i \glslink{backend}{backendu}.
+Równolegle z rozwojem forum zintegrowałem \glslink{backend}{backend} z usługą \glslink{azure-blob-storage}{Azure Blob Storage}, przeznaczoną do przechowywania plików multimedialnych wykorzystywanych w systemie.
 
 \subsubsection{Tworzenie dokumentacji}
 
-W ramach tworzenia dokumentacji pracy inżynierskiej byłem odpowiedzialny za opracowanie następujących rozdziałów i podrozdziałów:
+W ramach dokumentacji pracy inżynierskiej opracowałem następujące rozdziały i podrozdziały:
 \begin{itemize}
     \item \hyperref[ch:wstep]{\ref*{ch:wstep} Wstęp}
     \item \hyperref[ch:opis-problemu]{\ref*{ch:opis-problemu} Opis problemu}(z wyjątkiem opisu udziałowców)
@@ -58,10 +42,10 @@ W ramach tworzenia dokumentacji pracy inżynierskiej byłem odpowiedzialny za op
     \item \hyperref[subsubsec:wymagania-funkcjonalne-dla-forum]{\ref*{subsubsec:wymagania-funkcjonalne-dla-forum} Wymagania funkcjonalne dla forum}
     \item \hyperref[subsubsec:wymagania-pozafunkcjonalne-dla-forum]{\ref*{subsubsec:wymagania-pozafunkcjonalne-dla-forum} Wymagania pozafunkcjonalne dla forum}
     \item \hyperref[subsec:forum-frontend]{\ref*{subsec:forum-frontend} Implementacja frontendu forum}
-    \item \hyperref[subsec:projekt-panelu-uzytkownika]{\ref*{subsec:projekt-panelu-uzytkownika} Projekt forum}
+    \item \hyperref[subsec:projekt-forum]{\ref*{subsec:projekt-forum} Projekt forum}
     \item \hyperref[subsec:system-mailowy]{\ref*{subsec:system-mailowy} Implementacja systemu mailowego}
     \item \hyperref[sec:strona-forum]{\ref*{sec:strona-forum} Prezentacja systemu forum}
-    \item \hyperref[subsec:kacper-badek]{\ref*{subsec:kacper-badek} ninijeszy rozdział}
+    \item \hyperref[subsec:kacper-badek]{\ref*{subsec:kacper-badek} ten rozdział}
 \end{itemize}
 
 Podczas opracowywania powyższych treści uzupełniłem również \texttt{Słownika pojęć i skrótów} oraz \texttt{Bibliografię} o niezbędne pozycje.
