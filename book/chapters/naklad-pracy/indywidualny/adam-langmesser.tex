@@ -1,5 +1,65 @@
-%! Author = mateusz
-%! Date = 12/10/2025
+%! Author = Adam
+%! Date = 10/01/2026
 
 \subsection{Adam Langmesser}
 \label{subsec:adam-langmesser}
+
+Na prace dotyczące projektu poświęciłem łącznie 608 godzin, w tym:
+\begin{itemize}
+    \item 34 godz. \textendash \space zaprojektowanie \glslink{ui}{UI} modułu mapy w Figmie
+    \item 293 godz. \textendash \space prace deweloperskie
+    \item 215 godz. \textendash \space tworzenie dokumentacji
+    \item 66 godz. \textendash \space przeprowadzanie \glslink{review-kodu}{review kodu}
+\end{itemize}
+
+\subsubsection{Rola lidera}
+\label{subsubsec:rola-lidera}
+
+Jako lider zespołu byłem odpowiedzialny za koordynację prac, podział zadań oraz kontrolę postępów realizacji projektu.
+Ponadto wypracowałem procedurę włączania nowego kodu do repozytorium, obejmującą \glslink{review-kodu}{review kodu}.
+Organizowałem spotkania zespołu, konsultowałem postępy i priorytety oraz wspierałem członków zespołu
+w rozwiązywaniu problemów implementacyjnych i konfiguracyjnych. W razie potrzeby uzgadniałem kluczowe decyzje projektowe
+podczas konsultacji wewnątrz zespołu oraz z promotorem.
+
+\subsubsection{Prace deweloperskie}
+\label{subsubsec:prace-deweloperskie-adam}
+
+Przygotowałem repozytorium projektu oraz zainicjalizowałem jego podstawową strukturę, tworząc odrębne moduły dla \glslink{backend}{backendu} i \glslink{frontend}{frontendu},
+a następnie przygotowałem konfigurację \gls{docker-compose}, umożliwiającą uruchamianie lokalnego środowiska projektu w \glslink{kontener}{kontenerach}.
+Zaprezentowałem zespołowi przykładowe podejście do \glslink{integration-tests}{testów integracyjnych} oraz \glslink{e2e-tests}{testów E2E} na \glslink{backend}{backendzie},
+równolegle przygotowując demonstracyjny prototyp mapy z wykorzystaniem biblioteki \gls{leaflet}. Skonfigurowałem zabezpieczenia po stronie \glslink{serwer}{serwera},
+opracowując konfigurację \gls{spring-security} w zakresie reguł autoryzacji oraz filtrów. Wdrożyłem mechanizm \glslink{cache}{cachowania} z użyciem \gls{redis}.
+
+Równolegle przygotowałem podstawy pod procesy \gls{cicd} dla części \glslink{backend}{backendowej} (w tym kluczowe kroki budowania i uruchamiania testów).
+
+Po konfiguracji bezpieczeństwa na \glslink{backend}{backendzie} moim głównym obszarem odpowiedzialności stał się moduł czatu.
+Zaimplementowałem funkcjonalności: tworzenie czatu prywatnego, przeglądanie historii konwersacji, grupowanie wiadomości według daty,
+wysyłanie \glslink{gif}{GIF-ów}, plików oraz \gls{emoji}, a także tworzenie czatów grupowych i dodawanie użytkowników do istniejących rozmów grupowych
+— całość zrealizowano w oparciu o komunikację w czasie rzeczywistym z użyciem \glslink{websocket}{WebSocket}.
+
+\subsubsection{Tworzenie dokumentacji}
+\label{subsubsec:tworzenie-dokumentacji-adam}
+
+W ramach tworzenia dokumentacji naszej pracy inżynierskiej byłem odpowiedzialny za napisanie następujących rozdziałów oraz podrozdziałów:
+\begin{itemize}
+    \item \hyperref[sec:udzialowcy]{\ref*{sec:udzialowcy} Udziałowcy}
+    \item \hyperref[sec:metodologia-pracy]{\ref*{sec:metodologia-pracy} Metodologia pracy}
+    \item \hyperref[sec:harmonogram-projektu]{\ref*{sec:harmonogram-projektu} Harmonogram projektu}
+    \item \hyperref[sec:zasoby-i-ograniczenia]{\ref*{sec:zasoby-i-ograniczenia} Zasoby i ograniczenia}
+    \item \hyperref[sec:przypadki-uzycia]{\ref*{sec:przypadki-uzycia} Przypadki użycia}
+    \item \hyperref[subsubsec:wymagania-ogolne-dla-chatu]{\ref*{subsubsec:wymagania-ogolne-dla-chatu} Wymagania ogólne dla czatu}
+    \item \hyperref[subsubsec:wymagania-funkcjonalne-dla-chatu]{\ref*{subsubsec:wymagania-funkcjonalne-dla-chatu} Wymagania funkcjonalne dla czatu}
+    \item \hyperref[subsubsec:wymagania-pozafunkcjonalne-dla-czatu]{\ref*{subsubsec:wymagania-pozafunkcjonalne-dla-czatu} Wymagania pozafunkcjonalne dla czatu}
+    \item \hyperref[subsec:projekt-chatu]{\ref*{subsec:projekt-chatu} Projekt czatu}
+    \item \hyperref[ch:przebieg-realizacji-projektu]{\ref*{ch:przebieg-realizacji-projektu} Przebieg realizacji projektu}
+    \item \hyperref[subsubsec:chain-of-responsibility]{\ref*{subsubsec:chain-of-responsibility} Chain of Responsibility}
+    \item \hyperref[subsec:bezpieczenstwo-aplikacji]{\ref*{subsec:bezpieczenstwo-aplikacji} Bezpieczeństwo aplikacji}
+    \item \hyperref[subsec:integracja-z-dostawca-gif-ow]{\ref*{subsec:integracja-z-dostawca-gif-ow} Integracja z dostawcą GIF-ów}
+    \item \hyperref[subsec:chat-frontend]{\ref*{subsec:chat-frontend} Czat}
+    \item \hyperref[sec:implementacja-websocket]{\ref*{sec:implementacja-websocket} Implementacja WebSocket}
+    \item \hyperref[sec:strona-chatu]{\ref*{sec:strona-chatu} Strona czatu}
+    \item \hyperref[subsec:adam-langmesser]{\ref*{subsec:adam-langmesser} Adam Langmesser}
+\end{itemize}
+
+W trakcie opracowywania powyższych rozdziałów uzupełniłem również \texttt{Słownik pojęć i skrótów}
+oraz dodałem wymagane pozycje do \texttt{Bibliografii}.
