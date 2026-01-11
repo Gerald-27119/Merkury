@@ -4,28 +4,27 @@
 \subsection{Kacper Badek}
 \label{subsec:kacper-badek}
 
-Na pracę nad projektem poświęciłem łącznie XXX godzin, w tym:
+Na pracę nad projektem poświęciłem łącznie 393 godzin, w tym:
 \begin{itemize}
     \item 29 godzin \textendash \space zaprojektowanie interfejsu użytkownika modułu forum w figmie
     \item 264 godzin \textendash \space prace deweloperskie
-    \item 68? godzin \textendash \space tworzenie dokumentacji
-    \item XX godzin \textendash \space udział w spotkaniach zespołu projektowego oraz pomoc w rozwiązywaniu problemów związanych z realizowanymi zadaniami
+    \item 70 godzin \textendash \space tworzenie dokumentacji
     \item 30 godzin \textendash \space przeprowadzanie \glslink{review-kodu}{review kodu}
 \end{itemize}
 
 \subsubsection{Prace deweloperskie}
 
 Na początku projektu odpowiadałem za implementację formularza logowania po stronie \glslink{frontend}{frontendu} oraz jego integrację z \glslink{backend}{backendowym} \glslink{api}{API}.
-Następnie zaimplementowałem mechanizm resetowania hasła, obejmujący generowanie i weryfikację tokenów oraz ich cykliczne usuwanie.
+Następnie zaimplementowałem mechanizm resetowania hasła, obejmujący generowanie i weryfikację \glslink{token}{tokenów} oraz ich cykliczne usuwanie.
 Zajmowałem się również przygotowaniem i refaktoryzacją szablonów wiadomości e-mail.
 Zmieniłem sposób wysyłania wiadomości e-mail w systemie na \glslink{asynchroniczność}{asynchroniczny}, dodając mechanizm ponawiania prób oraz logowanie błędów.
 
-W ramach modułu mapy przygotowałem dane deweloperskie w postaci przykładowych spotów oraz zaimplementowałem możliwość dodawania ich do ulubionych i przeglądania zapisanych lokalizacji,
-a także \glslink{backend}{backend} i \glslink{frontend}{frontend} komentarzy do spotów z możliwością głosowania.
+W ramach modułu mapy przygotowałem dane deweloperskie w postaci przykładowych \glslink{spot}{spotów} oraz zaimplementowałem możliwość dodawania ich do ulubionych i przeglądania zapisanych lokalizacji,
+a także \glslink{backend}{backend} i \glslink{frontend}{frontend} komentarzy do \glslink{spot}{spotów} z możliwością głosowania.
 
 Największą część projektu stanowiła praca nad modułem forum, za który byłem w pełni odpowiedzialny.
 Rozpocząłem ją od zaprojektowania interfejsu w Figmie w ramach przedmiotu \glslink{prz1}{PRZ1}, a następnie zaimplementowałem \glslink{backend}{backend} oraz \glslink{frontend}{frontend} forum.
-Zrealizowałem obsługę postów i komentarzy (\glslink{crud}{CRUD}), funkcję odpowiadania na komentarze, sortowanie i paginację, edycję treści z wykorzystaniem edytora rich text Tiptap, system głosowania, zgłaszania treści, obserwowania postów oraz wyszukiwarkę z filtrami.
+Zrealizowałem obsługę postów i komentarzy (\glslink{crud}{CRUD}), funkcję odpowiadania na komentarze, sortowanie i paginację, edycję treści z wykorzystaniem \glslink{rich-text-editor}{edytora rich text} \glslink{tiptap}{Tiptap}, system głosowania, zgłaszania treści, obserwowania postów oraz wyszukiwarkę z filtrami.
 Dodałem także widok postów obserwowanych przez użytkownika, sekcję prezentującą najpopularniejsze posty z ubiegłego miesiąca oraz regulamin forum.
 Zadbałem również o obsługę jasnego i ciemnego motywu kolorystycznego.
 
@@ -36,7 +35,7 @@ Równolegle z rozwojem forum zintegrowałem \glslink{backend}{backend} z usług�
 W ramach dokumentacji pracy inżynierskiej opracowałem następujące rozdziały i podrozdziały:
 \begin{itemize}
     \item \hyperref[ch:wstep]{\ref*{ch:wstep} Wstęp}
-    \item \hyperref[ch:opis-problemu]{\ref*{ch:opis-problemu} Opis problemu}(z wyjątkiem opisu udziałowców)
+    \item \hyperref[ch:opis-problemu]{\ref*{ch:opis-problemu} Opis problemu} (z wyjątkiem opisu udziałowców)
     \item \hyperref[sec:analiza-ryzyka]{\ref*{sec:analiza-ryzyka} Analiza ryzyka}
     \item \hyperref[subsubsec:wymagania-ogolne-dla-forum]{\ref*{subsubsec:wymagania-ogolne-dla-forum} Wymagania ogólne dla forum}
     \item \hyperref[subsubsec:wymagania-funkcjonalne-dla-forum]{\ref*{subsubsec:wymagania-funkcjonalne-dla-forum} Wymagania funkcjonalne dla forum}
