@@ -1,11 +1,7 @@
 import SearchInput from "./SearchInput";
 import { FaSearch } from "react-icons/fa";
 import { MutableRefObject, useEffect, useState } from "react";
-import {
-    useInfiniteQuery,
-    useQuery,
-
-} from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
     getLocations,
     getSearchedSpotsOnHomePage,
@@ -71,7 +67,11 @@ export default function SearchBar({
             queryKey: ["homePageSpots"],
             queryFn: ({ pageParam = 0 }) =>
                 getSearchedSpotsOnHomePage(
-                    { ...searchLocation, userLongitude: userCoords.longitude, userLatitude: userCoords.latitude },
+                    {
+                        ...searchLocation,
+                        userLongitude: userCoords.longitude,
+                        userLatitude: userCoords.latitude,
+                    },
                     pageParam,
                     6,
                 ),

@@ -74,7 +74,11 @@ export default function AdvanceSearchBar({
             queryKey: ["homePageSpots", searchLocation],
             queryFn: ({ pageParam = 0 }) =>
                 getSearchedSpotsOnAdvanceHomePage(
-                    { ...searchLocation, userLongitude: userCoords.longitude, userLatitude: userCoords.latitude },
+                    {
+                        ...searchLocation,
+                        userLongitude: userCoords.longitude,
+                        userLatitude: userCoords.latitude,
+                    },
                     pageParam,
                     6,
                 ),
