@@ -58,7 +58,7 @@ Dodatkowo pola tekstowe wykorzystują \texttt{HintedSearchField}, który umożli
 Na podstawie \texttt{useSearchParams} tworzony jest obiekt \texttt{PostSearchRequestDto}, który zawiera wszystkie aktywne filtry (fraza, kategoria, tagi, daty, autor).
 Dane te są następnie wykorzystywane w zapytaniu do \glslink{api}{API} po stronie \glslink{backend}{backendu}.
 
-Pobieranie wyników wyszukiwania realizowane jest przy użyciu \glslink{hook}{hooka} \texttt{useInfiniteQuery}, co umożliwia stronicowanie danych oraz dynamiczne ładowanie kolejnych stron.
+Pobieranie wyników wyszukiwania realizowane jest przy użyciu \glslink{hook}{hooka} \newline \texttt{useInfiniteQuery}, co umożliwia stronicowanie danych oraz dynamiczne ładowanie kolejnych stron.
 Kolejne wyniki są pobierane automatycznie z wykorzystaniem mechanizmu \glslink{infinite-scroll}{nieskończonego przewijania}.
 
 Widok obsługuje również sortowanie wyników, a wybrana opcja sortowania jest częścią klucza zapytania, co powoduje ponowne pobranie danych przy jego zmianie.
@@ -83,5 +83,5 @@ Po wykonaniu wyszukiwania \glslink{react-component}{komponent} \texttt{SearchRes
 
 W przypadku błędów zapytania użytkownik otrzymuje stosowną notyfikację, natomiast podczas ładowania wyświetlane są \glslink{react-component}{komponenty} typu skeleton, zapewniające spójne \glslink{ux}{UX}.
 
-\texttt{TrendingPostPanel} wyświetla listę popularnych postów za pomocą \texttt{TrendingPostList}.
+\texttt{TrendingPostPanel} wyświetla listę popularnych postów za pomocą \newline \texttt{TrendingPostList}.
 Każdy element w liście używa \glslink{react-component}{komponentu} \texttt{TrendingPost}.

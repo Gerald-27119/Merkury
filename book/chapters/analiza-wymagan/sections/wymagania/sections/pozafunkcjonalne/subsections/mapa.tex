@@ -4,14 +4,40 @@
 \subsubsection{Wymagania pozafunkcjonalne dla mapy}
 \label{subsubsec:wymagania-pozafunkcjonalne-dla-mapy}
 
+% --- Szerokości ---
 \newlength{\wpmapLabelWidth}
-\settowidth{\wpmapLabelWidth}{\textbf{Wymagania powiązane:}}
-\addtolength{\wpmapLabelWidth}{-20pt}
+\addtolength{\wpmapLabelWidth}{0.2\textwidth}
 
-% Szerokość części z treścią (3 prawe kolumny zlane w jedną)
 \newlength{\wpmapContentWidth}
-\setlength{\wpmapContentWidth}{0.7\textwidth}
-\addtolength{\wpmapContentWidth}{20pt}
+\setlength{\wpmapContentWidth}{0.74\textwidth}
+
+\newlength{\wpmapColTwoWidth}
+\newlength{\wpmapColThreeWidth}
+\newlength{\wpmapColFourWidth}
+\setlength{\wpmapColTwoWidth}{0.22\textwidth}
+\setlength{\wpmapColThreeWidth}{0.18\textwidth}
+\setlength{\wpmapColFourWidth}{0.24\textwidth}
+
+\newlength{\wpmapHeaderHeight}
+\setlength{\wpmapHeaderHeight}{12mm}
+
+\newlength{\wpmapTableWidth}
+\setlength{\wpmapTableWidth}{\dimexpr
+\wpmapLabelWidth+\wpmapColTwoWidth+\wpmapColThreeWidth+\wpmapColFourWidth\relax}
+
+% --------- Pola karty (wiersze) ---------
+
+\newcommand{\wpmapHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wpmapHeaderHeight][c]{\wpmapTableWidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
 
 % --------- Pola karty (wiersze) ---------
 
@@ -75,14 +101,14 @@
         \centering
         \begin{longtable}{|
                 >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpmapLabelWidth}|
-            l|
-                >{\columncolor{lightgray}\raggedright\arraybackslash}l|
-            p{0.15\textwidth}|}
+            p{\wpmapColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpmapColThreeWidth}|
+            p{\wpmapColFourWidth}|}
         \hline
-        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA MAPY}} \\ \hline
+        \wpmapHeaderRow{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ MAPY}}
         \endfirsthead
         \hline
-        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA MAPY (cd.)}} \\ \hline
+        \wpmapHeaderRow{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ MAPY (cd.)}}
         \endhead
         \wpmappriority{#3}{#4}
         \wpmapname{#2}

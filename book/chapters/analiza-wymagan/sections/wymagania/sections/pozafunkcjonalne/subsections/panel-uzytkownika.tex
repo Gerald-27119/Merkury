@@ -6,24 +6,31 @@
 
 
 % --- Szerokości ---
-
 \newlength{\wppanelLabelWidth}
-\settowidth{\wppanelLabelWidth}{\textbf{Wymagania powiązane:}}
-\addtolength{\wppanelLabelWidth}{-20pt}
+\addtolength{\wppanelLabelWidth}{0.2\textwidth}
 
-% Szerokość części z treścią (3 prawe kolumny zlane w jedną)
 \newlength{\wppanelContentWidth}
-\setlength{\wppanelContentWidth}{0.7\textwidth}
-\addtolength{\wppanelContentWidth}{20pt}
+\setlength{\wppanelContentWidth}{0.74\textwidth}
+
+\newlength{\wppanelColTwoWidth}
+\newlength{\wppanelColThreeWidth}
+\newlength{\wppanelColFourWidth}
+\setlength{\wppanelColTwoWidth}{0.22\textwidth}
+\setlength{\wppanelColThreeWidth}{0.18\textwidth}
+\setlength{\wppanelColFourWidth}{0.24\textwidth}
 
 \newlength{\wppanelHeaderHeight}
 \setlength{\wppanelHeaderHeight}{12mm}
+
+\newlength{\wppanelTableWidth}
+\setlength{\wppanelTableWidth}{\dimexpr
+\wppanelLabelWidth+\wppanelColTwoWidth+\wppanelColThreeWidth+\wppanelColFourWidth\relax}
 % --------- Pola karty (wiersze) ---------
 
 \newcommand{\wppanelHeaderRow}[1]{%
     \rowcolor{lightgray}%
     \multicolumn{4}{|c|}{%
-        \parbox[c][\wppanelHeaderHeight][c]{\linewidth}{%
+        \parbox[c][\wppanelHeaderHeight][c]{\wppanelTableWidth}{%
             \centering\bfseries
             \vspace{1.2ex}%
             #1%
@@ -92,9 +99,9 @@
         \centering
         \begin{longtable}{|
                 >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wppanelLabelWidth}|
-            l|
-                >{\columncolor{lightgray}\raggedright\arraybackslash}l|
-            p{0.15\textwidth}|}
+            p{\wppanelColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wppanelColThreeWidth}|
+            p{\wppanelColFourWidth}|}
         \hline
         \wppanelHeaderRow{\shortstack{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ PANELU UŻYTKOWNIKA}}
         \endfirsthead
