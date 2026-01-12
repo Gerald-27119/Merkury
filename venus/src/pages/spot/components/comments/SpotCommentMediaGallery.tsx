@@ -27,6 +27,9 @@ export default function SpotCommentMediaGallery({
     commentId,
     numberOfMedia,
 }: SpotCommentMediaGalleryProps) {
+    const [mediaList, setMediaList] =
+        useState<SpotCommentMediaDto[]>(initialMedia);
+
     const [isShowMoreMedia, showMoreMedia, _, __] = useBoolean();
     const [clickedMediaData, setClickedMediaData] = useState<{
         mediaId: number | null;
@@ -51,9 +54,21 @@ export default function SpotCommentMediaGallery({
         await refetch();
     };
 
-    const mediaList = isShowMoreMedia
-        ? (mediaData ?? initialMedia)
-        : initialMedia;
+    // const mediaList = isShowMoreMedia
+    //     ? (mediaData ?? initialMedia)
+    //     : initialMedia;
+
+    useEffect(() => {
+        if (isShowMoreMedia) {
+            if (mediaData) {
+                setMediaList(mediaData);
+            } else {
+                setMediaList(initialMedia);
+            }
+        } else {
+            setMediaList(initialMedia);
+        }
+    }, [mediaData, isShowMoreMedia]);
 
     const { sorting } = useSelectorTyped(
         (state) => state.expandedSpotMediaGallery,
@@ -93,6 +108,7 @@ export default function SpotCommentMediaGallery({
     };
 
     useEffect(() => {
+        console.log(clickedMediaData);
         if (data) {
             dispatch(
                 expandedSpotMediaGalleryAction.setExpandedGalleryMediaId({
@@ -126,7 +142,7 @@ export default function SpotCommentMediaGallery({
                                     onClick={() =>
                                         handleClickClickMedia(
                                             media.genericMediaType,
-                                            media.id,
+                                            media.idInSpotMedia,
                                         )
                                     }
                                     className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-2xl 2xl:text-4xl"
@@ -152,7 +168,7 @@ export default function SpotCommentMediaGallery({
                                 onClick={() =>
                                     handleClickClickMedia(
                                         media.genericMediaType,
-                                        media.id,
+                                        media.idInSpotMedia,
                                     )
                                 }
                                 src={media.url}

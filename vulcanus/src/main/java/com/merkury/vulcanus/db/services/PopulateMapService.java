@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.db.services;
 
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentMediaDto;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
 import com.merkury.vulcanus.model.entities.UserEntity;
 import com.merkury.vulcanus.model.entities.spot.SpotComment;
@@ -35,6 +36,7 @@ public class PopulateMapService {
     private final UserEntityRepository userEntityRepository;
     private final SpotTagRepository spotTagRepository;
     private final SpotCommentRepository spotCommentRepository;
+    private final SpotMediaRepository spotMediaRepository;
 
     @Transactional
     public void initMapData() {
@@ -1632,14 +1634,28 @@ public class PopulateMapService {
 
         for (Spot spot : spots) {
             var firstComment = spot.getSpotComments().getFirst();
-            var mediaList = spot.getMedia().stream()
-                    .map(media -> SpotCommentMedia.builder()
-                            .url(media.getUrl())
-                            .spotComment(firstComment)
-                            .genericMediaType(media.getGenericMediaType())
-                            .build())
-                    .collect(Collectors.toSet());
-            firstComment.setMedia(mediaList);
+            var mediaList = spot.getMedia();
+            var mediaListToSave = new HashSet<SpotCommentMedia>();
+            for (var media : mediaList) {
+                var savedMedia = spotMediaRepository.save(media);
+                var spotCommentMedia = SpotCommentMedia.builder()
+                        .idInSpotMedia(savedMedia.getId())
+                        .url(media.getUrl())
+                        .spotComment(firstComment)
+                        .idInSpotMedia(media.getId())
+                        .genericMediaType(media.getGenericMediaType())
+                        .build();
+                mediaListToSave.add(spotCommentMedia);
+            }
+//            var mediaList = spot.getMedia().stream()
+//                    .map(media -> SpotCommentMedia.builder()
+//                            .url(media.getUrl())
+//                            .spotComment(firstComment)
+//                            .idInSpotMedia(media.getId())
+//                            .genericMediaType(media.getGenericMediaType())
+//                            .build())
+//                    .collect(Collectors.toSet());
+            firstComment.setMedia(mediaListToSave);
             spotCommentRepository.save(firstComment);
         }
 

@@ -107,14 +107,16 @@ public class SpotCommentService {
                         .author(author)
                         .spot(spot)
                         .build();
+                var savedSpotMedia = spotMediaRepository.save(mediaEntity);
+                spotCommentMedia.setIdInSpotMedia(savedSpotMedia.getId());
                 spotCommentMediaEntities.add(spotCommentMedia);
                 spotMediaEntities.add(mediaEntity);
             }
         }
 
+//        var savedSpotMedia = spotMediaRepository.saveAll(spotMediaEntities);
         spotCommentEntity.setMedia(spotCommentMediaEntities);
         spotCommentRepository.save(spotCommentEntity);
-        spotMediaRepository.saveAll(spotMediaEntities);
         updateSpotRating(spot);
     }
 
