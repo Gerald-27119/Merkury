@@ -5,6 +5,7 @@ import com.merkury.vulcanus.model.entities.PasswordResetToken;
 import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenIsInvalidException;
 import com.merkury.vulcanus.exception.exceptions.PasswordResetTokenNotFoundException;
 import com.merkury.vulcanus.model.entities.UserEntity;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,29 +22,14 @@ public class PasswordResetTokenService {
         return UUID.randomUUID();
     }
 
+    @Transactional
     public PasswordResetToken changeToken(UserEntity user) {
         UUID token = generateToken();
-        deleteOldToken(user.getEmail());
+        LocalDateTime expiration = LocalDateTime.now().plusMinutes(15);
 
-        LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(15);
+        passwordResetTokenRepository.upsertToken(token, expiration, user.getEmail());
 
-        var newToken = PasswordResetToken.builder()
-                .token(token)
-                .expirationDate(expirationDate)
-                .userEmail(user.getEmail())
-                .build();
-
-        saveToken(newToken);
-
-        return newToken;
-    }
-
-    private void deleteOldToken(String userEmail) {
-        passwordResetTokenRepository.deleteByUserEmail(userEmail);
-    }
-
-    private void saveToken(PasswordResetToken passwordResetToken) {
-        passwordResetTokenRepository.save(passwordResetToken);
+        return passwordResetTokenRepository.findByUserEmail(user.getEmail()).get();
     }
 
     public boolean isTokenValid(PasswordResetToken token) {
