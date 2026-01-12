@@ -7,31 +7,31 @@
 
 
 % --- Szerokości ---
-
-% --- Szerokości ---
 \newlength{\wpmotywLabelWidth}
-\settowidth{\wpmotywLabelWidth}{\textbf{Wymagania powiązane:}}
-\addtolength{\wpmotywLabelWidth}{-20pt}
+\addtolength{\wpmotywLabelWidth}{0.2\textwidth}
+
+\newlength{\wpmotywContentWidth}
+\setlength{\wpmotywContentWidth}{0.74\textwidth}
 
 \newlength{\wpmotywColTwoWidth}
 \newlength{\wpmotywColThreeWidth}
 \newlength{\wpmotywColFourWidth}
-\setlength{\wpmotywColTwoWidth}{0.31\textwidth}
+\setlength{\wpmotywColTwoWidth}{0.22\textwidth}
 \setlength{\wpmotywColThreeWidth}{0.18\textwidth}
-\setlength{\wpmotywColFourWidth}{0.15\textwidth}
-
-\newlength{\wpmotywContentWidth}
-\setlength{\wpmotywContentWidth}{\dimexpr
-\wpmotywColTwoWidth+\wpmotywColThreeWidth+\wpmotywColFourWidth\relax}
+\setlength{\wpmotywColFourWidth}{0.24\textwidth}
 
 \newlength{\wpmotywHeaderHeight}
 \setlength{\wpmotywHeaderHeight}{12mm}
+
+\newlength{\wpmotywTableWidth}
+\setlength{\wpmotywTableWidth}{\dimexpr
+\wpmotywLabelWidth+\wpmotywColTwoWidth+\wpmotywColThreeWidth+\wpmotywColFourWidth\relax}
 % --------- Pola karty (wiersze) ---------
 
 \newcommand{\wpmotywHeaderRow}[1]{%
     \rowcolor{lightgray}%
     \multicolumn{4}{|c|}{%
-        \parbox[c][\wpmotywHeaderHeight][c]{\linewidth}{%
+        \parbox[c][\wpmotywHeaderHeight][c]{\wpmotywTableWidth}{%
             \centering\bfseries
             \vspace{1.2ex}%
             #1%

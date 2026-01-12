@@ -13,30 +13,33 @@
 % --- Szerokości ---
 
 \newlength{\wpczLabelWidth}
-\settowidth{\wpczLabelWidth}{\textbf{Wymagania powiązane:}}
-\addtolength{\wpczLabelWidth}{-20pt}
+\addtolength{\wpczLabelWidth}{0.2\textwidth}
+
+\newlength{\wpczContentWidth}
+\setlength{\wpczContentWidth}{0.74\textwidth}
 
 \newlength{\wpczColTwoWidth}
 \newlength{\wpczColThreeWidth}
 \newlength{\wpczColFourWidth}
 
-\setlength{\wpczColTwoWidth}{0.31\textwidth}
+\setlength{\wpczColTwoWidth}{0.22\textwidth}
 \setlength{\wpczColThreeWidth}{0.18\textwidth}
-\setlength{\wpczColFourWidth}{0.15\textwidth}
-
-\newlength{\wpczContentWidth}
-\setlength{\wpczContentWidth}{\dimexpr
-\wpczColTwoWidth+\wpczColThreeWidth+\wpczColFourWidth\relax}
+\setlength{\wpczColFourWidth}{0.24\textwidth}
 
 \newlength{\wpczHeaderHeight}
 \setlength{\wpczHeaderHeight}{12mm}
+
+\newlength{\wpczTableWidth}
+\setlength{\wpczTableWidth}{\dimexpr
+\wpczLabelWidth+\wpczColTwoWidth+\wpczColThreeWidth+\wpczColFourWidth\relax}
+
 % --------- Pola karty (wiersze) ---------
 
 \newcommand{\wpczHeaderRow}[1]{%
     \rowcolor{lightgray}%
     \multicolumn{4}{|c|}{%
-        \parbox[c][\wpczHeaderHeight][c]{\linewidth}{%
-            \centering\bfseries
+        \parbox[c][\wpczHeaderHeight][c]{\wpczTableWidth}{%
+        \centering\bfseries
             \vspace{1.2ex}%
             #1%
             \vspace{1.2ex}%

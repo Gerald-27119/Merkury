@@ -7,32 +7,33 @@
 
 % --- Szerokości ---
 \newlength{\wplogLabelWidth}
-\settowidth{\wplogLabelWidth}{\textbf{Wymagania powiązane:}}
-\addtolength{\wplogLabelWidth}{-20pt}
+\setlength{\wplogLabelWidth}{0.2\textwidth}
+
+\newlength{\wplogContentWidth}
+\setlength{\wplogContentWidth}{0.74\textwidth}
 
 \newlength{\wplogColTwoWidth}
 \newlength{\wplogColThreeWidth}
 \newlength{\wplogColFourWidth}
-\setlength{\wplogColTwoWidth}{0.31\textwidth}
+\setlength{\wplogColTwoWidth}{0.22\textwidth}
 \setlength{\wplogColThreeWidth}{0.18\textwidth}
-\setlength{\wplogColFourWidth}{0.15\textwidth}
-
-\newlength{\wplogContentWidth}
-\setlength{\wplogContentWidth}{\dimexpr
-\wplogColTwoWidth+\wplogColThreeWidth+\wplogColFourWidth\relax}
+\setlength{\wplogColFourWidth}{0.24\textwidth}
 
 \newlength{\wplogHeaderHeight}
 \setlength{\wplogHeaderHeight}{12mm}
+
+\newlength{\wplogTableWidth}
+\setlength{\wplogTableWidth}{\dimexpr
+\wplogLabelWidth+\wplogContentWidth\relax}
+
 % --------- Pola karty (wiersze) ---------
 
 \newcommand{\wplogHeaderRow}[1]{%
     \rowcolor{lightgray}%
     \multicolumn{4}{|c|}{%
-        \parbox[c][\wplogHeaderHeight][c]{\linewidth}{%
+        \parbox[c][\wplogHeaderHeight][c]{\wplogTableWidth}{%
             \centering\bfseries
-            \vspace{1.2ex}%
-            #1%
-            \vspace{1.2ex}%
+            \vspace{1.2ex}#1\vspace{1.2ex}%
         }%
     }\\ \hline
 }

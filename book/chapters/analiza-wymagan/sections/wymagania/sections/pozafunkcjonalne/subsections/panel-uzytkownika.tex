@@ -7,28 +7,30 @@
 
 % --- Szerokości ---
 \newlength{\wppanelLabelWidth}
-\settowidth{\wppanelLabelWidth}{\textbf{Wymagania powiązane:}}
-\addtolength{\wppanelLabelWidth}{-20pt}
+\addtolength{\wppanelLabelWidth}{0.2\textwidth}
+
+\newlength{\wppanelContentWidth}
+\setlength{\wppanelContentWidth}{0.74\textwidth}
 
 \newlength{\wppanelColTwoWidth}
 \newlength{\wppanelColThreeWidth}
 \newlength{\wppanelColFourWidth}
-\setlength{\wppanelColTwoWidth}{0.31\textwidth}
+\setlength{\wppanelColTwoWidth}{0.22\textwidth}
 \setlength{\wppanelColThreeWidth}{0.18\textwidth}
-\setlength{\wppanelColFourWidth}{0.15\textwidth}
-
-\newlength{\wppanelContentWidth}
-\setlength{\wppanelContentWidth}{\dimexpr
-\wppanelColTwoWidth+\wppanelColThreeWidth+\wppanelColFourWidth\relax}
+\setlength{\wppanelColFourWidth}{0.24\textwidth}
 
 \newlength{\wppanelHeaderHeight}
 \setlength{\wppanelHeaderHeight}{12mm}
+
+\newlength{\wppanelTableWidth}
+\setlength{\wppanelTableWidth}{\dimexpr
+\wppanelLabelWidth+\wppanelColTwoWidth+\wppanelColThreeWidth+\wppanelColFourWidth\relax}
 % --------- Pola karty (wiersze) ---------
 
 \newcommand{\wppanelHeaderRow}[1]{%
     \rowcolor{lightgray}%
     \multicolumn{4}{|c|}{%
-        \parbox[c][\wppanelHeaderHeight][c]{\linewidth}{%
+        \parbox[c][\wppanelHeaderHeight][c]{\wppanelTableWidth}{%
             \centering\bfseries
             \vspace{1.2ex}%
             #1%

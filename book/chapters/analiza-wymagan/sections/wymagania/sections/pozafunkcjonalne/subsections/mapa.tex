@@ -6,28 +6,31 @@
 
 % --- Szerokości ---
 \newlength{\wpmapLabelWidth}
-\settowidth{\wpmapLabelWidth}{\textbf{Wymagania powiązane:}}
-\addtolength{\wpmapLabelWidth}{-20pt}
+\addtolength{\wpmapLabelWidth}{0.2\textwidth}
+
+\newlength{\wpmapContentWidth}
+\setlength{\wpmapContentWidth}{0.74\textwidth}
 
 \newlength{\wpmapColTwoWidth}
 \newlength{\wpmapColThreeWidth}
 \newlength{\wpmapColFourWidth}
-\setlength{\wpmapColTwoWidth}{0.31\textwidth}
+\setlength{\wpmapColTwoWidth}{0.22\textwidth}
 \setlength{\wpmapColThreeWidth}{0.18\textwidth}
-\setlength{\wpmapColFourWidth}{0.15\textwidth}
-
-\newlength{\wpmapContentWidth}
-\setlength{\wpmapContentWidth}{\dimexpr
-\wpmapColTwoWidth+\wpmapColThreeWidth+\wpmapColFourWidth\relax}
+\setlength{\wpmapColFourWidth}{0.24\textwidth}
 
 \newlength{\wpmapHeaderHeight}
 \setlength{\wpmapHeaderHeight}{12mm}
+
+\newlength{\wpmapTableWidth}
+\setlength{\wpmapTableWidth}{\dimexpr
+\wpmapLabelWidth+\wpmapColTwoWidth+\wpmapColThreeWidth+\wpmapColFourWidth\relax}
+
 % --------- Pola karty (wiersze) ---------
 
 \newcommand{\wpmapHeaderRow}[1]{%
     \rowcolor{lightgray}%
     \multicolumn{4}{|c|}{%
-        \parbox[c][\wpmapHeaderHeight][c]{\linewidth}{%
+        \parbox[c][\wpmapHeaderHeight][c]{\wpmapTableWidth}{%
             \centering\bfseries
             \vspace{1.2ex}%
             #1%

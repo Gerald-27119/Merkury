@@ -6,12 +6,22 @@
 
 % --- Szerokości ---
 \newlength{\wpfLabelWidth}
-\settowidth{\wpfLabelWidth}{\textbf{Wymagania powiązane:}}
-\addtolength{\wpfLabelWidth}{-20pt}
+\addtolength{\wpfLabelWidth}{0.2\textwidth}
 
-\setlength{\wpfLabelWidth}{0.15\textwidth}
 \newlength{\wpfContentWidth}
 \setlength{\wpfContentWidth}{0.74\textwidth}
+
+\newlength{\wpfColTwoWidth}
+\newlength{\wpfColThreeWidth}
+\newlength{\wpfColFourWidth}
+\setlength{\wpfColTwoWidth}{0.22\textwidth}
+\setlength{\wpfColThreeWidth}{0.18\textwidth}
+\setlength{\wpfColFourWidth}{0.24\textwidth}
+
+\newlength{\wpfTableWidth}
+\setlength{\wpfTableWidth}{\dimexpr
+\wpfLabelWidth+\wpfContentWidth\relax}
+
 
 \newlength{\wpfHeaderHeight}
 \setlength{\wpfHeaderHeight}{12mm}
@@ -20,7 +30,7 @@
 \newcommand{\wpfHeaderRow}[1]{%
     \rowcolor{lightgray}%
     \multicolumn{4}{|c|}{%
-        \parbox[c][\wpfHeaderHeight][c]{\linewidth}{%
+        \parbox[c][\wpfHeaderHeight][c]{\wpfTableWidth}{%
             \centering\bfseries
             \vspace{1.2ex}%
             #1%
@@ -85,10 +95,10 @@
     {%
         \centering
         \begin{longtable}{|
-                >{\columncolor{lightgray}}p{0.15\textwidth}|
-            p{0.23\textwidth}|
-                >{\columncolor{lightgray}}p{0.15\textwidth}|
-            p{0.31\textwidth}|}
+                >{\columncolor{lightgray}}p{\wpfLabelWidth}|
+            p{\wpfColTwoWidth}|
+                >{\columncolor{lightgray}}p{\wpfColThreeWidth}|
+            p{\wpfColFourWidth}|}
         \hline
         \wpfHeaderRow{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ FORUM}}
         \endfirsthead
