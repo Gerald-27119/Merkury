@@ -64,7 +64,7 @@ export default function SearchBar({
 
     const { fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
         useInfiniteQuery({
-            queryKey: ["homePageSpots"],
+            queryKey: ["homePageSpots", searchLocation],
             queryFn: ({ pageParam = 0 }) =>
                 getSearchedSpotsOnHomePage(
                     {
