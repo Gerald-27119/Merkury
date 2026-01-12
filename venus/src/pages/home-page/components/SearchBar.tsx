@@ -64,10 +64,14 @@ export default function SearchBar({
 
     const { fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
         useInfiniteQuery({
-            queryKey: ["homePageSpots"],
+            queryKey: ["homePageSpots", searchLocation],
             queryFn: ({ pageParam = 0 }) =>
                 getSearchedSpotsOnHomePage(
-                    { ...searchLocation, ...userCoords },
+                    {
+                        ...searchLocation,
+                        userLongitude: userCoords.longitude,
+                        userLatitude: userCoords.latitude,
+                    },
                     pageParam,
                     6,
                 ),
@@ -119,18 +123,6 @@ export default function SearchBar({
     };
 
     const handleSearchSpots = async () => {
-        try {
-            const coords = await getUserLocation();
-            setUserCoords(coords);
-        } catch (err) {
-            dispatch(
-                notificationAction.addInfo({
-                    message:
-                        "You must turn on location to display how far spots are.",
-                }),
-            );
-        }
-
         const result = await refetch();
         onSetSpots(result.data?.pages[0]?.items ?? []);
         setActiveInput(null);
@@ -159,6 +151,24 @@ export default function SearchBar({
         observer.observe(loadMoreRef.current);
         return () => observer.disconnect();
     }, [hasNextPage, isFetchingNextPage, fetchNextPage, onSetSpots]);
+
+    useEffect(() => {
+        const fetchUserLocation = async () => {
+            try {
+                const coords = await getUserLocation();
+                setUserCoords(coords);
+            } catch (err) {
+                dispatch(
+                    notificationAction.addInfo({
+                        message:
+                            "You must turn on location to display how far spots are.",
+                    }),
+                );
+            }
+        };
+
+        fetchUserLocation();
+    }, [dispatch]);
 
     useEffect(() => {
         onSetFetchingNextPage(isFetchingNextPage);

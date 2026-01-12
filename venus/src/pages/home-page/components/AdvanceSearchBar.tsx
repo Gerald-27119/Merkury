@@ -17,6 +17,9 @@ import {
     SpotRatingFilterLabels,
     SpotRatingFilterType,
 } from "../../../model/enum/spot/spotRatingFilterType";
+import { getUserLocation } from "../../../utils/spot-utils";
+import { notificationAction } from "../../../redux/notification";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
 
 const spotRatingSortOptions = Object.values(SpotRatingFilterType).map(
     (value) => ({
@@ -55,8 +58,14 @@ export default function AdvanceSearchBar({
     loadMoreRef,
     onSetFetchingNextPage,
 }: SearchBarProps) {
+    const dispatch = useDispatchTyped();
+
     const [searchLocation, setSearchLocation] =
         useState<SearchLocation>(initialValue);
+    const [userCoords, setUserCoords] = useState<{
+        latitude?: number;
+        longitude?: number;
+    }>({});
     const [activeInput, setActiveInput] = useState<"city" | "tags" | null>();
     const [hasSearched, setHasSearched] = useState(false);
 
@@ -64,7 +73,15 @@ export default function AdvanceSearchBar({
         useInfiniteQuery({
             queryKey: ["homePageSpots", searchLocation],
             queryFn: ({ pageParam = 0 }) =>
-                getSearchedSpotsOnAdvanceHomePage(searchLocation, pageParam, 6),
+                getSearchedSpotsOnAdvanceHomePage(
+                    {
+                        ...searchLocation,
+                        userLongitude: userCoords.longitude,
+                        userLatitude: userCoords.latitude,
+                    },
+                    pageParam,
+                    6,
+                ),
             getNextPageParam: (lastPage, allPages) =>
                 lastPage.hasNext ? allPages.length : undefined,
             initialPageParam: 0,
@@ -177,6 +194,24 @@ export default function AdvanceSearchBar({
 
         onSetSpots(newSpots);
     }, [data, onSetSpots]);
+
+    useEffect(() => {
+        const fetchUserLocation = async () => {
+            try {
+                const coords = await getUserLocation();
+                setUserCoords(coords);
+            } catch (err) {
+                dispatch(
+                    notificationAction.addInfo({
+                        message:
+                            "You must turn on location to display how far spots are.",
+                    }),
+                );
+            }
+        };
+
+        fetchUserLocation();
+    }, [dispatch]);
 
     return (
         <div className="flex w-full flex-col items-center gap-y-2">
