@@ -1647,14 +1647,6 @@ public class PopulateMapService {
                         .build();
                 mediaListToSave.add(spotCommentMedia);
             }
-//            var mediaList = spot.getMedia().stream()
-//                    .map(media -> SpotCommentMedia.builder()
-//                            .url(media.getUrl())
-//                            .spotComment(firstComment)
-//                            .idInSpotMedia(media.getId())
-//                            .genericMediaType(media.getGenericMediaType())
-//                            .build())
-//                    .collect(Collectors.toSet());
             firstComment.setMedia(mediaListToSave);
             spotCommentRepository.save(firstComment);
         }

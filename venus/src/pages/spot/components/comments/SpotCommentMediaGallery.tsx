@@ -54,10 +54,6 @@ export default function SpotCommentMediaGallery({
         await refetch();
     };
 
-    // const mediaList = isShowMoreMedia
-    //     ? (mediaData ?? initialMedia)
-    //     : initialMedia;
-
     useEffect(() => {
         if (isShowMoreMedia) {
             if (mediaData) {
@@ -108,7 +104,6 @@ export default function SpotCommentMediaGallery({
     };
 
     useEffect(() => {
-        console.log(clickedMediaData);
         if (data) {
             dispatch(
                 expandedSpotMediaGalleryAction.setExpandedGalleryMediaId({
