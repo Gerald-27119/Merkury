@@ -113,8 +113,6 @@ public class SpotCommentService {
                 spotMediaEntities.add(mediaEntity);
             }
         }
-
-//        var savedSpotMedia = spotMediaRepository.saveAll(spotMediaEntities);
         spotCommentEntity.setMedia(spotCommentMediaEntities);
         spotCommentRepository.save(spotCommentEntity);
         updateSpotRating(spot);
