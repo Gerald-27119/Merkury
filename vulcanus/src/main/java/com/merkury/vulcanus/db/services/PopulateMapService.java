@@ -1642,7 +1642,6 @@ public class PopulateMapService {
                         .idInSpotMedia(savedMedia.getId())
                         .url(media.getUrl())
                         .spotComment(firstComment)
-                        .idInSpotMedia(media.getId())
                         .genericMediaType(media.getGenericMediaType())
                         .build();
                 mediaListToSave.add(spotCommentMedia);

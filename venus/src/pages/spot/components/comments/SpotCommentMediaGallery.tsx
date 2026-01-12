@@ -64,7 +64,7 @@ export default function SpotCommentMediaGallery({
         } else {
             setMediaList(initialMedia);
         }
-    }, [mediaData, isShowMoreMedia]);
+    }, [mediaData, isShowMoreMedia, initialMedia]);
 
     const { sorting } = useSelectorTyped(
         (state) => state.expandedSpotMediaGallery,
