@@ -4,12 +4,40 @@
 \subsubsection{Wymagania pozafunkcjonalne dla forum}
 \label{subsubsec:wymagania-pozafunkcjonalne-dla-forum}
 
+% --- Szerokości ---
 \newlength{\wpfLabelWidth}
-\settowidth{\wpfLabelWidth}{\textbf{Wymagania powiązane:}}
-\addtolength{\wpfLabelWidth}{-20pt}
+\addtolength{\wpfLabelWidth}{0.2\textwidth}
 
 \newlength{\wpfContentWidth}
-\setlength{\wpfContentWidth}{0.7\textwidth}
+\setlength{\wpfContentWidth}{0.74\textwidth}
+
+\newlength{\wpfColTwoWidth}
+\newlength{\wpfColThreeWidth}
+\newlength{\wpfColFourWidth}
+\setlength{\wpfColTwoWidth}{0.22\textwidth}
+\setlength{\wpfColThreeWidth}{0.18\textwidth}
+\setlength{\wpfColFourWidth}{0.24\textwidth}
+
+\newlength{\wpfTableWidth}
+\setlength{\wpfTableWidth}{\dimexpr
+\wpfLabelWidth+\wpfContentWidth\relax}
+
+
+\newlength{\wpfHeaderHeight}
+\setlength{\wpfHeaderHeight}{12mm}
+% --------- Pola karty (wiersze) ---------
+
+\newcommand{\wpfHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wpfHeaderHeight][c]{\wpfTableWidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
 
 \newcommand{\wpfpriority}[2]{
     \textbf{Identyfikator:} & WPFORUM-#1 &
@@ -62,30 +90,32 @@
     \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpfContentWidth}|}{#1} \\ \hline
 }
 
-\newcommand{\wpforumcard}[5]{
-    \refstepcounter{awc}
-    {
+\newcommand{\wpforumcard}[5]{%
+    \refstepcounter{awc}%
+    {%
         \centering
         \begin{longtable}{|
-                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpfLabelWidth}|
-            l|
-                >{\columncolor{lightgray}\raggedright\arraybackslash}l|
-            p{0.15\textwidth}|}
+                >{\columncolor{lightgray}}p{\wpfLabelWidth}|
+            p{\wpfColTwoWidth}|
+                >{\columncolor{lightgray}}p{\wpfColThreeWidth}|
+            p{\wpfColFourWidth}|}
         \hline
-        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA FORUM}} \\ \hline
+        \wpfHeaderRow{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ FORUM}}
         \endfirsthead
         \hline
-        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA FORUM (cd.)}} \\ \hline
+        \wpfHeaderRow{\textbf{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ FORUM (cd.)}}
         \endhead
+
         \wpfpriority{#3}{#4}
         \wpfname{#2}
         #5
+
         \end{longtable}
         \par
-    }
-    \vspace{3pt}
-    \textbf{Tabela \theawc:} Wymaganie pozafunkcjonalne dla forum: #2\label{#1}
-    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie pozafunkcjonalne dla forum: #2}
+    }%
+    \vspace{3pt}%
+    \textbf{Tabela \theawc:} Wymaganie pozafunkcjonalne dla forum: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie pozafunkcjonalne dla forum: #2}%
 }
 
 \wpforumcard

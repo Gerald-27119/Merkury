@@ -136,37 +136,37 @@ pojawia się animacyjnie (przez \texttt{AnimatePresence} i \texttt{motion.div}) 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-submenu1}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemSubmenu} (1).}
+    \caption{Fragment kodu komponentu \texttt{SidebarItemSubmenu} (1/3).}
     \label{img:sidebar-item-submenu-1}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-submenu2}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemSubmenu} (2).}
+    \caption{Fragment kodu komponentu \texttt{SidebarItemSubmenu} (2/3).}
     \label{img:sidebar-item-submenu-2}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-submenu3}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemSubmenu} (3).}
+    \caption{Fragment kodu komponentu \texttt{SidebarItemSubmenu} (3/3).}
     \label{img:sidebar-item-submenu-3}
 \end{figure}
 
 \textbf{\texttt{SidebarItemLink}} \\
-Komponent renderuje pojedynczą pozycję typu \texttt{link} jako \texttt{NavLink} zawierający \texttt{SidebarItemContent}.
+Komponent renderuje pojedynczą pozycję typu \texttt{link} jako \texttt{NavLink} zawierający \newline \texttt{SidebarItemContent}.
 Dodatkowo, po kliknięciu wywoływana jest akcja \texttt{closeSidebar} (działająca tylko dla szerokości poniżej
 \texttt{1280px}) (rys. \ref{img:sidebar-item-link-1}--\ref{img:sidebar-item-link-2}).
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-link1}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemLink} (1).}
+    \caption{Fragment kodu komponentu \texttt{SidebarItemLink} (1/2).}
     \label{img:sidebar-item-link-1}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-link2}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemLink} (2).}
+    \caption{Fragment kodu komponentu \texttt{SidebarItemLink} (2/2).}
     \label{img:sidebar-item-link-2}
 \end{figure}
 
@@ -191,13 +191,13 @@ Renderowany jest przycisk zawierający \texttt{SidebarItemContent} (rys. \ref{im
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-action1}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemAction} (1).}
+    \caption{Fragment kodu komponentu \texttt{SidebarItemAction} (1/2).}
     \label{img:sidebar-item-action-1}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-action2}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemAction} (2).}
+    \caption{Fragment kodu komponentu \texttt{SidebarItemAction} (2/2).}
     \label{img:sidebar-item-action-2}
 \end{figure}
 
@@ -212,13 +212,13 @@ Dobór implementacji realizowany jest przez instrukcję \texttt{switch}:
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item1}
-    \caption{Fragment kodu komponentu \texttt{SidebarItem} (1).}
+    \caption{Fragment kodu komponentu \texttt{SidebarItem} (1/2).}
     \label{img:sidebar-item-1}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item2}
-    \caption{Fragment kodu komponentu \texttt{SidebarItem} (2).}
+    \caption{Fragment kodu komponentu \texttt{SidebarItem} (2/2).}
     \label{img:sidebar-item-2}
 \end{figure}
 
@@ -272,7 +272,7 @@ Sekcja opcji (\texttt{getOptionsLinks}) zawiera:
 
 \textbf{\texttt{link}} \\
 Plik z typami definiuje \texttt{LinkType} oraz interfejsy: \texttt{BaseLink}, \texttt{SidebarLink},
-\texttt{SidebarSubmenuLink}, \texttt{SidebarSubmenu}, \texttt{SidebarAction} (rys. \ref{img:sidebar-types}).
+\newline \texttt{SidebarSubmenuLink}, \texttt{SidebarSubmenu}, \texttt{SidebarAction} (rys. \ref{img:sidebar-types}).
 
 \begin{figure}[H]
     \centering
@@ -310,7 +310,7 @@ główną (\texttt{main}) zawierającą \texttt{MobileBar}, listę powiadomień 
 Dla strony mapy ustawiany jest układ \texttt{relative}, a dla pozostałych widoków układ elastyczny (\texttt{flex}).
 Dodatkowo, w \texttt{useEffect} wykrywana jest nawigacja do ścieżek panelu konta; na ekranach o szerokości
 co najmniej \texttt{1280px} pasek boczny jest wówczas automatycznie rozwijany poprzez
-\texttt{dispatch(sidebarAction.setIsSidebarOpen(true))} (rys. \ref{img:layout}).
+\newline \texttt{dispatch(sidebarAction.setIsSidebarOpen(true))} (rys. \ref{img:layout}).
 
 \begin{figure}[H]
     \centering

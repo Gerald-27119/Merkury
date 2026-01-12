@@ -32,10 +32,10 @@ Wyświetla listę zdjęć lub filmów przewijalną przy użyciu \texttt{\glslink
 Dane pobierane są z \glslink{paginacja}{paginacją} z \glslink{backend}{backendu} przy pomocy \glslink{hook}{hook'a}
 \texttt{useInfiniteQuery}.
 Mechanizm ten został zrealizowany za pomocą \\ \texttt{IntersectionObserver}, który nasłuchuje na element powiązany z
-referencją \texttt{containerRef}.
+referencją \newline \texttt{containerRef}.
 Zbliżenie się do \texttt{loadNextPageRef} lub \texttt{loadPreviousPageRef} określa odpowiedni kierunek pobierania danych
 (kolejne lub poprzednie strony), który jest zapisywany w \texttt{fetchDirection}.
-W czasie ładowania stron wyświetlany jest \texttt{LoadingSpinner}.
+W czasie ładowania stron wyświetlany jest \newline \texttt{LoadingSpinner}.
 W \glslink{hook}{hook'u} \texttt{useEffect} po zmianie danych na podstawie zapisanej wartości, dane dodawane
 są na początek lub koniec listy przechowywanej w stanie \glslink{redux}{Redux}.
 Pierwszy element z listy jest wyświetlany w \glslink{react-component}{komponencie} \texttt{ExpandedMediaDisplay}.
@@ -160,7 +160,7 @@ jako od najnowszych.
 \textbf{\texttt{ExpandedMediaDisplay}}
 Zbudowany jest z \glslink{react-component}{komponentów} \texttt{MediaInfoDisplay}, \\ \texttt{MediaDisplayFilterPanel} oraz \texttt{ExpandedGalleryPanel}.
 Pobiera wcześniej wybrane media z \glslink{backend}{backendu}, a następnie w zależności od typu
-wyświetla je w \texttt{ExpandedGalleryPhoto} (zdjęcie) lub \\ \texttt{ExpandedGalleryVideo} (film).
+wyświetla je w \newline \texttt{ExpandedGalleryPhoto} (zdjęcie) lub \\ \texttt{ExpandedGalleryVideo} (film).
 Obsługa video odbywa się za pomocą elementów \glslink{biblioteka}{bilbioteki} \texttt{react-player}.
 W trakcie pobierania danych wyświetlany jest \texttt{LoadingSpinner}, a błędzie informuje komunikat
 \emph{Failed to fetch media.}.
@@ -182,7 +182,7 @@ W przeciwnym wypadku w zależności od tego czy polubienie jest dodawane, czy us
 optymistyczna zmiana \glslink{ui}{UI} (por. sekcja~\ref{subsubsec:Optimistic UI}).
 Wysłanie odpowiedniego żądania odbywa się za pomocą mutacji z \glslink{biblioteka}{biblioteki}
 \texttt{Tanstack Query}.
-W przypadku błędu w \glslink{react-component}{komponencie} \texttt{Notification} wyświetlany jest komunikat
+W przypadku błędu w \glslink{react-component}{komponencie} \newline \texttt{Notification} wyświetlany jest komunikat
 \emph{Failed to edit spot media likes.}.
 W celu utrzymania aktualności danych, powodzenie operacji spowoduje unieważnienie wszystkich zapytań (queries)
 powiązanych z wybranym media, co wymusi ponowne pobranie danych.
@@ -196,7 +196,7 @@ przy użyciu \texttt{mutateAsync} z \glslink{hook}{hook'a} \texttt{useMutation} 
 
 \textbf{\texttt{ExpandedMediaGalleryActions}}
 Element realizujący akcje udostępnienia media oraz zamknięcia dużej galerii zdjęć i filmów.
-Udostępnienie obsługuje funkcja \texttt{handleClickShare}, która przy użyciu
+Udostępnienie obsługuje funkcja \newline \texttt{handleClickShare}, która przy użyciu
 \texttt{navigator.clipboard.writeText} kopiuje link do wybranego
 elementu do pomięci podręcznej systemu użytkownika.
 Komunikaty o stanie zakończenia operacji wyświetlane są w \glslink{react-component}{komponencie}

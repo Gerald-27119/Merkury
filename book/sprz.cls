@@ -35,8 +35,8 @@
     a4paper,
     top=1.2in,
     bottom=1.2in,
-    left=1in,
-    right=1in
+    inner=3.17cm,
+    outer=2.54cm
 ]{geometry}
 
 \RequirePackage{listings} %Aby dało się umieszczać kody źródłowe programów
