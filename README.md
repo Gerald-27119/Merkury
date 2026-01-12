@@ -7,7 +7,7 @@
 
 # Wymagania do włączenia projektu
 ## Backend (vulcanus)
-Dodać następujące znmienne środowiskowe systemu:
+Dodać następujące zmienne środowiskowe systemu:
 - `GITHUB_CLIENT_ID`
 - `GITHUB_CLIENT_SECRET`
 - `GOOGLE_CLIENT_ID`
