@@ -1,12 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  plugins: [react()],
-  server: {},
-  test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: "./setupTests.js",
-  },
+    plugins: [react(), tailwindcss()],
+    server: {},
+    test: {
+        globals: true,
+        environment: "jsdom",
+        setupFiles: "./setupTests.js",
+    },
+    define: {
+        global: "window",
+        "process.env": {},
+    },
 });

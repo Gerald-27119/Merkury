@@ -15,7 +15,9 @@ public class JwtService {
 
     public void refreshUserToken(UserEntity user, HttpServletResponse response) {
         UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());
+                new UsernamePasswordAuthenticationToken(user.getUsername(),
+                        null, user.getAuthorities()
+                );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         jwtManager.addTokenToCookie(response, jwtGenerator.generateToken());
     }

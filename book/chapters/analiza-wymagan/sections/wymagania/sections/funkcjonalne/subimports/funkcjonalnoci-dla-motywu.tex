@@ -1,0 +1,180 @@
+%! Author = Mateusz
+%! Date = 03/11/2025
+
+\subsubsection{Wymagania funkcjonalne dla motywu}
+\label{subsubsec:wymagania-funkcjonalne-dla-motywu}
+
+\newlength{\wfmotywLabelWidth}
+\setlength{\wfmotywLabelWidth}{0.19\textwidth}
+
+\newlength{\wfmotywColTwoWidth}
+\setlength{\wfmotywColTwoWidth}{0.21\textwidth}
+
+\newlength{\wfmotywColThreeWidth}
+\setlength{\wfmotywColThreeWidth}{0.13\textwidth}
+
+\newlength{\wfmotywColFourWidth}
+\setlength{\wfmotywColFourWidth}{0.28\textwidth}
+
+\newlength{\wfmotywContentWidth}
+\setlength{\wfmotywContentWidth}{0.60\textwidth}
+
+\newlength{\wfmotywHeaderHeight}
+\setlength{\wfmotywHeaderHeight}{12mm}
+
+\newcommand{\wfmotywthreecolcell}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfmotywContentWidth}|}{#1}%
+}
+
+\newcommand{\wfmotywthreecolcellpadded}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfmotywContentWidth}|}{%
+        \vspace{0.4ex}%
+        #1\par\vspace{0.4ex}%
+    }%
+}
+
+\newcommand{\wfmotywHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wfmotywHeaderHeight][c]{\linewidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
+% --- pola karty ---
+
+\newcommand{\wfmotywpriority}[2]{%
+    \textbf{Identyfikator:} & WFMOTYW-#1 &
+    \textbf{Priorytet:}     & #2 \\ \hline
+}
+
+\newcommand{\wfmotywname}[1]{%
+    \textbf{Nazwa:} &
+    \wfmotywthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfmotywdesc}[1]{%
+    \textbf{Opis:} &
+    \wfmotywthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfmotywaccept}[1]{%
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfmotywContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\itemsep}{0.2ex}%
+        \setlength{\parsep}{0pt}%
+        \vspace*{-1.8ex}
+        #1%
+        \vspace*{-1.4ex}
+        \endgroup
+    }\\ \hline
+}
+
+\newcommand{\wfmotywstakeholder}[1]{%
+    \textbf{Udziałowiec:} &
+    \wfmotywthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfmotywresponsible}[1]{%
+    \textbf{Realizator:} &
+    \wfmotywthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfmotywrelated}[1]{%
+    \textbf{Wymagania powiązane:} &
+    \wfmotywthreecolcell{#1} \\ \hline
+}
+
+% --- szablon karty wymagania funkcjonalnego ---
+
+\newcommand{\wfmotywatcard}[5]{%
+    \refstepcounter{awc}%
+    {%
+        \centering
+        \begin{longtable}{|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wfmotywLabelWidth}|
+            p{\wfmotywColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wfmotywColThreeWidth}|
+            p{\wfmotywColFourWidth}|}
+        \hline
+        \wfmotywHeaderRow{\shortstack{KARTA WYMAGANIA FUNKCJONALNEGO DLA \\ MOTYWU}}
+        \endfirsthead
+        \hline
+        \wfmotywHeaderRow{\shortstack{KARTA WYMAGANIA FUNKCJONALNEGO DLA \\ MOTYWU (cd.)}}
+        \endhead
+        \wfmotywpriority{#3}{#4}
+        \wfmotywname{#2}
+        #5
+        \end{longtable}
+        \par
+    }%
+    \vspace{3pt}%
+    \textbf{Tabela \theawc:} Wymaganie funkcjonalne dla motywu: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie funkcjonalne dla motywu: #2}%
+}
+
+% =========================================
+% WFMOTYW-01 – Zmiana motywu (jasny/ciemny)
+% =========================================
+\wfmotywatcard
+{wfmotyw:change-theme}
+{Możliwość zmiany motywu}
+{01}
+{S}
+{
+    \wfmotywdesc{System umożliwia użytkownikowi ręczne przełączenie motywu aplikacji pomiędzy trybem jasnym
+        i ciemnym, aby dopasować wygląd interfejsu do preferencji użytkownika. Zmiana motywu następuje bez
+        przeładowania strony i jest widoczna we wszystkich widokach aplikacji.}
+
+    \wfmotywaccept{%
+        \begin{itemize}
+            \item Użytkownik ma dostęp do akcji przełączenia motywu (jasny/ciemny) w interfejsie aplikacji.
+            \item Zmiana motywu następuje natychmiast po wykonaniu akcji (bez przeładowania strony).
+            \item Po zmianie motywu wszystkie widoki aplikacji są prezentowane zgodnie z wybranym trybem.
+        \end{itemize}
+    }
+
+    \wfmotywstakeholder{U3}
+    \wfmotywresponsible{Mateusz Redosz}
+    \wfmotywrelated{%
+        \hyperref[womotyw:change-theme]{WOMOTYW-01},
+        \hyperref[wpmotyw:theme-switch-under-200ms]{WPMOTYW-01},
+        \hyperref[wpmotyw:theme-consistency]{WPMOTYW-02}.%
+    }
+}
+
+% =========================================
+% WFMOTYW-02 – Zapamiętanie preferencji motywu
+% =========================================
+\wfmotywatcard
+{wfmotyw:remember-theme}
+{Zapamiętanie ustawień motywu}
+{02}
+{S}
+{
+    \wfmotywdesc{System zapamiętuje preferencję motywu użytkownika (jasny/ciemny) w przeglądarce i przywraca ją
+        przy kolejnym uruchomieniu aplikacji, aby zachować spójne doświadczenie użytkownika.}
+
+    \wfmotywaccept{%
+        \begin{itemize}
+            \item Po ustawieniu motywu preferencja jest zapisywana lokalnie w przeglądarce.
+            \item Po odświeżeniu strony wybrany wcześniej motyw pozostaje aktywny.
+            \item Po ponownym uruchomieniu aplikacji (kolejna wizyta) system automatycznie przywraca ostatnio wybrany motyw.
+        \end{itemize}
+    }
+
+    \wfmotywstakeholder{U3}
+    \wfmotywresponsible{Mateusz Redosz}
+    \wfmotywrelated{%
+        \hyperref[womotyw:change-theme]{WOMOTYW-01},
+        \hyperref[wpmotyw:no-flash-on-load]{WPMOTYW-03}.%
+    }
+}

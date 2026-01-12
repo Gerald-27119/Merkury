@@ -2,9 +2,6 @@ name: React CI
 
 on:
   push:
-    branches:
-      - 'feature/**'
-      - 'fix/**'
     paths:
       - 'venus/**'
   pull_request:
@@ -14,11 +11,13 @@ on:
       - master
       - develop
       - 'release/**'
+    paths-ignore:
+      - 'book/**'
   merge_group:
     branches: [ master, develop ]
 
 jobs:
-  test:
+  formatting-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,6 +30,10 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: venus
+
+      - name: Check code formatting
+        run: npm run format:check
         working-directory: venus
 
       - name: Run tests

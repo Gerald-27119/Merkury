@@ -1,0 +1,172 @@
+%! Author = Mateusz
+%! Date = 18/12/2025
+
+\section{Implementacja CI/CD}
+\label{sec:implementacja-ci-cd}
+
+W projekcie zastosowano mechanizmy \gls{cicd} z wykorzystaniem \glslink{github-actions}{GitHub Actions}, ponieważ narzędzie to jest
+zintegrowane z repozytorium i umożliwia automatyczne uruchamianie procesu budowania oraz testowania po każdej zmianie w kodzie.
+W ramach repozytorium przygotowano dwa niezależne \glslink{workflow}{workflow}: dla \glslink{backend}{backendu} (\texttt{Java CI}) oraz
+dla \glslink{frontend}{frontendu} (\texttt{React CI}).
+Rozdzielenie \glslink{pipeline}{pipeline'ów} pozwoliło ograniczyć liczbę uruchomień tylko do przypadków, gdy modyfikacje
+dotyczą danej części systemu.
+
+\subsection{Pipeline backendu}
+\label{subsec:pipeline-backendu}
+
+\glslink{workflow}{Workflow} \glslink{backend}{backendu} zdefiniowano w pliku \texttt{java-ci.yml}.
+Jest on uruchamiany:
+\begin{itemize}
+    \item przy zdarzeniu \glslink{push}{\texttt{push}} dla zmian w katalogu \texttt{vulcanus/**},
+    \item przy otwarciu \glslink{pull-request}{\textit{pull request}} do gałęzi \texttt{master} lub \texttt{develop},
+    \item w trybie \glslink{merge}{\texttt{merge\_group}} (kolejka scalania) dla gałęzi \texttt{master} lub \texttt{develop},
+\end{itemize}
+z jednoczesnym pomijaniem zmian w katalogu \texttt{book/**}.
+Fragment konfiguracji wyzwalaczy przedstawiono (rys. \ref{img:cicd-backend-on}).
+
+\paragraph{Wyzwalacze \glslink{workflow}{workflow} (\texttt{on:}).}
+W plikach konfiguracyjnych \glslink{github-actions}{GitHub Actions} zastosowano wyzwalacze (\textit{triggery}),
+które określają moment uruchomienia \glslink{workflow}{workflow}.
+W przypadku zdarzenia \glslink{push}{\texttt{push}} pipeline uruchamia się po wypchnięciu commitów do repozytorium,
+przy czym użyto filtru \texttt{paths}, aby wykonywać \glslink{workflow}{workflow} wyłącznie dla zmian w odpowiednich
+katalogach (\texttt{vulcanus/**} lub \texttt{venus/**}).
+Zdarzenie \glslink{pull-request}{\texttt{pull\_request}} powoduje uruchomienie \glslink{workflow}{workflow} przy otwarciu
+\glslink{pull-request}{pull requesta} do gałęzi \texttt{master} lub \texttt{develop}, co umożliwia weryfikację
+jakości zmian przed ich scaleniem.
+Dodatkowo wykorzystano \texttt{paths-ignore}, aby pomijać uruchomienia związane wyłącznie ze zmianami
+w katalogu \texttt{book/**}.
+Zdarzenie \glslink{merge}{\texttt{merge\_group}} odpowiada za uruchamianie \glslink{workflow}{workflow} w kontekście kolejki
+scalania (\textit{merge queue}) dla gałęzi \texttt{master} oraz \texttt{develop}, co pozwala testować
+zmiany w warunkach zbliżonych do rzeczywistego scalenia.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-cicd/github-backend-job1}
+    \caption{Fragment pliku \texttt{java-ci.yml}: konfiguracja wyzwalaczy workflow (\texttt{on:}).}
+    \label{img:cicd-backend-on}
+\end{figure}
+
+\glslink{workflow}{Workflow} składa się z trzech jobów uruchamianych sekwencyjnie: \texttt{setup}, \texttt{build} oraz \texttt{test}.
+Zależności pomiędzy \glslink{job}{jobami} (kolejność wykonania) oraz przykładowe czasy trwania
+przedstawia (rys. \ref{img:cicd-backend-run-summary}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-cicd/backend-summary}
+    \caption{Podsumowanie wykonania workflow backendu (\texttt{java-ci.yml}) w GitHub Actions.}
+    \label{img:cicd-backend-run-summary}
+\end{figure}
+
+\subsubsection{Job \texttt{setup}}
+\label{subsubsec:cicd-backend-setup}
+
+\glslink{job}{Job} \texttt{setup} odpowiada za przygotowanie środowiska uruchomieniowego na runnerze:
+pobiera repozytorium, ustawia wersję JDK 21, inicjalizuje środowisko \glslink{docker}{Docker} oraz obsługuje
+\glslink{cache}{cache} narzędzia \glslink{docker-compose}{Docker Compose} (instalacja wykonywana jest wyłącznie w
+przypadku braku trafienia w \glslink{cache}{cache}).
+Konfigurację tego joba przedstawia (rys. \ref{img:cicd-backend-setup-config}), a przykładowy
+log wykonania (rys. \ref{img:cicd-backend-setup-log}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-cicd/backend-job1}
+    \caption{Fragment pliku \texttt{java-ci.yml}: definicja joba \texttt{setup}.}
+    \label{img:cicd-backend-setup-config}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-cicd/github-backend-job1}
+    \caption{Przykładowy log wykonania joba \texttt{setup} w GitHub Actions.}
+    \label{img:cicd-backend-setup-log}
+\end{figure}
+
+\subsubsection{Job \texttt{build}}
+\label{subsubsec:cicd-backend-build}
+
+\glslink{job}{Job} \texttt{build} jest uruchamiany po poprawnym zakończeniu \texttt{setup}.
+W jego ramach:
+\begin{itemize}
+    \item ustawiana jest wersja JDK 21,
+    \item przywracany jest \glslink{cache}{cache} repozytorium \glslink{maven}{Mavena} (przyspieszenie pobierania zależności),
+    \item uruchamiane są wymagane usługi poprzez \glslink{docker-compose}{\texttt{docker compose}},
+    \item wykonywany jest build aplikacji z pominięciem testów (\texttt{-DskipTests}).
+\end{itemize}
+Konfigurację joba \texttt{build} przedstawia (rys. \ref{img:cicd-backend-build-config}), natomiast
+przykładowy przebieg wykonania w \glslink{github-actions}{GitHub Actions} (rys. \ref{img:cicd-backend-build-log}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-cicd/backend-job2}
+    \caption{Fragment pliku \texttt{java-ci.yml}: definicja joba \texttt{build}.}
+    \label{img:cicd-backend-build-config}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-cicd/github-backend-job2}
+    \caption{Przykładowy log wykonania joba \texttt{build} w GitHub Actions.}
+    \label{img:cicd-backend-build-log}
+\end{figure}
+
+\subsubsection{Job \texttt{test}}
+\label{subsubsec:cicd-backend-test}
+
+\glslink{job}{Job} \texttt{test} jest uruchamiany po zakończeniu \texttt{build}.
+W jego ramach przywracany jest \glslink{cache}{cache} \glslink{maven}{Mavena}, a następnie uruchamiane
+są testy \glslink{backend}{backendu}.
+W \glslink{job}{jobie} wykorzystywane są również zmienne środowiskowe przekazywane z \texttt{secrets} repozytorium
+(dane dostępowe do usług zewnętrznych), co pozwala na bezpieczne wykonywanie testów bez umieszczania wrażliwych danych w kodzie.
+Konfigurację joba przedstawia (rys. \ref{img:cicd-backend-test-config}), a przykładowy
+log wykonania (rys. \ref{img:cicd-backend-test-log}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-cicd/backend-job3}
+    \caption{Fragment pliku \texttt{java-ci.yml}: definicja joba \texttt{test} (wraz z użyciem \texttt{secrets}).}
+    \label{img:cicd-backend-test-config}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-cicd/github-backend-job3}
+    \caption{Przykładowy log wykonania joba \texttt{test} w GitHub Actions.}
+    \label{img:cicd-backend-test-log}
+\end{figure}
+
+\subsection{Pipeline frontendu}
+\label{subsec:pipeline-frontendu}
+
+\glslink{workflow}{Workflow} \glslink{frontend}{frontendu} zdefiniowano w pliku \texttt{react-ci.yml}.
+Analogicznie do backendu uruchamiany jest dla zmian w katalogu \texttt{venus/**},
+dla otwieranych \glslink{pull-request}{\textit{pull request}} do gałęzi \texttt{master} i \texttt{develop} oraz w trybie
+\glslink{merge}{\texttt{merge\_group}}, z pominięciem zmian w \texttt{book/**}.
+Fragment konfiguracji (wyzwalacze oraz \glslink{job}{job}) przedstawia (rys. \ref{img:cicd-frontend-config}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-cicd/github-frontend-job}
+    \caption{Fragment pliku \texttt{react-ci.yml}: konfiguracja workflow oraz joba \newline \texttt{formatting-and-test}.}
+    \label{img:cicd-frontend-config}
+\end{figure}
+
+\glslink{workflow}{Workflow} \glslink{frontend}{frontendu} zawiera pojedynczy \glslink{job}{job} \texttt{formatting-and-test}.
+Najpierw pobierany jest kod i ustawiana jest odpowiednia wersja \glslink{node}{Node.js}, następnie instalowane są zależności.
+Kolejnym krokiem jest weryfikacja formatowania kodu (\glslink{prettier}{prettier}), a na końcu uruchamiane są testy
+jednostkowe oraz integracyjne.
+Podsumowanie przebiegu \glslink{workflow}{workflow} przedstawia (rys. \ref{img:cicd-frontend-run-summary}),
+natomiast przykładowy log wykonania \glslink{job}{joba} (rys. \ref{img:cicd-frontend-log}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-cicd/frontend-summary}
+    \caption{Podsumowanie wykonania workflow frontendu (\texttt{react-ci.yml}) w GitHub Actions.}
+    \label{img:cicd-frontend-run-summary}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-cicd/github-frontend-job}
+    \caption{Przykładowy log wykonania joba \texttt{formatting-and-test} w GitHub Actions.}
+    \label{img:cicd-frontend-log}
+\end{figure}

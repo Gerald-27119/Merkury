@@ -1,0 +1,121 @@
+%! Author = Mateusz Redosz
+%! Date = 20/09/2025
+
+
+\chapter{Informacje wstępne}
+
+
+\section{O projekcie}\label{ch:wstep}
+
+To jest przykładowy szablon pracy inżynierskiej na PJATK.
+
+\chapter{Przykładowe elementy}
+
+W niniejszym rozdziale pokażę różne ciekawe elementy które można użyć w pracy. Nie są to wszystkie możliwości, ale te, które moim zdaniem najczęściej pojawiają się w pracach inż. Na przykład, jeśli chcemy powołać się na jakieś źródła, robimy to tak~\cite{BEHESHTIROUI2021107419}.
+
+Drugi cytat~\cite{bla} jest z tej samej publikacji, ale w innym miejscu.
+
+\section{Listingi}
+
+Jak załączać kod źródłowy jest pokazane na listingu~\ref{lst:helloworld}
+
+
+\begin{lstlisting}[language=c,caption={Przykładowy witaj w świecie}, label={lst:helloworld}]
+printf("hello");
+\end{lstlisting}
+
+\section{Obrazki}
+
+Na ilustracji~\ref{img:pjatklogo} widzimy oficjalne logo PJATK.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{sprz/pjatk}
+    \caption{Logo PJATK załączone jako obrazek}
+    \label{img:pjatklogo}
+\end{figure}
+
+albo dla wygody jako makro tak jak na obrazku~\ref{img:pjatklogo2}
+
+\putimage{Obrazek załączony za pomocą makra}{sprz/pjatk}{img:pjatklogo2}{0.5\textwidth}
+
+\chapter{Karty udziałowca}
+
+
+\begin{stakeholder}[label={tab:stakeholder:someholder},caption={Przykładowy opis udzialowca}]
+    \id{jednoznaczny symbol np. UOB 01, UOB 02 ... dla udziałowców ożywionych bezpośrednich, UNP 01... dla nieożywionych pośrednich itd.}
+    \name{nazwa udziałowca}
+    \descr{opis udziałowca}
+    \type{ożywiony/nieożywiony, bezpośredni/pośredni}
+    \viewpoint{z jakiej perspektywy patrzy udziałowiec np. technicznej, ekonomicznej, operatora systemu itp.}
+    \limitations{ograniczenia udziałowca np. administrator nie powinien specyfikować wymagań finansowych}
+    \requ{tu tylko symbole wymagań wyspecyfikowanych w rozdziale 3}
+\end{stakeholder}
+
+\chapter{Wymagania wszelakie}
+
+Na tabeli \ref{tab:requirements:general} pokazano jak można definiować wymagania ogólne lub dziedzinowe.
+
+\begin{requirementstab}[label={tab:requirements:general},caption={Przykładowe wymaganie ogólne lub dziedzinowe}]
+    \id{np. WO1, WO2 .. }
+    \priority{Ważność}
+    \name{krótki opis}
+    \descr{opis szczegółowy, należy dążyć do tego, żeby wszystkie znane na ten moment szczegóły wymagania zostały wydobyte i wyspecyfikowane}
+    \sholder{nazwa udziałowca, który podał wymaganie}
+    \reqrelated{wymagania zależne i uszczegóławiające – odesłanie poprzez identyfikator}
+\end{requirementstab}
+
+Teraz czas na wymagania funkcjonalne, na przykład \ref{tab:requirements:func1}
+
+\begin{requirementstab}[label={tab:requirements:func1},caption={Pryzkładowa tabela z wymaganiami na interfejs z otoczeniem}]
+    \id{jednoznaczny symbol np. FO1, FO2 .. }
+    \priority{Ważność}
+    \name{krótki opis}
+    \descr{opis szczegółowy, należy dążyć do tego, żeby wszystkie znane na ten moment szczegóły wymagania zostały wydobyte i wyspecyfikowane
+
+    Można zastosować opis jak w User Story
+        \begin{itemize}
+            \item Jako.. (konkretny użytkownik systemu)
+            \item chcę... (pożądana cecha lub problem, który trzeba rozwiązać)
+            \item bo wtedy/ponieważ… (korzyść płynąca z ukończenia story)
+        \end{itemize}
+    }
+    \acceptcrit{Warunki Satysfakcji (Szczegóły dodane na potrzeby  testów akceptacyjnych)}
+    \inputdata{uzupełniane w trakcie sprintu – dane wejściowe, związane z wymaganiem}
+    \preconditions{ uzupełniane w trakcie sprintu – warunki, które muszą być prawdziwe przed wywołaniem operacji}
+    \postconditions{ uzupełniane w trakcie sprintu – warunki, które muszą być prawdziwe po wywołaniu operacji}
+    \exceptions{ uzupełniane w trakcie sprintu – niepożądane sytuacje i sposoby ich obsługi}
+    \implementation{ uzupełniane w trakcie sprintu – opis sposobu realizacji}
+    \sholder{nazwa udziałowca, który podał wymaganie}
+    \reqrelated{wymagania zależne i uszczegóławiające – odesłanie poprzez identyfikator}
+\end{requirementstab}
+
+
+Natomiast tabela \ref{tab:requirements:env1} pokazuje wymagania na interfejs z otoczeniem.
+
+\begin{requirementstab}[label={tab:requirements:env1},caption={Pryzkładowa tabela z wymaganiami na interfejs z otoczeniem}]
+    \id{jednoznaczny symbol np. IO1, IO2 .. }
+    \priority{Ważność}
+    \name{krótki opis}
+    \descr{opis szczegółowy, należy dążyć do tego, żeby wszystkie znane na ten moment szczegóły wymagania zostały wydobyte i wyspecyfikowane}
+    \acceptcrit{Warunki Satysfakcji (Szczegóły dodane na potrzeby  testów akceptacyjnych)}
+    \inputdata{uzupełniane w trakcie sprintu – dane wejściowe, związane z wymaganiem}
+    \preconditions{ uzupełniane w trakcie sprintu – warunki, które muszą być prawdziwe przed wywołaniem operacji}
+    \postconditions{ uzupełniane w trakcie sprintu – warunki, które muszą być prawdziwe po wywołaniu operacji}
+    \exceptions{ uzupełniane w trakcie sprintu – niepożądane sytuacje i sposoby ich obsługi}
+    \implementation{ uzupełniane w trakcie sprintu – opis sposobu realizacji}
+    \sholder{nazwa udziałowca, który podał wymaganie}
+    \reqrelated{wymagania zależne i uszczegóławiające – odesłanie poprzez identyfikator}
+\end{requirementstab}
+
+Tabela dotycząca wymagań pozafunkcjonalnych \ref{tab:requirements:nonfunc1} jest także widoczne.
+
+\begin{requirementstab}[label={tab:requirements:nonfunc1},caption={Pryzkładowa tabela z wymaganiami pozafunkcjonalnymi}]
+    \id{jednoznaczny symbol np. NFO1, NFO2 .. }
+    \priority{Ważność}
+    \name{krótki opis}
+    \descr{opis szczegółowy, należy dążyć do tego, żeby wszystkie znane na ten moment szczegóły wymagania zostały wydobyte i wyspecyfikowane}
+    \acceptcrit{Warunki Satysfakcji (Szczegóły dodane na potrzeby  testów akceptacyjnych)}
+    \sholder{nazwa udziałowca, który podał wymaganie}
+    \reqrelated{wymagania zależne i uszczegóławiające – odesłanie poprzez identyfikator}
+\end{requirementstab}

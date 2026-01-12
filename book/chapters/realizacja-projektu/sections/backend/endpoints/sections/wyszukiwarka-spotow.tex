@@ -1,0 +1,113 @@
+%! Author = Mateusz
+%! Date = 30/11/2025
+
+\subsubsection{Wyszukiwarka spotów}
+\label{subsubsec:wyszukiwarka-spotow}
+
+\cardendpoint
+{EP11}
+{/public/spot/most-popular}
+{Pobierz 18 najpopularniejszych spotów}
+{Brak}
+{Brak}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{items}: List<TopRatedSpotDto> każdy element zawiera:
+        \begin{itemize}
+            \item \textbf{id}: Long (identyfikator spota)
+            \item \textbf{name}: String (nazwa spota)
+            \item \textbf{city}: String (miasto, w którym znajduje się spot)
+            \item \textbf{imageUrl}: String (URL zdjęcia spota)
+        \end{itemize}
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP12}
+{/public/spot/search/home-page}
+{Wyszukaj spoty na stronie głównej na podstawie lokalizacji}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{country}: String (opcjonalnie, kraj)
+        \item \textbf{region}: String (opcjonalnie, region)
+        \item \textbf{city}: String (opcjonalnie, miasto)
+        \item \textbf{userLongitude}: Double (opcjonalnie, długość geograficzna użytkownika)
+        \item \textbf{userLatitude}: Double (opcjonalnie, szerokość geograficzna użytkownika)
+        \item \textbf{page}: Integer (numer strony, domyślnie 0)
+        \item \textbf{size}: Integer (rozmiar strony, domyślnie 20)
+    \end{tabitemize}
+}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{items}: List<HomePageSpotDto> (lista znalezionych spotów), każdy element:
+        \begin{itemize}
+            \item \textbf{id}: Long (identyfikator spota)
+            \item \textbf{name}: String (nazwa spota)
+            \item \textbf{rating}: Double (średnia ocena spota)
+            \item \textbf{ratingCount}: Integer (liczba ocen spota)
+            \item \textbf{firstPhoto}: String (URL pierwszego zdjęcia spota)
+            \item \textbf{tags}: Set<SpotTagDto> (zestaw tagów przypisanych do spota)
+            \item \textbf{centerPoint}: BorderPoint (punkt centralny obszaru spota)
+            \item \textbf{city}: String (miasto, w którym znajduje się spot)
+            \item \textbf{distanceToUser}: Double (odległość od lokalizacji użytkownika, jeśli dostępna)
+        \end{itemize}
+        \item \textbf{hasNext}: boolean (czy istnieje kolejna strona wyników)
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP13}
+{/public/spot/search/home-page/locations}
+{Pobierz listę podpowiedzi lokalizacji dla wyszukiwarki na stronie głównej}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{query}: String (fraza wyszukiwania)
+        \item \textbf{type}: String (typ lokalizacji, kraj/region/miasto)
+    \end{tabitemize}
+}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{List<String>}: lista podpowiedzi (nazwy lokalizacji)
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP14}
+{/public/spot/search/home-page/advance}
+{Wyszukaj spoty na stronie głównej (zaawansowane filtrowanie)}
+{Brak}
+{%
+    \begin{tabitemize}
+        \item \textbf{city}: String (opcjonalnie, miasto wyszukiwania)
+        \item \textbf{tags}: List<String> (opcjonalnie, lista tagów spota)
+        \item \textbf{userLongitude}: Double (opcjonalnie, długość geograficzna użytkownika)
+        \item \textbf{userLatitude}: Double (opcjonalnie, szerokość geograficzna użytkownika)
+        \item \textbf{sort}: SpotSortType (opcjonalnie, typ sortowania wyników)
+        \item \textbf{filter}: SpotRatingFilterType (opcjonalnie, filtr po ocenie)
+        \item \textbf{page}: Integer (numer strony, domyślnie 0)
+        \item \textbf{size}: Integer (rozmiar strony, domyślnie 20)
+    \end{tabitemize}
+}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{items}: List<HomePageSpotDto> (lista znalezionych spotów), każdy element:
+        \begin{itemize}
+            \item \textbf{id}: Long (identyfikator spota)
+            \item \textbf{name}: String (nazwa spota)
+            \item \textbf{rating}: Double (średnia ocena spota)
+            \item \textbf{ratingCount}: Integer (liczba ocen spota)
+            \item \textbf{firstPhoto}: String (URL pierwszego zdjęcia spota)
+            \item \textbf{tags}: Set<SpotTagDto> (zestaw tagów przypisanych do spota)
+            \item \textbf{centerPoint}: BorderPoint (punkt centralny obszaru spota)
+            \item \textbf{city}: String (miasto, w którym znajduje się spot)
+            \item \textbf{distanceToUser}: Double (odległość od lokalizacji użytkownika, jeśli dostępna)
+        \end{itemize}
+        \item \textbf{hasNext}: boolean (czy istnieje kolejna strona wyników)
+    \end{tabitemize}
+}

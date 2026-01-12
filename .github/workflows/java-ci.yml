@@ -2,9 +2,6 @@ name: Java CI
 
 on:
   push:
-    branches:
-      - 'feature/**'
-      - 'fix/**'
     paths:
       - 'vulcanus/**'
   pull_request:
@@ -14,6 +11,8 @@ on:
       - master
       - develop
       - 'release/**'
+    paths-ignore:
+      - 'book/**'
   merge_group:
     branches: [ master, develop ]
 
@@ -107,6 +106,9 @@ jobs:
             maven-${{ runner.os }}-
 
       - name: Test vulcanus
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+          MERKURY_LOCATIONQ_PROVIDER_API_KEY: ${{ secrets.MERKURY_LOCATIONQ_PROVIDER_API_KEY }}
         run: mvn -B test --file vulcanus/pom.xml
 
       - name: Shut down services

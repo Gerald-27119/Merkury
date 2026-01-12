@@ -1,0 +1,12 @@
+import { MediaType } from "../../enum/mediaType";
+
+export default interface SpotMediaDto {
+    id: number;
+    url: string;
+    title: string;
+    description: string;
+    likes: number;
+    views: number;
+    author: string;
+    genericMediaType: MediaType;
+}

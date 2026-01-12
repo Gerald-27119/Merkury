@@ -1,0 +1,192 @@
+%! Author = Stanisław Oziemczuk
+%! Date = 29/12/2025
+
+\subsection{Projekt mapy}
+\label{subsec:projekt-mapy}
+
+W ramach przedmiotu \glslink{prz1}{PRZ1} wykonano projekt mapy umożliwiającej przeglądanie oraz wchodzenie w interakcje
+ze znajdującymi się na niej \glslink{spot}{spotami}.
+
+\subsubsection{Rodzaje mapy}
+\label{subsubsec:rodzaje-mapy}
+
+Mapę podzielono na trzy rodzaje:
+\begin{itemize}
+    \item ogólną (rys. \ref{fig:map-general}) \textendash \space zawiera informacje o obiektach (sklepy, restauracje, nazwy ulic, parków, rzek, itp.)
+    \item ze zmniejszoną szczegółowością (rys. \ref{fig:map-less-details}) \textendash \space mapa ogólna, w której nazwy części obiektów
+    zastąpiono ikonami lub nie są one wyświetlane
+    \item strefami lotów \glslink{PANSA}{PANSA} (rys. \ref{fig:map-pansa}) \textendash \space zaznaczone strefy lotów informują
+    gdzie można legalnie latać dronem
+\end{itemize}
+
+Podział ten zapewnia użytkownikowi swobodne przeglądanie mapy w zależności od potrzeb.
+Na każdym typie zamieszczono przyciski do zmniejszana i zwiększania poziomu przybliżenia, a także pokazania obecnej
+lokalizacji użytkownika.
+Ponadto w projekcie pole do wyszukiwania \glslink{spot}{spotów} po nazwie, a także przycisk do wyświetlenia ich listy w
+widocznym obszarze.
+Prezentowane są również ogólne informacje pogodowe z możliwością otworzenia panelu zawierającego szczegółowe dane.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/mapa/mapa_ogolna}
+    \caption{Mapa ogólna}
+    \label{fig:map-general}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/mapa/mapa_malo_szczegolow}
+    \caption{Mapa ze zmniejszoną szczegółowością}
+    \label{fig:map-less-details}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/mapa/mapa_pansa}
+    \caption{Mapa ze strefami lotów PANSA}
+    \label{fig:map-pansa}
+\end{figure}
+\noindent
+
+\subsubsection{Panel ze szczegółami spota}
+\label{subsubsec:panel-ze-szczegolami-spota}
+
+Panel ze szczegółami \glslink{spot}{spota} (rys. \ref{fig:map-spot-details-1}) zaprojektowano jako prostokąt pojawiający się po lewej stronie ekranu, dzięki
+czemu umożliwia dalsze przeglądanie mapy.
+W górnej jego części wyświetlane są informacje o lokalizacji wybranego miejsca oznaczone ikoną markera, a po ich prawej
+stronie przycisk zamykający panel.
+Poniżej prezentowane są nazwa wraz oceną \glslink{spot}{spota} w gwiazdkach wraz z liczbą opinii, jego tagi oraz opis.
+Kolejną częścią panelu jest galeria multimediów.
+Znajdują się w niej zdjęcia i filmy przewijane w formie karuzeli.
+Pod nią umieszczone są przyciski akcji oznaczone ikonami ułatwiającymi rozpoznanie ich przeznaczenia.
+Umożliwiają nawigację do \glslink{spot}{spota}, zapisanie go do listy ulubionych, udostępnienie lub dodanie multimedii.
+Następny obszar przeznaczony jest na wyświetlanie komentarzy.
+Na jego górze znajduje się przycisk otwierający \glslink{modal}{modal} z formularzem do dodania nowego komentarza.
+Początkowo wyświetlane jest kilka pierwszych elementów, poniżej których znajduje się przycisk „Show More”.
+Po jego kliknięciu prezentowane są wszystkie komentarze w formie przewijalnej listy.
+Pojedynczy element zawiera dane o autorze (nazwę oraz zdjęcie profilowe), treść tekstową, zdjęcia i filmy oraz
+przyciski do polubienia lub niepolubienia.
+Komentarz może zawierać zero lub więcej multimedii, w przypadku gdy ich liczba nie przekracza trzech, wyświetlane są obok
+siebie.
+Natomiast jeśli jest ich więcej, widoczne są trzy pierwsze a na ostatnim z nich znajduje się przycisk „see more”
+(rys. \ref{fig:map-spot-details-2}), którego kliknięcie powoduje ukazanie pozostałych elementów (rys. \ref{fig:map-spot-details-3}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/mapa/mapa_szczegoly_spota1}
+    \caption{Panel ze szczegółami spota}
+    \label{fig:map-spot-details-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/mapa/mapa_szczegoly_spota2}
+    \caption{Panel ze szczegółami spota (przycisk do pokazania wszystkich multimediów komentarza)}
+    \label{fig:map-spot-details-2}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/mapa/mapa_szczegoly_spota3}
+    \caption{Panel szczegółów spota (widoczne są wszystkie multimedia komentarza)}
+    \label{fig:map-spot-details-3}
+\end{figure}
+\noindent
+
+\subsubsection{Panel z pogodą spota}
+\label{subsubsec:panel-z-pogoda-spota}
+
+Wyświetlany jest po prawej stronie ekranu, dzięki czemu nie zasłania panelu ze szczegółami \glslink{spot}{spota} i umożliwia
+dalsze przeglądanie mapy (rys. \ref{fig:map-weather}).
+Znajdują się na nim szczegółowe dane pogodowe wybranego miejsca.
+W górnej części panelu wyświetlane są podstawowe informacje: miasto, aktualny czas, temperatura oraz ikona wraz ze słownym opisem
+stanu pogody.
+Całość umieszczona jest na tle z gradientem odcieni niebieskiego, który zwraca pierwszą uwagę na element.
+Poniżej w formie kafelek ułożonych w siatkę 2x2 prezentowane są dodatkowe wskaźniki.
+Z odpowiednimi ikonami przedstawiają one informacje o prawdopodobieństwie opadów, punkcie rosy, indeksie UV oraz
+poziomie wilgotności.
+Następnie znajduje się część wyświetlająca prędkość wiatru na różnych wysokościach.
+Na jej lewej stronie prezentowana jest szybkość wiatru z możliwością zmiany jednostki.
+Na prawo od niej umieszczone są przyciski umożliwiające wybór wysokości, dla której mają zostać zaprezentowane dane.
+Ostatnim elementem jest wykres przedstawiający prognozę pogody ze zmianami oznaczonymi co godzinę.
+Zawiera prawdopodobieństwo opadów, ikonę opisującą stan pogody oraz krzywą obrazującą wartości temperatury.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/mapa/mapa_pogoda_spota}
+    \caption{Panel ze szczegółowymi danymi pogodowymi spota}
+    \label{fig:map-weather}
+\end{figure}
+\noindent
+
+\subsubsection{Formularz dodania komentarza}
+\label{subsubsec:formularz-dodania-komentarza}
+
+Został zaprojektowany jako \glslink{modal}{modal} (rys. \ref{fig:spot-comment-modal}) otwierany dedykowanym przyciskiem akcji.
+Zawiera formularz umożliwiający dodanie komentarza do wybranego \glslink{spot}{spota}.
+Jego pola to ocena w gwiazdkach oraz tekst.
+Panel nad polem tekstowym umożliwia jego stylizację, a także dodanie multimediów.
+Nad formularzem znajduje się nazwa wskazanego miejsca, natomiast pod nim
+umieszczone są dwa przyciski: do publikacji komentarza oraz zamknięcia \glslink{modal}{modalu}.
+Wycentrowanie elementu oraz przyciemnienie tła pozwala skupić uwagę na wpisywanej treści.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/mapa/add_spot_comment_modal}
+    \caption{Modal z formularzem do dodawania komentarza}
+    \label{fig:spot-comment-modal}
+\end{figure}
+\noindent
+
+\subsubsection{Lista z wynikami wyszukiwania}
+\label{subsubsec:lista-z-wynikami-wyszukiwania}
+
+Panel zawierający listę \glslink{spot}{spotów} będących wynikiem wyszukiwania po nazwie lub widocznego obszaru mapy
+(rys. \ref{fig:spots-list}).
+Zaprojektowano jego wyświetlanie po lewej stronie ekranu, co umożliwia dalsze przeglądanie mapy.
+Elementy wyświetlane są w formie kafelek z czarnym, wyróżniającym się tłem.
+Każdy z nich po swojej lewej stronie zawiera zdjęcie danego \glslink{spot}{spota}, a na prawo od niego
+nazwę, ocenę w gwiazdkach i liczbę ocen oraz tagi.
+W górnej części panelu umieszczone są pola do filtrowania oraz sortowania listą.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/mapa/spots_list}
+    \caption{Lista z wynikami wyszukiwania}
+    \label{fig:spots-list}
+\end{figure}
+\noindent
+
+\subsubsection{Duża galeria multimediów}
+\label{subsubsec:duza-galeria-multimediow}
+
+Na projekt mapy składa się również duża galeria multimediów (rys. \ref{fig:spots-media-gallery}),
+zawierająca zdjęcia i filmy dodane do wybranego \glslink{spot}{spota}.
+Po jej lewej stronie znajduje się lista multimediów z umieszczonym nad nią panelem do sortowania i filtrowania.
+Możliwe do wyboru opcje prezentowane są w formie przycisków zmieniających wygląd po ich kliknięciu.
+Po prawej stronie listy wyświetlany jest powiększony obecnie wybrany element.
+Tę część można rozszerzyć na resztę ekranu poprzez schowanie listy za pomocą przycisku ze strzałką wskazującą
+kierunek jej ruchu po kliknięciu.
+Pod wybranym multimedia znajduje się panel z dostępnymi akcjami: powiększeniem elementu na cały ekran, pobraniem go oraz
+polubieniem.
+Obok wyświetlana jest liczba polubień.
+W lewym dolnym rogu umieszczony został licznik elementów wybranego typu (zdjęcia lub filmy) informujący o ich całkowitej
+liczbie, jak i obecnym położeniu.
+Natomiast na górze wyświetlany jest panel z wybranym typem multimediów, umożliwiający również jego zmianę.
+Element jest częściowo przezroczysty, aby nie zasłaniać całkowicie wybranego elementu.
+Prezentowany jest również przycisk do zakładki z komentarzami, wskazujący również ich ilość.
+Po prawej stronie znajduje się przycisk udostępnienia elementu oraz informacja o liczbie jego wyświetleń.
+Przechodzenie między multimediami jest możliwe za pomocą strzałek pojawiających się gdy użytkownik zbliży się do nich
+myszką.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/mapa/spots_media_gallery}
+    \caption{Duża galeria multimediów}
+    \label{fig:spots-media-gallery}
+\end{figure}
+\noindent

@@ -1,0 +1,105 @@
+%! Author = Adam Langmesser
+%! Date = 02/01/2026
+
+\subsubsection{Chain of Responsibility}
+\label{subsubsec:chain-of-responsibility}
+
+Łańcuch zobowiązań (ang.~\textit{Chain of Responsibility}) jest behawioralnym
+\glslink{wzorzec}{wzorcem} projektowym,
+w którym obsługa pojedynczego żądania zostaje rozbita na sekwencję niezależnych kroków realizowanych przez kolejne obiekty.
+Żądanie przepływa przez elementy łańcucha, a każdy z nich podejmuje decyzję, czy wykonać własną logikę i przekazać żądanie dalej, albo
+zakończyć obsługę na bieżącym etapie.
+Dzięki temu nadawca żądania nie musi znać konkretnego obiektu odpowiedzialnego za obsługę --
+właściwe rozstrzygnięcie następuje w trakcie przechodzenia przez kolejne ogniwa.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{./attachments/wzorce-projektowe/cor/1}
+    \caption{Diagram klas wzorca projektowego Chain of Responsibility.}
+    \label{fig:cor-class-diagram}
+\end{figure}
+
+Rysunek~\ref{fig:cor-class-diagram} przedstawia diagram klas dla \glslink{wzorzec}{wzorca} \textit{Chain of Responsibility}.
+Z perspektywy modelu obiektowego kluczowe elementy przedstawiono poniżej:
+
+\begin{itemize}
+    \item \textbf{\texttt{Handler}} -- interfejs definiujący kontrakt elementów łańcucha:
+    \begin{itemize}
+        \item \texttt{handle(request)} -- realizuje obsługę żądania na bieżącym etapie,
+        \item \texttt{setNext(h: Handler)} -- ustawia kolejny element łańcucha.
+    \end{itemize}
+
+    \item \textbf{\texttt{BaseHandler}} -- klasa bazowa dostarczająca wspólny mechanizm przekazywania żądania:
+    \begin{itemize}
+        \item przechowuje referencję \texttt{next: Handler} do następnego obsługującego,
+        \item w typowym scenariuszu deleguje żądanie dalej, gdy bieżący etap nie kończy obsługi.
+    \end{itemize}
+
+    \item \textbf{\texttt{ConcreteHandler}} -- konkretne implementacje etapów przetwarzania:
+    \begin{itemize}
+        \item realizują właściwe kroki logiki (np.\ walidację, filtrowanie, autoryzację),
+        \item w praktyce występuje wiele klas tego typu (np.\ \texttt{ConcreteHandlerA},\newline \texttt{ConcreteHandlerB}, \texttt{ConcreteHandlerC}),
+        \item mogą być łączone w różnej kolejności, tworząc łańcuch dopasowany do danej funkcjonalności.
+    \end{itemize}
+\end{itemize}
+
+\glslink{wzorzec}{Wzorzec} jest szczególnie użyteczny tam, gdzie przetwarzanie wymaga wykonania serii etapów zależnych od kontekstu,
+a jednocześnie istotna jest łatwa rozbudowa rozwiązania oraz możliwość zmiany kolejności kroków bez modyfikowania nadawcy.
+Zamiast rozbudowanych instrukcji warunkowych i silnie sprzężonych modułów, system buduje się z mniejszych,
+wymienialnych komponentów, z których każdy realizuje pojedynczą odpowiedzialność.
+
+\medskip
+\paragraph{Zastosowanie w Spring Security.}
+Praktycznym przykładem wykorzystania łańcucha zobowiązań jest mechanizm \textit{filter chain}
+w \glslink{framework}{frameworku} \gls{spring-security}.
+Każde żądanie HTTP przechodzi kolejno przez zestaw filtrów, a każdy z nich może:
+
+\begin{enumerate}
+    \item wykonać swój etap przetwarzania, po czym przekazać żądanie do następnego elementu,
+    \item przerwać dalsze przetwarzanie i od razu wygenerować odpowiedź.
+\end{enumerate}
+
+W tym ujęciu pojedynczy filtr pełni rolę \texttt{Handler'a}, natomiast przekazanie dalej odpowiada przejściu
+do kolejnego ogniwa łańcucha.
+
+W projekcie \glslink{wzorzec}{wzorzec} wykorzystano przy implementacji klasy \texttt{JwtAuthFilter}, rozszerzającej \texttt{OncePerRequestFilter}.
+Mapowanie pojęć z diagramu na implementację przedstawiono w sposób uporządkowany:
+
+\begin{itemize}
+    \item \textbf{odpowiednik \texttt{handle(request)}}: metoda \texttt{doFilterInternal(...)} -- realizuje logikę bieżącego etapu,
+    \item \textbf{odpowiednik przekazania do \texttt{next}}: wywołanie \newline \texttt{filterChain.doFilter(request, response)}.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./attachments/wzorce-projektowe/cor/af-1}
+    \caption{Implementacja filtra \texttt{JwtAuthFilter} (1/2)}
+    \label{fig:cor-jwt-auth-filter-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./attachments/wzorce-projektowe/cor/af-2}
+    \caption{Implementacja filtra \texttt{JwtAuthFilter} (2/2)}
+    \label{fig:cor-jwt-auth-filter-2}
+\end{figure}
+
+Działanie filtra można opisać jako sekwencję kroków realizowanych w ramach jednego ogniwa łańcucha:
+
+\begin{enumerate}
+    \item \textbf{Pobranie danych wejściowych} -- odczyt tokenu \glslink{jwt}{JWT} z żądania
+    (np.\ z \glslink{http-only-cookie}{ciasteczka \texttt{HttpOnly}}).
+    \item \textbf{Walidacja} -- sprawdzenie poprawności tokenu \glslink{jwt}{JWT}. W przypadku błędu filtr przygotowuje odpowiedź
+    i kończy przetwarzanie (bez przekazania dalej).
+    \item \textbf{Uwierzytelnienie} -- wyznaczenie identyfikatora użytkownika i wczytanie jego danych,
+    a następnie utworzenie obiektu uwierzytelnienia.
+    \item \textbf{Aktualizacja kontekstu bezpieczeństwa} -- umieszczenie informacji o uwierzytelnieniu w kontekście,
+    aby była dostępna dla kolejnych etapów przetwarzania.
+    \item \textbf{Odświeżenie tokenu (opcjonalnie)} -- gdy czas ważności tokenu \glslink{jwt}{JWT} zbliża się do końca, generowany jest nowy token.
+    \item \textbf{Przekazanie sterowania dalej} -- wywołanie \texttt{filterChain.doFilter(request, response)} deleguje żądanie
+    do kolejnych filtrów.
+\end{enumerate}
+
+Takie podejście dobrze skaluje się wraz z rozwojem systemu: kolejne etapy związane z bezpieczeństwem
+mogą być realizowane przez następne filtry (kolejne \texttt{Handler'y}), a konfiguracja ich kolejności
+pozwala dopasować przepływ przetwarzania bez zmiany logiki biznesowej aplikacji.

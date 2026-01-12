@@ -1,0 +1,193 @@
+%! Author = Mateusz
+%! Date = 21/12/2025
+
+\subsubsection{Wymagania pozafunkcjonalne dla wyszukiwarki spotów}
+\label{subsubsec:wymagania-pozafunkcjonalne-dla-wyszukiwarki-spotow}
+
+
+% --- Szerokości ---
+\newlength{\wpwyszLabelWidth}
+\addtolength{\wpwyszLabelWidth}{0.2\textwidth}
+
+\newlength{\wpwyszContentWidth}
+\setlength{\wpwyszContentWidth}{0.74\textwidth}
+
+\newlength{\wpwyszColTwoWidth}
+\newlength{\wpwyszColThreeWidth}
+\newlength{\wpwyszColFourWidth}
+\setlength{\wpwyszColTwoWidth}{0.22\textwidth}
+\setlength{\wpwyszColThreeWidth}{0.18\textwidth}
+\setlength{\wpwyszColFourWidth}{0.24\textwidth}
+
+\newlength{\wpwyszHeaderHeight}
+\setlength{\wpwyszHeaderHeight}{12mm}
+
+\newlength{\wpwyszTableWidth}
+\setlength{\wpwyszTableWidth}{\dimexpr
+\wpwyszLabelWidth+\wpwyszColTwoWidth+\wpwyszColThreeWidth+\wpwyszColFourWidth\relax}
+% --------- Pola karty (wiersze) ---------
+
+\newcommand{\wpwyszHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wpwyszHeaderHeight][c]{\wpwyszTableWidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
+% Id + priorytet – 4 kolumny
+\newcommand{\wpwyszpriority}[2]{%
+    \textbf{Identyfikator:} & WPWYSZ-#1 &
+    \textbf{Priorytet:}     & #2 \\ \hline
+}
+
+% Typ – normalny wiersz na 3 kolumny
+\newcommand{\wpwysztype}[1]{%
+    \textbf{Typ:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpwyszContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpwyszname}[1]{%
+    \textbf{Nazwa:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpwyszContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpwyszdesc}[1]{%
+    \textbf{Opis:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpwyszContentWidth}|}{#1} \\ \hline
+}
+
+% (2) Kryteria akceptacji – ustawienia list jak w wymaganiach funkcjonalnych
+\newcommand{\wpwyszaccept}[1]{%
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpwyszContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\itemsep}{0.2ex}%
+        \setlength{\parsep}{0pt}%
+        \vspace*{-1.8ex}%
+        #1%
+        \vspace*{-1.4ex}%
+        \endgroup
+    } \\ \hline
+}
+
+\newcommand{\wpwyszstakeholder}[1]{%
+    \textbf{Udziałowiec:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpwyszContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpwyszresponsible}[1]{%
+    \textbf{Realizator:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpwyszContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpwyszrelated}[1]{%
+    \textbf{Wymagania powiązane:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wpwyszContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wpwyszatcard}[5]{%
+    \refstepcounter{awc}%
+    {%
+        \centering
+        \begin{longtable}{|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpwyszLabelWidth}|
+            p{\wpwyszColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wpwyszColThreeWidth}|
+            p{\wpwyszColFourWidth}|}
+        \hline
+        \wpwyszHeaderRow{\shortstack{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ WYSZUKIWARKI SPOTÓW}}
+        \endfirsthead
+        \hline
+        \wpwyszHeaderRow{\shortstack{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ WYSZUKIWARKI SPOTÓW (cd.)}}
+        \endhead
+        \wpwyszpriority{#3}{#4}
+        \wpwyszname{#2}
+        #5
+        \end{longtable}
+        \par
+    }%
+    \vspace{3pt}%
+    \textbf{Tabela \theawc:} Wymaganie pozafunkcjonalne dla wyszukiwarki spotów: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie pozafunkcjonalne dla wyszukiwarki spotów: #2}%
+}
+
+% =========================================================
+% WPWYSZ-01 – Wydajność: czas ładowania wyników < 10 s
+% Typ: wydajność
+% =========================================================
+
+\wpwyszatcard
+{wpwysz:load-under-10s}
+{Czas ładowania wyszukanych spotów nie przekracza 10 sekund}
+{01}
+{M}
+{
+    \wpwysztype{Wydajność}
+
+    \wpwyszdesc{System powinien zwracać wyniki wyszukiwania spotów w czasie nie dłuższym niż 10 sekund
+    w typowych warunkach sieciowych, aby użytkownik mógł sprawnie przeglądać wyniki.}
+
+    \wpwyszaccept{%
+        \begin{itemize}
+            \item W co najmniej 95\% pomiarów w warunkach deweloperskich czas odpowiedzi dla wyszukiwania mieści się w przedziale 0--10 s.
+            \item W trakcie pobierania danych interfejs wyświetla informację o ładowaniu.
+            \item W przypadku błędu połączenia użytkownik otrzymuje czytelny komunikat.
+        \end{itemize}
+    }
+
+    \wpwyszstakeholder{U3}
+    \wpwyszresponsible{Mateusz Redosz}
+    \wpwyszrelated{%
+        \hyperref[wowysz:basic-search]{WOWYSZ-01},
+        \hyperref[wowysz:advanced-search]{WOWYSZ-02},
+        \hyperref[wfwysz:top-spots-carousel]{WFWYSZ-01},
+        \hyperref[wfwysz:basic-location-search]{WFWYSZ-02},
+        \hyperref[wfwysz:display-search-results]{WFWYSZ-03},
+        \hyperref[wfwysz:advanced-city-tags]{WFWYSZ-06},
+        \hyperref[wfwysz:filter-polarity-rating]{WFWYSZ-07},
+        \hyperref[wfwysz:filter-rating]{WFWYSZ-08}.%
+    }
+}
+
+% =========================================================
+% WPWYSZ-02 – Podpowiedzi w polach wyszukiwania (autocomplete)
+% Typ: użyteczność
+% =========================================================
+
+\wpwyszatcard
+{wpwysz:autocomplete-location}
+{Podpowiedzi w polach lokalizacji (kraj/region/miasto)}
+{02}
+{M}
+{
+    \wpwysztype{Użyteczność}
+
+    \wpwyszdesc{W polach wyboru lokalizacji system prezentuje podpowiedzi dopasowane do wprowadzanej frazy,
+        co ułatwia szybkie i bezbłędne uzupełnianie filtrów.}
+
+    \wpwyszaccept{%
+        \begin{itemize}
+            \item Podczas wpisywania frazy w polu (kraj/region/miasto) pojawia się lista pasujących propozycji.
+            \item Lista propozycji zawiera tylko wartości dostępne w systemie.
+            \item Użytkownik może wybrać podpowiedź myszą.
+        \end{itemize}
+    }
+
+    \wpwyszstakeholder{U3}
+    \wpwyszresponsible{Mateusz Redosz}
+    \wpwyszrelated{%
+        \hyperref[wowysz:basic-search]{WOWYSZ-01},
+        \hyperref[wowysz:advanced-search]{WOWYSZ-02},
+        \hyperref[wfwysz:basic-location-search]{WFWYSZ-02},
+        \hyperref[wfwysz:location-autocomplete]{WFWYSZ-04},
+        \hyperref[wfwysz:advanced-city-tags]{WFWYSZ-06}.%
+    }
+}

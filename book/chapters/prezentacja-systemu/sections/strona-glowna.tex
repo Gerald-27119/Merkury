@@ -1,0 +1,123 @@
+%! Author = Mateusz
+%! Date = 31/12/2025
+
+\section{Wyszukiwarka spotów}
+\label{sec:wyszukiwarka-spotow}
+
+W systemie udostępniono wyszukiwarkę \glslink{spot}{spotów} działającą w dwóch trybach: prostym oraz zaawansowanym.
+Przełączanie trybu realizowane jest za pomocą przycisków znajdujących się w górnej części widoku
+(rys.~\ref{fig:search-simple-empty} oraz rys.~\ref{fig:search-advanced-empty}).
+W obu trybach wyniki prezentowane są w postaci kart \glslink{spot}{spotów} zawierających nazwę, lokalizację,
+ocenę, tagi oraz przyciski akcji (\textit{Details} oraz \textit{See on map}).
+
+\subsection{Tryb prosty}
+\label{subsec:wyszukiwarka-prosty}
+
+W trybie prostym główny nacisk położono na szybkie wyszukiwanie.
+W górnej części ekranu znajduje się przycisk przejścia do trybu zaawansowanego, a poniżej umieszczono
+pola wyszukiwania lokalizacji wraz z mechanizmem podpowiedzi (autouzupełniania).
+W sytuacji, gdy nie wprowadzono żadnych parametrów, wyświetlany jest komunikat zachęcający do rozpoczęcia
+wyszukiwania (rys.~\ref{fig:search-simple-empty}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/strona-glowna/main-page-empty}
+    \caption{Tryb prosty wyszukiwarki spotów — stan początkowy bez wyników.}
+    \label{fig:search-simple-empty}
+\end{figure}
+
+Po wprowadzeniu danych i wykonaniu wyszukiwania prezentowana jest lista wyników w formie kart
+\glslink{spot}{spotów} (rys.~\ref{fig:search-simple-list}). Każda karta zawiera podstawowe informacje o obiekcie,
+w tym ocenę oraz zestaw tagów, co ułatwia szybkie porównanie wyników.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/strona-glowna/main-page-list}
+    \caption{Tryb prosty wyszukiwarki — lista znalezionych spotów w postaci kart.}
+    \label{fig:search-simple-list}
+\end{figure}
+
+Podczas wpisywania nazwy miasta system wyświetla podpowiedzi, co pozwala ograniczyć liczbę błędów oraz
+przyspiesza wybór poprawnej lokalizacji (rys.~\ref{fig:search-simple-suggestions}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/strona-glowna/main-page-tooltip}
+    \caption{Tryb prosty — podpowiedzi (autouzupełnianie) w polu wyszukiwania lokalizacji.}
+    \label{fig:search-simple-suggestions}
+\end{figure}
+
+Wyszukiwarka w trybie prostym została przygotowana również w wersji ciemnej (rys.~\ref{fig:search-simple-dark}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/strona-glowna/main-page-dark}
+    \caption{Tryb prosty wyszukiwarki w motywie ciemnym.}
+    \label{fig:search-simple-dark}
+\end{figure}
+
+\subsection{Tryb zaawansowany}
+\label{subsec:wyszukiwarka-zaawansowany}
+
+Tryb zaawansowany umożliwia precyzyjniejsze wyszukiwanie poprzez zastosowanie dodatkowych filtrów oraz sortowania.
+W górnej części widoku dostępny jest przycisk przejścia do trybu prostego, a poniżej umieszczono rozbudowany
+panel wyszukiwania z polami lokalizacji, tagów, sortowaniem oraz filtrowaniem po ocenie.
+
+W przypadku braku wprowadzonych parametrów prezentowany jest stan początkowy analogiczny do trybu prostego
+(rys.~\ref{fig:search-advanced-empty}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/strona-glowna/advance-page-empty}
+    \caption{Tryb zaawansowany wyszukiwarki — stan początkowy bez wyników.}
+    \label{fig:search-advanced-empty}
+\end{figure}
+
+Po wykonaniu wyszukiwania wyniki wyświetlane są w postaci listy kart \glslink{spot}{spotów} (rys.~\ref{fig:search-advanced-list}).
+W porównaniu do trybu prostego użytkownik otrzymuje możliwość zawężenia wyników bezpośrednio w panelu filtrów.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/strona-glowna/advance-page-list}
+    \caption{Tryb zaawansowany — lista spotów po wyszukaniu.}
+    \label{fig:search-advanced-list}
+\end{figure}
+
+Dostępny jest filtr oceny w formie listy progów, co pozwala ograniczyć wyniki do \glslink{spot}{spotów} spełniających minimalną
+ocenę (rys.~\ref{fig:search-advanced-rating-filter}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/strona-glowna/advance-page-filter}
+    \caption{Tryb zaawansowany — rozwinięty filtr minimalnej oceny.}
+    \label{fig:search-advanced-rating-filter}
+\end{figure}
+
+W trybie zaawansowanym można również zmienić sposób sortowania wyników (po popularności lub po ocenie)
+(rys.~\ref{fig:search-advanced-sort}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/strona-glowna/advance-page-sort}
+    \caption{Tryb zaawansowany — wybór sposobu sortowania wyników.}
+    \label{fig:search-advanced-sort}
+\end{figure}
+
+Po zastosowaniu filtrów lista wyników jest odświeżana automatycznie, a prezentowane \glslink{spot}{spoty} odpowiadają aktualnym
+kryteriom (rys.~\ref{fig:search-advanced-filtered}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/strona-glowna/advance-page-filtered}
+    \caption{Tryb zaawansowany — wyniki po zastosowaniu filtrów.}
+    \label{fig:search-advanced-filtered}
+\end{figure}
+
+Analogicznie jak w pozostałych widokach aplikacji, przygotowano wersję w motywie ciemnym (rys.~\ref{fig:search-advanced-dark}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/strona-glowna/advance-page-dark}
+    \caption{Tryb zaawansowany wyszukiwarki w motywie ciemnym.}
+    \label{fig:search-advanced-dark}
+\end{figure}

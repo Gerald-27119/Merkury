@@ -1,0 +1,47 @@
+%! Author = Mateusz
+%! Date = 26/11/2025
+
+\subsection{Integracja z bazą danych}
+\label{subsec:integracja-z-baza-danych}
+
+W aplikacji wykorzystano relacyjną \glslink{baza-danych}{bazę danych} PostgreSQL, która w środowisku deweloperskim uruchamiana
+jest jako kontener w aplikacji Docker.
+Komunikacja \glslink{backend}{backendu} z bazą danych odbywa się z wykorzystaniem wzorca Repository
+oraz \glslink{biblioteka}{bibliotek} oferowanych przez Spring Boot, co umożliwia efektywne zarządzanie danymi oraz utrzymanie spójności
+warstwy dostępu do danych.
+
+W systemie zaimplementowano zestaw najistotniejszych tabel, które opisano poniżej:
+\begin{itemize}
+    \item \textbf{chat-invitations} — przechowuje zaproszenia do czatów wysyłane użytkownikom.
+    \item \textbf{chat-message-attached-file} — przechowuje pliki dołączone do wiadomości w czatach.
+    \item \textbf{chat-messages} — zapisuje wiadomości wysyłane w czatach.
+    \item \textbf{chat-participants} — zawiera informacje o uczestnikach poszczególnych czatów.
+    \item \textbf{chats} — lista czatów dostępnych w systemie.
+    \item \textbf{favorite-spots} — informacje o miejscach (spotach) oznaczonych jako ulubione przez użytkowników.
+    \item \textbf{forum-categories} — kategorie, do których przypisywane są posty na forum.
+    \item \textbf{forum-tags} — tagi przypisywane postom na forum.
+    \item \textbf{friendships} — relacje znajomości między użytkownikami.
+    \item \textbf{media} — ogólne media przesyłane przez użytkowników na forum (zdjęcia, filmy).
+    \item \textbf{post-comment-down-votes} — przechowuje „minusy” nadawane komentarzom do postów.
+    \item \textbf{post-comment-reports} — raporty zgłaszane przez użytkowników wobec komentarzy.
+    \item \textbf{post-comment-up-votes} — przechowuje „plusy” nadawane komentarzom do postów.
+    \item \textbf{post-comments} — komentarze użytkowników do postów.
+    \item \textbf{post-down-votes} — „minusy” nadawane postom.
+    \item \textbf{post-followers} — informacje o użytkownikach obserwujących dany post.
+    \item \textbf{post-reports} — raporty zgłaszane wobec postów.
+    \item \textbf{post-tags} — tagi przypisane do konkretnych postów.
+    \item \textbf{post-up-votes} — „plusy” nadawane postom.
+    \item \textbf{posts} — posty tworzone przez użytkowników.
+    \item \textbf{spot-comment-down-votes} — „minusy” nadawane komentarzom do spotów.
+    \item \textbf{spot-comment-media} — pliki multimedialne dołączone do komentarzy przy spotach.
+    \item \textbf{spot-comment-up-votes} — „plusy” nadawane komentarzom do spotów.
+    \item \textbf{spot-comments} — komentarze użytkowników do spotów.
+    \item \textbf{spot-media} — pliki multimedialne związane z konkretnymi spotami.
+    \item \textbf{spots} — baza spotów w systemie.
+    \item \textbf{spots-tags} — tagi przypisane do poszczególnych spotów.
+    \item \textbf{tags-of-spots} — alternatywna tabela z tagami dla spotów.
+    \item \textbf{user-followed-posts} — lista postów śledzonych przez użytkowników.
+    \item \textbf{user-followers} — relacje obserwujących użytkowników.
+    \item \textbf{user-liked-spot-media} — informacja o polubieniach mediów powiązanych ze spotami.
+    \item \textbf{users} — dane użytkowników systemu.
+\end{itemize}

@@ -1,0 +1,31 @@
+%! Author = Mateusz
+%! Date = 28/11/2025
+
+\subsection{Struktura projektu}
+\label{subsec:struktura-projektu}
+
+\glslink{backend}{Backend} aplikacji został zaimplementowany przy użyciu \glslink{framework}{frameworka} Spring Boot,
+co umożliwiło stworzenie spójnej i skalowalnej architektury w prosty sposób.
+W projekcie zastosowano rozwiązanie typu \glslink{rest_api}{REST API}, gdyż zespół projektowy dysponuje
+największym doświadczeniem w jego wykorzystaniu.
+Struktura projektu została zorganizowana zgodnie z podejściem \glslink{folder-by-type}{folder by type},
+dzięki czemu każdy plik znajduje się w odpowiadającym mu katalogu.
+Takie podejście ułatwia zarówno lokalizację istniejących plików, jak i określenie miejsca tworzenia nowych komponentów.
+Poniżej przedstawiono przykładową strukturę katalogów \glslink{backend}{backendu}:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{attachments/implementacja-backendu/struktura-backend1}
+\caption{Struktura katalogów (1/2)}
+\label{img:struktura-backend1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{attachments/implementacja-backendu/struktura-backend2}
+\caption{Struktura katalogów (2/2)}
+\label{img:struktura-backend2}
+\end{figure}
+
+Dzięki takiej organizacji kod jest bardziej czytelny i łatwiejszy w utrzymaniu.
+Umożliwia również szybkie odnalezienie odpowiednich modułów oraz ułatwia rozbudowę projektu w przyszłości.

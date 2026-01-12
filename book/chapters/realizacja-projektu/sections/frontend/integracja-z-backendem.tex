@@ -1,0 +1,60 @@
+%! Author = Mateusz
+%! Date = 02/11/2025
+
+\subsection{Integracja i komunikacja z backendem}
+\label{subsec:integracja-i-komunikacja-z-backendem}
+
+W niniejszym podrozdziale opisano sposób integracji aplikacji \glslink{frontend}{frontendowej} z \glslink{backend}{backendem} oraz
+mechanizmy odpowiedzialne za bezpieczną i efektywną komunikację z serwerem. \newline
+
+Jest to kluczowy element aplikacji, ponieważ wymaga bezpiecznego przesyłania danych użytkownika.
+W celu uproszczenia komunikacji z serwerem zdecydowano się na wykorzystanie
+biblioteki \texttt{axios}~\cite{axios} oraz \glslink{biblioteka}{biblioteki} \texttt{TanStack Query}~\cite{tanstack-query}.
+
+W przypadku ścieżek wymagających uwierzytelnienia do zapytania dołączany jest token \gls{jwt}.
+Token przekazywany jest w ciasteczku \glslink{http-only-cookie}{http only}, a jego wysyłanie realizowane jest
+automatycznie przez przeglądarkę dzięki ustawieniu parametru \newline \texttt{withCredentials} na wartość \texttt{true}.
+W razie braku tokena lub jego nieważności dostęp do danych nie jest przyznawany.
+Dodatkowo, po odświeżeniu strony lub wejściu na widok w sytuacji, gdy ciasteczko utraciło ważność, sesja jest
+uznawana za nieaktywną, a użytkownik zostaje automatycznie wylogowany.
+Podczas wylogowania inicjowanego przez użytkownika ciasteczko jest usuwane, co skutkuje utratą uprawnień
+do zasobów chronionych.
+
+Przykładem pliku odpowiedzialnego za taką komunikację jest \texttt{account.js}
+(rys. \ref{img:account-axios1} i \ref{img:account-axios2}), który obsługuje operacje związane z logowaniem
+rejestracją, zmianą hasła oraz wylogowaniem.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/account-axios1}
+    \caption{Implementacja modułu \texttt{account} (1/2)}
+    \label{img:account-axios1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/account-axios2}
+    \caption{Implementacja modułu \texttt{account} (2/2)}
+    \label{img:account-axios2}
+\end{figure}
+
+Funkcje odpowiedzialne za komunikację z \glslink{backend}{backendem} umieszczono w katalogu \texttt{/http}.
+Dzięki temu są one scentralizowane i mogą być w prosty sposób wykorzystywane w różnych częściach aplikacji.
+Zastosowanie TanStack Query umożliwiło znaczące ograniczenie powtarzalnego kodu oraz uprościło obsługę błędów i
+stanów zapytania (takich jak ładowanie danych, błąd czy sukces).
+\glslink{biblioteka}{Biblioteka} udostępnia m.in. wartość \texttt{isLoading}, dzięki czemu komponent może łatwo wyświetlić ekran ładowania
+bez konieczności ręcznego zarządzania własnym stanem.
+Dodatkowo \glslink{hook}{hook} \texttt{useQuery} pozwala na automatyczne pobieranie danych po wejściu na daną podstronę.
+Komponent deklaruje jedynie, jakie dane są mu potrzebne, a TanStack Query realizuje ich pobranie, cache’owanie oraz odświeżanie.
+Do operacji wymagających wywołania akcji po stronie użytkownika (np. wysłania formularza logowania)
+wykorzystywany jest \glslink{hook}{hook} \texttt{useMutation} z TanStack Query.
+Przykład użycia tego rozwiązania w procesie logowania przedstawiono na rys. \ref{img:login-tanstack}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/login-tanstack}
+    \caption{Wykorzystanie TanStack Query przy logowaniu użytkownika}
+    \label{img:login-tanstack}
+\end{figure}
+
+

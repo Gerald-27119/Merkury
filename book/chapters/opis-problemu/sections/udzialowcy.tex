@@ -1,0 +1,62 @@
+%! Author = Adam
+%! Date = 23/11/2025
+
+\section{Udziałowcy}
+\label{sec:udzialowcy}
+
+
+% --- Pola karty udziałowca (lewa kolumna) ---
+\newcommand{\shid}[1]{\textbf{Identyfikator:} & #1 \\ \hline}
+\newcommand{\shname}[1]{\textbf{Nazwa udziałowca:} & #1 \\ \hline}
+\newcommand{\shdescr}[1]{\textbf{Opis:} & #1 \\ \hline}
+\newcommand{\shtype}[1]{\textbf{Typ:} & #1 \\ \hline}
+\newcommand{\shviewpoint}[1]{\textbf{Perspektywa:} & #1 \\ \hline}
+\newcommand{\shlimits}[1]{\textbf{Ograniczenia:} & #1 \\ \hline}
+\newcommand{\shreq}[1]{\textbf{Powiązane wymagania:} & #1 \\ \hline}
+
+% --- Karta udziałowca ---
+\newcommand{\stakeholdercard}[3]{%
+    \refstepcounter{stakeholder}%
+    \par\begin{center}
+    \renewcommand{\arraystretch}{1.15}%
+    \begin{tabularx}{\textwidth}{|>{\columncolor{lightgray}\raggedright\arraybackslash}p{0.19\textwidth}|X|}
+    \rowcolor{lightgray}
+    \multicolumn{2}{|c|}{\textbf{KARTA UDZIAŁOWCA}} \\ \hline
+    #3
+    \end{tabularx}
+    \vspace{3pt}
+    \textbf{Tabela \thestakeholder:} Karta udziałowca: #2\label{#1}
+    \end{center}%
+    \addcontentsline{lot}{table}{Tabela \thestakeholder: Karta udziałowca: #2}%
+}
+
+
+\stakeholdercard{tab:stakeholder:team}{Zespół projektowy}{%
+    \shid{U1}
+    \shname{Zespół projektowy}
+    \shdescr{Zespół czterech studentów odpowiedzialnych za analizę, projekt, implementację, testy oraz dokumentację systemu.}
+    \shtype{ożywiony, bezpośredni}
+    \shviewpoint{Techniczna, wykonawcza.}
+    \shlimits{Ograniczone zasoby czasowe i doświadczenie komercyjne.}
+    \shreq{Wymagania funkcjonalne i techniczne systemu, możliwość realizacji w ramach projektu dyplomowego.}
+}
+
+\stakeholdercard{tab:stakeholder:promotor}{Promotor}{%
+    \shid{U2}
+    \shname{Promotor}
+    \shdescr{Osoba nadzorująca przebieg projektu, weryfikująca poprawność merytoryczną i zgodność z wymaganiami uczelni.}
+    \shtype{ożywiony, pośredni}
+    \shviewpoint{Merytoryczna, formalna, jakościowa.}
+    \shlimits{Nie odpowiada za implementację; rekomenduje, opiniuje i zatwierdza.}
+    \shreq{Czytelna dokumentacja, zgodność z wytycznymi kierunku oraz odpowiedni poziom techniczny rozwiązania.}
+}
+
+\stakeholdercard{tab:stakeholder:droniarze}{\Glspl{droniarz}}{%
+    \shid{U3}
+    \shname{\Glspl{droniarz}}
+    \shdescr{Główna grupa docelowa systemu – osoby latające dronami rekreacyjnie lub półprofesjonalnie, szukające miejsc do lotów i wymiany doświadczeń.}
+    \shtype{ożywiony, bezpośredni}
+    \shviewpoint{Użytkownik końcowy: prostota obsługi, rzetelne informacje o spotach, wygodne dzielenie się treściami.}
+    \shlimits{Brak wpływu na architekturę techniczną systemu; oczekują intuicyjnego interfejsu.}
+    \shreq{Lista spotów, informacje o ograniczeniach prawnych, oceny i komentarze, dodawanie treści oraz podstawowe funkcje społecznościowe.}
+}

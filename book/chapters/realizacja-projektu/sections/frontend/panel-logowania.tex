@@ -1,0 +1,255 @@
+%! Author = Mateusz
+%! Date = 12/12/2025
+
+\subsection{Panel logowania}
+\label{subsec:panel-logowania-frontend}
+
+W niniejszym rozdziale przedstawiono implementację panelu logowania po stronie \glslink{frontend}{frontendu}.
+Panel składa się z czterech głównych części:
+
+\begin{itemize}
+    \item formularza logowania,
+    \item formularza rejestracji,
+    \item formularza resetu hasła,
+    \item formularza ustawiania nowego hasła.
+\end{itemize}
+
+Każda z opisanych poniżej sekcji korzysta z dwóch uniwersalnych komponentów:
+\texttt{FormContainer} oraz \texttt{FormInput}, które zapewniają spójny układ, walidację i obsługę komunikatów.
+Dodatkowo, w niektórych formularzach wykorzystywany jest komponent \texttt{SubmitFormButton} do obsługi wysyłania danych.
+%-----------------------------------
+\subsubsection{Logowanie}
+\label{subsubsec:logowanie}
+
+W skład formularza logowania wchodzą następujące komponenty:
+
+\begin{itemize}
+    \item \texttt{Login},
+    \item \texttt{FormContainer},
+    \item \texttt{FormInput},
+    \item \texttt{SubmitFormButton}.
+\end{itemize}
+
+\textbf{\texttt{Login}} (rys. \ref{img:login1} i \ref{img:login2})
+Komponent służy do logowania w aplikacji za pomocą nazwy użytkownika oraz hasła albo z wykorzystaniem
+zewnętrznych dostawców (Google i GitHub).
+Dane logowania są obsługiwane przez \glslink{hook}{hook} \texttt{useMutation}, który wysyła żądanie
+do \glslink{backend}{backendu}.
+Po poprawnym zalogowaniu następuje przekierowanie na ostatnio odwiedzoną podstronę przed przejściem
+do formularza, realizowane za pomocą \texttt{useNavigate}.
+Równocześnie, przy użyciu \glslink{redux}{Reduxa} (akcje \texttt{accountAction}), w store aplikacji
+zapisywana jest informacja, że użytkownik został poprawnie zalogowany oraz jaka jest jego nazwa.
+
+Walidacja pól formularza opiera się na \glslink{hook}{hooku} \texttt{useUserDataValidation}, który przechowuje
+wartości pól, informacje o tym, czy zostały one edytowane, oraz wynik walidacji.
+Na tej podstawie przycisk potwierdzający logowanie jest aktywowany dopiero po poprawnym uzupełnieniu wymaganych pól.
+
+Główny układ formularza zapewnia komponent \texttt{FormContainer}, wewnątrz którego renderowana jest lista dwóch
+pól wejściowych \texttt{FormInput} (\texttt{username} i \texttt{password}).
+Poniżej pól wyświetlany jest link prowadzący do formularza resetu hasła, a na samym dole znajduje się przycisk
+potwierdzający logowanie w postaci komponentu \texttt{SubmitFormButton}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-logowania/login1}
+    \caption{Komponent \texttt{Login} (1/2).}
+    \label{img:login1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-logowania/login2}
+    \caption{Komponent \texttt{Login} (2/2).}
+    \label{img:login2}
+\end{figure}
+
+%-----------------------------------
+\subsubsection{Rejestracja}
+\label{subsubsec:rejestracja}
+
+W skład formularza rejestracji wchodzą następujące komponenty:
+
+\begin{itemize}
+    \item \texttt{Register},
+    \item \texttt{FormContainer},
+    \item \texttt{FormInput},
+    \item \texttt{SubmitFormButton}.
+\end{itemize}
+
+\textbf{\texttt{Register}} (rys. \ref{img:register1} i \ref{img:register2})
+Komponent służy do rejestracji nowego użytkownika z wykorzystaniem formularza zawierającego nazwę użytkownika,
+adres e-mail oraz hasło (z potwierdzeniem), a także umożliwia skorzystanie z logowania przy pomocy kont Google lub GitHub.
+Wygląd formularza jest zbliżony do widoku logowania: wykorzystywany jest ten sam układ \texttt{FormContainer},
+jednak w środku renderowane są cztery pola \texttt{FormInput} zamiast dwóch.
+
+Proces rejestracji obsługiwany jest przez \texttt{useMutation}, która wysyła dane nowego konta do \glslink{backend}{backendu}.
+Logika walidacji korzysta z \texttt{useUserDataValidation}, dzięki czemu przycisk potwierdzenia rejestracji
+(\texttt{SubmitFormButton}) aktywuje się dopiero po poprawnym uzupełnieniu wszystkich wymaganych pól,
+w tym zgodności hasła z jego potwierdzeniem.
+Po pomyślnej rejestracji w store \glslink{redux}{Reduxa} zapisywana jest informacja o zalogowaniu użytkownika,
+a \texttt{FormContainer} wyświetla odpowiedni komunikat potwierdzający.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-logowania/register1}
+    \caption{Komponent \texttt{Register} (1/2).}
+    \label{img:register1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-logowania/register2}
+    \caption{Komponent \texttt{Register} (2/2).}
+    \label{img:register2}
+\end{figure}
+
+%-----------------------------------
+\subsubsection{Reset hasła}
+\label{subsubsec:reset-hasla}
+
+W skład formularza resetu (przypomnienia) hasła wchodzą następujące komponenty:
+
+\begin{itemize}
+    \item \texttt{ForgotPassword},
+    \item \texttt{FormContainer},
+    \item \texttt{FormInput}.
+\end{itemize}
+
+\textbf{\texttt{ForgotPassword}} (rys. \ref{img:forgot-password})
+Komponent służy do inicjowania procesu resetu hasła w sytuacji, gdy zostało ono zapomniane.
+Po podaniu adresu e-mail, z którym powiązane jest konto, i zatwierdzeniu formularza wysyłane jest żądanie
+do \glslink{backend}{backendu} z użyciem \texttt{useMutation}.
+Na tej podstawie generowana jest wiadomość e-mail zawierająca odnośnik do formularza ustawiania nowego hasła.
+
+Walidacja pola adresu e-mail realizowana jest przez \texttt{useUserDataValidation}.
+Przycisk potwierdzający wysłanie wiadomości pozostaje nieaktywny, dopóki adres e-mail nie zostanie poprawnie wprowadzony.
+Układ formularza oparty jest na \newline \texttt{FormContainer}; wewnątrz znajduje się pojedyncze pole
+\texttt{FormInput} dla adresu e-mail oraz przycisk potwierdzenia.
+Po pomyślnym wysłaniu żądania \texttt{FormContainer} wyświetla komunikat potwierdzający wysłanie wiadomości.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-logowania/forgot-password}
+    \caption{Komponent \texttt{ForgotPassword}.}
+    \label{img:forgot-password}
+\end{figure}
+
+%-----------------------------------
+\subsubsection{Nowe hasło}
+\label{subsubsec:nowe-haslo}
+
+W skład formularza ustawiania nowego hasła wchodzą następujące komponenty:
+
+\begin{itemize}
+    \item \texttt{NewPassword},
+    \item \texttt{FormContainer},
+    \item \texttt{FormInput}.
+\end{itemize}
+
+\textbf{\texttt{NewPassword}} (rys. \ref{img:new-password1} i \ref{img:new-password2})
+Komponent służy do podania nowego hasła po wcześniejszym zainicjowaniu procesu resetu.
+Za pomocą \glslink{hook}{hooka} \texttt{useSearchParams} odczytywany jest token przekazany w parametrze adresu \gls{url}.
+Następnie, po zatwierdzeniu formularza, token wraz z nowym hasłem jest wysyłany na \glslink{backend}{backend}
+przy pomocy \texttt{useMutation}.
+
+W formularzu znajdują się dwa pola \texttt{FormInput}: dla nowego hasła oraz jego potwierdzenia.
+Walidacja realizowana jest przez \texttt{useUserDataValidation}.
+Przycisk zatwierdzający pozostaje nieaktywny do momentu poprawnego uzupełnienia obu wartości.
+Po pomyślnym ustawieniu nowego hasła wyświetlany jest komunikat potwierdzający, a użytkownik przekierowywany
+jest do formularza logowania.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-logowania/new-password1}
+    \caption{Komponent \texttt{NewPassword} (1/2).}
+    \label{img:new-password1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-logowania/new-password2}
+    \caption{Komponent \texttt{NewPassword} (2/2).}
+    \label{img:new-password2}
+\end{figure}
+
+%-----------------------------------
+\subsubsection{Komponenty wspólne panelu logowania}
+\label{subsubsec:common-components-auth}
+
+Panel logowania wykorzystuje zestaw komponentów uniwersalnych, wspólnych dla wszystkich opisanych formularzy.
+Zapewniają one spójny wygląd, jednolite mechanizmy walidacji oraz obsługę komunikatów.
+
+\textbf{\texttt{FormContainer}} (rys. \ref{img:form-container1} i \ref{img:form-container2})
+Komponent odpowiada za główny układ formularzy uwierzytelniania.
+Wyświetla nagłówek sekcji, otacza właściwą zawartość odpowiednim tłem oraz rozmieszczeniem elementów, zgodnym z
+resztą aplikacji (z użyciem klas \glslink{tailwind-css}{Tailwind CSS}).
+Dodatkowo obsługuje logikę związaną z sukcesem i błędami operacji:
+\begin{itemize}
+    \item w przypadku błędu pochodzącego z żądania HTTP (np. \texttt{AxiosError}) odpowiedni komunikat jest
+    pobierany z odpowiedzi \glslink{backend}{backendu} i wyświetlany poprzez system
+    powiadomień (\texttt{notificationAction.addError});
+    \item po pomyślnym zakończeniu operacji wyświetlany jest komunikat sukcesu \newline (\texttt{notificationAction.addSuccess}),
+    a opcjonalnie wykonywane jest przekierowanie na wskazaną ścieżkę.
+\end{itemize}
+Komponent umożliwia również wyświetlenie dodatkowych elementów, takich jak przyciski logowania zewnętrznego
+(\texttt{OauthForm}) oraz linki prowadzące do innych formularzy (np. przejście z logowania do rejestracji).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-logowania/form-container1}
+    \caption{Komponent \texttt{FormContainer} (1/2).}
+    \label{img:form-container1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-logowania/form-container2}
+    \caption{Komponent \texttt{FormContainer} (2/2).}
+    \label{img:form-container2}
+\end{figure}
+
+\textbf{\texttt{FormInput}} (rys. \ref{img:form-input1} i \ref{img:form-input2})
+Komponent realizuje pojedyncze pole wejściowe formularza z animowaną etykietą.
+Etykieta jest pozycjonowana i animowana za pomocą biblioteki \texttt{framer-motion}, dzięki czemu po
+aktywacji pola lub wpisaniu wartości „unosi się” ponad polem tekstowym, poprawiając czytelność formularza.
+Pole wejściowe korzysta ze wspólnego stylowania (ciemny/jasny motyw) oraz przekazanych funkcji obsługi zdarzeń
+\texttt{onChange} i \texttt{onBlur}, powiązanych z logiką walidacji.
+
+Poniżej pola, w przypadku błędnej walidacji, wyświetlany jest komunikat o błędzie.
+Sekcja ta jest animowana przy użyciu \texttt{AnimatePresence} i \texttt{motion.p}, co zapewnia płynne pojawianie
+się i znikanie komunikatów walidacyjnych.
+Dzięki temu komponent \texttt{FormInput} jest używany we wszystkich formularzach panelu logowania, zapewniając
+spójne doświadczenie użytkownika.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-logowania/form-input1}
+    \caption{Komponent \texttt{FormInput} (1/2).}
+    \label{img:form-input1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-logowania/form-input2}
+    \caption{Komponent \texttt{FormInput} (2/2).}
+    \label{img:form-input2}
+\end{figure}
+
+\textbf{\texttt{SubmitFormButton}} (rys. \ref{img:submit-form-button})
+Komponent reprezentuje przycisk potwierdzający wysłanie formularza.
+Przyjmuje etykietę przycisku, listę pól formularza oraz informacje o tym, czy dane pola zostały edytowane
+i czy przeszły walidację.
+Na tej podstawie wyznaczany jest stan \texttt{disabled}: przycisk pozostaje nieaktywny, dopóki wszystkie wymagane
+pola nie zostaną poprawnie uzupełnione.
+
+Komponent wykorzystuje wspólne stylowanie (zaokrąglone rogi, cień, animacje \texttt{hover}) i jest stosowany
+w formularzach logowania oraz rejestracji.
+Dzięki temu logika aktywacji przycisku jest scentralizowana, a kod poszczególnych formularzy
+pozostaje prostszy i bardziej czytelny.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-logowania/submit-form-button}
+    \caption{Komponent \texttt{SubmitFormButton}.}
+    \label{img:submit-form-button}
+\end{figure}

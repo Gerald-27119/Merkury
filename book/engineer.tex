@@ -1,0 +1,179 @@
+\documentclass[twoside]{sprz}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{glossaries}
+\usepackage[polish]{babel}
+\usepackage{import}
+\usepackage{csquotes}
+\usepackage{float}% ma pomoc z bugiem ze tabelki/zdjęcia przenoszą sie na koniec rozdziału
+\usepackage{minted}
+\usepackage{enumitem} % dla lepszej kontroli list
+\usepackage[utf8]{inputenc}
+\usepackage{pgfgantt}
+\usepackage[table]{xcolor} % kolory w tabelach
+\usepackage[T1]{fontenc}
+\usepackage{longtable}
+\usepackage{needspace}
+\usepackage{geometry}
+\usepackage{lipsum}
+\usepackage{pdflscape}
+\usepackage{caption} % daje \captionof
+
+
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\usepackage{titlesec}
+\titleformat{\paragraph}[block]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}{0pt}{1ex}{0.8ex}
+\newcommand{\subsubsubsection}[1]{\paragraph{#1}}
+
+%nowe pakiety do tabel:
+\usepackage{booktabs}
+\usepackage{array,ltablex}
+\keepXColumns
+%customowe rozmiary kolumn (do użytku ogolonego)
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{Y}{>{\hspace{0.6em}}X<{\hspace{0.6em}}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\setlist[description]{leftmargin=0pt,labelindent=0pt}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+\input{glossary}
+
+\studfield{Informatyka}
+\studtype{Stacjonarne}
+\title{Aplikacja webowa: spoty-na-drony.pl}
+\engtitle{Web application: spoty-na-drony.pl}
+\acronym{Merkury}
+\titledate{2024-10-10} %todo jaka data tutaj ma byc
+\supervisor{mgr. inż. Adam Urbanowicz}
+\reviewer{dr. Elżbieta Puźniakowska-Gałuch}
+
+\author{Langmesser Adam}{s27119}{Aplikacje Internetowe}{Stacjonarny}
+\author{Redosz Mateusz}{s27094}{Aplikacje Internetowe}{Stacjonarny}
+\author{Oziemczuk Stanisław}{s26982}{Aplikacje Internetowe}{Stacjonarny}
+\author{Badek Kacper}{s29168}{Aplikacje Internetowe}{Stacjonarny}
+
+\consultant{--- brak ---}
+\projectgoals{Stworzenie w pełni funkcjonalnej aplikacji internetowej wspierającej rozwijanie hobby związanego z lataniem dronem.}
+
+\productsandservices{Aplikacja internetowa, Dokumentacja}
+
+\mainfunctionalities{
+    Interaktywna mapa z wyświetlanymi spotami oraz danymi pogodowymi.\newline
+    Zaawansowana wyszukiwarka spotów.\newline
+    Forum do dzielenia się informacjami na temat dronów.\newline
+    Czat jednoosobowy oraz grupowy.\newline
+    Konto użytkownika z możliwością zapisywania ulubionych spotów.
+}
+
+\successmeasure{
+    W pełni działająca aplikacja.\newline
+    Realizacja projektu w terminie zgodnym z wymaganiami.
+}
+
+\projlimitations{
+    Budżetowe: brak środków na komercyjne wdrożenie.\newline
+    Kompetencyjne: ograniczone wcześniejsze doświadczenie zespołu.\newline
+    Czasowe: trzy semestry (09.2024--02.2026).\newline
+    Zasobowe: czteroosobowy zespół.
+}
+
+\date{Luty 2026}
+\finishdate{2026-01-11}
+
+\nabstract{
+    Celem niniejszej pracy było stworzenie w pełni funkcjonalnej aplikacji internetowej umożliwiającej szybkie
+    wyszukiwanie \glslink{spot}{spotów} w okolicy oraz dzielenie się zdjęciami, filmami i doświadczeniami z innymi użytkownikami.
+    W ramach pracy opracowano system składający się z trzech komponentów: warstwy \glslink{frontend}{frontendowej},
+    warstwy \glslink{backend}{backendowej} oraz \glslink{baza-danych}{bazy danych}.
+    Aplikację internetową wykonano z wykorzystaniem \glslink{framework}{frameworka} \glslink{react}{React} w języku JavaScript
+    oraz jego rozszerzeniu (\glslink{type-script}{TypeScript}), a do stylizacji użyto \glslink{tailwind-css}{Tailwind CSS}.
+    Serwis \glslink{backend}{backendowy} stworzono w języku Java z wykorzystaniem \glslink{framework}{frameworka} \glslink{spring-boot}{Spring Boot}.
+    \glslink{baza-danych}{Bazę danych} oparto na systemie PostgreSQL.\newline
+    Komunikacja między komponentami odbywała się poprzez \glslink{api}{API} zgodne ze stylem architektonicznym \glslink{rest_api}{REST}.
+    Projekt zrealizowano w podejściu \textbf{Disciplined Agile Delivery}~\cite{DAD} w wariancie \textbf{Lean Life Cycle}~\cite{DAD-LLF}.
+}
+
+\keyword{spot, dron, droniarz}
+
+
+\addbibresource{bibliography.bib}
+\makeglossaries
+
+% odmiana wpisów ze słowniczka:
+\newcommand{\glsdroniarzFotoVideoInstr}{
+    \glslink{droniarz-foto-video}{\glsentryuseri{droniarz-foto-video}}
+}
+
+
+\begin{document}
+
+    \maketitle
+    \makeprojectcard
+
+    \begingroup
+    \hypersetup{linkcolor=black}
+    \tableofcontents
+    \endgroup
+    \clearpage
+
+    \input{chapters/wstep/wstep}
+    \input{chapters/opis-problemu/opis-problemu}
+    \input{chapters/planowanie/planowanie}
+    \input{chapters/analiza-wymagan/analiza-wymagan}
+    \input{chapters/projekt/projekt}
+    \input{chapters/przebieg-realizacji/przebieg-realizacji}
+    \input{chapters/realizacja-projektu/realizacja-projektu}
+    \input{chapters/testy/testy}
+    \input{chapters/prezentacja-systemu/prezentacja-systemu}
+    \input{chapters/naklad-pracy/naklad-pracy}
+    \input{chapters/podsumowanie/podsumowanie}
+
+
+    \chapter{Słownik pojęć i skrótów}
+    \label{ch:sownik-pojec-i-skrotow}
+    \setglossarysection{section}
+    \setglossarystyle{altlist}
+    \vspace*{-2\baselineskip}
+    \printglossary[type=\acronymtype, title={}, toctitle={}]
+
+    \begingroup
+    \hypersetup{linkcolor=black}
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Spis rysunków}
+    \renewcommand{\listfigurename}{Spis rysunków}
+    \listoffigures
+    \endgroup
+
+    \begingroup
+    \hypersetup{linkcolor=black}
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Spis tabel}
+    \renewcommand{\listtablename}{Spis tabel}
+    \listoftables
+    \endgroup
+
+    \printbibliography[title={}, heading=bibintoc]
+
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Załączniki}
+    \makethesisattachments
+
+\end{document}

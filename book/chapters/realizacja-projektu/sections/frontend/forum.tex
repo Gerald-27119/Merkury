@@ -1,0 +1,96 @@
+%! Author = kacper
+%! Date = 08/01/2026
+
+\subsection{Forum}
+\label{subsec:forum-frontend}
+
+W niniejszym rozdziale przedstawiono implementację forum po stronie \glslink{frontend}{frontendu}.
+Opisane zostały najważniejsze \glslink{react-component}{komponenty} dla tego modułu projektu.
+
+\input{./chapters/realizacja-projektu/sections/frontend/forum-implementation/uklad-strony}
+\input{./chapters/realizacja-projektu/sections/frontend/forum-implementation/lewy-panel-boczny}
+\input{./chapters/realizacja-projektu/sections/frontend/forum-implementation/prawy-panel-boczny}
+\input{./chapters/realizacja-projektu/sections/frontend/forum-implementation/strona-glowna}
+\input{./chapters/realizacja-projektu/sections/frontend/forum-implementation/szczegoly-posta}
+
+
+\subsubsection{Mechanizm nieskończonego przewijania}
+
+W widokach forum prezentujących listy danych ładowane stronicowo (lista postów, wyniki wyszukiwania oraz komentarze) zastosowano mechanizm nieskończonego przewijania (\glslink{infinite-scroll}{infinite scroll}).
+We wszystkich tych przypadkach wykorzystano \glslink{intersection-observer}{intersection-observer}, który obserwuje element referencyjny umieszczony na końcu listy.
+Po jego pojawieniu się w obszarze widoku wyzwalane jest pobranie kolejnej strony danych, o ile dostępne są dalsze wyniki i nie trwa aktualnie inne zapytanie.
+
+\subsubsection{Komponenty Wspólne}
+
+Forum wykorzystuje kilka \glslink{react-component}{komponentów} uniwersalnych, o których była już mowa we wcześniejszych podrozdziałach.
+Dla przejrzystości poniżej zebrano ich krótkie opisy:
+
+\paragraph{ForumLayout}
+\glslink{react-component}{Komponent} odpowiadający za wspólny układ wszystkich podstron forum.
+Zapewnia trójkolumnową strukturę widoku, obejmującą lewy i prawy panel boczny oraz centralną część z główną treścią.
+Jest wykorzystywany w \glslink{routing}{routingu} aplikacji jako komponent nadrzędny dla tras forum, co umożliwia dostęp do paneli bocznych oraz globalnych \glslink{modal}{modali} na każdej podstronie.
+
+\paragraph{ForumSortDropdown}
+\glslink{react-component}{Komponent} pozwalający wybrać sposób sortowania listy postów lub komentarzy (rys. \ref{img:forum-sort-dropdown}).
+Obsługuje zmianę kryteriów sortowania, takich jak data publikacji czy liczba interakcji i jest wykorzystywany w widokach listy postów, wyników wyszukiwania oraz komentarzy.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/forum_sort_dropdown}
+    \caption{Komponent ForumSortDropdown}
+    \label{img:forum-sort-dropdown}
+\end{figure}
+
+\paragraph{ControlledEditor}
+\glslink{react-component}{Komponent} stanowiący warstwę integracyjną pomiędzy React Hook Form a \glslink{rich-text-editor}{edytorem rich text} opartym o \glslink{tiptap}{bibliotekę Tiptap} (rys. \ref{img:controlled-editor}).
+Umożliwia kontrolowane zarządzanie wartością pola treści, obsługę walidacji oraz przekazywanie zdarzeń edytora do formularza.
+Jest wykorzystywany w formularzach tworzenia i edycji postów oraz komentarzy.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/controlled_editor}
+    \caption{Komponent ControlledEditor}
+    \label{img:controlled-editor}
+\end{figure}
+
+\paragraph{SelectWithSearch}
+\glslink{react-component}{Komponent} oparty o \glslink{react-select}{bibliotekę react-select}, umożliwiający wybór pojedynczych lub wielu wartości z listy z obsługą wyszukiwania (rys. \ref{img:select-with-search-1}, \ref{img:select-with-search-2}).
+Wykorzystywany jest m.in. w formularzach tworzenia i edycji postów oraz w panelu wyszukiwania forum do wyboru kategorii i tagów.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/select_with_search_1}
+    \caption{Komponent SelectWithSearch (1/2)}
+    \label{img:select-with-search-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/select_with_search_2}
+    \caption{Komponent SelectWithSearch (2/2)}
+    \label{img:select-with-search-2}
+\end{figure}
+
+\paragraph{ForumContentMenu}
+Współdzielony \glslink{react-component}{komponent} menu kontekstowego, wykorzystywany w postach oraz komentarzach (rys. \ref{img:forum-content-menu-1}, \ref{img:forum-content-menu-2}).
+Dynamicznie dostosowuje dostępne akcje w zależności od typu treści, stanu zalogowania użytkownika oraz jego uprawnień (np. autor, obserwator).
+Obsługuje operacje takie jak edycja, usuwanie, obserwowanie oraz zgłaszanie treści.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/forum_content_menu_1}
+    \caption{Komponent ForumContentMenu (1/2)}
+    \label{img:forum-content-menu-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/forum/forum_content_menu_2}
+    \caption{Komponent ForumContentMenu (2/2)}
+    \label{img:forum-content-menu-2}
+\end{figure}
+
+\paragraph{Notification}
+\glslink{react-component}{Komponent} odpowiedzialny za wyświetlanie komunikatów systemowych, takich jak informacje o powodzeniu lub błędzie wykonywanych operacji.
+Wykorzystywany jest globalnie w aplikacji, w szczególności w odpowiedzi na \glslink{mutacja}{mutacje} \glslink{api}{API}.
+

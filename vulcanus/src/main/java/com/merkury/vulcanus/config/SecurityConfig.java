@@ -60,7 +60,8 @@ public class SecurityConfig {
 
     @Bean
     @Order(1)
-    public SecurityFilterChain publicSecurityFilterChain(HttpSecurity http, JwtProperties jwtProperties) throws Exception {
+    public SecurityFilterChain publicSecurityFilterChain(HttpSecurity http,
+                                                         JwtProperties jwtProperties) throws Exception {
         return http
                 .securityMatcher(publicPathsMatcher)
                 .csrf(AbstractHttpConfigurer::disable)
@@ -76,19 +77,24 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/account/oauth2/logout")
                         .logoutSuccessUrl(urlsProperties.getLogoutUrl())
-                        .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
+                        .logoutSuccessHandler((request, response,
+                                               authentication) -> response.setStatus(200))
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .deleteCookies(jwtProperties.getTokenName())
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .httpBasic(HttpBasicConfigurer::disable)
                 .build();
     }
 
     @Bean
     @Order(2)
-    public SecurityFilterChain privateSecurityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter, CustomAccessDeniedHandler customAccessDeniedHandler) throws Exception {
+    public SecurityFilterChain privateSecurityFilterChain(HttpSecurity http,
+                                                          JwtAuthFilter jwtAuthFilter,
+                                                          CustomAccessDeniedHandler customAccessDeniedHandler)
+            throws Exception {
         return http
                 .securityMatcher(privatePathsMatcher)
                 .csrf(AbstractHttpConfigurer::disable)
@@ -99,7 +105,8 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(customAccessDeniedHandler)
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthFilter, LogoutFilter.class)
                 .build();
@@ -108,7 +115,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5174"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
         configuration.setAllowCredentials(true);
@@ -119,7 +126,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
@@ -129,7 +137,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JwtAuthFilter jwtAuthenticationFilter(JwtGenerator jwtGenerator, JwtManager jwtManager, JwtProperties jwtProperties) {
+    public JwtAuthFilter jwtAuthenticationFilter(JwtGenerator jwtGenerator, JwtManager jwtManager,
+                                                 JwtProperties jwtProperties) {
         return new JwtAuthFilter(
                 jwtGenerator,
                 customUserDetailsService,

@@ -1,0 +1,558 @@
+%! Author = Mateusz
+%! Date = 21/12/2025
+
+\subsubsection{Wymagania pozafunkcjonalne dla panelu użytkownika}
+\label{subsubsec:wymagania-pozafunkcjonalne-dla-panelu-uzytkownika}
+
+
+% --- Szerokości ---
+\newlength{\wppanelLabelWidth}
+\addtolength{\wppanelLabelWidth}{0.2\textwidth}
+
+\newlength{\wppanelContentWidth}
+\setlength{\wppanelContentWidth}{0.74\textwidth}
+
+\newlength{\wppanelColTwoWidth}
+\newlength{\wppanelColThreeWidth}
+\newlength{\wppanelColFourWidth}
+\setlength{\wppanelColTwoWidth}{0.22\textwidth}
+\setlength{\wppanelColThreeWidth}{0.18\textwidth}
+\setlength{\wppanelColFourWidth}{0.24\textwidth}
+
+\newlength{\wppanelHeaderHeight}
+\setlength{\wppanelHeaderHeight}{12mm}
+
+\newlength{\wppanelTableWidth}
+\setlength{\wppanelTableWidth}{\dimexpr
+\wppanelLabelWidth+\wppanelColTwoWidth+\wppanelColThreeWidth+\wppanelColFourWidth\relax}
+% --------- Pola karty (wiersze) ---------
+
+\newcommand{\wppanelHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wppanelHeaderHeight][c]{\wppanelTableWidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
+% Id + priorytet – 4 kolumny
+\newcommand{\wppanelpriority}[2]{%
+    \textbf{Identyfikator:} & WPPANEL-#1 &
+    \textbf{Priorytet:}     & #2 \\ \hline
+}
+
+% Typ – normalny wiersz na 3 kolumny
+\newcommand{\wppaneltype}[1]{%
+    \textbf{Typ:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wppanelContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wppanelname}[1]{%
+    \textbf{Nazwa:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wppanelContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wppaneldesc}[1]{%
+    \textbf{Opis:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wppanelContentWidth}|}{#1} \\ \hline
+}
+
+% (2) Kryteria akceptacji – ustawienia list jak w wymaganiach funkcjonalnych
+\newcommand{\wppanelaccept}[1]{%
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wppanelContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\itemsep}{0.2ex}%
+        \setlength{\parsep}{0pt}%
+        \vspace*{-1.8ex}%
+        #1%
+        \vspace*{-1.4ex}%
+        \endgroup
+    } \\ \hline
+}
+
+\newcommand{\wppanelstakeholder}[1]{%
+    \textbf{Udziałowiec:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wppanelContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wppanelresponsible}[1]{%
+    \textbf{Realizator:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wppanelContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wppanelrelated}[1]{%
+    \textbf{Wymagania powiązane:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wppanelContentWidth}|}{#1} \\ \hline
+}
+
+\newcommand{\wppanelatcard}[5]{%
+    \refstepcounter{awc}%
+    {%
+        \centering
+        \begin{longtable}{|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wppanelLabelWidth}|
+            p{\wppanelColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wppanelColThreeWidth}|
+            p{\wppanelColFourWidth}|}
+        \hline
+        \wppanelHeaderRow{\shortstack{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ PANELU UŻYTKOWNIKA}}
+        \endfirsthead
+        \hline
+        \wppanelHeaderRow{\shortstack{KARTA WYMAGANIA POZAFUNKCJONALNEGO DLA \\ PANELU UŻYTKOWNIKA (cd.)}}
+        \endhead
+        \wppanelpriority{#3}{#4}
+        \wppanelname{#2}
+        #5
+        \end{longtable}
+        \par
+    }%
+    \vspace{3pt}%
+    \textbf{Tabela \theawc:} Wymaganie pozafunkcjonalne dla panelu użytkownika: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie pozafunkcjonalne dla panelu użytkownika: #2}%
+}
+
+% =========================================================
+% WPPANEL-01 – Autoryzacja: listy spotów (polubione/odwiedzone/planowane)
+% Typ: bezpieczeństwo
+% =========================================================
+
+\wppanelatcard
+{wppanel:spots-lists-authorization}
+{Dostęp tylko do własnych list spotów (autoryzacja)}
+{01}
+{M}
+{
+    \wppaneltype{Bezpieczeństwo}
+
+    \wppaneldesc{Wymaganie dotyczy \textbf{autoryzacji w panelu użytkownika}.
+    System zapewnia, że użytkownik ma dostęp wyłącznie do własnych list spotów
+        (polubione, odwiedzone i ocenione pozytywnie, odwiedzone i ocenione negatywnie, planowane)
+        oraz nie może odczytać ani modyfikować list
+        należących do innych użytkowników, nawet jeśli zna ich identyfikatory.}
+
+    \wppanelaccept{%
+        \begin{itemize}
+            \item Widok list spotów prezentuje dane tylko dla konta aktualnie zalogowanego użytkownika.
+            \item Zapytania do \gls{api} o listy spotów innego użytkownika są odrzucane (403) i nie zwracają danych.
+            \item Operacje modyfikacji list (usunięcie spota z listy) są możliwe wyłącznie dla własnych list.
+        \end{itemize}
+    }
+
+    \wppanelstakeholder{U3}
+    \wppanelresponsible{Mateusz Redosz}
+    \wppanelrelated{%
+        \hyperref[wopanel:spots-lists]{WOPANEL-02},
+        \hyperref[wfpanel:switch-spots-list-type]{WFPANEL-07},
+        \hyperref[wfpanel:remove-spot-from-list]{WFPANEL-08},
+        \hyperref[wfpanel:show-spot-on-map]{WFPANEL-09}.%
+    }
+}
+
+% =========================================================
+% WPPANEL-02 – Autoryzacja: lista dodanych spotów
+% Typ: bezpieczeństwo
+% =========================================================
+
+\wppanelatcard
+{wppanel:added-spots-authorization}
+{Dostęp tylko do własnej listy z dodanymi spotami (autoryzacja)}
+{02}
+{M}
+{
+    \wppaneltype{Bezpieczeństwo}
+
+    \wppaneldesc{System zapewnia, że użytkownik może przeglądać wyłącznie listę spotów
+    dodanych przez siebie, a dane innych użytkowników nie są dostępne ani w interfejsie,
+        ani poprzez \gls{api}.}
+
+    \wppanelaccept{%
+        \begin{itemize}
+            \item Lista „Dodane spoty” zawiera wyłącznie spoty dodane przez zalogowanego użytkownika.
+            \item Zapytania do \gls{api} o listę dodanych spotów innego użytkownika są odrzucane (403).
+        \end{itemize}
+    }
+
+    \wppanelstakeholder{U3}
+    \wppanelresponsible{Mateusz Redosz}
+    \wppanelrelated{%
+        \hyperref[wopanel:add-spot]{WOPANEL-03},
+        \hyperref[wfpanel:added-spots-list]{WFPANEL-22},
+        \hyperref[wfpanel:add-spot-form]{WFPANEL-23}.%
+    }
+}
+
+% =========================================================
+% WPPANEL-03 – Autoryzacja: lista filmów
+% Typ: bezpieczeństwo
+% =========================================================
+
+\wppanelatcard
+{wppanel:videos-authorization}
+{Dostęp tylko do własnej listy filmów (autoryzacja)}
+{03}
+{M}
+{
+    \wppaneltype{Bezpieczeństwo}
+
+    \wppaneldesc{System zapewnia, że użytkownik ma dostęp wyłącznie do własnej listy filmów
+    powiązanych z kontem i nie może odczytać filmów innych użytkowników poprzez panel ani \gls{api}.}
+
+    \wppanelaccept{%
+        \begin{itemize}
+            \item Lista filmów prezentuje wyłącznie materiały dodane przez zalogowanego użytkownika.
+            \item Zapytania do \gls{api} o listę filmów innego użytkownika są odrzucane (403).
+        \end{itemize}
+    }
+
+    \wppanelstakeholder{U3}
+    \wppanelresponsible{Mateusz Redosz}
+    \wppanelrelated{%
+        \hyperref[wopanel:videos]{WOPANEL-05},
+        \hyperref[wfpanel:videos-sort-by-date]{WFPANEL-13},
+        \hyperref[wfpanel:videos-filter-by-date]{WFPANEL-14},
+        \hyperref[wfpanel:videos-grouped-with-metrics]{WFPANEL-15}.%
+    }
+}
+
+% =========================================================
+% WPPANEL-04 – Autoryzacja: lista komentarzy
+% Typ: bezpieczeństwo
+% =========================================================
+
+\wppanelatcard
+{wppanel:comments-authorization}
+{Dostęp tylko do własnej listy z dodanymi komentarzami (autoryzacja)}
+{04}
+{M}
+{
+    \wppaneltype{Bezpieczeństwo}
+
+    \wppaneldesc{System zapewnia, że użytkownik ma dostęp wyłącznie do listy komentarzy
+    dodanych przez siebie, bez możliwości odczytu komentarzy innych użytkowników z poziomu panelu konta.}
+
+    \wppanelaccept{%
+        \begin{itemize}
+            \item Lista komentarzy prezentuje wyłącznie komentarze zalogowanego użytkownika.
+            \item Zapytania do \gls{api} o komentarze innego użytkownika są odrzucane (403).
+        \end{itemize}
+    }
+
+    \wppanelstakeholder{U3}
+    \wppanelresponsible{Mateusz Redosz}
+    \wppanelrelated{%
+        \hyperref[wopanel:comments]{WOPANEL-07},
+        \hyperref[wfpanel:comments-sort-by-date]{WFPANEL-24},
+        \hyperref[wfpanel:comments-filter-by-date]{WFPANEL-25},
+        \hyperref[wfpanel:comments-grouped-by-date-and-spot]{WFPANEL-26}.%
+    }
+}
+
+% =========================================================
+% WPPANEL-05 – Autoryzacja: znajomi/obserwacje
+% Typ: bezpieczeństwo
+% =========================================================
+
+\wppanelatcard
+{wppanel:social-authorization}
+{Dostęp tylko do zarządzania własnymi znajomymi i obserwowanymi (autoryzacja)}
+{05}
+{M}
+{
+    \wppaneltype{Bezpieczeństwo}
+
+    \wppaneldesc{System zapewnia, że użytkownik może zarządzać wyłącznie relacjami społecznościowymi
+    w obrębie własnego konta (lista znajomych, obserwowani) i nie ma możliwości
+    modyfikowania relacji innego użytkownika poprzez bezpośrednie wywołania \gls{api}.}
+
+    \wppanelaccept{%
+        \begin{itemize}
+            \item Widoki społeczności prezentują dane tylko dla zalogowanego użytkownika.
+            \item Próby modyfikacji relacji w imieniu innego użytkownika są odrzucane (403).
+        \end{itemize}
+    }
+
+    \wppanelstakeholder{U3}
+    \wppanelresponsible{Mateusz Redosz}
+    \wppanelrelated{%
+        \hyperref[wopanel:community]{WOPANEL-06},
+        \hyperref[wfpanel:friend-follow-buttons]{WFPANEL-06},
+        \hyperref[wfpanel:friends-list]{WFPANEL-16},
+        \hyperref[wfpanel:following-list]{WFPANEL-17},
+        \hyperref[wfpanel:followers-list]{WFPANEL-18},
+        \hyperref[wfpanel:search-friends-modal]{WFPANEL-20},
+        \hyperref[wfpanel:friend-actions]{WFPANEL-21}.%
+    }
+}
+
+% =========================================================
+% WPPANEL-06 – Autoryzacja: zaproszenia do znajomych
+% Typ: bezpieczeństwo
+% =========================================================
+
+\wppanelatcard
+{wppanel:invitations-authorization}
+{Dostęp tylko do własnych zaproszeń do znajomych (autoryzacja)}
+{06}
+{M}
+{
+    \wppaneltype{Bezpieczeństwo}
+
+    \wppaneldesc{System zapewnia, że użytkownik ma dostęp wyłącznie do własnych zaproszeń do znajomych
+        (otrzymanych) oraz nie może podejrzeć zaproszeń innych użytkowników.}
+
+    \wppanelaccept{%
+        \begin{itemize}
+            \item Lista zaproszeń prezentuje wyłącznie zaproszenia związane z kontem zalogowanego użytkownika.
+            \item Zapytania do \gls{api} o zaproszenia innego użytkownika są odrzucane (403).
+        \end{itemize}
+    }
+
+    \wppanelstakeholder{U3}
+    \wppanelresponsible{Mateusz Redosz}
+    \wppanelrelated{%
+        \hyperref[wopanel:community]{WOPANEL-06},
+        \hyperref[wfpanel:invitations-list]{WFPANEL-19}.%
+    }
+}
+
+% =========================================================
+% WPPANEL-07 – Uwierzytelnienie: panel wymaga zalogowania
+% Typ: bezpieczeństwo
+% =========================================================
+
+\wppanelatcard
+{wppanel:login-required}
+{Korzystanie z panelu użytkownika wymaga zalogowania (uwierzytelnienie)}
+{07}
+{M}
+{
+    \wppaneltype{Bezpieczeństwo}
+
+    \wppaneldesc{Jakakolwiek próba korzystania z panelu użytkownika (podgląd profilu, listy, ustawienia)
+        wymaga wcześniejszego zalogowania się do systemu. Użytkownik niezalogowany nie ma dostępu
+        do danych konta.}
+
+    \wppanelaccept{%
+        \begin{itemize}
+            \item Wejście na podstrony panelu przez użytkownika niezalogowanego powoduje przekierowanie na stronę główną.
+            \item Zapytania do \gls{api} wykonywane bez ważnych danych sesyjnych \gls{jwt} są odrzucane kodem 403.
+        \end{itemize}
+    }
+
+    \wppanelstakeholder{U3}
+    \wppanelresponsible{Mateusz Redosz}
+    \wppanelrelated{%
+        \hyperref[wopanel:profile]{WOPANEL-01},
+        \hyperref[wopanel:spots-lists]{WOPANEL-02},
+        \hyperref[wopanel:add-spot]{WOPANEL-03},
+        \hyperref[wopanel:photos]{WOPANEL-04},
+        \hyperref[wopanel:videos]{WOPANEL-05},
+        \hyperref[wopanel:community]{WOPANEL-06},
+        \hyperref[wopanel:comments]{WOPANEL-07},
+        \hyperref[wopanel:settings]{WOPANEL-08}.%
+    }
+}
+
+% =========================================================
+% WPPANEL-08 – Użyteczność: grupowanie zdjęć po dacie
+% =========================================================
+
+\wppanelatcard
+{wppanel:photos-group-by-date}
+{Grupowanie zdjęć po dacie dodania}
+{08}
+{M}
+{
+    \wppaneltype{Użyteczność}
+
+    \wppaneldesc{Zdjęcia w panelu użytkownika są prezentowane w logicznych grupach odpowiadających
+    datom ich dodania, co ułatwia orientację w historii aktywności.}
+
+    \wppanelaccept{%
+        \begin{itemize}
+            \item W widoku zdjęć widoczne są nagłówki grup (dzień/miesiąc/rok).
+            \item Każde zdjęcie jest przypisane do poprawnej grupy daty dodania.
+            \item Zmiana sortowania/filtrowania nie powoduje utraty poprawnego grupowania.
+        \end{itemize}
+    }
+
+    \wppanelstakeholder{U3}
+    \wppanelresponsible{Mateusz Redosz}
+    \wppanelrelated{%
+        \hyperref[wopanel:photos]{WOPANEL-04},
+        \hyperref[wfpanel:photos-sort-by-date]{WFPANEL-10},
+        \hyperref[wfpanel:photos-filter-by-date]{WFPANEL-11},
+        \hyperref[wfpanel:photos-grouped-with-metrics]{WFPANEL-12}.%
+    }
+}
+
+% =========================================================
+% WPPANEL-09 – Użyteczność: grupowanie filmów po dacie
+% =========================================================
+
+\wppanelatcard
+{wppanel:videos-group-by-date}
+{Grupowanie filmów po dacie dodania}
+{09}
+{M}
+{
+    \wppaneltype{Użyteczność}
+
+    \wppaneldesc{Filmy w panelu użytkownika są prezentowane w grupach odpowiadających datom ich dodania,
+        co ułatwia przeglądanie materiałów.}
+
+    \wppanelaccept{%
+        \begin{itemize}
+            \item W widoku filmów widoczne są nagłówki grup odpowiadające dacie dodania.
+            \item Każdy film jest przypisany do poprawnej grupy daty dodania.
+        \end{itemize}
+    }
+
+    \wppanelstakeholder{U3}
+    \wppanelresponsible{Mateusz Redosz}
+    \wppanelrelated{%
+        \hyperref[wopanel:videos]{WOPANEL-05},
+        \hyperref[wfpanel:videos-sort-by-date]{WFPANEL-13},
+        \hyperref[wfpanel:videos-filter-by-date]{WFPANEL-14},
+        \hyperref[wfpanel:videos-grouped-with-metrics]{WFPANEL-15}.%
+    }
+}
+
+% =========================================================
+% WPPANEL-10 – Użyteczność: grupowanie komentarzy po dacie i spocie
+% =========================================================
+
+\wppanelatcard
+{wppanel:comments-group-by-date-spot}
+{Grupowanie komentarzy po dacie dodania oraz spocie}
+{10}
+{M}
+{
+    \wppaneltype{Użyteczność}
+
+    \wppaneldesc{Komentarze w panelu użytkownika są prezentowane w logicznych grupach
+    według daty dodania oraz powiązanego spota, co ułatwia odszukanie kontekstu wypowiedzi.}
+
+    \wppanelaccept{%
+        \begin{itemize}
+            \item Komentarze są pogrupowane po dacie dodania.
+            \item W ramach danej daty komentarze są przypisane do nazw spotów.
+            \item Zmiana zakresu danych (filtrowanie/sortowanie) zachowuje poprawne grupowanie.
+        \end{itemize}
+    }
+
+    \wppanelstakeholder{U3}
+    \wppanelresponsible{Mateusz Redosz}
+    \wppanelrelated{%
+        \hyperref[wopanel:comments]{WOPANEL-07},
+        \hyperref[wfpanel:comments-sort-by-date]{WFPANEL-24},
+        \hyperref[wfpanel:comments-filter-by-date]{WFPANEL-25},
+        \hyperref[wfpanel:comments-grouped-by-date-and-spot]{WFPANEL-26}.%
+    }
+}
+
+% =========================================================
+% WPPANEL-11 – Wydajność: czas ładowania danych < 10 s
+% =========================================================
+
+\wppanelatcard
+{wppanel:load-under-10s}
+{Czas załadowania danych poniżej 10 sekund}
+{11}
+{S}
+{
+    \wppaneltype{Wydajność}
+
+    \wppaneldesc{Czas załadowania danych w panelu użytkownika (pobieranie list i profilu)
+        powinien mieścić się poniżej 10 sekund w typowych warunkach sieciowych.}
+
+    \wppanelaccept{%
+        \begin{itemize}
+            \item W co najmniej 95\% pomiarów w warunkach deweloperskich czas odpowiedzi mieści się w przedziale 0--10 s.
+            \item Interfejs sygnalizuje trwające ładowanie.
+            \item Podczas pobierania danych nie występują zauważalne „zawieszenia” interfejsu.
+        \end{itemize}
+    }
+
+    \wppanelstakeholder{U3}
+    \wppanelresponsible{Mateusz Redosz}
+    \wppanelrelated{%
+        \hyperref[wopanel:profile]{WOPANEL-01},
+        \hyperref[wopanel:spots-lists]{WOPANEL-02},
+        \hyperref[wopanel:add-spot]{WOPANEL-03},
+        \hyperref[wopanel:photos]{WOPANEL-04},
+        \hyperref[wopanel:videos]{WOPANEL-05},
+        \hyperref[wopanel:community]{WOPANEL-06},
+        \hyperref[wopanel:comments]{WOPANEL-07},
+        \hyperref[wopanel:settings]{WOPANEL-08}.%
+    }
+}
+
+% =========================================================
+% WPPANEL-12 – Wydajność: natychmiastowa aktualizacja po dodaniu spota
+% =========================================================
+
+\wppanelatcard
+{wppanel:add-spot-immediate-update}
+{Natychmiastowe wysłanie danych po dodaniu nowego spota}
+{12}
+{S}
+{
+    \wppaneltype{Wydajność}
+
+    \wppaneldesc{Po dodaniu nowego spota użytkownik powinien otrzymać informację zwrotną o powodzeniu
+    operacji w czasie subiektywnie natychmiastowym, a dane w panelu powinny zostać zaktualizowane
+    bez konieczności ręcznego odświeżania strony.}
+
+    \wppanelaccept{%
+        \begin{itemize}
+            \item Po wysłaniu formularza dodania spota użytkownik otrzymuje potwierdzenie powodzenia w czasie poniżej 1 s (w typowych warunkach sieciowych).
+            \item Nowo dodany spot pojawia się na liście własnych spotów bez ręcznego odświeżania widoku (przez odświeżenie danych).
+            \item W przypadku błędu API użytkownik otrzymuje czytelny komunikat o niepowodzeniu operacji.
+        \end{itemize}
+    }
+
+    \wppanelstakeholder{U3}
+    \wppanelresponsible{Mateusz Redosz}
+    \wppanelrelated{%
+        \hyperref[wopanel:add-spot]{WOPANEL-03},
+        \hyperref[wfpanel:add-spot-form]{WFPANEL-23},
+        \hyperref[wfpanel:added-spots-list]{WFPANEL-22}.%
+    }
+}
+
+\wppanelatcard
+{wppanel:photos-authorization}
+{Dostęp tylko do własnej listy zdjęć (autoryzacja)}
+{13}
+{M}
+{
+    \wppaneltype{Bezpieczeństwo}
+
+    \wppaneldesc{System zapewnia, że użytkownik ma dostęp wyłącznie do własnej listy zdjęć
+    powiązanych z kontem i nie może odczytać zdjęć innych użytkowników poprzez panel ani \gls{api}.}
+
+    \wppanelaccept{%
+        \begin{itemize}
+            \item Lista zdjęć prezentuje wyłącznie materiały dodane przez zalogowanego użytkownika.
+            \item Zapytania do \gls{api} o listę zdjęć innego użytkownika są odrzucane (403).
+        \end{itemize}
+    }
+
+    \wppanelstakeholder{U3}
+    \wppanelresponsible{Mateusz Redosz}
+    \wppanelrelated{%
+        \hyperref[wopanel:photos]{WOPANEL-05},
+        \hyperref[wfpanel:photos-sort-by-date]{WFPANEL-10},
+        \hyperref[wfpanel:photos-filter-by-date]{WFPANEL-11},
+        \hyperref[wfpanel:photos-grouped-with-metrics]{WFPANEL-12}.%
+    }
+}

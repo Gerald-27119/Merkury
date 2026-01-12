@@ -1,0 +1,225 @@
+import Profile from "./Profile";
+import useDispatchTyped from "../../../hooks/useDispatchTyped";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+    changeUserFriendsStatus,
+    editUserFollowed,
+    editUserFriends,
+    getProfileForViewer,
+} from "../../../http/user-dashboard";
+import { AxiosError } from "axios";
+import { notificationAction } from "../../../redux/notification";
+import LoadingSpinner from "../../../components/loading-spinner/LoadingSpinner";
+import { useEffect, useState } from "react";
+import Modal from "../../../components/modal/Modal";
+import { useBoolean } from "../../../hooks/useBoolean";
+import { SocialListType } from "../../../model/enum/account/social/socialListType";
+import { resolveRelationEditType } from "../../../utils/account/profile";
+import Button from "../../../components/buttons/Button";
+import { ButtonVariantType } from "../../../model/enum/buttonVariantType";
+import { UserFriendStatus } from "../../../model/enum/account/social/userFriendStatus";
+
+const statusToMessage = {
+    [UserFriendStatus.ACCEPTED]: "remove from friends",
+    [UserFriendStatus.NONE]: "add to friends",
+    [UserFriendStatus.REJECTED]: "add to friends",
+    [UserFriendStatus.PENDING_SENT]: "waiting for confirmation",
+    [UserFriendStatus.PENDING_RECEIVED]: "click to accept",
+};
+
+export default function ProfileForViewer() {
+    const dispatch = useDispatchTyped();
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
+    const { username } = useParams();
+    const [isModalOpen, openModal, closeModal] = useBoolean(false);
+    const [modalAction, setModalAction] = useState<SocialListType | null>(null);
+
+    const { data, isLoading } = useQuery({
+        queryFn: () => getProfileForViewer(username!),
+        queryKey: ["userProfile", username],
+    });
+
+    const { mutateAsync: mutateFriends } = useMutation({
+        mutationFn: editUserFriends,
+        onError: (e: AxiosError) => {
+            if (e.status === 401) {
+                dispatch(
+                    notificationAction.addInfo({
+                        message: "Please login to add to friends this user.",
+                    }),
+                );
+            } else {
+                const axiosError = e as AxiosError<any>;
+                if (axiosError?.response?.data) {
+                    const message =
+                        axiosError.response?.data?.message ||
+                        axiosError.response?.data;
+                    dispatch(
+                        notificationAction.addError({
+                            message,
+                        }),
+                    );
+                }
+            }
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ["userProfile", username],
+            });
+        },
+    });
+
+    const { mutateAsync: mutateFollowed } = useMutation({
+        mutationFn: editUserFollowed,
+        onError: (e: AxiosError) => {
+            if (e.status === 401) {
+                dispatch(
+                    notificationAction.addInfo({
+                        message: "Please login to follow this user.",
+                    }),
+                );
+            } else {
+                const axiosError = e as AxiosError<any>;
+                if (axiosError?.response?.data) {
+                    const message =
+                        axiosError.response?.data?.message ||
+                        axiosError.response?.data;
+                    dispatch(
+                        notificationAction.addError({
+                            message,
+                        }),
+                    );
+                }
+            }
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ["userProfile", username],
+            });
+        },
+    });
+
+    const { mutateAsync: mutateChangeFriendStatus } = useMutation({
+        mutationFn: changeUserFriendsStatus,
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: ["userProfile", username],
+            });
+        },
+    });
+
+    const handleEditToFriends = async () => {
+        await mutateFriends({
+            friendUsername: username!,
+            type: resolveRelationEditType(
+                data?.friendStatus === UserFriendStatus.ACCEPTED,
+            ),
+        });
+    };
+
+    const handleEditToFollowed = async () => {
+        await mutateFollowed({
+            followedUsername: username!,
+            type: resolveRelationEditType(data?.isFollowing),
+        });
+    };
+
+    const confirmRemoveFromFriends = () => {
+        setModalAction(SocialListType.FRIENDS);
+        openModal();
+    };
+
+    const confirmRemoveFromFollow = () => {
+        setModalAction(SocialListType.FOLLOWED);
+        openModal();
+    };
+
+    const handleConfirm = async () => {
+        if (modalAction === SocialListType.FRIENDS) {
+            await handleEditToFriends();
+        } else if (modalAction === SocialListType.FOLLOWED) {
+            await handleEditToFollowed();
+        }
+        closeModal();
+    };
+
+    const handleChangeFriendStatus = async () => {
+        await mutateChangeFriendStatus({
+            friendUsername: data?.profile.username ?? "",
+            status: UserFriendStatus.ACCEPTED,
+        });
+    };
+
+    useEffect(() => {
+        if (data?.isOwnProfile) {
+            navigate("/account/profile");
+        }
+    }, [data?.isOwnProfile, navigate]);
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
+
+    if (!data) {
+        return (
+            <div className="dark:bg-darkBg dark:text-darkText text-lightText bg-lightBg flex h-full w-full items-center justify-center text-2xl">
+                <p>No profile data available.</p>
+            </div>
+        );
+    }
+
+    const getFriendActionHandler = (status: UserFriendStatus) => {
+        switch (status) {
+            case UserFriendStatus.ACCEPTED:
+                return confirmRemoveFromFriends;
+            case UserFriendStatus.NONE:
+                return handleEditToFriends;
+            case UserFriendStatus.PENDING_RECEIVED:
+                return handleChangeFriendStatus;
+            default:
+                return () => {};
+        }
+    };
+
+    return (
+        <>
+            <Profile
+                userData={data.profile}
+                username={username}
+                isProfileForViewer
+            >
+                <div className="text-darkText flex w-full flex-wrap justify-center gap-5 xl:flex-nowrap">
+                    <Button
+                        variant={ButtonVariantType.PROFILE}
+                        onClick={
+                            data.isFollowing
+                                ? confirmRemoveFromFollow
+                                : handleEditToFollowed
+                        }
+                    >
+                        {data.isFollowing ? "unfollow" : "follow"}
+                    </Button>
+                    <Button
+                        variant={ButtonVariantType.PROFILE}
+                        onClick={getFriendActionHandler(data.friendStatus)}
+                    >
+                        {statusToMessage[data.friendStatus] ?? "unknown status"}
+                    </Button>
+                </div>
+            </Profile>
+            <Modal
+                onClose={closeModal}
+                onClick={handleConfirm}
+                isOpen={isModalOpen}
+            >
+                <h2 className="text-xl text-shadow-md">
+                    {modalAction === SocialListType.FRIENDS
+                        ? `Are you sure you want to remove ${username} as a friend?`
+                        : `Are you sure you want to unfollow ${username}?`}
+                </h2>
+            </Modal>
+        </>
+    );
+}

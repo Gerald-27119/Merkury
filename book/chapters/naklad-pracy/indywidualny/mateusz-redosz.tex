@@ -1,0 +1,101 @@
+%! Author = Mateusz
+%! Date = 12/10/2025
+
+\subsection{Mateusz Redosz}
+\label{subsec:mateusz-redosz}
+
+\newcommand{\linkitem}[1]{%
+    \item \hyperref[#1]{\ref*{#1}~\nameref*{#1}}%
+}
+
+Na realizację projektu poświęciłem łącznie 455 godzin, z czego:
+\begin{itemize}
+    \item 49 godz. \textendash \space przygotowanie widoków w Figmie
+    \item 270 godz. \textendash \space prace deweloperskie
+    \item 100 godz. \textendash \space przygotowanie dokumentacji
+    \item 36 godz. \textendash \space przeprowadzenie \glslink{review-kodu}{review kodu}
+\end{itemize}
+
+\subsubsection{Prace deweloperskie}
+\label{subsubsec:prace-deweloperskie-mateusz}
+
+W ramach projektu odpowiadałem za implementację rejestracji użytkownika oraz częściową obsługę \glslink{token}{tokenu} \gls{jwt}
+w tym automatycznym wylogowaniem użytkownika z systemu.
+Pracowałem również nad wybranymi elementami \glslink{pipeline}{pipeline’u} \gls{cicd}, wspierając przygotowanie
+automatyzacji budowania oraz testowania aplikacji.
+Dużą część czasu poświęciłem na rozwój głównych modułów systemu, w szczególności wyszukiwarki \glslink{spot}{spotów} oraz panelu
+użytkownika, zarówno na \glslink{frontend}{frontendzie}, jak i \glslink{backend}{backendzie}.
+Oba moduły są \glslink{responsywnosc}{responsywne} na dużych i małych ekranach oraz zostały przygotowane w motywie jasnym i ciemnym.
+Panel użytkownika przetestowałem testami \glslink{unit-tests}{jednostkowymi},
+\glslink{integration-tests}{integracyjnymi} oraz \glslink{e2e-tests}{E2E}.
+
+Dodatkowo zaimplementowałem \glslink{sidebar}{sidebar}, dbając o \glslink{responsywnosc}{responsywność} i
+dopasowanie układu do różnych rozdzielczości, tak aby korzystanie z aplikacji było wygodne zarówno na
+urządzeniach mobilnych, jak i na komputerach.
+Na początku przedmiotu \gls{prz1} przygotowałem w Figmie projekt widoków dla panelu użytkownika,
+wyszukiwarki \glslink{spot}{spotów} oraz panelu logowania i rejestracji, dbając o spójność stylu, czytelność interfejsu
+oraz zgodność z założeniami funkcjonalnymi.
+
+W trakcie prac regularnie konsultowałem postępy z zespołem, brałem udział w spotkaniach oraz pomagałem
+innym osobom w rozwiązywaniu problemów związanych z implementacją i konfiguracją środowiska.
+Po wykonaniu kluczowych funkcjonalności wprowadzałem poprawki wynikające z testów oraz uwag z \glslink{review-kodu}{review kodu},
+skupiając się na jakości, stabilności oraz utrzymaniu jednolitego standardu kodu w projekcie.
+
+\subsubsection{Tworzenie dokumentacji}
+\label{subsubsec:tworzenie-dokumentacji-mateusz}
+
+W ramach tworzenia dokumentacji naszej pracy inżynierskiej byłem odpowiedzialny za napisanie następujących
+rozdziałów oraz podrozdziałów:
+
+\begin{itemize}
+    % --- Wymagania ogólne ---
+    \linkitem{subsubsec:wymagania-ogolne-dla-panelu-uzytkownika}
+    \linkitem{subsubsec:wymagania-ogolne-dla-wyszukiwarki-spotow}
+    \linkitem{subsubsec:wymagania-ogolne-dla-logowania-i-rejestracji}
+    \linkitem{subsubsec:wymagania-ogolne-dla-motywu}
+
+    % --- Wymagania funkcjonalne ---
+    \linkitem{subsubsec:wymagania-funkcjonalne-dla-panelu-uzytkownika}
+    \linkitem{subsubsec:wymagania-funkcjonalne-dla-wyszukiwarki-spotow}
+    \linkitem{subsubsec:wymagania-funkcjonalne-dla-logowania-rejestracji}
+    \linkitem{subsubsec:wymagania-funkcjonalne-dla-motywu}
+
+    % --- Wymagania pozafunkcjonalne ---
+    \linkitem{subsubsec:wymagania-pozafunkcjonalne-dla-panelu-uzytkownika}
+    \linkitem{subsubsec:wymagania-pozafunkcjonalne-dla-wyszukiwarki-spotow}
+    \linkitem{subsubsec:wymagania-pozafunkcjonalne-dla-panelu-logowania-i-rejestracji}
+    \linkitem{subsubsec:wymagania-pozafunkcjonalne-dla-motywu}
+
+    % --- Reszta rozdziałów/sekcji ---
+    \linkitem{sec:architektura-systemu}
+    \linkitem{sec:projekt-bazy-danych}
+    \linkitem{subsec:projekt-panelu-logowania-i-rejestracji}
+    \linkitem{subsec:projekt-strony-glownej}
+    \linkitem{subsec:projekt-panelu-uzytkownika}
+    \linkitem{subsec:struktura-projektu}
+    \linkitem{subsec:endpointy-systemu}
+    \linkitem{subsec:integracja-z-baza-danych}
+    \linkitem{subsec:konteneryzacja}
+    \linkitem{subsec:cache}
+    \linkitem{subsec:struktura-aplikacji}
+    \linkitem{subsec:zarzadzanie-stanem-i-przeplyw-danych}
+    \linkitem{subsec:integracja-i-komunikacja-z-backendem}
+    \linkitem{subsec:style}
+    \linkitem{subsec:strona-glowna-frontend}
+    \linkitem{subsec:panel-uzytkownika-frontend}
+    \linkitem{subsec:panel-logowania-frontend}
+    \linkitem{subsec:sidebar-frontend}
+    \linkitem{sec:implementacja-ci-cd}
+    \linkitem{ch:testy}
+    \linkitem{sec:wyszukiwarka-spotow}
+    \linkitem{sec:panel-logowania-i-rejestracji}
+    \linkitem{sec:sidebar}
+    \linkitem{sec:notification}
+    \linkitem{sec:panel-uzytkownika}
+    \linkitem{sec:ogolny-naklad-pracy}
+    \linkitem{subsec:mateusz-redosz}
+    \linkitem{ch:podsumowanie}
+\end{itemize}
+
+W ramach opracowywania wymienionych tematów dodałem do \texttt{Słownika pojęć i skrótów} oraz \texttt{Bibliografii}
+niezbędne pozycje.

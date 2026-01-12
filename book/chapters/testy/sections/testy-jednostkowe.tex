@@ -1,0 +1,91 @@
+%! Author = Mateusz
+%! Date = 13/12/2025
+
+\section{Testy jednostkowe}
+\label{sec:testy-jednostkowe}
+
+Testy jednostkowe (ang. \textit{unit tests}) to automatyczne testy weryfikujące poprawność działania
+najmniejszych fragmentów kodu (funkcji, metod lub pojedynczych komponentów) w możliwie pełnej izolacji
+od reszty systemu.
+Ich celem jest szybkie wykrywanie błędów logicznych, walidacja zachowania dla danych typowych i brzegowych oraz
+ułatwienie refaktoryzacji poprzez zapewnienie, że wprowadzone zmiany nie psują wcześniej działających elementów.
+
+W praktyce izolacja ta jest uzyskiwana przez zastępowanie zależności zewnętrznych (bazy danych,
+systemu plików czy usług zewnętrznych \gls{api}) atrapami lub obiektami typu \textit{mock}.
+Dzięki temu testy jednostkowe mogą być uruchamiane często i szybko, stanowiąc podstawowy element kontroli
+jakości w procesie wytwarzania oprogramowania.
+
+Do automatycznego uruchamiania testów jednostkowych wykorzystano
+\gls{github-actions}, co umożliwiło ich cykliczne wykonywanie w ramach procesu \gls{cicd}
+(przy każdym \textit{push} lub \textit{pull request}).
+Łącznie przygotowano 271 testy jednostkowe, w tym 209 dla \glslink{frontend}{frontendu}
+oraz 62 dla \glslink{backend}{backendu}.
+Wszystkie przygotowane testy zakończyły się powodzeniem (rys. \ref{fig:unit-tests-frontend}
+oraz rys. \ref{fig:unit-tests-backend-suite}--\ref{fig:unit-tests-backend-summary}).
+
+W warstwie \glslink{frontend}{frontendu} utworzono łącznie 209 testów jednostkowych
+(w 23 plikach testowych).
+Testy opracowano dla następujących modułów i komponentów:
+\begin{itemize}
+    \item AddedSpots,
+    \item Comments,
+    \item FavoriteSpots,
+    \item Movies,
+    \item Photos (w tym DateChooser oraz SortDropdown),
+    \item Profile (ProfileForViewer, UserOwnProfile),
+    \item Settings,
+    \item Social (SocialCard, SocialForViewer, UserOwnSocial),
+    \item Login,
+    \item Register,
+    \item CurrentViewSpotsList,
+    \item SearchedSpotsList,
+    \item SearchedSpotsSortingForm,
+    \item Sidebar,
+    \item SpotDetails,
+    \item SpotsNameSearchBar,
+    \item UserLocationPanel,
+    \item ZoomPanelControl.
+\end{itemize}
+W testach weryfikowano poprawność renderowania komponentów, obecność i treść kluczowych
+elementów interfejsu.
+Przykładowy wynik uruchomienia testów jednostkowych frontendu przedstawiono (rys. \ref{fig:unit-tests-frontend}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/testy/unit-frontend}
+    \caption{Wynik uruchomienia testów jednostkowych warstwy frontendowej}
+    \label{fig:unit-tests-frontend}
+\end{figure}
+
+Dla \glslink{backend}{backendu} przygotowano łącznie 62 testy jednostkowe, napisane dla serwisów:
+\begin{itemize}
+    \item FollowersService,
+    \item CommentsService,
+    \item MediaService,
+    \item AddSpotService,
+    \item SettingsService,
+    \item ProfileService,
+    \item FavoriteSpotService,
+    \item FriendsService,
+    \item RegisterService.
+\end{itemize}
+Testy te służyły do potwierdzenia poprawnego działania metod serwisowych, w tym obsługi
+przypadków brzegowych oraz walidacji danych wejściowych.
+Dodatkowo sprawdzano poprawność współpracy z wybranymi zewnętrznymi interfejsami \gls{api},
+przy zachowaniu izolacji logiki aplikacyjnej (poprzez zastępowanie zależności atrapami).
+Zestaw uruchomionych testów backendu pokazano (rys. \ref{fig:unit-tests-backend-suite}),
+natomiast podsumowanie ich wykonania przedstawiono (rys. \ref{fig:unit-tests-backend-summary}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/testy/unit-backend}
+    \caption{Zestaw testów jednostkowych uruchomionych dla warstwy backendowej}
+    \label{fig:unit-tests-backend-suite}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/testy/unit-backend-liczba}
+    \caption{Podsumowanie uruchomienia testów jednostkowych warstwy backendowej}
+    \label{fig:unit-tests-backend-summary}
+\end{figure}

@@ -1,0 +1,699 @@
+%! Author = Stanisław Oziemczuk
+%! Date = 19/12/2025
+
+\subsubsection{Wymagania funkcjonalne dla mapy}
+\label{subsubsec:wymagania-funkcjonalne-dla-mapy}
+
+\newlength{\wfmapLabelWidth}
+\setlength{\wfmapLabelWidth}{0.19\textwidth}
+
+\newlength{\wfmapColTwoWidth}
+\setlength{\wfmapColTwoWidth}{0.21\textwidth}
+
+\newlength{\wfmapColThreeWidth}
+\setlength{\wfmapColThreeWidth}{0.13\textwidth}
+
+\newlength{\wfmapColFourWidth}
+\setlength{\wfmapColFourWidth}{0.28\textwidth}
+
+\newlength{\wfmapContentWidth}
+\setlength{\wfmapContentWidth}{0.60\textwidth}
+
+\newcommand{\wfmapthreecolcell}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfmapContentWidth}|}{#1}%
+}
+
+\newcommand{\wfmapthreecolcellpadded}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfmapContentWidth}|}{%
+        \vspace{0.4ex}%
+        #1\par\vspace{0.4ex}%
+    }%
+}
+
+% --- pola karty ---
+
+\newcommand{\wfmappriority}[2]{%
+    \textbf{Identyfikator:} & WFMAPA-#1 &
+    \textbf{Priorytet:}     & #2 \\ \hline
+}
+
+\newcommand{\wfmapname}[1]{%
+    \textbf{Nazwa:} &
+    \wfmapthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfmapdesc}[1]{%
+    \textbf{Opis:} &
+    \wfmapthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfmapaccept}[1]{%
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfmapContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\itemsep}{0.2ex}%
+        \setlength{\parsep}{0pt}%
+        \vspace*{-1.8ex}
+        #1%
+        \vspace*{-1.4ex}
+        \endgroup
+    }\\ \hline
+}
+
+\newcommand{\wfmapstakeholder}[1]{%
+    \textbf{Udziałowiec:} &
+    \wfmapthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfmapresponsible}[1]{%
+    \textbf{Realizator:} &
+    \wfmapthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfmaprelated}[1]{%
+    \textbf{Wymagania powiązane:} &
+    \wfmapthreecolcell{#1} \\ \hline
+}
+
+% --- szablon karty wymagania funkcjonalnego ---
+
+\newcommand{\wfmapcard}[5]{%
+    \refstepcounter{awc}%
+    {%
+        \centering
+        \begin{longtable}{|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wfmapLabelWidth}|
+            p{\wfmapColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wfmapColThreeWidth}|
+            p{\wfmapColFourWidth}|}
+        \hline
+        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA FUNKCJONALNEGO DLA MAPY}} \\ \hline
+        \endfirsthead
+        \hline
+        \rowcolor{lightgray}\multicolumn{4}{|c|}{\textbf{KARTA WYMAGANIA FUNKCJONALNEGO DLA MAPY (cd.)}} \\ \hline
+        \endhead
+        \wfmappriority{#3}{#4}
+        \wfmapname{#2}
+        #5
+        \end{longtable}
+        \par
+    }%
+    \vspace{3pt}%
+    \textbf{Tabela \theawc:} Wymaganie funkcjonalne dla mapy: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie funkcjonalne dla mapy: #2}%
+}
+
+\wfmapcard{wfmap:display-spots}
+{Wyświetlanie \glslink{spot}{spotów} na mapie}
+{01}
+{S}
+{
+    \wfmapdesc{System wyświetla na mapie \glslink{spot}{spoty} w formie wielokątów, a gdy widok mapy zostanie oddalony zamienia je na pinezki.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownik widzi na mapie zaznaczone \glslink{spot}{spoty} jako wielokąty.
+            \item Po oddaleniu widoku mapy, wielokąty są zamieniane na pinezki znajdujące się w tych samych miejscach.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{\hyperref[womap:display-spots]{WOMAPA-01}}
+}
+
+\wfmapcard{wfmap:spot-details}
+{Wyświetlanie szczegółów \glslink{spot}{spota}}
+{02}
+{S}
+{
+    \wfmapdesc{Po kliknięciu na wybranego \glslink{spot}{spota}, system wyświetla o nim informacje.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownik może kliknąć na mapie dowolny \glslink{spot}{spot}.
+            \item O wybranym \glslink{spot}{spocie} wyświetlane są następujące informacje:
+            nazwa, lokalizacja, ocena w gwiazdkach, liczba wyświetleń, opis, galeria z mediami (zdjęcia i filmy),
+            lista komentarzy.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{
+        \hyperref[womap:display-spots]{WOMAPA-01},
+        \hyperref[womap:spot-details]{WOMAPA-02}
+    }
+}
+
+\wfmapcard{wfmap:spot-media-gallery}
+{Wyświetlanie interaktywnej galerii mediów \glslink{spot}{spota}}
+{03}
+{S}
+{
+    \wfmapdesc{W panelu ze szczegółami \glslink{spot}{spota} wyświetlana jest galeria mediów (zdjęć i filmów), w której użytkownik może przeglądać
+    wszystkie media dodane do wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlana jest galeria zawierająca zdjęcia oraz filmy dodane do wybranego \glslink{spot}{spota}.
+            \item Galeria umożliwia przechodzenie w sposób zapętlony między mediami za pomocą strzałek.
+            \item Pod mediami wyświetlane są znaczniki informujące o ilości elementów w galerii.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{
+        \hyperref[womap:spot-details]{WOMAPA-02},
+        \hyperref[womap:spot-media]{WOMAPA-06}
+    }
+}
+
+\wfmapcard{wfmap:spot-comments-list}
+{Wyświetlanie przewijalnej listy komentarzy \glslink{spot}{spota}}
+{04}
+{S}
+{
+    \wfmapdesc{W panelu ze szczegółami \glslink{spot}{spota} wyświetlana jest lista wszystkich komentarzy.
+    Komentarz zawiera następujące elementy: treść, autor, data dodania, ocena w gwiazdkach, media (opcjonalnie),
+        liczbę polubień, liczbę niepolubień.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlana jest lista wszystkich komentarzy dodanych do wybranego \glslink{spot}{spota}.
+            \item Lista komentarzy jest przewijana za pomocą \glslink{infinite-scroll}{nieskończonego przewijania}.
+            \item Każdy komentarz zawiera treść, autora, ocenę w gwiazdkach, datę dodania, liczbę polubień, liczbę niepolubień.
+            \item Jeśli do komentarze są dodane media, są one wyświetlane.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{
+        \hyperref[womap:spot-details]{WOMAPA-02},
+        \hyperref[womap:spot-comment]{WOMAPA-05}
+    }
+}
+
+\wfmapcard{wfmap:spot-comments-vote}
+{Ocena komentarza \glslink{spot}{spota}}
+{05}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi ocenienie komentarza \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest komentarz dodany do wybranego \glslink{spot}{spota}.
+            \item Komentarz zawiera przyciski do wystawienia zarówno pozytywnej, jak i negatywnej oceny.
+            \item Po kliknięciu przycisku użytkownik natychmiast widzi zmianę w liczbie wystawionych opinii
+            wybranego rodzaju oraz oznaczenie, którą opcję wybrał.
+            \item Ponownie kliknięcie tego samego przycisku powoduje cofnięcie wystawienia oceny.
+            \item Kliknięcie przycisku przeciwnej operacji powoduje wykonanie jej i cofnięcie poprzedniej.
+            \item Jeżeli użytkownik nie jest zalogowany, wyświetlany jest odpowiedni komunikat.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{\hyperref[womap:spot-comment]{WOMAPA-05}}
+}
+
+\wfmapcard{wfmap:spot-comment-add}
+{Dodanie komentarza do \glslink{spot}{spota}}
+{06}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi dodanie komentarza do \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk otwierający formularz umożliwiający dodanie nowego
+            komentarza do wybranego \glslink{spot}{spota}.
+            \item Formularz zawiera następujące pola: ocena spota w gwiazdkach od 0 do 5,
+            treść komentarza, dodanie filmów i/lub zdjęć (od 0 do 20).
+            \item Po kliknięciu przycisku do publikacji komentarza, użytkownik widzi go na liście wszystkich komentarzy.
+            \item Zamknięcie formularza nie powoduje zapisu danych.
+            \item Brak zalogowania uniemożliwia otwarcie formularza, użytkownik jest o tym odpowiednio informowany.
+            \item Wpisanie niepoprawnych danych do formularza blokuje możliwość publikacji komentarza, a użytkownik
+            jest informowany o błędach.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{
+        \hyperref[womap:spot-details]{WOMAPA-02},
+        \hyperref[womap:spot-comment]{WOMAPA-05}
+    }
+}
+
+\wfmapcard{wfmap:spot-media-add}
+{Dodanie media do \glslink{spot}{spota}}
+{07}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi dodanie media (zdjęć lub filmów) do \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk otwierający formularz umożliwiający dodanie nowego
+            media do wybranego \glslink{spot}{spota}.
+            \item Formularz zawiera przycisk do wyboru zdjęć i filmów z urządzenia.
+            \item Wybrane pliki są wyświetlane w podglądzie wraz z możliwością ich usunięcia.
+            \item Dodanie medii powoduje wyświetlenie ich w galerii mediów \glslink{spot}{spota} oraz w odpowiedniej
+            zakładce profilu użytkownika.
+            \item Zamknięcie formularza nie powoduje zapisu danych.
+            \item Brak zalogowania uniemożliwia otwarcie formularza, użytkownik jest o tym odpowiednio informowany.
+            \item Wybranie niepoprawnych formatów plików blokuje możliwość dodania medii, użytkownik
+            jest informowany o błędach.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{
+        \hyperref[womap:spot-details]{WOMAPA-02},
+        \hyperref[womap:spot-media]{WOMAPA-06}
+    }
+}
+
+\wfmapcard{wfmap:spot-favourites-add}
+{Dodanie \glslink{spot}{spota} do listy ulubionych}
+{08}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi dodanie \glslink{spot}{spota} do listy ulubionych.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk umożliwiający dodanie wybranego \glslink{spot}{spota}
+            do listy ulubionych.
+            \item Po kliknięciu przycisku użytkownik widzi \glslink{spot}{spota} w swojej liście
+            ulubionych, przycisk zmienia wygląd oznaczający, że \glslink{spot}{spot} znajduje się na liście.
+            \item Gdy \glslink{spot}{spot} znajduje się na liście ulubionych, kliknięcie przycisku powoduje
+            usunięcie go z tej listy.
+            \item Brak zalogowania uniemożliwia dodanie \glslink{spot}{spota} do listy ulubionych,
+            użytkownik jest o tym odpowiednio informowany.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{\hyperref[womap:spot-details]{WOMAPA-02}}
+}
+
+\wfmapcard{wfmap:spot-share}
+{Udostępnienie \glslink{spot}{spota}}
+{09}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi udostępnienie \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk umożliwiający udostępnienie wybranego \glslink{spot}{spota}.
+            \item Po kliknięciu przycisku do schowka kopiowany jest link do danego \glslink{spot}{spota}.
+            \item Wklejenie linku do przeglądarki powoduje otworzenie panelu ze szczegółami \glslink{spot}{spota} oraz
+            przybliżenie jego lokalizacji na mapie.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie udostępniania \glslink{spot}{spota}.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{\hyperref[womap:spot-details]{WOMAPA-02}}
+}
+
+\wfmapcard{wfmap:spot-naviagte}
+{Nawigowanie do \glslink{spot}{spota}}
+{10}
+{S}
+{
+    \wfmapdesc{System pokazuje użytkownikowi trasę od jego lokalizacji do wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk umożliwiający pokazanie trasy do wybranego \glslink{spot}{spota}.
+            \item Po kliknięciu przycisku pobierana jest aktualna lokalizacja użytkownika,
+            a w przeglądarce otwierana jest nowa karta z Google Maps z trasą od pozycji użytkownika do danego
+            \glslink{spot}{spota}.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie operacji.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{
+        \hyperref[womap:spot-details]{WOMAPA-02},
+        \hyperref[womap:spot-user-location]{WOMAPA-07}
+    }
+}
+
+\wfmapcard{wfmap:spot-expanded-media-gallery}
+{Duża galeria mediów \glslink{spot}{spota}}
+{11}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi włączenie dużej galerii mediów wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Po kliknięciu na zdjęcie w galerii mediów \glslink{spot}{spota}, użytkownikowi wyświetlana jest duża
+            galeria mediów.
+            Taka sama akcja jest wykonywana po kliknięciu zdjęcie lub film znajdujący się w komentarzu \glslink{spot}{spota}.
+            \item W dużej galerii mediów wyświetlana jest lista wszystkich plików wybranego typu, przewijana przy
+            użyciu \glslink{infinite-scroll}{nieskończonego przewijania}.
+            \item Wyświetlalne jest powiększone obecnie wybrane media.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie operacji.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{
+        \hyperref[womap:spot-details]{WOMAPA-02},
+        \hyperref[womap:spot-media]{WOMAPA-06}
+    }
+}
+
+\wfmapcard{wfmap:spot-expanded-media-gallery-sidebar}
+{Zarządzanie listą medii w dużej galerii mediów \glslink{spot}{spota}}
+{12}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi sortowanie oraz filtrowanie medii w dużej galerii wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlane są przyciski do filtrowania listy po typie medii (zdjęcia lub filmy) oraz
+            umożliwiające sortowanie po liczbie polubień czy dacie dodania.
+            \item Po kliknięciu przycisku lista jest aktualizowana, a obecne wybrane media jest ustawiane na
+            pierwszy element listy.
+            \item Zaznaczone opcje filtrowania oraz sortowania są oznaczone jako wybrane.
+            \item Domyślną opcją filtrowania po typie media jest ta, którą użytkownik kliknął włącząjąc dużą galerię mediów.
+            \item Domyślnie sortowanie jest po dacie dodania media, od najnowszego.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie operacji.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{\hyperref[womap:spot-media]{WOMAPA-06}}
+}
+
+\wfmapcard{wfmap:spot-expanded-media-gallery-expanded-media}
+{Wyświetlanie powiększonego obecnie wybranego media w dużej galerii mediów \glslink{spot}{spota}}
+{13}
+{S}
+{
+    \wfmapdesc{System wyświetla użytkownikowi powiększone obecnie wybrane media w dużej galerii wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlane jest obecnie wybrane media, które jest powiększone.
+            \item Powiększone media zawiera: informacje o autorze, przyciski do udostępnienia, pobrania, polubienia,
+            powiększenia media na cały ekran oraz liczbę polubień.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie operacji.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{\hyperref[womap:spot-media]{WOMAPA-06}}
+}
+
+\wfmapcard{wfmap:spot-expanded-media-gallery-share-media}
+{Udostępnienie obecnie wybranego media w dużej galerii mediów \glslink{spot}{spota}}
+{14}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi udostępnienie obecnie wybranego media w dużej galerii wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk umożliwiający udostępnienie obecnie wybranego media.
+            \item Po kliknięciu przycisku do schowka kopiowany jest link do wybranego media.
+            \item Wklejenie linku do przeglądarki powoduje pobranie media.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie operacji.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{\hyperref[womap:spot-media]{WOMAPA-06}}
+}
+
+\wfmapcard{wfmap:spot-expanded-media-gallery-like-media}
+{Polubienie obecnie wybranego media w dużej galerii mediów \glslink{spot}{spota}}
+{15}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi polubienie obecnie wybranego media w dużej galerii wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk umożliwiający polubienie obecnie wybranego media.
+            \item Po kliknięciu przycisku użytkownik natychmiast widzi aktualizację liczby polubień, a przycisk
+            zmienia wygląd oznaczający wykonanie operacji.
+            \item Gdy media jest polubione, kliknięcie przycisku powoduje odwrotną operację.
+            \item Brak zalogowania uniemożliwia wykonanie operacji.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie operacji.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{\hyperref[womap:spot-media]{WOMAPA-06}}
+}
+
+\wfmapcard{wfmap:spot-expanded-media-gallery-expand-media}
+{Powiększenie na cały ekran obecnie wybranego media w dużej galerii mediów \glslink{spot}{spota}}
+{16}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi powiększenie na cały ekran obecnie wybranego media w dużej galerii wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk umożliwiający powiększenie na cały ekran obecnie wybranego media.
+            \item Po kliknięciu przycisku wybrane media jest powiększone na całą szerokość i wysokość ekranu.
+            \item Powiększenie elementu nie powoduje zaburzenia jego proporcji.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{\hyperref[womap:spot-media]{WOMAPA-06}}
+}
+
+\wfmapcard{wfmap:spot-expanded-media-gallery-download-media}
+{Pobranie obecnie wybranego media w dużej galerii mediów \glslink{spot}{spota}}
+{17}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi pobranie obecnie wybranego media w dużej galerii wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk umożliwiający pobranie obecnie wybranego media.
+            \item Po kliknięciu przycisku plik zostaje pobrany na urządzenie użytkownika.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w trakcie operacji.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{\hyperref[womap:spot-media]{WOMAPA-06}}
+}
+
+\wfmapcard{wfmap:spot-weather}
+{Wyświetlanie informacji pogodowych \glslink{spot}{spota}}
+{18}
+{S}
+{
+    \wfmapdesc{System wyświetla użytkownikowi obecne dane pogodowe wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Po kliknięciu \glslink{spot}{spota} użytkownikowi wyświetlane są obecne dane pogodowe zawierające:
+            temperaturę, prędkość wiatru, ikonę symbolizującą stan pogody (np. zachmurzenie) oraz przycisk do
+            otworzenia panelu ze szczegółowymi danymi.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w podczas pobierania danych.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{
+        \hyperref[womap:display-spots]{WOMAPA-01},
+        \hyperref[womap:spot-weather]{WOMAPA-03}
+    }
+}
+
+\wfmapcard{wfmap:spot-detailed-weather}
+{Wyświetlanie szczegółowych informacji pogodowych \glslink{spot}{spota}}
+{19}
+{S}
+{
+    \wfmapdesc{System wyświetla użytkownikowi szczegółowe dane pogodowe wybranego \glslink{spot}{spota}.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlane są szczegółowe informacje pogodowe o wybranym \glslink{spot}{spocie}.
+            \item Dane zawierają:
+            \begin{itemize}
+                \item obecną godzinę i temperaturę
+                \item ikonę symbolizującą stan pogody wraz z opisem
+                \item wskaźnik UV
+                \item punkt rosy
+                \item wilgotność
+                \item prawdopodobieństwo opadów
+                \item prędkości wiatrów na różnych wysokościach do wyboru z możliwością określenia jednostki km/h lub m/s
+                \item wykres zawierający prognozę pogody na 3 kolejne dni
+            \end{itemize}
+            \item Użytkownik jest informowany o błędach, które wystąpiły podczas pobierania danych.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{\hyperref[womap:spot-weather]{WOMAPA-03}}
+}
+
+\wfmapcard{wfmap:spot-name-search}
+{Wyszukiwanie \glslink{spot}{spotów} po nazwie}
+{20}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi wyszukiwanie \glslink{spot}{spotów} po nazwie.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Wyświetlane jest pole, w które użytkownik może wpisać frazę.
+            \item Gdy dane są wpisywane, wyświetlana jest lista nazw \glslink{spot}{spotów}, które zawierają w sobie
+            podany fragment.
+            \item Użytkownik może wybrać pozycję z listy, powoduje to wstawienie jej w pole wyszukiwania i pokazanie wyników.
+            \item Użytkownik może nie wybrać pozycji z listy i kliknąć przycisk do pokazania wyników, wyświetlana jest lista
+            wszystkich \glslink{spot}{spotów}, których nazwy zawierają w sobie podaną frazę.
+            \item Lista z wynikami wyszukiwania jest przewijana za pomocą \glslink{infinite-scroll}{nieskończonego przewijania}.
+            \item W przypadku braku pasujących nazw \glslink{spot}{spotów} wyświetlany jest odpowiedni komunikat.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w podczas pobierania danych.
+            \item Użytkownik ma możliwość wyczyszczenia pola do wyszukiwania i zamknięcia listy z wynikami.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{
+        \hyperref[womap:display-spots]{WOMAPA-01},
+        \hyperref[womap:spot-search]{WOMAPA-04}
+    }
+}
+
+\wfmapcard{wfmap:spot-name-search-list}
+{Sortowanie wyników wyszukiwania \glslink{spot}{spotów} po nazwie}
+{21}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi sortowanie wyników zawierającą wyszukiwania
+    \glslink{spot}{spotów} po nazwie.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlane są przyciski umożliwiające ustawienie sortowania wyników po:
+            \begin{itemize}
+                \item ocenach rosnąco
+                \item ocenach malejąco
+                \item liczbie ocen rosnąco
+                \item liczbie ocen malejąco
+            \end{itemize}.
+            \item Po wybraniu opcji sortowania, lista jest natychmiast aktualizowana.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w podczas pobierania danych.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{\hyperref[womap:spot-search]{WOMAPA-04}}
+}
+
+\wfmapcard{wfmap:spot-current-view}
+{Sortowanie wyników wyszukiwania \glslink{spot}{spotów} po nazwie}
+{22}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi wyświetlenie listy \glslink{spot}{spotów} znajdujących się w widocznym
+    obszarze mapy.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk powodujący wyświetlenie listy wszystkich \glslink{spot}{spotów}
+            znajdujących się w widocznym obszarze mapy.
+            \item Po kliknięciu przycisku wyświetlana lista jest przewijalna przy użyciu \glslink{infinite-scroll}{nieskończonego przewijania}.
+            \item Zmienienie obszaru widocznego bez ponownego kliknięcia przycisku nie powoduje pobrania nowych danych.
+            \item Ponowne kliknięcie przycisku powoduje pobranie nowych danych i zastąpienie nimi poprzednich wyników.
+            \item Gdy w widocznym obszarze mapy nie ma \glslink{spot}{spotów}, wyświetlany jest odpowiedni komunikat.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w podczas pobierania danych.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{
+        \hyperref[womap:display-spots]{WOMAPA-01},
+        \hyperref[womap:spot-search]{WOMAPA-04}
+    }
+}
+
+\wfmapcard{wfmap:spot-name-current-view-list}
+{Zarządzanie listą wyników wyszukiwania \glslink{spot}{spotów} w widocznym obszarze mapy}
+{23}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi sortowanie oraz filtrowanie wyników zawierającą \glslink{spot}{spoty}
+    znajdujące się w widocznym obszarze mapy.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlane są przyciski umożliwiające ustawienie sortowania wyników po:
+            \begin{itemize}
+                \item ocenach rosnąco
+                \item ocenach malejąco
+                \item liczbie ocen rosnąco
+                \item liczbie ocen malejąco
+            \end{itemize}.
+            \item Po wybraniu opcji sortowania, lista jest natychmiast aktualizowana.
+            \item Użytkownik może filtrować \glslink{spot}{spoty} ustawiająć minimalną ocenę.
+            \item Użytkownik może filtrować wyniki poprzez wpisanie frazy.
+            Podczas wpisywania wyświetlane są podpowiedzi w postaci listy nazw spotów zawierających wpisywany tekst.
+            Wynikiem filtrowania są \glslink{spot}{spoty}, których nazwy zawierają w sobie wpisaną frazę.
+            \item Po ustawieniu filtrowania lista jest aktualizowana, brane są pod uwagę wszystkie filtry i sortowanie.
+            \item W przypadku braku pasujących wyników wyświetlany jest odpowiedni komunikat.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w podczas pobierania danych.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{\hyperref[womap:spot-search]{WOMAPA-04}}
+}
+
+\wfmapcard{wfmap:spot-lists-map-view}
+{Przybliżanie mapy do lokalizacji \glslink{spot}{spotów} z listy z wynikami}
+{24}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi przybliżenie widoku mapy do lokalizacji \glslink{spot}{spota},
+        będące na liście wyników wyszukiwania.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Po kliknięciu \glslink{spot}{spota} na liście wyników wyszukiwania, widok mapy
+            przenoszony jest do jego lokalizacji.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{
+        \hyperref[womap:display-spots]{WOMAPA-01},
+        \hyperref[womap:spot-search]{WOMAPA-04}
+    }
+}
+
+\wfmapcard{wfmap:user-location}
+{Wyświetlanie na mapie lokalizacji użytkownika}
+{25}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi wyświetlenie na mapie jego obecnej lokalizacji.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlany jest przycisk umożliwiający zaznaczenie na mapie jego obecnej lokalizacji.
+            \item Po kliknięciu przycisku pobierane są dane o lokalizacji użytkownika i jego pozycja jest zaznaczona na mapie.
+            \item Widok mapy jest przybliżany na wyznaczoną lokalizację.
+            \item Użytkownik jest informowany o błędach, które wystąpiły w podczas operacji.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{
+        \hyperref[womap:display-spots]{WOMAPA-01},
+        \hyperref[womap:spot-user-location]{WOMAPA-07}
+    }
+}
+
+\wfmapcard{wfmap:map-zoom}
+{Ustawianie przybliżenia mapy}
+{26}
+{S}
+{
+    \wfmapdesc{System umożliwia użytkownikowi zmianę przybliżenia widoku mapy.}
+    \wfmapaccept{
+        \begin{itemize}
+            \item Użytkownikowi wyświetlane są przyciski do przybliżania i oddalania widoku mapy.
+            \item Po kliknięciu jednego z przycisków wykonywana jest odpowiednia akcja.
+            \item Przejście między przybliżeniami jest płynne i w razie potrzeby ładowane są kolejne kafelki mapy.
+        \end{itemize}
+    }
+    \wfmapstakeholder{U3}
+    \wfmapresponsible{Stanisław Oziemczuk}
+    \wfmaprelated{\hyperref[womap:display-spots]{WOMAPA-01}}
+}

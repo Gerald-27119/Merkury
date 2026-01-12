@@ -1,5 +1,6 @@
 package com.merkury.vulcanus.model.entities;
 
+import com.merkury.vulcanus.model.enums.user.dashboard.UserFriendStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,7 +24,7 @@ public class Friendship {
     @JoinColumn(name = "friend_id")
     private UserEntity friend;
 
-    private String status;
+    private UserFriendStatus status;
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 }

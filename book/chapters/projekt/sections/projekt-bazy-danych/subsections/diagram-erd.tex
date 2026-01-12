@@ -1,0 +1,73 @@
+\subsection{Diagram ERD}
+\label{subsec:diagram-erd}
+
+Na rysunku przedstawiono diagram związków encji (ERD), ilustrujący zależności między encjami systemu.
+
+\newdimen\savedpdfpagewidth
+\newdimen\savedpdfpageheight
+\newdimen\savedpaperwidth
+\newdimen\savedpaperheight
+\newdimen\savedtextwidth
+\newdimen\savedoddsidemargin
+\newdimen\savedevensidemargin
+\newdimen\savedhsize
+\newdimen\savedcolumnwidth
+
+\newcommand{\BeginAThreeLandscape}{%
+    \par
+    \ifdim\pagetotal>0pt\clearpage\fi
+
+    \savedpdfpagewidth=\pdfpagewidth
+    \savedpdfpageheight=\pdfpageheight
+    \savedpaperwidth=\paperwidth
+    \savedpaperheight=\paperheight
+    \savedtextwidth=\textwidth
+    \savedoddsidemargin=\oddsidemargin
+    \savedevensidemargin=\evensidemargin
+    \savedhsize=\hsize
+    \savedcolumnwidth=\columnwidth
+
+    \pdfpagewidth=420mm
+    \pdfpageheight=297mm
+    \paperwidth=420mm
+    \paperheight=297mm
+
+    \oddsidemargin=0pt
+    \evensidemargin=0pt
+    \textwidth=\dimexpr\paperwidth-2in\relax
+    \hsize=\textwidth
+    \columnwidth=\textwidth
+}
+
+\newcommand{\EndAThreeLandscape}{%
+    \clearpage
+    \pdfpagewidth=\savedpdfpagewidth
+    \pdfpageheight=\savedpdfpageheight
+    \paperwidth=\savedpaperwidth
+    \paperheight=\savedpaperheight
+    \textwidth=\savedtextwidth
+    \oddsidemargin=\savedoddsidemargin
+    \evensidemargin=\savedevensidemargin
+    \hsize=\savedhsize
+    \columnwidth=\savedcolumnwidth
+}
+
+\BeginAThreeLandscape
+\thispagestyle{plain}
+
+\vspace*{\fill}
+\begin{center}
+    \includegraphics[
+        width=\textwidth,
+        height=0.9\textheight,
+        keepaspectratio,
+        trim={20mm 15mm 20mm 15mm},
+        clip
+    ]{./attachments/projekt/projekt-bazy-danych/diagram}
+    \vspace{5mm}
+    \captionof{figure}{Diagram ERD}
+\end{center}
+\vspace*{\fill}
+
+\EndAThreeLandscape
+

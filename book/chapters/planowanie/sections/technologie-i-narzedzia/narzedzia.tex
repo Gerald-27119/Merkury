@@ -1,0 +1,94 @@
+%! Author = Stanisław Oziemczuk
+%! Date = 10/11/2025
+
+\subsection{Narzędzia}
+\label{subsec:narzedzia}
+
+Do niektórych płatnych narzędzi otrzymano bezpłatny dostęp za pośrednictwem uczelni, w innych istniała możliwość założenia konta
+edukacyjnego, które oferowało dostęp do wszystkich funkcji narzędzia.
+Gdy żadna z wymienionych opcji nie była udostępniona, wybierano rozwiązania darmowe.
+
+\begin{itemize}
+    \item \textbf{IntelliJ IDEA Ultimate}
+
+    Jest to \gls{ide} od firmy JetBrains.
+    Dzięki licznie dostępnym pluginom oferuje obsługę wielu języków programowania oraz innych składni.
+    Pozwala również na integrację z repozytorium.
+    Używano go do programowania zarówno \glslink{frontend}{frontendu}, jak i \glslink{backend}{backendu} oraz tworzenia dokumentacji w \glslink{latex}{LaTeX}.
+    \item \textbf{Docker Desktop}
+
+    To narzędzie do zarządzania obrazami, \glslink{kontener}{kontenerami} oraz wolumenami \glslink{docker}{Docker}.
+    Zawiera w sobie również silnik tej technologii.
+    Wykorzystywano je do lokalnego uruchamiania bazy danych oraz serwisu do cachowania.
+    \item \textbf{Docker Compose}
+
+    Narzędzie, które pozwala definiować oraz uruchamiać aplikacje składające się z wielu \glslink{kontener}{kontenerów} \glslink{docker}{Docker}.
+    Konfiguracja serwisów, sieci i \glslink{wolumen}{wolumenów} jest ustawiana w pliku (lub plikach) YAML.
+    Zastosowano je do skonfigurowania bazy danych i serwisu do \glslink{cache}{cache'owania} w środowisku deweloperskim.
+    \item \textbf{One Drive}
+
+    Usługa dysku chmurowego oferowana przez firmę Microsoft.
+    Przechowywano tam dokumenty oraz obrazy diagramów.
+    \item \textbf{Azure Blob Storage}
+
+    To rozwiązanie chmurowe Microsoft, służące do bezpiecznego przechowywania dużej ilości danych
+    nieustrukturyzowanych, takich jak pliki multimedialne, dokumenty czy kopie zapasowe.
+    Dane są dostępne poprzez interfejs \gls{rest_api} usługi Azure Storage.
+    Wykorzystywano je do przechowywania zdjęć profilowych użytkownika oraz multimediów (zdjęcia i filmy) ze \glslink{spot}{spotów}
+    i forum.
+    \item \textbf{Jira}
+
+    To narzędzie firmy Atlassian do zarządzania pracami nad projektem w metodykach zwinnych.
+    Do \glslink{backlog}{Backlogu} wpisywano zadania, a na \glslink{tablica_kanban}{tablicy Kanbanowej} rejestrowano ich statusy oraz poświęcony czas.
+    \item \textbf{GitHub}
+
+    Zdalne repozytorium służące do przechowywania i wersjonowania kodu aplikacji.
+    Zamieszczono tam kod naszego projektu.
+    Do każdego zadania tworzono osobną gałąź z właściwą nazwą, a po zakończeniu prac przeprowadzano \glslink{review-kodu}{review kodu}.
+    Następnie łączono ją do głównej gałęzi deweloperskiej.
+    \item \textbf{GitHub Actions}
+
+    To narzędzie do implementacji procesów \gls{cicd} na platformie \glslink{github}{GitHub}, które
+    umożliwiają automatyczne testowanie lub wdrażanie kodu.
+    Uruchamiają się w reakcji na różne operacje w repozytorium, na przykład przesłanie zmian na wybraną gałąź.
+    Stosowano je do automatycznego testowania i budowania projektu po każdorazowym wprowadzeniu zmian.
+    \item \textbf{GitHub Copilot}
+
+    To narzędzie sztucznej inteligencji będące asystentem programisty.
+    W projekcie analizuje plik oraz pliki powiązane.
+    Wykorzystywano go podczas \glslink{review-kodu}{review kodu}.
+    Copilot skanuje wszystkie pliki i w komentarzach opisuje sugerowane zmiany lub potencjalne błędy.
+    \item \textbf{Discord}
+
+    Darmowa platforma komunikacyjna.
+    Umożliwia udostępnienie obrazu z ekranu, komunikację głosową oraz tekstową, jak i również przesyłanie plików.
+    Stosowano go do spotkań, na których omawiano sprawy dotyczące projektu.
+    \item \textbf{Messenger}
+
+    Komunikator będący usługą Facebooka.
+    Daje możliwość tworzenia czatów grupowych lub prywatnych, a także udostępniania plików.
+    Używano go do ustalania spotkań na Discordzie oraz szybkiej komunikacji.
+    \item \textbf{Postman}
+
+    To narzędzie służące do testowania \glslink{endpoint}{endpointów} \gls{api}.
+    Pozwala grupować zapytania w kolekcje, wysyłać ich różne typy oraz analizować odpowiedzi z \glslink{serwer}{serwera}.
+    Wykorzystywano go do testowania stworzonych \glslink{endpoint}{endpointów} oraz debugowania.
+    \item \textbf{Figma}
+
+    Narzędzie chmurowe do projektowania interfejsów użytkownika (\gls{ui}).
+    Umożliwia zespołowe tworzenie w pełni interaktywnych prototypów.
+    Wykonano w nim projekty ekranów aplikacji.
+    \item \textbf{Visual Paradigm}
+
+    To narzędzie do tworzenia różnych diagramów stosowanych w inżynierii oprogramowania, takich jak \gls{uml}(~\cite{uml-def}) czy \gls{bpmn}(~\cite{bpmn-def}).
+    Zrobiono w nim diagram przypadków użycia.
+    \item \textbf{Xmind}
+
+    Narzędzie służące do tworzenia mapy myśli.
+    Wykorzystano je w celu lepszego zrozumienia problemów poprzez przeniesienie ich na diagram.
+    \item \textbf{Cypress}
+
+    Narzędzie umożliwiające wykonywanie testów \glslink{integration-tests}{integracyjnych} oraz
+    \glslink{e2e-tests}{E2E} \glslink{frontend}{frontendowej} części aplikacji webowej.
+    W projekcie zastosowano je do stworzenia i uruchomienia testów \glslink{e2e-tests}{E2E}.
+\end{itemize}

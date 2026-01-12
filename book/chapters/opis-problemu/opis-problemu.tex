@@ -1,0 +1,20 @@
+%! Author = mateusz
+%! Date = 20/09/2025
+
+
+\chapter{Opis problemu}
+\label{ch:opis-problemu}
+
+Niniejszy rozdział przedstawia kontekst projektowanego systemu.
+Opisuje problemy i potrzeby użytkowników, identyfikuje interesariuszy oraz omawia istniejące rozwiązania.
+Zawiera także wizję systemu oraz jego aspekty społeczno-biznesowe.
+
+% --- Licznik kart ---
+\newcounter{stakeholder}[chapter]
+\renewcommand{\thestakeholder}{\thechapter.\arabic{stakeholder}}
+
+\input{./chapters/opis-problemu/sections/rich-picture}
+\input{./chapters/opis-problemu/sections/udzialowcy}
+\input{./chapters/opis-problemu/sections/istniejace-rozwiazania}
+\input{./chapters/opis-problemu/sections/wizja-rozwiazania}
+\input{chapters/opis-problemu/sections/aspekty-spoleczne-i-biznesowe/aspekty-spoleczne-i-bizesowe}

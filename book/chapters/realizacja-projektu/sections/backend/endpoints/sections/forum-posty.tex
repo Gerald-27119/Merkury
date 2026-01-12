@@ -1,0 +1,115 @@
+%! Author = Mateusz
+%! Date = 30/11/2025
+
+\subsubsection{Forum – posty}
+\label{subsubsec:forum-posty}
+
+\cardendpoint
+{EP20}
+{/public/post/\{postId\}}
+{Pobierz szczegółowe informacje o poście}
+{%
+    \begin{tabitemize}
+        \item \textbf{postId}: Long (identyfikator posta w ścieżce URL)
+    \end{tabitemize}
+}
+{Brak}
+{200 OK, 404 Not Found}
+{%
+    \begin{tabitemize}
+        \item \textbf{PostDetailsDto}, zawiera:
+        \begin{itemize}
+            \item \textbf{id}: Long (identyfikator posta)
+            \item \textbf{title}: String (tytuł posta)
+            \item \textbf{content}: String (pełna treść posta)
+            \item \textbf{category}: ForumCategoryDto (kategoria forum, do której należy post)
+            \item \textbf{tags}: List<ForumTagDto> (lista tagów przypisanych do posta)
+            \item \textbf{author}: AuthorDto (dane autora posta)
+            \item \textbf{isAuthor}: Boolean (czy bieżący użytkownik jest autorem posta)
+            \item \textbf{isFollowed}: Boolean (czy bieżący użytkownik obserwuje ten post)
+            \item \textbf{publishDate}: LocalDateTime (data i godzina publikacji posta)
+            \item \textbf{views}: Integer (liczba wyświetleń posta)
+            \item \textbf{upVotes}: Integer (liczba głosów w górę na post)
+            \item \textbf{downVotes}: Integer (liczba głosów w dół na post)
+            \item \textbf{isUpVoted}: Boolean (czy bieżący użytkownik oddał głos w górę na post)
+            \item \textbf{isDownVoted}: Boolean (czy bieżący użytkownik oddał głos w dół na post)
+            \item \textbf{commentsCount}: Integer (łączna liczba komentarzy pod postem)
+        \end{itemize}
+    \end{tabitemize}
+}
+
+\cardendpoint
+{EP21}
+{/post}
+{Dodaj nowy post na forum}
+{%
+    \begin{tabitemize}
+        \item \textbf{body}: PostDto (dane nowego posta), zawiera:
+        \begin{itemize}
+            \item \textbf{title}: String (tytuł posta)
+            \item \textbf{content}: String (pełna treść posta)
+            \item \textbf{category}: String (nazwa kategorii forum, do której ma trafić post)
+            \item \textbf{tags}: List<String> (lista nazw tagów przypisanych do posta)
+        \end{itemize}
+    \end{tabitemize}
+}
+{Brak}
+{201 Created, 400 Bad Request, 404 Not Found, 409 Conflict, 422 Unprocessable Entity}
+{Brak (pusta odpowiedź)}
+
+\cardendpoint
+{EP22}
+{/post/\{postId\}}
+{Usuń wybrany post}
+{%
+    \begin{tabitemize}
+        \item \textbf{postId}: Long (identyfikator posta w ścieżce URL)
+    \end{tabitemize}
+}
+{Brak}
+{204 No Content, 401 Unauthorized, 404 Not Found}
+{Brak (pusta odpowiedź)}
+
+\cardendpoint
+{EP23}
+{/post/\{postId\}/vote}
+{Oddaj głos na post (góra/dół)}
+{%
+    \begin{tabitemize}
+        \item \textbf{postId}: Long (identyfikator posta w ścieżce URL)
+    \end{tabitemize}
+}
+{%
+    \begin{tabitemize}
+        \item \textbf{isUpvote}: boolean (true = głos w górę, false = głos w dół)
+    \end{tabitemize}
+}
+{200 OK, 401 Unauthorized, 404 Not Found}
+{Brak (pusta odpowiedź)}
+
+\cardendpoint
+{EP24}
+{/public/categories-tags}
+{Pobierz listę wszystkich kategorii i tagów forum}
+{Brak}
+{Brak}
+{200 OK}
+{%
+    \begin{tabitemize}
+        \item \textbf{ForumCategoriesAndTagsDto} (zestaw kategorii i tagów forum), zawiera:
+        \begin{itemize}
+            \item \textbf{categories}: List<ForumCategoryDto> (lista dostępnych kategorii), gdzie każdy element zawiera:
+            \begin{itemize}
+                \item \textbf{id}: Long (identyfikator kategorii)
+                \item \textbf{name}: String (nazwa kategorii)
+                \item \textbf{description}: String (opis kategorii)
+                \item \textbf{colour}: String (kolor kategorii)
+            \end{itemize}
+            \item \textbf{tags}: List<ForumTagDto> (lista dostępnych tagów), gdzie każdy element zawiera:
+            \begin{itemize}
+                \item \textbf{id}: Long (identyfikator tagu)
+                \item \textbf{name}: String (nazwa tagu)
+            \end{itemize}
+        \end{itemize}
+    \end{tabitemize}
+}

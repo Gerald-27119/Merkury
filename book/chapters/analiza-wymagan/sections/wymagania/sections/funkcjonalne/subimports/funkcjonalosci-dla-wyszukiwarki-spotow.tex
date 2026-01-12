@@ -1,0 +1,381 @@
+%! Author = Mateusz
+%! Date = 03/11/2025
+
+\subsubsection{Wymagania funkcjonalne dla wyszukiwarki spotów}
+\label{subsubsec:wymagania-funkcjonalne-dla-wyszukiwarki-spotow}
+
+\newlength{\wfwyszLabelWidth}
+\setlength{\wfwyszLabelWidth}{0.19\textwidth}
+
+\newlength{\wfwyszColTwoWidth}
+\setlength{\wfwyszColTwoWidth}{0.21\textwidth}
+
+\newlength{\wfwyszColThreeWidth}
+\setlength{\wfwyszColThreeWidth}{0.13\textwidth}
+
+\newlength{\wfwyszColFourWidth}
+\setlength{\wfwyszColFourWidth}{0.28\textwidth}
+
+\newlength{\wfwyszContentWidth}
+\setlength{\wfwyszContentWidth}{0.60\textwidth}
+
+\newlength{\wfwyszHeaderHeight}
+\setlength{\wfwyszHeaderHeight}{12mm}
+
+\newcommand{\wfwyszthreecolcell}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfwyszContentWidth}|}{#1}%
+}
+
+\newcommand{\wfwyszthreecolcellpadded}[1]{%
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfwyszContentWidth}|}{%
+        \vspace{0.4ex}%
+        #1\par\vspace{0.4ex}%
+    }%
+}
+
+\newcommand{\wfwyszHeaderRow}[1]{%
+    \rowcolor{lightgray}%
+    \multicolumn{4}{|c|}{%
+        \parbox[c][\wfwyszHeaderHeight][c]{\linewidth}{%
+            \centering\bfseries
+            \vspace{1.2ex}%
+            #1%
+            \vspace{1.2ex}%
+        }%
+    }\\ \hline
+}
+
+% --- pola karty ---
+
+\newcommand{\wfwyszpriority}[2]{%
+    \textbf{Identyfikator:} & WFWYSZ-#1 &
+    \textbf{Priorytet:}     & #2 \\ \hline
+}
+
+\newcommand{\wfwyszname}[1]{%
+    \textbf{Nazwa:} &
+    \wfwyszthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfwyszdesc}[1]{%
+    \textbf{Opis:} &
+    \wfwyszthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfwyszaccept}[1]{%
+    \textbf{Kryteria akceptacji:} &
+    \multicolumn{3}{|>{\raggedright\arraybackslash}p{\wfwyszContentWidth}|}{%
+        \begingroup
+        \setlength{\leftmargini}{1.2em}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\itemsep}{0.2ex}%
+        \setlength{\parsep}{0pt}%
+        \vspace*{-1.8ex}
+        #1%
+        \vspace*{-1.4ex}
+        \endgroup
+    }\\ \hline
+}
+
+\newcommand{\wfwyszstakeholder}[1]{%
+    \textbf{Udziałowiec:} &
+    \wfwyszthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfwyszresponsible}[1]{%
+    \textbf{Realizator:} &
+    \wfwyszthreecolcell{#1} \\ \hline
+}
+
+\newcommand{\wfwyszrelated}[1]{%
+    \textbf{Wymagania powiązane:} &
+    \wfwyszthreecolcell{#1} \\ \hline
+}
+
+% --- szablon karty wymagania funkcjonalnego ---
+
+\newcommand{\wfwyszatcard}[5]{%
+    \refstepcounter{awc}%
+    {%
+        \centering
+        \begin{longtable}{|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wfwyszLabelWidth}|
+            p{\wfwyszColTwoWidth}|
+                >{\columncolor{lightgray}\raggedright\arraybackslash}p{\wfwyszColThreeWidth}|
+            p{\wfwyszColFourWidth}|}
+        \hline
+        \wfwyszHeaderRow{\shortstack{KARTA WYMAGANIA FUNKCJONALNEGO DLA \\ WYSZUKIWARKI SPOTÓW}}
+        \endfirsthead
+        \hline
+        \wfwyszHeaderRow{\shortstack{KARTA WYMAGANIA FUNKCJONALNEGO DLA \\ WYSZUKIWARKI SPOTÓW (cd.)}}
+        \endhead
+        \wfwyszpriority{#3}{#4}
+        \wfwyszname{#2}
+        #5
+        \end{longtable}
+        \par
+    }%
+    \vspace{3pt}%
+    \textbf{Tabela \theawc:} Wymaganie funkcjonalne dla wyszukiwarki spotów: #2\label{#1}%
+    \addcontentsline{lot}{table}{Tabela \theawc: Wymaganie funkcjonalne dla wyszukiwarki spotów: #2}%
+}
+
+
+% =========================================
+% WFWYSZ-01 – Najpopularniejsze spoty w karuzeli
+% =========================================
+\wfwyszatcard
+{wfwysz:top-spots-carousel}
+{Wyświetlenie najpopularniejszych spotów w karuzeli}
+{01}
+{M}
+{
+    \wfwyszdesc{System prezentuje na stronie głównej karuzelę z najpopularniejszymi spotami,
+        aby użytkownik mógł szybko przeglądać rekomendowane miejsca dla wybranej lokalizacji.}
+
+    \wfwyszaccept{%
+        \begin{itemize}
+            \item Karuzela wyświetla nazwę spota oraz miasto.
+            \item Każda pozycja w karuzeli zawiera zdjęcie (miniaturę) spota.
+            \item Karuzela jest widoczna po wejściu na stronę główną bez konieczności wykonywania dodatkowych akcji.
+        \end{itemize}
+    }
+
+    \wfwyszstakeholder{U3}
+    \wfwyszresponsible{Mateusz Redosz}
+    \wfwyszrelated{%
+        \hyperref[wowysz:basic-search]{WOWYSZ-01},
+        \hyperref[wpwysz:load-under-10s]{WPWYSZ-01}.%
+    }
+}
+
+% =========================================
+% WFWYSZ-02 – Proste wyszukiwanie po lokalizacji
+% =========================================
+\wfwyszatcard
+{wfwysz:basic-location-search}
+{Wyszukiwanie za pomocą państwa, regionu oraz miasta}
+{02}
+{M}
+{
+    \wfwyszdesc{System umożliwia użytkownikowi filtrowanie listy spotów według lokalizacji,
+        poprzez wybór państwa, regionu oraz miasta. Zastosowanie filtrów następuje po wybraniu
+        akcji wyszukiwania.}
+
+    \wfwyszaccept{%
+        \begin{itemize}
+            \item Użytkownik może wskazać państwo, region oraz miasto jako filtry wyszukiwania.
+            \item Zmiana wartości filtrów nie powoduje automatycznego odświeżenia wyników.
+            \item Po kliknięciu przycisku wyszukiwania lista spotów jest aktualizowana zgodnie z wybraną lokalizacją.
+        \end{itemize}
+    }
+
+    \wfwyszstakeholder{U3}
+    \wfwyszresponsible{Mateusz Redosz}
+    \wfwyszrelated{%
+        \hyperref[wowysz:basic-search]{WOWYSZ-01},
+        \hyperref[wfwysz:location-autocomplete]{WFWYSZ-04},
+        \hyperref[wfwysz:display-search-results]{WFWYSZ-03},
+        \hyperref[wpwysz:load-under-10s]{WPWYSZ-01}.%
+    }
+}
+
+% =========================================
+% WFWYSZ-03 – Wyświetlenie wyników wyszukiwania
+% =========================================
+\wfwyszatcard
+{wfwysz:display-search-results}
+{Wyświetlenie wyszukanych spotów}
+{03}
+{M}
+{
+    \wfwyszdesc{System wyświetla listę spotów spełniających kryteria wyszukiwania,
+        aby użytkownik mógł przeglądać dostępne wyniki.}
+
+    \wfwyszaccept{%
+        \begin{itemize}
+            \item Wyniki wyszukiwania są prezentowane w formie listy (kart spotów).
+            \item Każda karta spota zawiera:
+            \begin{itemize}
+                \item nazwę spota,
+                \item zdjęcie,
+                \item tagi,
+                \item średnią ocenę oraz liczbę ocen,
+                \item informacje pogodowe dla lokalizacji spota,
+                \item lokalizację (miasto).
+            \end{itemize}
+        \end{itemize}
+    }
+
+    \wfwyszstakeholder{U3}
+    \wfwyszresponsible{Mateusz Redosz}
+    \wfwyszrelated{%
+        \hyperref[wowysz:basic-search]{WOWYSZ-01},
+        \hyperref[wowysz:advanced-search]{WOWYSZ-02},
+        \hyperref[wfwysz:basic-location-search]{WFWYSZ-02},
+        \hyperref[wfwysz:advanced-city-tags]{WFWYSZ-06},
+        \hyperref[wfwysz:spot-actions-map-details]{WFWYSZ-05},
+        \hyperref[wpwysz:load-under-10s]{WPWYSZ-01}.%
+    }
+}
+
+% =========================================
+% WFWYSZ-04 – Podpowiedzi wartości w polach lokalizacji (autocomplete)
+% =========================================
+\wfwyszatcard
+{wfwysz:location-autocomplete}
+{Podpowiedzi wartości w polach lokalizacji (autocomplete)}
+{04}
+{M}
+{
+    \wfwyszdesc{System wspiera użytkownika podczas uzupełniania filtrów lokalizacji,
+        wyświetlając listę podpowiedzi dla państwa, regionu oraz miasta na podstawie wpisywanej frazy.}
+
+    \wfwyszaccept{%
+        \begin{itemize}
+            \item Podczas wpisywania w pole państwa, regionu lub miasta system wyświetla listę podpowiedzi pasujących do wpisanej frazy.
+            \item Lista podpowiedzi zawęża się wraz z dopisywaniem kolejnych znaków.
+            \item Użytkownik może wybrać wartość z listy podpowiedzi (kliknięciem), co uzupełnia pole wyszukiwania.
+        \end{itemize}
+    }
+
+    \wfwyszstakeholder{U3}
+    \wfwyszresponsible{Mateusz Redosz}
+    \wfwyszrelated{%
+        \hyperref[wowysz:basic-search]{WOWYSZ-01},
+        \hyperref[wowysz:advanced-search]{WOWYSZ-02},
+        \hyperref[wfwysz:basic-location-search]{WFWYSZ-02},
+        \hyperref[wpwysz:autocomplete-location]{WPWYSZ-02}.%
+    }
+}
+
+
+% =========================================
+% WFWYSZ-05 – Akcje na spocie z listy wyników
+% =========================================
+\wfwyszatcard
+{wfwysz:spot-actions-map-details}
+{Przycisk do pokazania spota na mapie oraz zobaczenia jego szczegółów}
+{05}
+{M}
+{
+    \wfwyszdesc{System udostępnia w wynikach wyszukiwania akcje umożliwiające użytkownikowi
+    przejście do szczegółów spota oraz wyświetlenie go na mapie.}
+
+    \wfwyszaccept{%
+        \begin{itemize}
+            \item Dla każdego spota na liście wyników dostępna jest akcja „Details”.
+            \item Dla każdego spota na liście wyników dostępna jest akcja „See on map”.
+            \item Kliknięcie akcji „See on map” przenosi użytkownika do widoku mapy z zaznaczonym spotem.
+            \item Kliknięcie akcji „Details” przenosi użytkownika do widoku mapy i otwiera szczegóły spota.
+        \end{itemize}
+    }
+
+    \wfwyszstakeholder{U3}
+    \wfwyszresponsible{Mateusz Redosz}
+    \wfwyszrelated{%
+        \hyperref[wowysz:basic-search]{WOWYSZ-01},
+        \hyperref[wowysz:advanced-search]{WOWYSZ-02},
+        \hyperref[wfwysz:display-search-results]{WFWYSZ-03}.%
+    }
+}
+
+% =========================================
+% WFWYSZ-06 – Zaawansowane wyszukiwanie: miasto + tagi
+% =========================================
+\wfwyszatcard
+{wfwysz:advanced-city-tags}
+{Wyszukiwanie za pomocą miasta oraz tagów}
+{06}
+{M}
+{
+    \wfwyszdesc{System umożliwia użytkownikowi zawężenie wyników wyszukiwania poprzez
+    wybór miasta oraz tagów opisujących spot. Zastosowanie filtrów następuje po ponownym
+    uruchomieniu wyszukiwania.}
+
+    \wfwyszaccept{%
+        \begin{itemize}
+            \item Użytkownik może wskazać miasto jako kryterium wyszukiwania.
+            \item Użytkownik może wybrać jeden lub wiele tagów jako filtr.
+            \item Zmiana miasta nie powoduje automatycznego odświeżenia wyników.
+            \item Zmiana tagów powoduje automatyczne odświeżenie wyników.
+            \item Po ponownym uruchomieniu wyszukiwania (kliknięciu przycisku wyszukiwania) lista wyników jest aktualizowana zgodnie z wybranymi filtrami.
+        \end{itemize}
+    }
+
+    \wfwyszstakeholder{U3}
+    \wfwyszresponsible{Mateusz Redosz}
+    \wfwyszrelated{%
+        \hyperref[wowysz:advanced-search]{WOWYSZ-02},
+        \hyperref[wfwysz:display-search-results]{WFWYSZ-03},
+        \hyperref[wfwysz:location-autocomplete]{WFWYSZ-04},
+        \hyperref[wfwysz:filter-rating]{WFWYSZ-08},
+        \hyperref[wfwysz:filter-polarity-rating]{WFWYSZ-07},
+        \hyperref[wpwysz:load-under-10s]{WPWYSZ-01},
+        \hyperref[wpwysz:autocomplete-location]{WPWYSZ-02}.%
+    }
+}
+
+% =========================================
+% WFWYSZ-07 – Zaawansowane sortowanie po polarności i ocenie
+% =========================================
+\wfwyszatcard
+{wfwysz:filter-polarity-rating}
+{Sortowanie po popularności oraz ocenie}
+{07}
+{M}
+{
+    \wfwyszdesc{System umożliwia użytkownikowi sortowanie listy spotów według popularności
+    oraz średniej z opini.}
+
+    \wfwyszaccept{%
+        \begin{itemize}
+            \item Użytkownik może ustawić kryterium, wybierając jedną z następujących opcji:
+            \begin{itemize}
+                \item sortowanie według popularności rosnąco (od najmniej do najbardziej popularnych),
+                \item sortowanie według popularności malejąco (od najbardziej do najmniej popularnych),
+                \item sortowanie według średniej ocen rosnąco (od najmniej do najbardziej ocenionych),
+                \item sortowanie według średniej ocen malejąco (od najbardziej do najmniej ocenionych),
+            \end{itemize}
+            \item Po zastosowaniu sortowania lista wyników jest aktualizowana zgodnie z ustawieniami.
+        \end{itemize}
+    }
+
+    \wfwyszstakeholder{U3}
+    \wfwyszresponsible{Mateusz Redosz}
+    \wfwyszrelated{%
+        \hyperref[wowysz:advanced-search]{WOWYSZ-02},
+        \hyperref[wfwysz:display-search-results]{WFWYSZ-03},
+        \hyperref[wfwysz:filter-rating]{WFWYSZ-08},
+        \hyperref[wpwysz:load-under-10s]{WPWYSZ-01}.%
+    }
+}
+
+% =========================================
+% WFWYSZ-08 – Filtrowanie po ocenie
+% =========================================
+\wfwyszatcard
+{wfwysz:filter-rating}
+{Filtrowanie po ocenie}
+{08}
+{M}
+{
+    \wfwyszdesc{System umożliwia użytkownikowi filtrowanie wyników wyszukiwania według minimalnej oceny spota,
+        aby szybciej odnajdować miejsca o wysokiej jakości.}
+
+    \wfwyszaccept{%
+        \begin{itemize}
+            \item Użytkownik może ustawić minimalną ocenę (wybór wartości).
+            \item Lista wyników po ustawieniu filtra prezentuje wyłącznie spoty spełniające warunek minimalnej oceny.
+        \end{itemize}
+    }
+
+    \wfwyszstakeholder{U3}
+    \wfwyszresponsible{Mateusz Redosz}
+    \wfwyszrelated{%
+        \hyperref[wowysz:advanced-search]{WOWYSZ-02},
+        \hyperref[wfwysz:display-search-results]{WFWYSZ-03},
+        \hyperref[wpwysz:load-under-10s]{WPWYSZ-01}.%
+    }
+}

@@ -2,8 +2,9 @@ package com.merkury.vulcanus.features.spot;
 
 import com.merkury.vulcanus.exception.exceptions.SpotsNotFoundException;
 import com.merkury.vulcanus.model.embeddable.BorderPoint;
-import com.merkury.vulcanus.model.entities.Spot;
+import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.repositories.SpotRepository;
+import com.merkury.vulcanus.utils.PolygonCenterPointCalculator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,23 +49,27 @@ class SpotServiceCachingWithServerStartupTest {
     @DisplayName("After adding new spot, old, cached filtered spots should be returned")
     @Test
     public void shouldReturnCachedFilteredSpotsWhenNewSpotAdded() throws SpotsNotFoundException {
-        var initialCount = spotService.getFilteredSpots("Plac", 1.0, 5.0).size();
+        var initialCount = spotService.getSearchedSpotsOnMap("Plac").size();
 
         var newSpot = Spot.builder()
                 .name("Plac 1")
+                .country("country")
+                .city("city")
                 .areaColor("green")
                 .description("text")
-                .comments(new ArrayList<>())
+                .spotComments(new ArrayList<>())
                 .borderPoints(List.of(
                         new BorderPoint(54.34259835347914, 18.646824493647234),
                         new BorderPoint(54.34199917555038, 18.64785810853534)))
                 .rating(5.0)
-                .viewsCount(100)
-                .images(new ArrayList<>())
+                .media(new ArrayList<>())
+                .centerPoint(PolygonCenterPointCalculator.calculateCenterPoint(List.of(
+                        new BorderPoint(54.34259835347914, 18.646824493647234),
+                        new BorderPoint(54.34199917555038, 18.64785810853534))))
                 .build();
         spotRepository.save(newSpot);
 
-        var cachedCount = spotService.getFilteredSpots("Plac", 1.0, 5.0).size();
+        var cachedCount = spotService.getSearchedSpotsOnMap("Plac").size();
         assertEquals(initialCount, cachedCount);
     }
 
@@ -75,15 +80,19 @@ class SpotServiceCachingWithServerStartupTest {
 
         Spot newSpot = Spot.builder()
                 .name("Plac test")
+                .country("country")
+                .city("city")
                 .areaColor("green")
                 .description("text")
-                .comments(new ArrayList<>())
+                .spotComments(new ArrayList<>())
                 .borderPoints(List.of(
                         new BorderPoint(54.34259835347914, 18.646824493647234),
                         new BorderPoint(54.34199917555038, 18.64785810853534)))
                 .rating(5.0)
-                .viewsCount(100)
-                .images(new ArrayList<>())
+                .media(new ArrayList<>())
+                .centerPoint(PolygonCenterPointCalculator.calculateCenterPoint(List.of(
+                        new BorderPoint(54.34259835347914, 18.646824493647234),
+                        new BorderPoint(54.34199917555038, 18.64785810853534))))
                 .build();
         spotRepository.save(newSpot);
 

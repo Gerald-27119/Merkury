@@ -1,0 +1,58 @@
+%! Author = Adam
+%! Date = 01/01/2025
+
+\subsection{Integracja z dostawcą GIF-ów}
+\label{subsec:integracja-z-dostawca-gif-ow}
+
+W module czatu w warstwie \glslink{backend}{backendu} zaimplementowano integrację z zewnętrznym dostawcą
+\glslink{gif}{GIF-ów} w celu umożliwienia użytkownikom wysyłania ich na czacie.
+Jako źródło danych wykorzystano usługę \glslink{tenor}{Tenor}, a integrację rozdzielono na dwie warstwy:
+\glslink{klient}{klienta} dostawcy oraz serwis aplikacyjny.
+
+\subsubsection{Klient dostawcy -- \texttt{TenorGifProviderClient}}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./attachments/implementacja-backendu/czat/gif/provider1}
+    \caption{\texttt{TenorGifProviderClient} (1/2)}
+    \label{fig:gif:tenor-client-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./attachments/implementacja-backendu/czat/gif/provider2}
+    \caption{\texttt{TenorGifProviderClient} (2/2)}
+    \label{fig:gif:tenor-client-2}
+\end{figure}
+
+Rysunki~\ref{fig:gif:tenor-client-1} oraz~\ref{fig:gif:tenor-client-2} przedstawiają klasę odpowiedzialną
+za bezpośrednią komunikację z \glslink{api}{API} \glslink{tenor}{Tenor}. Klient wykorzystuje \glslink{webclient}{WebClient'a},
+co umożliwia wykonywanie zapytań w sposób nieblokujący. W ramach integracji udostępniono dwa podstawowe scenariusze:
+pobranie listy popularnych kategorii (\texttt{/categories}) oraz wyszukiwanie \glslink{gif}{GIF-ów}
+dla podanej frazy (\texttt{/search}).
+
+Na poziomie budowy zapytań zastosowano parametry konfigurujące sposób zwracania wyników, m.in. lokalizację (\texttt{locale})
+oraz limit liczby elementów na stronę. Mechanizm stronicowania obsługiwany jest poprzez opcjonalny parametr \texttt{pos}
+(przekazywany dalej jako \texttt{next}), dzięki czemu \glslink{klient}{klient} może pobierać kolejne porcje wyników
+bez konieczności utrzymywania \glslink{stan}{stanu} po stronie aplikacji.
+
+\subsubsection{Warstwa serwisowa -- \texttt{GifService}}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./attachments/implementacja-backendu/czat/gif/service}
+    \caption{\texttt{GifService}}
+    \label{fig:gif:service}
+\end{figure}
+
+Rysunek~\ref{fig:gif:service} prezentuje serwis aplikacyjny, który stanowi warstwę pośrednią pomiędzy kontrolerem
+a klientem dostawcy. Odpowiada on za:
+\begin{itemize}
+    \item delegowanie wywołań do klienta \glslink{tenor}{Tenor},
+    \item mapowanie odpowiedzi z formatu dostawcy na struktury \glslink{dto}{DTO} wykorzystywane w aplikacji,
+    \item zastosowanie mechanizmów optymalizacyjnych po stronie serwera.
+\end{itemize}
+
+Istotnym elementem jest użycie \glslink{annotation}{adnotacji} \texttt{@Cacheable} dla operacji pobierania popularnych kategorii.
+Zastosowanie pamięci podręcznej (\glslink{cache}{cache}) ogranicza liczbę wywołań do zewnętrznej usługi w przypadku danych,
+które zmieniają się relatywnie rzadko.

@@ -1,0 +1,662 @@
+%! Author = Mateusz
+%! Date = 19/11/2025
+
+\subsection{Panel użytkownika}
+\label{subsec:panel-uzytkownika-frontend}
+
+W niniejszym rozdziale przedstawiono implementację panelu użytkownika po stronie \glslink{frontend}{frontendu}.
+
+Jednym z głównych modułów aplikacji jest panel użytkownika.
+Został on podzielony na osiem zakładek:
+
+\begin{itemize}
+    \item \textbf{Profile} -- profil użytkownika wraz z możliwością zmiany zdjęcia profilowego;
+    \item \textbf{Spots} -- listy \glslink{spot}{spotów} dodanych do różnych kategorii (ulubione, planowane do odwiedzenia,
+    odwiedzone i ocenione pozytywnie, odwiedzone i ocenione negatywnie);
+    \item \textbf{Photos} -- lista zdjęć dodanych przez użytkownika do \glslink{spot}{spotów}, komentarzy pod \glslink{spot}{spotami} oraz na forum;
+    \item \textbf{Movies} -- lista filmów dodanych przez użytkownika do \glslink{spot}{spotów}, komentarzy pod \glslink{spot}{spotami} oraz na forum;
+    \item \textbf{Social} -- listy znajomych, obserwowanych i obserwujących;
+    \item \textbf{Add spot} -- lista \glslink{spot}{spotów} dodanych przez użytkownika oraz formularz dodawania nowego \glslink{spot}{spota};
+    \item \textbf{Comments} -- lista komentarzy dodanych przez użytkownika pod \glslink{spot}{spotami};
+    \item \textbf{Settings} -- ustawienia konta użytkownika (zmiana nazwy użytkownika, adresu e-mail oraz hasła).
+\end{itemize}
+
+Wszystkie zakładki korzystają z uniwersalnego komponentu \texttt{AccountWrapper}, który zapewnia spójny układ i styl
+widoków (por. sekcja~\ref{subsubsec:common-components}).
+
+%-----------------------------------
+\subsubsection{Profile}
+\label{subsubsec:profile}
+
+Zakładka \texttt{Profile} odpowiada za prezentację profilu użytkownika.
+Została zbudowana z pięciu podstawowych komponentów:
+
+\begin{itemize}
+    \item \texttt{UserOwnProfile},
+    \item \texttt{ProfileForViewer},
+    \item \texttt{Profile},
+    \item \texttt{ProfileStat},
+    \item \texttt{MostPopularImage}.
+\end{itemize}
+
+\textbf{\texttt{UserOwnProfile}} (rys. \ref{img:user-own-profile})
+Ten komponent służy do wyświetlania profilu zalogowanego użytkownika.
+Dane profilu są pobierane za pomocą \glslink{hook}{hooka} \texttt{useQuery} z \glslink{biblioteka}{biblioteki}
+\glslink{tanstack-query}{TanStack Query}, który odwołuje się do odpowiedniego \glslink{endpoint}{endpointu} \glslink{backend}{backendu}.
+Na czas pobierania danych wyświetlany jest komponent \texttt{LoadingSpinner}, a po poprawnym załadowaniu
+profilu renderowany jest komponent \texttt{Profile} z przekazanym obiektem \texttt{userData}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/user-own-profile}
+    \caption{Komponent \texttt{UserOwnProfile}.}
+    \label{img:user-own-profile}
+\end{figure}
+
+\textbf{\texttt{ProfileForViewer}} (rys. \ref{img:profile-for-viewer})
+Komponent wyświetla profil innego użytkownika.
+Nazwa użytkownika pobierana jest ze ścieżki \gls{url} za pomocą \glslink{hook}{hooka} \texttt{useParams}, a dane profilu -- za
+pomocą \texttt{useQuery}, które wysyła zapytanie do \glslink{backend}{backendu} z przekazaną nazwą.
+
+Oprócz wspólnej części logicznej z widokiem własnego profilu wykorzystywane są:
+\begin{itemize}
+    \item przyciski \texttt{Button} przekazywane do \texttt{Profile} jako \texttt{children}, obsługujące
+    akcje \texttt{follow} oraz zarządzanie znajomymi;
+    \item komponent \glslink{modal}{\texttt{Modal}} do potwierdzania usunięcia znajomego lub zaprzestania obserwowania.
+\end{itemize}
+
+Zachowanie przycisków zależy od tego, czy użytkownik jest zalogowany, czy obserwuje dany profil oraz czy osoba
+ta znajduje się na liście znajomych.
+W przypadku błędu autoryzacji wyświetlany jest komunikat zachęcający do zalogowania, a inne błędy są mapowane
+na komunikaty w komponencie \texttt{Notification}.
+
+Relacje społecznościowe modyfikowane są przy użyciu kilku operacji po stronie \glslink{api}{API}, odpowiadających za dodawanie
+lub usuwanie znajomych, zarządzanie listą obserwowanych oraz akceptowanie lub odrzucanie zaproszeń.
+Po powodzeniu odświeżane są dane profilu użytkownika.
+Jeżeli z \glslink{backend}{backendu} zwrócona zostanie informacja, że jest to profil zalogowanego użytkownika,
+w \glslink{hook}{hooku} \texttt{useEffect} następuje przekierowanie na adres \texttt{/account/profile}.
+W sytuacji, gdy profil o podanej nazwie użytkownika nie istnieje, renderowany jest komunikat:
+\texttt{"No profile data available"}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/profile-for-viewer}
+    \caption{Komponent \texttt{ProfileForViewer}.}
+    \label{img:profile-for-viewer}
+\end{figure}
+
+\textbf{\texttt{Profile}}
+Jest to główny komponent odpowiedzialny za prezentację profilu i wykorzystywany zarówno w widoku własnym, jak i
+w widoku innego użytkownika.
+Cały widok opakowany jest w \texttt{AccountWrapper} z wariantem \texttt{PROFILE} (por. sekcja~\ref{subsubsec:common-components}).
+
+Po lewej stronie wyświetlane jest zdjęcie profilowe.
+Dla własnego profilu wykorzystano \glslink{hook}{hook} \texttt{useMutation}, który umożliwia zmianę zdjęcia.
+Po najechaniu na nie kursorem pojawia się półprzezroczyste tło z ikoną edycji i napisem
+\texttt{"Change profile photo."}, a kliknięcie uruchamia wybór nowego pliku.
+Po udanej aktualizacji zdjęcia odświeżane są dane profilu oraz wyświetlany jest komunikat sukcesu.
+W przypadku błędu prezentowany jest odpowiedni komunikat informujący o niepowodzeniu aktualizacji.
+
+Po prawej stronie wyświetlana jest nazwa użytkownika oraz cztery kafelki \newline \texttt{ProfileStat},
+przedstawiające liczbę znajomych, obserwowanych, obserwujących oraz zdjęć.
+Kliknięcie w wybraną statystykę powoduje przejście do odpowiedniej sekcji społecznościowej (por. sekcja~\ref{subsubsec:social});
+nawigacja realizowana jest przez \texttt{useNavigate} oraz akcję \texttt{socialAction.setType}.
+
+Pod główną częścią profilu wyświetlany jest nagłówek \texttt{"most popular photos"}.
+Jeżeli użytkownik posiada popularne zdjęcia, wyświetlane są maksymalnie cztery miniatury za pomocą komponentu \texttt{MostPopularImage}.
+W przeciwnym razie prezentowany jest komunikat:
+\texttt{"This user hasn't added any photos."} (dla profilu innego użytkownika) lub
+\texttt{"You haven't added any photos."} (dla własnego profilu).
+
+\textbf{\texttt{ProfileStat}}
+Komponent prezentuje pojedynczą statystykę profilu (liczbę znajomych, obserwujących, obserwowanych oraz zdjęć) w formie kafelka,
+który pełni rolę przycisku nawigacyjnego do odpowiedniej listy społecznościowej (por. sekcja~\ref{subsubsec:social}).
+
+\textbf{\texttt{MostPopularImage}}
+Komponent odpowiada za wyświetlenie pojedynczego zdjęcia wraz z liczbą polubień i wyświetleń.
+Informacje umieszczone są na półprzezroczystym pasku w dolnej części kafelka.
+
+%-----------------------------------
+\subsubsection{Spots}
+\label{subsubsec:spots}
+
+Zakładka \texttt{Spots} odpowiada za prezentację list \glslink{spot}{spotów} przypisanych do różnych kategorii
+(ulubione, planowane do odwiedzenia, odwiedzone itp.).
+Składa się z trzech głównych komponentów:
+
+\begin{itemize}
+    \item \texttt{FavoriteSpots},
+    \item \texttt{FavoriteSpotTile},
+    \item \texttt{FavoriteSpotTags}.
+\end{itemize}
+
+\textbf{\texttt{FavoriteSpots}}  (rys. \ref{img:favorite-spots})
+Jest to główny komponent zakładki.\newline
+Wykorzystuje tablicę \texttt{menuTypes}, która definiuje dostępne typy list
+(wszystkie, ulubione, planowane do odwiedzenia, odwiedzone i ocenione pozytywnie, odwiedzone i ocenione negatywnie),
+a aktualnie wybrany typ przechowywany jest w stanie za pomocą \glslink{hook}{hooka} \texttt{useState}.
+
+Dane \glslink{spot}{spotów} są pobierane za pomocą \glslink{hook}{hooka} \texttt{useInfiniteQuery}, który wysyła zapytania do
+\glslink{backend}{backendu} z uwzględnieniem wybranego typu listy.
+Mechanizm \glslink{infinite-scroll}{\textit{infinite scrolla}} realizowany jest przy użyciu \texttt{IntersectionObserver},
+który nasłuchuje na element powiązany z referencją.
+Widok opakowany jest w \texttt{AccountWrapper} z wariantem \texttt{FAVORITE\_SPOTS} oraz nagłówek
+\texttt{AccountTitle} z tekstem \texttt{"spots lists"}.
+Pod nagłówkiem renderowane są przyciski (komponent \texttt{Button}) do zmiany typu listy.
+
+Podczas ładowania danych wyświetlany jest \newline \texttt{LoadingSpinner}.
+Jeżeli użytkownik nie posiada żadnych \glslink{spot}{spotów} w wybranej liście, prezentowany jest komunikat:
+\texttt{"You don't have any spots in your list."},
+w przeciwnym razie renderowana jest lista kafelków \texttt{FavoriteSpotTile}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/favorite-spots}
+    \caption{Komponent \texttt{FavoriteSpots}.}
+    \label{img:favorite-spots}
+\end{figure}
+
+\textbf{\texttt{FavoriteSpotTile}}
+Komponent reprezentuje pojedynczy kafelek \glslink{spot}{spota}.
+Wyświetlane są: zdjęcie, liczba wyświetleń, lokalizacja, średnia ocena
+(komponent \texttt{Rate}), nazwa, tagi (komponent \texttt{FavoriteSpotTags}), krótki opis oraz przyciski
+otwarcia \glslink{spot}{spota} na mapie i usunięcia z listy.
+
+Do modyfikacji listy wykorzystywana jest \glslink{mutacja}{mutacja} obsługująca usuwanie spotów z danej kategorii.
+Po powodzeniu odświeżane są dane listy, tak aby kafelek został usunięty z widoku.
+Przed usunięciem wyświetlany jest modal potwierdzenia (komponent \glslink{modal}{\texttt{Modal}}), którego stan widoczności
+kontrolowany jest za pomocą \glslink{hook}{hooka} \texttt{useBoolean}.
+
+\textbf{\texttt{FavoriteSpotTags}}
+Komponent prezentuje listę tagów \glslink{spot}{spota} jako niewielkie etykiety z nazwą tagu.
+
+%-----------------------------------
+\subsubsection{Photos}
+\label{subsubsec:photos}
+
+Zakładka \texttt{Photos} odpowiada za prezentację zdjęć dodanych przez użytkownika.
+Korzysta z następujących głównych komponentów:
+
+\begin{itemize}
+    \item \texttt{Photos},
+    \item \texttt{Media},
+    \item \texttt{Photo}.
+\end{itemize}
+
+\textbf{\texttt{Photos}}  (rys. \ref{img:photos})
+Komponent pełni rolę warstwy konfigurującej widok zdjęć.
+Do zarządzania sortowaniem i filtrowaniem po dacie wykorzystywany jest \glslink{hook}{customowy hook} \texttt{useDateSortFilter},
+który zwraca typ sortowania oraz zakres dat.
+Dane są pobierane za pomocą \texttt{useInfiniteQuery}, które wysyła zapytania do \glslink{backend}{backendu} z uwzględnieniem aktualnych filtrów.
+Mechanizm \glslink{infinite-scroll}{\textit{infinite scroll}} zrealizowano przy użyciu \texttt{IntersectionObserver}.
+
+W przypadku błędu podczas pobierania zdjęć w \glslink{hook}{hooku} \texttt{useEffect} ustawiany jest komunikat
+błędu w komponencie \texttt{Notification}.
+Na końcu komponent przekazuje dane do \texttt{Media} z wariantem \texttt{AccountWrapperType.PHOTOS}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/photos}
+    \caption{Komponent \texttt{Photos}.}
+    \label{img:photos}
+\end{figure}
+
+\textbf{\texttt{Photo}}
+Komponent reprezentuje pojedyncze zdjęcie użytkownika.
+Zdjęcie prezentowane jest jako kwadratowy kafelek z cieniem, a w dolnej części na półprzezroczystym pasku wyświetlana
+jest liczba polubień i wyświetleń wraz z odpowiednimi ikonami.
+
+\textbf{\texttt{Media}}  (rys. \ref{img:media})
+Jest to uniwersalny komponent używany zarówno w zakładce \texttt{Photos}, jak i \texttt{Movies} (por. sekcja~\ref{subsubsec:movies}).
+Widok jest opakowany w \texttt{AccountWrapper}, a nagłówek sekcji wyświetlany przez \texttt{AccountTitle} z tekstem zależnym od wariantu.
+
+Poniżej nagłówka znajduje się panel \texttt{SortAndDateFilters} (por. sekcja~\ref{subsubsec:common-components})
+umożliwiający zmianę sortowania oraz zakresu dat.
+Lista mediów grupowana jest po dacie; dla każdej grupy wyświetlany jest \texttt{DateBadge} z datą, a poniżej siatka miniatur.
+W zależności od wariantu wykorzystywany jest komponent \texttt{Photo} lub \texttt{Movie}.
+
+Jeżeli użytkownik nie posiada żadnych mediów, wyświetlany jest komunikat:
+\texttt{"You haven't added any photos."} lub
+\texttt{"You haven't added any movies."}.
+Podczas ładowania danych początkowych oraz kolejnych stron prezentowany jest \newline \texttt{LoadingSpinner}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/media}
+    \caption{Komponent \texttt{Media}.}
+    \label{img:media}
+\end{figure}
+
+%-----------------------------------
+\subsubsection{Movies}
+\label{subsubsec:movies}
+
+Zakładka \texttt{Movies} odpowiada za prezentację filmów dodanych przez użytkownika.
+Pod względem struktury jest bardzo podobna do zakładki \texttt{Photos} (por. sekcja~\ref{subsubsec:photos}) i
+korzysta z tych samych komponentów ogólnych:
+
+\begin{itemize}
+    \item \texttt{Movies},
+    \item \texttt{Media},
+    \item \texttt{Movie}.
+\end{itemize}
+
+\textbf{\texttt{Movies}}  (rys. \ref{img:movies})
+Komponent konfiguruje widok filmów i przekazuje dane do \texttt{Media} z wariantem \texttt{AccountWrapperType.MOVIES}.
+Ponownie wykorzystywany jest \glslink{hook}{hook} \texttt{useDateSortFilter}, a dane pobierane są za pomocą \texttt{useInfiniteQuery}
+z uwzględnieniem wybranego sortowania i zakresu dat.
+W przypadku błędu ustawiany jest komunikat w komponencie \texttt{Notification}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/movies}
+    \caption{Komponent \texttt{Movies}.}
+    \label{img:movies}
+\end{figure}
+
+\textbf{\texttt{Movie}}
+Komponent reprezentuje pojedynczy film.
+Do odtwarzania wykorzystano bibliotekę \texttt{react-player} oraz zestaw komponentów kontrolnych z
+\glslink{biblioteka}{biblioteki} \texttt{media-chrome}.
+\glslink{stan}{Stan} odtwarzania i ewentualnego błędu zarządzany jest za pomocą customowego \glslink{hook}{hooka} \texttt{useBoolean}.
+Po zakończeniu odtwarzania film jest zatrzymywany, a w razie problemu z odczytem wyświetlany jest komunikat:
+\texttt{"Failed to load the video. Please try again later."}.
+Na filmie wyświetlany jest także pasek z liczbą polubień i wyświetleń.
+
+%-----------------------------------
+\subsubsection{Social}
+\label{subsubsec:social}
+
+Zakładka \texttt{Social} odpowiada za obsługę funkcji społecznościowych: znajomych, obserwowanych, obserwujących
+oraz (w widoku innego użytkownika) zdjęć tego użytkownika.
+Składa się z następujących głównych komponentów:
+
+\begin{itemize}
+    \item \texttt{UserOwnSocial},
+    \item \texttt{SocialForViewer},
+    \item \texttt{Social},
+    \item \texttt{SocialCardList},
+    \item \texttt{SocialCard},
+    \item \texttt{SocialButton},
+    \item \texttt{SearchFriendsList},
+    \item \texttt{PhotosList},
+    \item \texttt{FriendInvitesList}.
+\end{itemize}
+
+\textbf{\texttt{UserOwnSocial}}  (rys. \ref{img:user-own-social1} i \ref{img:user-own-social2})
+Komponent odpowiada za wyświetlanie list społecznościowych zalogowanego użytkownika.
+\newline Aktualnie wybrany typ listy (\texttt{FRIENDS}, \texttt{FOLLOWED}, \texttt{FOLLOWERS}) jest pobierany ze store
+\glslink{redux}{Reduxa} za pomocą \texttt{useSelectorTyped}.
+W celu uniknięcia powielania logiki zapytań użyto mapowania \texttt{queryConfigMap}, które łączy typ listy z odpowiednią
+funkcją pobierającą.
+
+Dane pobierane są za pomocą \texttt{useInfiniteQuery}, a kolejne strony ładowane przy wykorzystaniu \texttt{IntersectionObserver}.
+Po zebraniu wszystkich stron dane są spłaszczane i przekazywane do uniwersalnego komponentu \texttt{Social}
+z parametrem \newline \texttt{isSocialForViewer = false}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/user-own-social1}
+    \caption{Komponent \texttt{Social} (1/2).}
+    \label{img:user-own-social1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/user-own-social2}
+    \caption{Komponent \texttt{Social} (2/2).}
+    \label{img:user-own-social2}
+\end{figure}
+
+\textbf{\texttt{SocialForViewer}}
+Komponent realizuje analogiczną funkcjonalność, ale dla profilu innego użytkownika.
+Nazwa użytkownika pobierana jest z parametrów ścieżki (\texttt{useParams}), a dane list społecznościowych oraz zdjęć
+tego użytkownika -- z odpowiednich \glslink{endpoint}{endpointów} powiązanych w rozszerzonym \texttt{queryConfigMap}.
+
+W zależności od typu listy pobierane są dane użytkowników (\texttt{SocialDto}) lub zdjęć (\texttt{DatedMediaGroup}).
+Po spłaszczeniu danych całość przekazywana jest do komponentu \texttt{Social} z parametrem \newline \texttt{isSocialForViewer = true}.
+
+\textbf{\texttt{Social}}  (rys. \ref{img:social})
+Jest to główny, uniwersalny komponent wykorzystywany zarówno dla widoku własnego, jak i cudzego profilu.
+Widok opakowany jest w \newline \texttt{AccountWrapper} z wariantem \texttt{SOCIAL}, a nagłówek sekcji wyświetlany
+przez \newline \texttt{AccountTitle} z tekstem \texttt{"social list"}.
+
+W przypadku widoku własnego i wybranego typu \texttt{FRIENDS} po prawej stronie nagłówka pojawiają się dwa przyciski:
+\begin{itemize}
+    \item \texttt{"See friend invites"} -- otwiera modal z listą zaproszeń \newline (\texttt{FriendInvitesList});
+    \item \texttt{"Add new friend"} -- otwiera modal z wyszukiwarką znajomych \newline (\texttt{SearchFriendsList}).
+\end{itemize}
+
+Poniżej wyświetlane jest menu z przyciskami \texttt{SocialButton}, które pozwalają przełączać się pomiędzy
+listą znajomych, obserwowanych, obserwujących oraz (w widoku innego użytkownika) listą zdjęć.
+Zmiana typu listy zapisywana jest w \glslink{store}{store} \glslink{redux}{Reduxa} za pomocą akcji \texttt{socialAction.setType}.
+
+Dalsza część widoku zależy od typu listy:
+\begin{itemize}
+    \item dla \texttt{PHOTOS} używany jest komponent \texttt{PhotosList};
+    \item dla pozostałych typów -- komponent \texttt{SocialCardList}.
+\end{itemize}
+Na dole listy znajduje się element powiązany z \texttt{loadMoreRef}, obsługujący \glslink{infinite-scroll}{\textit{infinite scroll}}, oraz
+\texttt{LoadingSpinner} wyświetlany podczas pobierania kolejnych stron.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/social}
+    \caption{Komponent \texttt{Social}.}
+    \label{img:social}
+\end{figure}
+
+\textbf{\texttt{SocialCardList}}
+Komponent wyświetla listę kafelków \texttt{SocialCard} oraz prezentuje odpowiednie komunikaty w przypadku pustych list.
+Treść komunikatu zależy od typu listy oraz tego, czy jest to profil własny, czy innego użytkownika.
+Dla trybu wyszukiwania znajomych (\texttt{isSearchFriend}) wyświetlany jest komunikat:
+\texttt{"We can't find a user with this username."}.
+W przypadku typu \texttt{POTENTIAL\_GROUP\_CHAT\_MEMBER} stosowany jest komunikat:
+\texttt{"There are no other people in the world besides you."}.
+
+\textbf{\texttt{SocialCard}}
+Komponent reprezentuje pojedynczego użytkownika na listach społecznościowych.
+Wyświetlane są: zdjęcie profilowe, nazwa użytkownika oraz zestaw przycisków akcji które służą do przejścia do profilu,
+otwarcia prywatnego czatu oraz dodania lub usunięcia z listy znajomych bądź obserwowanych.
+
+Relacje znajomości i obserwowania modyfikowane są za pomocą \glslink{mutacja}{mutacji} po stronie \glslink{api}{API},
+odpowiedzialnych za zarządzanie listą znajomych oraz obserwowanych.
+Po ich powodzeniu odświeżane są odpowiednie listy.
+Otwarcie lub utworzenie prywatnego czatu realizowane jest przez osobną \glslink{mutacja}{mutację}, która zwraca obiekt czatu; następnie
+jest on zapisywany w store \glslink{redux}{Reduxa}, ustawiany jako aktualnie wybrany, a aplikacja przełącza widok na \texttt{/chat}.
+
+Przed usunięciem znajomego lub zakończeniem obserwowania wyświetlany jest modal potwierdzenia, którego stan zarządzany
+jest przez \glslink{hook}{hook} \texttt{useBoolean}.
+Treść komunikatu ma postać: \newline
+\texttt{"Are you sure you want to remove \{username\} as a friend?"} lub \newline
+\texttt{"Are you sure you want to remove \{username\} as a follower?"}.
+
+\textbf{\texttt{SocialButton}}
+Jest to uniwersalny przycisk wykorzystywany jako element nawigacji w \texttt{Social} oraz jako przycisk akcji w \texttt{SocialCard}.
+Umożliwia wyróżnienie przycisku aktywnego oraz dostosowanie szerokości do treści.
+
+\textbf{\texttt{SearchFriendsList}}
+Komponent odpowiada za wyszukiwanie potencjalnych znajomych.
+Wykorzystywany jest w modalu otwieranym z poziomu sekcji \texttt{Social}.
+Zapytanie tekstowe jest \glslink{debounce}{debouncowane} za pomocą \glslink{hook}{hooka} \texttt{useDebounce}, a dane
+pobierane są z użyciem \texttt{useInfiniteQuery}, które wysyła zapytania wyszukujące użytkowników po nazwie.
+Interfejs zawiera przycisk zamknięcia, nagłówek, pole wyszukiwania oraz listę wyników w postaci \texttt{SocialCardList}.
+
+\textbf{\texttt{PhotosList}}
+Komponent wyświetla zdjęcia innego użytkownika, gdy z widoku profilu następuje przejście do listy jego zdjęć
+(por. sekcja~\ref{subsubsec:profile}).
+Zdjęcia grupowane są po dacie; dla każdej daty wyświetlany jest \texttt{DateBadge}, a poniżej siatka zdjęć z
+wykorzystaniem komponentu \texttt{Photo}.
+W przypadku braku zdjęć wyświetlany jest komunikat:
+\texttt{"This user hasn't added any photos."}.
+
+\textbf{\texttt{FriendInvitesList}}
+Komponent służy do wyświetlania listy zaproszeń do znajomych otrzymanych przez użytkownika. \newline
+Dane pobierane są za pomocą \texttt{useInfiniteQuery}, a kolejne strony ładowane są przy użyciu \texttt{IntersectionObserver}.
+Zmiana statusu zaproszenia (zaakceptowanie lub odrzucenie) realizowana jest przez \glslink{mutacja}{mutację},
+która wysyła odpowiednie żądanie do \glslink{backend}{backendu}.
+Interfejs zawiera przycisk zamknięcia, nagłówek, listę zaproszeń oraz przyciski akceptacji i odrzucenia dla każdego elementu.
+Kliknięcie w awatar użytkownika powoduje przejście do jego profilu.
+Jeżeli brak zaproszeń, wyświetlany jest komunikat:
+\texttt{"You don't have any invites yet"}.
+
+%-----------------------------------
+\subsubsection{Add spot}
+\label{subsubsec:add-spot}
+
+Zakładka \texttt{Add spot} służy do zarządzania \glslink{spot}{spotami} dodanymi przez użytkownika oraz do
+dodawania nowych \glslink{spot}{spotów}.
+Składa się z następujących komponentów:
+
+\begin{itemize}
+    \item \texttt{AddedSpot},
+    \item \texttt{UploadButton},
+    \item \texttt{SpotMap},
+    \item \texttt{PolygonDrawer},
+    \item \texttt{AddSpotModal},
+    \item \texttt{AddSpotInput},
+    \item \texttt{AddedSpotTile}.
+\end{itemize}
+
+Dodatkowo wykorzystywany jest schemat walidacji \texttt{spotSchema} utworzony z użyciem \glslink{biblioteka}{biblioteki} \texttt{zod}.
+
+\textbf{\texttt{AddedSpot}}  (rys. \ref{img:added-spot})
+Jest to główny komponent zakładki.
+Odpowiada za wyświetlenie listy spotów dodanych przez użytkownika oraz za otwieranie \glslink{modal}{okna modalnego}
+\texttt{AddSpotModal} służącego do dodania nowego \glslink{spot}{spota}.
+Dane pobierane są za pomocą \texttt{useInfiniteQuery}, które pobiera kolejne strony wyników z \glslink{backend}{backendu},
+a mechanizm \glslink{infinite-scroll}{\textit{infinite scroll}} zaimplementowano przy użyciu \texttt{IntersectionObserver}.
+
+\glslink{stan}{Stan} widoczności modala zarządzany jest przez \glslink{hook}{hook} \texttt{useBoolean}.
+Dodatkowo sprawdzana jest szerokość okna przeglądarki; formularz dodawania \glslink{spot}{spota} dostępny jest tylko
+na ekranach o szerokości co najmniej 900~px.
+W przypadku niespełnienia tego warunku wyświetlany jest komunikat informacyjny w komponencie \texttt{Notification}.
+
+Widok opakowany jest w \texttt{AccountWrapper} z wariantem \texttt{ADD\_SPOT} oraz nagłówek \texttt{AccountTitle}.
+Jeżeli użytkownik nie dodał żadnych \glslink{spot}{spotów}, wyświetlany jest komunikat:
+\texttt{"You haven't added any spots yet."},
+w przeciwnym razie renderowana jest lista kafelków \texttt{AddedSpotTile}.
+Podczas ładowania danych prezentowany jest \texttt{LoadingSpinner}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/added-spot}
+    \caption{Komponent \texttt{AddedSpot}.}
+    \label{img:added-spot}
+\end{figure}
+
+\textbf{\texttt{UploadButton}}
+Komponent służy do wyboru i podglądu multimediów (zdjęć i filmów) dodawanych do \glslink{spot}{spota}.
+W lokalnym stanie utrzymywana jest lista wybranych plików wraz z tymczasowymi adresami tworzonymi za pomocą
+\newline \texttt{URL.createObjectURL}.
+Użytkownik może usuwać pojedyncze elementy listy, a przy usuwaniu zwalniane są zasoby (\texttt{URL.revokeObjectURL}).
+Dozwolone są wybrane typy plików graficznych oraz wideo.
+
+\textbf{\texttt{SpotMap}}
+Komponent wyświetla miniaturową mapę z zaznaczoną lokalizacją spota.
+Wykorzystywana jest \glslink{biblioteka}{biblioteka} \texttt{maplibregl} oraz przygotowany styl mapy \newline \texttt{map\_style.json}.
+Na mapie umieszczany jest marker w pozycji \glslink{spot}{spota}.
+
+\textbf{\texttt{PolygonDrawer}}
+Komponent umożliwia interaktywne narysowanie konturu \glslink{spot}{spota} na mapie.
+Zbudowany jest w oparciu o \texttt{@vis.gl/react-maplibre}.
+Kliknięcia w mapę dodają kolejne wierzchołki, a po dodaniu co najmniej trzech punktów prezentowany jest zamknięty wielokąt.
+Użytkownik może cofnąć ostatni punkt lub zatwierdzić wielokąt, przekazując współrzędne do komponentu nadrzędnego.
+W razie błędu walidacji konturu wyświetlany jest komunikat pod mapą.
+
+\textbf{\texttt{AddSpotModal}}
+Komponent odpowiada za dodawanie nowego \glslink{spot}{spota}.
+W stanie przechowywany jest obiekt z danymi \glslink{spot}{spota}, komunikaty błędów walidacyjnych oraz aktualna pozycja mapy.
+Adres budowany jest z pól formularza (ulica, miasto, region, kraj) i \glslink{debounce}{debouncowany} za pomocą
+\glslink{hook}{hooka} \texttt{useDebounce}.
+Na podstawie pełnego adresu \glslink{hook}{hook} \texttt{useQuery} pobiera współrzędne geograficzne, a mapa przesuwana
+jest do odpowiedniej lokalizacji.
+
+Walidacja danych formularza realizowana jest przy użyciu \texttt{spotSchema}.
+W przypadku niepowodzenia walidacji wypełniane są pola błędów oraz wyświetlany jest komunikat:
+\texttt{"Please fill in all fields correctly"}.
+Po poprawnej walidacji wywoływana jest \glslink{mutacja}{mutacja} odpowiedzialna za dodanie \glslink{spot}{spota} po stronie \glslink{backend}{backendu}.
+Po jej powodzeniu \glslink{modal}{modal} jest zamykany, formularz resetowany, dane listy odświeżane, a użytkownik otrzymuje
+komunikat o poprawnym dodaniu \glslink{spot}{spota}.
+
+Wyświetlenie \glslink{modal}{modala} zrealizowano za pomocą \texttt{createPortal}, co umożliwia umieszczenie go w dedykowanym elemencie
+\gls{dom} (\texttt{<div id="modal">}).
+Za animacje otwierania i zamykania odpowiadają komponenty \texttt{AnimatePresence} oraz
+\texttt{motion.div} z \glslink{biblioteka}{biblioteki} motion.
+
+\textbf{\texttt{AddSpotInput}}
+Komponent odpowiada za wyświetlanie i obsługę listy pól formularza.
+Korzysta z lokalnego \glslink{stan}{stanu} błędów oraz schematu \texttt{spotSchema} (za pomocą \texttt{pick}) do walidacji pojedynczych pól.
+Do prezentacji pól wykorzystuje uniwersalny komponent \texttt{FormInput}.
+
+\textbf{\texttt{AddedSpotTile}}
+Komponent wyświetla pojedynczy kafelek z informacjami o dodanym \glslink{spot}{spocie}.
+Prezentowane są: zdjęcie spota, mini mapa (\texttt{SpotMap}) z lokalizacją, nazwa, opis oraz adres (kraj, miasto, ulica).
+
+%-----------------------------------
+\subsubsection{Comments}
+\label{subsubsec:comments}
+
+Zakładka \texttt{Comments} wyświetla wszystkie komentarze dodane przez użytkownika pod \glslink{spot}{spotami}.
+Składa się z dwóch głównych komponentów:
+
+\begin{itemize}
+    \item \texttt{Comments},
+    \item \texttt{CommentsList}.
+\end{itemize}
+
+\textbf{\texttt{Comments}}  (rys. \ref{img:comments})
+Komponent korzysta z \glslink{hook}{hooka} \texttt{useDateSortFilter}, analogicznie jak zakładki \texttt{Photos} i \texttt{Movies}.
+Dane pobierane są za pomocą \texttt{useInfiniteQuery}, które pobiera kolejne strony komentarzy z \glslink{backend}{backendu},
+a \glslink{infinite-scroll}{\textit{infinite scroll}} realizowany jest przez \texttt{IntersectionObserver}.
+
+W przypadku błędu podczas pobierania komentarzy w \glslink{hook}{hooku} \texttt{useEffect} ustawiany jest komunikat błędu,
+wyświetlany przez \texttt{Notification}.
+Widok opakowany jest w \texttt{AccountWrapper} z wariantem \texttt{COMMENTS} i nagłówek \texttt{AccountTitle}.
+Poniżej znajduje się panel filtrów \texttt{SortAndDateFilters}, a następnie lista komentarzy
+pogrupowanych po dacie i nazwie \glslink{spot}{spota}.
+
+Dla każdej grupy wyświetlany jest \texttt{DateBadge} z datą oraz informacją o \glslink{spot}{spocie},
+a poniżej lista komentarzy renderowana przez \texttt{CommentsList}.
+Jeżeli użytkownik nie dodał żadnych komentarzy, wyświetlany jest komunikat:
+\texttt{"You haven't added any comments."}.
+Podczas ładowania danych oraz kolejnych stron prezentowany jest \newline \texttt{LoadingSpinner}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/comments}
+    \caption{Komponent \texttt{Comments}.}
+    \label{img:comments}
+\end{figure}
+
+\textbf{\texttt{CommentsList}}
+Komponent otrzymuje listę komentarzy i wyświetla je w postaci kafelków zawierających godzinę dodania oraz treść komentarza.
+
+%-----------------------------------
+\subsubsection{Settings}
+\label{subsubsec:settings}
+
+Zakładka \texttt{Settings} umożliwia użytkownikowi edycję podstawowych danych konta.
+Została zrealizowana za pomocą dwóch głównych komponentów:
+
+\begin{itemize}
+    \item \texttt{Settings},
+    \item \texttt{DisableInput}.
+\end{itemize}
+
+\textbf{\texttt{Settings}}  (rys. \ref{img:settings})
+Komponent zarządza procesem zmiany danych użytkownika oraz wyświetlaniem odpowiednich formularzy.
+Typ danych podlegających edycji (\texttt{USERNAME}, \texttt{EMAIL}, \texttt{PASSWORD}) przechowywany jest w stanie (\texttt{editType}).
+
+Na początku, za pomocą \glslink{hook}{hooka} \texttt{useQuery}, pobierane są dane użytkownika (nazwa, e-mail, dostawca logowania).
+Dopóki dane są ładowane, wyświetlany jest \newline \texttt{LoadingSpinner}.
+Podstawowe informacje prezentowane są przez komponenty \newline \texttt{DisableInput}, które wyświetlają aktualne wartości
+oraz przycisk \texttt{"Edit"}.
+
+Po wyborze rodzaju edycji po prawej stronie pojawia się formularz dopasowany do aktualnego \texttt{editType}.
+Walidacja realizowana jest przy użyciu schematów \texttt{baseSchemas} zdefiniowanych w \glslink{biblioteka}{bibliotece}
+\texttt{zod}, a obsługę formularza zapewnia \texttt{react-hook-form} w połączeniu z \texttt{zodResolver}.
+Dane wysyłane są do \glslink{backend}{backendu} za pomocą \glslink{mutacja}{mutacji}, która aktualizuje
+odpowiednie ustawienia użytkownika.
+W przypadku błędu prezentowany jest komunikat z odpowiedzi \glslink{backend}{backendu}; po sukcesie wyświetlany
+jest komunikat o poprawnej zmianie ustawień oraz odświeżane są dane użytkownika.
+
+Dla kont utworzonych przez formularz rejestracji (\texttt{Provider.NONE}) dostępna jest edycja nazwy użytkownika,
+adresu e-mail oraz hasła.
+Jeżeli konto zostało utworzone za pomocą zewnętrznego dostawcy (Google, GitHub), wyświetlany jest komunikat:
+\texttt{"Your account was created via (Google/Github)"} oraz \newline
+\texttt{"Your email address is (...) and cannot be changed."},
+a formularze edycyjne są wówczas ukryte.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/settings}
+    \caption{Komponent \texttt{Settings}.}
+    \label{img:settings}
+\end{figure}
+
+\textbf{\texttt{DisableInput}}
+Komponent prezentuje pojedyncze pole z aktualną wartością danej informacji (nazwy użytkownika, e-mail lub hasła) w trybie
+tylko do odczytu oraz przyciskiem \texttt{"Edit"}.
+Dla pola hasła wyświetlane są jedynie gwiazdki.
+Logika wyboru rodzaju edycji pozostaje w komponencie nadrzędnym.
+
+%-----------------------------------
+\subsubsection{Komponenty wspólne}
+\label{subsubsec:common-components}
+
+Panel użytkownika wykorzystuje także zestaw komponentów uniwersalnych, z których część była już wspomniana w
+poprzednich sekcjach.
+Dla przejrzystości poniżej zebrano ich krótkie opisy.
+
+\textbf{\texttt{AccountWrapper}} (rys. \ref{img:account-wrapper})
+Komponent odpowiada za wspólny układ i podstawowe stylowanie poszczególnych zakładek panelu.
+Przyjmuje wariant widoku i na jego podstawie stosuje odpowiednie klasy \glslink{tailwind-css}{Tailwind}, dzięki czemu
+zachowana jest spójność wizualna przy jednoczesnej możliwości dostosowania przestrzeni danej sekcji.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/account-wrapper}
+    \caption{Komponent \texttt{AccountWrapper}.}
+    \label{img:account-wrapper}
+\end{figure}
+
+\textbf{\texttt{AccountTitle}} (rys. \ref{img:account-title})
+Komponent wyświetla nagłówek danej sekcji jako element \texttt{h1}.
+Dodatkowo ustawia atrybut \texttt{data-testid}, co ułatwia testowanie widoków.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/account-title}
+    \caption{Komponent \texttt{AccountTitle}.}
+    \label{img:account-title}
+\end{figure}
+
+\textbf{\texttt{SortDropdown}}
+Komponent udostępnia możliwość wyboru typu sortowania po dacie (malejąco/rosnąco).
+\glslink{stan}{Stan} rozwinięcia listy zarządzany jest przez \glslink{hook}{hook} \texttt{useBoolean},
+a animacje zrealizowano za pomocą \glslink{biblioteka}{biblioteki} \texttt{framer-motion}.
+Komponent używany jest pośrednio poprzez \texttt{SortAndDateFilters}.
+
+\textbf{\texttt{DateChooser}} (rys. \ref{img:date-chooser})
+Jest to wrapper wokół komponentu \texttt{DatePicker} z \glslink{biblioteka}{biblioteki} Ant Design.
+Służy do wyboru daty w polach \texttt{"From"} oraz \texttt{"To"} w panelu filtrowania.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/date-chooser}
+    \caption{Wybór zakresu dat w panelu filtrowania (\texttt{DateChooser}).}
+    \label{img:date-chooser}
+\end{figure}
+
+\textbf{\texttt{SortAndDateFilters}} (rys. \ref{img:sort-and-date-filters})
+Komponent łączy \texttt{SortDropdown} oraz dwa \newline \texttt{DateChooser}, tworząc panel sterujący sortowaniem i
+filtrowaniem po dacie.
+Wykorzystywany jest w zakładkach \texttt{Photos}, \texttt{Movies} oraz \texttt{Comments}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/sort-and-date-filters}
+    \caption{Komponent \texttt{SortAndDateFilters}.}
+    \label{img:sort-and-date-filters}
+\end{figure}
+
+\textbf{\texttt{DateBadge}} (rys. \ref{img:date-badge})
+Komponent służy do czytelnej prezentacji daty (formatowanej zgodnie z lokalizacją \texttt{"pl-PL"}) oraz
+opcjonalnej dodatkowej informacji przekazywanej jako \texttt{children}.
+Wykorzystywany jest do grupowania zdjęć, filmów oraz komentarzy po dacie.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/panel-uzytkownika/date-badge}
+    \caption{Komponent \texttt{DateBadge}.}
+    \label{img:date-badge}
+\end{figure}
+
+Komponent \textbf{\texttt{LoadingSpinner}} jest wspólnym komponentem informującym o
+trwającym ładowaniu danych i pojawia się
+w większości widoków w \glslink{stan}{stanach} \texttt{isLoading} oraz \texttt{isFetchingNextPage}.
+
+\textbf{\texttt{Notification}} (przywoływany pośrednio poprzez akcje \glslink{redux}{Reduxa} \newline
+\texttt{notificationAction.addSuccess}, \texttt{addError} oraz \texttt{addInfo}) odpowiada za prezentację komunikatów
+informacyjnych, błędów oraz potwierdzeń operacji.

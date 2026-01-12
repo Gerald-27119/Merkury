@@ -1,0 +1,325 @@
+%! Author = kacper
+%! Date = 04/01/2026
+
+\section{Strona forum}
+\label{sec:strona-forum}
+
+Forum jest dostępne od momentu wejścia na stronę również dla użytkowników niezalogowanych, jednak wyłącznie do przeglądania treści.
+Wszelkie próby interakcji z nimi wymagają poprawnego zalogowania.
+Forum składa się z sześciu podstron:
+\begin{itemize}
+    \item Home Page
+    \item Post Details
+    \item All Categories
+    \item All Tags
+    \item Followed Posts
+    \item Guidelines
+\end{itemize}
+
+Interfejs forum został zaprojektowany w wersji jasnej oraz ciemnej, przy czym większość zdjęć w tym rozdziale zaprezentowano w trybie jasnym.
+
+\subsection{Home Page}
+\label{subsec:home-page}
+
+Strona główna forum (rys. \ref{img:home-page}) (rys. \ref{img:home-page-dark}) składa się z trzech podstawowych obszarów funkcjonalnych:
+\begin{itemize}
+    \item centralnej listy postów
+    \item lewego panelu bocznego
+    \item prawego panelu bocznego
+\end{itemize}
+
+
+\subsubsection{Lista postów}
+
+Centralna część strony zawiera listę postów posortowanych według wybranej opcji.
+Nad listą umieszczony został przycisk umożliwiający zmianę sposobu sortowania.
+Dostępne opcje to: \textit{Newest, Oldest, Most Viewed, Least Viewed, Most Commented, Least Commented}.
+
+Każdy post prezentowany jest w formie kafelka zawierającego:
+\begin{itemize}
+    \item tytuł posta
+    \item kategorię
+    \item tagi
+    \item skróconą treść posta (bez obrazów)
+    \item liczbę komentarzy
+    \item liczbę wyświetleń
+    \item menu kontekstowe
+\end{itemize}
+
+Menu kontekstowe ukryte jest pod ikoną trzech poziomych kropek i umożliwia zgłoszenie posta (rys. \ref{img:report-form}) lub dodanie go do obserwowanych (rys. \ref{img:menu-not-author}).
+Próba wykonania tych operacji przez użytkownika niezalogowanego skutkuje wyświetleniem odpowiedniego komunikatu.
+W przypadku zalogowanego autora posta dostępne są dodatkowe opcje edycji oraz usunięcia treści (rys. \ref{img:menu-author}).
+Kliknięcie kafelka powoduje przejście do widoku szczegółów posta.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/home_page}
+    \caption{Strona główna w trybie jasnym}
+    \label{img:home-page}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/home_page_dark}
+    \caption{Strona główna w trybie ciemnym}
+    \label{img:home-page-dark}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{attachments/prezentacja-systemu/forum/menu_kontekstowe_not_author}
+    \caption{Menu kontekstowe posta dla użytkownika niebędącego autorem posta}
+    \label{img:menu-not-author}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{attachments/prezentacja-systemu/forum/menu_kontekstowe_author}
+    \caption{Menu kontekstowe posta dla autora posta}
+    \label{img:menu-author}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/report_form}
+    \caption{Formularz zgłoszenia posta lub komentarza}
+    \label{img:report-form}
+\end{figure}
+
+\subsubsection{Lewy panel boczny}
+
+Lewy panel boczny (rys. \ref{img:left-panel}) zawiera przycisk umożliwiający otwarcie formularza tworzenia nowego posta w formie \glslink{modal}{modalu}.
+Poniżej wyświetlana jest lista dostępnych kategorii oraz tagów.
+Przyciski \textit{All Categories} oraz \textit{All Tags} przekierowują do podstron prezentujących alfabetyczne listy tych elementów.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{attachments/prezentacja-systemu/forum/left_panel}
+    \caption{Lewy panel boczny forum}
+    \label{img:left-panel}
+\end{figure}
+
+Formularz tworzenia posta (rys. \ref{img:create-post}) składa się z następujących pól:
+\begin{itemize}
+    \item \textbf{title} -- tytuł posta
+    \item \textbf{category} -- kategoria posta
+    \item \textbf{tags} -- lista tagów
+    \item \textbf{content} -- treść posta tworzona za pomocą edytora \glslink{rich-text-editor}{typu rich text}
+\end{itemize}
+
+Na dole formularza znajdują się dwa przyciski:
+\begin{itemize}
+    \item \textbf{create} -- zapisanie posta
+    \item \textbf{cancel} -- anulowanie operacji i zamknięcie formularza
+\end{itemize}
+
+Otwarcie formularza przez użytkownika niezalogowanego powoduje wyświetlenie odpowiedniego komunikatu informacyjnego (rys. \ref{img:create-post-warning}).
+W formularzu zastosowano walidację danych.
+W przypadku braku wymaganych danych pojawia się informacja pod polem nie spełniającym wymagań (rys. \ref{img:create-post-validation}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/create_post_form}
+    \caption{Formularz tworzenia nowego posta}
+    \label{img:create-post}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/post_validation}
+    \caption{Walidacja formularza tworzenia posta}
+    \label{img:create-post-validation}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/create_post_warning}
+    \caption{Komunikat informujący o konieczności zalogowania w celu utworzenia posta}
+    \label{img:create-post-warning}
+\end{figure}
+
+\subsubsection{Prawy panel boczny}
+
+Prawy panel boczny (rys. \ref{img:right-panel}) składa się z dwóch elementów.
+
+\paragraph{SearchBar}
+
+Komponent \textit{SearchBar} (rys. \ref{img:search-bar}) umożliwia wyszukiwanie postów na forum.
+Po jego rozwinięciu dostępne są dodatkowe filtry, w tym:
+\begin{itemize}
+    \item kategoria
+    \item tagi
+    \item zakres dat (from, to)
+    \item autor
+\end{itemize}
+
+W prawym dolnym rogu rozwiniętego paska wyszukiwania znajdują się dwa przyciski:
+\begin{itemize}
+    \item \textbf{clear} -- wyczyszczenie ustawionych filtrów,
+    \item \textbf{search} -- wykonanie wyszukiwania.
+\end{itemize}
+
+Po zakończeniu wyszukiwania strona wyświetla listę wyników wraz z informacją o liczbie znalezionych postów oraz zastosowanych filtrach (rys. \ref{img:search-example}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{attachments/prezentacja-systemu/forum/search_bar}
+    \caption{Panel wyszukiwania postów}
+    \label{img:search-bar}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/search_example}
+    \caption{Przykładowy widok wyników wyszukiwania postów}
+    \label{img:search-example}
+\end{figure}
+
+\paragraph{Top Posts}
+
+Sekcja \textit{Top Posts} prezentuje listę trzech najpopularniejszych postów z okresu ostatniego miesiąca.
+Każdy element zawiera nazwę użytkownika wraz ze zdjęciem profilowym autora oraz datę publikacji.
+Kliknięcie tytułu przenosi do widoku szczegółów posta, natomiast kliknięcie nazwy autora prowadzi do jego profilu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{attachments/prezentacja-systemu/forum/right_panel}
+    \caption{Prawy panel boczny forum}
+    \label{img:right-panel}
+\end{figure}
+
+Lewy oraz prawy panel boczny są widoczne na wszystkich podstronach forum, co zapewnia spójną i wygodną nawigację.
+
+\subsection{Post Details}
+\label{subsec:post-details}
+
+Widok szczegółów posta prezentuje jego pełną treść wraz z osadzonymi obrazami (rys. \ref{img:detailed-post}).
+Nad kafelkiem posta umieszczone są dwa przyciski:
+\begin{itemize}
+    \item po lewej stronie -- przycisk nawigacyjny umożliwiający powrót do strony głównej forum
+    \item po prawej stronie -- przycisk w postaci ikony dzwonka służący do dodania posta do obserwowanych
+\end{itemize}
+
+Górna część kafelka zawiera zdjęcie profilowe autora oraz jego nazwę użytkownika, a po przeciwnej stronie datę utworzenia posta.
+Poniżej wyświetlane są kategoria i tagi, następnie tytuł oraz pełna treść wpisu.
+
+W dolnej części znajdują się przyciski interakcji, obejmujące:
+\begin{itemize}
+    \item przycisk \textit{upvote} z liczbą polubień
+    \item przycisk \textit{downvote} z liczbą negatywnych ocen
+    \item liczbę komentarzy
+    \item przycisk \textit{share} umożliwiający skopiowanie adresu \glslink{url}{URL} posta
+    \item menu kontekstowe służące do zarządzania postem, dodania go do obserwowanych lub zgłoszenia
+    \item przycisk dodania nowego komentarza
+\end{itemize}
+
+Przyciski \textit{upvote} oraz \textit{downvote} zmieniają kolor w przypadku oddania głosu przez zalogowanego użytkownika (rys. \ref{img:upvoted-post}).
+Naciśnięcie przycisku \textit{Add comment} spowoduje otwarcie formularza dodania komentarza (rys. \ref{img:add-comment}), natomiast w przypadku użytkownika niezalogowanego wyświetlany jest odpowiedni komunikat informujący o konieczności zalogowania.
+W formularzu zastosowano walidację danych.
+W przypadku braku wymaganych danych pojawia się informacja pod polem nie spełniającym wymagań (rys. \ref{img:comment-validation}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/detailed_post}
+    \caption{Widok szczegółów posta}
+    \label{img:detailed-post}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/upvoted_post}
+    \caption{Polubiony post}
+    \label{img:upvoted-post}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/add_comment}
+    \caption{Formularz dodawania komentarza}
+    \label{img:add-comment}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/comment_validation}
+    \caption{Walidacja formularza dodawania komentarza}
+    \label{img:comment-validation}
+\end{figure}
+
+Pod kafelkiem posta wyświetlana jest lista komentarzy (rys. \ref{img:comments-replies-closed}).
+Elementy mają formę wizualnie zbliżoną do posta, z wyłączeniem funkcji udostępniania.
+Każdy z nich zawiera przycisk \textit{reply} umożliwiający dodanie odpowiedzi oraz menu kontekstowe pozwalające autorowi na edycję lub usunięcie treści.
+Usunięty komentarz pozostaje widoczny w formie komunikatu „Comment was deleted by the user.”, a wszelka interakcja z nim jest zablokowana (rys. \ref{img:deleted-comment}).
+W przypadku elementów posiadających odpowiedzi wyświetlana jest ikona strzałki wraz z liczbą odpowiedzi, umożliwiająca rozwinięcie ich listy (rys. \ref{img:comments-replies-open}).
+
+Próba dodania komentarza lub odpowiedzi przez użytkownika niezalogowanego skutkuje wyświetleniem odpowiedniego komunikatu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/comments_replies_closed}
+    \caption{Widok listy komentarzy pod postem}
+    \label{img:comments-replies-closed}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/comments_replies_open}
+    \caption{Widok listy komentarzy z rozwiniętymi odpowiedziami}
+    \label{img:comments-replies-open}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/deleted_comment}
+    \caption{Widok usuniętego komentarza}
+    \label{img:deleted-comment}
+\end{figure}
+
+\subsection{All Categories}
+
+Podstrona \textit{All Categories} (rys. \ref{img:categories}) prezentuje alfabetyczną listę wszystkich kategorii postów.
+Wybranie konkretnej kategorii powoduje przejście do widoku wyników wyszukiwania w obrębie strony głównej forum, zawierającego posty przypisane do danej kategorii.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/all_categories}
+    \caption{Widok listy kategorii}
+    \label{img:categories}
+\end{figure}
+
+\subsection{All Tags}
+
+Podstrona \textit{All Tags} (rys. \ref{img:tags}) wyświetla alfabetyczną listę wszystkich tagów.
+Kliknięcie wybranego tagu przekierowuje do widoku wyników wyszukiwania na stronie głównej forum, zawierającego posty oznaczone tym tagiem.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/all_tags}
+    \caption{Widok listy tagów}
+    \label{img:tags}
+\end{figure}
+
+\subsection{Followed Posts}
+
+Podstrona \textit{Followed Posts} (rys. \ref{img:followed-posts}) dostępna jest wyłącznie dla zalogowanych użytkowników.
+Zawiera listę obserwowanych postów z możliwością sortowania analogiczną do strony głównej forum.
+Dostęp do podstrony realizowany jest poprzez wybór odpowiedniej sekcji w \glslink{sidebar}{sidebarze} po poprawnym zalogowaniu.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/followed_posts}
+    \caption{Lista obserwowanych postów}
+    \label{img:followed-posts}
+\end{figure}
+
+\subsection{Guidelines}
+
+Podstrona \textit{Guidelines} (rys. \ref{img:guidelines}) zawiera regulamin korzystania z forum i jest stale dostępna dla wszystkich użytkowników.
+Przejście do niej odbywa się poprzez wybór odpowiedniej sekcji w \glslink{sidebar}{sidebarze}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/prezentacja-systemu/forum/guidelines}
+    \caption{Regulamin korzystania z forum}
+    \label{img:guidelines}
+\end{figure}
