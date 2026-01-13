@@ -105,6 +105,7 @@ function bytesToMB(
 ): string {
     const { binary = true, decimals = 2 } = opts;
     if (bytes == null || !Number.isFinite(bytes)) return "—";
+    // TODO
     const denom = binary ? 1024 * 1024 : 1_000_000;
     const unit = binary ? "MiB" : "MB";
     return `${(bytes / denom).toFixed(decimals)} ${unit}`;
