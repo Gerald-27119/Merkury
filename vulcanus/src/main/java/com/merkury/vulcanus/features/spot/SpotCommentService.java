@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -67,7 +68,8 @@ public class SpotCommentService {
     }
 
     public List<SpotCommentMediaDto> getRestOfSpotCommentMedia(Long commentId) {
-        return spotCommentMediaRepository.findBySpotCommentId(commentId).stream().map(SpotCommentMediaMapper::toDto).toList();
+        return spotCommentMediaRepository.findBySpotCommentId(commentId).stream().map(SpotCommentMediaMapper::toDto)
+                .sorted(Comparator.comparingLong(SpotCommentMediaDto::idInSpotMedia)).toList();
     }
 
     public void addComment(String spotCommentJson, List<MultipartFile> mediaFiles, Long spotId) throws SpotNotFoundException, InvalidFileTypeException, BlobContainerNotFoundException, IOException, UserNotFoundException, SpotMediaNumberOfMediaExceeded, SpotCommentTextOutOfBoundariesException, SpotCommentRatingOutOfBoundariesException {
@@ -107,14 +109,14 @@ public class SpotCommentService {
                         .author(author)
                         .spot(spot)
                         .build();
+                var savedSpotMedia = spotMediaRepository.save(mediaEntity);
+                spotCommentMedia.setIdInSpotMedia(savedSpotMedia.getId());
                 spotCommentMediaEntities.add(spotCommentMedia);
                 spotMediaEntities.add(mediaEntity);
             }
         }
-
         spotCommentEntity.setMedia(spotCommentMediaEntities);
         spotCommentRepository.save(spotCommentEntity);
-        spotMediaRepository.saveAll(spotMediaEntities);
         updateSpotRating(spot);
     }
 

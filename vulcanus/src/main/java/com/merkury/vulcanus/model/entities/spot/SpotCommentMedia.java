@@ -21,6 +21,7 @@ public class SpotCommentMedia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private long idInSpotMedia;
     private String url;
     private GenericMediaType genericMediaType;
 

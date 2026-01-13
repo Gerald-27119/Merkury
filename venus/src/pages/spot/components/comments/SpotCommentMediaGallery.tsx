@@ -27,6 +27,9 @@ export default function SpotCommentMediaGallery({
     commentId,
     numberOfMedia,
 }: SpotCommentMediaGalleryProps) {
+    const [mediaList, setMediaList] =
+        useState<SpotCommentMediaDto[]>(initialMedia);
+
     const [isShowMoreMedia, showMoreMedia, _, __] = useBoolean();
     const [clickedMediaData, setClickedMediaData] = useState<{
         mediaId: number | null;
@@ -51,9 +54,17 @@ export default function SpotCommentMediaGallery({
         await refetch();
     };
 
-    const mediaList = isShowMoreMedia
-        ? (mediaData ?? initialMedia)
-        : initialMedia;
+    useEffect(() => {
+        if (isShowMoreMedia) {
+            if (mediaData) {
+                setMediaList(mediaData);
+            } else {
+                setMediaList(initialMedia);
+            }
+        } else {
+            setMediaList(initialMedia);
+        }
+    }, [mediaData, isShowMoreMedia, initialMedia]);
 
     const { sorting } = useSelectorTyped(
         (state) => state.expandedSpotMediaGallery,
@@ -119,14 +130,17 @@ export default function SpotCommentMediaGallery({
                 className={`${numberOfMedia < 3 ? "flex space-x-3" : "text-darkText grid grid-cols-3 gap-3"}`}
             >
                 {mediaList.map((media: SpotCommentMediaDto, idx: number) => (
-                    <li key={media.id} className="relative cursor-pointer">
+                    <li
+                        key={media.id}
+                        className="relative aspect-square w-30 cursor-pointer"
+                    >
                         {media.genericMediaType === MediaType.VIDEO ? (
                             <>
                                 <div
                                     onClick={() =>
                                         handleClickClickMedia(
                                             media.genericMediaType,
-                                            media.id,
+                                            media.idInSpotMedia,
                                         )
                                     }
                                     className="bg-darkBg/80 absolute inset-0 z-10 flex cursor-pointer items-center justify-center text-2xl 2xl:text-4xl"
@@ -152,7 +166,7 @@ export default function SpotCommentMediaGallery({
                                 onClick={() =>
                                     handleClickClickMedia(
                                         media.genericMediaType,
-                                        media.id,
+                                        media.idInSpotMedia,
                                     )
                                 }
                                 src={media.url}
