@@ -1,2 +1,2 @@
 @echo off
-docker-compose up postgres-db mongo-db redis
+docker-compose up postgres-db redis
