@@ -104,24 +104,9 @@
             <version>1.13.4</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo</artifactId>
-            <version>4.18.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo.spring3x</artifactId>
-            <version>4.18.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -196,12 +181,12 @@
         <dependency>
             <groupId>net.javacrumbs.shedlock</groupId>
             <artifactId>shedlock-spring</artifactId>
-            <version>5.16.0</version>
+            <version>7.5.0</version>
         </dependency>
         <dependency>
             <groupId>net.javacrumbs.shedlock</groupId>
-            <artifactId>shedlock-provider-mongo</artifactId>
-            <version>5.16.0</version>
+            <artifactId>shedlock-provider-jdbc-template</artifactId>
+            <version>7.5.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.retry</groupId>

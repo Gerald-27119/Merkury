@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres-db:
     container_name: postgres-db
@@ -10,16 +8,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  mongo-db:
-    container_name: mongo-db
-    build: ./mongo
-    env_file:
-      - ./mongo/mongo.env
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
+      - ./postgres/init-sql:/docker-entrypoint-initdb.d
 
   redis:
     container_name: redis
@@ -38,9 +27,7 @@ services:
       - "8080:8080"
     depends_on:
       - postgres-db
-      - mongo-db
       - redis
 
 volumes:
   postgres_data:
-  mongo_data:
