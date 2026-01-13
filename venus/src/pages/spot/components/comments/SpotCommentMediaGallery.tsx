@@ -130,7 +130,7 @@ export default function SpotCommentMediaGallery({
                 className={`${numberOfMedia < 3 ? "flex space-x-3" : "text-darkText grid grid-cols-3 gap-3"}`}
             >
                 {mediaList.map((media: SpotCommentMediaDto, idx: number) => (
-                    <li key={media.id} className="relative cursor-pointer">
+                    <li key={media.id} className="relative cursor-pointer aspect-square w-30 ">
                         {media.genericMediaType === MediaType.VIDEO ? (
                             <>
                                 <div
