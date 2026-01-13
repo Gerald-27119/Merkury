@@ -2,12 +2,15 @@ package com.merkury.vulcanus.model.mappers.spot;
 
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentAddDto;
 import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentDto;
+import com.merkury.vulcanus.model.dtos.spot.comment.SpotCommentMediaDto;
 import com.merkury.vulcanus.model.entities.spot.SpotComment;
 import com.merkury.vulcanus.model.entities.spot.Spot;
 import com.merkury.vulcanus.model.entities.UserEntity;
+import com.merkury.vulcanus.model.entities.spot.SpotCommentMedia;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 
 public class SpotCommentMapper {
     private SpotCommentMapper() {
@@ -25,7 +28,9 @@ public class SpotCommentMapper {
                 .isUpVoted(spotComment.getUpVotedBy().contains(currentUser))
                 .isDownVoted(spotComment.getDownVotedBy().contains(currentUser))
                 .numberOfMedia(spotComment.getMedia().size())
-                .mediaList(spotComment.getMedia().stream().limit(3).map(SpotCommentMediaMapper::toDto).toList())
+                .mediaList(spotComment.getMedia().stream().sorted(Comparator.comparingLong(SpotCommentMedia::getIdInSpotMedia))
+                        .limit(3).map(SpotCommentMediaMapper::toDto)
+                        .sorted(Comparator.comparingLong(SpotCommentMediaDto::idInSpotMedia)).toList())
                 .build();
     }
 
