@@ -19,7 +19,7 @@ export default function ChatContent() {
     if (selectedChatId == null || !chatDto) {
         return (
             <div className="flex h-full items-center justify-center text-sm text-gray-400">
-                Select a chat to start messaging…
+                You must create your first chat.
             </div>
         );
     }

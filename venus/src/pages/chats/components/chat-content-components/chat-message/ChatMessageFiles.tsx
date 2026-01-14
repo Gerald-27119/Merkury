@@ -69,10 +69,7 @@ export default function ChatMessageFiles({
                             </p>
 
                             <span title={`${file.sizeInBytes} B`}>
-                                {bytesToMB(file.sizeInBytes, {
-                                    binary: true,
-                                    decimals: 2,
-                                })}
+                                {formatBytes(file.sizeInBytes)}
                             </span>
                         </div>
                         <a
@@ -99,15 +96,18 @@ type Props = {
 const getExt = (name?: string | null) =>
     name?.split(".").pop()?.toLowerCase() ?? null;
 
-function bytesToMB(
-    bytes?: number | null,
-    opts: { binary?: boolean; decimals?: number } = {},
-): string {
-    const { binary = true, decimals = 2 } = opts;
+function formatBytes(bytes?: number | null): string {
     if (bytes == null || !Number.isFinite(bytes)) return "—";
-    const denom = binary ? 1024 * 1024 : 1_000_000;
-    const unit = binary ? "MiB" : "MB";
-    return `${(bytes / denom).toFixed(decimals)} ${unit}`;
+
+    const MB = 1024 * 1024;
+
+    if (bytes < MB) {
+        const value = bytes / 1024;
+        return `${value.toFixed(2)} KB`;
+    }
+
+    const value = bytes / MB;
+    return `${value.toFixed(2)} MB`;
 }
 
 const MIME = {

@@ -19,9 +19,12 @@ function App() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                await axios.get(`${BASE_URL}/account/check`, {
-                    withCredentials: true,
-                });
+                const username = (
+                    await axios.get(`${BASE_URL}/account/check`, {
+                        withCredentials: true,
+                    })
+                ).data;
+                dispatch(accountAction.setUsername(username));
             } catch (error) {
                 if (error.response?.status === 401) {
                     await logout();
