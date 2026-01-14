@@ -46,9 +46,9 @@ i umieścić w nim:
 VITE_MERKURY_BASE_URL=http://localhost:8080
 ```
 
-Backend domyślnie uruchamiany jest na porcie 8080.
-Zmiana portu backendu wymaga aktualizacji tej wartości tak,
-aby wskazywała właściwy adres.
+Backend domyślnie uruchamiany jest na porcie 8080,
+jego zmiana wymaga aktualizacji tej wartości zmiennej 
+środowiskowe tak, aby wskazywała właściwy adres.
 
 ---
 
