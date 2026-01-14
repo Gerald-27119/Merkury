@@ -8,6 +8,7 @@ import com.merkury.vulcanus.features.account.RestartPasswordService;
 import com.merkury.vulcanus.features.email.EmailService;
 import com.merkury.vulcanus.features.password.reset.PasswordResetTokenService;
 import com.merkury.vulcanus.model.dtos.OAuth2LoginResponseDto;
+import com.merkury.vulcanus.security.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +20,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +49,9 @@ class AccountControllerOAuth2WithServerStartupTest {
 
     @MockBean
     private PasswordResetTokenService passwordResetTokenService;
+
+    @MockBean
+    private CustomUserDetailsService customUserDetailsService;
 
     @MockBean
     private RestartPasswordService restartPasswordService;
