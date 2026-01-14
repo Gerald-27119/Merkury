@@ -6,14 +6,13 @@
 - Mateusz Redosz
 
 ---
-
 # Instrukcja uruchomienia
 
 ## 1) Wymagania wstępne
 
-* Docker + Docker Compose (v2)
-* Java (zgodnie z wersją projektu) i Maven/Gradle (zgodnie z projektem)
-* Node.js (zgodnie z projektem) + npm
+* Docker + Docker Compose
+* Java 21 + Maven 3.9.9
+* Node.js 24.9.0 + npm 11.6.0
 
 ---
 
@@ -21,7 +20,7 @@
 
 ### Backend (vulcanus)
 
-Dodaj do zmiennych środowiskowych systemu następujące wartości:
+Należy dodać do zmiennych środowiskowych systemu następujące wartości:
 
 * `GITHUB_CLIENT_ID`
 * `GITHUB_CLIENT_SECRET`
@@ -37,34 +36,36 @@ Dodaj do zmiennych środowiskowych systemu następujące wartości:
 
 ### Frontend (venus)
 
-Utwórz plik:
+Należy utworzyć plik:
 
-* `venus/src/.env`
+* `venus/.env`
 
-i dodaj w nim:
+i umieścić w nim:
 
 ```env
 VITE_MERKURY_BASE_URL=http://localhost:8080
 ```
 
-Dostosuj port, jeśli backend działa na innym (np. 8081).
+Backend domyślnie uruchamiany jest na porcie 8080.
+Zmiana portu backendu wymaga aktualizacji tej wartości tak,
+aby wskazywała właściwy adres.
 
 ---
 
 ## 3) Uruchomienie bazy danych (Docker Compose)
 
-Baza danych jest uruchamiana przez compose znajdujący się w:
+Baza danych uruchamiana jest przez Docker Compose znajdujący się w:
 
 * `vulcanus/docker/merkury`
 
-Uruchom:
+Aby uruchomić bazę danych, należy wykonać:
 
 ```bash
 cd vulcanus/docker/merkury
 docker compose up -d
 ```
 
-Zatrzymanie bazy:
+Aby zatrzymać bazę danych, należy wykonać:
 
 ```bash
 docker compose down
@@ -74,31 +75,33 @@ docker compose down
 
 ## 4) Uruchomienie backendu (Java, vulcanus)
 
-W nowym terminalu przejdź do katalogu backendu:
+W nowym terminalu należy przejść do katalogu backendu:
 
 ```bash
 cd vulcanus
 ```
 
-Następnie uruchom aplikację:
+Następnie należy uruchomić aplikację:
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-albo (Windows):
+Dla systemu Windows:
 
 ```bash
 mvnw.cmd spring-boot:run
 ```
 
-Backend powinien wystartować pod adresem w stylu:
+Backend powinien być dostępny pod adresem:
 
 * `http://localhost:8080`
 
+---
+
 ## 5) Uruchomienie frontendu (React/Vite, venus)
 
-W kolejnym terminalu:
+W kolejnym terminalu należy wykonać:
 
 ```bash
 cd venus
@@ -106,8 +109,7 @@ npm ci
 npm run dev
 ```
 
-Frontend domyślnie wystartuje pod:
+Frontend domyślnie powinien być dostępny pod adresem:
 
 * `http://localhost:5173`
-
 ---
