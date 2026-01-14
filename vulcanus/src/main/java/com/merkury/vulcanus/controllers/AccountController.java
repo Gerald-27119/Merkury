@@ -14,6 +14,7 @@ import com.merkury.vulcanus.model.enums.EmailTemplate;
 import com.merkury.vulcanus.model.enums.EmailTitle;
 import com.merkury.vulcanus.model.enums.EmailVariable;
 import com.merkury.vulcanus.model.dtos.EmailDto;
+import com.merkury.vulcanus.security.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
 import com.merkury.vulcanus.config.properties.UrlsProperties;
 import jakarta.validation.Valid;
@@ -42,6 +43,7 @@ public class AccountController {
     private final UrlsProperties urlsProperties;
     private final PasswordResetTokenService passwordResetTokenService;
     private final RestartPasswordService restartPasswordService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     /**
      * @param userRegisterDto the user registration details containing:
@@ -166,7 +168,7 @@ public class AccountController {
 
 
     @GetMapping("/account/check")
-    public ResponseEntity<Void> checkIsAuthenticated() {
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<String> checkIsAuthenticated() {
+        return ResponseEntity.ok(customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername());
     }
 }
