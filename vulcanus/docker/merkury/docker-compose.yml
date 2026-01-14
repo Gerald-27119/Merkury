@@ -16,18 +16,5 @@ services:
     ports:
       - "6379:6379"
 
-  spring-boot-app:
-    container_name: vulcanus-spring-boot-app
-    build:
-      context: ./spring-boot-app
-      dockerfile: Dockerfile
-    env_file:
-      - ./spring-boot-app/spring_boot_app.env
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres-db
-      - redis
-
 volumes:
   postgres_data:
