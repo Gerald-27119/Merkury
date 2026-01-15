@@ -27,7 +27,7 @@ Duża galeria została zbudowana z dwunastu \glslink{react-component}{komponent�
 \glslink{react-component}{Komponent}, który jest kontenerem ustalającym położenie pozostałych elementów.
 Jego otworzenie oraz zamknięcie jest animowane przy użyciu \glslink{biblioteka}{biblioteki} \texttt{motion}.
 
-\textbf{\texttt{ExpandedGallerySidebar}} (rys. \ref{fig:expanded-media-gallery-sidebar-1} - \ref{fig:expanded-media-gallery-sidebar-13})
+\textbf{\texttt{ExpandedGallerySidebar}}
 Wyświetla listę zdjęć lub filmów przewijalną przy użyciu \texttt{\glslink{infinite-scroll}{infinite scroll}}.
 Dane pobierane są z \glslink{paginacja}{paginacją} z \glslink{backend}{backendu} przy pomocy \glslink{hook}{hook'a}
 \texttt{useInfiniteQuery}.
@@ -43,110 +43,6 @@ Po zmianie sortowania lub typu medii (zdjęcia lub filmy), lista jest resetowana
 Kliknięcie w dowolnego media spowoduje wyświetlenie go w \texttt{ExpandedMediaDisplay}.
 Lista może być zwijana lub rozwijana przy użyciu odpowiedniego przycisku, a przejścia są animowane za pomocą
 \glslink{biblioteka}{biblioteki} \texttt{motion}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-1}
-    \caption{Implementacja komponentu ExpandedGallerySidebar (1/13)}
-    \label{fig:expanded-media-gallery-sidebar-1}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-2}
-    \caption{Implementacja komponentu ExpandedGallerySidebar (2/13)}
-    \label{fig:expanded-media-gallery-sidebar-2}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-3}
-    \caption{Implementacja komponentu ExpandedGallerySidebar (3/13)}
-    \label{fig:expanded-media-gallery-sidebar-3}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-4}
-    \caption{Implementacja komponentu ExpandedGallerySidebar (4/13)}
-    \label{fig:expanded-media-gallery-sidebar-4}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-5}
-    \caption{Implementacja komponentu ExpandedGallerySidebar (5/13)}
-    \label{fig:expanded-media-gallery-sidebar-5}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-6}
-    \caption{Implementacja komponentu ExpandedGallerySidebar (6/13)}
-    \label{fig:expanded-media-gallery-sidebar-6}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-7}
-    \caption{Implementacja komponentu ExpandedGallerySidebar (7/13)}
-    \label{fig:expanded-media-gallery-sidebar-7}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-8}
-    \caption{Implementacja komponentu ExpandedGallerySidebar (8/13)}
-    \label{fig:expanded-media-gallery-sidebar-8}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-9}
-    \caption{Implementacja komponentu ExpandedGallerySidebar (9/13)}
-    \label{fig:expanded-media-gallery-sidebar-9}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-10}
-    \caption{Implementacja komponentu ExpandedGallerySidebar (10/13)}
-    \label{fig:expanded-media-gallery-sidebar-10}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-11}
-    \caption{Implementacja komponentu ExpandedGallerySidebar (11/13)}
-    \label{fig:expanded-media-gallery-sidebar-11}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-12}
-    \caption{Implementacja komponentu ExpandedGallerySidebar (12/13)}
-    \label{fig:expanded-media-gallery-sidebar-12}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/duza-galeria/expanded-gallery-sidebar-13}
-    \caption{Implementacja komponentu ExpandedGallerySidebar (13/13)}
-    \label{fig:expanded-media-gallery-sidebar-13}
-\end{figure}
-\noindent
 
 \textbf{\texttt{SortingAndFilterPanel}}
 \glslink{react-component}{Komponent} ten odpowiedzialny jest za obsługę ustawiania filtrów i sortowania.

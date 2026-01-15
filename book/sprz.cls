@@ -8,9 +8,9 @@
 \ProvidesClass{sprz}[2023/10/27 SPRZ]
 \LoadClass[12pt,a4paper]{report}
 
-\newcommand{\sprzbodyfontsize}{%
-    \fontsize{11.5pt}\selectfont
-}
+%\newcommand{\sprzbodyfontsize}{%
+%    \fontsize{12pt}{13.8}\selectfont
+%}
 
 \def\@makechapterhead#1{
     \vspace*{1pt}
@@ -34,7 +34,7 @@
     }
 }
 
-\renewcommand{\baselinestretch}{1.1}
+\renewcommand{\baselinestretch}{1.5}
 \RequirePackage[
     a4paper,
     top=2.5cm,
@@ -368,7 +368,7 @@
 
     \endgroup
 
-    \sprzbodyfontsize
+%    \sprzbodyfontsize
     \newpage
 }
 
