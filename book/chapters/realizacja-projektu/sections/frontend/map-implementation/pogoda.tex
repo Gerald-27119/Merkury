@@ -107,7 +107,7 @@ wartości liczbowej przekazywanej w jej argumencie.
 Poszczególne dane prezentowane są w formie kafelek przez \glslink{react-component}{komponenty} \texttt{WeatherTile},
 razem tworzących siatkę 2x2.
 
-\textbf{\texttt{WindSpeeds}} (rys. \ref{fig:wind-speeds-1} i \ref{fig:wind-speeds-2})
+\textbf{\texttt{WindSpeeds}}
 W tym \glslink{react-component}{komponencie} wyświetlane są prędkości wiatru na różnych wysokościach w \texttt{km\textbackslash h} lub \texttt{m\textbackslash s}.
 Dane pobierane są z odpowiedniego \glslink{endpoint}{endpointu} \glslink{backend}{backendu} przy użyciu
 \glslink{hook}{hook'a} \emph{useQuery}.
@@ -118,22 +118,6 @@ Oprócz tego, przycisk ten informuje o wybranej wysokości poprzez warunkową zm
 Za obsługę zmiany jednostek prędkości wiatru oraz wyświetlanie jej wartości odpowiada \texttt{WindSpeedDisplay}.
 \glslink{react-component}{Komponent} w stanie lokalnym przechowuje informacje o wybranej jednostce, a po każdej
 jej zmianie przelicza nową wartość wyświetlaną z dokładnością do części dziesiętnej.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/wind_speeds1}
-    \caption{Implementacja komponentu WindSpeeds (1/2)}
-    \label{fig:wind-speeds-1}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/wind_speeds2}
-    \caption{Implementacja komponentu WindSpeeds (2/2)}
-    \label{fig:wind-speeds-2}
-\end{figure}
-\noindent
 
 \textbf{\texttt{WeatherTimelinePlot}} (rys. \ref{fig:weather-timeline-plot-1} - \ref{fig:weather-timeline-plot-4})
 Ten \glslink{react-component}{komponent} przedstawia wykres prezentujący prognozę pogody na trzy dni.
