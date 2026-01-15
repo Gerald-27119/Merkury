@@ -44,26 +44,6 @@
     }
 }
 
-\usecasecard{tab:pu12-komentarze-spota}{Przeglądanie komentarzy do spota}{%
-    \ucpriority{S}
-    \ucactors{Użytkownik}
-    \ucdesc{Użytkownik czyta komentarze pod wybranym spotem.}
-    \ucpre{Wyświetlany jest widok szczegółów spota.}
-    \ucpost{Lista komentarzy do spota została wyświetlona.}
-    \ucmain{%
-        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item System pobiera komentarze powiązane ze spotem.
-            \item System wyświetla komentarze w kolejności chronologicznej lub według popularności.
-            \item Użytkownik przewija listę komentarzy.
-        \end{enumerate}
-    }
-    \ucalt{%
-        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
-            \item[1a.] Spot nie ma jeszcze komentarzy – system wyświetla odpowiednią informację.
-        \end{enumerate}
-    }
-}
-
 \usecasecard{tab:pu13-pogoda}{Przeglądanie pogody na spocie}{%
     \ucpriority{S}
     \ucactors{Użytkownik, Usługa danych pogodowych}

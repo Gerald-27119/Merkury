@@ -6,7 +6,7 @@
 %
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{sprz}[2023/10/27 SPRZ]
-\LoadClass[12pt,a4paper]{report}
+\LoadClass[11.5pt,a4paper]{report}
 
 \newcommand{\sprzbodyfontsize}{%
     \fontsize{11.5pt}{13.8pt}\selectfont
