@@ -110,7 +110,7 @@ Pochodzący z niej \glslink{hook}{hook} \texttt{useMap} zwraca aktualną instanc
 funkcja \texttt{flyTo} przenosząca płynnie obraz na wskazane koordynaty.
 Informacje o błędach podczas operacji wyświetlane są w \texttt{Notification}.
 
-\textbf{\texttt{SearchCurrentViewButton}} (rys. \ref{fig:search-current-view-btn-1} i rys. \ref{fig:search-current-view-btn-2})
+\textbf{\texttt{SearchCurrentViewButton}}
 \glslink{react-component}{Komponent} będący przyciskiem, po kliknięciu którego pokazywana jest lista \glslink{spot}{spotów}
 znajdujących się w widocznym obszarze mapy.
 Naciśnięcie wywołuje funkcję \texttt{handleClickSearchCurrentView}, która na obecnej instacji mapy zwróconej
@@ -119,22 +119,6 @@ wbudowanej funkcji \texttt{getBounds} pobiera dwa punkty wyznaczające granicę 
 obecnie wyświetlanego fragmentu mapy.
 Następnie na \glslink{backend}{backend} wysyłane jest odpowiednie zapytanie i otwierany jest panel z listą
 znalezionych elementów.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/search-current-view-btn-1}
-    \caption{Implementacja komponentu SearchCurrentViewButton (1/2)}
-    \label{fig:search-current-view-btn-1}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/search-current-view-btn-2}
-    \caption{Implementacja komponentu SearchCurrentViewButton (2/2)}
-    \label{fig:search-current-view-btn-2}
-\end{figure}
-\noindent
 
 \textbf{\texttt{CurrentViewSpotsList}}
 Wyświetla listę \glslink{spot}{spotów} znajdujących się w widocznym obszarze mapy.
