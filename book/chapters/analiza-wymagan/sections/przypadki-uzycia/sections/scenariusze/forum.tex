@@ -132,48 +132,27 @@
     }
 }
 
-\usecasecard{tab:pu35-zglos-komentarz}{Zgłoszenie komentarza naruszającego regulamin}{%
+\usecasecard{tab:pu35-zglos-tresc-forum}{Zgłoszenie treści na forum (post lub komentarz)}{%
     \ucpriority{C}
     \ucactors{Użytkownik}
-    \ucdesc{Użytkownik zgłasza komentarz na forum jako naruszający regulamin.}
-    \ucpre{Użytkownik widzi komentarz w aplikacji.}
-    \ucpost{Zgłoszenie komentarza zostało zapisane i trafiło do kolejki moderacyjnej.}
+    \ucdesc{Użytkownik zgłasza treść na forum (post lub komentarz) jako naruszającą regulamin lub tematykę.}
+    \ucpre{Użytkownik widzi post lub komentarz w aplikacji.}
+    \ucpost{Zgłoszenie treści zostało zapisane i trafiło do kolejki moderacyjnej; treść została oznaczona jako zgłoszona.}
     \ucmain{%
         \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item Użytkownik wybiera opcję „Zgłoś komentarz”.
+            \item Użytkownik wybiera opcję „Zgłoś” dla wybranej treści (posta lub komentarza).
+            \item System wyświetla formularz zgłoszenia.
             \item Użytkownik wybiera kategorię naruszenia, podaje szczegóły i potwierdza zgłoszenie.
-            \item System zapisuje zgłoszenie i wiąże je z komentarzem oraz zgłaszającym użytkownikiem.
+            \item System zapisuje zgłoszenie, wiąże je z treścią oraz zgłaszającym użytkownikiem i oznacza treść jako zgłoszoną.
         \end{enumerate}
     }
     \ucalt{%
         \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
-            \item[1a.] Użytkownik próbuje zgłosić własny komentarz – system blokuje operację i wyświetla komunikat, że nie można zgłaszać własnych treści.
-            \item[3a.] Komentarz został już wcześniej zgłoszony – system informuje użytkownika, że komentarz znajduje się już w kolejce moderacyjnej i nie zapisuje kolejnego zgłoszenia.
+            \item[1a.] Użytkownik próbuje zgłosić własną treść – system blokuje operację i wyświetla komunikat, że nie można zgłaszać własnych treści.
+            \item[4a.] Treść została już wcześniej zgłoszona – system informuje użytkownika, że treść znajduje się już w kolejce moderacyjnej i nie zapisuje kolejnego zgłoszenia.
         \end{enumerate}
     }
 }
-
-\usecasecard{tab:pu36-zglos-posta}{Zgłoszenie posta na forum}{%
-    \ucpriority{C}
-    \ucactors{Użytkownik}
-    \ucdesc{Użytkownik zgłasza post forum jako naruszający regulamin lub tematykę.}
-    \ucpre{Wyświetlony jest widok posta na forum.}
-    \ucpost{Zgłoszenie posta zostało zapisane}
-    \ucmain{%
-        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item Użytkownik wybiera opcję „Zgłoś post”.
-            \item Użytkownik wybiera kategorię naruszenia, podaje szczegóły i potwierdza zgłoszenie.
-            \item System zapisuje zgłoszenie i oznacza post jako zgłoszony.
-        \end{enumerate}
-    }
-    \ucalt{%
-        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
-            \item[1a.] Użytkownik próbuje zgłosić własny post – system blokuje operację i wyświetla komunikat, że nie można zgłaszać własnych treści.
-            \item[3a.] Post został już wcześniej zgłoszony – system informuje użytkownika, że post jest już zgłoszony i nie zapisuje kolejnego zgłoszenia.
-        \end{enumerate}
-    }
-}
-
 
 \usecasecard{tab:pu-forum-przegladaj-komentarze}{Przeglądanie komentarzy pod postem}{%
     \ucpriority{S}

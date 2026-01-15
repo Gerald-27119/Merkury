@@ -29,34 +29,14 @@
 \usecasecard{tab:pu28-profil-wlasny}{Przeglądanie profilu użytkownika}{%
     \ucpriority{M}
     \ucactors{Użytkownik}
-    \ucdesc{Użytkownik przegląda swój profil (lista spotów, media, podstawowe dane).}
-    \ucpre{Użytkownik jest zalogowany.}
+    \ucdesc{Użytkownik przegląda profil (lista spotów, media, podstawowe dane).}
+    \ucpre{Brak}
     \ucpost{Wyświetlony jest widok profilu użytkownika wraz z jego zawartością.}
     \ucmain{%
         \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item Użytkownik otwiera swój profil.
+            \item Użytkownik otwiera profil.
             \item System pobiera dane profilu (informacje podstawowe, spoty, media).
             \item System wyświetla dane w odpowiednich sekcjach (spoty, zdjęcia, filmy, komentarze).
-        \end{enumerate}
-    }
-    \ucalt{%
-        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
-            \item[2a.] Wystąpił błąd podczas pobierania danych użytkownika – system wyświetla informację o błędzie.
-        \end{enumerate}
-    }
-}
-
-\usecasecard{tab:pu29-profil-innego}{Przeglądanie profilu innego użytkownika}{%
-    \ucpriority{M}
-    \ucactors{Użytkownik}
-    \ucdesc{Użytkownik ogląda profil innego użytkownika (np. z mapy, forum lub społeczności).}
-    \ucpre{Użytkownik jest zalogowany i ma dostęp do odnośnika do profilu innego użytkownika.}
-    \ucpost{Profil innego użytkownika został wyświetlony.}
-    \ucmain{%
-        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item Użytkownik wybiera odnośnik do profilu innego użytkownika.
-            \item System pobiera dane profilu docelowego użytkownika.
-            \item System wyświetla profil (media, podstawowe informacje).
         \end{enumerate}
     }
     \ucalt{%
@@ -145,45 +125,24 @@
     }
 }
 
-\usecasecard{tab:pu41-przegladaj-zdjecia-spotow}{Przeglądanie dodanych zdjęć do spotów}{%
+\usecasecard{tab:pu41-przegladaj-media-spotow}{Przeglądanie dodanych mediów do spotów}{%
     \ucpriority{M}
     \ucactors{Użytkownik, Usługa do przechowywania plików w chmurze}
-    \ucdesc{Użytkownik przegląda wszystkie zdjęcia powiązane ze spotami, które dodał.}
-    \ucpre{Użytkownik jest zalogowany i znajduje się w sekcji mediów (np. „Moje zdjęcia”).}
-    \ucpost{Lista lub galeria zdjęć powiązanych ze spotami użytkownika została wyświetlona.}
+    \ucdesc{Użytkownik przegląda media (zdjęcia i filmy) powiązane ze spotami, które dodał.}
+    \ucpre{Użytkownik jest zalogowany i znajduje się w sekcji mediów.}
+    \ucpost{Lista lub galeria mediów powiązanych ze spotami użytkownika została wyświetlona; w przypadku filmów możliwe jest ich odtworzenie.}
     \ucmain{%
         \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item Użytkownik otwiera sekcję przeglądania zdjęć ze spotów.
-            \item System pobiera metadane zdjęć z usługi przechowywania plików.
-            \item System wyświetla galerię zdjęć z podstawowymi informacjami (np. nazwa spota, data dodania).
+            \item Użytkownik otwiera sekcję przeglądania mediów dodanych do spotów.
+            \item System pobiera metadane mediów z usługi przechowywania plików.
+            \item System wyświetla listę/galerię mediów z podstawowymi informacjami (typ medium, data dodania).
+            \item Użytkownik wybiera element listy; w przypadku filmu system uruchamia jego odtwarzanie.
         \end{enumerate}
     }
     \ucalt{%
         \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
-            \item[2a.] Użytkownik nie dodał jeszcze zdjęć – system wyświetla informację o braku zdjęć.
-            \item[2b.] Nie udało się pobrać danych – system wyświetla komunikat o błędzie.
-        \end{enumerate}
-    }
-}
-
-\usecasecard{tab:pu42-przegladaj-filmy-spotow}{Przeglądanie dodanych filmów do spotów}{%
-    \ucpriority{M}
-    \ucactors{Użytkownik, Usługa do przechowywania plików w chmurze}
-    \ucdesc{Użytkownik przegląda filmy powiązane ze spotami, które dodał.}
-    \ucpre{Użytkownik jest zalogowany i znajduje się w sekcji mediów (np. „Moje filmy”).}
-    \ucpost{Lista lub galeria filmów powiązanych ze spotami użytkownika została wyświetlona.}
-    \ucmain{%
-        \begin{enumerate}[nosep,leftmargin=16pt,labelindent=0pt]
-            \item Użytkownik otwiera sekcję przeglądania filmów ze spotów.
-            \item System pobiera metadane filmów z usługi przechowywania plików.
-            \item System wyświetla listę/galerię filmów z podstawowymi informacjami.
-            \item Użytkownik wybiera film, aby go odtworzyć.
-        \end{enumerate}
-    }
-    \ucalt{%
-        \begin{enumerate}[nosep,leftmargin=21pt,labelindent=0pt,label={}]
-            \item[2a.] Użytkownik nie dodał jeszcze filmów – system wyświetla informację o braku filmów.
-            \item[3a.] Nie udało się pobrać filmów – system wyświetla komunikat o błędzie.
+            \item[2a.] Użytkownik nie dodał jeszcze żadnych mediów – system wyświetla informację o braku mediów.
+            \item[2b.] Nie udało się pobrać danych z usługi przechowywania plików – system wyświetla komunikat o błędzie.
         \end{enumerate}
     }
 }
