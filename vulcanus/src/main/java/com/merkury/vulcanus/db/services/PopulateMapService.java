@@ -45,6 +45,10 @@ public class PopulateMapService {
 
         var rnd = new Random(20251215);
         Supplier<UserEntity> pickAuthor = () -> authors.get(rnd.nextInt(authors.size()));
+        var annaKowalska = authors.stream()
+                .filter(a -> a.getUsername().equals("annaKowalska"))
+                .findFirst()
+                .orElseThrow();
 
         var textIdx = new AtomicInteger(0);
 
@@ -311,7 +315,7 @@ public class PopulateMapService {
         List<SpotMedia> spotMedia2 = Arrays.asList(
                 new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/1365f3eb-48e1-405e-9e8f-2ea8c8270469.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
                 new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/1ac638bc-e302-4129-ab22-e2b6c88cbfd8.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d1203393-c51f-486b-bea0-4732a4e79553.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/d1203393-c51f-486b-bea0-4732a4e79553.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), annaKowalska, spot2, new HashSet<>()),
                 new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/db131fd5-10e9-4403-b18e-7016279fab5f.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
                 new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/78743a2e-0024-4dad-868a-44c287025b07.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>()),
                 new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/bd16ee33-4e0e-4c55-b461-bcdfe207d90a.jpg", "skwer", "skwer", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 1, 15), pickAuthor.get(), spot2, new HashSet<>())
@@ -325,7 +329,7 @@ public class PopulateMapService {
 
         List<SpotMedia> spotMedia4 = Arrays.asList(
                 new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/fd4848ad-ced1-4989-bcef-dec175311b68.jpg", "park", "park", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), pickAuthor.get(), spot4, new HashSet<>()),
-                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/fa06a299-9d62-44fe-8ef8-c8d4425b9a12.jpg", "park", "park", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), pickAuthor.get(), spot4, new HashSet<>()),
+                new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/fa06a299-9d62-44fe-8ef8-c8d4425b9a12.jpg", "park", "park", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), annaKowalska, spot4, new HashSet<>()),
                 new SpotMedia(null, null, "https://merkurystorage.blob.core.windows.net/mapa/8e0e22f6-7694-453a-9c90-0961985ad8da.jpg", "park", "park", 0, 0, GenericMediaType.PHOTO, LocalDate.of(2024, 4, 1), pickAuthor.get(), spot4, new HashSet<>())
         );
 
