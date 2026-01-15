@@ -9,7 +9,7 @@
 \LoadClass[12pt,a4paper]{report}
 
 \newcommand{\sprzbodyfontsize}{%
-    \fontsize{11.5pt}{13.8pt}\selectfont
+    \fontsize{11.5pt}\selectfont
 }
 
 \def\@makechapterhead#1{
