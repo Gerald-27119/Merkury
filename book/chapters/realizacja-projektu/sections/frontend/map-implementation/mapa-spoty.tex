@@ -23,7 +23,7 @@ Mapa zbudowana jest z następujących \glslink{react-component}{komponentów}:
     \item \texttt{SpotTag}
 \end{itemize}
 
-\textbf{\texttt{MapPage}} (rys. \ref{fig:map-page-1} - \ref{fig:map-page-5})
+\textbf{\texttt{MapPage}}
 To główny \glslink{react-component}{komponent} prezentujący mapę.
 Zawiera w sobie \texttt{Map} z \glslink{biblioteka}{biblioteki} \texttt{react-maplibre}, w którym ustawia się domyślną
 lokalizację, na którą ustawiony jest obraz mapy oraz poziom przybliżenia.
@@ -36,46 +36,6 @@ i sprawdza czy w \glslink{url}{url'u} umieszczone są parametry informujące, ż
 Jeśli tak jest, odczytywane są odpowiednie dane, obraz mapy przekierowany jest na wskazaną lokalizację oraz
 otwierane są panel ze szczegółami \glslink{spot}{spota} (por. sekcja~\ref{subsubsec:panel-ze-szczegolami-spota})
 i jego pogodą (por. sekcja~\ref{subsubsec:panel-z-informacjami-pogodowymi}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map-page-1}
-    \caption{Implementacja komponentu MapPage (1/5)}
-    \label{fig:map-page-1}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map-page-2}
-    \caption{Implementacja komponentu MapPage (2/5)}
-    \label{fig:map-page-2}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map-page-3}
-    \caption{Implementacja komponentu MapPage (3/5)}
-    \label{fig:map-page-3}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map-page-4}
-    \caption{Implementacja komponentu MapPage (4/5)}
-    \label{fig:map-page-4}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/map-page-5}
-    \caption{Implementacja komponentu MapPage (5/5)}
-    \label{fig:map-page-5}
-\end{figure}
-\noindent
 
 \textbf{\texttt{Spots}} (rys. \ref{fig:spots-1} - \ref{fig:spots-5})
 \glslink{react-component}{Komponent} ten odpowiedzialny jest za nałożenie \glslink{spot}{spotów} na mapę.
