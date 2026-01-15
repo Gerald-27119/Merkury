@@ -21,6 +21,9 @@ import { spotDetailsModalAction } from "../../redux/spot-modal";
 import SpotAddMediaModal from "./components/spot-add-media/SpotAddMediaModal";
 import { spotWeatherActions } from "../../redux/spot-weather";
 import AddSpotCommentModal from "./components/add-spot-comment/AddSpotCommentModal";
+import { spotFiltersAction } from "../../redux/spot-filters";
+import { useQueryClient } from "@tanstack/react-query";
+import { searchedSpotListModalAction } from "../../redux/searched-spot-list-modal";
 
 type Position = {
     longitude: number;
@@ -67,6 +70,17 @@ export default function MapPage() {
             dispatch(spotDetailsModalAction.handleShowModal());
             dispatch(spotWeatherActions.openBasicWeatherModal());
         }
+    }, []);
+
+    const queryClient = useQueryClient();
+    const { name, sorting } = useSelectorTyped((state) => state.spotFilters);
+
+    useEffect(() => {
+        dispatch(spotFiltersAction.setFilters({ name: "" }));
+        queryClient.removeQueries({
+            queryKey: ["spots", name, sorting],
+        });
+        dispatch(searchedSpotListModalAction.handleCloseList());
     }, []);
 
     const showSpotDetailsModal = useSelectorTyped(
