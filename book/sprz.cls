@@ -8,6 +8,10 @@
 \ProvidesClass{sprz}[2023/10/27 SPRZ]
 \LoadClass[12pt,a4paper]{report}
 
+\newcommand{\sprzbodyfontsize}{%
+    \fontsize{11.5pt}{13.8pt}\selectfont
+}
+
 \def\@makechapterhead#1{
     \vspace*{1pt}
     {\parindent \z@ \raggedright \normalfont
@@ -363,6 +367,8 @@
     \end{center}
 
     \endgroup
+
+    \sprzbodyfontsize
     \newpage
 }
 
