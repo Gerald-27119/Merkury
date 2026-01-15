@@ -36,6 +36,13 @@ public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificat
 
     List<Post> findTop10ByTitleContainingIgnoreCase(String phrase);
 
+    @Modifying
+    @Query(
+            value = "DELETE FROM user_followed_posts WHERE post_id = :postId",
+            nativeQuery = true
+    )
+    void deletePostFollowers(@Param("postId") Long postId);
+
     @Query("""
             SELECT p 
             FROM posts p
