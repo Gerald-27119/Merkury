@@ -1,23 +1,41 @@
 %! Author = Mateusz
 %! Date = 30/11/2025
 
-\subsubsection{GIF-y (Tenor) – integracja czatu}
+\subsubsection{Czat}
 \label{subsubsec:chat}
 
 \cardendpoint
-{EP36}
-{/gifs/trending}
-{Pobierz listę trendujących kategorii GIF-ów z Tenor}
-{Brak}
-{Brak}
-{200 OK, 500 Internal Server Error}
+{EP38}
+{/chats/\{chatId\}/messages}
+{Pobierz stronicowane wiadomości dla wybranego czatu}
 {%
     \begin{tabitemize}
-        \item \textbf{items}: List<TenorGifCategoryDto>, każdy element zawiera:
+        \item \textbf{chatId}: Long (identyfikator czatu)
+    \end{tabitemize}
+}
+{%
+    \begin{tabitemize}
+        \item \textbf{pageParam}: Integer (numer strony wiadomości, domyślnie 1 – pierwsza strona po wstępnym pobraniu)
+        \item \textbf{numberOfMessagesPerPage}: Integer (liczba wiadomości na stronę, domyślnie 20)
+    \end{tabitemize}
+}
+{200 OK, 401 Unauthorized, 404 Not Found}
+{%
+    \begin{tabitemize}
+        \item \textbf{body}: ChatMessageDtoSlice, zawiera:
         \begin{itemize}
-            \item \textbf{searchTerm}: String (fraza wyszukiwania powiązana z kategorią)
-            \item \textbf{path}: String (ścieżka kategorii w Tenor)
-            \item \textbf{gifUrl}: String (URL GIF-a)
+            \item \textbf{messages}: List<ChatMessageDto>, każdy element:
+            \begin{itemize}
+                \item \textbf{id}: Long (identyfikator wiadomości)
+                \item \textbf{sender}: ChatMessageSenderDto (dane nadawcy wiadomości)
+                \item \textbf{sentAt}: LocalDateTime (data i godzina wysłania wiadomości)
+                \item \textbf{content}: String (treść wiadomości; dla wiadomości plikowych może być pusty)
+                \item \textbf{chatId}: Long (identyfikator czatu, do którego należy wiadomość)
+                \item \textbf{attachedFiles}: \newline List<ChatMessageAttachedFileDto> (lista załączonych plików)
+            \end{itemize}
+            \item \textbf{hasNextSlice}: Boolean (czy istnieje kolejna „strona” / porcja wiadomości)
+            \item \textbf{numberOfMessages}: Integer (liczba wiadomości zwróconych w tej odpowiedzi)
+            \item \textbf{sliceNumber}: Integer (numer bieżącej porcji wiadomości)
         \end{itemize}
     \end{tabitemize}
 }
