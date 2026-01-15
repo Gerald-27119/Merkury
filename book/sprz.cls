@@ -33,10 +33,10 @@
 \renewcommand{\baselinestretch}{1.1}
 \RequirePackage[
     a4paper,
-    top=1.2in,
-    bottom=1.2in,
-    inner=3.17cm,
-    outer=2.54cm
+    top=2.5cm,
+    bottom=2.5cm,
+    inner=3.5cm,
+    outer=2.5cm
 ]{geometry}
 
 \RequirePackage{listings} %Aby dało się umieszczać kody źródłowe programów

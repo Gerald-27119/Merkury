@@ -38,6 +38,13 @@
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 
 \setlist[description]{leftmargin=0pt,labelindent=0pt}
+\setlist{
+    topsep=2pt,
+    itemsep=1pt,
+    parsep=0pt,
+    partopsep=0pt
+}
+
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 
@@ -150,24 +157,24 @@
     \setglossarystyle{altlist}
     \vspace*{-2\baselineskip}
     \printglossary[type=\acronymtype, title={}, toctitle={}]
-
-    \begingroup
-    \hypersetup{linkcolor=black}
-    \cleardoublepage
-    \phantomsection
-    \addcontentsline{toc}{chapter}{Spis rysunków}
-    \renewcommand{\listfigurename}{Spis rysunków}
-    \listoffigures
-    \endgroup
-
-    \begingroup
-    \hypersetup{linkcolor=black}
-    \cleardoublepage
-    \phantomsection
-    \addcontentsline{toc}{chapter}{Spis tabel}
-    \renewcommand{\listtablename}{Spis tabel}
-    \listoftables
-    \endgroup
+%
+%    \begingroup
+%    \hypersetup{linkcolor=black}
+%    \cleardoublepage
+%    \phantomsection
+%    \addcontentsline{toc}{chapter}{Spis rysunków}
+%    \renewcommand{\listfigurename}{Spis rysunków}
+%    \listoffigures
+%    \endgroup
+%
+%    \begingroup
+%    \hypersetup{linkcolor=black}
+%    \cleardoublepage
+%    \phantomsection
+%    \addcontentsline{toc}{chapter}{Spis tabel}
+%    \renewcommand{\listtablename}{Spis tabel}
+%    \listoftables
+%    \endgroup
 
     \printbibliography[title={}, heading=bibintoc]
 
