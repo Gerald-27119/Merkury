@@ -28,7 +28,7 @@ Dane pobierane są z odpowiedniego \glslink{endpoint}{endpointu} \glslink{backen
 W czasie ich ładowania wyświetlany jest \glslink{react-component}{komponent} \texttt{LoadingSpinner}.
 Jeśli operacja zakończy się niepowodzeniem, użytkownikowi wyświetlany jest komunikat \emph{Failed to load weather for this spot!}.
 Przycisk \emph{Show more} powoduje zamknięcie obecnego panelu i otworzenie zakładki ze szczegółowymi informacjami
-(\glslink{react-component}{komponent} \texttt{DetailedSpotWeather})
+\\ (\glslink{react-component}{komponent} \texttt{DetailedSpotWeather}).
 
 \subsubsubsection{Panel z danymi szczegółowymi}
 \label{subsubsec:panel-z-danymi-szczegolowymi}
@@ -54,7 +54,7 @@ Odpowiedzialny jest za układ wszystkich części panelu.
 Zawiera w sobie \glslink{react-component}{komponenty} \texttt{WeatherOverview}, \texttt{WeatherDetails}, \texttt{WindSpeeds}
 oraz \texttt{WeatherTimelinePlot}, które wyświetlają poszczególne częsci informacji pogodowych.
 W celu zapewnienia płynnych przejść, renderowanie i zamykanie panelu animowane jest za pomocą \glslink{biblioteka}{biblioteki} \emph{motion}.
-Dane przekazywane \glslink{react-component}{komponentom} \texttt{WeatherOverview} i \texttt{WeatherDetails} pobierane są z
+Dane przekazywane \\ \glslink{react-component}{komponentom} \texttt{WeatherOverview} i \texttt{WeatherDetails} pobierane są z
 odpowiedniego \glslink{endpoint}{endpointu} \glslink{backend}{backendu} przy użyciu \glslink{hook}{hook'a} \emph{useQuery}
 z \glslink{tanstack-query}{tanstack query}.
 Podczas ich pobierania wyświetlany jest \texttt{LoadingSpinner}, a jeśli operacja zakończy się błędem, pokazywany jest
@@ -104,7 +104,7 @@ Nazwa oraz lokalizacja \glslink{spot}{spota} pobierane są ze stanu \glslink{red
 prawdopodobieństwo opadów, punkt rosy, wskaźnik indeksu UV, poziom wilgotności.
 Indeks UV przedstawiony jest słownie poprzez funkcję \newline \texttt{getUvIndexTextLevel}, która określa go na podstawie
 wartości liczbowej przekazywanej w jej argumencie.
-Poszczególne dane prezentowane są w formie kafelek przez \glslink{react-component}{komponenty} \texttt{WeatherTile},
+Poszczególne dane prezentowane są w formie kafelek przez \\ \glslink{react-component}{komponenty} \texttt{WeatherTile},
 razem tworzących siatkę 2x2.
 
 \textbf{\texttt{WindSpeeds}}
@@ -113,7 +113,7 @@ Dane pobierane są z odpowiedniego \glslink{endpoint}{endpointu} \glslink{backen
 \glslink{hook}{hook'a} \emph{useQuery}.
 W trakcie ich ładowania wyświetlany jest \texttt{LoadingSpinner}, a w razie błędu komunikat \emph{Failed to load wind speeds data}.
 W lokalnym stanie (\glslink{hook}{hook} \texttt{useState}) przechowywana jest informacja, która wysokość została wybrana.
-Natomiast za jego zmianę odpowiedzialny jest \glslink{react-component}{komponent} \texttt{SelectHeightButton}.
+Natomiast za jego zmianę odpowiedzialny jest \\ \glslink{react-component}{komponent} \texttt{SelectHeightButton}.
 Oprócz tego, przycisk ten informuje o wybranej wysokości poprzez warunkową zmianę wyglądu.
 Za obsługę zmiany jednostek prędkości wiatru oraz wyświetlanie jej wartości odpowiada \texttt{WindSpeedDisplay}.
 \glslink{react-component}{Komponent} w stanie lokalnym przechowuje informacje o wybranej jednostce, a po każdej
