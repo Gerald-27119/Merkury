@@ -37,7 +37,7 @@ Jeśli tak jest, odczytywane są odpowiednie dane, obraz mapy przekierowany jest
 otwierane są panel ze szczegółami \glslink{spot}{spota} (por. sekcja~\ref{subsubsec:panel-ze-szczegolami-spota})
 i jego pogodą (por. sekcja~\ref{subsubsec:panel-z-informacjami-pogodowymi}).
 
-\textbf{\texttt{Spots}} (rys. \ref{fig:spots-1} - \ref{fig:spots-5})
+\textbf{\texttt{Spots}}
 \glslink{react-component}{Komponent} ten odpowiedzialny jest za nałożenie \glslink{spot}{spotów} na mapę.
 Z \glslink{backend}{backendu} za pomocą \glslink{hook}{hook'a} \texttt{useQuery} pobierana jest ich lista, a następnie
 zgodnie z wartością zwróconą przez funkcję \texttt{shouldRenderMarker},
@@ -54,46 +54,6 @@ i pogodą (por. sekcja~\ref{subsubsec:panel-z-informacjami-pogodowymi}).
 Za pomocą \glslink{mutacja}{mutacji} zostaje również wysłane żądanie zwiększające liczbę wyświetleń elementu.
 Informacja o błędzie podczas pobierana danych wyświetlana jest w \glslink{react-component}{komponencie}
 \texttt{Notification}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/spots1}
-    \caption{Implementacja komponentu Spots (1/5)}
-    \label{fig:spots-1}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/spots2}
-    \caption{Implementacja komponentu Spots (2/5)}
-    \label{fig:spots-2}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/spots3}
-    \caption{Implementacja komponentu Spots (3/5)}
-    \label{fig:spots-3}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/spots4}
-    \caption{Implementacja komponentu Spots (4/5)}
-    \label{fig:spots-4}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/mapa-spoty/spots5}
-    \caption{Implementacja komponentu Spots (5/5)}
-    \label{fig:spots-5}
-\end{figure}
-\noindent
 
 \textbf{\texttt{ZoomControlPanel}}
 \glslink{react-component}{Komponent} obsługujący ustawianie przybliżenia przybliżenia mapy.

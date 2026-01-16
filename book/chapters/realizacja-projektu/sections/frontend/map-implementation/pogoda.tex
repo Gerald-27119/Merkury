@@ -62,7 +62,7 @@ komunikat \emph{Failed to load weather.}.
 Kliknięcie przycisku \texttt{Show more} spowoduje zamknięcie panelu oraz wyświetlenie \glslink{react-component}{komponentu} \texttt{BasicSpotWeather}.
 
 
-\textbf{\texttt{WeatherOverview}} (rys. \ref{fig:weather-overview-1} i \ref{fig:weather-overview-3})
+\textbf{\texttt{WeatherOverview}}
 Wyświetla informacje ogólne informacje o \glslink{spot}{spocie} i jego pogodzie: temperaturę, aktualny czas,
 ikonę wraz ze słownym opisem, nazwę, lokalizację.
 Do poprawnego wyświetlania czasu, z \glslink{backend}{backendu} pobierana jest strefa czasowa \glslink{spot}{spota}.
@@ -74,30 +74,6 @@ oraz funkcji \texttt{getWeatherAdjective}, która na podstawie kodu pogody oraz 
 opis warunków atmosferycznych.
 Nazwa oraz lokalizacja \glslink{spot}{spota} pobierane są ze stanu \glslink{redux}{Redux'a} za pomoca
 \glslink{hook}{hook'a} \texttt{useSelectorTyped}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/weather-overview-1}
-    \caption{Implementacja komponentu WeatherOverview (1/3)}
-    \label{fig:weather-overview-1}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/weather-overview-2}
-    \caption{Implementacja komponentu WeatherOverview (2/3)}
-    \label{fig:weather-overview-2}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/weather-overview-3}
-    \caption{Implementacja komponentu WeatherOverview (3/3)}
-    \label{fig:weather-overview-3}
-\end{figure}
-\noindent
 
 \textbf{\texttt{WeatherDetails}}
 \glslink{react-component}{Komponent} odpowiedzialny za wyświetlanie następujących danych pogodowych:
@@ -119,7 +95,7 @@ Za obsługę zmiany jednostek prędkości wiatru oraz wyświetlanie jej wartośc
 \glslink{react-component}{Komponent} w stanie lokalnym przechowuje informacje o wybranej jednostce, a po każdej
 jej zmianie przelicza nową wartość wyświetlaną z dokładnością do części dziesiętnej.
 
-\textbf{\texttt{WeatherTimelinePlot}} (rys. \ref{fig:weather-timeline-plot-1} - \ref{fig:weather-timeline-plot-4})
+\textbf{\texttt{WeatherTimelinePlot}}
 Ten \glslink{react-component}{komponent} przedstawia wykres prezentujący prognozę pogody na trzy dni.
 Zawiera informacje o temperaturze, prawdopodobieństwie opadów, godzinie oraz ikonę symbolizującą warunki atmosferyczne.
 Dane pobierane są z \glslink{endpoint}{endpointu} \glslink{backend}{backendu} poprzez \glslink{hook}{hook}
@@ -133,39 +109,6 @@ Natomiast sposób wyświetlenia osi poziomej określany jest przez \texttt{Victo
 w którym dokładnie poszczególne elementy opisu.
 W celu zachowania stałej wysokości obszaru wyświetlanych danych niezależnie od ich rozpiętości,
 wartości temperatur są znormalizowane do wirtualnego zakresu od 0 do 100.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/weather_timeline_plot1}
-    \caption{Implementacja komponentu WeatherTimelinePlot (1/4)}
-    \label{fig:weather-timeline-plot-1}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/weather_timeline_plot2}
-    \caption{Implementacja komponentu WeatherTimelinePlot (2/4)}
-    \label{fig:weather-timeline-plot-2}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/weather_timeline_plot3}
-    \caption{Implementacja komponentu WeatherTimelinePlot (3/4)}
-    \label{fig:weather-timeline-plot-3}
-\end{figure}
-\noindent
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/pogoda/weather_timeline_plot4}
-    \caption{Implementacja komponentu WeatherTimelinePlot (4/4)}
-    \label{fig:weather-timeline-plot-4}
-\end{figure}
-\noindent
-
 
 \subsubsubsection{Komponent wspólny}
 \label{subsubsec:komponent-wspolny}
