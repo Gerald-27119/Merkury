@@ -120,7 +120,7 @@ Składa się z trzech głównych komponentów:
 Jest to główny komponent zakładki.\newline
 Wykorzystuje tablicę \texttt{menuTypes}, która definiuje dostępne typy list
 (wszystkie, ulubione, planowane do odwiedzenia, odwiedzone i ocenione pozytywnie, odwiedzone i ocenione negatywnie),
-a aktualnie wybrany typ przechowywany jest w stanie za pomocą \glslink{hook}{hooka} \texttt{useState}.
+a aktualnie wybrany typ przechowywany jest w \glslink{stan}{stanie} za pomocą \glslink{hook}{hooka} \texttt{useState}.
 
 Dane \glslink{spot}{spotów} są pobierane za pomocą \glslink{hook}{hooka} \texttt{useInfiniteQuery}, który wysyła zapytania do
 \glslink{backend}{backendu} z uwzględnieniem wybranego typu listy.
@@ -143,8 +143,8 @@ otwarcia \glslink{spot}{spota} na mapie i usunięcia z listy.
 
 Do modyfikacji listy wykorzystywana jest \glslink{mutacja}{mutacja} obsługująca usuwanie spotów z danej kategorii.
 Po powodzeniu odświeżane są dane listy, tak aby kafelek został usunięty z widoku.
-Przed usunięciem wyświetlany jest modal potwierdzenia (komponent \glslink{modal}{\texttt{Modal}}), którego stan widoczności
-kontrolowany jest za pomocą \glslink{hook}{hooka} \texttt{useBoolean}.
+Przed usunięciem wyświetlany jest modal potwierdzenia (komponent \glslink{modal}{\texttt{Modal}}), którego
+\glslink{stan}{stan} widoczności kontrolowany jest za pomocą \glslink{hook}{hooka} \texttt{useBoolean}.
 
 \textbf{\texttt{FavoriteSpotTags}}
 Komponent prezentuje listę tagów \glslink{spot}{spota} jako niewielkie etykiety z nazwą tagu.
@@ -214,7 +214,7 @@ W przypadku błędu ustawiany jest komunikat w komponencie \texttt{Notification}
 
 \textbf{\texttt{Movie}}
 Komponent reprezentuje pojedynczy film.
-Do odtwarzania wykorzystano bibliotekę \texttt{react-player} oraz zestaw komponentów kontrolnych z
+Do odtwarzania wykorzystano \glslink{biblioteka}{bibliotekę} \texttt{react-player} oraz zestaw komponentów kontrolnych z
 \glslink{biblioteka}{biblioteki} \texttt{media-chrome}.
 \glslink{stan}{Stan} odtwarzania i ewentualnego błędu zarządzany jest za pomocą customowego \glslink{hook}{hooka} \texttt{useBoolean}.
 Po zakończeniu odtwarzania film jest zatrzymywany, a w razie problemu z odczytem wyświetlany jest komunikat:
@@ -302,7 +302,7 @@ Po ich powodzeniu odświeżane są odpowiednie listy.
 Otwarcie lub utworzenie prywatnego czatu realizowane jest przez osobną \glslink{mutacja}{mutację}, która zwraca obiekt czatu; następnie
 jest on zapisywany w store \glslink{redux}{Reduxa}, ustawiany jako aktualnie wybrany, a aplikacja przełącza widok na \texttt{/chat}.
 
-Przed usunięciem znajomego lub zakończeniem obserwowania wyświetlany jest modal potwierdzenia, którego stan zarządzany
+Przed usunięciem znajomego lub zakończeniem obserwowania wyświetlany jest modal potwierdzenia, którego \glslink{stan}{stan} zarządzany
 jest przez \glslink{hook}{hook} \texttt{useBoolean}.
 Treść komunikatu ma postać: \newline
 \texttt{"Are you sure you want to remove \{username\} as a friend?"} lub \newline
@@ -377,7 +377,7 @@ Podczas ładowania danych prezentowany jest \texttt{LoadingSpinner}.
 
 \textbf{\texttt{UploadButton}}
 Komponent służy do wyboru i podglądu multimediów (zdjęć i filmów) dodawanych do \glslink{spot}{spota}.
-W lokalnym stanie utrzymywana jest lista wybranych plików wraz z tymczasowymi adresami tworzonymi za pomocą
+W lokalnym \glslink{stan}{stanie} utrzymywana jest lista wybranych plików wraz z tymczasowymi adresami tworzonymi za pomocą
 \newline \texttt{URL.createObjectURL}.
 Użytkownik może usuwać pojedyncze elementy listy, a przy usuwaniu zwalniane są zasoby (\texttt{URL.revokeObjectURL}).
 Dozwolone są wybrane typy plików graficznych oraz wideo.
@@ -396,7 +396,7 @@ W razie błędu walidacji konturu wyświetlany jest komunikat pod mapą.
 
 \textbf{\texttt{AddSpotModal}}
 Komponent odpowiada za dodawanie nowego \glslink{spot}{spota}.
-W stanie przechowywany jest obiekt z danymi \glslink{spot}{spota}, komunikaty błędów walidacyjnych oraz aktualna pozycja mapy.
+W \glslink{stan}{stanie} przechowywany jest obiekt z danymi \glslink{spot}{spota}, komunikaty błędów walidacyjnych oraz aktualna pozycja mapy.
 Adres budowany jest z pól formularza (ulica, miasto, region, kraj) i \glslink{debounce}{debouncowany} za pomocą
 \glslink{hook}{hooka} \texttt{useDebounce}.
 Na podstawie pełnego adresu \glslink{hook}{hook} \texttt{useQuery} pobiera współrzędne geograficzne, a mapa przesuwana
@@ -421,7 +421,7 @@ Do prezentacji pól wykorzystuje uniwersalny komponent \texttt{FormInput}.
 
 \textbf{\texttt{AddedSpotTile}}
 Komponent wyświetla pojedynczy kafelek z informacjami o dodanym \glslink{spot}{spocie}.
-Prezentowane są: zdjęcie spota, mini mapa (\texttt{SpotMap}) z lokalizacją, nazwa, opis oraz adres (kraj, miasto, ulica).
+Prezentowane są: zdjęcie \glslink{spot}{spota}, mini mapa (\texttt{SpotMap}) z lokalizacją, nazwa, opis oraz adres (kraj, miasto, ulica).
 
 %-----------------------------------
 \subsubsection{Comments}

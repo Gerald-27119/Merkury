@@ -84,12 +84,12 @@ Dodatkowo, po kliknięciu wywoływana jest akcja \texttt{closeSidebar} (działaj
 
 \textbf{\texttt{SidebarItemContent}} \\
 Komponent stanowi wspólne „wnętrze” elementów \texttt{SidebarItem}.
-Zawiera \texttt{SidebarIcon}, warunkowo \texttt{Tooltip} (gdy pasek jest zwinięty i aktywny jest stan tooltipa)
+Zawiera \texttt{SidebarIcon}, warunkowo \texttt{Tooltip} (gdy pasek jest zwinięty i aktywny jest \glslink{stan}{stan} tooltipa)
 oraz \texttt{SidebarLabel}.
 
 \textbf{\texttt{SidebarItemAction}} \\
 Komponent obsługuje pozycje typu \texttt{action}, które nie prowadzą do \glslink{routing}{routingu}, lecz uruchamiają funkcje.
-Zaimplementowano akcję wylogowania (wywołanie \texttt{logout} oraz aktualizacja stanu konta)
+Zaimplementowano akcję wylogowania (wywołanie \texttt{logout} oraz aktualizacja \glslink{stan}{stanu} konta)
 oraz przełączanie motywu poprzez \texttt{onChangeTheme}.
 Renderowany jest przycisk zawierający \texttt{SidebarItemContent}.
 
@@ -111,7 +111,7 @@ Plik zawiera funkcje typu \emph{type guard} umożliwiające rozróżnienie waria
 \textbf{\texttt{sidebarLinks}} \\
 Plik definiuje strukturę nawigacji w postaci obiektów:
 \texttt{staticLinks}, \texttt{userLoggedLinks} oraz \texttt{getOptionsLinks}.
-Zależnie od stanu zalogowania (\texttt{isLogged}) generowane są różne zestawy pozycji:
+Zależnie od \glslink{stan}{stanu} zalogowania (\texttt{isLogged}) generowane są różne zestawy pozycji:
 \begin{itemize}
     \item dla użytkownika niezalogowanego: strona główna, mapa oraz forum (strona główna forum, regulamin),
     \item dla użytkownika zalogowanego: dodatkowo lista obserwowanych postów na forum, czat oraz panel użytkownika
@@ -130,7 +130,7 @@ Plik z typami definiuje \texttt{LinkType} oraz interfejsy: \texttt{BaseLink}, \t
 \subsubsection{Redux}
 
 \glslink{stan}{Stan} paska bocznego utrzymywany jest w module \texttt{Redux} w pliku \texttt{sidebar.ts}.
-Przechowywana jest wyłącznie flaga \texttt{isOpen} informująca o stanie rozwinięcia.
+Przechowywana jest wyłącznie flaga \texttt{isOpen} informująca o \glslink{stan}{stanie} rozwinięcia.
 Zdefiniowano:
 \begin{itemize}
     \item reducer \texttt{setIsSidebarOpen} (jawne ustawienie wartości),
