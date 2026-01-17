@@ -18,7 +18,7 @@ Implementacja obejmuje:
 \subsubsection{Komponenty}
 
 \textbf{\texttt{Sidebar}} \\
-Komponent odpowiada za złożenie całej nawigacji oraz sterowanie jej zachowaniem (rys. \ref{img:sidebar}).
+Komponent odpowiada za złożenie całej nawigacji oraz sterowanie jej zachowaniem.
 Wykorzystywane są \glslink{hook}{hooki} \texttt{useDarkMode} (obsługa motywu), \newline \texttt{useSelectorTyped}
 (odczyt \texttt{isLogged} oraz \texttt{isSidebarOpen}) oraz \texttt{useLocation} (sprawdzenie aktualnej ścieżki).
 Na podstawie lokalizacji ustalany jest tryb pozycjonowania: dla stron o układzie „sticky”
@@ -32,98 +32,42 @@ W strukturze komponentu renderowane są:
     \item sekcja opcji: \texttt{SidebarSection} $\rightarrow$ \texttt{SidebarList} (akcje i opcje).
 \end{itemize}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar}
-    \caption{Fragment kodu komponentu \texttt{Sidebar}.}
-    \label{img:sidebar}
-\end{figure}
-
 \textbf{\texttt{Tooltip}} \\
 Komponent służy do prezentacji nazwy pozycji oraz (w przypadku submenu) listy pozycji podrzędnych, gdy pasek
 boczny pozostaje zwinięty.
-Po kliknięciu w element następuje przejście do przypisanej podstrony (rys. \ref{img:sidebar-tooltip}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/tooltip}
-    \caption{Fragment kodu komponentu \texttt{Tooltip}.}
-    \label{img:sidebar-tooltip}
-\end{figure}
+Po kliknięciu w element następuje przejście do przypisanej podstrony.
 
 \textbf{\texttt{SidebarToggleButton}} \\
-Komponent wyświetla przycisk zwijania/rozwijania paska bocznego (rys. \ref{img:sidebar-toggle-button}).
+Komponent wyświetla przycisk zwijania/rozwijania paska bocznego.
 Po kliknięciu wywoływana jest akcja \texttt{toggleSidebar} z \glslink{redux}{\texttt{Redux}}.
 Na mniejszych ekranach (poniżej \texttt{xl} czyli 1280px) prezentowany jest również napis „Merkury”.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-toggle-button}
-    \caption{Fragment kodu komponentu \texttt{SidebarToggleButton}.}
-    \label{img:sidebar-toggle-button}
-\end{figure}
-
 \textbf{\texttt{SidebarSection}} \\
 Komponent grupuje listy nawigacyjne przekazane przez \texttt{children} oraz opcjonalnie dodaje separator u
-góry lub na dole (rys. \ref{img:sidebar-section}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-section}
-    \caption{Fragment kodu komponentu \texttt{SidebarSection}.}
-    \label{img:sidebar-section}
-\end{figure}
+góry lub na dole.
 
 \textbf{\texttt{SidebarList}} \\
-Komponent renderuje listę elementów nawigacji poprzez mapowanie na \texttt{SidebarItem} (rys. \ref{img:sidebar-list}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-list}
-    \caption{Fragment kodu komponentu \texttt{SidebarList}.}
-    \label{img:sidebar-list}
-\end{figure}
+Komponent renderuje listę elementów nawigacji poprzez mapowanie na \texttt{SidebarItem}.
 
 \textbf{\texttt{SidebarLabel}} \\
 Komponent odpowiada za wyświetlenie etykiety pozycji, gdy pasek jest rozwinięty.
 Dla płynnej animacji zastosowano \texttt{AnimatePresence} oraz \texttt{motion.p}.
 W przypadku \texttt{submenu} z niepustą listą dzieci prezentowana jest dodatkowo ikona
-strzałki (rys. \ref{img:sidebar-label}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-label}
-    \caption{Fragment kodu komponentu \texttt{SidebarLabel}.}
-    \label{img:sidebar-label}
-\end{figure}
+strzałki.
 
 \textbf{\texttt{SidebarIcon}} \\
 Komponent odpowiada za prezentację ikony danej pozycji.
 W przypadku zwiniętego paska i pozycji typu \texttt{submenu} ikona stanowi \texttt{NavLink}
 (umożliwia przejście do strony nadrzędnej), natomiast dla \texttt{link} i \texttt{action}
-zwracana jest sama ikona (rys. \ref{img:sidebar-icon}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-icon}
-    \caption{Fragment kodu komponentu \texttt{SidebarIcon}.}
-    \label{img:sidebar-icon}
-\end{figure}
+zwracana jest sama ikona.
 
 \textbf{\texttt{SidebarItemSubmenuLink}} \\
 Komponent renderuje elementy podrzędne submenu jako \texttt{NavLink}.
 Przy każdym kliknięciu wywoływana jest akcja \texttt{closeSidebar}, która zwija pasek wyłącznie na
-ekranach o szerokości mniejszej niż \texttt{1280px} (rys. \ref{img:sidebar-item-submenu-link}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-submenu-link}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemSubmenuLink}.}
-    \label{img:sidebar-item-submenu-link}
-\end{figure}
+ekranach o szerokości mniejszej niż \texttt{1280px}.
 
 \textbf{\texttt{SidebarItemSubmenu}} \\
-Komponent odpowiada za obsługę pozycji typu \texttt{submenu} (rys. \ref{img:sidebar-item-submenu-1}--\ref{img:sidebar-item-submenu-3}).
+Komponent odpowiada za obsługę pozycji typu \texttt{submenu}.
 Zastosowano:
 \begin{itemize}
     \item \texttt{useToggleState} do przełączania stanu rozwinięcia,
@@ -133,113 +77,41 @@ Zastosowano:
 Pozycja submenu renderowana jest jako przycisk zawierający \texttt{SidebarItemContent}, a lista elementów potomnych
 pojawia się animacyjnie (przez \texttt{AnimatePresence} i \texttt{motion.div}) tylko wtedy, gdy pasek jest rozwinięty.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-submenu1}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemSubmenu} (1/3).}
-    \label{img:sidebar-item-submenu-1}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-submenu2}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemSubmenu} (2/3).}
-    \label{img:sidebar-item-submenu-2}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-submenu3}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemSubmenu} (3/3).}
-    \label{img:sidebar-item-submenu-3}
-\end{figure}
-
 \textbf{\texttt{SidebarItemLink}} \\
 Komponent renderuje pojedynczą pozycję typu \texttt{link} jako \texttt{NavLink} zawierający \newline \texttt{SidebarItemContent}.
 Dodatkowo, po kliknięciu wywoływana jest akcja \texttt{closeSidebar} (działająca tylko dla szerokości poniżej
-\texttt{1280px}) (rys. \ref{img:sidebar-item-link-1}--\ref{img:sidebar-item-link-2}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-link1}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemLink} (1/2).}
-    \label{img:sidebar-item-link-1}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-link2}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemLink} (2/2).}
-    \label{img:sidebar-item-link-2}
-\end{figure}
+\texttt{1280px}).
 
 \textbf{\texttt{SidebarItemContent}} \\
 Komponent stanowi wspólne „wnętrze” elementów \texttt{SidebarItem}.
-Zawiera \texttt{SidebarIcon}, warunkowo \texttt{Tooltip} (gdy pasek jest zwinięty i aktywny jest stan tooltipa)
-oraz \texttt{SidebarLabel} (rys. \ref{img:sidebar-item-content}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-content}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemContent}.}
-    \label{img:sidebar-item-content}
-\end{figure}
+Zawiera \texttt{SidebarIcon}, warunkowo \texttt{Tooltip} (gdy pasek jest zwinięty i aktywny jest \glslink{stan}{stan} tooltipa)
+oraz \texttt{SidebarLabel}.
 
 \textbf{\texttt{SidebarItemAction}} \\
 Komponent obsługuje pozycje typu \texttt{action}, które nie prowadzą do \glslink{routing}{routingu}, lecz uruchamiają funkcje.
-Zaimplementowano akcję wylogowania (wywołanie \texttt{logout} oraz aktualizacja stanu konta)
+Zaimplementowano akcję wylogowania (wywołanie \texttt{logout} oraz aktualizacja \glslink{stan}{stanu} konta)
 oraz przełączanie motywu poprzez \texttt{onChangeTheme}.
-Renderowany jest przycisk zawierający \texttt{SidebarItemContent} (rys. \ref{img:sidebar-item-action-1}--\ref{img:sidebar-item-action-2}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-action1}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemAction} (1/2).}
-    \label{img:sidebar-item-action-1}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item-action2}
-    \caption{Fragment kodu komponentu \texttt{SidebarItemAction} (2/2).}
-    \label{img:sidebar-item-action-2}
-\end{figure}
+Renderowany jest przycisk zawierający \texttt{SidebarItemContent}.
 
 \textbf{\texttt{SidebarItem}} \\
-Komponent wybiera właściwy podtyp elementu na podstawie pola \texttt{type} (rys. \ref{img:sidebar-item-1}--\ref{img:sidebar-item-2}).
+Komponent wybiera właściwy podtyp elementu na podstawie pola \texttt{type}.
 Wykorzystywany jest \glslink{hook}{hook} \texttt{useBoolean} do sterowania widocznością tooltipa oraz \texttt{useLocation} i
 \texttt{useEffect} do ukrycia tooltipa po zmianie ścieżki.
 Dobór implementacji realizowany jest przez instrukcję \texttt{switch}:
 \texttt{submenu} $\rightarrow$ \texttt{SidebarItemSubmenu}, \texttt{action} $\rightarrow$ \texttt{SidebarItemAction},
 \texttt{link} $\rightarrow$ \texttt{SidebarItemLink}.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item1}
-    \caption{Fragment kodu komponentu \texttt{SidebarItem} (1/2).}
-    \label{img:sidebar-item-1}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-item2}
-    \caption{Fragment kodu komponentu \texttt{SidebarItem} (2/2).}
-    \label{img:sidebar-item-2}
-\end{figure}
-
 \subsubsection{Pliki pomocnicze}
 \label{subsubsec:sidebar-links-files}
 
 \textbf{\texttt{functions}} \\
 Plik zawiera funkcje typu \emph{type guard} umożliwiające rozróżnienie wariantów linków:
-\texttt{isSidebarSubmenu}, \texttt{isSidebarAction} oraz \texttt{isSidebarLink} (rys. \ref{img:sidebar-functions}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-functions}
-    \caption{Fragment kodu pliku \texttt{functions} (funkcje typu \emph{guard}).}
-    \label{img:sidebar-functions}
-\end{figure}
+\texttt{isSidebarSubmenu}, \texttt{isSidebarAction} oraz \texttt{isSidebarLink}.
 
 \textbf{\texttt{sidebarLinks}} \\
 Plik definiuje strukturę nawigacji w postaci obiektów:
-\texttt{staticLinks}, \texttt{userLoggedLinks} oraz \texttt{getOptionsLinks} (rys. \ref{img:sidebar-links-1}--\ref{img:sidebar-links-3}).
-Zależnie od stanu zalogowania (\texttt{isLogged}) generowane są różne zestawy pozycji:
+\texttt{staticLinks}, \texttt{userLoggedLinks} oraz \texttt{getOptionsLinks}.
+Zależnie od \glslink{stan}{stanu} zalogowania (\texttt{isLogged}) generowane są różne zestawy pozycji:
 \begin{itemize}
     \item dla użytkownika niezalogowanego: strona główna, mapa oraz forum (strona główna forum, regulamin),
     \item dla użytkownika zalogowanego: dodatkowo lista obserwowanych postów na forum, czat oraz panel użytkownika
@@ -251,40 +123,14 @@ Sekcja opcji (\texttt{getOptionsLinks}) zawiera:
     \item przełączenie motywu jasny/ciemny (zależnie od \texttt{isDark}).
 \end{itemize}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-links1}
-    \caption{Fragment kodu pliku \texttt{sidebarLinks} (linki statyczne).}
-    \label{img:sidebar-links-1}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-links2}
-    \caption{Fragment kodu pliku \texttt{sidebarLinks} (linki dostępne dla użytkownika zalogowanego).}
-    \label{img:sidebar-links-2}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.98\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-links3}
-    \caption{Fragment kodu pliku \texttt{sidebarLinks} (linki opcji: logowanie/wylogowanie oraz zmiana motywu).}
-    \label{img:sidebar-links-3}
-\end{figure}
-
 \textbf{\texttt{link}} \\
 Plik z typami definiuje \texttt{LinkType} oraz interfejsy: \texttt{BaseLink}, \texttt{SidebarLink},
-\newline \texttt{SidebarSubmenuLink}, \texttt{SidebarSubmenu}, \texttt{SidebarAction} (rys. \ref{img:sidebar-types}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-types}
-    \caption{Fragment kodu pliku \texttt{link}.}
-    \label{img:sidebar-types}
-\end{figure}
+\newline \texttt{SidebarSubmenuLink}, \texttt{SidebarSubmenu}, \texttt{SidebarAction}.
 
 \subsubsection{Redux}
 
 \glslink{stan}{Stan} paska bocznego utrzymywany jest w module \texttt{Redux} w pliku \texttt{sidebar.ts}.
-Przechowywana jest wyłącznie flaga \texttt{isOpen} informująca o stanie rozwinięcia.
+Przechowywana jest wyłącznie flaga \texttt{isOpen} informująca o \glslink{stan}{stanie} rozwinięcia.
 Zdefiniowano:
 \begin{itemize}
     \item reducer \texttt{setIsSidebarOpen} (jawne ustawienie wartości),
@@ -292,14 +138,7 @@ Zdefiniowano:
     \item thunk \texttt{closeSidebar}, który zwija pasek wyłącznie dla szerokości mniejszej niż \texttt{1280px}.
 \end{itemize}
 Rozwiązanie to umożliwia automatyczne zwijanie paska po kliknięciu w link na urządzeniach mobilnych, bez wpływu na
-zachowanie na dużych ekranach (rys. \ref{img:sidebar-redux}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/sidebar-redux}
-    \caption{Slice \texttt{Redux} odpowiadający za stan paska bocznego.}
-    \label{img:sidebar-redux}
-\end{figure}
+zachowanie na dużych ekranach.
 
 \subsubsection{Użycie w układzie aplikacji}
 
@@ -310,25 +149,11 @@ główną (\texttt{main}) zawierającą \texttt{MobileBar}, listę powiadomień 
 Dla strony mapy ustawiany jest układ \texttt{relative}, a dla pozostałych widoków układ elastyczny (\texttt{flex}).
 Dodatkowo, w \texttt{useEffect} wykrywana jest nawigacja do ścieżek panelu konta; na ekranach o szerokości
 co najmniej \texttt{1280px} pasek boczny jest wówczas automatycznie rozwijany poprzez
-\newline \texttt{dispatch(sidebarAction.setIsSidebarOpen(true))} (rys. \ref{img:layout}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/layout}
-    \caption{Fragment kodu komponentu \texttt{Layout}.}
-    \label{img:layout}
-\end{figure}
+\newline \texttt{dispatch(sidebarAction.setIsSidebarOpen(true))}.
 
 \textbf{\texttt{MobileBar}} \\
 Wyświetlany jest wyłącznie poniżej progu \texttt{xl} (1280px) (klasa \texttt{xl:hidden}).
 Stanowi górny pasek nawigacyjny na urządzeniach mobilnych: zawiera przycisk z ikoną menu, który przełącza
 \glslink{stan}{stan} paska bocznego (\texttt{toggleSidebar}), oraz tytuł aplikacji „Merkury”.
 Dzięki umieszczeniu w części głównej (\texttt{main}) komponent pozostaje widoczny nad zawartością strony,
-jednocześnie nie wpływając na układ desktopowy (rys. \ref{img:mobile-bar}).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/sidebar/mobile-bar}
-    \caption{Fragment kodu komponentu \texttt{MobileBar}.}
-    \label{img:mobile-bar}
-\end{figure}
+jednocześnie nie wpływając na układ desktopowy.

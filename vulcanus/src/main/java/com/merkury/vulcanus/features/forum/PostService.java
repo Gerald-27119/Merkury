@@ -113,11 +113,13 @@ public class PostService {
         forumMediaService.savePostMedia(cleanContent, postEntity);
     }
 
+    @Transactional
     public void deletePost(Long postId) throws UnauthorizedPostAccessException, UserNotFoundByUsernameException, BlobContainerNotFoundException, URISyntaxException {
         var user = userEntityFetcher.getByUsername(getAuthenticatedUsernameOrNull());
         var post = postRepository.findPostByIdAndAuthor(postId, user).orElseThrow(() -> new UnauthorizedPostAccessException("delete"));
 
         forumMediaService.deletePostMedia(postId);
+        postRepository.deletePostFollowers(postId);
         postRepository.delete(post);
     }
 

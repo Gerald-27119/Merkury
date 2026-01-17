@@ -33,13 +33,11 @@ jego nazwę oraz statystyki obejmujące liczbę obserwujących, obserwowanych,
 znajomych oraz dodanych zdjęć.
 Poniżej, w widoku publicznym, znajdują się przyciski umożliwiające:
 \begin{itemize}
-    \item dodanie lub usunięcie danej osoby z listy znajomych
-    (rys. \ref{img:public-profile}, \ref{img:public-profile-remove-friend}),
-    \item rozpoczęcie lub zakończenie obserwowania profilu
-    (rys. \ref{img:public-profile}, \ref{img:public-profile-unfollow}).
+    \item dodanie lub usunięcie danej osoby z listy znajomych,
+    \item rozpoczęcie lub zakończenie obserwowania profilu.
 \end{itemize}
 Po wysłaniu zaproszenia do znajomych treść odpowiedniego przycisku
-zmienia się na ,,Request send’’ (rys. \ref{img:public-profile-request-send}).
+zmienia się na ,,Request send’’.
 Na dole widoku wyświetlana jest lista czterech najpopularniejszych zdjęć
 danego użytkownika.
 
@@ -47,8 +45,8 @@ Kliknięcie którejkolwiek z wartości statystyk w widoku publicznym powoduje
 przejście do odpowiednich list:
 \begin{itemize}
     \item lista obserwujących – rys. \ref{img:public-profile-followers},
-    \item lista obserwowanych – rys. \ref{img:public-profile-followed},
-    \item lista znajomych – rys. \ref{img:public-profile-friends},
+    \item lista obserwowanych – widok analogiczny do listy obserwujących,
+    \item lista znajomych – widok analogiczny do listy obserwujących,
     \item lista zdjęć – rys. \ref{img:public-profile-photos}.
 \end{itemize}
 
@@ -77,43 +75,12 @@ oraz \textit{Photos} (rys. \ref{img:photos}).
     \caption{Lista obserwujących}
     \label{img:public-profile-followers}
 \end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/public-profile-followed}
-    \caption{Lista obserwowanych}
-    \label{img:public-profile-followed}
-\end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/public-profile-friends}
-    \caption{Lista znajomych}
-    \label{img:public-profile-friends}
-\end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/public-profile-photos}
     \caption{Lista zdjęć użytkownika}
     \label{img:public-profile-photos}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/public-profile-request-send}
-    \caption{Zaproszenie wysłane}
-    \label{img:public-profile-request-send}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/public-profile-remove-friend}
-    \caption{Możliwość usunięcia z listy znajomych}
-    \label{img:public-profile-remove-friend}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/public-profile-unfollow}
-    \caption{Możliwość zakończenia obserwowania}
-    \label{img:public-profile-unfollow}
 \end{figure}
 
 \subsubsection{Spots list}
@@ -153,7 +120,7 @@ Każdy kafelek reprezentujący miejsce zawiera następujące informacje:
 
 \subsubsection{Photos list}
 
-Kolejnym widokiem jest lista zdjęć (rys. \ref{img:photos}), które zostały dodane do systemu.
+Kolejnym widokiem jest lista zdjęć (rys. \ref{img:photos-hover}), które zostały dodane do systemu.
 Podobnie jak w liście \glslink{spot}{spotów}, na górze strony znajduje się nagłówek informujący,
 w jakiej sekcji aktualnie znajduje się użytkownik.
 Tuż obok umieszczono panel wyszukiwania interesujących go zdjęć, na który składają się:
@@ -164,13 +131,6 @@ Poniżej wyświetlane są listy zdjęć zgrupowane według daty dodania
 W ramach grupy prezentowane są miniatury zdjęć; po najechaniu kursorem
 na wybrane zdjęcie (rys. \ref{img:photos-hover}) pojawiają się informacje o liczbie polubień
 i niepolubień danego zdjęcia.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{attachments/projekt/architektura-interfejsu-uzytkownika/photos}
-    \caption{Projekt strony z listą dodanych zdjęć}
-    \label{img:photos}
-\end{figure}
 
 \begin{figure}[H]
     \centering
