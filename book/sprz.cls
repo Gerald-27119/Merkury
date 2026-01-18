@@ -363,7 +363,6 @@
     \end{center}
 
     \endgroup
-
     \newpage
 }
 
