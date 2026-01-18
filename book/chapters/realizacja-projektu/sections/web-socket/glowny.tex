@@ -154,12 +154,9 @@ na kanały \glslink{subskrypcja}{subskrypcji} \texttt{/subscribe/*}. Serwis ten 
     \label{img:web-socket-serwis-backend}
 \end{figure}
 
-Serwis realizuje dwa typy wysyłki:
-\begin{itemize}
-    \item \textbf{Broadcast wiadomości do uczestników czatu} -- po zapisaniu wiadomości \glslink{serwer}{serwer} pobiera listę uczestników czatu
-    i wysyła wiadomość do każdego z nich, z ID przypisanym przy zapisie tejże wiadomości w bazie danych,
-    aby \glslink{frontend}{frontend} mógł powiązać wiadomość zapisaną w \glslink{baza-danych}{bazie danych} z odpowiadającą jej wersją \glslink{optimistic-ui}{optymistyczną}.
-\end{itemize}
+Po zapisaniu wiadomości \glslink{serwer}{serwer} rozsyła ją do wszystkich uczestników czatu wraz z identyfikatorem
+nadanym w \glslink{baza-danych}{bazie danych}, co pozwala \glslink{frontend}{frontendowi} powiązać wiadomość utrwaloną
+z jej wersją \glslink{optimistic-ui}{optymistyczną}.
 
 \subsubsection{Zestawienie wykorzystywanych destynacji}
 \label{subsubsec:ws-destynacje-backend}

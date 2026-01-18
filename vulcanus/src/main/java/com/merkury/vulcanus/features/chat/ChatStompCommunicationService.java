@@ -1,6 +1,5 @@
 package com.merkury.vulcanus.features.chat;
 
-import com.merkury.vulcanus.model.dtos.chat.ChatMessageAckDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
