@@ -49,6 +49,7 @@ Zamiast rozbudowanych instrukcji warunkowych i silnie sprzężonych modułów, s
 wymienialnych komponentów, z których każdy realizuje pojedynczą odpowiedzialność.
 
 \medskip
+
 \paragraph{Zastosowanie w Spring Security.}
 Praktycznym przykładem wykorzystania łańcucha zobowiązań jest mechanizm \textit{filter chain}
 w \glslink{framework}{frameworku} \gls{spring-security}.
@@ -87,15 +88,15 @@ Mapowanie pojęć z diagramu na implementację przedstawiono w sposób uporządk
 Działanie filtra można opisać jako sekwencję kroków realizowanych w ramach jednego ogniwa łańcucha:
 
 \begin{enumerate}
-    \item \textbf{Pobranie danych wejściowych} -- odczyt tokenu \glslink{jwt}{JWT} z żądania
+    \item \textbf{Pobranie danych wejściowych} -- odczyt \glslink{token}{tokenu} \glslink{jwt}{JWT} z żądania
     (np.\ z \glslink{http-only-cookie}{ciasteczka \texttt{HttpOnly}}).
-    \item \textbf{Walidacja} -- sprawdzenie poprawności tokenu \glslink{jwt}{JWT}. W przypadku błędu filtr przygotowuje odpowiedź
+    \item \textbf{Walidacja} -- sprawdzenie poprawności \glslink{token}{tokenu} \glslink{jwt}{JWT}. W przypadku błędu filtr przygotowuje odpowiedź
     i kończy przetwarzanie (bez przekazania dalej).
     \item \textbf{Uwierzytelnienie} -- wyznaczenie identyfikatora użytkownika i wczytanie jego danych,
     a następnie utworzenie obiektu uwierzytelnienia.
     \item \textbf{Aktualizacja kontekstu bezpieczeństwa} -- umieszczenie informacji o uwierzytelnieniu w kontekście,
     aby była dostępna dla kolejnych etapów przetwarzania.
-    \item \textbf{Odświeżenie tokenu (opcjonalnie)} -- gdy czas ważności tokenu \glslink{jwt}{JWT} zbliża się do końca, generowany jest nowy token.
+    \item \textbf{Odświeżenie tokenu (opcjonalnie)} -- gdy czas ważności \glslink{token}{tokenu} \glslink{jwt}{JWT} zbliża się do końca, generowany jest nowy \glslink{token}{token}.
     \item \textbf{Przekazanie sterowania dalej} -- wywołanie \texttt{filterChain.doFilter(request, response)} deleguje żądanie
     do kolejnych filtrów.
 \end{enumerate}

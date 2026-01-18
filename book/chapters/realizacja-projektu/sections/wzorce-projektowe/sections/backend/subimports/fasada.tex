@@ -14,10 +14,10 @@ Jest to strukturalny \glslink{wzorzec}{wzorzec} projektowy, który nakłada na
 \end{figure}
 \noindent
 
-W projekcie Fasada została zastosowana zaimplementowana jako \emph{PolygonAreaCalculator}.
+W projekcie Fasada została zaimplementowana jako \emph{PolygonAreaCalculator}.
 To klasa odpowiedzialna za obliczanie pola powierzchni \glslink{spot}{spota} na podstawie ograniczających go punktów.
 Do wykonywania konkretnych obliczeń wykorzystano \glslink{biblioteka}{bibliotekę} \emph{geographiclib}, której komponenty
-są używane podczas wywołana metody \emph{calculateArea}.
+są używane podczas wywołania metody \emph{calculateArea}.
 Dzięki zastosowaniu Fasady, gdy zajdzie potrzeba zmiany \glslink{biblioteka}{biblioteki}, ponownej implementacji będzie wymagać tylko
 metoda \emph{calculateArea} \textendash \space sposób jej wywoływania pozostanie bez zmian.
 
