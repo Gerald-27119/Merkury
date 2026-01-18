@@ -62,7 +62,7 @@ Galeria w formie karuzeli została zrealizowana poprzez \texttt{Carousel}, któr
 Poprzez \glslink{react-component}{komponent} konfiguracyjny \\ (\texttt{ConfigProvider}) ustawiane jest położenie
 strzałek przełączających media.
 Za wyświetlanie odpowiednio zdjęć i filmów odpowiadają \texttt{Photo} i \texttt{Video}.
-W lokalnym stanie (\texttt{useState}) ustawiany jest obecny indeks elementu, poprzez porównanie go z
+W lokalnym stanie (\texttt{useState}) ustawiany jest obecny indeks elementu, a poprzez porównanie go z
 indekem właściwym elementu ustalana jest jedna ze składowych określających czy video powinno być odtworzone.
 Pozwala to na automatyczne zatrzymanie filmu po zmianie media.
 
@@ -79,7 +79,7 @@ Obsługuje wyświetlanie oraz odtwarzanie filmów.
 Operacja zrealizowana jest za pomocą \glslink{react-component}{komponentu} \texttt{ReactPlayer} z
 \glslink{biblioteka}{biblioteki} \texttt{react-player}.
 Panel sterujący filmem (czas trwania wraz z możliwością przesuwania, powiększenie, ustawienie głośności,
-przyciski do odtwarzania i puzowania) zbudowany został z elementów \glslink{biblioteka}{biblioteki}
+przyciski do odtwarzania i pauzowania) zbudowany został z elementów \glslink{biblioteka}{biblioteki}
 \texttt{media-chrome}.
 
 \subsubsubsection{Przyciski akcji}
@@ -108,9 +108,8 @@ Przycisk z ikoną \texttt{MdOutlineAddPhotoAlternate} sprawdza czy użytkownik j
 Gdy ten warunek jest spełniony, otwierany jest \glslink{modal}{modal} \texttt{SpotAddMediaModal}, zwierający
 formularz do dodawania media do \glslink{spot}{spota}.
 Poprzez \glslink{hook}{hook} \texttt{useQuery} wysyłane jest zapytanie sprawdzające czy wybrany \glslink{spot}{spot}
-znajduje się w liscię polubionych użytkownika.
-Od wyniku operacji uzależniony jest wygląd przycisku oraz typ wysyłanego żądania po jego kliknięciu
-(wysyłanego \glslink{mutacja}{mutacją}).
+znajduje się w liście polubionych użytkownika.
+Od wyniku operacji uzależniony jest wygląd przycisku oraz typ wysyłanego żądania po jego kliknięciu.
 Wynik operacji dodania lub usunięcia \glslink{spot}{spota} z listy ulubionych pokazywany jest w
 \glslink{react-component}{komponencie} \texttt{Notification.}
 Zapytanie dotyczące listy ulubionych \glslink{spot}{spotów} użytownika jest unieważniane w celu
@@ -121,7 +120,7 @@ wymuszenia ponownego pobrania danych i ich aktualizacji.
 Pozwala na wybór plików (zdjęć oraz filmów), które wraz z podglądem wyświetlane są w formie listy.
 Kliknięcie elementu na liście powoduje jego usunięcie.
 Dane przysłane są \glslink{mutacja}{mutacją} na \glslink{backend}{backend}, a zapytanie dotyczące
-szczegółów \glslink{spot}{spota} są unieważnianie, dzięki czemu dodane media będą znajdywać się w
+szczegółów \glslink{spot}{spota} jest unieważnianie, dzięki czemu dodane media będą znajdywać się w
 galerii zdjęć i filmów.
 Komunikat o wyniku operacji wyświetlany jest w \texttt{Notification}.
 Otworzenie oraz zamknięcie elementu animowane jest \glslink{biblioteka}{biblioteką} \texttt{motion}.
@@ -144,7 +143,7 @@ Zbudowana jest z następujących \glslink{react-component}{komponentów}:
 \end{itemize}
 
 \textbf{\texttt{SpotCommentsList}}
-\glslink{react-component}{Komponent} wyświetlający listę komentarzy przewijalnej przy użyciu
+\glslink{react-component}{Komponent} wyświetlający listę komentarzy przewijanej przy użyciu
 \glslink{infinite-scroll}{infinite scroll}.
 Mechanizm ten jest realizowany za pomocą \texttt{IntersectionObserver}, który nasłuchuje na element powiązany
 referencją i wywołuje funkcję \texttt{fetchNextPage} z \glslink{hook}{hook'a} \texttt{useInfiniteQuery}
@@ -168,7 +167,7 @@ Ustawienie oceny \glslink{spot}{spota} jest polem obowiązkowym z domyślną war
 Zrealizowane jest przy użyciu \glslink{react-component}{komponentu} \texttt{Rate} skonfigurowanego
 przez \texttt{ConfigProvider}.
 Oba elementy pochodzą z \glslink{biblioteka}{biblioteki} \texttt{antd}.
-Innym obowiązkowym polem jest pole tekstowe, w którym użytkownik umieszcza swoją opinię.
+Innną wymaganą pozycją jest pole tekstowe, w którym użytkownik umieszcza swoją opinię.
 Wartości wpisane przechodzą proces walidacji przez \texttt{addSpotCommentSchema} i funkcje
 \glslink{biblioteka}{biblioteki} \texttt{zod}.
 Informacje o błędach wyświetlane są w \texttt{Notification}.
