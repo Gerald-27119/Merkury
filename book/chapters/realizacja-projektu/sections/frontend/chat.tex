@@ -21,10 +21,16 @@ Na główne \glslink{react-component}{komponenty} modułu składają się:
 
 \subsubsection{ChatsPage -- główny kontener modułu}
 
-\glslink{react-component}{Komponent} \texttt{ChatsPage} jest nadrzędnym kontenerem widoku czatu.
-Odpowiada za rozłożenie interfejsu na trzy sekcje:
-(1) lewy panel z listą rozmów, (2) centralne okno konwersacji oraz (3) opcjonalny panel boczny
-widoczny wyłącznie dla czatów grupowych.
+\begin{itemize}
+    \item \glslink{react-component}{Komponent} \texttt{ChatsPage} jest nadrzędnym kontenerem widoku czatu.
+    \item Odpowiada za rozłożenie interfejsu na trzy sekcje:
+    \begin{enumerate}
+        \item lewy panel z listą rozmów,
+        \item centralne okno konwersacji,
+        \item opcjonalny panel boczny widoczny wyłącznie dla czatów grupowych.
+    \end{enumerate}
+\end{itemize}
+
 \glslink{stan}{Stan} wyboru rozmowy oraz widoczność panelu bocznego pobierane są ze \glslink{stan}{stanu} globalnego \glslink{redux}{Redux}.
 
 \subsubsection{Lista czatów}
