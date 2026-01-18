@@ -30,7 +30,7 @@
     }
 }
 
-\renewcommand{\baselinestretch}{1.5}
+\renewcommand{\baselinestretch}{1.0}
 \RequirePackage[
     a4paper,
     top=2.5cm,
