@@ -110,7 +110,7 @@ Najważniejszym elementem klasy jest pole \texttt{key} typu \texttt{SecretKey},
 reprezentujące klucz kryptograficzny używany do podpisywania i weryfikacji \glslink{token}{tokenów} \glslink{jwt}{JWT}.
 Pozostałe pola opisują zachowanie \glslink{token}{tokena} i sposób jego przechowywania po stronie klienta:
 \texttt{tokenName} określa nazwę tokenu,
-\texttt{tokenExpiration} oraz \texttt{tokenCookieExpiration} definiują czas ważności \glslink{token}{tokena} i \glslink{http-only-cookie}{ciasteczka} przechowującego go,
+\texttt{tokenExpiration} oraz \newline \texttt{tokenCookieExpiration} definiują czas ważności \glslink{token}{tokena} i \glslink{http-only-cookie}{ciasteczka} przechowującego go,
 a \texttt{oneDayInMs} pozwala spójnie przeliczać okresy czasu.
 
 \innerheading{Plik JwtConfig}
@@ -200,7 +200,7 @@ Przyjęte ustawienia zostały przygotowane z myślą o środowisku deweloperskim
 
 \medskip
 \noindent\textbf{Łańcuch dla ścieżek publicznych.}
-Bean \texttt{publicSecurityFilterChain} (z \texttt{@Order(1)}) obsługuje wyłącznie żądania
+Bean \texttt{publicSecurityFilterChain} \newline (z \texttt{@Order(1)}) obsługuje wyłącznie żądania
 pasujące do \texttt{publicPathsMatcher}. Jego główne cechy:
 \begin{itemize}
     \item \textbf{Brak wymogu \glslink{uwierzytelnianie}{uwierzytelnienia}}: \texttt{permitAll()} dopuszcza każde żądanie.
@@ -221,8 +221,8 @@ pasujące do \texttt{publicPathsMatcher}. Jego główne cechy:
 
 \medskip
 \noindent\textbf{Łańcuch dla ścieżek prywatnych.}
-\glslink{bean}{Bean} \texttt{privateSecurityFilterChain} (z \texttt{@Order(2)}) dotyczy wszystkich pozostałych żądań,
-czyli dopasowanych do \texttt{privatePathsMatcher}. Najważniejsze elementy:
+\glslink{bean}{Bean} \texttt{privateSecurityFilterChain} \newline (z \texttt{@Order(2)}) dotyczy wszystkich pozostałych żądań,
+czyli dopasowanych do \newline \texttt{privatePathsMatcher}. Najważniejsze elementy:
 \begin{itemize}
     \item \textbf{Wymóg \glslink{uwierzytelnianie}{uwierzytelnienia}}: \texttt{authenticated()} wymusza poprawne rozpoznanie użytkownika.
     \item \textbf{Własna obsługa odmowy dostępu}: \texttt{accessDeniedHandler(...)} zapewnia spójny format odpowiedzi przy braku uprawnień.
@@ -308,7 +308,7 @@ jest raportowany poprzez wyjątek domenowy.
 
 Metody \texttt{getUsernameFromJWT(...)} oraz \texttt{getExpirationDateFromToken(...)} parsują \glslink{token}{token}
 i odczytują odpowiednio: identyfikator użytkownika (subject) oraz datę wygaśnięcia.
-Obsłużono również scenariusz \glslink{token}{tokenu} wygasłego (\texttt{ExpiredJwtException}),
+Obsłużono również scenariusz \glslink{token}{tokenu} wygasłego \newline (\texttt{ExpiredJwtException}),
 gdzie dane z \glslink{token}{tokenu} mogą być nadal wykorzystywane do spójnej obsługi błędu.
 
 Operacje na \glslink{http-only-cookie}{ciasteczku} są realizowane przez:
@@ -353,7 +353,7 @@ Poprawny podpis pozwala serwerowi potwierdzić autentyczność \glslink{token}{t
 
 Klasa \texttt{JwtAuthFilter} dziedziczy po \texttt{OncePerRequestFilter},
 co gwarantuje wykonanie filtra maksymalnie raz dla pojedynczego żądania.
-Filtr jest dołączany do łańcucha filtrów dla \glslink{endpoint}{endpointów} prywatnych w \texttt{SecurityConfig}
+Filtr jest dołączany do łańcucha filtrów dla \glslink{endpoint}{endpointów} prywatnych w \texttt{SecurityConfig} \newline
 (\texttt{addFilterBefore(...)}), dzięki czemu realizuje uwierzytelnianie \glslink{jwt}{JWT}
 w sposób scentralizowany dla wszystkich \glslink{endpoint}{endpointów} wymagających uwierzytelnienia.
 
@@ -410,7 +410,7 @@ a następnie mapowany na obiekt \texttt{UserDetails} zawierający nazwę użytko
 
 Zdefiniowano również metodę \texttt{loadUserDetailsFromSecurityContext()},
 która umożliwia bezpieczne pobranie aktualnego użytkownika już po przejściu procesu uwierzytelnienia.
-Metoda sprawdza, czy w \texttt{SecurityContextHolder} istnieje \texttt{Authentication},
+Metoda sprawdza, czy w \texttt{SecurityContextHolder} istnieje \newline \texttt{Authentication},
 czy użytkownik nie jest anonimowy oraz czy typ principal odpowiada \texttt{UserDetails}.
 W razie braku uwierzytelnienia zgłaszany jest wyjątek.
 

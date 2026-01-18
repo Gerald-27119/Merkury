@@ -167,7 +167,7 @@ Komponent pełni rolę warstwy konfigurującej widok zdjęć.
 Do zarządzania sortowaniem i filtrowaniem po dacie wykorzystywany jest \glslink{hook}{customowy hook} \texttt{useDateSortFilter},
 który zwraca typ sortowania oraz zakres dat.
 Dane są pobierane za pomocą \texttt{useInfiniteQuery}, które wysyła zapytania do \glslink{backend}{backendu} z uwzględnieniem aktualnych filtrów.
-Mechanizm \glslink{infinite-scroll}{\textit{infinite scroll}} zrealizowano przy użyciu \texttt{IntersectionObserver}.
+Mechanizm \glslink{infinite-scroll}{\textit{infinite scroll}} zrealizowano przy użyciu \newline \texttt{IntersectionObserver}.
 
 W przypadku błędu podczas pobierania zdjęć w \glslink{hook}{hooku} \texttt{useEffect} ustawiany jest komunikat
 błędu w komponencie \texttt{Notification}.
@@ -208,14 +208,14 @@ korzysta z tych samych komponentów ogólnych:
 
 \textbf{\texttt{Movies}}
 Komponent konfiguruje widok filmów i przekazuje dane do \texttt{Media} z wariantem \texttt{AccountWrapperType.MOVIES}.
-Ponownie wykorzystywany jest \glslink{hook}{hook} \texttt{useDateSortFilter}, a dane pobierane są za pomocą \texttt{useInfiniteQuery}
+Ponownie wykorzystywany jest \glslink{hook}{hook} \newline \texttt{useDateSortFilter}, a dane pobierane są za pomocą \texttt{useInfiniteQuery}
 z uwzględnieniem wybranego sortowania i zakresu dat.
 W przypadku błędu ustawiany jest komunikat w komponencie \texttt{Notification}.
 
 \textbf{\texttt{Movie}}
 Komponent reprezentuje pojedynczy film.
 Do odtwarzania wykorzystano \glslink{biblioteka}{bibliotekę} \texttt{react-player} oraz zestaw komponentów kontrolnych z
-\glslink{biblioteka}{biblioteki} \texttt{media-chrome}.
+\glslink{biblioteka}{biblioteki} \newline \texttt{media-chrome}.
 \glslink{stan}{Stan} odtwarzania i ewentualnego błędu zarządzany jest za pomocą customowego \glslink{hook}{hooka} \texttt{useBoolean}.
 Po zakończeniu odtwarzania film jest zatrzymywany, a w razie problemu z odczytem wyświetlany jest komunikat:
 \texttt{"Failed to load the video. Please try again later."}.
@@ -288,7 +288,7 @@ Komponent wyświetla listę kafelków \texttt{SocialCard} oraz prezentuje odpowi
 Treść komunikatu zależy od typu listy oraz tego, czy jest to profil własny, czy innego użytkownika.
 Dla trybu wyszukiwania znajomych (\texttt{isSearchFriend}) wyświetlany jest komunikat:
 \texttt{"We can't find a user with this username."}.
-W przypadku typu \texttt{POTENTIAL\_GROUP\_CHAT\_MEMBER} stosowany jest komunikat:
+W przypadku typu \newline \texttt{POTENTIAL\_GROUP\_CHAT\_MEMBER} stosowany jest komunikat:
 \texttt{"There are no other people in the world besides you."}.
 
 \textbf{\texttt{SocialCard}}
