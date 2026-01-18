@@ -96,7 +96,7 @@ Składa się z następujących elementów:
 
 Wszystkie operacje modyfikujące dane realizowane są przy użyciu \glslink{mutacja}{mutacji} \glslink{api}{API} z \glslink{tanstack-query}{biblioteki TanStack Query}, z odpowiednim odświeżaniem zapytań dla komentarzy głównych lub odpowiedzi.
 
-Komentarze w systemie forum obsługują zagnieżdżone odpowiedzi, co zostało zaimplementowane w formie \glslink{rekurencja}{rekurencyjnego} użycia \glslink{react-component}{komponentów}:
+Komentarze w systemie forum obsługują zagnieżdżone odpowiedzi, co zostało zaimplementowane w formie rekurencyjnego użycia \glslink{react-component}{komponentów}:
 \begin{itemize}
     \item \texttt{PostComment} może zawierać \texttt{PostCommentList} z odpowiedziami
     \item \texttt{PostCommentList} wyświetla kolejne komponenty \texttt{PostComment}
