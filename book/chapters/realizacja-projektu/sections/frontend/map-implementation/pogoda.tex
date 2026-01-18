@@ -63,7 +63,7 @@ Kliknięcie przycisku \texttt{Show more} spowoduje zamknięcie panelu oraz wyśw
 
 
 \textbf{\texttt{WeatherOverview}}
-Wyświetla informacje ogólne informacje o \glslink{spot}{spocie} i jego pogodzie: temperaturę, aktualny czas,
+Wyświetla ogólne informacje o \glslink{spot}{spocie} i jego pogodzie: temperaturę, aktualny czas,
 ikonę wraz ze słownym opisem, nazwę, lokalizację.
 Do poprawnego wyświetlania czasu, z \glslink{backend}{backendu} pobierana jest strefa czasowa \glslink{spot}{spota}.
 Gdy operacja zakończy się sukcesem w \glslink{hook}{hook'u} \emph{useEffect} ustawiany jest interwał czasowy, aktualizujący
@@ -106,7 +106,7 @@ Głównym \glslink{react-component}{komponentem} jest \texttt{VictoryChart}, kt�
 pozostałe elementy wykresu.
 Linia obrazująca wartości temperatury zbudowana jest przy użyciu \texttt{VictoryLine} oraz \texttt{VictoryScatter}.
 Natomiast sposób wyświetlenia osi poziomej określany jest przez \texttt{VictoryAxis}, przyjmujący \texttt{CustomTickLabel},
-w którym dokładnie poszczególne elementy opisu.
+w którym dokładnie ustawione są poszczególne elementy opisu.
 W celu zachowania stałej wysokości obszaru wyświetlanych danych niezależnie od ich rozpiętości,
 wartości temperatur są znormalizowane do wirtualnego zakresu od 0 do 100.
 

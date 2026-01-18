@@ -26,14 +26,14 @@ Mapa zbudowana jest z następujących \glslink{react-component}{komponentów}:
 \textbf{\texttt{MapPage}}
 To główny \glslink{react-component}{komponent} prezentujący mapę.
 Zawiera w sobie \texttt{Map} z \glslink{biblioteka}{biblioteki} \texttt{react-maplibre}, w którym ustawia się domyślną
-lokalizację, na którą ustawiony jest obraz mapy oraz poziom przybliżenia.
+lokalizację, na którą wskazuje mapa oraz poziom przybliżenia widoku.
 Przyjmuje on także inne \glslink{react-component}{komponenty}, które mają być w nim wyświetlone.
 Ustalenie, które z nich mają być widoczne realizowane jest poprzez odczytanie wartości ze stanu \glslink{redux}{Redux'a}.
 Mapa ładowana jest z linków ustawionych w pliku \newline \texttt{map\_style.json}, w nim również opisany jest jej wygląd.
 \glslink{hook}{Hook} \texttt{useEffect} uruchamia się tylko przy pierwszej inicjalizacji \glslink{react-component}{komponentu}
 i sprawdza czy w \glslink{url}{url'u} umieszczone są parametry informujące, że link pochodzi z udostępnienia
 \glslink{spot}{spota}.
-Jeśli tak jest, odczytywane są odpowiednie dane, obraz mapy przekierowany jest na wskazaną lokalizację oraz
+Jeśli tak jest, odczytywane są odpowiednie dane, a obraz mapy przekierowany jest na wskazaną lokalizację oraz
 otwierane są panel ze szczegółami \glslink{spot}{spota} (por. sekcja~\ref{subsubsec:panel-ze-szczegolami-spota})
 i jego pogodą (por. sekcja~\ref{subsubsec:panel-z-informacjami-pogodowymi}).
 
@@ -45,7 +45,7 @@ przyjmującej pole powierzchni elementu oraz poziom przybliżenia mapy, \glslink
 punktu (\texttt{Marker}) lub wielokąta (\texttt{Source} oraz \texttt{Layer}).
 Wymienione \glslink{react-component}{komponenty} pochodzą z \glslink{biblioteka}{biblioteki} \texttt{react-maplibre}.
 Zawiera ona również \glslink{hook}{hook} \texttt{useMap}, który zwraca obecną instancję mapy.
-Pozwala to dodać do wyświetlanych elementów event-listener'ów obsługujących najechanie na dany element oraz funkcji
+Pozwala to dodać do wyświetlanych elementów event-listener'y obsługujące najechanie myszką na dany element oraz funkcji
 wywoływanej po jego kliknięciu.
 Jest to funkcja \texttt{handleSpotClick}.
 Powoduje ustawienie w stanie \glslink{redux}{Redux'a} danych \glslink{spot}{spota} oraz otworzenie
@@ -56,7 +56,7 @@ Informacja o błędzie podczas pobierana danych wyświetlana jest w \glslink{rea
 \texttt{Notification}.
 
 \textbf{\texttt{ZoomControlPanel}}
-\glslink{react-component}{Komponent} obsługujący ustawianie przybliżenia przybliżenia mapy.
+\glslink{react-component}{Komponent} obsługujący ustawianie przybliżenia mapy.
 Zawiera dwa przyciski wyświetlane przez \texttt{ZoomControlButton}, przyjmujące funkcje, które na instacji mapy
 pobieranej z \glslink{hook}{hook'a} \texttt{useMap} (\glslink{biblioteka}{biblioteka} \texttt{react-maplibre}),
 wywołują na niej odpowiednio wbudowane operacje \texttt{zoomIn()} lub \texttt{zoomOut()}.
@@ -96,7 +96,7 @@ Po kliknięciu przycisku do szukania lub wyborze podpowiedzi wyświetlane są \g
 zawiera w sobie wpisaną frazę.
 Filtrowanie po ocenie „od”, tzn. ustawienia minimalnej wartości tejże, umożliwia \glslink{react-component}{komponent}
 \texttt{RatingFromForm}.
-Za pomocą \texttt{Rate} z \glslink{biblioteka}{biblioteki} \texttt{antd} wybierana jest wartość oceny, a nstępnie
+Za pomocą \texttt{Rate} z \glslink{biblioteka}{biblioteki} \texttt{antd} wybierana jest wartość oceny, a następnie
 lista wyników jest aktualizowana.
 Jeżeli żaden \glslink{spot}{spot} nie spełnia warunków ustawionych przez opisane filtry, wyświetlany jest komunikat
 \emph{No spots match criteria!}.
@@ -117,7 +117,7 @@ Kliknięcie ikony \texttt{IoClose} powoduje usunięcie filtra.
 \textbf{\texttt{SearchedSpotsList}}
 Wyświetla wynik wyszukiwania \glslink{spot}{spotów} po nazwie.
 Lista jest przewijalna z wykorzystaniem mechanizmu \glslink{infinite-scroll}{infinite scroll} zrealizowanego
-za pomocą \\ \texttt{IntersectionObserver}, \glslink{hook}{hook'a} \texttt{useInfiniteQuery} (\glslink{biblioteka}{biblioteka}
+za pomocą \texttt{IntersectionObserver}, \glslink{hook}{hook'a} \texttt{useInfiniteQuery} (\glslink{biblioteka}{biblioteka}
 \texttt{Tanstack Query}) oraz referencji.
 Podczas pobierania danych prezentowany jest \texttt{LoadingSpinner}, a w wypadku błędu komunikat \emph{Failed to load searched spots data.}.
 Jeżeli lista wyników jest pusta, pojawia się informacja \emph{No spots match criteria!}.
@@ -148,9 +148,9 @@ Otworzenie i zamknięcie listy z tymi elementami animowane jest przy użyciu \gl
 W \glslink{props}{propsach} przyjmowane są funkcje obsługujące zmianę wyboru opcji oraz czyszczenia poprzednich wyników.
 Przekazywana jest również tablica określająca klucz zapytań wymagających unieważnienia po zmianie sortowania, a także
 opcja sortowania wybrana w danej liście.
-W celu rozróżnienia gdzie używany jest \glslink{react-component}{komponent} przez \glslink{props}{propa} \emph{variant}
+W celu rozróżnienia gdzie używany jest \glslink{react-component}{komponent}, przez \glslink{props}{propa} \emph{variant}
 określany jest jego typ (\texttt{SEARCH} lub \texttt{CURRENT\_VIEW}).
-Wybrana opcja przechowywana jest w lokalnym stanie (\texttt{useState}), \glslink{hook}{hook} \texttt{useEffect}
+Wybrana opcja sortowania przechowywana jest w lokalnym stanie (\texttt{useState}), \glslink{hook}{hook} \texttt{useEffect}
 nasłuchuje na jej zmianę jeśli jest różna od opcji wybranej wcześniej (\glslink{props}{prop} \emph{sorting}), wykonuje
 przekazaną funkcję do obsługi zmiany wyboru sortowania oraz funkcję czyszczącą.
 Unieważanianie są również zapytania zawierające podany klucz.
