@@ -25,11 +25,11 @@ Duża galeria została zbudowana z dwunastu \glslink{react-component}{komponent�
 
 \textbf{\texttt{ExpandedSpotMediaGallery}}
 \glslink{react-component}{Komponent}, który jest kontenerem ustalającym położenie pozostałych elementów.
-Jego otworzenie oraz zamknięcie jest animowane przy użyciu \glslink{biblioteka}{biblioteki} \texttt{motion}.
+Jego otworzenie oraz zamknięcie animowane jest przy użyciu \glslink{biblioteka}{biblioteki} \texttt{motion}.
 
 \textbf{\texttt{ExpandedGallerySidebar}}
-Wyświetla listę zdjęć lub filmów przewijalną przy użyciu \texttt{\glslink{infinite-scroll}{infinite scroll}}.
-Dane pobierane są z \glslink{paginacja}{paginacją} z \glslink{backend}{backendu} przy pomocy \glslink{hook}{hook'a}
+Wyświetla listę zdjęć lub filmów przewijaną przy użyciu \texttt{\glslink{infinite-scroll}{infinite scroll}}.
+Dane pobierane są \glslink{paginacja}{paginacyjnie} z \glslink{backend}{backendu} przy pomocy \glslink{hook}{hook'a}
 \texttt{useInfiniteQuery}.
 Mechanizm ten został zrealizowany za pomocą \\ \texttt{IntersectionObserver}, który nasłuchuje na element powiązany z
 referencją \newline \texttt{containerRef}.
@@ -78,9 +78,9 @@ W przeciwnym wypadku w zależności od tego czy polubienie jest dodawane, czy us
 optymistyczna zmiana \glslink{ui}{UI} (por. sekcja~\ref{subsubsec:Optimistic UI}).
 Wysłanie odpowiedniego żądania odbywa się za pomocą mutacji z \glslink{biblioteka}{biblioteki}
 \texttt{Tanstack Query}.
-W przypadku błędu w \glslink{react-component}{komponencie} \newline \texttt{Notification} wyświetlany jest komunikat
+W przypadku błędu, w \glslink{react-component}{komponencie} \newline \texttt{Notification} wyświetlany jest komunikat
 \emph{Failed to edit spot media likes.}.
-W celu utrzymania aktualności danych, powodzenie operacji spowoduje unieważnienie wszystkich zapytań (queries)
+W celu utrzymania aktualności danych, powodzenie operacji spowoduje unieważnienie wszystkich zapytań
 powiązanych z wybranym media, co wymusi ponowne pobranie danych.
 Funkcja \texttt{handleSetMediaFullscreen} obsługuje powiększenie media na cały ekran poprzez
 otworzenie \glslink{modal}{modalu} \texttt{FullscreenMediaModal}.
