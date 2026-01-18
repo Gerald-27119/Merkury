@@ -34,14 +34,14 @@ Opis przepływu:
     na nim wykonywać.
     Często zapytanie zamiast trafiać bezpośrednio do \texttt{Resource Owner'a} obsługiwane jest przez serwer autentykacji, czyli
     miejsce w którym użytkownik musi się zalogować do systemu.
-    \item \texttt{Client'owi} zwracane jest potwierdzenie przyznania dostępu, na przykład w formie tokenu.
+    \item \texttt{Client'owi} zwracane jest potwierdzenie przyznania dostępu, na przykład w formie \glslink{token}{tokenu}.
     \item \texttt{Client} przesyła potwierdzenie dostępu do \texttt{Authorization Server'a} uwierzytelniając się i prosząc
-    o token dostępu do zasobu z \texttt{Resource Server'a}.
+    o \glslink{token}{token} dostępu do zasobu z \texttt{Resource Server'a}.
     \item \texttt{Authorization Server} sprawdza przesłane dane i jeśli proces walidacji zostanie zakończony pomyślnie,
-    przekazuje token dostępu do zasobu.
-    \item \texttt{Client} wysyła zapytanie z uzyskanym wcześniej tokenem do \texttt{Resource Server'a} prosząc o przesłanie
+    przekazuje \glslink{token}{token} dostępu do zasobu.
+    \item \texttt{Client} wysyła zapytanie z uzyskanym wcześniej \glslink{token}{tokenem} do \texttt{Resource Server'a} prosząc o przesłanie
     zasobu.
-    \item \texttt{Resource Server} przeprowadza walidację tokena i jeśli zakończy się ona powodzeniem, przesyła zasób
+    \item \texttt{Resource Server} przeprowadza walidację \glslink{token}{tokena} i jeśli zakończy się ona powodzeniem, przesyła zasób
     \texttt{Client'owi}.
 \end{enumerate}
 
@@ -78,10 +78,10 @@ metoda \texttt{handleOAuth2User} (rys. \ref{fig:oauth-service-impl}).
     \label{fig:oauth-service-impl}
 \end{figure}
 
-Z tokenu przesłanego przez \texttt{Provider'a} ustalany jest jego typ (Google lub \glslink{github}{GitHub}) oraz
+Z \glslink{token}{tokenu} przesłanego przez \texttt{Provider'a} ustalany jest jego typ (Google lub \glslink{github}{GitHub}) oraz
 obiekt zakodowanego użytkownika.
-Następnie odczytywane są nazwa i adres email użytkownika, w przypadku niepowodzenia rzucany jest odpowiedni wyjątek.
-Po sprawdzeniu czy w bazie danych użytkownik istnieje, wywoływane są odpowiednio metody do logowania lub
+Następnie odczytywane są jego nazwa i adres email, w przypadku niepowodzenia rzucany jest odpowiedni wyjątek.
+Po sprawdzeniu czy użytkownik istnieje w bazie danych, wywoływane są odpowiednio metody do logowania lub
 rejestracji.
 Pomyślny przebieg operacji skutkuje przekierowaniem na adres części \glslink{frontend}{frontendowej} aplikacji.
 
