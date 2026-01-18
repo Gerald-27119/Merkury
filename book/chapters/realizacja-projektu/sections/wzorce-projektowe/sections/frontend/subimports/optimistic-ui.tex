@@ -5,11 +5,9 @@
 \label{subsubsec:Optimistic UI}
 
 \glslink{wzorzec}{Wzorzec}, w którym \glslink{ui}{UI} jest aktualizowane
-natychmiast po tym gdy użytkownik wykona czynność, przy założeniu że ta akcja po przetworzniu przez \glslink{backend}{backend}
-zostanie zakończona sukcesem.
-Jeżeli operacja nie powiedzie się, użytkownik zostanie o tym poinformowany, a stan \glslink{ui}{UI} wróci do poprzedniego.
-Dzięki zastosowaniu tego \glslink{wzorzec}{wzorca} zmniejszone jest odczucie opóźnień w działaniu aplikacji oraz
-poprawa w płynnym jej użytkowaniu.
+natychmiast po tym gdy użytkownik wykona czynność.
+Dzięki jego zastosowaniu zmniejszone jest odczucie opóźnień w działaniu aplikacji oraz
+poprawa płynności jej użytkowania.
 W projekcie Optimistic \glslink{ui}{UI} zostało wykorzystane w module Chatu.
 Gdy użytkownik wyśle nową wiadomość, natychmiast jest ona wyświetlana w oknie konwersacji.
 Poniżej przedstawiono implementację tego \glslink{wzorzec}{wzorca} w \glslink{react-component}{komponentach} \textit{ChatBottomBar} oraz \textit{ChatMessagingWindow}.

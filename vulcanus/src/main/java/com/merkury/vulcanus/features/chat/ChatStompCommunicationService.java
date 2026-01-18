@@ -1,6 +1,5 @@
 package com.merkury.vulcanus.features.chat;
 
-import com.merkury.vulcanus.model.dtos.chat.ChatMessageAckDto;
 import com.merkury.vulcanus.model.dtos.chat.ChatMessageDto;
 import com.merkury.vulcanus.model.repositories.chat.ChatRepository;
 import com.merkury.vulcanus.security.CustomUserDetailsService;
@@ -38,20 +37,8 @@ public class ChatStompCommunicationService {
                 .getParticipants();
 
         log.info("Broadcasting chat message to {} participants: {}", (long) chatParticipants.size(), chatMessageDto);
-        chatParticipants.forEach(participant -> messagingTemplate.convertAndSend("/subscribe/chats/" + participant.getUser().getUsername(), chatMessageDto));
-    }
-
-
-    @Transactional
-    public void broadcastACKVersionToSender(ChatMessageDto chatMessageDto, String optimisticMessageUUID) {
-        var currentUserUsername = customUserDetailsService.loadUserDetailsFromSecurityContext().getUsername();
-
-        log.info("Broadcasting ack for message with id: {} for chat id: {} to {} ", chatMessageDto.id(), chatMessageDto.chatId(), currentUserUsername);
-        var ackChatMessageDto = new ChatMessageAckDto(
-                chatMessageDto, optimisticMessageUUID
-        );
-        messagingTemplate.convertAndSend("/subscribe/chats/ack/" + currentUserUsername, ackChatMessageDto);
+        chatParticipants.forEach(participant -> messagingTemplate.convertAndSend("/subscribe/chats/"
+                + participant.getUser().getUsername(), chatMessageDto));
     }
 
 }
-
