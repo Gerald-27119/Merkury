@@ -23,8 +23,5 @@ public class ChatStompCommunicationController {
         log.debug("Received message for chat: {}, message: {}", chatId, message);
         var chatMessageDtoToBroadCast = chatService.saveChatMessage(message);
         chatStompCommunicationService.broadcastChatMessageToAllChatParticipants(chatMessageDtoToBroadCast);
-        chatStompCommunicationService.broadcastACKVersionToSender(chatMessageDtoToBroadCast, message.optimisticMessageUUID());
     }
 }
-
-

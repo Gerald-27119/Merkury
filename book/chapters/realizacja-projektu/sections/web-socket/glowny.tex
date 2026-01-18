@@ -48,7 +48,6 @@ Zapewnia on ustandaryzowaną semantykę komunikacji w modelu wiadomościowym, w 
     \item \textbf{mechanizm \glslink{subskrypcja}{subskrypcji}} (\texttt{SUBSCRIBE}) oraz dystrybucję wiadomości
     w stylu \gls{publish-subscribe},
     \item \textbf{nagłówki i metadane} wiadomości (identyfikatory, typy zdarzeń, dodatkowy kontekst),
-    \item \textbf{potwierdzanie odbioru} (\gls{ack}) i lepszą kontrolę nad niezawodnością dostarczenia,
     \item \textbf{obsługę błędów} na poziomie protokołu (ramki \texttt{ERROR}) oraz opcjonalne \textbf{heartbeat}
     do wykrywania zerwanych połączeń.
 \end{itemize}
@@ -139,7 +138,6 @@ Jej rola jest następująca:
     \item odebrać wiadomość od \glslink{klient}{klienta},
     \item zlecić zapis wiadomości do \glslink{baza-danych}{bazy danych} za co odpowiada serwis domenowy czatu,
     \item uruchomić rozesłanie wiadomości,
-    \item oddelegować wysłanie potwierdzenia (\gls{ack}) do nadawcy wiadomości.
 \end{enumerate}
 
 \subsubsection{Serwis dystrybucji wiadomości}
@@ -159,8 +157,7 @@ na kanały \glslink{subskrypcja}{subskrypcji} \texttt{/subscribe/*}. Serwis ten 
 Serwis realizuje dwa typy wysyłki:
 \begin{itemize}
     \item \textbf{Broadcast wiadomości do uczestników czatu} -- po zapisaniu wiadomości \glslink{serwer}{serwer} pobiera listę uczestników czatu
-    i wysyła wiadomość do każdego z nich.
-    \item \textbf{\gls{ack} do nadawcy} -- \glslink{serwer}{serwer} wysyła potwierdzenie na osobny kanał nadawcy,
+    i wysyła wiadomość do każdego z nich z ID przypisanym przy zapisie tejże wiadomości w bazie danych,
     aby \glslink{frontend}{frontend} mógł powiązać wiadomość zapisaną w \glslink{baza-danych}{bazie danych} z odpowiadającą jej wersją \glslink{optimistic-ui}{optymistyczną}.
 \end{itemize}
 
@@ -173,7 +170,6 @@ Poniżej zestawiono wszystkie \glslink{destynacja}{destynacje} używane w komuni
     \item \texttt{/connect} -- \gls{endpoint} ustanowienia połączenia \glslink{websocket}{WebSocket} (tzw.\ \gls{handshake}).
     \item \texttt{/app/send/\{chatId\}/message} -- wejście do backendu: \glslink{klient}{klient} wysyła nową wiadomość do czatu o identyfikatorze \texttt{chatId}.
     \item \texttt{/subscribe/chats/\{username\}} -- kanał użytkownika: \glslink{klient}{klient} \glslink{subskrypcja}{subskrybuje} i odbiera nowe wiadomości ze wszystkich czatów, w których uczestniczy.
-    \item \texttt{/subscribe/chats/ack/\{username\}} -- kanał potwierdzeń \gls{ack}: \glslink{klient}{klient} odbiera potwierdzenie zapisania wiadomości.
 \end{itemize}
 
 
