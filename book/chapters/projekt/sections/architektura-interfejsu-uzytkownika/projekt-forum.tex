@@ -6,16 +6,16 @@
 
 Wygląd forum został zaprojektowany dla czterech podstron:
 \begin{itemize}
-    \item \textbf{Home page} – strona główna forum prezentująca listę postów,
-    \item \textbf{Post details} – widok zawierający pełną treść posta wraz z obrazami i komentarzami,
-    \item \textbf{Followed threads} – lista postów obserwowanych przez użytkownika,
-    \item \textbf{Posts History} – lista ostatnio przeglądanych postów oraz postów ocenionych przez użytkownika.
+    \item \textbf{Strona główna} – strona główna forum prezentująca listę postów,
+    \item \textbf{Szczegóły posta} – widok zawierający pełną treść posta wraz z obrazami i komentarzami,
+    \item \textbf{Obserwowane wątki} – lista postów obserwowanych przez użytkownika,
+    \item \textbf{Historia postów} – lista ostatnio przeglądanych postów oraz postów ocenionych przez użytkownika.
 \end{itemize}
 
 Interfejs forum został zaprojektowany w ciemnym trybie kolorystycznym.
 
-\subsubsection{Home page}
-Strona główna (rys. \ref{img:forum-view}) forum składa się z trzech głównych obszarów funkcjonalnych.
+\subsubsection{Strona główna}
+Widok główny forum (rys. \ref{img:forum-view}) składa się z trzech głównych obszarów funkcjonalnych.
 
 \paragraph{Lista postów}
 Centralna część strony zawiera listę postów posortowanych według wybranej opcji.
@@ -42,7 +42,7 @@ Menu to umożliwia zgłoszenie posta, a w przypadku gdy użytkownik jest jego au
     \label{img:forum-view}
 \end{figure}
 
-\paragraph{Lewy panel boczny}
+\subsubsection{Lewy panel boczny}
 Lewy panel boczny (rys. \ref{img:left-panel}) zawiera przycisk który otwiera \glslink{modal}{modal} zawierający formularz tworzenia nowego posta.
 Poniżej przycisku wyświetlana jest lista dostępnych kategorii oraz tagów postów.
 
@@ -74,11 +74,12 @@ Na dole formularza znajdują się dwa przyciski:
     \label{img:create-discussion}
 \end{figure}
 
-\paragraph{Prawy panel boczny}
+\subsubsection{Prawy panel boczny}
 Prawy panel boczny (rys. \ref{img:right-panel}) składa się z trzech elementów.
 
-\subparagraph{SearchBar}
-Element umożliwia wyszukiwanie postów na forum. Po rozwinięciu paska (rys. \ref{img:searchbar_extended}) wyszukiwania dostępne są dodatkowe filtry:
+\paragraph{Pasek wyszukiwania}
+Element umożliwia wyszukiwanie postów na forum.
+Po rozwinięciu paska wyszukiwania (rys. \ref{img:searchbar_extended}) dostępne są dodatkowe filtry:
 \begin{itemize}
     \item kategorie,
     \item tagi,
@@ -95,11 +96,11 @@ Element umożliwia wyszukiwanie postów na forum. Po rozwinięciu paska (rys. \r
     \label{img:searchbar_extended}
 \end{figure}
 
-\subparagraph{Top Posts}
+\paragraph{Popularne posty}
 Sekcja prezentuje listę najpopularniejszych postów na forum.
 Każdy element listy zawiera tytuł posta, kategorię, tagi oraz skróconą treść.
 
-\subparagraph{Recommended Friends}
+\paragraph{Proponowani znajomi}
 Sekcja wyświetla listę polecanych znajomych w postaci zdjęcia profilowego oraz nazwy użytkownika.
 Ikona przedstawiająca sylwetkę z symbolem plusa umożliwia dodanie użytkownika do listy znajomych.
 
@@ -112,8 +113,8 @@ Ikona przedstawiająca sylwetkę z symbolem plusa umożliwia dodanie użytkownik
 
 Lewy oraz prawy panel boczny są widoczne na wszystkich podstronach forum, co zapewnia spójną i wygodną nawigację.
 
-\subsubsection{Post details}
-Widok szczegółów posta (rys. \ref{img:post-details}) prezentuje pełną treść wraz z osadzonymi obrazami.
+\subsubsection{Szczegóły posta}
+Widok ten (rys. \ref{img:post-details}) prezentuje pełną treść wraz z osadzonymi obrazami.
 Nad jego kafelkiem znajdują się dwa przyciski:
 \begin{itemize}
     \item po lewej stronie – przycisk nawigacyjny umożliwiający powrót do strony głównej forum,
@@ -145,8 +146,8 @@ W przypadku komentarzy posiadających odpowiedzi wyświetlana jest ikona strzał
     \label{img:post-details}
 \end{figure}
 
-\subsubsection{Followed threads}
-Podstrona \textit{Followed threads} prezentuje listę postów obserwowanych (rys. \ref{img:followed-threads}) przez użytkownika.
+\subsubsection{Obserwowane wątki}
+Widok ten prezentuje listę postów obserwowanych (rys. \ref{img:followed-threads}) przez użytkownika.
 Posty są wyświetlane w formie kafelków analogicznych do tych na stronie głównej forum.
 Przejście do podstrony możliwe jest poprzez wybór odpowiedniej opcji w panelu bocznym.
 
@@ -157,8 +158,9 @@ Przejście do podstrony możliwe jest poprzez wybór odpowiedniej opcji w panelu
     \label{img:followed-threads}
 \end{figure}
 
-\subsubsection{Posts History}
-Podstrona \textit{Posts history} umożliwia przeglądanie historii postów (rys. \ref{img:post-history}), z którymi użytkownik wchodził w interakcje. Dostęp do podstrony realizowany jest poprzez wybór opcji \textit{Posts history} w panelu bocznym.
+\subsubsection{Historia postów}
+Podstrona \textit{Historia postów} umożliwia przeglądanie wątków (rys. \ref{img:post-history}), z którymi użytkownik wchodził w interakcje.
+Dostęp do podstrony realizowany jest poprzez wybór opcji \textit{Posts history} w panelu bocznym.
 
 Posty wyświetlane są jako lista kafelków analogiczna do strony głównej.
 Nad listą znajduje się przycisk umożliwiający sortowanie postów według opcji:
