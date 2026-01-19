@@ -4,21 +4,21 @@
 \subsection{Integracja i komunikacja z backendem}
 \label{subsec:integracja-i-komunikacja-z-backendem}
 
-W niniejszym podrozdziale opisano sposób integracji aplikacji \glslink{frontend}{frontendowej} z \glslink{backend}{backendem} oraz
-mechanizmy odpowiedzialne za bezpieczną i efektywną komunikację z serwerem. \newline
+W niniejszym podrozdziale opisano sposób integracji aplikacji frontendowej z backendem oraz mechanizmy odpowiedzialne za bezpieczną i efektywną komunikację z serwerem.
+Jest to kluczowy element aplikacji, ponieważ obejmuje przesyłanie oraz przetwarzanie danych użytkownika.
+W celu uproszczenia komunikacji z serwerem zdecydowano się na wykorzystanie biblioteki Axios~\cite{axios} oraz TanStack Query~\cite{tanstack-query},
+które zapewniają spójny sposób definiowania zapytań, obsługi błędów oraz zarządzania stanem asynchronicznym po stronie klienta.
 
-Jest to kluczowy element aplikacji, ponieważ wymaga bezpiecznego przesyłania danych użytkownika.
-W celu uproszczenia komunikacji z serwerem zdecydowano się na wykorzystanie
-biblioteki \texttt{axios}~\cite{axios} oraz \glslink{biblioteka}{biblioteki} \texttt{TanStack Query}~\cite{tanstack-query}.
+W implementacji operacji asynchronicznych (m.in.\ funkcji realizujących zapytania sieciowe i obsługę odpowiedzi serwera) wykorzystano składnię
+\texttt{async}/\texttt{await}, która upraszcza pracę z promesami i pozwala na zapis logiki komunikacji w formie zbliżonej do kodu synchronicznego
+\cite[rozdz.~13.3]{flanagan-js-definitive-guide-pl}.
 
-W przypadku ścieżek wymagających uwierzytelnienia do zapytania dołączany jest token \gls{jwt}.
-Token przekazywany jest w ciasteczku \glslink{http-only-cookie}{http only}, a jego wysyłanie realizowane jest
-automatycznie przez przeglądarkę dzięki ustawieniu parametru \newline \texttt{withCredentials} na wartość \texttt{true}.
-W razie braku tokena lub jego nieważności dostęp do danych nie jest przyznawany.
-Dodatkowo, po odświeżeniu strony lub wejściu na widok w sytuacji, gdy ciasteczko utraciło ważność, sesja jest
-uznawana za nieaktywną, a użytkownik zostaje automatycznie wylogowany.
-Podczas wylogowania inicjowanego przez użytkownika ciasteczko jest usuwane, co skutkuje utratą uprawnień
-do zasobów chronionych.
+W przypadku ścieżek wymagających uwierzytelnienia do zapytania dołączany jest token JWT.
+Token przekazywany jest w ciasteczku \textit{HttpOnly}, a jego wysyłanie realizowane jest automatycznie przez przeglądarkę dzięki ustawieniu parametru
+\texttt{withCredentials} na wartość \texttt{true}. W razie braku tokena lub jego nieważności dostęp do danych nie jest przyznawany.
+Dodatkowo, po odświeżeniu strony lub wejściu na widok w sytuacji, gdy ciasteczko utraciło ważność, sesja jest uznawana za nieaktywną,
+a użytkownik zostaje automatycznie wylogowany. Podczas wylogowania inicjowanego przez użytkownika ciasteczko jest usuwane,
+co skutkuje utratą uprawnień do zasobów chronionych.
 
 Przykładem pliku odpowiedzialnego za taką komunikację jest \texttt{account.js}
 (rys. \ref{img:account-axios1} i \ref{img:account-axios2}), który obsługuje operacje związane z logowaniem
