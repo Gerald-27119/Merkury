@@ -384,8 +384,7 @@
     \item repozytorium kodu źródłowego wraz z instrukcją zbudowania i uruchomienia projektu
     \item źródło pracy inżynierskiej.
     \end{itemize}
-    \item {\em{\@authorattachment%
-    praca pisemna}} -- katalog zawierający plik PDF z pracą inżynierską.
+    \item {\em{Langmesser\_Redosz\_Oziemczuk\_Badek\_praca pisemna}} -- katalog zawierający plik PDF z pracą inżynierską.
     \end{itemize}
 
     \newpage

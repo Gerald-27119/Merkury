@@ -10,25 +10,25 @@ Jednym z głównych modułów aplikacji jest panel użytkownika.
 Został on podzielony na osiem zakładek:
 
 \begin{itemize}
-    \item \textbf{Profile} -- profil użytkownika wraz z możliwością zmiany zdjęcia profilowego;
-    \item \textbf{Spots} -- listy \glslink{spot}{spotów} dodanych do różnych kategorii (ulubione, planowane do odwiedzenia,
+    \item \textbf{Profil użytkownika} -- wraz z możliwością zmiany zdjęcia profilowego;
+    \item \textbf{Listy spotów} -- dodanych do różnych kategorii (ulubione, planowane do odwiedzenia,
     odwiedzone i ocenione pozytywnie, odwiedzone i ocenione negatywnie);
-    \item \textbf{Photos} -- lista zdjęć dodanych przez użytkownika do \glslink{spot}{spotów}, komentarzy pod \glslink{spot}{spotami} oraz na forum;
-    \item \textbf{Movies} -- lista filmów dodanych przez użytkownika do \glslink{spot}{spotów}, komentarzy pod \glslink{spot}{spotami} oraz na forum;
-    \item \textbf{Social} -- listy znajomych, obserwowanych i obserwujących;
-    \item \textbf{Add spot} -- lista \glslink{spot}{spotów} dodanych przez użytkownika oraz formularz dodawania nowego \glslink{spot}{spota};
-    \item \textbf{Comments} -- lista komentarzy dodanych przez użytkownika pod \glslink{spot}{spotami};
-    \item \textbf{Settings} -- ustawienia konta użytkownika (zmiana nazwy użytkownika, adresu e-mail oraz hasła).
+    \item \textbf{Lista zdjęć} -- dodanych przez użytkownika do \glslink{spot}{spotów}, komentarzy pod \glslink{spot}{spotami} oraz na forum;
+    \item \textbf{Lista filmów} -- dodanych przez użytkownika do \glslink{spot}{spotów}, komentarzy pod \glslink{spot}{spotami} oraz na forum;
+    \item \textbf{Społeczność} -- listy znajomych, obserwowanych i obserwujących;
+    \item \textbf{Dodanie spota} -- lista \glslink{spot}{spotów} dodanych przez użytkownika oraz formularz dodawania nowego \glslink{spot}{spota};
+    \item \textbf{Komentarze} -- lista komentarzy dodanych przez użytkownika pod \glslink{spot}{spotami};
+    \item \textbf{Ustawienia} -- zmiana nazwy użytkownika, adresu e-mail oraz hasła.
 \end{itemize}
 
 Wszystkie zakładki korzystają z uniwersalnego komponentu \texttt{AccountWrapper}, który zapewnia spójny układ i styl
 widoków (por. sekcja~\ref{subsubsec:common-components}).
 
 %-----------------------------------
-\subsubsection{Profile}
+\subsubsection{Profil użytkownika}
 \label{subsubsec:profile}
 
-Zakładka \texttt{Profile} odpowiada za prezentację profilu użytkownika.
+Zakładka odpowiada za prezentację profilu użytkownika.
 Została zbudowana z pięciu podstawowych komponentów:
 
 \begin{itemize}
@@ -103,10 +103,10 @@ Komponent odpowiada za wyświetlenie pojedynczego zdjęcia wraz z liczbą polubi
 Informacje umieszczone są na półprzezroczystym pasku w dolnej części kafelka.
 
 %-----------------------------------
-\subsubsection{Spots}
+\subsubsection{Listy spotów}
 \label{subsubsec:spots}
 
-Zakładka \texttt{Spots} odpowiada za prezentację list \glslink{spot}{spotów} przypisanych do różnych kategorii
+Zakładka odpowiada za prezentację list \glslink{spot}{spotów} przypisanych do różnych kategorii
 (ulubione, planowane do odwiedzenia, odwiedzone itp.).
 Składa się z trzech głównych komponentów:
 
@@ -150,10 +150,10 @@ Przed usunięciem wyświetlany jest modal potwierdzenia (komponent \glslink{moda
 Komponent prezentuje listę tagów \glslink{spot}{spota} jako niewielkie etykiety z nazwą tagu.
 
 %-----------------------------------
-\subsubsection{Photos}
+\subsubsection{Lista zdjęć}
 \label{subsubsec:photos}
 
-Zakładka \texttt{Photos} odpowiada za prezentację zdjęć dodanych przez użytkownika.
+Zakładka odpowiada za prezentację zdjęć dodanych przez użytkownika.
 Korzysta z następujących głównych komponentów:
 
 \begin{itemize}
@@ -167,7 +167,7 @@ Komponent pełni rolę warstwy konfigurującej widok zdjęć.
 Do zarządzania sortowaniem i filtrowaniem po dacie wykorzystywany jest \glslink{hook}{customowy hook} \texttt{useDateSortFilter},
 który zwraca typ sortowania oraz zakres dat.
 Dane są pobierane za pomocą \texttt{useInfiniteQuery}, które wysyła zapytania do \glslink{backend}{backendu} z uwzględnieniem aktualnych filtrów.
-Mechanizm \glslink{infinite-scroll}{\textit{infinite scroll}} zrealizowano przy użyciu \texttt{IntersectionObserver}.
+Mechanizm \glslink{infinite-scroll}{\textit{infinite scroll}} zrealizowano przy użyciu \newline \texttt{IntersectionObserver}.
 
 W przypadku błędu podczas pobierania zdjęć w \glslink{hook}{hooku} \texttt{useEffect} ustawiany jest komunikat
 błędu w komponencie \texttt{Notification}.
@@ -193,10 +193,10 @@ Jeżeli użytkownik nie posiada żadnych mediów, wyświetlany jest komunikat:
 Podczas ładowania danych początkowych oraz kolejnych stron prezentowany jest \newline \texttt{LoadingSpinner}.
 
 %-----------------------------------
-\subsubsection{Movies}
+\subsubsection{Lista filmów}
 \label{subsubsec:movies}
 
-Zakładka \texttt{Movies} odpowiada za prezentację filmów dodanych przez użytkownika.
+Zakładka odpowiada za prezentację filmów dodanych przez użytkownika.
 Pod względem struktury jest bardzo podobna do zakładki \texttt{Photos} (por. sekcja~\ref{subsubsec:photos}) i
 korzysta z tych samych komponentów ogólnych:
 
@@ -208,24 +208,24 @@ korzysta z tych samych komponentów ogólnych:
 
 \textbf{\texttt{Movies}}
 Komponent konfiguruje widok filmów i przekazuje dane do \texttt{Media} z wariantem \texttt{AccountWrapperType.MOVIES}.
-Ponownie wykorzystywany jest \glslink{hook}{hook} \texttt{useDateSortFilter}, a dane pobierane są za pomocą \texttt{useInfiniteQuery}
+Ponownie wykorzystywany jest \glslink{hook}{hook} \newline \texttt{useDateSortFilter}, a dane pobierane są za pomocą \texttt{useInfiniteQuery}
 z uwzględnieniem wybranego sortowania i zakresu dat.
 W przypadku błędu ustawiany jest komunikat w komponencie \texttt{Notification}.
 
 \textbf{\texttt{Movie}}
 Komponent reprezentuje pojedynczy film.
 Do odtwarzania wykorzystano \glslink{biblioteka}{bibliotekę} \texttt{react-player} oraz zestaw komponentów kontrolnych z
-\glslink{biblioteka}{biblioteki} \texttt{media-chrome}.
+\glslink{biblioteka}{biblioteki} \newline \texttt{media-chrome}.
 \glslink{stan}{Stan} odtwarzania i ewentualnego błędu zarządzany jest za pomocą customowego \glslink{hook}{hooka} \texttt{useBoolean}.
 Po zakończeniu odtwarzania film jest zatrzymywany, a w razie problemu z odczytem wyświetlany jest komunikat:
 \texttt{"Failed to load the video. Please try again later."}.
 Na filmie wyświetlany jest także pasek z liczbą polubień i wyświetleń.
 
 %-----------------------------------
-\subsubsection{Social}
+\subsubsection{Społeczność}
 \label{subsubsec:social}
 
-Zakładka \texttt{Social} odpowiada za obsługę funkcji społecznościowych: znajomych, obserwowanych, obserwujących
+Zakładka odpowiada za obsługę funkcji społecznościowych: znajomych, obserwowanych, obserwujących
 oraz (w widoku innego użytkownika) zdjęć tego użytkownika.
 Składa się z następujących głównych komponentów:
 
@@ -288,7 +288,7 @@ Komponent wyświetla listę kafelków \texttt{SocialCard} oraz prezentuje odpowi
 Treść komunikatu zależy od typu listy oraz tego, czy jest to profil własny, czy innego użytkownika.
 Dla trybu wyszukiwania znajomych (\texttt{isSearchFriend}) wyświetlany jest komunikat:
 \texttt{"We can't find a user with this username."}.
-W przypadku typu \texttt{POTENTIAL\_GROUP\_CHAT\_MEMBER} stosowany jest komunikat:
+W przypadku typu \newline \texttt{POTENTIAL\_GROUP\_CHAT\_MEMBER} stosowany jest komunikat:
 \texttt{"There are no other people in the world besides you."}.
 
 \textbf{\texttt{SocialCard}}
@@ -338,10 +338,10 @@ Jeżeli brak zaproszeń, wyświetlany jest komunikat:
 \texttt{"You don't have any invites yet"}.
 
 %-----------------------------------
-\subsubsection{Add spot}
+\subsubsection{Dodanie spota}
 \label{subsubsec:add-spot}
 
-Zakładka \texttt{Add spot} służy do zarządzania \glslink{spot}{spotami} dodanymi przez użytkownika oraz do
+Zakładka służy do zarządzania \glslink{spot}{spotami} dodanymi przez użytkownika oraz do
 dodawania nowych \glslink{spot}{spotów}.
 Składa się z następujących komponentów:
 
@@ -424,10 +424,10 @@ Komponent wyświetla pojedynczy kafelek z informacjami o dodanym \glslink{spot}{
 Prezentowane są: zdjęcie \glslink{spot}{spota}, mini mapa (\texttt{SpotMap}) z lokalizacją, nazwa, opis oraz adres (kraj, miasto, ulica).
 
 %-----------------------------------
-\subsubsection{Comments}
+\subsubsection{Komentarze}
 \label{subsubsec:comments}
 
-Zakładka \texttt{Comments} wyświetla wszystkie komentarze dodane przez użytkownika pod \glslink{spot}{spotami}.
+Zakładka wyświetla wszystkie komentarze dodane przez użytkownika pod \glslink{spot}{spotami}.
 Składa się z dwóch głównych komponentów:
 
 \begin{itemize}
@@ -456,10 +456,10 @@ Podczas ładowania danych oraz kolejnych stron prezentowany jest \newline \textt
 Komponent otrzymuje listę komentarzy i wyświetla je w postaci kafelków zawierających godzinę dodania oraz treść komentarza.
 
 %-----------------------------------
-\subsubsection{Settings}
+\subsubsection{Ustawienia}
 \label{subsubsec:settings}
 
-Zakładka \texttt{Settings} umożliwia użytkownikowi edycję podstawowych danych konta.
+Zakładka umożliwia użytkownikowi edycję podstawowych danych konta.
 Została zrealizowana za pomocą dwóch głównych komponentów:
 
 \begin{itemize}
