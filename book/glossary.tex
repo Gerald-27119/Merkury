@@ -398,15 +398,15 @@
 \newglossaryentry{uml}{
     name={UML},
     description={(ang. \textit{Unified Modeling Language});
-    graficzny język wizualizacji, specyfikowania oraz dokumentowania składników systemów informatycznych.
-    Źródło: ~\cite{uml-def}}
+    graficzny język wizualizacji, specyfikowania oraz dokumentowania składników systemów informatycznych
+    \cite[wstęp, s.~nienumerowana]{uml-def}}
 }
 
 \newglossaryentry{bpmn}{
     name={BPMN},
     description={(ang. \textit{Business Process Model and Notation});
-    standardowa notacja graficzna, która umożliwia szczegółowe przedstawienie i dokumentowanie procesów biznesowych.
-    Źródło: ~\cite{bpmn-def}}
+    standard opracowany przez organizację Object Management Group (OMG),
+    którego celem jest dostarczenie czytelnej notacji do opisywania procesów biznesowych~\cite[rozdz.~1, s.~9]{drejewicz-bpmn}}
 }
 
 \newglossaryentry{infinite-scroll}{
@@ -896,7 +896,7 @@
         \item \textbf{I} \textendash \space Interface Segregation Principle (tłum. \textit{Zasada Segregacji Interfejsów})
         \item \textbf{D} \textendash \space Dependency Inversion Principle (tłum. \textit{Zasada Odwrócenia Zależności})
     \end{itemize}
-    Definicja została napisana na podstawie treści książki \cite{wzorce-projektowe}
+    Definicję opracowano na podstawie treści zawartych w~\cite[rozdz. \textit{Zasady SOLID}]{wzorce-projektowe}
     }
 }
 
@@ -927,23 +927,25 @@
 
 \newglossaryentry{react-component}{
     name={Komponent React},
-    description={Podstawowy blok budujący aplikację React, który zwraca \glslink{jsx}{JSX}.
-    Cykl życia komponentu ma trzy stany: montowanie (inicjalizacja i renderowanie),
-    aktualizacja (reagowanie na zmiany), demontowanie (usunięcie komponentu z drzewa \glslink{dom}{DOM}),
-    a ich nazwy muszą zaczynać się wielką literą.
-    Powinien być tworzony w sposób umożliwiający jego wielokrotne użycie w projekcie.
-    Komponenty dzielą się na dwa rodzaje:
-    \begin{itemize}
-        \item \textbf{Komponenty Klasowe} \textemdash \space klasy JavaScript dziedziczące po wbudowanej klasie Component.
-        Pozwalają na zarządzanie stanem poprzez object \textit{state}, zawierający się w każdym komponencie klasowym.
-        Zarządzanie cyklem życia komponentu odbywa się za pomocą wbudowanych metod.
-        Po wprowadzeniu komponentów funkcyjnych nie zaleca się stosowania klasowych.
-        \item \textbf{Komponenty Funkcyjne} \textemdash \space definiowane jak funkcje JavaScript.
-        \glslink{props}{Propsy} są przyjmowane poprzez argumenty funkcji.
-        Zarządzanie stanem oraz cyklem życia komponentu odbywa się za pomocą \glslink{hook}{hook'ów} takich jak
-        \textit{useState}.
-    \end{itemize}}
+    description={
+        Komponenty są cegiełkami wielokrotnego użytku, które łączy się w celu uzyskania ostatecznego interfejsu użytkownika~\cite[s.~36]{schwarzmuller-react-key-concepts-pl}.
+        Cykl życia komponentu ma trzy stany: montowanie (inicjalizacja i renderowanie),
+        aktualizacja (reagowanie na zmiany), demontowanie (usunięcie komponentu z drzewa \glslink{dom}{DOM}),
+        a ich nazwy muszą zaczynać się wielką literą.
+        Powinien być tworzony w sposób umożliwiający jego wielokrotne użycie w projekcie.
+        Komponenty dzielą się na dwa rodzaje:
+        \begin{itemize}
+            \item \textbf{Komponenty Klasowe} \textemdash \space klasy JavaScript dziedziczące po wbudowanej klasie Component.
+            Pozwalają na zarządzanie stanem poprzez object \textit{state}, zawierający się w każdym komponencie klasowym.
+            Zarządzanie cyklem życia komponentu odbywa się za pomocą wbudowanych metod.
+            Po wprowadzeniu komponentów funkcyjnych nie zaleca się stosowania klasowych.
+            \item \textbf{Komponenty Funkcyjne} \textemdash \space definiowane jak funkcje JavaScript.
+            \glslink{props}{Propsy} są przyjmowane poprzez argumenty funkcji.
+            Zarządzanie stanem oraz cyklem życia komponentu odbywa się za pomocą \glslink{hook}{hook'ów} takich jak
+            \textit{useState}.
+        \end{itemize}}
 }
+
 \newglossaryentry{github-actions}{
     name={GitHub Actions},
     description={Platforma CI/CD zintegrowana z portalem GitHub, umożliwiająca automatyzację procesów takich jak
@@ -1148,3 +1150,4 @@
     name={Asynchroniczność},
     description={Sposób wykonywania operacji, w którym ich realizacja nie blokuje dalszego działania aplikacji, a wynik przetwarzania jest obsługiwany w późniejszym czasie}
 }
+
