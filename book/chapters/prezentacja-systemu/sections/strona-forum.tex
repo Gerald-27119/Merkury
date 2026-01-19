@@ -8,18 +8,18 @@ Forum jest dostępne od momentu wejścia na stronę również dla użytkowników
 Wszelkie próby interakcji z nimi wymagają poprawnego zalogowania.
 Forum składa się z sześciu podstron:
 \begin{itemize}
-    \item Home Page
-    \item Post Details
-    \item All Categories
-    \item All Tags
-    \item Followed Posts
-    \item Guidelines
+    \item Strona główna
+    \item Szczegóły posta
+    \item Lista wszystkich kategorii
+    \item Lista wszystkich tagów
+    \item Obserwowane wątki
+    \item Regulamin forum
 \end{itemize}
 
-\subsection{Home Page}
+\subsection{Strona główna}
 \label{subsec:home-page}
 
-Strona główna forum (rys. \ref{img:home-page}) składa się z trzech podstawowych obszarów funkcjonalnych:
+Widok strony głównej forum (rys. \ref{img:home-page}) składa się z trzech podstawowych obszarów funkcjonalnych:
 \begin{itemize}
     \item centralnej listy postów
     \item lewego panelu bocznego
@@ -31,7 +31,15 @@ Strona główna forum (rys. \ref{img:home-page}) składa się z trzech podstawow
 
 Centralna część strony zawiera listę postów posortowanych według wybranej opcji.
 Nad listą umieszczony został przycisk umożliwiający zmianę sposobu sortowania.
-Dostępne opcje to: \textit{Newest, Oldest, Most Viewed, Least Viewed, Most Commented, Least Commented}.
+Dostępne opcje to:
+\begin{itemize}
+    \item \textit{Newest} (najnowsze)
+    \item \textit{Oldest} (najstarsze)
+    \item \textit{Most Viewed} (najczęściej wyświetlane)
+    \item \textit{Least Viewed} (najrzadziej wyświetlane)
+    \item \textit{Most Commented} (najczęściej komentowane)
+    \item \textit{Least Commented} (najrzadziej komentowane)
+\end{itemize}
 
 Każdy post prezentowany jest w formie kafelka zawierającego:
 \begin{itemize}
@@ -134,14 +142,14 @@ W przypadku braku wymaganych danych pojawia się informacja pod polem nie spełn
 
 Prawy panel boczny (rys. \ref{img:right-panel}) składa się z dwóch elementów.
 
-\paragraph{SearchBar}
+\paragraph{Pasek wyszukiwania}
 
-Komponent \textit{SearchBar} (rys. \ref{img:search-bar}) umożliwia wyszukiwanie postów na forum.
+Pasek wyszukiwania (rys. \ref{img:search-bar}) umożliwia wyszukiwanie postów na forum.
 Po jego rozwinięciu dostępne są dodatkowe filtry, w tym:
 \begin{itemize}
     \item kategoria
     \item tagi
-    \item zakres dat (from, to)
+    \item zakres dat (od, do)
     \item autor
 \end{itemize}
 
@@ -167,9 +175,9 @@ Po zakończeniu wyszukiwania strona wyświetla listę wyników wraz z informacj�
     \label{img:search-example}
 \end{figure}
 
-\paragraph{Top Posts}
+\paragraph{Popularne posty}
 
-Sekcja \textit{Top Posts} prezentuje listę trzech najpopularniejszych postów z okresu ostatniego miesiąca.
+Sekcja \textit{Trending Posts} (rys. \ref{img:right-panel}) prezentuje listę trzech najpopularniejszych postów z okresu ostatniego miesiąca.
 Każdy element zawiera nazwę użytkownika wraz ze zdjęciem profilowym autora oraz datę publikacji.
 Kliknięcie tytułu przenosi do widoku szczegółów posta, natomiast kliknięcie nazwy autora prowadzi do jego profilu.
 
@@ -182,7 +190,7 @@ Kliknięcie tytułu przenosi do widoku szczegółów posta, natomiast kliknięci
 
 Lewy oraz prawy panel boczny są widoczne na wszystkich podstronach forum, co zapewnia spójną i wygodną nawigację.
 
-\subsection{Post Details}
+\subsection{Szczegóły posta}
 \label{subsec:post-details}
 
 Widok szczegółów posta prezentuje jego pełną treść wraz z osadzonymi obrazami (rys. \ref{img:detailed-post}).
@@ -193,7 +201,7 @@ Nad kafelkiem posta umieszczone są dwa przyciski:
 \end{itemize}
 
 Górna część kafelka zawiera zdjęcie profilowe autora oraz jego nazwę użytkownika, a po przeciwnej stronie datę utworzenia posta.
-Poniżej wyświetlane są kategoria i tagi, następnie tytuł oraz pełna treść wpisu.
+Poniżej wyświetlane są kategoria i tagi, następnie tytuł oraz pełna treść.
 
 W dolnej części znajdują się przyciski interakcji, obejmujące:
 \begin{itemize}
@@ -267,9 +275,9 @@ Próba dodania komentarza lub odpowiedzi przez użytkownika niezalogowanego skut
     \label{img:deleted-comment}
 \end{figure}
 
-\subsection{All Categories}
+\subsection{Lista wszystkich kategorii}
 
-Podstrona \textit{All Categories} (rys. \ref{img:categories}) prezentuje alfabetyczną listę wszystkich kategorii postów.
+Podstrona prezentuje alfabetyczną listę wszystkich kategorii postów (rys. \ref{img:categories}).
 Wybranie konkretnej kategorii powoduje przejście do widoku wyników wyszukiwania w obrębie strony głównej forum, zawierającego posty przypisane do danej kategorii.
 
 \begin{figure}[H]
@@ -279,9 +287,9 @@ Wybranie konkretnej kategorii powoduje przejście do widoku wyników wyszukiwani
     \label{img:categories}
 \end{figure}
 
-\subsection{All Tags}
+\subsection{Lista wszystkich tagów}
 
-Podstrona \textit{All Tags} (rys. \ref{img:tags}) wyświetla alfabetyczną listę wszystkich tagów.
+Podstrona wyświetla alfabetyczną listę wszystkich tagów (rys. \ref{img:tags}).
 Kliknięcie wybranego tagu przekierowuje do widoku wyników wyszukiwania na stronie głównej forum, zawierającego posty oznaczone tym tagiem.
 
 \begin{figure}[H]
@@ -291,7 +299,7 @@ Kliknięcie wybranego tagu przekierowuje do widoku wyników wyszukiwania na stro
     \label{img:tags}
 \end{figure}
 
-\subsection{Followed Posts}
+\subsection{Obserwowane wątki}
 
 Podstrona \textit{Followed Posts} (rys. \ref{img:followed-posts}) dostępna jest wyłącznie dla zalogowanych użytkowników.
 Zawiera listę obserwowanych postów z możliwością sortowania analogiczną do strony głównej forum.
@@ -304,7 +312,7 @@ Dostęp do podstrony realizowany jest poprzez wybór odpowiedniej sekcji w \glsl
     \label{img:followed-posts}
 \end{figure}
 
-\subsection{Guidelines}
+\subsection{Regulamin forum}
 
 Podstrona \textit{Guidelines} (rys. \ref{img:guidelines}) zawiera regulamin korzystania z forum i jest stale dostępna dla wszystkich użytkowników.
 Przejście do niej odbywa się poprzez wybór odpowiedniej sekcji w \glslink{sidebar}{sidebarze}.
