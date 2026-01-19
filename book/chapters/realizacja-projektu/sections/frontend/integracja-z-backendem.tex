@@ -12,7 +12,7 @@ które zapewniają spójny sposób definiowania zapytań, obsługi błędów ora
 Zadania asynchroniczne związane z komunikacją z \glslink{api}{API} realizowano z użyciem \texttt{async}/\texttt{await} zgodnie z opisem w \cite[rozdz.~13.3]{flanagan-js-definitive-guide-pl}.
 
 W przypadku ścieżek wymagających uwierzytelnienia do zapytania dołączany jest \glslink{token}{token} \glslink{jwt}{JWT}.
-Token przekazywany jest w ciasteczku \textit{HttpOnly}, a jego wysyłanie realizowane jest automatycznie przez przeglądarkę dzięki ustawieniu parametru
+Token przekazywany jest w ciasteczku \glslink{http-only-cookie}{HttpOnly}, a jego wysyłanie realizowane jest automatycznie przez przeglądarkę dzięki ustawieniu parametru
 \texttt{withCredentials} na wartość \texttt{true}. W razie braku tokena lub jego nieważności dostęp do danych nie jest przyznawany.
 Dodatkowo, po odświeżeniu strony lub wejściu na widok w sytuacji, gdy ciasteczko utraciło ważność, sesja jest uznawana za nieaktywną,
 a użytkownik zostaje automatycznie wylogowany. Podczas wylogowania inicjowanego przez użytkownika ciasteczko jest usuwane,
