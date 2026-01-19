@@ -9,9 +9,7 @@ Jest to kluczowy element aplikacji, ponieważ obejmuje przesyłanie oraz przetwa
 W celu uproszczenia komunikacji z serwerem zdecydowano się na wykorzystanie biblioteki Axios~\cite{axios} oraz TanStack Query~\cite{tanstack-query},
 które zapewniają spójny sposób definiowania zapytań, obsługi błędów oraz zarządzania stanem asynchronicznym po stronie klienta.
 
-W implementacji operacji asynchronicznych (m.in.\ funkcji realizujących zapytania sieciowe i obsługę odpowiedzi serwera) wykorzystano składnię
-\texttt{async}/\texttt{await}, która upraszcza pracę z promesami i pozwala na zapis logiki komunikacji w formie zbliżonej do kodu synchronicznego
-\cite[rozdz.~13.3]{flanagan-js-definitive-guide-pl}.
+Zadania asynchroniczne związane z komunikacją z \glslink{api}{API} realizowano z użyciem \texttt{async}/\texttt{await} zgodnie z opisem w \cite[rozdz.~13.3]{flanagan-js-definitive-guide-pl}.
 
 W przypadku ścieżek wymagających uwierzytelnienia do zapytania dołączany jest token JWT.
 Token przekazywany jest w ciasteczku \textit{HttpOnly}, a jego wysyłanie realizowane jest automatycznie przez przeglądarkę dzięki ustawieniu parametru
