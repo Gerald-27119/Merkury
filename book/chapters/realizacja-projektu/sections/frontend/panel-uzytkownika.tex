@@ -179,7 +179,7 @@ Zdjęcie prezentowane jest jako kwadratowy kafelek z cieniem, a w dolnej częśc
 jest liczba polubień i wyświetleń wraz z odpowiednimi ikonami.
 
 \textbf{\texttt{Media}}
-Jest to uniwersalny komponent używany zarówno w zakładce \texttt{Photos}, jak i \texttt{Movies} (por. sekcja~\ref{subsubsec:movies}).
+Jest to uniwersalny komponent używany zarówno w zakładce \texttt{Lista zdjęć}, jak i \texttt{Lista filmów} (por. sekcja~\ref{subsubsec:movies}).
 Widok jest opakowany w \texttt{AccountWrapper}, a nagłówek sekcji wyświetlany przez \texttt{AccountTitle} z tekstem zależnym od wariantu.
 
 Poniżej nagłówka znajduje się panel \texttt{SortAndDateFilters} (por. sekcja~\ref{subsubsec:common-components})
@@ -197,7 +197,7 @@ Podczas ładowania danych początkowych oraz kolejnych stron prezentowany jest \
 \label{subsubsec:movies}
 
 Zakładka odpowiada za prezentację filmów dodanych przez użytkownika.
-Pod względem struktury jest bardzo podobna do zakładki \texttt{Photos} (por. sekcja~\ref{subsubsec:photos}) i
+Pod względem struktury jest bardzo podobna do zakładki \texttt{Lista zdjęć} (por. sekcja~\ref{subsubsec:photos}) i
 korzysta z tych samych komponentów ogólnych:
 
 \begin{itemize}
@@ -436,7 +436,7 @@ Składa się z dwóch głównych komponentów:
 \end{itemize}
 
 \textbf{\texttt{Comments}}
-Komponent korzysta z \glslink{hook}{hooka} \texttt{useDateSortFilter}, analogicznie jak zakładki \texttt{Photos} i \texttt{Movies}.
+Komponent korzysta z \glslink{hook}{hooka} \texttt{useDateSortFilter}, analogicznie jak zakładki \texttt{Lista zdjęć} i \texttt{Lista filmów}.
 Dane pobierane są za pomocą \texttt{useInfiniteQuery}, które pobiera kolejne strony komentarzy z \glslink{backend}{backendu},
 a \glslink{infinite-scroll}{\textit{infinite scroll}} realizowany jest przez \texttt{IntersectionObserver}.
 
@@ -527,7 +527,7 @@ Służy do wyboru daty w polach \texttt{"From"} oraz \texttt{"To"} w panelu filt
 \textbf{\texttt{SortAndDateFilters}}
 Komponent łączy \texttt{SortDropdown} oraz dwa \newline \texttt{DateChooser}, tworząc panel sterujący sortowaniem i
 filtrowaniem po dacie.
-Wykorzystywany jest w zakładkach \texttt{Photos}, \texttt{Movies} oraz \texttt{Comments}.
+Wykorzystywany jest w zakładkach \texttt{Lista zdjęć}, \texttt{Lista filmów} oraz \texttt{Komentarze}.
 
 \textbf{\texttt{DateBadge}}
 Komponent służy do czytelnej prezentacji daty (formatowanej zgodnie z lokalizacją \texttt{"pl-PL"}) oraz
