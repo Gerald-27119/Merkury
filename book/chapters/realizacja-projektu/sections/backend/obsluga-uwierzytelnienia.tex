@@ -102,7 +102,7 @@ Dodatkowo przechowywany jest adres \glslink{endpoint}{endpointu} służącego do
 \end{figure}
 
 Klasa \texttt{JwtProperties} jest klasą konfiguracyjną mapowaną przez \gls{spring-boot} z użyciem
-\texttt{@ConfigurationProperties(prefix = "jwt")},
+\newline \texttt{@ConfigurationProperties(prefix = "jwt")},
 co wiąże pola obiektu z wpisami \texttt{jwt.*} z konfiguracji aplikacji z pliku \texttt{application.properties}.
 Pozwala to centralnie zarządzać parametrami \glslink{jwt}{JWT} i nadpisywać je bez modyfikacji kodu.
 
@@ -312,8 +312,8 @@ Obsłużono również scenariusz \glslink{token}{tokenu} wygasłego \newline (\t
 gdzie dane z \glslink{token}{tokenu} mogą być nadal wykorzystywane do spójnej obsługi błędu.
 
 Operacje na \glslink{http-only-cookie}{ciasteczku} są realizowane przez:
-\texttt{addTokenToCookie(...)} (zapis) oraz \texttt{getJWTFromCookie(...)} (odczyt).
-Ciasteczko jest ustawiane jako \texttt{HttpOnly} i ma nazwę określoną w \texttt{JwtProperties.tokenName}.
+\texttt{addTokenToCookie(...)} (zapis) oraz \newline \texttt{getJWTFromCookie(...)} (odczyt).
+Ciasteczko jest ustawiane jako \texttt{HttpOnly} i ma nazwę określoną w \newline \texttt{JwtProperties.tokenName}.
 
 \innerheading{Plik JwtGenerator}
 
@@ -371,7 +371,7 @@ W metodzie \texttt{doFilterInternal(...)} filtr realizuje następujące kroki:
 
 W filtrze zaimplementowano mechanizm odnawiania \glslink{token}{tokenu} (\texttt{renewToken(...)}):
 jeżeli \glslink{token}{token} jest nadal ważny, ale do jego wygaśnięcia pozostał czas krótszy niż jeden dzień
-(\texttt{JwtProperties.oneDayInMs}), generowany jest nowy \glslink{token}{token} i zapisywany w \glslink{http-only-cookie}{ciasteczku}.
+\newline (\texttt{JwtProperties.oneDayInMs}), generowany jest nowy \glslink{token}{token} i zapisywany w \glslink{http-only-cookie}{ciasteczku}.
 Pozwala to utrzymać ciągłość zapytań użytkownika przy regularnej aktywności,
 bez konieczności ponownego logowania po stronie klienta.
 

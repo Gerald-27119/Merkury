@@ -33,7 +33,7 @@ Sekcja ta składa się z trzech \glslink{react-component}{komponentów}:
 Wyświetla informacje o lokalizacji \glslink{spot}{spota}: państwo, miasto oraz nazwę ulicy.
 
 
-\textbf{\texttt{SpotGeneralInfo}}
+\textbf{\texttt{SpotGeneralInfo}} (rys. \ref{fig:spot-general-info-1} i \ref{fig:spot-general-info-2})
 \glslink{react-component}{Komponent} odpowiedzialny za wyświetlanie danych takich jak: nazwa \glslink{spot}{spota},
 opis, ocena, liczba ocen, lista tagów, które przyjmuje w \glslink{props}{propsach}.
 Do prezentacji oceny w formie gwiazdek użyto \texttt{Rate} z \glslink{biblioteka}{biblioteki} \texttt{antd},
@@ -45,6 +45,22 @@ Własny \glslink{hook}{hook} \texttt{useScreenSize} podaje aktualne rozmiary ekr
 odpowiednią wartość przechowywaną w lokalnym stanie \glslink{react-component}{komponentu}.
 Tagi wyświetlane są przez listę \texttt{SpotTag}.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_general_info1}
+    \caption{Implementacja komponentu SpotGeneralInfo (1/2)}
+    \label{fig:spot-general-info-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_general_info2}
+    \caption{Implementacja komponentu SpotGeneralInfo (2/2)}
+    \label{fig:spot-general-info-2}
+\end{figure}
+\noindent
+
 \subsubsubsection{Galeria zdjęć i filmów}
 \label{subsubsec:galeria-zdjec-i-filmow}
 
@@ -55,7 +71,7 @@ Zbudowana jest z następujących \glslink{react-component}{komponentów}:
     \item \texttt{Video}
 \end{itemize}
 
-\textbf{\texttt{SpotDetailsGallery}}
+\textbf{\texttt{SpotDetailsGallery}} (rys. \ref{fig:spot-details-gallery-1} i \ref{fig:spot-details-gallery-2})
 \glslink{react-component}{Komponent} odpowiedzialny za wyświetlanie galerii zdjęć i filmów \glslink{spot}{spota}.
 Galeria w formie karuzeli została zrealizowana poprzez \texttt{Carousel}, który jest elementem
 \glslink{biblioteka}{biblioteki} \texttt{antd}.
@@ -65,6 +81,22 @@ Za wyświetlanie odpowiednio zdjęć i filmów odpowiadają \texttt{Photo} i \te
 W lokalnym stanie (\texttt{useState}) ustawiany jest obecny indeks elementu, a poprzez porównanie go z
 indekem właściwym elementu ustalana jest jedna ze składowych określających czy video powinno być odtworzone.
 Pozwala to na automatyczne zatrzymanie filmu po zmianie media.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_details_gallery1}
+    \caption{Implementacja komponentu SpotDetailsGallery (1/2)}
+    \label{fig:spot-details-gallery-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_details_gallery2}
+    \caption{Implementacja komponentu SpotDetailsGallery (2/2)}
+    \label{fig:spot-details-gallery-2}
+\end{figure}
+\noindent
 
 \textbf{\texttt{Photo}}
 Odpowiada za wyświetlenie zdjęcia oraz obsługę jego kliknięcia.
@@ -100,12 +132,12 @@ Nawigacja do wybranego \glslink{spot}{spota} zrealizowana jest poprzez pobranie 
 \\ (\texttt{navigator.geolocation.getCurrentPosition}), a następnie przeniesienie na \\ \texttt{google maps}
 z wyznaczoną trasą.
 Funkcja \texttt{clickShareSpotHandler} obsługuje udostępnienie \glslink{spot}{spota} przez
-skopiowanie odpowiedniego linka do pamięci podręcznej systemu korzystając z \texttt{navigator.clipboard}.
+skopiowanie odpowiedniego linka do pamięci podręcznej systemu korzystając z \newline \texttt{navigator.clipboard}.
 Dane zapisane w \glslink{query-params}{query params} pozwalają po wklejeniu linka na otworzenie
 panelu ze szczegółami \glslink{spot}{spota} oraz przybliżenie jego lokalizacji na mapie.
 Przycisk z ikoną \texttt{MdOutlineAddPhotoAlternate} sprawdza czy użytkownik jest zalogowany i w
-\glslink{react-component}{komponencie} \texttt{Notification} wyświetla odpowiedni komunikat.
-Gdy ten warunek jest spełniony, otwierany jest \glslink{modal}{modal} \texttt{SpotAddMediaModal}, zwierający
+\glslink{react-component}{komponencie} \newline \texttt{Notification} wyświetla odpowiedni komunikat.
+Gdy ten warunek jest spełniony, otwierany jest \glslink{modal}{modal} \newline \texttt{SpotAddMediaModal}, zwierający
 formularz do dodawania media do \glslink{spot}{spota}.
 Poprzez \glslink{hook}{hook} \texttt{useQuery} wysyłane jest zapytanie sprawdzające czy wybrany \glslink{spot}{spot}
 znajduje się w liście polubionych użytkownika.
@@ -160,7 +192,7 @@ do dodania nowego komentarza (\texttt{AddSpotCommentModal}).
 Po jego kliknięciu jeżeli użytkownik nie jest zalogowany, w \glslink{react-component}{komponencie}
 \texttt{Notification} wyswietlany jest komunikat z odpowiednią informacją.
 
-\textbf{\texttt{AddSpotCommentModal}}
+\textbf{\texttt{AddSpotCommentModal}} (rys. \ref{fig:add-spot-comment-1} - \ref{fig:add-spot-comment-6})
 \glslink{modal}{Modal} będący formularzem do dodania nowego komentarza.
 Zawiera w sobie pola do określenia oceny w gwiazdkach, dodania tekstu oraz zdjęć i filmów.
 Ustawienie oceny \glslink{spot}{spota} jest polem obowiązkowym z domyślną wartością 0.
@@ -185,10 +217,58 @@ oraz zamknięciem \glslink{modal}{modalu}.
 Kliknięcie przycisku „Cancel” powoduje wywołanie funkcji \texttt{handleCancelAddSpotComment}, która
 zamyka formularz, wpisane dane nie zostają zapisane.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add-spot-comment-modal-1}
+    \caption{Implementacja komponentu AddSpotCommentModal (1/6)}
+    \label{fig:add-spot-comment-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add-spot-comment-modal-2}
+    \caption{Implementacja komponentu AddSpotCommentModal (2/6)}
+    \label{fig:add-spot-comment-2}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add-spot-comment-modal-3}
+    \caption{Implementacja komponentu AddSpotCommentModal (3/6)}
+    \label{fig:add-spot-comment-3}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add-spot-comment-modal-4}
+    \caption{Implementacja komponentu AddSpotCommentModal (4/6)}
+    \label{fig:add-spot-comment-4}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add-spot-comment-modal-5}
+    \caption{Implementacja komponentu AddSpotCommentModal (5/6)}
+    \label{fig:add-spot-comment-5}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/add-spot-comment-modal-6}
+    \caption{Implementacja komponentu AddSpotCommentModal (6/6)}
+    \label{fig:add-spot-comment-6}
+\end{figure}
+\noindent
+
 \textbf{\texttt{SpotComment}}
 \glslink{react-component}{Komponent} wyświetlający pojedynczy komentarz.
 Zbudowany jest z wyspecjalizowanych \glslink{react-component}{komponentów} odpowiedzialnych za prezentację jego poszczególnych fragmentów.
-\texttt{SpotCommentAuthor} zawiera informacje o autorze komentarza: nazwę oraz zdjęcie profilowe,
+\newline \texttt{SpotCommentAuthor} zawiera informacje o autorze komentarza: nazwę oraz zdjęcie profilowe,
 kliknięcie go powoduje przeniesienie na stronę profilu danego użytkownika.
 Ocena komentarza zrealizowana jest poprzez \texttt{Rate} z \glslink{biblioteka}{biblioteki} \texttt{antd}.
 Pozostałe dwa \glslink{react-component}{komponenty}, \texttt{SpotCommentMediaGallery}
@@ -210,7 +290,7 @@ Na wynik operacji nasłuchuje \glslink{hook}{hook} \texttt{useEffect}, który po
 \glslink{redux}{Redux} ustawia \texttt{ID} elementu, jego pozycję w całej liście oraz typ (zdjęcie lub film).
 Następnie otwiera dużą galerię multimediów \glslink{spot}{spota} (por. sekcja~\ref{subsubsec:duza-galeria-zdjec-i-filmow}).
 
-\textbf{\texttt{SpotCommentVotesPanel}}
+\textbf{\texttt{SpotCommentVotesPanel}} (rys. \ref{fig:spot-comment-vote-panel-0} - \ref{fig:spot-comment-vote-panel-3})
 \glslink{react-component}{Komponent} odpowiedzialny za wyświetlanie polubień i niepolubień komentarza oraz obsługę operacji
 oddania głosu przez użytkownika.
 Za pomocą \glslink{hook}{hook'a} \texttt{useQuery} (\glslink{biblioteka}{biblioteka} \texttt{tanstack query}) pobierana
@@ -232,3 +312,35 @@ gwarantuje pobranie aktualnych danych.
 Natomiast jeśli wystąpi błąd, informacja o tym wyświetlana jest w \texttt{Notification}.
 \glslink{react-component}{Komponent} \texttt{SpotCommentVoteDisplay} wyświetla liczbę oddanych głosów wraz z odpowiednią
 ikoną.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_comment_vote_panel0}
+    \caption{Implementacja komponentu SpotCommentVotesPanel (1/4)}
+    \label{fig:spot-comment-vote-panel-0}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_comment_vote_panel1}
+    \caption{Implementacja komponentu SpotCommentVotesPanel (2/4)}
+    \label{fig:spot-comment-vote-panel-1}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_comment_vote_panel2}
+    \caption{Implementacja komponentu SpotCommentVotesPanel (3/4)}
+    \label{fig:spot-comment-vote-panel-2}
+\end{figure}
+\noindent
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{attachments/implementacja-frontendu/mapa/szczegoly-spota/spot_comment_vote_panel3}
+    \caption{Implementacja komponentu SpotCommentVotesPanel (4/4)}
+    \label{fig:spot-comment-vote-panel-3}
+\end{figure}
+\noindent

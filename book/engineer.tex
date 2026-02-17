@@ -18,6 +18,7 @@
 \usepackage{lipsum}
 \usepackage{pdflscape}
 \usepackage{caption} % daje \captionof
+\usepackage{setspace}
 
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
@@ -49,12 +50,12 @@
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    urlcolor=blue,
-    citecolor=blue
-}
+%\hypersetup{
+%    colorlinks=true,
+%    linkcolor=blue,
+%    urlcolor=blue,
+%    citecolor=blue
+%}
 
 \input{glossary}
 
@@ -126,9 +127,13 @@
 
 
 \begin{document}
-
+    \begingroup
+    \fontsize{12pt}{14pt}\selectfont
     \maketitle
+    \cleardoublepage
     \makeprojectcard
+    \cleardoublepage
+    \endgroup
 
     \begingroup
     \hypersetup{linkcolor=black}
@@ -154,6 +159,24 @@
     \setglossarystyle{altlist}
     \vspace*{-2\baselineskip}
     \printglossary[type=\acronymtype, title={}, toctitle={}]
+
+    \begingroup
+    \hypersetup{linkcolor=black}
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Spis rysunków}
+    \renewcommand{\listfigurename}{Spis rysunków}
+    \listoffigures
+    \endgroup
+
+    \begingroup
+    \hypersetup{linkcolor=black}
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Spis tabel}
+    \renewcommand{\listtablename}{Spis tabel}
+    \listoftables
+    \endgroup
 
     \printbibliography[title={}, heading=bibintoc]
 
