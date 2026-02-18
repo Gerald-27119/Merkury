@@ -6,7 +6,7 @@
 %
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{sprz}[2023/10/27 SPRZ]
-\LoadClass[11.5pt,a4paper]{report}
+\LoadClass[12pt,a4paper]{report}
 
 \def\@makechapterhead#1{
     \vspace*{1pt}
@@ -226,7 +226,6 @@
     \renewcommand{\baselinestretch}{1.0}
     \begin{titlepage}
         \begingroup
-        \fontsize{12pt}{18pt}\selectfont
         \begin{center}
             \includegraphics[width=1.0\textwidth]{sprz/pjatk} \\
             ~ \\
@@ -281,6 +280,7 @@
 
     \begingroup
     \renewcommand{\baselinestretch}{1.0}\selectfont
+    \small
     \setlength{\tabcolsep}{6pt}
     \renewcommand{\arraystretch}{1.25}
 

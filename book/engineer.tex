@@ -127,18 +127,14 @@
 
 
 \begin{document}
-    \begingroup
-    \fontsize{12pt}{14pt}\selectfont
+
     \maketitle
-    \cleardoublepage
     \makeprojectcard
     \cleardoublepage
-    \endgroup
 
     \begingroup
-    \hypersetup{linkcolor=black}
+    \fontsize{11.5pt}{14pt}\selectfont
     \tableofcontents
-    \endgroup
     \clearpage
 
     \input{chapters/wstep/wstep}
@@ -152,6 +148,7 @@
     \input{chapters/prezentacja-systemu/prezentacja-systemu}
     \input{chapters/naklad-pracy/naklad-pracy}
     \input{chapters/podsumowanie/podsumowanie}
+
 
     \chapter{Słownik pojęć i skrótów}
     \label{ch:sownik-pojec-i-skrotow}
@@ -184,5 +181,5 @@
     \phantomsection
     \addcontentsline{toc}{chapter}{Załączniki}
     \makethesisattachments
-
+    \endgroup
 \end{document}
